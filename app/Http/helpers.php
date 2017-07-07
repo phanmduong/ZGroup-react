@@ -352,7 +352,7 @@ function send_mail_delete_register($register, $staff)
     Mail::send('emails.email_delete_register', $data, function ($m) use ($subject) {
         $m->from('no-reply@colorme.vn', 'Color Me');
 
-        $m->to("test@colorme.vn", "Nguyễn Việt Hùng")->bcc("aquancva@gmail.com")->subject($subject);
+        $m->to("test@colorme.vn", "Nguyễn Việt Hùng")->subject($subject);
     });
 }
 
