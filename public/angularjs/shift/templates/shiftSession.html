@@ -1,0 +1,25 @@
+<div ng-show="message" class="green-text darken-3">[[message]]</div>
+<table class="striped responsive-table">
+    <thead>
+    <tr>
+        <th>Tên ca trực</th>
+        <th>Thời điểm bắt đầu</th>
+        <th>Thời điểm kết thúc</th>
+        <th>kích hoạt</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr ng-repeat="item in shiftSessions">
+        <td>[[item.name]]</td>
+        <td>[[item.start_time]]</td>
+        <td>[[item.end_time]]</td>
+        <td><input ng-model="item.active" ng-checked="item.active" ng-change="changeActive(item)"
+                   style="visibility: visible;left:0;position: static"
+                   type="checkbox"/>
+        </td>
+        <td><a ui-sref="shiftSession({id:item.id})" class="btn red darken-4">Edit</a></td>
+    </tr>
+    </tbody>
+</table>

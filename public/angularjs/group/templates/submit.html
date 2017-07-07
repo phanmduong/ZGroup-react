@@ -1,0 +1,63 @@
+<div class="z-depth-1" style="background:white;padding:15px 20px;margin-bottom: 70px;">
+    <div class="row">
+        <div class="col s12">
+            <h2>Nộp bài</h2>
+        </div>
+
+        <div class="col s12">
+            <label>Tiêu đề</label>
+            <input id="title" placeholder="Tiêu đề" ng-model="product.title" type="text"/>
+        </div>
+        <div class="col s12">
+            <label>Mô tả</label>
+            <textarea id="description" ng-model="product.description" placeholder="Mô tả"
+                      class="materialize-textarea"></textarea>
+        </div>
+        <div class="col s12">
+
+            <p>Định dạng cho phép: jpeg, jpg, png, gif, mp4, mov</p>
+            <p>Kích thước tối đa: 100Mb</p>
+
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>Thêm 1 hoặc nhiều Files</span>
+                    <input multiple type="file" onchange="angular.element(this).scope().getFileDetails(this)" id="file">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="validate" ng-model="txtNumfiles" type="text">
+                </div>
+            </div>
+            <!--<inputz type="file" id="file" name="file" multiple-->
+            <!--onchange="angular.element(this).scope().getFileDetails(this)"/>-->
+
+        </div>
+    </div>
+    <upload-item ng-repeat="file in files" file="file" remove-file="removeFile(file.index)" submiting="submiting"></upload-item>
+    <div class="row">
+        <div class="col s12" ng-show="errorMessage">
+            <div class="card-panel red-text darken-4">
+                [[errorMessage]]
+            </div>
+        </div>
+        <div class="col s12" ng-hide="submiting">
+            <input class="btn blue darken-3" type="button" ng-click="submit()" value="Submit"/>
+        </div>
+        <div class="col s12" ng-show="submiting">
+            <strong class="blue-text darken-4">Đã upload: <b>[[uploaded]]</b> trên tổng số <b>[[files.length]]</b> files
+            </strong>
+            <div class="progress">
+                <div class="determinate" style="width: [[100*(uploaded/files.length)]]%"></div>
+            </div>
+        </div>
+        <div class="col s12 " ng-show="submitMessage">
+            <div class="card-panel green-text darken-4" style="font-weight: 600">
+                [[submitMessage]]
+            </div>
+        </div>
+        <div class="col s12" ng-show="submitted">
+            <button class="btn red darken-4" ng-click="resetForm()">Nộp bài khác</button>
+        </div>
+
+    </div>
+</div>
+

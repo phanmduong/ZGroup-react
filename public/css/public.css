@@ -1,0 +1,81 @@
+#intro {
+    /*background-color: #a73127;*/
+    /*color: white;*/
+}
+#intro-content {
+    margin: 0 auto;
+    width: 90%;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+    color: #424242;
+}
+#landing {
+    width: 100%;
+    height: 800px;
+    background: no-repeat url("https://s3-ap-southeast-1.amazonaws.com/cmstorage/images/banner.jpg");
+    overflow: hidden;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: center;
+}
+p {
+    /*font-size:1.3rem;*/
+    font-weight: lighter;
+}
+#head {
+    margin-top: 50px;
+}
+#nav-menu li a:hover {
+    color: #c50000;
+    background-color: transparent;
+}
+#landing-message {
+    margin-top: 250px;
+}
+.intro {
+    margin-top: 100px;
+}
+#feedback {
+    padding: 20px 0 0 0;
+}
+#footer {
+    background-color: #a73127;
+    padding: 20px 0 0 0;
+    color: white;
+}
+@media only screen and (max-width: 992px) {
+    .promo {
+        margin: 0 auto;
+        display: block
+    }
+}
+.promo i {
+    margin-top: 40px;
+    color: #ee6e73;
+    font-size: 7rem;
+    display: block
+}
+.promo-caption {
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-top: 5px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+.material-icons {
+    color: #424242 !important;
+}
+#course-intro {
+    width: 90%;
+    margin: 0 auto;
+}
+.text-justify {}
+.line {
+    border-top: 8px solid #424242;
+    margin-left: 40%;
+    margin-right: 40%;
+    margin-bottom: 40px;
+}

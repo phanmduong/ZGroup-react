@@ -1,0 +1,49 @@
+<div class="row z-depth-1" style="background:white">
+    <div class="col s12">
+        <div class="row" style="padding:15px;border-bottom: 1px solid #d9d9d9">
+            <div class="col s12 m9" style="padding-top:10px">
+                <div style="color: #777777;">[[::topic.submits]]/[[::totalStudents]] bạn đã nộp bài</div>
+                <progress-bar progress="topic.submits*100/totalStudents"></progress-bar>
+            </div>
+            <div class="col s12 m3" style="padding-top:10px;padding-left:35px">
+                <a style="cursor: pointer" ui-sref="submit({topicId:topic.id})" class="btn red darken-4">Nộp
+                    bài</a>
+            </div>
+        </div>
+        <div class="row" style="padding: 0 15px 15px 15px;border-bottom: 1px solid #d9d9d9"
+        ">
+        <div class="col s12">
+            <h2 style="margin-top: 20px">
+                [[::topic.name]]
+            </h2>
+
+            <div style="margin-top:5px" ng-hide="showDes">
+                [[::topic.description.slice(0,200)]]...
+                <a ng-show="topic.description.length > 201" style="color:darkred;cursor: pointer;"
+                   ng-click="toggleDescription()">Xem thêm</a>
+            </div>
+            <div style="margin-top:5px" ng-show="showDes">
+                [[::topic.description]]
+                <a style="color:darkred;;cursor: pointer" ng-click="toggleDescription()">Ẩn bớt</a>
+            </div>
+            <div style="line-height: 25px;height:25px;margin-top:20px">
+                <img ng-src="[[topic.author.avatar_url]]"
+                     style="width: 25px;height:25px;float:left;margin-right:5px" class="circle"/>
+                <b>[[::topic.author.name]]</b> -
+                [[::topic.time_create]]
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div>
+                <ul class="product-list" id="grid">
+                    <product-item ng-repeat="product in topic.all_products" product="product">
+                    </product-item>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

@@ -1,0 +1,61 @@
+<div class="row z-depth-1" style="background-color:white">
+    <div class="col s12 m4">
+        <a style="cursor:pointer" ui-sref="topic({topicId:topic.id})">
+            <div class=" topic-avatar">
+                <img ng-src="[[::topic.avatar_url]]"
+                     style="width: 100%;height: auto"/>
+                <div style="height: 50px;width: 100%;
+                            text-align: center;
+                            color:white;
+                            font-weight: bold;
+                            font-size: 24px;
+                            text-transform: uppercase;
+                            background-color: #c50000;
+                            margin-top:-6px;line-height: 50px">
+                    [[::topic.remain_time]]
+                </div>
+            </div>
+        </a>
+
+    </div>
+    <div class="col s12 m8" style="padding: 0 30px 20px 20px">
+        <h5 style="margin-top: 20px"><a style="cursor:pointer" class="link" ui-sref="topic({topicId:topic.id})">
+            [[::topic.name]]</a>
+        </h5>
+        <div style="line-height: 25px;height:25px">
+            <img ng-src="[[::topic.author.avatar_url]]"
+                 style="width: 25px;height:25px;float:left;margin-right:5px" class="circle"/>
+            <b>[[::topic.author.name]]</b> -
+            [[::topic.time_create]]
+        </div>
+        <div style="margin-top:5px" ng-hide="showDes">
+            [[::topic.description.slice(0,200)]]...
+            <a ng-show="topic.description.length > 201" style="color:darkred;cursor: pointer;"
+               ng-click="toggleDescription()">Xem thêm</a>
+        </div>
+        <div style="margin-top:5px" ng-show="showDes">
+            [[::topic.description]]
+            <a style="color:darkred;cursor: pointer" ng-click="toggleDescription()">Ẩn bớt</a>
+        </div>
+        <div style="padding-bottom:20px;padding-top:10px">
+            <b>[[topic.vote]] votes</b>
+            <span ng-show="topic.voted == 1">
+                Upvoted
+            </span>
+            <span ng-show="topic.voted == -1">
+                Downvoted
+            </span>
+            <span ng-show="topic.voted == 0">
+                <a class="blue" style="cursor:pointer;color:white;padding:5px 10px;border-radius:5px"
+                      ng-click="vote(1)">Upvote</a>
+                <a class="red" style="cursor:pointer;color:white;padding:5px 10px;border-radius:5px"
+                      ng-click="vote(-1)">Downvote</a>
+            </span>
+            <a style="float:right;cursor: pointer" ui-sref="submit({topicId:topic.id})" class="btn red darken-4">Nộp
+                bài</a>
+        </div>
+        <div style="color: #777777;">[[::topic.submits]]/[[totalStudents]] bạn đã nộp bài</div>
+        <progress-bar progress="topic.submits *100/totalStudents"></progress-bar>
+
+    </div>
+</div>

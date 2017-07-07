@@ -1,0 +1,12 @@
+<a ng-hide='removing' ng-click="startRemove()">
+	<i class="material-icons red-text darken-4 ">delete</i>
+</a>
+<div ng-show="removing && !message">
+	<a><i ng-click='confirmRemove()' class="material-icons blue-text darken-4 ">done</i></a>
+	<a><i ng-click='cancelRemove()' class="material-icons green-text darken-4 ">close</i></a>
+	<!-- <button ng-click='confirmRemove()' class="btn red small">Xoá</button>
+	<button ng-click='cancelRemove()' class="btn green small">Huỷ</button> -->
+</div>
+<div class="blue-text darken-3" ng-show='message && deleting'>
+	[[message]]
+</div>

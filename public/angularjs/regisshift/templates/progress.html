@@ -1,0 +1,38 @@
+<select class="browser-default" ng-model="current_gen_id" ng-change="onChangeGen()">
+    <option ng-repeat="gen in gens" value="[[gen.id]]">Khoá [[gen.name]]</option>
+</select>
+<h4 ng-show="weeks.length == 0 && !isChangingGen">
+    Khoá này chưa có tuần nào để trực
+</h4>
+<div ng-show="isChangingGen" style="padding-top:20px">
+    Đang đổi khoá ...
+    <div class="progress">
+        <div class="indeterminate"></div>
+    </div>
+</div>
+<div ng-repeat="week in weeks">
+    <h3 class="header">Tuần [[week.week]]</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Người trực</th>
+            <th>Thống kê ca trực (So với người trực nhiều nhất của tuần đó)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="progress in week.progresses">
+            <td>
+                <a href="[[progress.user.url]]">[[progress.user.name]]</a>
+            </td>
+            <td>
+                [[progress.count]]/[[week.max_count]]
+                <div class="progress" style="background-color: #d9d9d9">
+                    <div class="determinate"
+                         style="background-color: #[[progress.user.color]];width: [[progress.count * 100.0/week.max_count]]%"></div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

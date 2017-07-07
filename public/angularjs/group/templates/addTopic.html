@@ -1,0 +1,50 @@
+<div class="row z-depth-1" style="background:white;margin-bottom: 80px">
+    <div class="col s12">
+        <h4>Tạo Topic</h4>
+        <div class="card-panel red-text darken-3" ng-show="error">
+            [[error]]
+        </div>
+        <div class="card-panel green-text darken-3" ng-show="message">
+            [[message]]
+        </div>
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="col s6">
+                        <label for="name">Tiêu đề</label>
+                        <input id="name" type="text" placeholder="Tiêu đề" required ng-model="topic.name">
+                    </div>
+                    <div class="col s6">
+                        <label>Deadline</label>
+                        <input type="text" id="deadline" required placeholder="Deadline" date-time
+                               ng-model="topic.deadline"
+                               date-change="changeDate"/>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class=" col s12">
+                        <label for="description">Mô tả</label>
+                        <textarea id="description" placeholder="Mô tả" required ng-model="topic.description"
+                                  class="materialize-textarea"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col s12">
+                        <label>Ảnh đại diện Topic</label>
+                        <input type="file" required id="avatar" file-model="topic.avatar"/>
+                    </div>
+                </div>
+
+                <div class="row" ng-hide="saving">
+                    <div class="col s12">
+                        <button ng-click="save()" class="btn red darken-4">Save</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

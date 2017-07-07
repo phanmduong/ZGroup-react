@@ -1,0 +1,11 @@
+<div class="row" ng-show="isStaff">
+    <div class="col s12">
+        <a ui-sref="addTopic" class="waves-effect waves-light btn darken-4 red"><i
+                class="material-icons left">add</i>Thêm
+            chủ
+            đề mới</a>
+    </div>
+</div>
+<div class="topic-wrapper">
+    <topic-item ng-repeat="topic in topics" topic="topic"></topic-item>
+</div>

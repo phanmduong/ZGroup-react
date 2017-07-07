@@ -1,0 +1,44 @@
+<a href="#/add-staff" class="btn white-text red darken-4">Thêm nhân viên</a>
+<div class="row" style="margin-top:10px">
+    <div class="col s12 m6">
+    <input type="text" ng-model='filterText' placeholder="Tìm kiếm nhân viên" />
+    </div>
+</div>
+
+<div class="green-text">
+    [[message]]
+</div>
+
+<ul class="pagination" ng-show="staffs.length">
+    <li class="waves-effect" ng-class="{'disabled': curPage == 0}">
+        <a ng-click="previousPage()">
+            <i class="material-icons">chevron_left</i>
+        </a>
+    </li>
+    <li class="waves-effect" ng-repeat="page in pages" ng-class="{'active': page == curPage}">
+        <a ng-click="setPage(page)">[[page+1]]</a>
+    </li>
+    <li class="waves-effect" ng-class="{'disabled': curPage >= staffs.length/pageSize - 1}">
+        <a ng-click="nextPage()"><i class="material-icons">chevron_right</i></a>
+    </li>
+</ul>
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Tên</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Cơ sở</th>
+            <th>Chức vụ</th>
+            <th ng-show='canDelete' style="width:75px;text-align: center">Xoá</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr staff-row ng-repeat="staff in staffs |filter: filterText | pagination: curPage * pageSize | limitTo: pageSize">
+        </tr>
+    </tbody>
+</table>
+
+</div>

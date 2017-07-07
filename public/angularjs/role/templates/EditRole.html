@@ -1,0 +1,56 @@
+<div class="row">
+    <form class="col s12">
+        <div class="row">
+            <div ng-bind-html="test"></div>
+
+            <form name="createRole">
+                <div class="col s12 m6">
+                    <label>Tên chức vụ</label>
+                    <input id="role_title" type="text" ng-model="role.role_title" class="validate" required>
+                </div>
+                <div class="col s12 m6" style="padding-top:20px">
+                    <button class="btn waves-light waves-effect" ng-click="submitRole()" type="submit">Save</button>
+                </div>
+                <div class="col s12 green-text" ng-show="message">
+                    [[message]]
+                </div>
+            </form>
+        </div>
+
+
+    </form>
+</div>
+<div class="row">
+    <ul class="collapsible" data-collapsible="accordion">
+        <li ng-repeat="parentTab in parentTabs">
+            <div class="collapsible-header">
+                <input type="checkbox" ng-model="parentTab.checked" ng-click="checkAll(parentTab); $event.stopPropagation();"
+                       style="display: inline;position: initial;visibility: visible;margin-right:10px"/>
+                [[::parentTab.name]]
+            </div>
+            <div class="collapsible-body">
+                <table class="striped">
+                    <thead>
+                    <tr>
+                        <th style="width:20px"></th>
+                        <th>Tab</th>
+                        <th>Url</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="tab in parentTab.tabs">
+                        <td>
+                            <input type="checkbox" ng-model="tab.checked"
+                                   style="display: block;position: initial;visibility: visible;"/>
+                        </td>
+                        <td>[[::tab.name]]</td>
+                        <td>[[::tab.url]]</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ul>
+
+
+</div>

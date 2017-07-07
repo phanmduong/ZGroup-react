@@ -1,0 +1,17 @@
+<ul style="width: 100%" class="demo-list-three mdl-list">
+    <li class="mdl-list__item mdl-list__item--three-line" ng-repeat="lesson in lessons">
+    <span class="mdl-list__item-primary-content">
+      <i class="material-icons mdl-list__item-avatar">person</i>
+      <span>Buổi {{lesson.lesson.order}}: {{lesson.lesson.name}}</span>
+      <span class="mdl-list__item-text-body">
+        {{lesson.lesson.description}}
+      </span>
+    </span>
+    <span class="mdl-list__item-secondary-content">
+        <!-- Raised button with ripple -->
+
+
+      <a class="mdl-list__item-secondary-action mdl-button mdl-js-button mdl-button--raised">Chuyển buổi</a>
+    </span>
+    </li>
+</ul>

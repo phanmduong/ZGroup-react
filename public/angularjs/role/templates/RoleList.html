@@ -1,0 +1,35 @@
+<div class="row">
+    <a href="#/new-role" class="waves-effect waves-light btn red darken-4">
+        Tạo mới
+    </a>
+</div>
+<div class="row">
+    <table>
+        <thead>
+        <tr>
+            <th>
+                Chức vụ
+            </th>
+            <th>
+                Số nhân viên
+            </th>
+            <th>
+                Số quyền
+            </th>
+            <th style="width: 75px;text-align: center">
+                Xoá
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="role in roles">
+            <td><a href="#/role/[[role.id]]">[[::role.role_title]]</a></td>
+            <td>[[::role.num_staffs]]</td>
+            <td>[[::role.num_tabs]]</td>
+            <td style="width: 75px;text-align: center">
+                <delete-btn delete-message="message" method="delete(role.id)"></delete-btn>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

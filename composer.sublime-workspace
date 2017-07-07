@@ -1,0 +1,441 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"diff_up",
+				"diff_up_start_component"
+			],
+			[
+				"current",
+				"current_architecture"
+			],
+			[
+				"des",
+				"dest_started_component_list"
+			],
+			[
+				"all",
+				"all_components_dest"
+			],
+			[
+				"cure",
+				"current_architecture"
+			],
+			[
+				"constr",
+				"construct"
+			],
+			[
+				"curren",
+				"current_architecture"
+			],
+			[
+				"wi",
+				"with"
+			],
+			[
+				"s",
+				"stop"
+			],
+			[
+				"cur",
+				"current_architecture"
+			],
+			[
+				"wire",
+				"wire_list"
+			],
+			[
+				"man",
+				"mandatory_wire_stated"
+			],
+			[
+				"ma",
+				"mandatory_wire_stated"
+			],
+			[
+				"diff",
+				"diff_down_full"
+			],
+			[
+				"run",
+				"run_other_operation"
+			],
+			[
+				"unwire",
+				"unwired"
+			],
+			[
+				"destr",
+				"destructed"
+			],
+			[
+				"st",
+				"start"
+			],
+			[
+				"ad",
+				"ad_destruct_list"
+			],
+			[
+				"destru",
+				"destructed"
+			],
+			[
+				"stopped",
+				"stopped_operation"
+			],
+			[
+				"stopp",
+				"stopped_operation"
+			],
+			[
+				"unwi",
+				"unwired_operation"
+			],
+			[
+				"stop",
+				"stop_input_list"
+			],
+			[
+				"the",
+				"then"
+			],
+			[
+				"exis",
+				"exist_in_list"
+			],
+			[
+				"Un",
+				"unwired"
+			],
+			[
+				"com",
+				"com_dst"
+			],
+			[
+				"unei",
+				"unwired"
+			],
+			[
+				"pritn",
+				"print_string"
+			],
+			[
+				"print_",
+				"print_list"
+			],
+			[
+				"fa",
+				"false"
+			],
+			[
+				"note",
+				"not_exist_rec"
+			],
+			[
+				"ele",
+				"element"
+			],
+			[
+				"compae",
+				"compare_wire"
+			],
+			[
+				"fail",
+				"failed_components_dst"
+			],
+			[
+				"start",
+				"started_components_dst"
+			],
+			[
+				"w3",
+				"w3_dst"
+			],
+			[
+				"w2",
+				"w2_dst"
+			],
+			[
+				"w1",
+				"w1_dst"
+			],
+			[
+				"option",
+				"optional_state"
+			],
+			[
+				"fai",
+				"failed_components"
+			],
+			[
+				"de",
+				"destructed_rec"
+			],
+			[
+				"un",
+				"unwired"
+			],
+			[
+				"op",
+				"optional_state"
+			],
+			[
+				"wire_",
+				"wire_type"
+			],
+			[
+				"w",
+				"wire"
+			],
+			[
+				"wir",
+				"wires"
+			],
+			[
+				"remove",
+				"remove_wire"
+			],
+			[
+				"d",
+				"dst"
+			],
+			[
+				"prin",
+				"print_string"
+			],
+			[
+				"print",
+				"print_string"
+			],
+			[
+				"prit",
+				"print_string"
+			],
+			[
+				"wri",
+				"wire_type"
+			],
+			[
+				"star",
+				"started_components"
+			],
+			[
+				"sta",
+				"started_components"
+			],
+			[
+				"contru",
+				"contructed"
+			],
+			[
+				"contr",
+				"contructed"
+			],
+			[
+				"re",
+				"reencode_rec"
+			],
+			[
+				"reencode",
+				"reencode_rec"
+			],
+			[
+				"encode",
+				"encode_rec"
+			],
+			[
+				"enc",
+				"encode_rec"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/caoanhquan/connect.sh",
+		"/Users/caoanhquan/Desktop/colormev2_2016-03-05.sql",
+		"/Applications/XAMPP/xamppfiles/etc/php.ini",
+		"/Users/caoanhquan/Desktop/blog/vendor/doctrine/cache/tests/travis/php.ini",
+		"/Users/caoanhquan/Desktop/mdl-template-text-only/styles.css",
+		"/Users/caoanhquan/Desktop/ionic/conFusion/www/js/services.js",
+		"/Users/caoanhquan/Desktop/ionic/conFusion/www/js/app.js",
+		"/Users/caoanhquan/Desktop/blog/resources/views/public/classes_list.blade.php",
+		"/Users/caoanhquan/Desktop/blog/app/Http/Controllers/HomeController.php",
+		"/Users/caoanhquan/Desktop/controller.js",
+		"/Users/caoanhquan/Desktop/register.html",
+		"/Users/caoanhquan/Desktop/layout-contact-footer.html",
+		"/Users/caoanhquan/Desktop/homepage (1).html",
+		"/Users/caoanhquan/Desktop/colormev2_2016-02-11.sql",
+		"/Users/caoanhquan/Desktop/cbir_2016-02-04.sql",
+		"/Users/caoanhquan/Desktop/ocaml tung/reconfiguration.ml",
+		"/Users/caoanhquan/Desktop/ocaml tanu/reconfiguration.ml",
+		"/Users/caoanhquan/Desktop/ocaml/reconfiguration.ml",
+		"/Users/caoanhquan/Desktop/ocaml quan/readme.rst",
+		"/Users/caoanhquan/Desktop/ocaml/ontap",
+		"/Users/caoanhquan/Desktop/cbir/application/controllers/indexing_images.php",
+		"/Users/caoanhquan/Downloads/starter-template/index.html",
+		"/Users/caoanhquan/Desktop/ocaml/demo.ml"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"1024",
+			"max_size",
+			"\";\n",
+			"  ",
+			" ---------",
+			";;"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "composer.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

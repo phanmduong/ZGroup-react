@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.scss"],"names":[],"mappings":"AAGA;EACC,0BAHoB,EAIpB","file":"app.css","sourcesContent":["// @import \"node_modules/bootstrap-sass/assets/stylesheets/bootstrap\";\n$primaryColor:#c50000;\n\nbody {\n\tbackground-color: $primaryColor;\n}\n\n"],"sourceRoot":"/source/"}

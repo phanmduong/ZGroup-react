@@ -1,0 +1,13 @@
+app/Http/Controllers/SendMailController.php
+public/angularjs/common/env.js
+/vendor
+/storage
+/node_modules
+/config/database.php
+Homestead.yaml
+Homestead.json
+.env
+.idea/workspace.xml
+.idea/blade.xml
+.idea/misc.xml
+
