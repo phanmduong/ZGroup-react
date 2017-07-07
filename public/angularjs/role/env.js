@@ -1,3 +1,3 @@
 var __env = {
-    baseUrl: 'http://colorme.vn'
+    baseUrl: 'http://phanmduong.ml'
 };
