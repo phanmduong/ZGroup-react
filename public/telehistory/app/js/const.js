@@ -1,1 +1,1 @@
-export const BASE_URL = "http://colorme.vn/";
+export const BASE_URL = "http://phanmduong.ml";
