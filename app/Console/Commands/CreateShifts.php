@@ -77,7 +77,7 @@ class CreateShifts extends Command
         foreach ($roles as $role) {
             $users = $role->users;
             foreach ($users as $user) {
-                send_mail_regis_shift($user, $week, $current_gen, ['colorme.vn.test@gmail.com']);
+                send_mail_regis_shift($user, $week, $current_gen, ['test@colorme.vn']);
             }
         }
         $this->info('done');

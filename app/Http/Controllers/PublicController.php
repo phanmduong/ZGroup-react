@@ -703,7 +703,7 @@ class PublicController extends Controller
         $register->coupon = $request->coupon;
 
         $register->save();
-        send_mail_confirm_registration($user, $request->class_id, ["trangdo95@gmail.com", "test@colorme.vn"]);
+        send_mail_confirm_registration($user, $request->class_id, ["test@colorme.vn"]);
 
         return redirect('register_success');
     }

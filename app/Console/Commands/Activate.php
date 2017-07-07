@@ -45,7 +45,7 @@ class Activate extends Command
             ->where('name', 'like', '%.%')->get();
         foreach ($classes as $class) {
             foreach ($class->registers as $regis) {
-                send_mail_activate_class($regis, ['colorme.vn.test@gmail.com']);
+                send_mail_activate_class($regis, ['test@colorme.vn']);
             }
             $class->activated = 1;
             $class->save();

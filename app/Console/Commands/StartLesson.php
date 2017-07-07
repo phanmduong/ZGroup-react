@@ -50,7 +50,7 @@ class StartLesson extends Command
 
             foreach ($registers as $register) {
                 $user = $register->user;
-                send_mail_lesson($user, $lesson, $class, $formatted_date, ['colorme.vn.test@gmail.com']);
+                send_mail_lesson($user, $lesson, $class, $formatted_date, ['test@colorme.vn']);
             }
         }
     }
