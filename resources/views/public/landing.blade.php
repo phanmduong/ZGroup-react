@@ -5,7 +5,7 @@
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="colorME"/>
     <meta property="og:description"
-          content="Liên hệ với chúng tôi qua email colorme.idea@gmail.com.Chúng tôi sẽ liên lạc lại nhanh nhất khi có thể"/>
+          content="Liên hệ với chúng tôi qua email test@colorme.vn.Chúng tôi sẽ liên lạc lại nhanh nhất khi có thể"/>
     {{--        <meta property="og:image" content="{{($target_user->avatar_url!=null)?$target_user->avatar_url:url('img/logo.jpg')}}"/>--}}
     <meta property="og:image" content="{{url('/img/logo.jpg')}}"/>
 @endsection

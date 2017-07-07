@@ -240,7 +240,7 @@ class PublicController extends Controller
         $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
 
         $register->save();
-        send_mail_confirm_registration($user, $request->class_id, ["colorme.idea@gmail.com"]);
+        send_mail_confirm_registration($user, $request->class_id, ["test@colorme.vn"]);
 
         return redirect('register_success');
     }
@@ -271,7 +271,7 @@ class PublicController extends Controller
         $subject = "Xác nhận đăng kí khoá học " . $course->name;
 
         Mail::send('emails.confirm_email_2', $data, function ($m) use ($user, $subject) {
-            $m->from('colorme.idea@gmail.com', 'Color Me');
+            $m->from('test@colorme.vn', 'Color Me');
 
             $m->to($user['email'], $user['name'])->subject($subject);
         });
@@ -703,7 +703,7 @@ class PublicController extends Controller
         $register->coupon = $request->coupon;
 
         $register->save();
-        send_mail_confirm_registration($user, $request->class_id, ["trangdo95@gmail.com", "colorme.idea@gmail.com"]);
+        send_mail_confirm_registration($user, $request->class_id, ["trangdo95@gmail.com", "test@colorme.vn"]);
 
         return redirect('register_success');
     }

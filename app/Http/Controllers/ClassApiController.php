@@ -41,7 +41,7 @@ class ClassApiController extends ApiController
             $register->status = 0;
 
             $register->save();
-            send_mail_confirm_registration($this->user, $classId, ["colorme.idea@gmail.com"]);
+            send_mail_confirm_registration($this->user, $classId, ["test@colorme.vn"]);
             return $this->respond(['message' => "Bạn đă đăng kí thành công. Bạn hãy check email để kiểm tra thông tin đăng kí."]);
         }
     }
