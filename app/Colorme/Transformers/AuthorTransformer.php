@@ -23,8 +23,8 @@ class AuthorTransformer extends Transformer
             "name" => $author->name,
             "email" => $author->email,
             'phone' => $author->phone,
-            'avatar_url' => $author->avatar_url ? $author->avatar_url : url('img/user.png'),
-            'url' => "http://colorme.vn/profile/" . get_first_part_of_email($author->email)
+            'avatar_url' => $author->avatar_url ? $author->avatar_url : 'http://d1j8r0kxyu9tj8.cloudfront.net/user.png',
+            'url' => "http://colorme.vn/profile/" . $author->username
         ];
     }
 }

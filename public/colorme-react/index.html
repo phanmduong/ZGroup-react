@@ -9,6 +9,15 @@
 
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,800&amp;subset=vietnamese" rel="stylesheet">
 
+  <!--emojione-->
+  <script src="https://cdn.jsdelivr.net/emojione/3.0.3/lib/js/emojione.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/3.0.3/extras/css/emojione.min.css">
+  <script type="text/javascript">
+    emojione.ascii = true;
+    emojione.greedyMatch = true;
+  </script>
+  <!--end emojione-->
+
   <!-- Include Font Awesome. -->
   <script src="https://use.fontawesome.com/8591f26497.js"></script>
 
@@ -94,8 +103,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 <script>
-    var socket = io('http://colorme.vn:3000/');
-//  var socket = io('http://localhost:3333');
+//  var socket = io('http://colorme.vn:3000/');
+    var socket = io('http://localhost:3333');
 </script>
 <script src="/bundle.js"></script>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5809df20457fb57d"></script>

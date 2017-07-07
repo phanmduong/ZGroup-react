@@ -7,6 +7,10 @@
         Lớp
     </h3>
     <div class="row">
+        <form action="{{url('manage/classes')}}">
+            <input value='{{$search}}' placeholder="Tên lớp" type="text" name="search">
+            <input class="btn" type="submit">
+        </form>
         <p>Tổng số môn: <strong>{{$total}}</strong></p>
 
         @if($user->role == 2)
@@ -88,7 +92,7 @@
         </table>
         <ul class="pagination">
             @if($current_page != 1)
-                <li><a class="waves-effect" href="{{url('manage/classes/'.($current_page-1))}}"><i
+                <li><a class="waves-effect" href="{{url('manage/classes/'.($current_page-1))."?search=".$search}}"><i
                                 class="material-icons">chevron_left</i></a></li>
             @else
                 <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
@@ -97,11 +101,11 @@
                 @if($current_page == $i)
                     <li class="active"><a href="#!">{{$i}}</a></li>
                 @else
-                    <li><a class="waves-effect" href="{{url('manage/classes/'.$i)}}">{{$i}}</a></li>
+                    <li><a class="waves-effect" href="{{url('manage/classes/'.$i)."?search=".$search}}">{{$i}}</a></li>
                 @endif
             @endfor
             @if($current_page != $num_pages)
-                <li><a class="waves-effect" href="{{url('manage/classes/'.($current_page+1))}}"><i
+                <li><a class="waves-effect" href="{{url('manage/classes/'.($current_page+1))."?search=".$search}}"><i
                                 class="material-icons">chevron_right</i></a>
                 </li>
             @else
@@ -113,13 +117,13 @@
     <script>
         function change_status(id) {
             $.post("{{url('manage/changeclassstatus')}}",
-                    {
-                        "class_id": id,
-                        '_token': '{{csrf_token()}}'
-                    },
-                    function (data, status) {
-                        console.log(status);
-                    });
+                {
+                    "class_id": id,
+                    '_token': '{{csrf_token()}}'
+                },
+                function (data, status) {
+                    console.log(status);
+                });
         }
     </script>
 @endsection

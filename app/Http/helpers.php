@@ -64,20 +64,26 @@ function time_elapsed_string($ptime)
 
 }
 
-function timeRange($start, $end){
+function timeRange($start, $end)
+{
     $dt = new DateTime($start);
     $dt->add(new DateInterval('PT200M'));
     $interval = $dt->diff(new DateTime($end));
     return $interval->format('%Hh %Im %Ss');
 }
 
-function computeTimeInterval($start, $end) {
-    $dt = new DateTime($start);
-    $dt->add(new DateInterval('PT200M'));
-    $interval = $dt->diff(new DateTime($end));
-    return $interval;
+function computeTimeInterval($start, $end)
+{
+//    $dt = new DateTime($start);
+//    $dt->add(new DateInterval('PT200M'));
+//    $interval = $dt->diff(new DateTime($end));
+//    return $interval;
+    $t1 = StrToTime($start);
+    $t2 = StrToTime($end);
+    $diff = $t2 - $t1;
+    $hours = $diff / (60 * 60);
+    return $hours;
 }
-
 
 
 function time_remain_string($ptime)
@@ -163,7 +169,8 @@ function format_date_to_mysql($time)
     return rebuild_date('Y-m-d', strtotime($time));
 }
 
-function set_class_lesson_time($class) {
+function set_class_lesson_time($class)
+{
     $start_date = new DateTime(date('Y-m-d', strtotime($class->datestart)));
     $start_date->modify('yesterday');
 
@@ -171,7 +178,7 @@ function set_class_lesson_time($class) {
     $studySessions = $schedule->studySessions;
 
     $classLessons = $class->classLessons()
-        ->join('lessons','class_lesson.lesson_id','=','lessons.id')
+        ->join('lessons', 'class_lesson.lesson_id', '=', 'lessons.id')
         ->orderBy('lessons.order')->select('class_lesson.*')->get();
 
 
@@ -179,11 +186,11 @@ function set_class_lesson_time($class) {
     $week = ceil($duration / count($studySessions));
     $count = 0;
 
-    for ($i=0; $i < $week; $i++){
+    for ($i = 0; $i < $week; $i++) {
         foreach ($studySessions as $studySession) {
             $weekday = weekdayViToEn($studySession->weekday);
 
-            $start_date->modify('next '.$weekday);
+            $start_date->modify('next ' . $weekday);
             $classLessons[$count]->time = $start_date->format('Y-m-d');
 
             $classLessons[$count]->save();
@@ -196,7 +203,8 @@ function set_class_lesson_time($class) {
     }
 }
 
-function generate_class_lesson($class){
+function generate_class_lesson($class)
+{
     $course = $class->course;
     $class_lessons = $class->lessons;
     $course_lessons = $course->lessons;
@@ -938,6 +946,7 @@ function question_type($type)
         return "Check box";
     }
 }
+
 function question_type_key($type)
 {
     if ($type == 0) {

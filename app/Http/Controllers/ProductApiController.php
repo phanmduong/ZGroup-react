@@ -281,6 +281,7 @@ class ProductApiController extends ApiController
 
         $comment = new Comment;
         $comment->product_id = $productId;
+        $comment->likes = 0;
         $comment->commenter_id = $this->user->id;
         $comment->content = $comment_content;
         $comment->save();
@@ -291,10 +292,9 @@ class ProductApiController extends ApiController
             if ($group) {
                 $class = $group->studyClass;
                 if ($class) {
-                    $interval = computeTimeInterval($product->created_at, date("Y-m-d h:i:s", time()));
-                    $daysInterval = (int)$interval->format('%a');
-
-                    if ($daysInterval < 1) {
+                    $hours = computeTimeInterval($product->created_at, date("Y-m-d H:i:s", time()));
+//                    dd(date("Y-m-d h:i:s", time()));
+                    if ($hours <= 24) {
                         if ($this->user->id == $class->teacher_id) {
                             $topicAttend->commented = true;
                             $topicAttend->save();

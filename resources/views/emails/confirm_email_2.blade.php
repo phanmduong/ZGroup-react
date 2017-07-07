@@ -918,7 +918,7 @@
                                         <li><b>Hotline</b>: 01.689.678.262 (Bạn Nhi)</li>
                                         <li><b>Website</b>: http://colorme.vn/</li>
                                         <li><b>Fanpage</b>: https://www.facebook.com/ColorME.Hanoi</li>
-                                        <li><b>Email</b>: test@colorme.vn</li>
+                                        <li><b>Email</b>: colorme.idea@gmail.com</li>
                                     </ul>
                                 </td>
                             </tr>

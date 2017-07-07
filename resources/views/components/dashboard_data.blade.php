@@ -106,7 +106,7 @@
                         <img width="40" class="circle" src="{{$class->course->icon_url}}"/>
                     </td>
                     <td><a href="{{url('classes/'.$class->id.'/students')}}">{{$class->name}}</a></td>
-                    <td>{{$class->base->name}}</td>
+                    <td>{{$class->base ? $class->base->name : "Không thuộc cơ sở nào"}}</td>
                     <td class="green-text">
                         @if($class->target>0)
                             {{$class->registers->where('status',1)->count()}}/{{$class->target}}

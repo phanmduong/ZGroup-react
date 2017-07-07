@@ -261,7 +261,7 @@ class CampaignController extends ManageController
 //        $subscribers = $cam->subscrneibers_list->subscribers;
 //        foreach ($subscribers as $subscriber) {
 //            Mail::queue('emails.template', ['content' => $cam->template->content], function ($message) use ($cam, $subscriber) {
-//                $message->from('test@colorme.vn', 'Color Me')->to($subscriber->email)->subject($cam->subject)->bcc('test@colorme.vn');
+//                $message->from('colorme.idea@gmail.com', 'Color Me')->to($subscriber->email)->subject($cam->subject)->bcc('colorme.idea@gmail.com');
 //            });
 //
 //        }

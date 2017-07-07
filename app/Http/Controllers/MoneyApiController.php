@@ -140,7 +140,13 @@ class MoneyApiController extends ApiController
             ->orWhere('receiver_id', $this->user->id)->orderBy('created_at', 'desc')
             ->paginate($limit);
         return $this->respondWithPagination($transactions,
-            ["data" => $this->transactionTransformer->transformCollection($transactions)]
+            [
+                "data" => [
+                    'transactions' => $this->transactionTransformer->transformCollection($transactions),
+                    'current_money' => $this->user->money,
+                    'status' => $this->user->status
+                ]
+            ]
         );
 
     }

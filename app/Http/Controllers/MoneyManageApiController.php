@@ -77,7 +77,7 @@ class MoneyManageApiController extends ApiController
                     $groupMember->save();
                 }
 
-                send_mail_confirm_receive_studeny_money($register, ["test@colorme.vn"]);
+                send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
                 send_sms_confirm_money($register);
 
             }

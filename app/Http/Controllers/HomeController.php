@@ -763,15 +763,26 @@ class HomeController extends ManageController
         return view('manage.editcourse', $this->data);
     }
 
-    public function classes($page = 1)
+    public function classes(Request $request, $page = 1)
     {
         $this->data['current_page'] = $page;
-        $limit = 10;
+        $limit = 30;
         $offset = ($page - 1) * $limit;
 
-        $this->data['classes'] = StudyClass::orderBy('created_at', 'desc')->take($limit)->skip($offset)->get();
 
-        $total = StudyClass::all()->count();
+        if ($request->search) {
+            $search = trim($request->search);
+            $this->data['search'] = $search;
+            $classes = StudyClass::where('name', 'like', '%' . $search . '%')->orderBy('created_at', 'desc');
+            $total = $classes->count();
+            $this->data['classes'] = $classes->take($limit)->skip($offset)->get();
+        } else {
+            $this->data['search'] = "";
+            $total = StudyClass::count();
+            $this->data['classes'] = StudyClass::orderBy('created_at', 'desc')->take($limit)->skip($offset)->get();
+        }
+
+
         $this->data['total'] = $total;
 
         $num_pages = ceil($total / $limit);
@@ -792,7 +803,7 @@ class HomeController extends ManageController
 
         $this->data['bases'] = Base::all();
         $courses = Course::all();
-        $this->data['schedules'] = Schedule::orderBy("created_at","desc")->get();
+        $this->data['schedules'] = Schedule::orderBy("created_at", "desc")->get();
         $this->data['courses'] = $courses;
         $this->data['staffs'] = User::where('role', 1)->get();
         $gens = Gen::all();
@@ -822,11 +833,12 @@ class HomeController extends ManageController
         return redirect('manage/classes');
     }
 
-    public function set_class_lesson_time(Request $request){
+    public function set_class_lesson_time(Request $request)
+    {
 
         $class = StudyClass::find($request->class_id);
         set_class_lesson_time($class);
-        return redirect('manage/editclass/'.$class->id);
+        return redirect('manage/editclass/' . $class->id);
     }
 
     public function store_class(Requests\CreateClassFormRequest $request)
@@ -855,7 +867,6 @@ class HomeController extends ManageController
         $class->status = ($request->status == null) ? 0 : 1;
 
         $class->save();
-
 
 
         if ($request->id == -1) {
@@ -898,7 +909,7 @@ class HomeController extends ManageController
         $gens = Gen::all();
         $this->data['gens'] = $gens;
         $this->data['isEdit'] = true;
-        $this->data['schedules'] = Schedule::orderBy("created_at","desc")->get();
+        $this->data['schedules'] = Schedule::orderBy("created_at", "desc")->get();
         $this->data['bases'] = Base::all();
         $this->data['class'] = StudyClass::find($class_id);
         $this->data['current_tab'] = 9;
@@ -1367,7 +1378,7 @@ class HomeController extends ManageController
                 $groupMember->save();
             }
 
-            send_mail_confirm_receive_studeny_money($register, ["test@colorme.vn"]);
+            send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
             send_sms_confirm_money($register);
 
         }
@@ -1784,7 +1795,7 @@ class HomeController extends ManageController
 //        $class = StudyClass::find($class_id);
 ////        dd($class->registers);
 //        foreach ($class->registers as $regis) {
-//            send_mail_activate_class($regis, ['test@colorme.vn']);
+//            send_mail_activate_class($regis, ['colorme.idea@gmail.com']);
 //        }
 //        $data['class'] = $class;
 //        $data['student'] = $this->user;
