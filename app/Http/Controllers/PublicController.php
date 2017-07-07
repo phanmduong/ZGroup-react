@@ -240,7 +240,7 @@ class PublicController extends Controller
         $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
 
         $register->save();
-        send_mail_confirm_registration($user, $request->class_id, ["colorme.idea@gmail.com"]);
+        send_mail_confirm_registration($user, $request->class_id, ["test@colorme.vn"]);
 
         return redirect('register_success');
     }
@@ -271,7 +271,7 @@ class PublicController extends Controller
         $subject = "Xác nhận đăng kí khoá học " . $course->name;
 
         Mail::send('emails.confirm_email_2', $data, function ($m) use ($user, $subject) {
-            $m->from('colorme.idea@gmail.com', 'Color Me');
+            $m->from('test@colorme.vn', 'Color Me');
 
             $m->to($user['email'], $user['name'])->subject($subject);
         });
@@ -703,7 +703,7 @@ class PublicController extends Controller
         $register->coupon = $request->coupon;
 
         $register->save();
-        send_mail_confirm_registration($user, $request->class_id, ["trangdo95@gmail.com", "colorme.idea@gmail.com"]);
+        send_mail_confirm_registration($user, $request->class_id, ["trangdo95@gmail.com", "test@colorme.vn"]);
 
         return redirect('register_success');
     }
@@ -799,11 +799,41 @@ class PublicController extends Controller
 
     public function test()
     {
-        $interval = computeTimeInterval("2017-07-06 01:24:54", "2017-07-07 01:38:03");
-        dd($interval > 24);
-//        $daysInterval = (int)$interval->format('%a');
-//        dd($daysInterval);
-        return 'test';
+//        $date = new \DateTime();
+////        $date->modify('+1 days');
+//        $formatted_date = $date->format('Y-m-d');
+//        $classLessons = ClassLesson::whereDate('time', '=', $formatted_date)->get();;
+//        foreach ($classLessons as $classLesson) {
+//            $lesson = $classLesson->lesson;
+//            $class = $classLesson->studyClass;
+//            $session = $class->schedule->studySessions->filter(function ($s) use ($date) {
+//                $weekdayNumber = $date->format('N');
+//                return $weekdayNumber == weekdayViToNumber($s->weekday);
+//            })->last();
+//
+//
+//            $surveys = $lesson->surveys;
+//            if ($session) {
+//                foreach ($surveys as $survey) {
+//                    $lessonSurvey = LessonSurvey::where('lesson_id', $lesson->id)->where('survey_id', $survey->id)->first();
+//                    if ($lessonSurvey) {
+//                        $start_time_display = $lessonSurvey->start_time_display;
+//                        $time_display = $lessonSurvey->time_display;
+//                        $start_time = date("H:i", strtotime($session->start_time) + ($start_time_display * 60));
+//
+//                        $start_time_delay = strtotime($start_time) - strtotime('15:55');
+//
+//                        $create_survey_job = (new  CreateSurvey($class, $survey))->delay($start_time_delay);
+//                        $this->dispatch($create_survey_job);
+//
+//                        $end_time_delay = $start_time_delay + $time_display * 60;
+//                        $close_survey_job = (new CloseSurvey($class, $survey))->delay($end_time_delay);
+//                        $this->dispatch($close_survey_job);
+//                    }
+//                }
+//            }
+//        }
+        return 'Đã gửi';
     }
 
     public function beta()

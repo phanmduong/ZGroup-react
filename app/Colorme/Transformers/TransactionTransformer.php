@@ -35,20 +35,14 @@ class TransactionTransformer extends Transformer
         ];
         if ($transaction->type == 0) {
             if ($transaction->receiver != null) {
-                $return_array['receiver'] = [
-                    'id' => $transaction->receiver->id,
-                    'name' => $transaction->receiver->name
-                ];
+                $return_array['receiver'] = $transaction->receiver->name;
             }
             $return_array['note'] = "Người nhận: " . $transaction->receiver->name;
         } else {
             $return_array['note'] = $transaction->note;
         }
         if ($transaction->sender != null) {
-            $return_array['sender'] = [
-                'id' => $transaction->sender->id,
-                'name' => $transaction->sender->name
-            ];
+            $return_array['sender'] = $transaction->sender->name;
         }
 
         return $return_array;

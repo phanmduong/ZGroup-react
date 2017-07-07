@@ -60,8 +60,7 @@ class StudentApiController extends ApiController
 
     public function get_money(Request $request)
     {
-        if ($request->register_id == null || $request->money == null ||
-            $request->code == null || $request->received_id_card == null) {
+        if ($request->register_id == null || $request->money == null || $request->code == null || $request->received_id_card == null) {
             return $this->responseBadRequest('Not enough parameters!');
         }
         $register_id = $request->register_id;
@@ -111,7 +110,7 @@ class StudentApiController extends ApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
-            send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
+            send_mail_confirm_receive_studeny_money($register, ["test@colorme.vn"]);
             send_sms_confirm_money($register);
         }
         $return_data = array(
@@ -128,7 +127,6 @@ class StudentApiController extends ApiController
 
 
         $code = Register::orderBy('code', 'desc')->first()->code;
-
         $nextNumber = explode("M", $code)[1] + 1;
         $return_data["next_code"] = 'CM' . $nextNumber;
 

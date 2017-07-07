@@ -1367,7 +1367,7 @@ class HomeController extends ManageController
                 $groupMember->save();
             }
 
-            send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
+            send_mail_confirm_receive_studeny_money($register, ["test@colorme.vn"]);
             send_sms_confirm_money($register);
 
         }
@@ -1784,7 +1784,7 @@ class HomeController extends ManageController
 //        $class = StudyClass::find($class_id);
 ////        dd($class->registers);
 //        foreach ($class->registers as $regis) {
-//            send_mail_activate_class($regis, ['colorme.idea@gmail.com']);
+//            send_mail_activate_class($regis, ['test@colorme.vn']);
 //        }
 //        $data['class'] = $class;
 //        $data['student'] = $this->user;

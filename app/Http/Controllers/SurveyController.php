@@ -366,7 +366,7 @@ class SurveyController extends Controller
                 $surveyUser->user_id = $student->id;
                 $surveyUser->gen_id = $gen->id;
                 $surveyUser->save();
-//                send_mail_goodbye($register, ['colorme.idea@gmail.com']);
+//                send_mail_goodbye($register, ['test@colorme.vn']);
             }
         }
         $classSurvey->save();

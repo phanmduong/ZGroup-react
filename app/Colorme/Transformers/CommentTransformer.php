@@ -22,12 +22,6 @@ class CommentTransformer extends Transformer
                 'name' => $comment->commenter->name,
                 'url' => url('profile/' . $comment->commenter->username)
             ],
-            'likes' => $comment->likes,
-            'likers' => $comment->comment_likes->map(function($c) {
-                return [
-                    'name' => $c->liker->name
-                ];
-            }),
             'product' => [
                 'author' => [
                     'id' => $comment->product->author->id

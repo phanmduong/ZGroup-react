@@ -44,7 +44,6 @@
             <thead>
             <tr>
                 <th></th>
-                <th></th>
                 <th data-field="id">Họ tên</th>
                 <th data-field="name">Email</th>
                 <th>Đã nhận thẻ</th>
@@ -63,37 +62,37 @@
             @foreach($registers as $register)
                 <tr>
                     <td>
-                        <a>
-                            <i style="color:green"
-                               class="material-icons">phone</i>
-                        </a>
-                    </td>
-                    <td>
                         <a href="{{url('manage/telesalehistory?page=1&user_id='.$register->user_id)}}">
                             @if($register->call_status == 0)
                                 @if ($register->time_to_reach == 0)
-                                    <div class="time-btn">
-                                        <span style="color:white">
-                                            {{$register->time_to_call != '0000-00-00 00:00:00' ?
+                                    <div style="background-color: #a2a2a2;width:120px!important;border-radius:5px;padding:8px 4px 2px 4px;width: 30px">
+                                        <i style="color:white"
+                                           class="material-icons">phone</i>
+                                        <span style="color:white;position: relative;top:-7px;">
+                                            còn {{$register->time_to_call != '0000-00-00 00:00:00' ?
                                             ceil(diffDate(date('Y-m-d H:i:s'),$register->time_to_call)):0}}h
                                         </span>
                                     </div>
                                 @else
-                                    <div style="background-color: #c50000" class="time-btn">
-
-                                        <span style="color:white">
+                                    <div style="background-color: #c50000;width:120px!important;border-radius:5px;padding:8px 4px 2px 4px;width: 30px">
+                                        <i style="color:white"
+                                           class="material-icons">phone</i>
+                                        <span style="color:white;position: relative;top:-7px;">
                                         {{$register->time_to_reach}}h
                                         </span>
                                     </div>
                                 @endif
 
                             @elseif($register->call_status == 2)
-                                <div style="background-color: #5484c5" class="time-btn">
-                                    <span style="color:white;position: relative;top:-7px;">Đang gọi </span>
+                                <div style="background-color: #5484c5;width:120px!important;border-radius:5px;padding:8px 4px 2px 4px">
+                                    <i style="color:white" class="material-icons">phone</i> <span
+                                            style="color:white;position: relative;top:-7px;">Đang gọi </span>
                                 </div>
                             @else
-                                <div style="background-color: #43a047;" class="time-btn">
-                                    <span style="color:white">{{$register->time_to_reach}}h</span>
+                                <div style="background-color: #43a047;width:120px!important;border-radius:5px;padding:8px 4px 2px 4px">
+                                    <i style="color:white" class="material-icons">phone</i>
+                                    <span style="color:white;position: relative;top:-7px;">{{$register->time_to_reach}}
+                                        h</span>
                                 </div>
                             @endif
                         </a>

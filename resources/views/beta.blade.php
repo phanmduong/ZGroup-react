@@ -11,16 +11,6 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,600,800&amp;subset=vietnamese"
           rel="stylesheet">
 
-
-    <!--emojione-->
-    {{--<script src="https://cdn.jsdelivr.net/emojione/3.0.3/lib/js/emojione.min.js"></script>--}}
-    {{--<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/3.0.3/extras/css/emojione.min.css"/>--}}
-    {{--<script type="text/javascript">--}}
-        {{--emojione.ascii = true;--}}
-        {{--emojione.greedyMatch = true;--}}
-    {{--</script>--}}
-    <!--end emojione-->
-
     <link rel="shortcut icon" href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg">
 
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
@@ -60,7 +50,8 @@
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/table.css">
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/video.css">
 
-    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?88888">
+
+    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?2223">
 </head>
 <body>
 <div id="fb-root"></div>
@@ -138,7 +129,7 @@
 <script>
     var socket = io('http://colorme.vn:3000/');
 </script>
-<script src="{{url('colorme-react/bundle.js')}}?88888"></script>
+<script src="{{url('colorme-react/bundle.js')}}?2223"></script>
 <!-- Facebook Pixel Code -->
 <script>
     !function (f, b, e, v, n, t, s) {
@@ -169,6 +160,5 @@
 <!-- End Facebook Pixel Code -->
 {{--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/Vibrant.min.js"></script>--}}
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/color-thief.min.js"></script>
-<script src="{{url('/js/emojione.js')}}"></script>
 </body>
 </html>
