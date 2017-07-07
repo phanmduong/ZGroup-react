@@ -12401,7 +12401,7 @@ StudySession.defaultProps = {};
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var BASE_URL = "http://colorme.vn/api/";
+var BASE_URL = "http://phanmduong.ml/api/";
 
 if (false) {
     exports.BASE_URL = BASE_URL = "http://colorme.dev/api/";

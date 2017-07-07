@@ -149,7 +149,7 @@
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="wrapper">
                 <tr>
                     <td align="center" valign="top" style="padding: 15px 0;" class="logo">
-                        <a href="http://colorme.vn" target="_blank">
+                        <a href="http://phanmduong.ml" target="_blank">
                             <img alt="Logo"
                                  src="https://s3-ap-southeast-1.amazonaws.com/cmstorage/12006581_965968973471128_6084208262051465701_o.jpg"
                                  width="60" height="60"
@@ -916,7 +916,7 @@
                                     class="padding-copy">
                                     <ul>
                                         <li><b>Hotline</b>: 01.689.678.262 (Bạn Nhi)</li>
-                                        <li><b>Website</b>: http://colorme.vn/</li>
+                                        <li><b>Website</b>: http://phanmduong.ml/</li>
                                         <li><b>Fanpage</b>: https://www.facebook.com/ColorME.Hanoi</li>
                                         <li><b>Email</b>: test@colorme.vn</li>
                                     </ul>

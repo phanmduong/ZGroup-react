@@ -5,7 +5,7 @@
         KẾ</title>
     <meta property="fb:app_id" content="1787695151450379"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="http://colorme.vn/mua-sach"/>
+    <meta property="og:url" content="http://phanmduong.ml/mua-sach"/>
     <meta property="og:description"
           content="CUỐN SÁCH GỐI ĐẦU GIƯỜNG CHO NHỮNG NGƯỜI MỚI BẮT ĐẦU CON ĐƯỜNG THIẾT KẾ"/>
     <meta property="og:title" content="SÁCH THIẾT KẾ CHO NGƯỜI MỚI BẮT ĐẦU - COLORME"/>
