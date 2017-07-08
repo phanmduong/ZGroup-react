@@ -11780,7 +11780,7 @@ Telecall.defaultProps = {};
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var BASE_URL = exports.BASE_URL = "http://phanmduong.ml/";
+var BASE_URL = exports.BASE_URL = "/";
 
 /***/ }),
 /* 111 */

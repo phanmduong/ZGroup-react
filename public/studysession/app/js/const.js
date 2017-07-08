@@ -1,4 +1,4 @@
-let BASE_URL = "http://phanmduong.ml/api/";
+let BASE_URL = "/api/";
 
 if (process.env.NODE_ENV === "development") {
     BASE_URL = "http://colorme.dev/api/";

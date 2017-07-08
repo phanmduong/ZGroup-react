@@ -86,7 +86,7 @@ class TopCVPublicApiController extends ApiController
                     "email" => $user->email,
                     "phone" => $user->phone,
                     "fullname" => $user->name,
-                    "portfolio_url" => "http://phanmduong.ml/profile/" . $user->username,
+                    "portfolio_url" => "/profile/" . $user->username,
                     'gender' => $user->gender,
                     "dob" => format_time_to_mysql(strtotime($user->dob))
                 ]);

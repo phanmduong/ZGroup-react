@@ -24,7 +24,7 @@ class AuthorTransformer extends Transformer
             "email" => $author->email,
             'phone' => $author->phone,
             'avatar_url' => $author->avatar_url ? $author->avatar_url : 'http://d1j8r0kxyu9tj8.cloudfront.net/user.png',
-            'url' => "http://phanmduong.ml/profile/" . $author->username
+            'url' => "/profile/" . $author->username
         ];
     }
 }
