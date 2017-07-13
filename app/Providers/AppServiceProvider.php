@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
         if (env('APP_ENV', 'local') !== 'local') {
             \DB::connection()->disableQueryLog();
         }
+        dd(Config::get('app.s3_url'));
+
     }
 
     /**

@@ -281,6 +281,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get("manage/sendsms/{smsId}", 'ManageSmsController@sms');
     Route::get("manage/createsms", 'ManageSmsController@sms');
 
+
     Route::get('download/danh-sach-hoc-vien-dong-tien', 'HomeController@download_paid_students');
 //    Route::get('fire', function () {
 //        // this fires the event
@@ -438,6 +439,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/study-history/{student_id}', 'HomeController@study_history');
     Route::get('manage/studentsneedcall/{page?}', 'HomeController@student_needs_call');
     Route::get('manage/keepmoney/{page?}', 'HomeController@keep_money')->middleware(['is_admin']);
+
+    Route::get("manage/child1", 'ManageInfoController@getInfo');
 
     Route::post('manage/storegen', 'HomeController@store_gen');
     Route::post('manage/storecourse', 'HomeController@store_course');

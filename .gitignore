@@ -1,3 +1,4 @@
+app/Http/Controllers/SendMailController.php
 /vendor
 /storage
 /node_modules
