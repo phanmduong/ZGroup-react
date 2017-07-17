@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Providers\AppServiceProvider;
 use App\StudyClass;
 use Illuminate\Console\Command;
 
@@ -45,7 +46,7 @@ class Activate extends Command
             ->where('name', 'like', '%.%')->get();
         foreach ($classes as $class) {
             foreach ($class->registers as $regis) {
-                send_mail_activate_class($regis, ['test@colorme.vn']);
+                send_mail_activate_class($regis, [AppServiceProvider::$config['email']]);
             }
             $class->activated = 1;
             $class->save();

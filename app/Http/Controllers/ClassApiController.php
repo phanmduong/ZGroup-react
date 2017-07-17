@@ -6,6 +6,7 @@ use App\ClassLesson;
 use App\Colorme\Transformers\ClassTransformer;
 use App\Colorme\Transformers\RegisterToStudentTransformer;
 use App\Gen;
+use App\Providers\AppServiceProvider;
 use App\Register;
 use App\StudyClass;
 use App\StudySession;
@@ -41,7 +42,7 @@ class ClassApiController extends ApiController
             $register->status = 0;
 
             $register->save();
-            send_mail_confirm_registration($this->user, $classId, ["test@colorme.vn"]);
+            send_mail_confirm_registration($this->user, $classId, [AppServiceProvider::$config['email']]);
             return $this->respond(['message' => "Bạn đă đăng kí thành công. Bạn hãy check email để kiểm tra thông tin đăng kí."]);
         }
     }

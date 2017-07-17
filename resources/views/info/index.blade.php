@@ -13,4 +13,5 @@
             </div>
         @endforeach
     </div>
+    <h1>{{$EMAIL_CONFIG}}</h1>
 @endsection

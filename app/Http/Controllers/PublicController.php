@@ -19,6 +19,7 @@ use App\Jobs\CreateSurvey;
 use App\Landing;
 use App\LessonSurvey;
 use App\Product;
+use App\Providers\AppServiceProvider;
 use App\Register;
 use App\Role;
 use App\Shift;
@@ -240,7 +241,7 @@ class PublicController extends Controller
         $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
 
         $register->save();
-        send_mail_confirm_registration($user, $request->class_id, ["test@colorme.vn"]);
+        send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
 
         return redirect('register_success');
     }
@@ -271,7 +272,7 @@ class PublicController extends Controller
         $subject = "Xác nhận đăng kí khoá học " . $course->name;
 
         Mail::send('emails.confirm_email_2', $data, function ($m) use ($user, $subject) {
-            $m->from('test@colorme.vn', 'Color Me');
+            $m->from(AppServiceProvider::$config['email'], 'Color Me');
 
             $m->to($user['email'], $user['name'])->subject($subject);
         });
@@ -703,7 +704,7 @@ class PublicController extends Controller
         $register->coupon = $request->coupon;
 
         $register->save();
-        send_mail_confirm_registration($user, $request->class_id, ["test@colorme.vn"]);
+        send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
 
         return redirect('register_success');
     }

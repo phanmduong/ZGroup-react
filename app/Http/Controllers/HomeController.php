@@ -17,6 +17,7 @@ use App\Lesson;
 use App\Link;
 use App\Order;
 use App\Product;
+use App\Providers\AppServiceProvider;
 use App\Register;
 use App\Room;
 use App\Schedule;
@@ -1378,7 +1379,7 @@ class HomeController extends ManageController
                 $groupMember->save();
             }
 
-            send_mail_confirm_receive_studeny_money($register, ["test@colorme.vn"]);
+            send_mail_confirm_receive_studeny_money($register, [AppServiceProvider::$config['email']]);
             send_sms_confirm_money($register);
 
         }
@@ -1742,7 +1743,7 @@ class HomeController extends ManageController
         $class_id = $request->class_id;
         $class = StudyClass::find($class_id);
         foreach ($class->registers as $regis) {
-            send_mail_activate_class($regis, ['test@colorme.vn']);
+            send_mail_activate_class($regis, [AppServiceProvider::$config['email']]);
         }
         $class->activated = 1;
         $class->status = 0;

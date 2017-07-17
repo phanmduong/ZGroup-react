@@ -342,7 +342,7 @@
                                         <li><b>Hotline</b>: 0168.967.8262 (Gặp Nhi)</li>
                                         <li><b>Website</b>: http://phanmduong.ml/</li>
                                         <li><b>Fanpage</b>: https://www.facebook.com/ColorME.Hanoi</li>
-                                        <li><b>Email</b>: test@colorme.vn</li>
+                                        <li><b>Email</b>: {{$EMAIL_CONFIG}}</li>
                                     </ul>
                                 </td>
                             </tr>

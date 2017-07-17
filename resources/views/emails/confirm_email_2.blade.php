@@ -918,7 +918,7 @@
                                         <li><b>Hotline</b>: 01.689.678.262 (Bạn Nhi)</li>
                                         <li><b>Website</b>: http://phanmduong.ml/</li>
                                         <li><b>Fanpage</b>: https://www.facebook.com/ColorME.Hanoi</li>
-                                        <li><b>Email</b>: test@colorme.vn</li>
+                                        <li><b>Email</b>: {{$EMAIL_CONFIG}}</li>
                                     </ul>
                                 </td>
                             </tr>

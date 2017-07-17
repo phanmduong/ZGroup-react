@@ -6,6 +6,7 @@ use App\Attendance;
 use App\Gen;
 use App\Group;
 use App\GroupMember;
+use App\Providers\AppServiceProvider;
 use App\Register;
 use App\StudyClass;
 use Illuminate\Http\Request;
@@ -87,7 +88,7 @@ class ManageStudentController extends ManageController
         $data['register'] = $register;
 
         $subject = "Xác nhận đã đổi thành công từ lớp $oldClass->name sang lớp $newClass->name";
-        $emailcc = ['test@colorme.vn'];
+        $emailcc = [AppServiceProvider::$config['email']];
         Mail::queue('emails.confirm_change_class', $data, function ($m) use ($user, $subject, $emailcc) {
             $m->from('no-reply@colorme.vn', 'Color Me');
 

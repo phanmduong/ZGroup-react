@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\AppServiceProvider;
 use App\StudyClass;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class ManageClassApiController extends ApiController
         $class_id = $request->class_id;
         $class = StudyClass::find($class_id);
         foreach ($class->registers as $regis) {
-            send_mail_activate_class($regis, ['test@colorme.vn']);
+            send_mail_activate_class($regis, [AppServiceProvider::$config['email']]);
         }
         $class->activated = 1;
         $class->status = 0;

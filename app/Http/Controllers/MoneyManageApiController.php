@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\GroupMember;
+use App\Providers\AppServiceProvider;
 use App\Register;
 use App\Transaction;
 use App\User;
@@ -77,7 +78,7 @@ class MoneyManageApiController extends ApiController
                     $groupMember->save();
                 }
 
-                send_mail_confirm_receive_studeny_money($register, ["test@colorme.vn"]);
+                send_mail_confirm_receive_studeny_money($register, [AppServiceProvider::$config['email']]);
                 send_sms_confirm_money($register);
 
             }

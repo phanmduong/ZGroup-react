@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Colorme\Transformers\RegisterTransformer;
 use App\Colorme\Transformers\StudentTransformer;
 use App\Gen;
+use App\Providers\AppServiceProvider;
 use App\Register;
 use App\TeleCall;
 use App\Transaction;
@@ -111,7 +112,7 @@ class StudentApiController extends ApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
-            send_mail_confirm_receive_studeny_money($register, ["test@colorme.vn"]);
+            send_mail_confirm_receive_studeny_money($register, [AppServiceProvider::$config['email']]);
             send_sms_confirm_money($register);
         }
         $return_data = array(

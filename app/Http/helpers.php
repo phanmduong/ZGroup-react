@@ -1,4 +1,5 @@
 <?php
+use App\Providers\AppServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use \Illuminate\Support\Facades\Storage as Storage;
@@ -352,7 +353,7 @@ function send_mail_delete_register($register, $staff)
     Mail::send('emails.email_delete_register', $data, function ($m) use ($subject) {
         $m->from('no-reply@colorme.vn', 'Color Me');
 
-        $m->to("test@colorme.vn", "Nguyễn Việt Hùng")->subject($subject);
+        $m->to(AppServiceProvider::$config['email'], "Nguyễn Việt Hùng")->subject($subject);
     });
 }
 
