@@ -44,7 +44,7 @@ Route::group(['domain' => 'manage.colorme.{vn}'], function () {
     Route::get('/login', 'PublicController@manage');
 });
 
-Route::group(['domain' => 'api.colorme.{vn}'], function () {
+Route::group(['domain' => 'api.phanmduong.{ml}'], function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
         Route::get('search-registers', 'MoneyManageApiController@search_registers');
@@ -167,6 +167,11 @@ Route::group(['domain' => 'api.colorme.{vn}'], function () {
     // api danh sach dang ki
     Route::get('register-list', 'StudentApiController@registerlist');
     Route::get('call-history', 'StudentApiController@callHistory');
+
+
+    Route::post("manage/child1", 'ManageInfoController@getInfo');
+
+    Route::post("manage/staff/add-staff", "ManageStaffApiController@add_staff");
 });
 
 Route::group(['middleware' => 'web'], function () {
@@ -244,9 +249,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('send-sms', 'ManageSmsController@sendSms');
         Route::get('sms-templates', 'ManageSmsController@smsTemplates');
         Route::get('sms-classes', 'ManageSmsController@smsClasses');
-
     });
-
 
     Route::get('/mua-sach', 'PublicCrawlController@buy_book');
     Route::get('/group/{group_id}', 'PublicController@beta');
@@ -439,8 +442,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/study-history/{student_id}', 'HomeController@study_history');
     Route::get('manage/studentsneedcall/{page?}', 'HomeController@student_needs_call');
     Route::get('manage/keepmoney/{page?}', 'HomeController@keep_money')->middleware(['is_admin']);
-
-    Route::get("manage/child1", 'ManageInfoController@getInfo');
 
     Route::post('manage/storegen', 'HomeController@store_gen');
     Route::post('manage/storecourse', 'HomeController@store_course');
