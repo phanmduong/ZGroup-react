@@ -18,7 +18,7 @@
         <input name="username" type="text" id="username">
         <label for="name">Họ và tên</label>
         <input name="name" type="text" id="name">
-        <label><input type="checkbox" value="" id="marital">Option 1</label>
+        <label><input type="checkbox" value="" id="marital">Tình trạng hôn nhân</label>
     </form>
     <button id="add-staff">THÊM</button>
     <script>
