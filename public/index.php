@@ -6,6 +6,7 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
         || $http_origin == "http://www.colorme.vn"
         || $http_origin == "http://manage.colorme.vn"
         || $http_origin == "http://beta.colorme.vn" || $http_origin == "http://colorme.dev"
+    || $http_origin == "http://phanmduong.dev"
     ) {
         header("Access-Control-Allow-Origin: $http_origin");
     }

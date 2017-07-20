@@ -249,6 +249,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('send-sms', 'ManageSmsController@sendSms');
         Route::get('sms-templates', 'ManageSmsController@smsTemplates');
         Route::get('sms-classes', 'ManageSmsController@smsClasses');
+
     });
 
     Route::get('/mua-sach', 'PublicCrawlController@buy_book');
@@ -599,4 +600,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/create-marketing-campaign', 'ManageMarketingController@create_marketing_campaign');
     Route::post('manage/store-marketing-campaign', 'ManageMarketingController@store_marketing_campaign');
     Route::get('manage/delete-marketing-campaign/{campaign_id}', 'ManageMarketingController@delete_marketing_campaign');
+    Route::get('/manage/staff/add-staff', 'RoleController@add_staff');
 });

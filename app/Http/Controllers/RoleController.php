@@ -23,6 +23,11 @@ class RoleController extends ManageController
         return view('manage.role.index', $this->data);
     }
 
+    public function add_staff()
+    {
+        return view('manage.role.add_staff', $this->data);
+    }
+
     public function nhanViens(Request $request)
     {
         $page = 1;
