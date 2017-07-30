@@ -395,6 +395,7 @@ class HomeController extends ManageController
                 $tab->parent_name = Tab::find($tab->parent_id)->name;
             }
         }
+        dd($this->data);
         return view('role_management/show_tabs', $this->data);
     }
 

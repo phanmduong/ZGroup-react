@@ -39,9 +39,13 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 
 
 //Route::post('/api/topic/{topicId}/images','PublicController@store_images');
-Route::group(['domain' => 'manage.colorme.{vn}'], function () {
+Route::group(['domain' => 'manage.phanmduong.{ml}'], function () {
     Route::get('/', 'PublicController@manage');
     Route::get('/login', 'PublicController@manage');
+});
+
+Route::group(['domain' => 'manageapi.phanmduong.{ml}'], function () {
+    Route::get('/tabs', 'ManageTabApiController@get_tabs');
 });
 
 Route::group(['domain' => 'api.phanmduong.{ml}'], function () {
@@ -52,6 +56,7 @@ Route::group(['domain' => 'api.phanmduong.{ml}'], function () {
         Route::post('activate-class', 'ManageClassApiController@activate_class');
         Route::post('change-class-status', 'ManageClassApiController@change_class_status');
     });
+    Route::get('/duong', 'PublicController@test');
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/refresh-token', 'MobileController@refreshToken');
     Route::get('/bases', 'MobileController@bases');
