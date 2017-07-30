@@ -7,12 +7,11 @@ class LoginComponent extends React.Component {
 
 
   render() {
-
     return (
       <div className="container">
         <div className="card card-container">
           <img id="profile-img" className="profile-img-card"
-               src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475497465dkoRCgGRO68Lbsf.jpg"/>
+               src="http://charitylabs.co.uk/wp-content/uploads/2012/12/The-Z-Principal.jpg"/>
           <p id="profile-name" className="profile-name-card"/>
           <form className="form-signin">
             <span id="reauth-email" className="reauth-email"/>
@@ -30,7 +29,7 @@ class LoginComponent extends React.Component {
 
           </form>
 
-          {(!this.props.isLoading && this.props.token != "") ?
+          {(!this.props.isLoading && this.props.token !== null && this.props.token !== '') ?
             this.context.router.push('/'):
             this.props.isLoading ? (
                 <button className="btn btn-primary btn-lg btn-block btn-signin"><i className="fa fa-spinner fa-spin"/>

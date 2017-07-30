@@ -15,7 +15,7 @@ export function updateFormData(login) {
     loadLoginApi.loadLoginApi(login).then(function (res) {
       dispatch(updatedLoginForm(res));
     }).catch(error => {
-      localStorage.setItem('token', '');
+      localStorage.removeItem('token');
       dispatch(loginError());
       throw (error);
     })
@@ -23,12 +23,27 @@ export function updateFormData(login) {
 }
 
 export function updatedLoginForm(res) {
-  let token = "";
-  if (res.data.user.role != 0) token = res.data.token;
+  let token = null;
+  if (res.data.user.role !== 0) token = res.data.token;
   localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify(res.data.user));
   return ({
     type: types.UPDATED_LOGIN_FORM,
     token: token,
     user: res.data.user
+  })
+}
+
+export function getUserLocal() {
+  return ({
+    type: types.GET_USER_LOCAL,
+    token: localStorage.getItem('token'),
+    user: JSON.parse(localStorage.getItem('user'))
+  });
+}
+
+export function logOut() {
+  return ({
+    type: types.LOG_OUT
   })
 }

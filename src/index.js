@@ -6,8 +6,6 @@ import {Provider} from 'react-redux';
 import {Router, browserHistory} from 'react-router';
 import routes from './routes';
 import configureStore from './store/configureStore';
-import {loadGensData} from './actions/gensActions';
-import * as env from './constants/env';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
 import './styles/bootstrap.css';
 import './styles/react-bootstrap-switch.min.css'; // eslint-disable-line no-use-before-define

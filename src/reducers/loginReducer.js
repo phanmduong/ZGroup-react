@@ -15,6 +15,12 @@ export default function loginReducer(state = initialState.login, action) {
         user: action.user,
         error: false
       });
+    case types.GET_USER_LOCAL:
+      return Object.assign({}, state, {
+        token: action.token,
+        user: action.user,
+        error: false
+      });
     case types.LOGIN_ERROR:
       return Object.assign({}, state, {
         error: true,

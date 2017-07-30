@@ -4,13 +4,25 @@ import loginReducer from './loginReducer';
 import registerListReducer from'./registerListReducer';
 import genListReducer from'./genListReducer';
 import searchRegistersReducer from './searchRegistersReducer';
+import tabsReducer from './tabsReducer';
+import * as types from '../constants/actionTypes';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   dashboard: dashboardReducer,
   login: loginReducer,
   registerList: registerListReducer,
   genList: genListReducer,
-  searchRegisters: searchRegistersReducer
+  searchRegisters: searchRegistersReducer,
+  tabs: tabsReducer,
+
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === types.LOG_OUT) {
+    state = {};
+  }
+
+  return appReducer(state, action);
+}
 
 export default rootReducer;

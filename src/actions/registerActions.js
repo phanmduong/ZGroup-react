@@ -17,7 +17,6 @@ export function loadRegisterListData(page) {
             registers: res.data.registers
           });
         }
-
       });
   };
 }

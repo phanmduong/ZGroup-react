@@ -22,7 +22,7 @@ export default {
   login: {
     email: "",
     password: "",
-    token: "",
+    token: null,
     isLoading: false,
     error: false,
     user: {
@@ -47,6 +47,11 @@ export default {
       users: []
     },
     status: 0
+  },
+  tabs: {
+    tabListData: [],
+    isLoading: false,
+    error: false
   }
 
 };
