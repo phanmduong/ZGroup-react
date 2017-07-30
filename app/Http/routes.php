@@ -39,16 +39,16 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 
 
 //Route::post('/api/topic/{topicId}/images','PublicController@store_images');
-Route::group(['domain' => 'manage.phanmduong.{ml}'], function () {
+Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
     Route::get('/', 'PublicController@manage');
     Route::get('/login', 'PublicController@manage');
 });
 
-Route::group(['domain' => 'manageapi.phanmduong.{ml}'], function () {
+Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
 });
 
-Route::group(['domain' => 'api.phanmduong.{ml}'], function () {
+Route::group(['domain' => 'api.zgroup.{ga}'], function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
         Route::get('search-registers', 'MoneyManageApiController@search_registers');
