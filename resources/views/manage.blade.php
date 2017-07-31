@@ -12,7 +12,6 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"
             integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-    {{--css--}}
     <link href="colorme-manage/main.217f069a9ac437af1fce33f4d0146051.css" rel="stylesheet">
 </head>
 <body>
@@ -20,7 +19,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-{{--js--}}
 <script type="text/javascript" src="colorme-manage/main.cb1b26b604efb74bacae.js"></script>
 </body>
 </html>
