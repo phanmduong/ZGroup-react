@@ -2,11 +2,12 @@
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     $http_origin = $_SERVER['HTTP_ORIGIN'];
-    if ($http_origin == "http://localhost:3000" || $http_origin == "http://phanmduong.ml"
+    if ($http_origin == "http://localhost:3000" || $http_origin == "http://zgroup.ga"
         || $http_origin == "http://www.colorme.vn"
-        || $http_origin == "http://manage.colorme.vn"
+        || $http_origin == "http://manage.zgroup.ga"
         || $http_origin == "http://beta.colorme.vn" || $http_origin == "http://colorme.dev"
-    || $http_origin == "http://phanmduong.dev"
+    || $http_origin == "http://api.zgroup.ga"
+    || $http_origin == "http://manageapi.zgroup.ga"
     ) {
         header("Access-Control-Allow-Origin: $http_origin");
     }
