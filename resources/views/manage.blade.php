@@ -13,7 +13,7 @@
             integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
     {{--css--}}
-    <link href="colorme-manage/main.8a61950b58bceb19b8b797e088e688f5.css" rel="stylesheet">
+    <link href="colorme-manage/main.217f069a9ac437af1fce33f4d0146051.css" rel="stylesheet">
 </head>
 <body>
 <div id="app"></div>
@@ -21,6 +21,6 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 {{--js--}}
-<script type="text/javascript" src="colorme-manage/main.d5d975f940d5c577016e.js"></script>
+<script type="text/javascript" src="colorme-manage/main.cb1b26b604efb74bacae.js"></script>
 </body>
 </html>
