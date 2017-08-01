@@ -11,6 +11,8 @@ namespace App\Http\Controllers;
 
 use App\Providers\AppServiceProvider;
 use App\StudyClass;
+use App\Role;
+use App\Tab;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -24,7 +26,8 @@ class ManageStaffApiController extends ApiController
         parent::__construct();
     }
 
-    public function add_staff(Request $request){
+    public function add_staff(Request $request)
+    {
         $errors = [];
         $user = User::where('email', '=', $request->email)->first();
         if ($user) {
@@ -44,14 +47,30 @@ class ManageStaffApiController extends ApiController
         $user->email = $request->email;
         $user->username = $username;
         $user->marital = $request->marital;
-        $user->role= 1;
-        $user->role_id= 17;
+        $user->role = 1;
+        $user->role_id = 17;
 
 
         $user->password = bcrypt('123456');
         $user->save();
         return $this->respondSuccessWithStatus([
             "user" => $user
+        ]);
+    }
+
+    public function get_staffs()
+    {
+        $nhanViens = User::where('role', ">", 0)->get();
+        return $this->respondSuccessWithStatus([
+            'staffs' => $nhanViens
+        ]);
+    }
+
+    public function get_roles()
+    {
+        $roles = Role::orderBy('created_at', 'desc')->get();
+        return $this->respondSuccessWithStatus([
+            'roles' => $roles
         ]);
     }
 }

@@ -46,6 +46,8 @@ Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 
 Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
+    Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
+    Route::get('/get-roles', 'ManageStaffApiController@get_roles');
 });
 
 Route::group(['domain' => 'api.zgroup.{ga}'], function () {
