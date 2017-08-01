@@ -5,6 +5,7 @@ import registerListReducer from'./registerListReducer';
 import genListReducer from'./genListReducer';
 import searchRegistersReducer from './searchRegistersReducer';
 import tabsReducer from './tabsReducer';
+import staffsReducer from './staffsReducer';
 import * as types from '../constants/actionTypes';
 
 const appReducer = combineReducers({
@@ -14,6 +15,7 @@ const appReducer = combineReducers({
   genList: genListReducer,
   searchRegisters: searchRegistersReducer,
   tabs: tabsReducer,
+  staffs: staffsReducer,
 
 });
 

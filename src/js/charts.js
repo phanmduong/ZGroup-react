@@ -18,7 +18,7 @@ export function barChartSingleLine(id, labels, data) {
     ]
   };
 
-  new Chart(barChartContext).Bar(dataBarChart);
+  new Chart(barChartContext).Bar(dataBarChart);// eslint-disable-line
 }
 
 export function barChartDoubleLine(id, labels, data1, data2) {
@@ -48,7 +48,7 @@ export function barChartDoubleLine(id, labels, data1, data2) {
     ]
   };
 
-  new Chart(barChartContext).Bar(dataBarChart);
+  new Chart(barChartContext).Bar(dataBarChart); // eslint-disable-line
 }
 
 export function lineChart(id, labels, data) {
@@ -70,7 +70,7 @@ export function lineChart(id, labels, data) {
     ]
   };
 
-  new Chart(moneyByDateLineChartContext).Line(moneyByDateLineChartData);
+  new Chart(moneyByDateLineChartContext).Line(moneyByDateLineChartData);// eslint-disable-line
 }
 export function pieChart(id) {
   let pieChartContext = $(id).get(0).getContext("2d");
@@ -95,8 +95,7 @@ export function pieChart(id) {
     }
   ];
 
-  // eslint-disable-next-line no-use-before-define
-  new Chart(pieChartContext)
+  new Chart(pieChartContext) // eslint-disable-line
     .Pie(dataChart, {
       animateRotate: false
     });
