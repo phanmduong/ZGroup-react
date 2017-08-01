@@ -2,6 +2,7 @@ import React from 'react';
 import Loading from '../common/Loading';
 import Search from '../common/Search';
 import Header from '../Header';
+import ListStaff from './ListStaff';
 
 let that;
 class ManageStaffsComponent extends React.Component {
@@ -20,15 +21,14 @@ class ManageStaffsComponent extends React.Component {
                         value={this.value}
                         placeholder="Tìm kiếm nhân viên"
                     />
-                    {/*{this.props.isLoading ? <Loading/> : (*/}
-                        {/*<ul className="nav">*/}
-                            {/*{this.props.users.map(function (user, index) {*/}
-                                {/*return (<DropdownStudent index={index} key={index} user={user} next_code={that.props.next_code}*/}
-                                                         {/*onChangeDropdown={that.changeDropdownOpen} idDowndown={that.state.idDropdown}/>);*/}
-                            {/*})}*/}
-                        {/*</ul>*/}
-                    {/*)*/}
-                    {/*}*/}
+                    {this.props.isLoadingStaffs ? <Loading/> : (
+                        <ListStaff
+                            staffs={this.props.staffListData}
+                            roles={this.props.roleListData}
+                            bases={this.props.baseListData}
+                        />
+                    )
+                    }
                 </div>
             </div>
         );

@@ -57,6 +57,17 @@ export default {
         staffListData: [],
         isLoading: false,
         error: false,
-    }
+    },
+   roles: {
+        roleListData: [],
+        isLoading: false,
+        error: false,
+    },
+    base: {
+        baseData: [],
+        isLoading: false,
+        error: false,
+        selectedBaseId: -1
+    },
 
 };
