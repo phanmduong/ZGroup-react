@@ -73,4 +73,14 @@ class ManageStaffApiController extends ApiController
             'roles' => $roles
         ]);
     }
+
+    public function change_role(Request $request)
+    {
+        $role_id = $request->role_id;
+        $staff = User::find($request->staff_id);
+        $staff->role = 1;
+        $staff->role_id = $role_id;
+        $staff->save();
+        return $this->respondSuccessWithStatus(['message'=> "Thay đổi chức vụ thành công"]);
+    }
 }

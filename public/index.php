@@ -7,7 +7,9 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
         || $http_origin == "http://manage.zgroup.ga"
         || $http_origin == "http://zgroup.dev" || $http_origin == "http://manage.zgroup.dev"
     || $http_origin == "http://api.zgroup.ga"
+    || $http_origin == "http://api.zgroup.dev"
     || $http_origin == "http://manageapi.zgroup.ga"
+    || $http_origin == "http://manageapi.zgroup.dev"
     ) {
         header("Access-Control-Allow-Origin: $http_origin");
     }

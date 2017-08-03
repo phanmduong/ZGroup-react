@@ -816,4 +816,9 @@ class PublicController extends Controller
     {
         return view('manage');
     }
+
+    public function redirectManage()
+    {
+        return redirect('http://manage.zgroup.ga');
+    }
 }
