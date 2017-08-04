@@ -40,7 +40,7 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 //Route::post('/api/topic/{topicId}/images','PublicController@store_images');
 Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
     Route::get('/login', 'PublicController@manage');
-    Route::get('/*', 'PublicController@manage');
+    Route::get('/', 'PublicController@manage');
 });
 
 Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
@@ -186,7 +186,7 @@ Route::group(['domain' => 'api.zgroup.{ga}'], function () {
 
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('/', 'PublicController@redirectManage');
+//    Route::get('/', 'PublicController@redirectManage');
 
 //    Route::group(['domain' => 'beta.colorme.{vn}'], function () {
 //        Route::get('/', 'PublicController@beta');
