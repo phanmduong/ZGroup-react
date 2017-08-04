@@ -182,7 +182,7 @@ class UserApiController extends ApiController
 
     public function delete_file($domain, Request $request)
     {
-        deleteFileFromS3($request->file_name);
+//        deleteFileFromS3($request->file_name);
         return $this->respond(['message' => "Xoá file thành công"]);
     }
 

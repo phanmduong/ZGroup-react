@@ -81,8 +81,8 @@ class PublicApiController extends ApiController
 
     public function delete_image_froala($domain, Request $request)
     {
-        $file_name = explode(".net", $request->src)[1];
-        deleteFileFromS3($file_name);
+//        $file_name = explode(".net", $request->src)[1];
+//        deleteFileFromS3($file_name);
         return $this->respond(['message' => "Xoá file thành công"]);
     }
 
