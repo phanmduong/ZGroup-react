@@ -138,6 +138,38 @@ export default function staffsReducer(state = initialState.staffs, action) {
                     errorChangeBaseStaff: action.errorChangeBaseStaff,
                 }
             };
+        case types.BEGIN_LOAD_STAFF_DATA:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        isLoadingStaff: action.isLoadingStaff,
+                        errorStaff: action.errorStaff,
+                        staff: action.staff
+                    }
+                }
+            };
+        case types.LOAD_STAFF_DATA_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        isLoadingStaff: action.isLoadingStaff,
+                        errorStaff: action.errorStaff,
+                        staff: action.staff
+                    }
+                }
+            };
+        case types.LOAD_STAFF_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        isLoadingStaff: action.isLoadingStaff,
+                        errorStaff: action.errorStaff,
+                    }
+                }
+            };
         default:
             return state;
     }

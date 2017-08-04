@@ -1,4 +1,5 @@
 import React from 'react';
+import {browserHistory} from 'react-router';
 
 let self;
 
@@ -6,6 +7,10 @@ class ListStaff extends React.Component {
     constructor(props, context) {
         super(props, context);
         self = this;
+    }
+
+    editStaff(staffId){
+        browserHistory.push(`staff/${staffId}/edit`);
     }
 
     render() {
@@ -77,7 +82,8 @@ class ListStaff extends React.Component {
                                         }
 
                                     </td>
-                                    <td className="icon-edit-staff"><i className="fa fa-pencil" aria-hidden="true"/></td>
+                                    <td className="icon-edit-staff" onClick={()=>self.editStaff(staff.id)}><i
+                                        className="fa fa-pencil" aria-hidden="true"/></td>
                                 </tr>
                             )
                         })}

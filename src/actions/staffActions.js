@@ -208,5 +208,46 @@ export function changeBaseStaffError() {
         ;
 }
 
+export function beginLoadStaffData() {
+    return {
+        type: types.BEGIN_LOAD_STAFF_DATA,
+        isLoadingStaff: true,
+        errorStaff: false,
+        staff: {}
+    };
+}
+
+export function loadStaffData(staffId) {
+    return function (dispatch) {
+        dispatch(beginLoadStaffData());
+        staffApi.getStaff(staffId)
+            .then(function (res) {
+                dispatch(loadStaffDataSucessful(res));
+            }).catch(() => {
+            dispatch(loadStaffsDataError());
+        });
+    };
+}
+
+export function loadStaffDataSucessful(res) {
+    return (
+        {
+            type: types.LOAD_STAFF_DATA_SUCCESSFUL,
+            staff: res.data.data.staff,
+            status: res.data.status,
+            isLoadingStaff: false,
+            errorStaff: false
+        })
+        ;
+}
+
+export function loadStaffDataError() {
+    return ({
+        type: types.LOAD_STAFF_DATA_ERROR,
+        isLoadingStaff: false,
+        errorStaff: true
+    });
+}
+
 
 

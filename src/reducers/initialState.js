@@ -73,6 +73,11 @@ export default {
             isLoading: false,
             error: false
         },
+        editStaff:{
+            isLoadingStaff: false,
+            errorStaff: false,
+            staff:{}
+        },
         messageChangeRoleStaff: null,
         isLoadingChangeRoleStaff: false,
         errorChangeRoleStaff: false,

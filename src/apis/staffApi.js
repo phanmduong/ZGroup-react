@@ -7,8 +7,8 @@ export function addStaff(staff) {
     if (token) {
         url += "?token=" + token;
     }
-console.log(staff);
-    return axios.post(url,{
+    console.log(staff);
+    return axios.post(url, {
         name: staff.name,
         email: staff.email,
         username: staff.email,
@@ -57,4 +57,14 @@ export function changeBaseStaff(staffId, baseId) {
         staff_id: staffId,
         base_id: baseId
     });
+}
+
+export function getStaff(staffId) {
+    let url = env.MANAGE_API_URL + "/staff/" + staffId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
 }
