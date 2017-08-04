@@ -94,8 +94,8 @@ class AddStaffComponent extends React.Component {
                             </select>
                         </div>
                         <FormInputDate
-                            placeholder="Nhập quê quán"
-                            label="Quê quán"
+                            placeholder="Nhập ngày hoạt động"
+                            label="Hoạt đông trong công ty từ"
                             name="start_company"
                             updateFormData={this.props.updateFormData}
                             value={start_company}

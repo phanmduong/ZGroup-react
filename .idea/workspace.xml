@@ -1,41 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a9ec4db4-89f3-455b-8b9d-800995c92f6c" name="Default" comment="list staff">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/AddStaffComponent.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/common/FormInputDate.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/common/FormInputSelect.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/common/FormInputText.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/constants/constants.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/containers/AddStaffContainer.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.217f069a9ac437af1fce33f4d0146051.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.217f069a9ac437af1fce33f4d0146051.css.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.cb1b26b604efb74bacae.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.cb1b26b604efb74bacae.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/css/bootstrap-rtl.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/css/bootstrap.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/css/plugins/morris.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/css/sb-admin-rtl.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/css/sb-admin.css" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/Header.js" afterPath="$PROJECT_DIR$/src/components/common/Header.js" />
+    <list default="true" id="a9ec4db4-89f3-455b-8b9d-800995c92f6c" name="Default" comment="add staff and change role">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.6d97bfe0465da8bc855025d4dfcd110d.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.6d97bfe0465da8bc855025d4dfcd110d.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.95e7a05e3a4b0bb46e84.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.95e7a05e3a4b0bb46e84.js.map" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/index.html" afterPath="$PROJECT_DIR$/dist/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/roleActions.js" afterPath="$PROJECT_DIR$/src/actions/roleActions.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/staffActions.js" afterPath="$PROJECT_DIR$/src/actions/staffActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/apis/roleApi.js" afterPath="$PROJECT_DIR$/src/apis/roleApi.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/apis/staffApi.js" afterPath="$PROJECT_DIR$/src/apis/staffApi.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/common/Search.js" afterPath="$PROJECT_DIR$/src/components/common/Search.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/financialManager/collectMoney/TextSearchRegisters.js" afterPath="$PROJECT_DIR$/src/components/financialManager/collectMoney/TextSearchRegisters.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/AddStaffComponent.js" afterPath="$PROJECT_DIR$/src/components/AddStaffComponent.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/LoginComponent.js" afterPath="$PROJECT_DIR$/src/components/LoginComponent.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manageStaff/ListStaff.js" afterPath="$PROJECT_DIR$/src/components/manageStaff/ListStaff.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manageStaff/ManageStaffsComponent.js" afterPath="$PROJECT_DIR$/src/components/manageStaff/ManageStaffsComponent.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/constants/actionTypes.js" afterPath="$PROJECT_DIR$/src/constants/actionTypes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/DashboardContainer.js" afterPath="$PROJECT_DIR$/src/containers/DashboardContainer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/ManageStaffsContainer.js" afterPath="$PROJECT_DIR$/src/containers/ManageStaffsContainer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/financialManager/CollectMoneyContainer.js" afterPath="$PROJECT_DIR$/src/containers/financialManager/CollectMoneyContainer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/initialState.js" afterPath="$PROJECT_DIR$/src/reducers/initialState.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/rolesReducer.js" afterPath="$PROJECT_DIR$/src/reducers/rolesReducer.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/staffsReducer.js" afterPath="$PROJECT_DIR$/src/reducers/staffsReducer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes.js" afterPath="$PROJECT_DIR$/src/routes.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/sb-admin.css" afterPath="$PROJECT_DIR$/src/styles/sb-admin.css" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -56,8 +38,8 @@
       <file leaf-file-name="ManageStaffsContainer.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/containers/ManageStaffsContainer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="33" column="78" lean-forward="false" selection-start-line="33" selection-start-column="78" selection-end-line="33" selection-end-column="78" />
+            <state relative-caret-position="320">
+              <caret line="29" column="19" lean-forward="false" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="19" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -68,8 +50,8 @@
       <file leaf-file-name="ManageStaffsComponent.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/manageStaff/ManageStaffsComponent.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="27" lean-forward="false" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
+            <state relative-caret-position="465">
+              <caret line="38" column="29" lean-forward="true" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -80,72 +62,38 @@
       <file leaf-file-name="ListStaff.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/manageStaff/ListStaff.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="534">
-              <caret line="57" column="82" lean-forward="false" selection-start-line="57" selection-start-column="82" selection-end-line="57" selection-end-column="82" />
+            <state relative-caret-position="207">
+              <caret line="39" column="91" lean-forward="false" selection-start-line="39" selection-start-column="76" selection-end-line="39" selection-end-column="91" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="staffActions.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="staffActions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/actions/staffActions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="116" column="22" lean-forward="false" selection-start-line="116" selection-start-column="22" selection-end-line="116" selection-end-column="22" />
+            <state relative-caret-position="468">
+              <caret line="190" column="24" lean-forward="false" selection-start-line="190" selection-start-column="24" selection-end-line="190" selection-end-column="24" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddStaffContainer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/AddStaffContainer.js">
+      <file leaf-file-name="actionTypes.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/constants/actionTypes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="18" column="40" lean-forward="false" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
-              <folding>
-                <element signature="e#44#70#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FormInputDate.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/common/FormInputDate.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="56" lean-forward="false" selection-start-line="18" selection-start-column="56" selection-end-line="18" selection-end-column="56" />
+            <state relative-caret-position="483">
+              <caret line="36" column="36" lean-forward="false" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Search.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/common/Search.js">
+      <file leaf-file-name="staffsReducer.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/reducers/staffsReducer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="12" lean-forward="true" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddStaffComponent.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/AddStaffComponent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="95" column="38" lean-forward="false" selection-start-line="95" selection-start-column="38" selection-end-line="95" selection-end-column="38" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FormInputSelect.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/common/FormInputSelect.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" column="18" lean-forward="false" selection-start-line="9" selection-start-column="12" selection-end-line="28" selection-end-column="18" />
+            <state relative-caret-position="169">
+              <caret line="111" column="57" lean-forward="false" selection-start-line="111" selection-start-column="42" selection-end-line="111" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -154,8 +102,8 @@
       <file leaf-file-name="initialState.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/reducers/initialState.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="472">
-              <caret line="73" column="24" lean-forward="false" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
+            <state relative-caret-position="594">
+              <caret line="80" column="36" lean-forward="true" selection-start-line="80" selection-start-column="36" selection-end-line="80" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -184,6 +132,9 @@
       <find>ChangeRole</find>
       <find>id</find>
       <find>LOAD_STAFFS</find>
+      <find>BEGIN_CHANGE_BASE_STAFF</find>
+      <find>Role</find>
+      <find>ROLE</find>
     </findStrings>
     <replaceStrings>
       <replace>STAFF</replace>
@@ -191,6 +142,8 @@
       <replace>ChangeRoleStaff</replace>
       <replace>name</replace>
       <replace>ADD_STAFF</replace>
+      <replace>Base</replace>
+      <replace>BASE</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -217,23 +170,24 @@
         <option value="$PROJECT_DIR$/src/components/financialManager/collectMoney/TextSearchRegisters.js" />
         <option value="$PROJECT_DIR$/src/css/sb-admin.css" />
         <option value="$PROJECT_DIR$/src/routes.js" />
-        <option value="$PROJECT_DIR$/src/components/manageStaff/ManageStaffsComponent.js" />
         <option value="$PROJECT_DIR$/src/components/common/FormInput.js" />
         <option value="$PROJECT_DIR$/src/constants/constants.js" />
-        <option value="$PROJECT_DIR$/src/styles/sb-admin.css" />
         <option value="$PROJECT_DIR$/src/components/common/FormInputText.js" />
         <option value="$PROJECT_DIR$/src/components/common/FormInputSelect.js" />
-        <option value="$PROJECT_DIR$/src/constants/actionTypes.js" />
-        <option value="$PROJECT_DIR$/src/actions/staffActions.js" />
-        <option value="$PROJECT_DIR$/src/apis/staffApi.js" />
-        <option value="$PROJECT_DIR$/src/reducers/staffsReducer.js" />
-        <option value="$PROJECT_DIR$/src/components/AddStaffComponent.js" />
-        <option value="$PROJECT_DIR$/src/containers/ManageStaffsContainer.js" />
-        <option value="$PROJECT_DIR$/src/components/manageStaff/ListStaff.js" />
-        <option value="$PROJECT_DIR$/src/reducers/initialState.js" />
         <option value="$PROJECT_DIR$/src/containers/AddStaffContainer.js" />
         <option value="$PROJECT_DIR$/src/components/common/FormInputDate.js" />
         <option value="$PROJECT_DIR$/src/components/common/Search.js" />
+        <option value="$PROJECT_DIR$/src/components/AddStaffComponent.js" />
+        <option value="$PROJECT_DIR$/src/styles/sb-admin.css" />
+        <option value="$PROJECT_DIR$/src/components/LoginComponent.js" />
+        <option value="$PROJECT_DIR$/src/apis/staffApi.js" />
+        <option value="$PROJECT_DIR$/src/actions/staffActions.js" />
+        <option value="$PROJECT_DIR$/src/constants/actionTypes.js" />
+        <option value="$PROJECT_DIR$/src/reducers/initialState.js" />
+        <option value="$PROJECT_DIR$/src/containers/ManageStaffsContainer.js" />
+        <option value="$PROJECT_DIR$/src/components/manageStaff/ManageStaffsComponent.js" />
+        <option value="$PROJECT_DIR$/src/components/manageStaff/ListStaff.js" />
+        <option value="$PROJECT_DIR$/src/reducers/staffsReducer.js" />
       </list>
     </option>
   </component>
@@ -281,11 +235,6 @@
             <path>
               <item name="ZGroup-react" type="b2602c69:ProjectViewProjectNode" />
               <item name="ZGroup-react" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ZGroup-react" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ZGroup-react" type="462c0819:PsiDirectoryNode" />
-              <item name="dist" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ZGroup-react" type="b2602c69:ProjectViewProjectNode" />
@@ -421,7 +370,7 @@
       <workItem from="1501464625775" duration="2552000" />
       <workItem from="1501579432890" duration="3120000" />
       <workItem from="1501595518574" duration="5600000" />
-      <workItem from="1501776894318" duration="23325000" />
+      <workItem from="1501776894318" duration="29620000" />
     </task>
     <task id="LOCAL-00001" summary="update code">
       <created>1501602295931</created>
@@ -437,11 +386,18 @@
       <option name="project" value="LOCAL" />
       <updated>1501609957939</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add staff and change role">
+      <created>1501851270765</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1501851270765</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37900000" />
+    <option name="totallyTimeSpent" value="44195000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -454,7 +410,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3523608" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -464,7 +419,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34824666" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34824666" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -484,7 +439,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="update code" />
     <MESSAGE value="list staff" />
-    <option name="LAST_COMMIT_MESSAGE" value="list staff" />
+    <MESSAGE value="add staff and change role" />
+    <option name="LAST_COMMIT_MESSAGE" value="add staff and change role" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -671,55 +627,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="13" column="23" lean-forward="false" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
           <folding>
             <element signature="e#335#367#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="36" lean-forward="false" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/styles/sb-admin.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="219" column="0" lean-forward="true" selection-start-line="219" selection-start-column="0" selection-end-line="219" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/LoginContainer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="3" lean-forward="true" selection-start-line="30" selection-start-column="2" selection-end-line="37" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#39#0" expanded="false" />
-            <element signature="e#203#259#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -758,14 +671,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/common/Header.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/FormInputText.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -774,42 +679,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/constants/actionTypes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="35" column="46" lean-forward="false" selection-start-line="35" selection-start-column="37" selection-end-line="35" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/constants/env.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/LoginComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="34" column="80" lean-forward="false" selection-start-line="34" selection-start-column="80" selection-end-line="34" selection-end-column="118" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/apis/staffApi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="9" column="19" lean-forward="false" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/reducers/staffsReducer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="713">
-          <caret line="104" column="60" lean-forward="false" selection-start-line="104" selection-start-column="60" selection-end-line="104" selection-end-column="60" />
           <folding />
         </state>
       </provider>
@@ -830,64 +703,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/actions/staffActions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="116" column="22" lean-forward="false" selection-start-line="116" selection-start-column="22" selection-end-line="116" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/FormInputSelect.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="28" column="18" lean-forward="false" selection-start-line="9" selection-start-column="12" selection-end-line="28" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/manageStaff/ManageStaffsComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="27" lean-forward="false" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/ManageStaffsContainer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="33" column="78" lean-forward="false" selection-start-line="33" selection-start-column="78" selection-end-line="33" selection-end-column="78" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/manageStaff/ListStaff.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="534">
-          <caret line="57" column="82" lean-forward="false" selection-start-line="57" selection-start-column="82" selection-end-line="57" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AddStaffComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="95" column="38" lean-forward="false" selection-start-line="95" selection-start-column="38" selection-end-line="95" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/reducers/initialState.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="73" column="24" lean-forward="false" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
           <folding />
         </state>
       </provider>
@@ -912,8 +731,144 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/common/Search.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="12" lean-forward="true" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+        <state relative-caret-position="30">
+          <caret line="2" column="51" lean-forward="true" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/LoginContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="37" column="3" lean-forward="true" selection-start-line="30" selection-start-column="2" selection-end-line="37" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12">
+          <caret line="14" column="47" lean-forward="false" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AddStaffComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="41" lean-forward="false" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/common/Header.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="10" lean-forward="true" selection-start-line="4" selection-start-column="4" selection-end-line="15" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2287">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="19" lean-forward="true" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/styles/sb-admin.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="241" column="0" lean-forward="true" selection-start-line="241" selection-start-column="0" selection-end-line="241" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/apis/staffApi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="48" column="31" lean-forward="false" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/constants/actionTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="36" column="36" lean-forward="false" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/LoginComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="31" lean-forward="false" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reducers/initialState.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="80" column="36" lean-forward="true" selection-start-line="80" selection-start-column="36" selection-end-line="80" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reducers/staffsReducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="111" column="57" lean-forward="false" selection-start-line="111" selection-start-column="42" selection-end-line="111" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/manageStaff/ListStaff.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="39" column="91" lean-forward="false" selection-start-line="39" selection-start-column="76" selection-end-line="39" selection-end-column="91" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/manageStaff/ManageStaffsComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="38" column="29" lean-forward="true" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/ManageStaffsContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="29" column="19" lean-forward="false" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/actions/staffActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="190" column="24" lean-forward="false" selection-start-line="190" selection-start-column="24" selection-end-line="190" selection-end-column="24" />
           <folding />
         </state>
       </provider>

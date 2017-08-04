@@ -59,7 +59,7 @@ export default {
         error: false,
         addStaff: {
             staffForm: {
-                name: '123',
+                name: '',
                 email: '',
                 phone: '',
                 age: 0,
@@ -68,13 +68,19 @@ export default {
                 marital: 0,
                 literacy: 0,
                 role: 0,
-                start_company: new Date().toISOString().slice(0,10)
+                start_company: new Date().toISOString().slice(0, 10)
             },
             isLoading: false,
             error: false
-        }
+        },
+        messageChangeRoleStaff: null,
+        isLoadingChangeRoleStaff: false,
+        errorChangeRoleStaff: false,
+        messageChangeBaseStaff: null,
+        isLoadingChangeBaseStaff: false,
+        errorChangeBaseStaff: false,
     },
-   roles: {
+    roles: {
         roleListData: [],
         isLoading: false,
         error: false,

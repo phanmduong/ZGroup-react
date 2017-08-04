@@ -60,7 +60,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
             return {
                 ...state,
                 ...{
-                    message: action.message,
+                    messageChangeRoleStaff: action.messageChangeRoleStaff,
                     isLoadingChangeRoleStaff: action.isLoadingChangeRoleStaff,
                     errorChangeRoleStaff: action.errorChangeRoleStaff,
                 }
@@ -108,6 +108,36 @@ export default function staffsReducer(state = initialState.staffs, action) {
                     }
                 }
             };
+        case types.BEGIN_CHANGE_BASE_STAFF:
+            let staffListDataChangeBase = changeBaseStaff(action.staffId, action.baseId, state.staffListData);
+            return {
+                ...state,
+                ...{
+                    messageChangeBaseStaff: action.messageChangeBaseStaff,
+                    isLoadingChangeBaseStaff: action.isLoadingChangeBaseStaff,
+                    errorChangeBaseStaff: action.errorChangeBaseStaff,
+                    staffListData: staffListDataChangeBase
+                }
+            }
+                ;
+        case types.CHANGE_BASE_STAFF_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    messageChangeBaseStaff: action.messageChangeBaseStaff,
+                    isLoadingChangeBaseStaff: action.isLoadingChangeBaseStaff,
+                    errorChangeBaseStaff: action.errorChangeBaseStaff,
+                }
+            };
+        case types.CHANGE_BASE_STAFF_ERROR:
+            return {
+                ...state,
+                ...{
+                    messageChangeBaseStaff: action.messageChangeBaseStaff,
+                    isLoadingChangeBaseStaff: action.isLoadingChangeBaseStaff,
+                    errorChangeBaseStaff: action.errorChangeBaseStaff,
+                }
+            };
         default:
             return state;
     }
@@ -118,6 +148,18 @@ function changeRoleStaff(staffId, roleId, staffListData) {
         staffListData = staffListData.map(function (staff) {
             if (staff.id === staffId) {
                 return {...staff, role_id: roleId};
+            }
+            else return staff;
+        });
+    }
+    return staffListData;
+}
+
+function changeBaseStaff(staffId, baseId, staffListData) {
+    if (staffListData) {
+        staffListData = staffListData.map(function (staff) {
+            if (staff.id === staffId) {
+                return {...staff, base_id: baseId};
             }
             else return staff;
         });

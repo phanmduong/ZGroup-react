@@ -45,3 +45,16 @@ export function changeRoleStaff(staffId, roleId) {
         role_id: roleId
     });
 }
+
+export function changeBaseStaff(staffId, baseId) {
+    let url = env.MANAGE_API_URL + "/change-base-staff";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        staff_id: staffId,
+        base_id: baseId
+    });
+}

@@ -12,6 +12,7 @@ class CollectMoneyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeRoleStaff = this.changeRoleStaff.bind(this);
+        this.changeBaseStaff = this.changeBaseStaff.bind(this);
     }
 
     componentWillMount() {
@@ -26,12 +27,18 @@ class CollectMoneyContainer extends React.Component {
         this.props.staffActions.changeRoleStaff(staffId, roleId);
     }
 
+    changeBaseStaff(staffId, baseId){
+        this.props.staffActions.changeBaseStaff(staffId, baseId);
+    }
+
     render() {
+        let roleListData = (this.props.roleListData !== undefined) ?  this.props.roleListData : [];
         return (
             <ManageStaffsComponent
                 {...this.props}
                 changeRoleStaff={this.changeRoleStaff}
-                roleListData={[{id: 0, role_title:''}, ...this.props.roleListData]}
+                changeBaseStaff={this.changeBaseStaff}
+                roleListData={[{id: 0, role_title:''}, ...roleListData]}
             />
         );
     }

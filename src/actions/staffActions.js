@@ -160,5 +160,53 @@ export function addStaffDataError(data) {
         ;
 }
 
+export function beginChangeBaseStaff(staffId, baseId) {
+    toastr.info('Đang thay đổi cơ sở');
+    return {
+        type: types.BEGIN_CHANGE_BASE_STAFF,
+        isLoadingChangeBaseStaff: true,
+        errorChangeBaseStaff: false,
+        messageChangeBaseStaff: null,
+        staffId: staffId,
+        baseId: baseId
+    };
+}
+
+export function changeBaseStaff(staffId, baseId) {
+    return function (dispatch) {
+        dispatch(beginChangeBaseStaff(staffId, baseId));
+        staffApi.changeBaseStaff(staffId, baseId)
+            .then(function (res) {
+                dispatch(changeBaseStaffSucessful(res));
+            }).catch((error) => {
+            dispatch(changeBaseStaffError(error));
+        });
+    };
+}
+
+export function changeBaseStaffSucessful(res) {
+    toastr.success(res.data.data.message);
+    return (
+        {
+            type: types.CHANGE_BASE_STAFF_SUCCESSFUL,
+            messageChangeBaseStaff: res.data.data.message,
+            isLoadingChangeBaseStaff: false,
+            errorChangeBaseStaff: false,
+        })
+        ;
+}
+
+export function changeBaseStaffError() {
+    toastr.error('Thay đổi cơ sở thất bại');
+    return (
+        {
+            type: types.CHANGE_BASE_STAFF_ERROR,
+            messageChangeBaseStaff: null,
+            isLoadingChangeBaseStaff: false,
+            errorChangeBaseStaff: true,
+        })
+        ;
+}
+
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
+import {Link} from 'react-router';
 import Loading from '../common/Loading';
 import Search from '../common/Search';
-import Header from '../common/Header';
 import ListStaff from './ListStaff';
 import {browserHistory} from 'react-router';
 
@@ -18,10 +18,14 @@ class ManageStaffsComponent extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-                    <Header header="Nhân viên" title="Quản lý nhân sự" iconTitle="fa fa-edit"/>
+                    <ul className="nav nav-tabs">
+                        <li className="active"><Link to="/manage/quan-li-nhan-su">Nhân viên</Link></li>
+                        <li><Link to="/role">Chức vụ</Link></li>
+                    </ul>
                     <button
                         type="button"
                         className="btn btn-danger"
+                        id="button-add-staff"
                         onClick={() => this.redirectAddStaff()}
                     >
                         Thêm nhân viên
@@ -37,6 +41,7 @@ class ManageStaffsComponent extends React.Component {
                             roles={this.props.roleListData}
                             bases={this.props.baseListData}
                             changeRoleStaff={this.props.changeRoleStaff}
+                            changeBaseStaff={this.props.changeBaseStaff}
                         />
                     )
                     }
