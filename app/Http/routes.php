@@ -43,6 +43,10 @@ Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
     Route::get('/', 'PublicController@manage');
 });
 
+Route::group(['domain' => 'zgroup.{ga}'], function () {
+    Route::get('/', 'PublicController@redirectManage');
+});
+
 Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
     Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
