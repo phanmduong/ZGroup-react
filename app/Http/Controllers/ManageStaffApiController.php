@@ -89,4 +89,12 @@ class ManageStaffApiController extends ApiController
         $staff->save();
         return $this->respondSuccessWithStatus(['message'=> "Thay đổi chức vụ thành công"]);
     }
+
+    public function change_base(Request $request)
+    {
+        $staff = User::find($request->staff_id);
+        $staff->base_id = $request->base_id;;
+        $staff->save();
+        return $this->respondSuccessWithStatus(['message'=> "Thay đổi cơ sở thành công"]);
+    }
 }

@@ -54,6 +54,7 @@ Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
     Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
     Route::get('/get-roles', 'ManageStaffApiController@get_roles');
     Route::post('change-role-staff', 'ManageStaffApiController@change_role');
+    Route::post('change-base-staff', 'ManageStaffApiController@change_base');
     Route::post('add-staff', "ManageStaffApiController@add_staff");
 });
 

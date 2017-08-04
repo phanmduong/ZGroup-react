@@ -12,13 +12,13 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"
             integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-    <link href="colorme-manage/main.6d97bfe0465da8bc855025d4dfcd110d.css" rel="stylesheet">
+    <link href="colorme-manage/main.acf475cf085d184f5bd2c02e39daddcd.css" rel="stylesheet">
 </head>
 <body>
 <div id="app"></div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="colorme-manage/main.7c1cb606f317d02a7201.js"></script>
+<script type="text/javascript" src="colorme-manage/main.3720e57f9642aeb25735.js"></script>
 </body>
 </html>
