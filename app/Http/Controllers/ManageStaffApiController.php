@@ -24,6 +24,7 @@ class ManageStaffApiController extends ApiController
     public function __construct()
     {
         parent::__construct();
+        $this->middleware('is_admin');
     }
 
     public function add_staff(Request $request)
@@ -72,6 +73,12 @@ class ManageStaffApiController extends ApiController
         ]);
     }
 
+    public function get_staff($domain, $staffId)
+    {
+        $staff = User::find($staffId);
+        return $this->respondSuccessWithStatus(['staff' => $staff]);
+    }
+
     public function get_roles()
     {
         $roles = Role::orderBy('created_at', 'desc')->get();
@@ -84,10 +91,12 @@ class ManageStaffApiController extends ApiController
     {
         $role_id = $request->role_id;
         $staff = User::find($request->staff_id);
-        $staff->role = 1;
+        if ($staff->role != 2) {
+            $staff->role = 1;
+        }
         $staff->role_id = $role_id;
         $staff->save();
-        return $this->respondSuccessWithStatus(['message'=> "Thay đổi chức vụ thành công"]);
+        return $this->respondSuccessWithStatus(['message' => "Thay đổi chức vụ thành công"]);
     }
 
     public function change_base(Request $request)
@@ -95,6 +104,6 @@ class ManageStaffApiController extends ApiController
         $staff = User::find($request->staff_id);
         $staff->base_id = $request->base_id;;
         $staff->save();
-        return $this->respondSuccessWithStatus(['message'=> "Thay đổi cơ sở thành công"]);
+        return $this->respondSuccessWithStatus(['message' => "Thay đổi cơ sở thành công"]);
     }
 }
