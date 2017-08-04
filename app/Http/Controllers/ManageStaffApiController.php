@@ -47,8 +47,14 @@ class ManageStaffApiController extends ApiController
         $user->email = $request->email;
         $user->username = $username;
         $user->marital = $request->marital;
+        $user->phone = $request->phone;
+        $user->age = $request->age;
+        $user->address = $request->address;
         $user->role = 1;
-        $user->role_id = 17;
+        $user->role_id = $request->role_id;
+        $user->homeland = $request->homeland;
+        $user->literacy = $request->literacy;
+        $user->start_company = $request->start_company;
 
 
         $user->password = bcrypt('123456');
