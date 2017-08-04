@@ -41,6 +41,8 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
     Route::get('/login', 'PublicController@manage');
     Route::get('/', 'PublicController@manage');
+    Route::get('/manage/quan-li-nhan-su', 'PublicController@manage');
+    Route::get('/add-staff', 'PublicController@manage');
 });
 
 Route::group(['domain' => 'zgroup.{ga}'], function () {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/png" href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"/>
+    <link rel="shortcut icon" type="image/png" href="http://charitylabs.co.uk/wp-content/uploads/2012/12/The-Z-Principal.jpg"/>
     <base href="/">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -19,6 +19,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="colorme-manage/main.95e7a05e3a4b0bb46e84.js"></script>
+<script type="text/javascript" src="colorme-manage/main.18a6e53eca3c037b574f.js"></script>
 </body>
 </html>
