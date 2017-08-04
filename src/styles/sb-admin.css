@@ -225,3 +225,15 @@ ul.alert-dropdown {
 .panel-yellow > a:hover {
     color: #df8a13;
 }
+
+.icon-edit-staff{
+    text-align:center;
+    vertical-align:middle;
+    cursor: pointer;
+}
+
+#search-form .form-control{
+    margin-top: 15px;
+}
+
+

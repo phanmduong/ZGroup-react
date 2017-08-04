@@ -57,6 +57,22 @@ export default {
         staffListData: [],
         isLoading: false,
         error: false,
+        addStaff: {
+            staffForm: {
+                name: '123',
+                email: '',
+                phone: '',
+                age: 0,
+                address: '',
+                homeland: '',
+                marital: 0,
+                literacy: 0,
+                role: 0,
+                start_company: new Date().toISOString().slice(0,10)
+            },
+            isLoading: false,
+            error: false
+        }
     },
    roles: {
         roleListData: [],

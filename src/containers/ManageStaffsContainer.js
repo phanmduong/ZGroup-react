@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as staffActions from '../actions/staffActions';
@@ -11,6 +11,7 @@ import ManageStaffsComponent from "../components/manageStaff/ManageStaffsCompone
 class CollectMoneyContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.changeRoleStaff = this.changeRoleStaff.bind(this);
     }
 
     componentWillMount() {
@@ -21,9 +22,17 @@ class CollectMoneyContainer extends React.Component {
         }
     }
 
+    changeRoleStaff(staffId, roleId){
+        this.props.staffActions.changeRoleStaff(staffId, roleId);
+    }
+
     render() {
         return (
-            <ManageStaffsComponent {...this.props}/>
+            <ManageStaffsComponent
+                {...this.props}
+                changeRoleStaff={this.changeRoleStaff}
+                roleListData={[{id: 0, role_title:''}, ...this.props.roleListData]}
+            />
         );
     }
 }

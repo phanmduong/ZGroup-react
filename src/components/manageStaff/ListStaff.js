@@ -1,8 +1,11 @@
 import React from 'react';
 
+let self;
+
 class ListStaff extends React.Component {
     constructor(props, context) {
         super(props, context);
+        self = this;
     }
 
     render() {
@@ -18,6 +21,7 @@ class ListStaff extends React.Component {
                             <th>Phone</th>
                             <th>Cơ sở</th>
                             <th>Chức vụ</th>
+                            <th>Sửa</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -51,8 +55,11 @@ class ListStaff extends React.Component {
                                         )
                                     }
                                     <td>
-                                        {(roles !== null && roles.length > 0 &&
-                                            (<select className="form-control" value={staff.role_id}>
+                                        {(roles !== null && roles !== undefined &&
+                                            (<select className="form-control" value={staff.role_id}
+                                                     onChange={(event) => {
+                                                         self.props.changeRoleStaff(staff.id, event.target.value);
+                                                     }}>
                                                 {roles.map((role, key) => {
                                                     return (
                                                         <option
@@ -66,6 +73,7 @@ class ListStaff extends React.Component {
                                         }
 
                                     </td>
+                                    <td className="icon-edit-staff"><i className="fa fa-pencil" aria-hidden="true"/></td>
                                 </tr>
                             )
                         })}

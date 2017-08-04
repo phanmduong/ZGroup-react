@@ -1,44 +1,164 @@
 import * as types from '../constants/actionTypes';
 import * as staffApi from '../apis/staffApi';
+import toastr from 'toastr';
 
 export function beginLoadStaffsData() {
-  return {
-    type: types.BEGIN_LOAD_STAFFS_DATA,
-    isLoading: true,
-    error: false,
-    tabListData: []
-  };
+    return {
+        type: types.BEGIN_LOAD_STAFFS_DATA,
+        isLoading: true,
+        error: false,
+        tabListData: []
+    };
 }
 
 export function loadStaffsData() {
-  return function (dispatch) {
-    dispatch(beginLoadStaffsData());
-      staffApi.getStaffs()
-      .then(function (res) {
-        dispatch(loadStaffsDataSucessful(res));
-      }).catch(() =>{
-        dispatch(loadStaffsDataError());
-    });
-  };
+    return function (dispatch) {
+        dispatch(beginLoadStaffsData());
+        staffApi.getStaffs()
+            .then(function (res) {
+                dispatch(loadStaffsDataSucessful(res));
+            }).catch(() => {
+            dispatch(loadStaffsDataError());
+        });
+    };
 }
 
 export function loadStaffsDataSucessful(res) {
-  return (
-    {type: types.LOAD_STAFFS_DATA_SUCCESSFUL,
-      staffListData: res.data.data.staffs,
-      status: res.data.status,
-      isLoading: false,
-      error: false
-    })
-    ;
+    return (
+        {
+            type: types.LOAD_STAFFS_DATA_SUCCESSFUL,
+            staffListData: res.data.data.staffs,
+            status: res.data.status,
+            isLoading: false,
+            error: false
+        })
+        ;
 }
 
 export function loadStaffsDataError() {
-  return (
-    {
-      type: types.LOAD_STAFFS_DATA_ERROR,
-      isLoading: false,
-      error: true
-    })
-    ;
+    return (
+        {
+            type: types.LOAD_STAFFS_DATA_ERROR,
+            isLoading: false,
+            error: true
+        })
+        ;
 }
+
+
+export function beginChangeRoleStaff(staffId, roleId) {
+    toastr.info('Đang thay đổi chức vụ');
+    return {
+        type: types.BEGIN_CHANGE_ROLE_STAFF,
+        isLoadingChangeRoleStaff: true,
+        errorChangeRoleStaff: false,
+        messageChangeRoleStaff: null,
+        staffId: staffId,
+        roleId: roleId
+    };
+}
+
+export function changeRoleStaff(staffId, roleId) {
+    return function (dispatch) {
+        dispatch(beginChangeRoleStaff(staffId, roleId));
+        staffApi.changeRoleStaff(staffId, roleId)
+            .then(function (res) {
+                dispatch(changeRoleStaffSucessful(res));
+            }).catch((error) => {
+            dispatch(changeRoleStaffError(error));
+        });
+    };
+}
+
+export function changeRoleStaffSucessful(res) {
+    toastr.success(res.data.data.message);
+    return (
+        {
+            type: types.CHANGE_ROLE_STAFF_SUCCESSFUL,
+            messageChangeRoleStaff: res.data.data.message,
+            isLoadingChangeRoleStaff: false,
+            errorChangeRoleStaff: false,
+        })
+        ;
+}
+
+export function changeRoleStaffError() {
+    toastr.error('Thay đổi chức vụ thất bại');
+    return (
+        {
+            type: types.CHANGE_ROLE_STAFF_ERROR,
+            messageChangeRoleStaff: null,
+            isLoadingChangeRoleStaff: false,
+            errorChangeRoleStaff: true,
+        })
+        ;
+}
+
+export function updateStaffFormData(staffForm) {
+    return (
+        {
+            type: types.UPDATE_STAFF_FORM_DATA,
+            staffForm: Object.assign({}, staffForm)
+        }
+    );
+}
+
+export function beginAddStaffData() {
+    return {
+        type: types.BEGIN_ADD_STAFF_DATA,
+        isLoading: true,
+        error: false,
+    };
+}
+
+export function addStaffData(staff) {
+    return function (dispatch) {
+        dispatch(beginAddStaffData());
+        staffApi.addStaff(staff)
+            .then(function (res) {
+                dispatch(addStaffDataSucessful(res));
+            }).catch((error) => {
+            dispatch(addStaffDataError(error.response.data));
+            throw (error);
+        });
+    };
+}
+
+export function addStaffDataSucessful() {
+    toastr.success("Thêm nhân viên thành công");
+    return (
+        {
+            type: types.ADD_STAFF_DATA_SUCCESSFUL,
+            isLoading: false,
+            error: false
+        })
+        ;
+}
+
+export function addStaffDataError(data) {
+    let isMessageError = false;
+    if (data.message.email) {
+        toastr.error(data.message.email);
+        isMessageError = true;
+    }
+
+    if (data.message.username) {
+        toastr.error(data.message.username);
+        isMessageError = true;
+    }
+
+    if (!isMessageError) {
+        toastr.error('Tạo nhân viên thất bại. Thử lại');
+    }
+
+    return (
+        {
+            type: types.ADD_STAFF_DATA_ERROR,
+            isLoading: false,
+            error: true
+        })
+        ;
+}
+
+
+

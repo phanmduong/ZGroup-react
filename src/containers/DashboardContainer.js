@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import HomePage from '../components/dashboard/Dashboard';
 import Loading from '../components/common/Loading';
 import GenList from '../components/dashboard/GenList';
-import Header from '../components/Header';
+import Header from '../components/common/Header';
 
 import * as charts from '../js/charts';
 // Import actions here!!
