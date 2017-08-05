@@ -60,6 +60,7 @@ export default {
         addStaff: {
             staffForm: {
                 name: '',
+                username: '',
                 email: '',
                 phone: '',
                 age: 0,
@@ -73,10 +74,14 @@ export default {
             isLoading: false,
             error: false
         },
-        editStaff:{
+        editStaff: {
             isLoadingStaff: false,
             errorStaff: false,
-            staff:{}
+            isLoadingUpdateStaff: false,
+            errorUpdateStaff: false,
+            isLoadingDeleteStaff: false,
+            errorDeleteStaff: false,
+            staff: {}
         },
         messageChangeRoleStaff: null,
         isLoadingChangeRoleStaff: false,

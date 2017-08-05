@@ -5,10 +5,44 @@ import FormInputSelect from './common/FormInputSelect';
 import FormInputDate from './common/FormInputDate';
 import Loading from './common/Loading';
 import {MARITAL, LITERACY} from '../constants/constants';
+import toastr from 'toastr';
 
 class AddStaffComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            isValidName: false,
+            isValidEmail: false,
+        };
+        this.checkValidate = this.checkValidate.bind(this);
+    }
+
+
+    checkValidate() {
+        let {name, email} = this.props.staffForm;
+        let isValidate = false;
+        if (name === null || name === undefined || name.trim().length <= 0) {
+            this.setState({
+                isValidName: true,
+            });
+            isValidate = true;
+        }
+        if (email === null || email === undefined || email.trim().length <= 0) {
+            this.setState({
+                isValidEmail: true,
+            });
+            isValidate = true;
+        }
+
+        if (!isValidate) {
+            this.setState({
+                isValidName: false,
+                isValidEmail: false,
+            });
+            this.props.editStaff();
+        } else {
+            toastr.error('Kiểm tra thông tin');
+        }
     }
 
     render() {
@@ -25,25 +59,26 @@ class AddStaffComponent extends React.Component {
                                 name="name"
                                 updateFormData={this.props.updateFormData}
                                 value={name}
+                                notiValidate="Vui lòng nhập họ và tên"
+                                isValidate={this.state.isValidName}
                             />
                             <FormInputText
-                                placeholder="Nhập email (Tên đăng nhập)"
+                                placeholder="Nhập email"
                                 label="Email"
                                 name="email"
                                 updateFormData={this.props.updateFormData}
                                 value={email}
+                                notiValidate="Vui lòng nhập email"
+                                isValidate={this.state.isValidEmail}
                             />
-                            <div className="form-group">
-                                <label htmlFor="username">Nhập tên đăng nhập</label>
-                                <input
-                                    className="form-control"
-                                    id="username"
-                                    name="username"
-                                    placeholder="Nhập tên đăng nhập"
-                                    value={username}
-                                    onChange={this.props.updateFormData}
-                                />
-                            </div>
+                            <FormInputText
+                                placeholder="Nhập tên đăng nhập"
+                                label="Tên đăng nhập"
+                                name="username"
+                                updateFormData={this.props.updateFormData}
+                                value={username}
+                                disabled
+                            />
                             <FormInputText
                                 placeholder="Nhập tuổi"
                                 label="Tuổi"
@@ -92,7 +127,7 @@ class AddStaffComponent extends React.Component {
                                     className="form-control"
                                     defaultValue={role_id}
                                     onChange={this.props.updateFormData}
-                                    name="role"
+                                    name="role_id"
                                 >
                                     {this.props.roles !== null && this.props.roles !== undefined &&
                                     this.props.roles.map((item, key) => {
@@ -111,11 +146,11 @@ class AddStaffComponent extends React.Component {
                                 label="Hoạt đông trong công ty từ"
                                 name="start_company"
                                 updateFormData={this.props.updateFormData}
-                                value={start_company}
+                                value={start_company.slice(0, 10)}
                             />
-                            <div style={{display: 'flex', width: '150px', justifyContent: 'space-between'}}>
-
-                                    {this.props.isLoadingAddStaff ?
+                            <div className="container-button-group-staff">
+                                <div className="button-group-edit-staff">
+                                    {this.props.isLoadingUpdateStaff ?
                                         (
                                             <button
                                                 type="button"
@@ -129,14 +164,14 @@ class AddStaffComponent extends React.Component {
                                             <button
                                                 type="button"
                                                 className="btn btn-success"
-                                                onClick={this.props.addStaff}
+                                                onClick={this.checkValidate}
                                             >
                                                 Cập nhật
                                             </button>
                                         )}
 
 
-                                    {this.props.isLoadingAddStaff ?
+                                    {this.props.isLoadingDeleteStaff ?
                                         (
                                             <button
                                                 type="button"
@@ -150,11 +185,12 @@ class AddStaffComponent extends React.Component {
                                             <button
                                                 type="button"
                                                 className="btn btn-danger"
-                                                onClick={this.props.addStaff}
+                                                onClick={this.props.deteleStaff}
                                             >
                                                 Xóa
                                             </button>
                                         )}
+                                </div>
                             </div>
                         </form>
                     )

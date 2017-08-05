@@ -7,11 +7,10 @@ export function addStaff(staff) {
     if (token) {
         url += "?token=" + token;
     }
-    console.log(staff);
     return axios.post(url, {
         name: staff.name,
         email: staff.email,
-        username: staff.email,
+        username: staff.username,
         marital: staff.marital,
         role_id: staff.role,
         homeland: staff.homeland,
@@ -67,4 +66,36 @@ export function getStaff(staffId) {
     }
 
     return axios.get(url);
+}
+
+export function editStaff(staff) {
+    let url = env.MANAGE_API_URL + '/staff/'+staff.id+'/edit';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        name: staff.name,
+        email: staff.email,
+        username: staff.username,
+        marital: staff.marital,
+        role_id: staff.role_id,
+        homeland: staff.homeland,
+        literacy: staff.literacy,
+        start_company: staff.start_company,
+        age: staff.age,
+        address: staff.address,
+        phone: staff.phone
+    });
+}
+
+export function deleteStaff(staff) {
+    let url = env.MANAGE_API_URL + '/delete-staff';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        username: staff.username
+    });
 }

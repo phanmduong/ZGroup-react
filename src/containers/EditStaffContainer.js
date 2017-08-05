@@ -12,20 +12,23 @@ class EditStaffContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.updateFormData = this.updateFormData.bind(this);
-        this.addStaff = this.addStaff.bind(this);
+        this.editStaff = this.editStaff.bind(this);
+        this.deteleStaff = this.deteleStaff.bind(this);
     }
 
     updateFormData(event) {
-        console.log(event.target.value);
         const field = event.target.name;
         let staffForm = this.props.staffForm;
         staffForm[field] = event.target.value;
-        console.log(staffForm);
-        this.props.staffActions.updateStaffFormData(staffForm);
+        this.props.staffActions.updateEditStaffFormData(staffForm);
     }
 
-    addStaff() {
-        this.props.staffActions.addStaffData(this.props.staffForm);
+    editStaff() {
+        this.props.staffActions.editStaffData(this.props.staffForm);
+    }
+
+    deteleStaff() {
+        this.props.staffActions.deleteStaffData(this.props.staffForm);
     }
 
     componentWillMount() {
@@ -36,11 +39,14 @@ class EditStaffContainer extends React.Component {
     }
 
     render() {
+        let roles = (this.props.roles !== undefined) ?  this.props.roles : [];
         return (
             <EditStaffComponent
                 {...this.props}
                 updateFormData={this.updateFormData}
-                addStaff={this.addStaff}
+                editStaff={this.editStaff}
+                deteleStaff={this.deteleStaff}
+                roles={[{id: 0, role_title:''}, ...roles]}
             />
         );
     }
@@ -50,6 +56,8 @@ function mapStateToProps(state) {
     return {
         staffForm: state.staffs.editStaff.staff,
         isLoadingStaff: state.staffs.editStaff.isLoadingStaff,
+        isLoadingUpdateStaff: state.staffs.editStaff.isLoadingUpdateStaff,
+        isLoadingDeleteStaff: state.staffs.editStaff.isLoadingDeleteStaff,
         errorStaff: state.staffs.editStaff.errorStaff,
         roles: state.roles.roleListData,
     };

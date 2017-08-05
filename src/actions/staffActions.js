@@ -94,10 +94,10 @@ export function changeRoleStaffError() {
         ;
 }
 
-export function updateStaffFormData(staffForm) {
+export function updateAddStaffFormData(staffForm) {
     return (
         {
-            type: types.UPDATE_STAFF_FORM_DATA,
+            type: types.UPDATE_ADD_STAFF_FORM_DATA,
             staffForm: Object.assign({}, staffForm)
         }
     );
@@ -118,7 +118,8 @@ export function addStaffData(staff) {
             .then(function (res) {
                 dispatch(addStaffDataSucessful(res));
             }).catch((error) => {
-            dispatch(addStaffDataError(error.response.data));
+            console.log(error.response);
+            dispatch(addStaffDataError(error.response.data.error));
             throw (error);
         });
     };
@@ -137,13 +138,13 @@ export function addStaffDataSucessful() {
 
 export function addStaffDataError(data) {
     let isMessageError = false;
-    if (data.message.email) {
-        toastr.error(data.message.email);
+    if (data.email) {
+        toastr.error(data.email);
         isMessageError = true;
     }
 
-    if (data.message.username) {
-        toastr.error(data.message.username);
+    if (data.username) {
+        toastr.error(data.username);
         isMessageError = true;
     }
 
@@ -224,7 +225,7 @@ export function loadStaffData(staffId) {
             .then(function (res) {
                 dispatch(loadStaffDataSucessful(res));
             }).catch(() => {
-            dispatch(loadStaffsDataError());
+            dispatch(loadStaffDataError());
         });
     };
 }
@@ -245,8 +246,116 @@ export function loadStaffDataError() {
     return ({
         type: types.LOAD_STAFF_DATA_ERROR,
         isLoadingStaff: false,
-        errorStaff: true
+        errorStaff: true,
+        staff: {}
     });
+}
+
+export function beginEditStaffData() {
+    return {
+        type: types.BEGIN_EDIT_STAFF_DATA,
+        isLoading: true,
+        error: false,
+    };
+}
+
+export function editStaffData(staff) {
+    return function (dispatch) {
+        dispatch(beginEditStaffData());
+        staffApi.editStaff(staff)
+            .then(function (res) {
+                dispatch(editStaffDataSucessful(res));
+            }).catch((error) => {
+            dispatch(editStaffDataError(error.response.data.error));
+            throw (error);
+        });
+    };
+}
+
+export function editStaffDataSucessful() {
+    toastr.success("Cập nhật nhân viên thành công");
+    return (
+        {
+            type: types.EDIT_STAFF_DATA_SUCCESSFUL,
+            isLoading: false,
+            error: false
+        })
+        ;
+}
+
+export function editStaffDataError(data) {
+
+    if (data) {
+        toastr.error(data);
+    } else {
+        toastr.error('Cập nhật nhân viên thất bại. Thử lại');
+    }
+
+    return (
+        {
+            type: types.EDIT_STAFF_DATA_ERROR,
+            isLoading: false,
+            error: true
+        })
+        ;
+}
+
+export function updateEditStaffFormData(staffForm) {
+    return (
+        {
+            type: types.UPDATE_EDIT_STAFF_FORM_DATA,
+            staffForm: {...staffForm}
+        }
+    );
+}
+
+export function beginDeleteStaffData() {
+    return {
+        type: types.BEGIN_DELETE_STAFF_DATA,
+        isLoading: true,
+        error: false,
+    };
+}
+
+export function deleteStaffData(staff) {
+    return function (dispatch) {
+        dispatch(beginDeleteStaffData());
+        staffApi.deleteStaff(staff)
+            .then(function (res) {
+                dispatch(deleteStaffDataSucessful(res));
+            }).catch((error) => {
+            dispatch(deleteStaffDataError(error.response.data.error));
+            throw (error);
+        });
+    };
+}
+
+export function deleteStaffDataSucessful() {
+    toastr.success("Xóa nhân viên thành công");
+    return (
+        {
+            type: types.DELETE_STAFF_DATA_SUCCESSFUL,
+            isLoading: false,
+            error: false
+        })
+        ;
+}
+
+export function deleteStaffDataError(data) {
+
+    if (data) {
+        toastr.error(data);
+    } else {
+        toastr.error('Xóa nhân viên thất bại. Thử lại');
+    }
+
+    return (
+        {
+            type: types.DELETE_STAFF_DATA_ERROR,
+            isLoading: false,
+            error: true
+        })
+        ;
 }
 
 

@@ -16,12 +16,10 @@ class AddStaffContainer extends React.Component {
     }
 
     updateFormData(event) {
-        console.log(event.target.value);
         const field = event.target.name;
         let staffForm = this.props.staffForm;
         staffForm[field] = event.target.value;
-        console.log(staffForm);
-        this.props.staffActions.updateStaffFormData(staffForm);
+        this.props.staffActions.updateAddStaffFormData(staffForm);
     }
 
     addStaff() {
@@ -35,11 +33,13 @@ class AddStaffContainer extends React.Component {
     }
 
     render() {
+        let roles = (this.props.roles !== undefined) ?  this.props.roles : [];
         return (
             <AddStaffComponent
                 {...this.props}
                 updateFormData={this.updateFormData}
                 addStaff={this.addStaff}
+                roles={[{id: 0, role_title:''}, ...roles]}
             />
         );
     }

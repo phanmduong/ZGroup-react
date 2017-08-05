@@ -65,7 +65,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
                     errorChangeRoleStaff: action.errorChangeRoleStaff,
                 }
             };
-        case types.UPDATE_STAFF_FORM_DATA:
+        case types.UPDATE_ADD_STAFF_FORM_DATA:
             return {
                 ...state,
                 ...{
@@ -167,6 +167,83 @@ export default function staffsReducer(state = initialState.staffs, action) {
                     editStaff: {
                         isLoadingStaff: action.isLoadingStaff,
                         errorStaff: action.errorStaff,
+                        staff: action.staff
+                    }
+                }
+            };
+        case types.UPDATE_EDIT_STAFF_FORM_DATA:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        staff: action.staff
+                    }
+                }
+            }
+                ;
+        case types.BEGIN_EDIT_STAFF_DATA:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        isLoadingUpdateStaff: action.isLoading,
+                        errorUpdateStaff: action.error,
+                        staff: state.editStaff.staff
+                    }
+                }
+            };
+        case types.EDIT_STAFF_DATA_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        isLoadingUpdateStaff: action.isLoading,
+                        errorUpdateStaff: action.error,
+                        staff: state.editStaff.staff
+                    }
+                }
+            };
+        case types.EDIT_STAFF_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        isLoadingUpdateStaff: action.isLoading,
+                        errorUpdateStaff: action.error,
+                        staff: state.editStaff.staff
+                    }
+                }
+            };
+            case types.BEGIN_DELETE_STAFF_DATA:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        isLoadingDeleteStaff: action.isLoading,
+                        errorDeleteStaff: action.error,
+                        staff: state.editStaff.staff
+                    }
+                }
+            };
+        case types.DELETE_STAFF_DATA_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        isLoadingDeleteStaff: action.isLoading,
+                        errorDeleteStaff: action.error,
+                        staff: state.editStaff.staff
+                    }
+                }
+            };
+        case types.DELETE_STAFF_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    editStaff: {
+                        isLoadingDeleteStaff: action.isLoading,
+                        errorDeleteStaff: action.error,
+                        staff: state.editStaff.staff
                     }
                 }
             };

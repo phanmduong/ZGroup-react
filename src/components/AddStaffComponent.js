@@ -4,14 +4,57 @@ import FormInputText from './common/FormInputText';
 import FormInputSelect from './common/FormInputSelect';
 import FormInputDate from './common/FormInputDate';
 import {MARITAL, LITERACY} from '../constants/constants';
+import toastr from 'toastr';
 
 class AddStaffComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            isValidName: false,
+            isValidEmail: false,
+            isValidUsername: false,
+
+        };
+        this.checkValidate = this.checkValidate.bind(this);
+    }
+
+    checkValidate() {
+        let {name, email, username} = this.props.staffForm;
+        let isValidate = false;
+        if (name === null || name === undefined || name.trim().length <= 0) {
+            this.setState({
+                isValidName: true,
+            });
+            isValidate = true;
+        }
+        if (email === null || email === undefined || email.trim().length <= 0) {
+            this.setState({
+                isValidEmail: true,
+            });
+            isValidate = true;
+        }
+
+        if (username === null || username === undefined || username.trim().length <= 0) {
+            this.setState({
+                isValidUsername: true,
+            });
+            isValidate = true;
+        }
+
+        if (!isValidate) {
+            this.setState({
+                isValidName: false,
+                isValidEmail: false,
+                isValidUsername: false,
+            });
+            this.props.addStaff();
+        } else {
+            toastr.error('Kiểm tra thông tin');
+        }
     }
 
     render() {
-        let {name, email, age, address, homeland, phone, marital, literacy, role, start_company} = this.props.staffForm;
+        let {name, email, age, address, homeland, phone, marital, literacy, role, start_company, username} = this.props.staffForm;
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
@@ -23,13 +66,26 @@ class AddStaffComponent extends React.Component {
                             name="name"
                             updateFormData={this.props.updateFormData}
                             value={name}
+                            notiValidate="Vui lòng nhập họ và tên"
+                            isValidate={this.state.isValidName}
                         />
                         <FormInputText
-                            placeholder="Nhập email (Tên đăng nhập)"
+                            placeholder="Nhập email"
                             label="Email"
                             name="email"
                             updateFormData={this.props.updateFormData}
                             value={email}
+                            notiValidate="Vui lòng nhập email"
+                            isValidate={this.state.isValidEmail}
+                        />
+                        <FormInputText
+                            placeholder="Nhập tên đăng nhập"
+                            label="Tên đăng nhập"
+                            name="username"
+                            updateFormData={this.props.updateFormData}
+                            value={username}
+                            notiValidate="Vui lòng nhập tên đăng nhập"
+                            isValidate={this.state.isValidUsername}
                         />
                         <FormInputText
                             placeholder="Nhập tuổi"
@@ -98,27 +154,30 @@ class AddStaffComponent extends React.Component {
                             label="Hoạt đông trong công ty từ"
                             name="start_company"
                             updateFormData={this.props.updateFormData}
-                            value={start_company}
+                            value={start_company.slice(0, 10)}
                         />
-                        {this.props.isLoadingAddStaff ?
-                            (
-                                <button
-                                    type="button"
-                                    className="btn btn-danger disabled"
-                                >
-                                    <i className="fa fa-spinner fa-spin"/> Đang thêm nhân viên
-                                </button>
-                            )
-                            :
-                            (
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={this.props.addStaff}
-                                >
-                                    Thêm nhân viên
-                                </button>
-                            )}
+
+                        <div className="container-button-group-staff">
+                            {this.props.isLoadingAddStaff ?
+                                (
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger disabled"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/> Đang thêm nhân viên
+                                    </button>
+                                )
+                                :
+                                (
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger"
+                                        onClick={this.checkValidate}
+                                    >
+                                        Thêm nhân viên
+                                    </button>
+                                )}
+                        </div>
                     </form>
                 </div>
             </div>

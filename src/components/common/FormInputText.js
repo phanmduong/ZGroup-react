@@ -7,8 +7,8 @@ class FormInputText extends React.Component {
 
     render() {
         return (
-            <div className="form-group">
-                <label htmlFor={this.props.name}>{this.props.label}</label>
+            <div className={ this.props.isValidate ? "form-group has-error" : "form-group"}>
+                <label className="control-label" htmlFor={this.props.name}>{this.props.label}</label>
                 <input
                     className="form-control"
                     id={this.props.name}
@@ -16,7 +16,10 @@ class FormInputText extends React.Component {
                     placeholder={this.props.placeholder}
                     value={this.props.value}
                     onChange={this.props.updateFormData}
+                    disabled={this.props.disabled}
                 />
+                { this.props.isValidate &&  <span className="help-block">{this.props.notiValidate}</span>}
+
             </div>
         );
     }

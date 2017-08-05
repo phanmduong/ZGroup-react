@@ -16,7 +16,7 @@ class ListStaff extends React.Component {
     render() {
         let {staffs, roles, bases} = this.props;
         return (
-            <div className="col-lg-12">
+            <div className="col-lg-12 table-manage-staff">
                 <div className="table-responsive">
                     <table className="table table-bordered table-hover table-striped">
                         <thead>
