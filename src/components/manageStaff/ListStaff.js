@@ -40,7 +40,7 @@ class ListStaff extends React.Component {
                                         (
                                             <td>
                                                 {(bases !== null && bases.length > 0 &&
-                                                    (<select className="form-control" defaultValue={staff.base_id}
+                                                    (<select className="form-control" value={staff.base_id}
                                                              onChange={(event) => {
                                                                  self.props.changeBaseStaff(staff.id, event.target.value);
                                                              }}
@@ -65,7 +65,7 @@ class ListStaff extends React.Component {
                                     }
                                     <td>
                                         {(roles !== null && roles !== undefined &&
-                                            (<select className="form-control" defaultValue={staff.role_id}
+                                            (<select className="form-control" value={staff.role_id}
                                                      onChange={(event) => {
                                                          self.props.changeRoleStaff(staff.id, event.target.value);
                                                      }}>

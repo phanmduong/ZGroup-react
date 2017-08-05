@@ -125,7 +125,7 @@ class AddStaffComponent extends React.Component {
                                 <label>Chức vụ trong công ty</label>
                                 <select
                                     className="form-control"
-                                    defaultValue={role_id}
+                                    value={role_id}
                                     onChange={this.props.updateFormData}
                                     name="role_id"
                                 >
