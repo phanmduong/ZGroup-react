@@ -2,7 +2,6 @@ app/Http/Controllers/SendMailController.php
 /vendor
 /storage
 /node_modules
-/config/database.php
 Homestead.yaml
 Homestead.json
 .env
