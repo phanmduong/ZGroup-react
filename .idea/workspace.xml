@@ -2,24 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a9ec4db4-89f3-455b-8b9d-800995c92f6c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.3720e57f9642aeb25735.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.3720e57f9642aeb25735.js.map" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.acf475cf085d184f5bd2c02e39daddcd.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.acf475cf085d184f5bd2c02e39daddcd.css.map" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/index.html" afterPath="$PROJECT_DIR$/dist/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/staffActions.js" afterPath="$PROJECT_DIR$/src/actions/staffActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/apis/staffApi.js" afterPath="$PROJECT_DIR$/src/apis/staffApi.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/AddStaffComponent.js" afterPath="$PROJECT_DIR$/src/components/AddStaffComponent.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/EditStaffComponent.js" afterPath="$PROJECT_DIR$/src/components/EditStaffComponent.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/common/FormInputText.js" afterPath="$PROJECT_DIR$/src/components/common/FormInputText.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manageStaff/ListStaff.js" afterPath="$PROJECT_DIR$/src/components/manageStaff/ListStaff.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/constants/actionTypes.js" afterPath="$PROJECT_DIR$/src/constants/actionTypes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/AddStaffContainer.js" afterPath="$PROJECT_DIR$/src/containers/AddStaffContainer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/EditStaffContainer.js" afterPath="$PROJECT_DIR$/src/containers/EditStaffContainer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/initialState.js" afterPath="$PROJECT_DIR$/src/reducers/initialState.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/staffsReducer.js" afterPath="$PROJECT_DIR$/src/reducers/staffsReducer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/sb-admin.css" afterPath="$PROJECT_DIR$/src/styles/sb-admin.css" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -49,7 +32,7 @@
       <file leaf-file-name="sb-admin.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/styles/sb-admin.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="667">
+            <state relative-caret-position="3855">
               <caret line="257" column="17" lean-forward="false" selection-start-line="257" selection-start-column="17" selection-end-line="257" selection-end-column="17" />
               <folding />
             </state>
@@ -424,7 +407,7 @@
       <workItem from="1501464625775" duration="2552000" />
       <workItem from="1501579432890" duration="3120000" />
       <workItem from="1501595518574" duration="5600000" />
-      <workItem from="1501776894318" duration="47780000" />
+      <workItem from="1501776894318" duration="47809000" />
     </task>
     <task id="LOCAL-00001" summary="update code">
       <created>1501602295931</created>
@@ -461,11 +444,18 @@
       <option name="project" value="LOCAL" />
       <updated>1501866306141</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="edit and delete staff">
+      <created>1501956097572</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1501956097572</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="62355000" />
+    <option name="totallyTimeSpent" value="62384000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -529,7 +519,8 @@
     <MESSAGE value="add staff and change role" />
     <MESSAGE value="change base of staff" />
     <MESSAGE value="edit staff" />
-    <option name="LAST_COMMIT_MESSAGE" value="edit staff" />
+    <MESSAGE value="edit and delete staff" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit and delete staff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -966,7 +957,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/styles/sb-admin.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
+        <state relative-caret-position="3855">
           <caret line="257" column="17" lean-forward="false" selection-start-line="257" selection-start-column="17" selection-end-line="257" selection-end-column="17" />
           <folding />
         </state>
