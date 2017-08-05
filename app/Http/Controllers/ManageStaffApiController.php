@@ -41,9 +41,14 @@ class ManageStaffApiController extends ApiController
         }
 
         if (!empty($errors)) {
-            return $this->respondErrorWithStatus($errors);
+            return $this->responseNotAccepted($errors);
         }
-        $user = new User;
+
+        $user = User::onlyTrashed()->where('username', '=', $username)->first();
+        if (!$user){
+            $user = new User;
+        }
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $username;
@@ -59,6 +64,7 @@ class ManageStaffApiController extends ApiController
 
 
         $user->password = bcrypt('123456');
+        $user->deleted_at = null;
         $user->save();
         return $this->respondSuccessWithStatus([
             "user" => $user
@@ -106,4 +112,51 @@ class ManageStaffApiController extends ApiController
         $staff->save();
         return $this->respondSuccessWithStatus(['message' => "Thay đổi cơ sở thành công"]);
     }
+
+    public function edit_staff(Request $request)
+    {
+        $errors = null;
+        $username = trim($request->username);
+        $user = User::where('username', '=', $username)->first();
+        if (!$user) {
+            $errors = "Tài khoản chưa tồn tại";
+        }
+
+        if ($errors) {
+            return $this->responseNotAccepted($errors);
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->marital = $request->marital;
+        $user->phone = $request->phone;
+        $user->age = $request->age;
+        $user->address = $request->address;
+        $user->role_id = $request->role_id;
+        $user->homeland = $request->homeland;
+        $user->literacy = $request->literacy;
+        $user->start_company = $request->start_company;
+        $user->save();
+        return $this->respondSuccessWithStatus([
+            "user" => $user
+        ]);
+    }
+
+    public function delete_staff(Request $request)
+    {
+        $errors = null;
+        $username = trim($request->username);
+        $user = User::where('username', '=', $username)->first();
+        if (!$user) {
+            $errors = "Tài khoản chưa tồn tại";
+        }
+
+        if ($errors) {
+            return $this->responseNotAccepted($errors);
+        }
+
+        $user->delete();
+        return $this->respondSuccessWithStatus("Xóa nhân viên thành công");
+    }
+
 }

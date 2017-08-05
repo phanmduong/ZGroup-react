@@ -88,4 +88,9 @@ class ApiController extends Controller
     {
         return $this->setStatusCode(Response::HTTP_UNAUTHORIZED)->responseWithError($message);
     }
+
+    public function responseNotAccepted($message = 'Not Accepted!')
+    {
+        return $this->setStatusCode(Response::HTTP_NOT_ACCEPTABLE)->responseWithError($message);
+    }
 }
