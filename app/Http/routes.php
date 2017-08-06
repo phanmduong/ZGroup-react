@@ -43,6 +43,9 @@ Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
     Route::get('/', 'PublicController@manage');
     Route::get('/manage/quan-li-nhan-su', 'PublicController@manage');
     Route::get('/add-staff', 'PublicController@manage');
+    Route::get('/staff/{staffId}/edit', 'PublicController@manage');
+    Route::get('/manage-role', 'PublicController@manage');
+    Route::get('/create-role', 'PublicController@manage');
 });
 
 Route::group(['domain' => 'zgroup.{ga}'], function () {
