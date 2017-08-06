@@ -8,10 +8,6 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Providers\AppServiceProvider;
-use App\StudyClass;
-use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -39,9 +35,15 @@ class ManageTabApiController extends ManageApiController
 
             $this->data['tabs'] = $tabs;
         }
-//        dd($this->data);
         return $this->respondSuccessWithStatus([
             "tabs" => $this->data['tabs']
+        ]);
+    }
+
+    public function get_all(){
+        $tabs = Tab::orderBy('order')->get();
+        return $this->respondSuccessWithStatus([
+            "tabs" => $tabs
         ]);
     }
 }

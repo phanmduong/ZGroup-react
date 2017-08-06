@@ -4,9 +4,11 @@ namespace App;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
+    use SoftDeletes;
     protected $table = 'roles';
 
     /**
@@ -21,6 +23,7 @@ class Role extends Model
      * Many to many relationship
      * @return QueryBuilder
      */
+    protected $dates = ['deleted_at'];
 
     public function permissions()
     {
