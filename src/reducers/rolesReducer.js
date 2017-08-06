@@ -1,6 +1,8 @@
 import * as types from '../constants/actionTypes';
 import initialState from './initialState';
+import _ from 'lodash';
 
+let roleListData;
 export default function rolesReducer(state = initialState.roles, action) {
 
     switch (action.type) {
@@ -30,7 +32,85 @@ export default function rolesReducer(state = initialState.roles, action) {
                     error: action.error
                 }
             };
+
+        case types.BEGIN_CREATE_ROLE_DATA:
+            return {
+                ...state,
+                ...{
+                    createRole: {
+                        isLoading: action.isLoading,
+                        error: action.error
+                    }
+                }
+            };
+        case types.CREATE_ROLE_DATA_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    createRole: {
+                        isLoading: action.isLoading,
+                        error: action.error
+                    }
+                }
+            };
+        case types.CREATE_ROLE_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    createRole: {
+                        isLoading: action.isLoading,
+                        error: action.error
+                    }
+                }
+            };
+        case types.CHANGE_ROLE_TITLE_FORM: {
+            return {
+                ...state,
+                ...{
+                    roleForm: action.roleForm
+                }
+            };
+        }
+        case types.BEGIN_DELETE_ROLE_DATA:
+            return {
+                ...state,
+                ...{
+                    isLoadingDeleteRole: action.isLoading,
+                    errorDeleteRole: action.error,
+                }
+            };
+        case types.DELETE_ROLE_DATA_SUCCESSFUL:
+            roleListData = changeDataRoles(state.roleListData, action.roleId);
+            console.log(roleListData);
+            return {
+                ...state,
+                ...{
+                    isLoadingDeleteRole: action.isLoading,
+                    errorDeleteRole: action.error,
+                    roleListData: roleListData
+                }
+            };
+        case types.DELETE_ROLE_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingDeleteRole: action.isLoading,
+                    errorDeleteRole: action.error,
+                }
+            };
         default:
             return state;
     }
+}
+
+function changeDataRoles(roleListData, roleId) {
+    if (roleListData) {
+        let roles = [...roleListData];
+        _.remove(roles, function (role) {
+            return role.id === roleId;
+        });
+
+        return roles;
+    }
+    return roleListData;
 }

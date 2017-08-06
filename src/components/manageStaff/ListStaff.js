@@ -21,12 +21,12 @@ class ListStaff extends React.Component {
                     <table className="table table-bordered table-hover table-striped">
                         <thead>
                         <tr>
-                            <th>Họ tên</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Cơ sở</th>
-                            <th>Chức vụ</th>
-                            <th>Sửa</th>
+                            <th className="cell-center">Họ tên</th>
+                            <th className="cell-center">Email</th>
+                            <th className="cell-center">Phone</th>
+                            <th className="cell-center">Cơ sở</th>
+                            <th className="cell-center">Chức vụ</th>
+                            <th className="cell-center">Sửa</th>
                         </tr>
                         </thead>
                         <tbody>

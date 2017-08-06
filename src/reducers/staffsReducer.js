@@ -176,7 +176,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        staff: action.staff
+                        staff: action.staffForm
                     }
                 }
             }

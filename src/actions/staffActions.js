@@ -304,7 +304,7 @@ export function updateEditStaffFormData(staffForm) {
     return (
         {
             type: types.UPDATE_EDIT_STAFF_FORM_DATA,
-            staffForm: {...staffForm}
+            staffForm: staffForm
         }
     );
 }

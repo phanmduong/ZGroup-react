@@ -50,8 +50,11 @@ export default {
     },
     tabs: {
         tabListData: [],
-        isLoading: false,
+        isLoading: true,
         error: false,
+        allTabs: [],
+        isLoadingAllTabs: false,
+        errorAllTabs: false,
     },
     staffs: {
         staffListData: [],
@@ -94,6 +97,15 @@ export default {
         roleListData: [],
         isLoading: false,
         error: false,
+        createRole: {
+            isLoading: false,
+            error: false,
+        },
+        roleForm:{
+            role_title: ''
+        },
+        isLoadingDeleteRole: false,
+        errorDeleteRole: false
     },
     base: {
         baseData: [],

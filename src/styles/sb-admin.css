@@ -226,9 +226,12 @@ ul.alert-dropdown {
     color: #df8a13;
 }
 
-.icon-edit-staff {
+.cell-center, .icon-cell-table, .icon-edit-staff {
     text-align: center;
     vertical-align: middle;
+}
+
+.icon-cell-table, .icon-edit-staff {
     cursor: pointer;
 }
 
@@ -236,7 +239,7 @@ ul.alert-dropdown {
     margin-top: 15px;
 }
 
-#button-add-staff, #page-wrapper {
+#button-add-role, #button-add-staff, #page-wrapper {
     margin-top: 15px;
 }
 
@@ -256,5 +259,9 @@ ul.alert-dropdown {
 .table-manage-staff {
     padding-left: 0px;
     padding-right: 0px;
+}
+
+#button-add-role {
+    margin-bottom: 15px;
 }
 

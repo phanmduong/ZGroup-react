@@ -23,6 +23,7 @@ class DashboardContainer extends React.Component {
   }
 
   render() {
+    console.log('render App');
     return (
       <App
         {...this.props}
