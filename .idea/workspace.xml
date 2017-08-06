@@ -1,41 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a9ec4db4-89f3-455b-8b9d-800995c92f6c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/preferred-vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/role/CreateRoleComponent.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/role/ItemTabChild.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/role/ItemTabParent.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/role/ListRole.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/role/ManageRoleComponent.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/containers/role/CreateRoleContainer.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/containers/role/ManageRoleContainer.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.baa36c625e774fc3aaa4428c3c5a9827.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.baa36c625e774fc3aaa4428c3c5a9827.css.map" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/AddStaffComponent.js" afterPath="$PROJECT_DIR$/src/components/manageStaff/AddStaffComponent.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/components/EditStaffComponent.js" afterPath="$PROJECT_DIR$/src/components/manageStaff/EditStaffComponent.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/containers/AddStaffContainer.js" afterPath="$PROJECT_DIR$/src/containers/manageStaff/AddStaffContainer.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/containers/EditStaffContainer.js" afterPath="$PROJECT_DIR$/src/containers/manageStaff/EditStaffContainer.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/containers/ManageStaffsContainer.js" afterPath="$PROJECT_DIR$/src/containers/manageStaff/ManageStaffsContainer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="a9ec4db4-89f3-455b-8b9d-800995c92f6c" name="Default" comment="add role and delete role">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.4e1a9312d06db55e3f2d.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/main.4e1a9312d06db55e3f2d.js.map" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/index.html" afterPath="$PROJECT_DIR$/dist/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/roleActions.js" afterPath="$PROJECT_DIR$/src/actions/roleActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/staffActions.js" afterPath="$PROJECT_DIR$/src/actions/staffActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/actions/tabsActions.js" afterPath="$PROJECT_DIR$/src/actions/tabsActions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/apis/roleApi.js" afterPath="$PROJECT_DIR$/src/apis/roleApi.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/apis/tabsApi.js" afterPath="$PROJECT_DIR$/src/apis/tabsApi.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manageStaff/ListStaff.js" afterPath="$PROJECT_DIR$/src/components/manageStaff/ListStaff.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/manageStaff/ManageStaffsComponent.js" afterPath="$PROJECT_DIR$/src/components/manageStaff/ManageStaffsComponent.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/constants/actionTypes.js" afterPath="$PROJECT_DIR$/src/constants/actionTypes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/containers/AppContainer.js" afterPath="$PROJECT_DIR$/src/containers/AppContainer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/initialState.js" afterPath="$PROJECT_DIR$/src/reducers/initialState.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/rolesReducer.js" afterPath="$PROJECT_DIR$/src/reducers/rolesReducer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/staffsReducer.js" afterPath="$PROJECT_DIR$/src/reducers/staffsReducer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/reducers/tabsReducer.js" afterPath="$PROJECT_DIR$/src/reducers/tabsReducer.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes.js" afterPath="$PROJECT_DIR$/src/routes.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/sb-admin.css" afterPath="$PROJECT_DIR$/src/styles/sb-admin.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles/styles.scss" afterPath="$PROJECT_DIR$/src/styles/styles.scss" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -65,25 +36,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="roleActions.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="roleActions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/actions/roleActions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="107" column="40" lean-forward="true" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
+            <state relative-caret-position="146">
+              <caret line="83" column="35" lean-forward="false" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="35" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ManageRoleContainer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/role/ManageRoleContainer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="27" column="21" lean-forward="false" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
-              <folding>
-                <element signature="e#44#70#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -92,9 +51,33 @@
       <file leaf-file-name="actionTypes.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/constants/actionTypes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="487">
-              <caret line="62" column="63" lean-forward="true" selection-start-line="62" selection-start-column="63" selection-end-line="62" selection-end-column="63" />
+            <state relative-caret-position="216">
+              <caret line="58" column="35" lean-forward="false" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="35" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CreateRoleContainer.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/containers/role/CreateRoleContainer.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="35" column="45" lean-forward="false" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="45" />
+              <folding>
+                <element signature="e#44#83#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CreateRoleComponent.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/role/CreateRoleComponent.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1">
+              <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+              <folding>
+                <element signature="e#0#38#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -131,20 +114,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="staffsReducer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/reducers/staffsReducer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="248" column="14" lean-forward="true" selection-start-line="216" selection-start-column="12" selection-end-line="248" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rolesReducer.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="rolesReducer.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/reducers/rolesReducer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="603">
+            <state relative-caret-position="1160">
               <caret line="111" column="0" lean-forward="true" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
@@ -199,12 +172,13 @@
       <find>TABS</find>
       <find>CHANGE_CHECK_TAB</find>
       <find>beginLoadAllTabsData</find>
-      <find>LOAD_ROLES</find>
       <find>loadRoles</find>
       <find>UPDATE_EDIT_STAFF_FORM_DATA</find>
       <find>Staff</find>
-      <find>STAFF</find>
       <find>DELETE_ROLE_DATA_SUCCESSFUL</find>
+      <find>STAFF</find>
+      <find>createRoleData</find>
+      <find>LOAD_ROLES</find>
     </findStrings>
     <replaceStrings>
       <replace>STAFF</replace>
@@ -221,12 +195,12 @@
       <replace>Delete</replace>
       <replace>AllTabs</replace>
       <replace>CreateRole</replace>
-      <replace>CREATE_ROLE</replace>
       <replace>createRole</replace>
       <replace>ALL_TABS</replace>
       <replace>role</replace>
-      <replace>ROLE</replace>
       <replace>Role</replace>
+      <replace>ROLE</replace>
+      <replace>CREATE_ROLE</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -275,7 +249,6 @@
         <option value="$PROJECT_DIR$/src/actions/staffActions.js" />
         <option value="$PROJECT_DIR$/src/components/role/ItemTabParent.js" />
         <option value="$PROJECT_DIR$/src/containers/role/CreateRoleContainer.js" />
-        <option value="$PROJECT_DIR$/src/components/role/CreateRoleComponent.js" />
         <option value="$PROJECT_DIR$/src/apis/roleApi.js" />
         <option value="$PROJECT_DIR$/src/constants/actionTypes.js" />
         <option value="$PROJECT_DIR$/src/reducers/staffsReducer.js" />
@@ -285,6 +258,7 @@
         <option value="$PROJECT_DIR$/src/components/role/ListRole.js" />
         <option value="$PROJECT_DIR$/src/reducers/rolesReducer.js" />
         <option value="$PROJECT_DIR$/src/components/role/ItemTabChild.js" />
+        <option value="$PROJECT_DIR$/src/components/role/CreateRoleComponent.js" />
         <option value="$PROJECT_DIR$/src/actions/roleActions.js" />
       </list>
     </option>
@@ -499,7 +473,7 @@
       <workItem from="1501595518574" duration="5600000" />
       <workItem from="1501776894318" duration="49239000" />
       <workItem from="1501987268732" duration="610000" />
-      <workItem from="1501987900306" duration="24936000" />
+      <workItem from="1501987900306" duration="25696000" />
     </task>
     <task id="LOCAL-00001" summary="update code">
       <created>1501602295931</created>
@@ -557,11 +531,18 @@
       <option name="project" value="LOCAL" />
       <updated>1501958454171</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add role and delete role">
+      <created>1502033022329</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1502033022330</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89360000" />
+    <option name="totallyTimeSpent" value="90120000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -634,7 +615,8 @@
     <MESSAGE value="edit staff" />
     <MESSAGE value="edit and delete staff" />
     <MESSAGE value="update code" />
-    <option name="LAST_COMMIT_MESSAGE" value="update code" />
+    <MESSAGE value="add role and delete role" />
+    <option name="LAST_COMMIT_MESSAGE" value="add role and delete role" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -959,26 +941,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/role/CreateRoleComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="19" column="46" lean-forward="false" selection-start-line="19" selection-start-column="46" selection-end-line="19" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/role/CreateRoleContainer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="35" column="63" lean-forward="true" selection-start-line="35" selection-start-column="63" selection-end-line="35" selection-end-column="63" />
-          <folding>
-            <element signature="e#44#83#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/actions/staffActions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -986,14 +948,6 @@
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/constants/actionTypes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="62" column="63" lean-forward="true" selection-start-line="62" selection-start-column="63" selection-end-line="62" selection-end-column="63" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1051,16 +1005,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/reducers/rolesReducer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="603">
-          <caret line="111" column="0" lean-forward="true" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/role/ItemTabChild.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1069,10 +1013,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/role/CreateRoleComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1">
+          <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/role/CreateRoleContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="35" column="45" lean-forward="false" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="45" />
+          <folding>
+            <element signature="e#44#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/constants/actionTypes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="58" column="35" lean-forward="false" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/actions/roleActions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="107" column="40" lean-forward="true" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
+        <state relative-caret-position="146">
+          <caret line="83" column="35" lean-forward="false" selection-start-line="83" selection-start-column="24" selection-end-line="83" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/reducers/rolesReducer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1160">
+          <caret line="111" column="0" lean-forward="true" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>

@@ -48,7 +48,7 @@ export function loadRolesDataError() {
 export function beginCreateRoleData() {
     toastr.info('Đang tạo chức vụ');
     return {
-        type: types.BEGIN_LOAD_ROLES_DATA,
+        type: types.BEGIN_CREATE_ROLE_DATA,
         isLoading: true,
         error: false,
     };
@@ -70,7 +70,7 @@ export function createRoleDataSucessful(res) {
     toastr.success(res.data.data.message);
     return (
         {
-            type: types.LOAD_ROLES_DATA_SUCCESSFUL,
+            type: types.CREATE_ROLE_DATA_SUCCESSFUL,
             isLoading: false,
             error: false
         })
@@ -81,7 +81,7 @@ export function createRoleDataError() {
     toastr.error('Tạo chức vụ thất bại. Thử lại');
     return (
         {
-            type: types.LOAD_ROLES_DATA_ERROR,
+            type: types.CREATE_ROLE_DATA_ERROR,
             isLoading: false,
             error: true
         });
