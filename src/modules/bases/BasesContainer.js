@@ -13,6 +13,7 @@ class BasesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.basesSearchChange = this.basesSearchChange.bind(this);
+        this.handleSwitch = this.handleSwitch.bind(this);
     }
 
     componentWillMount() {
@@ -21,11 +22,16 @@ class BasesContainer extends React.Component {
             page = 1;
         }
         page = this.props.location.query.page;
-
+        this.props.baseListActions.loadBases(page);
     }
 
     basesSearchChange() {
 
+    }
+
+    handleSwitch(state, baseId) {
+        console.log('baseId:', baseId);
+        console.log('new state:', state);
     }
 
 
@@ -47,9 +53,10 @@ class BasesContainer extends React.Component {
                         value={this.value}
                         placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
                     />
-                    {this.props.isLoadingBases ? <Loading/> : <ListBase bases={this.props.bases}/>}
+                    {this.props.isLoadingBases ? <Loading/> :
+                        <ListBase handleSwitch={this.handleSwitch}
+                                  bases={this.props.bases}/>}
                     <ul className="pagination">
-
                         <li><a href="#">1</a></li>
                         <li><Link to={"/base/list?page=" + 2}>2</Link></li>
                         <li><a href="#">3</a></li>
@@ -65,6 +72,7 @@ class BasesContainer extends React.Component {
 BasesContainer.propTypes = {
     isLoadingBases: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
+    location: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     baseListActions: PropTypes.object.isRequired
