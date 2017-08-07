@@ -8,6 +8,7 @@ import tabsReducer from './tabsReducer';
 import staffsReducer from './staffsReducer';
 import rolesReducer from './rolesReducer';
 import baseReducer from './baseReducer';
+import baseListReducer from '../modules/bases/baseListReducer';
 import * as types from '../constants/actionTypes';
 
 const appReducer = combineReducers({
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
     staffs: staffsReducer,
     roles: rolesReducer,
     bases: baseReducer,
+    baseList: baseListReducer
 });
 
 const rootReducer = (state, action) => {

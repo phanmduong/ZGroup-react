@@ -10,7 +10,7 @@ export function beginDataBaseLoad(){
         type: types.BEGIN_DATA_BASE_LOAD,
         isLoading: true,
         error: false
-    }
+    };
 }
 
 export function loadDataBase() {
@@ -21,9 +21,9 @@ export function loadDataBase() {
         }).catch(error => {
             dispatch(loadDataError());
             throw (error);
-        })
+        });
 
-    }
+    };
 }
 
 export function loadDataSuccessful(res) {
@@ -32,7 +32,7 @@ export function loadDataSuccessful(res) {
         baseData: _.reverse(res.data.bases),
         isLoading: false,
         error: false
-    })
+    });
 }
 
 export function loadDataError() {
@@ -40,12 +40,12 @@ export function loadDataError() {
         type: types.LOAD_DATA_BASE_ERROR,
         isLoading: false,
         error: false
-    }
+    };
 }
 
 export function selectedBaseId(id) {
     return {
         type: types.SELECTED_BASE_ID,
         selectedBaseId: id
-    }
+    };
 }

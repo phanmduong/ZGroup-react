@@ -1,7 +1,8 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {Link} from 'react-router';
 import {NAME_COMPANY} from '../constants/env';
 import Loading from "./common/Loading";
+import PropTypes from 'prop-types';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless

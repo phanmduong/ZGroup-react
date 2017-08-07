@@ -1,12 +1,13 @@
 /**
  * Created by phanmduong on 8/6/17.
  */
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import CreateRoleComponent from '../../components/role/CreateRoleComponent';
 import {bindActionCreators} from 'redux';
 import * as tabsActions from '../../actions/tabsActions';
 import * as roleActions from '../../actions/roleActions';
+import PropTypes from 'prop-types';
 
 class CreateRoleContainer extends React.Component {
     constructor(props, context) {
@@ -17,7 +18,6 @@ class CreateRoleContainer extends React.Component {
     }
 
     componentWillMount(){
-        console.log('willMount');
         this.props.tabsActions.loadAllTabsData();
     }
 

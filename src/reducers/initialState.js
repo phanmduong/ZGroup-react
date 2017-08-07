@@ -114,4 +114,12 @@ export default {
         selectedBaseId: -1
     },
 
+    baseList: {
+        bases:[],
+        isLoadingBases: false,
+        currentPage: 1,
+        totalPages: 1
+    }
+
+
 };

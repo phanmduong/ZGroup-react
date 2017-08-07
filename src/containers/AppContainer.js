@@ -1,7 +1,8 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import App from '../components/App';
+import PropTypes from 'prop-types';
 // Import actions here!!
 import * as tabsActions from '../actions/tabsActions';
 import * as loginActions from '../actions/loginActions';
