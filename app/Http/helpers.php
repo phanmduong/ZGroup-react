@@ -151,6 +151,11 @@ function format_time_to_mysql($time)
     return rebuild_date('Y-m-d H:i:s', $time);
 }
 
+function format_time_main($time)
+{
+    return rebuild_date('d/m/Y H:i:s', strtotime($time));
+}
+
 
 //addTimeToDate($register->created_at,"+24 hours");
 function addTimeToDate($date_str, $hour)

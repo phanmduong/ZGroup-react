@@ -46,6 +46,8 @@ Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
     Route::get('/staff/{staffId}/edit', 'PublicController@manage');
     Route::get('/manage-role', 'PublicController@manage');
     Route::get('/create-role', 'PublicController@manage');
+    Route::get('base/list', 'PublicController@manage');
+    Route::get('base/create', 'PublicController@manage');
 });
 
 Route::group(['domain' => 'zgroup.{ga}'], function () {
@@ -65,6 +67,8 @@ Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
     Route::post('change-base-staff', 'ManageStaffApiController@change_base');
     Route::post('add-staff', "ManageStaffApiController@add_staff");
     Route::get('/all-tabs', "ManageTabApiController@get_all");
+    Route::get('/bases', "ManageBaseApiController@bases");
+
 
 });
 
@@ -199,7 +203,6 @@ Route::group(['domain' => 'api.zgroup.{ga}'], function () {
 
 
 });
-
 
 
 Route::group(['middleware' => 'web'], function () {
