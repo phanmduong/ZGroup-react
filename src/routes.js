@@ -13,18 +13,19 @@ import CreateRoleContainer from './containers/role/CreateRoleContainer';
 import NotFoundPage from './components/NotFoundPage';
 
 export default (
-  <Route>
-    <Route path="/" component={AppContainer}>
-      <IndexRoute component={DashboardContainer}/>
-      <Route path="register-list" component={RegisterListContainer}/>
-      <Route path="collect-money" component={CollectMoneyContainer}/>
-      <Route path="manage/quan-li-nhan-su" component={ManageStaffsContainer}/>
-      <Route path="add-staff" component={AddStaffContainer}/>
-      <Route path="staff/:staffId/edit" component={EditStaffContainer}/>
-      <Route path="manage-role" component={ManageRoleContainer}/>
-      <Route path="create-role" component={CreateRoleContainer}/>
+    <Route>
+        <Route path="/" component={AppContainer}>
+            <IndexRoute component={DashboardContainer}/>
+            <Route path="register-list" component={RegisterListContainer}/>
+            <Route path="collect-money" component={CollectMoneyContainer}/>
+            <Route path="manage/quan-li-nhan-su" component={ManageStaffsContainer}/>
+            <Route path="add-staff" component={AddStaffContainer}/>
+            <Route path="staff/:staffId/edit" component={EditStaffContainer}/>
+            <Route path="manage-role" component={ManageRoleContainer}/>
+            <Route path="create-role" component={CreateRoleContainer}/>
+            <Route path="manage/bases" component={CreateRoleContainer}/>
+        </Route>
+        <Route path="login" component={LoginContainer}/>
+        <Route path="*" component={NotFoundPage}/>
     </Route>
-    <Route path="login" component={LoginContainer}/>
-    <Route path="*" component={NotFoundPage}/>
-  </Route>
 );
