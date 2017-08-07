@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 class TextSearchRegisters extends React.Component {
   constructor(props, context) {
@@ -14,15 +14,10 @@ class TextSearchRegisters extends React.Component {
     return (
       <div className="form-group">
         <input className="form-control" placeholder="Email, tên hoặc số điện thoại học viên"
-               onChange={this.onChangeText}/>
+               onChange={this.onChangeText} value={''}/>
       </div>
     );
   }
 }
-
-TextSearchRegisters.propTypes = {
-  // myProp: PropTypes.string.isRequired
-  textSearchRegistersChange: PropTypes.func.isRequired
-};
 
 export default TextSearchRegisters;

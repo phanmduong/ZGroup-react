@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Loading from '../../components/common/Loading';
-import Header from '../../components/Header';
+import Header from '../../components/common/Header';
 import * as searchRegisterActions from '../../actions/searchRegisterActions';
 import TextSearchRegisters from '../../components/financialManager/collectMoney/TextSearchRegisters';
 import DropdownStudent from '../../components/financialManager/collectMoney/DropdownStudent';

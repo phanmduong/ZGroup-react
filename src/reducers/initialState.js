@@ -50,18 +50,62 @@ export default {
     },
     tabs: {
         tabListData: [],
-        isLoading: false,
+        isLoading: true,
         error: false,
+        allTabs: [],
+        isLoadingAllTabs: false,
+        errorAllTabs: false,
     },
     staffs: {
         staffListData: [],
         isLoading: false,
         error: false,
+        addStaff: {
+            staffForm: {
+                name: '',
+                username: '',
+                email: '',
+                phone: '',
+                age: 0,
+                address: '',
+                homeland: '',
+                marital: 0,
+                literacy: 0,
+                role: 0,
+                start_company: new Date().toISOString().slice(0, 10)
+            },
+            isLoading: false,
+            error: false
+        },
+        editStaff: {
+            isLoadingStaff: false,
+            errorStaff: false,
+            isLoadingUpdateStaff: false,
+            errorUpdateStaff: false,
+            isLoadingDeleteStaff: false,
+            errorDeleteStaff: false,
+            staff: {}
+        },
+        messageChangeRoleStaff: null,
+        isLoadingChangeRoleStaff: false,
+        errorChangeRoleStaff: false,
+        messageChangeBaseStaff: null,
+        isLoadingChangeBaseStaff: false,
+        errorChangeBaseStaff: false,
     },
-   roles: {
+    roles: {
         roleListData: [],
         isLoading: false,
         error: false,
+        createRole: {
+            isLoading: false,
+            error: false,
+        },
+        roleForm:{
+            role_title: ''
+        },
+        isLoadingDeleteRole: false,
+        errorDeleteRole: false
     },
     base: {
         baseData: [],

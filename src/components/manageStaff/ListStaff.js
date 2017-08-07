@@ -1,23 +1,32 @@
 import React from 'react';
+import {browserHistory} from 'react-router';
+
+let self;
 
 class ListStaff extends React.Component {
     constructor(props, context) {
         super(props, context);
+        self = this;
+    }
+
+    editStaff(staffId){
+        browserHistory.push(`staff/${staffId}/edit`);
     }
 
     render() {
         let {staffs, roles, bases} = this.props;
         return (
-            <div className="col-lg-12">
+            <div className="col-lg-12 table-manage-staff">
                 <div className="table-responsive">
                     <table className="table table-bordered table-hover table-striped">
                         <thead>
                         <tr>
-                            <th>Họ tên</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Cơ sở</th>
-                            <th>Chức vụ</th>
+                            <th className="cell-center">Họ tên</th>
+                            <th className="cell-center">Email</th>
+                            <th className="cell-center">Phone</th>
+                            <th className="cell-center">Cơ sở</th>
+                            <th className="cell-center">Chức vụ</th>
+                            <th className="cell-center">Sửa</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -31,7 +40,11 @@ class ListStaff extends React.Component {
                                         (
                                             <td>
                                                 {(bases !== null && bases.length > 0 &&
-                                                    (<select className="form-control" value={staff.base_id}>
+                                                    (<select className="form-control" value={staff.base_id}
+                                                             onChange={(event) => {
+                                                                 self.props.changeBaseStaff(staff.id, event.target.value);
+                                                             }}
+                                                    >
                                                         {bases.map((base, key) => {
                                                             return (
                                                                 <option
@@ -51,8 +64,11 @@ class ListStaff extends React.Component {
                                         )
                                     }
                                     <td>
-                                        {(roles !== null && roles.length > 0 &&
-                                            (<select className="form-control" value={staff.role_id}>
+                                        {(roles !== null && roles !== undefined &&
+                                            (<select className="form-control" value={staff.role_id}
+                                                     onChange={(event) => {
+                                                         self.props.changeRoleStaff(staff.id, event.target.value);
+                                                     }}>
                                                 {roles.map((role, key) => {
                                                     return (
                                                         <option
@@ -66,6 +82,8 @@ class ListStaff extends React.Component {
                                         }
 
                                     </td>
+                                    <td className="icon-edit-staff" onClick={()=>self.editStaff(staff.id)}><i
+                                        className="fa fa-pencil" aria-hidden="true"/></td>
                                 </tr>
                             )
                         })}

@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 class TextSearchRegisters extends React.Component {
   constructor(props, context) {
@@ -7,7 +7,7 @@ class TextSearchRegisters extends React.Component {
 
   render() {
     return (
-      <div className="form-group">
+      <div className="form-group" id="search-form">
         <input className="form-control"
                placeholder={this.props.placeholder}
                value={this.props.value}
@@ -16,11 +16,5 @@ class TextSearchRegisters extends React.Component {
     );
   }
 }
-
-TextSearchRegisters.propTypes = {
-    onChange: PropTypes.func.isRequired,
-    value: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired
-};
 
 export default TextSearchRegisters;
