@@ -6,32 +6,44 @@ import Link from "react-router/es/Link";
 import Search from "../../components/common/Search";
 import ListBase from "./ListBase";
 import Loading from "../../components/common/Loading";
+import _ from 'lodash';
 // Import actions here!!
 import * as baseListActions from './baseListActions';
+import toastr from 'toastr';
+
 
 class BasesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.basesSearchChange = this.basesSearchChange.bind(this);
         this.handleSwitch = this.handleSwitch.bind(this);
     }
 
     componentWillMount() {
-        let page = 1;
+        this.page = 1;
         if (this.props.location.query.page) {
-            page = 1;
+            this.page = this.props.location.query.page;
         }
-        page = this.props.location.query.page;
-        this.props.baseListActions.loadBases(page);
+        this.props.baseListActions.loadBases(this.page);
     }
 
-    basesSearchChange() {
-
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location.query.page && nextProps.location.query.page !== this.page) {
+            this.page = nextProps.location.query.page;
+            this.props.baseListActions.loadBases(this.page);
+        } else if (!nextProps.location.query.page && this.props.location.query.page) {
+            this.page = 1;
+            this.props.baseListActions.loadBases(this.page);
+        }
     }
+
+
 
     handleSwitch(state, baseId) {
-        console.log('baseId:', baseId);
-        console.log('new state:', state);
+        if (!state) {
+            toastr.error("Phải luôn có 1 trụ sở");
+        } else {
+            this.props.baseListActions.setDefaultBase(baseId);
+        }
     }
 
 
@@ -57,11 +69,9 @@ class BasesContainer extends React.Component {
                         <ListBase handleSwitch={this.handleSwitch}
                                   bases={this.props.bases}/>}
                     <ul className="pagination">
-                        <li><a href="#">1</a></li>
-                        <li><Link to={"/base/list?page=" + 2}>2</Link></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
+                        {_.range(1, this.props.totalPages + 1).map(page => {
+                            return <li key={page}><Link to={"/base/list?page=" + page}>{page}</Link></li>;
+                        })}
                     </ul>
                 </div>
             </div>

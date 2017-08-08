@@ -17,6 +17,16 @@ export default function baseListReducer(state = initialState.baseList, action) {
                 currentPage: action.currentPage,
                 totalPages: action.totalPages
             });
+        case types.SET_DEFAULT_BASE:
+            return Object.assign({}, state, {
+                bases: state.bases.map(base => {
+                    if (base.id === action.baseId) {
+                        return Object.assign({}, base, {center: 1});
+                    } else {
+                        return Object.assign({}, base, {center: 0});
+                    }
+                })
+            });
         default:
             return state;
     }

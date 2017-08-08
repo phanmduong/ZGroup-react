@@ -24,3 +24,19 @@ export function loadBases(page = 1) {
     };
 }
 
+export function setDefaultBase(baseId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.SET_DEFAULT_BASE,
+            baseId
+        });
+        baseListApi.setDefaultBase(baseId).then(function (res) {
+            console.log(res.data);
+        }).catch(error => {
+            throw (error);
+        });
+
+    };
+}
+
+
