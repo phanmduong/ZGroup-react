@@ -68,6 +68,7 @@ Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
     Route::post('add-staff', "ManageStaffApiController@add_staff");
     Route::get('/all-tabs', "ManageTabApiController@get_all");
     Route::get('/bases', "ManageBaseApiController@bases");
+    Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
 
 
 });

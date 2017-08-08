@@ -31,4 +31,19 @@ class ManageBaseApiController extends ManageApiController
         ];
         return $this->respondWithPagination($bases, $data);
     }
+
+    public function setDefaultBase($domain, $baseId)
+    {
+        $bases = Base::where("center", 1)->get();
+        foreach ($bases as $base) {
+            $base->center = 0;
+            $base->save();
+        }
+
+        $base = Base::find($baseId);
+        $base->center = 1;
+        $base->save();
+
+        return $this->respondSuccessWithStatus(["message" => "Thay đổi trụ sở thành công"]);
+    }
 }
