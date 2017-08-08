@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
 class ItemTabChild extends React.Component {
@@ -25,5 +26,12 @@ class ItemTabChild extends React.Component {
         );
     }
 }
+
+ItemTabChild.propTypes = {
+    tabChild: PropTypes.object.isRequired,
+    tabParent: PropTypes.object.isRequired,
+    changeCheckTabChild: PropTypes.func.isRequired,
+
+};
 
 export default ItemTabChild;

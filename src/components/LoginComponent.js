@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class LoginComponent extends React.Component {
     constructor(props, context) {
@@ -61,7 +62,7 @@ LoginComponent.propTypes = {
     updateFormData: PropTypes.func.isRequired,
     clickLogin: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    token: PropTypes.string.isRequired
+    token: PropTypes.string
 
 };
 

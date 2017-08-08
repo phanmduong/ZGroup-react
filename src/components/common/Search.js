@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-class TextSearchRegisters extends React.Component {
+class Search extends React.Component {
   constructor(props, context) {
     super(props, context);
   }
@@ -17,4 +18,12 @@ class TextSearchRegisters extends React.Component {
   }
 }
 
-export default TextSearchRegisters;
+
+Search.propTypes = {
+    placeholder: PropTypes.string,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+
+};
+
+export default Search;

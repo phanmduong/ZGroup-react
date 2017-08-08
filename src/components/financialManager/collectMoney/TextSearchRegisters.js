@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class TextSearchRegisters extends React.Component {
   constructor(props, context) {
@@ -19,5 +20,10 @@ class TextSearchRegisters extends React.Component {
     );
   }
 }
+
+TextSearchRegisters.propTypes = {
+    textSearchRegistersChange: PropTypes.func.isRequired
+
+};
 
 export default TextSearchRegisters;

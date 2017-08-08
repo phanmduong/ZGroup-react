@@ -7,7 +7,7 @@ export function beginLoadRolesData() {
         type: types.BEGIN_LOAD_ROLES_DATA,
         isLoading: true,
         error: false,
-        tabListData: []
+        roleListData: []
     };
 }
 

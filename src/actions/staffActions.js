@@ -7,7 +7,7 @@ export function beginLoadStaffsData() {
         type: types.BEGIN_LOAD_STAFFS_DATA,
         isLoading: true,
         error: false,
-        tabListData: []
+        staffListData: []
     };
 }
 
@@ -24,25 +24,21 @@ export function loadStaffsData() {
 }
 
 export function loadStaffsDataSucessful(res) {
-    return (
-        {
+    return ({
             type: types.LOAD_STAFFS_DATA_SUCCESSFUL,
             staffListData: res.data.data.staffs,
             status: res.data.status,
             isLoading: false,
             error: false
-        })
-        ;
+        });
 }
 
 export function loadStaffsDataError() {
-    return (
-        {
+    return ({
             type: types.LOAD_STAFFS_DATA_ERROR,
             isLoading: false,
             error: true
-        })
-        ;
+        });
 }
 
 
@@ -72,35 +68,29 @@ export function changeRoleStaff(staffId, roleId) {
 
 export function changeRoleStaffSucessful(res) {
     toastr.success(res.data.data.message);
-    return (
-        {
+    return ({
             type: types.CHANGE_ROLE_STAFF_SUCCESSFUL,
             messageChangeRoleStaff: res.data.data.message,
             isLoadingChangeRoleStaff: false,
             errorChangeRoleStaff: false,
-        })
-        ;
+        });
 }
 
 export function changeRoleStaffError() {
     toastr.error('Thay đổi chức vụ thất bại');
-    return (
-        {
+    return ({
             type: types.CHANGE_ROLE_STAFF_ERROR,
             messageChangeRoleStaff: null,
             isLoadingChangeRoleStaff: false,
             errorChangeRoleStaff: true,
-        })
-        ;
+        });
 }
 
 export function updateAddStaffFormData(staffForm) {
-    return (
-        {
+    return ({
             type: types.UPDATE_ADD_STAFF_FORM_DATA,
             staffForm: Object.assign({}, staffForm)
-        }
-    );
+        });
 }
 
 export function beginAddStaffData() {
@@ -118,7 +108,6 @@ export function addStaffData(staff) {
             .then(function (res) {
                 dispatch(addStaffDataSucessful(res));
             }).catch((error) => {
-            console.log(error.response);
             dispatch(addStaffDataError(error.response.data.error));
             throw (error);
         });
@@ -127,13 +116,11 @@ export function addStaffData(staff) {
 
 export function addStaffDataSucessful() {
     toastr.success("Thêm nhân viên thành công");
-    return (
-        {
+    return ({
             type: types.ADD_STAFF_DATA_SUCCESSFUL,
             isLoading: false,
             error: false
-        })
-        ;
+        });
 }
 
 export function addStaffDataError(data) {
@@ -152,13 +139,11 @@ export function addStaffDataError(data) {
         toastr.error('Tạo nhân viên thất bại. Thử lại');
     }
 
-    return (
-        {
+    return ({
             type: types.ADD_STAFF_DATA_ERROR,
             isLoading: false,
             error: true
-        })
-        ;
+        });
 }
 
 export function beginChangeBaseStaff(staffId, baseId) {
@@ -187,26 +172,22 @@ export function changeBaseStaff(staffId, baseId) {
 
 export function changeBaseStaffSucessful(res) {
     toastr.success(res.data.data.message);
-    return (
-        {
+    return ({
             type: types.CHANGE_BASE_STAFF_SUCCESSFUL,
             messageChangeBaseStaff: res.data.data.message,
             isLoadingChangeBaseStaff: false,
             errorChangeBaseStaff: false,
-        })
-        ;
+        });
 }
 
 export function changeBaseStaffError() {
     toastr.error('Thay đổi cơ sở thất bại');
-    return (
-        {
+    return ({
             type: types.CHANGE_BASE_STAFF_ERROR,
             messageChangeBaseStaff: null,
             isLoadingChangeBaseStaff: false,
             errorChangeBaseStaff: true,
-        })
-        ;
+        });
 }
 
 export function beginLoadStaffData() {
@@ -231,15 +212,13 @@ export function loadStaffData(staffId) {
 }
 
 export function loadStaffDataSucessful(res) {
-    return (
-        {
+    return ({
             type: types.LOAD_STAFF_DATA_SUCCESSFUL,
             staff: res.data.data.staff,
             status: res.data.status,
             isLoadingStaff: false,
             errorStaff: false
-        })
-        ;
+        });
 }
 
 export function loadStaffDataError() {
@@ -274,13 +253,11 @@ export function editStaffData(staff) {
 
 export function editStaffDataSucessful() {
     toastr.success("Cập nhật nhân viên thành công");
-    return (
-        {
+    return ({
             type: types.EDIT_STAFF_DATA_SUCCESSFUL,
             isLoading: false,
             error: false
-        })
-        ;
+        });
 }
 
 export function editStaffDataError(data) {
@@ -291,22 +268,18 @@ export function editStaffDataError(data) {
         toastr.error('Cập nhật nhân viên thất bại. Thử lại');
     }
 
-    return (
-        {
+    return ({
             type: types.EDIT_STAFF_DATA_ERROR,
             isLoading: false,
             error: true
-        })
-        ;
+        });
 }
 
 export function updateEditStaffFormData(staffForm) {
-    return (
-        {
+    return ({
             type: types.UPDATE_EDIT_STAFF_FORM_DATA,
             staffForm: staffForm
-        }
-    );
+        });
 }
 
 export function beginDeleteStaffData() {
@@ -332,13 +305,11 @@ export function deleteStaffData(staff) {
 
 export function deleteStaffDataSucessful() {
     toastr.success("Xóa nhân viên thành công");
-    return (
-        {
+    return ({
             type: types.DELETE_STAFF_DATA_SUCCESSFUL,
             isLoading: false,
             error: false
-        })
-        ;
+        });
 }
 
 export function deleteStaffDataError(data) {
@@ -349,13 +320,11 @@ export function deleteStaffDataError(data) {
         toastr.error('Xóa nhân viên thất bại. Thử lại');
     }
 
-    return (
-        {
+    return ({
             type: types.DELETE_STAFF_DATA_ERROR,
             isLoading: false,
             error: true
-        })
-        ;
+        });
 }
 
 

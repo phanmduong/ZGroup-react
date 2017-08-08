@@ -1,7 +1,8 @@
 /**
  * Created by phanmduong on 8/6/17.
  */
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import CreateRoleComponent from '../../components/role/CreateRoleComponent';
 import {bindActionCreators} from 'redux';
@@ -17,7 +18,6 @@ class CreateRoleContainer extends React.Component {
     }
 
     componentWillMount(){
-        console.log('willMount');
         this.props.tabsActions.loadAllTabsData();
     }
 
@@ -49,11 +49,15 @@ class CreateRoleContainer extends React.Component {
     }
 }
 
+
 CreateRoleContainer.propTypes = {
     tabsActions: PropTypes.object.isRequired,
     isLoadingTab: PropTypes.bool.isRequired,
     tabsListData: PropTypes.array.isRequired,
     errorLoadingTab: PropTypes.bool.isRequired,
+    isLoadingCreateRole: PropTypes.bool.isRequired,
+    roleForm: PropTypes.object.isRequired,
+    roleActions: PropTypes.object.isRequired,
 
 };
 

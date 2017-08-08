@@ -1,9 +1,10 @@
-import React,{PropTypes} from 'react';
+import React from 'react';
 import Header from '../common/Header';
 import FormInputText from '../common/FormInputText';
 import toastr from 'toastr';
 import Loading from "../common/Loading";
 import ItemTabParent from './ItemTabParent';
+import PropTypes from 'prop-types';
 
 let self;
 class CreateRoleComponent extends React.Component {
@@ -101,7 +102,12 @@ class CreateRoleComponent extends React.Component {
 
 CreateRoleComponent.propTypes = {
     changeCheckTab: PropTypes.func.isRequired,
+    createRole: PropTypes.func.isRequired,
+    updateFormData: PropTypes.func.isRequired,
     tabsListData: PropTypes.array.isRequired,
+    isLoadingCreateRole: PropTypes.bool.isRequired,
+    isLoadingTab: PropTypes.bool.isRequired,
+    roleForm: PropTypes.object.isRequired,
 };
 
 

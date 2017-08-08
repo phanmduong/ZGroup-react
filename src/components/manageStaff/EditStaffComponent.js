@@ -6,8 +6,9 @@ import FormInputDate from '../common/FormInputDate';
 import Loading from '../common/Loading';
 import {MARITAL, LITERACY} from '../../constants/constants';
 import toastr from 'toastr';
+import PropTypes from 'prop-types';
 
-class AddStaffComponent extends React.Component {
+class EditStaffComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -146,7 +147,7 @@ class AddStaffComponent extends React.Component {
                                 label="Hoạt đông trong công ty từ"
                                 name="start_company"
                                 updateFormData={this.props.updateFormData}
-                                value={start_company.slice(0, 10)}
+                                value={(start_company!==undefined && start_company!==null) ? start_company.slice(0, 10) : start_company}
                             />
                             <div className="container-button-group-staff">
                                 <div className="button-group-edit-staff">
@@ -185,7 +186,7 @@ class AddStaffComponent extends React.Component {
                                             <button
                                                 type="button"
                                                 className="btn btn-danger"
-                                                onClick={this.props.deteleStaff}
+                                                onClick={this.props.deleteStaff}
                                             >
                                                 Xóa
                                             </button>
@@ -202,4 +203,15 @@ class AddStaffComponent extends React.Component {
     }
 }
 
-export default AddStaffComponent;
+EditStaffComponent.propTypes = {
+    staffForm: PropTypes.object.isRequired,
+    updateFormData: PropTypes.func.isRequired,
+    deleteStaff: PropTypes.func.isRequired,
+    editStaff: PropTypes.func.isRequired,
+    isLoadingDeleteStaff: PropTypes.bool.isRequired,
+    isLoadingUpdateStaff: PropTypes.bool.isRequired,
+    isLoadingStaff: PropTypes.bool.isRequired,
+    roles: PropTypes.array.isRequired,
+};
+
+export default EditStaffComponent;

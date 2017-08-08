@@ -1,9 +1,9 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 import Loading from '../common/Loading';
 import Search from '../common/Search';
 import ListStaff from './ListStaff';
-import {browserHistory} from 'react-router';
+import PropTypes from 'prop-types';
 
 class ManageStaffsComponent extends React.Component {
     constructor(props, context) {
@@ -31,8 +31,8 @@ class ManageStaffsComponent extends React.Component {
                         Thêm nhân viên
                     </button>
                     <Search
-                        onChange={this.textSearchRegistersChange}
-                        value={this.value}
+                        onChange={()=>{}}
+                        value=""
                         placeholder="Tìm kiếm nhân viên"
                     />
                     {this.props.isLoadingStaffs ? <Loading/> : (
@@ -50,5 +50,14 @@ class ManageStaffsComponent extends React.Component {
         );
     }
 }
+
+ManageStaffsComponent.propTypes = {
+    isLoadingStaffs: PropTypes.bool.isRequired,
+    baseListData: PropTypes.array.isRequired,
+    roleListData: PropTypes.array.isRequired,
+    staffListData: PropTypes.array.isRequired,
+    changeRoleStaff: PropTypes.func.isRequired,
+    changeBaseStaff: PropTypes.func.isRequired,
+};
 
 export default ManageStaffsComponent;

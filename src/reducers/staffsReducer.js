@@ -70,7 +70,10 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     addStaff: {
-                        staffForm: action.staffForm
+                        ...state.addStaff,
+                        ...{
+                            staffForm: action.staffForm
+                        }
                     }
                 }
             }
@@ -80,9 +83,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     addStaff: {
-                        staffForm: state.addStaff.staffForm,
-                        isLoading: action.isLoading,
-                        error: action.error,
+                        ...state.addStaff,
+                        ...{
+                            staffForm: state.addStaff.staffForm,
+                            isLoading: action.isLoading,
+                            error: action.error,
+                        }
                     }
                 }
             };
@@ -91,9 +97,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     addStaff: {
-                        staffForm: state.addStaff.staffForm,
-                        isLoading: action.isLoading,
-                        error: action.error,
+                        ...state.addStaff,
+                        ...{
+                            staffForm: state.addStaff.staffForm,
+                            isLoading: action.isLoading,
+                            error: action.error,
+                        }
                     }
                 }
             };
@@ -102,9 +111,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     addStaff: {
-                        staffForm: state.addStaff.staffForm,
-                        isLoading: action.isLoading,
-                        error: action.error
+                        ...state.addStaff,
+                        ...{
+                            staffForm: state.addStaff.staffForm,
+                            isLoading: action.isLoading,
+                            error: action.error
+                        }
                     }
                 }
             };
@@ -143,9 +155,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        isLoadingStaff: action.isLoadingStaff,
-                        errorStaff: action.errorStaff,
-                        staff: action.staff
+                        ...state.editStaff,
+                        ...{
+                            isLoadingStaff: action.isLoadingStaff,
+                            errorStaff: action.errorStaff,
+                            staff: action.staff
+                        }
                     }
                 }
             };
@@ -154,9 +169,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        isLoadingStaff: action.isLoadingStaff,
-                        errorStaff: action.errorStaff,
-                        staff: action.staff
+                        ...state.editStaff,
+                        ...{
+                            isLoadingStaff: action.isLoadingStaff,
+                            errorStaff: action.errorStaff,
+                            staff: action.staff
+                        }
                     }
                 }
             };
@@ -165,9 +183,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        isLoadingStaff: action.isLoadingStaff,
-                        errorStaff: action.errorStaff,
-                        staff: action.staff
+                        ...state.editStaff,
+                        ...{
+                            isLoadingStaff: action.isLoadingStaff,
+                            errorStaff: action.errorStaff,
+                            staff: action.staff
+                        }
                     }
                 }
             };
@@ -176,7 +197,10 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        staff: action.staffForm
+                        ...state.editStaff,
+                        ...{
+                            staff: action.staffForm
+                        }
                     }
                 }
             }
@@ -186,9 +210,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        isLoadingUpdateStaff: action.isLoading,
-                        errorUpdateStaff: action.error,
-                        staff: state.editStaff.staff
+                        ...state.editStaff,
+                        ...{
+                            isLoadingUpdateStaff: action.isLoading,
+                            errorUpdateStaff: action.error,
+                            staff: state.editStaff.staff
+                        }
                     }
                 }
             };
@@ -197,9 +224,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        isLoadingUpdateStaff: action.isLoading,
-                        errorUpdateStaff: action.error,
-                        staff: state.editStaff.staff
+                        ...state.editStaff,
+                        ...{
+                            isLoadingUpdateStaff: action.isLoading,
+                            errorUpdateStaff: action.error,
+                            staff: state.editStaff.staff
+                        }
                     }
                 }
             };
@@ -208,20 +238,26 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        isLoadingUpdateStaff: action.isLoading,
-                        errorUpdateStaff: action.error,
-                        staff: state.editStaff.staff
+                        ...state.editStaff,
+                        ...{
+                            isLoadingUpdateStaff: action.isLoading,
+                            errorUpdateStaff: action.error,
+                            staff: state.editStaff.staff
+                        }
                     }
                 }
             };
-            case types.BEGIN_DELETE_STAFF_DATA:
+        case types.BEGIN_DELETE_STAFF_DATA:
             return {
                 ...state,
                 ...{
                     editStaff: {
-                        isLoadingDeleteStaff: action.isLoading,
-                        errorDeleteStaff: action.error,
-                        staff: state.editStaff.staff
+                        ...state.editStaff,
+                        ...{
+                            isLoadingDeleteStaff: action.isLoading,
+                            errorDeleteStaff: action.error,
+                            staff: state.editStaff.staff
+                        }
                     }
                 }
             };
@@ -230,9 +266,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        isLoadingDeleteStaff: action.isLoading,
-                        errorDeleteStaff: action.error,
-                        staff: state.editStaff.staff
+                        ...state.editStaff,
+                        ...{
+                            isLoadingDeleteStaff: action.isLoading,
+                            errorDeleteStaff: action.error,
+                            staff: state.editStaff.staff
+                        }
                     }
                 }
             };
@@ -241,9 +280,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...state,
                 ...{
                     editStaff: {
-                        isLoadingDeleteStaff: action.isLoading,
-                        errorDeleteStaff: action.error,
-                        staff: state.editStaff.staff
+                        ...state.editStaff,
+                        ...{
+                            isLoadingDeleteStaff: action.isLoading,
+                            errorDeleteStaff: action.error,
+                            staff: state.editStaff.staff
+                        }
                     }
                 }
             };

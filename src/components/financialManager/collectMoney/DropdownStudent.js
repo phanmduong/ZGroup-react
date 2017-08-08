@@ -1,5 +1,6 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import ItemClassStudentRegister from './ItemClassStudentRegister';
+import PropTypes from 'prop-types';
 
 class DropdownStudent extends React.Component {
   constructor(props, context) {
@@ -8,7 +9,6 @@ class DropdownStudent extends React.Component {
 
   render() {
     let that = this;
-    console.log(this.props.idDowndown == this.props.index);
     return (
       <li onClick={() => this.props.onChangeDropdown(this.props.index)} className="panel panel-primary">
         <div className="panel-heading">

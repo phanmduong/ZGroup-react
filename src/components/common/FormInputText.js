@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class FormInputText extends React.Component {
     constructor(props, context) {
@@ -7,7 +8,7 @@ class FormInputText extends React.Component {
 
     render() {
         return (
-            <div className={ this.props.isValidate ? "form-group has-error" : "form-group"}>
+            <div className={this.props.isValidate ? "form-group has-error" : "form-group"}>
                 <label className="control-label" htmlFor={this.props.name}>{this.props.label}</label>
                 <input
                     className="form-control"
@@ -24,5 +25,20 @@ class FormInputText extends React.Component {
         );
     }
 }
+
+FormInputText.propTypes = {
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    placeholder: PropTypes.string,
+    value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number,
+            ]),
+    updateFormData: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+    isValidate: PropTypes.bool,
+    notiValidate: PropTypes.string,
+
+};
 
 export default FormInputText;

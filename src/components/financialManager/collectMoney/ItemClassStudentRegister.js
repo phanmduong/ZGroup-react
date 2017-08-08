@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 class ItemClassStudentRegister extends React.Component {
   constructor(props, context) {
@@ -8,7 +9,7 @@ class ItemClassStudentRegister extends React.Component {
     register['code'] = this.props.next_code;
     this.state = {
       register: Object.assign({}, register)
-    }
+    };
 
 
     this.onChangeCode = this.onChangeCode.bind(this);
@@ -18,10 +19,9 @@ class ItemClassStudentRegister extends React.Component {
     const field = event.target.name;
     let register = this.state.register;
     register[field] = event.target.value;
-    console.log(this.stat.register);
     return this.setState = {
       register: register
-    }
+    };
   }
 
   render() {
@@ -31,7 +31,7 @@ class ItemClassStudentRegister extends React.Component {
         <td>{this.state.register.class}</td>
         <td>{this.state.register.register_time}</td>
         {
-          (this.state.register.is_paid != 0) ? (
+          (this.state.register.is_paid !== 0) ? (
               <td>{this.state.register.code}</td>
             ) : (
               <td><input type="text" style={{wight: '100px'}} className="form-control" value={this.state.register.code}
@@ -39,28 +39,27 @@ class ItemClassStudentRegister extends React.Component {
                          onChange={this.onChangeCode}/></td>
             )}
         {
-          (this.state.register.is_paid != 0) ? (
+          (this.state.register.is_paid !== 0) ? (
               <td>{this.state.register.money}</td>
             ) : (
               <td><input value={this.state.register.money} type="text" style={{wight: '100px'}}
                          className="form-control"/></td>
             )}
         {
-          (this.state.register.is_paid != 0) ? (
+          (this.state.register.is_paid !== 0) ? (
               <td>{this.state.register.note}</td>
             ) : (
               <td><input value={this.state.register.note} type="text" style={{wight: '100px'}}
                          className="form-control"/></td>
             )}
         {
-          (this.state.register.is_paid != 0) ? (
+          (this.state.register.is_paid !== 0) ? (
               <td style={{textAlign: 'center'}}>{this.state.register.paid_time}</td>
             ) : (
               <th style={{textAlign: 'center'}}>Chưa nộp</th>
             )}
         <td>
           <button className="btn btn-success" style={{textAlign: 'center'}} onClick={() => {
-            console.log(this.state.register)
           }}>Nộp đủ
           </button>
         </td>

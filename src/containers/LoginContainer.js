@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import LoginComponent from '../components/LoginComponent';
@@ -13,7 +14,10 @@ class LoginContainer extends React.Component {
     this.updateFormData = this.updateFormData.bind(this);
     this.clickLogin = this.clickLogin.bind(this);
     this.state = {
-      login: {},
+      login: {
+          email: '',
+          password: ''
+      },
       error: false,
       user:{
         role: -1
@@ -48,7 +52,7 @@ class LoginContainer extends React.Component {
         error: false
       });
     }
-    if (this.state.user.role == 0 && !this.props.isLoading){
+    if (this.state.user.role === 0 && !this.props.isLoading){
       toastr.error("Bạn không phải là nhân viên của" + env.NAME_COMPANY);
       this.setState({
         user:{
@@ -74,7 +78,7 @@ LoginContainer.propTypes = {
   user: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string
 };
 
 function mapStateToProps(state) {

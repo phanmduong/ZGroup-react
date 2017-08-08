@@ -7,7 +7,7 @@ class Loading extends React.Component {
 
   render() {
     return (
-      <h3 style={{width: '100%', textAlign: 'center'}}><i className="fa fa-refresh fa-spin"></i> Loading</h3>
+      <h3 style={{width: '100%', textAlign: 'center'}}><i className="fa fa-refresh fa-spin"/> Loading</h3>
 
     );
   }

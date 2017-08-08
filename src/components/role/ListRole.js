@@ -1,6 +1,6 @@
 import React from 'react';
 import {browserHistory} from 'react-router';
-
+import PropTypes from 'prop-types';
 let self;
 
 class ListRole extends React.Component {
@@ -34,7 +34,7 @@ class ListRole extends React.Component {
                                         <td>{role.role_title}</td>
                                         <td className="cell-center">{role.num_tabs}</td>
                                         <td className="icon-cell-table" onClick={() => self.props.deleteRole(role.id)}>
-                                            <i className="fa fa-trash" aria-hidden="true"/></td>
+                                            <i className="fa fa-trash"/></td>
                                     </tr>);
                             })
                         }
@@ -45,5 +45,10 @@ class ListRole extends React.Component {
         );
     }
 }
+
+
+ListRole.propTypes = {
+    roles: PropTypes.array.isRequired,
+};
 
 export default ListRole;

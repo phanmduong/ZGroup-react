@@ -81,7 +81,6 @@ export default function rolesReducer(state = initialState.roles, action) {
             };
         case types.DELETE_ROLE_DATA_SUCCESSFUL:
             roleListData = changeDataRoles(state.roleListData, action.roleId);
-            console.log(roleListData);
             return {
                 ...state,
                 ...{

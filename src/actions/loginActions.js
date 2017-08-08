@@ -6,7 +6,7 @@ export function beginUpdateLoginForm() {
 }
 
 export function loginError() {
-  return {type: types.LOGIN_ERROR}
+  return {type: types.LOGIN_ERROR};
 }
 
 export function updateFormData(login) {
@@ -18,7 +18,7 @@ export function updateFormData(login) {
       localStorage.removeItem('token');
       dispatch(loginError());
       throw (error);
-    })
+    });
   };
 }
 
@@ -31,7 +31,7 @@ export function updatedLoginForm(res) {
     type: types.UPDATED_LOGIN_FORM,
     token: token,
     user: res.data.user
-  })
+  });
 }
 
 export function getUserLocal() {
@@ -45,5 +45,5 @@ export function getUserLocal() {
 export function logOut() {
   return ({
     type: types.LOG_OUT
-  })
+  });
 }
