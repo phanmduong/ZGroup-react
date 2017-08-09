@@ -98,7 +98,7 @@ class TabContainer extends React.Component {
                                         className={this.props.pathname === tab.url ? "active" : ""}>
                                         <Link to={tab.url} activeClassName="active">
                                             <i className="material-icons">image</i>
-                                            {tab.name}
+                                            <p>{tab.name}</p>
                                         </Link>
                                     </li>
                                 );
