@@ -28,7 +28,7 @@ export default function loginReducer(state = initialState.login, action) {
         user: {
           role: -1
         }
-      })
+      });
     default:
       return state;
   }

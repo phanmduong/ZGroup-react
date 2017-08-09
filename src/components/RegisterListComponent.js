@@ -1,15 +1,11 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import Loading from '../components/common/Loading';
+import PropTypes from 'prop-types';
 
 class RegisterListComponent extends React.Component {
   constructor(props, context) {
     super(props, context);
-    // this.foo = this.foo.bind(this)
   }
-
-  // foo(){
-  //
-  // }
 
   render() {
     return (
@@ -46,7 +42,7 @@ class RegisterListComponent extends React.Component {
                         <td>{register.class.name}</td>
                         <td>{register.created_at}</td>
                       </tr>
-                    )
+                    );
                   })}
                   </tbody>
                 </table>
@@ -66,7 +62,6 @@ class RegisterListComponent extends React.Component {
 }
 
 RegisterListComponent.propTypes = {
-  // myProp: PropTypes.string.isRequired
   registers: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   loadMore: PropTypes.func.isRequired

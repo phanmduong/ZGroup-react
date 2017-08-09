@@ -102,7 +102,12 @@ class CreateRoleComponent extends React.Component {
 
 CreateRoleComponent.propTypes = {
     changeCheckTab: PropTypes.func.isRequired,
+    createRole: PropTypes.func.isRequired,
+    updateFormData: PropTypes.func.isRequired,
     tabsListData: PropTypes.array.isRequired,
+    isLoadingCreateRole: PropTypes.bool.isRequired,
+    isLoadingTab: PropTypes.bool.isRequired,
+    roleForm: PropTypes.object.isRequired,
 };
 
 

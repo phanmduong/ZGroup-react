@@ -62,7 +62,6 @@ export default function tabsReducer(state = initialState.tabs, action) {
                 }
             };
         case types.CHANGE_CHECK_TAB:
-            console.log("redux");
             tabListData = changeCheckTab(state.allTabs, action.tab);
             return {
                 ...state,

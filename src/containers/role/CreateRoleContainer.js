@@ -49,11 +49,15 @@ class CreateRoleContainer extends React.Component {
     }
 }
 
+
 CreateRoleContainer.propTypes = {
     tabsActions: PropTypes.object.isRequired,
     isLoadingTab: PropTypes.bool.isRequired,
     tabsListData: PropTypes.array.isRequired,
     errorLoadingTab: PropTypes.bool.isRequired,
+    isLoadingCreateRole: PropTypes.bool.isRequired,
+    roleForm: PropTypes.object.isRequired,
+    roleActions: PropTypes.object.isRequired,
 
 };
 

@@ -5,6 +5,7 @@ import FormInputSelect from '../common/FormInputSelect';
 import FormInputDate from '../common/FormInputDate';
 import {MARITAL, LITERACY} from '../../constants/constants';
 import toastr from 'toastr';
+import PropTypes from 'prop-types';
 
 class AddStaffComponent extends React.Component {
     constructor(props, context) {
@@ -184,5 +185,13 @@ class AddStaffComponent extends React.Component {
         );
     }
 }
+
+AddStaffComponent.propTypes = {
+    staffForm: PropTypes.object.isRequired,
+    updateFormData: PropTypes.func.isRequired,
+    addStaff: PropTypes.func.isRequired,
+    isLoadingAddStaff: PropTypes.bool.isRequired,
+    roles: PropTypes.array.isRequired,
+};
 
 export default AddStaffComponent;

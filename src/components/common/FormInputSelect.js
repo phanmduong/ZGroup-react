@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class FormInputSelect extends React.Component {
     constructor(props, context) {
@@ -30,5 +31,17 @@ class FormInputSelect extends React.Component {
         );
     }
 }
+
+FormInputSelect.propTypes = {
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    placeholder: PropTypes.string,
+    value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number,
+    ]),
+    updateFormData: PropTypes.func.isRequired,
+    data: PropTypes.array,
+};
 
 export default FormInputSelect;

@@ -39,12 +39,11 @@ class ItemTabParent extends React.Component {
     }
 
     changeCheckTabParent(checked, tabData) {
-        let tab = {...tabData}
+        let tab = {...tabData};
         tab.checked = checked;
 
         this.props.tabsListData.forEach((tabChildItem) => {
                 if (tabChildItem.parent_id === tab.id) {
-                    console.log("checkid");
                     let tabChild = {...tabChildItem};
                     tabChild.checked = checked;
                     return self.props.changeCheckTab(tabChild);
@@ -58,7 +57,6 @@ class ItemTabParent extends React.Component {
 
     render() {
         let {tab, tabsListData} = this.props;
-        console.log('render');
         return (
             <div className="item-tab-parent">
                 <div className="item-header-tab-parent" data-target={'#tab-role' + tab.id} data-toggle="collapse"
@@ -92,7 +90,7 @@ class ItemTabParent extends React.Component {
                                                 key={index}
                                                 changeCheckTabChild={self.changeCheckTabChild}
                                             />
-                                        )
+                                        );
                                     }
                                 })}
                                 </tbody>
@@ -109,6 +107,7 @@ class ItemTabParent extends React.Component {
 ItemTabParent.propTypes = {
     changeCheckTab: PropTypes.func.isRequired,
     tabsListData: PropTypes.array.isRequired,
+    tab: PropTypes.object.isRequired,
 };
 
 export default ItemTabParent;

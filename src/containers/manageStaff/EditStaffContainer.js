@@ -2,6 +2,7 @@
  * Created by phanmduong on 8/4/17.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import EditStaffComponent from '../../components/manageStaff/EditStaffComponent';
@@ -13,7 +14,14 @@ class EditStaffContainer extends React.Component {
         super(props, context);
         this.updateFormData = this.updateFormData.bind(this);
         this.editStaff = this.editStaff.bind(this);
-        this.deteleStaff = this.deteleStaff.bind(this);
+        this.deleteStaff = this.deleteStaff.bind(this);
+    }
+
+    componentWillMount() {
+        if (this.props.roles === null || this.props.roles === undefined || this.props.roles.length <= 0) {
+            this.props.roleActions.loadRolesData();
+        }
+        this.props.staffActions.loadStaffData(this.props.params.staffId);
     }
 
     updateFormData(event) {
@@ -27,15 +35,8 @@ class EditStaffContainer extends React.Component {
         this.props.staffActions.editStaffData(this.props.staffForm);
     }
 
-    deteleStaff() {
+    deleteStaff() {
         this.props.staffActions.deleteStaffData(this.props.staffForm);
-    }
-
-    componentWillMount() {
-        if (this.props.roles === null || this.props.roles === undefined || this.props.roles.length <= 0) {
-            this.props.roleActions.loadRolesData();
-        }
-        this.props.staffActions.loadStaffData(this.props.params.staffId);
     }
 
     render() {
@@ -45,12 +46,29 @@ class EditStaffContainer extends React.Component {
                 {...this.props}
                 updateFormData={this.updateFormData}
                 editStaff={this.editStaff}
-                deteleStaff={this.deteleStaff}
+                deleteStaff={this.deleteStaff}
                 roles={[{id: 0, role_title:''}, ...roles]}
             />
         );
     }
 }
+
+
+EditStaffContainer.propTypes = {
+    staffForm: PropTypes.object.isRequired,
+    staffActions: PropTypes.object.isRequired,
+    roleActions: PropTypes.object.isRequired,
+    isLoadingStaff: PropTypes.bool.isRequired,
+    isLoadingUpdateStaff: PropTypes.bool.isRequired,
+    isLoadingDeleteStaff: PropTypes.bool.isRequired,
+    errorStaff: PropTypes.bool.isRequired,
+    roles: PropTypes.array.isRequired,
+    params: PropTypes.object.isRequired,
+};
+
+EditStaffContainer.contextTypes = {
+    router: PropTypes.object
+};
 
 function mapStateToProps(state) {
     return {

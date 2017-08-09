@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as staffActions from '../../actions/staffActions';
@@ -43,6 +44,25 @@ class CollectMoneyContainer extends React.Component {
         );
     }
 }
+
+CollectMoneyContainer.propTypes = {
+    staffActions: PropTypes.object.isRequired,
+    roleActions: PropTypes.object.isRequired,
+    baseActions: PropTypes.object.isRequired,
+    isLoadingStaffs: PropTypes.bool.isRequired,
+    isLoadingRoles: PropTypes.bool.isRequired,
+    isLoadingBases: PropTypes.bool.isRequired,
+    errorStaffs: PropTypes.bool.isRequired,
+    errorBases: PropTypes.bool.isRequired,
+    errorRoles: PropTypes.bool.isRequired,
+    staffListData: PropTypes.array.isRequired,
+    roleListData: PropTypes.array.isRequired,
+    baseListData: PropTypes.array.isRequired,
+};
+
+CollectMoneyContainer.contextTypes = {
+    router: PropTypes.object
+};
 
 function mapStateToProps(state) {
     return {

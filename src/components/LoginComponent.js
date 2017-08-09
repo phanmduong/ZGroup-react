@@ -62,7 +62,7 @@ LoginComponent.propTypes = {
     updateFormData: PropTypes.func.isRequired,
     clickLogin: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    token: PropTypes.string.isRequired
+    token: PropTypes.string
 
 };
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link, browserHistory} from 'react-router';
 import Loading from '../common/Loading';
 import ListRole from './ListRole';
-import {browserHistory} from 'react-router';
+import PropTypes from 'prop-types';
 
 class ManageRoleComponent extends React.Component {
     constructor(props, context) {
@@ -42,5 +42,10 @@ class ManageRoleComponent extends React.Component {
     }
 }
 
+ManageRoleComponent.propTypes = {
+    roleListData: PropTypes.array.isRequired,
+    isLoadingRoles: PropTypes.bool.isRequired,
+    deleteRole: PropTypes.func.isRequired,
+};
 
 export default ManageRoleComponent;

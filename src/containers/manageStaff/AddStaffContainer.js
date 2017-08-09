@@ -2,6 +2,7 @@
  * Created by phanmduong on 8/4/17.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import AddStaffComponent from '../../components/manageStaff/AddStaffComponent';
@@ -15,6 +16,12 @@ class AddStaffContainer extends React.Component {
         this.addStaff = this.addStaff.bind(this);
     }
 
+    componentWillMount() {
+        if (this.props.roles === null || this.props.roles === undefined || this.props.roles.length <= 0) {
+            this.props.roleActions.loadRolesData();
+        }
+    }
+
     updateFormData(event) {
         const field = event.target.name;
         let staffForm = {...this.props.staffForm};
@@ -24,12 +31,6 @@ class AddStaffContainer extends React.Component {
 
     addStaff() {
         this.props.staffActions.addStaffData(this.props.staffForm);
-    }
-
-    componentWillMount() {
-        if (this.props.roles === null || this.props.roles === undefined || this.props.roles.length <= 0) {
-            this.props.roleActions.loadRolesData();
-        }
     }
 
     render() {
@@ -44,6 +45,19 @@ class AddStaffContainer extends React.Component {
         );
     }
 }
+
+AddStaffContainer.propTypes = {
+    staffForm: PropTypes.object.isRequired,
+    staffActions: PropTypes.object.isRequired,
+    roleActions: PropTypes.object.isRequired,
+    isLoadingAddStaff: PropTypes.bool.isRequired,
+    error: PropTypes.bool.isRequired,
+    roles: PropTypes.array.isRequired,
+};
+
+AddStaffContainer.contextTypes = {
+    router: PropTypes.object
+};
 
 function mapStateToProps(state) {
     return {

@@ -159,7 +159,7 @@ class App extends React.Component {
                               }
                             </ul>
                           </li>
-                        )} else {
+                        );} else {
                         return (
                           <li key={"keytabpar" + index}>
                             <Link to={tab.url} activeClassName="active">{tab.name}</Link>
@@ -182,7 +182,11 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.element,
+    isLoadingTab: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
+    onLogOut: PropTypes.func.isRequired,
+    tabsListData: PropTypes.array.isRequired,
 };
 
 export default App;

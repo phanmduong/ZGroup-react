@@ -2,7 +2,7 @@
  * Created by phanmduong on 4/6/17.
  */
 import * as types from '../constants/actionTypes';
-import initialState from './initialState'
+import initialState from './initialState';
 
 export default function baseReducer(state = initialState.base, action) {
     switch (action.type){
@@ -25,7 +25,7 @@ export default function baseReducer(state = initialState.base, action) {
         case types.SELECTED_BASE_ID:
             return Object.assign({},state,{
                 selectedBaseId: action.selectedBaseId
-            })
+            });
         default:
             return state;
     }

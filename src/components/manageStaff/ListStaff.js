@@ -1,5 +1,6 @@
 import React from 'react';
 import {browserHistory} from 'react-router';
+import PropTypes from 'prop-types';
 
 let self;
 
@@ -60,7 +61,7 @@ class ListStaff extends React.Component {
                                         )
                                         :
                                         (
-                                            <td></td>
+                                            <td/>
                                         )
                                     }
                                     <td>
@@ -83,9 +84,9 @@ class ListStaff extends React.Component {
 
                                     </td>
                                     <td className="icon-edit-staff" onClick={()=>self.editStaff(staff.id)}><i
-                                        className="fa fa-pencil" aria-hidden="true"/></td>
+                                        className="fa fa-pencil"/></td>
                                 </tr>
-                            )
+                            );
                         })}
                         </tbody>
                     </table>
@@ -94,5 +95,11 @@ class ListStaff extends React.Component {
         );
     }
 }
+
+ListStaff.propTypes = {
+    roles: PropTypes.array.isRequired,
+    staffs: PropTypes.array.isRequired,
+    bases: PropTypes.array.isRequired,
+};
 
 export default ListStaff;
