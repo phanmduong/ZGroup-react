@@ -9,21 +9,21 @@ class ListRole extends React.Component {
         self = this;
     }
 
-    editStaff(staffId) {
-        browserHistory.push(`staff/${staffId}/edit`);
+    editRole(roleId) {
+        browserHistory.push(`role/${roleId}/edit`);
     }
 
     render() {
         let {roles} = this.props;
         return (
-            <div className="col-lg-12 table-manage-staff">
+            <div className="col-lg-12">
                 <div className="table-responsive">
                     <table className="table table-bordered table-hover table-striped">
                         <thead>
                         <tr>
-                            <th className="cell-center">Chức vụ</th>
-                            <th className="cell-center">Số quyền</th>
-                            <th className="cell-center">Xóa</th>
+                            <th>Chức vụ</th>
+                            <th>Số quyền</th>
+                            <th>Sửa</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -31,10 +31,10 @@ class ListRole extends React.Component {
                             roles.map((role, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{role.role_title}</td>
-                                        <td className="cell-center">{role.num_tabs}</td>
-                                        <td className="icon-cell-table" onClick={() => self.props.deleteRole(role.id)}>
-                                            <i className="fa fa-trash"/></td>
+                                        <td >{role.role_title}</td>
+                                        <td >{role.num_tabs}</td>
+                                        <td onClick={()=>self.editRole(role.id)}>
+                                            <i className="fa fa-pencil"/></td>
                                     </tr>);
                             })
                         }

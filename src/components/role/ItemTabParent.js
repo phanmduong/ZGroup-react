@@ -75,8 +75,8 @@ class ItemTabParent extends React.Component {
                             <table className="table table-bordered table-hover table-striped table-list-role">
                                 <thead>
                                 <tr>
-                                    <th className="cell-center">Tab</th>
-                                    <th className="cell-center">Url</th>
+                                    <th>Tab</th>
+                                    <th>Url</th>
                                 </tr>
                                 </thead>
                                 <tbody>

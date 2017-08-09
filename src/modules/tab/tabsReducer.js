@@ -69,6 +69,13 @@ export default function tabsReducer(state = initialState.tabs, action) {
                     allTabs: tabListData
                 }
             };
+        case types.LOAD_ROLE_DATA_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    allTabs: action.tabListData
+                }
+            };
         default:
             return state;
     }

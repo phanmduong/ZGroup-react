@@ -144,3 +144,93 @@ export function deleteRoleDataError(data) {
         })
         ;
 }
+
+
+export function beginLoadRoleData() {
+    return {
+        type: types.BEGIN_LOAD_ROLE_DATA,
+        isLoading: true,
+        error: false,
+        tabListData: [],
+        role: {}
+    };
+}
+
+export function loadRoleData(roleId) {
+    return function (dispatch) {
+        dispatch(beginLoadRoleData());
+        roleApi.getRole(roleId)
+            .then(function (res) {
+                dispatch(loadRoleDataSucessful(res));
+            }).catch(() => {
+            dispatch(loadRoleDataError());
+        });
+    };
+}
+
+export function loadRoleDataSucessful(res) {
+    return (
+        {
+            type: types.LOAD_ROLE_DATA_SUCCESSFUL,
+            tabListData: res.data.data.tabs,
+            role: res.data.data.role,
+            isLoading: false,
+            error: false
+        })
+        ;
+}
+
+export function loadRoleDataError() {
+    return (
+        {
+            type: types.LOAD_ROLE_DATA_ERROR,
+            isLoading: false,
+            error: true
+        })
+        ;
+}
+
+export function beginEditRoleData() {
+    toastr.info("Đang sửa chức vụ");
+    return {
+        type: types.BEGIN_EDIT_ROLE_DATA,
+        isLoading: true,
+        error: false,
+    };
+}
+
+export function editRoleData(tabs, role) {
+    return function (dispatch) {
+        dispatch(beginEditRoleData());
+        roleApi.editRole(tabs, role)
+            .then(function (res) {
+                dispatch(editRoleDataSucessful(res));
+            }).catch((error) => {
+            dispatch(editRoleDataError(error.response.data.error));
+            throw (error);
+        });
+    };
+}
+
+export function editRoleDataSucessful() {
+    toastr.success("Sửa chức vụ thành công");
+    return (
+        {
+            type: types.EDIT_ROLE_DATA_SUCCESSFUL,
+            isLoading: false,
+            error: false
+        })
+        ;
+}
+
+export function editRoleDataError() {
+
+
+    toastr.error('Sửa chức vụ thất bại. Thử lại');
+
+    return ({
+            type: types.EDIT_ROLE_DATA_ERROR,
+            isLoading: false,
+            error: true
+        });
+}
