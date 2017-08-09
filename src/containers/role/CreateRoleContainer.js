@@ -5,7 +5,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import CreateRoleComponent from '../../components/role/CreateRoleComponent';
 import {bindActionCreators} from 'redux';
-import * as tabsActions from '../../actions/tabsActions';
+import * as tabsActions from '../../modules/tab/tabsActions';
 import * as roleActions from '../../actions/roleActions';
 import PropTypes from 'prop-types';
 

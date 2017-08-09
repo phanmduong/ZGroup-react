@@ -1,8 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router';
 // import {NAME_COMPANY} from '../constants/env';
 import Loading from "./common/Loading";
 import PropTypes from 'prop-types';
+import TabContainer from "../modules/tab/TabContainer";
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -50,69 +50,11 @@ class App extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        {this.props.isLoadingTab ?
-                            <Loading/>
-                            :
-                            (
-                                <ul className="nav">
-                                    {this.props.tabsListData.map((tab, index) => {
-                                        let checkDropdown = false;
-                                        if (tab.parent_id === 0) {
-                                            this.props.tabsListData.forEach((tabChild) => {
-                                                if (tabChild.parent_id === tab.id && !checkDropdown) {
-                                                    checkDropdown = true;
-                                                }
-                                            });
-                                            if (checkDropdown) {
-                                                return (
-                                                    <li activeClassName="active" key={"keytabpar" + index}>
-                                                        <a data-toggle="collapse" href={'#tab' + tab.id}>
-                                                            <i className="material-icons">image</i>
-                                                            <p>{tab.name}
-                                                                <b className="caret">
-                                                                </b>
-                                                            </p>
-                                                        </a>
-                                                        <div className="collapse" id={'tab' + tab.id}>
-                                                            <ul className="nav">
-                                                                {
-                                                                    this.props.tabsListData.map((tabChild, index) => {
-                                                                        if (tabChild.parent_id === tab.id) {
-                                                                            return (
-                                                                                <li
-                                                                                    key={"keytabchil" + index}>
-                                                                                    <Link to={tabChild.url}
-                                                                                          activeClassName="active">{tabChild.name}</Link>
-                                                                                </li>
-                                                                            );
-                                                                        }
-                                                                    })
-                                                                }
-                                                            </ul>
-                                                        </div>
-                                                    </li>
-                                                );
-                                            } else {
-                                                return (
-                                                    <li key={"keytabpar" + index}>
-                                                        <Link to={tab.url} activeClassName="active">
-                                                            <i className="material-icons">image</i>
-                                                            {tab.name}
-                                                        </Link>
-                                                    </li>
-                                                );
-                                            }
-                                        }
-                                    })}
-                                </ul>
 
 
-
-
-
-
-                            )
-                        }
+                        <TabContainer
+                            pathname={this.props.pathname}
+                        />
 
                     </div>
                 </div>
@@ -240,10 +182,9 @@ class App extends React.Component {
 
 App.propTypes = {
     children: PropTypes.element,
-    isLoadingTab: PropTypes.bool.isRequired,
+    pathname: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
-    onLogOut: PropTypes.func.isRequired,
-    tabsListData: PropTypes.array.isRequired,
+    onLogOut: PropTypes.func.isRequired
 };
 
 export default App;

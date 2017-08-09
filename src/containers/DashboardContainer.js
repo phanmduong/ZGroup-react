@@ -7,7 +7,6 @@ import Loading from '../components/common/Loading';
 import GenList from '../components/dashboard/GenList';
 import Header from '../components/common/Header';
 
-import * as charts from '../js/charts';
 // Import actions here!!
 import * as dashboardActions from '../actions/dashboardActions';
 import * as gensActions from '../actions/gensActions';
@@ -31,20 +30,8 @@ class DashboardContainer extends React.Component {
         this.props.gensActions.loadGensData();
     }
 
-    componentDidUpdate(prevProps) {
-        if (!this.props.isLoading && prevProps.isLoading) {
+    componentDidUpdate() {
 
-            charts.pieChart("#campaign-chart", []);
-
-            charts.barChartDoubleLine("#register-by-date-chart", this.props.date_array, this.props.registers_by_date, this.props.paid_by_date);
-
-            charts.lineChart("#money-by-date-chart", this.props.date_array, this.props.money_by_date);
-
-            charts.barChartSingleLine("#order-by-date-chart",
-                this.props.month_ago,
-                this.props.orders_by_hour
-            );
-        }
     }
 
     loadDashboardDataGen(genId) {

@@ -1,5 +1,5 @@
-import * as types from '../constants/actionTypes';
-import initialState from './initialState';
+import * as types from '../../constants/actionTypes';
+import initialState from '../../reducers/initialState';
 
 let tabListData;
 export default function tabsReducer(state = initialState.tabs, action) {

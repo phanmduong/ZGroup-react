@@ -4,17 +4,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import App from '../components/App';
 // Import actions here!!
-import * as tabsActions from '../actions/tabsActions';
 import * as loginActions from '../actions/loginActions';
 
 class DashboardContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.onLogOut = this.onLogOut.bind(this);
-    }
-
-    componentWillMount() {
-        this.props.tabsActions.loadTabsData();
     }
 
     onLogOut() {
@@ -26,6 +21,7 @@ class DashboardContainer extends React.Component {
     render() {
         return (
             <App
+                pathname={this.props.location.pathname}
                 {...this.props}
                 onLogOut={this.onLogOut}
             />
@@ -35,26 +31,22 @@ class DashboardContainer extends React.Component {
 
 
 DashboardContainer.contextTypes = {
-    router: PropTypes.object,
+    router: PropTypes.object
 };
 
 DashboardContainer.propTypes={
-    tabsActions: PropTypes.object.isRequired,
     loginActions: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        isLoadingTab: state.tabs.isLoading,
-        errorLoadingTab: state.tabs.error,
-        tabsListData: state.tabs.tabListData,
         user: state.login.user
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        tabsActions: bindActionCreators(tabsActions, dispatch),
         loginActions: bindActionCreators(loginActions, dispatch),
     };
 }

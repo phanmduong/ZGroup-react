@@ -4,7 +4,7 @@ import loginReducer from './loginReducer';
 import registerListReducer from './registerListReducer';
 import genListReducer from './genListReducer';
 import searchRegistersReducer from './searchRegistersReducer';
-import tabsReducer from './tabsReducer';
+import tabsReducer from '../modules/tab/tabsReducer';
 import staffsReducer from './staffsReducer';
 import rolesReducer from './rolesReducer';
 import baseReducer from './baseReducer';

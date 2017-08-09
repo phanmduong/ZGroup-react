@@ -1,5 +1,5 @@
-import * as types from '../constants/actionTypes';
-import * as tabsApi from '../apis/tabsApi';
+import * as types from '../../constants/actionTypes';
+import * as tabsApi from '../../apis/tabsApi';
 
 export function beginLoadTabsData() {
     return {
