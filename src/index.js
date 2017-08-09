@@ -7,7 +7,7 @@ import {Router, browserHistory} from 'react-router';
 import routes from './routes';
 import configureStore from './store/configureStore';
 
-require('./favicon.ico'); // Tell webpack to load favicon.ico
+
 import './styles/react-bootstrap-switch.min.css'; // eslint-disable-line no-use-before-define
 import './styles/styles.scss';
 import '../node_modules/toastr/build/toastr.min.css';
@@ -16,7 +16,7 @@ import '../node_modules/toastr/build/toastr.min.css';
 
 const store = configureStore();
 
-// Create an enhanced history that syncs navigation events with the store
+// Creategit an enhanced history that syncs navigation events with the store
 // const history = syncHistoryWithStore(browserHistory, store);
 
 render(
