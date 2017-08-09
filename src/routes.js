@@ -13,7 +13,6 @@ import CreateRoleContainer from './containers/role/CreateRoleContainer';
 import NotFoundPage from './components/NotFoundPage';
 import BasesContainer from "./modules/bases/BasesContainer";
 import CreateBaseContainer from "./modules/bases/CreateBaseContainer";
-import TestContainer from "./components/TestContainer";
 
 export default (
     <Route>
@@ -30,7 +29,6 @@ export default (
             <Route path="base/create" component={CreateBaseContainer}/>
             <Route path="base/edit/:baseId" component={CreateBaseContainer}/>
         </Route>
-        <Route path="/test" component={TestContainer}/>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>
     </Route>
