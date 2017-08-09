@@ -62,9 +62,9 @@ export default {
         error: false,
         addStaff: {
             staffForm: {
-                name: 'dsadsa',
-                username: 'dsadsa',
-                email: 'dsadsa@gmail.com',
+                name: '',
+                username: '',
+                email: '',
                 phone: '',
                 age: 0,
                 address: '',
