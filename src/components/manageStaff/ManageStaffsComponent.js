@@ -17,20 +17,27 @@ class ManageStaffsComponent extends React.Component {
     render() {
         return (
             <div>
+                <ul className="nav nav-tabs">
+                    <li className="active"><Link to="/manage/quan-li-nhan-su">Nhân viên</Link></li>
+                    <li><Link to="/manage-role">Chức vụ</Link></li>
+                </ul>
                 <div className="row">
                     <div className="col-md-12">
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={() => this.redirectAddStaff()}
-                        >
-                            Thêm nhân viên
-                        </button>
+                        <div className="col-md-3">
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={() => this.redirectAddStaff()}
+                            >
+                                Thêm nhân viên
+                            </button>
+                        </div>
                         <Search
                             onChange={() => {
                             }}
                             value=""
                             placeholder="Tìm kiếm nhân viên"
+                            className="col-md-9"
                         />
                     </div>
                 </div>

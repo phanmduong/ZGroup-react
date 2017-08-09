@@ -8,7 +8,6 @@ import routes from './routes';
 import configureStore from './store/configureStore';
 
 require('./favicon.ico'); // Tell webpack to load favicon.ico
-import './styles/react-bootstrap-switch.min.css'; // eslint-disable-line no-use-before-define
 import './styles/styles.scss';
 import '../node_modules/toastr/build/toastr.min.css';
 

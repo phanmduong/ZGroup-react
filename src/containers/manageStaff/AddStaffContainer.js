@@ -33,6 +33,17 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.addStaffData(this.props.staffForm);
     }
 
+    componentDidMount() {
+        $('#form-add-staff').validate({
+            errorPlacement: function (error, element) {
+                $(element).parent('div').addClass('has-error');
+            }
+        });
+        $('#form-date-start-company').datetimepicker({
+            format: "YYYY-MM-DD"
+        });
+    }
+
     render() {
         let roles = (this.props.roles !== undefined) ?  this.props.roles : [];
         return (
