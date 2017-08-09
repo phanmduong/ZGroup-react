@@ -56,7 +56,7 @@ class BasesContainer extends React.Component {
                     </ul>
 
                     <div style={{marginTop: "15px"}}>
-                        <Link to="/create-base" className="btn btn-primary">
+                        <Link to="/base/create" className="btn btn-primary">
                             Thêm cơ sở
                         </Link>
                     </div>

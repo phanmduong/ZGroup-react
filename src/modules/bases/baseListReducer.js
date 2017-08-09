@@ -27,6 +27,21 @@ export default function baseListReducer(state = initialState.baseList, action) {
                     }
                 })
             });
+        case types.UPDATE_BASE_FORM_DATA:
+            return {
+                ...state,
+                createBase: {...state.createBase, base: action.base}
+            };
+        case types.BEGIN_CREATE_BASE:
+            return {
+                ...state,
+                createBase: {...state.createBase, isSavingBase: true}
+            };
+        case types.CREATE_BASE_SUCCESS:
+            return {
+                ...state,
+                createBase: {...state.createBase, isSavingBase: false}
+            };
         default:
             return state;
     }

@@ -171,7 +171,7 @@ class AddStaffComponent extends React.Component {
                                 (
                                     <button
                                         type="button"
-                                        className="btn btn-danger"
+                                        className="btn btn-primary"
                                         onClick={this.checkValidate}
                                     >
                                         Thêm nhân viên

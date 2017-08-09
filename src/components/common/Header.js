@@ -15,6 +15,6 @@ const HeaderDashBoard = ({header, title, iconTitle}) => {
       </div>
     </div>
   );
-}
+};
 
 export default HeaderDashBoard;

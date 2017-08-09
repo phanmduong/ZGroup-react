@@ -101,7 +101,7 @@ export default {
             isLoading: false,
             error: false,
         },
-        roleForm:{
+        roleForm: {
             role_title: ''
         },
         isLoadingDeleteRole: false,
@@ -115,10 +115,17 @@ export default {
     },
 
     baseList: {
-        bases:[],
+        bases: [],
         isLoadingBases: false,
         currentPage: 1,
-        totalPages: 1
+        totalPages: 1,
+        createBase: {
+            isSavingBase: false,
+            base: {
+                name: "",
+                address: ""
+            }
+        }
     }
 
 

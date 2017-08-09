@@ -3,6 +3,8 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as baseListApi from './baseListApi';
+import toastr from 'toastr';
+import {browserHistory} from 'react-router';
 // import _ from 'lodash';
 
 export function loadBases(page = 1) {
@@ -36,6 +38,32 @@ export function setDefaultBase(baseId) {
             throw (error);
         });
 
+    };
+}
+
+export function updateCreateBaseFormData(base) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_BASE_FORM_DATA,
+            base
+        });
+    };
+}
+
+export function createBase(base) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_BASE
+        });
+        baseListApi.createBase(base)
+            .then(res => {
+                const message = res.data.data.message;
+                toastr.success(message);
+                dispatch({
+                    type: types.CREATE_BASE_SUCCESS
+                });
+                browserHistory.push('/base/list');
+            });
     };
 }
 

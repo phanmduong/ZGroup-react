@@ -17,10 +17,18 @@ export function loadBases(page = 1) {
 
 export function setDefaultBase(baseId) {
     let url = env.MANAGE_API_URL + "/set-default-base/" + baseId;
-    let token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-
     return axios.post(url);
+}
+
+export function createBase(base) {
+    let url = env.MANAGE_API_URL + "/base/create";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {name: base.name, address: base.address});
 }
