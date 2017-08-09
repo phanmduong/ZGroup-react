@@ -25,15 +25,16 @@ class TabContainer extends React.Component {
 
             const tab = nextProps.tabsListData
                 .filter(t => t.url === this.props.pathname)[0];
-            const parentTab = nextProps.tabsListData
-                .filter(t => t.id === tab.parent_id)[0];
+            if (tab) {
+                const parentTab = nextProps.tabsListData
+                    .filter(t => t.id === tab.parent_id)[0];
 
-            if (parentTab) {
-                this.setState({
-                    parentTabId: '#tab' + parentTab.id
-                });
+                if (parentTab) {
+                    this.setState({
+                        parentTabId: '#tab' + parentTab.id
+                    });
+                }
             }
-
 
         }
     }
