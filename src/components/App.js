@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {NAME_COMPANY} from '../constants/env';
+// import {NAME_COMPANY} from '../constants/env';
 import Loading from "./common/Loading";
 import PropTypes from 'prop-types';
 
@@ -9,180 +9,237 @@ import PropTypes from 'prop-types';
 // component at the top-level.
 class App extends React.Component {
 
-  render() {
-    return (
-      <div id={this.props.isLoadingTab ? '' : 'wrapper'}>
-        <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"/>
-              <span className="icon-bar"/>
-              <span className="icon-bar"/>
-            </button>
-            <Link className="navbar-brand" to="/">{NAME_COMPANY} </Link>
-          </div>
+    render() {
+        return (
+            <div className="wrapper">
+                <div className="sidebar" data-active-color="rose" data-background-color="black"
+                     data-image="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/img/sidebar-1.jpg">
+                    <div className="logo">
+                        <a href="http://www.creative-tim.com" className="simple-text">
+                            Creative Tim
+                        </a>
+                    </div>
+                    <div className="logo logo-mini">
+                        <a href="http://www.creative-tim.com" className="simple-text">
+                            Ct
+                        </a>
+                    </div>
+                    <div className="sidebar-wrapper">
+                        <div className="user">
+                            <div className="photo">
+                                <img
+                                    src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/img/faces/avatar.jpg"/>
+                            </div>
+                            <div className="info">
+                                <a data-toggle="collapse" href="#collapseExample" className="collapsed">
+                                    Tania Andrew
+                                    <b className="caret"></b>
+                                </a>
+                                <div className="collapse" id="collapseExample">
+                                    <ul className="nav">
+                                        <li>
+                                            <a href="#">My Profile</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Edit Profile</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Settings</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {this.props.isLoadingTab ?
+                            <Loading/>
+                            :
+                            (
+                                <ul className="nav">
+                                    {this.props.tabsListData.map((tab, index) => {
+                                        let checkDropdown = false;
+                                        if (tab.parent_id === 0) {
+                                            this.props.tabsListData.forEach((tabChild) => {
+                                                if (tabChild.parent_id === tab.id && !checkDropdown) {
+                                                    checkDropdown = true;
+                                                }
+                                            });
+                                            if (checkDropdown) {
+                                                return (
+                                                    <li activeClassName="active" key={"keytabpar" + index}>
+                                                        <a data-toggle="collapse" href={'#tab' + tab.id}>
+                                                            <i className="material-icons">image</i>
+                                                            <p>{tab.name}
+                                                                <b className="caret">
+                                                                </b>
+                                                            </p>
+                                                        </a>
+                                                        <div className="collapse" id={'tab' + tab.id}>
+                                                            <ul className="nav">
+                                                                {
+                                                                    this.props.tabsListData.map((tabChild, index) => {
+                                                                        if (tabChild.parent_id === tab.id) {
+                                                                            return (
+                                                                                <li
+                                                                                    key={"keytabchil" + index}>
+                                                                                    <Link to={tabChild.url}
+                                                                                          activeClassName="active">{tabChild.name}</Link>
+                                                                                </li>
+                                                                            );
+                                                                        }
+                                                                    })
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                );
+                                            } else {
+                                                return (
+                                                    <li key={"keytabpar" + index}>
+                                                        <Link to={tab.url} activeClassName="active">
+                                                            <i className="material-icons">image</i>
+                                                            {tab.name}
+                                                        </Link>
+                                                    </li>
+                                                );
+                                            }
+                                        }
+                                    })}
+                                </ul>
 
-          <ul className="nav navbar-right top-nav">
-            <li className="dropdown">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-envelope"/> <b
-                className="caret"/></a>
-              <ul className="dropdown-menu message-dropdown">
-                <li className="message-preview">
-                  <a href="#">
-                    <div className="media">
-                                    <span className="pull-left">
-                                        <img className="media-object" src="http://placehold.it/50x50" alt=""/>
-                                    </span>
-                      <div className="media-body">
-                        <h5 className="media-heading"><strong>John Smith</strong>
-                        </h5>
-                        <p className="small text-muted"><i className="fa fa-clock-o"/> Yesterday at 4:32 PM</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li className="message-preview">
-                  <a href="#">
-                    <div className="media">
-                                    <span className="pull-left">
-                                        <img className="media-object" src="http://placehold.it/50x50" alt=""/>
-                                    </span>
-                      <div className="media-body">
-                        <h5 className="media-heading"><strong>John Smith</strong>
-                        </h5>
-                        <p className="small text-muted"><i className="fa fa-clock-o"/>Yesterday at 4:32 PM</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li className="message-preview">
-                  <a href="#">
-                    <div className="media">
-                                    <span className="pull-left">
-                                        <img className="media-object" src="http://placehold.it/50x50" alt=""/>
-                                    </span>
-                      <div className="media-body">
-                        <h5 className="media-heading"><strong>John Smith</strong>
-                        </h5>
-                        <p className="small text-muted"><i className="fa fa-clock-o"/>Yesterday at 4:32 PM</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li className="message-footer">
-                  <a href="#">Read All New Messages</a>
-                </li>
-              </ul>
-            </li>
-            <li className="dropdown">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-bell"/><b
-                className="caret"/></a>
-              <ul className="dropdown-menu alert-dropdown">
-                <li>
-                  <a href="#">Alert Name <span className="label label-default">Alert Badge</span></a>
-                </li>
-                <li>
-                  <a href="#">Alert Name <span className="label label-primary">Alert Badge</span></a>
-                </li>
-                <li>
-                  <a href="#">Alert Name <span className="label label-success">Alert Badge</span></a>
-                </li>
-                <li>
-                  <a href="#">Alert Name <span className="label label-info">Alert Badge</span></a>
-                </li>
-                <li>
-                  <a href="#">Alert Name <span className="label label-warning">Alert Badge</span></a>
-                </li>
-                <li>
-                  <a href="#">Alert Name <span className="label label-danger">Alert Badge</span></a>
-                </li>
-                <li className="divider"/>
-                <li>
-                  <a href="#">View All</a>
-                </li>
-              </ul>
-            </li>
-            <li className="dropdown">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i className="fa fa-user"/> {this.props.user.name}
-                <b className="caret"/></a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a href="#"><i className="fa fa-fw fa-user"/>Profile</a>
-                </li>
-                <li>
-                  <a href="#"><i className="fa fa-fw fa-envelope"/>Inbox</a>
-                </li>
-                <li>
-                  <a href="#"><i className="fa fa-fw fa-gear"/>Settings</a>
-                </li>
-                <li className="divider"/>
-                <li>
-                  <a onClick={this.props.onLogOut}><i className="fa fa-fw fa-power-off"/>Đăng xuất</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <div className="collapse navbar-collapse navbar-ex1-collapse">
-            {
-              (!this.props.isLoadingTab &&  <ul className="nav navbar-nav side-nav">
-                {
-                  this.props.tabsListData.map((tab, index) => {
-                    let checkDropdown = false;
-                    if (tab.parent_id === 0) {
-                      this.props.tabsListData.forEach((tabChild) => {
-                        if (tabChild.parent_id === tab.id && !checkDropdown) {
-                          checkDropdown = true;
+
+
+
+
+
+                            )
                         }
-                      });
-                      if (checkDropdown){
-                        return (
-                          <li key={"keytabpar" + index}>
-                            <a  data-toggle="collapse" data-target={'#tab' + tab.id}>
-                              {tab.name}
-                              <i className="fa fa-fw fa-caret-down"/>
-                            </a >
-                            <ul id={'tab' + tab.id} className="collapse">
-                              {
-                                this.props.tabsListData.map((tabChild, index) => {
-                                  if (tabChild.parent_id === tab.id) {
-                                    return (
-                                      <li key={"keytabchil" + index}>
-                                        <Link to={tabChild.url} activeClassName="active">{tabChild.name}</Link>
-                                      </li>
-                                    );
-                                  }
-                                })
-                              }
-                            </ul>
-                          </li>
-                        );} else {
-                        return (
-                          <li key={"keytabpar" + index}>
-                            <Link to={tab.url} activeClassName="active">{tab.name}</Link>
-                          </li>
-                        );
-                      }
-                    }
-                  })
-                }
-              </ul>)
-            }
 
-          </div>
-        </nav>
-        {!this.props.isLoadingTab ? this.props.children : <div id="loading-page"><Loading/></div>}
-      </div>
+                    </div>
+                </div>
+                <div className="main-panel">
+                    <nav className="navbar navbar-transparent navbar-absolute">
+                        <div className="container-fluid">
+                            <div className="navbar-minimize">
+                                <button id="minimizeSidebar" className="btn btn-round btn-white btn-fill btn-just-icon">
+                                    <i className="material-icons visible-on-sidebar-regular">more_vert</i>
+                                    <i className="material-icons visible-on-sidebar-mini">view_list</i>
+                                </button>
+                            </div>
+                            <div className="navbar-header">
+                                <button type="button" className="navbar-toggle" data-toggle="collapse">
+                                    <span className="sr-only">Toggle navigation</span>
+                                    <span className="icon-bar"></span>
+                                    <span className="icon-bar"></span>
+                                    <span className="icon-bar"></span>
+                                </button>
+                                <a className="navbar-brand" href="#"> Template </a>
+                            </div>
+                            <div className="collapse navbar-collapse">
+                                <ul className="nav navbar-nav navbar-right">
+                                    <li>
+                                        <a href="#pablo" className="dropdown-toggle" data-toggle="dropdown">
+                                            <i className="material-icons">dashboard</i>
+                                            <p className="hidden-lg hidden-md">Dashboard</p>
+                                        </a>
+                                    </li>
+                                    <li className="dropdown">
+                                        <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                                            <i className="material-icons">notifications</i>
+                                            <span className="notification">5</span>
+                                            <p className="hidden-lg hidden-md">
+                                                Notifications
+                                                <b className="caret"></b>
+                                            </p>
+                                        </a>
+                                        <ul className="dropdown-menu">
+                                            <li>
+                                                <a href="#">Mike John responded to your email</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">You have 5 new tasks</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">You're now friend with Andrew</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Another Notification</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Another One</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#pablo" className="dropdown-toggle" data-toggle="dropdown">
+                                            <i className="material-icons">person</i>
+                                            <p className="hidden-lg hidden-md">Profile</p>
+                                        </a>
+                                    </li>
+                                    <li className="separator hidden-lg hidden-md"></li>
+                                </ul>
+                                <form className="navbar-form navbar-right" role="search">
+                                    <div className="form-group form-search is-empty">
+                                        <input type="text" className="form-control" placeholder="Search"/>
+                                        <span className="material-input"></span>
+                                    </div>
+                                    <button type="submit" className="btn btn-white btn-round btn-just-icon">
+                                        <i className="material-icons">search</i>
+                                        <div className="ripple-container"></div>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </nav>
+                    <div className="content">
+                        <div className="container-fluid">
+                            {!this.props.isLoadingTab ? this.props.children : <div id="loading-page"><Loading/></div>}
+                        </div>
+                    </div>
 
-    );
-  }
+                    <footer className="footer">
+                        <div className="container-fluid">
+                            <nav className="pull-left">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            Home
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            Company
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            Portfolio
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            Blog
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <p className="copyright pull-right">
+                                &copy;
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script>
+                                <a href="http://colorme.vn">Color ME</a>
+                            </p>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+        );
+    }
 }
 
 App.propTypes = {
-  children: PropTypes.element,
+    children: PropTypes.element,
     isLoadingTab: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
     onLogOut: PropTypes.func.isRequired,
