@@ -7,6 +7,20 @@ import toastr from 'toastr';
 import {browserHistory} from 'react-router';
 // import _ from 'lodash';
 
+export function deleteBase(base) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_BASE_SUCCESS,
+            base
+        });
+        toastr.success("Xoá cơ sở thành công");
+        baseListApi.deleteBase(base).catch(error => {
+            throw (error);
+        });
+
+    };
+}
+
 export function loadBases(page = 1) {
     return function (dispatch) {
         dispatch({
@@ -25,6 +39,7 @@ export function loadBases(page = 1) {
 
     };
 }
+
 
 export function setDefaultBase(baseId) {
     return function (dispatch) {

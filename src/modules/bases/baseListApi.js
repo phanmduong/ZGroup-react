@@ -4,6 +4,15 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+export function deleteBase(base) {
+    let url = env.MANAGE_API_URL + "/base/delete/" + base.id;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
 export function loadBases(page = 1) {
     let url = env.MANAGE_API_URL + "/bases?page=" + page;
     let token = localStorage.getItem('token');

@@ -19,6 +19,7 @@ class ListBase extends React.Component {
                     <th>Sửa gần nhất</th>
                     <th>Trụ sở</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,6 +45,12 @@ class ListBase extends React.Component {
                                     </span>
                                 </Link>
                             </td>
+                            <td>
+                                <a style={{color: "#c50000"}} onClick={() => this.props.deleteBase(base)}>
+                                    <span className="glyphicon glyphicon-trash">
+                                    </span>
+                                </a>
+                            </td>
                         </tr>
                     );
                 })}
@@ -55,6 +62,7 @@ class ListBase extends React.Component {
 
 ListBase.propTypes = {
     handleSwitch: PropTypes.func.isRequired,
+    deleteBase: PropTypes.func.isRequired,
     bases: PropTypes.array.isRequired
 };
 

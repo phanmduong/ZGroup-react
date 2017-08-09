@@ -17,10 +17,17 @@ class BasesContainer extends React.Component {
         super(props, context);
         this.handleSwitch = this.handleSwitch.bind(this);
         this.basesSearchChange = this.basesSearchChange.bind(this);
+        this.deleteBase = this.deleteBase.bind(this);
     }
 
     basesSearchChange() {
 
+    }
+
+    deleteBase(base) {
+        if (confirm("Bạn có chắc muốn xoá cơ sở này")) {
+            this.props.baseListActions.deleteBase(base);
+        }
     }
 
     componentWillMount() {
@@ -70,8 +77,10 @@ class BasesContainer extends React.Component {
                         placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
                     />
                     {this.props.isLoadingBases ? <Loading/> :
-                        <ListBase handleSwitch={this.handleSwitch}
-                                  bases={this.props.bases}/>}
+                        <ListBase
+                            deleteBase={this.deleteBase}
+                            handleSwitch={this.handleSwitch}
+                            bases={this.props.bases}/>}
                     <ul className="pagination">
                         {_.range(1, this.props.totalPages + 1).map(page => {
                             return <li key={page}><Link to={"/base/list?page=" + page}>{page}</Link></li>;
