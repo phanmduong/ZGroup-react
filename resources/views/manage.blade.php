@@ -20,6 +20,9 @@
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-3.1.1.min.js"
             type="text/javascript"></script>
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
     <link href="colorme-manage/main.73d08b6e387827980202a1de6eaba7c7.css" rel="stylesheet">
 </head>
 <body>
@@ -32,18 +35,12 @@
         type="text/javascript"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/perfect-scrollbar.jquery.min.js"
         type="text/javascript"></script>
-<!-- Forms Validations Plugin -->
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
-<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
 <!--  Charts Plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/chartist.min.js"></script>
 <!--  Plugin for the Wizard -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.bootstrap-wizard.js"></script>
 <!--  Notifications Plugin    -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-notify.js"></script>
-<!-- DateTimePicker Plugin -->
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
 <!-- Vector Map plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-jvectormap.js"></script>
 <!-- Sliders Plugin -->
