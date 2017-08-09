@@ -9,7 +9,7 @@ import ManageStaffsComponent from "../../components/manageStaff/ManageStaffsComp
 
 // Import actions here!!
 
-class CollectMoneyContainer extends React.Component {
+class ManageStaffsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeRoleStaff = this.changeRoleStaff.bind(this);
@@ -19,33 +19,39 @@ class CollectMoneyContainer extends React.Component {
     componentWillMount() {
         this.props.staffActions.loadStaffsData();
         this.props.roleActions.loadRolesData();
-        if (!this.props.baseListData || this.props.baseListData.length<=0){
+        if (!this.props.baseListData || this.props.baseListData.length <= 0) {
             this.props.baseActions.loadDataBase();
         }
     }
 
-    changeRoleStaff(staffId, roleId){
+    changeRoleStaff(staffId, roleId) {
         this.props.staffActions.changeRoleStaff(staffId, roleId);
     }
 
-    changeBaseStaff(staffId, baseId){
+    changeBaseStaff(staffId, baseId) {
         this.props.staffActions.changeBaseStaff(staffId, baseId);
     }
 
+    componentDidMount() {
+
+        // var table = $('#datatables').DataTable();
+    }
+
     render() {
-        let roleListData = (this.props.roleListData !== undefined) ?  this.props.roleListData : [];
+        let roleListData = (this.props.roleListData !== undefined) ? this.props.roleListData : [];
         return (
             <ManageStaffsComponent
                 {...this.props}
                 changeRoleStaff={this.changeRoleStaff}
                 changeBaseStaff={this.changeBaseStaff}
-                roleListData={[{id: 0, role_title:''}, ...roleListData]}
+                roleListData={[{id: 0, role_title: ''}, ...roleListData]}
             />
         );
+
     }
 }
 
-CollectMoneyContainer.propTypes = {
+ManageStaffsContainer.propTypes = {
     staffActions: PropTypes.object.isRequired,
     roleActions: PropTypes.object.isRequired,
     baseActions: PropTypes.object.isRequired,
@@ -60,7 +66,7 @@ CollectMoneyContainer.propTypes = {
     baseListData: PropTypes.array.isRequired,
 };
 
-CollectMoneyContainer.contextTypes = {
+ManageStaffsContainer.contextTypes = {
     router: PropTypes.object
 };
 
@@ -87,4 +93,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectMoneyContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageStaffsContainer);

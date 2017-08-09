@@ -7,6 +7,7 @@ import ItemTabParent from './ItemTabParent';
 import PropTypes from 'prop-types';
 
 let self;
+
 class CreateRoleComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -39,7 +40,7 @@ class CreateRoleComponent extends React.Component {
 
 
     render() {
-        let { tabsListData} = this.props;
+        let {tabsListData} = this.props;
         let {role_title} = this.props.roleForm;
         return (
             <div id="page-wrapper">
@@ -70,27 +71,25 @@ class CreateRoleComponent extends React.Component {
                                     }
                                 })}
                             </div>
-                            <div className="container-button-group-staff">
-                                {this.props.isLoadingCreateRole ?
-                                    (
-                                        <button
-                                            type="button"
-                                            className="btn btn-danger disabled"
-                                        >
-                                            <i className="fa fa-spinner fa-spin"/> Đang thêm chức vụ
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button
-                                            type="button"
-                                            className="btn btn-danger"
-                                            onClick={this.checkValidate}
-                                        >
-                                            Thêm chức vụ
-                                        </button>
-                                    )}
-                            </div>
+                            {this.props.isLoadingCreateRole ?
+                                (
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger disabled"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/> Đang thêm chức vụ
+                                    </button>
+                                )
+                                :
+                                (
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger"
+                                        onClick={this.checkValidate}
+                                    >
+                                        Thêm chức vụ
+                                    </button>
+                                )}
                         </form>
                     }
 

@@ -147,51 +147,49 @@ class EditStaffComponent extends React.Component {
                                 label="Hoạt đông trong công ty từ"
                                 name="start_company"
                                 updateFormData={this.props.updateFormData}
-                                value={(start_company!==undefined && start_company!==null) ? start_company.slice(0, 10) : start_company}
+                                value={(start_company !== undefined && start_company !== null) ? start_company.slice(0, 10) : start_company}
                             />
-                            <div className="container-button-group-staff">
-                                <div className="button-group-edit-staff">
-                                    {this.props.isLoadingUpdateStaff ?
-                                        (
-                                            <button
-                                                type="button"
-                                                className="btn btn-success disabled"
-                                            >
-                                                <i className="fa fa-spinner fa-spin"/> Đang cập nhật
-                                            </button>
-                                        )
-                                        :
-                                        (
-                                            <button
-                                                type="button"
-                                                className="btn btn-success"
-                                                onClick={this.checkValidate}
-                                            >
-                                                Cập nhật
-                                            </button>
-                                        )}
+                            <div>
+                                {this.props.isLoadingUpdateStaff ?
+                                    (
+                                        <button
+                                            type="button"
+                                            className="btn btn-success disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                        </button>
+                                    )
+                                    :
+                                    (
+                                        <button
+                                            type="button"
+                                            className="btn btn-success"
+                                            onClick={this.checkValidate}
+                                        >
+                                            Cập nhật
+                                        </button>
+                                    )}
 
 
-                                    {this.props.isLoadingDeleteStaff ?
-                                        (
-                                            <button
-                                                type="button"
-                                                className="btn btn-danger disabled"
-                                            >
-                                                <i className="fa fa-spinner fa-spin"/> Đang xóa
-                                            </button>
-                                        )
-                                        :
-                                        (
-                                            <button
-                                                type="button"
-                                                className="btn btn-danger"
-                                                onClick={this.props.deleteStaff}
-                                            >
-                                                Xóa
-                                            </button>
-                                        )}
-                                </div>
+                                {this.props.isLoadingDeleteStaff ?
+                                    (
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/> Đang xóa
+                                        </button>
+                                    )
+                                    :
+                                    (
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={this.props.deleteStaff}
+                                        >
+                                            Xóa
+                                        </button>
+                                    )}
                             </div>
                         </form>
                     )

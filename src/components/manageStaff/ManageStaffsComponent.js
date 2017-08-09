@@ -16,25 +16,25 @@ class ManageStaffsComponent extends React.Component {
 
     render() {
         return (
-            <div id="page-wrapper">
-                <div className="container-fluid">
-                    <ul className="nav nav-tabs">
-                        <li className="active"><Link to="/manage/quan-li-nhan-su">Nhân viên</Link></li>
-                        <li><Link to="/manage-role">Chức vụ</Link></li>
-                    </ul>
-                    <button
-                        type="button"
-                        className="btn btn-danger"
-                        id="button-add-staff"
-                        onClick={() => this.redirectAddStaff()}
-                    >
-                        Thêm nhân viên
-                    </button>
-                    <Search
-                        onChange={()=>{}}
-                        value=""
-                        placeholder="Tìm kiếm nhân viên"
-                    />
+            <div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => this.redirectAddStaff()}
+                        >
+                            Thêm nhân viên
+                        </button>
+                        <Search
+                            onChange={() => {
+                            }}
+                            value=""
+                            placeholder="Tìm kiếm nhân viên"
+                        />
+                    </div>
+                </div>
+                <div className="row">
                     {this.props.isLoadingStaffs ? <Loading/> : (
                         <ListStaff
                             staffs={this.props.staffListData}

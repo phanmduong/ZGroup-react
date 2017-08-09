@@ -22,7 +22,7 @@ const BaseForm = ({updateFormData, base, error, submit, isSavingBase}) => {
                 value={address}
                 notiValidate="Vui lòng nhập địa chỉ cơ sở"
                 isValidate={error.address === null}/>
-            <div className="container-button-group-staff">
+            <div>
                 {isSavingBase ?
                     (
                         <button

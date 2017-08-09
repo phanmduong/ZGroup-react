@@ -97,6 +97,86 @@ export default function rolesReducer(state = initialState.roles, action) {
                     errorDeleteRole: action.error,
                 }
             };
+        case types.BEGIN_LOAD_ROLE_DATA:
+            return {
+                ...state,
+                ...{
+                    editRole: {
+                        ...state.editRole,
+                        ...{
+                            isLoadingRole: action.isLoading,
+                            errorRole: action.error
+                        }
+                    },
+                    roleForm: action.role
+                }
+            };
+        case types.LOAD_ROLE_DATA_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    editRole: {
+                        ...state.editRole,
+                        ...{
+                            isLoadingRole: action.isLoading,
+                            errorRole: action.error
+                        }
+                    },
+                    roleForm: action.role
+                }
+            };
+        case types.LOAD_ROLE_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    editRole: {
+                        ...state.editRole,
+                        ...{
+                            isLoadingRole: action.isLoading,
+                            errorRole: action.error
+                        }
+                    }
+                }
+            };
+        case types.BEGIN_EDIT_ROLE_DATA:
+            return {
+                ...state,
+                ...{
+                    editRole: {
+                        ...state.editRole,
+                        ...{
+                            isLoadingUpdateRole: action.isLoading,
+                            errorUpdateRole: action.error
+                        }
+                    }
+                }
+            };
+        case types.EDIT_ROLE_DATA_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    editRole: {
+                        ...state.editRole,
+                        ...{
+                            isLoadingUpdateRole: action.isLoading,
+                            errorUpdateRole: action.error
+                        }
+                    }
+                }
+            };
+        case types.EDIT_ROLE_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    editRole: {
+                        ...state.editRole,
+                        ...{
+                            isLoadingUpdateRole: action.isLoading,
+                            errorUpdateRole: action.error
+                        }
+                    }
+                }
+            };
         default:
             return state;
     }

@@ -10,6 +10,7 @@ import AddStaffContainer from './containers/manageStaff/AddStaffContainer';
 import EditStaffContainer from './containers/manageStaff/EditStaffContainer';
 import ManageRoleContainer from './containers/role/ManageRoleContainer';
 import CreateRoleContainer from './containers/role/CreateRoleContainer';
+import EditRoleContainer from './containers/role/EditRoleContainer';
 import NotFoundPage from './components/NotFoundPage';
 import BasesContainer from "./modules/bases/BasesContainer";
 import CreateBaseContainer from "./modules/bases/CreateBaseContainer";
@@ -26,6 +27,7 @@ export default (
             <Route path="staff/:staffId/edit" component={EditStaffContainer}/>
             <Route path="manage-role" component={ManageRoleContainer}/>
             <Route path="create-role" component={CreateRoleContainer}/>
+            <Route path="role/:roleId/edit" component={EditRoleContainer}/>
             <Route path="base/list" component={BasesContainer}/>
             <Route path="base/create" component={CreateBaseContainer}/>
             <Route path="base/edit/:baseId" component={CreateBaseContainer}/>

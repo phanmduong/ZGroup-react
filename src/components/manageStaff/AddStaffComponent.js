@@ -158,7 +158,7 @@ class AddStaffComponent extends React.Component {
                             value={start_company.slice(0, 10)}
                         />
 
-                        <div className="container-button-group-staff">
+                        <div>
                             {this.props.isLoadingAddStaff ?
                                 (
                                     <button

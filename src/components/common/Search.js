@@ -8,7 +8,7 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div className="form-group" id="search-form">
+      <div className="form-group">
         <input className="form-control"
                placeholder={this.props.placeholder}
                value={this.props.value}

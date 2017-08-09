@@ -101,7 +101,13 @@ export default {
             isLoading: false,
             error: false,
         },
-        roleForm: {
+        editRole: {
+            isLoadingRole: false,
+            errorRole: false,
+            isLoadingUpdateRole: false,
+            errorUpdateRole: false,
+        },
+        roleForm:{
             role_title: ''
         },
         isLoadingDeleteRole: false,

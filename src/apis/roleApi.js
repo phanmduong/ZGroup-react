@@ -18,7 +18,7 @@ export function createRole(tabs, role) {
         url += "?token=" + token;
     }
 
-    return axios.post(url,{
+    return axios.post(url, {
         tabs: tabs,
         role: {
             id: -1,
@@ -34,7 +34,30 @@ export function deleteRole(roleId) {
         url += "?token=" + token;
     }
 
-    return axios.post(url,{
+    return axios.post(url, {
         role_id: roleId
+    });
+}
+
+export function getRole(roleId) {
+    let url = env.MANAGE_API_URL + "/role/" + roleId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function editRole(tabs, role) {
+    let url = env.MANAGE_API_URL + "/edit-role";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        tabs: tabs,
+        role: role
     });
 }

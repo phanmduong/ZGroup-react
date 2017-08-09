@@ -10,88 +10,97 @@ class ListStaff extends React.Component {
         self = this;
     }
 
-    editStaff(staffId){
+    editStaff(staffId) {
         browserHistory.push(`staff/${staffId}/edit`);
     }
 
     render() {
         let {staffs, roles, bases} = this.props;
         return (
-            <div className="col-lg-12 table-manage-staff">
-                <div className="table-responsive">
-                    <table className="table table-bordered table-hover table-striped">
-                        <thead>
-                        <tr>
-                            <th className="cell-center">Họ tên</th>
-                            <th className="cell-center">Email</th>
-                            <th className="cell-center">Phone</th>
-                            <th className="cell-center">Cơ sở</th>
-                            <th className="cell-center">Chức vụ</th>
-                            <th className="cell-center">Sửa</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {staffs.map(function (staff, index) {
-                            return (
-                                <tr key={index}>
-                                    <td>{staff.name}</td>
-                                    <td>{staff.email}</td>
-                                    <td>{staff.phone}</td>
-                                    {(staff.base_id > 0) ?
-                                        (
+            <div className="col-md-12">
+                <div className="card">
+                    <div className="card-header card-header-icon" data-background-color="rose">
+                        <i className="material-icons">assignment</i>
+                    </div>
+                    <div className="card-content">
+                        <h4 className="card-title">Danh sách nhân viên</h4>
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead className="text-primary">
+                                <tr>
+                                    <th>Họ tên</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Cơ sở</th>
+                                    <th>Chức vụ</th>
+                                    <th>Sửa</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {staffs.map(function (staff, index) {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{staff.name}</td>
+                                            <td>{staff.email}</td>
+                                            <td>{staff.phone}</td>
+                                            {(staff.base_id > 0) ?
+                                                (
+                                                    <td>
+                                                        {(bases !== null && bases.length > 0 &&
+                                                            (<select className="form-control" value={staff.base_id}
+                                                                     onChange={(event) => {
+                                                                         self.props.changeBaseStaff(staff.id, event.target.value);
+                                                                     }}
+                                                            >
+                                                                {bases.map((base, key) => {
+                                                                    return (
+                                                                        <option
+                                                                            key={key}
+                                                                            value={base.id}
+                                                                        >
+                                                                            {`${base.name}: ${base.address}`}
+                                                                        </option>);
+                                                                })}
+                                                            </select>))
+                                                        }
+                                                    </td>
+                                                )
+                                                :
+                                                (
+                                                    <td/>
+                                                )
+                                            }
                                             <td>
-                                                {(bases !== null && bases.length > 0 &&
-                                                    (<select className="form-control" value={staff.base_id}
+                                                {(roles !== null && roles !== undefined &&
+                                                    (<select className="form-control" value={staff.role_id}
                                                              onChange={(event) => {
-                                                                 self.props.changeBaseStaff(staff.id, event.target.value);
-                                                             }}
-                                                    >
-                                                        {bases.map((base, key) => {
+                                                                 self.props.changeRoleStaff(staff.id, event.target.value);
+                                                             }}>
+                                                        {roles.map((role, key) => {
                                                             return (
                                                                 <option
                                                                     key={key}
-                                                                    value={base.id}
+                                                                    value={role.id}
                                                                 >
-                                                                    {`${base.name}: ${base.address}`}
+                                                                    {role.role_title}
                                                                 </option>);
                                                         })}
                                                     </select>))
                                                 }
-                                            </td>
-                                        )
-                                        :
-                                        (
-                                            <td/>
-                                        )
-                                    }
-                                    <td>
-                                        {(roles !== null && roles !== undefined &&
-                                            (<select className="form-control" value={staff.role_id}
-                                                     onChange={(event) => {
-                                                         self.props.changeRoleStaff(staff.id, event.target.value);
-                                                     }}>
-                                                {roles.map((role, key) => {
-                                                    return (
-                                                        <option
-                                                            key={key}
-                                                            value={role.id}
-                                                        >
-                                                            {role.role_title}
-                                                        </option>);
-                                                })}
-                                            </select>))
-                                        }
 
-                                    </td>
-                                    <td className="icon-edit-staff" onClick={()=>self.editStaff(staff.id)}><i
-                                        className="fa fa-pencil"/></td>
-                                </tr>
-                            );
-                        })}
-                        </tbody>
-                    </table>
+                                            </td>
+                                            <td className="text-center" onClick={() => self.editStaff(staff.id)}><i
+                                                className="fa fa-pencil"/></td>
+                                        </tr>
+                                    );
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         );
     }
 }
