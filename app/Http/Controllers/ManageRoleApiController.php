@@ -63,7 +63,27 @@ class ManageRoleApiController extends ApiController
         if (!$role) return $this->responseNotAccepted("Chức vụ không tồn tại");
 
         $role->delete();
-        return $this->respondSuccessWithStatus(['message'=>"Xóa chức vụ thành công"]);
+        return $this->respondSuccessWithStatus(['message' => "Xóa chức vụ thành công"]);
+    }
+
+    public function get_role($domain, $roleId)
+    {
+        $role = Role::find($roleId);
+        $role_tabs_id = $role->tabs()->pluck('tabs.id')->toArray();
+        $tabs = Tab::all();
+        $tabs = $tabs->map(function ($tab) use ($role_tabs_id) {
+            if (in_array($tab->id, $role_tabs_id)) {
+                $tab->checked = true;
+            } else {
+                $tab->checked = false;
+            }
+            return $tab;
+        });
+        $data = [
+            'role' => $role,
+            'tabs' => $tabs
+        ];
+        return $this->respondSuccessWithStatus($data);
     }
 
 }
