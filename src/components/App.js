@@ -141,10 +141,10 @@ class App extends React.Component {
                       if (checkDropdown){
                         return (
                           <li key={"keytabpar" + index}>
-                            <a href={tab.url} data-toggle="collapse" data-target={'#tab' + tab.id}>
+                            <a  data-toggle="collapse" data-target={'#tab' + tab.id}>
                               {tab.name}
                               <i className="fa fa-fw fa-caret-down"/>
-                            </a>
+                            </a >
                             <ul id={'tab' + tab.id} className="collapse">
                               {
                                 this.props.tabsListData.map((tabChild, index) => {

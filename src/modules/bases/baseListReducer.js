@@ -6,6 +6,22 @@ import initialState from '../../reducers/initialState';
 
 export default function baseListReducer(state = initialState.baseList, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_BASE:
+            return Object.assign({}, state, {
+                createBase: {
+                    ...state.createBase,
+                    isLoadingBase: true
+                }
+            });
+        case types.LOAD_BASE_SUCCESS:
+            return Object.assign({}, state, {
+                createBase: {
+                    ...state.createBase,
+                    base: action.base,
+                    isLoadingBase: false
+                }
+            });
+
         case types.BEGIN_LOAD_BASES:
             return Object.assign({}, state, {
                 isLoadingBases: true
@@ -40,7 +56,13 @@ export default function baseListReducer(state = initialState.baseList, action) {
         case types.CREATE_BASE_SUCCESS:
             return {
                 ...state,
-                createBase: {...state.createBase, isSavingBase: false}
+                createBase: {
+                    ...state.createBase, isSavingBase: false,
+                    base: {
+                        name: "",
+                        address: ""
+                    }
+                }
             };
         default:
             return state;

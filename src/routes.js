@@ -27,6 +27,7 @@ export default (
             <Route path="create-role" component={CreateRoleContainer}/>
             <Route path="base/list" component={BasesContainer}/>
             <Route path="base/create" component={CreateBaseContainer}/>
+            <Route path="base/edit/:baseId" component={CreateBaseContainer}/>
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

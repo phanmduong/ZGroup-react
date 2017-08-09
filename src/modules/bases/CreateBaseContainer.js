@@ -4,11 +4,12 @@ import {bindActionCreators} from 'redux';
 // Import actions here!!
 import PropTypes from 'prop-types';
 import Header from "../../components/common/Header";
-import FormInputText from "../../components/common/FormInputText";
 import * as baseListActions from './baseListActions';
 import {isEmptyInput} from '../../helpers/helper';
 import _ from 'lodash';
 import toastr from 'toastr';
+import BaseForm from "./BaseForm";
+import Loading from "../../components/common/Loading";
 
 class CreateBaseContainer extends React.Component {
     constructor(props, context) {
@@ -16,8 +17,18 @@ class CreateBaseContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.submit = this.submit.bind(this);
         this.state = {
-            error: {}
+            error: {},
+            header: "Thêm cơ sở"
         };
+    }
+
+    componentWillMount() {
+        if (this.props.params.baseId) {
+            this.setState({
+                header: "Sửa cơ sở"
+            });
+            this.props.baseListActions.loadBase(this.props.params.baseId);
+        }
     }
 
     updateFormData(event) {
@@ -37,58 +48,26 @@ class CreateBaseContainer extends React.Component {
             error.address = "Bạn cần nhập địa chỉ cơ sở";
         }
         if (_.isEmpty(error)) {
-            console.log("add base");
+            this.props.baseListActions.createBase(this.props.base);
         } else {
             _.values(error).forEach(e => toastr.error(e));
         }
-        this.props.baseListActions.createBase(this.props.base);
     }
 
     render() {
-        let {name, address} = this.props.base;
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-                    <Header header="Thêm cơ sở" title="Quản lý cơ sở" iconTitle="fa fa-edit"/>
-                    <form role="form">
-                        <FormInputText
-                            placeholder="Nhập tên cơ sở"
-                            label="Tên cơ sở"
-                            name="name"
-                            updateFormData={this.updateFormData}
-                            value={name}
-                            notiValidate="Vui lòng nhập họ và tên"
-                            isValidate={this.state.error.name === null}/>
-                        <FormInputText
-                            placeholder="Nhập địa chỉ cơ sở"
-                            label="Địa chỉ cơ sở"
-                            name="address"
-                            updateFormData={this.updateFormData}
-                            value={address}
-                            notiValidate="Vui lòng nhập địa chỉ cơ sở"
-                            isValidate={this.state.error.address === null}/>
-                        <div className="container-button-group-staff">
-                            {this.props.isSavingBase ?
-                                (
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary disabled"
-                                    >
-                                        <i className="fa fa-spinner fa-spin"/> Đang thêm cơ sở
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={this.submit}
-                                    >
-                                        Thêm cơ sở
-                                    </button>
-                                )}
-                        </div>
-                    </form>
+                    <Header header={this.state.header} title="Quản lý cơ sở" iconTitle="fa fa-edit"/>
+                    {this.props.isLoadingBase ? <Loading/> : (
+                        <BaseForm
+                            error={this.state.error}
+                            base={this.props.base}
+                            isSavingBase={this.props.isSavingBase}
+                            submit={this.submit}
+                            updateFormData={this.updateFormData}/>
+                    )}
+
                 </div>
             </div>
         );
@@ -97,13 +76,16 @@ class CreateBaseContainer extends React.Component {
 }
 CreateBaseContainer.propTypes = {
     base: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     baseListActions: PropTypes.object.isRequired,
+    isLoadingBase: PropTypes.bool.isRequired,
     isSavingBase: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         base: state.baseList.createBase.base,
+        isLoadingBase: state.baseList.createBase.isLoadingBase,
         isSavingBase: state.baseList.createBase.isSavingBase
     };
 }

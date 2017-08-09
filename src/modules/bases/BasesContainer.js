@@ -16,6 +16,11 @@ class BasesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.handleSwitch = this.handleSwitch.bind(this);
+        this.basesSearchChange = this.basesSearchChange.bind(this);
+    }
+
+    basesSearchChange() {
+
     }
 
     componentWillMount() {
@@ -35,7 +40,6 @@ class BasesContainer extends React.Component {
             this.props.baseListActions.loadBases(this.page);
         }
     }
-
 
 
     handleSwitch(state, baseId) {
@@ -62,7 +66,7 @@ class BasesContainer extends React.Component {
                     </div>
                     <Search
                         onChange={this.basesSearchChange}
-                        value={this.value}
+                        value={this.props.searchTerm}
                         placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
                     />
                     {this.props.isLoadingBases ? <Loading/> :
@@ -82,6 +86,7 @@ class BasesContainer extends React.Component {
 BasesContainer.propTypes = {
     isLoadingBases: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
+    searchTerm: PropTypes.string.isRequired,
     location: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
@@ -93,7 +98,8 @@ function mapStateToProps(state) {
         bases: state.baseList.bases,
         isLoadingBases: state.baseList.isLoadingBases,
         totalPages: state.baseList.totalPages,
-        currentPage: state.baseList.currentPage
+        currentPage: state.baseList.currentPage,
+        searchTerm: state.baseList.searchTerm
     };
 }
 

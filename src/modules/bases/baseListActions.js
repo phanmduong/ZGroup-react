@@ -67,4 +67,20 @@ export function createBase(base) {
     };
 }
 
+export function loadBase(baseId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_BASE
+        });
+        baseListApi.loadBase(baseId)
+            .then(res => {
+                const base = res.data.data;
+                dispatch({
+                    type: types.LOAD_BASE_SUCCESS,
+                    base
+                });
+            });
+    };
+}
+
 

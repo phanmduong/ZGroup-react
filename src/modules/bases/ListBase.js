@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-bootstrap-switch';
+import {Link} from "react-router";
 
 class ListBase extends React.Component {
     constructor(props, context) {
@@ -14,9 +15,10 @@ class ListBase extends React.Component {
                 <tr>
                     <th>Tên cơ sở</th>
                     <th>Địa chỉ</th>
-                    <th>Thời gian tạo</th>
-                    <th>Thời gian sửa gần nhất</th>
+                    <th>Thêm vào lúc</th>
+                    <th>Sửa gần nhất</th>
                     <th>Trụ sở</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,6 +37,12 @@ class ListBase extends React.Component {
                                     bsSize="mini"
                                     onText="Bật" offText="Tắt"
                                     value={(base.center === 1)}/>
+                            </td>
+                            <td>
+                                <Link to={"base/edit/" + base.id}>
+                                    <span className="glyphicon glyphicon-edit">
+                                    </span>
+                                </Link>
                             </td>
                         </tr>
                     );
