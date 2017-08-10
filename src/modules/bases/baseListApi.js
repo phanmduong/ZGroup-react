@@ -13,9 +13,12 @@ export function deleteBase(base) {
     return axios.post(url);
 }
 
-export function loadBases(page = 1) {
+export function loadBases(page = 1, query = null) {
     let url = env.MANAGE_API_URL + "/bases?page=" + page;
     let token = localStorage.getItem('token');
+    if (query) {
+        url += "&q=" + query;
+    }
     if (token) {
         url += "&token=" + token;
     }

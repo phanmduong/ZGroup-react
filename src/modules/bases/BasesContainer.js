@@ -20,9 +20,25 @@ class BasesContainer extends React.Component {
         this.handleSwitch = this.handleSwitch.bind(this);
         this.basesSearchChange = this.basesSearchChange.bind(this);
         this.deleteBase = this.deleteBase.bind(this);
+        this.loadBases = this.loadBases.bind(this);
+        this.state = {
+            page: 1,
+            query: ""
+        };
+        this.timeOut = null;
     }
 
-    basesSearchChange() {
+    basesSearchChange(value) {
+        this.setState({
+            page: 1,
+            query: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.baseListActions.loadBases(this.state.page, this.state.query);
+        }.bind(this), 500);
 
     }
 
@@ -34,22 +50,24 @@ class BasesContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.page = 1;
-        if (this.props.location.query.page) {
-            this.page = this.props.location.query.page;
-        }
-        this.props.baseListActions.loadBases(this.page);
+        this.loadBases();
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.location.query.page && nextProps.location.query.page !== this.page) {
-            this.page = nextProps.location.query.page;
-            this.props.baseListActions.loadBases(this.page);
-        } else if (!nextProps.location.query.page && this.props.location.query.page) {
-            this.page = 1;
-            this.props.baseListActions.loadBases(this.page);
-        }
+    loadBases(page = 1) {
+        this.setState({page});
+        this.props.baseListActions.loadBases(page, this.state.query);
     }
+
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.location.query.page && nextProps.location.query.page !== this.state.page) {
+    //         this.setState({page: nextProps.location.query.page});
+    //         console.log(this.state.page);
+    //         this.props.baseListActions.loadBases(this.state.page, this.state.query);
+    //     } else if (!nextProps.location.query.page && this.props.location.query.page) {
+    //         this.setState({page: 1});
+    //         this.props.baseListActions.loadBases(this.state.page, this.state.query);
+    //     }
+    // }
 
 
     handleSwitch(state, baseId) {
@@ -62,14 +80,10 @@ class BasesContainer extends React.Component {
 
 
     render() {
-
+        const currentPage = this.state.page;
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-                    <ul className="nav nav-tabs">
-                        <li className="active"><Link to="/manage/quan-li-nhan-su">Cơ sở</Link></li>
-                    </ul>
-
                     <div style={{marginTop: "15px"}}>
                         <Link to="/base/create" className="btn btn-primary">
                             Thêm cơ sở
@@ -86,7 +100,7 @@ class BasesContainer extends React.Component {
                             <h4 className="card-title">Cơ sở</h4>
                             <Search
                                 onChange={this.basesSearchChange}
-                                value={this.props.searchTerm}
+                                value={this.state.query}
                                 placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
                             />
 
@@ -101,16 +115,16 @@ class BasesContainer extends React.Component {
                     <div className="card-content">
                         <ul className="pagination pagination-primary">
                             {_.range(1, this.props.totalPages + 1).map(page => {
-                                if (Number(this.page) === page) {
+                                if (Number(currentPage) === page) {
                                     return (
                                         <li key={page} className="active">
-                                            <Link to={"/base/list?page=" + page}>{page}</Link>
+                                            <a onClick={() => this.loadBases(page)}>{page}</a>
                                         </li>
                                     );
                                 } else {
                                     return (
                                         <li key={page}>
-                                            <Link to={"/base/list?page=" + page}>{page}</Link>
+                                            <a onClick={() => this.loadBases(page)}>{page}</a>
                                         </li>
                                     );
                                 }
@@ -128,7 +142,6 @@ class BasesContainer extends React.Component {
 BasesContainer.propTypes = {
     isLoadingBases: PropTypes.bool.isRequired,
     bases: PropTypes.array.isRequired,
-    searchTerm: PropTypes.string.isRequired,
     location: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
@@ -140,8 +153,7 @@ function mapStateToProps(state) {
         bases: state.baseList.bases,
         isLoadingBases: state.baseList.isLoadingBases,
         totalPages: state.baseList.totalPages,
-        currentPage: state.baseList.currentPage,
-        searchTerm: state.baseList.searchTerm
+        currentPage: state.baseList.currentPage
     };
 }
 

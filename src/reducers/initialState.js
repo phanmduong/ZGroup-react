@@ -125,7 +125,6 @@ export default {
         isLoadingBases: false,
         currentPage: 1,
         totalPages: 1,
-        searchTerm: "",
         createBase: {
             isSavingBase: false,
             isLoadingBase: false,

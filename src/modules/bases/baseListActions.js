@@ -5,6 +5,7 @@ import * as types from '../../constants/actionTypes';
 import * as baseListApi from './baseListApi';
 import toastr from 'toastr';
 import {browserHistory} from 'react-router';
+
 // import _ from 'lodash';
 
 export function deleteBase(base) {
@@ -21,12 +22,12 @@ export function deleteBase(base) {
     };
 }
 
-export function loadBases(page = 1) {
+export function loadBases(page = 1, query = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_BASES
         });
-        baseListApi.loadBases(page).then(function (res) {
+        baseListApi.loadBases(page, query).then(function (res) {
             dispatch({
                 type: types.LOAD_BASES_SUCCESS,
                 bases: res.data.bases,
