@@ -58,7 +58,9 @@ Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
     Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
     Route::get('/get-roles', 'ManageStaffApiController@get_roles');
+    Route::get('/role/{roleId}', 'ManageRoleApiController@get_role');
     Route::post('/create-role', 'ManageRoleApiController@store_role');
+    Route::post('/edit-role', 'ManageRoleApiController@store_role');
     Route::post('/delete-role', 'ManageRoleApiController@delete_role');
     Route::get('/staff/{staffId}', "ManageStaffApiController@get_staff");
     Route::post('/staff/{staffId}/edit', "ManageStaffApiController@edit_staff");

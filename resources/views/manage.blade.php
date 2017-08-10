@@ -2,23 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/png" href="http://charitylabs.co.uk/wp-content/uploads/2012/12/The-Z-Principal.jpg"/>
+    <link rel="shortcut icon" type="image/png" href="http://d2xbg5ewmrmfml.cloudfront.net/web/zgrouplogofulltoai.png"/>
     <base href="/">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Quản lý ZGroup</title>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-    <link href="colorme-manage/main.4a4365b63686a33835a9fe95c180611e.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Quản lý zGroup</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
+    <meta name="viewport" content="width=device-width"/>
+    <!-- Bootstrap core CSS     -->
+    <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <!--  Material Dashboard CSS    -->
+    <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/material-dashboard.css" rel="stylesheet"/>
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/demo.css" rel="stylesheet"/>
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-3.1.1.min.js"
+            type="text/javascript"></script>
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
+    <link href="colorme-manage/main.b6f697dafa604db63d8d25b75c3f513e.css" rel="stylesheet">
 </head>
 <body>
 <div id="app"></div>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-<script type="text/javascript" src="colorme-manage/main.297782952ca13fa182d9.js"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-ui.min.js"
+        type="text/javascript"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap.min.js"
+        type="text/javascript"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/material.min.js"
+        type="text/javascript"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/perfect-scrollbar.jquery.min.js"
+        type="text/javascript"></script>
+<!--  Charts Plugin -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/chartist.min.js"></script>
+<!--  Plugin for the Wizard -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.bootstrap-wizard.js"></script>
+<!--  Notifications Plugin    -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-notify.js"></script>
+<!-- Vector Map plugin -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-jvectormap.js"></script>
+<!-- Sliders Plugin -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/nouislider.min.js"></script>
+<!--  Google Maps Plugin    -->
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<!-- Select Plugin -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.select-bootstrap.js"></script>
+<!--  DataTables.net Plugin    -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.datatables.js"></script>
+<!-- Sweet Alert 2 plugin -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/sweetalert2.js"></script>
+<!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jasny-bootstrap.min.js"></script>
+<!--  Full Calendar Plugin    -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/fullcalendar.min.js"></script>
+<!-- TagsInput Plugin -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.tagsinput.js"></script>
+<!-- Material Dashboard javascript methods -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/material-dashboard.js"></script>
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
+
+<script type="text/javascript" src="colorme-manage/main.df60307064aaee74e5b9.js"></script>
 </body>
 </html>
