@@ -1,7 +1,5 @@
 import React from 'react';
-import Header from '../common/Header';
 import FormInputText from '../common/FormInputText';
-import toastr from 'toastr';
 import Loading from "../common/Loading";
 import ItemTabParent from './ItemTabParent';
 import PropTypes from 'prop-types';
@@ -11,30 +9,13 @@ let self;
 class CreateRoleComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            isValidRoleTitle: false,
-        };
         this.checkValidate = this.checkValidate.bind(this);
         self = this;
     }
 
     checkValidate() {
-        let {role_title} = this.props.roleForm;
-        let isValidate = false;
-        if (role_title === null || role_title === undefined || role_title.trim().length <= 0) {
-            this.setState({
-                isValidRoleTitle: true,
-            });
-            isValidate = true;
-        }
-
-        if (!isValidate) {
-            this.setState({
-                isValidRoleTitle: false,
-            });
+        if ($('#form-add-role').valid()) {
             this.props.createRole();
-        } else {
-            toastr.error('Kiểm tra thông tin');
         }
     }
 
@@ -43,56 +24,65 @@ class CreateRoleComponent extends React.Component {
         let {tabsListData} = this.props;
         let {role_title} = this.props.roleForm;
         return (
-            <div id="page-wrapper">
-                <div className="container-fluid">
-                    <Header header="Tạo chức vụ" title="Quản lý nhân sự" iconTitle="fa fa-edit"/>
-                    {(this.props.isLoadingTab) ? <Loading/> :
-                        <form role="form">
-                            <FormInputText
-                                placeholder="Nhập tên chức vụ"
-                                label="Tên chức vụ"
-                                name="role_title"
-                                updateFormData={this.props.updateFormData}
-                                value={role_title}
-                                notiValidate="Vui lòng nhập tên chức vụ"
-                                isValidate={this.state.isValidRoleTitle}
-                            />
-                            <div className="form-group">
-                                {tabsListData.map((tab, index) => {
-                                    if (tab.id > 2 && tab.parent_id === 0) {
-                                        return (
-                                            <ItemTabParent
-                                                tab={tab}
-                                                key={index}
-                                                tabsListData={tabsListData}
-                                                changeCheckTab={self.props.changeCheckTab}
-                                            />
-                                        );
-                                    }
-                                })}
+            <div>
+                <div className="row">
+                    <div className="col-md-12">
+                        {(this.props.isLoadingTab) ? <Loading/> :
+                            <div className="card">
+                                <form id="form-add-role" onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}>
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">assignment_turned_in</i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">Tạo chức vụ</h4>
+                                        <FormInputText
+                                            label="Tên chức vụ"
+                                            name="role_title"
+                                            updateFormData={this.props.updateFormData}
+                                            value={role_title}
+                                            required={true}
+                                            type="text"
+                                        />
+                                        <div className="form-group">
+                                            {tabsListData.map((tab, index) => {
+                                                if (tab.id > 2 && tab.parent_id === 0) {
+                                                    return (
+                                                        <ItemTabParent
+                                                            tab={tab}
+                                                            key={index}
+                                                            tabsListData={tabsListData}
+                                                            changeCheckTab={self.props.changeCheckTab}
+                                                        />
+                                                    );
+                                                }
+                                            })}
+                                        </div>
+                                        {this.props.isLoadingCreateRole ?
+                                            (
+                                                <button
+                                                    type="submit"
+                                                    className="btn btn-rose disabled"
+                                                >
+                                                    <i className="fa fa-spinner fa-spin"/> Đang thêm chức vụ
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button
+                                                    type="submit"
+                                                    className="btn btn-rose"
+                                                    onClick={this.checkValidate}
+                                                >
+                                                    Thêm chức vụ
+                                                </button>
+                                            )}
+                                    </div>
+                                </form>
                             </div>
-                            {this.props.isLoadingCreateRole ?
-                                (
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger disabled"
-                                    >
-                                        <i className="fa fa-spinner fa-spin"/> Đang thêm chức vụ
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger"
-                                        onClick={this.checkValidate}
-                                    >
-                                        Thêm chức vụ
-                                    </button>
-                                )}
-                        </form>
-                    }
-
+                        }
+                    </div>
                 </div>
             </div>
         );

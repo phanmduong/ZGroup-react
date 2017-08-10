@@ -21,6 +21,14 @@ class CreateRoleContainer extends React.Component {
         this.props.tabsActions.loadAllTabsData();
     }
 
+    componentDidUpdate() {
+        $('#form-add-role').validate({
+            errorPlacement: function (error, element) {
+                $(element).parent('div').addClass('has-error');
+            }
+        });
+    }
+
     updateFormData(event) {
         const field = event.target.name;
         let roleForm = {...this.props.roleForm};

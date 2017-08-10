@@ -22,6 +22,14 @@ class EditRoleContainer extends React.Component {
         this.props.roleActions.loadRoleData(this.props.params.roleId);
     }
 
+    componentDidUpdate() {
+        $('#form-edit-role').validate({
+            errorPlacement: function (error, element) {
+                $(element).parent('div').addClass('has-error');
+            }
+        });
+    }
+
     updateFormData(event) {
         const field = event.target.name;
         let roleForm = {...this.props.roleForm};

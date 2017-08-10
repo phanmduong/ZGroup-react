@@ -19,22 +19,8 @@ class EditRoleComponent extends React.Component {
     }
 
     checkValidate() {
-        let {role_title} = this.props.roleForm;
-        let isValidate = false;
-        if (role_title === null || role_title === undefined || role_title.trim().length <= 0) {
-            this.setState({
-                isValidRoleTitle: true,
-            });
-            isValidate = true;
-        }
-
-        if (!isValidate) {
-            this.setState({
-                isValidRoleTitle: false,
-            });
+        if ($('#form-edit-role').valid()) {
             this.props.editRole();
-        } else {
-            toastr.error('Kiểm tra thông tin');
         }
     }
 
@@ -43,77 +29,86 @@ class EditRoleComponent extends React.Component {
         let {tabsListData} = this.props;
         let {role_title} = this.props.roleForm;
         return (
-            <div id="page-wrapper">
-                <div className="container-fluid">
-                    <Header header="Sửa chức vụ" title="Quản lý nhân sự" iconTitle="fa fa-edit"/>
-                    {(this.props.isLoadingRole) ? <Loading/> :
-                        <form role="form">
-                            <FormInputText
-                                placeholder="Nhập tên chức vụ"
-                                label="Tên chức vụ"
-                                name="role_title"
-                                updateFormData={this.props.updateFormData}
-                                value={role_title}
-                                notiValidate="Vui lòng nhập tên chức vụ"
-                                isValidate={this.state.isValidRoleTitle}
-                            />
-                            <div className="form-group">
-                                {tabsListData.map((tab, index) => {
-                                    if (tab.id > 2 && tab.parent_id === 0) {
-                                        return (
-                                            <ItemTabParent
-                                                tab={tab}
-                                                key={index}
-                                                tabsListData={tabsListData}
-                                                changeCheckTab={self.props.changeCheckTab}
-                                            />
-                                        );
-                                    }
-                                })}
+            <div>
+                <div className="row">
+                    <div className="col-md-12">
+                        {(this.props.isLoadingRole) ? <Loading/> :
+                            <div className="card">
+                                <form id="form-edit-role" onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}>
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">assignment_turned_in</i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">Sửa chức vụ</h4>
+                                        <FormInputText
+                                            label="Tên chức vụ"
+                                            name="role_title"
+                                            updateFormData={this.props.updateFormData}
+                                            value={role_title}
+                                            required={true}
+                                            type="text"
+                                        />
+                                        <div className="form-group">
+                                            {tabsListData.map((tab, index) => {
+                                                if (tab.id > 2 && tab.parent_id === 0) {
+                                                    return (
+                                                        <ItemTabParent
+                                                            tab={tab}
+                                                            key={index}
+                                                            tabsListData={tabsListData}
+                                                            changeCheckTab={self.props.changeCheckTab}
+                                                        />
+                                                    );
+                                                }
+                                            })}
+                                        </div>
+                                        {this.props.isLoadingUpdateRole ?
+                                            (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-success disabled"
+                                                >
+                                                    <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-success"
+                                                    onClick={this.checkValidate}
+                                                >
+                                                    Cập nhật
+                                                </button>
+                                            )}
+
+
+                                        {this.props.isLoadingDeleteRole ?
+                                            (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger disabled"
+                                                >
+                                                    <i className="fa fa-spinner fa-spin"/> Đang xóa
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger"
+                                                    onClick={this.props.deleteRole}
+                                                >
+                                                    Xóa
+                                                </button>
+                                            )}
+                                    </div>
+                                </form>
                             </div>
-                            {this.props.isLoadingUpdateRole ?
-                                (
-                                    <button
-                                        type="button"
-                                        className="btn btn-success disabled"
-                                    >
-                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button
-                                        type="button"
-                                        className="btn btn-success"
-                                        onClick={this.checkValidate}
-                                    >
-                                        Cập nhật
-                                    </button>
-                                )}
-
-
-                            {this.props.isLoadingDeleteRole ?
-                                (
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger disabled"
-                                    >
-                                        <i className="fa fa-spinner fa-spin"/> Đang xóa
-                                    </button>
-                                )
-                                :
-                                (
-                                    <button
-                                        type="button"
-                                        className="btn btn-danger"
-                                        onClick={this.props.deleteRole}
-                                    >
-                                        Xóa
-                                    </button>
-                                )}
-                        </form>
-                    }
-
+                        }
+                    </div>
                 </div>
             </div>
         );
