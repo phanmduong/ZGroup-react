@@ -31,6 +31,17 @@ class EditStaffContainer extends React.Component {
         this.props.staffActions.updateEditStaffFormData(staffForm);
     }
 
+    componentDidMount() {
+        $('#form-edit-staff').validate({
+            errorPlacement: function (error, element) {
+                $(element).parent('div').addClass('has-error');
+            }
+        });
+        $('#form-date-start-company').datetimepicker({
+            format: "YYYY-MM-DD"
+        });
+    }
+
     editStaff() {
         this.props.staffActions.editStaffData(this.props.staffForm);
     }

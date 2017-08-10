@@ -4,6 +4,7 @@ import Loading from "./common/Loading";
 import PropTypes from 'prop-types';
 import TabContainer from "../modules/tab/TabContainer";
 import {Link} from 'react-router';
+import {LINK_LOGO_2}from '../constants/env';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -22,7 +23,7 @@ class App extends React.Component {
                     </div>
                     <div className="logo logo-mini">
                         <Link to="/" className="simple-text">
-                            zg
+                            <img src={LINK_LOGO_2} className="logo-sidebar"/>
                         </Link>
                     </div>
                     <div className="sidebar-wrapper">
@@ -167,10 +168,10 @@ class App extends React.Component {
                             </nav>
                             <p className="copyright pull-right">
                                 &copy;
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script>
-                                <a href="http://colorme.vn">Color ME</a>
+                                {
+                                    new Date().getFullYear()
+                                }
+                                <a href="http://colorme.vn"> color ME</a>
                             </p>
                         </div>
                     </footer>

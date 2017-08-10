@@ -44,20 +44,42 @@ class DashboardContainer extends React.Component {
     }
 
     render() {
+        // return (
+        //     <div id="page-wrapper">
+        //
+        //         <div className="container-fluid">
+        //
+        //             <Header header="Thống kê tổng quan" title="Trang chủ" iconTitle="fa fa-fw fa-dashboard"/>
+        //
+        //             {this.props.genIsLoading ? ( <Loading/>) : (
+        //                 <div>
+        //                     <GenList genList={this.props.genList} onChange={this.changeGen}
+        //                              loadDashboardDataGen={this.loadDashboardDataGen}/>
+        //                     {this.props.isLoading ? (
+        //                         <Loading/>) : (
+        //                         < HomePage registers_count={this.props.registers_count}
+        //                                    total_money={this.props.total_money}
+        //                                    registers_number={this.props.registers_number}
+        //                                    paid_number={this.props.paid_number}
+        //                                    remain_days={this.props.remain_days} date_array={this.props.date_array}
+        //                                    money_by_date={this.props.money_by_date} classes={this.props.classes}
+        //                                    registers_by_date={this.props.registers_by_date}
+        //                                    paid_by_date={this.props.paid_by_date}
+        //                                    registers_by_hour={this.props.registers_by_hour}
+        //                                    orders_by_hour={this.props.orders_by_hour}
+        //                                    uncalled_number={this.props.uncalled_number}
+        //                                    zero_paid_num={this.props.zero_paid_num}
+        //                                    total_classes={this.props.total_classes}
+        //                                    month_ago={this.props.month_ago}
+        //                                    loadDashboardDataGen={this.loadDashboardDataGen}
+        //                         />
+        //                     )}</div>
+        //             )};
+        //         </div>
+        //     </div>
+        // );
         return (
-            <div id="page-wrapper">
-
-                <div className="container-fluid">
-
-                    <Header header="Thống kê tổng quan" title="Trang chủ" iconTitle="fa fa-fw fa-dashboard"/>
-
-                    {this.props.genIsLoading ? ( <Loading/>) : (
-                        <div>
-                            <GenList genList={this.props.genList} onChange={this.changeGen}
-                                     loadDashboardDataGen={this.loadDashboardDataGen}/>
-                            {this.props.isLoading ? (
-                                <Loading/>) : (
-                                < HomePage registers_count={this.props.registers_count}
+            <HomePage registers_count={this.props.registers_count}
                                            total_money={this.props.total_money}
                                            registers_number={this.props.registers_number}
                                            paid_number={this.props.paid_number}
@@ -73,10 +95,6 @@ class DashboardContainer extends React.Component {
                                            month_ago={this.props.month_ago}
                                            loadDashboardDataGen={this.loadDashboardDataGen}
                                 />
-                            )}</div>
-                    )};
-                </div>
-            </div>
         );
     }
 }

@@ -8,23 +8,28 @@ class FormInputText extends React.Component {
 
     render() {
         return (
-            <div className={this.props.isValidate ? "form-group label-floating has-error" : "form-group label-floating"}>
+            <div className="form-group label-floating">
                 <label className="control-label">
-                    {this.props.label} {(this.props.required && <star>*</star>)}
+                    {this.props.label} {(this.props.required && !this.props.disabled && <star>*</star>)}
                 </label>
-                <input
-                    type={(this.props.type || 'text')}
-                    className="form-control"
-                    required={this.props.required}
-                    onChange={this.props.updateFormData}
-                    name={this.props.name}
-                    value={this.props.value}
-                    disabled={this.props.disabled}
-                    onKeyPress={this.props.onKeyPress}
-                />
-                {this.props.isValidate &&
-                <span className="help-block">{this.props.notiValidate}</span>}
-
+                {(this.props.disabled) ?
+                    (
+                        <p className="form-control-static">{this.props.value}</p>
+                    )
+                    :
+                    (
+                        <input
+                            type={(this.props.type || 'text')}
+                            className="form-control"
+                            required={this.props.required}
+                            onChange={this.props.updateFormData}
+                            name={this.props.name}
+                            value={(this.props.value) ? this.props.value : ''}
+                            disabled={this.props.disabled}
+                            onKeyPress={this.props.onKeyPress}
+                        />
+                    )
+                }
             </div>
 
         );

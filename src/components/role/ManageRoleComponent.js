@@ -40,19 +40,27 @@ class ManageRoleComponent extends React.Component {
                         </div>
                         <div className="card-content">
                             <div className="tab-content">
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={() => this.redirectCreateRole()}
-                                >
-                                    Tạo mới
-                                </button>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="col-md-3">
+                                            <button
+                                                type="button"
+                                                className="btn btn-rose"
+                                                onClick={() => this.redirectCreateRole()}
+                                            >
+                                                Tạo mới
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
                                 {this.props.isLoadingRoles ? <Loading/> : (
                                     <ListRole
                                         roles={this.props.roleListData}
                                     />
                                 )
                                 }
+                                </div>
                             </div>
                         </div>
                     </div>
