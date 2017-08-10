@@ -26,7 +26,7 @@ class ListStaff extends React.Component {
                         <h4 className="card-title">Danh sách nhân viên</h4>
                         <div className="table-responsive">
                             <table className="table">
-                                <thead className="text-primary">
+                                <thead className="text-rose">
                                 <tr>
                                     <th>Họ tên</th>
                                     <th>Email</th>

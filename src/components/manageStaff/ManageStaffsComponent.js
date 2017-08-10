@@ -46,7 +46,7 @@ class ManageStaffsComponent extends React.Component {
                                         <div className="col-md-3">
                                             <button
                                                 type="button"
-                                                className="btn btn-primary"
+                                                className="btn btn-rose"
                                                 onClick={() => this.redirectAddStaff()}
                                             >
                                                 Thêm nhân viên
