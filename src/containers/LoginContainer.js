@@ -26,6 +26,15 @@ class LoginContainer extends React.Component {
     }
 
     componentDidMount() {
+        setTimeout(function() {
+            // after 1000 ms we add the class animated to the login/register card
+            $('.card').removeClass('card-hidden');
+        }, 700);
+        $('#form-login').validate({
+            errorPlacement: function (error, element) {
+                $(element).parent('div').addClass('has-error');
+            }
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -45,7 +54,9 @@ class LoginContainer extends React.Component {
     }
 
     clickLogin() {
-        this.props.loginActions.updateFormData(this.state.login);
+        if ($('#form-login').valid()) {
+            this.props.loginActions.updateFormData(this.state.login);
+        }
     }
 
     render() {
