@@ -14,14 +14,51 @@ class ManageBaseApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function bases()
+    public function deleteBase($domain, $baseId)
     {
-        $bases = Base::orderBy('created_at')->paginate(20);
+        $base = Base::find($baseId);
+        if ($base == null) {
+            return $this->responseNotFound("Cơ sở không tồn tại");
+        }
+        $base->delete();
+        return $this->respondSuccessWithStatus(['message' => "Xoá cơ sở thành công"]);
+    }
+
+    public function base($domain, $baseId)
+    {
+        $base = Base::find($baseId);
+        if ($base == null) {
+            return $this->responseNotFound("Cơ sở không tồn tại");
+        }
+        $data = [
+            "id" => $baseId,
+            "name" => $base->name,
+            "address" => $base->address
+        ];
+        return $this->respondSuccessWithStatus($data);
+    }
+
+    public function bases($domain, Request $request)
+    {
+        $query = $request->q;
+
+        $limit = 20;
+
+        if ($query) {
+            $bases = Base::where("name", "like", "%$query%")
+                ->orWhere("address", "like", "%$query%")
+                ->orderBy('created_at')->paginate($limit);
+        } else {
+            $bases = Base::orderBy('created_at')->paginate($limit);
+        }
+
+
         $data = [
             "bases" => $bases->map(function ($base) {
                 return [
                     'id' => $base->id,
                     'name' => $base->name,
+                    'address' => $base->address,
                     'created_at' => format_time_main($base->created_at),
                     'updated_at' => format_time_main($base->updated_at),
                     'center' => $base->center
@@ -45,5 +82,25 @@ class ManageBaseApiController extends ManageApiController
         $base->save();
 
         return $this->respondSuccessWithStatus(["message" => "Thay đổi trụ sở thành công"]);
+    }
+
+    public function createBase($domain, Request $request)
+    {
+        if ($request->name == null || $request->address == null) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+        if ($request->id) {
+            $base = Base::find($request->id);
+            $message = "Sửa cơ sở thành công";
+        } else {
+            $base = new Base();
+            $message = "Tạo cơ sở thành công";
+        }
+
+        $base->name = $request->name;
+        $base->address = $request->address;
+        $base->save();
+
+        return $this->respondSuccessWithStatus(["message" => $message]);
     }
 }

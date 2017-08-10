@@ -99,7 +99,7 @@ angular.module('groupApp')
 
             $scope.uploadFile = function (file) {
                 file.uploading = true;
-                file.message = "Uploading..."
+                file.message = "Uploading...";
                 //FILL FormData WITH FILE DETAILS.
                 var data = new FormData();
 

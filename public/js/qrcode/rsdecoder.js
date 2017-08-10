@@ -62,7 +62,7 @@ function ReedSolomonDecoder(field)
 				}
 				received[position] = GF256.addOrSubtract(received[position], errorMagnitudes[i]);
 			}
-	}
+	};
 	
 	this.runEuclideanAlgorithm=function( a,  b,  R)
 		{
@@ -123,8 +123,8 @@ function ReedSolomonDecoder(field)
 			var inverse = this.field.inverse(sigmaTildeAtZero);
 			var sigma = t.multiply2(inverse);
 			var omega = r.multiply2(inverse);
-			return new Array(sigma, omega);
-		}
+			return [sigma, omega];
+		};
 	this.findErrorLocations=function( errorLocator)
 		{
 			// This is a direct application of Chien's search
@@ -149,7 +149,7 @@ function ReedSolomonDecoder(field)
 				throw "Error locator degree does not match number of roots";
 			}
 			return result;
-		}
+		};
 	this.findErrorMagnitudes=function( errorEvaluator,  errorLocations,  dataMatrix)
 		{
 			// This is directly applying Forney's Formula

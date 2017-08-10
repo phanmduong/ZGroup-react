@@ -476,8 +476,8 @@ if ( typeof define === 'function' && define.amd ) {
  * @preserve
  */
 
-;(function () {
-    'use strict';
+(function () {
+        'use strict';
 
     /**
      * Class for managing events.

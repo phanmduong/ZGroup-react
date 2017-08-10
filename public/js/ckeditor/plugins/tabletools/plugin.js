@@ -524,7 +524,7 @@
 				if ( !tailTr.$.cells.length ) {
 					tailTr.remove();
 					count++;
-					continue;
+
 				}
 			}
 

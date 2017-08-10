@@ -37,7 +37,7 @@ function BitMatrixParser(bitMatrix)
 	this.copyBit=function( i,  j,  versionBits)
 	{
 		return this.bitMatrix.get_Renamed(i, j)?(versionBits << 1) | 0x1:versionBits << 1;
-	}
+	};
 	
 	this.readFormatInformation=function()
 	{
@@ -87,7 +87,7 @@ function BitMatrixParser(bitMatrix)
 				return this.parsedFormatInfo;
 			}
 			throw "Error readFormatInformation";	
-	}
+	};
 	this.readVersion=function()
 		{
 			
@@ -137,7 +137,7 @@ function BitMatrixParser(bitMatrix)
 				return this.parsedVersion;
 			}
 			throw "Error readVersion";
-		}
+		};
 	this.readCodewords=function()
 		{
 			

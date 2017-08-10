@@ -83,16 +83,16 @@ qrcode.decode = function(src){
             }
             if(qrcode.callback!=null)
                 qrcode.callback(qrcode.result);
-        }
+        };
         image.src = src;
     }
-}
+};
 
 qrcode.isUrl = function(s)
 {
     var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
     return regexp.test(s);
-}
+};
 
 qrcode.decode_url = function (s)
 {
@@ -115,7 +115,7 @@ qrcode.decode_url = function (s)
     ret = escaped;
   }
   return ret;
-}
+};
 
 qrcode.decode_utf8 = function ( s )
 {
@@ -123,7 +123,7 @@ qrcode.decode_utf8 = function ( s )
         return qrcode.decode_url(s);
     else
         return s;
-}
+};
 
 qrcode.process = function(ctx){
     
@@ -181,7 +181,7 @@ qrcode.process = function(ctx){
     
     return qrcode.decode_utf8(str);
     //alert("Time:" + time + " Code: "+str);
-}
+};
 
 qrcode.getPixel = function(x,y){
     if (qrcode.width < x) {
@@ -193,7 +193,7 @@ qrcode.getPixel = function(x,y){
     point = (x * 4) + (y * qrcode.width * 4);
     p = (qrcode.imagedata.data[point]*33 + qrcode.imagedata.data[point + 1]*34 + qrcode.imagedata.data[point + 2]*33)/100;
     return p;
-}
+};
 
 qrcode.binarize = function(th){
     var ret = new Array(qrcode.width*qrcode.height);
@@ -207,7 +207,7 @@ qrcode.binarize = function(th){
         }
     }
     return ret;
-}
+};
 
 qrcode.getMiddleBrightnessPerArea=function(image)
 {
@@ -221,7 +221,7 @@ qrcode.getMiddleBrightnessPerArea=function(image)
         minmax[i] = new Array(numSqrtArea);
         for (var i2 = 0; i2 < numSqrtArea; i2++)
         {
-            minmax[i][i2] = new Array(0,0);
+            minmax[i][i2] = [0,0];
         }
     }
     for (var ay = 0; ay < numSqrtArea; ay++)
@@ -260,7 +260,7 @@ qrcode.getMiddleBrightnessPerArea=function(image)
     //Console.out.println("");
     
     return middle;
-}
+};
 
 qrcode.grayScaleToBitmap=function(grayScale)
 {
@@ -284,7 +284,7 @@ qrcode.grayScaleToBitmap=function(grayScale)
         }
     }
     return bitmap;
-}
+};
 
 qrcode.grayscale = function(){
     var ret = new Array(qrcode.width*qrcode.height);
@@ -298,7 +298,7 @@ qrcode.grayscale = function(){
         }
     }
     return ret;
-}
+};
 
 
 

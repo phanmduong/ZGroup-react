@@ -1628,7 +1628,7 @@
 			}
 
 			if ( handleContainer( dragRange.endContainer, dropContainer, preDragEndContainerChildCount ) ) {
-				return;
+
 			}
 
 			function handleContainer( dragContainer, dropContainer, preChildCount ) {

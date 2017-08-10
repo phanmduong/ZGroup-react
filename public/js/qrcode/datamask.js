@@ -32,7 +32,7 @@ DataMask.forReference = function(reference)
 		throw "System.ArgumentException";
 	}
 	return DataMask.DATA_MASKS[reference];
-}
+};
 
 function DataMask000()
 {
@@ -48,7 +48,7 @@ function DataMask000()
 				}
 			}
 		}
-	}
+	};
 	this.isMasked=function( i,  j)
 	{
 		return ((i + j) & 0x01) == 0;
@@ -69,7 +69,7 @@ function DataMask001()
 				}
 			}
 		}
-	}
+	};
 	this.isMasked=function( i,  j)
 	{
 		return (i & 0x01) == 0;
@@ -90,7 +90,7 @@ function DataMask010()
 				}
 			}
 		}
-	}
+	};
 	this.isMasked=function( i,  j)
 	{
 		return j % 3 == 0;
@@ -111,7 +111,7 @@ function DataMask011()
 				}
 			}
 		}
-	}
+	};
 	this.isMasked=function( i,  j)
 	{
 		return (i + j) % 3 == 0;
@@ -132,7 +132,7 @@ function DataMask100()
 				}
 			}
 		}
-	}
+	};
 	this.isMasked=function( i,  j)
 	{
 		return (((URShift(i, 1)) + (j / 3)) & 0x01) == 0;
@@ -153,7 +153,7 @@ function DataMask101()
 				}
 			}
 		}
-	}
+	};
 	this.isMasked=function( i,  j)
 	{
 		var temp = i * j;
@@ -175,7 +175,7 @@ function DataMask110()
 				}
 			}
 		}
-	}
+	};
 	this.isMasked=function( i,  j)
 	{
 		var temp = i * j;
@@ -196,12 +196,12 @@ function DataMask111()
 				}
 			}
 		}
-	}
+	};
 	this.isMasked=function( i,  j)
 	{
 		return ((((i + j) & 0x01) + ((i * j) % 3)) & 0x01) == 0;
 	}
 }
 
-DataMask.DATA_MASKS = new Array(new DataMask000(), new DataMask001(), new DataMask010(), new DataMask011(), new DataMask100(), new DataMask101(), new DataMask110(), new DataMask111());
+DataMask.DATA_MASKS = [new DataMask000(), new DataMask001(), new DataMask010(), new DataMask011(), new DataMask100(), new DataMask101(), new DataMask110(), new DataMask111()];
 

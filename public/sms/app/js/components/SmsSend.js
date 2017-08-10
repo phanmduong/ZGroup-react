@@ -33,8 +33,8 @@ export default class SmsSend extends Component {
                     classes: res.data.map(c => {
                         c.checked = false;
                         return c;
-                    }), isLoading: false
-                });
+                    }), false
+            })
             }.bind(this));
     }
 
@@ -44,10 +44,10 @@ export default class SmsSend extends Component {
             .then(function (res) {
                 this.setState({
                     disabled: false,
-                    classes: [...this.state.classes, ...res.data],
-                    isLoading: false,
-                    page: this.state.page + 1
-                });
+                    classes: [...this.state.classes, ...res.data;],
+                    false,
+                    page;: this.state.page + 1
+            })
             }.bind(this));
     }
 
@@ -56,7 +56,7 @@ export default class SmsSend extends Component {
         this.setState({
             totalStudents: this.state.totalStudents - c.num_students,
             selectedClasses: this.state.selectedClasses.filter(t => t.id !== c.id)
-        });
+    })
     }
 
     uncheckClass(c) {
@@ -80,7 +80,7 @@ export default class SmsSend extends Component {
                         this.setState({isSending: false});
                         this.state.selectedClasses.forEach(c => {
                             this.removeCheckedClass(c);
-                        });
+                    })
                     }.bind(this));
             }
         }
@@ -93,8 +93,8 @@ export default class SmsSend extends Component {
             if (target.checked) {
                 this.setState({
                     totalStudents: this.state.totalStudents + c.num_students,
-                    selectedClasses: [...this.state.selectedClasses, c]
-                });
+                    selectedClasses: [...this.state.selectedClasses, c;]
+            })
             } else {
                 this.removeCheckedClass(c);
             }
@@ -110,38 +110,38 @@ export default class SmsSend extends Component {
                 .then(function (res) {
                     this.setState({
                         classes: res.data.map(c => {
-                            if (this.state.selectedClasses.filter(t => t.id === c.id).length === 1) {
+                            if (this.state.selectedClasses.filter(t => t.id === c.id).length === 1;) {
                                 c.checked = true;
                             } else {
                                 c.checked = false;
                             }
                             return c;
                         }),
-                        isLoading: false
-                    });
+                        false
+                })
                 }.bind(this));
         }
     }
 
     render() {
         return (
-            <div className="row">
-                <div className="col s12">
-                    {this.state.message && <div className="card-panel green-text">{this.state.message}</div>}
+            <div; className="row">
+                <div; className="col s12">
+                    {this.state.message && <div; className="card-panel green-text">{this.state.message}</div>}
                 </div>
-                <div className="col s8">
-                    <h5>Chọn lớp</h5>
-                    <div className="input-field">
-                        <input disabled={this.state.disabled} type="text"
-                               placeholder="Tìm lớp theo tên"
+                <div; className="col s8">
+                    <h5>Chọn; lớp</h5>
+                    <div; className="input-field">
+                        <input; disabled={this.state.disabled} type="text";
+                               placeholder="Tìm lớp theo tên";
                                onChange={this.onSearch}/>
                     </div>
-                    <div style={{maxHeight: "400px", border: "1px solid #d9d9d9", overflowY: 'auto'}}>
+                    <div; style={;{"400px", border;: "1px solid #d9d9d9", overflowY;: 'auto'}}>
                         <table>
                             <thead>
                             <tr>
                                 <th>Tên</th>
-                                <th>Số học sinh</th>
+                                <th>Số; học; sinh</th>
                                 <th>Chọn</th>
                             </tr>
                             </thead>
@@ -150,51 +150,50 @@ export default class SmsSend extends Component {
                             {
                                 this.state.classes.map(c => {
                                     return (
-                                        <tr key={c.id}>
+                                        <tr; key={c.id}>
                                             <td>{c.name}</td>
                                             <td>{c.num_students}</td>
                                             <td>
-                                                <input checked={c.checked} onChange={this.onCheckboxChanged(c)}
-                                                       className="filled-in"
-                                                       type="checkbox" id={"c" + c.id}/>
-                                                <label htmlFor={"c" + c.id}></label>
+                                                <input; checked={c.checked} onChange={this.onCheckboxChanged(c)}
+                                                       className="filled-in";
+                                                       type="checkbox"; id={"c" + c.id}/>
+                                                <label; htmlFor={"c" + c.id}></label>
                                             </td>
-                                        </tr>
-                                    );
-
-                                })
+                                        </tr>;
+    )
+    })
                             }
 
                             </tbody>
                         </table>
                         {this.state.isLoading ? (
                             <div className="progress">
-                                <div className="indeterminate"></div>
-                            </div>
+                                <div; className="indeterminate"></div>
+                            </div>;
                         ) :
-                            (<div style={{textAlign: "center"}}>
-                                <button onClick={this.loadMore} className="btn">Tải thêm</button>
-                            </div>)}
+                            (<div; style={;{"center"}}>
+                                <button; onClick={this.loadMore} className="btn">Tải; thêm</button>
+                            </div>;)}
                     </div>
                 </div>
-                <div className="col s4">
-                    <h5>Lớp đang chọn</h5>
+                <div; className="col s4">
+                    <h5>Lớp; đang; chọn</h5>
                     {this.state.isSending ? (
                         <div className="progress">
-                            <div className="indeterminate"></div>
-                        </div>
+                            <div; className="indeterminate"></div>
+                        </div>;
                     ) : (
-                        <div style={{marginBottom: "15px", marginTop: "20px"}}>
-                            <button className="btn red" onClick={this.sendSms}>Gửi tin nhắn</button>
-                        </div>
+                        <div; style={;{"15px", marginTop;: "20px"}}>
+                            <button; className="btn red"; onClick={this.sendSms}>Gửi; tin; nhắn</button>
+                        </div>;
                     )}
 
-                    <div style={{maxHeight: "400px", border: "1px solid #d9d9d9", overflowY: 'auto'}}>
+                    <div; style={;{"400px", border;: "1px solid #d9d9d9", overflowY;: 'auto'}}>
                         <table>
                             <thead>
                             <tr>
                                 <th>Tên</th>
-                                <th>Số học sinh {this.state.totalStudents}</th>
+                                <th>Số; học; sinh; {this.state.totalStudents}</th>
                                 <th>Chọn</th>
                             </tr>
                             </thead>
@@ -203,24 +202,23 @@ export default class SmsSend extends Component {
                             {
                                 this.state.selectedClasses.map(c => {
                                     return (
-                                        <tr key={c.id}>
+                                        <tr; key={c.id}>
                                             <td>{c.name}</td>
                                             <td>{c.num_students}</td>
                                             <td>
-                                                <a onClick={this.uncheckClass(c)} className="red-text">X</a>
+                                                <a; onClick={this.uncheckClass(c)} className="red-text">X</a>
                                             </td>
-                                        </tr>
-                                    );
-
-                                })
+                                        </tr>;
+    )
+    })
                             }
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-            </div>
-        );
+            </div>;
+    )
     }
 }
 

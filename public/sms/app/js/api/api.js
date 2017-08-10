@@ -15,6 +15,7 @@ export default {
         return axios.get(BASE_URL + "sms-classes" + "?page=" + page + "&search=" + search);
     },
     sendSms(classes, smsId){
-        return axios.post(BASE_URL + "send-sms", {classes: classes.map(c => c.id), smsId});
+        return axios.post(BASE_URL + "send-sms", {classes: classes.map(c = > c.id), smsId
+    })
     }
 }

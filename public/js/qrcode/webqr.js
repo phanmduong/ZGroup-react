@@ -37,13 +37,11 @@ function captureToCanvas() {
                 console.log(e);
                 setTimeout(captureToCanvas, 500);
             }
-            ;
         }
         catch (e) {
             console.log(e);
             setTimeout(captureToCanvas, 500);
         }
-        ;
     }
 }
 
@@ -72,7 +70,7 @@ function success(stream) {
 
 function error(error) {
     gUM = false;
-    return;
+
 }
 
 function load() {

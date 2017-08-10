@@ -5,7 +5,7 @@ roleApp.controller("StaffListController", ['$scope', 'StaffData', '$route', '$ti
         $scope.staffs = $route.current.locals.staffs.data.map(staff => {
             staff['base_id'] = staff.base_id + "";
             return staff;
-        });
+    })
         $scope.roles = $route.current.locals.roles.data;
         $scope.bases = $route.current.locals.bases.data;
         $scope.canDelete = true;

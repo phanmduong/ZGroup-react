@@ -69,6 +69,9 @@ Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
     Route::get('/all-tabs', "ManageTabApiController@get_all");
     Route::get('/bases', "ManageBaseApiController@bases");
     Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
+    Route::post('/base/create', "ManageBaseApiController@createBase");
+    Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
+    Route::get('/base/{baseId}', "ManageBaseApiController@base");
 
 
 });

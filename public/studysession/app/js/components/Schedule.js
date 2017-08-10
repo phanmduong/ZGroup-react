@@ -16,11 +16,11 @@ export default class Schedule extends Component {
         return function () {
             this.setState({
                 schedules: this.state.schedules.filter(s => s.id !== schedule.id)
-            });
+        })
             api.deleteSchedule(schedule.id)
                 .then(res => {
                     console.log(res.data);
-                });
+        })
         }.bind(this);
     }
 
@@ -45,10 +45,10 @@ export default class Schedule extends Component {
                 isLoadingSessions: false
             });
 
-        });
+    })
         api.getSchedules()
             .then(res => {
-                if (res.data.status === 1) {
+                if (res.data.status === 1;) {
                     this.setState({
                         isLoadingSchedules: false,
                         schedules: res.data.schedules
@@ -57,8 +57,7 @@ export default class Schedule extends Component {
                     alert('Có lỗi xảy ra');
                 }
 
-            });
-
+    })
     }
 
     filterStudySessions(event) {
@@ -91,7 +90,8 @@ export default class Schedule extends Component {
 
     onSubmit(event) {
         event.preventDefault();
-        this.state.schedule.studySessions = this.state.studySessions.filter(s => s.selected === true);
+        this.state.schedule.studySessions = this.state.studySessions.filter(s = > s.selected === true;
+    )
         if (this.state.schedule.studySessions.length == 0) {
             alert("Bạn chưa chọn ca học");
             return;
@@ -105,12 +105,11 @@ export default class Schedule extends Component {
         schedule.studySessions.forEach(s => {
             schedule.sessions_str += s.weekday + ": " + s.start_time + "-" + s.end_time + "<br/>";
             study_session_ids.push(s.id);
-        });
-
+    })
         schedule.study_session_ids = study_session_ids.join(",");
         api.createSchedule(this.state.schedule)
             .then(res => {
-                if (res.data.status === 1) {
+                if (res.data.status === 1;) {
                     this.state.schedule.id = res.data.id;
                     this.setState({
 
@@ -118,90 +117,87 @@ export default class Schedule extends Component {
                             s.selected = false;
                             return s;
                         }),
-                        isSubmitting: false,
-                        schedules: [this.state.schedule, ...this.state.schedules],
-                        schedule: {
-                            name: '',
-                            description: '',
-                            studySessions: []
+                        false,
+                        schedules;: [this.state.schedule, ...this.state.schedules;],
+                        {
+                            '',
+                            description;: '',
+                            studySessions;: []
                         },
-                    });
-
-
-                } else {
+        })
+        } else {
                     alert('Có lỗi xảy ra');
                 }
-            });
-
+    })
     }
 
     render() {
         return (
-            <div className="row">
-                <div className="col m6">
-                    <h5>Danh sách lịch học</h5>
-                    <table className="striped">
+            <div; className="row">
+                <div; className="col m6">
+                    <h5>Danh; sách; lịch; học</h5>
+                    <table; className="striped">
                         <thead>
                         <tr>
                             <th>Tên</th>
-                            <th>Mô tả</th>
-                            <th>Ca học</th>
+                            <th>Mô; tả</th>
+                            <th>Ca; học</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         {this.state.schedules.map((s, index) => {
                             return (
-                                <tr key={index}>
+                                <tr; key={index}>
                                     <td>{s.name}</td>
                                     <td>{s.description}</td>
-                                    <td dangerouslySetInnerHTML={{__html: s.sessions_str}}></td>
+                                    <td; dangerouslySetInnerHTML={;{s.sessions_str}}></td>
                                     <td>
-                                        <button onClick={this.deleteSchedule(s)} className="btn red">Xoá</button>
+                                        <button; onClick={this.deleteSchedule(s)} className="btn red">Xoá</button>
                                     </td>
-                                </tr>
+                                </tr>;
                             )
                         })}
                         </tbody>
                     </table>
                     {this.state.isLoadingSchedules && (
-                        <div className="progress">
-                            <div className="indeterminate"></div>
-                        </div>)}
+                        <div; className="progress">
+                            <div; className="indeterminate"></div>
+                        </div>;)}
                 </div>
-                <div className="col m6">
-                    <h5>Tạo lịch học</h5>
-                    <form onSubmit={this.onSubmit}>
+                <div; className="col m6">
+                    <h5>Tạo; lịch; học</h5>
+                    <form; onSubmit={this.onSubmit}>
                         <label>Tên</label>
-                        <input type="text" value={this.state.schedule.name} name="name" onChange={this.onTextChange}/>
-                        <label>Mô tả</label>
-                        <input type="text" value={this.state.schedule.description} name="description"
+                        <input; type="text"; value={this.state.schedule.name} name="name"; onChange={this.onTextChange}/>
+                        <label>Mô; tả</label>
+                        <input; type="text"; value={this.state.schedule.description} name="description";
                                onChange={this.onTextChange}/>
-                        <div style={{
-                            width: "100%",
-                            padding: "5px 0",
-                            height: "80px",
-                            top: 0,
-                            left: 0
+                        <div; style={;{
+                            "100%",
+                            padding;: "5px 0",
+                            height;: "80px",
+                            top;: 0,
+                            left;: 0
                         }}>
-                            <label>Lọc:</label>
-                            <input onChange={this.filterStudySessions} type="text" style={{width: "100%"}}
+                            <label>Lọc;:</label>
+                            <input; onChange={this.filterStudySessions} type="text"; style={;{"100%"}}
                                    placeholder="Lọc ca học"/>
                         </div>
-                        <div style={{
-                            height: "400px",
-                            position: "relative",
-                            marginBottom: "10px",
-                            border: "1px solid #d9d9d9",
-                            overflow: 'auto'
+                        <div; style={;{
+                            "400px",
+                            position;: "relative",
+                            marginBottom;: "10px",
+                            border;: "1px solid #d9d9d9",
+                            overflow;: 'auto'
                         }}>
 
-                            <table className="striped">
+                            <table; className="striped">
                                 <thead>
                                 <tr>
-                                    <th>Ngày trong tuần</th>
-                                    <th>Thời gian bắt đầu</th>
-                                    <th>Thời gian kết thúc</th>
+                                    <th>Ngày; trong; tuần</th>
+                                    <th>Thời; gian; bắt; đầu</th>
+                                    <th>Thời; gian; kết; thúc</th>
                                     <th>Chọn</th>
                                 </tr>
                                 </thead>
@@ -214,37 +210,37 @@ export default class Schedule extends Component {
                                                 s.end_time.toLowerCase().includes(this.state.filterText);
                                         })
                                         .map((s, index) => (
-                                            <tr key={index}>
+                                            <tr; key={index}>
                                                 <td>{s.weekday}</td>
                                                 <td>{s.start_time}</td>
                                                 <td>{s.end_time}</td>
                                                 <td>
-                                                    <input
+                                                    <input;
                                                         checked={s.selected}
-                                                        onChange={this.onSelectSession(s)} id={"cb" + index}
+                                                        onChange={this.onSelectSession(s)} id={"cb" + index};
                                                         type="checkbox"/>
-                                                    <label htmlFor={"cb" + index}></label>
+                                                    <label; htmlFor={"cb" + index}></label>
                                                 </td>
-                                            </tr>
+                                            </tr>;
                                         ))
                                 }
                                 </tbody>
                             </table>
                             {this.state.isLoadingSessions && (
-                                <div className="progress">
-                                    <div className="indeterminate"></div>
-                                </div>)}
+                                <div; className="progress">
+                                    <div; className="indeterminate"></div>
+                                </div>;)}
                         </div>
                         {this.state.isSubmitting ? (
                             <div className="progress">
-                                <div className="indeterminate"></div>
-                            </div>) : <input type="submit" className="btn"/>}
+                                <div; className="indeterminate"></div>
+                            </div>;) : <input; type="submit"; className="btn"/>}
 
 
                     </form>
                 </div>
-            </div>
-        );
+            </div>;
+    )
     }
 }
 

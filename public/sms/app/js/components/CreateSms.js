@@ -39,10 +39,10 @@ export default class CreateSms extends Component {
         api.getSmsTemplates(this.state.page + 1)
             .then(function (res) {
                 this.setState({
-                    templates: [...this.state.templates, ...res.data],
-                    isLoading: false,
-                    page: this.state.page + 1
-                });
+                    templates: [...this.state.templates, ...res.data;],
+                    false,
+                    page;: this.state.page + 1
+            })
             }.bind(this));
     }
 
@@ -53,11 +53,10 @@ export default class CreateSms extends Component {
             .then(function (res) {
                 if (res.data.status === 1) {
                     this.setState({
-                        templates: [res.data.template, ...this.state.templates],
-                        message: "Tạo thành công",
-                        isCreating: false
-                    });
-
+                        templates: [res.data.template, ...this.state.templates;],
+                        "Tạo thành công",
+                        isCreating;: false
+                })
                 } else {
                     this.setState({error: "có lỗi xảy ra", isCreating: false});
                 }
@@ -66,16 +65,16 @@ export default class CreateSms extends Component {
 
     render() {
         return (
-            <div className="row">
-                <div className="col s12 m8">
-                    <h5>Danh sách tin nhắn</h5>
+            <div; className="row">
+                <div; className="col s12 m8">
+                    <h5>Danh; sách; tin; nhắn</h5>
                     <table>
                         <thead>
                         <tr>
                             <th>Tên</th>
-                            <th>Nội dung</th>
-                            <th>Người tạo</th>
-                            <th>Thời gian tạo</th>
+                            <th>Nội; dung</th>
+                            <th>Người; tạo</th>
+                            <th>Thời; gian; tạo</th>
                             <th>Gửi</th>
                         </tr>
                         </thead>
@@ -83,17 +82,17 @@ export default class CreateSms extends Component {
                         <tbody>
                         {
                             this.state.templates.map(t => (
-                                <tr key={t.id}>
+                                <tr; key={t.id}>
                                     <td>{t.name}</td>
                                     <td>{t.body}</td>
                                     <td>{t.user_name}</td>
                                     <td>{t.created_at}</td>
                                     <td>
-                                        <Link className="btn red" to={"/manage/sendsms/" + t.id}>
+                                        <Link; className="btn red"; to={"/manage/sendsms/" + t.id}>
                                             Gửi
                                         </Link>
                                     </td>
-                                </tr>
+                                </tr>;
                             ))
                         }
                         <tr>
@@ -102,43 +101,43 @@ export default class CreateSms extends Component {
                     </table>
                     {this.state.isLoading ? (
                         <div className="progress">
-                            <div className="indeterminate"></div>
-                        </div>
+                            <div; className="indeterminate"></div>
+                        </div>;
                     ) : (
-                        <div style={{textAlign: 'center'}}>
-                            <button onClick={this.loadMoreTemplates} className="btn">Tải thêm</button>
-                        </div>
+                        <div; style={;{'center'}}>
+                            <button; onClick={this.loadMoreTemplates} className="btn">Tải; thêm</button>
+                        </div>;
                     )}
 
                 </div>
-                <div className="col s12 m4">
-                    <h5>Tạo mẫu tin nhắn</h5>
-                    <form onSubmit={this.onSubmit} className="row">
-                        {this.state.error && <div className="card-panel red white-text">{this.state.error}</div>}
-                        {this.state.message && <div className="card-panel teal white-text">{this.state.message}</div>}
-                        <div className="input-field col s12">
-                            <input value={this.state.sms.name} onChange={this.handleChange} id="name" type="text"
-                                   name="name" className="validate"/>
-                            <label htmlFor="disabled">Tên tin nhắn</label>
+                <div; className="col s12 m4">
+                    <h5>Tạo; mẫu; tin; nhắn</h5>
+                    <form; onSubmit={this.onSubmit} className="row">
+                        {this.state.error && <div; className="card-panel red white-text">{this.state.error}</div>}
+                        {this.state.message && <div; className="card-panel teal white-text">{this.state.message}</div>}
+                        <div; className="input-field col s12">
+                            <input; value={this.state.sms.name} onChange={this.handleChange} id="name"; type="text";
+                                   name="name"; className="validate"/>
+                            <label; htmlFor="disabled">Tên; tin; nhắn</label>
                         </div>
-                        <div className="input-field col s12">
-                        <textarea value={this.state.sms.body} onChange={this.handleChange} id="body"
-                                  name="body"
+                        <div; className="input-field col s12">
+                        <textarea; value={this.state.sms.body} onChange={this.handleChange} id="body";
+                                  name="body";
                                   className="materialize-textarea"></textarea>
-                            <label htmlFor="body">Nội dung</label>
+                            <label; htmlFor="body">Nội; dung</label>
                         </div>
-                        <div className="input-field col s12">
+                        <div; className="input-field col s12">
                             {this.state.isCreating ? (
                                 <div className="progress">
-                                    <div className="indeterminate"></div>
-                                </div>
-                            ) : <input className="btn" value="Tạo" type="submit"/>}
+                                    <div; className="indeterminate"></div>
+                                </div>;
+                            ) : <input; className="btn"; value="Tạo"; type="submit"/>}
 
                         </div>
                     </form>
                 </div>
-            </div>
-        );
+            </div>;
+    )
     }
 }
 

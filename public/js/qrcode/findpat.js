@@ -87,7 +87,7 @@ qrcode.orderBestPatterns=function(patterns)
 			patterns[0] = pointA;
 			patterns[1] = pointB;
 			patterns[2] = pointC;
-		}
+		};
 
 
 function FinderPattern(posX, posY,  estimatedModuleSize)
@@ -116,7 +116,7 @@ function FinderPattern(posX, posY,  estimatedModuleSize)
 	this.incrementCount = function()
 	{
 		this.count++;
-	}
+	};
 	this.aboutEquals=function( moduleSize,  i,  j)
 		{
 			if (Math.abs(i - this.y) <= moduleSize && Math.abs(j - this.x) <= moduleSize)
@@ -153,7 +153,7 @@ function FinderPatternFinder()
 	this.image=null;
 	this.possibleCenters = [];
 	this.hasSkipped = false;
-	this.crossCheckStateCount = new Array(0,0,0,0,0);
+	this.crossCheckStateCount = [0,0,0,0,0];
 	this.resultPointCallback = null;
 	
 	this.__defineGetter__("CrossCheckStateCount", function()
@@ -186,11 +186,11 @@ function FinderPatternFinder()
 			var maxVariance = Math.floor(moduleSize / 2);
 			// Allow less than 50% variance from 1-1-3-1-1 proportions
 			return Math.abs(moduleSize - (stateCount[0] << INTEGER_MATH_SHIFT)) < maxVariance && Math.abs(moduleSize - (stateCount[1] << INTEGER_MATH_SHIFT)) < maxVariance && Math.abs(3 * moduleSize - (stateCount[2] << INTEGER_MATH_SHIFT)) < 3 * maxVariance && Math.abs(moduleSize - (stateCount[3] << INTEGER_MATH_SHIFT)) < maxVariance && Math.abs(moduleSize - (stateCount[4] << INTEGER_MATH_SHIFT)) < maxVariance;
-		}
+		};
 	this.centerFromEnd=function( stateCount,  end)
 		{
 			return  (end - stateCount[4] - stateCount[3]) - stateCount[2] / 2.0;
-		}
+		};
 	this.crossCheckVertical=function( startI,  centerJ,  maxCount,  originalStateCountTotal)
 		{
 			var image = this.image;
@@ -268,7 +268,7 @@ function FinderPatternFinder()
 			}
 			
 			return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, i):NaN;
-		}
+		};
 	this.crossCheckHorizontal=function( startJ,  centerI,  maxCount, originalStateCountTotal)
 		{
 			var image = this.image;
@@ -343,7 +343,7 @@ function FinderPatternFinder()
 			}
 			
 			return this.foundPatternCross(stateCount)?this.centerFromEnd(stateCount, j):NaN;
-		}
+		};
 	this.handlePossibleCenter=function( stateCount,  i,  j)
 		{
 			var stateCountTotal = stateCount[0] + stateCount[1] + stateCount[2] + stateCount[3] + stateCount[4];
@@ -382,7 +382,7 @@ function FinderPatternFinder()
 				}
 			}
 			return false;
-		}
+		};
 		
 	this.selectBestPatterns=function()
 		{
@@ -444,8 +444,8 @@ function FinderPatternFinder()
 				});
 			}
 			
-			return new Array( this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]);
-		}
+			return [this.possibleCenters[0],  this.possibleCenters[1],  this.possibleCenters[2]];
+		};
 		
 	this.findRowSkip=function()
 		{
@@ -477,7 +477,7 @@ function FinderPatternFinder()
 				}
 			}
 			return 0;
-		}
+		};
 	
 	this.haveMultiplyConfirmedCenters=function()
 		{
@@ -509,7 +509,7 @@ function FinderPatternFinder()
 				totalDeviation += Math.abs(pattern.EstimatedModuleSize - average);
 			}
 			return totalDeviation <= 0.05 * totalModuleSize;
-		}
+		};
 		
 	this.findFinderPattern = function(image){
 		var tryHarder = false;

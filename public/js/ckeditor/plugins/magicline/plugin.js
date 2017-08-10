@@ -1002,7 +1002,7 @@
 					// (2.) Target has a sibling that belongs to that.triggers -> access.
 					if ( sibling && isHtml( sibling ) && sibling.is( that.triggers ) ) {
 						doAccess( target );
-						return;
+
 					}
 				};
 			} )()

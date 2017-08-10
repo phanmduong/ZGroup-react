@@ -72,7 +72,7 @@ function GF256Poly(field,  coefficients)
 	this.getCoefficient=function( degree)
 	{
 		return this.coefficients[this.coefficients.length - 1 - degree];
-	}
+	};
 	
 	this.evaluateAt=function( a)
 	{
@@ -98,7 +98,7 @@ function GF256Poly(field,  coefficients)
 			result2 = GF256.addOrSubtract(this.field.multiply(a, result2), this.coefficients[i]);
 		}
 		return result2;
-	}
+	};
 	
 	this.addOrSubtract=function( other)
 		{
@@ -135,7 +135,7 @@ function GF256Poly(field,  coefficients)
 			}
 			
 			return new GF256Poly(field, sumDiff);
-	}
+	};
 	this.multiply1=function( other)
 		{
 			if (this.field!=other.field)
@@ -160,7 +160,7 @@ function GF256Poly(field,  coefficients)
 				}
 			}
 			return new GF256Poly(this.field, product);
-		}
+		};
 	this.multiply2=function( scalar)
 		{
 			if (scalar == 0)
@@ -178,7 +178,7 @@ function GF256Poly(field,  coefficients)
 				product[i] = this.field.multiply(this.coefficients[i], scalar);
 			}
 			return new GF256Poly(this.field, product);
-		}
+		};
 	this.multiplyByMonomial=function( degree,  coefficient)
 		{
 			if (degree < 0)
@@ -197,7 +197,7 @@ function GF256Poly(field,  coefficients)
 				product[i] = this.field.multiply(this.coefficients[i], coefficient);
 			}
 			return new GF256Poly(this.field, product);
-		}
+		};
 	this.divide=function( other)
 		{
 			if (this.field!=other.field)
@@ -225,6 +225,6 @@ function GF256Poly(field,  coefficients)
 				remainder = remainder.addOrSubtract(term);
 			}
 			
-			return new Array(quotient, remainder);
+			return [quotient, remainder];
 		}
 }

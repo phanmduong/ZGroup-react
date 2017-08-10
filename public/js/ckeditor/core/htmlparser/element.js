@@ -233,7 +233,7 @@ CKEDITOR.htmlParser.cssStyle = function() {
 					} else if ( newAttrName != a ) {
 						delete attributes[ a ];
 						a = newAttrName;
-						continue;
+
 					} else {
 						break;
 					}

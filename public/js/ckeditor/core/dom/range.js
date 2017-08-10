@@ -891,7 +891,7 @@ CKEDITOR.dom.range = function( root ) {
 						limit.offset = container.getIndex();
 						limit.container = container.getParent();
 					}
-					return;
+
 				}
 
 				// And here goes the funny part - all other cases are handled inside node.getAddress() and getIndex() thanks to

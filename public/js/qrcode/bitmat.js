@@ -64,17 +64,17 @@ function BitMatrix( width,  height)
 		{
 			var offset = y * this.rowSize + (x >> 5);
 			return ((URShift(this.bits[offset], (x & 0x1f))) & 1) != 0;
-		}
+		};
 	this.set_Renamed=function( x,  y)
 		{
 			var offset = y * this.rowSize + (x >> 5);
 			this.bits[offset] |= 1 << (x & 0x1f);
-		}
+		};
 	this.flip=function( x,  y)
 		{
 			var offset = y * this.rowSize + (x >> 5);
 			this.bits[offset] ^= 1 << (x & 0x1f);
-		}
+		};
 	this.clear=function()
 		{
 			var max = this.bits.length;
@@ -82,7 +82,7 @@ function BitMatrix( width,  height)
 			{
 				this.bits[i] = 0;
 			}
-		}
+		};
 	this.setRegion=function( left,  top,  width,  height)
 		{
 			if (top < 0 || left < 0)

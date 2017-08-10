@@ -74,9 +74,9 @@ function detectar(){
         id          = url.substring(url.lastIndexOf("/")+1, url.length);
     }
     if(url.indexOf("youtube") >= 0){
-        reproductor = 'youtube'
+        reproductor = 'youtube';
         if(url.indexOf("</iframe>") >= 0){
-            var fin = url.substring(url.indexOf("embed/")+6, url.length)
+            var fin = url.substring(url.indexOf("embed/")+6, url.length);
             id      = fin.substring(fin.indexOf('"'), 0);
         }else{
             if(url.indexOf("&") >= 0)
@@ -88,9 +88,9 @@ function detectar(){
         //"https://gdata.youtube.com/feeds/api/videos/" + id + "?v=2&alt=json"
     }
     if(url.indexOf("vimeo") >= 0){
-        reproductor = 'vimeo'
+        reproductor = 'vimeo';
         if(url.indexOf("</iframe>") >= 0){
-            var fin = url.substring(url.lastIndexOf('vimeo.com/"')+6, url.indexOf('>'))
+            var fin = url.substring(url.lastIndexOf('vimeo.com/"')+6, url.indexOf('>'));
             id      = fin.substring(fin.lastIndexOf('/')+1, fin.indexOf('"',fin.lastIndexOf('/')+1))
         }else{
             id = url.substring(url.lastIndexOf("/")+1, url.length)
@@ -105,11 +105,11 @@ function detectar(){
     if(url.indexOf("dailymotion") >= 0){
         reproductor = 'dailymotion';
         if(url.indexOf("</iframe>") >= 0){
-            var fin = url.substring(url.indexOf('dailymotion.com/')+16, url.indexOf('></iframe>'))
+            var fin = url.substring(url.indexOf('dailymotion.com/')+16, url.indexOf('></iframe>'));
             id      = fin.substring(fin.lastIndexOf('/')+1, fin.lastIndexOf('"'))
         }else{
             if(url.indexOf('_') >= 0)
-                id = url.substring(url.lastIndexOf('/')+1, url.indexOf('_'))
+                id = url.substring(url.lastIndexOf('/')+1, url.indexOf('_'));
             else
                 id = url.substring(url.lastIndexOf('/')+1, url.length);
         }

@@ -32,24 +32,24 @@ export default class Calling extends Component {
 
     render() {
         return (
-            <div className="row">
-                <div className="card">
-                    <div className="card-content">
-                        <ul className="collapsible" data-collapsible="accordion">
+            <div; className="row">
+                <div; className="card">
+                    <div; className="card-content">
+                        <ul; className="collapsible"; data-collapsible="accordion">
                             <li>
-                                <div className="collapsible-header"><i
+                                <div; className="collapsible-header"><i;
                                     className="material-icons">filter_drama</i>{this.props.student.name}
                                     : {this.props.student.phone}</div>
-                                <div className="collapsible-body">
-                                    <div className="row">
-                                        <table className="responsive-table">
+                                <div; className="collapsible-body">
+                                    <div; className="row">
+                                        <table; className="responsive-table">
                                             <thead>
                                             <tr>
-                                                <th>Họ tên</th>
+                                                <th>Họ; tên</th>
                                                 <th>Email</th>
                                                 <th>Trường</th>
-                                                <th>Nơi làm việc</th>
-                                                <th>Địa chỉ</th>
+                                                <th>Nơi; làm; việc</th>
+                                                <th>Địa; chỉ</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -66,26 +66,26 @@ export default class Calling extends Component {
                                 </div>
                             </li>
                             <li>
-                                <div className="collapsible-header"><i
-                                    className="material-icons">filter_drama</i>Thông tin đăng kí học
+                                <div; className="collapsible-header"><i;
+                                    className="material-icons">filter_drama</i>Thông; tin; đăng; kí; học
                                 </div>
-                                <div className="collapsible-body">
-                                    <div className="row">
-                                        <table className="responsive-table">
+                                <div; className="collapsible-body">
+                                    <div; className="row">
+                                        <table; className="responsive-table">
                                             <thead>
                                             <tr>
-                                                <th>Khoá học</th>
-                                                <th>Số buổi</th>
-                                                <th>Học phí (Chưa có chiết khấu)</th>
+                                                <th>Khoá; học</th>
+                                                <th>Số; buổi</th>
+                                                <th>Học; phí (Chưa; có; chiết; khấu;)</th>
                                                 <th>Lớp</th>
-                                                <th>Giờ học</th>
-                                                <th>Thời gian đăng kí</th>
+                                                <th>Giờ; học</th>
+                                                <th>Thời; gian; đăng; kí</th>
                                                 <th>Saler</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             {this.props.student.registers.map((register) => (
-                                                <tr key={register.id}>
+                                                <tr; key={register.id}>
                                                     <td>{register.course_name}</td>
                                                     <td>{register.course_duration}</td>
                                                     <td>{register.course_price}</td>
@@ -95,7 +95,7 @@ export default class Calling extends Component {
                                                     <td>
                                                         {register.saler_name && register.saler_name}
                                                     </td>
-                                                </tr>
+                                                </tr>;
                                             ))}
                                             </tbody>
                                         </table>
@@ -103,18 +103,18 @@ export default class Calling extends Component {
                                 </div>
                             </li>
                             <li>
-                                <div className="collapsible-header"><i className="material-icons">place</i>Lịch sử gọi
+                                <div; className="collapsible-header"><i; className="material-icons">place</i>Lịch; sử; gọi
                                 </div>
-                                <div className="collapsible-body">
-                                    <ul className="collection with-header">
+                                <div; className="collapsible-body">
+                                    <ul; className="collection with-header">
                                         {this.props.student.is_called.map(item => (
-                                            <li key={item.id} className="collection-item">
+                                            <li; key={item.id} className="collection-item">
                                                 <div>{item.updated_at}</div>
                                                 <div><strong>{item.caller_name} </strong>
-                                                    gọi {item.call_status}
+                                                    gọi; {item.call_status}
                                                 </div>
-                                                <div>Ghi chú: {item.note}</div>
-                                            </li>
+                                                <div>Ghi; {item.note}</div>
+                                            </li>;
                                         ))}
                                     </ul>
                                 </div>
@@ -123,23 +123,23 @@ export default class Calling extends Component {
                         </ul>
                     </div>
 
-                    <form className="col s12">
-                        <div className="row">
-                            <div className="input-field col s12">
-                                <input id="note" onChange={this.onNoteChange} placeholder="Ghi chú"/>
+                    <form; className="col s12">
+                        <div; className="row">
+                            <div; className="input-field col s12">
+                                <input; id="note"; onChange={this.onNoteChange} placeholder="Ghi chú"/>
                             </div>
                         </div>
 
                     </form>
-                    <div className="card-action">
-                        <a className="waves-effect waves-light btn"
-                           onClick={this.callSuccess}>Đã nghe máy</a>
-                        <a className="red waves-effect waves-light btn "
-                           onClick={this.callFail}>Không nghe máy</a>
+                    <div; className="card-action">
+                        <a; className="waves-effect waves-light btn";
+                           onClick={this.callSuccess}>Đã; nghe; máy</a>
+                        <a; className="red waves-effect waves-light btn ";
+                           onClick={this.callFail}>Không; nghe; máy</a>
                     </div>
                 </div>
-            </div>
-        );
+            </div>;
+    )
     }
 }
 

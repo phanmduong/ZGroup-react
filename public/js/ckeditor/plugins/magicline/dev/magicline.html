@@ -418,7 +418,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 					label.setText( fixedWidthNumber( time, 3 ) +
 						' ms, mean: ' + fixedWidthNumber( 0 | mean, 3 ) +
 						' ms, max: ' + fixedWidthNumber( max, 3 ) +
-						' ms' )
+						' ms' );
 					count++;
 				}
 			})(),
@@ -558,7 +558,7 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 				DEBUG.logElements.apply( null, arguments );
 				DEBUG.groupEnd();
 			}
-		}
+		};
 
 		// Enable console.log debugging with ?debug address parameter.
 		window.location.href.match( /debug$/g ) ? CKEDITOR.tools.extend( DEBUG, logEnable, true ): null;
