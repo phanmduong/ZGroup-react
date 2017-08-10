@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 // Import actions here!!
 import PropTypes from 'prop-types';
-// import Header from "../../components/common/Header";
 import * as baseListActions from './baseListActions';
 import {isEmptyInput} from '../../helpers/helper';
 import _ from 'lodash';
@@ -23,6 +22,7 @@ class CreateBaseContainer extends React.Component {
     }
 
     componentWillMount() {
+        this.props.baseListActions.resetBase();
         if (this.props.params.baseId) {
             this.setState({
                 header: "Sửa cơ sở"
