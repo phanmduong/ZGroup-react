@@ -45,8 +45,6 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-jvectormap.js"></script>
 <!-- Sliders Plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/nouislider.min.js"></script>
-<!--  Google Maps Plugin    -->
-<script src="https://maps.googleapis.com/maps/api/js"></script>
 <!-- Select Plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.select-bootstrap.js"></script>
 <!--  DataTables.net Plugin    -->
@@ -64,6 +62,6 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
 
-<script type="text/javascript" src="colorme-manage/main.df60307064aaee74e5b9.js"></script>
+<script type="text/javascript" src="colorme-manage/main.3ec4d7d1076cdca78091.js"></script>
 </body>
 </html>
