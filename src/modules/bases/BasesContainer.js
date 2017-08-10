@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -10,6 +11,7 @@ import _ from 'lodash';
 // Import actions here!!
 import * as baseListActions from './baseListActions';
 import toastr from 'toastr';
+import {confirm} from "../../helpers/helper";
 
 
 class BasesContainer extends React.Component {
@@ -25,9 +27,10 @@ class BasesContainer extends React.Component {
     }
 
     deleteBase(base) {
-        if (confirm("Bạn có chắc muốn xoá cơ sở này")) {
-            this.props.baseListActions.deleteBase(base);
-        }
+        confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá cơ sở này",
+            function () {
+                this.props.baseListActions.deleteBase(base);
+            }.bind(this));
     }
 
     componentWillMount() {
@@ -73,16 +76,27 @@ class BasesContainer extends React.Component {
                         </Link>
                     </div>
 
-                    <Search
-                        onChange={this.basesSearchChange}
-                        value={this.props.searchTerm}
-                        placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
-                    />
-                    {this.props.isLoadingBases ? <Loading/> :
-                        <ListBase
-                            deleteBase={this.deleteBase}
-                            handleSwitch={this.handleSwitch}
-                            bases={this.props.bases}/>}
+                    <div className="card">
+
+                        <div className="card-header card-header-icon" data-background-color="rose">
+                            <i className="material-icons">assignment</i>
+                        </div>
+
+                        <div className="card-content">
+                            <h4 className="card-title">Cơ sở</h4>
+                            <Search
+                                onChange={this.basesSearchChange}
+                                value={this.props.searchTerm}
+                                placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
+                            />
+
+                            {this.props.isLoadingBases ? <Loading/> :
+                                <ListBase
+                                    deleteBase={this.deleteBase}
+                                    handleSwitch={this.handleSwitch}
+                                    bases={this.props.bases}/>}
+                        </div>
+                    </div>
 
                     <div className="card-content">
                         <ul className="pagination pagination-primary">

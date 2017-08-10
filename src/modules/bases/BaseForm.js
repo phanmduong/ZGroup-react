@@ -14,7 +14,7 @@ const BaseForm = ({updateFormData, base, error, submit, isSavingBase}) => {
                     updateFormData={updateFormData}
                     value={name}
                     notiValidate="Vui lòng nhập họ và tên"
-                    isValidate={error.name !== null}/>
+                    isValidate={error.name !== undefined}/>
                 <FormInputText
                     placeholder="Nhập địa chỉ cơ sở"
                     label="Địa chỉ cơ sở"
@@ -22,7 +22,7 @@ const BaseForm = ({updateFormData, base, error, submit, isSavingBase}) => {
                     updateFormData={updateFormData}
                     value={address}
                     notiValidate="Vui lòng nhập địa chỉ cơ sở"
-                    isValidate={error.address !== null}/>
+                    isValidate={error.address !== undefined}/>
                 <div>
                     {isSavingBase ?
                         (

@@ -32,9 +32,12 @@ class CreateBaseContainer extends React.Component {
     }
 
     updateFormData(event) {
+        const error = this.state.error;
         const field = event.target.name;
         let base = {...this.props.base};
         base[field] = event.target.value;
+        error[field] = undefined;
+        this.setState({error});
         this.props.baseListActions.updateCreateBaseFormData(base);
     }
 
@@ -50,6 +53,7 @@ class CreateBaseContainer extends React.Component {
         if (_.isEmpty(error)) {
             this.props.baseListActions.createBase(this.props.base);
         } else {
+            this.setState({error});
             _.values(error).forEach(e => toastr.error(e));
         }
     }
@@ -62,7 +66,11 @@ class CreateBaseContainer extends React.Component {
                         <div className="card-header card-header-icon" data-background-color="rose">
                             {this.props.base.id ? "Sửa cơ sở" : "Tạo cơ sở"}
                         </div>
-                        {this.props.isLoadingBase ? <Loading/> : (
+                        {this.props.isLoadingBase ? (
+                            <div className="card-content">
+                                <Loading/>
+                            </div>
+                        ) : (
                             <BaseForm
                                 error={this.state.error}
                                 base={this.props.base}

@@ -16,11 +16,16 @@ class FormInputText extends React.Component {
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     value={this.props.value}
-                    onChange={this.props.updateFormData}
+                    onChange={(event) => {
+                        this.setState({isPristine: false});
+                        this.props.updateFormData(event);
+                    }}
                     disabled={this.props.disabled}
                 />
-                {this.props.isValidate && <span className="help-block">{this.props.notiValidate}</span>}
+                {this.props.isValidate &&
+                <span className="help-block">{this.props.notiValidate}</span>}
             </div>
+
         );
     }
 }
