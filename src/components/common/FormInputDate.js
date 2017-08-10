@@ -6,18 +6,20 @@ class FormInputDate extends React.Component {
         super(props, context);
     }
 
+    componentDidMount(){
+        $('#'+this.props.id).on('dp.change', this.props.updateFormData);
+    }
+
     render() {
         return (
             <div className="form-group">
-                <label htmlFor={this.props.name} >{this.props.label}</label>
+                <label className="label-control">{this.props.label}</label>
                 <input
-                    className="form-control"
-                    type="date"
-                    id={this.props.name}
+                    type="text"
+                    className="form-control datetimepicker"
                     name={this.props.name}
-                    placeholder={this.props.placeholder}
+                    id={this.props.id}
                     value={this.props.value}
-                    onChange={this.props.updateFormData}
                 />
             </div>
         );
@@ -26,6 +28,7 @@ class FormInputDate extends React.Component {
 
 FormInputDate.propTypes = {
     name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     label: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.string,

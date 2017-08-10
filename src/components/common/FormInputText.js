@@ -8,22 +8,22 @@ class FormInputText extends React.Component {
 
     render() {
         return (
-            <div className={this.props.isValidate ? "form-group has-error" : "form-group"}>
-                <label className="control-label" htmlFor={this.props.name}>{this.props.label}</label>
+            <div className={this.props.isValidate ? "form-group label-floating has-error" : "form-group label-floating"}>
+                <label className="control-label">
+                    {this.props.label} {(this.props.required && <star>*</star>)}
+                </label>
                 <input
+                    type={(this.props.type || 'text')}
                     className="form-control"
-                    id={this.props.name}
+                    required={this.props.required}
+                    onChange={this.props.updateFormData}
                     name={this.props.name}
-                    placeholder={this.props.placeholder}
                     value={this.props.value}
-                    onChange={(event) => {
-                        this.setState({isPristine: false});
-                        this.props.updateFormData(event);
-                    }}
                     disabled={this.props.disabled}
                 />
                 {this.props.isValidate &&
                 <span className="help-block">{this.props.notiValidate}</span>}
+
             </div>
 
         );
@@ -40,8 +40,8 @@ FormInputText.propTypes = {
     ]),
     updateFormData: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    isValidate: PropTypes.bool,
-    notiValidate: PropTypes.string,
+    required: PropTypes.bool,
+    type: PropTypes.string,
 
 };
 

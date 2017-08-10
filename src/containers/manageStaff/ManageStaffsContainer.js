@@ -32,11 +32,6 @@ class ManageStaffsContainer extends React.Component {
         this.props.staffActions.changeBaseStaff(staffId, baseId);
     }
 
-    componentDidMount() {
-
-        // var table = $('#datatables').DataTable();
-    }
-
     render() {
         let roleListData = (this.props.roleListData !== undefined) ? this.props.roleListData : [];
         return (
