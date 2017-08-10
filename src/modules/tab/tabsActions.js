@@ -26,7 +26,14 @@ export function loadTabsDataSucessful(res) {
     return (
         {
             type: types.LOAD_TABS_DATA_SUCCESSFUL,
-            tabListData: res.data.data.tabs,
+            tabListData: res.data.data.tabs.map(t => {
+                if (t.url[0] === "/") {
+                    return t;
+                } else {
+                    return {...t, url: "/" + t.url};
+                }
+
+            }),
             status: res.data.status,
             isLoading: false,
             error: false
