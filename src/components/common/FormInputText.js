@@ -20,6 +20,7 @@ class FormInputText extends React.Component {
                     name={this.props.name}
                     value={this.props.value}
                     disabled={this.props.disabled}
+                    onKeyPress={this.props.onKeyPress}
                 />
                 {this.props.isValidate &&
                 <span className="help-block">{this.props.notiValidate}</span>}
@@ -33,7 +34,6 @@ class FormInputText extends React.Component {
 FormInputText.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
-    placeholder: PropTypes.string,
     value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
@@ -42,6 +42,7 @@ FormInputText.propTypes = {
     disabled: PropTypes.bool,
     required: PropTypes.bool,
     type: PropTypes.string,
+    onKeyPress: PropTypes.func
 
 };
 
