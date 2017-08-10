@@ -6,7 +6,16 @@ import initialState from '../../reducers/initialState';
 
 export default function baseListReducer(state = initialState.baseList, action) {
     switch (action.type) {
-
+        case types.RESET_CREATE_BASE_DATA:
+            return Object.assign({}, state, {
+                createBase: {
+                    ...state.createBase,
+                    base: {
+                        name: "",
+                        address: ""
+                    }
+                }
+            });
         case types.DELETE_BASE_SUCCESS:
             return Object.assign({}, state, {
                 bases: state.bases.filter(b => b.id !== action.base.id)

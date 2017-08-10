@@ -8,6 +8,15 @@ import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
 
+export function resetBase() {
+    return function (dispatch) {
+        dispatch({
+            type: types.RESET_CREATE_BASE_DATA
+        });
+    };
+}
+
+
 export function deleteBase(base) {
     return function (dispatch) {
         dispatch({
