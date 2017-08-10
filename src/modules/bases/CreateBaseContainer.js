@@ -58,22 +58,27 @@ class CreateBaseContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-                    <Header header={this.state.header} title="Quản lý cơ sở" iconTitle="fa fa-edit"/>
-                    {this.props.isLoadingBase ? <Loading/> : (
-                        <BaseForm
-                            error={this.state.error}
-                            base={this.props.base}
-                            isSavingBase={this.props.isSavingBase}
-                            submit={this.submit}
-                            updateFormData={this.updateFormData}/>
-                    )}
+                    <div className="card">
+                        <div className="card-header card-header-icon" data-background-color="rose">
+                            {this.props.base.id ? "Sửa cơ sở" : "Tạo cơ sở"}
+                        </div>
+                        {this.props.isLoadingBase ? <Loading/> : (
+                            <BaseForm
+                                error={this.state.error}
+                                base={this.props.base}
+                                isSavingBase={this.props.isSavingBase}
+                                submit={this.submit}
+                                updateFormData={this.updateFormData}/>
+                        )}
 
+                    </div>
                 </div>
             </div>
         );
     }
 
 }
+
 CreateBaseContainer.propTypes = {
     base: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,

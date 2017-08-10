@@ -19,8 +19,7 @@ class FormInputText extends React.Component {
                     onChange={this.props.updateFormData}
                     disabled={this.props.disabled}
                 />
-                { this.props.isValidate &&  <span className="help-block">{this.props.notiValidate}</span>}
-
+                {this.props.isValidate && <span className="help-block">{this.props.notiValidate}</span>}
             </div>
         );
     }
@@ -31,9 +30,9 @@ FormInputText.propTypes = {
     label: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-            ]),
+        PropTypes.string,
+        PropTypes.number,
+    ]),
     updateFormData: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     isValidate: PropTypes.bool,

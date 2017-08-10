@@ -59,6 +59,7 @@ class BasesContainer extends React.Component {
 
 
     render() {
+
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
@@ -71,6 +72,7 @@ class BasesContainer extends React.Component {
                             Thêm cơ sở
                         </Link>
                     </div>
+
                     <Search
                         onChange={this.basesSearchChange}
                         value={this.props.searchTerm}
@@ -81,11 +83,28 @@ class BasesContainer extends React.Component {
                             deleteBase={this.deleteBase}
                             handleSwitch={this.handleSwitch}
                             bases={this.props.bases}/>}
-                    <ul className="pagination">
-                        {_.range(1, this.props.totalPages + 1).map(page => {
-                            return <li key={page}><Link to={"/base/list?page=" + page}>{page}</Link></li>;
-                        })}
-                    </ul>
+
+                    <div className="card-content">
+                        <ul className="pagination pagination-primary">
+                            {_.range(1, this.props.totalPages + 1).map(page => {
+                                if (Number(this.page) === page) {
+                                    return (
+                                        <li key={page} className="active">
+                                            <Link to={"/base/list?page=" + page}>{page}</Link>
+                                        </li>
+                                    );
+                                } else {
+                                    return (
+                                        <li key={page}>
+                                            <Link to={"/base/list?page=" + page}>{page}</Link>
+                                        </li>
+                                    );
+                                }
+
+                            })}
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         );
