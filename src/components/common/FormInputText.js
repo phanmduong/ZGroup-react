@@ -33,7 +33,6 @@ class FormInputText extends React.Component {
 FormInputText.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
-    placeholder: PropTypes.string,
     value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,

@@ -12,7 +12,7 @@ class ItemTabChild extends React.Component {
         return (
             <tr>
                 <td>
-                    <div className="checkbox">
+                    <div className="">
                         <label>
                             <input type="checkbox" checked={tabChild.checked}
                                    onChange={(event) => this.props.changeCheckTabChild(event.target.checked, tabChild, tabParent)}

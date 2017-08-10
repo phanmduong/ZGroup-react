@@ -61,7 +61,7 @@ class ItemTabParent extends React.Component {
             <div className="item-tab-parent">
                 <div className="item-header-tab-parent" data-target={'#tab-role' + tab.id} data-toggle="collapse"
                 >
-                    <div className="checkbox ">
+                    <div className="">
                         <label className="control-label header-tab-parent">
                             <input type="checkbox" checked={tab.checked}
                                    onChange={(event) => this.changeCheckTabParent(event.target.checked, tab)}/>

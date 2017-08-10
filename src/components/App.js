@@ -3,6 +3,7 @@ import React from 'react';
 import Loading from "./common/Loading";
 import PropTypes from 'prop-types';
 import TabContainer from "../modules/tab/TabContainer";
+import {Link} from 'react-router';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -15,14 +16,14 @@ class App extends React.Component {
                 <div className="sidebar" data-active-color="rose" data-background-color="black"
                      data-image="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/img/sidebar-1.jpg">
                     <div className="logo">
-                        <a href="http://www.creative-tim.com" className="simple-text">
-                            Creative Tim
-                        </a>
+                        <Link to="/" className="simple-text">
+                            zGroup
+                        </Link>
                     </div>
                     <div className="logo logo-mini">
-                        <a href="http://www.creative-tim.com" className="simple-text">
-                            Ct
-                        </a>
+                        <Link to="/" className="simple-text">
+                            zg
+                        </Link>
                     </div>
                     <div className="sidebar-wrapper">
                         <div className="user">
@@ -74,7 +75,7 @@ class App extends React.Component {
                                     <span className="icon-bar"></span>
                                     <span className="icon-bar"></span>
                                 </button>
-                                <a className="navbar-brand" href="#"> Template </a>
+                                <Link className="navbar-brand" to="/"> zGroup </Link>
                             </div>
                             <div className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right">
