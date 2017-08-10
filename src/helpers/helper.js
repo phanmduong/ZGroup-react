@@ -14,6 +14,7 @@ export function confirm(type, title, html, success, cancel) {
         html,
         showCloseButton: true,
         showCancelButton: true,
+        confirmButtonColor: "#c50000",
         confirmButtonText:
             'Xác nhận',
         cancelButtonText:
