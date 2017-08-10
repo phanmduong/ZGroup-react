@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import HomePage from '../components/dashboard/Dashboard';
-import Loading from '../components/common/Loading';
-import GenList from '../components/dashboard/GenList';
-import Header from '../components/common/Header';
+// import Loading from '../components/common/Loading';
+// import GenList from '../components/dashboard/GenList';
+// import Header from '../components/common/Header';
 
 // Import actions here!!
 import * as dashboardActions from '../actions/dashboardActions';

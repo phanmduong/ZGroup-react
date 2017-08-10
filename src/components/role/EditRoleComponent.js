@@ -1,7 +1,5 @@
 import React from 'react';
-import Header from '../common/Header';
 import FormInputText from '../common/FormInputText';
-import toastr from 'toastr';
 import Loading from "../common/Loading";
 import ItemTabParent from './ItemTabParent';
 import PropTypes from 'prop-types';

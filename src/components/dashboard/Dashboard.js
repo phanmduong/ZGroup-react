@@ -1,6 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router';
-import ClassList from './ClassList';
+// import {Link} from 'react-router';
+// import ClassList from './ClassList';
 import PropTypes from 'prop-types';
 
 class HomePage extends React.Component {
