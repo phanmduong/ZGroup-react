@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/png" href="colorme-manage/zgrouplogofulltoai.png"/>
+    <link rel="shortcut icon" type="image/png" href="http://d2xbg5ewmrmfml.cloudfront.net/web/zgrouplogofulltoai.png"/>
     <base href="/">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Quản lý zGroup</title>
@@ -23,7 +23,7 @@
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
-    <link href="colorme-manage/main.6735e10d62f6ffadd2a0901a9d3812ab.css" rel="stylesheet">
+    <link href="colorme-manage/main.b6f697dafa604db63d8d25b75c3f513e.css" rel="stylesheet">
 </head>
 <body>
 <div id="app"></div>
@@ -64,6 +64,6 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
 
-<script type="text/javascript" src="colorme-manage/main.ba1069a0ce418b063abf.js"></script>
+<script type="text/javascript" src="colorme-manage/main.df60307064aaee74e5b9.js"></script>
 </body>
 </html>
