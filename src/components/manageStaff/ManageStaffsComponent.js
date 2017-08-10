@@ -17,41 +17,65 @@ class ManageStaffsComponent extends React.Component {
     render() {
         return (
             <div>
-                <ul className="nav nav-tabs">
-                    <li className="active"><Link to="/manage/quan-li-nhan-su">Nhân viên</Link></li>
-                    <li><Link to="/manage-role">Chức vụ</Link></li>
-                </ul>
-                <div className="row">
-                    <div className="col-md-12">
-                        <div className="col-md-3">
-                            <button
-                                type="button"
-                                className="btn btn-primary"
-                                onClick={() => this.redirectAddStaff()}
-                            >
-                                Thêm nhân viên
-                            </button>
+                <div className="col-lg-12">
+                    <div className="card">
+                        <div className="card-header card-header-tabs" data-background-color="rose">
+                            <div className="nav-tabs-navigation">
+                                <div className="nav-tabs-wrapper">
+                                    <ul className="nav nav-tabs" data-tabs="tabs">
+                                        <li className="active">
+                                            <Link to="manage/quan-li-nhan-su" data-toggle="tab">
+                                                Nhân viên
+                                                <div className="ripple-container"/>
+                                            </Link>
+                                        </li>
+                                        <li className="">
+                                            <Link to="manage-role" data-toggle="tab">
+                                                 Chức vụ
+                                                <div className="ripple-container"/>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                        <Search
-                            onChange={() => {
-                            }}
-                            value=""
-                            placeholder="Tìm kiếm nhân viên"
-                            className="col-md-9"
-                        />
+                        <div className="card-content">
+                            <div className="tab-content">
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="col-md-3">
+                                            <button
+                                                type="button"
+                                                className="btn btn-primary"
+                                                onClick={() => this.redirectAddStaff()}
+                                            >
+                                                Thêm nhân viên
+                                            </button>
+                                        </div>
+                                        <Search
+                                            onChange={() => {
+                                            }}
+                                            value=""
+                                            placeholder="Tìm kiếm nhân viên"
+                                            className="col-md-9"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    {this.props.isLoadingStaffs ? <Loading/> : (
+                                        <ListStaff
+                                            staffs={this.props.staffListData}
+                                            roles={this.props.roleListData}
+                                            bases={this.props.baseListData}
+                                            changeRoleStaff={this.props.changeRoleStaff}
+                                            changeBaseStaff={this.props.changeBaseStaff}
+                                        />
+                                    )
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    {this.props.isLoadingStaffs ? <Loading/> : (
-                        <ListStaff
-                            staffs={this.props.staffListData}
-                            roles={this.props.roleListData}
-                            bases={this.props.baseListData}
-                            changeRoleStaff={this.props.changeRoleStaff}
-                            changeBaseStaff={this.props.changeBaseStaff}
-                        />
-                    )
-                    }
                 </div>
             </div>
         );
