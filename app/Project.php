@@ -8,6 +8,9 @@ class Project extends Model
 {
     protected $table = "projects";
 
+    public static $OPEN = "open";
+    public static $CLOSE = "close";
+
     public function boards()
     {
         return $this->hasMany(Board::class, 'project_id');

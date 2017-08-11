@@ -81,6 +81,12 @@ Route::group(['domain' => config('app.manage_api_domain')], function () {
     Route::get('/base/{baseId}', "ManageBaseApiController@base");
     // End Base api
 
+    // Begin Task api
+    Route::get('/project/{projectId}', "ManageTaskApiController@project");
+    Route::post('/project/create', "ManageTaskApiController@createProject");
+    Route::post('/project/delete/{baseId}', "ManageTaskApiController@deleteProject");
+    Route::get('/projects', "ManageTaskApiController@projects");
+    // End Task api
 
 });
 
