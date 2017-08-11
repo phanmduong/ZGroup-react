@@ -6,6 +6,7 @@ import * as taskActions from './taskActions';
 import ListProject from "./ListProject";
 import {Link} from "react-router";
 import Loading from "../../components/common/Loading";
+import _ from 'lodash';
 
 class ProjectListContainer extends React.Component {
     constructor(props, context) {
@@ -40,7 +41,7 @@ class ProjectListContainer extends React.Component {
                             <h4 className="card-title">Dự án</h4>
 
                             <div style={{marginTop: "15px"}}>
-                                <Link to="/base/create" className="btn btn-rose">
+                                <Link to="/project/create" className="btn btn-rose">
                                     Thêm dự án
                                 </Link>
                             </div>

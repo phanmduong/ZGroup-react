@@ -15,6 +15,7 @@ import NotFoundPage from './components/NotFoundPage';
 import BasesContainer from "./modules/bases/BasesContainer";
 import CreateBaseContainer from "./modules/bases/CreateBaseContainer";
 import ProjectListContainer from "./modules/tasks/ProjectListContainer";
+import CreateProjectContainer from "./modules/tasks/CreateProjectContainer";
 
 export default (
     <Route>
@@ -40,7 +41,8 @@ export default (
 
             {/*Begin tasks route*/}
             <Route path="project/list" component={ProjectListContainer}/>
-            <Route path="project" component={ProjectListContainer}/>
+            <Route path="project/create" component={CreateProjectContainer} type="create"/>
+            <Route path="project/edit/:projectId" component={CreateProjectContainer} type="edit"/>
             {/*End tasks route*/}
         </Route>
         <Route path="login" component={LoginContainer}/>

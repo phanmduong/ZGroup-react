@@ -35,6 +35,12 @@ class ListProject extends React.Component {
                                 <td>{project.editor.name}</td>
                                 <td>{project.updated_at}</td>
                                 <td className="td-actions text-right">
+                                    <div className="togglebutton">
+                                        <label>
+                                            <input type="checkbox"/>
+                                                Toggle is on
+                                        </label>
+                                    </div>
                                     <button type="button" rel="tooltip" className="btn btn-success btn-round">
                                         <i className="material-icons">edit</i>
                                     </button>
@@ -43,7 +49,7 @@ class ListProject extends React.Component {
                                     </button>
                                 </td>
                             </tr>
-                        );
+                    );
                     })}
                     </tbody>
                 </table>
