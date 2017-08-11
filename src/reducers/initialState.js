@@ -136,8 +136,13 @@ export default {
     },
 
     task: {
-        projects: [],
-        isLoadingProjects: false
+        project: {
+            projects: [],
+            currentPage: 1,
+            totalPages: 1,
+            isLoadingProjects: false,
+
+        }
     }
 
 

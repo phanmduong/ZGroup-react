@@ -18,8 +18,9 @@ class ListProject extends React.Component {
                         <th>thêm vào lúc</th>
                         <th>Người sửa gần nhất</th>
                         <th>Sửa gần nhất</th>
-                        <th></th>
-                        <th></th>
+                        <th>
+                            Hành động
+                        </th>
                     </tr>
                     </thead>
 
@@ -34,9 +35,6 @@ class ListProject extends React.Component {
                                 <td>{project.editor.name}</td>
                                 <td>{project.updated_at}</td>
                                 <td className="td-actions text-right">
-                                    <button type="button" rel="tooltip" className="btn btn-info btn-round">
-                                        <i className="material-icons">person</i>
-                                    </button>
                                     <button type="button" rel="tooltip" className="btn btn-success btn-round">
                                         <i className="material-icons">edit</i>
                                     </button>

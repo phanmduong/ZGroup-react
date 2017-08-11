@@ -22,14 +22,17 @@ class CreateBaseContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.baseListActions.resetBase();
-        if (this.props.params.baseId) {
+        if (this.props.route.type === "edit") {
             this.setState({
                 header: "Sửa cơ sở"
             });
+        }
+        this.props.baseListActions.resetBase();
+        if (this.props.params.baseId) {
             this.props.baseListActions.loadBase(this.props.params.baseId);
         }
     }
+
 
     updateFormData(event) {
         const error = this.state.error;
@@ -67,7 +70,7 @@ class CreateBaseContainer extends React.Component {
                             <i className="material-icons">mode_edit</i>
                         </div>
                         <div className="card-content">
-                            <h4 className="card-title">{this.props.base.id ? "Sửa cơ sở" : "Tạo cơ sở"}</h4>
+                            <h4 className="card-title">{this.state.header}</h4>
                             {this.props.isLoadingBase ? (
                                 <div className="card-content">
                                     <Loading/>
@@ -91,8 +94,10 @@ class CreateBaseContainer extends React.Component {
 
 CreateBaseContainer.propTypes = {
     base: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     baseListActions: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     isLoadingBase: PropTypes.bool.isRequired,
     isSavingBase: PropTypes.bool.isRequired
 };

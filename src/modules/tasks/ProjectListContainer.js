@@ -5,15 +5,26 @@ import PropTypes from 'prop-types';
 import * as taskActions from './taskActions';
 import ListProject from "./ListProject";
 import {Link} from "react-router";
+import Loading from "../../components/common/Loading";
 
 class ProjectListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.deleteProject = this.deleteProject.bind(this);
+        this.loadProjects = this.loadProjects.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.taskActions.loadProjects();
     }
 
     deleteProject() {
 
+    }
+
+    loadProjects(page = 1) {
+        this.setState({page});
+        this.props.taskActions.loadProjects(page, this.state.query);
     }
 
     render() {
@@ -47,26 +58,26 @@ class ProjectListContainer extends React.Component {
                         </div>
                     </div>
 
-                    {/*<div className="card-content">*/}
-                    {/*<ul className="pagination pagination-primary">*/}
-                    {/*{_.range(1, this.props.totalPages + 1).map(page => {*/}
-                    {/*if (Number(currentPage) === page) {*/}
-                    {/*return (*/}
-                    {/*<li key={page} className="active">*/}
-                    {/*<a onClick={() => this.loadBases(page)}>{page}</a>*/}
-                    {/*</li>*/}
-                    {/*);*/}
-                    {/*} else {*/}
-                    {/*return (*/}
-                    {/*<li key={page}>*/}
-                    {/*<a onClick={() => this.loadBases(page)}>{page}</a>*/}
-                    {/*</li>*/}
-                    {/*);*/}
-                    {/*}*/}
+                    <div className="card-content">
+                        <ul className="pagination pagination-primary">
+                            {_.range(1, this.props.totalPages + 1).map(page => {
+                                if (Number(this.props.currentPage) === page) {
+                                    return (
+                                        <li key={page} className="active">
+                                            <a onClick={() => this.loadBases(page)}>{page}</a>
+                                        </li>
+                                    );
+                                } else {
+                                    return (
+                                        <li key={page}>
+                                            <a onClick={() => this.loadBases(page)}>{page}</a>
+                                        </li>
+                                    );
+                                }
 
-                    {/*})}*/}
-                    {/*</ul>*/}
-                    {/*</div>*/}
+                            })}
+                        </ul>
+                    </div>
 
                 </div>
             </div>
@@ -77,13 +88,17 @@ class ProjectListContainer extends React.Component {
 ProjectListContainer.propTypes = {
     projects: PropTypes.array.isRequired,
     isLoadingProjects: PropTypes.bool.isRequired,
-    taskActions: PropTypes.object.isRequired
+    taskActions: PropTypes.object.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        projects: state.task.projects,
-        isLoadingProjects: state.task.isLoadingProjects
+        projects: state.task.project.projects,
+        isLoadingProjects: state.task.project.isLoadingProjects,
+        currentPage: state.task.project.currentPage,
+        totalPages: state.task.project.totalPages
     };
 }
 

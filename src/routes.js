@@ -34,12 +34,13 @@ export default (
 
             {/*Begin base route*/}
             <Route path="base/list" component={BasesContainer}/>
-            <Route path="base/create" component={CreateBaseContainer}/>
-            <Route path="base/edit/:baseId" component={CreateBaseContainer}/>
+            <Route path="base/create" component={CreateBaseContainer} type="create"/>
+            <Route path="base/edit/:baseId" component={CreateBaseContainer} type="edit"/>
             {/*End Base route*/}
 
             {/*Begin tasks route*/}
-            <Route path="projects" component={ProjectListContainer}/>
+            <Route path="project/list" component={ProjectListContainer}/>
+            <Route path="project" component={ProjectListContainer}/>
             {/*End tasks route*/}
         </Route>
         <Route path="login" component={LoginContainer}/>
