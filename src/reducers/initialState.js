@@ -107,7 +107,7 @@ export default {
             isLoadingUpdateRole: false,
             errorUpdateRole: false,
         },
-        roleForm:{
+        roleForm: {
             role_title: ''
         },
         isLoadingDeleteRole: false,
@@ -133,6 +133,11 @@ export default {
                 address: ""
             }
         }
+    },
+
+    task: {
+        projects: [],
+        isLoadingProjects: false
     }
 
 

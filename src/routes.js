@@ -14,6 +14,7 @@ import EditRoleContainer from './containers/role/EditRoleContainer';
 import NotFoundPage from './components/NotFoundPage';
 import BasesContainer from "./modules/bases/BasesContainer";
 import CreateBaseContainer from "./modules/bases/CreateBaseContainer";
+import ProjectListContainer from "./modules/tasks/ProjectListContainer";
 
 export default (
     <Route>
@@ -24,12 +25,22 @@ export default (
             <Route path="manage/quan-li-nhan-su" component={ManageStaffsContainer}/>
             <Route path="add-staff" component={AddStaffContainer}/>
             <Route path="staff/:staffId/edit" component={EditStaffContainer}/>
+
+            {/*Begin Role route*/}
             <Route path="manage-role" component={ManageRoleContainer}/>
             <Route path="create-role" component={CreateRoleContainer}/>
             <Route path="role/:roleId/edit" component={EditRoleContainer}/>
+            {/*End Role route*/}
+
+            {/*Begin base route*/}
             <Route path="base/list" component={BasesContainer}/>
             <Route path="base/create" component={CreateBaseContainer}/>
             <Route path="base/edit/:baseId" component={CreateBaseContainer}/>
+            {/*End Base route*/}
+
+            {/*Begin tasks route*/}
+            <Route path="projects" component={ProjectListContainer}/>
+            {/*End tasks route*/}
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

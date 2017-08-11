@@ -10,6 +10,7 @@ import rolesReducer from './rolesReducer';
 import baseReducer from './baseReducer';
 import baseListReducer from '../modules/bases/baseListReducer';
 import * as types from '../constants/actionTypes';
+import taskReducer from "../modules/tasks/taskReducer";
 
 const appReducer = combineReducers({
     dashboard: dashboardReducer,
@@ -21,7 +22,8 @@ const appReducer = combineReducers({
     staffs: staffsReducer,
     roles: rolesReducer,
     bases: baseReducer,
-    baseList: baseListReducer
+    baseList: baseListReducer,
+    task: taskReducer
 });
 
 const rootReducer = (state, action) => {

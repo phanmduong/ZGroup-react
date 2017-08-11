@@ -63,22 +63,24 @@ class CreateBaseContainer extends React.Component {
             <div id="page-wrapper">
                 <div className="container-fluid">
                     <div className="card">
-                        <div className="card-header card-header-text" data-background-color="rose">
-                            <h4 className="card-title">{this.props.base.id ? "Sửa cơ sở" : "Tạo cơ sở"}</h4>
+                        <div className="card-header card-header-icon" data-background-color="rose">
+                            <i className="material-icons">mode_edit</i>
                         </div>
-                        {this.props.isLoadingBase ? (
-                            <div className="card-content">
-                                <Loading/>
-                            </div>
-                        ) : (
-                            <BaseForm
-                                error={this.state.error}
-                                base={this.props.base}
-                                isSavingBase={this.props.isSavingBase}
-                                submit={this.submit}
-                                updateFormData={this.updateFormData}/>
-                        )}
-
+                        <div className="card-content">
+                            <h4 className="card-title">{this.props.base.id ? "Sửa cơ sở" : "Tạo cơ sở"}</h4>
+                            {this.props.isLoadingBase ? (
+                                <div className="card-content">
+                                    <Loading/>
+                                </div>
+                            ) : (
+                                <BaseForm
+                                    error={this.state.error}
+                                    base={this.props.base}
+                                    isSavingBase={this.props.isSavingBase}
+                                    submit={this.submit}
+                                    updateFormData={this.updateFormData}/>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
