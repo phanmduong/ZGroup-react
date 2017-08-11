@@ -34,10 +34,9 @@ class ManageTabApiController extends ManageApiController
             }
             $tabs = Tab::orderBy('order')->whereIn('id', $allow_tabs)->get();
 
-            $this->data['tabs'] = $tabs;
         }
         return $this->respondSuccessWithStatus([
-            "tabs" => $this->data['tabs']
+            "tabs" => $tabs
         ]);
     }
 
