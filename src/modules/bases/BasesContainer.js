@@ -84,11 +84,7 @@ class BasesContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
-                    <div style={{marginTop: "15px"}}>
-                        <Link to="/base/create" className="btn btn-primary">
-                            Thêm cơ sở
-                        </Link>
-                    </div>
+
 
                     <div className="card">
 
@@ -98,6 +94,13 @@ class BasesContainer extends React.Component {
 
                         <div className="card-content">
                             <h4 className="card-title">Cơ sở</h4>
+
+                            <div style={{marginTop: "15px"}}>
+                                <Link to="/base/create" className="btn btn-rose">
+                                    Thêm cơ sở
+                                </Link>
+                            </div>
+
                             <Search
                                 onChange={this.basesSearchChange}
                                 value={this.state.query}
