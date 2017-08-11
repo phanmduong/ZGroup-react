@@ -28,6 +28,18 @@ class BasesContainer extends React.Component {
         this.timeOut = null;
     }
 
+    componentWillMount() {
+        this.loadBases();
+    }
+
+    deleteBase(base) {
+        confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá cơ sở này",
+            function () {
+                this.props.baseListActions.deleteBase(base);
+            }.bind(this));
+    }
+
+
     basesSearchChange(value) {
         this.setState({
             page: 1,
@@ -40,17 +52,6 @@ class BasesContainer extends React.Component {
             this.props.baseListActions.loadBases(this.state.page, this.state.query);
         }.bind(this), 500);
 
-    }
-
-    deleteBase(base) {
-        confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá cơ sở này",
-            function () {
-                this.props.baseListActions.deleteBase(base);
-            }.bind(this));
-    }
-
-    componentWillMount() {
-        this.loadBases();
     }
 
     loadBases(page = 1) {

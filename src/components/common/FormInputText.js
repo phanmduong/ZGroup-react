@@ -7,8 +7,9 @@ class FormInputText extends React.Component {
     }
 
     render() {
+        const className = this.props.isNotValid ? " has-error" : "";
         return (
-            <div className="form-group label-floating">
+            <div className={"form-group label-floating" + className}>
                 <label className="control-label">
                     {this.props.label} {(this.props.required && !this.props.disabled && <star>*</star>)}
                 </label>
@@ -29,7 +30,9 @@ class FormInputText extends React.Component {
                             onKeyPress={this.props.onKeyPress}
                         />
                     )
+
                 }
+                {this.props.isNotValid && <span className="help-block">{this.props.errorMessage}</span>}
             </div>
 
         );
@@ -47,6 +50,8 @@ FormInputText.propTypes = {
     disabled: PropTypes.bool,
     required: PropTypes.bool,
     type: PropTypes.string,
+    isNotValid: PropTypes.bool,
+    errorMessage: PropTypes.string,
     onKeyPress: PropTypes.func
 
 };
