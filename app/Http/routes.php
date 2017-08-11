@@ -38,42 +38,48 @@ Route::post('manage/receive_video_convert_notifications', 'PublicController@rece
 Route::get('access_forbidden', 'PublicController@access_forbidden');
 
 //Route::post('/api/topic/{topicId}/images','PublicController@store_images');
-Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
-    Route::get('/login', 'PublicController@manage');
-    Route::get('/', 'PublicController@manage');
-    Route::get('/manage/quan-li-nhan-su', 'PublicController@manage');
-    Route::get('/add-staff', 'PublicController@manage');
-    Route::get('/staff/{staffId}/edit', 'PublicController@manage');
-    Route::get('/manage-role', 'PublicController@manage');
-    Route::get('/create-role', 'PublicController@manage');
-    Route::get('base/list', 'PublicController@manage');
-    Route::get('base/create', 'PublicController@manage');
+//Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
+Route::group(['domain' => config('app.manage_domain')], function () {
+    Route::get('{path}', 'PublicController@manage')
+        ->where('path', '.*');
 });
 
 Route::group(['domain' => 'zgroup.{ga}'], function () {
     Route::get('/', 'PublicController@redirectManage');
 });
 
-Route::group(['domain' => 'manageapi.zgroup.{ga}'], function () {
+Route::group(['domain' => config('app.manage_api_domain')], function () {
+
+    // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
-    Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
+    Route::get('/all-tabs', "ManageTabApiController@get_all");
+    // End tab api
+
+    // Begin role api
     Route::get('/get-roles', 'ManageStaffApiController@get_roles');
     Route::get('/role/{roleId}', 'ManageRoleApiController@get_role');
     Route::post('/create-role', 'ManageRoleApiController@store_role');
     Route::post('/edit-role', 'ManageRoleApiController@store_role');
     Route::post('/delete-role', 'ManageRoleApiController@delete_role');
+    // End role api
+
+    // Begin staff api
     Route::get('/staff/{staffId}', "ManageStaffApiController@get_staff");
     Route::post('/staff/{staffId}/edit', "ManageStaffApiController@edit_staff");
     Route::post('delete-staff', "ManageStaffApiController@delete_staff");
     Route::post('change-role-staff', 'ManageStaffApiController@change_role');
     Route::post('change-base-staff', 'ManageStaffApiController@change_base');
     Route::post('add-staff', "ManageStaffApiController@add_staff");
-    Route::get('/all-tabs', "ManageTabApiController@get_all");
+    Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
+    // End staff api
+
+    // Begin Base api
     Route::get('/bases', "ManageBaseApiController@bases");
     Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
     Route::post('/base/create', "ManageBaseApiController@createBase");
     Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
     Route::get('/base/{baseId}', "ManageBaseApiController@base");
+    // End Base api
 
 
 });

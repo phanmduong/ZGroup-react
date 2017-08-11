@@ -812,7 +812,7 @@ class PublicController extends Controller
         return view('beta');
     }
 
-    public function manage()
+    public function manage($path)
     {
         return view('manage');
     }

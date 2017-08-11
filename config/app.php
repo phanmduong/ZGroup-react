@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "manage_domain" => env('MANAGE_DOMAIN', ''),
+    "manage_api_domain" => env('MANAGE_API_DOMAIN', ''),
     's3_url' => env('S3_URL', false),
     's3_key' => env('S3_KEY', false),
     's3_secret' => env('S3_SECRET', false),
