@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from "react-router";
-import Switch from 'react-bootstrap-switch';
 
-class ListBase extends React.Component {
+class ListProject extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
@@ -14,40 +12,37 @@ class ListBase extends React.Component {
                 <table className="table">
                     <thead>
                     <tr className="text-primary">
-                        <th>Tên cơ sở</th>
-                        <th>Địa chỉ</th>
-                        <th>Thêm vào lúc</th>
+                        <th>Tên dự án</th>
+                        <th>Mô tả</th>
+                        <th>Người thêm</th>
+                        <th>thêm vào lúc</th>
+                        <th>Người sửa gần nhất</th>
                         <th>Sửa gần nhất</th>
-                        <th>Trụ sở</th>
                         <th></th>
                         <th></th>
                     </tr>
                     </thead>
+
                     <tbody>
-                    {this.props.bases.map(base => {
+                    {this.props.projects.map(project => {
                         return (
-                            <tr key={base.id}>
-                                <td>{base.name}</td>
-                                <td>{base.address}</td>
-                                <td>{base.created_at}</td>
-                                <td>{base.updated_at}</td>
-                                <td>
-                                    <Switch
-                                        baseId={base.id}
-                                        onChange={(elem, state) => this.props.handleSwitch(state, base.id)}
-                                        bsSize="mini"
-                                        onText="Bật" offText="Tắt"
-                                        value={(base.center === 1)}/>
-                                </td>
-                                <td>
-                                    <Link to={"base/edit/" + base.id} className="text-rose">
+                            <tr key={project.id}>
+                                <td>{project.title}</td>
+                                <td>{project.description}</td>
+                                <td>{project.creator.name}</td>
+                                <td>{project.created_at}</td>
+                                <td>{project.editor.name}</td>
+                                <td>{project.updated_at}</td>
+                                <td className="td-actions text-right">
+                                    <button type="button" rel="tooltip" className="btn btn-info btn-round">
+                                        <i className="material-icons">person</i>
+                                    </button>
+                                    <button type="button" rel="tooltip" className="btn btn-success btn-round">
                                         <i className="material-icons">edit</i>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <a style={{color: "#c50000"}} onClick={() => this.props.deleteBase(base)}>
-                                        <i className="material-icons">delete</i>
-                                    </a>
+                                    </button>
+                                    <button type="button" rel="tooltip" className="btn btn-danger btn-round">
+                                        <i className="material-icons">close</i>
+                                    </button>
                                 </td>
                             </tr>
                         );
@@ -59,10 +54,9 @@ class ListBase extends React.Component {
     }
 }
 
-ListBase.propTypes = {
-    handleSwitch: PropTypes.func.isRequired,
-    deleteBase: PropTypes.func.isRequired,
-    bases: PropTypes.array.isRequired
+ListProject.propTypes = {
+    deleteProject: PropTypes.func.isRequired,
+    projects: PropTypes.array.isRequired
 };
 
-export default ListBase;
+export default ListProject;
