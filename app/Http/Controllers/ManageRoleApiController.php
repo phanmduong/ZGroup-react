@@ -66,7 +66,7 @@ class ManageRoleApiController extends ApiController
         return $this->respondSuccessWithStatus(['message' => "Xóa chức vụ thành công"]);
     }
 
-    public function get_role($domain, $roleId)
+    public function get_role( $roleId)
     {
         $role = Role::find($roleId);
         $role_tabs_id = $role->tabs()->pluck('tabs.id')->toArray();

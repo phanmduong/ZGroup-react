@@ -79,7 +79,7 @@ class ManageStaffApiController extends ApiController
         ]);
     }
 
-    public function get_staff($domain, $staffId)
+    public function get_staff( $staffId)
     {
         $staff = User::find($staffId);
         return $this->respondSuccessWithStatus(['staff' => $staff]);
