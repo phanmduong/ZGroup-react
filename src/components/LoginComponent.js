@@ -70,6 +70,7 @@ class LoginComponent extends React.Component {
                                                             label="Mật khẩu"
                                                             type="password"
                                                             required
+                                                            value={this.props.login.password}
                                                             onKeyPress={this.pressEnterKey}
                                                         />
                                                     </div>
