@@ -6,43 +6,42 @@ const BaseForm = ({updateFormData, base, error, submit, isSavingBase}) => {
     const {name, address} = base;
     return (
         <form role="form">
-            <div className="card-content">
-                <FormInputText
-                    placeholder="Nhập tên cơ sở"
-                    label="Tên cơ sở"
-                    name="name"
-                    updateFormData={updateFormData}
-                    value={name}
-                    notiValidate="Vui lòng nhập họ và tên"
-                    isValidate={error.name !== undefined}/>
-                <FormInputText
-                    placeholder="Nhập địa chỉ cơ sở"
-                    label="Địa chỉ cơ sở"
-                    name="address"
-                    updateFormData={updateFormData}
-                    value={address}
-                    notiValidate="Vui lòng nhập địa chỉ cơ sở"
-                    isValidate={error.address !== undefined}/>
-                <div>
-                    {isSavingBase ?
-                        (
-                            <button
-                                type="button"
-                                className="btn btn-primary disabled"
-                            >
-                                <i className="fa fa-spinner fa-spin"/> Đang Submit
-                            </button>
-                        ) :
-                        (
-                            <button
-                                type="button"
-                                className="btn btn-primary"
-                                onClick={submit}
-                            >
-                                Submit
-                            </button>
-                        )}
-                </div>
+
+            <FormInputText
+                placeholder="Nhập tên cơ sở"
+                label="Tên cơ sở"
+                name="name"
+                updateFormData={updateFormData}
+                value={name}
+                notiValidate="Vui lòng nhập họ và tên"
+                isValidate={error.name !== undefined}/>
+            <FormInputText
+                placeholder="Nhập địa chỉ cơ sở"
+                label="Địa chỉ cơ sở"
+                name="address"
+                updateFormData={updateFormData}
+                value={address}
+                notiValidate="Vui lòng nhập địa chỉ cơ sở"
+                isValidate={error.address !== undefined}/>
+            <div>
+                {isSavingBase ?
+                    (
+                        <button
+                            type="button"
+                            className="btn btn-primary disabled"
+                        >
+                            <i className="fa fa-spinner fa-spin"/> Đang Submit
+                        </button>
+                    ) :
+                    (
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={submit}
+                        >
+                            Submit
+                        </button>
+                    )}
             </div>
         </form>
     );

@@ -40,7 +40,7 @@ class ListBase extends React.Component {
                                         value={(base.center === 1)}/>
                                 </td>
                                 <td>
-                                    <Link to={"base/edit/" + base.id}>
+                                    <Link to={"base/edit/" + base.id} className="text-rose">
                                         <i className="material-icons">edit</i>
                                     </Link>
                                 </td>
