@@ -8,7 +8,7 @@ class Project extends Model
 {
     protected $table = "projects";
 
-    public function cards()
+    public function boards()
     {
         return $this->hasMany(Board::class, 'project_id');
     }
