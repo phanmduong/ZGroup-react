@@ -54,7 +54,7 @@ class CreateProjectContainer extends React.Component {
             error.description = "Bạn cần nhập mô tả dự án";
         }
         if (_.isEmpty(error)) {
-            this.props.taskActions.createBase(this.props.project);
+            this.props.taskActions.createProject(this.props.project);
         } else {
             this.setState({error});
             _.values(error).forEach(e => toastr.error(e));

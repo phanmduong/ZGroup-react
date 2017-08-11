@@ -8,7 +8,7 @@ import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
 
-export function loadProjects(page = 1, query = "") {
+export function loadProjects(page = 1, query = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_PROJECTS
@@ -38,14 +38,14 @@ export function updateCreateProjectFormData(project) {
 export function loadProject(projectId) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_LOAD_BASE
+            type: types.BEGIN_LOAD_PROJECT
         });
         taskApi.loadProject(projectId)
             .then(res => {
-                const base = res.data.data;
+                const project = res.data.data;
                 dispatch({
-                    type: types.LOAD_BASE_SUCCESS,
-                    base
+                    type: types.LOAD_PROJECT_SUCCESS,
+                    project
                 });
             });
     };
@@ -71,9 +71,10 @@ export function createProject(project) {
                 dispatch({
                     type: types.CREATE_PROJECT_SUCCESS
                 });
-                browserHistory.push('/base/list');
+                browserHistory.push('/project/list');
             });
     };
 }
+
 
 

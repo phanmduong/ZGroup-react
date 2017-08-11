@@ -6,6 +6,40 @@ import initialState from '../../reducers/initialState';
 
 export default function baseListReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_PROJECT:
+            return {
+                ...state,
+                createProject: {
+                    ...state.createProject,
+                    isLoadingProject: true
+                }
+            };
+        case types.LOAD_PROJECT_SUCCESS:
+            return {
+                ...state,
+                createProject: {
+                    ...state.createProject,
+                    isLoadingProject: false,
+                    project: action.project
+                }
+            };
+        case types.BEGIN_CREATE_PROJECT:
+            return {
+                ...state,
+                createProject: {
+                    ...state.createProject,
+                    isSavingProject: true
+                }
+            };
+        case types.CREATE_PROJECT_SUCCESS:
+            return {
+                ...state,
+                createProject: {
+                    ...state.createProject,
+                    project: {},
+                    isSavingProject: false
+                }
+            };
         case types.RESET_CREATE_PROJECT_DATA:
             return {
                 ...state,
@@ -36,7 +70,9 @@ export default function baseListReducer(state = initialState.task, action) {
                 project: {
                     ...state.project,
                     isLoadingProjects: false,
-                    projects: action.projects
+                    projects: action.projects,
+                    currentPage: action.currentPage,
+                    totalPages: action.totalPages
                 }
             };
         default:

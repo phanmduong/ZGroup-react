@@ -13,10 +13,19 @@ class ProjectListContainer extends React.Component {
         super(props, context);
         this.deleteProject = this.deleteProject.bind(this);
         this.loadProjects = this.loadProjects.bind(this);
+        this.changeProjectStatus = this.changeProjectStatus.bind(this);
+        this.state = {
+            page: 1,
+            query: ""
+        };
     }
 
     componentWillMount() {
         this.props.taskActions.loadProjects();
+    }
+
+    changeProjectStatus(project, value) {
+        this.props.taskActions.changeProjectStatus(project, value);
     }
 
     deleteProject() {
@@ -54,6 +63,7 @@ class ProjectListContainer extends React.Component {
 
                             {this.props.isLoadingProjects ? <Loading/> :
                                 <ListProject
+                                    changeProjectStatus={this.changeProjectStatus}
                                     deleteProject={this.deleteProject}
                                     projects={this.props.projects}/>}
                         </div>
@@ -65,13 +75,13 @@ class ProjectListContainer extends React.Component {
                                 if (Number(this.props.currentPage) === page) {
                                     return (
                                         <li key={page} className="active">
-                                            <a onClick={() => this.loadBases(page)}>{page}</a>
+                                            <a onClick={() => this.loadProjects(page)}>{page}</a>
                                         </li>
                                     );
                                 } else {
                                     return (
                                         <li key={page}>
-                                            <a onClick={() => this.loadBases(page)}>{page}</a>
+                                            <a onClick={() => this.loadProjects(page)}>{page}</a>
                                         </li>
                                     );
                                 }

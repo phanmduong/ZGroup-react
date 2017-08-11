@@ -146,7 +146,7 @@ export default {
             currentPage: 1,
             totalPages: 1,
             isLoadingProjects: false,
-
+            isSaving: false
         }
     }
 

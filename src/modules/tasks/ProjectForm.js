@@ -5,7 +5,6 @@ import {isEmptyInput} from "../../helpers/helper";
 
 const ProjectForm = ({updateFormData, project, error, submit, isSaving}) => {
     const {title, description} = project;
-    console.log(title);
     return (
         <form role="form">
 
@@ -23,15 +22,14 @@ const ProjectForm = ({updateFormData, project, error, submit, isSaving}) => {
                 name="description"
                 updateFormData={updateFormData}
                 value={description}
-                notiValidate="Vui lòng nhập mô tả dự án"
-                isValidate={!isEmptyInput(error.description)}/>
+                errorMessage="Vui lòng nhập mô tả dự án"
+                isNotValid={!isEmptyInput(error.description)}/>
             <div>
                 {isSaving ?
                     (
                         <button
                             type="button"
-                            className="btn btn-primary disabled"
-                        >
+                            className="btn btn-primary disabled">
                             <i className="fa fa-spinner fa-spin"/> Đang tải lên
                         </button>
                     ) :
@@ -39,8 +37,7 @@ const ProjectForm = ({updateFormData, project, error, submit, isSaving}) => {
                         <button
                             type="button"
                             className="btn btn-primary"
-                            onClick={submit}
-                        >
+                            onClick={submit}>
                             Tải lên
                         </button>
                     )}

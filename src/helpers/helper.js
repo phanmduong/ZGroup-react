@@ -28,10 +28,8 @@ export function confirm(type, title, html, success, cancel) {
     });
 }
 
-export function showNotification(message, from = "top", align = "right", type = "rose") {
-    type = ['', 'info', 'success', 'warning', 'danger', 'rose', 'primary'];
-
-    color = Math.floor((Math.random() * 6) + 1);
+export function showNotification(message, from = "top", align = "right", type = "success") {
+    // type = ['', 'info', 'success', 'warning', 'danger', 'rose', 'primary'];
 
     $.notify({
         icon: "notifications",

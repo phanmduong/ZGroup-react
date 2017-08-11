@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Switch from "../../components/common/Switch";
+import {Link} from "react-router";
 
 class ListProject extends React.Component {
     constructor(props, context) {
@@ -18,6 +20,7 @@ class ListProject extends React.Component {
                         <th>thêm vào lúc</th>
                         <th>Người sửa gần nhất</th>
                         <th>Sửa gần nhất</th>
+                        <th>Trạng thái</th>
                         <th>
                             Hành động
                         </th>
@@ -34,22 +37,22 @@ class ListProject extends React.Component {
                                 <td>{project.created_at}</td>
                                 <td>{project.editor.name}</td>
                                 <td>{project.updated_at}</td>
+                                <td>
+                                    <Switch
+                                        value={project.status === "open"}
+                                        onChange={(value) => this.props.changeProjectStatus(project, value)}/>
+                                </td>
                                 <td className="td-actions text-right">
-                                    <div className="togglebutton">
-                                        <label>
-                                            <input type="checkbox"/>
-                                                Toggle is on
-                                        </label>
-                                    </div>
-                                    <button type="button" rel="tooltip" className="btn btn-success btn-round">
+                                    <Link to={'/project/edit/' + project.id} type="button" rel="tooltip"
+                                          className="btn btn-success btn-round">
                                         <i className="material-icons">edit</i>
-                                    </button>
+                                    </Link>
                                     <button type="button" rel="tooltip" className="btn btn-danger btn-round">
                                         <i className="material-icons">close</i>
                                     </button>
                                 </td>
                             </tr>
-                    );
+                        );
                     })}
                     </tbody>
                 </table>
@@ -60,7 +63,8 @@ class ListProject extends React.Component {
 
 ListProject.propTypes = {
     deleteProject: PropTypes.func.isRequired,
-    projects: PropTypes.array.isRequired
+    projects: PropTypes.array.isRequired,
+    changeProjectStatus: PropTypes.func.isRequired
 };
 
 export default ListProject;
