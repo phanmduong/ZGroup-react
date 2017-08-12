@@ -50,7 +50,7 @@ class ListProject extends React.Component {
                                     />
                                 </td>
                                 <td>
-                                    <Link to={'/project/edit/' + project.id} type="button" rel="tooltip"
+                                    <Link to={'/project/' + project.id + "/edit"} type="button" rel="tooltip"
                                           className="text-rose">
                                         <i className="material-icons">edit</i>
                                     </Link>
