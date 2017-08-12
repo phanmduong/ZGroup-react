@@ -13,36 +13,48 @@ a {
   display: flex
 }
 
-.item-header-tab-parent{
+.item-header-tab-parent {
   border: 1px solid #ddd;
   padding-left: 15px;
 }
 
-.item-header-tab-parent{
+.item-header-tab-parent {
   cursor: pointer;
 }
 
-.header-tab-parent{
-  font-weight: bold!important;
-  font-size: 15px!important;
+.header-tab-parent {
+  font-weight: bold !important;
+  font-size: 15px !important;
 }
 
-.table-list-role{
+.table-list-role {
   margin-bottom: 0px;
 }
 
-.logo-header{
+.logo-header {
   height: 50px;
   width: 50px;
   margin-top: 15px;
 }
 
-.color-white{
+.color-white {
   color: white;
 }
 
-.logo-sidebar{
+.logo-sidebar {
   height: 40px;
   width: 40px;
 }
 
+.btn-group-action {
+  display: flex;
+}
+
+.btn-group-action a i {
+  color: #878787;
+  font-size: 20px;
+}
+
+.btn-group-action a i:hover {
+  color: #343434;
+}

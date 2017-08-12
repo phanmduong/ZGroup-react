@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router";
 import FormInputSelect from "../../components/common/FormInputSelect";
+import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 
 class ListProject extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
+
 
     render() {
         return (
@@ -21,8 +23,8 @@ class ListProject extends React.Component {
                         <th>Người sửa gần nhất</th>
                         <th>Sửa gần nhất</th>
                         <th>Trạng thái</th>
-                        <th></th>
-                        <th></th>
+                        <th>
+                        </th>
                     </tr>
                     </thead>
 
@@ -54,17 +56,13 @@ class ListProject extends React.Component {
                                         updateFormData={(event) => this.props.changeProjectStatus(project, event.target.value)}
                                     />
                                 </td>
+
                                 <td>
-                                    <Link to={'/project/' + project.id + "/edit"} type="button" rel="tooltip"
-                                          className="text-rose">
-                                        <i className="material-icons">edit</i>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <a onClick={() => this.props.deleteProject(project)} type="button"
-                                       rel="tooltip" className="text-dark">
-                                        <i className="material-icons">delete</i>
-                                    </a>
+                                    <ButtonGroupAction
+                                        delete={this.props.deleteProject}
+                                        editUrl={'/project/' + project.id + "/edit"}
+                                        object={project}
+                                    />
                                 </td>
                             </tr>
                         );
