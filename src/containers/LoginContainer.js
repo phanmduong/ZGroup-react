@@ -7,7 +7,6 @@ import LoginComponent from '../components/LoginComponent';
 import * as loginActions from '../actions/loginActions';
 import toastr from 'toastr';
 import * as env from '../constants/env';
-import * as helper from '../helpers/helper';
 
 class LoginContainer extends React.Component {
     constructor(props, context) {

@@ -82,7 +82,7 @@ export function getTokenLocal() {
             if (data) {
                 resolve(data.token);
             }
-        }).catch(function (err) {
+        }).catch(function () {
             reject(null);
         });
     });
