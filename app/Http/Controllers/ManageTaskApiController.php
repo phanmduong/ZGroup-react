@@ -28,8 +28,8 @@ class ManageTaskApiController extends ManageApiController
             $message = "Tạo dự án thành công";
         }
 
-        $project->title = $request->title;
-        $project->description = $request->description;
+        $project->title = trim($request->title);
+        $project->description = trim($request->description);
         $project->creator_id = $this->user->id;
         $project->editor_id = $this->user->id;
         $project->status = Project::$OPEN;
@@ -65,12 +65,12 @@ class ManageTaskApiController extends ManageApiController
 
     public function projects(Request $request)
     {
-        $query = $request->q;
+        $query = trim($request->q);
 
         $limit = 20;
 
         if ($query) {
-            $projects = Project::where("name", "like", "%$query%")
+            $projects = Project::where("title", "like", "%$query%")
                 ->orWhere("description", "like", "%$query%")
                 ->orderBy('created_at')->paginate($limit);
         } else {

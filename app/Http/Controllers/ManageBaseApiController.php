@@ -14,7 +14,7 @@ class ManageBaseApiController extends ManageApiController
         parent::__construct();
     }
 
-    public function deleteBase( $baseId)
+    public function deleteBase($baseId)
     {
         $base = Base::find($baseId);
         if ($base == null) {
@@ -24,7 +24,7 @@ class ManageBaseApiController extends ManageApiController
         return $this->respondSuccessWithStatus(['message' => "Xoá cơ sở thành công"]);
     }
 
-    public function base( $baseId)
+    public function base($baseId)
     {
         $base = Base::find($baseId);
         if ($base == null) {
@@ -38,9 +38,9 @@ class ManageBaseApiController extends ManageApiController
         return $this->respondSuccessWithStatus($data);
     }
 
-    public function bases( Request $request)
+    public function bases(Request $request)
     {
-        $query = $request->q;
+        $query = trim($request->q);
 
         $limit = 20;
 
@@ -69,7 +69,7 @@ class ManageBaseApiController extends ManageApiController
         return $this->respondWithPagination($bases, $data);
     }
 
-    public function setDefaultBase( $baseId)
+    public function setDefaultBase($baseId)
     {
         $bases = Base::where("center", 1)->get();
         foreach ($bases as $base) {
@@ -97,8 +97,8 @@ class ManageBaseApiController extends ManageApiController
             $message = "Tạo cơ sở thành công";
         }
 
-        $base->name = $request->name;
-        $base->address = $request->address;
+        $base->name = trim($request->name);
+        $base->address = trim($request->address);
         $base->save();
 
         return $this->respondSuccessWithStatus(["message" => $message]);
