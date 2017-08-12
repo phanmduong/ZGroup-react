@@ -24,13 +24,13 @@ class ManageStaffsComponent extends React.Component {
                                 <div className="nav-tabs-wrapper">
                                     <ul className="nav nav-tabs" data-tabs="tabs">
                                         <li className="active">
-                                            <Link to="manage/quan-li-nhan-su" data-toggle="tab">
+                                            <Link to="manage/quan-li-nhan-su">
                                                 Nhân viên
                                                 <div className="ripple-container"/>
                                             </Link>
                                         </li>
                                         <li className="">
-                                            <Link to="manage-role" data-toggle="tab">
+                                            <Link to="manage-role">
                                                  Chức vụ
                                                 <div className="ripple-container"/>
                                             </Link>
