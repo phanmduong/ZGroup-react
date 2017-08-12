@@ -39,3 +39,10 @@
     border-top: none;
     padding-top: 0;
 }
+
+.btn-main {
+    width: 100%
+}
+.text-dark {
+    color: #878787;
+}

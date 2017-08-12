@@ -13,11 +13,11 @@ class ListProject extends React.Component {
             <div className="table-responsive">
                 <table className="table">
                     <thead>
-                    <tr className="text-primary">
+                    <tr className="text-rose">
                         <th>Tên dự án</th>
                         <th>Mô tả</th>
                         <th>Người thêm</th>
-                        <th>thêm vào lúc</th>
+                        <th>Thêm vào lúc</th>
                         <th>Người sửa gần nhất</th>
                         <th>Sửa gần nhất</th>
                         <th>Trạng thái</th>
@@ -31,7 +31,8 @@ class ListProject extends React.Component {
                         return (
                             <tr key={project.id}>
                                 <td>
-                                    <Link to={"project/" + project.id + "/boards"}>
+                                    <Link className="btn btn-rose btn-sm btn-main"
+                                          to={"project/" + project.id + "/boards"}>
                                         {project.title}
                                     </Link>
                                 </td>
@@ -61,7 +62,7 @@ class ListProject extends React.Component {
                                 </td>
                                 <td>
                                     <a onClick={() => this.props.deleteProject(project)} type="button"
-                                       rel="tooltip" className="text-danger">
+                                       rel="tooltip" className="text-dark">
                                         <i className="material-icons">delete</i>
                                     </a>
                                 </td>

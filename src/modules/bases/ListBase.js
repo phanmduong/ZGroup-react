@@ -13,7 +13,7 @@ class ListBase extends React.Component {
             <div className="table-responsive">
                 <table className="table">
                     <thead>
-                    <tr className="text-primary">
+                    <tr className="text-rose">
                         <th>Tên cơ sở</th>
                         <th>Địa chỉ</th>
                         <th>Thêm vào lúc</th>
@@ -45,7 +45,8 @@ class ListBase extends React.Component {
                                     </Link>
                                 </td>
                                 <td>
-                                    <a style={{color: "#c50000"}} onClick={() => this.props.deleteBase(base)}>
+                                    <a className="text-dark"
+                                       onClick={() => this.props.deleteBase(base)}>
                                         <i className="material-icons">delete</i>
                                     </a>
                                 </td>
