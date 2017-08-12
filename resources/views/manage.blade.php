@@ -62,6 +62,8 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
 
+
 <script type="text/javascript" src="colorme-manage/main.b29d31b23a88fcd5b2ec.js"></script>
+
 </body>
 </html>
