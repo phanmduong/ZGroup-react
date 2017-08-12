@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Switch from "../../components/common/Switch";
 import {Link} from "react-router";
 import Select from "../../components/common/Select";
+import FormInputSelect from "../../components/common/FormInputSelect";
 
 class ListProject extends React.Component {
     constructor(props, context) {
@@ -38,14 +39,17 @@ class ListProject extends React.Component {
                                 <td>{project.editor.name}</td>
                                 <td>{project.updated_at}</td>
                                 <td>
-                                    <Select
-                                        defaultMessage="Vui lòng chọn 1 trạng thái"
-                                        options={[
-                                            {key: 'open', value: 'mở'},
-                                            {key: 'close', value: 'đóng'},
+                                    <FormInputSelect
+                                        isNotForm={true}
+                                        placeholder="Vui lòng chọn 1 trạng thái"
+                                        name="status"
+                                        data={[
+                                            {id: 'open', name: 'mở'},
+                                            {id: 'close', name: 'đóng'}
                                         ]}
                                         value={project.status}
-                                        onChange={(value) => this.props.changeProjectStatus(project, value)}/>
+                                        updateFormData={(event) => this.props.changeProjectStatus(project, event.target.value)}
+                                    />
                                 </td>
                                 <td>
                                     <Link to={'/project/edit/' + project.id} type="button" rel="tooltip"
