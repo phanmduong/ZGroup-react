@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Switch from "../../components/common/Switch";
 import {Link} from "react-router";
-import Select from "../../components/common/Select";
 import FormInputSelect from "../../components/common/FormInputSelect";
 
 class ListProject extends React.Component {
