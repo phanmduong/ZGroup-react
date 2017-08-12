@@ -76,7 +76,8 @@ class LoginComponent extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="footer text-center">
-                                                    {(!this.props.isLoading && this.props.token !== null && this.props.token !== '') ?
+                                                    {
+                                                        (!this.props.isLoading && this.props.token !== null && this.props.token !== '') ?
                                                         this.context.router.push('/') :
                                                         this.props.isLoading ?
                                                             (

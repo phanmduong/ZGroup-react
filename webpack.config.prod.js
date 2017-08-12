@@ -83,5 +83,9 @@ export default {
       {test: /\.ico$/, loader: 'file-loader?name=[name].[ext]'},
       {test: /(\.css|\.scss|\.sass)$/, loader: ExtractTextPlugin.extract('css-loader?sourceMap!postcss-loader!sass-loader?sourceMap')}
     ]
-  }
+  },
+    node: {
+        dns: 'mock',
+        net: 'mock'
+    },
 };

@@ -7,6 +7,7 @@ import LoginComponent from '../components/LoginComponent';
 import * as loginActions from '../actions/loginActions';
 import toastr from 'toastr';
 import * as env from '../constants/env';
+import * as helper from '../helpers/helper';
 
 class LoginContainer extends React.Component {
     constructor(props, context) {
@@ -66,7 +67,7 @@ class LoginContainer extends React.Component {
                 error: false
             });
         }
-        if (this.state.user.role === 0 && !this.props.isLoading) {
+        if (this.state.user && this.state.user.role === 0 && !this.props.isLoading) {
             toastr.error("Bạn không phải là nhân viên của" + env.NAME_COMPANY);
             this.setState({
                 user: {
