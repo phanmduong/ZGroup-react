@@ -7,6 +7,19 @@ import {showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
+export function deleteProject(project) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_PROJECT_SUCCESS,
+            project
+        });
+        showNotification("Xóa dự án thành công");
+        taskApi.deleteProject(project).catch(error => {
+            throw (error);
+        });
+    };
+}
+
 
 export function loadProjects(page = 1, query = null) {
     return function (dispatch) {

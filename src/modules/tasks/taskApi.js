@@ -35,3 +35,12 @@ export function createProject(project) {
     return axios.post(url, project);
 }
 
+export function deleteProject(project) {
+    let url = env.MANAGE_API_URL + "/project/delete/" + project.id;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+

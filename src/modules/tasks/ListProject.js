@@ -47,7 +47,8 @@ class ListProject extends React.Component {
                                           className="btn btn-success btn-round">
                                         <i className="material-icons">edit</i>
                                     </Link>
-                                    <button type="button" rel="tooltip" className="btn btn-danger btn-round">
+                                    <button onClick={() => this.props.deleteProject(project)} type="button"
+                                            rel="tooltip" className="btn btn-danger btn-round">
                                         <i className="material-icons">close</i>
                                     </button>
                                 </td>

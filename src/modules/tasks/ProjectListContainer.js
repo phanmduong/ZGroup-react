@@ -6,6 +6,7 @@ import * as taskActions from './taskActions';
 import ListProject from "./ListProject";
 import {Link} from "react-router";
 import Loading from "../../components/common/Loading";
+import {confirm} from "../../helpers/helper";
 import _ from 'lodash';
 
 class ProjectListContainer extends React.Component {
@@ -28,7 +29,11 @@ class ProjectListContainer extends React.Component {
         this.props.taskActions.changeProjectStatus(project, value);
     }
 
-    deleteProject() {
+    deleteProject(project) {
+        confirm("error", "Xoá", "Bạn có chắc chắn muốn xoá dự án này",
+            function () {
+                this.props.taskActions.deleteProject(project);
+            }.bind(this));
 
     }
 
