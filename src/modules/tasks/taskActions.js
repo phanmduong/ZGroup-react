@@ -7,6 +7,21 @@ import {showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
+
+export function changeProjectStatus(project, status) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_PROJECT_STATUS,
+            project,
+            status
+        });
+        showNotification("Thay đổi trạng thái dự án thành công");
+        taskApi.changeProjectStatus(project, status).catch(error => {
+            throw (error);
+        });
+    };
+}
+
 export function deleteProject(project) {
     return function (dispatch) {
         dispatch({

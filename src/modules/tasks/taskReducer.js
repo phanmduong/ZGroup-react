@@ -6,6 +6,27 @@ import initialState from '../../reducers/initialState';
 
 export default function baseListReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.CHANGE_PROJECT_STATUS:
+            return {
+                ...state,
+                project: {
+                    ...state.project,
+                    projects: state.project.projects.map(p => {
+                        if (p.id === action.project.id) {
+                            return {...p, status: action.status};
+                        }
+                        return p;
+                    })
+                }
+            };
+        case types.DELETE_PROJECT_SUCCESS:
+            return {
+                ...state,
+                project: {
+                    ...state.createProject,
+                    projects: state.project.projects.filter(p => p.id !== action.project.id)
+                }
+            };
         case types.BEGIN_LOAD_PROJECT:
             return {
                 ...state,

@@ -44,3 +44,11 @@ export function deleteProject(project) {
     return axios.post(url);
 }
 
+export function changeProjectStatus(project, status) {
+    let url = env.MANAGE_API_URL + "/project/status/" + project.id;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {status});
+}

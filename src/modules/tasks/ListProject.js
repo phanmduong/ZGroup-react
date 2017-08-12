@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from "../../components/common/Switch";
 import {Link} from "react-router";
+import Select from "../../components/common/Select";
 
 class ListProject extends React.Component {
     constructor(props, context) {
@@ -21,9 +22,8 @@ class ListProject extends React.Component {
                         <th>Người sửa gần nhất</th>
                         <th>Sửa gần nhất</th>
                         <th>Trạng thái</th>
-                        <th>
-                            Hành động
-                        </th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
 
@@ -38,19 +38,26 @@ class ListProject extends React.Component {
                                 <td>{project.editor.name}</td>
                                 <td>{project.updated_at}</td>
                                 <td>
-                                    <Switch
-                                        value={project.status === "open"}
+                                    <Select
+                                        defaultMessage="Vui lòng chọn 1 trạng thái"
+                                        options={[
+                                            {key: 'open', value: 'mở'},
+                                            {key: 'close', value: 'đóng'},
+                                        ]}
+                                        value={project.status}
                                         onChange={(value) => this.props.changeProjectStatus(project, value)}/>
                                 </td>
-                                <td className="td-actions text-right">
+                                <td>
                                     <Link to={'/project/edit/' + project.id} type="button" rel="tooltip"
-                                          className="btn btn-success btn-round">
+                                          className="text-rose">
                                         <i className="material-icons">edit</i>
                                     </Link>
-                                    <button onClick={() => this.props.deleteProject(project)} type="button"
-                                            rel="tooltip" className="btn btn-danger btn-round">
-                                        <i className="material-icons">close</i>
-                                    </button>
+                                </td>
+                                <td>
+                                    <a onClick={() => this.props.deleteProject(project)} type="button"
+                                       rel="tooltip" className="text-danger">
+                                        <i className="material-icons">delete</i>
+                                    </a>
                                 </td>
                             </tr>
                         );

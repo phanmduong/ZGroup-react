@@ -25,8 +25,8 @@ class ProjectListContainer extends React.Component {
         this.props.taskActions.loadProjects();
     }
 
-    changeProjectStatus(project, value) {
-        this.props.taskActions.changeProjectStatus(project, value);
+    changeProjectStatus(project, status) {
+        this.props.taskActions.changeProjectStatus(project, status);
     }
 
     deleteProject(project) {
