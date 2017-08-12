@@ -59,17 +59,6 @@ class BasesContainer extends React.Component {
         this.props.baseListActions.loadBases(page, this.state.query);
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.location.query.page && nextProps.location.query.page !== this.state.page) {
-    //         this.setState({page: nextProps.location.query.page});
-    //         console.log(this.state.page);
-    //         this.props.baseListActions.loadBases(this.state.page, this.state.query);
-    //     } else if (!nextProps.location.query.page && this.props.location.query.page) {
-    //         this.setState({page: 1});
-    //         this.props.baseListActions.loadBases(this.state.page, this.state.query);
-    //     }
-    // }
-
 
     handleSwitch(state, baseId) {
         if (!state) {

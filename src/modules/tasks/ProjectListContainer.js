@@ -8,6 +8,7 @@ import {Link} from "react-router";
 import Loading from "../../components/common/Loading";
 import {confirm} from "../../helpers/helper";
 import _ from 'lodash';
+import Search from "../../components/common/Search";
 
 class ProjectListContainer extends React.Component {
     constructor(props, context) {
@@ -15,6 +16,7 @@ class ProjectListContainer extends React.Component {
         this.deleteProject = this.deleteProject.bind(this);
         this.loadProjects = this.loadProjects.bind(this);
         this.changeProjectStatus = this.changeProjectStatus.bind(this);
+        this.projectsSearchChange = this.projectsSearchChange.bind(this);
         this.state = {
             page: 1,
             query: ""
@@ -42,6 +44,20 @@ class ProjectListContainer extends React.Component {
         this.props.taskActions.loadProjects(page, this.state.query);
     }
 
+    projectsSearchChange(query) {
+        this.setState({
+            page: 1,
+            query
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.taskActions.loadProjects(this.state.page, this.state.query);
+        }.bind(this), 500);
+
+    }
+
     render() {
         return (
             <div id="page-wrapper">
@@ -60,11 +76,11 @@ class ProjectListContainer extends React.Component {
                                 </Link>
                             </div>
 
-                            {/*<Search*/}
-                            {/*onChange={this.basesSearchChange}*/}
-                            {/*value={this.state.query}*/}
-                            {/*placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"*/}
-                            {/*/>*/}
+                            <Search
+                                onChange={this.projectsSearchChange}
+                                value={this.state.query}
+                                placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
+                            />
 
                             {this.props.isLoadingProjects ? <Loading/> :
                                 <ListProject
