@@ -102,5 +102,14 @@ class ManageTaskApiController extends ManageApiController
         return $this->respondWithPagination($projects, $data);
     }
 
+    public function changeProjectStatus($projectId, Request $request)
+    {
+        $project = Project::find($projectId);
+        $project->status = $request->status;
+        $project->save();
+
+        return $this->respondSuccessWithStatus(["message" => "Thay đổi trạng thái dự án thành công"]);
+    }
+
 
 }
