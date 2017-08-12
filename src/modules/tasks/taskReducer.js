@@ -23,7 +23,7 @@ export default function baseListReducer(state = initialState.task, action) {
             return {
                 ...state,
                 project: {
-                    ...state.createProject,
+                    ...state.project,
                     projects: state.project.projects.filter(p => p.id !== action.project.id)
                 }
             };
