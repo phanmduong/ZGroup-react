@@ -34,19 +34,13 @@ class App extends React.Component {
                             </div>
                             <div className="info">
                                 <a data-toggle="collapse" href="#collapseExample" className="collapsed">
-                                    Tania Andrew
+                                    {this.props.user.name}
                                     <b className="caret"></b>
                                 </a>
                                 <div className="collapse" id="collapseExample">
                                     <ul className="nav">
                                         <li>
-                                            <a href="#">My Profile</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Edit Profile</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Settings</a>
+                                            <a onClick={this.props.onLogOut}>Đăng xuất</a>
                                         </li>
                                     </ul>
                                 </div>

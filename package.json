@@ -33,6 +33,7 @@
     "axios": "0.15.3",
     "chart.js": "1.1.1",
     "jquery": "3.2.1",
+    "jsonwebtoken": "^7.4.2",
     "lodash": "^4.17.4",
     "object-assign": "4.1.0",
     "prop-types": "^15.5.10",

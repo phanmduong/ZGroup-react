@@ -1,4 +1,8 @@
 /* eslint-disable no-undef */
+
+import jwt from 'jsonwebtoken';
+import * as env from '../constants/env';
+
 export function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -44,3 +48,44 @@ export function showNotification(message, from = "top", align = "right", type = 
         }
     });
 }
+
+export function encodeToken(data) {
+    return jwt.sign({
+        data: data
+    }, env.SECRET_TOKEN, {expiresIn: env.EXPIRES_IN});
+}
+
+export function decodeToken(token) {
+    return new Promise(function (resolve, reject) {
+        jwt.verify(token, env.SECRET_TOKEN, function (err, decoded) {
+
+            if (err) {
+                reject(err);
+            }
+            resolve(decoded);
+        });
+    });
+}
+
+export function saveDataLoginLocal(data) {
+    localStorage.setItem(env.NAME_DATA_LOGIN_SAVE_LOCAL, data);
+}
+
+export function removeDataLoginLocal() {
+    localStorage.removeItem(env.NAME_DATA_LOGIN_SAVE_LOCAL);
+}
+
+export function getTokenLocal() {
+    let dataLocal = decodeToken(localStorage.getItem(env.NAME_DATA_LOGIN_SAVE_LOCAL));
+    return new Promise(function (resolve, reject) {
+        dataLocal.then(function (data) {
+            if (data) {
+                resolve(data.token);
+            }
+        }).catch(function (err) {
+            reject(null);
+        });
+    });
+}
+
+

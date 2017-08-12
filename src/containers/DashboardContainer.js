@@ -20,13 +20,6 @@ class DashboardContainer extends React.Component {
     }
 
     componentWillMount() {
-        let token = localStorage.getItem('token');
-        if (token === null || token.trim() === '') {
-            this.context.router.push('login');
-        }
-        else {
-            this.props.loginActions.getUserLocal();
-        }
         this.props.gensActions.loadGensData();
     }
 
