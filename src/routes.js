@@ -16,6 +16,7 @@ import BasesContainer from "./modules/bases/BasesContainer";
 import CreateBaseContainer from "./modules/bases/CreateBaseContainer";
 import ProjectListContainer from "./modules/tasks/ProjectListContainer";
 import CreateProjectContainer from "./modules/tasks/CreateProjectContainer";
+import BoardListContainer from "./modules/tasks/BoardListContainer";
 
 export default (
     <Route>
@@ -43,7 +44,7 @@ export default (
             <Route path="project/list" component={ProjectListContainer}/>
             <Route path="project/create" component={CreateProjectContainer} type="create"/>
             <Route path="project/:projectId/edit" component={CreateProjectContainer} type="edit"/>
-            {/*<Route path="project/board/:projectId" component={BoardListContainer} type="edit"/>*/}
+            <Route path="project/:projectId/boards" component={BoardListContainer}/>
 
             {/*End tasks route*/}
         </Route>

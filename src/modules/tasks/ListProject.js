@@ -30,7 +30,11 @@ class ListProject extends React.Component {
                     {this.props.projects.map(project => {
                         return (
                             <tr key={project.id}>
-                                <td>{project.title}</td>
+                                <td>
+                                    <Link to={"project/" + project.id + "/boards"}>
+                                        {project.title}
+                                    </Link>
+                                </td>
                                 <td>{project.description}</td>
                                 <td>{project.creator.name}</td>
                                 <td>{project.created_at}</td>
