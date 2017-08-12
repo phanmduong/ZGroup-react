@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router";
 import Switch from 'react-bootstrap-switch';
+import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 
 class ListBase extends React.Component {
     constructor(props, context) {
@@ -19,7 +20,6 @@ class ListBase extends React.Component {
                         <th>Thêm vào lúc</th>
                         <th>Sửa gần nhất</th>
                         <th>Trụ sở</th>
-                        <th></th>
                         <th></th>
                     </tr>
                     </thead>
@@ -40,15 +40,11 @@ class ListBase extends React.Component {
                                         value={(base.center === 1)}/>
                                 </td>
                                 <td>
-                                    <Link to={"base/" + base.id + "/edit"} className="text-rose">
-                                        <i className="material-icons">edit</i>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <a className="text-dark"
-                                       onClick={() => this.props.deleteBase(base)}>
-                                        <i className="material-icons">delete</i>
-                                    </a>
+                                    <ButtonGroupAction
+                                        editUrl={"base/" + base.id + "/edit"}
+                                        delete={this.props.deleteBase}
+                                        object={base}
+                                    />
                                 </td>
                             </tr>
                         );
