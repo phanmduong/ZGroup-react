@@ -39,16 +39,16 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 
 //Route::post('/api/topic/{topicId}/images','PublicController@store_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
-Route::group(['domain' => config('app.manage_domain')], function () {
+Route::group(['domain' => 'manage.'.config('app.manage_domain')], function () {
     Route::get('{path}', 'PublicController@manage')
         ->where('path', '.*');
 });
 
-Route::group(['domain' => 'zgroup.{ga}'], function () {
+Route::group(['domain' => config('app.domain')], function () {
     Route::get('/', 'PublicController@redirectManage');
 });
 
-Route::group(['domain' => config('app.manage_api_domain')], function () {
+Route::group(['domain' => 'manageapi.'.config('app.manage_api_domain')], function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
@@ -91,7 +91,7 @@ Route::group(['domain' => config('app.manage_api_domain')], function () {
 
 });
 
-Route::group(['domain' => 'api.zgroup.{ga}'], function () {
+Route::group(['domain' => 'api.'.config('app.domain')], function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
         Route::get('search-registers', 'MoneyManageApiController@search_registers');
@@ -99,8 +99,6 @@ Route::group(['domain' => 'api.zgroup.{ga}'], function () {
         Route::post('activate-class', 'ManageClassApiController@activate_class');
         Route::post('change-class-status', 'ManageClassApiController@change_class_status');
     });
-    Route::get('/duong', 'PublicController@redirectManage');
-    Route::get('/duong1', 'PublicController@redirectManage');
     Route::post('/login', 'AuthenticateController@login');
     Route::get('/refresh-token', 'MobileController@refreshToken');
     Route::get('/bases', 'MobileController@bases');
@@ -207,11 +205,11 @@ Route::group(['domain' => 'api.zgroup.{ga}'], function () {
     Route::post('/add-user-to-group', "UserApiController@add_user_to_group");
     Route::post('/join-topic', "UserApiController@join_topic");
 
-    // begin api quản lý ca trực
+    // begin api qu???n l?? ca tr???c
     Route::get('current-shifts', 'ShiftApiController@get_current_shifts');
     Route::post('register-shift/{shiftId}', 'ShiftApiController@register_shift');
     Route::post('remove-shift-regis/{shiftId}', 'ShiftApiController@remove_shift_regis');
-    // end api quản lý ca trực
+    // end api qu???n l?? ca tr???c
 
     // api danh sach dang ki
     Route::get('register-list', 'StudentApiController@registerlist');
@@ -231,7 +229,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/about-us', 'PublicController@beta');
         Route::get('/post/{LinkId}', 'PublicController@beta');
         Route::get('/sign-in', 'PublicController@beta');
-        Route::get('/upload-post', 'PublicConƒtroller@beta');
+        Route::get('/upload-post', 'PublicCon??troller@beta');
         Route::get('/course/{LinkId}', 'PublicController@beta');
         Route::get('/profile/{username}', 'PublicController@beta');
         Route::get('/profile/{username}/progress', 'PublicController@beta');
