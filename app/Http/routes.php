@@ -39,7 +39,7 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 
 //Route::post('/api/topic/{topicId}/images','PublicController@store_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
-Route::group(['domain' => 'manage.'.config('app.manage_domain')], function () {
+Route::group(['domain' => 'manage.'.config('app.domain')], function () {
     Route::get('{path}', 'PublicController@manage')
         ->where('path', '.*');
 });
@@ -49,7 +49,7 @@ Route::group(['domain' => config('app.domain')], function () {
     Route::get('/ping', 'ClientManageController@ping');
 });
 
-Route::group(['domain' => 'manageapi.'.config('app.manage_api_domain')], function () {
+Route::group(['domain' => 'manageapi.'.config('app.domain')], function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
