@@ -39,17 +39,21 @@ Route::get('access_forbidden', 'PublicController@access_forbidden');
 
 //Route::post('/api/topic/{topicId}/images','PublicController@store_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
-Route::group(['domain' => 'manage.'.config('app.domain')], function () {
+Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('{path}', 'PublicController@manage')
         ->where('path', '.*');
 });
 
 Route::group(['domain' => config('app.domain')], function () {
     Route::get('/', 'PublicController@redirectManage');
+
+    // Route handle tang thu 4
     Route::get('/ping', 'ClientManageController@ping');
+    Route::post('/tabs', 'ClientManageController@setTabs');
+    Route::post('/update', 'ClientManageController@update');
 });
 
-Route::group(['domain' => 'manageapi.'.config('app.domain')], function () {
+Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
@@ -92,7 +96,7 @@ Route::group(['domain' => 'manageapi.'.config('app.domain')], function () {
 
 });
 
-Route::group(['domain' => 'api.'.config('app.domain')], function () {
+Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::group(['prefix' => 'v2'], function () {
         Route::get('gens/{gen_id}/dashboard/{base_id?}', 'MobileController@dashboardv2');
         Route::get('search-registers', 'MoneyManageApiController@search_registers');

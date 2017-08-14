@@ -800,11 +800,9 @@ class PublicController extends Controller
 
     public function test()
     {
-        $interval = computeTimeInterval("2017-07-06 01:24:54", "2017-07-07 01:38:03");
-        dd($interval > 24);
-//        $daysInterval = (int)$interval->format('%a');
-//        dd($daysInterval);
-        return 'test';
+
+        return "test";
+//        return json_encode(Tab::all());
     }
 
     public function beta()
