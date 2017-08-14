@@ -47,6 +47,7 @@ class ClientManageController extends Controller
 
     public function update()
     {
+        putenv('COMPOSER_HOME=' . __DIR__ . '/vendor/bin/composer');
         exec("/home/sync.sh 2>&1", $outputAndErrors, $return_value);
         return $this->respond([
             'updated' => "Thay đổi tính năng thành công",
