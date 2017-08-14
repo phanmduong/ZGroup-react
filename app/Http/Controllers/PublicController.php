@@ -817,6 +817,6 @@ class PublicController extends Controller
 
     public function redirectManage()
     {
-        return redirect('http://manage.zgroup.ga');
+        return redirect('manage.' . config('app.domain'));
     }
 }
