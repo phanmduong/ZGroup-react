@@ -1,23 +1,19 @@
 <?php
-
-if (isset($_SERVER['HTTP_ORIGIN'])) {
-    $http_origin = $_SERVER['HTTP_ORIGIN'];
-    if ($http_origin == "http://localhost:3000" || $http_origin == "http://zgroup.ga"
-        || $http_origin == "http://zgroup.ga"
-        || $http_origin == "http://manage.zgroup.ga"
-        || $http_origin == "http://zgroup.dev" || $http_origin == "http://manage.zgroup.dev"
-    || $http_origin == "http://api.zgroup.ga"
-    || $http_origin == "http://api.zgroup.dev"
-    || $http_origin == "http://manageapi.zgroup.ga"
-    || $http_origin == "http://manageapi.zgroup.dev"
-    ) {
-        header("Access-Control-Allow-Origin: $http_origin");
-    }
-} else {
-    $http_origin = "http://colorme.dev";
-    header("Access-Control-Allow-Origin: $http_origin");
-}
-
+//if (isset($_SERVER['HTTP_ORIGIN'])) {
+//    $http_origin = $_SERVER['HTTP_ORIGIN'];
+//    if ($http_origin == "http://localhost:3000"
+//        || $http_origin == env('DOMAIN', '') || $http_origin == "http://manage." . env('DOMAIN', '')
+//        || $http_origin == "http://api." . env('DOMAIN', '')
+//        || $http_origin == "http://manageapi." . env('DOMAIN', '')
+//    ) {
+//        header("Access-Control-Allow-Origin: $http_origin");
+//    }
+//} else {
+//    $http_origin = "http://colorme.dev";
+//    header("Access-Control-Allow-Origin: $http_origin");
+//}
+$http_origin = $_SERVER['HTTP_ORIGIN'];
+header("Access-Control-Allow-Origin: $http_origin");
 //header('Access-Control-Allow-Origin: http://localhost:3000');
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
