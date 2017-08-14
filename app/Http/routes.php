@@ -46,6 +46,7 @@ Route::group(['domain' => 'manage.'.config('app.manage_domain')], function () {
 
 Route::group(['domain' => config('app.domain')], function () {
     Route::get('/', 'PublicController@redirectManage');
+    Route::get('/ping', 'ClientManageController@ping');
 });
 
 Route::group(['domain' => 'manageapi.'.config('app.manage_api_domain')], function () {
