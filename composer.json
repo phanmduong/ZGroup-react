@@ -9,6 +9,7 @@
   "type": "project",
   "require": {
     "php": ">=5.5.9",
+    "composer/composer": "dev-master",
     "laravel/framework": "5.2.*",
     "doctrine/dbal": "v2.4.2",
     "aws/aws-sdk-php": "~3.0",
