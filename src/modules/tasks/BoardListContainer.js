@@ -25,7 +25,11 @@ class BoardListContainer extends React.Component {
         });
     }
 
+
     render() {
+
+
+
         return (
             <div>
                 <div className="board-container">

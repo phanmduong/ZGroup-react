@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from "react-router";
 import Switch from 'react-bootstrap-switch';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 
@@ -20,7 +19,7 @@ class ListBase extends React.Component {
                         <th>Thêm vào lúc</th>
                         <th>Sửa gần nhất</th>
                         <th>Trụ sở</th>
-                        <th></th>
+                        <th/>
                     </tr>
                     </thead>
                     <tbody>

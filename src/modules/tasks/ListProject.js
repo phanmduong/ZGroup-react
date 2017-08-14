@@ -23,8 +23,7 @@ class ListProject extends React.Component {
                         <th>Người sửa gần nhất</th>
                         <th>Sửa gần nhất</th>
                         <th>Trạng thái</th>
-                        <th>
-                        </th>
+                        <th/>
                     </tr>
                     </thead>
 
