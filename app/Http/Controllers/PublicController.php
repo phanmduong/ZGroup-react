@@ -801,7 +801,7 @@ class PublicController extends Controller
     public function test()
     {
 
-        return "Test";
+        return "Hello world";
 //        return json_encode(Tab::all());
     }
 
