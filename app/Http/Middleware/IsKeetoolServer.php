@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Response;
 
 class IsKeetoolServer
 {
@@ -19,7 +20,10 @@ class IsKeetoolServer
         if ($request->input('token') == $token) {
             return $next($request);
         }
-        return ['error' => 'invalid token'];
+        return [
+            'status' => 0,
+            "message" => "invalid token"
+        ];
 
     }
 }

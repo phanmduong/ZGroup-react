@@ -22,9 +22,14 @@ class ClientManageController extends Controller
         return response()->json($data, $statusCode, $headers);
     }
 
+    public function responseBadRequest($message = 'Bad Request!')
+    {
+        return $this->setStatusCode(Response::HTTP_BAD_REQUEST)->responseWithError($message);
+    }
+
     public function ping()
     {
-        return $this->respond("Ok");
+        return $this->respond(['status' => 1, 'message' => "Ok"]);
     }
 
     public function setTabs(Request $request)
@@ -48,15 +53,16 @@ class ClientManageController extends Controller
                 $t->save();
             }
         }
-        return $this->respond(['message' => "Thay đổi tính năng thành công"]);
+        return $this->respond(['status' => 1, 'message' => "Thay đổi tính năng thành công"]);
     }
 
     public function update()
     {
-        putenv('COMPOSER_HOME=' . __DIR__ . '/vendor/bin/composer');
+        putenv('COMPOSER_HOME = ' . __DIR__ . ' / vendor / bin / composer');
         exec("/home/sync.sh 2>&1", $outputAndErrors, $return_value);
         return $this->respond([
-            'updated' => "Thay đổi tính năng thành công",
+            'status' => 1,
+            'message' => "Thay đổi tính năng thành công",
             'output' => $outputAndErrors,
             'result' => $return_value
         ]);
@@ -67,6 +73,7 @@ class ClientManageController extends Controller
         file_put_contents(base_path() . "/.env", $request->env);
         Artisan::call('config:cache');
         return $this->respond([
+            'status' => 1,
             "message" => "Write successfully"
         ]);
     }
@@ -78,6 +85,7 @@ class ClientManageController extends Controller
         file_put_contents(public_path() . "/config.js", $content);
 
         return $this->respond([
+            'status' => 1,
             "message" => "Write successfully",
             "content" => $content
         ]);
