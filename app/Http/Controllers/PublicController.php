@@ -800,9 +800,8 @@ class PublicController extends Controller
 
     public function test()
     {
-
-        return "test";
-//        return json_encode(Tab::all());
+        $hashed_random_password = Hash::make(str_random(8));
+        return $hashed_random_password;
     }
 
     public function beta()

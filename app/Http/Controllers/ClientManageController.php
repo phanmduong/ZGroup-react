@@ -12,6 +12,11 @@ use App\Http\Requests;
 
 class ClientManageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('is_keetool_server');
+    }
+
     public function respond($data, $headers = [], $statusCode = 200)
     {
         return response()->json($data, $statusCode, $headers);
