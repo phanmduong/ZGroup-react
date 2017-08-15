@@ -51,6 +51,8 @@ Route::group(['domain' => config('app.domain')], function () {
     Route::get('/ping', 'ClientManageController@ping');
     Route::post('/tabs', 'ClientManageController@setTabs');
     Route::post('/update', 'ClientManageController@update');
+    Route::post('/write-env', 'ClientManageController@writeEnv');
+    Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {

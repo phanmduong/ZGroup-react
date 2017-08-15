@@ -1,0 +1,1 @@
+const env = {"domain": "keetool.dev", "logo": "test"}
