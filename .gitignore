@@ -9,4 +9,4 @@ Homestead.json
 .idea/blade.xml
 .idea/misc.xml
 public/colorme-manage/.DS_STORE
-
+.idea/*

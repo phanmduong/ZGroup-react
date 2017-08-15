@@ -81,7 +81,7 @@ class ClientManageController extends Controller
     public function writeEnvClient(Request $request)
     {
 //        $request->config
-        $content = "const env=" . $request->env;
+        $content = "var env=" . $request->env;
         file_put_contents(public_path() . "/config.js", $content);
 
         return $this->respond([

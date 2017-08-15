@@ -1,1 +1,1 @@
-const env = {"domain": "keetool.dev", "logo": "test"}
+var env = {"DOMAIN": "zgroup.ga", "NAME_COMPANY": "zGroup"}
