@@ -108,8 +108,8 @@ class App extends React.Component {
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="#pablo" className="dropdown-toggle" data-toggle="dropdown">
-                                            <i className="material-icons">person</i>
+                                        <a onClick={this.props.onLogOut} className="dropdown-toggle" data-toggle="dropdown">
+                                            <i className="material-icons">exit_to_app</i>
                                             <p className="hidden-lg hidden-md">Profile</p>
                                         </a>
                                     </li>

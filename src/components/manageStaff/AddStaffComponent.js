@@ -4,6 +4,9 @@ import FormInputSelect from '../common/FormInputSelect';
 import FormInputDate from '../common/FormInputDate';
 import {MARITAL, LITERACY} from '../../constants/constants';
 import PropTypes from 'prop-types';
+import * as helper from '../../helpers/helper';
+import {CirclePicker} from 'react-color';
+
 
 class AddStaffComponent extends React.Component {
     constructor(props, context) {
@@ -18,10 +21,13 @@ class AddStaffComponent extends React.Component {
 
     render() {
         let {name, email, age, address, homeland, phone, marital, literacy, role, start_company, username} = this.props.staffForm;
+        let roleSelect = this.props.roles.filter(function (roleData) {
+            return role == roleData.id;
+        })[0];
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-8">
                         <div className="card">
                             <form id="form-add-staff" onSubmit={(e) => {
                                 e.preventDefault();
@@ -148,6 +154,60 @@ class AddStaffComponent extends React.Component {
                             </form>
                         </div>
                     </div>
+                    <div className="col-md-4">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="card card-profile">
+                                    <div className="card-avatar">
+                                        <a>
+                                            <img className="img"
+                                                 src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1491311923hbSEUhRbABGfULT.jpg"/>
+                                        </a>
+                                    </div>
+                                    <div className="card-content">
+                                        <h6 className="category text-gray">
+                                            {helper.isEmptyInput(roleSelect.role_title) ? 'Đây là chức vụ' : roleSelect.role_title}
+                                        </h6>
+                                        <h4 className="card-title">
+                                            {helper.isEmptyInput(name) ? 'Đây là tên' : name}</h4>
+                                        <p className="description">
+                                            Bấm nút phía dưới để chọn ảnh đại diện
+                                        </p>
+                                        <button className="btn btn-rose btn-round">
+                                            Chọn ảnh
+                                            <input type="file"
+                                                   accept=".jpg,.png,.gif"
+                                                   onchange={this.props.handleFileUpload}
+                                                   style={{
+                                                       cursor: 'pointer',
+                                                       opacity: "0.0",
+                                                       position: "absolute",
+                                                       top: 0,
+                                                       left: 0,
+                                                       bottom: 0,
+                                                       right: 0,
+                                                       width: "100%",
+                                                       height: "100%"
+                                                   }}
+                                            />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-12">
+                                <div className="card">
+                                        <div className="card-header card-header-icon" data-background-color="rose">
+                                            <i className="material-icons">contacts</i>
+                                        </div>
+                                        <div className="card-content">
+                                            <h4 className="card-title">Chọn màu</h4>
+                                            <CirclePicker width="100%"/>
+                                        </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -158,6 +218,7 @@ AddStaffComponent.propTypes = {
     staffForm: PropTypes.object.isRequired,
     updateFormData: PropTypes.func.isRequired,
     addStaff: PropTypes.func.isRequired,
+    handleFileUpload: PropTypes.func.isRequired,
     isLoadingAddStaff: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
 };

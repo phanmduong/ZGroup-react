@@ -55,51 +55,88 @@ class ItemTabParent extends React.Component {
 
     }
 
+    componentDidMount() {
+        $.material.init();
+    }
+
     render() {
         let {tab, tabsListData} = this.props;
-        return (
-            <div className="item-tab-parent">
-                <div className="item-header-tab-parent" data-target={'#tab-role' + tab.id} data-toggle="collapse"
-                >
-                    <div className="">
-                        <label className="control-label header-tab-parent">
-                            <input type="checkbox" checked={tab.checked}
-                                   onChange={(event) => this.changeCheckTabParent(event.target.checked, tab)}/>
-                            {tab.name}
-                        </label>
+        const parentTab = tabsListData
+            .filter(t => tab.id === t.parent_id)[0];
+        if (parentTab) {
+            return (
+                <div className="panel panel-default">
+                    <div className="panel-heading" role="tab" id={'heading-tab' + tab.id}>
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false"
+                           aria-controls={'tab-role' + tab.id}
+                           href={(parentTab) ? '#tab-role' + tab.id : ''}
+                        >
+                            <h4 className="panel-title">
+                                <div className="checkbox">
+                                    <label>
+                                        <input type="checkbox" checked={tab.checked}
+                                               onChange={(event) => this.changeCheckTabParent(event.target.checked, tab)}/>
+                                        {tab.name}
+                                    </label>
+                                </div>
+                                {parentTab && <i className="material-icons">keyboard_arrow_down</i>}
+                            </h4>
+                        </a>
                     </div>
-                </div>
-                <div id={"tab-role" + tab.id} className="collapse">
-                    <div className="col-lg-12">
-                        <div className="table-responsive">
-                            <table className="table table-bordered table-hover table-striped table-list-role">
-                                <thead>
-                                <tr>
-                                    <th>Tab</th>
-                                    <th>Url</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                    <div id={"tab-role" + tab.id} className="panel-collapse collapse" role="tabpanel"
+                         aria-labelledby={'heading-tab' + tab.id}>
+                        <div className="panel-body">
+                            <div className="col-lg-12">
+                                <div className="table-responsive">
+                                    <table className="table table-bordered table-hover table-striped table-list-role">
+                                        <thead>
+                                        <tr>
+                                            <th>Tab</th>
+                                            <th>Url</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
 
-                                {tabsListData.map((tabChild, index) => {
-                                    if (tabChild.parent_id === tab.id) {
-                                        return (
-                                            <ItemTabChild
-                                                tabChild={tabChild}
-                                                tabParent={tab}
-                                                key={index}
-                                                changeCheckTabChild={self.changeCheckTabChild}
-                                            />
-                                        );
-                                    }
-                                })}
-                                </tbody>
-                            </table>
+                                        {tabsListData.map((tabChild, index) => {
+                                            if (tabChild.parent_id === tab.id) {
+                                                return (
+                                                    <ItemTabChild
+                                                        tabChild={tabChild}
+                                                        tabParent={tab}
+                                                        key={index}
+                                                        changeCheckTabChild={self.changeCheckTabChild}
+                                                    />
+                                                );
+                                            }
+                                        })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div className="panel panel-default">
+                    <div className="panel-heading" role="tab">
+                        <a>
+                            <h4 className="panel-title">
+                                <div className="checkbox">
+                                    <label>
+                                        <input type="checkbox" checked={tab.checked}
+                                               onChange={(event) => this.changeCheckTabParent(event.target.checked, tab)}/>
+                                        {tab.name}
+                                    </label>
+                                </div>
+                            </h4>
+                        </a>
+                    </div>
+                </div>
+            );
+
+        }
     }
 }
 

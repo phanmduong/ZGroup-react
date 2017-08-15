@@ -7,17 +7,21 @@ class ItemTabChild extends React.Component {
         super(props, context);
     }
 
+    componentDidMount(){
+        $.material.init();
+    }
+
     render() {
         let {tabChild, tabParent} = this.props;
         return (
             <tr>
                 <td>
-                    <div className="">
+                    <div className="checkbox">
                         <label>
-                            <input type="checkbox" checked={tabChild.checked}
+                            <input
+                                   type="checkbox" checked={tabChild.checked}
                                    onChange={(event) => this.props.changeCheckTabChild(event.target.checked, tabChild, tabParent)}
-                            />
-                            {tabChild.name}
+                            />{tabChild.name}
                         </label>
                     </div>
                 </td>

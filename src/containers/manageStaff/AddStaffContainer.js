@@ -14,6 +14,7 @@ class AddStaffContainer extends React.Component {
         super(props, context);
         this.updateFormData = this.updateFormData.bind(this);
         this.addStaff = this.addStaff.bind(this);
+        this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
     componentWillMount() {
@@ -27,6 +28,13 @@ class AddStaffContainer extends React.Component {
         let staffForm = {...this.props.staffForm};
         staffForm[field] = event.target.value;
         this.props.staffActions.updateAddStaffFormData(staffForm);
+    }
+
+    handleFileUpload(event) {
+        let file = event.target.files[0];
+        console.log(file);
+        // this.props.staffActions.changeAvatar(file);
+        // console.log('Selected file:', file);
     }
 
     addStaff() {

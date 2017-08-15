@@ -1,6 +1,7 @@
 import React from 'react';
 import {browserHistory} from 'react-router';
 import PropTypes from 'prop-types';
+import ButtonGroupAction from '../common/ButtonGroupAction';
 
 let self;
 
@@ -28,18 +29,22 @@ class ListStaff extends React.Component {
                             <table className="table">
                                 <thead className="text-rose">
                                 <tr>
+                                    <th></th>
                                     <th>Họ tên</th>
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Cơ sở</th>
                                     <th>Chức vụ</th>
-                                    <th>Sửa</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {staffs.map(function (staff, index) {
                                     return (
                                         <tr key={index}>
+                                            <td>
+                                                <img className="avatar-list-staff" src={staff.avatar_url}/>
+                                            </td>
                                             <td>{staff.name}</td>
                                             <td>{staff.email}</td>
                                             <td>{staff.phone}</td>
@@ -89,8 +94,13 @@ class ListStaff extends React.Component {
                                                 }
 
                                             </td>
-                                            <td className="text-center" onClick={() => self.editStaff(staff.id)}><i
-                                                className="fa fa-pencil"/></td>
+                                            <td>
+                                                <ButtonGroupAction
+                                                    delete={()=>{}}
+                                                    editUrl={`staff/${staff.id}/edit`}
+                                                    object={staff.id}
+                                                />
+                                            </td>
                                         </tr>
                                     );
                                 })}
