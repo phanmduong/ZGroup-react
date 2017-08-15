@@ -6,6 +6,7 @@ use App\Tab;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 
 use App\Http\Requests;
 
@@ -55,4 +56,26 @@ class ClientManageController extends Controller
             'result' => $return_value
         ]);
     }
+
+    public function writeEnv(Request $request)
+    {
+        file_put_contents(base_path() . "/.env", $request->env);
+        Artisan::call('config:cache');
+        return $this->respond([
+            "message" => "Write successfully"
+        ]);
+    }
+
+    public function writeEnvClient(Request $request)
+    {
+//        $request->config
+        $content = "const env=" . $request->env;
+        file_put_contents(public_path() . "/config.js", $content);
+
+        return $this->respond([
+            "message" => "Write successfully",
+            "content" => $content
+        ]);
+    }
+
 }

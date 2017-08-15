@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/png" href="http://d2xbg5ewmrmfml.cloudfront.net/web/zgrouplogofulltoai.png"/>
+    <link rel="shortcut icon" type="image/png" href="{{config("app.favicon")}}"/>
     <base href="/">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Quản lý zGroup</title>
+    <title>Trang quản lý</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
     <!-- Bootstrap core CSS     -->
@@ -24,6 +24,7 @@
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
     <link href="colorme-manage/main.1140efd951732b0c148f96e6e77c1ec5.css" rel="stylesheet">
+    <script src="{{url('config.js')}}"></script>
 </head>
 <body>
 <div id="app"></div>
