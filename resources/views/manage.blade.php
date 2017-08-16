@@ -25,6 +25,7 @@
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
     <link href="manage/main.00004a3b165d133fb7a88c638795b9ae.css" rel="stylesheet">
     <script src="{{url('config.js')}}"></script>
+    <link href="{{url('config.css')}}"rel="stylesheet">
 </head>
 <body>
 <div id="app"></div>
