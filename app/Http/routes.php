@@ -52,6 +52,7 @@ Route::group(['domain' => config('app.domain')], function () {
     Route::post('/tabs', 'ClientManageController@setTabs');
     Route::post('/update', 'ClientManageController@update');
     Route::post('/write-env', 'ClientManageController@writeEnv');
+    Route::post('/write-css', 'ClientManageController@writeCSS');
     Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 });
 

@@ -1,4 +1,5 @@
 <?php
+
 use App\Providers\AppServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -6,6 +7,8 @@ use \Illuminate\Support\Facades\Storage as Storage;
 use \RobbieP\CloudConvertLaravel\Facades\CloudConvert as CloudConvert;
 use Jenssegers\Agent\Agent as Agent;
 use \Aws\ElasticTranscoder\ElasticTranscoderClient as ElasticTranscoderClient;
+
+
 
 function format_date_full_option($time)
 {

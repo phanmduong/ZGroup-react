@@ -91,4 +91,17 @@ class ClientManageController extends Controller
         ]);
     }
 
+    public function writeCSS(Request $request)
+    {
+//        $request->config
+        $content = $request->css;
+        file_put_contents(public_path() . "/config.css", $content);
+
+        return $this->respond([
+            'status' => 1,
+            "message" => "Write successfully",
+            "content" => $content
+        ]);
+    }
+
 }
