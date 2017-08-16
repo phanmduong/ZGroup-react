@@ -1,1 +1,0 @@
-var env = {"DOMAIN": "zgroup.ga", "NAME_COMPANY": "zGroup"}

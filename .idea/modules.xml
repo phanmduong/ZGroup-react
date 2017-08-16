@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/ZGroup-server.iml" filepath="$PROJECT_DIR$/.idea/ZGroup-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/keetool-client-server.iml" filepath="$PROJECT_DIR$/.idea/keetool-client-server.iml" />
     </modules>
   </component>

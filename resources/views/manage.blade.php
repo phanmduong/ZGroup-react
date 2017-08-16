@@ -23,7 +23,7 @@
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
-    <link href="colorme-manage/main.1140efd951732b0c148f96e6e77c1ec5.css" rel="stylesheet">
+    <link href="manage/main.00004a3b165d133fb7a88c638795b9ae.css" rel="stylesheet">
     <script src="{{url('config.js')}}"></script>
 </head>
 <body>
@@ -63,6 +63,6 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
 
-<script type="text/javascript" src="colorme-manage/main.464f282b86fdfe719c0d.js"></script>
+<script type="text/javascript" src="manage/main.bbd6f641d9dcaa3599a3.js"></script>
 </body>
 </html>
