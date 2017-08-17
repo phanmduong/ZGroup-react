@@ -44,9 +44,7 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
         ->where('path', '.*');
 });
 
-Route::group(['domain' => config('app.domain')], function () {
-    Route::get('/', 'PublicController@redirectManage');
-
+Route::group(['middleware' => 'web'], function () {
     // Route handle tang thu 4
     Route::get('/ping', 'ClientManageController@ping');
     Route::post('/tabs', 'ClientManageController@setTabs');
@@ -54,6 +52,10 @@ Route::group(['domain' => config('app.domain')], function () {
     Route::post('/write-env', 'ClientManageController@writeEnv');
     Route::post('/write-css', 'ClientManageController@writeCSS');
     Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
+});
+
+Route::group(['domain' => config('app.domain')], function () {
+    Route::get('/', 'PublicController@redirectManage');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
