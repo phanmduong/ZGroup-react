@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 
 // import {Link} from "react-router";
 
@@ -30,7 +31,7 @@ class ListRegister extends React.Component {
                     <tbody>
                     <tr>
                         <td>
-                            <button className="btn btn-success btn-round btn-fab btn-fab-mini" style="color: white"
+                            <button className="btn btn-success btn-round btn-fab btn-fab-mini text-white"
                                     data-toggle="tooltip" title="" type="button" rel="tooltip"
                                     data-original-title="Đã gọi"><i className="material-icons">phone</i>
                             </button>
@@ -63,7 +64,7 @@ class ListRegister extends React.Component {
                         <td>Ps 26.1</td>
                         <td>2017-08-15 21:59:17</td>
                         <td>
-
+                            <ButtonGroupAction editUrl="" delete={() => "hello"}/>
                         </td>
                     </tr>
 
@@ -75,9 +76,7 @@ class ListRegister extends React.Component {
 }
 
 ListRegister.propTypes = {
-    handleSwitch: PropTypes.func.isRequired,
-    deleteBase: PropTypes.func.isRequired,
-    bases: PropTypes.array.isRequired
+    registers: PropTypes.array.isRequired
 };
 
 export default ListRegister;

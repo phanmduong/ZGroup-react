@@ -20,7 +20,7 @@ class RegisterListContainer extends React.Component {
                             <i className="material-icons">assignment</i>
                         </div>
                         <div className="card-content">
-                            <h4 className="card-title">Cơ sở</h4>
+                            <h4 className="card-title">Danh sách học viên đăng kí</h4>
                             <ListRegister registers={this.props.registers}/>
                         </div>
                     </div>
