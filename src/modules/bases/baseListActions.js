@@ -25,7 +25,7 @@ export function deleteBase(base) {
         });
         toastr.success("Xoá cơ sở thành công");
         baseListApi.deleteBase(base).catch(error => {
-            throw (error);
+            console.log(error);
         });
 
     };
@@ -44,7 +44,7 @@ export function loadBases(page = 1, query = null) {
                 totalPages: res.data.paginator.total_pages
             });
         }).catch(error => {
-            throw (error);
+            console.log(error);
         });
 
     };
@@ -60,7 +60,7 @@ export function setDefaultBase(baseId) {
         baseListApi.setDefaultBase(baseId).then(function (res) {
             console.log(res.data);
         }).catch(error => {
-            throw (error);
+            console.log(error);
         });
 
     };

@@ -109,7 +109,7 @@ export function addStaffData(staff) {
                 dispatch(addStaffDataSucessful(res));
             }).catch((error) => {
             dispatch(addStaffDataError(error.response.data.error));
-            throw (error);
+            console.log(error);
         });
     };
 }
@@ -246,7 +246,7 @@ export function editStaffData(staff) {
                 dispatch(editStaffDataSucessful(res));
             }).catch((error) => {
             dispatch(editStaffDataError(error.response.data.error));
-            throw (error);
+            console.log(error);
         });
     };
 }
@@ -298,7 +298,7 @@ export function deleteStaffData(staff) {
                 dispatch(deleteStaffDataSucessful(res));
             }).catch((error) => {
             dispatch(deleteStaffDataError(error.response.data.error));
-            throw (error);
+            console.log(error);
         });
     };
 }

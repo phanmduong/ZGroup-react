@@ -111,7 +111,7 @@ export function deleteRoleData(roleId) {
                 dispatch(deleteRoleDataSucessful(roleId, res));
             }).catch((error) => {
             dispatch(deleteRoleDataError(error.response.data.error));
-            throw (error);
+            console.log(error);
         });
     };
 }
@@ -207,7 +207,7 @@ export function editRoleData(tabs, role) {
                 dispatch(editRoleDataSucessful(res));
             }).catch((error) => {
             dispatch(editRoleDataError(error.response.data.error));
-            throw (error);
+            console.log(error);
         });
     };
 }
