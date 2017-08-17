@@ -59,7 +59,7 @@ a {
   color: #343434;
 }
 
-table tr td .avatar-list-staff{
+table tr td .avatar-list-staff {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -67,18 +67,27 @@ table tr td .avatar-list-staff{
 
 }
 
-.table .checkbox{
+.table .checkbox {
   width: 100%;
 }
 
-.panel-group .panel-title .checkbox{
+.panel-group .panel-title .checkbox {
   display: inline;
 }
 
 @media screen and (max-width: 768px) {
-  .navbar-header{
+  .navbar-header {
     display: flex;
     justify-content: center;
     align-content: center;
   }
+}
+
+.btn-main {
+  width: 100%
+}
+
+.progress-bar-table {
+  width: 100px;
+  margin-top: -5px
 }

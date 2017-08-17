@@ -36,7 +36,7 @@ class LoginComponent extends React.Component {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-                                        <form id="form-login" onSubmit={(e) => {
+                                        <form method="post" id="form-login" onSubmit={(e) => {
                                             e.preventDefault();
                                         }}>
                                             <div className="card card-login card-hidden">

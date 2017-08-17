@@ -1,5 +1,5 @@
-const PROD_URL = "zgroup.ga";
-const DEV_URL = "zgroup.dev";
+const PROD_URL = "keetool.tk";
+const DEV_URL = "keetoolclient.dev";
 let URL;
 if (process.env.NODE_ENV === 'development'){
     URL = DEV_URL;

@@ -30,10 +30,6 @@ export default {
         }
     },
     user: {},
-    registerList: {
-        registers: [],
-        isLoading: false
-    },
     genList: {
         gens: [],
         isLoading: true
@@ -147,6 +143,12 @@ export default {
             totalPages: 1,
             isLoadingProjects: false,
             isSaving: false
+        }
+    },
+
+    register: {
+        registerList: {
+            registers: []
         }
     }
 

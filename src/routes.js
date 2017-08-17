@@ -3,7 +3,6 @@ import {Route, IndexRoute} from 'react-router';
 import LoginContainer from './containers/LoginContainer';
 import AppContainer from './containers/AppContainer';
 import DashboardContainer from './containers/DashboardContainer';
-import RegisterListContainer from './containers/RegisterListContainer';
 import CollectMoneyContainer from './containers/financialManager/CollectMoneyContainer';
 import ManageStaffsContainer from './containers/manageStaff/ManageStaffsContainer';
 import AddStaffContainer from './containers/manageStaff/AddStaffContainer';
@@ -17,6 +16,7 @@ import CreateBaseContainer from "./modules/bases/CreateBaseContainer";
 import ProjectListContainer from "./modules/tasks/ProjectListContainer";
 import CreateProjectContainer from "./modules/tasks/CreateProjectContainer";
 import BoardListContainer from "./modules/tasks/BoardListContainer";
+import RegisterListContainer from "./modules/register/RegisterListContainer";
 
 export default (
     <Route>
@@ -45,8 +45,11 @@ export default (
             <Route path="project/create" component={CreateProjectContainer} type="create"/>
             <Route path="project/:projectId/edit" component={CreateProjectContainer} type="edit"/>
             <Route path="project/:projectId/boards" component={BoardListContainer}/>
-
             {/*End tasks route*/}
+
+            {/*Begin register routes*/}
+            <Route path="register/list" component={RegisterListContainer}/>
+            {/*End register routes*/}
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

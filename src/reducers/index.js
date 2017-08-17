@@ -1,7 +1,6 @@
 import {combineReducers} from 'redux';
 import dashboardReducer from './dashboardReducer';
 import loginReducer from './loginReducer';
-import registerListReducer from './registerListReducer';
 import genListReducer from './genListReducer';
 import searchRegistersReducer from './searchRegistersReducer';
 import tabsReducer from '../modules/tab/tabsReducer';
@@ -11,11 +10,11 @@ import baseReducer from './baseReducer';
 import baseListReducer from '../modules/bases/baseListReducer';
 import * as types from '../constants/actionTypes';
 import taskReducer from "../modules/tasks/taskReducer";
+import registerReducer from "../modules/register/registerReducer";
 
 const appReducer = combineReducers({
     dashboard: dashboardReducer,
     login: loginReducer,
-    registerList: registerListReducer,
     genList: genListReducer,
     searchRegisters: searchRegistersReducer,
     tabs: tabsReducer,
@@ -23,7 +22,8 @@ const appReducer = combineReducers({
     roles: rolesReducer,
     bases: baseReducer,
     baseList: baseListReducer,
-    task: taskReducer
+    task: taskReducer,
+    register: registerReducer
 });
 
 const rootReducer = (state, action) => {
