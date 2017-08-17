@@ -17,7 +17,7 @@ export function changeProjectStatus(project, status) {
         });
         showNotification("Thay đổi trạng thái dự án thành công");
         taskApi.changeProjectStatus(project, status).catch(error => {
-            throw (error);
+            console.log(error);
         });
     };
 }
@@ -30,7 +30,7 @@ export function deleteProject(project) {
         });
         showNotification("Xóa dự án thành công");
         taskApi.deleteProject(project).catch(error => {
-            throw (error);
+            console.log(error);
         });
     };
 }

@@ -18,7 +18,7 @@ export function updateFormData(login) {
         }).catch(error => {
             localStorage.removeItem('token');
             dispatch(loginError());
-            throw (error);
+            console.log(error);
         });
     };
 }

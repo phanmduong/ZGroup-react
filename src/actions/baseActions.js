@@ -20,7 +20,7 @@ export function loadDataBase() {
             dispatch(loadDataSuccessful(res));
         }).catch(error => {
             dispatch(loadDataError());
-            throw (error);
+            console.log(error);
         });
 
     };
