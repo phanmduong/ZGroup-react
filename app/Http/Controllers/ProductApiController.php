@@ -30,7 +30,7 @@ class ProductApiController extends ApiController
         $this->productTransformer = $productTransformer;
     }
 
-    public function feature( $product_id)
+    public function feature($product_id)
     {
         $product = Product::find($product_id);
         if ($this->user->role == 0) {
@@ -61,7 +61,7 @@ class ProductApiController extends ApiController
         }
     }
 
-    public function uncomment_products( Request $request, $genId = null)
+    public function uncomment_products(Request $request, $genId = null)
     {
         if ($genId) {
             $current_teach_gen = Gen::find($genId);
@@ -125,7 +125,7 @@ class ProductApiController extends ApiController
         return $this->respondSuccessWithStatus(['products' => $products]);
     }
 
-    public function delete_comment( $commendId)
+    public function delete_comment($commendId)
     {
         $comment = Comment::find($commendId);
         if ($comment->commenter->id != $this->user->id && $comment->product->author->id != $this->user->id) {
@@ -154,7 +154,7 @@ class ProductApiController extends ApiController
         return $this->respond(['message' => 'Xoá comment thành công']);
     }
 
-    public function update_product( $productId, Request $request)
+    public function update_product($productId, Request $request)
     {
         $product = Product::find($productId);
 
@@ -174,7 +174,7 @@ class ProductApiController extends ApiController
         return $this->respond(['message' => "Update bài thành công"]);
     }
 
-    public function like( $productId)
+    public function like($productId)
     {
         $product = Product::find($productId);
         $product->rating += 5;
@@ -217,7 +217,7 @@ class ProductApiController extends ApiController
         }
     }
 
-    public function unlike( $productId)
+    public function unlike($productId)
     {
         $product = Product::find($productId);
         $like = $product->likes()->where('liker_id', $this->user->id)->first();
@@ -230,9 +230,10 @@ class ProductApiController extends ApiController
         }
     }
 
-    public function comment( $productId, Request $request)
+    public function comment($productId, Request $request)
     {
         $comment_content = $request->comment_content;
+
         $product = Product::find($productId);
         //send one notifcation to author
         if ($product->author->id != $this->user->id) {
@@ -282,9 +283,13 @@ class ProductApiController extends ApiController
         $comment = new Comment;
         $comment->product_id = $productId;
         $comment->likes = 0;
+        $comment->image_url = $request->image_url;
+        $comment->photo_key = $request->photo_key;
+        $comment->parent_id = $request->parent_id;
         $comment->commenter_id = $this->user->id;
         $comment->content = $comment_content;
         $comment->save();
+
 
         $topicAttend = $product->topicAttendance;
         if ($topicAttend) {
@@ -294,13 +299,18 @@ class ProductApiController extends ApiController
                 if ($class) {
                     $hours = computeTimeInterval($product->created_at, date("Y-m-d H:i:s", time()));
 //                    dd(date("Y-m-d h:i:s", time()));
-                    if ($hours <= 24) {
-                        if ($this->user->id == $class->teacher_id) {
-                            $topicAttend->commented = true;
-                            $topicAttend->save();
-                        }
-                        if ($this->user->id == $class->teaching_assistant_id) {
+                    if ($hours <= 26) {
+//                        if ($this->user->id == $class->teacher_id) {
+//                            $topicAttend->commented = true;
+//                            $topicAttend->save();
+//                        }
+//                        if ($this->user->id == $class->teaching_assistant_id) {
+//                            $topicAttend->ta_commented = true;
+//                            $topicAttend->save();
+//                        }
+                        if ($this->user->id == $class->teacher_id || $this->user->id == $class->teaching_assistant_id) {
                             $topicAttend->ta_commented = true;
+                            $topicAttend->commented = true;
                             $topicAttend->save();
                         }
                     }
@@ -316,7 +326,7 @@ class ProductApiController extends ApiController
                 "user_id" => $this->user->id
             ])
         );
-
+//        dd(Redis::publish('colorme-channel', json_encode($publish_data)));
         Redis::publish('colorme-channel', json_encode($publish_data));
 
         return $this->respond($this->commentTransformer->transform($comment));
