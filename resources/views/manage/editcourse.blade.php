@@ -4,7 +4,7 @@
 
 @section('content')
     <h3 class="header">
-        {{($isEdit)?"Sửa":"Thêm mới"}} môn học
+        {{($isEdit)? "Sửa" : "Thêm mới"}} môn học
     </h3>
     <div class="row">
         <form method="post" action="{{url('manage/storecourse')}}" enctype="multipart/form-data">
@@ -109,6 +109,12 @@
                     <input id="mac_how_install" name="mac_how_install" type="text"
                            value="{{$course->mac_how_install}}">
                     <label for="mac_how_install">Link hướng dẫn cài phần mềm Mac OS</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <input id="sale_bonus" name="sale_bonus" type="number"
+                           value="{{$course->sale_bonus}}">
+                    <label for="sale_bonus">Thưởng sale</label>
                 </div>
 
                 <div class="col s12" style="padding-top:20px">

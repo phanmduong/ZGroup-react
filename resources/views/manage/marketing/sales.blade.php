@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Danh sách chiến dịch')
+@section('title','Tổng kết sale')
 
 @section('content')
     <div class="row">
@@ -33,8 +33,56 @@
                 @else
                     <p>Chưa chốt đơn nào</p>
                 @endif
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Tên lớp</th>
+                        <th>Số đăng kí</th>
+                        <th>Số tiền</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    @foreach($saler->registers as $course)
+                        <tr>
+                            <td>{{$course['name']}}</td>
+                            <td>{{$course['count']}}</td>
+                            <td>{{currency_vnd_format($course['count'] * $course['sale_bonus'])}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
                 <p>
-                    Thưởng: <strong>{{currency_vnd_format($saler->bonus)}}</strong>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Mức thưởng</th>
+                        <th>Số đăng ký</th>
+                        <th>Số tiền</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+                        <td>Thưởng 20k</td>
+                        <td>{{$saler->bonus_20}}</td>
+                        <td>{{currency_vnd_format($saler->bonus_20 * 20000)}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Thưởng 50k</td>
+                        <td>{{$saler->bonus_50}}</td>
+                        <td>{{currency_vnd_format($saler->bonus_50 * 50000)}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                </p>
+
+                <p>
+                    Thưởng tổng cộng: <strong>{{currency_vnd_format($saler->bonus)}}</strong>
                 </p>
                 <div>
                     <a class="btn" href="/manage/sale-list?gen_id={{$gen_id}}&saler_id={{$saler->id}}">Xem danh sách</a>

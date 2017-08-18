@@ -8,22 +8,24 @@
     </h3>
     <div class="row">
         <p>Tổng số khoá: <strong>{{$total}}</strong></p>
-        
-        
+
+
         <p>Khoá tuyển sinh hiện tại: <strong>{{$current_gen->name}}</strong></p>
         <p>Khoá giảng dạy hiện tại: <strong>{{$current_teach_gen->name}}</strong></p>
 
-        
-        <p><a href="#modal-add-gen" class="modal-trigger waves-effect waves-light btn red lighten-1"><i
-                        class="tiny-icons left fa fa-plus"></i>Thêm khoá mới</a></p>
-        <p></p>
+
+        <p>
+            <a class="modal-trigger waves-effect waves-light btn" href="#modal-add-gen1">
+                <i class="tiny-icons left fa fa-plus"></i>Thêm khoá mới
+            </a>
+        </p>
+
         <!-- Modal Structure -->
-        <div id="modal-add-gen" class="modal modal-fixed-footer">
-            
+        <div id="modal-add-gen1" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <form method="post" action="{{url('manage/storegen')}}">
                     {{csrf_field()}}
-                    
+
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="name" name="name" type="text" class="validate">
@@ -35,28 +37,31 @@
                         </div>
                         <div class="col s12">
                             <label>Thời gian bắt đầu</label>
-                            <input id="start_time" name="start_time" type="text" placeholder="Thời gian bắt đầu" class="datepicker">
+                            <input id="start_time" name="start_time" type="text" placeholder="Thời gian bắt đầu"
+                                   class="datepicker">
                         </div>
                         <div class="col s12">
                             <label>Thời gian kết thúc</label>
-                            <input id="end_time" name="end_time" placeholder="Thời gian kết thúc" type="text" class="datepicker">
+                            <input id="end_time" name="end_time" placeholder="Thời gian kết thúc" type="text"
+                                   class="datepicker">
                         </div>
-                        
+
                         <div class="col s12">
                             <input type="submit" class="waves-effect waves-light btn" value="submit" name="submit"
                                    id="submit"/>
                         </div>
-                    
-                    
+
+
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                
+
                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
             </div>
-        
+
         </div>
+
         <table class="responsive-table striped">
             <thead>
             <tr>
@@ -66,7 +71,7 @@
                 <th>Danh sách học viên đóng tiền</th>
             </tr>
             </thead>
-            
+
             <tbody>
             @foreach($gens as $gen)
                 <tr>
@@ -75,7 +80,7 @@
                     <td>{{date('d/m/Y',strtotime($gen->end_time))}}
                     <td><a href="{{url('/download/danh-sach-hoc-vien-dong-tien?genid='.$gen->id)}}"
                            class="waves-effect waves-light btn">Download</a></td>
-                
+
                 </tr>
             @endforeach
             </tbody>
@@ -106,7 +111,7 @@
     <script>
         $(document).ready(function () {
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-            $('.modal-trigger').leanModal();
+            $('.modal').modal();
             $('.datepicker').datepicker();
         });
     </script>

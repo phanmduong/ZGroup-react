@@ -43,12 +43,13 @@
         <table class="responsive-table striped">
             <thead>
             <tr>
-                <th></th>
-                <th></th>
+                <th>Gọi</th>
+                <th>Thời gian</th>
+                <th>Số lần học</th>
                 <th data-field="id">Họ tên</th>
                 <th data-field="name">Email</th>
                 <th>Đã nhận thẻ</th>
-                <th data-field="price">Phone</th>
+                <th>Phone</th>
                 {{--<th data-field="price">Coupon</th>--}}
                 <th>Saler</th>
                 <th>Chiến dịch</th>
@@ -63,13 +64,14 @@
             @foreach($registers as $register)
                 <tr>
                     <td>
-                        <a>
+                        <a href="#call-modal" onclick="call({{$register->user_id}}, {{$register->id}})">
                             <i style="color:green"
                                class="material-icons">phone</i>
                         </a>
                     </td>
                     <td>
-                        <a href="{{url('manage/telesalehistory?page=1&user_id='.$register->user_id)}}">
+                        <a class="call-status-{{$register->user_id}}"
+                           href="{{url('manage/telesalehistory?page=1&user_id='.$register->user_id)}}">
                             @if($register->call_status == 0)
                                 @if ($register->time_to_reach == 0)
                                     <div class="time-btn">
@@ -89,7 +91,7 @@
 
                             @elseif($register->call_status == 2)
                                 <div style="background-color: #5484c5" class="time-btn">
-                                    <span style="color:white;position: relative;top:-7px;">Đang gọi </span>
+                                    <span style="color:white;position: relative;top:-7px;">Đang gọi</span>
                                 </div>
                             @else
                                 <div style="background-color: #43a047;" class="time-btn">
@@ -98,6 +100,7 @@
                             @endif
                         </a>
                     </td>
+                    <td>{{$register->study_time}}</td>
                     <td><a href="{{url('manage/changeclass/'.$register->id)}}">{{$register->user->name}}</a></td>
                     <td>
                         <a href="{{url('manage/study-history/'.$register->user_id)}}">
@@ -129,7 +132,7 @@
                     @endif
 
                     <td>{{$register->studyClass->name}}</td>
-                    <td>{{format_date($register->created_at)}}</td>
+                    <td>{{format_time_to_mysql(strtotime($register->created_at))}}</td>
                     <td>
                         <a onclick="return confirm('Bạn chắc chắn huỷ đăng kí này? ');"
                            href="{{url('manage/deleteregister/'.$register->id)}}"><i
@@ -167,14 +170,17 @@
             @endif
         </ul>
     </div>
-    <!-- Modal Structure -->
-    <div id="call-modal" class="modal bottom-sheet">
+    <!-- Call Modal -->
+    <div id="call-modal" class="modal">
         <div class="modal-content" id="call-modal-content">
-
+            <div class="progress" style="display: none" id="preloader">
+                <div class="indeterminate"></div>
+            </div>
+            <div id="calling-area"></div>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
+        {{--<div class="modal-footer">--}}
+        {{--<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>--}}
+        {{--</div>--}}
     </div>
     <script>
 
@@ -185,16 +191,66 @@
                     window.location.href = $(this).val();
                 }
             });
+            $('#call-modal').modal({
+                dismissible: false
+            });
         });
-        function call(id) {
+
+        function callSuccess(id, telecallid) {
+            var note = $('#note').val();
+            console.log('hello');
+            console.log('#call-status-' + global_register_id);
+            $('.call-status-' + id).each(function () {
+                $(this).html('<div style="background-color: green" class="time-btn">' +
+                    '<span style="color:white">Đang cập nhật' +
+                    '</span>' +
+                    '</div>');
+            });
             $('#preloader').show();
-            $('#fetch-student').hide();
-            $('#tele-search-wrapper').hide();
-            $('#search-result-tbody').html("");
-            $.get("{{url('manage/getstudentforcall?id=')}}" + id, function (data, status) {
+            $.post("{{url('manage/ajaxchangecallstatus')}}",
+                {
+                    id: id,
+                    status: 1,
+                    _token: '{{csrf_token()}}',
+                    caller_id: '{{Auth::user()->id}}',
+                    note: note,
+                    telecall_id: telecallid
+                },
+                function (data, status) {
+                });
+            $('#call-modal').modal('close');
+        }
+        function callFail(id, telecallid) {
+            var note = $('#note').val();
+            $('.call-status-' + id).each(function () {
+                $(this).html('<div style="background-color: #c50000" class="time-btn">' +
+                    '<span style="color:white">Đang cập nhật' +
+                    '</span>' +
+                    '</div>');
+            });
+            $('#preloader').show();
+
+            $.post("{{url('manage/ajaxchangecallstatus')}}",
+                {
+                    id: id,
+                    status: 0,
+                    '_token': '{{csrf_token()}}',
+                    caller_id: '{{Auth::user()->id}}',
+                    note: note,
+                    telecall_id: telecallid
+                },
+                function (data, status) {
+                });
+            $('#call-modal').modal('close');
+        }
+        function call(id, register_id) {
+            global_register_id = register_id;
+//            $('#call-modal').modal('open');
+            $('#preloader').show();
+            $('#calling-area').html("");
+            $.get("{{url('manage/getstudentforcall?id=')}}" + id + "&register_id=" + register_id, function (data, status) {
                 $('#preloader').hide();
                 $('#calling-area').html(data);
-                $('#fetch-student').hide();
                 $('.collapsible').collapsible({
                     accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
                 });

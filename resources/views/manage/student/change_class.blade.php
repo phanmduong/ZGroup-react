@@ -29,6 +29,10 @@
             <td>Số học viên đăng kí</td>
             <td>{{$register->studyClass->registers->count()}}</td>
         </tr>
+        <tr>
+            <td>Cơ sở</td>
+            <td>{{$register->studyClass->base->name}}</td>
+        </tr>
     </table>
     <div class="row" style="margin-top:40px">
         <h5>Các lớp đã đăng kí</h5>

@@ -38,8 +38,18 @@
     <ul class="collapsible" data-collapsible="accordion">
         @foreach($surveys as $survey)
             <li>
-                <div class="collapsible-header"><i class="material-icons">feedback</i><a
-                            href="{{url('manage/survey/'.$survey->id)}}">{{$survey->name}}</a></div>
+                <div class="collapsible-header" style="position: relative;">
+                    <i class="material-icons">feedback</i>
+                    <a href="{{url('manage/survey/'.$survey->id)}}">{{$survey->name}}</a>
+                    <div class="switch" style="position: absolute; top: 0; right: 5px">
+                        <label>
+                            <input name="status" id="survey_status{{$survey->id}}"
+                                   onclick="change_status({{$survey->id}});"
+                                   type="checkbox" {{$survey->active?"checked":""}} />
+                            <span class="lever"></span>
+                        </label>
+                    </div>
+                </div>
                 <div class="collapsible-body">
                     <div class="row">
                         <div class="input-field col s12 m6">
@@ -72,8 +82,10 @@
 
                         <div class="input-field col s12 m6 start-time-display-{{$survey->id}}"
                              id="start-time-display-{{$survey->id}}" style="display:none">
-                            <input id="start_time_display_{{$survey->id}}" type="number" min="1" max="120" class="validate">
-                            <label for="start_time_display_{{$survey->id}}">Bắt đầu hiển thị (Phút thứ mấy của buổi học)</label>
+                            <input id="start_time_display_{{$survey->id}}" type="number" min="1" max="120"
+                                   class="validate">
+                            <label for="start_time_display_{{$survey->id}}">Bắt đầu hiển thị (Phút thứ mấy của buổi
+                                học)</label>
                         </div>
 
                         <div class="col s12 m4" style="padding-top:20px">
@@ -91,7 +103,8 @@
                                         id="collection-item-{{$survey->id}}-{{$lesson->id}}">{{$lesson->course->name}} -
                                         Buổi {{$lesson->order}}
                                         : {{$lesson->name}} -
-                                        Hiển thị vào phút thứ <strong>{{$lesson->pivot->start_time_display}}</strong> trong vòng <strong>{{$lesson->pivot->time_display}}</strong> phút
+                                        Hiển thị vào phút thứ <strong>{{$lesson->pivot->start_time_display}}</strong>
+                                        trong vòng <strong>{{$lesson->pivot->time_display}}</strong> phút
                                         <span class="secondary-content"><a href="#!"
                                                                            onclick="removeLesson({{$lesson->id}},{{$survey->id}})"
                                                                            class=" red-text darken-4">delete</a></span>
@@ -102,10 +115,16 @@
                         </div>
                     </div>
 
+
                 </div>
             </li>
         @endforeach
     </ul>
+
+    <div>
+        {{$surveys->links()}}
+    </div>
+
 
     {{--<table class="responsive-table">--}}
     {{--<thead>--}}
@@ -139,6 +158,16 @@
     {{----}}
     <script>
 
+        function change_status(id) {
+            $.post("{{url('manage/changesurveystatus')}}",
+                {
+                    "survey_id": id,
+                    '_token': '{{csrf_token()}}'
+                },
+                function (data, status) {
+                    console.log(status);
+                });
+        }
         function removeLesson(lesson_id, survey_id) {
             var messageSelector = '#message-survey-' + survey_id;
             $('#collection-item-' + survey_id + '-' + lesson_id + ' span').text('đang xoá...');
@@ -198,7 +227,7 @@
                     $(messageSelector).text(data.message);
                     if (data.status == 1) {
                         var row = '<li id="collection-item-' + survey_id + '-' + lesson_id + '" class="collection-item">' + data.lesson.course + ' - Buổi ' + data.lesson.order +
-                            ': ' + data.lesson.name + '- Hiển thị vào phút thứ ' + start_time_display + ' trong vòng '+ time_display + ' phút ' +
+                            ': ' + data.lesson.name + '- Hiển thị vào phút thứ ' + start_time_display + ' trong vòng ' + time_display + ' phút ' +
                             '<span class="secondary-content"><a onclick="removeLesson(' + lesson_id + ',' + survey_id + ')" href="#!" class="secondary-content red-text darken-4">' +
                             'delete</a></span>' +
                             '</li>';
@@ -215,7 +244,7 @@
 //                alert('hi');
 //            });
             // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-            $('.modal-trigger').leanModal();
+            $('.modal').modal();
             $(".send_mail_goodbye").change(function () {
                 var survey_id = $(this).attr('survey_id');
                 var url = "{{url('manage/attachmailgoodbye/')}}" + "/" + survey_id;

@@ -7,14 +7,44 @@
         Danh sách chờ
     </h3>
     <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s12 m6">
             <select id="gen-select">
                 @foreach($gens as $gen)
-                    <option value="{{url('manage/waitlist?gen_id='.$gen->id)}}"
+                    <option value="{{url('manage/waitlist?gen_id='.$gen->id.'&base_id='.$current_base_id. "&is_paid=$is_paid")}}"
                             {{$gen->id == $current_gen->id?"selected":""}}>Khoá {{$gen->name}}</option>
                 @endforeach
             </select>
             <label>Khoá</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <select id="base-select">
+                @foreach($bases as $base)
+                    <option value="{{url('manage/waitlist?gen_id='.$current_gen->id.'&base_id='. $base->id. "&is_paid=$is_paid")}}"
+                            {{$base->id == $current_base_id?"selected":""}}>{{$base->name}}</option>
+                @endforeach
+
+                <option value="{{url('manage/waitlist?gen_id='.$current_gen->id."&base_id=&paid=$is_paid")}}"
+                        {{!$current_base_id?"selected":""}}>Toàn bộ
+                </option>
+            </select>
+            <label>Cơ sở</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <select id="paid-select">
+                <option value="{{url('manage/waitlist?gen_id='.$current_gen->id.'&base_id='. $base->id. "&is_paid=1")}}"
+                        {{$is_paid == 1?"selected":""}}>Đã đóng tiền
+                </option>
+                <option value="{{url('manage/waitlist?gen_id='.$current_gen->id.'&base_id='. $current_base_id. "&is_paid=0")}}"
+                        {{$is_paid == 0 ? "selected":""}}>Chưa đóng tiền
+                </option>
+            </select>
+            <label>Trạng thái nộp tiền</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <a class="btn waves-effect"
+               href="{{url("manage/downloadwaitlist?base_id=$current_base_id&is_paid=$is_paid&gen_id=".$current_gen->id)}}">
+                Download danh sách chờ
+            </a>
         </div>
     </div>
 
@@ -29,9 +59,11 @@
     @endif
     <div class="row">
         <form>
+            <input type="hidden" name="gen_id" value="{{$current_gen->id}}">
+            <input type="hidden" name="base_id" value="{{$current_base_id}}">
+            <input type="hidden" name="is_paid" value="{{$is_paid}}">
             <div class="col s12 m6">
-                <input name="q" value="{{$query}}" type="text" placeholder="Email hoặc Tên"/>
-                <input type="hidden" value="{{$current_gen->id}}" name="gen_id"/>
+                <input name="q" value="{{$query}}" type="text" placeholder="Email, Ghi chú hoặc Tên"/>
             </div>
             <div class="col s12 m4">
                 <input type="submit" class="btn" value="search"/>
@@ -47,6 +79,7 @@
                 <th data-field="id">Họ tên</th>
                 <th data-field="name">Email</th>
                 <th data-field="price">Phone</th>
+                <th>Ghi chú</th>
                 {{--<th data-field="price">Coupon</th>--}}
                 <th>Saler</th>
                 <th>Chiến dịch</th>
@@ -78,6 +111,7 @@
                         </a>
                     </td>
                     <td>{{$register->user->phone}}</td>
+                    <td>{{$register->note}}</td>
                     @if ($register->saler)
                         <td>
                             <div style="width:120px;padding:5px 0;color:white;border-radius:3px;text-align:center;background-color:#{{$register->saler->color}}">{{$register->saler->name}}</div>
@@ -115,7 +149,7 @@
         <ul class="pagination">
             @if($current_page != 1)
                 <li><a class="waves-effect"
-                       href="{{url('manage/waitlist?page='.($current_page-1).'&gen_id='.$current_gen->id.'&q='.$query)}}"><i
+                       href="{{url('manage/waitlist?page='.($current_page-1)."&base_id=$current_base_id&is_paid=$is_paid&gen_id=".$current_gen->id.'&q='.$query)}}"><i
                                 class="material-icons">chevron_left</i></a></li>
             @else
                 <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
@@ -125,13 +159,13 @@
                     <li class="active"><a href="#!">{{$i}}</a></li>
                 @else
                     <li><a class="waves-effect"
-                           href="{{url('manage/waitlist?page='.$i.'&gen_id='.$current_gen->id.'&q='.$query)}}">{{$i}}</a>
+                           href="{{url('manage/waitlist?page='.$i."&base_id=$current_base_id&is_paid=$is_paid&gen_id=".$current_gen->id.'&q='.$query)}}">{{$i}}</a>
                     </li>
                 @endif
             @endfor
             @if($current_page != $num_pages)
                 <li><a class="waves-effect"
-                       href="{{url('manage/waitlist?page='.($current_page+1).'&gen_id='.$current_gen->id.'&q='.$query)}}"><i
+                       href="{{url('manage/waitlist?page='.($current_page+1)."&base_id=$current_base_id&is_paid=$is_paid&gen_id=".$current_gen->id.'&q='.$query)}}"><i
                                 class="material-icons">chevron_right</i></a>
                 </li>
             @else
@@ -140,16 +174,26 @@
         </ul>
     </div>
     <script>
+
         $(document).ready(function () {
-            $(document).ready(function () {
-                $('select').material_select();
-                $("#gen-select").change(function () {
-                    if ($(this).val() != '') {
-                        window.location.href = $(this).val();
-                    }
-                });
+            $('select').material_select();
+            $("#gen-select").change(function () {
+                if ($(this).val() !== '') {
+                    window.location.href = $(this).val();
+                }
+            });
+            $("#paid-select").change(function () {
+                if ($(this).val() !== '') {
+                    window.location.href = $(this).val();
+                }
+            });
+            $("#base-select").change(function () {
+                if ($(this).val() !== '') {
+                    window.location.href = $(this).val();
+                }
             });
         });
+
 
     </script>
 @endsection

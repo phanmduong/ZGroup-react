@@ -56,7 +56,7 @@
                                 <span>Chưa nộp</span>
                             @endif
                         </td>
-                        <td>{{App\User::find($student_list[$j]->staff_id)->name}}</td>
+                        <td>{{App\User::find($student_list[$j]->staff_id) ? App\User::find($student_list[$j]->staff_id)->name :""}}</td>
                         <td>{{$student_list[$j]->note}}</td>
                     </tr>
                 @endfor

@@ -10,5 +10,5 @@
             window.user_id = {{$user_id}};
         @endif
     </script>
-    <script src="{{url('/telehistory/dist/app.js?3')}}"></script>
+    <script src="{{url('/telehistory/dist/app.js?4')}}"></script>
 @endsection
