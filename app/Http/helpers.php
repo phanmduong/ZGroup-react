@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use \Illuminate\Support\Facades\Storage as Storage;
@@ -1145,6 +1146,10 @@ function orderToWeekday($order)
     }
 }
 
+function format_time_main($time)
+{
+    return rebuild_date('d/m/Y H:i:s', strtotime($time));
+}
 
 function weekdayViToNumber($weekday)
 {
