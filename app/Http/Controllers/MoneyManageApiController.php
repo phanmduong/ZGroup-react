@@ -19,11 +19,11 @@ class MoneyManageApiController extends ApiController
     }
 
     /**
-     * @param $domain
+     * @param
      * @param Request $request (money,note,register_id,code)
      * @return mixed
      */
-    public function pay_register($domain, Request $request)
+    public function pay_register( Request $request)
     {
         $register_id = $request->register_id;
         $register = Register::find($register_id);
@@ -86,7 +86,7 @@ class MoneyManageApiController extends ApiController
 
     }
 
-    public function search_registers($domain, Request $request)
+    public function search_registers( Request $request)
     {
         $search = $request->search;
 

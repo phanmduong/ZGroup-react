@@ -24,7 +24,7 @@ class GroupApiController extends ApiController
         $this->topicTransformer = $topicTransformer;
     }
 
-    public function delete_topic($domain, $topicId)
+    public function delete_topic( $topicId)
     {
         if ($this->user->role >= 1) {
             $topic = Topic::find($topicId);
@@ -40,7 +40,7 @@ class GroupApiController extends ApiController
 
     }
 
-    public function save_topic($domain, Request $request)
+    public function save_topic( Request $request)
     {
         $groupId = $request->group_id;
         $topic = Topic::find($request->id);

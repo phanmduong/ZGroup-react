@@ -14,7 +14,7 @@ class ProductPublicApiController extends ApiController
         $this->s3_url = config('app.s3_url');
     }
 
-    public function likes($domain, $productId)
+    public function likes( $productId)
     {
         $product = Product::find($productId);
         $likes = $product->likes;

@@ -24,7 +24,7 @@ class TopCVPublicApiController extends ApiController
         $this->middleware("from_topcv");
     }
 
-    public function cvs($domain, Request $request)
+    public function cvs( Request $request)
     {
         $user_id = $request->id;
         $user = User::find($user_id);
@@ -75,7 +75,7 @@ class TopCVPublicApiController extends ApiController
         return $this->respond($return);
     }
 
-    public function user($domain, Request $request)
+    public function user( Request $request)
     {
         $user_id = $request->id;
         $user = User::find($user_id);

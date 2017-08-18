@@ -48,7 +48,7 @@ class CoursePublicApiController extends ApiController
         ]);
     }
 
-    public function course($domain, $linkId, Request $request)
+    public function course( $linkId, Request $request)
     {
         if ($request->token) {
             $user = JWTAuth::parseToken()->authenticate();

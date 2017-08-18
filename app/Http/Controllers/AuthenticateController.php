@@ -13,7 +13,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticateController extends Controller
 {
-    public function login($domain, Request $request)
+    public function login( Request $request)
     {
         // grab credentials from the request
         $credentials = $request->only('email', 'password');
