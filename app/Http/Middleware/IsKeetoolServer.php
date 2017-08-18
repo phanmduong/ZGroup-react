@@ -16,14 +16,18 @@ class IsKeetoolServer
      */
     public function handle($request, Closure $next)
     {
-        $token = md5(config("app.keetool_secret"));
-        if ($request->input('token') == $token) {
+        $secret = config("app.keetool_secret");
+        if ($secret == '') {
             return $next($request);
+        } else {
+            $token = md5($secret);
+            if ($request->input('token') == $token) {
+                return $next($request);
+            }
+            return [
+                'status' => 0,
+                "message" => "invalid token"
+            ];
         }
-        return [
-            'status' => 0,
-            "message" => "invalid token"
-        ];
-
     }
 }

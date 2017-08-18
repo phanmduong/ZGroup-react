@@ -14,7 +14,7 @@ class ClientManageController extends Controller
 {
     public function __construct()
     {
-//        $this->middleware('is_keetool_server');
+        $this->middleware('is_keetool_server');
     }
 
     public function respond($data, $headers = [], $statusCode = 200)
@@ -59,7 +59,7 @@ class ClientManageController extends Controller
     public function update()
     {
 //        putenv('COMPOSER_HOME = ' . __DIR__ . ' / vendor / bin / composer');
-        putenv('COMPOSER_HOME =/usr/local/bin/composer');
+//        putenv('COMPOSER_HOME=/usr/local/bin/composer');
         exec("/home/sync.sh 2>&1", $outputAndErrors, $return_value);
         return $this->respond([
             'status' => 1,
