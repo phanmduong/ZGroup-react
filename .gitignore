@@ -11,3 +11,4 @@ Homestead.json
 public/manage/.DS_STORE
 .idea/*
 /public/config.js
+/public/config.css
