@@ -57,7 +57,7 @@ Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 //});
 
 Route::group(['domain' => config('app.domain')], function () {
-    Route::get('/', 'PublicController@redirectManage');
+//    Route::get('/', 'PublicController@redirectManage');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
@@ -311,7 +311,6 @@ Route::group(['middleware' => 'web'], function () {
 
     });
 
-    Route::get('/', 'PublicController@redirectManage');
     Route::get('/mua-sach', 'PublicCrawlController@buy_book');
     Route::get('/group/{group_id}', 'PublicController@beta');
     Route::get('/upload-post/{topic_id}', 'PublicController@beta');

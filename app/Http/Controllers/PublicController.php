@@ -817,5 +817,6 @@ class PublicController extends Controller
     public function redirectManage()
     {
         return redirect('http://manage.' . config('app.domain'));
+
     }
 }

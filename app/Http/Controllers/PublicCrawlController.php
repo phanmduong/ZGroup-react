@@ -23,6 +23,9 @@ class PublicCrawlController extends CrawlController
 
     public function home()
     {
+        if (config('app.domain') !== 'colorme.ga' && config('app.domain') !== 'colorme.vn') {
+            return redirect('http://manage.' . config('app.domain'));
+        }
         if ($this->isCrawler()) {
             $products = Product::orderBy('created_at', 'desc')->limit(20)->get();
             $courses = Course::all();
