@@ -4,22 +4,28 @@
     <title>@yield('title')</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" name="viewport">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="{{ URL::asset('css/materialize.min.css') }}"/>
+{{--<link rel="stylesheet" href="{{ URL::asset('css/materialize.min.css') }}"/>--}}
+
+<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ URL::asset('css/common.css') }}?2"/>
+    <link rel="stylesheet" href="{{ URL::asset('css/common.css') }}?3"/>
+
     <link rel="stylesheet" href="{{ URL::asset('css/animate.css') }}"/>
-    
+
     <link rel="stylesheet" href="{{ URL::asset('css/zmd.hierarchical-display.min.css') }}"/>
     <link rel="stylesheet" href="{{ URL::asset('css/jquery.timepicker.css') }}"/>
     <script src="{{URL::asset('js/jquery-1.12.0.min.js')}}">
     </script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    
+
     <link rel="stylesheet" type="text/css"
           href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
     <link href="{{url('css/jquery.tagit.css')}}" rel="stylesheet" type="text/css">
-    
+
     {{--<script src="//fast.eager.io/II2OmwIcNV.js"></script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
     <script src="{{URL::asset('js/pickadate/lib/picker.js')}}"></script>
@@ -66,9 +72,9 @@
             @endforeach
         </ul>
         <nav>
-            <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">toc</i></a>
             <ul class="right">
-                
+
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li><a href="{{ url('/login') }}">Login</a></li>
@@ -92,8 +98,12 @@
 </main>
 
 
-<script src="{{URL::asset('js/materialize.min.js')}}">
-</script>
+{{--<script src="{{URL::asset('js/materialize.min.js')}}">--}}
+{{--</script>--}}
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+
 <script src="{{URL::asset('js/jquery.zmd.hierarchical-display.min.js')}}">
 
 </script>
@@ -102,6 +112,7 @@
     $(document).ready(function () {
         $("li.tab-active").parents(".collapsible-body").prev().click();
         $(".button-collapse").sideNav();
+//        $('.modal').modal();
     });
 </script>
 <script src="{{URL::asset('js/tag-it.js')}}"></script>
