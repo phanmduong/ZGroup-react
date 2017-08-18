@@ -434,7 +434,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('manage/storetag', 'TagController@store_tag');
     Route::get('manage/deletetag/{id}', 'TagController@delete_tag');
 
-    Route::get('/manage/test', 'PublicController@test');
+    Route::get('/test', 'PublicController@test');
 
     Route::post('storeemail', 'PublicController@store_email');
 
