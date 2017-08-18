@@ -1,14 +1,10 @@
 <?php
-
-use App\Providers\AppServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use \Illuminate\Support\Facades\Storage as Storage;
 use \RobbieP\CloudConvertLaravel\Facades\CloudConvert as CloudConvert;
 use Jenssegers\Agent\Agent as Agent;
 use \Aws\ElasticTranscoder\ElasticTranscoderClient as ElasticTranscoderClient;
-
-
 
 function format_date_full_option($time)
 {
@@ -134,8 +130,29 @@ function compute_sale_bonus($total)
         $A = $total;
     }
 
-    $bonus = $A * 50000 + $B * 70000 + $C * 100000;
+    $bonus = $B * 20000 + $C * 50000;
     return $bonus;
+}
+
+function compute_sale_bonus_array($total)
+{
+    $A = 0;
+    $B = 0;
+    $C = 0;
+    if ($total > 50) {
+        $A = 50;
+        if ($total <= 70) {
+            $B = $total - 50;
+        } else {
+            $B = 20;
+            $C = $total - 70;
+        }
+    } else {
+        $A = $total;
+    }
+
+    $bonus = $B * 20000 + $C * 50000;
+    return [$bonus, $B, $C];
 }
 
 function format_date_eng($time)
@@ -152,11 +169,6 @@ function is_mobile()
 function format_time_to_mysql($time)
 {
     return rebuild_date('Y-m-d H:i:s', $time);
-}
-
-function format_time_main($time)
-{
-    return rebuild_date('d/m/Y H:i:s', strtotime($time));
 }
 
 
@@ -361,7 +373,7 @@ function send_mail_delete_register($register, $staff)
     Mail::send('emails.email_delete_register', $data, function ($m) use ($subject) {
         $m->from('no-reply@colorme.vn', 'Color Me');
 
-        $m->to(AppServiceProvider::$config['email'], "Nguyễn Việt Hùng")->subject($subject);
+        $m->to("thanghungkhi@gmail.com", "Nguyễn Việt Hùng")->bcc("aquancva@gmail.com")->subject($subject);
     });
 }
 
