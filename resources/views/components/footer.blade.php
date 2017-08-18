@@ -66,7 +66,7 @@
                 <div id="error-message" class="hide">
                     <p><b>Tin nhắn của bạn không được gửi thành công</b></p>
 
-                    <p>Liên hệ với chúng tôi qua email <a href="mailto:#">{{$EMAIL_CONFIG}}</a>.<br>Chúng
+                    <p>Liên hệ với chúng tôi qua email <a href="mailto:#">colorme.idea@gmail.com</a>.<br>Chúng
                         tôi sẽ
                         liên lạc lại
                         nhanh nhất khi có thể</p>

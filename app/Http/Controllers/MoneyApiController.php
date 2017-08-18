@@ -31,7 +31,7 @@ class MoneyApiController extends ApiController
     }
 
 
-    public function staffs( Request $request)
+    public function staffs($domain, Request $request)
     {
         if ($request->q) {
             $search = $request->q;
@@ -53,7 +53,7 @@ class MoneyApiController extends ApiController
             ]);
     }
 
-    public function confirm_transaction( Request $request)
+    public function confirm_transaction($domain, Request $request)
     {
         $transaction_id = $request->transaction_id;
         $status = $request->status;
@@ -130,7 +130,7 @@ class MoneyApiController extends ApiController
         return $this->respond($return_data);
     }
 
-    public function get_transactions( Request $request)
+    public function get_transactions($domain, Request $request)
     {
         $limit = 20;
         if ($request->limit) {
@@ -151,7 +151,7 @@ class MoneyApiController extends ApiController
 
     }
 
-    public function create_transaction( Request $request)
+    public function create_transaction($domain, Request $request)
     {
         if ($this->user->status == 2) {
             return $this->responseBadRequest('Nhân viên này đang chuyển tiền.');

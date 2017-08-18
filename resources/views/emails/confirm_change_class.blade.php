@@ -149,7 +149,7 @@
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="wrapper">
                 <tr>
                     <td align="center" valign="top" style="padding: 15px 0;" class="logo">
-                        <a href="http://phanmduong.ml" target="_blank">
+                        <a href="http://colorme.vn" target="_blank">
                             <img alt="Logo"
                                  src="https://s3-ap-southeast-1.amazonaws.com/cmstorage/12006581_965968973471128_6084208262051465701_o.jpg"
                                  width="60" height="60"
@@ -720,9 +720,9 @@
                                     class="padding-copy">
                                     <ul>
                                         <li><b>Hotline</b>: 0168.967.8262 (Gặp Nhi)</li>
-                                        <li><b>Website</b>: http://phanmduong.ml/</li>
+                                        <li><b>Website</b>: http://colorme.vn/</li>
                                         <li><b>Fanpage</b>: https://www.facebook.com/ColorME.Hanoi</li>
-                                        <li><b>Email</b>: {{$EMAIL_CONFIG}}</li>
+                                        <li><b>Email</b>: colorme.idea@gmail.com</li>
                                     </ul>
                                 </td>
                             </tr>
@@ -742,25 +742,25 @@
                                                        class="mobile-button-container">
                                                     <tr>
                                                         <td>
-                                                            <a href="http://phanmduong.ml/classes/1">
+                                                            <a href="http://colorme.vn/classes/1">
                                                                 <img style="width:100%"
                                                                      src="https://s3-ap-southeast-1.amazonaws.com/cmstorage/webs/1458318028a885YhKaEd3tkJ1.jpg"/>
                                                             </a>
                                                         </td>
                                                         <td>
-                                                            <a href="http://phanmduong.ml/classes/4">
+                                                            <a href="http://colorme.vn/classes/4">
                                                                 <img style="width:100%"
                                                                      src="https://s3-ap-southeast-1.amazonaws.com/cmstorage/webs/1468283993aAUV4FaUmgSA9Xn.jpg"/>
                                                             </a>
                                                         </td>
                                                         <td>
-                                                            <a href="http://phanmduong.ml/classes/2">
+                                                            <a href="http://colorme.vn/classes/2">
                                                                 <img style="width:100%"
                                                                      src="https://s3-ap-southeast-1.amazonaws.com/cmstorage/webs/1457423925Qhozom9GiZZGLLS.jpg"/>
                                                             </a>
                                                         </td>
                                                         <td>
-                                                            <a href="http://phanmduong.ml/classes/3">
+                                                            <a href="http://colorme.vn/classes/3">
                                                                 <img style="width:100%"
                                                                      src="https://s3-ap-southeast-1.amazonaws.com/cmstorage/webs/14574242586UOgi4tWQVwuzO1.jpg"/>
                                                             </a>

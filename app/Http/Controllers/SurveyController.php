@@ -36,7 +36,7 @@ class SurveyController extends Controller
 
     public function index($survey_id = null)
     {
-        $this->data['surveys'] = Survey::all();
+        $this->data['surveys'] = Survey::orderBy('created_at', 'desc')->paginate(15);
 
         $gens = Gen::all();
         $this->data['gens'] = $gens;
@@ -205,7 +205,7 @@ class SurveyController extends Controller
     public function download_survey(Request $request)
     {
         $surveys = Survey::all()->sortByDesc('created_at');
-        $gens = Gen::orderBy('start_time','desc')->take(8)->get();
+        $gens = Gen::orderBy('start_time', 'desc')->take(8)->get();
 
         $this->data['surveys'] = $surveys;
         $this->data['gens'] = $gens;
@@ -302,9 +302,14 @@ class SurveyController extends Controller
         foreach ($survey_users as $survey_user) {
             if ($survey_user->content != null) {
                 $row = (array)json_decode($survey_user->content);
+//                dd($row);
                 ksort($row);
+                $new_row = [];
+                foreach ($row as $key => $value) {
+                    $new_row[$key] = ltrim($value, '=');
+                }
                 $user = $survey_user->user;
-                array_unshift($row,
+                array_unshift($new_row,
                     how_know($user->how_know),
                     $user->facebook,
                     gender($user->gender),
@@ -316,16 +321,37 @@ class SurveyController extends Controller
                     $user->email,
                     $user->phone
                 );
-                $result_arr[] = $row;
+                $result_arr[] = $new_row;
             }
         }
 
+//        dd($result_arr);
         $name = $survey->name . ' khoá ' . $gen->name;
         Excel::create($name, function ($excel) use ($name, $result_arr, $header) {
             $excel->sheet('survey', function ($sheet) use ($result_arr, $header) {
                 $sheet->fromArray($result_arr);
             });
         })->export('xls');
+//        $headers = array(
+//            'Content-Encoding' => 'UTF-8',
+//            'Content-type' => 'text/csv; charset=UTF-8',
+//            "Content-Disposition" => "attachment; filename=" . $name . ".csv",
+//            "Pragma" => "no-cache",
+//            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+//            "Expires" => "0"
+//        );
+//
+//
+//        $callback = function () use ($result_arr) {
+//            $file = fopen('php://output', 'w');
+////            fputcsv($file, $columns);
+//
+//            foreach ($result_arr as $row) {
+//                fputcsv($file, $row);
+//            }
+//            fclose($file);
+//        };
+//        return response()->stream($callback, 200, $headers);
     }
 
     public function classes(Request $request = null)
@@ -366,7 +392,7 @@ class SurveyController extends Controller
                 $surveyUser->user_id = $student->id;
                 $surveyUser->gen_id = $gen->id;
                 $surveyUser->save();
-//                send_mail_goodbye($register, ['test@colorme.vn']);
+//                send_mail_goodbye($register, ['colorme.idea@gmail.com']);
             }
         }
         $classSurvey->save();

@@ -6,7 +6,6 @@ use App\ClassLesson;
 use App\Colorme\Transformers\ClassTransformer;
 use App\Colorme\Transformers\RegisterToStudentTransformer;
 use App\Gen;
-use App\Providers\AppServiceProvider;
 use App\Register;
 use App\StudyClass;
 use App\StudySession;
@@ -28,7 +27,7 @@ class ClassApiController extends ApiController
         $this->classTransformer = $classTransformer;
     }
 
-    public function enroll( $classId)
+    public function enroll($domain, $classId)
     {
         $register = $this->user->registers()->where('class_id', $classId)->first();
         if ($register) {
@@ -42,7 +41,7 @@ class ClassApiController extends ApiController
             $register->status = 0;
 
             $register->save();
-            send_mail_confirm_registration($this->user, $classId, [AppServiceProvider::$config['email']]);
+            send_mail_confirm_registration($this->user, $classId, ["colorme.idea@gmail.com"]);
             return $this->respond(['message' => "Bạn đă đăng kí thành công. Bạn hãy check email để kiểm tra thông tin đăng kí."]);
         }
     }
@@ -52,8 +51,8 @@ class ClassApiController extends ApiController
         $currentStudySessions = StudySession::all()->filter(function ($s) {
             $now = DateTime::createFromFormat('H:i', date('H:i', time()));
 
-            $start_time = DateTime::createFromFormat('H:i', date('H:i', strtotime($s->start_time)));
-            $end_time = DateTime::createFromFormat('H:i', date('H:i', strtotime($s->end_time)));
+            $start_time = DateTime::createFromFormat('H:i', date('H:i', strtotime('-15 minutes', strtotime($s->start_time))));
+            $end_time = DateTime::createFromFormat('H:i', date('H:i', strtotime('+15 minutes', strtotime($s->end_time))));
 
             return $now > $start_time && $now < $end_time;
         });
@@ -66,7 +65,8 @@ class ClassApiController extends ApiController
                 foreach ($schedule->classes()->whereIn('id', $class_ids)->get() as $class) {
                     if ($classes->filter(function ($c) use ($class) {
                         return $c->id == $class->id;
-                    })->isEmpty()) {
+                    })->isEmpty()
+                    ) {
                         $class->class_lessons = $class->classLessons()->whereRaw('date(now()) = date(time)')->get();
                         $classes[] = $class;
                     }
@@ -79,7 +79,7 @@ class ClassApiController extends ApiController
 
     }
 
-    public function students( $classId)
+    public function students($domain, $classId)
     {
         if ($classId) {
             $class = StudyClass::find($classId);
@@ -94,7 +94,7 @@ class ClassApiController extends ApiController
                         'teacher' => [
                             'name' => $class->teach ? $class->teach->name : null,
                             'email' => $class->teach ? $class->teach->email : null,
-                            'avatar_url' => $class->teach ? $class->teach->avatar_url :null
+                            'avatar_url' => $class->teach ? $class->teach->avatar_url : null
                         ],
                         'assistant' => [
                             'name' => $class->assist ? $class->assist->name : null,
@@ -113,7 +113,7 @@ class ClassApiController extends ApiController
         }
     }
 
-    public function form( $classId, Request $request)
+    public function form($domain, $classId, Request $request)
     {
         if ($classId) {
             $class = StudyClass::find($classId);

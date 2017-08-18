@@ -265,11 +265,36 @@ class ManageMarketingController extends ManageController
             $sale->paid_by_date_personal = $paid_by_date_personal;
 
             // tính số lượng học viên nộp tiền
-            $total_paid_personal = $this->user->sale_registers()->where('gen_id', $current_gen->id)->where('money', '>', '0')->count();
+            $total_paid_personal = $sale->sale_registers()->where('gen_id', $current_gen->id)->where('money', '>', '0')->count();
+
+            $temp = compute_sale_bonus_array($total_paid_personal);
 
             // tính bonus tiền
-            $bonus = compute_sale_bonus($total_paid_personal);
+            $bonus = $temp[0];
 
+            $registers = [];
+
+            foreach (Course::all() as $course) {
+                $class_ids = $course->classes()->pluck('id')->toArray();
+                $count = $sale->sale_registers()->where('gen_id', $current_gen->id)->where('money', '>', '0')->whereIn('class_id', $class_ids)->count();
+
+                $money = $course->sale_bonus * $count;
+
+                $registers[] = [
+                    'name' => $course->name,
+                    'count' => $count,
+                    'sale_bonus' => $course->sale_bonus
+                ];
+//                if ($sale->id == 26 && $course->id == 6) {
+//                    dd($sale->sale_registers()->where('gen_id', $current_gen->id));
+//                }
+                $bonus += $money;
+            }
+
+            $sale->bonus = $bonus;
+            $sale->registers = $registers;
+            $sale->bonus_20 = $temp[1];
+            $sale->bonus_50 = $temp[2];
 
         }
         $this->data['salers'] = $salers;

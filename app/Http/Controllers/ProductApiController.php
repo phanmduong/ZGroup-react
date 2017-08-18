@@ -30,7 +30,7 @@ class ProductApiController extends ApiController
         $this->productTransformer = $productTransformer;
     }
 
-    public function feature($product_id)
+    public function feature($domain, $product_id)
     {
         $product = Product::find($product_id);
         if ($this->user->role == 0) {
@@ -61,7 +61,7 @@ class ProductApiController extends ApiController
         }
     }
 
-    public function uncomment_products(Request $request, $genId = null)
+    public function uncomment_products($domain, Request $request, $genId = null)
     {
         if ($genId) {
             $current_teach_gen = Gen::find($genId);
@@ -125,7 +125,7 @@ class ProductApiController extends ApiController
         return $this->respondSuccessWithStatus(['products' => $products]);
     }
 
-    public function delete_comment($commendId)
+    public function delete_comment($domain, $commendId)
     {
         $comment = Comment::find($commendId);
         if ($comment->commenter->id != $this->user->id && $comment->product->author->id != $this->user->id) {
@@ -149,12 +149,16 @@ class ProductApiController extends ApiController
                 $topicAttend->save();
             }
         }
+        if ($comment->photo_key) {
+//            dd($comment->photo_key);
+            deleteFileFromS3($comment->photo_key);
+        }
 
         $comment->delete();
         return $this->respond(['message' => 'Xoá comment thành công']);
     }
 
-    public function update_product($productId, Request $request)
+    public function update_product($domain, $productId, Request $request)
     {
         $product = Product::find($productId);
 
@@ -174,7 +178,7 @@ class ProductApiController extends ApiController
         return $this->respond(['message' => "Update bài thành công"]);
     }
 
-    public function like($productId)
+    public function like($domain, $productId)
     {
         $product = Product::find($productId);
         $product->rating += 5;
@@ -217,7 +221,7 @@ class ProductApiController extends ApiController
         }
     }
 
-    public function unlike($productId)
+    public function unlike($domain, $productId)
     {
         $product = Product::find($productId);
         $like = $product->likes()->where('liker_id', $this->user->id)->first();
@@ -230,7 +234,7 @@ class ProductApiController extends ApiController
         }
     }
 
-    public function comment($productId, Request $request)
+    public function comment($domain, $productId, Request $request)
     {
         $comment_content = $request->comment_content;
 

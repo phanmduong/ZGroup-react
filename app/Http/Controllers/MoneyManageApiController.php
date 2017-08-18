@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\GroupMember;
-use App\Providers\AppServiceProvider;
 use App\Register;
 use App\Transaction;
 use App\User;
@@ -20,11 +19,11 @@ class MoneyManageApiController extends ApiController
     }
 
     /**
-     * @param
+     * @param $domain
      * @param Request $request (money,note,register_id,code)
      * @return mixed
      */
-    public function pay_register( Request $request)
+    public function pay_register($domain, Request $request)
     {
         $register_id = $request->register_id;
         $register = Register::find($register_id);
@@ -78,7 +77,7 @@ class MoneyManageApiController extends ApiController
                     $groupMember->save();
                 }
 
-                send_mail_confirm_receive_studeny_money($register, [AppServiceProvider::$config['email']]);
+                send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
                 send_sms_confirm_money($register);
 
             }
@@ -87,7 +86,7 @@ class MoneyManageApiController extends ApiController
 
     }
 
-    public function search_registers( Request $request)
+    public function search_registers($domain, Request $request)
     {
         $search = $request->search;
 

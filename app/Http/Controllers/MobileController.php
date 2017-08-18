@@ -36,7 +36,7 @@ class MobileController extends ApiController
         $this->attendanceTransformer = $attendanceTransformer;
     }
 
-    public function refreshToken()
+    public function refreshToken($domain)
     {
         $token = JWTAuth::fromUser($this->user);
         return $this->respond(['token' => $token]);
@@ -68,7 +68,7 @@ class MobileController extends ApiController
         ]);
     }
 
-    public function classes( $gen_id, $baseId, $couseId)
+    public function classes($domain, $gen_id, $baseId, $couseId)
     {
         $base = Base::find($baseId);
         $course = Course::find($couseId);
@@ -93,7 +93,7 @@ class MobileController extends ApiController
         ]);
     }
 
-    public function lessons( $courseId)
+    public function lessons($domain, $courseId)
     {
         $course = Course::find($courseId);
         if (!$course) {
@@ -112,7 +112,7 @@ class MobileController extends ApiController
         ]);
     }
 
-    public function student_code( $code)
+    public function student_code($domain, $code)
     {
         $register = Register::where('code', $code)->first();
 
@@ -151,7 +151,7 @@ class MobileController extends ApiController
         ]);
     }
 
-    public function attendance( $attendance_id, Request $request)
+    public function attendance($domain, $attendance_id, Request $request)
     {
         $attendance = Attendance::find($attendance_id);
         if (!$attendance) {
@@ -188,7 +188,7 @@ class MobileController extends ApiController
         }
     }
 
-    public function dashboardv2( $gen_id, $base_id = null)
+    public function dashboardv2($domain, $gen_id, $base_id = null)
     {
         $data = [];
 //        $data['user'] = $this->user;
@@ -539,7 +539,7 @@ class MobileController extends ApiController
         return response()->json($data, 200);
     }
 
-    public function dashboard( $gen_id, $base_id = null)
+    public function dashboard($domain, $gen_id, $base_id = null)
     {
 //        $current_gen = Gen::getCurrentGen();
         if ($this->user->role == 0) {

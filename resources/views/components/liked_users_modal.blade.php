@@ -18,7 +18,7 @@ function get_liked_users(product_id) {
     function(data,status){
       $('#liked-user-modal-content').html(data);
     }
-  );
+  )
   $('#liked-user-modal').openModal();
 }
 </script>

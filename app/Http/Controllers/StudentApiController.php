@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Colorme\Transformers\RegisterTransformer;
 use App\Colorme\Transformers\StudentTransformer;
 use App\Gen;
-use App\Providers\AppServiceProvider;
 use App\Register;
 use App\TeleCall;
 use App\Transaction;
@@ -26,7 +25,7 @@ class StudentApiController extends ApiController
         $this->registerTransformer = $registerTransformer;
     }
 
-    public function get_newest_code()
+    public function get_newest_code($domain)
     {
         return $this->respond(['newest_code' => Register::orderBy('code', 'desc')->first()->code]);
     }
@@ -112,7 +111,7 @@ class StudentApiController extends ApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
-            send_mail_confirm_receive_studeny_money($register, [AppServiceProvider::$config['email']]);
+            send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
             send_sms_confirm_money($register);
         }
         $return_data = array(

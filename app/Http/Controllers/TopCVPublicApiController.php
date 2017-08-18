@@ -24,7 +24,7 @@ class TopCVPublicApiController extends ApiController
         $this->middleware("from_topcv");
     }
 
-    public function cvs( Request $request)
+    public function cvs($domain, Request $request)
     {
         $user_id = $request->id;
         $user = User::find($user_id);
@@ -75,7 +75,7 @@ class TopCVPublicApiController extends ApiController
         return $this->respond($return);
     }
 
-    public function user( Request $request)
+    public function user($domain, Request $request)
     {
         $user_id = $request->id;
         $user = User::find($user_id);
@@ -86,7 +86,7 @@ class TopCVPublicApiController extends ApiController
                     "email" => $user->email,
                     "phone" => $user->phone,
                     "fullname" => $user->name,
-                    "portfolio_url" => "/profile/" . $user->username,
+                    "portfolio_url" => "http://colorme.vn/profile/" . $user->username,
                     'gender' => $user->gender,
                     "dob" => format_time_to_mysql(strtotime($user->dob))
                 ]);

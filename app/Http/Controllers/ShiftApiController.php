@@ -20,7 +20,7 @@ class ShiftApiController extends ApiController
         $this->shiftTransfromer = $shiftTransformer;
     }
 
-    public function get_current_shifts( Request $request)
+    public function get_current_shifts($domain, Request $request)
     {
         $gen_id = $request->gen_id;
         $base_id = $request->base_id;
@@ -65,7 +65,7 @@ class ShiftApiController extends ApiController
         return $this->respondSuccessWithStatus(['weeks' => $return_arr]);
     }
 
-    public function remove_shift_regis( $shiftId)
+    public function remove_shift_regis($domain, $shiftId)
     {
         $shift = Shift::find($shiftId);
         if ($this->user->id == $shift->user_id) {
@@ -93,7 +93,7 @@ class ShiftApiController extends ApiController
         }
     }
 
-    public function register_shift( $shiftId)
+    public function register_shift($domain, $shiftId)
     {
         $shift = Shift::find($shiftId);
         if ($shift->user) {

@@ -4,7 +4,7 @@
     <title>@yield('title')</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" name="viewport">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-{{--<link rel="stylesheet" href="{{ URL::asset('css/materialize.min.css') }}"/>--}}
+    {{--<link rel="stylesheet" href="{{ URL::asset('css/materialize.min.css') }}"/>--}}
 
 <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">

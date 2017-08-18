@@ -438,10 +438,10 @@
         </div>
         <div class="col-xs-12 col-sm-3 col-md-2" style="overflow: hidden;">
             <ul style="padding: 0px;">
-                <li><a href="http://phanmduong.ml/">Trang chủ</a></li>
-                <li><a href="http://phanmduong.ml/courses">Khóa học</a></li>
-                <li><a href="http://phanmduong.ml/mua-sach">Sách thiết kế cho người mới bắt đầu</a></li>
-                <li><a href="http://phanmduong.ml/#">Liên hệ</a></li>
+                <li><a href="http://colorme.vn/">Trang chủ</a></li>
+                <li><a href="http://colorme.vn/courses">Khóa học</a></li>
+                <li><a href="http://colorme.vn/mua-sach">Sách thiết kế cho người mới bắt đầu</a></li>
+                <li><a href="http://colorme.vn/#">Liên hệ</a></li>
             </ul>
         </div>
         <div>
@@ -468,7 +468,7 @@
                     class="social-button" target="_blank"
                     href="https://www.youtube.com/channel/UC1TpSQdG5rLyADdnrAtzP2w"><img
                         src="https://maxcdn.icons8.com/windows8/PNG/26/Social_Networks/youtube_copyrighted-26.png"
-                        title="YouTube"></a><a class="social-button" href="http://phanmduong.ml/" target="_blank"><img
+                        title="YouTube"></a><a class="social-button" href="http://colorme.vn/" target="_blank"><img
                         src="https://maxcdn.icons8.com/Android/PNG/24/Network/domain-24.png" title="Domain"></a></div>
     </div>
 </div>

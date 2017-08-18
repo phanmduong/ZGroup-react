@@ -17,12 +17,12 @@ use App\Lesson;
 use App\Link;
 use App\Order;
 use App\Product;
-use App\Providers\AppServiceProvider;
 use App\Register;
 use App\Room;
 use App\Schedule;
 use App\StudyClass;
 use App\StudySession;
+use App\Survey;
 use App\TeleCall;
 use App\Transaction;
 use App\User;
@@ -89,7 +89,16 @@ class HomeController extends ManageController
 
 
             $total_paid_personal = $this->user->sale_registers()->where('gen_id', $current_gen->id)->where('money', '>', '0')->count();
-            $bonus = compute_sale_bonus($total_paid_personal);
+            // tính bonus tiền
+            $bonus = compute_sale_bonus_array($total_paid_personal)[0];
+
+            foreach (Course::all() as $course) {
+                $class_ids = $course->classes()->pluck('id')->toArray();
+                $count = $this->user->sale_registers()->where('gen_id', $current_gen->id)->where('money', '>', '0')->whereIn('class_id', $class_ids)->count();
+
+                $money = $course->sale_bonus * $count;
+                $bonus += $money;
+            }
 
 
             // ca nhan
@@ -395,7 +404,6 @@ class HomeController extends ManageController
                 $tab->parent_name = Tab::find($tab->parent_id)->name;
             }
         }
-        dd($this->data);
         return view('role_management/show_tabs', $this->data);
     }
 
@@ -427,6 +435,7 @@ class HomeController extends ManageController
     public function waitList(Request $request)
     {
         $page = 1;
+
         if ($request->page) {
             $page = $request->page;
         }
@@ -439,11 +448,19 @@ class HomeController extends ManageController
         }
         $this->data['current_gen'] = $current_gen;
         $this->data['gens'] = Gen::orderBy('created_at', 'desc')->get();
+        $waitClassesQuery = $current_gen->studyclasses()
+            ->where("name", "not like", "%.%");
 
-        $waitClassIds = $current_gen->studyclasses()->where("name", "not like", "%.%")->pluck('id');
+
+        if ($request->base_id) {
+            $waitClassesQuery = $waitClassesQuery->where('base_id', $request->base_id);
+        }
+        $this->data['current_base_id'] = $request->base_id;
+
+        $waitClassIds = $waitClassesQuery->pluck('id');
 
         // set current manage tab
-        $this->data['current_tab'] = 5;
+        $this->data['current_tab'] = 45;
 
 
         $this->data['current_page'] = $page;
@@ -453,14 +470,26 @@ class HomeController extends ManageController
         // get the search query
         $query = $request->q;
 
+        $is_paid = 1;
+        if ($request->is_paid != null) {
+            $is_paid = $request->is_paid;
+        }
+        $this->data['is_paid'] = $is_paid;
+
 //        $classes = StudyClass::getClassByGen($current_gen->id);
         if ($query) {
-            $users_id = User::where('email', 'like', '%' . $query . '%')->orWhere('name', 'like', '%' . $query . '%')->get()->pluck('id')->toArray();
+            $users_id = User::where('email', 'like', '%' . $query . '%')
+                ->orWhere('name', 'like', '%' . $query . '%')->pluck('id')->toArray();
 //            dd($users_id);
-            $registers = Register::whereIn('user_id', $users_id)
+            $registers = Register::where(function ($q) use ($query, $users_id) {
+                $q->where('note', 'like', '%' . $query . '%')
+                    ->orWhereIn('user_id', $users_id);
+            })
+                ->where('status', $is_paid)
                 ->whereIn('class_id', $waitClassIds)
-                ->where('gen_id', $current_gen->id)->orderBy('created_at', 'desc');
+                ->orderBy('created_at', 'desc');
             $total = $registers->count();
+
             $registers = $registers->skip($offset)->take($limit)->get()->map(function ($register) {
                 if ($register->call_status == 0) {
                     $count = TeleCall::where('student_id', $register->user_id)->count();
@@ -470,29 +499,39 @@ class HomeController extends ManageController
                 }
                 return $register;
             });
+
         } else {
-            $registers = Register::where('gen_id', $current_gen->id)
+            $registers_query = Register::where('gen_id', $current_gen->id)
+                ->where('status', $is_paid)
                 ->whereIn('class_id', $waitClassIds)
-                ->orderBy('created_at', 'desc')->skip($offset)->take($limit)->get()->map(function ($register) {
-                    if ($register->call_status == 0) {
-                        $count = TeleCall::where('student_id', $register->user_id)->count();
-                        if ($count != 0) {
-                            $register->call_status = 2;
-                        }
+                ->orderBy('created_at', 'desc');
+            $total = $registers_query->count();
+
+            $registers = $registers_query->skip($offset)->take($limit)->get()->map(function ($register) {
+                if ($register->call_status == 0) {
+                    $count = TeleCall::where('student_id', $register->user_id)->count();
+                    if ($count != 0) {
+                        $register->call_status = 2;
                     }
-                    return $register;
-                });
-            $total = Register::where('gen_id', $current_gen->id)->whereIn('class_id', $waitClassIds)->count();
+                }
+                return $register;
+            });
         }
+
         if (!is_numeric($total)) {
             $total = 0;
         }
+
+
         $num_pages = ceil($total / $limit);
+//        dd($total);
         $this->data['num_pages'] = $num_pages;
         $this->data['total'] = $total;
         $this->data['query'] = $query;
 
         $this->data['registers'] = $registers;
+        $this->data['bases'] = Base::orderBy('name')->get();
+
         return view('manage.wait_list', $this->data);
     }
 
@@ -532,30 +571,24 @@ class HomeController extends ManageController
             $registers = Register::whereIn('user_id', $users_id)
                 ->where('gen_id', $current_gen->id)->orderBy('created_at', 'desc');
             $total = $registers->count();
-            $registers = $registers->skip($offset)->take($limit)->get()->map(function ($register) {
-                if ($register->call_status == 0) {
-                    $count = TeleCall::where('student_id', $register->user_id)->where("call_status", 2)->count();
-                    if ($count != 0) {
-                        $register->call_status = 2;
-                    }
-                }
-                return $register;
-            });
+            $registers = $registers->skip($offset)->take($limit)->get();
         } else {
             $registers = Register::where('gen_id', $current_gen->id)
-                ->orderBy('created_at', 'desc')->skip($offset)->take($limit)->get()->map(function ($register) {
-                    if ($register->call_status == 0) {
-                        $count = TeleCall::where('student_id', $register->user_id)->where("call_status", 2)->count();
-                        if ($count != 0) {
-                            $register->call_status = 2;
-                        }
-                    }
-                    return $register;
-                });
+                ->orderBy('created_at', 'desc')->skip($offset)->take($limit)->get();
             $total = Register::where('gen_id', $current_gen->id)->count();
         }
         if (!is_numeric($total)) {
             $total = 0;
+        }
+
+        foreach ($registers as &$register) {
+            $register->study_time = 1;
+            $user = $register->user;
+            foreach ($user->registers()->where('id', '!=', $register->id)->get() as $r) {
+                if ($r->studyClass->course_id == $register->studyClass->course_id) {
+                    $register->study_time += 1;
+                }
+            }
         }
         $num_pages = ceil($total / $limit);
         $this->data['num_pages'] = $num_pages;
@@ -720,6 +753,7 @@ class HomeController extends ManageController
         $course->mac_how_install = $request->mac_how_install;
         $course->window_how_install = $request->window_how_install;
         $course->name = $request->name;
+        $course->sale_bonus = $request->sale_bonus;
         $course->duration = $request->duration;
         $course->detail = $request->detail;
         $course->description = $request->description;
@@ -928,6 +962,16 @@ class HomeController extends ManageController
         }
     }
 
+    public function change_survey_status(Request $request)
+    {
+        $survey_id = $request->survey_id;
+        if ($survey_id != null) {
+            $survey = Survey::find($survey_id);
+            $survey->active = !$survey->active == 1;
+            $survey->save();
+        }
+    }
+
     public function delete_class($id)
     {
         $class = StudyClass::find($id);
@@ -1048,11 +1092,18 @@ class HomeController extends ManageController
         }
         $data = array();
 
+        if ($request->register_id) {
+            $register = Register::find($request->register_id);
+            $register->call_status = 2;
+            $register->save();
+        }
+
         if (isset($student->id)) {
             $data['student'] = $student;
             $telecall = new TeleCall;
             $telecall->caller_id = $this->user->id;
             $telecall->student_id = $student->id;
+            $telecall->register_id = $request->register_id;
             $telecall->note = null;
             $telecall->call_status = 2;
             $telecall->gen_id = Gen::getCurrentGen()->id;
@@ -1070,29 +1121,38 @@ class HomeController extends ManageController
         $id = $request->id;
 
         $status = $request->status;
+        $telecall = TeleCall::find($request->telecall_id);
+//        if ($telecall->register) {
+//            $register = $telecall->register;
+//            $register->call_status = $status;
+//            $register->time_to_reach = ceil(diffDate($register->created_at, date('Y-m-d H:i:s')));
+////            dd();
+//            $register->save();
+//        } else {
         $student = User::find($id);
         foreach ($student->registers as $register) {
             $register->call_status = $status;
-            $register->time_to_reach = diffDate($register->created_at, date('Y-m-d H:i:s'));
+            $register->time_to_reach = ceil(diffDate($register->created_at, date('Y-m-d H:i:s')));
             $register->save();
         }
-        $telecall = TeleCall::find($request->telecall_id);
+//        }
         if ($request->caller_id) {
             $telecall->caller_id = $request->caller_id;
         } else {
             $telecall->caller_id = $this->user->id;
         }
 
-        $telecall->student_id = $id;
         $telecall->note = $request->note;
         $telecall->gen_id = Gen::getCurrentGen()->id;
         $telecall->call_status = $status;
         $telecall->save();
+
         $total_uncalled = Register::getTotalUncalled();
         $total_called = Register::getTotalCalled();
         $data = array();
         $data['total_uncalled'] = is_numeric($total_uncalled) ? $total_uncalled : 0;
         $data['total_called'] = is_numeric($total_called) ? $total_called : 0;
+
         return json_encode($data);
     }
 
@@ -1380,7 +1440,7 @@ class HomeController extends ManageController
                 $groupMember->save();
             }
 
-            send_mail_confirm_receive_studeny_money($register, [AppServiceProvider::$config['email']]);
+            send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
             send_sms_confirm_money($register);
 
         }
@@ -1744,7 +1804,7 @@ class HomeController extends ManageController
         $class_id = $request->class_id;
         $class = StudyClass::find($class_id);
         foreach ($class->registers as $regis) {
-            send_mail_activate_class($regis, [AppServiceProvider::$config['email']]);
+            send_mail_activate_class($regis, ['colorme.vn.test@gmail.com']);
         }
         $class->activated = 1;
         $class->status = 0;
@@ -1797,7 +1857,7 @@ class HomeController extends ManageController
 //        $class = StudyClass::find($class_id);
 ////        dd($class->registers);
 //        foreach ($class->registers as $regis) {
-//            send_mail_activate_class($regis, ['test@colorme.vn']);
+//            send_mail_activate_class($regis, ['colorme.idea@gmail.com']);
 //        }
 //        $data['class'] = $class;
 //        $data['student'] = $this->user;
@@ -2187,6 +2247,70 @@ class HomeController extends ManageController
         return redirect('/manage/courses');
     }
 
+    public function downloadWaitList(Request $request)
+    {
+        // choose the current gen
+        if ($request->gen_id) {
+            $current_gen = Gen::find($request->gen_id);
+        } else {
+            $current_gen = Gen::getCurrentGen();
+        }
+
+        $waitClassesQuery = $current_gen->studyclasses()
+            ->where("name", "not like", "%.%");
+
+
+        if ($request->base_id) {
+            $waitClassesQuery = $waitClassesQuery->where('base_id', $request->base_id);
+        }
+
+        $waitClassIds = $waitClassesQuery->pluck('id');
+
+        $is_paid = 1;
+        if ($request->is_paid != null) {
+            $is_paid = $request->is_paid;
+        }
+
+        $registers_query = Register::where('gen_id', $current_gen->id)
+            ->where('status', $is_paid)
+            ->whereIn('class_id', $waitClassIds)
+            ->orderBy('created_at', 'desc');
+
+        $registers = $registers_query->get()->map(function ($register) {
+            $student = new \stdClass();
+            if ($register->call_status == 0) {
+                $count = TeleCall::where('student_id', $register->user_id)->count();
+                if ($count != 0) {
+                    $register->call_status = 2;
+                }
+            }
+            switch ($register->call_status) {
+                case 0:
+                    $student->call_status = "Chưa gọi";
+                    break;
+                case 1:
+                    $student->call_status = "Thành công";
+                    break;
+                case 2:
+                    $student->call_status = "Thất bại";
+                    break;
+            }
+            $student->name = $register->user->name;
+            $student->email = $register->user->email;
+            $student->phone = $register->user->phone;
+            $student->class_name = $register->studyClass->name;
+            $student->created_at = $register->created_at;
+            return $student;
+        })->toArray();
+
+        return Excel::create('Danh sách chờ ' . ($is_paid == 1 ? 'Đã đóng tiền' : "chưa đóng tiền") . ' Khoá ' . $current_gen->name,
+            function ($excel) use ($registers) {
+                $excel->sheet('students', function ($sheet) use ($registers) {
+                    $sheet->fromArray(json_decode(json_encode($registers), true));
+                });
+            })->download('xls');
+    }
+
     public function download_paid_students(Request $request)
     {
         $genId = $request->genid;
@@ -2201,7 +2325,12 @@ class HomeController extends ManageController
             $student->class = $registers->map(function ($register) {
                 $class = $register->studyClass;
                 $base = $class->base;
-                $className = $class->name . " (" . $base->name . ": " . $base->address . ")";
+                if ($base) {
+                    $className = $class->name . " (" . $base->name . ": " . $base->address . ")";
+                } else {
+                    $className = $class->name;
+                }
+
                 return $className;
             })->reduce(function ($carry, $item) {
                 return $carry . ", " . $item;

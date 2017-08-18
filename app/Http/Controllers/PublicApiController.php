@@ -32,7 +32,7 @@ class PublicApiController extends ApiController
         $this->s3_url = config('app.s3_url');
     }
 
-    public function create_transcoder_job( Request $request)
+    public function create_transcoder_job($domain, Request $request)
     {
         $file = $request->file;
         $tmp_path = '/tmp';
@@ -59,7 +59,7 @@ class PublicApiController extends ApiController
         return $this->respond(['id' => $job['Id']]);
     }
 
-    public function upload_image_froala( Request $request)
+    public function upload_image_froala($domain, Request $request)
     {
         $image_name = uploadFileToS3($request, 'image', 800, null);
         if ($image_name != null) {
@@ -69,7 +69,7 @@ class PublicApiController extends ApiController
         return $this->respond(['link' => $data['image_url']]);
     }
 
-    public function upload_file_froala( Request $request)
+    public function upload_file_froala($domain, Request $request)
     {
         $file_name = uploadLargeFileToS3($request, 'file', null);
         if ($file_name != null) {
@@ -79,14 +79,14 @@ class PublicApiController extends ApiController
         return $this->respond(['link' => $data['file_url']]);
     }
 
-    public function delete_image_froala( Request $request)
+    public function delete_image_froala($domain, Request $request)
     {
 //        $file_name = explode(".net", $request->src)[1];
 //        deleteFileFromS3($file_name);
         return $this->respond(['message' => "Xoá file thành công"]);
     }
 
-    public function products( Request $request)
+    public function products($domain, Request $request)
     {
         if ($request->token) {
             $user = JWTAuth::parseToken()->authenticate();
@@ -125,7 +125,7 @@ class PublicApiController extends ApiController
         return $this->respondWithPagination($products, $data);
     }
 
-    public function popular_products( Request $request)
+    public function popular_products($domain, Request $request)
     {
         if ($request->token) {
             $user = JWTAuth::parseToken()->authenticate();
@@ -145,7 +145,7 @@ class PublicApiController extends ApiController
         ]);
     }
 
-    public function search_products( Request $request)
+    public function search_products($domain, Request $request)
     {
         $term = trim($request->term);
         if ($term == null) {
@@ -162,7 +162,7 @@ class PublicApiController extends ApiController
         return $this->respondWithPagination($products, ['products' => $this->productTransformer->transformCollection($products)]);
     }
 
-    public function search_users( Request $request)
+    public function search_users($domain, Request $request)
     {
         $term = trim($request->term);
         if ($term == null) {
@@ -179,13 +179,13 @@ class PublicApiController extends ApiController
         return $this->respondWithPagination($users, ['users' => $this->studentTransformer->transformCollection($users)]);
     }
 
-    public function product_comments( $productId)
+    public function product_comments($domain, $productId)
     {
         $product = Product::find($productId);
         return $this->respond(['comments' => $this->commentTransformer->transformCollection($product->comments)]);
     }
 
-    public function about_us_data()
+    public function about_us_data($domain)
     {
         $gen = Gen::getCurrentGen();
         $classes = $gen->studyclasses()->where('name', 'like', '%.%')->count();
@@ -203,7 +203,7 @@ class PublicApiController extends ApiController
         ]);
     }
 
-    public function product_categories()
+    public function product_categories($domain)
     {
         $categories = CategoryProduct::all()->map(function ($c) {
             return [
@@ -214,7 +214,7 @@ class PublicApiController extends ApiController
         return $this->respond(['categories' => $categories]);
     }
 
-    public function product_content( $productId, Request $request)
+    public function product_content($domain, $productId, Request $request)
     {
         if ($request->token) {
             $user = JWTAuth::parseToken()->authenticate();
@@ -263,7 +263,7 @@ class PublicApiController extends ApiController
         }
     }
 
-    public function create_cv( $user_id)
+    public function create_cv($domain, $user_id)
     {
         $token = md5(config('app.topcv_key') . $user_id);
         return redirect("https://www.topcv.vn/partner/colorme/confirm?clmtoken=" . $token . "&uid=" . $user_id);

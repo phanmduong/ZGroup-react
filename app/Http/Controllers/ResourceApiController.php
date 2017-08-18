@@ -17,7 +17,7 @@ class ResourceApiController extends ApiController
         $this->courseTransformer = $courseTransformer;
     }
 
-    public function lesson( $lesson_id)
+    public function lesson($domain, $lesson_id)
     {
         $lesson = Lesson::find($lesson_id);
         return $this->respond([
@@ -28,7 +28,7 @@ class ResourceApiController extends ApiController
         ]);
     }
 
-    public function links( $linkId)
+    public function links($domain, $linkId)
     {
         $courses = Course::all();
         $course = $courses->filter(function ($c) use ($linkId) {

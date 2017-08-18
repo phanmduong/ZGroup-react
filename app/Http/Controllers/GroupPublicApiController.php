@@ -34,7 +34,7 @@ class GroupPublicApiController extends ApiController
         $this->productTransformer = $productTransformer;
     }
 
-    public function topic( $topicId, Request $request)
+    public function topic($domain, $topicId, Request $request)
     {
         if ($request->token) {
             $user = JWTAuth::parseToken()->authenticate();
@@ -44,7 +44,7 @@ class GroupPublicApiController extends ApiController
         return $this->respond($this->topicTransformer->transform($topic));
     }
 
-    public function group( $groupId, Request $request)
+    public function group($domain, $groupId, Request $request)
     {
         if ($request->token) {
             $user = JWTAuth::parseToken()->authenticate();
@@ -66,7 +66,7 @@ class GroupPublicApiController extends ApiController
 
     }
 
-    public function topic_products( $topicId, Request $request)
+    public function topic_products($domain, $topicId, Request $request)
     {
         if ($request->token) {
             $user = JWTAuth::parseToken()->authenticate();
@@ -82,7 +82,7 @@ class GroupPublicApiController extends ApiController
         return $this->respondWithPagination($products, ['products' => $this->productTransformer->transformCollection($products)]);
     }
 
-    public function topic_actions( $topicId)
+    public function topic_actions($domain, $topicId)
     {
         $topic = Topic::find($topicId);
         $topicActions = $topic->topicActions;

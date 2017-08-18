@@ -33,7 +33,7 @@
     theo
     dõi fanpage của ColorME tại địa chỉ: <a href="https://www.facebook.com/ColorME.Hanoi">https://www.facebook.com/ColorME.Hanoi</a>
     Để biết thêm thông tin chi tiết về các khóa học tại ColorME, hãy truy cập website chính thức của chúng tôi:
-    <a href="http://phanmduong.ml/">http://phanmduong.ml/</a>
+    <a href="http://colorme.vn/">http://colorme.vn/</a>
 </p>
 <p>
     Và cuối cùng, xin gửi tặng bạn 10 CV Template có thể chỉnh sửa dễ dàng trên Microsoft Word được thiết kế từ chính
