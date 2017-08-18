@@ -36,7 +36,6 @@ Route::get('manage/email/open', 'PublicController@open_email');
 Route::post('manage/receive_notifications', 'PublicController@receive_notifications');
 Route::post('manage/receive_video_convert_notifications', 'PublicController@receive_video_convert_notifications');
 Route::get('access_forbidden', 'PublicController@access_forbidden');
-Route::get('test', 'PublicController@test');
 
 //Route::post('/api/topic/{topicId}/images','PublicController@store_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
@@ -435,7 +434,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('manage/storetag', 'TagController@store_tag');
     Route::get('manage/deletetag/{id}', 'TagController@delete_tag');
 
-    Route::get('/test', 'PublicController@test');
+    Route::get('/manage/test', 'PublicController@test');
 
     Route::post('storeemail', 'PublicController@store_email');
 
