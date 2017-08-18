@@ -25,7 +25,7 @@ class UserApiController extends ApiController
         $this->notificationTransformer = $notificationTransformer;
     }
 
-    public function join_topic($domain, Request $request)
+    public function join_topic(Request $request)
     {
         $userId = $request->user_id;
         $topicId = $request->topic_id;
@@ -42,7 +42,7 @@ class UserApiController extends ApiController
 
     }
 
-    public function add_user_to_group($domain, Request $request)
+    public function add_user_to_group(Request $request)
     {
         $user_id = $request->user_id;
         $group_link = $request->group_link;
@@ -61,7 +61,7 @@ class UserApiController extends ApiController
         }
     }
 
-    public function change_avatar($domain, Request $request)
+    public function change_avatar(Request $request)
     {
         $avatar_name = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
         if ($avatar_name != null) {
@@ -75,7 +75,7 @@ class UserApiController extends ApiController
         ]);
     }
 
-    public function notifications($domain, Request $request)
+    public function notifications(Request $request)
     {
         if ($request->limit) {
             $limit = $request->limit;
@@ -89,7 +89,7 @@ class UserApiController extends ApiController
         ]);
     }
 
-    public function seen_all_notifications($domain)
+    public function seen_all_notifications()
     {
         $notifications = $this->user->received_notifications()->where('seen', 0)->get();
         $notifications->map(function ($notification) {
@@ -100,7 +100,7 @@ class UserApiController extends ApiController
     }
 
 
-    public function upload_image($domain, Request $request)
+    public function upload_image(Request $request)
     {
         $size = $request->size;
         $old_name = $request->old_name;
@@ -126,7 +126,7 @@ class UserApiController extends ApiController
         return $this->respond($data);
     }
 
-    public function delete_product($domain, $product_id)
+    public function delete_product($product_id)
     {
         $product = Product::find($product_id);
         if ($product->author_id == $this->user->id) {
@@ -145,7 +145,7 @@ class UserApiController extends ApiController
         }
     }
 
-//    public function upload_video($domain, Request $request)
+//    public function upload_video( Request $request)
 //    {
 //        $old_name = $request->old_name;
 //
@@ -162,7 +162,7 @@ class UserApiController extends ApiController
 //        }
 //    }
 
-    public function upload_video($domain, Request $request)
+    public function upload_video(Request $request)
     {
         $old_name = $request->old_name;
 
@@ -180,13 +180,13 @@ class UserApiController extends ApiController
         }
     }
 
-    public function delete_file($domain, Request $request)
+    public function delete_file(Request $request)
     {
 //        deleteFileFromS3($request->file_name);
         return $this->respond(['message' => "Xoá file thành công"]);
     }
 
-    public function save_product($domain, Request $request)
+    public function save_product(Request $request)
     {
         if ($request->id) {
             $product = Product::find($request->id);
@@ -244,7 +244,7 @@ class UserApiController extends ApiController
         return $this->respond(['message' => "Đăng bài thành công", "url" => convert_vi_to_en($product->title) . "-" . $product->id]);
     }
 
-    public function update_user_info($domain, Request $request)
+    public function update_user_info(Request $request)
     {
         $errors = [];
         $user1 = User::where('email', '=', $request->email)->first();
@@ -285,7 +285,7 @@ class UserApiController extends ApiController
         return $this->respondSuccessWithStatus([]);
     }
 
-    public function set_current_cv($domain, $cv_id)
+    public function set_current_cv($cv_id)
     {
         $this->user->cv_id = $cv_id;
         $this->user->save();

@@ -28,7 +28,7 @@ class UserPublicApiController extends ApiController
         $this->progressTransformer = $progressTransformer;
     }
 
-    public function load_user_side_nav_groups($domain, $user_id, Request $request)
+    public function load_user_side_nav_groups($user_id, Request $request)
     {
         $user = User::find($user_id);
         $page = $request->page;
@@ -47,7 +47,7 @@ class UserPublicApiController extends ApiController
         return $this->respond($data);
     }
 
-    public function user_side_nav_info($domain, $user_id)
+    public function user_side_nav_info($user_id)
     {
         $user = User::find($user_id);
 
@@ -107,7 +107,7 @@ class UserPublicApiController extends ApiController
         return $this->respond($data);
     }
 
-    public function user_progress($domain, $username)
+    public function user_progress($username)
     {
         $target_user = User::where('username', $username)->first();
         if ($target_user) {
@@ -124,7 +124,7 @@ class UserPublicApiController extends ApiController
         }
     }
 
-    public function user_profile($domain, $username)
+    public function user_profile($username)
     {
         $target_user = User::where('username', $username)->first();
         if ($target_user) {
@@ -167,7 +167,7 @@ class UserPublicApiController extends ApiController
         }
     }
 
-    public function user_products($domain, $username, Request $request)
+    public function user_products($username, Request $request)
     {
         $target_user = User::where('username', $username)->first();
         if ($target_user) {
@@ -188,7 +188,7 @@ class UserPublicApiController extends ApiController
         }
     }
 
-    public function create_order($domain, Request $request)
+    public function create_order(Request $request)
     {
         $errors = [];
         if (!$request->name) {
@@ -224,7 +224,7 @@ class UserPublicApiController extends ApiController
         return $this->respond(['message' => 'Bạn đã đăng kí đặt mua sách thành công, vui lòng kiểm tra email để xác nhận đơn hàng. ColorME sẽ liên hệ với bạn trong vòng 24h tới. Cảm ơn bạn!']);
     }
 
-    public function change_order_status($domain, Request $request)
+    public function change_order_status(Request $request)
     {
         $status = $request->status;
         $order_id = $request->order_id;
@@ -234,13 +234,13 @@ class UserPublicApiController extends ApiController
         return $this->respond(['message' => "Đổi trạng thái đơn hàng thành công"]);
     }
 
-    public function item($domain, $item_id)
+    public function item($item_id)
     {
         $item = Good::find($item_id);
         return $this->respond(['num_orders' => $item->orders()->count() + 251]);
     }
 
-    public function search_users($domain, Request $request)
+    public function search_users(Request $request)
     {
         $searchTerm = $request->term;
         $groupLink = $request->group_link;
@@ -281,7 +281,7 @@ class UserPublicApiController extends ApiController
         }
     }
 
-    public function store_user($domain, Request $request)
+    public function store_user(Request $request)
     {
         $errors = [];
         $user = User::where('email', '=', $request->email)->first();

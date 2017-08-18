@@ -26,7 +26,7 @@ class StudentApiController extends ApiController
         $this->registerTransformer = $registerTransformer;
     }
 
-    public function get_newest_code($domain)
+    public function get_newest_code()
     {
         return $this->respond(['newest_code' => Register::orderBy('code', 'desc')->first()->code]);
     }

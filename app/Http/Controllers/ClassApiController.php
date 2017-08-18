@@ -28,7 +28,7 @@ class ClassApiController extends ApiController
         $this->classTransformer = $classTransformer;
     }
 
-    public function enroll($domain, $classId)
+    public function enroll( $classId)
     {
         $register = $this->user->registers()->where('class_id', $classId)->first();
         if ($register) {
@@ -79,7 +79,7 @@ class ClassApiController extends ApiController
 
     }
 
-    public function students($domain, $classId)
+    public function students( $classId)
     {
         if ($classId) {
             $class = StudyClass::find($classId);
@@ -113,7 +113,7 @@ class ClassApiController extends ApiController
         }
     }
 
-    public function form($domain, $classId, Request $request)
+    public function form( $classId, Request $request)
     {
         if ($classId) {
             $class = StudyClass::find($classId);
