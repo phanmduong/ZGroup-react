@@ -69,6 +69,7 @@ class ManageStaffsComponent extends React.Component {
                                             bases={this.props.baseListData}
                                             changeRoleStaff={this.props.changeRoleStaff}
                                             changeBaseStaff={this.props.changeBaseStaff}
+                                            deleteStaff={this.props.deleteStaff}
                                         />
                                     )
                                     }
@@ -89,6 +90,7 @@ ManageStaffsComponent.propTypes = {
     staffListData: PropTypes.array.isRequired,
     changeRoleStaff: PropTypes.func.isRequired,
     changeBaseStaff: PropTypes.func.isRequired,
+    deleteStaff: PropTypes.func.isRequired,
 };
 
 export default ManageStaffsComponent;

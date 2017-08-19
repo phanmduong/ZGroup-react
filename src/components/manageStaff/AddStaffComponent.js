@@ -2,10 +2,12 @@ import React from 'react';
 import FormInputText from '../common/FormInputText';
 import FormInputSelect from '../common/FormInputSelect';
 import FormInputDate from '../common/FormInputDate';
+import Loading from '../common/Loading';
 import {MARITAL, LITERACY} from '../../constants/constants';
 import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
 import {CirclePicker} from 'react-color';
+import {NO_AVATAR} from '../../constants/env';
 
 
 class AddStaffComponent extends React.Component {
@@ -24,134 +26,138 @@ class AddStaffComponent extends React.Component {
         let roleSelect = this.props.roles.filter(function (roleData) {
             return role == roleData.id;
         })[0];
+        var avatar = helper.isEmptyInput(this.props.staffForm.avatar_url) ?
+            NO_AVATAR : this.props.staffForm.avatar_url;
         return (
             <div>
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">
-                            <form id="form-add-staff" onSubmit={(e) => {
-                                e.preventDefault();
-                            }}>
-                                <div className="card-header card-header-icon" data-background-color="rose">
-                                    <i className="material-icons">contacts</i>
-                                </div>
-                                <div className="card-content">
-                                    <h4 className="card-title">Thêm nhân viên</h4>
-
-                                    <FormInputText
-                                        label="Họ và tên"
-                                        name="name"
-                                        updateFormData={this.props.updateFormData}
-                                        value={name}
-                                        required={true}
-                                        type="text"
-                                    />
-                                    <FormInputText
-                                        label="Email"
-                                        name="email"
-                                        updateFormData={this.props.updateFormData}
-                                        value={email}
-                                        required={true}
-                                        type="email"
-                                    />
-                                    <FormInputText
-                                        label="Tên đăng nhập"
-                                        name="username"
-                                        updateFormData={this.props.updateFormData}
-                                        value={username}
-                                        required={true}
-                                        type="text"
-                                    />
-                                    <FormInputText
-                                        label="Tuổi"
-                                        name="age"
-                                        updateFormData={this.props.updateFormData}
-                                        value={age}
-                                        type="number"
-                                    />
-                                    <FormInputText
-                                        label="Địa chỉ"
-                                        name="address"
-                                        updateFormData={this.props.updateFormData}
-                                        value={address}
-                                        type="text"
-                                    />
-                                    <FormInputText
-                                        label="Số điện thoại"
-                                        name="phone"
-                                        updateFormData={this.props.updateFormData}
-                                        value={phone}
-                                        type="tel"
-                                    />
-                                    <FormInputSelect
-                                        data={MARITAL}
-                                        label="Tình trạng hôn nhân"
-                                        updateFormData={this.props.updateFormData}
-                                        name="marital"
-                                        value={marital}
-                                    />
-                                    <FormInputText
-                                        label="Quê quán"
-                                        name="homeland"
-                                        updateFormData={this.props.updateFormData}
-                                        value={homeland}
-                                        type="text"
-                                    />
-                                    <FormInputSelect
-                                        data={LITERACY}
-                                        label="Trình độ học vấn"
-                                        name="literacy"
-                                        updateFormData={this.props.updateFormData}
-                                        value={literacy}
-                                    />
-                                    <div className="form-group">
-                                        <label>Chức vụ trong công ty</label>
-                                        <select
-                                            className="form-control"
-                                            value={role}
-                                            onChange={this.props.updateFormData}
-                                            name="role"
-                                        >
-                                            {this.props.roles !== null && this.props.roles !== undefined &&
-                                            this.props.roles.map((item, key) => {
-                                                return (
-                                                    <option
-                                                        key={key}
-                                                        value={item.id}
-                                                    >
-                                                        {item.role_title}
-                                                    </option>);
-                                            })}
-                                        </select>
+                            {(this.props.isLoadingStaff) ? <Loading/> :
+                                <form id="form-add-staff" onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}>
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">contacts</i>
                                     </div>
-                                    <FormInputDate
-                                        label="Hoạt đông trong công ty từ"
-                                        name="start_company"
-                                        updateFormData={this.props.updateFormData}
-                                        value={start_company.slice(0, 10)}
-                                        id="form-date-start-company"
-                                    />
+                                    <div className="card-content">
+                                        <h4 className="card-title">Thêm nhân viên</h4>
 
-                                    {this.props.isLoadingAddStaff ?
-                                        (
-                                            <button
-                                                className="btn btn-fill btn-rose disabled"
+                                        <FormInputText
+                                            label="Họ và tên"
+                                            name="name"
+                                            updateFormData={this.props.updateFormData}
+                                            value={name}
+                                            required={true}
+                                            type="text"
+                                        />
+                                        <FormInputText
+                                            label="Email"
+                                            name="email"
+                                            updateFormData={this.props.updateFormData}
+                                            value={email}
+                                            required={true}
+                                            type="email"
+                                        />
+                                        <FormInputText
+                                            label="Tên đăng nhập"
+                                            name="username"
+                                            updateFormData={this.props.updateFormData}
+                                            value={username}
+                                            required={true}
+                                            type="text"
+                                        />
+                                        <FormInputText
+                                            label="Tuổi"
+                                            name="age"
+                                            updateFormData={this.props.updateFormData}
+                                            value={age}
+                                            type="number"
+                                        />
+                                        <FormInputText
+                                            label="Địa chỉ"
+                                            name="address"
+                                            updateFormData={this.props.updateFormData}
+                                            value={address}
+                                            type="text"
+                                        />
+                                        <FormInputText
+                                            label="Số điện thoại"
+                                            name="phone"
+                                            updateFormData={this.props.updateFormData}
+                                            value={phone}
+                                            type="tel"
+                                        />
+                                        <FormInputSelect
+                                            data={MARITAL}
+                                            label="Tình trạng hôn nhân"
+                                            updateFormData={this.props.updateFormData}
+                                            name="marital"
+                                            value={marital}
+                                        />
+                                        <FormInputText
+                                            label="Quê quán"
+                                            name="homeland"
+                                            updateFormData={this.props.updateFormData}
+                                            value={homeland}
+                                            type="text"
+                                        />
+                                        <FormInputSelect
+                                            data={LITERACY}
+                                            label="Trình độ học vấn"
+                                            name="literacy"
+                                            updateFormData={this.props.updateFormData}
+                                            value={literacy}
+                                        />
+                                        <div className="form-group">
+                                            <label>Chức vụ trong công ty</label>
+                                            <select
+                                                className="form-control"
+                                                value={role}
+                                                onChange={this.props.updateFormData}
+                                                name="role"
                                             >
-                                                <i className="fa fa-spinner fa-spin"/> Đang thêm nhân viên
-                                            </button>
-                                        )
-                                        :
-                                        (
-                                            <button
-                                                className="btn btn-fill btn-rose"
-                                                onClick={() => this.checkValidate()}
-                                            >
-                                                Thêm nhân viên
-                                            </button>
-                                        )
-                                    }
-                                </div>
-                            </form>
+                                                {this.props.roles !== null && this.props.roles !== undefined &&
+                                                this.props.roles.map((item, key) => {
+                                                    return (
+                                                        <option
+                                                            key={key}
+                                                            value={item.id}
+                                                        >
+                                                            {item.role_title}
+                                                        </option>);
+                                                })}
+                                            </select>
+                                        </div>
+                                        <FormInputDate
+                                            label="Hoạt đông trong công ty từ"
+                                            name="start_company"
+                                            updateFormData={this.props.updateFormData}
+                                            value={start_company.slice(0, 10)}
+                                            id="form-date-start-company"
+                                        />
+
+                                        {this.props.isLoadingAddStaff ?
+                                            (
+                                                <button
+                                                    className="btn btn-fill btn-rose disabled"
+                                                >
+                                                    <i className="fa fa-spinner fa-spin"/> Đang thêm nhân viên
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button
+                                                    className="btn btn-fill btn-rose"
+                                                    onClick={() => this.checkValidate()}
+                                                >
+                                                    Thêm nhân viên
+                                                </button>
+                                            )
+                                        }
+                                    </div>
+                                </form>
+                            }
                         </div>
                     </div>
                     <div className="col-md-4">
@@ -159,9 +165,14 @@ class AddStaffComponent extends React.Component {
                             <div className="col-md-12">
                                 <div className="card card-profile">
                                     <div className="card-avatar">
-                                        <a>
+                                        <a className="content-avatar">
                                             <img className="img"
-                                                 src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1491311923hbSEUhRbABGfULT.jpg"/>
+                                                 style={{
+                                                     background: 'url(' + avatar + ') center center / cover',
+                                                     width: '130px',
+                                                     height: '130px'
+                                                 }}
+                                            />
                                         </a>
                                     </div>
                                     <div className="card-content">
@@ -173,36 +184,47 @@ class AddStaffComponent extends React.Component {
                                         <p className="description">
                                             Bấm nút phía dưới để chọn ảnh đại diện
                                         </p>
-                                        <button className="btn btn-rose btn-round">
-                                            Chọn ảnh
-                                            <input type="file"
-                                                   accept=".jpg,.png,.gif"
-                                                   onchange={this.props.handleFileUpload}
-                                                   style={{
-                                                       cursor: 'pointer',
-                                                       opacity: "0.0",
-                                                       position: "absolute",
-                                                       top: 0,
-                                                       left: 0,
-                                                       bottom: 0,
-                                                       right: 0,
-                                                       width: "100%",
-                                                       height: "100%"
-                                                   }}
-                                            />
-                                        </button>
+                                        {(this.props.isChangingAvatar) ?
+                                            (
+                                                <button className="btn btn-rose btn-round disabled">
+                                                    Đang tải lên
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button className="btn btn-rose btn-round">
+                                                    Chọn ảnh
+                                                    <input type="file"
+                                                           accept=".jpg,.png,.gif"
+                                                           onChange={this.props.handleFileUpload}
+                                                           style={{
+                                                               cursor: 'pointer',
+                                                               opacity: "0.0",
+                                                               position: "absolute",
+                                                               top: 0,
+                                                               left: 0,
+                                                               bottom: 0,
+                                                               right: 0,
+                                                               width: "100%",
+                                                               height: "100%"
+                                                           }}
+                                                    />
+                                                </button>
+                                            )
+                                        }
+
                                     </div>
                                 </div>
                             </div>
                             <div className="col-md-12">
                                 <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">contacts</i>
-                                        </div>
-                                        <div className="card-content">
-                                            <h4 className="card-title">Chọn màu</h4>
-                                            <CirclePicker width="100%"/>
-                                        </div>
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">contacts</i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">Chọn màu</h4>
+                                        <CirclePicker width="100%"/>
+                                    </div>
                                 </div>
                             </div>
 
@@ -220,6 +242,8 @@ AddStaffComponent.propTypes = {
     addStaff: PropTypes.func.isRequired,
     handleFileUpload: PropTypes.func.isRequired,
     isLoadingAddStaff: PropTypes.bool.isRequired,
+    isChangingAvatar: PropTypes.bool.isRequired,
+    isLoadingStaff: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
 };
 

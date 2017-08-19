@@ -1,7 +1,8 @@
 import React from 'react';
-import {browserHistory} from 'react-router';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../common/ButtonGroupAction';
+import * as helper from '../../helpers/helper';
+import {NO_AVATAR} from '../../constants/env';
 
 let self;
 
@@ -9,10 +10,6 @@ class ListStaff extends React.Component {
     constructor(props, context) {
         super(props, context);
         self = this;
-    }
-
-    editStaff(staffId) {
-        browserHistory.push(`staff/${staffId}/edit`);
     }
 
     render() {
@@ -40,10 +37,17 @@ class ListStaff extends React.Component {
                                 </thead>
                                 <tbody>
                                 {staffs.map(function (staff, index) {
+                                    var avatar = helper.isEmptyInput(staff.avatar_url) ?
+                                        NO_AVATAR : staff.avatar_url;
                                     return (
                                         <tr key={index}>
                                             <td>
-                                                <img className="avatar-list-staff" src={staff.avatar_url}/>
+                                                <img className="avatar-list-staff"
+                                                     style={{
+                                                         background: 'url(' + avatar + ') center center / cover',
+                                                         display: 'inline-block'
+                                                     }}
+                                                />
                                             </td>
                                             <td>{staff.name}</td>
                                             <td>{staff.email}</td>
@@ -96,9 +100,9 @@ class ListStaff extends React.Component {
                                             </td>
                                             <td>
                                                 <ButtonGroupAction
-                                                    delete={()=>{}}
+                                                    delete={self.props.deleteStaff}
                                                     editUrl={`staff/${staff.id}/edit`}
-                                                    object={staff.id}
+                                                    object={staff}
                                                 />
                                             </td>
                                         </tr>
@@ -119,6 +123,9 @@ ListStaff.propTypes = {
     roles: PropTypes.array.isRequired,
     staffs: PropTypes.array.isRequired,
     bases: PropTypes.array.isRequired,
+    changeRoleStaff: PropTypes.func.isRequired,
+    changeBaseStaff: PropTypes.func.isRequired,
+    deleteStaff: PropTypes.func.isRequired,
 };
 
 export default ListStaff;

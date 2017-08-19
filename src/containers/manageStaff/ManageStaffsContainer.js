@@ -14,6 +14,7 @@ class ManageStaffsContainer extends React.Component {
         super(props, context);
         this.changeRoleStaff = this.changeRoleStaff.bind(this);
         this.changeBaseStaff = this.changeBaseStaff.bind(this);
+        this.deleteStaff = this.deleteStaff.bind(this);
     }
 
     componentWillMount() {
@@ -32,6 +33,10 @@ class ManageStaffsContainer extends React.Component {
         this.props.staffActions.changeBaseStaff(staffId, baseId);
     }
 
+    deleteStaff(staff) {
+        this.props.staffActions.deleteStaffData(staff);
+    }
+
     render() {
         let roleListData = (this.props.roleListData !== undefined) ? this.props.roleListData : [];
         return (
@@ -39,6 +44,7 @@ class ManageStaffsContainer extends React.Component {
                 {...this.props}
                 changeRoleStaff={this.changeRoleStaff}
                 changeBaseStaff={this.changeBaseStaff}
+                deleteStaff={this.deleteStaff}
                 roleListData={[{id: 0, role_title: ''}, ...roleListData]}
             />
         );

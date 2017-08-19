@@ -49,6 +49,10 @@ export function showNotification(message, from = "top", align = "right", type = 
     });
 }
 
+export function showTypeNotification(message, type){
+    showNotification(message, 'top', 'right', type);
+}
+
 export function encodeToken(data) {
     return jwt.sign({
         data: data
@@ -85,6 +89,14 @@ export function getTokenLocal() {
         }).catch(function () {
             reject(null);
         });
+    });
+}
+
+export function setFormValidation(id) {
+    $(id).validate({
+        errorPlacement: function (error, element) {
+            $(element).parent('div').addClass('has-error');
+        }
     });
 }
 

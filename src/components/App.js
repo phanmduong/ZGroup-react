@@ -29,7 +29,7 @@ class App extends React.Component {
                         <div className="user">
                             <div className="photo">
                                 <img
-                                    src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/img/faces/avatar.jpg"/>
+                                    src={this.props.user.avatar_url}/>
                             </div>
                             <div className="info">
                                 <a data-toggle="collapse" href="#collapseExample" className="collapsed">

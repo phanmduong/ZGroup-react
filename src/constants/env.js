@@ -12,4 +12,5 @@ export const LOGO_MAIN= env.LOGO_MAIN;
 export const SECRET_TOKEN = "KEEeducation";
 export const EXPIRES_IN = "6d";
 export const NAME_DATA_LOGIN_SAVE_LOCAL = "zgroup-token";
+export const NO_AVATAR = 'http://d2xbg5ewmrmfml.cloudfront.net/web/no-avatar.png';
 

@@ -18,7 +18,8 @@ export function addStaff(staff) {
         start_company: staff.start_company,
         age: staff.age,
         address: staff.address,
-        phone: staff.phone
+        phone: staff.phone,
+        avatar_url: staff.avatar_url
     });
 }
 
@@ -98,4 +99,18 @@ export function deleteStaff(staff) {
     return axios.post(url, {
         username: staff.username
     });
+}
+
+export function uploadAvatar(file, completeHandler) {
+    let url = env.API_URL + "/change-avatar";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formdata = new FormData();
+    formdata.append("avatar", file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
 }
