@@ -45,7 +45,7 @@ class ManageStaffApiController extends ApiController
         }
 
         $user = User::onlyTrashed()->where('username', '=', $username)->first();
-        if (!$user){
+        if (!$user) {
             $user = new User;
         }
 
@@ -75,14 +75,19 @@ class ManageStaffApiController extends ApiController
     public function get_staffs()
     {
         $nhanViens = User::where('role', ">", 0)->get();
+        $nhanViens = $nhanViens->map(function ($staff) {
+                $staff->avatar_url = 'http://' . $staff->avatar_url;
+                return $staff;
+            });
         return $this->respondSuccessWithStatus([
             'staffs' => $nhanViens
         ]);
     }
 
-    public function get_staff( $staffId)
+    public function get_staff($staffId)
     {
         $staff = User::find($staffId);
+        $staff->avatar_url = 'http://' . $staff->avatar_url;
         return $this->respondSuccessWithStatus(['staff' => $staff]);
     }
 
@@ -158,6 +163,31 @@ class ManageStaffApiController extends ApiController
 
         $user->delete();
         return $this->respondSuccessWithStatus("Xóa nhân viên thành công");
+    }
+
+    public function change_avatar(Request $request)
+    {
+        $avatar_name = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
+        $avatar_name = $this->s3_url . $avatar_name;
+        if ($avatar_name != null) {
+            $staff = User::find($request->id);
+            $staff->avatar_url = $avatar_name;
+            $staff->save();
+        }
+        return $this->respond([
+            "message" => "Tải lên thành công",
+            "avatar_url" => $avatar_name,
+        ]);
+    }
+
+    public function create_avatar(Request $request)
+    {
+        $avatar_name = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
+        $avatar_name = $this->s3_url . $avatar_name;
+        return $this->respond([
+            "message" => "Tải lên thành công",
+            "avatar_url" => $avatar_name,
+        ]);
     }
 
 }
