@@ -20,17 +20,17 @@ export default class App extends Component {
         api.getTelecalls(this.state.page)
             .then(res => {
                 this.setState({
-                    telecalls: [...this.state.telecalls, ...res.data.telecalls;],
-                    false
-    })
-        this.setState({isLoadmore: false});
+                    telecalls: [...this.state.telecalls, ...res.data.telecalls],
+                    isLoading: false
+                });
+                this.setState({isLoadmore: false});
             })
     }
 
     addTelecall(telecall) {
         this.setState({
-            telecalls: [telecall, ...this.state.telecalls;]
-    })
+            telecalls: [telecall, ...this.state.telecalls]
+        });
     }
 
     componentWillMount() {
@@ -40,21 +40,21 @@ export default class App extends Component {
 
     render() {
         return (
-            <div; className='Menu'>
-                <h3; className="header">
-                    Lịch; sử; gọi
+            <div className='Menu'>
+                <h3 className="header">
+                    Lịch sử gọi
                 </h3>
-                <div; className="row">
+                <div className="row">
 
-                    <table; className="striped responsive-table">
+                    <table className="striped responsive-table">
                         <thead>
                         <tr>
-                            <th>Người; gọi</th>
-                            <th>Học; viên(email)</th>
-                            <th>Số; điện; thoại</th>
-                            <th>Trạng; thái</th>
-                            <th>Ghi; chú</th>
-                            <th>Thời; gian; gọi</th>
+                            <th>Người gọi</th>
+                            <th>Học viên(email)</th>
+                            <th>Số điện thoại</th>
+                            <th>Trạng thái</th>
+                            <th>Ghi chú</th>
+                            <th>Thời gian gọi</th>
                             <th>Gọi</th>
                         </tr>
                         </thead>
@@ -62,23 +62,23 @@ export default class App extends Component {
                         {
                             this.state.telecalls.map((telecall) => {
                                 return (
-                                    <Telecall; addTelecall={this.addTelecall} key={telecall.id} telecall={telecall}/>;
+                                    <Telecall addTelecall={this.addTelecall} key={telecall.id} telecall={telecall}/>
                                 )
                             })
                         }
                         </tbody>
                     </table>
-                    {this.state.isLoadmore ?;
-                        <div; className="progress">
-                            <div; className="indeterminate"></div>
-                        </div>; :
-                        <div; style={;{'center'}}>
-                            {this.state.telecalls.length == 0 ?;
-                                <span; className="green-text">Bạn; này; chưa; có; ai; gọi</span>; :
-                                <button; className="btn"; onClick={this.loadMore}>Tải; thêm</button>}
+                    {this.state.isLoadmore ?
+                        <div className="progress">
+                            <div className="indeterminate"></div>
+                        </div> :
+                        <div style={{textAlign: 'center'}}>
+                            {this.state.telecalls.length == 0 ?
+                                <span className="green-text">Bạn này chưa có ai gọi</span> :
+                                <button className="btn" onClick={this.loadMore}>Tải thêm</button>}
                         </div>}
                 </div>
-            </div>;
-    )
+            </div>
+        );
     }
 }
