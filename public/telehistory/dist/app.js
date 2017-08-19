@@ -7425,10 +7425,10 @@ exports.default = {
         if (window.user_id) {
             user_id = window.user_id;
         }
-        return _axios2.default.get(_const.BASE_URL + "manage/get_telecalls_list?user_id=" + user_id + "&page=" + page);
+        return _axios2.default.get(_const.BASE_URL + "/manage/get_telecalls_list?user_id=" + user_id + "&page=" + page);
     },
     call: function call(studentId) {
-        return _axios2.default.get(_const.BASE_URL + "manage/call_student?id=" + studentId);
+        return _axios2.default.get(_const.BASE_URL + "/manage/call_student?id=" + studentId);
     },
     callSuccess: function callSuccess(studentId, telecall_id, note) {
         var data = {
@@ -7438,7 +7438,7 @@ exports.default = {
             note: note,
             _token: window.csrfToken
         };
-        return _axios2.default.post(_const.BASE_URL + 'manage/ajaxchangecallstatus', data);
+        return _axios2.default.post(_const.BASE_URL + '/manage/ajaxchangecallstatus', data);
     },
     callFail: function callFail(studentId, telecall_id, note) {
         var data = {
@@ -7448,7 +7448,7 @@ exports.default = {
             note: note,
             _token: window.csrfToken
         };
-        return _axios2.default.post(_const.BASE_URL + 'manage/ajaxchangecallstatus', data);
+        return _axios2.default.post(_const.BASE_URL + '/manage/ajaxchangecallstatus', data);
     }
 };
 
@@ -11780,7 +11780,7 @@ Telecall.defaultProps = {};
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var BASE_URL = exports.BASE_URL = "http://colorme.vn/";
+var BASE_URL = exports.BASE_URL = "http://colorme.vn";
 
 /***/ }),
 /* 111 */
