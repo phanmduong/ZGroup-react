@@ -43,3 +43,23 @@
 .text-dark {
     color: #878787;
 }
+
+.create-new-board {
+    border: 1px dashed #e5e5e5;
+    background-color: white;
+    height: 100px;
+    display: flex;
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+}
+.create-new-board:hover {
+    cursor: pointer;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.create-new-board div:first-child {
+    padding: 5px 2px 0 0;
+}

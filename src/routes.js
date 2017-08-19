@@ -13,9 +13,9 @@ import EditRoleContainer from './containers/role/EditRoleContainer';
 import NotFoundPage from './components/NotFoundPage';
 import BasesContainer from "./modules/bases/BasesContainer";
 import CreateBaseContainer from "./modules/bases/CreateBaseContainer";
-import ProjectListContainer from "./modules/tasks/ProjectListContainer";
-import CreateProjectContainer from "./modules/tasks/CreateProjectContainer";
-import BoardListContainer from "./modules/tasks/BoardListContainer";
+import ProjectListContainer from "./modules/tasks/project/ProjectListContainer";
+import CreateProjectContainer from "./modules/tasks/project/CreateProjectContainer";
+import BoardListContainer from "./modules/tasks/board/BoardListContainer";
 import RegisterListContainer from "./modules/register/RegisterListContainer";
 
 export default (

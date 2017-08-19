@@ -2,13 +2,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as taskActions from './taskActions';
+import * as taskActions from '../taskActions';
 import ListProject from "./ListProject";
 import {Link} from "react-router";
-import Loading from "../../components/common/Loading";
-import {confirm} from "../../helpers/helper";
+import Loading from "../../../components/common/Loading";
+import {confirm} from "../../../helpers/helper";
 import _ from 'lodash';
-import Search from "../../components/common/Search";
+import Search from "../../../components/common/Search";
 
 class ProjectListContainer extends React.Component {
     constructor(props, context) {

@@ -1,5 +1,5 @@
 /*eslint-disable */
 var env = {
-    "DOMAIN": "zgroup.dev",
-    "NAME_COMPANY": "zGroup"
-}
+    "DOMAIN": "keetoolclient.dev",
+    "NAME_COMPANY": "Keetool"
+};

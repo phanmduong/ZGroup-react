@@ -132,11 +132,17 @@ export default {
     },
 
     task: {
+        createBoard: {
+            showModal: false,
+            board: {},
+            isSaving: false
+        },
         createProject: {
             project: {},
             isLoadingProject: false,
             isSavingProject: false
         },
+
         project: {
             projects: [],
             currentPage: 1,
@@ -148,9 +154,8 @@ export default {
 
     register: {
         registerList: {
-            registers: []
+            registers: [],
+            isLoadingRegisters: false
         }
     }
-
-
 };

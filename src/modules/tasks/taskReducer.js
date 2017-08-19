@@ -6,6 +6,41 @@ import initialState from '../../reducers/initialState';
 
 export default function baseListReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.CREATE_BOARD_SUCCESS:
+            return {
+                ...state,
+                createBoard: {
+                    ...state.createBoard,
+                    board: {},
+                    isSaving: false,
+                    showModal: false
+                }
+            };
+        case types.BEGIN_CREATE_BOARD:
+            return {
+                ...state,
+                createBoard: {
+                    ...state.createBoard,
+                    isSaving: true
+                }
+            };
+        case types.UPDATE_CREATE_BOARD_FORM_DATA:
+            return {
+                ...state,
+                createBoard: {
+                    ...state.createBoard,
+                    board: action.board
+                }
+            };
+        case types.CHANGE_STATUS_CREATE_BOARD_MODAL:
+
+            return {
+                ...state,
+                createBoard: {
+                    ...state.createBoard,
+                    showModal: action.showModal
+                }
+            };
         case types.CHANGE_PROJECT_STATUS:
             return {
                 ...state,

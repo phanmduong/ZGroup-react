@@ -5,12 +5,14 @@ import {bindActionCreators} from 'redux';
 // import PropTypes from 'prop-types';
 import Dragula from 'react-dragula';
 import _ from 'lodash';
-
-// Import actions here!!
+import * as taskActions from '../taskActions';
+import * as PropTypes from "prop-types";
+import CreateBoardModalContainer from "./CreateBoardModalContainer";
 
 class BoardListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.openCreateBoardModal = this.openCreateBoardModal.bind(this);
     }
 
     componentDidMount() {
@@ -25,15 +27,17 @@ class BoardListContainer extends React.Component {
         });
     }
 
+    openCreateBoardModal() {
+        this.props.taskActions.changeStatusCreateBoardModal(true);
+    }
+
 
     render() {
-
-
-
         return (
             <div>
+                <CreateBoardModalContainer projectId={this.props.params.projectId}/>
                 <div className="board-container">
-                    {_.range(1, 6).map((index) => {
+                    {_.range(1, 3).map((index) => {
                         return (
                             <div key={index} className="card card-container">
                                 <div
@@ -68,6 +72,16 @@ class BoardListContainer extends React.Component {
                             </div>
                         );
                     })}
+                    <div className="card-container">
+                        <div className="create-new-board" style={{marginTop: 0}}
+                             onClick={this.openCreateBoardModal}>
+                            <div>
+                                <i className="material-icons flex-item">control_point</i>
+                            </div>
+                            <div className="card-title flex-item"> Tạo bảng mới
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
@@ -75,7 +89,8 @@ class BoardListContainer extends React.Component {
 }
 
 BoardListContainer.propTypes = {
-    //myProp: PropTypes.string.isRequired
+    taskActions: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -86,7 +101,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({}, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch)
     };
 }
 

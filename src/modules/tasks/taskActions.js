@@ -3,7 +3,7 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as taskApi from "./taskApi";
-import {showNotification} from '../../helpers/helper';
+import {showErrorNotification, showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
@@ -18,6 +18,16 @@ export function changeProjectStatus(project, status) {
         showNotification("Thay đổi trạng thái dự án thành công");
         taskApi.changeProjectStatus(project, status).catch(error => {
             console.log(error);
+        });
+    };
+}
+
+
+export function changeStatusCreateBoardModal(showModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_STATUS_CREATE_BOARD_MODAL,
+            showModal
         });
     };
 }
@@ -105,4 +115,32 @@ export function createProject(project) {
 }
 
 
+export function updateCreateBoardFormData(board) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_CREATE_BOARD_FORM_DATA,
+            board
+        });
+    };
+}
+
+
+export function createBoard(board) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_BOARD
+        });
+        taskApi.createBoard(board)
+            .then(res => {
+                const message = res.data.data.message;
+                showNotification(message);
+                dispatch({
+                    type: types.CREATE_BOARD_SUCCESS
+                });
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+            });
+    };
+}
 
