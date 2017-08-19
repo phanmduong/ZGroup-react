@@ -61,6 +61,7 @@ class ManageStaffApiController extends ApiController
         $user->homeland = $request->homeland;
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
+        $user->avatar_url = $request->avatar_url;
 
 
         $user->password = bcrypt('123456');
