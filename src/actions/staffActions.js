@@ -2,7 +2,8 @@ import * as types from '../constants/actionTypes';
 import * as staffApi from '../apis/staffApi';
 import toastr from 'toastr';
 import * as helper from '../helpers/helper';
-
+import {browserHistory} from 'react-router';
+import * as loginActions from '../actions/loginActions';
 export function beginLoadStaffsData() {
     return {
         type: types.BEGIN_LOAD_STAFFS_DATA,
@@ -90,7 +91,7 @@ export function changeRoleStaffError() {
 export function updateAddStaffFormData(staffForm) {
     return ({
         type: types.UPDATE_ADD_STAFF_FORM_DATA,
-        staffForm: Object.assign({}, staffForm)
+        staffForm: {...staffForm}
     });
 }
 
@@ -117,6 +118,7 @@ export function addStaffData(staff) {
 
 export function addStaffDataSucessful() {
     toastr.success("Thêm nhân viên thành công");
+    browserHistory.push('manage/quan-li-nhan-su');
     return ({
         type: types.ADD_STAFF_DATA_SUCCESSFUL,
         isLoading: false,
@@ -254,6 +256,7 @@ export function editStaffData(staff) {
 
 export function editStaffDataSucessful() {
     helper.showNotification("Cập nhật nhân viên thành công");
+    browserHistory.push('manage/quan-li-nhan-su');
     return ({
         type: types.EDIT_STAFF_DATA_SUCCESSFUL,
         isLoading: false,
@@ -322,17 +325,41 @@ export function deleteStaffDataError(data) {
     });
 }
 
-export function changeAvatar(file) {
-    console.log(file);
+export function changeAvatar(file, staffId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CHANGE_AVATAR_STAFF});
-        staffApi.uploadAvatar(file, function (event) {
-            console.log("upload");
+        staffApi.changeAvatar(file, function (event) {
+            let data = JSON.parse(event.currentTarget.response);
+            dispatch({type: types.CHANGE_AVATAR_STAFF_SUCCESS, avatar_url: 'http://' + data.avatar_url});
+            helper.showNotification(data.message);
+            let user = JSON.parse(localStorage.getItem('user'));
+            if (user.id == staffId) {
+                user.avatar_url = 'http://' + data.avatar_url;
+                localStorage.setItem('user', JSON.stringify(user));
+                dispatch(loginActions.getUserLocal());
+            }
+        }, staffId);
+    };
+}
+
+export function createAvatar(file) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CHANGE_AVATAR_STAFF});
+        staffApi.createAvatar(file, function (event) {
             let data = JSON.parse(event.currentTarget.response);
             dispatch({type: types.CHANGE_AVATAR_STAFF_SUCCESS, avatar_url: 'http://' + data.avatar_url});
             helper.showNotification(data.message);
         });
     };
+}
+
+export function initForm() {
+    return function (dispatch) {
+        dispatch({
+            type: types.INIT_FORM_ADD_STAFF,
+        });
+    };
+
 }
 
 

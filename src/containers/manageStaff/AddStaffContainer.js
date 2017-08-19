@@ -16,14 +16,17 @@ class AddStaffContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.addStaff = this.addStaff.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
+        this.state={
+            isDidUpdate: false
+        }
     }
 
     componentWillMount() {
-        if (this.props.roles === null || this.props.roles === undefined || this.props.roles.length <= 0) {
-            this.props.roleActions.loadRolesData();
-        }
+        this.props.staffActions.initForm();
+        // this.props.roleActions.loadRolesData();
         if (this.props.route.type === 'edit') {
             this.props.staffActions.loadStaffData(this.props.params.staffId);
+            this.setState({isDidUpdate: true});
         }
     }
 
@@ -36,8 +39,11 @@ class AddStaffContainer extends React.Component {
 
     handleFileUpload(event) {
         let file = event.target.files[0];
-        this.props.staffActions.changeAvatar(file);
-        // console.log('Selected file:', file);
+        if (this.props.route.type === 'edit') {
+            this.props.staffActions.changeAvatar(file, this.props.params.staffId);
+        } else {
+            this.props.staffActions.createAvatar(file);
+        }
     }
 
     addStaff() {
@@ -48,10 +54,6 @@ class AddStaffContainer extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.initForm();
-    }
-
     initForm() {
         helper.setFormValidation('#form-add-staff');
         $('#form-date-start-company').datetimepicker({
@@ -59,9 +61,10 @@ class AddStaffContainer extends React.Component {
         });
     }
 
-    componentDidUpdate() {
-        this.initForm();
+    componentDidUpdate(){
+            this.initForm();
     }
+
 
     render() {
         let roles = (this.props.roles !== undefined) ? this.props.roles : [];
@@ -70,6 +73,7 @@ class AddStaffContainer extends React.Component {
                 {...this.props}
                 updateFormData={this.updateFormData}
                 addStaff={this.addStaff}
+                type={this.props.route.type}
                 handleFileUpload={this.handleFileUpload}
                 roles={[{id: 0, role_title: ''}, ...roles]}
             />
@@ -84,6 +88,7 @@ AddStaffContainer.propTypes = {
     isLoadingAddStaff: PropTypes.bool.isRequired,
     isLoadingStaff: PropTypes.bool.isRequired,
     isChangingAvatar: PropTypes.bool.isRequired,
+    isLoadingRoles: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
@@ -101,6 +106,7 @@ function mapStateToProps(state) {
         isLoadingStaff: state.staffs.addStaff.isLoadingStaff,
         isLoadingAddStaff: state.staffs.addStaff.isLoading,
         isChangingAvatar: state.staffs.addStaff.isChangingAvatar,
+        isLoadingRoles: state.roles.isLoading,
         error: state.staffs.addStaff.error,
         roles: state.roles.roleListData,
     };

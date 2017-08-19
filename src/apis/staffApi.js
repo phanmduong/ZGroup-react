@@ -101,8 +101,25 @@ export function deleteStaff(staff) {
     });
 }
 
-export function uploadAvatar(file, completeHandler) {
-    let url = env.API_URL + "/change-avatar";
+export function changeAvatar(file, completeHandler, id) {
+    let url = env.MANAGE_API_URL + "/change-avatar";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formdata = new FormData();
+    formdata.append("avatar", file);
+    formdata.append("id", id);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
+}
+
+
+
+export function createAvatar(file, completeHandler) {
+    let url = env.API_URL + "/create-avatar";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

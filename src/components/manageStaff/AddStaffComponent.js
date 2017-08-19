@@ -22,10 +22,14 @@ class AddStaffComponent extends React.Component {
     }
 
     render() {
-        let {name, email, age, address, homeland, phone, marital, literacy, role, start_company, username} = this.props.staffForm;
+        let {name, email, age, address, homeland, phone, marital, literacy, role_id, start_company, username} = this.props.staffForm;
         let roleSelect = this.props.roles.filter(function (roleData) {
-            return role == roleData.id;
+            return role_id == roleData.id;
         })[0];
+        if (roleSelect === undefined || roleSelect === null) {
+            roleSelect = {};
+        }
+        console.log(role_id);
         var avatar = helper.isEmptyInput(this.props.staffForm.avatar_url) ?
             NO_AVATAR : this.props.staffForm.avatar_url;
         return (
@@ -33,7 +37,7 @@ class AddStaffComponent extends React.Component {
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">
-                            {(this.props.isLoadingStaff) ? <Loading/> :
+                            {(this.props.isLoadingStaff ) ? <Loading/> :
                                 <form id="form-add-staff" onSubmit={(e) => {
                                     e.preventDefault();
                                 }}>
@@ -41,7 +45,9 @@ class AddStaffComponent extends React.Component {
                                         <i className="material-icons">contacts</i>
                                     </div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Thêm nhân viên</h4>
+                                        <h4 className="card-title">
+                                            {this.props.type === 'edit' ? 'Thay đổi thông tin nhân viên' : 'Thêm nhân viên'}
+                                        </h4>
 
                                         <FormInputText
                                             label="Họ và tên"
@@ -113,9 +119,9 @@ class AddStaffComponent extends React.Component {
                                             <label>Chức vụ trong công ty</label>
                                             <select
                                                 className="form-control"
-                                                value={role}
+                                                value={role_id}
                                                 onChange={this.props.updateFormData}
-                                                name="role"
+                                                name="role_id"
                                             >
                                                 {this.props.roles !== null && this.props.roles !== undefined &&
                                                 this.props.roles.map((item, key) => {
@@ -142,7 +148,8 @@ class AddStaffComponent extends React.Component {
                                                 <button
                                                     className="btn btn-fill btn-rose disabled"
                                                 >
-                                                    <i className="fa fa-spinner fa-spin"/> Đang thêm nhân viên
+                                                    <i className="fa fa-spinner fa-spin"/>
+                                                    {this.props.type === 'edit' ? ' Đang cập nhật' : ' Đang thêm'}
                                                 </button>
                                             )
                                             :
@@ -151,7 +158,7 @@ class AddStaffComponent extends React.Component {
                                                     className="btn btn-fill btn-rose"
                                                     onClick={() => this.checkValidate()}
                                                 >
-                                                    Thêm nhân viên
+                                                    {this.props.type === 'edit' ? 'Cập nhật' : 'Thêm'}
                                                 </button>
                                             )
                                         }
@@ -244,7 +251,9 @@ AddStaffComponent.propTypes = {
     isLoadingAddStaff: PropTypes.bool.isRequired,
     isChangingAvatar: PropTypes.bool.isRequired,
     isLoadingStaff: PropTypes.bool.isRequired,
+    isLoadingRoles: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
+    type: PropTypes.string.isRequired,
 };
 
 export default AddStaffComponent;

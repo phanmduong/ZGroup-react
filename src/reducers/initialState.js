@@ -80,8 +80,6 @@ export default {
             error: false,
             isLoadingStaff: false,
             errorStaff: false,
-            isLoadingUpdateStaff: false,
-            errorUpdateStaff: false,
         },
         editStaff: {
             isLoadingStaff: false,

@@ -39,6 +39,7 @@ class ManageStaffsContainer extends React.Component {
 
     render() {
         let roleListData = (this.props.roleListData !== undefined) ? this.props.roleListData : [];
+        let baseListData = (this.props.baseListData !== undefined) ? this.props.baseListData : [];
         return (
             <ManageStaffsComponent
                 {...this.props}
@@ -46,6 +47,7 @@ class ManageStaffsContainer extends React.Component {
                 changeBaseStaff={this.changeBaseStaff}
                 deleteStaff={this.deleteStaff}
                 roleListData={[{id: 0, role_title: ''}, ...roleListData]}
+                baseListData={[{id: 0, name: '', address: ''}, ...baseListData]}
             />
         );
 

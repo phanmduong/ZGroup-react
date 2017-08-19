@@ -52,33 +52,28 @@ class ListStaff extends React.Component {
                                             <td>{staff.name}</td>
                                             <td>{staff.email}</td>
                                             <td>{staff.phone}</td>
-                                            {(staff.base_id > 0) ?
-                                                (
-                                                    <td>
-                                                        {(bases !== null && bases.length > 0 &&
-                                                            (<select className="form-control" value={staff.base_id}
-                                                                     onChange={(event) => {
-                                                                         self.props.changeBaseStaff(staff.id, event.target.value);
-                                                                     }}
-                                                            >
-                                                                {bases.map((base, key) => {
-                                                                    return (
-                                                                        <option
-                                                                            key={key}
-                                                                            value={base.id}
-                                                                        >
-                                                                            {`${base.name}: ${base.address}`}
-                                                                        </option>);
-                                                                })}
-                                                            </select>))
-                                                        }
-                                                    </td>
-                                                )
-                                                :
-                                                (
-                                                    <td/>
-                                                )
-                                            }
+
+                                            <td>
+                                                {(bases !== null && bases.length > 0 &&
+                                                    (<select className="form-control" value={staff.base_id}
+                                                             onChange={(event) => {
+                                                                 self.props.changeBaseStaff(staff.id, event.target.value);
+                                                             }}
+                                                    >
+                                                        {bases.map((base, key) => {
+                                                            return (
+                                                                <option
+                                                                    key={key}
+                                                                    value={base.id}
+                                                                >
+
+                                                                    {!helper.isEmptyInput(base.name) && `${base.name}: ${base.address}`}
+                                                                </option>);
+                                                        })}
+                                                    </select>))
+                                                }
+                                            </td>
+
                                             <td>
                                                 {(roles !== null && roles !== undefined &&
                                                     (<select className="form-control" value={staff.role_id}
