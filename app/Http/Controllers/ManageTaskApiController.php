@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Board;
 use App\Project;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,36 @@ class ManageTaskApiController extends ManageApiController
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function createBoard(Request $request)
+    {
+        if (is_null($request->title) || is_null($request->project_id)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+        if ($request->id) {
+            $board = Board::find($request->id);
+            $message = "Sửa bảng thành công";
+        } else {
+            $board = new Board();
+            $message = "Tạo bảng thành công";
+        }
+        $temp = Board::orderBy('order', 'desc')->first();
+
+        if ($temp) {
+            $order = $temp->order;
+        } else {
+            $order = 0;
+        }
+
+        $board->title = $request->title;
+        $board->order = $order + 1;
+        $board->project_id = $request->project_id;
+        $board->editor_id = $this->user->id;
+        $board->creator_id = $this->user->id;
+        $board->save();
+
+        return $this->respondSuccessWithStatus(["message" => $message]);
     }
 
     public function createProject(Request $request)

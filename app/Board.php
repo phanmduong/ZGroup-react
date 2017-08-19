@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Board extends Model
 {
+    protected $table = "boards";
     public function cards()
     {
         return $this->hasMany(Board::class, 'board_id');
