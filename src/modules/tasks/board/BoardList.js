@@ -26,14 +26,20 @@ class BoardList extends React.Component {
                 {this.props.boards.sort((a, b) => a.order - b.order).map((board) => {
                     return (
                         <div key={board.id} className="card card-container">
-                            <div className="btn-add-card card-header card-header-icon undraggable btn-rose"
-                                 data-background-color="blue">
-                                <i className="material-icons">note_add</i>
+                            <div className="board-title undraggable">
+                                {board.title}
+                                <div className="board-action">
+                                    <a onClick={() => this.props.editBoard(board)}>
+                                        <i className="material-icons">edit</i>
+                                    </a>
+                                    <a onClick={() => this.props.addCard(board)}>
+                                        <i className="material-icons">add</i>
+                                    </a>
+                                </div>
                             </div>
-                            <h4 className="undraggable">{board.title}</h4>
 
                             <div className="board">
-                                {_.range(1, 3).map((index) => {
+                                {_.range(1, 9).map((index) => {
                                     return (
                                         <div key={index} className="card-content">
                                             <div className="card">
@@ -75,7 +81,9 @@ class BoardList extends React.Component {
 
 BoardList.propTypes = {
     boards: PropTypes.array.isRequired,
-    openCreateBoardModal: PropTypes.func.isRequired
+    openCreateBoardModal: PropTypes.func.isRequired,
+    addCard: PropTypes.func.isRequired,
+    editBoard: PropTypes.func.isRequired
 };
 
 export default BoardList;

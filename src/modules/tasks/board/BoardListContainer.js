@@ -9,11 +9,14 @@ import * as PropTypes from "prop-types";
 import CreateBoardModalContainer from "./CreateBoardModalContainer";
 import Loading from "../../../components/common/Loading";
 import BoardList from "./BoardList";
+import CreateCardModalContainer from "../card/CreateCardModalContainer";
 
 class BoardListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.openCreateBoardModal = this.openCreateBoardModal.bind(this);
+        this.addCard = this.addCard.bind(this);
+        this.editBoard = this.editBoard.bind(this);
     }
 
     componentWillMount() {
@@ -21,17 +24,27 @@ class BoardListContainer extends React.Component {
     }
 
 
-
     openCreateBoardModal() {
         this.props.taskActions.changeStatusCreateBoardModal(true);
     }
 
+    addCard(board) {
+        this.props.taskActions.changeStatusCreateCardModal(true, board);
+    }
+
+    editBoard() {
+
+    }
+
     render() {
         return (
-            <div>
+            <div style={{overflow: "hidden"}}>
                 <CreateBoardModalContainer projectId={this.props.params.projectId}/>
+                <CreateCardModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <BoardList
+                        addCard={this.addCard}
+                        editBoard={this.editBoard}
                         openCreateBoardModal={this.openCreateBoardModal}
                         boards={this.props.boards}/>
                 )}

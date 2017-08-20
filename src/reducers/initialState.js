@@ -71,7 +71,7 @@ export default {
                 literacy: 0,
                 role: 0,
                 start_company: new Date().toISOString().slice(0, 10),
-                avatar_url:''
+                avatar_url: ''
             },
             isChangingAvatar: false,
             isLoading: false,
@@ -138,15 +138,24 @@ export default {
     },
 
     task: {
+        createCard: {
+            card: {},
+            isSaving: false,
+            showModal: false,
+            board: {}
+        },
+
         boardList: {
             boards: [],
             isLoadingBoards: false
         },
+
         createBoard: {
             showModal: false,
             board: {},
             isSaving: false
         },
+
         createProject: {
             project: {},
             isLoadingProject: false,

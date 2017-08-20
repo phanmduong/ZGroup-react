@@ -160,3 +160,23 @@ export function loadBoards(projectId) {
     };
 }
 
+export function changeStatusCreateCardModal(showModal, board = {}) {
+    return function (dispatch) {
+        if (showModal){
+            dispatch({
+                type: types.CHANGE_STATUS_CREATE_CARD_MODAL,
+                showModal,
+                board
+            });
+        } else {
+            dispatch({
+                type: types.CHANGE_STATUS_CREATE_CARD_MODAL,
+                showModal
+            });
+        }
+
+    };
+}
+
+
+
