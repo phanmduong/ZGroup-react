@@ -68,3 +68,7 @@
 .create-new-board div:first-child {
     padding: 5px 2px 0 0;
 }
+
+.btn-add-card {
+    cursor: pointer;
+}
