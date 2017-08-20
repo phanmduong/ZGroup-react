@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormInputText from './common/FormInputText';
-import {LINK_LOGO_2} from '../constants/env';
+import {LOGO_LOGIN} from '../constants/env';
 
 class LoginComponent extends React.Component {
     constructor(props, context) {
@@ -22,7 +22,7 @@ class LoginComponent extends React.Component {
                 <nav className="navbar navbar-primary navbar-transparent navbar-absolute">
                     <div className="container">
                         <div className="navbar-header">
-                            <img src={LINK_LOGO_2}
+                            <img src={LOGO_LOGIN}
                                  className="logo-header"
                             />
                         </div>

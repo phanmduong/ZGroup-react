@@ -6,7 +6,6 @@ import DashboardContainer from './containers/DashboardContainer';
 import CollectMoneyContainer from './containers/financialManager/CollectMoneyContainer';
 import ManageStaffsContainer from './containers/manageStaff/ManageStaffsContainer';
 import AddStaffContainer from './containers/manageStaff/AddStaffContainer';
-import EditStaffContainer from './containers/manageStaff/EditStaffContainer';
 import ManageRoleContainer from './containers/role/ManageRoleContainer';
 import CreateRoleContainer from './containers/role/CreateRoleContainer';
 import EditRoleContainer from './containers/role/EditRoleContainer';
@@ -25,8 +24,8 @@ export default (
             <Route path="register-list" component={RegisterListContainer}/>
             <Route path="collect-money" component={CollectMoneyContainer}/>
             <Route path="manage/quan-li-nhan-su" component={ManageStaffsContainer}/>
-            <Route path="add-staff" component={AddStaffContainer}/>
-            <Route path="staff/:staffId/edit" component={EditStaffContainer}/>
+            <Route path="add-staff" component={AddStaffContainer} type="create"/>
+            <Route path="staff/:staffId/edit" component={AddStaffContainer} type="edit"/>
 
             {/*Begin Role route*/}
             <Route path="manage-role" component={ManageRoleContainer}/>

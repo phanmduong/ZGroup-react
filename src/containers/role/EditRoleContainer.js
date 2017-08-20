@@ -14,7 +14,6 @@ class EditRoleContainer extends React.Component {
         super(props, context);
         this.changeCheckTab = this.changeCheckTab.bind(this);
         this.editRole = this.editRole.bind(this);
-        this.deleteRole = this.deleteRole.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
     }
 
@@ -44,10 +43,6 @@ class EditRoleContainer extends React.Component {
         this.props.roleActions.editRoleData(this.props.tabsListData, this.props.roleForm);
     }
 
-    deleteRole(){
-        this.props.roleActions.deleteRoleData(this.props.params.roleId);
-    }
-
     render() {
         return (
             <EditRoleComponent
@@ -55,7 +50,6 @@ class EditRoleContainer extends React.Component {
                 changeCheckTab={this.changeCheckTab}
                 editRole={this.editRole}
                 updateFormData={this.updateFormData}
-                deleteRole={this.deleteRole}
                 {...this.props}
             />
         );

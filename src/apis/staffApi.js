@@ -18,15 +18,19 @@ export function addStaff(staff) {
         start_company: staff.start_company,
         age: staff.age,
         address: staff.address,
-        phone: staff.phone
+        phone: staff.phone,
+        avatar_url: staff.avatar_url
     });
 }
 
-export function getStaffs() {
-    let url = env.MANAGE_API_URL + "/get-staffs";
+export function getStaffs(page = 1, search= null) {
+    let url = env.MANAGE_API_URL + "/get-staffs?page="+page;
     let token = localStorage.getItem('token');
+    if (search){
+        url += "&search=" + search;
+    }
     if (token) {
-        url += "?token=" + token;
+        url += "&token=" + token;
     }
 
     return axios.get(url);
@@ -98,4 +102,35 @@ export function deleteStaff(staff) {
     return axios.post(url, {
         username: staff.username
     });
+}
+
+export function changeAvatar(file, completeHandler, id) {
+    let url = env.MANAGE_API_URL + "/change-avatar";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formdata = new FormData();
+    formdata.append("avatar", file);
+    formdata.append("id", id);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
+}
+
+
+
+export function createAvatar(file, completeHandler) {
+    let url = env.API_URL + "/create-avatar";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formdata = new FormData();
+    formdata.append("avatar", file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
 }

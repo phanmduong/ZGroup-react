@@ -1,6 +1,7 @@
 import React from 'react';
 import {browserHistory} from 'react-router';
 import PropTypes from 'prop-types';
+import ButtonGroupAction from '../common/ButtonGroupAction';
 
 let self;
 
@@ -40,8 +41,13 @@ class ListRole extends React.Component {
                                             <tr key={index}>
                                                 <td>{role.role_title}</td>
                                                 <td>{role.num_tabs}</td>
-                                                <td onClick={() => self.editRole(role.id)}>
-                                                    <i className="fa fa-pencil"/></td>
+                                                <td>
+                                                    <ButtonGroupAction
+                                                        delete={self.props.deleteRole}
+                                                        editUrl={`role/${role.id}/edit`}
+                                                        object={role.id}
+                                                    />
+                                                </td>
                                             </tr>);
                                     })
                                 }
@@ -58,6 +64,7 @@ class ListRole extends React.Component {
 
 ListRole.propTypes = {
     roles: PropTypes.array.isRequired,
+    deleteRole: PropTypes.func.isRequired,
 };
 
 export default ListRole;
