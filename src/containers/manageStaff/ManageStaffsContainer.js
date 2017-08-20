@@ -6,6 +6,7 @@ import * as staffActions from '../../actions/staffActions';
 import * as roleActions from '../../actions/roleActions';
 import * as baseActions from '../../actions/baseActions';
 import ManageStaffsComponent from "../../components/manageStaff/ManageStaffsComponent";
+import * as helper from '../../helpers/helper';
 
 // Import actions here!!
 
@@ -15,10 +16,17 @@ class ManageStaffsContainer extends React.Component {
         this.changeRoleStaff = this.changeRoleStaff.bind(this);
         this.changeBaseStaff = this.changeBaseStaff.bind(this);
         this.deleteStaff = this.deleteStaff.bind(this);
+        this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.loadStaffs = this.loadStaffs.bind(this);
+        this.state = {
+            page: 1,
+            query: ""
+        };
+        this.timeOut = null;
     }
 
     componentWillMount() {
-        this.props.staffActions.loadStaffsData();
+        this.loadStaffs();
         this.props.roleActions.loadRolesData();
         if (!this.props.baseListData || this.props.baseListData.length <= 0) {
             this.props.baseActions.loadDataBase();
@@ -34,7 +42,30 @@ class ManageStaffsContainer extends React.Component {
     }
 
     deleteStaff(staff) {
-        this.props.staffActions.deleteStaffData(staff);
+        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa nhân viên này",
+            function () {
+                this.props.staffActions.deleteStaffData(staff);
+            }.bind(this));
+
+    }
+
+
+    staffsSearchChange(value) {
+        this.setState({
+            page: 1,
+            query: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.staffActions.loadStaffsData(this.state.page, this.state.query);
+        }.bind(this), 500);
+    }
+
+    loadStaffs(page = 1) {
+        this.setState({page});
+        this.props.staffActions.loadStaffsData(page, this.state.query);
     }
 
     render() {
@@ -45,9 +76,12 @@ class ManageStaffsContainer extends React.Component {
                 {...this.props}
                 changeRoleStaff={this.changeRoleStaff}
                 changeBaseStaff={this.changeBaseStaff}
+                staffsSearchChange={this.staffsSearchChange}
+                loadStaffs={this.loadStaffs}
                 deleteStaff={this.deleteStaff}
                 roleListData={[{id: 0, role_title: ''}, ...roleListData]}
                 baseListData={[{id: 0, name: '', address: ''}, ...baseListData]}
+                search={this.state.query}
             />
         );
 
@@ -67,6 +101,8 @@ ManageStaffsContainer.propTypes = {
     staffListData: PropTypes.array.isRequired,
     roleListData: PropTypes.array.isRequired,
     baseListData: PropTypes.array.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
 };
 
 ManageStaffsContainer.contextTypes = {
@@ -77,6 +113,8 @@ function mapStateToProps(state) {
     return {
         isLoadingStaffs: state.staffs.isLoading,
         staffListData: state.staffs.staffListData,
+        currentPage: state.staffs.currentPage,
+        totalPages: state.staffs.totalPages,
         errorStaffs: state.staffs.error,
         isLoadingRoles: state.roles.isLoading,
         roleListData: state.roles.roleListData,

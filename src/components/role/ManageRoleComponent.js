@@ -57,6 +57,7 @@ class ManageRoleComponent extends React.Component {
                                 {this.props.isLoadingRoles ? <Loading/> : (
                                     <ListRole
                                         roles={this.props.roleListData}
+                                        deleteRole={this.props.deleteRole}
                                     />
                                 )
                                 }
@@ -73,6 +74,7 @@ class ManageRoleComponent extends React.Component {
 ManageRoleComponent.propTypes = {
     roleListData: PropTypes.array.isRequired,
     isLoadingRoles: PropTypes.bool.isRequired,
+    deleteRole: PropTypes.func.isRequired,
 };
 
 export default ManageRoleComponent;

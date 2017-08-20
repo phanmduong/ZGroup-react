@@ -60,6 +60,8 @@ export default {
         staffListData: [],
         isLoading: false,
         error: false,
+        currentPage: 1,
+        totalPages: 1,
         addStaff: {
             staffForm: {
                 name: '',

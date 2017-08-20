@@ -4,6 +4,7 @@ import Loading from '../common/Loading';
 import Search from '../common/Search';
 import ListStaff from './ListStaff';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 class ManageStaffsComponent extends React.Component {
     constructor(props, context) {
@@ -53,9 +54,8 @@ class ManageStaffsComponent extends React.Component {
                                             </button>
                                         </div>
                                         <Search
-                                            onChange={() => {
-                                            }}
-                                            value=""
+                                            onChange={this.props.staffsSearchChange}
+                                            value={this.props.search}
                                             placeholder="Tìm kiếm nhân viên"
                                             className="col-md-9"
                                         />
@@ -75,6 +75,24 @@ class ManageStaffsComponent extends React.Component {
                                     }
                                 </div>
                             </div>
+                            <ul className="pagination pagination-primary">
+                                {_.range(1, this.props.totalPages + 1).map(page => {
+                                    if (Number(this.props.currentPage) === page) {
+                                        return (
+                                            <li key={page} className="active">
+                                                <a onClick={() => this.props.loadStaffs(page)}>{page}</a>
+                                            </li>
+                                        );
+                                    } else {
+                                        return (
+                                            <li key={page}>
+                                                <a onClick={() => this.props.loadStaffs(page)}>{page}</a>
+                                            </li>
+                                        );
+                                    }
+
+                                })}
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -90,7 +108,12 @@ ManageStaffsComponent.propTypes = {
     staffListData: PropTypes.array.isRequired,
     changeRoleStaff: PropTypes.func.isRequired,
     changeBaseStaff: PropTypes.func.isRequired,
+    staffsSearchChange: PropTypes.func.isRequired,
+    loadStaffs: PropTypes.func.isRequired,
     deleteStaff: PropTypes.func.isRequired,
+    search: PropTypes.string.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
 };
 
 export default ManageStaffsComponent;

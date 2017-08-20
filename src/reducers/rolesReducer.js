@@ -1,6 +1,5 @@
 import * as types from '../constants/actionTypes';
 import initialState from './initialState';
-import _ from 'lodash';
 
 let roleListData;
 export default function rolesReducer(state = initialState.roles, action) {
@@ -80,14 +79,10 @@ export default function rolesReducer(state = initialState.roles, action) {
                 }
             };
         case types.DELETE_ROLE_DATA_SUCCESSFUL:
-            roleListData = changeDataRoles(state.roleListData, action.roleId);
+            roleListData = removeDataRoles(state.roleListData, action.roleId);
             return {
                 ...state,
-                ...{
-                    isLoadingDeleteRole: action.isLoading,
-                    errorDeleteRole: action.error,
-                    roleListData: roleListData
-                }
+                roleListData: roleListData
             };
         case types.DELETE_ROLE_DATA_ERROR:
             return {
@@ -182,14 +177,9 @@ export default function rolesReducer(state = initialState.roles, action) {
     }
 }
 
-function changeDataRoles(roleListData, roleId) {
+function removeDataRoles(roleListData, roleId) {
     if (roleListData) {
-        let roles = [...roleListData];
-        _.remove(roles, function (role) {
-            return role.id === roleId;
-        });
-
-        return roles;
+        roleListData = roleListData.filter(role => role.id !== roleId);
     }
     return roleListData;
 }

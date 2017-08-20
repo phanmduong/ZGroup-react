@@ -13,10 +13,10 @@ export function beginLoadStaffsData() {
     };
 }
 
-export function loadStaffsData() {
+export function loadStaffsData(page, search) {
     return function (dispatch) {
         dispatch(beginLoadStaffsData());
-        staffApi.getStaffs()
+        staffApi.getStaffs(page, search)
             .then(function (res) {
                 dispatch(loadStaffsDataSucessful(res));
             }).catch(() => {
@@ -28,8 +28,9 @@ export function loadStaffsData() {
 export function loadStaffsDataSucessful(res) {
     return ({
         type: types.LOAD_STAFFS_DATA_SUCCESSFUL,
-        staffListData: res.data.data.staffs,
-        status: res.data.status,
+        staffListData: res.data.staffs,
+        currentPage: res.data.paginator.current_page,
+        totalPages: res.data.paginator.total_pages,
         isLoading: false,
         error: false
     });
@@ -293,7 +294,7 @@ export function deleteStaffData(staff) {
         dispatch(beginDeleteStaffData());
         staffApi.deleteStaff(staff)
             .then(function (res) {
-                dispatch(deleteStaffDataSucessful(res));
+                dispatch(deleteStaffDataSucessful(staff.id,res));
             }).catch((error) => {
             dispatch(deleteStaffDataError(error.response.data.error));
             console.log(error);
@@ -301,12 +302,13 @@ export function deleteStaffData(staff) {
     };
 }
 
-export function deleteStaffDataSucessful() {
+export function deleteStaffDataSucessful(staffId) {
     helper.showTypeNotification("Xóa nhân viên thành công");
     return ({
         type: types.DELETE_STAFF_DATA_SUCCESSFUL,
         isLoading: false,
-        error: false
+        error: false,
+        staffId: staffId
     });
 }
 

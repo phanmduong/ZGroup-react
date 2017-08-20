@@ -2,6 +2,7 @@
 import * as types from '../constants/actionTypes';
 import initialState from './initialState';
 
+let staffListData;
 export default function staffsReducer(state = initialState.staffs, action) {
 
     switch (action.type) {
@@ -20,7 +21,9 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 ...{
                     isLoading: action.isLoading,
                     error: action.error,
-                    staffListData: action.staffListData
+                    staffListData: action.staffListData,
+                    currentPage: action.currentPage,
+                    totalPages: action.totalPages
                 }
             };
         case types.LOAD_STAFFS_DATA_ERROR:
@@ -32,7 +35,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 }
             };
         case types.BEGIN_CHANGE_ROLE_STAFF:
-            let staffListData = changeRoleStaff(action.staffId, action.roleId, state.staffListData);
+            staffListData = changeRoleStaff(action.staffId, action.roleId, state.staffListData);
             return {
                 ...state,
                 ...{
@@ -272,6 +275,12 @@ export default function staffsReducer(state = initialState.staffs, action) {
                     }
                 }
             };
+        case types.DELETE_STAFF_DATA_SUCCESSFUL:
+            staffListData = removeStaffData(action.staffId, state.staffListData);
+            return {
+                ...state,
+                staffListData: staffListData,
+            };
         default:
             return state;
     }
@@ -297,6 +306,13 @@ function changeBaseStaff(staffId, baseId, staffListData) {
             }
             else return staff;
         });
+    }
+    return staffListData;
+}
+
+function removeStaffData(staffId, staffListData) {
+    if (staffListData) {
+        staffListData = staffListData.filter(staff => staff.id !== staffId);
     }
     return staffListData;
 }

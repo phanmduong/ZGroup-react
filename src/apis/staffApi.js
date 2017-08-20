@@ -23,11 +23,14 @@ export function addStaff(staff) {
     });
 }
 
-export function getStaffs() {
-    let url = env.MANAGE_API_URL + "/get-staffs";
+export function getStaffs(page = 1, search= null) {
+    let url = env.MANAGE_API_URL + "/get-staffs?page="+page;
     let token = localStorage.getItem('token');
+    if (search){
+        url += "&search=" + search;
+    }
     if (token) {
-        url += "?token=" + token;
+        url += "&token=" + token;
     }
 
     return axios.get(url);

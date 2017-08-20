@@ -1,6 +1,7 @@
 import * as types from '../constants/actionTypes';
 import * as roleApi from '../apis/roleApi';
 import toastr from 'toastr';
+import {browserHistory} from 'react-router';
 
 export function beginLoadRolesData() {
     return {
@@ -68,6 +69,7 @@ export function createRoleData(tabs, role) {
 
 export function createRoleDataSucessful(res) {
     toastr.success(res.data.data.message);
+    browserHistory.push('manage-role');
     return (
         {
             type: types.CREATE_ROLE_DATA_SUCCESSFUL,
@@ -107,8 +109,8 @@ export function deleteRoleData(roleId) {
     return function (dispatch) {
         dispatch(beginDeleteRoleData());
         roleApi.deleteRole(roleId)
-            .then(function (res) {
-                dispatch(deleteRoleDataSucessful(roleId, res));
+            .then(function () {
+                dispatch(deleteRoleDataSucessful(roleId));
             }).catch((error) => {
             dispatch(deleteRoleDataError(error.response.data.error));
             console.log(error);
@@ -118,6 +120,7 @@ export function deleteRoleData(roleId) {
 
 export function deleteRoleDataSucessful(roleId) {
     toastr.success("Xóa chức vụ thành công");
+    console.log(roleId);
     return (
         {
             type: types.DELETE_ROLE_DATA_SUCCESSFUL,
@@ -214,6 +217,7 @@ export function editRoleData(tabs, role) {
 
 export function editRoleDataSucessful() {
     toastr.success("Sửa chức vụ thành công");
+    browserHistory.push('manage-role');
     return (
         {
             type: types.EDIT_ROLE_DATA_SUCCESSFUL,
