@@ -59,14 +59,14 @@ class ManageRoleApiController extends ApiController
 
     public function delete_role(Request $request)
     {
-        $role = Role::find($request->role_id);
+        $role = Role::where('id', '=', $request->role_id)->first();
         if (!$role) return $this->responseNotAccepted("Chức vụ không tồn tại");
 
         $role->delete();
         return $this->respondSuccessWithStatus(['message' => "Xóa chức vụ thành công"]);
     }
 
-    public function get_role( $roleId)
+    public function get_role($roleId)
     {
         $role = Role::find($roleId);
         $role_tabs_id = $role->tabs()->pluck('tabs.id')->toArray();

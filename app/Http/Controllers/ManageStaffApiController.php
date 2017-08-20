@@ -72,16 +72,32 @@ class ManageStaffApiController extends ApiController
         ]);
     }
 
-    public function get_staffs()
+    public function get_staffs(Request $request)
     {
-        $nhanViens = User::where('role', ">", 0)->get();
-        $nhanViens = $nhanViens->map(function ($staff) {
+        $q = trim($request->search);
+
+        $limit = 20;
+
+        if ($q) {
+            $staffs = User::where('role', ">", 0)
+                ->where(function ($query) use ($q) {
+                    $query->where('email', 'like', '%' . $q . '%')
+                        ->orWhere('name', 'like', '%' . $q . '%')
+                        ->orWhere('phone', 'like', '%' . $q . '%');
+                })
+                ->orderBy('created_at')->paginate($limit);
+        } else {
+            $staffs = User::where('role', ">", 0)->orderBy('created_at')->paginate($limit);
+        }
+
+
+        $data = [
+            "staffs" => $staffs->map(function ($staff) {
                 $staff->avatar_url = 'http://' . $staff->avatar_url;
                 return $staff;
-            });
-        return $this->respondSuccessWithStatus([
-            'staffs' => $nhanViens
-        ]);
+            })
+        ];
+        return $this->respondWithPagination($staffs, $data);
     }
 
     public function get_staff($staffId)
