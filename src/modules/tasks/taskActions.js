@@ -132,14 +132,30 @@ export function createBoard(board) {
         });
         taskApi.createBoard(board)
             .then(res => {
-                const message = res.data.data.message;
-                showNotification(message);
+                showNotification("Tảo bảng mới thành công");
                 dispatch({
-                    type: types.CREATE_BOARD_SUCCESS
+                    type: types.CREATE_BOARD_SUCCESS,
+                    board: res.data.board
                 });
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra");
+            });
+    };
+}
+
+
+export function loadBoards(projectId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_BOARDS
+        });
+        taskApi.loadBoards(projectId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_BOARDS_SUCCESS,
+                    boards: res.data.boards
+                });
             });
     };
 }

@@ -8,11 +8,16 @@ import _ from 'lodash';
 import * as taskActions from '../taskActions';
 import * as PropTypes from "prop-types";
 import CreateBoardModalContainer from "./CreateBoardModalContainer";
+import Loading from "../../../components/common/Loading";
 
 class BoardListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.openCreateBoardModal = this.openCreateBoardModal.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.taskActions.loadBoards(this.props.params.projectId);
     }
 
     componentDidMount() {
@@ -36,53 +41,56 @@ class BoardListContainer extends React.Component {
         return (
             <div>
                 <CreateBoardModalContainer projectId={this.props.params.projectId}/>
-                <div className="board-container">
-                    {_.range(1, 15).map((index) => {
-                        return (
-                            <div key={index} className="card card-container">
-                                <div
-                                    className="card-header card-header-icon undraggable"
-                                    data-background-color="blue">
-                                    <i className="material-icons">timeline</i>
-                                </div>
-                                <h4 className="undraggable">Global Sales by</h4>
+                {this.props.isLoadingBoards ? <Loading/> : (
+                    <div className="board-container">
+                        {this.props.boards.sort((a, b) => a.order - b.order).map((board) => {
+                            return (
+                                <div key={board.id} className="card card-container">
+                                    <div
+                                        className="card-header card-header-icon undraggable"
+                                        data-background-color="blue">
+                                        <i className="material-icons">note_add</i>
+                                    </div>
+                                    <h4 className="undraggable">{board.title}</h4>
 
-                                <div className="board">
-                                    {_.range(1, 10).map((index) => {
-                                        return (
-                                            <div key={index} className="card-content">
-                                                <div className="card">
-                                                    <div className="card-content" style={{paddingBottom: 0}}>
-                                                        <p className="card-title">Last Campaign Performance</p>
-                                                    </div>
-                                                    <div className="card-footer">
-                                                        <div className="stats">
-                                                            <i className="material-icons">access_time</i> campaign sent
-                                                            2
-                                                            days ago
+                                    <div className="board">
+                                        {_.range(1, 2).map((index) => {
+                                            return (
+                                                <div key={index} className="card-content">
+                                                    <div className="card">
+                                                        <div className="card-content" style={{paddingBottom: 0}}>
+                                                            <p className="card-title">Last Campaign Performance</p>
+                                                        </div>
+                                                        <div className="card-footer">
+                                                            <div className="stats">
+                                                                <i className="material-icons">access_time</i> campaign
+                                                                sent
+                                                                2
+                                                                days ago
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    })}
+                                            );
+                                        })}
 
 
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                    <div className="card-container">
-                        <div className="create-new-board" style={{marginTop: 0}}
-                             onClick={this.openCreateBoardModal}>
-                            <div>
-                                <i className="material-icons flex-item">control_point</i>
-                            </div>
-                            <div className="card-title flex-item"> Tạo bảng mới
+                            );
+                        })}
+                        <div className="card-container">
+                            <div className="create-new-board" style={{marginTop: 0}}
+                                 onClick={this.openCreateBoardModal}>
+                                <div>
+                                    <i className="material-icons flex-item">control_point</i>
+                                </div>
+                                <div className="card-title flex-item"> Tạo bảng mới
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                )}
             </div>
         );
     }
@@ -90,12 +98,15 @@ class BoardListContainer extends React.Component {
 
 BoardListContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
+    boards: PropTypes.array.isRequired,
+    isLoadingBoards: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        state: state
+        isLoadingBoards: state.task.boardList.isLoadingBoards,
+        boards: state.task.boardList.boards
     };
 }
 

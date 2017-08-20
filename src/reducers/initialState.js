@@ -132,6 +132,10 @@ export default {
     },
 
     task: {
+        boardList: {
+            boards: [],
+            isLoadingBoards: false
+        },
         createBoard: {
             showModal: false,
             board: {},

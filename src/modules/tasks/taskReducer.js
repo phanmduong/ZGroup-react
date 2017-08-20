@@ -6,9 +6,31 @@ import initialState from '../../reducers/initialState';
 
 export default function baseListReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.LOAD_BOARDS_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    isLoadingBoards: false,
+                    boards: action.boards
+                }
+            };
+        case types.BEGIN_LOAD_BOARDS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    isLoadingBoards: true
+                }
+            };
+
         case types.CREATE_BOARD_SUCCESS:
             return {
                 ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: [...state.boardList.boards, action.board]
+                },
                 createBoard: {
                     ...state.createBoard,
                     board: {},
