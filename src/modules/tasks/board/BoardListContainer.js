@@ -37,7 +37,7 @@ class BoardListContainer extends React.Component {
             <div>
                 <CreateBoardModalContainer projectId={this.props.params.projectId}/>
                 <div className="board-container">
-                    {_.range(1, 3).map((index) => {
+                    {_.range(1, 15).map((index) => {
                         return (
                             <div key={index} className="card card-container">
                                 <div
@@ -48,7 +48,7 @@ class BoardListContainer extends React.Component {
                                 <h4 className="undraggable">Global Sales by</h4>
 
                                 <div className="board">
-                                    {_.range(1, 5).map((index) => {
+                                    {_.range(1, 10).map((index) => {
                                         return (
                                             <div key={index} className="card-content">
                                                 <div className="card">
