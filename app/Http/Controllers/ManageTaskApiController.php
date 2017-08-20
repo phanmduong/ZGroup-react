@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\Card;
 use App\Colorme\Transformers\BoardTransformer;
+use App\Colorme\Transformers\CardTransformer;
 use App\Project;
 use Illuminate\Http\Request;
 
@@ -11,42 +13,15 @@ use Illuminate\Http\Request;
 class ManageTaskApiController extends ManageApiController
 {
     protected $boardTransformer;
+    protected $cardTransformer;
 
-    public function __construct(BoardTransformer $boardTransformer)
+    public function __construct(BoardTransformer $boardTransformer, CardTransformer $cardTransformer)
     {
         parent::__construct();
         $this->boardTransformer = $boardTransformer;
+        $this->cardTransformer = $cardTransformer;
     }
 
-    public function createBoard(Request $request)
-    {
-        if (is_null($request->title) || is_null($request->project_id)) {
-            return $this->responseBadRequest("Thiếu params");
-        }
-        if ($request->id) {
-            $board = Board::find($request->id);
-            $message = "Sửa bảng thành công";
-        } else {
-            $board = new Board();
-            $message = "Tạo bảng thành công";
-        }
-        $temp = Board::orderBy('order', 'desc')->first();
-
-        if ($temp) {
-            $order = $temp->order;
-        } else {
-            $order = 0;
-        }
-
-        $board->title = $request->title;
-        $board->order = $order + 1;
-        $board->project_id = $request->project_id;
-        $board->editor_id = $this->user->id;
-        $board->creator_id = $this->user->id;
-        $board->save();
-
-        return $this->respond(["board" => $this->boardTransformer->transform($board)]);
-    }
 
     public function createProject(Request $request)
     {
@@ -152,5 +127,71 @@ class ManageTaskApiController extends ManageApiController
             "boards" => $this->boardTransformer->transformCollection($boards)
         ];
         return $this->respond($data);
+    }
+
+    public function createCard(Request $request)
+    {
+        if (is_null($request->title) ||
+            is_null($request->description) ||
+            is_null($request->board_id)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+        if ($request->id) {
+            $card = Card::find($request->id);
+//            $message = "Sửa công việc thành công";
+        } else {
+            $card = new Card();
+//            $message = "Tạo công việc thành công";
+        }
+        $temp = Card::where('board_id', '=', $request->board_id)
+            ->orderBy('order', 'desc')->first();
+
+        if ($temp) {
+            $order = $temp->order;
+        } else {
+            $order = 0;
+        }
+
+        $card->title = trim($request->title);
+        $card->description = trim($request->description);
+        $card->order = $order + 1;
+        $card->board_id = $request->board_id;
+        $card->editor_id = $this->user->id;
+        $card->creator_id = $this->user->id;
+        $card->save();
+
+        return $this->respond(["card" => $this->boardTransformer->transform($card)]);
+    }
+
+    public function createBoard(Request $request)
+    {
+        if (is_null($request->title) || is_null($request->project_id)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+        if ($request->id) {
+            $board = Board::find($request->id);
+//            $message = "Sửa bảng thành công";
+        } else {
+            $board = new Board();
+//            $message = "Tạo bảng thành công";
+        }
+
+        $temp = Board::where('project_id', '=', $request->project_id)
+            ->orderBy('order', 'desc')->first();
+
+        if ($temp) {
+            $order = $temp->order;
+        } else {
+            $order = 0;
+        }
+
+        $board->title = trim($request->title);
+        $board->order = $order + 1;
+        $board->project_id = trim($request->project_id);
+        $board->editor_id = $this->user->id;
+        $board->creator_id = $this->user->id;
+        $board->save();
+
+        return $this->respond(["board" => $this->boardTransformer->transform($board)]);
     }
 }

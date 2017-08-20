@@ -11,13 +11,6 @@ namespace App\Colorme\Transformers;
 
 class BoardTransformer extends Transformer
 {
-    protected $lessonTransformer;
-
-    public function __construct(LessonTransformer $lessonTransformer)
-    {
-        $this->lessonTransformer = $lessonTransformer;
-    }
-
     public function transform($board)
     {
         return [
