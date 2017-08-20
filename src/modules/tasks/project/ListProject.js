@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router";
-import FormInputSelect from "../../components/common/FormInputSelect";
-import ButtonGroupAction from "../../components/common/ButtonGroupAction";
+import FormInputSelect from "../../../components/common/FormInputSelect";
+import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 
 class ListProject extends React.Component {
     constructor(props, context) {

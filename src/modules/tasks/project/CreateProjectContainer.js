@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 // Import actions here!!
 import PropTypes from 'prop-types';
-import * as taskActions from './taskActions';
-import {isEmptyInput} from '../../helpers/helper';
+import * as taskActions from '../taskActions';
+import {isEmptyInput} from '../../../helpers/helper';
 import _ from 'lodash';
 import toastr from 'toastr';
-import Loading from "../../components/common/Loading";
+import Loading from "../../../components/common/Loading";
 import ProjectForm from "./ProjectForm";
 
 class CreateProjectContainer extends React.Component {

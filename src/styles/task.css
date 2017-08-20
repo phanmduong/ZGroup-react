@@ -1,14 +1,17 @@
 .card-container {
-    width: 300px;
     min-height: 300px;
     margin: 5px;
-    margin-bottom: 40px;
+    min-width: 315px;
+    max-width: 315px;
+    white-space: normal;
 }
 
 .board-container {
+    height: calc(100vh - 150px);
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    overflow-x: auto;
+    padding-top: 20px;
 }
 
 .board > .card-content {
@@ -17,7 +20,8 @@
 }
 
 .board {
-    height: 100%;
+    height: calc(100% - 50px);
+    overflow-y: auto;
 }
 
 .card-content > .card {
@@ -42,4 +46,25 @@
 
 .text-dark {
     color: #878787;
+}
+
+.create-new-board {
+    border: 1px dashed #e5e5e5;
+    background-color: white;
+    height: 100px;
+    display: flex;
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+}
+
+.create-new-board:hover {
+    cursor: pointer;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.create-new-board div:first-child {
+    padding: 5px 2px 0 0;
 }
