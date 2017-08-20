@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux';
 import AddStaffComponent from '../../components/manageStaff/AddStaffComponent';
 import * as staffActions from '../../actions/staffActions';
 import * as roleActions from '../../actions/roleActions';
+import * as helper from '../../helpers/helper';
 
 class AddStaffContainer extends React.Component {
     constructor(props, context) {
@@ -15,11 +16,17 @@ class AddStaffContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.addStaff = this.addStaff.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
+        this.state={
+            isDidUpdate: false
+        }
     }
 
     componentWillMount() {
-        if (this.props.roles === null || this.props.roles === undefined || this.props.roles.length <= 0) {
-            this.props.roleActions.loadRolesData();
+        this.props.staffActions.initForm();
+        // this.props.roleActions.loadRolesData();
+        if (this.props.route.type === 'edit') {
+            this.props.staffActions.loadStaffData(this.props.params.staffId);
+            this.setState({isDidUpdate: true});
         }
     }
 
@@ -32,34 +39,43 @@ class AddStaffContainer extends React.Component {
 
     handleFileUpload(event) {
         let file = event.target.files[0];
-        console.log(file);
-        // this.props.staffActions.changeAvatar(file);
-        // console.log('Selected file:', file);
+        if (this.props.route.type === 'edit') {
+            this.props.staffActions.changeAvatar(file, this.props.params.staffId);
+        } else {
+            this.props.staffActions.createAvatar(file);
+        }
     }
 
     addStaff() {
-        this.props.staffActions.addStaffData(this.props.staffForm);
+        if (this.props.route.type === 'edit') {
+            this.props.staffActions.editStaffData(this.props.staffForm);
+        } else {
+            this.props.staffActions.addStaffData(this.props.staffForm);
+        }
     }
 
-    componentDidMount() {
-        $('#form-add-staff').validate({
-            errorPlacement: function (error, element) {
-                $(element).parent('div').addClass('has-error');
-            }
-        });
+    initForm() {
+        helper.setFormValidation('#form-add-staff');
         $('#form-date-start-company').datetimepicker({
             format: "YYYY-MM-DD"
         });
     }
 
+    componentDidUpdate(){
+            this.initForm();
+    }
+
+
     render() {
-        let roles = (this.props.roles !== undefined) ?  this.props.roles : [];
+        let roles = (this.props.roles !== undefined) ? this.props.roles : [];
         return (
             <AddStaffComponent
                 {...this.props}
                 updateFormData={this.updateFormData}
                 addStaff={this.addStaff}
-                roles={[{id: 0, role_title:''}, ...roles]}
+                type={this.props.route.type}
+                handleFileUpload={this.handleFileUpload}
+                roles={[{id: 0, role_title: ''}, ...roles]}
             />
         );
     }
@@ -70,8 +86,14 @@ AddStaffContainer.propTypes = {
     staffActions: PropTypes.object.isRequired,
     roleActions: PropTypes.object.isRequired,
     isLoadingAddStaff: PropTypes.bool.isRequired,
+    isLoadingStaff: PropTypes.bool.isRequired,
+    isChangingAvatar: PropTypes.bool.isRequired,
+    isLoadingRoles: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
 };
 
 AddStaffContainer.contextTypes = {
@@ -81,7 +103,10 @@ AddStaffContainer.contextTypes = {
 function mapStateToProps(state) {
     return {
         staffForm: state.staffs.addStaff.staffForm,
+        isLoadingStaff: state.staffs.addStaff.isLoadingStaff,
         isLoadingAddStaff: state.staffs.addStaff.isLoading,
+        isChangingAvatar: state.staffs.addStaff.isChangingAvatar,
+        isLoadingRoles: state.roles.isLoading,
         error: state.staffs.addStaff.error,
         roles: state.roles.roleListData,
     };

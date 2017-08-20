@@ -61,3 +61,5 @@ typings/
 .env
 .idea/
 dist/
+src/config.js
+src/config.css

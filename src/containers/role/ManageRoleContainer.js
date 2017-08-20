@@ -14,13 +14,11 @@ class ManageRoleContainer extends React.Component {
         this.deleteRole = this.deleteRole.bind(this);
     }
 
-    componentWillMount(){
-        if (this.props.roleListData === null || this.props.roleListData === undefined || this.props.roleListData.length <= 0) {
-            this.props.roleActions.loadRolesData();
-        }
+    componentWillMount() {
+        this.props.roleActions.loadRolesData();
     }
 
-    deleteRole(roleId){
+    deleteRole(roleId) {
         this.props.roleActions.deleteRoleData(roleId);
     }
 

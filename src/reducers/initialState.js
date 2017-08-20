@@ -56,6 +56,8 @@ export default {
         staffListData: [],
         isLoading: false,
         error: false,
+        currentPage: 1,
+        totalPages: 1,
         addStaff: {
             staffForm: {
                 name: '',
@@ -68,10 +70,14 @@ export default {
                 marital: 0,
                 literacy: 0,
                 role: 0,
-                start_company: new Date().toISOString().slice(0, 10)
+                start_company: new Date().toISOString().slice(0, 10),
+                avatar_url:''
             },
+            isChangingAvatar: false,
             isLoading: false,
-            error: false
+            error: false,
+            isLoadingStaff: false,
+            errorStaff: false,
         },
         editStaff: {
             isLoadingStaff: false,

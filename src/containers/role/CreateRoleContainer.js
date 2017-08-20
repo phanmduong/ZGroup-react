@@ -19,6 +19,7 @@ class CreateRoleContainer extends React.Component {
 
     componentWillMount(){
         this.props.tabsActions.loadAllTabsData();
+        this.props.roleActions.updateRoleFormData({});
     }
 
     componentDidUpdate() {
