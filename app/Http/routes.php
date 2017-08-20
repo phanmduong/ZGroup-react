@@ -83,6 +83,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('change-base-staff', 'ManageStaffApiController@change_base');
     Route::post('add-staff', "ManageStaffApiController@add_staff");
     Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
+    Route::post('/change-avatar', 'ManageStaffApiController@change_avatar');
+    Route::post('/create-avatar', 'ManageStaffApiController@create_avatar');
     // End staff api
 
     // Begin Base api
