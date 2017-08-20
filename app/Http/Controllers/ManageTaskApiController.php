@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Board;
+use App\Colorme\Transformers\BoardTransformer;
 use App\Project;
 use Illuminate\Http\Request;
 
 
 class ManageTaskApiController extends ManageApiController
 {
+    protected $boardTransformer;
 
-
-    public function __construct()
+    public function __construct(BoardTransformer $boardTransformer)
     {
         parent::__construct();
+        $this->boardTransformer = $boardTransformer;
     }
 
     public function createBoard(Request $request)
@@ -43,7 +45,7 @@ class ManageTaskApiController extends ManageApiController
         $board->creator_id = $this->user->id;
         $board->save();
 
-        return $this->respondSuccessWithStatus(["message" => $message]);
+        return $this->respond(["board" => $this->boardTransformer->transform($board)]);
     }
 
     public function createProject(Request $request)
@@ -142,5 +144,13 @@ class ManageTaskApiController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "Thay đổi trạng thái dự án thành công"]);
     }
 
+    public function getBoards($projectId, Request $request)
+    {
+        $boards = Board::orderBy('order')->get();
 
+        $data = [
+            "boards" => $this->boardTransformer->transformCollection($boards)
+        ];
+        return $this->respond($data);
+    }
 }

@@ -26,4 +26,5 @@ class Board extends Model
     {
         return $this->belongsTo(User::class, 'editor_id');
     }
+
 }
