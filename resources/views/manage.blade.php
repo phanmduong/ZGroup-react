@@ -64,6 +64,6 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
 
-<script type="text/javascript" src="manage/main.b91c16be0a1797b9b421.js"></script>
+<script type="text/javascript" src="manage/main.989d1869604d7d05668b.js"></script>
 </body>
 </html>
