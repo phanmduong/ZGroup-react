@@ -124,7 +124,6 @@ class ManageTaskApiController extends ManageApiController
     {
 
         $boards = Board::where('project_id', '=', $projectId)->orderBy('order')->get();
-
         $data = [
             "boards" => $this->boardTransformer->transformCollection($boards)
         ];

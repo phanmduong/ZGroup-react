@@ -9,6 +9,8 @@ class Card extends Model
 {
     use SoftDeletes;
 
+    protected $table = "cards";
+
     public function tasks()
     {
         return $this->hasMany(Task::class, 'card_id');

@@ -11,6 +11,13 @@ namespace App\Colorme\Transformers;
 
 class BoardTransformer extends Transformer
 {
+    protected $cardTransformer;
+
+    public function __construct(CardTransformer $cardTransformer)
+    {
+        $this->cardTransformer = $cardTransformer;
+    }
+
     public function transform($board)
     {
         return [
@@ -26,7 +33,8 @@ class BoardTransformer extends Transformer
                 "name" => $board->editor->name
             ],
             'created_at' => format_time_main($board->created_at),
-            'updated_at' => format_time_main($board->updated_at)
+            'updated_at' => format_time_main($board->updated_at),
+            'cards' => $this->cardTransformer->transformCollection($board->cards)
         ];
     }
 }

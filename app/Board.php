@@ -9,7 +9,7 @@ class Board extends Model
     protected $table = "boards";
     public function cards()
     {
-        return $this->hasMany(Board::class, 'board_id');
+        return $this->hasMany(Card::class, 'board_id');
     }
 
     public function project()
