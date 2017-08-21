@@ -34,7 +34,8 @@ class BoardTransformer extends Transformer
             ],
             'created_at' => format_time_main($board->created_at),
             'updated_at' => format_time_main($board->updated_at),
-            'cards' => $this->cardTransformer->transformCollection($board->cards)
+            'cards' => $this->cardTransformer
+                ->transformCollection($board->cards()->orderBy('order')->get())
         ];
     }
 }

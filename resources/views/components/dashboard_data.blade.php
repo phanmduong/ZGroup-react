@@ -95,7 +95,7 @@
                 <th>Thời gian học</th>
                 <th>Ngày khai giảng</th>
                 <th>Trạng thái Lớp</th>
-                <th style="min-width: 170px">Kích hoạt</th>
+                {{--<th style="min-width: 170px">Kích hoạt</th>--}}
             </tr>
             </thead>
 
@@ -146,16 +146,16 @@
                             {{($class->status==1)?"Mở":"Đóng"}}
                         @endif
                     </td>
-                    <td id="activate{{$class->id}}">
-                        @if($class->activated == 1)
-                            <strong class="cyan-text">Đã kích hoạt</strong>
-                        @else
-                            <button onclick="activate('{{$class->id}}')" class="waves-effect waves-light btn cyan">
-                                Kích
-                                hoạt
-                            </button>
-                        @endif
-                    </td>
+                    {{--<td id="activate{{$class->id}}">--}}
+                        {{--@if($class->activated == 1)--}}
+                            {{--<strong class="cyan-text">Đã kích hoạt</strong>--}}
+                        {{--@else--}}
+                            {{--<button onclick="activate('{{$class->id}}')" class="waves-effect waves-light btn cyan">--}}
+                                {{--Kích--}}
+                                {{--hoạt--}}
+                            {{--</button>--}}
+                        {{--@endif--}}
+                    {{--</td>--}}
                 </tr>
             @endforeach
             </tbody>

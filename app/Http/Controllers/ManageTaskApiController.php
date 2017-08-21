@@ -186,4 +186,21 @@ class ManageTaskApiController extends ManageApiController
 
         return $this->respond(["board" => $this->boardTransformer->transform($board)]);
     }
+
+    public function updateCards(Request $request)
+    {
+        if (is_null($request->cards) || is_null($request->board_id)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+
+        $cards = json_decode($request->cards);
+        $board_id = $request->board_id;
+        foreach ($cards as $c) {
+            $card = Card::find($c->id);
+            $card->board_id = $board_id;
+            $card->order = $c->order;
+            $card->save();
+        }
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
 }
