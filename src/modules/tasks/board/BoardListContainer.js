@@ -48,6 +48,7 @@ class BoardListContainer extends React.Component {
                 <CreateCardModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <BoardList
+                        changeOrderCard={this.props.taskActions.changeOrderCard}
                         moveCard={this.moveCard}
                         addCard={this.addCard}
                         editBoard={this.editBoard}

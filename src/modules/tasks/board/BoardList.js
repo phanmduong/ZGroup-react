@@ -16,23 +16,36 @@ class BoardList extends React.Component {
                     return false;
                 }
                 return true; // elements are always draggable by default
-            }.bind(this),
+            },
             accepts: function () {
                 return true; // elements can be dropped in any of the `containers` by default
-            }.bind(this),
-            copy: true
+            },
+            revertOnSpill: true
         });
         drake.on('drop', function (el, target, source, sibling) {
-            // console.log(source.id);
-            // console.log(target.id);
-            // console.log(el.id);
+
+            drake.cancel();
+
+            // console.log(source);
+            // console.log(target);
+            // console.log(el);
             // console.log(sibling);
-            target.removeChild(el);
+
             let siblingOrder = 0;
             if (sibling) {
-                siblingOrder = sibling.id;
+                siblingOrder = Number(sibling.dataset.order);
             }
-            this.props.moveCard(source.id, target.id, el.id, siblingOrder);
+
+            if (target !== source) {
+                // target.removeChild(el);
+                // console.log(sibling);
+                // console.log("order: " + sibling.dataset.order);
+
+                this.props.moveCard(source.id, target.id, el.id, siblingOrder);
+            } else {
+                this.props.changeOrderCard(Number(source.id), Number(el.id), siblingOrder);
+            }
+            return true;
         }.bind(this));
     }
 
@@ -55,30 +68,23 @@ class BoardList extends React.Component {
                             </div>
 
                             <div className="board" id={board.id}>
-                                {board.cards.sort((a, b) => a.order - b.order).map((card) => {
-                                    if (card) {
-                                        return (
-                                            <div key={card.id} id={card.id} order={card.order} className="card-content">
-                                                <div className="card">
-                                                    <div className="card-content" style={{paddingBottom: 0}}>
-                                                        <p className="card-title">{card.title}</p>
-                                                    </div>
-                                                    <div className="card-footer">
-                                                        <div className="stats">
-                                                            <i className="material-icons">access_time</i>
-                                                            {" " + card.created_at}
-                                                        </div>
+                                {board.cards.map((card) => {
+                                    return (
+                                        <div key={card.id} id={card.id} data-order={card.order}
+                                             className="card-content">
+                                            <div className="card">
+                                                <div className="card-content" style={{paddingBottom: 0}}>
+                                                    <p className="card-title">{card.title}</p>
+                                                </div>
+                                                <div className="card-footer">
+                                                    <div className="stats">
+                                                        <i className="material-icons">access_time</i>
+                                                        {" " + card.created_at}
                                                     </div>
                                                 </div>
                                             </div>
-                                        );
-                                    } else {
-                                        console.log(card);
-                                        return (
-                                            <div>undefined</div>
-                                        );
-                                    }
-
+                                        </div>
+                                    );
                                 })}
 
 
@@ -104,6 +110,7 @@ class BoardList extends React.Component {
 BoardList.propTypes = {
     boards: PropTypes.array.isRequired,
     openCreateBoardModal: PropTypes.func.isRequired,
+    changeOrderCard: PropTypes.func.isRequired,
     addCard: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired,
     editBoard: PropTypes.func.isRequired

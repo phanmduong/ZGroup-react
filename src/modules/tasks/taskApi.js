@@ -81,3 +81,16 @@ export function createCard(card) {
 }
 
 
+export function updateCards(cards, boardId) {
+    let url = env.MANAGE_API_URL + "/cards/update";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        board_id: boardId,
+        cards: JSON.stringify(cards)
+    });
+}
+
+

@@ -206,8 +206,56 @@ export function createCard(card) {
     };
 }
 
+export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
+    return function (dispatch, getState) {
+        let order = 0;
+        const state = getState();
+        const boards = state.task.boardList.boards;
+        const sourceBoard = boards.filter((b) => b.id === sourceBoardId)[0];
+
+        const cards = sourceBoard.cards.filter(c => c.id !== cardId);
+        const card = sourceBoard.cards.filter(c => c.id === cardId)[0];
+
+        const index = cards.findIndex((c) => {
+            return c.order === siblingOrder;
+        });
+
+        const part1 = cards.slice(0, index);
+        const part2 = cards.slice(index);
+        const temp = [...part1, card, ...part2];
+
+        let targetBoardCards = [];
+        temp.forEach((c) => {
+            targetBoardCards = [...targetBoardCards, {...c, order}];
+            order += 1;
+        });
+
+        const newSourceBoard = {
+            ...sourceBoard,
+            cards: targetBoardCards
+        };
+
+        taskApi.updateCards(newSourceBoard.cards, newSourceBoard.id)
+            .then(() => {
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+            });
+
+        dispatch({
+            type: types.MOVE_CARD_SUCCESS,
+            boards: state.task.boardList.boards.map((board) => {
+                if (board.id === newSourceBoard.id) {
+                    return newSourceBoard;
+                } else {
+                    return board;
+                }
+            })
+        });
+    };
+}
+
 export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
-    console.log("order: " + siblingOrder);
     return function (dispatch, getState) {
         const state = getState();
         const boards = state.task.boardList.boards;
@@ -234,7 +282,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
 
         if (siblingOrder === 0) {
             order = 0;
-            console.log([...targetBoard.cards, card]);
+            // console.log([...targetBoard.cards, card]);
             [...targetBoard.cards, card]
                 .forEach((c) => {
                     targetBoardCards = [...targetBoardCards, {...c, order}];
@@ -242,12 +290,15 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
                 });
         } else {
             order = 0;
+
             const cards = targetBoard.cards;
+
             const index = cards.findIndex((c) => {
                 return c.order === siblingOrder;
             });
-            const part1 = cards.slice(0, index - 1);
-            const part2 = cards.slice(index - 1);
+
+            const part1 = cards.slice(0, index);
+            const part2 = cards.slice(index);
             const temp = [...part1, card, ...part2];
             temp.forEach((c) => {
                 targetBoardCards = [...targetBoardCards, {...c, order}];
@@ -264,17 +315,18 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
         // console.log(siblingOrder);
         // console.log(newSourceBoard);
         // console.log(newTargetBoard);
-        // taskApi.createCard(card)
-        //     .then(res => {
-        //         showNotification("Tạo thẻ mới thành công");
-        //         dispatch({
-        //             type: types.CREATE_CARD_SUCCESS,
-        //             card: res.data.card
-        //         });
-        //     })
-        //     .catch(() => {
-        //         showErrorNotification("Có lỗi xảy ra");
-        //     });
+        taskApi.updateCards(newTargetBoard.cards, newTargetBoard.id)
+            .then(() => {
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+            });
+        taskApi.updateCards(newSourceBoard.cards, newSourceBoard.id)
+            .then(() => {
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+            });
 
         dispatch({
             type: types.MOVE_CARD_SUCCESS,
