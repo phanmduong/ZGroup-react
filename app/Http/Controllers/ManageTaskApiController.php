@@ -8,6 +8,7 @@ use App\Colorme\Transformers\BoardTransformer;
 use App\Colorme\Transformers\CardTransformer;
 use App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class ManageTaskApiController extends ManageApiController
@@ -121,7 +122,8 @@ class ManageTaskApiController extends ManageApiController
 
     public function getBoards($projectId, Request $request)
     {
-        $boards = Board::orderBy('order')->get();
+
+        $boards = Board::where('project_id', '=', $projectId)->orderBy('order')->get();
 
         $data = [
             "boards" => $this->boardTransformer->transformCollection($boards)
@@ -132,35 +134,26 @@ class ManageTaskApiController extends ManageApiController
     public function createCard(Request $request)
     {
         if (is_null($request->title) ||
-            is_null($request->description) ||
             is_null($request->board_id)) {
             return $this->responseBadRequest("Thiếu params");
         }
         if ($request->id) {
             $card = Card::find($request->id);
-//            $message = "Sửa công việc thành công";
         } else {
             $card = new Card();
-//            $message = "Tạo công việc thành công";
         }
-        $temp = Card::where('board_id', '=', $request->board_id)
-            ->orderBy('order', 'desc')->first();
+        DB::statement("UPDATE cards SET `order` = `order` + 1 where cards.board_id = " . $request->board_id);
 
-        if ($temp) {
-            $order = $temp->order;
-        } else {
-            $order = 0;
-        }
 
         $card->title = trim($request->title);
         $card->description = trim($request->description);
-        $card->order = $order + 1;
+        $card->order = 0;
         $card->board_id = $request->board_id;
         $card->editor_id = $this->user->id;
         $card->creator_id = $this->user->id;
         $card->save();
 
-        return $this->respond(["card" => $this->boardTransformer->transform($card)]);
+        return $this->respond(["card" => $this->cardTransformer->transform($card)]);
     }
 
     public function createBoard(Request $request)
