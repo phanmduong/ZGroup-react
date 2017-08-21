@@ -26,12 +26,8 @@ class BoardList extends React.Component {
 
             drake.cancel();
 
-            // console.log(source);
-            // console.log(target);
-            // console.log(el);
-            // console.log(sibling);
 
-            let siblingOrder = 0;
+            let siblingOrder = -1;
             if (sibling) {
                 siblingOrder = Number(sibling.dataset.order);
             }

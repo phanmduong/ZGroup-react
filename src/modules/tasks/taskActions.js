@@ -218,7 +218,9 @@ export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
 
         let targetBoardCards = [];
 
-        if (siblingOrder === 0) {
+
+
+        if (siblingOrder === -1) {
             const temp = [...cards, card];
             temp.forEach((c) => {
                 targetBoardCards = [...targetBoardCards, {...c, order}];
@@ -231,6 +233,7 @@ export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
 
             const part1 = cards.slice(0, index);
             const part2 = cards.slice(index);
+
             const temp = [...part1, card, ...part2];
 
 
@@ -239,6 +242,8 @@ export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
                 order += 1;
             });
         }
+
+
 
 
         const newSourceBoard = {
@@ -291,7 +296,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
 
         let targetBoardCards = [];
 
-        if (siblingOrder === 0) {
+        if (siblingOrder === -1) {
             order = 0;
             // console.log([...targetBoard.cards, card]);
             [...targetBoard.cards, card]
