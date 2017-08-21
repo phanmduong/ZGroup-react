@@ -6,6 +6,14 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.MOVE_CARD_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: action.boards
+                }
+            };
         case types.UPDATE_CREATE_CARD_FORM_DATA:
             return {
                 ...state,

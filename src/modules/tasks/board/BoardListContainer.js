@@ -17,10 +17,15 @@ class BoardListContainer extends React.Component {
         this.openCreateBoardModal = this.openCreateBoardModal.bind(this);
         this.addCard = this.addCard.bind(this);
         this.editBoard = this.editBoard.bind(this);
+        this.moveCard = this.moveCard.bind(this);
     }
 
     componentWillMount() {
         this.props.taskActions.loadBoards(this.props.params.projectId);
+    }
+
+    moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
+        this.props.taskActions.moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder);
     }
 
 
@@ -43,6 +48,7 @@ class BoardListContainer extends React.Component {
                 <CreateCardModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <BoardList
+                        moveCard={this.moveCard}
                         addCard={this.addCard}
                         editBoard={this.editBoard}
                         openCreateBoardModal={this.openCreateBoardModal}

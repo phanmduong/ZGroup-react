@@ -205,3 +205,88 @@ export function createCard(card) {
             });
     };
 }
+
+export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
+    console.log("order: " + siblingOrder);
+    return function (dispatch, getState) {
+        const state = getState();
+        const boards = state.task.boardList.boards;
+        const sourceBoard = boards.filter((b) => b.id === Number(sourceBoardId))[0];
+        const targetBoard = boards.filter((b) => b.id === Number(targetBoardId))[0];
+        const card = sourceBoard.cards.filter(c => c.id === Number(cardId))[0];
+
+
+        let order = 0;
+        let sourceBoardCards = [];
+        sourceBoard.cards
+            .filter(c => c.id !== card.id)
+            .forEach((c) => {
+                sourceBoardCards = [...sourceBoardCards, {...c, order}];
+                order += 1;
+            });
+        const newSourceBoard = {
+            ...sourceBoard,
+            cards: sourceBoardCards
+        };
+
+
+        let targetBoardCards = [];
+
+        if (siblingOrder === 0) {
+            order = 0;
+            console.log([...targetBoard.cards, card]);
+            [...targetBoard.cards, card]
+                .forEach((c) => {
+                    targetBoardCards = [...targetBoardCards, {...c, order}];
+                    order += 1;
+                });
+        } else {
+            order = 0;
+            const cards = targetBoard.cards;
+            const index = cards.findIndex((c) => {
+                return c.order === siblingOrder;
+            });
+            const part1 = cards.slice(0, index - 1);
+            const part2 = cards.slice(index - 1);
+            const temp = [...part1, card, ...part2];
+            temp.forEach((c) => {
+                targetBoardCards = [...targetBoardCards, {...c, order}];
+                order += 1;
+            });
+        }
+
+        const newTargetBoard = {
+            ...targetBoard,
+            cards: targetBoardCards
+        };
+
+
+        // console.log(siblingOrder);
+        // console.log(newSourceBoard);
+        // console.log(newTargetBoard);
+        // taskApi.createCard(card)
+        //     .then(res => {
+        //         showNotification("Tạo thẻ mới thành công");
+        //         dispatch({
+        //             type: types.CREATE_CARD_SUCCESS,
+        //             card: res.data.card
+        //         });
+        //     })
+        //     .catch(() => {
+        //         showErrorNotification("Có lỗi xảy ra");
+        //     });
+
+        dispatch({
+            type: types.MOVE_CARD_SUCCESS,
+            boards: state.task.boardList.boards.map((board) => {
+                if (board.id === newSourceBoard.id) {
+                    return newSourceBoard;
+                } else if (board.id === newTargetBoard.id) {
+                    return newTargetBoard;
+                } else {
+                    return board;
+                }
+            })
+        });
+    };
+}
