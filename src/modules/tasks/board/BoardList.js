@@ -39,19 +39,17 @@ class BoardList extends React.Component {
                             </div>
 
                             <div className="board">
-                                {_.range(1, 10).map((index) => {
+                                {board.cards.sort((a, b) => a.order - b.order).map((card) => {
                                     return (
-                                        <div key={index} className="card-content">
+                                        <div key={card.id} className="card-content">
                                             <div className="card">
                                                 <div className="card-content" style={{paddingBottom: 0}}>
-                                                    <p className="card-title">Last Campaign Performance</p>
+                                                    <p className="card-title">{card.title}</p>
                                                 </div>
                                                 <div className="card-footer">
                                                     <div className="stats">
-                                                        <i className="material-icons">access_time</i> campaign
-                                                        sent
-                                                        2
-                                                        days ago
+                                                        <i className="material-icons">access_time</i>
+                                                        {" " + card.created_at}
                                                     </div>
                                                 </div>
                                             </div>

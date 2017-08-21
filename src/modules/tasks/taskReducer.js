@@ -4,7 +4,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-export default function baseListReducer(state = initialState.task, action) {
+export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
         case types.UPDATE_CREATE_CARD_FORM_DATA:
             return {
@@ -30,6 +30,18 @@ export default function baseListReducer(state = initialState.task, action) {
                     ...state.createCard,
                     isSaving: false,
                     showModal: false
+                },
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: [action.card, ...board.cards]
+                            };
+                        }
+                        return board;
+                    })
                 }
             };
         case types.CHANGE_STATUS_CREATE_CARD_MODAL:
