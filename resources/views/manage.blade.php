@@ -23,7 +23,7 @@
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
-    <link href="manage/main.47557007ff4f451fbd55d86231018fa5.css" rel="stylesheet">
+    <link href="manage/main.6a4156760d4a17694a1d1a6cc656633c.css" rel="stylesheet">
     <script src="{{url('config.js')}}"></script>
     <link href="{{url('config.css')}}"rel="stylesheet">
 </head>
