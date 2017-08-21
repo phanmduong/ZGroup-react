@@ -92,15 +92,17 @@ table tr td .avatar-list-staff {
   margin-top: -5px
 }
 
-.content-avatar{
+.content-avatar {
   width: 307px;
   height: 307px;
-  overflow:hidden
+  overflow: hidden
 }
-
-
 
 .text-white {
   color: white;
 }
 
+.modal-small-text {
+  font-size: 85%;
+  opacity: 0.6;
+}

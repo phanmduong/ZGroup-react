@@ -132,7 +132,7 @@ export function createBoard(board) {
         });
         taskApi.createBoard(board)
             .then(res => {
-                showNotification("Tảo bảng mới thành công");
+                showNotification("Tạo bảng mới thành công");
                 dispatch({
                     type: types.CREATE_BOARD_SUCCESS,
                     board: res.data.board
@@ -162,7 +162,7 @@ export function loadBoards(projectId) {
 
 export function changeStatusCreateCardModal(showModal, board = {}) {
     return function (dispatch) {
-        if (showModal){
+        if (showModal) {
             dispatch({
                 type: types.CHANGE_STATUS_CREATE_CARD_MODAL,
                 showModal,
@@ -174,9 +174,34 @@ export function changeStatusCreateCardModal(showModal, board = {}) {
                 showModal
             });
         }
-
     };
 }
 
 
+export function updateCreateCardFormData(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_CREATE_CARD_FORM_DATA,
+            card
+        });
+    };
+}
 
+export function createCard(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_CARD
+        });
+        taskApi.createCard(card)
+            .then(res => {
+                showNotification("Tạo thẻ mới thành công");
+                dispatch({
+                    type: types.CREATE_CARD_SUCCESS,
+                    card: res.data.card
+                });
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+            });
+    };
+}

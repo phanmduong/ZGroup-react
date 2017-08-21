@@ -3,29 +3,35 @@ import PropTypes from 'prop-types';
 import FormInputText from "../../../components/common/FormInputText";
 import {isEmptyInput} from "../../../helpers/helper";
 
-const BoardForm = ({updateFormData, board, submit, isSaving}) => {
-    const {title} = board;
+const CardForm = ({updateFormData, card, submit, isSaving}) => {
+    const {title, description} = card;
     return (
         <form
-            id="board-form"
+            id="card-form"
             role="form" onSubmit={(event) => {
             event.preventDefault();
             submit();
         }}>
 
             <FormInputText
-                placeholder="Nhập tên bảng"
-                label="Tên bảng"
+                placeholder="Nhập tên thẻ"
+                label="Tên thẻ"
                 name="title"
                 updateFormData={updateFormData}
                 value={title}/>
+            <FormInputText
+                placeholder="Nhập mô tả"
+                label="Mô tả"
+                name="description"
+                updateFormData={updateFormData}
+                value={description}/>
             <div>
                 {isSaving ?
                     (
                         <button
                             type="button"
-                            className="btn btn-primary disabled">
-                            <i className="fa fa-spinner fa-spin"/> Đang tạo
+                            className="btn btn-rose disabled">
+                            <i className="fa fa-spinner fa-spin"/> Đang tạo thẻ
                         </button>
                     ) :
                     (
@@ -34,7 +40,7 @@ const BoardForm = ({updateFormData, board, submit, isSaving}) => {
                             type="button"
                             className="btn btn-rose"
                             onClick={submit}>
-                            Tạo bảng
+                            Tạo thẻ
                         </button>
                     )}
             </div>
@@ -42,11 +48,11 @@ const BoardForm = ({updateFormData, board, submit, isSaving}) => {
     );
 };
 
-BoardForm.propTypes = {
-    board: PropTypes.object.isRequired,
+CardForm.propTypes = {
+    card: PropTypes.object.isRequired,
     submit: PropTypes.func.isRequired,
     isSaving: PropTypes.bool.isRequired,
     updateFormData: PropTypes.func.isRequired
 };
 
-export default BoardForm;
+export default CardForm;
