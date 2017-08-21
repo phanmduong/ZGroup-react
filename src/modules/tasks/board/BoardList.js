@@ -39,7 +39,7 @@ class BoardList extends React.Component {
                             </div>
 
                             <div className="board">
-                                {_.range(1, 9).map((index) => {
+                                {_.range(1, 10).map((index) => {
                                     return (
                                         <div key={index} className="card-content">
                                             <div className="card">

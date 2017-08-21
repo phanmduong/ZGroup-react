@@ -22,10 +22,15 @@
 }
 
 .board {
-    height: calc(100% - 55px);
-    margin-left: -5px;
+    height: calc(100% - 65px);
+    margin-left: -10px;
     margin-right: -20px;
+    padding-right: 10px;
     overflow-y: scroll;
+}
+
+.board::-webkit-scrollbar {
+    display: none;
 }
 
 .card-content > .card {
@@ -87,7 +92,7 @@
 
 .board-action a {
     color: #4a525b;
-    margin-left:5px;
+    margin-left: 5px;
     opacity: 0.7;
 }
 
