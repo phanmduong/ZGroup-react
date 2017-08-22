@@ -103,6 +103,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::get('/projects', "ManageTaskApiController@projects");
     Route::post('/board/create', "ManageTaskApiController@createBoard");
     Route::get('/boards/{projectId}', "ManageTaskApiController@getBoards");
+    Route::post('/boards/update', "ManageTaskApiController@updateBoards");
     Route::post('/card/create', "ManageTaskApiController@createCard");
     Route::post('/cards/update', "ManageTaskApiController@updateCards");
     // End Task api

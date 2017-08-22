@@ -205,4 +205,19 @@ class ManageTaskApiController extends ManageApiController
         }
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
+
+    public function updateBoards(Request $request)
+    {
+        if (is_null($request->boards)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+
+        $boards = json_decode($request->boards);
+        foreach ($boards as $b) {
+            $board = Board::find($b->id);
+            $board->order = $b->order;
+            $board->save();
+        }
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
 }
