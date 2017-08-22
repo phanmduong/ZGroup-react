@@ -611,7 +611,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/autostaff', 'HomeController@auto_staff');
     Route::get('manage/autostudent', 'HomeController@auto_student');
     Route::get('manage/deleteclass/{class_id?}', 'HomeController@delete_class');
-    Route::get('manage/deleteregister/{register_id?}', 'HomeController@delete_register');
+    Route::get('manage/deleteregister/{register_id?}', 'HomeController@eletere');
     Route::get('manage/attendance', 'HomeController@attendance');
     Route::get('manage/attendancelist/{class_lesson_id}', 'HomeController@attendance_list');
     Route::get('manage/paidlist/{page?}', 'HomeController@paid_list');

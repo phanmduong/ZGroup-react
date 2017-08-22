@@ -984,10 +984,17 @@ class HomeController extends ManageController
     public function delete_register($register_id)
     {
         $register = Register::find($register_id);
+        $class = $register->studyClass;
+        if ($class->registers()->count() < $class->target) {
+            $class->status = 1;
+            $class->save();
+        }
+
         send_mail_delete_register($register, $this->user);
         if ($register->status != 1) {
             $register->delete();
         }
+
         return redirect('manage/registerlist');
     }
 
