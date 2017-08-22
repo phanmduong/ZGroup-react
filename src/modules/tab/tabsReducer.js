@@ -1,7 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-let tabListData;
 export default function tabsReducer(state = initialState.tabs, action) {
 
     switch (action.type) {
@@ -61,39 +60,8 @@ export default function tabsReducer(state = initialState.tabs, action) {
 
                 }
             };
-        case types.CHANGE_CHECK_TAB:
-            tabListData = changeCheckTab(state.allTabs, action.tab);
-            return {
-                ...state,
-                ...{
-                    allTabs: tabListData
-                }
-            };
-        case types.LOAD_ROLE_DATA_SUCCESSFUL:
-            return {
-                ...state,
-                ...{
-                    allTabs: action.tabListData
-                }
-            };
         default:
             return state;
     }
 }
 
-function changeCheckTab(tabListData, tab) {
-    if (tabListData) {
-        return tabListData.map((tabItem) => {
-            if (tabItem.id === tab.id) {
-                return {
-                    ...tabItem,
-                    ...tab
-                };
-            } else {
-                return tabItem;
-            }
-        });
-    }
-
-    return tabListData;
-}

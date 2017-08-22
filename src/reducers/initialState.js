@@ -94,9 +94,26 @@ export default {
         messageChangeBaseStaff: null,
         isLoadingChangeBaseStaff: false,
         errorChangeBaseStaff: false,
+        roles: {
+            roleListData: [],
+            isLoading: false,
+            error: false,
+        },bases: {
+            basesData: [],
+            isLoading: false,
+            error: false,
+        }
     },
     roles: {
         roleListData: [],
+        tabs:{
+            tabListData: [],
+            isLoading: true,
+            error: false,
+            allTabs: [],
+            isLoadingAllTabs: false,
+            errorAllTabs: false,
+        },
         isLoading: false,
         error: false,
         createRole: {
@@ -114,12 +131,6 @@ export default {
         },
         isLoadingDeleteRole: false,
         errorDeleteRole: false
-    },
-    base: {
-        baseData: [],
-        isLoading: false,
-        error: false,
-        selectedBaseId: -1
     },
 
     baseList: {

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import App from '../components/App';
 // Import actions here!!
-import * as loginActions from '../actions/loginActions';
+import * as loginActions from '../modules/login/loginActions';
 import * as helper from '../helpers/helper';
 
 
