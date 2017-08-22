@@ -5,22 +5,57 @@ import Dragula from 'react-dragula';
 class BoardList extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.timeout = null;
-        this.initDragula = this.initDragula.bind(this);
+        this.initBoardDragula = this.initBoardDragula.bind(this);
+        this.initBoardContainerDragula = this.initBoardContainerDragula.bind(this);
         this.drake = null;
+        this.boardDrake = null;
     }
 
 
     componentDidMount() {
-        this.initDragula();
+        this.initBoardDragula();
+        this.initBoardContainerDragula();
     }
 
     //
     componentDidUpdate() {
-        this.initDragula();
+        this.initBoardDragula();
+        this.initBoardContainerDragula();
     }
 
-    initDragula() {
+    initBoardContainerDragula() {
+        if (this.boardDrake) {
+            this.boardDrake.destroy();
+        }
+        const containers = Array.prototype.slice.call(document.querySelectorAll(".board-container"));
+        this.boardDrake = Dragula(containers, {
+            moves: function (el, container, handle) {
+
+                if (el.className.indexOf("undraggable") !== -1
+                    || handle.classList.contains('keetool-card')) {
+                    return false;
+                }
+                return true; // elements are always draggable by default
+            },
+            accepts: function () {
+                return true; // elements can be dropped in any of the `containers` by default
+            },
+            revertOnSpill: true
+        });
+        this.boardDrake.on('drop', function (el, target, source, sibling) {
+            this.boardDrake.cancel();
+
+            let siblingOrder = -1;
+            if (sibling) {
+                siblingOrder = Number(sibling.dataset.order);
+            }
+
+            this.props.moveBoard(Number(source.id), Number(target.id), Number(el.id), siblingOrder);
+            return true;
+        }.bind(this));
+    }
+
+    initBoardDragula() {
         if (this.drake) {
             this.drake.destroy();
         }
@@ -30,6 +65,7 @@ class BoardList extends React.Component {
                 if (el.className.indexOf("undraggable") !== -1) {
                     return false;
                 }
+
                 return true; // elements are always draggable by default
             },
             accepts: function () {
@@ -40,16 +76,11 @@ class BoardList extends React.Component {
         this.drake.on('drop', function (el, target, source, sibling) {
 
             this.drake.cancel();
-            console.log(el);
-            console.log(target);
-            console.log(source);
-            console.log(sibling);
 
             let siblingOrder = -1;
             if (sibling) {
                 siblingOrder = Number(sibling.dataset.order);
             }
-            console.log(siblingOrder);
 
             if (target !== source) {
                 // target.removeChild(el);
@@ -69,7 +100,8 @@ class BoardList extends React.Component {
             <div className="board-container">
                 {this.props.boards.sort((a, b) => a.order - b.order).map((board) => {
                     return (
-                        <div key={board.id} className="card card-container">
+                        <div key={board.id} data-order={board.order} id={board.id}
+                             className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 {board.title}
                                 <div className="board-action">
@@ -86,14 +118,14 @@ class BoardList extends React.Component {
                                 {board.cards.map((card) => {
                                     return (
                                         <div key={card.id} id={card.id} data-order={card.order}
-                                             className="card-content">
-                                            <div className="card">
-                                                <div className="card-content" style={{paddingBottom: 0}}>
-                                                    <p className="card-title">{card.title}</p>
+                                             className="card-content keetool-card">
+                                            <div className="card keetool-card">
+                                                <div className="card-content keetool-card" style={{paddingBottom: 0}}>
+                                                    <p className="card-title keetool-card">{card.title}</p>
                                                 </div>
-                                                <div className="card-footer">
-                                                    <div className="stats">
-                                                        <i className="material-icons">access_time</i>
+                                                <div className="card-footer keetool-card">
+                                                    <div className="stats keetool-card">
+                                                        <i className="material-icons keetool-card">access_time</i>
                                                         {" " + card.created_at}
                                                     </div>
                                                 </div>
@@ -107,7 +139,7 @@ class BoardList extends React.Component {
                         </div>
                     );
                 })}
-                <div className="card-container">
+                <div className="card-container undraggable">
                     <div className="create-new-board" style={{marginTop: 0}}
                          onClick={this.props.openCreateBoardModal}>
                         <div>
@@ -128,6 +160,7 @@ BoardList.propTypes = {
     changeOrderCard: PropTypes.func.isRequired,
     addCard: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired,
+    moveBoard: PropTypes.func.isRequired,
     editBoard: PropTypes.func.isRequired
 };
 

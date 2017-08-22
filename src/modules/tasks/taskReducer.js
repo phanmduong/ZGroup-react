@@ -100,7 +100,15 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 boardList: {
                     ...state.boardList,
-                    boards: [...state.boardList.boards, action.board]
+                    boards: action.editBoard ?
+                        state.boardList.boards.map(b => {
+                            if (b.id === action.board.id) {
+                                return action.board;
+                            } else {
+                                return b;
+                            }
+                        }) :
+                        [...state.boardList.boards, action.board]
                 },
                 createBoard: {
                     ...state.createBoard,

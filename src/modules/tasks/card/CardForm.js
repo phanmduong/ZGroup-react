@@ -4,7 +4,7 @@ import FormInputText from "../../../components/common/FormInputText";
 import {isEmptyInput} from "../../../helpers/helper";
 
 const CardForm = ({updateFormData, card, submit, isSaving}) => {
-    const {title, description} = card;
+    const {title} = card;
     return (
         <form
             id="card-form"
@@ -19,12 +19,6 @@ const CardForm = ({updateFormData, card, submit, isSaving}) => {
                 name="title"
                 updateFormData={updateFormData}
                 value={title}/>
-            <FormInputText
-                placeholder="Nhập mô tả"
-                label="Mô tả"
-                name="description"
-                updateFormData={updateFormData}
-                value={description}/>
             <div>
                 {isSaving ?
                     (
