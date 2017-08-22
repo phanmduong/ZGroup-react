@@ -219,7 +219,6 @@ export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
         let targetBoardCards = [];
 
 
-
         if (siblingOrder === -1) {
             const temp = [...cards, card];
             temp.forEach((c) => {
@@ -242,8 +241,6 @@ export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
                 order += 1;
             });
         }
-
-
 
 
         const newSourceBoard = {
@@ -279,7 +276,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
         const targetBoard = boards.filter((b) => b.id === Number(targetBoardId))[0];
         const card = sourceBoard.cards.filter(c => c.id === Number(cardId))[0];
 
-
+        console.log(siblingOrder);
         let order = 0;
         let sourceBoardCards = [];
         sourceBoard.cards
@@ -312,6 +309,8 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
             const index = cards.findIndex((c) => {
                 return c.order === siblingOrder;
             });
+
+            console.log("index: " + index);
 
             const part1 = cards.slice(0, index);
             const part2 = cards.slice(index);

@@ -6,11 +6,28 @@ class BoardList extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.timeout = null;
+        this.initDragula = this.initDragula.bind(this);
+        this.drake = null;
     }
 
+
     componentDidMount() {
+        this.initDragula();
+    }
+
+    //
+    componentDidUpdate() {
+        this.initDragula();
+    }
+
+    initDragula() {
+        console.log("init");
+        if (this.drake) {
+            console.log('destroy');
+            this.drake.destroy();
+        }
         const containers = Array.prototype.slice.call(document.querySelectorAll(".board"));
-        const drake = Dragula(containers, {
+        this.drake = Dragula(containers, {
             moves: function (el) {
                 if (el.className.indexOf("undraggable") !== -1) {
                     return false;
@@ -22,15 +39,19 @@ class BoardList extends React.Component {
             },
             revertOnSpill: true
         });
-        drake.on('drop', function (el, target, source, sibling) {
+        this.drake.on('drop', function (el, target, source, sibling) {
 
-            drake.cancel();
-
+            this.drake.cancel();
+            console.log(el);
+            console.log(target);
+            console.log(source);
+            console.log(sibling);
 
             let siblingOrder = -1;
             if (sibling) {
                 siblingOrder = Number(sibling.dataset.order);
             }
+            console.log(siblingOrder);
 
             if (target !== source) {
                 // target.removeChild(el);

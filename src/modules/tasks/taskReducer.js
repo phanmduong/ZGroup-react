@@ -45,7 +45,11 @@ export default function taskReducer(state = initialState.task, action) {
                         if (board.id === action.card.board_id) {
                             return {
                                 ...board,
-                                cards: [action.card, ...board.cards]
+                                cards: [
+                                    action.card,
+                                    ...board.cards.map(c => {
+                                        return {...c, order: c.order + 1};
+                                    })]
                             };
                         }
                         return board;
