@@ -34,7 +34,7 @@ class CreateBoardModalContainer extends React.Component {
         return (
             <Modal show={this.props.showModal} onHide={this.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Tạo bảng mới</Modal.Title>
+                    <Modal.Title>{this.props.board.id ? "Sửa bảng" : "Tạo bảng mới"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <BoardForm
