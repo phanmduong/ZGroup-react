@@ -196,7 +196,6 @@ class PublicController extends Controller
         //send mail here
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
-//        dd('WORK');
         if ($user == null) {
             $user = new User;
             $user->name = $request->name;
@@ -241,7 +240,14 @@ class PublicController extends Controller
         $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
 
         $register->save();
+
         send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+
+        $class = $register->studyClass;
+        if ($class->register()->count() >= $class->target) {
+            $class->status = 0;
+            $class->save();
+        }
 
         return redirect('register_success');
     }
