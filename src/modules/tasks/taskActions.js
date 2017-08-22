@@ -380,7 +380,6 @@ export function moveBoard(sourceId, targetId, boardId, siblingOrder) {
         const boards = state.task.boardList.boards.filter(b => b.id !== boardId);
 
 
-
         let newBoards = [];
         if (siblingOrder === -1) {
             const temp = [...boards, board];
@@ -404,15 +403,13 @@ export function moveBoard(sourceId, targetId, boardId, siblingOrder) {
             });
         }
 
-        // taskApi.updateCards(newSourceBoard.cards, newSourceBoard.id)
-        //     .then(() => {
-        //     })
-        //     .catch(() => {
-        //         showErrorNotification("Có lỗi xảy ra");
-        //     });
-
-        console.log(newBoards);
-
+        taskApi.updateBoards(newBoards)
+            .then(() => {
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+            });
+        
         dispatch({
             type: types.MOVE_CARD_SUCCESS,
             boards: newBoards

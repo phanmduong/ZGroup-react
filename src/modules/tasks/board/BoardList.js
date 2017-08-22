@@ -139,7 +139,7 @@ class BoardList extends React.Component {
                         </div>
                     );
                 })}
-                <div className="card-container undraggable">
+                <div className="card-container undraggable" data-order="-1">
                     <div className="create-new-board" style={{marginTop: 0}}
                          onClick={this.props.openCreateBoardModal}>
                         <div>

@@ -93,4 +93,15 @@ export function updateCards(cards, boardId) {
     });
 }
 
+export function updateBoards(boards) {
+    let url = env.MANAGE_API_URL + "/boards/update";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        boards: JSON.stringify(boards)
+    });
+}
+
 
