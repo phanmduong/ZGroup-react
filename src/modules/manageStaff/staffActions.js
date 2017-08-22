@@ -3,6 +3,8 @@ import * as staffApi from './staffApi';
 import toastr from 'toastr';
 import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
+import _ from 'lodash';
+
 export function beginLoadStaffsData() {
     return {
         type: types.BEGIN_LOAD_STAFFS_DATA,
