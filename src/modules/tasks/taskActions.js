@@ -132,7 +132,7 @@ export function createBoard(board) {
         });
         taskApi.createBoard(board)
             .then(res => {
-                showNotification("Tạo bảng mới thành công");
+                showNotification(res.data.message);
                 dispatch({
                     type: types.CREATE_BOARD_SUCCESS,
                     board: res.data.board
