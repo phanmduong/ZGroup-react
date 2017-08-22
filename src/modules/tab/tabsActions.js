@@ -1,5 +1,5 @@
 import * as types from '../../constants/actionTypes';
-import * as tabsApi from '../../apis/tabsApi';
+import * as tabsApi from './tabsApi';
 
 export function beginLoadTabsData() {
     return {
@@ -92,12 +92,4 @@ export function loadAllTabsDataError() {
             error: true
         })
         ;
-}
-
-export function changeCheckTab(tab) {
-    return ({
-            type: types.CHANGE_CHECK_TAB,
-            tab: tab
-        }
-    );
 }

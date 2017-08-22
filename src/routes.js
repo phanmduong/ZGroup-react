@@ -1,14 +1,12 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
-import LoginContainer from './containers/LoginContainer';
+import LoginContainer from './modules/login/LoginContainer';
 import AppContainer from './containers/AppContainer';
-import DashboardContainer from './containers/DashboardContainer';
-import CollectMoneyContainer from './containers/financialManager/CollectMoneyContainer';
-import ManageStaffsContainer from './containers/manageStaff/ManageStaffsContainer';
-import AddStaffContainer from './containers/manageStaff/AddStaffContainer';
-import ManageRoleContainer from './containers/role/ManageRoleContainer';
-import CreateRoleContainer from './containers/role/CreateRoleContainer';
-import EditRoleContainer from './containers/role/EditRoleContainer';
+import ManageStaffsContainer from './modules/manageStaff/ManageStaffsContainer';
+import AddStaffContainer from './modules/manageStaff/AddStaffContainer';
+import ManageRoleContainer from './modules/role/ManageRoleContainer';
+import CreateRoleContainer from './modules/role/CreateRoleContainer';
+import EditRoleContainer from './modules/role/EditRoleContainer';
 import NotFoundPage from './components/NotFoundPage';
 import BasesContainer from "./modules/bases/BasesContainer";
 import CreateBaseContainer from "./modules/bases/CreateBaseContainer";
@@ -20,9 +18,7 @@ import RegisterListContainer from "./modules/register/RegisterListContainer";
 export default (
     <Route>
         <Route path="/" component={AppContainer}>
-            <IndexRoute component={DashboardContainer}/>
-            <Route path="register-list" component={RegisterListContainer}/>
-            <Route path="collect-money" component={CollectMoneyContainer}/>
+            <IndexRoute component={ManageStaffsContainer}/>
             <Route path="manage/quan-li-nhan-su" component={ManageStaffsContainer}/>
             <Route path="add-staff" component={AddStaffContainer} type="create"/>
             <Route path="staff/:staffId/edit" component={AddStaffContainer} type="edit"/>
