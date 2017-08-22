@@ -21,9 +21,7 @@ class BoardList extends React.Component {
     }
 
     initDragula() {
-        console.log("init");
         if (this.drake) {
-            console.log('destroy');
             this.drake.destroy();
         }
         const containers = Array.prototype.slice.call(document.querySelectorAll(".board"));

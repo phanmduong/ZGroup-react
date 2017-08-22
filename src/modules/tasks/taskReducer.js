@@ -109,6 +109,16 @@ export default function taskReducer(state = initialState.task, action) {
                     showModal: false
                 }
             };
+
+        case types.BEGIN_EDIT_BOARD:
+            return {
+                ...state,
+                createBoard: {
+                    ...state.createBoard,
+                    showModal: true,
+                    board: action.board
+                }
+            };
         case types.BEGIN_CREATE_BOARD:
             return {
                 ...state,
@@ -126,14 +136,25 @@ export default function taskReducer(state = initialState.task, action) {
                 }
             };
         case types.CHANGE_STATUS_CREATE_BOARD_MODAL:
+            if (action.showModal) {
+                return {
+                    ...state,
+                    createBoard: {
+                        ...state.createBoard,
+                        showModal: action.showModal
+                    }
+                };
+            } else {
+                return {
+                    ...state,
+                    createBoard: {
+                        ...state.createBoard,
+                        showModal: action.showModal,
+                        board: {}
+                    }
+                };
+            }
 
-            return {
-                ...state,
-                createBoard: {
-                    ...state.createBoard,
-                    showModal: action.showModal
-                }
-            };
         case types.CHANGE_PROJECT_STATUS:
             return {
                 ...state,

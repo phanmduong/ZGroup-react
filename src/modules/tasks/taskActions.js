@@ -144,6 +144,15 @@ export function createBoard(board) {
     };
 }
 
+export function editBoard(board) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_EDIT_BOARD,
+            board
+        });
+    };
+}
+
 
 export function loadBoards(projectId) {
     return function (dispatch) {

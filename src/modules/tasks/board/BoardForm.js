@@ -4,7 +4,7 @@ import FormInputText from "../../../components/common/FormInputText";
 import {isEmptyInput} from "../../../helpers/helper";
 
 const BoardForm = ({updateFormData, board, submit, isSaving}) => {
-    const {title} = board;
+    const {title, id} = board;
     return (
         <form
             id="board-form"
@@ -24,7 +24,7 @@ const BoardForm = ({updateFormData, board, submit, isSaving}) => {
                     (
                         <button
                             type="button"
-                            className="btn btn-primary disabled">
+                            className="btn btn-rose disabled">
                             <i className="fa fa-spinner fa-spin"/> Đang tạo
                         </button>
                     ) :
@@ -34,7 +34,7 @@ const BoardForm = ({updateFormData, board, submit, isSaving}) => {
                             type="button"
                             className="btn btn-rose"
                             onClick={submit}>
-                            Tạo bảng
+                            {id ? "Sửa bảng" : "Tạo bảng"}
                         </button>
                     )}
             </div>

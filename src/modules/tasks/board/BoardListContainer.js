@@ -37,8 +37,8 @@ class BoardListContainer extends React.Component {
         this.props.taskActions.changeStatusCreateCardModal(true, board);
     }
 
-    editBoard() {
-
+    editBoard(board) {
+        this.props.taskActions.editBoard(board);
     }
 
     render() {
