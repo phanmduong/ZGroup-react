@@ -244,7 +244,7 @@ class PublicController extends Controller
         send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
 
         $class = $register->studyClass;
-        if ($class->register()->count() >= $class->target) {
+        if ($class->registers()->count() >= $class->target) {
             $class->status = 0;
             $class->save();
         }
