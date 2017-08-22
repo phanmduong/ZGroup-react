@@ -162,29 +162,31 @@ class ManageTaskApiController extends ManageApiController
         }
         if ($request->id) {
             $board = Board::find($request->id);
-//            $message = "Sửa bảng thành công";
+            $message = "Sửa bảng thành công";
         } else {
             $board = new Board();
-//            $message = "Tạo bảng thành công";
-        }
+            $message = "Tạo bảng thành công";
+            $temp = Board::where('project_id', '=', $request->project_id)
+                ->orderBy('order', 'desc')->first();
 
-        $temp = Board::where('project_id', '=', $request->project_id)
-            ->orderBy('order', 'desc')->first();
-
-        if ($temp) {
-            $order = $temp->order;
-        } else {
-            $order = 0;
+            if ($temp) {
+                $order = $temp->order;
+            } else {
+                $order = 0;
+            }
+            $board->order = $order + 1;
         }
 
         $board->title = trim($request->title);
-        $board->order = $order + 1;
         $board->project_id = trim($request->project_id);
         $board->editor_id = $this->user->id;
         $board->creator_id = $this->user->id;
         $board->save();
 
-        return $this->respond(["board" => $this->boardTransformer->transform($board)]);
+        return $this->respond([
+            "message" => $message,
+            "board" => $this->boardTransformer->transform($board)
+        ]);
     }
 
     public function updateCards(Request $request)
