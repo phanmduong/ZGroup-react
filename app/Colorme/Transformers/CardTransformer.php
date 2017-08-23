@@ -28,6 +28,10 @@ class CardTransformer extends Transformer
                 "id" => $card->editor->id,
                 "name" => $card->editor->name
             ],
+            'board' => [
+                'id' => $card->board_id,
+                "title" => $card->board->title
+            ],
             'created_at' => time_elapsed_string(strtotime($card->created_at)),
             'updated_at' => format_time_main($card->updated_at)
         ];

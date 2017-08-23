@@ -9,6 +9,7 @@ use App\Colorme\Transformers\CardTransformer;
 use App\Http\Controllers\ManageApiController;
 use App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends ManageApiController
 {
