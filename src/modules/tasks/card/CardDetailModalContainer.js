@@ -4,10 +4,28 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import * as taskActions from '../taskActions';
+import ReactEditor from "../../../components/common/ReactEditor";
+import {BASE_URL} from '../../../constants/env';
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.updateEditor = this.updateEditor.bind(this);
+        this.toggleEditCardDescription = this.toggleEditCardDescription.bind(this);
+        this.state = {
+            isEditing: false
+        };
+    }
+
+    updateEditor(content) {
+        this.props.taskActions.updateCardDescription(content);
+    }
+
+    toggleEditCardDescription() {
+        // this.props.taskActions.editCardDescription();
+        this.setState({
+            isEditing: !this.state.isEditing
+        });
     }
 
 
@@ -27,11 +45,24 @@ class CardDetailModalContainer extends React.Component {
                     <h4>
                         <strong>Mô tả</strong>
                         <OverlayTrigger placement="right" overlay={editTooltip}>
-                            <a className="card-modal-button">
+                            <a className="card-modal-button" onClick={this.toggleEditCardDescription}>
                                 <i className="material-icons">edit</i>
                             </a>
                         </OverlayTrigger>
                     </h4>
+                    {
+                        this.state.isEditing ? (
+                            <ReactEditor
+                                urlPost={BASE_URL + "/upload-image?token=" + localStorage.getItem('token')}
+                                fileField="image"
+                                value={this.props.card.description}
+                                updateEditor={this.updateEditor}/>
+                        ) : (
+                            <div dangerouslySetInnerHTML={{__html: this.props.card.description}}>
+                            </div>
+                        )
+                    }
+
 
                 </Modal.Body>
             </Modal>
@@ -41,6 +72,7 @@ class CardDetailModalContainer extends React.Component {
 
 CardDetailModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired,
     card: PropTypes.object.isRequired
 };
@@ -48,6 +80,7 @@ CardDetailModalContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         showModal: state.task.cardDetail.showModal,
+        isEditing: state.task.cardDetail.isEditing,
         card: state.task.cardDetail.card
     };
 }

@@ -12,6 +12,7 @@ import '../node_modules/toastr/build/toastr.min.css';
 import './styles/react-bootstrap-switch.min.css';
 import './styles/dragula.css';
 import './styles/task.css';
+import "./styles/react-draft-wysiwyg.css";
 // import { syncHistoryWithStore } from 'react-router-redux';
 
 const store = configureStore();

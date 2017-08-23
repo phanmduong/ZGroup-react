@@ -100,6 +100,6 @@ ReactEditor.propTypes = {
     fileField: PropTypes.string.isRequired,
     updateEditor: PropTypes.func.isRequired,
     value: PropTypes.string
-}
+};
 
 export default ReactEditor;

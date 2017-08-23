@@ -436,3 +436,12 @@ export function closeCardDetailModal() {
         });
     };
 }
+
+export function updateCardDescription(description) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_CARD_DESCRIPTION,
+            description
+        });
+    };
+}

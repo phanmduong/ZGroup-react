@@ -6,6 +6,18 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.UPDATE_CARD_DESCRIPTION:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        description: action.description
+                    }
+                }
+            };
+
         case types.OPEN_CLOSE_CARD_DETAIL_MODAL:
             return {
                 ...state,
