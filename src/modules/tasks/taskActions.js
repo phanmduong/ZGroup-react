@@ -409,10 +409,30 @@ export function moveBoard(sourceId, targetId, boardId, siblingOrder) {
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra");
             });
-        
+
         dispatch({
             type: types.MOVE_CARD_SUCCESS,
             boards: newBoards
+        });
+    };
+}
+
+export function openCardDetailModal(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_CLOSE_CARD_DETAIL_MODAL,
+            showModal: true,
+            card
+        });
+    };
+}
+
+export function closeCardDetailModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_CLOSE_CARD_DETAIL_MODAL,
+            showModal: false,
+            card: {}
         });
     };
 }

@@ -117,8 +117,12 @@ class BoardList extends React.Component {
                             <div className="board" id={board.id}>
                                 {board.cards.map((card) => {
                                     return (
-                                        <div key={card.id} id={card.id} data-order={card.order}
-                                             className="card-content keetool-card">
+                                        <div
+                                            onClick={() => {
+                                                this.props.openCardDetailModal(card);
+                                            }}
+                                            key={card.id} id={card.id} data-order={card.order}
+                                            className="card-content keetool-card">
                                             <div className="card keetool-card">
                                                 <div className="card-content keetool-card" style={{paddingBottom: 0}}>
                                                     <p className="card-title keetool-card">{card.title}</p>
@@ -161,6 +165,7 @@ BoardList.propTypes = {
     addCard: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired,
     moveBoard: PropTypes.func.isRequired,
+    openCardDetailModal: PropTypes.func.isRequired,
     editBoard: PropTypes.func.isRequired
 };
 

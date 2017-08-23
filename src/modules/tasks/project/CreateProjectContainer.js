@@ -46,12 +46,9 @@ class CreateProjectContainer extends React.Component {
 
     submit() {
         let error = {};
-        const {title, description} = this.props.project;
+        const {title} = this.props.project;
         if (isEmptyInput(title)) {
             error.title = "Bạn cần nhập tên dự án";
-        }
-        if (isEmptyInput(description)) {
-            error.description = "Bạn cần nhập mô tả dự án";
         }
         if (_.isEmpty(error)) {
             this.props.taskActions.createProject(this.props.project);
