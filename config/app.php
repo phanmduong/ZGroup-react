@@ -170,7 +170,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
-        Jaybizzle\LaravelCrawlerDetect\LaravelCrawlerDetectServiceProvider::class
+        Jaybizzle\LaravelCrawlerDetect\LaravelCrawlerDetectServiceProvider::class,
+        Nwidart\Modules\LaravelModulesServiceProvider::class,
 
     ],
 
@@ -220,6 +221,7 @@ return [
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'JWTAuth' => Tymon\JWTAuthFacades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuthFacades\JWTFactory::class,
+        'Module' => Nwidart\Modules\Facades\Module::class,
         'Crawler' => Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect::class
     ],
 
