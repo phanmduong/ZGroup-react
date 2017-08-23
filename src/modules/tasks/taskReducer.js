@@ -6,6 +6,14 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.OPEN_CLOSE_CARD_DETAIL_MODAL:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    showModal: action.showModal
+                }
+            };
         case types.MOVE_CARD_SUCCESS:
             return {
                 ...state,
@@ -100,7 +108,15 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 boardList: {
                     ...state.boardList,
-                    boards: [...state.boardList.boards, action.board]
+                    boards: action.editBoard ?
+                        state.boardList.boards.map(b => {
+                            if (b.id === action.board.id) {
+                                return action.board;
+                            } else {
+                                return b;
+                            }
+                        }) :
+                        [...state.boardList.boards, action.board]
                 },
                 createBoard: {
                     ...state.createBoard,

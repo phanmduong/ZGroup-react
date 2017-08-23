@@ -126,6 +126,10 @@ export function updateCreateBoardFormData(board) {
 
 
 export function createBoard(board) {
+    let editBoard = false;
+    if (board.id) {
+        editBoard = true;
+    }
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_BOARD
@@ -135,7 +139,8 @@ export function createBoard(board) {
                 showNotification(res.data.message);
                 dispatch({
                     type: types.CREATE_BOARD_SUCCESS,
-                    board: res.data.board
+                    board: res.data.board,
+                    editBoard
                 });
             })
             .catch(() => {
@@ -285,7 +290,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
         const targetBoard = boards.filter((b) => b.id === Number(targetBoardId))[0];
         const card = sourceBoard.cards.filter(c => c.id === Number(cardId))[0];
 
-        console.log(siblingOrder);
+
         let order = 0;
         let sourceBoardCards = [];
         sourceBoard.cards
@@ -363,6 +368,71 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
                     return board;
                 }
             })
+        });
+    };
+}
+
+export function moveBoard(sourceId, targetId, boardId, siblingOrder) {
+    return function (dispatch, getState) {
+        let order = 0;
+        const state = getState();
+        const board = state.task.boardList.boards.filter(b => b.id === boardId)[0];
+        const boards = state.task.boardList.boards.filter(b => b.id !== boardId);
+
+
+        let newBoards = [];
+        if (siblingOrder === -1) {
+            const temp = [...boards, board];
+            temp.forEach((b) => {
+                newBoards = [...newBoards, {...b, order}];
+                order += 1;
+            });
+        } else {
+            const index = boards.findIndex((b) => {
+                return b.order === siblingOrder;
+            });
+
+            const part1 = boards.slice(0, index);
+            const part2 = boards.slice(index);
+
+            const temp = [...part1, board, ...part2];
+
+            temp.forEach((c) => {
+                newBoards = [...newBoards, {...c, order}];
+                order += 1;
+            });
+        }
+
+        taskApi.updateBoards(newBoards)
+            .then(() => {
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+            });
+
+        dispatch({
+            type: types.MOVE_CARD_SUCCESS,
+            boards: newBoards
+        });
+    };
+}
+
+export function openCardDetailModal(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_CLOSE_CARD_DETAIL_MODAL,
+            showModal: true,
+            card
+        });
+    };
+}
+
+export function closeCardDetailModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_CLOSE_CARD_DETAIL_MODAL,
+            showModal: false,
+            card: {}
         });
     };
 }

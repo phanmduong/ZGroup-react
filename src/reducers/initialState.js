@@ -98,7 +98,7 @@ export default {
             roleListData: [],
             isLoading: false,
             error: false,
-        },bases: {
+        }, bases: {
             basesData: [],
             isLoading: false,
             error: false,
@@ -106,7 +106,7 @@ export default {
     },
     roles: {
         roleListData: [],
-        tabs:{
+        tabs: {
             tabListData: [],
             isLoading: true,
             error: false,
@@ -149,6 +149,10 @@ export default {
     },
 
     task: {
+        cardDetail: {
+            card: {},
+            showModal: false
+        },
         createCard: {
             card: {},
             isSaving: false,

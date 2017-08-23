@@ -102,3 +102,7 @@
 .board-action a:hover {
     opacity: 1;
 }
+
+.keetool-card {
+    cursor: pointer;
+}

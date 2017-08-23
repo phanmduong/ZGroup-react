@@ -3,19 +3,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Button, Modal, OverlayTrigger, Popover, Tooltip} from "react-bootstrap";
-
-// Import actions here!!
+import * as taskActions from '../taskActions';
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.open = this.open.bind(this);
-        this.close = this.close.bind(this);
         this.state = {
             showModal: false
         };
     }
-    
+
 
     render() {
         const popover = (
@@ -30,7 +27,8 @@ class CardDetailModalContainer extends React.Component {
             </Tooltip>
         );
         return (
-            <Modal show={this.state.showModal} onHide={this.close}>
+            <Modal show={this.props.showModal}
+                   onHide={this.props.taskActions.closeCardDetailModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
@@ -80,18 +78,21 @@ class CardDetailModalContainer extends React.Component {
 }
 
 CardDetailModalContainer.propTypes = {
-    showModal: PropTypes.string.isRequired
+    showModal: PropTypes.bool.isRequired,
+    taskActions: PropTypes.object.isRequired,
+    card: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        state: state
+        showModal: state.task.cardDetail.showModal,
+        card: state.task.cardDetail.card
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({}, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch)
     };
 }
 

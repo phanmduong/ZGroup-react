@@ -10,6 +10,7 @@ import CreateBoardModalContainer from "./CreateBoardModalContainer";
 import Loading from "../../../components/common/Loading";
 import BoardList from "./BoardList";
 import CreateCardModalContainer from "../card/CreateCardModalContainer";
+import CardDetailModalContainer from "../card/CardDetailModalContainer";
 
 class BoardListContainer extends React.Component {
     constructor(props, context) {
@@ -46,8 +47,11 @@ class BoardListContainer extends React.Component {
             <div style={{overflow: "hidden"}}>
                 <CreateBoardModalContainer projectId={this.props.params.projectId}/>
                 <CreateCardModalContainer/>
+                <CardDetailModalContainer />
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <BoardList
+                        openCardDetailModal={this.props.taskActions.openCardDetailModal}
+                        moveBoard={this.props.taskActions.moveBoard}
                         changeOrderCard={this.props.taskActions.changeOrderCard}
                         moveCard={this.moveCard}
                         addCard={this.addCard}

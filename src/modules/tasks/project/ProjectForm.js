@@ -21,9 +21,7 @@ const ProjectForm = ({updateFormData, project, error, submit, isSaving}) => {
                 label="Mô tả dự án"
                 name="description"
                 updateFormData={updateFormData}
-                value={description}
-                errorMessage="Vui lòng nhập mô tả dự án"
-                isNotValid={!isEmptyInput(error.description)}/>
+                value={description}/>
             <div>
                 {isSaving ?
                     (
