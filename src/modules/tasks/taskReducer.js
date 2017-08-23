@@ -11,6 +11,7 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 cardDetail: {
                     ...state.cardDetail,
+                    card: action.card,
                     showModal: action.showModal
                 }
             };

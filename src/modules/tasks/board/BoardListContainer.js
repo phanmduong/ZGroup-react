@@ -47,7 +47,7 @@ class BoardListContainer extends React.Component {
             <div style={{overflow: "hidden"}}>
                 <CreateBoardModalContainer projectId={this.props.params.projectId}/>
                 <CreateCardModalContainer/>
-                <CardDetailModalContainer />
+                <CardDetailModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <BoardList
                         openCardDetailModal={this.props.taskActions.openCardDetailModal}

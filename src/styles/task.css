@@ -1,8 +1,8 @@
 .card-container {
     min-height: 300px;
     margin: 5px;
-    min-width: 315px;
-    max-width: 315px;
+    min-width: 270px;
+    max-width: 270px;
     height: 100%;
     white-space: normal;
     overflow: hidden;
@@ -105,4 +105,22 @@
 
 .keetool-card {
     cursor: pointer;
+}
+
+.card-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.card-modal-button {
+    color: #6a6a6a;
+    margin-left: 8px;
+}
+
+.card-modal-button i:hover {
+    color: #2a2a2a;
+}
+
+.card-modal-button i {
+    font-size: 18px;
 }

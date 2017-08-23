@@ -124,15 +124,15 @@ class BoardList extends React.Component {
                                             key={card.id} id={card.id} data-order={card.order}
                                             className="card-content keetool-card">
                                             <div className="card keetool-card">
-                                                <div className="card-content keetool-card" style={{paddingBottom: 0}}>
+                                                <div className="card-content keetool-card">
                                                     <p className="card-title keetool-card">{card.title}</p>
                                                 </div>
-                                                <div className="card-footer keetool-card">
-                                                    <div className="stats keetool-card">
-                                                        <i className="material-icons keetool-card">access_time</i>
-                                                        {" " + card.created_at}
-                                                    </div>
-                                                </div>
+                                                {/*<div className="card-footer keetool-card">*/}
+                                                    {/*<div className="stats keetool-card">*/}
+                                                        {/*<i className="material-icons keetool-card">access_time</i>*/}
+                                                        {/*{" " + card.created_at}*/}
+                                                    {/*</div>*/}
+                                                {/*</div>*/}
                                             </div>
                                         </div>
                                     );
