@@ -19,7 +19,8 @@ export function addStaff(staff) {
         age: staff.age,
         address: staff.address,
         phone: staff.phone,
-        avatar_url: staff.avatar_url
+        avatar_url: staff.avatar_url,
+        color: staff.color
     });
 }
 
@@ -89,7 +90,8 @@ export function editStaff(staff) {
         start_company: staff.start_company,
         age: staff.age,
         address: staff.address,
-        phone: staff.phone
+        phone: staff.phone,
+        color: staff.color
     });
 }
 

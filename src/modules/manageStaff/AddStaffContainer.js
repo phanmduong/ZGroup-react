@@ -16,6 +16,7 @@ class AddStaffContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.addStaff = this.addStaff.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
+        this.changeColor = this.changeColor.bind(this);
         this.state={
             isDidUpdate: false
         }
@@ -61,6 +62,13 @@ class AddStaffContainer extends React.Component {
         });
     }
 
+    changeColor(color){
+        let staffForm = {...this.props.staffForm};
+        staffForm.color = color.hex;
+        console.log(color.hex);
+        this.props.staffActions.updateAddStaffFormData(staffForm);
+    }
+
     componentDidUpdate(){
             this.initForm();
     }
@@ -72,6 +80,7 @@ class AddStaffContainer extends React.Component {
             <AddStaffComponent
                 {...this.props}
                 updateFormData={this.updateFormData}
+                changeColor={this.changeColor}
                 addStaff={this.addStaff}
                 type={this.props.route.type}
                 handleFileUpload={this.handleFileUpload}
