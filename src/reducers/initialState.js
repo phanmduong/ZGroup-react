@@ -191,5 +191,69 @@ export default {
             registers: [],
             isLoadingRegisters: false
         }
+    },
+
+    emailTemplates: {
+        templates: [],
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1
+    },
+
+    emailForms: {
+        forms: [],
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        isUpdatingLogo: false,
+        updateLogoError: false,
+        isSaving: false,
+        isPreSaving: false,
+        emailForm: {
+            id: 0,
+            name: '',
+            logoUrl: '',
+            title: '',
+            subtitle: '',
+            template: {},
+            content: '',
+            footer: '',
+        },
+        emailTemplates: {
+            templates: [],
+            isLoading: false,
+            error: false,
+            currentPage: 1,
+            totalPages: 1
+        }
+    },
+
+    blog:{
+        post: {
+            isUpdatingImage: false,
+            updateImageError: false,
+            imageUrl: '',
+            title: '',
+            description: '',
+            tags: '',
+            category: 0,
+            content:'',
+            isSaving: false,
+            saveError: false,
+            isPreSaving: false,
+            preSaveError: false,
+        },
+        categories:{
+            categories: [],
+            isLoading: false,
+            error: false
+        },
+        category:{
+            name: '',
+            isCreating: false,
+            error: false,
+        }
     }
 };

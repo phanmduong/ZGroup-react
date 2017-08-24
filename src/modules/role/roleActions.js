@@ -2,7 +2,7 @@ import * as types from '../../constants/actionTypes';
 import * as roleApi from './roleApi';
 import toastr from 'toastr';
 import {browserHistory} from 'react-router';
-
+/*eslint no-console: 0 */
 export function beginLoadRolesData() {
     return {
         type: types.BEGIN_LOAD_ROLES_DATA,

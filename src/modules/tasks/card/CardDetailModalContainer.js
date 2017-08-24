@@ -58,6 +58,7 @@ class CardDetailModalContainer extends React.Component {
                                 value={this.props.card.description}
                                 updateEditor={this.updateEditor}/>
                         ) : (
+                            //eslint-disable-next-line
                             <div dangerouslySetInnerHTML={{__html: this.props.card.description}}>
                             </div>
                         )

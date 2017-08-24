@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import * as loadLoginApi from './LoginApi';
 import * as helper from '../../helpers/helper';
-
+/*eslint no-console: 0 */
 export function beginUpdateLoginForm() {
     return {type: types.BEGIN_UPDATE_LOGIN_FORM};
 }

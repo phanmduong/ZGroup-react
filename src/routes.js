@@ -14,6 +14,10 @@ import ProjectListContainer from "./modules/tasks/project/ProjectListContainer";
 import CreateProjectContainer from "./modules/tasks/project/CreateProjectContainer";
 import BoardListContainer from "./modules/tasks/board/BoardListContainer";
 import RegisterListContainer from "./modules/register/RegisterListContainer";
+import EmailTemplatesContainer from "./modules/emailTemplates/EmailTemplatesContainer";
+import EmailFormsContainer from "./modules/emailForms/EmailFormsContainer";
+import CreateEmailFormContainer from "./modules/emailForms/CreateEmailFormContainer";
+import BlogContainer from "./modules/blog/BlogContainer";
 
 export default (
     <Route>
@@ -45,6 +49,18 @@ export default (
             {/*Begin register routes*/}
             <Route path="register/list" component={RegisterListContainer}/>
             {/*End register routes*/}
+
+            {/*Begin Email marketing routes*/}
+            <Route path="/email-maketing/templates" component={EmailTemplatesContainer}/>
+            <Route path="/email-maketing/forms" component={EmailFormsContainer}/>
+            <Route path="/email-form/create" component={CreateEmailFormContainer} type="create"/>
+            <Route path="/email-form/:formId/edit" component={CreateEmailFormContainer} type="edit"/>
+            {/*End Email marketing routes*/}
+
+            {/*Begin blog routes*/}
+            <Route path="/blog/new-post" component={BlogContainer} type="create"/>
+            {/*End blog routes*/}
+
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

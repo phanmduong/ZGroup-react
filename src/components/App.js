@@ -34,7 +34,7 @@ class App extends React.Component {
                             <div className="info">
                                 <a data-toggle="collapse" href="#collapseExample" className="collapsed">
                                     {this.props.user.name}
-                                    <b className="caret"></b>
+                                    <b className="caret"/>
                                 </a>
                                 <div className="collapse" id="collapseExample">
                                     <ul className="nav">
@@ -65,9 +65,9 @@ class App extends React.Component {
                             <div className="navbar-header">
                                 <button type="button" className="navbar-toggle" data-toggle="collapse">
                                     <span className="sr-only">Toggle navigation</span>
-                                    <span className="icon-bar"></span>
-                                    <span className="icon-bar"></span>
-                                    <span className="icon-bar"></span>
+                                    <span className="icon-bar"/>
+                                    <span className="icon-bar"/>
+                                    <span className="icon-bar"/>
                                 </button>
                                 <Link className="navbar-brand" to="/"> {NAME_COMPANY} </Link>
                             </div>
@@ -85,7 +85,7 @@ class App extends React.Component {
                                             <span className="notification">5</span>
                                             <p className="hidden-lg hidden-md">
                                                 Notifications
-                                                <b className="caret"></b>
+                                                <b className="caret"/>
                                             </p>
                                         </a>
                                         <ul className="dropdown-menu">
@@ -112,16 +112,16 @@ class App extends React.Component {
                                             <p className="hidden-lg hidden-md">Profile</p>
                                         </a>
                                     </li>
-                                    <li className="separator hidden-lg hidden-md"></li>
+                                    <li className="separator hidden-lg hidden-md"/>
                                 </ul>
                                 <form className="navbar-form navbar-right" role="search">
                                     <div className="form-group form-search is-empty">
                                         <input type="text" className="form-control" placeholder="Search"/>
-                                        <span className="material-input"></span>
+                                        <span className="material-input"/>
                                     </div>
                                     <button type="submit" className="btn btn-white btn-round btn-just-icon">
                                         <i className="material-icons">search</i>
-                                        <div className="ripple-container"></div>
+                                        <div className="ripple-container"/>
                                     </button>
                                 </form>
                             </div>
@@ -179,7 +179,9 @@ App.propTypes = {
     children: PropTypes.element,
     pathname: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
-    onLogOut: PropTypes.func.isRequired
+    onLogOut: PropTypes.func.isRequired,
+    isLoadingTab: PropTypes.bool,
+
 };
 
 export default App;

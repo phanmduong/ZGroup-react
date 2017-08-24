@@ -15,7 +15,7 @@ class ListRegister extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr>
-                        <th></th>
+                        <th/>
                         <th>Họ tên</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -25,7 +25,7 @@ class ListRegister extends React.Component {
                         <th>Học phí</th>
                         <th>Lớp</th>
                         <th>Đăng kí</th>
-                        <th></th>
+                        <th/>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,14 +42,12 @@ class ListRegister extends React.Component {
                         <td>CM02468</td>
                         <td>
                             <button className="btn btn-danger btn-xs btn-main">Yến Nhi
-                                <div className="ripple-container">
-                                </div>
+                                <div className="ripple-container"/>
                             </button>
                         </td>
                         <td>
                             <button className="btn btn-warning btn-xs btn-main">Inbox
-                                <div className="ripple-container">
-                                </div>
+                                <div className="ripple-container"/>
                             </button>
                         </td>
                         <td>
@@ -67,7 +65,6 @@ class ListRegister extends React.Component {
                             <ButtonGroupAction editUrl="" delete={() => "hello"}/>
                         </td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
