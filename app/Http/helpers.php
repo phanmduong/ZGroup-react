@@ -649,6 +649,7 @@ function uploadFileToS3(\Illuminate\Http\Request $request, $fileField, $size, $o
 
         if ($mimeType != 'image/gif') {
             $imageFileName = time() . random(15, true) . '.jpg';
+            dd($image->getRealPath());
             $img = Image::make($image->getRealPath())->encode('jpg', 90)->interlace();
             if ($img->width() > $size) {
                 $img->resize($size, null, function ($constraint) {
