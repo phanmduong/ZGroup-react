@@ -643,7 +643,7 @@ function uploadFileToS3(\Illuminate\Http\Request $request, $fileField, $size, $o
     $image = $request->file($fileField);
 
     if ($image != null) {
-        $mimeType = $image->getMimeType();
+        $mimeType = $image->guessClientExtension();
         $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
 
 
