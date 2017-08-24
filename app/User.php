@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\EmailMaketing\Entities\EmailForms;
 
 class User extends Authenticatable
 {
@@ -230,6 +231,10 @@ class User extends Authenticatable
     }
     public function base(){
         return $this->belongsTo(Base::class,'base_id');
+    }
+
+    public function email_forms(){
+        return $this->hasMany(EmailForms::class, 'creator');
     }
 }
 

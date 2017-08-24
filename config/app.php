@@ -2,6 +2,7 @@
 
 return [
     "domain" => env('DOMAIN', ''),
+    "protocol" => env('PROTOCOL', ''),
     "keetool_secret" => env('SECRET', ''),
     "favicon" => env('FAVICON', ''),
     's3_url' => env('S3_URL', false),

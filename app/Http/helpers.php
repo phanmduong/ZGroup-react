@@ -1379,3 +1379,21 @@ function send_sms_general($register, $content)
     return $status;
 
 }
+
+function trim_url($url)
+{
+    if (substr($url, 0, 7) === 'http://') return substr($url, 7);
+    if (substr($url, 0, 8) === 'https://') return substr($url, 8);
+    return $url;
+}
+
+function convert_email_form($email_form)
+{
+    $data = $email_form->template->content;
+    $data = str_replace('[[LOGO]]', config('app.protocol') . $email_form->logo_url, $data);
+    $data = str_replace('[[TITLE]]', $email_form->title, $data);
+    $data = str_replace('[[SUBTITLE]]', $email_form->subtitle, $data);
+    $data = str_replace('[[CONTENT]]', $email_form->content, $data);
+    $data = str_replace('[[FOOTER]]', $email_form->footer, $data);
+    return $data;
+}

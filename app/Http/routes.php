@@ -97,6 +97,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
 
 
+    //Begin teaching api
+
+    //Begin teaching api
+
 });
 
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
@@ -656,4 +660,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('manage/store-marketing-campaign', 'ManageMarketingController@store_marketing_campaign');
     Route::get('manage/delete-marketing-campaign/{campaign_id}', 'ManageMarketingController@delete_marketing_campaign');
     Route::get('/manage/staff/add-staff', 'RoleController@add_staff');
+    Route::get('/email-form/{email_form_id}', 'PublicController@render_email_form');
 });
