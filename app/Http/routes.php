@@ -99,6 +99,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/upload-image-editor', 'ManageUploadApiController@upload_image_editor');
     //End upload api
 
+    //Begin blog api
+    Route::post('/create-category', 'ManageBlogController@create_category');
+    Route::post('/save-post', 'ManageBlogController@save_post');
+    //End blog api
 });
 
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
