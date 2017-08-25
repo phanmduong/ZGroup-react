@@ -151,23 +151,6 @@ class CreateEmailFormComponent extends React.Component {
                                         </button>
                                     </div>
                                 </div>
-                                <div className="modal fade" id="chooseTemplateModal" role="dialog"
-                                     aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div className="modal-dialog modal-lg">
-                                        <div className="modal-content">
-                                            <div className="modal-header">
-                                                <button type="button" className="close" data-dismiss="modal"
-                                                        aria-hidden="true">
-                                                    <i className="material-icons">clear</i>
-                                                </button>
-                                                <h4 className="modal-title">Chọn template</h4>
-                                            </div>
-                                            <div className="modal-body">
-                                                <EmailTemplatesContainer/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div className="card card-chart" id="card-email-template">
                                     <div className="card-header" data-background-color="white">
                                         <div id="simpleBarChart" className="ct-chart"
@@ -219,6 +202,23 @@ class CreateEmailFormComponent extends React.Component {
                                     )
 
                                 }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal fade" id="chooseTemplateModal" role="dialog"
+                     aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div className="modal-dialog modal-lg">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal"
+                                        aria-hidden="true">
+                                    <i className="material-icons">clear</i>
+                                </button>
+                                <h4 className="modal-title">Chọn template</h4>
+                            </div>
+                            <div className="modal-body">
+                                <EmailTemplatesContainer/>
                             </div>
                         </div>
                     </div>
