@@ -1,6 +1,6 @@
 import React from 'react';
 import FormInputText from '../../components/common/FormInputText';
-import {LINK_UPLOAD_IMAGE_EDITOR} from '../../constants/constants';
+import {linkUploadImageEditor} from '../../constants/constants';
 import ReactEditor from '../../components/common/ReactEditor';
 import * as helper from '../../helpers/helper';
 import { NO_IMAGE} from '../../constants/env';
@@ -44,7 +44,7 @@ class BlogComponent extends React.Component {
                                         value={description}
                                     />
                                     <ReactEditor
-                                        urlPost={LINK_UPLOAD_IMAGE_EDITOR}
+                                        urlPost={linkUploadImageEditor()}
                                         fileField="image"
                                         updateEditor={this.props.updateEditor}
                                         value={content}

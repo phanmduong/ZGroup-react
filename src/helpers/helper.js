@@ -11,6 +11,13 @@ export function isEmptyInput(input) {
     return input === null || input === undefined || input.trim().length <= 0;
 }
 
+export function avatarEmpty(input) {
+    if (input === null || input === undefined || input.trim() === 'http://' || input.trim() === 'https://') {
+        return true;
+    }
+    return false;
+}
+
 export function confirm(type, title, html, success, cancel) {
     swal({
         title,
@@ -53,7 +60,7 @@ export function showNotification(message, from = "top", align = "right", type = 
     });
 }
 
-export function showTypeNotification(message, type){
+export function showTypeNotification(message, type) {
     showNotification(message, 'top', 'right', type);
 }
 

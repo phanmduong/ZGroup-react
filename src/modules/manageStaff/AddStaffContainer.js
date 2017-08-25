@@ -24,7 +24,7 @@ class AddStaffContainer extends React.Component {
 
     componentWillMount() {
         this.props.staffActions.initForm();
-        // this.props.roleActions.loadRolesData();
+        this.props.roleActions.loadRolesData();
         if (this.props.route.type === 'edit') {
             this.props.staffActions.loadStaffData(this.props.params.staffId);
             this.setState({isDidUpdate: true});

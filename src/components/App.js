@@ -1,9 +1,10 @@
 import React from 'react';
-import {NAME_COMPANY, LOGO_SIDEBAR} from '../constants/env';
+import {NAME_COMPANY, LOGO_SIDEBAR, NO_AVATAR} from '../constants/env';
 import Loading from "./common/Loading";
 import PropTypes from 'prop-types';
 import TabContainer from "../modules/tab/TabContainer";
 import {Link} from 'react-router';
+import * as helper from '../helpers/helper';
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -29,7 +30,7 @@ class App extends React.Component {
                         <div className="user">
                             <div className="photo">
                                 <img
-                                    src={this.props.user.avatar_url}/>
+                                    src={helper.avatarEmpty(this.props.user.avatar_url) ? NO_AVATAR : this.props.user.avatar_url}/>
                             </div>
                             <div className="info">
                                 <a data-toggle="collapse" href="#collapseExample" className="collapsed">

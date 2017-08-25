@@ -29,7 +29,7 @@ class AddStaffComponent extends React.Component {
         if (roleSelect === undefined || roleSelect === null) {
             roleSelect = {};
         }
-        let avatar = helper.isEmptyInput(this.props.staffForm.avatar_url) ?
+        let avatar = helper.avatarEmpty(this.props.staffForm.avatar_url) ?
             NO_AVATAR : this.props.staffForm.avatar_url;
         return (
             <div>

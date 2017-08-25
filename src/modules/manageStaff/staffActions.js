@@ -333,11 +333,11 @@ export function changeAvatar(file, staffId) {
         dispatch({type: types.BEGIN_CHANGE_AVATAR_STAFF});
         staffApi.changeAvatar(file, function (event) {
             let data = JSON.parse(event.currentTarget.response);
-            dispatch({type: types.CHANGE_AVATAR_STAFF_SUCCESS, avatar_url: 'http://' + data.avatar_url});
+            dispatch({type: types.CHANGE_AVATAR_STAFF_SUCCESS, avatar_url: data.avatar_url});
             helper.showNotification(data.message);
             let user = JSON.parse(localStorage.getItem('user'));
             if (user.id == staffId) {
-                user.avatar_url = 'http://' + data.avatar_url;
+                user.avatar_url = data.avatar_url;
                 localStorage.setItem('user', JSON.stringify(user));
                 dispatch(getUserLocal());
             }
@@ -358,7 +358,7 @@ export function createAvatar(file) {
         dispatch({type: types.BEGIN_CHANGE_AVATAR_STAFF});
         staffApi.createAvatar(file, function (event) {
             let data = JSON.parse(event.currentTarget.response);
-            dispatch({type: types.CHANGE_AVATAR_STAFF_SUCCESS, avatar_url: 'http://' + data.avatar_url});
+            dispatch({type: types.CHANGE_AVATAR_STAFF_SUCCESS, avatar_url: data.avatar_url});
             helper.showNotification(data.message);
         });
     };

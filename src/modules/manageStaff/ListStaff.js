@@ -37,7 +37,7 @@ class ListStaff extends React.Component {
                                 </thead>
                                 <tbody>
                                 {staffs.map(function (staff, index) {
-                                    let avatar = helper.isEmptyInput(staff.avatar_url) ?
+                                    let avatar = helper.avatarEmpty(staff.avatar_url) ?
                                         NO_AVATAR : staff.avatar_url;
                                     return (
                                         <tr key={index}>
