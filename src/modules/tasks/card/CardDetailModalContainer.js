@@ -70,7 +70,7 @@ class CardDetailModalContainer extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row">
-                        <div className="col-sm-8">
+                        <div className="col-sm-8 col-md-9">
                             <h4>
                                 <strong>Mô tả</strong>
                                 <OverlayTrigger placement="right" overlay={editTooltip}>
@@ -111,11 +111,11 @@ class CardDetailModalContainer extends React.Component {
                                 )
                             }
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-sm-4 col-md-3">
                             <h4>
                                 <strong>Thêm</strong>
                             </h4>
-                            <div>
+                            <div className="card-detail-btn-group">
                                 <button className="btn btn-default">
                                     Việc cần làm
                                 </button>

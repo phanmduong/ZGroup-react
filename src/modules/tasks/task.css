@@ -124,3 +124,7 @@
 .card-modal-button i {
     font-size: 18px;
 }
+
+.card-detail-btn-group .btn {
+    width: 100%;
+}
