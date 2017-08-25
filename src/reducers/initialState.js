@@ -208,7 +208,7 @@ export default {
             id: 0,
             name: '',
             content: '',
-            thumbnailUrl: 'http://www.menucool.com/slider/jsImgSlider/images/image-slider-2.jpg',
+            thumbnailUrl: '',
             owner: {},
             isLoading: false,
             error: false
