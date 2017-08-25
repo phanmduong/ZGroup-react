@@ -8,8 +8,10 @@ use App\Colorme\Transformers\BoardTransformer;
 use App\Colorme\Transformers\CardTransformer;
 use App\Http\Controllers\ManageApiController;
 use App\Project;
+use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Task\Entities\TaskList;
 
 class TaskController extends ManageApiController
 {
@@ -230,5 +232,21 @@ class TaskController extends ManageApiController
         $card->description = trim($request->description);
         $card->save();
         return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function createTaskList(Request $request)
+    {
+        if (is_null($request->title) || is_null($request->card_id)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+        $taskList = new TaskList();
+        $taskList->title = trim($request->title);
+        $taskList->card_id = $request->card_id;
+        $taskList->save();
+        return $this->respondSuccessWithStatus([
+            "id" => $taskList->id,
+            "card_id" => $request->card_id,
+            "title" => $taskList->title
+        ]);
     }
 }
