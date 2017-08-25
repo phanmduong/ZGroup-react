@@ -23,7 +23,7 @@ export default function taskReducer(state = initialState.task, action) {
                     isSavingTaskList: true
                 }
             };
-        case types.UPDATE_CREATE_TASK_FORM_DATA:
+        case types.UPDATE_CREATE_TASK_LIST_FORM_DATA:
             return {
                 ...state,
                 createTaskList: {

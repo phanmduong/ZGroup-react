@@ -2,12 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Modal, OverlayTrigger, Popover, Tooltip} from "react-bootstrap";
+import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import * as taskActions from '../taskActions';
 import ReactEditor from "../../../components/common/ReactEditor";
 import {BASE_URL} from '../../../constants/env';
 import Loading from "../../../components/common/Loading";
-import TaskListForm from "./TaskListForm";
+import AddTaskListOverlayContainer from "./AddTaskListOverlayContainer";
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -15,9 +15,7 @@ class CardDetailModalContainer extends React.Component {
         this.updateEditor = this.updateEditor.bind(this);
         this.cancelEdit = this.cancelEdit.bind(this);
         this.saveCard = this.saveCard.bind(this);
-        this.saveTask = this.saveTask.bind(this);
         this.toggleEditCardDescription = this.toggleEditCardDescription.bind(this);
-        this.updateCreateTaskFormData = this.updateCreateTaskFormData.bind(this);
         this.state = {
             isEditing: false,
             description: ""
@@ -51,18 +49,6 @@ class CardDetailModalContainer extends React.Component {
             });
     }
 
-    saveTask() {
-
-    }
-
-    updateCreateTaskFormData(event) {
-        const value = event.target.value;
-        const field = event.target.name;
-        let task = {...this.props.task};
-        task[field] = value;
-        this.props.taskActions.updateCreateTaskFormData(task);
-    }
-
     cancelEdit() {
         this.setState({
             isEditing: false,
@@ -76,23 +62,12 @@ class CardDetailModalContainer extends React.Component {
             <Tooltip id="tooltip">Chỉnh sửa mô tả công việc</Tooltip>
         );
 
-
-        const addTaskPopOver = (
-            <Popover id="popover-positioned-bottom" title="thêm danh sách công việc">
-                <TaskListForm
-                    task={this.props.task}
-                    submit={this.saveTask}
-                    isSaving={this.props.isSavingTask}
-                    updateFormData={this.updateCreateTaskFormData}/>
-            </Popover>
-        );
-
         return (
             <Modal
                 enforceFocus={false}
                 show={this.props.showModal}
-                   bsSize="large" aria-labelledby="contained-modal-title-lg"
-                   onHide={this.props.taskActions.closeCardDetailModal}>
+                bsSize="large" aria-labelledby="contained-modal-title-lg"
+                onHide={this.props.taskActions.closeCardDetailModal}>
                 <Modal.Header closeButton>
                     <Modal.Title className="card-modal-title">{this.props.card.title}</Modal.Title>
                     <p> Trong bảng <strong>{this.props.card.board && this.props.card.board.title}</strong></p>
@@ -145,11 +120,7 @@ class CardDetailModalContainer extends React.Component {
                                 <strong>Thêm</strong>
                             </h4>
                             <div className="card-detail-btn-group">
-                                <OverlayTrigger trigger="click" placement="bottom" overlay={addTaskPopOver}>
-                                    <button className="btn btn-default">
-                                        Việc cần làm
-                                    </button>
-                                </OverlayTrigger>
+                                <AddTaskListOverlayContainer card={this.props.card}/>
                             </div>
                         </div>
                     </div>

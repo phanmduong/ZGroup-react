@@ -457,11 +457,11 @@ export function saveCard(card) {
     };
 }
 
-export function updateCreateTaskFormData(task) {
+export function updateCreateTaskListFormData(taskList) {
     return function (dispatch) {
         dispatch({
-            type: types.UPDATE_CREATE_TASK_FORM_DATA,
-            task
+            type: types.UPDATE_CREATE_TASK_LIST_FORM_DATA,
+            taskList
         });
     };
 }
@@ -475,7 +475,7 @@ export function saveTaskList(taskList) {
         taskApi.createTaskList(taskList).then((res) => {
             dispatch({
                 type: types.CREATE_TASK_LIST_SUCCESS,
-                taskList: res.data.taskList
+                taskList: res.data
             });
         });
     };
