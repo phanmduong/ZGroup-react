@@ -42,11 +42,11 @@ class ManageEmailMaketingController extends ManageApiController
         $email_form->save();
 
         return $this->respondSuccessWithStatus([
-            'email_form'=>[
+            'email_form' => [
                 'id' => $email_form->id,
-                'name' =>$email_form->name,
-                'title' =>$email_form->title,
-                'subtitle' =>$email_form->subtitle,
+                'name' => $email_form->name,
+                'title' => $email_form->title,
+                'subtitle' => $email_form->subtitle,
             ]
         ]);
     }
@@ -63,7 +63,6 @@ class ManageEmailMaketingController extends ManageApiController
                     $q->where('name', 'like', '%' . $query . '%')
                         ->orWhere('title', 'like', '%' . $query . '%');
                 })->orderBy('created_at')->paginate($limit);
-
         } else {
             $email_forms = EmailForms::where('status', 1)->orderBy('created_at')->paginate($limit);
         }
@@ -75,13 +74,38 @@ class ManageEmailMaketingController extends ManageApiController
                     'name' => $email_form->name,
                     'title' => $email_form->title,
                     'subtitle' => $email_form->subtitle,
-                    'logo_url' => config('app.protocol') . $email_form->logo_url,
+                    'logo_url' => config('app.protocol') . trim_url($email_form->logo_url),
                     'creator' => $email_form->creator()->first()
                 ];
             })
         ];
 
         return $this->respondWithPagination($email_forms, $data);
+    }
+
+    public function get_email_form($email_form_id)
+    {
+        $email_form = EmailForms::where('id', $email_form_id)->first();
+        $email_template = $email_form->template()->first();
+        $email_form->template = [
+            'id' => $email_template->id,
+            'name' => $email_template->name,
+            'thumbnail_url' => config('app.protocol') . trim_url($email_template->thumbnail_url),
+        ];
+        $email_form->logo_url = config('app.protocol') . trim_url($email_form->logo_url);
+
+        return $this->respondSuccessWithStatus([
+            'email_form' => $email_form
+        ]);
+    }
+
+    public function delete_email_form($email_form_id)
+    {
+        $email_form = EmailForms::where('id', $email_form_id)->first();
+        $email_form->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Xóa Email form thành công'
+        ]);
     }
 
     public function store_email_template(Request $request)
@@ -108,7 +132,10 @@ class ManageEmailMaketingController extends ManageApiController
     {
         $query = $request->search;
 
-        $limit = 1;
+        if ($request->limit) {
+            $limit = $request->limit;
+        } else
+            $limit = 12;
 
         if ($query) {
             $email_templates = EmailTemplate::where('name', 'like', '%' . $query . '%')
@@ -119,11 +146,15 @@ class ManageEmailMaketingController extends ManageApiController
 
         $data = [
             "email_templates" => $email_templates->map(function ($email_template) {
+                $owner = $email_template->owner()->first();
                 return [
                     'id' => $email_template->id,
                     'name' => $email_template->name,
-                    'thumbnail_url' => config('app.protocol') . $email_template->thumbnail_url,
-                    'owner' => $email_template->owner()->first()
+                    'thumbnail_url' => config('app.protocol') . trim_url($email_template->thumbnail_url),
+                    'owner' => [
+                        'id' => $owner->id,
+                        'name' => $owner->name
+                    ]
                 ];
             })
         ];
