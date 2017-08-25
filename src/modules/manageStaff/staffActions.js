@@ -4,7 +4,7 @@ import toastr from 'toastr';
 import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 import _ from 'lodash';
-
+/*eslint no-console: 0 */
 export function beginLoadStaffsData() {
     return {
         type: types.BEGIN_LOAD_STAFFS_DATA,

@@ -11,6 +11,10 @@ class ItemTabParent extends React.Component {
         this.changeCheckTabChild = this.changeCheckTabChild.bind(this);
     }
 
+    componentDidMount() {
+        $.material.init();
+    }
+
     changeCheckTabChild(checked, tabChildData, tabParentData) {
         let checkParent = false;
         let tabChild = {...tabChildData};
@@ -55,9 +59,6 @@ class ItemTabParent extends React.Component {
 
     }
 
-    componentDidMount() {
-        $.material.init();
-    }
 
     render() {
         let {tab, tabsListData} = this.props;

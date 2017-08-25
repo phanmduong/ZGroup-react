@@ -7,7 +7,7 @@ import toastr from 'toastr';
 import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
-
+/*eslint no-console: 0 */
 export function resetBase() {
     return function (dispatch) {
         dispatch({

@@ -19,7 +19,7 @@ class AddStaffContainer extends React.Component {
         this.changeColor = this.changeColor.bind(this);
         this.state={
             isDidUpdate: false
-        }
+        };
     }
 
     componentWillMount() {
@@ -29,6 +29,10 @@ class AddStaffContainer extends React.Component {
             this.props.staffActions.loadStaffData(this.props.params.staffId);
             this.setState({isDidUpdate: true});
         }
+    }
+
+    componentDidUpdate(){
+        this.initForm();
     }
 
     updateFormData(event) {
@@ -65,13 +69,10 @@ class AddStaffContainer extends React.Component {
     changeColor(color){
         let staffForm = {...this.props.staffForm};
         staffForm.color = color.hex;
-        console.log(color.hex);
         this.props.staffActions.updateAddStaffFormData(staffForm);
     }
 
-    componentDidUpdate(){
-            this.initForm();
-    }
+
 
 
     render() {

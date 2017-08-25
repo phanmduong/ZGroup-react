@@ -48,8 +48,7 @@ class ReactEditor extends React.Component {
                 let ajax = new XMLHttpRequest();
                 ajax.addEventListener("load", (event) => {
                     let data = JSON.parse(event.currentTarget.response);
-                    console.log(data.link);
-                    var data1 = {
+                    let data1 = {
                         data: {
                             height: 250,
                             type: "image/jpeg",

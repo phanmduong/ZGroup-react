@@ -7,6 +7,9 @@ import baseListReducer from '../modules/bases/baseListReducer';
 import * as types from '../constants/actionTypes';
 import taskReducer from "../modules/tasks/taskReducer";
 import registerReducer from "../modules/register/registerReducer";
+import emailTemplatesReducer from "../modules/emailTemplates/emailTemplatesReducer";
+import emailFormsReducer from "../modules/emailForms/emailFormsReducer";
+import blogReducer from '../modules/blog/blogReducer';
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -15,7 +18,10 @@ const appReducer = combineReducers({
     roles: rolesReducer,
     baseList: baseListReducer,
     task: taskReducer,
-    register: registerReducer
+    register: registerReducer,
+    emailTemplates: emailTemplatesReducer,
+    emailForms: emailFormsReducer,
+    blog: blogReducer,
 });
 
 const rootReducer = (state, action) => {

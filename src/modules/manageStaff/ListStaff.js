@@ -26,18 +26,18 @@ class ListStaff extends React.Component {
                             <table className="table">
                                 <thead className="text-rose">
                                 <tr>
-                                    <th></th>
+                                    <th/>
                                     <th>Họ tên</th>
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Cơ sở</th>
                                     <th>Chức vụ</th>
-                                    <th></th>
+                                    <th/>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {staffs.map(function (staff, index) {
-                                    var avatar = helper.isEmptyInput(staff.avatar_url) ?
+                                    let avatar = helper.isEmptyInput(staff.avatar_url) ?
                                         NO_AVATAR : staff.avatar_url;
                                     return (
                                         <tr key={index}>

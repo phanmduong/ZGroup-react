@@ -248,7 +248,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
                         }
                     }
                 }
-            }
+            };
         case types.INIT_FORM_ADD_STAFF:
             return {
                 ...state,

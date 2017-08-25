@@ -105,6 +105,7 @@ class CardDetailModalContainer extends React.Component {
                                         }
                                     </div>
                                 ) : (
+                                    //eslint-disable-next-line
                                     <div dangerouslySetInnerHTML={{__html: this.props.card.description}}>
                                     </div>
                                 )
@@ -118,6 +119,7 @@ class CardDetailModalContainer extends React.Component {
                                 <button className="btn btn-default">
                                     Việc cần làm
                                 </button>
+
                             </div>
                         </div>
                     </div>
