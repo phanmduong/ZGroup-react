@@ -151,7 +151,8 @@ export default {
     task: {
         cardDetail: {
             card: {},
-            showModal: false
+            showModal: false,
+            isSavingCard: false
         },
         createCard: {
             card: {},

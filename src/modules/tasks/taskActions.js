@@ -437,11 +437,23 @@ export function closeCardDetailModal() {
     };
 }
 
-export function updateCardDescription(description) {
+export function saveCard(card) {
     return function (dispatch) {
         dispatch({
-            type: types.UPDATE_CARD_DESCRIPTION,
-            description
+            type: types.BEGIN_SAVE_CARD,
+            isSavingCard: true
         });
+
+        return new Promise((resolve) => {
+            taskApi.updateCard(card).then(() => {
+                dispatch({
+                    type: types.SAVE_CARD_SUCCESS,
+                    card
+                });
+                resolve("success");
+            });
+        });
+
     };
 }
+
