@@ -457,3 +457,27 @@ export function saveCard(card) {
     };
 }
 
+export function updateCreateTaskFormData(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_CREATE_TASK_FORM_DATA,
+            task
+        });
+    };
+}
+
+export function saveTaskList(taskList) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_TASK_LIST
+        });
+
+        taskApi.createTaskList(taskList).then((res) => {
+            dispatch({
+                type: types.CREATE_TASK_LIST_SUCCESS,
+                taskList: res.data.taskList
+            });
+        });
+    };
+}
+

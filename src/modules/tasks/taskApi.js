@@ -113,3 +113,12 @@ export function updateCard(card) {
     return axios.post(url, card);
 }
 
+export function createTaskList(taskList) {
+    let url = env.MANAGE_API_URL + "/tasklist/create";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, taskList);
+}
+
