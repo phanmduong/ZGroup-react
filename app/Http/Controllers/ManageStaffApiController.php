@@ -62,7 +62,9 @@ class ManageStaffApiController extends ApiController
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
         $user->avatar_url = $request->avatar_url;
-
+        if ($request->color){
+            $user->color = $request->color;
+        }
 
         $user->password = bcrypt('123456');
         $user->deleted_at = null;
@@ -158,6 +160,10 @@ class ManageStaffApiController extends ApiController
         $user->homeland = $request->homeland;
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
+        $user->avatar_url = $request->avatar_url;
+        if ($request->color){
+            $user->color = $request->color;
+        }
         $user->save();
         return $this->respondSuccessWithStatus([
             "user" => $user

@@ -28,7 +28,6 @@ class AuthenticateController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
         $user = User::where('email', $credentials['email'])->first();
-
         // all good so return the token
         return response()->json([
             'token' => compact('token')['token'],

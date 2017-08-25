@@ -44,6 +44,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
+use Modules\EmailMaketing\Entities\EmailForms;
 
 
 class PublicController extends Controller
@@ -824,7 +825,13 @@ class PublicController extends Controller
 
     public function redirectManage()
     {
-        return redirect('http://manage.' . config('app.domain'));
+        return redirect(config('app.protocol') . 'manage.' . config('app.domain'));
+    }
 
+    public function render_email_form($email_form_id){
+        $email_form = EmailForms::find($email_form_id);
+        $email_form->template = $email_form->template()->first();
+        $data = convert_email_form($email_form);
+        return view('emails.view_email_form', ['data'=>$data]);
     }
 }

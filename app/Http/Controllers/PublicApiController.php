@@ -63,7 +63,7 @@ class PublicApiController extends ApiController
     {
         $image_name = uploadFileToS3($request, 'image', 800, null);
         if ($image_name != null) {
-            $data["image_url"] = $this->s3_url . $image_name;
+            $data["image_url"] = config('app.protocol').trim_url($this->s3_url . $image_name);
             $data["image_name"] = $image_name;
         }
         return $this->respond(['link' => $data['image_url']]);
