@@ -8,7 +8,7 @@ import {bindActionCreators} from 'redux';
 import CreateEmailFormComponent from './CreateEmailFormComponent';
 import * as emailFormsActions from './emailFormsActions';
 import * as helper from '../../helpers/helper';
-
+import initialState from '../../reducers/initialState';
 
 class CreateEmailFormContainer extends React.Component {
     constructor(props, context) {
@@ -22,6 +22,7 @@ class CreateEmailFormContainer extends React.Component {
     }
 
     componentWillMount(){
+        this.props.emailFormsActions.updateEmailFormData(initialState.emailForms.emailForm);
         if (this.props.route.type === 'edit') {
             this.props.emailFormsActions.loadEmailForm(this.props.params.emailFormId);
         }

@@ -2,6 +2,7 @@ import * as types from '../../constants/actionTypes';
 import * as emailFormApi from './emailFormApi';
 import * as helper from '../../helpers/helper';
 import {BASE_URL} from '../../constants/env';
+import {browserHistory} from 'react-router';
 
 export function loadForms(page, search) {
     return function (dispatch) {
@@ -39,15 +40,15 @@ export function uploadImage(file) {
         });
         emailFormApi.uploadImage(file, function (event) {
             let data = JSON.parse(event.currentTarget.response);
-            dispatch(uploadImageBlogSuccess(data.link));
+            dispatch(uploadImageEmailFormSuccess(data.link));
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
-            dispatch(uploadImageBlogFailed());
+            dispatch(uploadImageEmailFormFailed());
         });
     };
 }
 
-export function uploadImageBlogSuccess(imageUrl) {
+export function uploadImageEmailFormSuccess(imageUrl) {
     return (
         {
             type: types.UPLOAD_IMAGE_EMAIL_FORM_SUCCESS,
@@ -56,7 +57,7 @@ export function uploadImageBlogSuccess(imageUrl) {
     );
 }
 
-export function uploadImageBlogFailed() {
+export function uploadImageEmailFormFailed() {
     return (
         {
             type: types.UPLOAD_IMAGE_EMAIL_FORM_FAILED,
@@ -101,6 +102,7 @@ export function saveEmailForm(emailForm) {
         emailFormApi.saveEmailForm(emailForm, 1)
             .then((res) => {
                 helper.showNotification("Tải lên thành công");
+                browserHistory.push('/email-maketing/forms');
                 dispatch({
                     type: types.SAVE_EMAIL_FORM_SUCCESS,
                     emailFormId: res.data.data.email_form.id,

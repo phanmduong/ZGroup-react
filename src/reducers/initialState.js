@@ -198,8 +198,21 @@ export default {
         templates: [],
         isLoading: false,
         error: false,
+        isUpdatingThumbnail: false,
+        updateThumbnailError: false,
+        isSaving: false,
+        savingError: false,
         currentPage: 1,
-        totalPages: 1
+        totalPages: 1,
+        emailTemplate: {
+            id: 0,
+            name: '',
+            content: '',
+            thumbnailUrl: 'http://www.menucool.com/slider/jsImgSlider/images/image-slider-2.jpg',
+            owner: {},
+            isLoading: false,
+            error: false
+        }
     },
 
     emailForms: {
@@ -233,7 +246,7 @@ export default {
         }
     },
 
-    blog:{
+    blog: {
         post: {
             isUpdatingImage: false,
             updateImageError: false,
@@ -242,18 +255,18 @@ export default {
             description: '',
             tags: '',
             category: 0,
-            content:'',
+            content: '',
             isSaving: false,
             saveError: false,
             isPreSaving: false,
             preSaveError: false,
         },
-        categories:{
+        categories: {
             categories: [],
             isLoading: false,
             error: false
         },
-        category:{
+        category: {
             name: '',
             isCreating: false,
             error: false,

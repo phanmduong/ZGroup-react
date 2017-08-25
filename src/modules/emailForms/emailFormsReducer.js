@@ -238,9 +238,9 @@ export default function baseListReducer(state = initialState.emailForms, action)
 
 }
 
-function deleteEmailForm(emailFormId, emmailFormsData) {
-    if (emmailFormsData) {
-        emmailFormsData = emmailFormsData.filter(emailForm => emailForm.id !== emailFormId);
+function deleteEmailForm(emailFormId, emailFormsData) {
+    if (emailFormsData) {
+        emailFormsData = emailFormsData.filter(emailForm => emailForm.id !== emailFormId);
     }
-    return emmailFormsData;
+    return emailFormsData;
 }

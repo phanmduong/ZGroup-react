@@ -18,9 +18,7 @@ const ItemTemplate = ({template, onClick}) => {
                              height: '200px',
                              borderRadius: '10px'
                          }}
-                    >
-                        {/*<div style={template.thumbnail_url}/>*/}
-                    </div>
+                    />
                 </div>
                 <div className="card-content">
                     <h4 className="card-title">{template.name}</h4>

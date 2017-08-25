@@ -21,6 +21,7 @@ class EmailTemplatesContainer extends React.Component {
         };
         this.timeOut = null;
         this.templatesSearchChange = this.templatesSearchChange.bind(this);
+        this.deleteEmailTemplate = this.deleteEmailTemplate.bind(this);
     }
 
     componentWillMount() {
@@ -46,6 +47,10 @@ class EmailTemplatesContainer extends React.Component {
         this.props.emailTemplatesActions.loadTemplates(page, this.state.query);
     }
 
+    deleteEmailTemplate(emailTemplate){
+        this.props.emailTemplatesActions.deleteEmailTemplate(emailTemplate.id);
+    }
+
     render() {
         return (
             <div id="page-wrapper">
@@ -63,7 +68,7 @@ class EmailTemplatesContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="col-md-3">
-                                        <Link to="/base/create" className="btn btn-rose">
+                                        <Link to="/email-template/create" className="btn btn-rose">
                                             Thêm template
                                         </Link>
                                     </div>
@@ -78,7 +83,10 @@ class EmailTemplatesContainer extends React.Component {
 
                             {this.props.isLoadingTemplates ? <Loading/> :
                                 <ListTemplate
-                                    templates={this.props.templates}/>}
+                                    templates={this.props.templates}
+                                    deleteEmailTemplate={this.deleteEmailTemplate}
+                                />
+                            }
                         </div>
                     </div>
 

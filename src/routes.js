@@ -17,6 +17,7 @@ import RegisterListContainer from "./modules/register/RegisterListContainer";
 import EmailTemplatesContainer from "./modules/emailTemplates/EmailTemplatesContainer";
 import EmailFormsContainer from "./modules/emailForms/EmailFormsContainer";
 import CreateEmailFormContainer from "./modules/emailForms/CreateEmailFormContainer";
+import CreateEmailTemplateContainer from "./modules/emailTemplates/CreateEmailTemplateContainer";
 import BlogContainer from "./modules/blog/BlogContainer";
 
 export default (
@@ -52,6 +53,8 @@ export default (
 
             {/*Begin Email marketing routes*/}
             <Route path="/email-maketing/templates" component={EmailTemplatesContainer}/>
+            <Route path="/email-template/create" component={CreateEmailTemplateContainer} type="create"/>
+            <Route path="/email-template/:emailTemplateId/edit" component={CreateEmailTemplateContainer} type="edit"/>
             <Route path="/email-maketing/forms" component={EmailFormsContainer}/>
             <Route path="/email-form/create" component={CreateEmailFormContainer} type="create"/>
             <Route path="/email-form/:emailFormId/edit" component={CreateEmailFormContainer} type="edit"/>

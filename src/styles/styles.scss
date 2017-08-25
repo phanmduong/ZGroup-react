@@ -127,4 +127,11 @@ table tr td .avatar-list-staff {
   height: 200px;
 }
 
+#card-email-template .card-action{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-items: center;
+  width: 100%;
+}
 
