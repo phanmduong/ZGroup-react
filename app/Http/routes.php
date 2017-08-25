@@ -95,11 +95,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::get('/base/{baseId}', "ManageBaseApiController@base");
     // End Base api
 
-
-
-    //Begin teaching api
-
-    //Begin teaching api
+    //Begin upload api
+    Route::post('/upload-image-editor', 'ManageUploadApiController@upload_image_editor');
+    //End upload api
 
 });
 
