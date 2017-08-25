@@ -220,4 +220,15 @@ class TaskController extends ManageApiController
         }
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
+
+    public function updateCard($cardId, Request $request)
+    {
+        if (is_null($request->description)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+        $card = Card::find($cardId);
+        $card->description = trim($request->description);
+        $card->save();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
 }
