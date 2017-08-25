@@ -61,8 +61,8 @@ class ManageStaffApiController extends ApiController
         $user->homeland = $request->homeland;
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
-        $user->avatar_url = $request->avatar_url;
-        if ($request->color){
+        $user->avatar_url = trim_url($request->avatar_url);
+        if ($request->color) {
             $user->color = $request->color;
         }
 
@@ -95,7 +95,7 @@ class ManageStaffApiController extends ApiController
 
         $data = [
             "staffs" => $staffs->map(function ($staff) {
-                $staff->avatar_url = 'http://' . $staff->avatar_url;
+                $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
                 return $staff;
             })
         ];
@@ -105,7 +105,7 @@ class ManageStaffApiController extends ApiController
     public function get_staff($staffId)
     {
         $staff = User::find($staffId);
-        $staff->avatar_url = 'http://' . $staff->avatar_url;
+        $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
         return $this->respondSuccessWithStatus(['staff' => $staff]);
     }
 
@@ -160,11 +160,12 @@ class ManageStaffApiController extends ApiController
         $user->homeland = $request->homeland;
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
-        $user->avatar_url = $request->avatar_url;
-        if ($request->color){
+        $user->avatar_url = trim_url($request->avatar_url);
+        if ($request->color) {
             $user->color = $request->color;
         }
         $user->save();
+        $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
         return $this->respondSuccessWithStatus([
             "user" => $user
         ]);
@@ -189,26 +190,26 @@ class ManageStaffApiController extends ApiController
 
     public function change_avatar(Request $request)
     {
-        $avatar_name = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
-        $avatar_name = $this->s3_url . $avatar_name;
-        if ($avatar_name != null) {
+        $avatar_url = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
+        $avatar_url = $this->s3_url . $avatar_url;
+        if ($avatar_url != null) {
             $staff = User::find($request->id);
-            $staff->avatar_url = $avatar_name;
+            $staff->avatar_url = trim_url($avatar_url);
             $staff->save();
         }
         return $this->respond([
             "message" => "Tải lên thành công",
-            "avatar_url" => $avatar_name,
+            "avatar_url" => config('app.protocol') . trim_url($avatar_url),
         ]);
     }
 
     public function create_avatar(Request $request)
     {
-        $avatar_name = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
-        $avatar_name = $this->s3_url . $avatar_name;
+        $avatar_url = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
+        $avatar_url = $this->s3_url . $avatar_url;
         return $this->respond([
             "message" => "Tải lên thành công",
-            "avatar_url" => $avatar_name,
+            "avatar_url" => config('app.protocol') . trim_url($avatar_url),
         ]);
     }
 

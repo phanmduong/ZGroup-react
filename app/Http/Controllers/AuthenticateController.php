@@ -13,7 +13,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticateController extends Controller
 {
-    public function login( Request $request)
+    public function login(Request $request)
     {
         // grab credentials from the request
         $credentials = $request->only('email', 'password');
@@ -28,6 +28,7 @@ class AuthenticateController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
         $user = User::where('email', $credentials['email'])->first();
+        $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
         // all good so return the token
         return response()->json([
             'token' => compact('token')['token'],
