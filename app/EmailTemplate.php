@@ -4,10 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\EmailMaketing\Entities\EmailForms;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EmailTemplate extends Model
 {
+    use SoftDeletes;
     protected $table = 'email_templates';
+    protected $dates = ['deleted_at'];
 
     public function owner()
     {
