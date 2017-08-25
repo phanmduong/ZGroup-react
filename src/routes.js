@@ -54,7 +54,7 @@ export default (
             <Route path="/email-maketing/templates" component={EmailTemplatesContainer}/>
             <Route path="/email-maketing/forms" component={EmailFormsContainer}/>
             <Route path="/email-form/create" component={CreateEmailFormContainer} type="create"/>
-            <Route path="/email-form/:formId/edit" component={CreateEmailFormContainer} type="edit"/>
+            <Route path="/email-form/:emailFormId/edit" component={CreateEmailFormContainer} type="edit"/>
             {/*End Email marketing routes*/}
 
             {/*Begin blog routes*/}

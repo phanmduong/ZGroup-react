@@ -10,11 +10,14 @@ class ListTemplate extends React.Component {
     render() {
         return (
             <div>
-                {this.props.templates.map(template => {
-                    return (
-                        <ItemTemplate name={template.name} key={template.id}/>
-                    );
-                })}
+                <div className="row">
+                    {this.props.templates.map(template => {
+                        return (
+                            <ItemTemplate template={template} key={template.id}/>
+                        );
+                    })}
+                </div>
+
             </div>
         );
     }

@@ -17,9 +17,6 @@ class AddStaffContainer extends React.Component {
         this.addStaff = this.addStaff.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.changeColor = this.changeColor.bind(this);
-        this.state={
-            isDidUpdate: false
-        };
     }
 
     componentWillMount() {
@@ -27,7 +24,6 @@ class AddStaffContainer extends React.Component {
         this.props.roleActions.loadRolesData();
         if (this.props.route.type === 'edit') {
             this.props.staffActions.loadStaffData(this.props.params.staffId);
-            this.setState({isDidUpdate: true});
         }
     }
 

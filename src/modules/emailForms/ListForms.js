@@ -29,7 +29,7 @@ class ListForm extends React.Component {
                                 <td>
                                     <ButtonGroupAction
                                         editUrl={"/email-form/" + form.id + "/edit"}
-                                        delete={()=>{}}
+                                        delete={this.props.deleteEmailForm}
                                         object={form}
                                     />
                                 </td>
@@ -44,7 +44,8 @@ class ListForm extends React.Component {
 }
 
 ListForm.propTypes = {
-    forms: PropTypes.array.isRequired
+    forms: PropTypes.array.isRequired,
+    deleteEmailForm: PropTypes.func.isRequired,
 };
 
 export default ListForm;

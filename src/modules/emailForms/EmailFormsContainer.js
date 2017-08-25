@@ -21,6 +21,7 @@ class EmailFormsContainer extends React.Component {
         };
         this.timeOut = null;
         this.formsSearchChange = this.formsSearchChange.bind(this);
+        this.deleteEmailForm = this.deleteEmailForm.bind(this);
     }
 
     componentWillMount() {
@@ -44,6 +45,10 @@ class EmailFormsContainer extends React.Component {
     loadForms(page = 1) {
         this.setState({page});
         this.props.emailFormsActions.loadForms(page, this.state.query);
+    }
+
+    deleteEmailForm(emailForm){
+        this.props.emailFormsActions.deleteEmailForm(emailForm.id);
     }
 
     render() {
@@ -78,7 +83,9 @@ class EmailFormsContainer extends React.Component {
 
                             {this.props.isLoadingForms ? <Loading/> :
                                 <ListForm
-                                    forms={this.props.forms}/>}
+                                    forms={this.props.forms}
+                                    deleteEmailForm={this.deleteEmailForm}
+                                />}
                         </div>
                     </div>
 

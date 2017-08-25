@@ -221,6 +221,8 @@ export default {
             template: {},
             content: '',
             footer: '',
+            isLoading: false,
+            error: false
         },
         emailTemplates: {
             templates: [],

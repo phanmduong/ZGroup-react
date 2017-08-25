@@ -21,6 +21,12 @@ class CreateEmailFormContainer extends React.Component {
         this.preSaveEmailForm = this.preSaveEmailForm.bind(this);
     }
 
+    componentWillMount(){
+        if (this.props.route.type === 'edit') {
+            this.props.emailFormsActions.loadEmailForm(this.props.params.emailFormId);
+        }
+    }
+
     updateEmailFormData(event) {
         const field = event.target.name;
         let data = {...this.props.emailForm};
@@ -105,7 +111,11 @@ CreateEmailFormContainer.propTypes = {
     isUpdatingLogo: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isPreSaving: PropTypes.bool.isRequired,
+    isLoadingEmailForm: PropTypes.bool.isRequired,
     emailFormsActions: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -113,7 +123,8 @@ function mapStateToProps(state) {
         emailForm : state.emailForms.emailForm,
         isUpdatingLogo : state.emailForms.isUpdatingLogo,
         isSaving: state.emailForms.isSaving,
-        isPreSaving: state.emailForms.isPreSaving
+        isPreSaving: state.emailForms.isPreSaving,
+        isLoadingEmailForm: state.emailForms.emailForm.isLoading
     };
 }
 

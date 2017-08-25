@@ -27,6 +27,7 @@ export function uploadImage(file, completeHandler, error) {
 export function loadTemplates(page = 1, query = null) {
     let url = env.MANAGE_API_URL + "/email-templates?page=" + page;
     let token = localStorage.getItem('token');
+    url += '&limit=6';
     if (query) {
         url += "&search=" + query;
     }
@@ -54,4 +55,22 @@ export function saveEmailForm(emailForm, status) {
         footer: emailForm.footer,
         status: status,
     });
+}
+
+export function deleteEmailForm(emailFormId) {
+    let url = env.MANAGE_API_URL + '/email-form/' + emailFormId + '/delete';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadEmailForm(emailFormId) {
+    let url = env.MANAGE_API_URL + '/email-form/' + emailFormId + '/get';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
 }

@@ -16,7 +16,6 @@ export function updateFormData(login) {
         loadLoginApi.loadLoginApi(login).then(function (res) {
             dispatch(updatedLoginForm(res));
         }).catch(error => {
-            localStorage.removeItem('token');
             dispatch(loginError());
             console.log(error);
         });

@@ -6,6 +6,7 @@ import * as helper from '../../helpers/helper';
 import {NO_IMAGE} from '../../constants/env';
 import EmailTemplatesContainer from './EmailTemplatesContainer';
 import PropTypes from 'prop-types';
+import Loading from "../../components/common/Loading";
 
 class CreateEmailFormComponent extends React.Component {
     constructor(props, context) {
@@ -29,30 +30,32 @@ class CreateEmailFormComponent extends React.Component {
                                         className="material-icons">bookmark</i></div>
                                     <div className="card-content">
                                         <h4 className="card-title">Tạo form</h4>
-                                        <form role="form"
-                                              id="form-email-form">
-                                            <FormInputText
-                                                label="Tên email form"
-                                                required
-                                                name="name"
-                                                updateFormData={this.props.updateEmailFormData}
-                                                value={name}
-                                            />
-                                            <FormInputText
-                                                label="Tiêu đề"
-                                                required
-                                                name="title"
-                                                updateFormData={this.props.updateEmailFormData}
-                                                value={title}
-                                            />
-                                            <FormInputText
-                                                label="Tiêu đề nhỏ"
-                                                required
-                                                name="subtitle"
-                                                updateFormData={this.props.updateEmailFormData}
-                                                value={subtitle}
-                                            />
-                                        </form>
+                                        {this.props.isLoadingEmailForm ? <Loading/> :
+                                            <form role="form"
+                                                  id="form-email-form">
+                                                <FormInputText
+                                                    label="Tên email form"
+                                                    required
+                                                    name="name"
+                                                    updateFormData={this.props.updateEmailFormData}
+                                                    value={name}
+                                                />
+                                                <FormInputText
+                                                    label="Tiêu đề"
+                                                    required
+                                                    name="title"
+                                                    updateFormData={this.props.updateEmailFormData}
+                                                    value={title}
+                                                />
+                                                <FormInputText
+                                                    label="Tiêu đề nhỏ"
+                                                    required
+                                                    name="subtitle"
+                                                    updateFormData={this.props.updateEmailFormData}
+                                                    value={subtitle}
+                                                />
+                                            </form>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -62,12 +65,14 @@ class CreateEmailFormComponent extends React.Component {
                                         className="material-icons">bookmark</i></div>
                                     <div className="card-content">
                                         <h4 className="card-title">Content</h4>
-                                        <ReactEditor
-                                            urlPost={linkUploadImageEditor()}
-                                            fileField="image"
-                                            updateEditor={this.props.updateEditorContent}
-                                            value={content}
-                                        />
+                                        {this.props.isLoadingEmailForm ? <Loading/> :
+                                            <ReactEditor
+                                                urlPost={linkUploadImageEditor()}
+                                                fileField="image"
+                                                updateEditor={this.props.updateEditorContent}
+                                                value={content}
+                                            />
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -77,12 +82,14 @@ class CreateEmailFormComponent extends React.Component {
                                         className="material-icons">bookmark</i></div>
                                     <div className="card-content">
                                         <h4 className="card-title">Footer</h4>
-                                        <ReactEditor
-                                            urlPost={linkUploadImageEditor()}
-                                            fileField="image"
-                                            updateEditor={this.props.updateEditorFooter}
-                                            value={footer}
-                                        />
+                                        {this.props.isLoadingEmailForm ? <Loading/> :
+                                            <ReactEditor
+                                                urlPost={linkUploadImageEditor()}
+                                                fileField="image"
+                                                updateEditor={this.props.updateEditorFooter}
+                                                value={footer}
+                                            />
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -95,6 +102,7 @@ class CreateEmailFormComponent extends React.Component {
                                 <i className="material-icons">announcement</i>
                             </div>
                             <div className="card-content"><h4 className="card-title">Thông tin về form </h4>
+
                                 <img
                                     src={helper.isEmptyInput(logoUrl) ?
                                         NO_IMAGE : logoUrl
@@ -135,8 +143,9 @@ class CreateEmailFormComponent extends React.Component {
                                     }}>
                                         <label>Loại template</label>
                                         <button type="button" className="btn btn-rose btn-sm"
-                                                data-toggle="modal"
-                                                data-target="#chooseTemplateModal"
+                                                onClick={() => {
+                                                    $('#chooseTemplateModal').modal('show');
+                                                }}
                                         >
                                             <i className="material-icons">control_point</i>
                                         </button>
@@ -144,7 +153,7 @@ class CreateEmailFormComponent extends React.Component {
                                 </div>
                                 <div className="modal fade" id="chooseTemplateModal" role="dialog"
                                      aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div className="modal-dialog">
+                                    <div className="modal-dialog modal-lg">
                                         <div className="modal-content">
                                             <div className="modal-header">
                                                 <button type="button" className="close" data-dismiss="modal"
@@ -159,9 +168,18 @@ class CreateEmailFormComponent extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                                <img
-                                    src={template.thumbnail_url}/>
-                                <p>{template.name}</p>
+                                <div className="card card-chart" id="card-email-template">
+                                    <div className="card-header" data-background-color="white">
+                                        <div id="simpleBarChart" className="ct-chart"
+                                             style={{
+                                                 background: 'url(' + template.thumbnail_url + ')',
+                                             }}
+                                        />
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">{template.name}</h4>
+                                    </div>
+                                </div>
                                 {this.props.isPreSaving ?
                                     (
                                         <button className="btn btn-fill btn-default"
@@ -185,7 +203,8 @@ class CreateEmailFormComponent extends React.Component {
                                     (
                                         <button className="btn btn-fill btn-rose"
                                                 type="button">
-                                            <i className="fa fa-spinner fa-spin disabled"/> Đang tạo form
+                                            <i className="fa fa-spinner fa-spin disabled"/>
+                                            {this.props.route.type === 'edit' ? 'Đang lưu form' : 'Đang tạo form'}
                                         </button>
                                     )
                                     :
@@ -195,7 +214,7 @@ class CreateEmailFormComponent extends React.Component {
                                             type="button"
                                             onClick={this.props.saveEmailForm}
                                         >
-                                            Tạo
+                                            {this.props.route.type === 'edit' ? 'Lưu' : 'Tạo'}
                                         </button>
                                     )
 
@@ -214,6 +233,7 @@ CreateEmailFormComponent.propTypes = {
     isUpdatingLogo: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isPreSaving: PropTypes.bool.isRequired,
+    isLoadingEmailForm: PropTypes.bool.isRequired,
     emailFormsActions: PropTypes.object.isRequired,
     updateEmailFormData: PropTypes.func.isRequired,
     updateEditorContent: PropTypes.func.isRequired,
@@ -221,6 +241,8 @@ CreateEmailFormComponent.propTypes = {
     handleFileUpload: PropTypes.func.isRequired,
     preSaveEmailForm: PropTypes.func.isRequired,
     saveEmailForm: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
 };
 
 export default CreateEmailFormComponent;

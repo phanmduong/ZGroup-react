@@ -4,6 +4,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let emailForms;
 export default function baseListReducer(state = initialState.emailForms, action) {
     switch (action.type) {
         case types.BEGIN_LOAD_EMAIL_FORMS:
@@ -134,7 +135,7 @@ export default function baseListReducer(state = initialState.emailForms, action)
 
                     isSaving: false,
                     saveError: false,
-                    emailForm:{
+                    emailForm: {
                         ...state.emailForm,
                         id: action.emailFormId,
                     }
@@ -164,7 +165,7 @@ export default function baseListReducer(state = initialState.emailForms, action)
 
                     isPreSaving: false,
                     preSaveError: false,
-                    emailForm:{
+                    emailForm: {
                         ...state.emailForm,
                         id: action.emailFormId,
                     }
@@ -178,8 +179,68 @@ export default function baseListReducer(state = initialState.emailForms, action)
                     preSaveError: true,
                 }
             };
+        case types.DELETE_EMAIL_FORM_SUCCESS:
+            emailForms = deleteEmailForm(action.emailFormId, state.forms);
+            return {
+                ...state,
+                forms: emailForms
+            };
+        case types.BEGIN_LOAD_EMAIL_FORM:
+            return {
+                ...state,
+                ...{
+                    emailForm: {
+                        ...state.emailForm,
+                        ...{
+                            isLoading: true,
+                            error: false,
+                        }
+                    }
+                }
+            };
+        case types.LOAD_EMAIL_FORM_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    emailForm: {
+                        ...state.emailForm,
+                        ...{
+                            isLoading: false,
+                            error: false,
+                            id: action.emailForm.id,
+                            name: action.emailForm.name,
+                            logoUrl: action.emailForm.logo_url,
+                            title: action.emailForm.title,
+                            subtitle: action.emailForm.subtitle,
+                            template: action.emailForm.template,
+                            content: action.emailForm.content,
+                            footer: action.emailForm.footer,
+                        }
+                    }
+                }
+            };
+        case types.LOAD_EMAIL_FORM_ERROR:
+            return {
+                ...state,
+                ...{
+                    emailForm: {
+                        ...state.emailForm,
+                        ...{
+                            isLoading: false,
+                            error: true,
+                        }
+                    }
+                }
+            };
         default:
             return state;
     }
 
+}
+
+function deleteEmailForm(emailFormId, emmailFormsData) {
+    if (emmailFormsData) {
+        emmailFormsData = emmailFormsData.filter(emailForm => emailForm.id !== emailFormId);
+    }
+    return emmailFormsData;
 }

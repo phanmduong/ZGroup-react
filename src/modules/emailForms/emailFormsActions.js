@@ -17,11 +17,11 @@ export function loadForms(page, search) {
                     totalPages: res.data.paginator.total_pages
                 });
             })
-            .catch(() =>{
+            .catch(() => {
                 dispatch({
                     type: types.LOAD_EMAIL_FORMS_ERROR,
                 });
-        });
+            });
     };
 }
 
@@ -78,7 +78,7 @@ export function loadTemplates(page, search) {
                     totalPages: res.data.paginator.total_pages
                 });
             })
-            .catch(() =>{
+            .catch(() => {
                 dispatch({
                     type: types.LOAD_EMAIL_TEMPLATES_ERROR,
                 });
@@ -134,5 +134,47 @@ export function preSaveEmailForm(emailForm) {
                 type: types.PRE_SAVE_EMAIL_FORM_FAILED
             });
         });
+    };
+}
+
+export function deleteEmailForm(emailFormId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_DELETE_EMAIL_FORM,
+        });
+        emailFormApi.deleteEmailForm(emailFormId)
+            .then(() => {
+                helper.showNotification('Xóa email form thành công');
+                dispatch({
+                    type: types.DELETE_EMAIL_FORM_SUCCESS,
+                    emailFormId
+                });
+            })
+            .catch(() => {
+                helper.showNotification('Xóa email form thất bại');
+                dispatch({
+                    type: types.DELETE_EMAIL_FORM_ERROR,
+                });
+            });
+    };
+}
+
+export function loadEmailForm(emailFormId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_EMAIL_FORM,
+        });
+        emailFormApi.loadEmailForm(emailFormId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_EMAIL_FORM_SUCCESS,
+                    emailForm: res.data.data.email_form
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_EMAIL_FORM_ERROR,
+                });
+            });
     };
 }
