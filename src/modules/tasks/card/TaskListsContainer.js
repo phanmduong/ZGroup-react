@@ -5,15 +5,32 @@ import PropTypes from 'prop-types';
 import * as taskActions from '../taskActions';
 import Loading from "../../../components/common/Loading";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
+import TaskItem from "./TaskItem";
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.addTask = this.addTask.bind(this);
     }
 
     componentWillMount() {
         this.props.taskActions.loadTaskLists(this.props.cardId);
     }
+
+
+    addTask(taskListId) {
+        return (event) => {
+            if (event.key === 'Enter') {
+                if (event.target.value !== "") {
+                    this.props.taskActions.createTask({
+                        title: event.target.value,
+                        task_list_id: taskListId
+                    });
+                }
+            }
+        };
+    }
+
 
     render() {
         return (
@@ -37,8 +54,28 @@ class TaskListsContainer extends React.Component {
                                     </div>
                                 </div>
                                 <ListGroup>
-                                    <ListGroupItem>Item 1</ListGroupItem>
-                                    <ListGroupItem>Item 2</ListGroupItem>
+                                    {
+                                        taskList.tasks.map((task) =>
+                                            <TaskItem
+                                                deleteTask={this.props.taskActions.deleteTask}
+                                                key={task.id}
+                                                task={task}/>)
+                                    }
+                                    <ListGroupItem>
+                                        {
+                                            taskList.isSavingTask ? <Loading/> :
+                                                (
+                                                    <div className="form-group" style={{marginTop: 0}}>
+                                                        <input
+                                                            placeholder="Thêm mục"
+                                                            type="text"
+                                                            className="form-control"
+                                                            onKeyDown={this.addTask(taskList.id)}/>
+                                                    </div>
+                                                )
+                                        }
+
+                                    </ListGroupItem>
                                 </ListGroup>
                             </div>
                         );

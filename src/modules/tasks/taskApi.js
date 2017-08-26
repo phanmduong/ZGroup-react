@@ -141,3 +141,14 @@ export function createTask(task) {
     return axios.post(url, task);
 }
 
+
+export function deleteTask(task) {
+    let url = env.MANAGE_API_URL + "/task/" + task.id + "/delete";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
+

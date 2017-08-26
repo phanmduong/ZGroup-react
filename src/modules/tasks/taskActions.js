@@ -504,6 +504,7 @@ export function loadTaskLists(cardId) {
 export function createTask(task) {
     return function (dispatch) {
         dispatch({
+            taskListId: task.task_list_id,
             type: types.BEGIN_CREATE_TASK
         });
         taskApi
@@ -511,9 +512,20 @@ export function createTask(task) {
             .then((res) => {
                 dispatch({
                     type: types.CREATE_TASK_SUCCESS,
-                    task: res.data.task
+                    task: res.data.task,
+                    taskListId: task.task_list_id
                 });
             });
 
+    };
+}
+
+export function deleteTask(task) {
+    return function (dispatch) {
+        dispatch({
+            task,
+            type: types.DELETE_TASK_SUCCESS
+        });
+        taskApi.deleteTask(task);
     };
 }

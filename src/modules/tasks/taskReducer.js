@@ -6,21 +6,56 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.DELETE_TASK_SUCCESS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.map((taskList) => {
+                        if (taskList.id === action.task.task_list_id) {
+                            return {
+                                ...taskList,
+                                tasks: taskList.tasks.filter((task => task.id !== action.task.id))
+                            };
+                        } else {
+                            return taskList;
+                        }
+                    })
+                }
+            };
         case types.BEGIN_CREATE_TASK:
             return {
                 ...state,
-                createTask: {
-                    ...state.createTask,
-                    isLoadingTaskLists: true
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.map((taskList) => {
+                        if (taskList.id === action.taskListId) {
+                            return {
+                                ...taskList,
+                                isSavingTask: true
+                            };
+                        } else {
+                            return taskList;
+                        }
+                    })
                 }
             };
         case types.CREATE_TASK_SUCCESS:
             return {
                 ...state,
-                createTask: {
-                    ...state.createTask,
-                    isLoadingTaskLists: false,
-                    task: action.task
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.map((taskList) => {
+                        if (taskList.id === action.taskListId) {
+                            return {
+                                ...taskList,
+                                isSavingTask: false,
+                                tasks: [...taskList.tasks, action.task]
+                            };
+                        } else {
+                            return taskList;
+                        }
+                    })
                 }
             };
 
