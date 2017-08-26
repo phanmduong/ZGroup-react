@@ -22,5 +22,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/tasklist/create', "TaskController@createTaskList");
     Route::get('/tasklists/{cardId}', "TaskController@taskLists");
     Route::post('/task/create', "TaskController@createTask");
+    Route::delete('/task/{taskId}/delete', "TaskController@deleteTask");
     // End Task api
 });

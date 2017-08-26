@@ -256,7 +256,13 @@ class TaskController extends ManageApiController
         if (is_null($card)) {
             return $this->responseBadRequest("Card không tồn tại");
         }
-        $taskLists = $card->taskLists;
+        $taskLists = $card->taskLists->map(function($taskList){
+            return [
+                'id' => $taskList->id,
+                'title' => $taskList->title,
+                'tasks' => $taskList->tasks
+            ];
+        });
         return $this->respond($taskLists);
     }
 
@@ -268,6 +274,8 @@ class TaskController extends ManageApiController
         $task = new Task();
         $task->title = $request->title;
         $task->task_list_id = $request->task_list_id;
+        $task->creator_id = $this->user->id;
+        $task->editor_id = $this->user->id;
         $task->save();
         return $this->respond([
             "task" => [
@@ -275,5 +283,14 @@ class TaskController extends ManageApiController
                 "title" => $task->title
             ]
         ]);
+    }
+
+    public function deleteTask($taskId) {
+        $task = Task::find($taskId);
+        if (is_null($task)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+        $task->delete();
+        return $this->respond(["message" => "success"]);
     }
 }
