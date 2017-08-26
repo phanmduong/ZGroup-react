@@ -67,7 +67,7 @@ class LoginContainer extends React.Component {
             });
         }
         if (this.state.user && this.state.user.role === 0 && !this.props.isLoading) {
-            toastr.error("Bạn không phải là nhân viên của" + env.NAME_COMPANY);
+            toastr.error("Bạn không phải là nhân viên của " + env.NAME_COMPANY);
             this.setState({
                 user: {
                     role: -1

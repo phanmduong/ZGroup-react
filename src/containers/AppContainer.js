@@ -30,7 +30,12 @@ class DashboardContainer extends React.Component {
         });
 
         let token = localStorage.getItem('token');
+        let user = JSON.parse(localStorage.getItem('user'));
+        if (user === null || user.role === null || user.role === 0){
+            this.onLogOut();
+        }
         if (token === null || token.trim() === '') {
+
             this.onLogOut();
         }
         else {
@@ -45,6 +50,8 @@ class DashboardContainer extends React.Component {
         this.context.router.push('login');
         this.props.loginActions.logOut();
     }
+
+
 
     render() {
         return (

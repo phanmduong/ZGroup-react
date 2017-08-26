@@ -24,10 +24,12 @@ export function updateFormData(login) {
 
 export function updatedLoginForm(res) {
     let token = null;
-    if (res.data.user.role !== 0) token = res.data.token;
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(res.data.user));
-    helper.saveDataLoginLocal(helper.encodeToken(res.data));
+    if (res.data.user.role !== 0) {
+        token = res.data.token;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+        helper.saveDataLoginLocal(helper.encodeToken(res.data));
+    }
     return ({
         type: types.UPDATED_LOGIN_FORM,
         token: token,
