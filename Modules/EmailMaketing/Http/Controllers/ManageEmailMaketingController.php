@@ -161,4 +161,27 @@ class ManageEmailMaketingController extends ManageApiController
 
         return $this->respondWithPagination($email_templates, $data);
     }
+
+    public function get_email_template($email_template_id)
+    {
+        $email_template = EmailTemplate::where('id', $email_template_id)->first();
+
+        return $this->respondSuccessWithStatus([
+            'email_template' => [
+                'id' => $email_template->id,
+                'name' => $email_template->name,
+                'thumbnail_url' => config('app.protocol') . trim_url($email_template->thumbnail_url),
+                'content' => $email_template->content
+            ]
+        ]);
+    }
+
+    public function delete_email_template($email_template_id)
+    {
+        $email_template = EmailTemplate::where('id', $email_template_id)->first();
+        $email_template->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => 'Xóa Email form thành công'
+        ]);
+    }
 }
