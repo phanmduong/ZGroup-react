@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Task\Entities\TaskList;
 
 class Card extends Model
 {
@@ -29,5 +30,10 @@ class Card extends Model
     public function editor()
     {
         return $this->belongsTo(User::class, 'editor_id');
+    }
+
+    public function taskLists()
+    {
+        return $this->hasMany(TaskList::class, "card_id");
     }
 }

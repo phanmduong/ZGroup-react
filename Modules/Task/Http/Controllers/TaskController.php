@@ -249,4 +249,31 @@ class TaskController extends ManageApiController
             "title" => $taskList->title
         ]);
     }
+
+    public function taskLists($cardId)
+    {
+        $card = Card::find($cardId);
+        if (is_null($card)) {
+            return $this->responseBadRequest("Card không tồn tại");
+        }
+        $taskLists = $card->taskLists;
+        return $this->respond($taskLists);
+    }
+
+    public function createTask(Request $request)
+    {
+        if (is_null($request->title)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+        $task = new Task();
+        $task->title = $request->title;
+        $task->task_list_id = $request->task_list_id;
+        $task->save();
+        return $this->respond([
+            "task" => [
+                "id" => $task->id,
+                "title" => $task->title
+            ]
+        ]);
+    }
 }
