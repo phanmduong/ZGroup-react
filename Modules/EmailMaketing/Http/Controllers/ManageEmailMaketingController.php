@@ -33,6 +33,9 @@ class ManageEmailMaketingController extends ManageApiController
         $email_form->title = $request->title;
         $email_form->subtitle = $request->subtitle;
         $email_form->logo_url = trim_url($request->logo_url);
+        $email_form->avatar_url = trim_url($request->avatar_url);
+        $email_form->title_button = $request->title_button;
+        $email_form->link_button = $request->link_button;
         $email_form->template_id = $request->template_id;
         $email_form->content = $request->content;
         $email_form->footer = $request->footer;
@@ -75,7 +78,10 @@ class ManageEmailMaketingController extends ManageApiController
                     'title' => $email_form->title,
                     'subtitle' => $email_form->subtitle,
                     'logo_url' => config('app.protocol') . trim_url($email_form->logo_url),
-                    'creator' => $email_form->creator()->first()
+                    'creator' => $email_form->creator()->first(),
+                    'avatar_url' => config('app.protocol') . trim_url($email_form->avatar_url),
+                    'title_button' => $email_form->title_button,
+                    'link_button' => $email_form->link_button,
                 ];
             })
         ];
@@ -93,6 +99,7 @@ class ManageEmailMaketingController extends ManageApiController
             'thumbnail_url' => config('app.protocol') . trim_url($email_template->thumbnail_url),
         ];
         $email_form->logo_url = config('app.protocol') . trim_url($email_form->logo_url);
+        $email_form->avatar_url = config('app.protocol') . trim_url($email_form->avatar_url);
 
         return $this->respondSuccessWithStatus([
             'email_form' => $email_form

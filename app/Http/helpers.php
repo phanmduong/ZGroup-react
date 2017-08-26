@@ -1391,9 +1391,12 @@ function convert_email_form($email_form)
 {
     $data = $email_form->template->content;
     $data = str_replace('[[LOGO]]', config('app.protocol') . $email_form->logo_url, $data);
+    $data = str_replace('[[AVT]]', config('app.protocol') . $email_form->avatar_url, $data);
     $data = str_replace('[[TITLE]]', $email_form->title, $data);
     $data = str_replace('[[SUBTITLE]]', $email_form->subtitle, $data);
     $data = str_replace('[[CONTENT]]', $email_form->content, $data);
     $data = str_replace('[[FOOTER]]', $email_form->footer, $data);
+    $data = str_replace('[[BUTTONTEXT]]', $email_form->title_button, $data);
+    $data = str_replace('[[BUTTONLINK]]', $email_form->link_button, $data);
     return $data;
 }
