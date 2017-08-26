@@ -65,6 +65,38 @@ export function uploadImageEmailFormFailed() {
     );
 }
 
+export function uploadAvatar(file) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_UPLOAD_AVATAR_EMAIL_FORM
+        });
+        emailFormApi.uploadImage(file, function (event) {
+            let data = JSON.parse(event.currentTarget.response);
+            dispatch(uploadAvatarEmailFormSuccess(data.link));
+        }, () => {
+            helper.showErrorNotification("Đăng ảnh thất bại.");
+            dispatch(uploadAvatarEmailFormFailed());
+        });
+    };
+}
+
+export function uploadAvatarEmailFormSuccess(imageUrl) {
+    return (
+        {
+            type: types.UPLOAD_AVATAR_EMAIL_FORM_SUCCESS,
+            imageUrl: imageUrl
+        }
+    );
+}
+
+export function uploadAvatarEmailFormFailed() {
+    return (
+        {
+            type: types.UPLOAD_AVATAR_EMAIL_FORM_FAILED,
+        }
+    );
+}
+
 export function loadTemplates(page, search) {
     return function (dispatch) {
         dispatch({

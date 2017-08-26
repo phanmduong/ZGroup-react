@@ -67,6 +67,34 @@ export default function baseListReducer(state = initialState.emailForms, action)
                     updateLogoError: true
                 }
             };
+            case types.BEGIN_UPLOAD_AVATAR_EMAIL_FORM:
+            return {
+                ...state,
+                ...{
+                    isUpdatingAvatar: true,
+                    updateAvatarError: false
+                }
+            };
+        case types.UPLOAD_AVATAR_EMAIL_FORM_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isUpdatingAvatar: false,
+                    updateAvatarError: false,
+                    emailForm: {
+                        ...state.emailForm,
+                        avatarUrl: action.imageUrl
+                    }
+                }
+            };
+        case types.UPLOAD_AVATAR_EMAIL_FORM_FAILED:
+            return {
+                ...state,
+                ...{
+                    isUpdatingAvatar: false,
+                    updateAvatarError: true
+                }
+            };
         case types.BEGIN_LOAD_EMAIL_TEMPLATES:
             return {
                 ...state,
@@ -215,6 +243,9 @@ export default function baseListReducer(state = initialState.emailForms, action)
                             template: action.emailForm.template,
                             content: action.emailForm.content,
                             footer: action.emailForm.footer,
+                            avatarUrl: action.emailForm.avatar_url,
+                            titleButton: action.emailForm.title_button,
+                            linkButton: action.emailForm.link_button,
                         }
                     }
                 }

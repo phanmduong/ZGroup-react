@@ -19,6 +19,7 @@ class CreateEmailFormContainer extends React.Component {
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.saveEmailForm = this.saveEmailForm.bind(this);
         this.preSaveEmailForm = this.preSaveEmailForm.bind(this);
+        this.handleFileUploadAvatar = this.handleFileUploadAvatar.bind(this);
     }
 
     componentWillMount(){
@@ -56,10 +57,19 @@ class CreateEmailFormContainer extends React.Component {
         this.props.emailFormsActions.uploadImage(file);
     }
 
+    handleFileUploadAvatar(event) {
+        let file = event.target.files[0];
+        this.props.emailFormsActions.uploadAvatar(file);
+    }
+
     checkValidate(){
         if ($('#form-email-form').valid()) {
             if (helper.isEmptyInput(this.props.emailForm.logoUrl)) {
                 helper.showTypeNotification('Vui lòng chọn logo', 'warning');
+                return false;
+            }
+            if (helper.isEmptyInput(this.props.emailForm.avatarUrl)) {
+                helper.showTypeNotification('Vui lòng chọn ảnh đại điện', 'warning');
                 return false;
             }
             if (helper.isEmptyInput(this.props.emailForm.content)){
@@ -102,6 +112,7 @@ class CreateEmailFormContainer extends React.Component {
                 handleFileUpload = {this.handleFileUpload}
                 preSaveEmailForm = {this.preSaveEmailForm}
                 saveEmailForm = {this.saveEmailForm}
+                handleFileUploadAvatar = {this.handleFileUploadAvatar}
             />
         );
     }
@@ -110,6 +121,7 @@ class CreateEmailFormContainer extends React.Component {
 CreateEmailFormContainer.propTypes = {
     emailForm: PropTypes.object.isRequired,
     isUpdatingLogo: PropTypes.bool.isRequired,
+    isUpdatingAvatar: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isPreSaving: PropTypes.bool.isRequired,
     isLoadingEmailForm: PropTypes.bool.isRequired,
@@ -123,6 +135,7 @@ function mapStateToProps(state) {
     return {
         emailForm : state.emailForms.emailForm,
         isUpdatingLogo : state.emailForms.isUpdatingLogo,
+        isUpdatingAvatar : state.emailForms.isUpdatingAvatar,
         isSaving: state.emailForms.isSaving,
         isPreSaving: state.emailForms.isPreSaving,
         isLoadingEmailForm: state.emailForms.emailForm.isLoading

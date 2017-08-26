@@ -223,6 +223,8 @@ export default {
         totalPages: 1,
         isUpdatingLogo: false,
         updateLogoError: false,
+        isUpdatingAvatar: false,
+        updateAvatarError: false,
         isSaving: false,
         isPreSaving: false,
         emailForm: {
@@ -234,6 +236,9 @@ export default {
             template: {},
             content: '',
             footer: '',
+            avatarUrl:'',
+            linkButton: '',
+            titleButton: '',
             isLoading: false,
             error: false
         },

@@ -53,6 +53,9 @@ export function saveEmailForm(emailForm, status) {
         template_id: emailForm.template.id,
         content: emailForm.content,
         footer: emailForm.footer,
+        avatar_url: emailForm.avatarUrl,
+        title_button: emailForm.titleButton,
+        link_button: emailForm.linkButton,
         status: status,
     });
 }

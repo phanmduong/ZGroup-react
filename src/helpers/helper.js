@@ -73,7 +73,8 @@ export function encodeToken(data) {
 export function decodeToken(token) {
     return new Promise(function (resolve, reject) {
         jwt.verify(token, env.SECRET_TOKEN, function (err, decoded) {
-
+            console.log('err' + err);
+            console.log(decoded);
             if (err) {
                 reject(err);
             }
