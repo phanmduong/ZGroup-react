@@ -122,3 +122,22 @@ export function createTaskList(taskList) {
     return axios.post(url, taskList);
 }
 
+export function loadTaskLists(cardId) {
+    let url = env.MANAGE_API_URL + "/tasklists/" + cardId;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+
+export function createTask(task) {
+    let url = env.MANAGE_API_URL + "/task/create";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, task);
+}
+

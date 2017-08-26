@@ -6,6 +6,41 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.BEGIN_CREATE_TASK:
+            return {
+                ...state,
+                createTask: {
+                    ...state.createTask,
+                    isLoadingTaskLists: true
+                }
+            };
+        case types.CREATE_TASK_SUCCESS:
+            return {
+                ...state,
+                createTask: {
+                    ...state.createTask,
+                    isLoadingTaskLists: false,
+                    task: action.task
+                }
+            };
+
+        case types.BEGIN_LOAD_TASK_LISTS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    isLoadingTaskLists: true
+                }
+            };
+        case types.LOAD_TASK_LISTS_SUCCESS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: action.taskLists,
+                    isLoadingTaskLists: false
+                }
+            };
         case types.CREATE_TASK_LIST_SUCCESS:
             return {
                 ...state,

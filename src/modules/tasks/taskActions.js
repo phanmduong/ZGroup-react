@@ -472,12 +472,48 @@ export function saveTaskList(taskList) {
             type: types.BEGIN_CREATE_TASK_LIST
         });
 
-        taskApi.createTaskList(taskList).then((res) => {
-            dispatch({
-                type: types.CREATE_TASK_LIST_SUCCESS,
-                taskList: res.data
+        return new Promise((resolve) => {
+            taskApi.createTaskList(taskList).then((res) => {
+                resolve();
+                dispatch({
+                    type: types.CREATE_TASK_LIST_SUCCESS,
+                    taskList: res.data
+                });
             });
         });
     };
 }
 
+export function loadTaskLists(cardId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TASK_LISTS
+        });
+        taskApi
+            .loadTaskLists(cardId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LISTS_SUCCESS,
+                    taskLists: res.data
+                });
+            });
+
+    };
+}
+
+export function createTask(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_TASK
+        });
+        taskApi
+            .createTask(task)
+            .then((res) => {
+                dispatch({
+                    type: types.CREATE_TASK_SUCCESS,
+                    task: res.data.task
+                });
+            });
+
+    };
+}

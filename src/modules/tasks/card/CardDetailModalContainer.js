@@ -8,6 +8,7 @@ import ReactEditor from "../../../components/common/ReactEditor";
 import {BASE_URL} from '../../../constants/env';
 import Loading from "../../../components/common/Loading";
 import AddTaskListOverlayContainer from "./AddTaskListOverlayContainer";
+import TaskListsContainer from "./TaskListsContainer";
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -114,6 +115,9 @@ class CardDetailModalContainer extends React.Component {
                                     </div>
                                 )
                             }
+
+                            {this.props.card.id && <TaskListsContainer
+                                cardId={this.props.card.id}/>}
                         </div>
                         <div className="col-sm-4 col-md-3">
                             <h4>

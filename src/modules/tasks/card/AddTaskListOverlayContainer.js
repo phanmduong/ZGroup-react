@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
-import TaskListForm from "./TaskListForm";
 import {connect} from "react-redux";
 import * as taskActions from '../taskActions';
 import {bindActionCreators} from "redux";
 import TaskFormPopover from "./TaskFormPopover";
+import {showNotification} from "../../../helpers/helper";
 
 class AddTaskListOverlayContainer extends React.Component {
     constructor(props, context) {
@@ -24,7 +24,12 @@ class AddTaskListOverlayContainer extends React.Component {
     }
 
     saveTaskList() {
-        this.props.taskActions.saveTaskList({...this.props.taskList, card_id: this.props.card.id});
+        this.props.taskActions
+            .saveTaskList({...this.props.taskList, card_id: this.props.card.id})
+            .then(() => {
+                showNotification("Tạo danh sách việc thành công");
+                this.toggle();
+            });
     }
 
     updateCreateTaskListFormData(event) {

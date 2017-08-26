@@ -149,6 +149,14 @@ export default {
     },
 
     task: {
+        createTask: {
+            isSavingTask: false,
+            task: {}
+        },
+        taskList: {
+            taskLists: [],
+            isLoadingTaskLists: false
+        },
         createTaskList: {
             taskList: {},
             isSavingTaskList: false
