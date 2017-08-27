@@ -293,5 +293,15 @@ export default {
             isCreating: false,
             error: false,
         }
-    }
+    },
+    registerStudents: {
+        registers: [],
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false
+    },
 };
