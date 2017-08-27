@@ -14,8 +14,7 @@ const TaskListForm = ({updateFormData, taskList, submit, isSaving}) => {
         }}>
 
             <FormInputText
-                placeholder="Nhập tên thẻ"
-                label="Tên thẻ"
+                label="Tên danh sách"
                 name="title"
                 updateFormData={updateFormData}
                 value={title}/>

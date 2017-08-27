@@ -45,7 +45,7 @@ class AddTaskListOverlayContainer extends React.Component {
             <div style={{position: "relative"}}>
                 <button className="btn btn-default"
                         ref="target" onClick={this.toggle}>
-                    Việc cần làm
+                    <i className="material-icons">work</i> Việc cần làm
                 </button>
                 <Overlay
                     show={this.state.show}

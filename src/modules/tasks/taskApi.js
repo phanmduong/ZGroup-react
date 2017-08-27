@@ -161,4 +161,12 @@ export function toggleTaskStatus(task) {
     return axios.post(url);
 }
 
+export function loadMembers(filter) {
+    let url = env.MANAGE_API_URL + "/members/" + filter;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
 

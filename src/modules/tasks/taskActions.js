@@ -530,7 +530,7 @@ export function deleteTask(task) {
     };
 }
 
-export function toggleTaskStatus(task){
+export function toggleTaskStatus(task) {
     return function (dispatch) {
         dispatch({
             task,
@@ -539,3 +539,19 @@ export function toggleTaskStatus(task){
         taskApi.toggleTaskStatus(task);
     };
 }
+
+export function loadMembers(query) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_MEMBERS
+        });
+        taskApi.loadMembers(query)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_MEMBERS_SUCCESS,
+                    members: res.data.members
+                });
+            });
+    };
+}
+

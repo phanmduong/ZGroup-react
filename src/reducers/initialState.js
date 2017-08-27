@@ -149,6 +149,11 @@ export default {
     },
 
     task: {
+        addMember: {
+            isLoading: false,
+            members: [],
+            search: ""
+        },
         createTask: {
             isSavingTask: false,
             task: {}

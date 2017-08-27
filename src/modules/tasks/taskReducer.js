@@ -6,6 +6,31 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.CHANGE_SEARCH_MEMBERS_VALUE:
+            return {
+                ...state,
+                addMember: {
+                    ...state.addMember,
+                    search: action.search
+                }
+            };
+        case types.LOAD_MEMBERS_SUCCESS:
+            return {
+                ...state,
+                addMember: {
+                    ...state.addMember,
+                    isLoading: false,
+                    members: action.members
+                }
+            };
+        case types.BEGIN_LOAD_MEMBERS:
+            return {
+                ...state,
+                addMember: {
+                    ...state.addMember,
+                    isLoading: true
+                }
+            };
         case types.TOGGLE_TASK_STATUS:
             return {
                 ...state,

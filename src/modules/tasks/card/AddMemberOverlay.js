@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
+import AddMemberPopoverContainer from "./AddMemberPopoverContainer";
 
 class AddMemberOverlay extends React.Component {
     constructor(props, context) {
@@ -27,10 +28,11 @@ class AddMemberOverlay extends React.Component {
                 <Overlay
                     show={this.state.show}
                     onHide={() => this.setState({show: false})}
-                    placement="bottom"
+                    placement="left"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <AddMemberPopoverContainer/>
+                    <AddMemberPopoverContainer
+                        toggle={this.toggle}/>
                 </Overlay>
             </div>
         );
@@ -38,8 +40,8 @@ class AddMemberOverlay extends React.Component {
 }
 
 
-AddMemberOverlayContainer.propTypes = {
+AddMemberOverlay.propTypes = {
     card: PropTypes.object.isRequired
 };
 
-export default AddMemberOverlayContainer;
+export default AddMemberOverlay;

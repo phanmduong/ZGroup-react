@@ -9,6 +9,7 @@ import {BASE_URL} from '../../../constants/env';
 import Loading from "../../../components/common/Loading";
 import AddTaskListOverlayContainer from "./AddTaskListOverlayContainer";
 import TaskListsContainer from "./TaskListsContainer";
+import AddMemberOverlayContainer from "./AddMemberOverlay";
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -125,6 +126,9 @@ class CardDetailModalContainer extends React.Component {
                             </h4>
                             <div className="card-detail-btn-group">
                                 <AddTaskListOverlayContainer card={this.props.card}/>
+                            </div>
+                            <div className="card-detail-btn-group">
+                                <AddMemberOverlayContainer card={this.props.card}/>
                             </div>
                         </div>
                     </div>
