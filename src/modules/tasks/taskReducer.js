@@ -6,6 +6,152 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.CHANGE_SEARCH_MEMBERS_VALUE:
+            return {
+                ...state,
+                addMember: {
+                    ...state.addMember,
+                    search: action.search
+                }
+            };
+        case types.LOAD_MEMBERS_SUCCESS:
+            return {
+                ...state,
+                addMember: {
+                    ...state.addMember,
+                    isLoading: false,
+                    members: action.members
+                }
+            };
+        case types.BEGIN_LOAD_MEMBERS:
+            return {
+                ...state,
+                addMember: {
+                    ...state.addMember,
+                    isLoading: true
+                }
+            };
+        case types.TOGGLE_TASK_STATUS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.map((taskList) => {
+                        if (taskList.id === action.task.task_list_id) {
+                            return {
+                                ...taskList,
+                                tasks: taskList.tasks.map((task => {
+                                    if (task.id === action.task.id) {
+                                        return {
+                                            ...task,
+                                            status: !task.status
+                                        };
+                                    }
+                                    return task;
+                                }))
+                            };
+                        } else {
+                            return taskList;
+                        }
+                    })
+                }
+            };
+
+        case types.DELETE_TASK_SUCCESS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.map((taskList) => {
+                        if (taskList.id === action.task.task_list_id) {
+                            return {
+                                ...taskList,
+                                tasks: taskList.tasks.filter((task => task.id !== action.task.id))
+                            };
+                        } else {
+                            return taskList;
+                        }
+                    })
+                }
+            };
+        case types.BEGIN_CREATE_TASK:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.map((taskList) => {
+                        if (taskList.id === action.taskListId) {
+                            return {
+                                ...taskList,
+                                isSavingTask: true
+                            };
+                        } else {
+                            return taskList;
+                        }
+                    })
+                }
+            };
+        case types.CREATE_TASK_SUCCESS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.map((taskList) => {
+                        if (taskList.id === action.taskListId) {
+                            return {
+                                ...taskList,
+                                isSavingTask: false,
+                                tasks: [...taskList.tasks, action.task]
+                            };
+                        } else {
+                            return taskList;
+                        }
+                    })
+                }
+            };
+
+        case types.BEGIN_LOAD_TASK_LISTS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    isLoadingTaskLists: true
+                }
+            };
+        case types.LOAD_TASK_LISTS_SUCCESS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: action.taskLists,
+                    isLoadingTaskLists: false
+                }
+            };
+        case types.CREATE_TASK_LIST_SUCCESS:
+            return {
+                ...state,
+                createTaskList: {
+                    ...state.createTaskList,
+                    isSavingTaskList: false,
+                    taskList: action.taskList
+                }
+            };
+        case types.BEGIN_CREATE_TASK_LIST:
+            return {
+                ...state,
+                createTaskList: {
+                    ...state.createTaskList,
+                    isSavingTaskList: true
+                }
+            };
+        case types.UPDATE_CREATE_TASK_LIST_FORM_DATA:
+            return {
+                ...state,
+                createTaskList: {
+                    ...state.createTaskList,
+                    taskList: action.taskList
+                }
+            };
         case types.SAVE_CARD_SUCCESS:
             return {
                 ...state,

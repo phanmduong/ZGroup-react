@@ -113,3 +113,60 @@ export function updateCard(card) {
     return axios.post(url, card);
 }
 
+export function createTaskList(taskList) {
+    let url = env.MANAGE_API_URL + "/tasklist/create";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, taskList);
+}
+
+export function loadTaskLists(cardId) {
+    let url = env.MANAGE_API_URL + "/tasklists/" + cardId;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+
+export function createTask(task) {
+    let url = env.MANAGE_API_URL + "/task/create";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, task);
+}
+
+
+export function deleteTask(task) {
+    let url = env.MANAGE_API_URL + "/task/" + task.id + "/delete";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
+
+export function toggleTaskStatus(task) {
+    let url = env.MANAGE_API_URL + "/task/" + task.id + "/toggle";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
+export function loadMembers(filter) {
+    let url = env.MANAGE_API_URL + "/members/" + filter;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+

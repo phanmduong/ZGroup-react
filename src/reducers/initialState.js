@@ -149,6 +149,23 @@ export default {
     },
 
     task: {
+        addMember: {
+            isLoading: false,
+            members: [],
+            search: ""
+        },
+        createTask: {
+            isSavingTask: false,
+            task: {}
+        },
+        taskList: {
+            taskLists: [],
+            isLoadingTaskLists: false
+        },
+        createTaskList: {
+            taskList: {},
+            isSavingTaskList: false
+        },
         cardDetail: {
             card: {},
             showModal: false,

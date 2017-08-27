@@ -6,6 +6,10 @@ class FormInputText extends React.Component {
         super(props, context);
     }
 
+    componentDidMount() {
+        $.material.init();
+    }
+
     render() {
         const className = this.props.isNotValid ? " has-error" : "";
         return (

@@ -7,6 +7,9 @@ import * as taskActions from '../taskActions';
 import ReactEditor from "../../../components/common/ReactEditor";
 import {BASE_URL} from '../../../constants/env';
 import Loading from "../../../components/common/Loading";
+import AddTaskListOverlayContainer from "./AddTaskListOverlayContainer";
+import TaskListsContainer from "./TaskListsContainer";
+import AddMemberOverlayContainer from "./AddMemberOverlay";
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -60,10 +63,13 @@ class CardDetailModalContainer extends React.Component {
         const editTooltip = (
             <Tooltip id="tooltip">Chỉnh sửa mô tả công việc</Tooltip>
         );
+
         return (
-            <Modal show={this.props.showModal}
-                   bsSize="large" aria-labelledby="contained-modal-title-lg"
-                   onHide={this.props.taskActions.closeCardDetailModal}>
+            <Modal
+                enforceFocus={false}
+                show={this.props.showModal}
+                bsSize="large" aria-labelledby="contained-modal-title-lg"
+                onHide={this.props.taskActions.closeCardDetailModal}>
                 <Modal.Header closeButton>
                     <Modal.Title className="card-modal-title">{this.props.card.title}</Modal.Title>
                     <p> Trong bảng <strong>{this.props.card.board && this.props.card.board.title}</strong></p>
@@ -110,16 +116,19 @@ class CardDetailModalContainer extends React.Component {
                                     </div>
                                 )
                             }
+
+                            {this.props.card.id && <TaskListsContainer
+                                cardId={this.props.card.id}/>}
                         </div>
                         <div className="col-sm-4 col-md-3">
                             <h4>
                                 <strong>Thêm</strong>
                             </h4>
                             <div className="card-detail-btn-group">
-                                <button className="btn btn-default">
-                                    Việc cần làm
-                                </button>
-
+                                <AddTaskListOverlayContainer card={this.props.card}/>
+                            </div>
+                            <div className="card-detail-btn-group">
+                                <AddMemberOverlayContainer card={this.props.card}/>
                             </div>
                         </div>
                     </div>
@@ -134,12 +143,16 @@ class CardDetailModalContainer extends React.Component {
 CardDetailModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     isSavingCard: PropTypes.bool.isRequired,
+    isSavingTaskList: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired,
+    taskList: PropTypes.object.isRequired,
     card: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
+        isSavingTaskList: state.task.createTaskList.isSavingTaskList,
+        taskList: state.task.createTaskList.taskList,
         showModal: state.task.cardDetail.showModal,
         isSavingCard: state.task.cardDetail.isSavingCard,
         card: state.task.cardDetail.card

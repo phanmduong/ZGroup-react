@@ -457,3 +457,101 @@ export function saveCard(card) {
     };
 }
 
+export function updateCreateTaskListFormData(taskList) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_CREATE_TASK_LIST_FORM_DATA,
+            taskList
+        });
+    };
+}
+
+export function saveTaskList(taskList) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_TASK_LIST
+        });
+
+        return new Promise((resolve) => {
+            taskApi.createTaskList(taskList).then((res) => {
+                resolve();
+                dispatch({
+                    type: types.CREATE_TASK_LIST_SUCCESS,
+                    taskList: res.data
+                });
+            });
+        });
+    };
+}
+
+export function loadTaskLists(cardId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TASK_LISTS
+        });
+        taskApi
+            .loadTaskLists(cardId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LISTS_SUCCESS,
+                    taskLists: res.data
+                });
+            });
+
+    };
+}
+
+export function createTask(task) {
+    return function (dispatch) {
+        dispatch({
+            taskListId: task.task_list_id,
+            type: types.BEGIN_CREATE_TASK
+        });
+        taskApi
+            .createTask(task)
+            .then((res) => {
+                dispatch({
+                    type: types.CREATE_TASK_SUCCESS,
+                    task: res.data.task,
+                    taskListId: task.task_list_id
+                });
+            });
+
+    };
+}
+
+export function deleteTask(task) {
+    return function (dispatch) {
+        dispatch({
+            task,
+            type: types.DELETE_TASK_SUCCESS
+        });
+        taskApi.deleteTask(task);
+    };
+}
+
+export function toggleTaskStatus(task) {
+    return function (dispatch) {
+        dispatch({
+            task,
+            type: types.TOGGLE_TASK_STATUS
+        });
+        taskApi.toggleTaskStatus(task);
+    };
+}
+
+export function loadMembers(query) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_MEMBERS
+        });
+        taskApi.loadMembers(query)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_MEMBERS_SUCCESS,
+                    members: res.data.members
+                });
+            });
+    };
+}
+
