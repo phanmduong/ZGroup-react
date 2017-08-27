@@ -6,6 +6,7 @@ use App\Board;
 use App\Card;
 use App\Colorme\Transformers\BoardTransformer;
 use App\Colorme\Transformers\CardTransformer;
+use App\Colorme\Transformers\TaskTransformer;
 use App\Http\Controllers\ManageApiController;
 use App\Project;
 use App\Task;
@@ -17,12 +18,16 @@ class TaskController extends ManageApiController
 {
     protected $boardTransformer;
     protected $cardTransformer;
+    protected $taskTransformer;
 
-    public function __construct(BoardTransformer $boardTransformer, CardTransformer $cardTransformer)
+    public function __construct(TaskTransformer $taskTransformer,
+                                BoardTransformer $boardTransformer,
+                                CardTransformer $cardTransformer)
     {
         parent::__construct();
         $this->boardTransformer = $boardTransformer;
         $this->cardTransformer = $cardTransformer;
+        $this->taskTransformer = $taskTransformer;
     }
 
 
@@ -256,11 +261,11 @@ class TaskController extends ManageApiController
         if (is_null($card)) {
             return $this->responseBadRequest("Card không tồn tại");
         }
-        $taskLists = $card->taskLists->map(function($taskList){
+        $taskLists = $card->taskLists->map(function ($taskList) {
             return [
                 'id' => $taskList->id,
                 'title' => $taskList->title,
-                'tasks' => $taskList->tasks
+                'tasks' => $this->taskTransformer->transformCollection($taskList->tasks)
             ];
         });
         return $this->respond($taskLists);
@@ -278,19 +283,28 @@ class TaskController extends ManageApiController
         $task->editor_id = $this->user->id;
         $task->save();
         return $this->respond([
-            "task" => [
-                "id" => $task->id,
-                "title" => $task->title
-            ]
+            "task" => $this->taskTransformer->transform($task)
         ]);
     }
 
-    public function deleteTask($taskId) {
+    public function deleteTask($taskId)
+    {
         $task = Task::find($taskId);
         if (is_null($task)) {
-            return $this->responseBadRequest("Thiếu params");
+            return $this->responseBadRequest("Công việc không tồn tại");
         }
         $task->delete();
+        return $this->respond(["message" => "success"]);
+    }
+
+    public function toggleTask($taskId)
+    {
+        $task = Task::find($taskId);
+        if (is_null($task)) {
+            return $this->responseBadRequest("Công việc không tồn tại");
+        }
+        $task->status = !$task->status;
+        $task->save();
         return $this->respond(["message" => "success"]);
     }
 }
