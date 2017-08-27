@@ -141,7 +141,7 @@ export default function taskReducer(state = initialState.task, action) {
                 createTaskList: {
                     ...state.createTaskList,
                     isSavingTaskList: false,
-                    taskList: {...action.taskList, tasks: []}
+                    taskList: {}
                 },
                 taskList: {
                     ...state.taskList,
@@ -171,6 +171,22 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.cardDetail,
                     isSavingCard: false,
                     card: action.card
+                },
+                boardList: {
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    if (card.id === action.card.id) {
+                                        return action.card;
+                                    }
+                                    return card;
+                                })
+                            };
+                        }
+                        return board;
+                    })
                 }
             };
         case types.BEGIN_SAVE_CARD:
