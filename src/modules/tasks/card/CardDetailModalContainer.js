@@ -5,12 +5,11 @@ import PropTypes from 'prop-types';
 import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import * as taskActions from '../taskActions';
 import ReactEditor from "../../../components/common/ReactEditor";
-import {BASE_URL} from '../../../constants/env';
 import Loading from "../../../components/common/Loading";
 import AddTaskListOverlayContainer from "./AddTaskListOverlayContainer";
 import TaskListsContainer from "./TaskListsContainer";
 import AddMemberOverlayContainer from "./AddMemberOverlay";
-
+import {linkUploadImageEditor} from '../../../constants/constants';
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -94,7 +93,7 @@ class CardDetailModalContainer extends React.Component {
                                             ) : (
                                                 <div>
                                                     <ReactEditor
-                                                        urlPost={BASE_URL + "/upload-image?token=" + localStorage.getItem('token')}
+                                                        urlPost={linkUploadImageEditor()}
                                                         fileField="image"
                                                         value={this.state.description || ""}
                                                         updateEditor={this.updateEditor}/>

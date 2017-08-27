@@ -477,7 +477,7 @@ export function saveTaskList(taskList) {
                 resolve();
                 dispatch({
                     type: types.CREATE_TASK_LIST_SUCCESS,
-                    taskList: res.data
+                    taskList: res.data.data
                 });
             });
         });

@@ -133,7 +133,11 @@ export default function taskReducer(state = initialState.task, action) {
                 createTaskList: {
                     ...state.createTaskList,
                     isSavingTaskList: false,
-                    taskList: action.taskList
+                    taskList: {...action.taskList, tasks: []}
+                },
+                taskList: {
+                    ...state.taskList,
+                    taskLists: [...state.taskList.taskLists,  {...action.taskList, tasks: []}]
                 }
             };
         case types.BEGIN_CREATE_TASK_LIST:
