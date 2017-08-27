@@ -326,4 +326,14 @@ class TaskController extends ManageApiController
             })
         ]);
     }
+
+    public function deleteTaskList($id)
+    {
+        $taskList = TaskList::find($id);
+        if (is_null($taskList)) {
+            return $this->responseBadRequest("Công việc không tồn tại");
+        }
+        $taskList->delete();
+        return $this->respond(["message" => "success"]);
+    }
 }
