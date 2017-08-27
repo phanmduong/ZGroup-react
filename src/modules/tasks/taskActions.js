@@ -540,12 +540,12 @@ export function toggleTaskStatus(task) {
     };
 }
 
-export function loadMembers(query) {
+export function loadMembers(query, cardId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_MEMBERS
         });
-        taskApi.loadMembers(query)
+        taskApi.loadMembers(query, cardId)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_MEMBERS_SUCCESS,
@@ -573,5 +573,6 @@ export function assignMember(card, member) {
             card,
             member
         });
+        taskApi.toggleAssignMember(card, member);
     };
 }

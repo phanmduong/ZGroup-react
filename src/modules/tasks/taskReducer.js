@@ -12,14 +12,20 @@ export default function taskReducer(state = initialState.task, action) {
                 boardList: {
                     ...state.boardList,
                     boards: state.boardList.boards.map((board) => {
-                        if (action.card.board_id === board.id) {
+                        if (board.id === action.card.board_id) {
                             return {
                                 ...board,
                                 cards: board.cards.map((card) => {
                                     if (card.id === action.card.id) {
                                         return {
                                             ...card,
-                                            members:[...card.members, action.member]
+                                            members: action.member.added ?
+                                                state.cardDetail.card.members
+                                                    .filter((m) => m.id !== action.member.id) :
+                                                [
+                                                    ...state.cardDetail.card.members,
+                                                    {...action.member, added: !action.member.added}
+                                                ]
                                         };
                                     }
                                     return card;
@@ -27,6 +33,31 @@ export default function taskReducer(state = initialState.task, action) {
                             };
                         }
                         return board;
+                    })
+                },
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        members: action.member.added ?
+                            state.cardDetail.card.members
+                                .filter((m) => m.id !== action.member.id) :
+                            [
+                                ...state.cardDetail.card.members,
+                                {...action.member, added: !action.member.added}
+                            ]
+                    }
+                },
+                addMember: {
+                    ...state.addMember,
+                    members: state.addMember.members.map((member) => {
+                        if (member.id === action.member.id) {
+                            return {
+                                ...member,
+                                added: !member.added
+                            };
+                        }
+                        return member;
                     })
                 }
             };

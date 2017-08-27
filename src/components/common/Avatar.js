@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Avatar = ({url, size}) => {
-    console.log(url);
     return (
         <div style={{
             width: size,
@@ -10,7 +9,7 @@ const Avatar = ({url, size}) => {
             height: size,
             backgroundPosition: "center",
             backgroundSize: "cover",
-            borderRadius: "50%",
+            borderRadius: 4,
             border: "1px solid #d9d9d9",
             backgroundImage: `url(${url})`
         }}/>

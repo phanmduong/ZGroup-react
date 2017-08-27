@@ -25,7 +25,7 @@ class AddMemberPopoverContainer extends React.Component {
             clearTimeout(this.loadMemberTimeout);
         }
         this.loadMemberTimeout = setTimeout(function () {
-            this.props.taskActions.loadMembers(value);
+            this.props.taskActions.loadMembers(value, this.props.card.id);
         }.bind(this), 500);
     }
 
@@ -74,8 +74,16 @@ class AddMemberPopoverContainer extends React.Component {
                                                 this.toggleAssign(m);
                                             }}>
 
-                                            <div style={{display: "flex", lineHeight:"30px"}}>
-                                                <Avatar size={30} url={m.avatar_url}/>{m.name}
+                                            <div style={{
+                                                display: "flex", justifyContent: "space-between",
+                                                lineHeight: "30px"
+                                            }}>
+                                                <div style={{display: "flex"}}>
+                                                    <Avatar size={30} url={m.avatar_url}/>{m.name}
+                                                </div>
+                                                {
+                                                    m.added && <i className="material-icons">done</i>
+                                                }
                                             </div>
                                         </ListGroupItem>
                                     )
