@@ -22,17 +22,25 @@ class RegisterTransformer extends Transformer
     {
         $data = [
             "id" => $register->id,
+            "code" => $register->code,
             "name" => $register->user->name,
+            "student_id" => $register->user->id,
             "email" => $register->user->email,
+            "university" => $register->user->university,
             "avatar_url" => $register->user->avatar_url ?
                 $register->user->avatar_url : "http://api.colorme.vn/img/user.png",
             "phone" => $register->user->phone,
             'paid_status' => $register->status == 1,
             'course_avatar_url' => $register->studyClass->course->icon_url,
+            'course_money'=> $register->studyClass->course->price,
             'money' => $register->money,
             "class" => [
                 "name" => $register->studyClass->name,
-                "id" => $register->studyClass->id
+                "id" => $register->studyClass->id,
+                "study_time" => $register->studyClass->study_time,
+                "description" => $register->studyClass->description,
+                "room"=> $register->studyClass->room->name,
+                "base"=>$register->studyClass->base->address
             ],
             "created_at" => format_time_to_mysql(strtotime($register->created_at))
         ];
