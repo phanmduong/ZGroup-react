@@ -58,6 +58,31 @@ export default function registerReducer(state = initialState.registerStudents, a
                     errorGens: true,
                 }
             };
+        case types.BEGIN_LOAD_HISTORY_CALL_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isLoadingHistoryCall: true,
+                    errorHistoryCall: false,
+                }
+            };
+        case types.LOAD_HISTORY_CALL_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingHistoryCall: false,
+                    errorHistoryCall: false,
+                    historyCall: action.historyCall,
+                }
+            };
+        case types.LOAD_HISTORY_CALL_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingHistoryCall: false,
+                    errorHistoryCall: true,
+                }
+            };
         default:
             return state;
     }

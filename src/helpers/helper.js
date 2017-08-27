@@ -112,4 +112,18 @@ export function setFormValidation(id) {
     });
 }
 
+export function convertMoneyToK(input) {
+    let str = String(input);
+    if (str.length > 3) return `${str.substr(0, str.length - 3)}K`;
+    return input;
+}
+
+export function formatPhone(phone) {
+    if (phone.length === 10) {
+        return phone.replace(/(\d{4})(\d{3})(\d{3})/, '$1.$2.$3');
+    } else {
+        return phone.replace(/(\d{4})(\d{3})(\d{4})/, '$1.$2.$3');
+    }
+}
+
 

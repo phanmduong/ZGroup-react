@@ -302,6 +302,9 @@ export default {
         totalPages: 1,
         gens: [],
         isLoadingGens: false,
-        errorGens: false
+        errorGens: false,
+        historyCall: [],
+        isLoadingHistoryCall: false,
+        errorHistoryCall: false
     },
 };

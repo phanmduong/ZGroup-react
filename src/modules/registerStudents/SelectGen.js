@@ -22,13 +22,12 @@ class Select extends React.Component {
             <select
                 name={this.props.name}
                 value={this.props.value}
-                onChange={this.props.onChange}
+                onChange={(event) => this.props.onChange(event.target.value)}
                 className="selectpicker"
-                data-style="btn btn-primary btn-round" data-size="20">
+                data-style="btn btn-primary btn-round">
                 <option selected disabled>{this.props.defaultMessage || "Please select"}</option>
                 {this.props.options.map((option, index) => {
-                    console.log(option);
-                    return <option key={option.id} value={option.id}>Khóa {option.name}</option>;
+                    return <option key={index} value={option.id}>Khóa {option.name}</option>;
                 })}
             </select>
 
@@ -38,7 +37,7 @@ class Select extends React.Component {
 
 
 Select.propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.number.isRequired,
     options: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
     defaultMessage: PropTypes.string,
