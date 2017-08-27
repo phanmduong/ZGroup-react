@@ -9,7 +9,9 @@ use App\Colorme\Transformers\CardTransformer;
 use App\Colorme\Transformers\TaskTransformer;
 use App\Http\Controllers\ManageApiController;
 use App\Project;
+use App\Repositories\UserRepository;
 use App\Task;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Task\Entities\TaskList;
@@ -19,15 +21,19 @@ class TaskController extends ManageApiController
     protected $boardTransformer;
     protected $cardTransformer;
     protected $taskTransformer;
+    protected $userRepository;
 
-    public function __construct(TaskTransformer $taskTransformer,
-                                BoardTransformer $boardTransformer,
-                                CardTransformer $cardTransformer)
+    public function __construct(
+        UserRepository $userRepository,
+        TaskTransformer $taskTransformer,
+        BoardTransformer $boardTransformer,
+        CardTransformer $cardTransformer)
     {
         parent::__construct();
         $this->boardTransformer = $boardTransformer;
         $this->cardTransformer = $cardTransformer;
         $this->taskTransformer = $taskTransformer;
+        $this->userRepository = $userRepository;
     }
 
 
@@ -306,5 +312,18 @@ class TaskController extends ManageApiController
         $task->status = !$task->status;
         $task->save();
         return $this->respond(["message" => "success"]);
+    }
+
+    public function loadMembers($filter = "")
+    {
+        $members = $this->userRepository->loadStaffs($filter, 10);
+        return $this->respond([
+            "members" => $members->map(function ($member) {
+                return [
+                    "value" => $member->id,
+                    "label" => $member->name . "(" . $member->email . ")"
+                ];
+            })
+        ]);
     }
 }
