@@ -32,6 +32,7 @@ class AddMemberOverlay extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <AddMemberPopoverContainer
+                        card={this.props.card}
                         toggle={this.toggle}/>
                 </Overlay>
             </div>

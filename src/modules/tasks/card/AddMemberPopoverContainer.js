@@ -6,6 +6,7 @@ import FormInputText from "../../../components/common/FormInputText";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import Loading from "../../../components/common/Loading";
 import * as taskActions from '../taskActions';
+import Avatar from "../../../components/common/Avatar";
 
 class AddMemberPopoverContainer extends React.Component {
     constructor(props, context) {
@@ -14,6 +15,7 @@ class AddMemberPopoverContainer extends React.Component {
         this.state = {
             query: ""
         };
+        this.toggleAssign = this.toggleAssign.bind(this);
     }
 
     onSearchChange(event) {
@@ -25,6 +27,10 @@ class AddMemberPopoverContainer extends React.Component {
         this.loadMemberTimeout = setTimeout(function () {
             this.props.taskActions.loadMembers(value);
         }.bind(this), 500);
+    }
+
+    toggleAssign(member) {
+        this.props.taskActions.assignMember(this.props.card, member);
     }
 
     render() {
@@ -50,6 +56,7 @@ class AddMemberPopoverContainer extends React.Component {
                 </button>
                 <h5>Thành viên</h5>
                 <FormInputText
+                    autoComplete="off"
                     label="Tên/Email"
                     name="value"
                     value={this.state.query}
@@ -58,7 +65,21 @@ class AddMemberPopoverContainer extends React.Component {
                     this.props.isLoading ?
                         <Loading/> : (
                             <ListGroup>
-                                {this.props.members.map((m) => <ListGroupItem href="#link1">{m.label}</ListGroupItem>)}
+                                {this.props.members.map((m) =>
+                                    (
+                                        <ListGroupItem
+                                            key={m.id}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                this.toggleAssign(m);
+                                            }}>
+
+                                            <div style={{display: "flex", lineHeight:"30px"}}>
+                                                <Avatar size={30} url={m.avatar_url}/>{m.name}
+                                            </div>
+                                        </ListGroupItem>
+                                    )
+                                )}
                             </ListGroup>
                         )
                 }
@@ -73,6 +94,7 @@ AddMemberPopoverContainer.propTypes = {
     members: PropTypes.array.isRequired,
     taskActions: PropTypes.object.isRequired,
     search: PropTypes.string.isRequired,
+    card: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired
 };
 

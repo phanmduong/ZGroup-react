@@ -6,6 +6,31 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.ASSIGN_MEMBER_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (action.card.board_id === board.id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    if (card.id === action.card.id) {
+                                        return {
+                                            ...card,
+                                            members:[...card.members, action.member]
+                                        };
+                                    }
+                                    return card;
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                }
+            };
+
         case types.DELETE_TASK_LIST_SUCCESS:
             return {
                 ...state,

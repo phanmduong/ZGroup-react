@@ -565,3 +565,13 @@ export function deleteTaskList(taskList) {
         taskApi.deleteTaskList(taskList);
     };
 }
+
+export function assignMember(card, member) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ASSIGN_MEMBER_SUCCESS,
+            card,
+            member
+        });
+    };
+}
