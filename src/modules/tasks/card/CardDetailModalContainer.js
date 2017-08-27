@@ -76,6 +76,8 @@ class CardDetailModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="row">
                         <div className="col-sm-8 col-md-9">
+                            
+
                             <h4>
                                 <strong>Mô tả</strong>
                                 <OverlayTrigger placement="right" overlay={editTooltip}>

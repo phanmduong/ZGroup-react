@@ -555,3 +555,13 @@ export function loadMembers(query) {
     };
 }
 
+
+export function deleteTaskList(taskList) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_TASK_LIST_SUCCESS,
+            taskList
+        });
+        taskApi.deleteTaskList(taskList);
+    };
+}

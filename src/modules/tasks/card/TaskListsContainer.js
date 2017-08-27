@@ -41,9 +41,18 @@ class TaskListsContainer extends React.Component {
                     ) : this.props.taskLists.map((taskList) => {
                         return (
                             <div key={taskList.id}>
-                                <h4>
-                                    <strong>{taskList.title}</strong>
-                                </h4>
+                                <div style={{display: "flex", justifyContent: "space-between"}}>
+                                    <h4>
+                                        <strong>{taskList.title}</strong>
+                                    </h4>
+                                    <button
+                                        onClick={() => this.props.taskActions.deleteTaskList(taskList)}
+                                        type="button" className="close"
+                                        style={{color: '#5a5a5a'}}>
+                                        <span aria-hidden="true">×</span>
+                                        <span className="sr-only">Close</span>
+                                    </button>
+                                </div>
                                 <div className="progress progress-line-default">
                                     <div className="progress-bar progress-bar-rose"
                                          role="progressbar"

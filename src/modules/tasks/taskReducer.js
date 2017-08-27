@@ -6,6 +6,14 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.DELETE_TASK_LIST_SUCCESS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.filter(t => t.id !== action.taskList.id)
+                }
+            };
         case types.CHANGE_SEARCH_MEMBERS_VALUE:
             return {
                 ...state,
@@ -137,7 +145,7 @@ export default function taskReducer(state = initialState.task, action) {
                 },
                 taskList: {
                     ...state.taskList,
-                    taskLists: [...state.taskList.taskLists,  {...action.taskList, tasks: []}]
+                    taskLists: [...state.taskList.taskLists, {...action.taskList, tasks: []}]
                 }
             };
         case types.BEGIN_CREATE_TASK_LIST:

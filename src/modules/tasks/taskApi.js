@@ -170,3 +170,12 @@ export function loadMembers(filter) {
     return axios.get(url);
 }
 
+export function deleteTaskList(taskList) {
+    let url = env.MANAGE_API_URL + "/tasklist/" + taskList.id + "/delete";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
