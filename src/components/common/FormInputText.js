@@ -24,6 +24,7 @@ class FormInputText extends React.Component {
                     :
                     (
                         <input
+                            autoComplete={this.props.autoComplete}
                             type={(this.props.type || 'text')}
                             className="form-control"
                             required={this.props.required}
@@ -45,6 +46,7 @@ class FormInputText extends React.Component {
 
 FormInputText.propTypes = {
     name: PropTypes.string.isRequired,
+    autoComplete: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.oneOfType([
         PropTypes.string,

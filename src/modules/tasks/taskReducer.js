@@ -6,6 +6,70 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.ASSIGN_MEMBER_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    if (card.id === action.card.id) {
+                                        return {
+                                            ...card,
+                                            members: action.member.added ?
+                                                state.cardDetail.card.members
+                                                    .filter((m) => m.id !== action.member.id) :
+                                                [
+                                                    ...state.cardDetail.card.members,
+                                                    {...action.member, added: !action.member.added}
+                                                ]
+                                        };
+                                    }
+                                    return card;
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                },
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        members: action.member.added ?
+                            state.cardDetail.card.members
+                                .filter((m) => m.id !== action.member.id) :
+                            [
+                                ...state.cardDetail.card.members,
+                                {...action.member, added: !action.member.added}
+                            ]
+                    }
+                },
+                addMember: {
+                    ...state.addMember,
+                    members: state.addMember.members.map((member) => {
+                        if (member.id === action.member.id) {
+                            return {
+                                ...member,
+                                added: !member.added
+                            };
+                        }
+                        return member;
+                    })
+                }
+            };
+
+        case types.DELETE_TASK_LIST_SUCCESS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.filter(t => t.id !== action.taskList.id)
+                }
+            };
         case types.CHANGE_SEARCH_MEMBERS_VALUE:
             return {
                 ...state,
@@ -133,11 +197,11 @@ export default function taskReducer(state = initialState.task, action) {
                 createTaskList: {
                     ...state.createTaskList,
                     isSavingTaskList: false,
-                    taskList: {...action.taskList, tasks: []}
+                    taskList: {}
                 },
                 taskList: {
                     ...state.taskList,
-                    taskLists: [...state.taskList.taskLists,  {...action.taskList, tasks: []}]
+                    taskLists: [...state.taskList.taskLists, {...action.taskList, tasks: []}]
                 }
             };
         case types.BEGIN_CREATE_TASK_LIST:
@@ -163,6 +227,22 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.cardDetail,
                     isSavingCard: false,
                     card: action.card
+                },
+                boardList: {
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    if (card.id === action.card.id) {
+                                        return action.card;
+                                    }
+                                    return card;
+                                })
+                            };
+                        }
+                        return board;
+                    })
                 }
             };
         case types.BEGIN_SAVE_CARD:

@@ -161,12 +161,30 @@ export function toggleTaskStatus(task) {
     return axios.post(url);
 }
 
-export function loadMembers(filter) {
+export function loadMembers(filter, cardId) {
     let url = env.MANAGE_API_URL + "/members/" + filter;
     const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
+    url += "&card_id=" + cardId;
     return axios.get(url);
 }
 
+export function deleteTaskList(taskList) {
+    let url = env.MANAGE_API_URL + "/tasklist/" + taskList.id + "/delete";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
+export function toggleAssignMember(card, member) {
+    let url = env.MANAGE_API_URL + "/card/" + card.id + "/user/" + member.id;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}

@@ -540,12 +540,12 @@ export function toggleTaskStatus(task) {
     };
 }
 
-export function loadMembers(query) {
+export function loadMembers(query, cardId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_MEMBERS
         });
-        taskApi.loadMembers(query)
+        taskApi.loadMembers(query, cardId)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_MEMBERS_SUCCESS,
@@ -555,3 +555,24 @@ export function loadMembers(query) {
     };
 }
 
+
+export function deleteTaskList(taskList) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_TASK_LIST_SUCCESS,
+            taskList
+        });
+        taskApi.deleteTaskList(taskList);
+    };
+}
+
+export function assignMember(card, member) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ASSIGN_MEMBER_SUCCESS,
+            card,
+            member
+        });
+        taskApi.toggleAssignMember(card, member);
+    };
+}

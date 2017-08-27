@@ -10,6 +10,8 @@ import AddTaskListOverlayContainer from "./AddTaskListOverlayContainer";
 import TaskListsContainer from "./TaskListsContainer";
 import AddMemberOverlayContainer from "./AddMemberOverlay";
 import {linkUploadImageEditor} from '../../../constants/constants';
+import Avatar from "../../../components/common/Avatar";
+
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -76,6 +78,19 @@ class CardDetailModalContainer extends React.Component {
                 <Modal.Body>
                     <div className="row">
                         <div className="col-sm-8 col-md-9">
+                            {
+                                this.props.card.members && this.props.card.members.length > 0 && (
+                                    <div>
+                                        <h4><strong>Thành viên</strong></h4>
+                                        <div style={{display: "flex", flexWrap: "wrap"}}>
+                                            {this.props.card.members.map((member) => {
+                                                return <Avatar key={member.id} url={member.avatar_url} size={30}/>;
+                                            })}
+                                        </div>
+                                    </div>
+                                )
+                            }
+
                             <h4>
                                 <strong>Mô tả</strong>
                                 <OverlayTrigger placement="right" overlay={editTooltip}>
