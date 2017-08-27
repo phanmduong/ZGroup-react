@@ -152,3 +152,13 @@ export function deleteTask(task) {
 }
 
 
+export function toggleTaskStatus(task) {
+    let url = env.MANAGE_API_URL + "/task/" + task.id + "/toggle";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
+

@@ -529,3 +529,13 @@ export function deleteTask(task) {
         taskApi.deleteTask(task);
     };
 }
+
+export function toggleTaskStatus(task){
+    return function (dispatch) {
+        dispatch({
+            task,
+            type: types.TOGGLE_TASK_STATUS
+        });
+        taskApi.toggleTaskStatus(task);
+    };
+}

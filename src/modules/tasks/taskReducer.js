@@ -6,6 +6,32 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.TOGGLE_TASK_STATUS:
+            return {
+                ...state,
+                taskList: {
+                    ...state.taskList,
+                    taskLists: state.taskList.taskLists.map((taskList) => {
+                        if (taskList.id === action.task.task_list_id) {
+                            return {
+                                ...taskList,
+                                tasks: taskList.tasks.map((task => {
+                                    if (task.id === action.task.id) {
+                                        return {
+                                            ...task,
+                                            status: !task.status
+                                        };
+                                    }
+                                    return task;
+                                }))
+                            };
+                        } else {
+                            return taskList;
+                        }
+                    })
+                }
+            };
+
         case types.DELETE_TASK_SUCCESS:
             return {
                 ...state,

@@ -49,7 +49,10 @@ class TaskListsContainer extends React.Component {
                                          role="progressbar"
                                          aria-valuenow="60"
                                          aria-valuemin="0" aria-valuemax="100"
-                                         style={{width: "30%"}}>
+                                         style={{
+                                             width: taskList.tasks.length === 0 ?
+                                                 0 : (taskList.tasks.filter(t => t.status).length * 100 / taskList.tasks.length) + "%"
+                                         }}>
                                         <span className="sr-only">60% Complete</span>
                                     </div>
                                 </div>
@@ -57,6 +60,7 @@ class TaskListsContainer extends React.Component {
                                     {
                                         taskList.tasks.map((task) =>
                                             <TaskItem
+                                                toggleTaskStatus={this.props.taskActions.toggleTaskStatus}
                                                 deleteTask={this.props.taskActions.deleteTask}
                                                 key={task.id}
                                                 task={task}/>)

@@ -17,7 +17,10 @@ class TaskItem extends React.Component {
                 style={{display: "flex", justifyContent: "space-between"}}>
                 <div className="checkbox">
                     <label>
-                        <input type="checkbox" name="optionsCheckboxes"/>
+                        <input
+                            checked={task.status}
+                            onChange={() => this.props.toggleTaskStatus(task)}
+                            type="checkbox" name="optionsCheckboxes"/>
                         {task.title}
                     </label>
                 </div>
@@ -37,6 +40,7 @@ class TaskItem extends React.Component {
 
 TaskItem.propTypes = {
     deleteTask: PropTypes.func.isRequired,
+    toggleTaskStatus: PropTypes.func.isRequired,
     task: PropTypes.object.isRequired
 };
 
