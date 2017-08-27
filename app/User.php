@@ -236,5 +236,9 @@ class User extends Authenticatable
     public function email_forms(){
         return $this->hasMany(EmailForms::class, 'creator');
     }
+
+    public function cards(){
+        return $this->belongsToMany(Card::class,"card_user","user_id", "card_id");
+    }
 }
 

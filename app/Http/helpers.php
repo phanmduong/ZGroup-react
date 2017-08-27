@@ -7,6 +7,14 @@ use \RobbieP\CloudConvertLaravel\Facades\CloudConvert as CloudConvert;
 use Jenssegers\Agent\Agent as Agent;
 use \Aws\ElasticTranscoder\ElasticTranscoderClient as ElasticTranscoderClient;
 
+function generate_protocol_url($url){
+    if ($url) {
+        return config('app.protocol') . trim_url($url);
+    } else {
+        return "http://d1j8r0kxyu9tj8.cloudfront.net/user.png";
+    }
+}
+
 function format_date_full_option($time)
 {
     return rebuild_date("j F, Y, H:i", strtotime($time));

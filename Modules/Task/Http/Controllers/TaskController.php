@@ -11,21 +11,24 @@ use App\Http\Controllers\ManageApiController;
 use App\Project;
 use App\Repositories\UserRepository;
 use App\Task;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 use Modules\Task\Entities\TaskList;
+use Modules\Task\Transformers\MemberTransformer;
 
 class TaskController extends ManageApiController
 {
     protected $boardTransformer;
     protected $cardTransformer;
+    protected $memberTransformer;
     protected $taskTransformer;
     protected $userRepository;
 
     public function __construct(
         UserRepository $userRepository,
         TaskTransformer $taskTransformer,
+        MemberTransformer $memberTransformer,
         BoardTransformer $boardTransformer,
         CardTransformer $cardTransformer)
     {
@@ -34,6 +37,7 @@ class TaskController extends ManageApiController
         $this->cardTransformer = $cardTransformer;
         $this->taskTransformer = $taskTransformer;
         $this->userRepository = $userRepository;
+        $this->memberTransformer = $memberTransformer;
     }
 
 
@@ -314,16 +318,13 @@ class TaskController extends ManageApiController
         return $this->respond(["message" => "success"]);
     }
 
-    public function loadMembers($filter = "")
+    public function loadMembers($filter = "", Request $request)
     {
-        $members = $this->userRepository->loadStaffs($filter, 10);
+        $cardId = $request->card_id;
+
+        $members = $this->userRepository->loadStaffs($filter, 10, 0, $cardId);
         return $this->respond([
-            "members" => $members->map(function ($member) {
-                return [
-                    "value" => $member->id,
-                    "label" => $member->name . "(" . $member->email . ")"
-                ];
-            })
+            "members" => $this->memberTransformer->transformCollection($members)
         ]);
     }
 

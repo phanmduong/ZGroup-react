@@ -36,4 +36,8 @@ class Card extends Model
     {
         return $this->hasMany(TaskList::class, "card_id");
     }
+
+    public function assignees() {
+        return $this->belongsToMany(User::class,"card_user","card_id", "user_id");
+    }
 }

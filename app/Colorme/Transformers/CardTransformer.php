@@ -9,8 +9,18 @@
 namespace App\Colorme\Transformers;
 
 
+use Modules\Task\Transformers\MemberTransformer;
+
 class CardTransformer extends Transformer
 {
+
+    protected $memberTransformer;
+
+    public function __construct(MemberTransformer $memberTransformer)
+    {
+        $this->memberTransformer = $memberTransformer;
+    }
+
 
     public function transform($card)
     {
@@ -19,6 +29,8 @@ class CardTransformer extends Transformer
             'title' => $card->title,
             'description' => $card->description,
             'board_id' => $card->board_id,
+            'members' => $this->memberTransformer
+                ->transformCollection($card->assignees),
             'order' => $card->order,
             'creator' => [
                 "id" => $card->creator->id,
