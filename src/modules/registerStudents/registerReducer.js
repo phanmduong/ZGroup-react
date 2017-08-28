@@ -4,6 +4,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let registers;
 export default function registerReducer(state = initialState.registerStudents, action) {
     switch (action.type) {
         case types.BEGIN_DATA_REGISTER_LIST_LOAD:
@@ -67,12 +68,15 @@ export default function registerReducer(state = initialState.registerStudents, a
                 }
             };
         case types.LOAD_HISTORY_CALL_STUDENT_SUCCESS:
+            registers = changeCallStatus(action.registerId, state.registers, 'calling');
             return {
                 ...state,
                 ...{
                     isLoadingHistoryCall: false,
                     errorHistoryCall: false,
                     historyCall: action.historyCall,
+                    registers: registers,
+                    telecallId: action.telecallId
                 }
             };
         case types.LOAD_HISTORY_CALL_STUDENT_ERROR:
@@ -83,8 +87,66 @@ export default function registerReducer(state = initialState.registerStudents, a
                     errorHistoryCall: true,
                 }
             };
+        case types.BEGIN_CHANGE_CALL_STATUS_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isChangingStatus: true,
+                    errorChangeStatus: false
+                }
+            };
+        case types.CHANGE_CALL_STATUS_STUDENT_SUCCESS:
+            registers = changeCallStatusStudent(action.studentId, state.registers, action.callStatus);
+            return {
+                ...state,
+                ...{
+                    isChangingStatus: false,
+                    errorChangeStatus: false,
+                    registers: registers,
+                }
+            };
+        case types.CHANGE_CALL_STATUS_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingStatus: false,
+                    errorChangeStatus: true
+                }
+            };
         default:
             return state;
     }
 
+}
+
+function changeCallStatus(registerId, registers, callStatus) {
+    if (registers) {
+        registers = registers.map(register => {
+                if (register.id === registerId) {
+                    return {
+                        ...register,
+                        call_status: callStatus
+                    };
+                }
+                return register;
+            }
+        );
+    }
+    return registers;
+}
+
+function changeCallStatusStudent(studentId, registers, callStatus) {
+    if (registers) {
+        registers = registers.map(register => {
+                if (register.student_id === studentId) {
+                    return {
+                        ...register,
+                        call_status: callStatus
+                    };
+                }
+                return register;
+            }
+        );
+    }
+    return registers;
 }

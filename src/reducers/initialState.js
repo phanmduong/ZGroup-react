@@ -305,6 +305,9 @@ export default {
         errorGens: false,
         historyCall: [],
         isLoadingHistoryCall: false,
-        errorHistoryCall: false
+        errorHistoryCall: false,
+        isChangingStatus: false,
+        errorChangeStatus: false,
+        telecallId: 0
     },
 };

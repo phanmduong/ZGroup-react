@@ -14,8 +14,25 @@ export function loadGens() {
     return axios.get(url);
 }
 
-export function historyCallStudent(studentId, genId) {
+export function historyCallStudent(studentId, registerId) {
     let token = localStorage.getItem('token');
-    let url = `${env.MANAGE_API_URL}/history-call-student?id=${studentId}&gen_id=${genId}&token=${token}`;
+    let url = `${env.MANAGE_API_URL}/history-call-student?id=${studentId}&register_id=${registerId}&token=${token}`;
     return axios.get(url);
+}
+
+export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '') {
+    let url = env.MANAGE_API_URL + "/change-call-status-student";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+            student_id: studentId,
+            telecall_id: telecallId,
+            gen_id: genId,
+            caller_id: callerId,
+            note: note,
+            status: callStatus
+        }
+    );
 }

@@ -3,6 +3,7 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as registerStudentsApi from './registerStudentsApi';
+import {showErrorNotification}from '../../helpers/helper';
 
 export function loadRegisterStudent(page, genId, search) {
     return function (dispatch) {
@@ -49,16 +50,18 @@ export function loadGensData() {
     };
 }
 
-export function loadHistoryCallStudent(studentId, genId) {
+export function loadHistoryCallStudent(studentId, registerId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_HISTORY_CALL_STUDENT,
         });
-        registerStudentsApi.historyCallStudent(studentId, genId)
+        registerStudentsApi.historyCallStudent(studentId, registerId)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_HISTORY_CALL_STUDENT_SUCCESS,
-                    historyCall: res.data.data.history_call
+                    historyCall: res.data.data.history_call,
+                    registerId: registerId,
+                    telecallId: res.data.data.telecall_id
                 });
             })
             .catch(() => {
@@ -69,3 +72,27 @@ export function loadHistoryCallStudent(studentId, genId) {
     };
 
 }
+
+export function changeCallStatusStudent(callStatus, studentId, telecallId, genId, note, closeModal, callerId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHANGE_CALL_STATUS_STUDENT
+        });
+        registerStudentsApi.changeCallStatusStudent(callStatus, studentId, telecallId, genId, note, callerId)
+            .then((res) => {
+                closeModal();
+                dispatch({
+                    type: types.CHANGE_CALL_STATUS_STUDENT_SUCCESS,
+                    callStatus: res.data.data.call_status,
+                    studentId: studentId
+                });
+            })
+            .catch(() => {
+                showErrorNotification('Có lỗi xảy ra');
+                dispatch({
+                    type: types.CHANGE_CALL_STATUS_STUDENT_ERROR
+                });
+            });
+    };
+}
+

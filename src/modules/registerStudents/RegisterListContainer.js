@@ -20,7 +20,8 @@ class RegisterListContainer extends React.Component {
             gens: [],
             selectGenId: '',
             showModal: false,
-            register: {}
+            register: {},
+            note: ''
         };
         this.timeOut = null;
         this.registersSearchChange = this.registersSearchChange.bind(this);
@@ -28,6 +29,7 @@ class RegisterListContainer extends React.Component {
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
         this.viewCall = this.viewCall.bind(this);
+        this.changeCallStatusStudent = this.changeCallStatusStudent.bind(this);
 
     }
 
@@ -46,7 +48,6 @@ class RegisterListContainer extends React.Component {
                 gens: gens,
                 selectGenId: gens[0].id
             });
-
         }
     }
 
@@ -55,11 +56,16 @@ class RegisterListContainer extends React.Component {
     }
 
     openModal() {
-        this.setState({showModal: true});
+        this.setState(
+            {
+                showModal: true,
+                note: ''
+            }
+        );
     }
 
     viewCall(register) {
-        this.props.registerActions.loadHistoryCallStudent(register.student_id, this.state.selectGenId);
+        this.props.registerActions.loadHistoryCallStudent(register.student_id, register.id);
         this.setState({register});
         this.openModal();
     }
@@ -87,6 +93,10 @@ class RegisterListContainer extends React.Component {
 
     changeGens(value) {
         this.loadRegisterStudent(1, value);
+    }
+
+    changeCallStatusStudent(callStatus, studentId) {
+        this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal);
     }
 
     render() {
@@ -146,8 +156,8 @@ class RegisterListContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Modal show={this.state.showModal} onHide={this.closeModal}>
-                    <Modal.Header closeButton>
+                <Modal show={this.state.showModal}>
+                    <Modal.Header>
                         <Modal.Title>Thông tin học viên</Modal.Title>
                     </Modal.Header>
                     {this.state.register.name &&
@@ -242,7 +252,7 @@ class RegisterListContainer extends React.Component {
                                                         }
                                                         else if (history.call_status === 'failed') {
                                                             btn = ' danger';
-                                                        } else if (history.call_status === 'calling'){
+                                                        } else if (history.call_status === 'calling') {
                                                             btn = ' info';
                                                         }
 
@@ -253,7 +263,8 @@ class RegisterListContainer extends React.Component {
                                                                 </div>
                                                                 <div className="timeline-panel">
                                                                     <div className="timeline-heading">
-                                                                        <span className="label label-default" style={{backgroundColor: '#' + history.caller.color}}>
+                                                                        <span className="label label-default"
+                                                                              style={{backgroundColor: '#' + history.caller.color}}>
                                                                             {history.caller.name}</span> <span
                                                                         className="label label-default">{history.updated_at}</span>
                                                                     </div>
@@ -273,16 +284,70 @@ class RegisterListContainer extends React.Component {
                         <br/>
                         <div className="form-group label-floating is-empty">
                             <label className="control-label">Ghi chú</label>
-                            <input type="password" className="form-control"/>
-                            <span className="material-input"></span>
-                            <span className="material-input"></span></div>
+                            <input type="text" className="form-control"
+                                   value={this.state.note}
+                                   onChange={(event) => this.setState({note: event.target.value})}/>
+                            <span className="material-input"/>
+                            <span className="material-input"/></div>
+                        {this.props.isChangingStatus ?
+                            (
+                                <div>
+                                    <button type="button" className="btn btn-success btn-round disabled"
+                                            data-dismiss="modal"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                    </button>
+                                    <button type="button" className="btn btn-danger btn-round disabled"
+                                            data-dismiss="modal"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                    </button>
+                                </div>
 
-                        <button type="button" className="btn btn-success btn-round" data-dismiss="modal"><i
-                            className="material-icons">phone</i> Gọi thành công
-                        </button>
-                        <button type="button" className="btn btn-danger btn-round" data-dismiss="modal"><i
-                            className="material-icons">phone</i> Không gọi được
-                        </button>
+                            )
+                            :
+                            (
+                                this.props.isLoadingHistoryCall ?
+                                    (
+                                        <div>
+                                            <button type="button" className="btn btn-success btn-round disabled"
+                                                    data-dismiss="modal"
+                                            ><i className="material-icons">phone</i>
+                                                Gọi thành công
+                                            </button>
+                                            <button type="button" className="btn btn-danger btn-round disabled"
+                                                    data-dismiss="modal"
+                                            >
+                                                <i className="material-icons">phone</i>
+                                                Không gọi được
+                                            </button>
+                                        </div>
+                                    )
+                                    :
+                                    (
+                                        <div>
+                                            <button type="button" className="btn btn-success btn-round"
+                                                    data-dismiss="modal"
+                                                    onClick={() => {
+                                                        this.changeCallStatusStudent(1, this.state.register.student_id);
+                                                    }}>
+                                                <i className="material-icons">phone</i>
+                                                Gọi thành công
+                                            </button>
+                                            <button type="button" className="btn btn-danger btn-round"
+                                                    data-dismiss="modal"
+                                                    onClick={() => {
+                                                        this.changeCallStatusStudent(0, this.state.register.student_id);
+                                                    }}>
+                                                <i className="material-icons">phone</i>
+                                                Không gọi được
+                                            </button>
+                                        </div>
+                                    )
+
+
+                            )
+                        }
                     </Modal.Body>
                     }
                 </Modal>
@@ -298,9 +363,11 @@ RegisterListContainer.propTypes = {
     registerActions: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
+    telecallId: PropTypes.number.isRequired,
     isLoadingRegisters: PropTypes.bool.isRequired,
     isLoadingGens: PropTypes.bool.isRequired,
     isLoadingHistoryCall: PropTypes.bool.isRequired,
+    isChangingStatus: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -308,11 +375,13 @@ function mapStateToProps(state) {
         registers: state.registerStudents.registers,
         totalPages: state.registerStudents.totalPages,
         currentPage: state.registerStudents.currentPage,
+        telecallId: state.registerStudents.telecallId,
         gens: state.registerStudents.gens,
         historyCall: state.registerStudents.historyCall,
         isLoadingGens: state.registerStudents.isLoadingGens,
         isLoadingRegisters: state.registerStudents.isLoading,
         isLoadingHistoryCall: state.registerStudents.isLoadingHistoryCall,
+        isChangingStatus: state.registerStudents.isChangingStatus,
     };
 }
 
