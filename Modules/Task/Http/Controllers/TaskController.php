@@ -320,9 +320,14 @@ class TaskController extends ManageApiController
 
     public function loadMembers($filter = "", Request $request)
     {
-        $cardId = $request->card_id;
+        $card = Card::find($request->card_id);
+        if (is_null($card)) {
+            return $this->responseBadRequest("Thẻ không tồn tại");
+        }
+        $this->memberTransformer->setCard($card);
 
-        $members = $this->userRepository->loadStaffs($filter, 10, 0, $cardId);
+        $members = $this->userRepository->loadStaffs($filter, 10, 0);
+
         return $this->respond([
             "members" => $this->memberTransformer->transformCollection($members)
         ]);

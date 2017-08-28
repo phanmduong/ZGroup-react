@@ -14,10 +14,8 @@ use App\User;
 
 class UserRepository
 {
-    public function loadStaffs($filter, $take = 20, $skip = 0, $cardId)
+    public function loadStaffs($filter, $take = 20, $skip = 0)
     {
-        $card = Card::find($cardId);
-        $memberIds = $card->assignees()->pluck("id")->toArray();
         $members = User::where("role", ">=", 1)
             ->where(function ($query) use ($filter) {
                 $query->where("name", "like", "%$filter%")
@@ -25,16 +23,7 @@ class UserRepository
             })
             ->take($take)
             ->skip($skip)
-            ->get()
-            ->map(function ($member) use ($memberIds) {
-                if (in_array($member->id, $memberIds)) {
-                    $member['added'] = true;
-                    return $member;
-                } else {
-                    $member['added'] = false;
-                    return $member;
-                }
-            });
+            ->get();
         return $members;
     }
 }

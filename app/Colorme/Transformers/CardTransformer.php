@@ -24,6 +24,7 @@ class CardTransformer extends Transformer
 
     public function transform($card)
     {
+        $this->memberTransformer->setCard($card);
         return [
             'id' => $card->id,
             'title' => $card->title,
