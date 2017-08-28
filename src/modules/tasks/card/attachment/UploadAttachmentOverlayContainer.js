@@ -6,15 +6,22 @@ import {connect} from "react-redux";
 import * as taskActions from '../../taskActions';
 import {bindActionCreators} from "redux";
 import UploadAttachmentPopover from "./UploadAttachmentPopover";
+import "./attachment.scss";
 
 class UploadAttachmentOverlayContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.handleChange = this.handleChange.bind(this);
         this.toggle = this.toggle.bind(this);
         this.state = {
             show: false
         };
     }
+
+    handleChange(event) {
+        console.log(event.target.files);
+    }
+
 
     toggle() {
         this.setState({show: !this.state.show});
@@ -33,7 +40,9 @@ class UploadAttachmentOverlayContainer extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <UploadAttachmentPopover toggle={this.toggle}/>
+                    <UploadAttachmentPopover
+                        handleChange={this.handleChange}
+                        toggle={this.toggle}/>
                 </Overlay>
             </div>
         );
@@ -47,8 +56,7 @@ UploadAttachmentOverlayContainer.propTypes = {
 };
 
 function mapStateToProps() {
-    return {
-    };
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {
