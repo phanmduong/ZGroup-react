@@ -188,3 +188,14 @@ export function toggleAssignMember(card, member) {
     }
     return axios.post(url);
 }
+
+export function uploadFile(card, file, completeHandler, error) {
+    let url = env.MANAGE_API_URL + '/card/' + card.id + "/file";
+    let formdata = new FormData();
+    formdata.append('image', file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
+    ajax.addEventListener("error", error, false);
+}
