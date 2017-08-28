@@ -103,6 +103,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/create-category', 'ManageBlogController@create_category');
     Route::post('/save-post', 'ManageBlogController@save_post');
     //End blog api
+
+    //Begin register students api
+    Route::get('/history-call-student', 'ManageRegisterStudentApiController@history_call_student');
+    //End register students api
 });
 
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
