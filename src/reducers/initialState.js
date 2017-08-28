@@ -149,6 +149,10 @@ export default {
     },
 
     task: {
+        uploadAttachment: {
+            progress: 0,
+            isUploading: false
+        },
         addMember: {
             isLoading: false,
             members: [],
