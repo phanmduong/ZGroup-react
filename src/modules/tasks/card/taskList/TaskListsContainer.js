@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as taskActions from '../taskActions';
-import Loading from "../../../components/common/Loading";
+import * as taskActions from '../../taskActions';
+import Loading from "../../../../components/common/Loading";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 

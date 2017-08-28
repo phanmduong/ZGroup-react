@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import {connect} from "react-redux";
-import * as taskActions from '../taskActions';
+import * as taskActions from '../../taskActions';
 import {bindActionCreators} from "redux";
 import TaskFormPopover from "./TaskFormPopover";
-import {showNotification} from "../../../helpers/helper";
+import {showNotification} from "../../../../helpers/helper";
 
 class AddTaskListOverlayContainer extends React.Component {
     constructor(props, context) {

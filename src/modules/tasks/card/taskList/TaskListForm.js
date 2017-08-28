@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormInputText from "../../../components/common/FormInputText";
-import {isEmptyInput} from "../../../helpers/helper";
+import FormInputText from "../../../../components/common/FormInputText";
+import {isEmptyInput} from "../../../../helpers/helper";
 
 const TaskListForm = ({updateFormData, taskList, submit, isSaving}) => {
     const {title} = taskList;

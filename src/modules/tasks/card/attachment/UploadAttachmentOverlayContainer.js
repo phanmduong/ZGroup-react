@@ -1,25 +1,19 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as taskActions from '../taskActions';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
-import MemberPopover from "./MemberPopover";
-import Avatar from "../../../components/common/Avatar";
+import {connect} from "react-redux";
+import * as taskActions from '../../taskActions';
+import {bindActionCreators} from "redux";
+import UploadAttachmentPopover from "./UploadAttachmentPopover";
 
-class MemberDetailOverlayContainer extends React.Component {
+class UploadAttachmentOverlayContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.toggle = this.toggle.bind(this);
-        this.assignMember = this.assignMember.bind(this);
         this.state = {
             show: false
         };
-    }
-
-    assignMember() {
-        this.props.taskActions.assignMember(this.props.card, this.props.member);
     }
 
     toggle() {
@@ -29,30 +23,32 @@ class MemberDetailOverlayContainer extends React.Component {
     render() {
         return (
             <div style={{position: "relative"}}>
-                <a ref="target" onClick={this.toggle}>
-                    <Avatar key={this.props.member.id} url={this.props.member.avatar_url} size={30}/>
-                </a>
+                <button className="btn btn-default"
+                        ref="target" onClick={this.toggle}>
+                    <i className="material-icons">attachment</i> Đính kèm
+                </button>
                 <Overlay
                     show={this.state.show}
                     onHide={() => this.setState({show: false})}
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <MemberPopover assignMember={this.assignMember} member={this.props.member} toggle={this.toggle}/>
+                    <UploadAttachmentPopover toggle={this.toggle}/>
                 </Overlay>
             </div>
         );
     }
 }
 
-MemberDetailOverlayContainer.propTypes = {
+
+UploadAttachmentOverlayContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
-    card: PropTypes.object.isRequired,
-    member: PropTypes.object.isRequired
+    card: PropTypes.object.isRequired
 };
 
 function mapStateToProps() {
-    return {};
+    return {
+    };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -61,4 +57,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MemberDetailOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadAttachmentOverlayContainer);

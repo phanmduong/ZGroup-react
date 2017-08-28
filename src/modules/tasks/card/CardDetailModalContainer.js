@@ -6,11 +6,12 @@ import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
 import * as taskActions from '../taskActions';
 import ReactEditor from "../../../components/common/ReactEditor";
 import Loading from "../../../components/common/Loading";
-import AddTaskListOverlayContainer from "./AddTaskListOverlayContainer";
-import TaskListsContainer from "./TaskListsContainer";
-import AddMemberOverlayContainer from "./AddMemberOverlay";
+import AddTaskListOverlayContainer from "./taskList/AddTaskListOverlayContainer";
+import TaskListsContainer from "./taskList/TaskListsContainer";
+import AddMemberOverlayContainer from "./member/AddMemberOverlay";
 import {linkUploadImageEditor} from '../../../constants/constants';
-import MemberDetailOverlayContainer from "./MemberDetailOverlayContainer";
+import MemberDetailOverlayContainer from "./member/MemberDetailOverlayContainer";
+import UploadAttachmentOverlayContainer from "./attachment/UploadAttachmentOverlayContainer";
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -141,9 +142,8 @@ class CardDetailModalContainer extends React.Component {
                             </h4>
                             <div className="card-detail-btn-group">
                                 <AddTaskListOverlayContainer card={this.props.card}/>
-                            </div>
-                            <div className="card-detail-btn-group">
                                 <AddMemberOverlayContainer card={this.props.card}/>
+                                <UploadAttachmentOverlayContainer card={this.props.card}/>
                             </div>
                         </div>
                     </div>

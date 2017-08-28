@@ -2,11 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import FormInputText from "../../../components/common/FormInputText";
+import FormInputText from "../../../../components/common/FormInputText";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
-import Loading from "../../../components/common/Loading";
-import * as taskActions from '../taskActions';
-import Avatar from "../../../components/common/Avatar";
+import Loading from "../../../../components/common/Loading";
+import * as taskActions from '../../taskActions';
+import Avatar from "../../../../components/common/Avatar";
 
 class AddMemberPopoverContainer extends React.Component {
     constructor(props, context) {
