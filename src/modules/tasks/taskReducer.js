@@ -7,6 +7,7 @@ import initialState from '../../reducers/initialState';
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
         case types.ASSIGN_MEMBER_SUCCESS:
+            console.log(action.member);
             return {
                 ...state,
                 boardList: {

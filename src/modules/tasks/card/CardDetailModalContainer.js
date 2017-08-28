@@ -10,7 +10,7 @@ import AddTaskListOverlayContainer from "./AddTaskListOverlayContainer";
 import TaskListsContainer from "./TaskListsContainer";
 import AddMemberOverlayContainer from "./AddMemberOverlay";
 import {linkUploadImageEditor} from '../../../constants/constants';
-import Avatar from "../../../components/common/Avatar";
+import MemberDetailOverlayContainer from "./MemberDetailOverlayContainer";
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -84,7 +84,8 @@ class CardDetailModalContainer extends React.Component {
                                         <h4><strong>Thành viên</strong></h4>
                                         <div style={{display: "flex", flexWrap: "wrap"}}>
                                             {this.props.card.members.map((member) => {
-                                                return <Avatar key={member.id} url={member.avatar_url} size={30}/>;
+                                                return <MemberDetailOverlayContainer card={this.props.card}
+                                                                                     key={member.id} member={member}/>;
                                             })}
                                         </div>
                                     </div>
