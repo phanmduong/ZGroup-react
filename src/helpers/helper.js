@@ -127,3 +127,14 @@ export function formatPhone(phone) {
 }
 
 
+export function updateArrayElement(element, array) {
+    return array.map((el) => {
+        if (el.id === element) {
+            return {
+                ...el,
+                ...element
+            };
+        }
+        return el;
+    });
+}

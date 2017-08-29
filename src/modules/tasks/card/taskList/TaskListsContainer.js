@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as taskActions from '../taskActions';
-import Loading from "../../../components/common/Loading";
+import * as taskActions from '../../taskActions';
+import Loading from "../../../../components/common/Loading";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 
@@ -12,11 +12,6 @@ class TaskListsContainer extends React.Component {
         super(props, context);
         this.addTask = this.addTask.bind(this);
     }
-
-    componentWillMount() {
-        this.props.taskActions.loadTaskLists(this.props.cardId);
-    }
-
 
     addTask(taskListId) {
         return (event) => {
@@ -33,12 +28,13 @@ class TaskListsContainer extends React.Component {
 
 
     render() {
+        const tasksComplete = (taskList) => taskList.tasks.filter(t => t.status).length;
+        const totalTasks = (taskList) => taskList.tasks.length;
+        const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
         return (
             <div className="task-lists">
                 {
-                    this.props.isLoadingTaskLists ? (
-                        <Loading/>
-                    ) : this.props.taskLists.map((taskList) => {
+                    this.props.card.taskLists && this.props.card.taskLists.map((taskList) => {
                         return (
                             <div key={taskList.id}>
                                 <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -53,16 +49,25 @@ class TaskListsContainer extends React.Component {
                                         <span className="sr-only">Close</span>
                                     </button>
                                 </div>
+                                <small>
+                                    {tasksComplete(taskList)}/{totalTasks(taskList)}
+                                    {" "}
+                                    ({totalTasks(taskList) === 0 ?
+                                    "0%" : Math.round(percent(taskList) * 10000) / 100 + "%"})
+                                </small>
                                 <div className="progress progress-line-default">
                                     <div className="progress-bar progress-bar-rose"
                                          role="progressbar"
                                          aria-valuenow="60"
                                          aria-valuemin="0" aria-valuemax="100"
                                          style={{
-                                             width: taskList.tasks.length === 0 ?
-                                                 0 : (taskList.tasks.filter(t => t.status).length * 100 / taskList.tasks.length) + "%"
+                                             width: totalTasks(taskList) === 0 ? 0 : percent(taskList) * 100 + "%"
                                          }}>
-                                        <span className="sr-only">60% Complete</span>
+                                        <span className="sr-only">
+                                            {totalTasks(taskList) === 0 ?
+                                                "0%" : Math.round(percent(taskList) * 10000) / 100 + "%"}
+                                            Complete
+                                        </span>
                                     </div>
                                 </div>
                                 <ListGroup>
@@ -100,17 +105,12 @@ class TaskListsContainer extends React.Component {
 }
 
 TaskListsContainer.propTypes = {
-    cardId: PropTypes.number.isRequired,
-    taskLists: PropTypes.array.isRequired,
-    isLoadingTaskLists: PropTypes.bool.isRequired,
+    card: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
-    return {
-        taskLists: state.task.taskList.taskLists,
-        isLoadingTaskLists: state.task.taskList.isLoadingTaskLists
-    };
+function mapStateToProps() {
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {

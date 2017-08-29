@@ -2,11 +2,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import * as taskActions from '../taskActions';
+import * as taskActions from '../../taskActions';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import MemberPopover from "./MemberPopover";
-import Avatar from "../../../components/common/Avatar";
+import Avatar from "../../../../components/common/Avatar";
 
 class MemberDetailOverlayContainer extends React.Component {
     constructor(props, context) {

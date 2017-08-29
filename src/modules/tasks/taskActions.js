@@ -576,3 +576,44 @@ export function assignMember(card, member) {
         taskApi.toggleAssignMember(card, member);
     };
 }
+
+export function uploadAttachment(card, file) {
+    return function (dispatch) {
+        const error = () => {
+            showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = () => {
+            dispatch({
+                type: types.UPLOAD_ATTACHMENT_SUCCESS
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_UPLOAD_ATTACHMENT_PROGRESS,
+                progress: percentComplete
+            });
+        };
+
+        dispatch({
+            type: types.BEGIN_UPLOAD_ATTACHMENT
+        });
+
+        taskApi.uploadFile(card, file, completeHandler, progressHandler, error);
+    };
+}
+
+export function loadCardDetail(cardId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CARD_DETAIL
+        });
+        taskApi.loadCardDetail(cardId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CARD_DETAIL_SUCCESS,
+                    card: res.data
+                });
+            });
+    };
+}

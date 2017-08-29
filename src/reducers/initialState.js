@@ -149,6 +149,10 @@ export default {
     },
 
     task: {
+        uploadAttachment: {
+            progress: 0,
+            isUploading: false
+        },
         addMember: {
             isLoading: false,
             members: [],
@@ -158,15 +162,12 @@ export default {
             isSavingTask: false,
             task: {}
         },
-        taskList: {
-            taskLists: [],
-            isLoadingTaskLists: false
-        },
         createTaskList: {
             taskList: {},
             isSavingTaskList: false
         },
         cardDetail: {
+            isLoading: false,
             card: {},
             showModal: false,
             isSavingCard: false

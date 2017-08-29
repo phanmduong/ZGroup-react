@@ -1,22 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Avatar from "../../../components/common/Avatar";
+import Avatar from "../../../../components/common/Avatar";
 
 const MemberPopover = ({
                            toggle, member, assignMember
                        }) => {
     return (
-        <div style={{
-            zIndex: 9,
-            position: 'absolute',
-            backgroundColor: '#fff',
-            boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
-            border: '1px solid #CCC',
-            borderRadius: 3,
-            marginLeft: -5,
-            marginTop: 2,
-            padding: 10,
-        }}>
+        <div className="kt-overlay" style={{marginTop: 2,}}>
             <button
                 onClick={toggle}
                 type="button" className="close"
