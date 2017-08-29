@@ -583,14 +583,12 @@ export function uploadAttachment(card, file) {
             showErrorNotification("Có lỗi xảy ra");
         };
         const completeHandler = () => {
-            console.log("complete");
             dispatch({
                 type: types.UPLOAD_ATTACHMENT_SUCCESS
             });
         };
         const progressHandler = (event) => {
             const percentComplete = Math.round((100 * event.loaded) / event.total);
-            console.log(percentComplete);
             dispatch({
                 type: types.UPDATE_UPLOAD_ATTACHMENT_PROGRESS,
                 progress: percentComplete
@@ -602,5 +600,20 @@ export function uploadAttachment(card, file) {
         });
 
         taskApi.uploadFile(card, file, completeHandler, progressHandler, error);
+    };
+}
+
+export function loadCardDetail(cardId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CARD_DETAIL
+        });
+        taskApi.loadCardDetail(cardId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CARD_DETAIL_SUCCESS,
+                    card: res.data
+                });
+            });
     };
 }

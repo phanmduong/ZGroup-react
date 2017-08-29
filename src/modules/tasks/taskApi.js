@@ -204,3 +204,12 @@ export function uploadFile(card, file, completeHandler, progressHandler, error) 
     ajax.open("POST", url);
     ajax.send(formData);
 }
+
+export function loadCardDetail(cardId) {
+    let url = env.MANAGE_API_URL + "/card/" + cardId + "/detail";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

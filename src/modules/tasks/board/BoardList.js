@@ -119,7 +119,7 @@ class BoardList extends React.Component {
                                     return (
                                         <div
                                             onClick={() => {
-                                                this.props.openCardDetailModal(card);
+                                                this.props.openCardDetailModal({...card, board: board});
                                             }}
                                             key={card.id} id={card.id} data-order={card.order}
                                             className="card-content keetool-card">

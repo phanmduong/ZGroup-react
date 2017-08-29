@@ -6,6 +6,26 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_CARD_DETAIL:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_CARD_DETAIL_SUCCESS:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    isLoading: false,
+                    card: {
+                        ...state.cardDetail.card,
+                        ...action.card
+                    }
+                }
+            };
         case types.UPLOAD_ATTACHMENT_SUCCESS:
             return {
                 ...state,
@@ -37,32 +57,6 @@ export default function taskReducer(state = initialState.task, action) {
         case types.ASSIGN_MEMBER_SUCCESS:
             return {
                 ...state,
-                boardList: {
-                    ...state.boardList,
-                    boards: state.boardList.boards.map((board) => {
-                        if (board.id === action.card.board_id) {
-                            return {
-                                ...board,
-                                cards: board.cards.map((card) => {
-                                    if (card.id === action.card.id) {
-                                        return {
-                                            ...card,
-                                            members: action.member.added ?
-                                                state.cardDetail.card.members
-                                                    .filter((m) => m.id !== action.member.id) :
-                                                [
-                                                    ...state.cardDetail.card.members,
-                                                    {...action.member, added: !action.member.added}
-                                                ]
-                                        };
-                                    }
-                                    return card;
-                                })
-                            };
-                        }
-                        return board;
-                    })
-                },
                 cardDetail: {
                     ...state.cardDetail,
                     card: {
@@ -92,9 +86,12 @@ export default function taskReducer(state = initialState.task, action) {
         case types.DELETE_TASK_LIST_SUCCESS:
             return {
                 ...state,
-                taskList: {
-                    ...state.taskList,
-                    taskLists: state.taskList.taskLists.filter(t => t.id !== action.taskList.id)
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: state.cardDetail.card.taskLists.filter(t => t.id !== action.taskList.id)
+                    }
                 }
             };
         case types.CHANGE_SEARCH_MEMBERS_VALUE:
@@ -125,97 +122,93 @@ export default function taskReducer(state = initialState.task, action) {
         case types.TOGGLE_TASK_STATUS:
             return {
                 ...state,
-                taskList: {
-                    ...state.taskList,
-                    taskLists: state.taskList.taskLists.map((taskList) => {
-                        if (taskList.id === action.task.task_list_id) {
-                            return {
-                                ...taskList,
-                                tasks: taskList.tasks.map((task => {
-                                    if (task.id === action.task.id) {
-                                        return {
-                                            ...task,
-                                            status: !task.status
-                                        };
-                                    }
-                                    return task;
-                                }))
-                            };
-                        } else {
-                            return taskList;
-                        }
-                    })
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: state.cardDetail.card.taskLists.map((taskList) => {
+                            if (taskList.id === action.task.task_list_id) {
+                                return {
+                                    ...taskList,
+                                    tasks: taskList.tasks.map((task => {
+                                        if (task.id === action.task.id) {
+                                            return {
+                                                ...task,
+                                                status: !task.status
+                                            };
+                                        }
+                                        return task;
+                                    }))
+                                };
+                            } else {
+                                return taskList;
+                            }
+                        })
+                    }
                 }
             };
         case types.DELETE_TASK_SUCCESS:
             return {
                 ...state,
-                taskList: {
-                    ...state.taskList,
-                    taskLists: state.taskList.taskLists.map((taskList) => {
-                        if (taskList.id === action.task.task_list_id) {
-                            return {
-                                ...taskList,
-                                tasks: taskList.tasks.filter((task => task.id !== action.task.id))
-                            };
-                        } else {
-                            return taskList;
-                        }
-                    })
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: state.cardDetail.card.taskLists.map((taskList) => {
+                            if (taskList.id === action.task.task_list_id) {
+                                return {
+                                    ...taskList,
+                                    tasks: taskList.tasks.filter((task => task.id !== action.task.id))
+                                };
+                            } else {
+                                return taskList;
+                            }
+                        })
+                    }
                 }
             };
         case types.BEGIN_CREATE_TASK:
             return {
                 ...state,
-                taskList: {
-                    ...state.taskList,
-                    taskLists: state.taskList.taskLists.map((taskList) => {
-                        if (taskList.id === action.taskListId) {
-                            return {
-                                ...taskList,
-                                isSavingTask: true
-                            };
-                        } else {
-                            return taskList;
-                        }
-                    })
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: state.cardDetail.card.taskLists.map((taskList) => {
+                            if (taskList.id === action.taskListId) {
+                                return {
+                                    ...taskList,
+                                    isSavingTask: true
+                                };
+                            } else {
+                                return taskList;
+                            }
+                        })
+                    }
                 }
             };
         case types.CREATE_TASK_SUCCESS:
             return {
                 ...state,
-                taskList: {
-                    ...state.taskList,
-                    taskLists: state.taskList.taskLists.map((taskList) => {
-                        if (taskList.id === action.taskListId) {
-                            return {
-                                ...taskList,
-                                isSavingTask: false,
-                                tasks: [...taskList.tasks, action.task]
-                            };
-                        } else {
-                            return taskList;
-                        }
-                    })
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: state.cardDetail.card.taskLists.map((taskList) => {
+                            if (taskList.id === action.taskListId) {
+                                return {
+                                    ...taskList,
+                                    isSavingTask: false,
+                                    tasks: [...taskList.tasks, action.task]
+                                };
+                            } else {
+                                return taskList;
+                            }
+                        })
+                    }
                 }
             };
-        case types.BEGIN_LOAD_TASK_LISTS:
-            return {
-                ...state,
-                taskList: {
-                    ...state.taskList,
-                    isLoadingTaskLists: true
-                }
-            };
-        case types.LOAD_TASK_LISTS_SUCCESS:
-            return {
-                ...state,
-                taskList: {
-                    ...state.taskList,
-                    taskLists: action.taskLists,
-                    isLoadingTaskLists: false
-                }
-            };
+
         case types.CREATE_TASK_LIST_SUCCESS:
             return {
                 ...state,
@@ -224,9 +217,12 @@ export default function taskReducer(state = initialState.task, action) {
                     isSavingTaskList: false,
                     taskList: {}
                 },
-                taskList: {
-                    ...state.taskList,
-                    taskLists: [...state.taskList.taskLists, {...action.taskList, tasks: []}]
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: [...state.cardDetail.card.taskLists, {...action.taskList, tasks: []}]
+                    }
                 }
             };
         case types.BEGIN_CREATE_TASK_LIST:
@@ -252,22 +248,6 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.cardDetail,
                     isSavingCard: false,
                     card: action.card
-                },
-                boardList: {
-                    boards: state.boardList.boards.map((board) => {
-                        if (board.id === action.card.board_id) {
-                            return {
-                                ...board,
-                                cards: board.cards.map((card) => {
-                                    if (card.id === action.card.id) {
-                                        return action.card;
-                                    }
-                                    return card;
-                                })
-                            };
-                        }
-                        return board;
-                    })
                 }
             };
         case types.BEGIN_SAVE_CARD:

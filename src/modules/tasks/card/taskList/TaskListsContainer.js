@@ -13,11 +13,6 @@ class TaskListsContainer extends React.Component {
         this.addTask = this.addTask.bind(this);
     }
 
-    componentWillMount() {
-        this.props.taskActions.loadTaskLists(this.props.cardId);
-    }
-
-
     addTask(taskListId) {
         return (event) => {
             if (event.key === 'Enter') {
@@ -39,9 +34,7 @@ class TaskListsContainer extends React.Component {
         return (
             <div className="task-lists">
                 {
-                    this.props.isLoadingTaskLists ? (
-                        <Loading/>
-                    ) : this.props.taskLists.map((taskList) => {
+                    this.props.card.taskLists && this.props.card.taskLists.map((taskList) => {
                         return (
                             <div key={taskList.id}>
                                 <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -72,7 +65,7 @@ class TaskListsContainer extends React.Component {
                                          }}>
                                         <span className="sr-only">
                                             {totalTasks(taskList) === 0 ?
-                                                "0%" : Math.round( percent(taskList) * 10000) / 100 + "%"}
+                                                "0%" : Math.round(percent(taskList) * 10000) / 100 + "%"}
                                             Complete
                                         </span>
                                     </div>
@@ -112,17 +105,12 @@ class TaskListsContainer extends React.Component {
 }
 
 TaskListsContainer.propTypes = {
-    cardId: PropTypes.number.isRequired,
-    taskLists: PropTypes.array.isRequired,
-    isLoadingTaskLists: PropTypes.bool.isRequired,
+    card: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
-    return {
-        taskLists: state.task.taskList.taskLists,
-        isLoadingTaskLists: state.task.taskList.isLoadingTaskLists
-    };
+function mapStateToProps() {
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {

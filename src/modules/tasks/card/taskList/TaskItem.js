@@ -18,7 +18,7 @@ class TaskItem extends React.Component {
                 <div className="checkbox">
                     <label>
                         <input
-                            checked={task.status}
+                            checked={task.status || false}
                             onChange={() => this.props.toggleTaskStatus(task)}
                             type="checkbox" name="optionsCheckboxes"/>
                         {task.title}

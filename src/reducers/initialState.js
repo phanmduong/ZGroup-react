@@ -162,15 +162,12 @@ export default {
             isSavingTask: false,
             task: {}
         },
-        taskList: {
-            taskLists: [],
-            isLoadingTaskLists: false
-        },
         createTaskList: {
             taskList: {},
             isSavingTaskList: false
         },
         cardDetail: {
+            isLoading: false,
             card: {},
             showModal: false,
             isSavingCard: false

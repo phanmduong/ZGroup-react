@@ -2,16 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import * as taskActions from '../taskActions';
-import ReactEditor from "../../../components/common/ReactEditor";
+import CardBody from "./CardBody";
 import Loading from "../../../components/common/Loading";
-import AddTaskListOverlayContainer from "./taskList/AddTaskListOverlayContainer";
-import TaskListsContainer from "./taskList/TaskListsContainer";
-import AddMemberOverlayContainer from "./member/AddMemberOverlay";
-import {linkUploadImageEditor} from '../../../constants/constants';
-import MemberDetailOverlayContainer from "./member/MemberDetailOverlayContainer";
-import UploadAttachmentOverlayContainer from "./attachment/UploadAttachmentOverlayContainer";
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -27,6 +21,9 @@ class CardDetailModalContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (!this.props.card.id && nextProps.card.id) {
+            this.props.taskActions.loadCardDetail(nextProps.card.id);
+        }
         this.setState({
             description: nextProps.card.description
         });
@@ -62,9 +59,6 @@ class CardDetailModalContainer extends React.Component {
 
 
     render() {
-        const editTooltip = (
-            <Tooltip id="tooltip">Chỉnh sửa mô tả công việc</Tooltip>
-        );
 
         return (
             <Modal
@@ -76,79 +70,21 @@ class CardDetailModalContainer extends React.Component {
                     <Modal.Title className="card-modal-title">{this.props.card.title}</Modal.Title>
                     <p> Trong bảng <strong>{this.props.card.board && this.props.card.board.title}</strong></p>
                 </Modal.Header>
-                <Modal.Body>
-                    <div className="row">
-                        <div className="col-sm-8 col-md-9">
-                            {
-                                this.props.card.members && this.props.card.members.length > 0 && (
-                                    <div>
-                                        <h4><strong>Thành viên</strong></h4>
-                                        <div style={{display: "flex", flexWrap: "wrap"}}>
-                                            {this.props.card.members.map((member) => {
-                                                return <MemberDetailOverlayContainer card={this.props.card}
-                                                                                     key={member.id} member={member}/>;
-                                            })}
-                                        </div>
-                                    </div>
-                                )
-                            }
-
-                            <h4>
-                                <strong>Mô tả</strong>
-                                <OverlayTrigger placement="right" overlay={editTooltip}>
-                                    <a className="card-modal-button" onClick={this.toggleEditCardDescription}>
-                                        <i className="material-icons">edit</i>
-                                    </a>
-                                </OverlayTrigger>
-                            </h4>
-                            {
-                                this.state.isEditing ? (
-                                    <div>
-                                        {
-                                            this.props.isSavingCard ? (
-                                                <Loading/>
-                                            ) : (
-                                                <div>
-                                                    <ReactEditor
-                                                        urlPost={linkUploadImageEditor()}
-                                                        fileField="image"
-                                                        value={this.state.description || ""}
-                                                        updateEditor={this.updateEditor}/>
-                                                    <button
-                                                        onClick={this.saveCard}
-                                                        className="btn btn-rose">Lưu
-                                                    </button>
-                                                    <button
-                                                        onClick={this.cancelEdit}
-                                                        className="btn btn-default">Huỷ
-                                                    </button>
-                                                </div>
-                                            )
-                                        }
-                                    </div>
-                                ) : (
-                                    //eslint-disable-next-line
-                                    <div dangerouslySetInnerHTML={{__html: this.props.card.description}}>
-                                    </div>
-                                )
-                            }
-
-                            {this.props.card.id && <TaskListsContainer
-                                cardId={this.props.card.id}/>}
-                        </div>
-                        <div className="col-sm-4 col-md-3">
-                            <h4>
-                                <strong>Thêm</strong>
-                            </h4>
-                            <div className="card-detail-btn-group">
-                                <AddTaskListOverlayContainer card={this.props.card}/>
-                                <AddMemberOverlayContainer card={this.props.card}/>
-                                <UploadAttachmentOverlayContainer card={this.props.card}/>
-                            </div>
-                        </div>
-                    </div>
-
-
+                <Modal.Body style={{paddingTop: 0}}>
+                    {
+                        this.props.isLoading ?
+                            <Loading/> : (
+                                <CardBody
+                                    toggleEditCardDescription={this.toggleEditCardDescription}
+                                    isSavingCard={this.props.isSavingCard}
+                                    description={this.state.description}
+                                    updateEditor={this.updateEditor}
+                                    saveCard={this.saveCard}
+                                    cancelEdit={this.cancelEdit}
+                                    isEditing={this.state.isEditing}
+                                    card={this.props.card}/>
+                            )
+                    }
                 </Modal.Body>
             </Modal>
         );
@@ -158,17 +94,15 @@ class CardDetailModalContainer extends React.Component {
 CardDetailModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     isSavingCard: PropTypes.bool.isRequired,
-    isSavingTaskList: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired,
-    taskList: PropTypes.object.isRequired,
     card: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        isSavingTaskList: state.task.createTaskList.isSavingTaskList,
-        taskList: state.task.createTaskList.taskList,
         showModal: state.task.cardDetail.showModal,
+        isLoading: state.task.cardDetail.isLoading,
         isSavingCard: state.task.cardDetail.isSavingCard,
         card: state.task.cardDetail.card
     };
