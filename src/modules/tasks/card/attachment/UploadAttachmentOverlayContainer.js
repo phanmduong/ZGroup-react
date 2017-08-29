@@ -27,7 +27,6 @@ class UploadAttachmentOverlayContainer extends React.Component {
                 index,
                 name: file.name
             };
-
             this.props.taskActions.uploadAttachment(this.props.card, fileWrapper);
         });
 

@@ -67,6 +67,7 @@ export default function taskReducer(state = initialState.task, action) {
                     files: [
                         ...state.uploadAttachment.files,
                         {
+                            name: action.fileWrapper.name,
                             index: action.fileWrapper.index,
                             progress: 0
                         }

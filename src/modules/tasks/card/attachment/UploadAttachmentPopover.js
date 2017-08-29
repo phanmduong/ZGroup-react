@@ -22,7 +22,11 @@ const UploadAttachmentPopover = ({toggle, handleChange, files}) => {
                             {
                                 files.map((fileWrapper) => (
                                     <div key={fileWrapper.index}>
-                                        <Loading text={"Đang tải lên... " + fileWrapper.progress + "%"}/>
+                                        {fileWrapper.progress >= 100 ?
+                                            <Loading text={"Hệ thống đang xử lý..."}/>
+                                            : <Loading text={"Đang tải lên... " + fileWrapper.progress + "%"}/>}
+
+                                        <div>{fileWrapper.name}</div>
                                         <div className="progress progress-line">
                                             <div className="progress-bar progress-bar-rose"
                                                  role="progressbar" aria-valuenow="60" aria-valuemin="0"
