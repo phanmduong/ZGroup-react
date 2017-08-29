@@ -719,16 +719,15 @@ function deleteFromS3($path)
 
 function uploadLargeFileToS3(\Illuminate\Http\Request $request, $fileField, $oldfile = null)
 {
-    $sourceFile = $request->file($fileField);
-    if ($sourceFile != null) {
-        $imageFileName = time() . random(15, true) . '.' . $sourceFile->getClientOriginalExtension();
-
-
-        $mimeType = $sourceFile->getMimeType();
+    $file = $request->file($fileField);
+    if ($file != null) {
+        $mimeType = $file->guessClientExtension();
         $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
-        $filePath = '/videos/' . $imageFileName;
 
-        $s3->getDriver()->put($filePath, fopen($sourceFile, 'r+'), ['ContentType' => $mimeType, 'visibility' => 'public']);
+        $fileName = time() . random(15, true) . '.' . $file->getClientOriginalExtension();
+        $filePath = '/files/' . $fileName;
+        $s3->getDriver()->put($filePath, fopen($file, 'r+'),
+            ['ContentType' => $mimeType, 'visibility' => 'public']);
         if ($oldfile != null) {
             $s3->delete($oldfile);
         }

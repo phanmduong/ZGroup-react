@@ -18,8 +18,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
     Route::post('/card/create', "TaskController@createCard");
     Route::post('/cards/update', "TaskController@updateCards");
+    Route::get('/card/{cardId}/detail', "TaskController@card");
     Route::post('/card/{cardId}/update', "TaskController@updateCard");
     Route::post('/card/{cardId}/user/{userId}', "CardController@assignMember");
+    Route::post('/card/{cardId}/file', "FileController@uploadFile");
 
     Route::post('/tasklist/create', "TaskController@createTaskList");
     Route::delete('/tasklist/{id}/delete', "TaskController@deleteTaskList");
