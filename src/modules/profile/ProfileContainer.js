@@ -49,6 +49,8 @@ class ProfileContainer extends React.Component {
         let {name, email, phone, username, address, age, current_role, avatar_url, color, homeland, marital, literacy, start_company_vi} = this.props.profile;
         let avatar = helper.avatarEmpty(avatar_url) ?
             NO_AVATAR : avatar_url;
+        let literacyName =  LITERACY.filter(item => item.id === literacy)[0];
+        let maritalName =  MARITAL.filter(item => item.id === marital)[0];
         return (
             <div>
                 <div className="col-lg-12">
@@ -146,7 +148,7 @@ class ProfileContainer extends React.Component {
                                                                                 Trình độ học vấn
                                                                             </label>
                                                                             <p className="form-control-static">
-                                                                                {LITERACY.filter(item => item.id === literacy)[0].name}</p>
+                                                                                {literacyName ? literacyName.name : ''}</p>
                                                                         </div>
                                                                     </div>
                                                                     <div className="col-md-6">
@@ -155,7 +157,7 @@ class ProfileContainer extends React.Component {
                                                                                 Tình trạng hôn nhân
                                                                             </label>
                                                                             <p className="form-control-static">
-                                                                                {MARITAL.filter(item => item.id === marital)[0].name}</p>
+                                                                                {maritalName ? maritalName.name : ''}</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
