@@ -1,10 +1,19 @@
 /*eslint-disable */
 let URL = env.DOMAIN;
+let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
 
 export const API_URL = PROTOCOL + "api." + URL;
 export const MANAGE_API_URL = PROTOCOL + "manageapi." + URL;
 export const BASE_URL = PROTOCOL + URL;
+if (process.env.NODE_ENV === 'production') {
+    MANAGE_URL = PROTOCOL + 'manage.' + URL;
+}
+else {
+    MANAGE_URL = 'http://localhost:3000';
+}
+
+export const MANAGE_BASE_URL = MANAGE_URL;
 
 export const NAME_COMPANY = env.NAME_COMPANY;
 export const LOGO_LOGIN = PROTOCOL + env.LOGO_LOGIN;

@@ -310,4 +310,17 @@ export default {
         errorChangeStatus: false,
         telecallId: 0
     },
+
+    profile: {
+        isLoading: false,
+        profile: {
+            current_role: {
+            },
+            start_company: new Date().toISOString().slice(0, 10),
+        },
+        error: false,
+        isChangingAvatar: false,
+        isSaving: false,
+        savingError: false
+    }
 };
