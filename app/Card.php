@@ -40,4 +40,8 @@ class Card extends Model
     public function assignees() {
         return $this->belongsToMany(User::class,"card_user","card_id", "user_id");
     }
+
+    public function files(){
+        return $this->hasMany(File::class, "card_id");
+    }
 }

@@ -15,6 +15,7 @@ use App\Colorme\Transformers\TaskTransformer;
 class UserCardRepository
 {
     protected $taskTransformer;
+
     public function __construct(TaskTransformer $taskTransformer)
     {
         $this->taskTransformer = $taskTransformer;
@@ -36,6 +37,17 @@ class UserCardRepository
     public function loadCardDetail($cardId)
     {
         $card = Card::find($cardId);
+        $files = $card->files->map(function ($file) {
+            return [
+                "id" => $file->id,
+                "name" => $file->name,
+                "url" => generate_protocol_url($file->url),
+                "ext" => $file->ext,
+                "size" => $file->size,
+                "file_key" => $file->file_key,
+                "created_at" => format_time_main(strtotime($file->created_at))
+            ];
+        });
         $taskLists = $card->taskLists->map(function ($taskList) {
             return [
                 'id' => $taskList->id,
@@ -63,7 +75,8 @@ class UserCardRepository
         return [
             "description" => $card->description,
             "members" => $members,
-            "taskLists" => $taskLists
+            "taskLists" => $taskLists,
+            "files" => $files
         ];
     }
 }
