@@ -55,7 +55,7 @@ class ListRegister extends React.Component {
                                 </td>
                                 <td>{register.name}</td>
                                 <td>
-                                    <div style={{width: '100px', wordBreak: 'break-all'}} data-toggle="tooltip" title=""
+                                    <div id="register-email" data-toggle="tooltip" title=""
                                          type="button" rel="tooltip"
                                          data-original-title={register.email}>{register.email}</div>
                                 </td>
