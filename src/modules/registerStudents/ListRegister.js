@@ -40,7 +40,7 @@ class ListRegister extends React.Component {
                         else if (register.call_status === 'failed') {
                             btn = ' btn-danger';
                             titleCall = 'Gọi thất bại';
-                        } else if (register.call_status === 'calling'){
+                        } else if (register.call_status === 'calling') {
                             btn = ' btn-info';
                             titleCall = 'Đang gọi';
                         }
@@ -49,7 +49,7 @@ class ListRegister extends React.Component {
                                 <td>
                                     <button className={"btn btn-round btn-fab btn-fab-mini text-white" + btn}
                                             data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                            onClick={()=>this.props.viewCall(register)}
+                                            onClick={() => this.props.viewCall(register)}
                                             data-original-title={titleCall}><i className="material-icons">phone</i>
                                     </button>
                                 </td>
@@ -115,7 +115,12 @@ class ListRegister extends React.Component {
                                 <td>{register.class.name}</td>
                                 <td>{register.created_at}</td>
                                 <td>
-                                    <ButtonGroupAction editUrl="" delete={() => "hello"}/>
+                                    <ButtonGroupAction
+                                        editUrl=""
+                                        delete={this.props.deleteRegister}
+                                        object={register}
+                                        disabledDelete={Boolean(register.paid_status)}
+                                    />
                                 </td>
                             </tr>);
                     })}
@@ -129,7 +134,9 @@ class ListRegister extends React.Component {
 
 ListRegister.propTypes = {
     registers: PropTypes.array.isRequired,
-    viewCall: PropTypes.func.isRequired
+    viewCall: PropTypes.func.isRequired,
+    deleteRegister: PropTypes.func.isRequired,
+
 };
 
 export default ListRegister;

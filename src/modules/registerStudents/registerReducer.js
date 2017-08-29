@@ -113,6 +113,12 @@ export default function registerReducer(state = initialState.registerStudents, a
                     errorChangeStatus: true
                 }
             };
+        case types.DELETE_REGISTER_STUDENT_SUCCESS:
+            registers = deleteRegister(action.registerId, state.registers);
+            return {
+                ...state,
+                registers: registers
+            }
         default:
             return state;
     }
@@ -147,6 +153,13 @@ function changeCallStatusStudent(studentId, registers, callStatus) {
                 return register;
             }
         );
+    }
+    return registers;
+}
+
+function deleteRegister(registerId, registers) {
+    if (registers) {
+        registers = registers.filter(register=> register.id !== registerId);
     }
     return registers;
 }

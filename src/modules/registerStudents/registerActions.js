@@ -3,7 +3,7 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as registerStudentsApi from './registerStudentsApi';
-import {showErrorNotification}from '../../helpers/helper';
+import {showErrorNotification, showNotification, showTypeNotification} from '../../helpers/helper';
 
 export function loadRegisterStudent(page, genId, search) {
     return function (dispatch) {
@@ -91,6 +91,30 @@ export function changeCallStatusStudent(callStatus, studentId, telecallId, genId
                 showErrorNotification('Có lỗi xảy ra');
                 dispatch({
                     type: types.CHANGE_CALL_STATUS_STUDENT_ERROR
+                });
+            });
+    };
+}
+
+
+export function deleteRegisterStudent(registerId) {
+    return function (dispatch) {
+        showTypeNotification('Đang xóa đăng kí', 'info');
+        dispatch({
+            type: types.BEGIN_DELETE_REGISTER_STUDENT
+        });
+        registerStudentsApi.deleteRegisterStudent(registerId)
+            .then((res) => {
+                showNotification(res.data.data.message);
+                dispatch({
+                    type: types.DELETE_REGISTER_STUDENT_SUCCESS,
+                    registerId
+                });
+            })
+            .catch(() => {
+                showErrorNotification('Có lỗi xảy ra');
+                dispatch({
+                    type: types.DELETE_REGISTER_STUDENT_ERROR
                 });
             });
     };

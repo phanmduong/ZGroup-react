@@ -30,6 +30,7 @@ class RegisterListContainer extends React.Component {
         this.openModal = this.openModal.bind(this);
         this.viewCall = this.viewCall.bind(this);
         this.changeCallStatusStudent = this.changeCallStatusStudent.bind(this);
+        this.deleteRegister = this.deleteRegister.bind(this);
 
     }
 
@@ -99,6 +100,10 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal);
     }
 
+    deleteRegister(register){
+        this.props.registerActions.deleteRegisterStudent(register.id);
+    }
+
     render() {
         return (
             <div id="page-wrapper">
@@ -131,6 +136,8 @@ class RegisterListContainer extends React.Component {
                                             <ListRegister
                                                 registers={this.props.registers}
                                                 viewCall={this.viewCall}
+                                                deleteRegister={this.deleteRegister}
+
                                             />
                                     }
                                     <ul className="pagination pagination-primary">

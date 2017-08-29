@@ -36,3 +36,15 @@ export function changeCallStatusStudent(callStatus, studentId, telecallId, genId
         }
     );
 }
+
+export function deleteRegisterStudent(registerId) {
+    let url = env.MANAGE_API_URL + "/delete-register-student";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+            register_id: registerId
+        }
+    );
+}
