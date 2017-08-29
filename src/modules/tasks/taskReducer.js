@@ -6,6 +6,34 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.UPLOAD_ATTACHMENT_SUCCESS:
+            return {
+                ...state,
+                uploadAttachment: {
+                    ...state.uploadAttachment,
+                    isUploading: false,
+                    progress: 0
+                }
+            };
+
+        case types.UPDATE_UPLOAD_ATTACHMENT_PROGRESS:
+            return {
+                ...state,
+                uploadAttachment: {
+                    ...state.uploadAttachment,
+                    progress: action.progress
+                }
+            };
+        case types.BEGIN_UPLOAD_ATTACHMENT:
+            return {
+                ...state,
+                uploadAttachment: {
+                    ...state.uploadAttachment,
+                    isUploading: true,
+                    progress: 0
+                }
+            };
+
         case types.ASSIGN_MEMBER_SUCCESS:
             return {
                 ...state,
@@ -61,7 +89,6 @@ export default function taskReducer(state = initialState.task, action) {
                     })
                 }
             };
-
         case types.DELETE_TASK_LIST_SUCCESS:
             return {
                 ...state,
@@ -120,7 +147,6 @@ export default function taskReducer(state = initialState.task, action) {
                     })
                 }
             };
-
         case types.DELETE_TASK_SUCCESS:
             return {
                 ...state,
@@ -173,7 +199,6 @@ export default function taskReducer(state = initialState.task, action) {
                     })
                 }
             };
-
         case types.BEGIN_LOAD_TASK_LISTS:
             return {
                 ...state,

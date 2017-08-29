@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Loading extends React.Component {
   constructor(props, context) {
@@ -7,14 +8,15 @@ class Loading extends React.Component {
 
   render() {
     return (
-      <h3 style={{width: '100%', textAlign: 'center'}}><i className="fa fa-refresh fa-spin"/> Loading</h3>
+      <h3 style={{width: '100%', textAlign: 'center'}}>
+        <i className="fa fa-refresh fa-spin"/> { this.props.text || "Loading"}</h3>
 
     );
   }
 }
 
 Loading.propTypes = {
-  // myProp: PropTypes.string.isRequired
+  text: PropTypes.string
 };
 
 export default Loading;

@@ -189,13 +189,18 @@ export function toggleAssignMember(card, member) {
     return axios.post(url);
 }
 
-export function uploadFile(card, file, completeHandler, error) {
+export function uploadFile(card, file, completeHandler, progressHandler, error) {
     let url = env.MANAGE_API_URL + '/card/' + card.id + "/file";
-    let formdata = new FormData();
-    formdata.append('image', file);
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formData = new FormData();
+    formData.append('file', file);
     let ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
-    ajax.open("POST", url);
-    ajax.send(formdata);
+    ajax.upload.onprogress = progressHandler;
     ajax.addEventListener("error", error, false);
+    ajax.open("POST", url);
+    ajax.send(formData);
 }
