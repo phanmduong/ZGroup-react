@@ -18,16 +18,16 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
-    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-3.1.1.min.js"
-            type="text/javascript"></script>
-    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
-    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
-    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
-    <link href="manage/main.e8453e0ba71653d4c6684ddeb37ad0d3.css" rel="stylesheet">
-    <script src="{{url('config.js')}}"></script>
+    <link href="manage/main.23284d52c464252d5738fd441c2f7122.css" rel="stylesheet">
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
 <body>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-3.1.1.min.js"
+        type="text/javascript"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
+<script src="{{url('config.js')}}"></script>
 <div id="app"></div>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-ui.min.js"
         type="text/javascript"></script>
@@ -64,6 +64,6 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
 
-<script type="text/javascript" src="manage/main.712c234c2ea8c579d791.js"></script>
+<script type="text/javascript" src="manage/main.365d9b4c577671929d1e.js"></script>
 </body>
 </html>
