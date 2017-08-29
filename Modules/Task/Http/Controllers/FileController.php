@@ -19,6 +19,7 @@ class FileController extends ManageApiController
 //            $this->user->avatar_name = $avatar_name;
 //            $this->user->avatar_url = $this->s3_url . $avatar_name;
 //        }
+
         return $this->respond([
             "message" => "Tải lên thành công",
             "url" => $file_name
