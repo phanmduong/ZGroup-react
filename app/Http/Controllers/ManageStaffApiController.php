@@ -63,7 +63,7 @@ class ManageStaffApiController extends ApiController
         $user->start_company = $request->start_company;
         $user->avatar_url = trim_url($request->avatar_url);
         if ($request->color) {
-            $user->color = $request->color;
+            $user->color = trim_color($request->color);
         }
 
         $user->password = bcrypt('123456');
@@ -161,7 +161,7 @@ class ManageStaffApiController extends ApiController
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
         if ($request->color) {
-            $user->color = $request->color;
+            $user->color = trim_color($request->color);
         }
         $user->save();
         $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);

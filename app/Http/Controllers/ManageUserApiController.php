@@ -75,7 +75,7 @@ class ManageUserApiController extends ManageApiController
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
         if ($request->color) {
-            $user->color = $request->color;
+            $user->color = trim_color($request->color);
         }
         $user->save();
         $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
