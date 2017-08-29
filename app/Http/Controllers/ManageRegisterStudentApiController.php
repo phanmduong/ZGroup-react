@@ -74,18 +74,18 @@ class ManageRegisterStudentApiController extends ManageApiController
             $gen = Gen::getCurrentGen();
         }
 
-        $registers = $gen->registers()->where('user_id', $student_id)->get();
-        foreach ($registers as $register) {
-
-            $register->call_status = $status;
-            $register->time_to_reach = ceil(diffDate($register->created_at, date('Y-m-d H:i:s')));
-            $register->save();
-        }
-//        foreach ($student->registers as $register) {
+//        $registers = $gen->registers()->where('user_id', $student_id)->get();
+//        foreach ($registers as $register) {
+//
 //            $register->call_status = $status;
 //            $register->time_to_reach = ceil(diffDate($register->created_at, date('Y-m-d H:i:s')));
 //            $register->save();
 //        }
+        foreach ($student->registers as $register) {
+            $register->call_status = $status;
+            $register->time_to_reach = ceil(diffDate($register->created_at, date('Y-m-d H:i:s')));
+            $register->save();
+        }
 
         $telecall = TeleCall::find($request->telecall_id);
         if ($request->caller_id) {
