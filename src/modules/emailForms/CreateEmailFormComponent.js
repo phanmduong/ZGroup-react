@@ -7,14 +7,28 @@ import {NO_IMAGE} from '../../constants/env';
 import EmailTemplatesContainer from './EmailTemplatesContainer';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
+import {Modal} from 'react-bootstrap';
 
 class CreateEmailFormComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            showModal: false
+        };
+        this.closeModal = this.closeModal.bind(this);
+        this.openModal = this.openModal.bind(this);
     }
 
     componentDidMount() {
         helper.setFormValidation('#form-email-form');
+    }
+
+    closeModal() {
+        this.setState({showModal: false});
+    }
+
+    openModal() {
+        this.setState({showModal: true});
     }
 
     render() {
@@ -197,9 +211,7 @@ class CreateEmailFormComponent extends React.Component {
                                     }}>
                                         <label>Loại template</label>
                                         <button type="button" className="btn btn-rose btn-sm"
-                                                onClick={() => {
-                                                    $('#chooseTemplateModal').modal('show');
-                                                }}
+                                                onClick={this.openModal}
                                         >
                                             <i className="material-icons">control_point</i>
                                         </button>
@@ -260,23 +272,14 @@ class CreateEmailFormComponent extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="modal fade" id="chooseTemplateModal" role="dialog"
-                     aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div className="modal-dialog modal-lg">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal"
-                                        aria-hidden="true">
-                                    <i className="material-icons">clear</i>
-                                </button>
-                                <h4 className="modal-title">Chọn template</h4>
-                            </div>
-                            <div className="modal-body">
-                                <EmailTemplatesContainer/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Modal show={this.state.showModal} onHide={this.closeModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Chọn template</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <EmailTemplatesContainer/>
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }

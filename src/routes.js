@@ -13,7 +13,7 @@ import CreateBaseContainer from "./modules/bases/CreateBaseContainer";
 import ProjectListContainer from "./modules/tasks/project/ProjectListContainer";
 import CreateProjectContainer from "./modules/tasks/project/CreateProjectContainer";
 import BoardListContainer from "./modules/tasks/board/BoardListContainer";
-import RegisterListContainer from "./modules/register/RegisterListContainer";
+import RegisterListContainer from "./modules/registerStudents/RegisterListContainer";
 import EmailTemplatesContainer from "./modules/emailTemplates/EmailTemplatesContainer";
 import EmailFormsContainer from "./modules/emailForms/EmailFormsContainer";
 import CreateEmailFormContainer from "./modules/emailForms/CreateEmailFormContainer";
@@ -47,10 +47,6 @@ export default (
             <Route path="project/:projectId/boards" component={BoardListContainer}/>
             {/*End tasks route*/}
 
-            {/*Begin register routes*/}
-            <Route path="register/list" component={RegisterListContainer}/>
-            {/*End register routes*/}
-
             {/*Begin Email marketing routes*/}
             <Route path="/email-maketing/templates" component={EmailTemplatesContainer}/>
             <Route path="/email-template/create" component={CreateEmailTemplateContainer} type="create"/>
@@ -63,6 +59,10 @@ export default (
             {/*Begin blog routes*/}
             <Route path="/blog/new-post" component={BlogContainer} type="create"/>
             {/*End blog routes*/}
+
+            {/*Begin register student routes*/}
+            <Route path="/manage/registerlist" component={RegisterListContainer}/>
+            {/*End register student routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

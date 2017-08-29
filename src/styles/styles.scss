@@ -135,6 +135,20 @@ table tr td .avatar-list-staff {
   width: 100%;
 }
 
+
+.no-data{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-row-center{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
 .quiet {
   color: #8c8c8c
 }

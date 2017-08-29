@@ -6,7 +6,7 @@ import rolesReducer from '../modules/role/rolesReducer';
 import baseListReducer from '../modules/bases/baseListReducer';
 import * as types from '../constants/actionTypes';
 import taskReducer from "../modules/tasks/taskReducer";
-import registerReducer from "../modules/register/registerReducer";
+import registerReducer from "../modules/registerStudents/registerReducer";
 import emailTemplatesReducer from "../modules/emailTemplates/emailTemplatesReducer";
 import emailFormsReducer from "../modules/emailForms/emailFormsReducer";
 import blogReducer from '../modules/blog/blogReducer';
@@ -22,6 +22,7 @@ const appReducer = combineReducers({
     emailTemplates: emailTemplatesReducer,
     emailForms: emailFormsReducer,
     blog: blogReducer,
+    registerStudents: registerReducer,
 });
 
 const rootReducer = (state, action) => {

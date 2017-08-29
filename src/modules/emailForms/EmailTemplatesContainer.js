@@ -72,7 +72,7 @@ class EmailTemplatesContainer extends React.Component {
                     <div className="card-content">
                         <ul className="pagination pagination-primary">
                             {_.range(1, this.props.totalPages + 1).map(page => {
-                                if (Number(this.props.currentPage) === page) {
+                                if (Number(this.state.page) === page) {
                                     return (
                                         <li key={page} className="active">
                                             <a onClick={() => this.loadTemplates(page)}>{page}</a>
