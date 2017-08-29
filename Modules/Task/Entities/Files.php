@@ -1,0 +1,10 @@
+<?php
+
+namespace Modules\Task\Entities;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Files extends Model
+{
+    protected $table = "files";
+}

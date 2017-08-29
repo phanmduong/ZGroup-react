@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Modules\Task\Entities\TaskList;
+use Modules\Task\Repositories\UserCardRepository;
 use Modules\Task\Transformers\MemberTransformer;
 
 class TaskController extends ManageApiController
@@ -24,13 +25,15 @@ class TaskController extends ManageApiController
     protected $memberTransformer;
     protected $taskTransformer;
     protected $userRepository;
+    protected $userCardRepository;
 
     public function __construct(
         UserRepository $userRepository,
         TaskTransformer $taskTransformer,
         MemberTransformer $memberTransformer,
         BoardTransformer $boardTransformer,
-        CardTransformer $cardTransformer)
+        CardTransformer $cardTransformer,
+        UserCardRepository $userCardRepository)
     {
         parent::__construct();
         $this->boardTransformer = $boardTransformer;
@@ -38,6 +41,7 @@ class TaskController extends ManageApiController
         $this->taskTransformer = $taskTransformer;
         $this->userRepository = $userRepository;
         $this->memberTransformer = $memberTransformer;
+        $this->userCardRepository = $userCardRepository;
     }
 
 
@@ -142,7 +146,22 @@ class TaskController extends ManageApiController
 
         $boards = Board::where('project_id', '=', $projectId)->orderBy('order')->get();
         $data = [
-            "boards" => $this->boardTransformer->transformCollection($boards)
+            "boards" => $boards->map(function ($board) {
+                $cards = $board->cards()->orderBy('order')->get();
+                return [
+                    'id' => $board->id,
+                    'title' => $board->title,
+                    'order' => $board->order,
+                    'cards' => $cards->map(function ($card) {
+                        return [
+                            'id' => $card->id,
+                            'title' => $card->title,
+                            'board_id' => $card->board_id,
+                            'order' => $card->order
+                        ];
+                    })
+                ];
+            })
         ];
         return $this->respond($data);
     }
@@ -341,5 +360,11 @@ class TaskController extends ManageApiController
         }
         $taskList->delete();
         return $this->respond(["message" => "success"]);
+    }
+
+    public function card($cardId)
+    {
+        $data = $this->userCardRepository->loadCardDetail($cardId);
+        return $this->respond($data);
     }
 }
