@@ -23,7 +23,7 @@
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
     <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
-    <link href="manage/main.e8453e0ba71653d4c6684ddeb37ad0d3.css" rel="stylesheet">
+    <link href="manage/main.6058c4debc26297c7988ffd6e8eeb7db.css" rel="stylesheet">
     <script src="{{url('config.js')}}"></script>
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
@@ -64,6 +64,6 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
 
-<script type="text/javascript" src="manage/main.712c234c2ea8c579d791.js"></script>
+<script type="text/javascript" src="manage/main.32621cf5a3b54c083618.js"></script>
 </body>
 </html>
