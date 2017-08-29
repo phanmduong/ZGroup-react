@@ -9,6 +9,7 @@ import {linkUploadImageEditor} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import MemberDetailOverlayContainer from "./member/MemberDetailOverlayContainer";
+import AttachmentWrapper from "./attachment/AttachmentWrapper";
 
 const CardBody = ({card, isSavingCard, toggleEditCardDescription, isEditing, saveCard, cancelEdit, updateEditor}) => {
     const editTooltip = (
@@ -23,8 +24,7 @@ const CardBody = ({card, isSavingCard, toggleEditCardDescription, isEditing, sav
                             <h4><strong>Thành viên</strong></h4>
                             <div style={{display: "flex", flexWrap: "wrap"}}>
                                 {card.members.map((member) => {
-                                    return <MemberDetailOverlayContainer card={card}
-                                                                         key={member.id} member={member}/>;
+                                    return <MemberDetailOverlayContainer card={card} key={member.id} member={member}/>;
                                 })}
                             </div>
                         </div>
@@ -71,7 +71,10 @@ const CardBody = ({card, isSavingCard, toggleEditCardDescription, isEditing, sav
                     )
                 }
 
+                <AttachmentWrapper card={card}/>
+
                 {card.id && <TaskListsContainer card={card}/>}
+
             </div>
             <div className="col-sm-4 col-md-3">
                 <h4>

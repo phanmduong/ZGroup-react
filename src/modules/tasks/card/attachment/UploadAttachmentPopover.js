@@ -4,7 +4,7 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 import UploadButton from "../../../../components/common/uploadButton/UploadButton";
 import Loading from "../../../../components/common/Loading";
 
-const UploadAttachmentPopover = ({toggle, handleChange, isUploading, progress}) => {
+const UploadAttachmentPopover = ({toggle, handleChange, files}) => {
     return (
         <div className="kt-overlay" style={{width: "300px", marginLeft: -100}}>
             <button
@@ -16,18 +16,24 @@ const UploadAttachmentPopover = ({toggle, handleChange, isUploading, progress}) 
             </button>
             <h4>Đính kèm từ</h4>
             {
-                isUploading ?
+                files.length > 0 ?
                     (
                         <div>
-                            <Loading text={"Đang tải lên... " + progress + "%"}/>
-                            <div className="progress progress-line">
-                                <div className="progress-bar progress-bar-rose"
-                                     role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                                     aria-valuemax="100"
-                                     style={{width: progress + "%"}}>
-                                    <span className="sr-only">{progress}% Complete</span>
-                                </div>
-                            </div>
+                            {
+                                files.map((fileWrapper) => (
+                                    <div key={fileWrapper.index}>
+                                        <Loading text={"Đang tải lên... " + fileWrapper.progress + "%"}/>
+                                        <div className="progress progress-line">
+                                            <div className="progress-bar progress-bar-rose"
+                                                 role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                                                 aria-valuemax="100"
+                                                 style={{width: fileWrapper.progress + "%"}}>
+                                                <span className="sr-only">{fileWrapper.progress}% Complete</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            }
                         </div>
                     ) :
                     (
@@ -47,8 +53,7 @@ const UploadAttachmentPopover = ({toggle, handleChange, isUploading, progress}) 
 };
 UploadAttachmentPopover.propTypes = {
     toggle: PropTypes.func.isRequired,
-    isUploading: PropTypes.bool.isRequired,
-    progress: PropTypes.number.isRequired,
+    files: PropTypes.array.isRequired,
     handleChange: PropTypes.func.isRequired
 };
 

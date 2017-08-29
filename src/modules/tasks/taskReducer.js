@@ -29,10 +29,17 @@ export default function taskReducer(state = initialState.task, action) {
         case types.UPLOAD_ATTACHMENT_SUCCESS:
             return {
                 ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        files: [...state.cardDetail.card.files, action.file]
+                    }
+                },
                 uploadAttachment: {
                     ...state.uploadAttachment,
-                    isUploading: false,
-                    progress: 0
+                    files: state.uploadAttachment
+                        .files.filter(fileWrapper => fileWrapper.index !== Number(action.file.index))
                 }
             };
 
@@ -41,7 +48,15 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 uploadAttachment: {
                     ...state.uploadAttachment,
-                    progress: action.progress
+                    files: state.uploadAttachment.files.map((fileWrapper) => {
+                        if (fileWrapper.index === action.fileWrapper.index) {
+                            return {
+                                ...fileWrapper,
+                                progress: action.progress
+                            };
+                        }
+                        return fileWrapper;
+                    })
                 }
             };
         case types.BEGIN_UPLOAD_ATTACHMENT:
@@ -49,8 +64,13 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 uploadAttachment: {
                     ...state.uploadAttachment,
-                    isUploading: true,
-                    progress: 0
+                    files: [
+                        ...state.uploadAttachment.files,
+                        {
+                            index: action.fileWrapper.index,
+                            progress: 0
+                        }
+                    ]
                 }
             };
 

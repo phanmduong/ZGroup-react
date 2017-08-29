@@ -13,6 +13,7 @@ class UploadButton extends React.Component {
             <div className="upload-button">
                 <label style={{...this.props.style}} className={this.props.className}>
                     <input
+                        multiple
                         className="upload-button-file"
                         ref={(ref) => {
                             this.input = ref;

@@ -189,7 +189,7 @@ export function toggleAssignMember(card, member) {
     return axios.post(url);
 }
 
-export function uploadFile(card, file, completeHandler, progressHandler, error) {
+export function uploadFile(card, index = 0, file, completeHandler, progressHandler, error) {
     let url = env.MANAGE_API_URL + '/card/' + card.id + "/file";
     const token = localStorage.getItem('token');
     if (token) {
@@ -197,6 +197,7 @@ export function uploadFile(card, file, completeHandler, progressHandler, error) 
     }
     let formData = new FormData();
     formData.append('file', file);
+    formData.append('index', index);
     let ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
     ajax.upload.onprogress = progressHandler;

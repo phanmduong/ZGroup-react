@@ -484,23 +484,6 @@ export function saveTaskList(taskList) {
     };
 }
 
-export function loadTaskLists(cardId) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_LOAD_TASK_LISTS
-        });
-        taskApi
-            .loadTaskLists(cardId)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_TASK_LISTS_SUCCESS,
-                    taskLists: res.data
-                });
-            });
-
-    };
-}
-
 export function createTask(task) {
     return function (dispatch) {
         dispatch({
@@ -577,29 +560,35 @@ export function assignMember(card, member) {
     };
 }
 
-export function uploadAttachment(card, file) {
+export function uploadAttachment(card, fileWrapper) {
     return function (dispatch) {
         const error = () => {
             showErrorNotification("Có lỗi xảy ra");
         };
-        const completeHandler = () => {
+        const completeHandler = (event) => {
+            const file = JSON.parse(event.currentTarget.responseText);
+            showNotification("Tải lên  tập tin đính kèm thành công");
             dispatch({
-                type: types.UPLOAD_ATTACHMENT_SUCCESS
+                type: types.UPLOAD_ATTACHMENT_SUCCESS,
+                file
             });
         };
         const progressHandler = (event) => {
             const percentComplete = Math.round((100 * event.loaded) / event.total);
             dispatch({
                 type: types.UPDATE_UPLOAD_ATTACHMENT_PROGRESS,
-                progress: percentComplete
+                progress: percentComplete,
+                fileWrapper
             });
         };
 
         dispatch({
-            type: types.BEGIN_UPLOAD_ATTACHMENT
+            type: types.BEGIN_UPLOAD_ATTACHMENT,
+            fileWrapper
         });
 
-        taskApi.uploadFile(card, file, completeHandler, progressHandler, error);
+        taskApi.uploadFile(card, fileWrapper.index, fileWrapper.file,
+            completeHandler, progressHandler, error);
     };
 }
 

@@ -150,8 +150,7 @@ export default {
 
     task: {
         uploadAttachment: {
-            progress: 0,
-            isUploading: false
+            files: []
         },
         addMember: {
             isLoading: false,
@@ -254,7 +253,7 @@ export default {
             template: {},
             content: '',
             footer: '',
-            avatarUrl:'',
+            avatarUrl: '',
             linkButton: '',
             titleButton: '',
             isLoading: false,

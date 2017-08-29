@@ -19,9 +19,19 @@ class UploadAttachmentOverlayContainer extends React.Component {
     }
 
     handleChange(event) {
-        // console.log(event.target.files);
-        const file = event.target.files[0];
-        this.props.taskActions.uploadAttachment(this.props.card,file);
+        const files = Array.from(event.target.files);
+
+        files.map((file, index) => {
+            const fileWrapper = {
+                file: file,
+                index,
+                name: file.name
+            };
+
+            this.props.taskActions.uploadAttachment(this.props.card, fileWrapper);
+        });
+
+
     }
 
 
@@ -43,8 +53,7 @@ class UploadAttachmentOverlayContainer extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <UploadAttachmentPopover
-                        isUploading={this.props.isUploading}
-                        progress={this.props.progress}
+                        files={this.props.files}
                         handleChange={this.handleChange}
                         toggle={this.toggle}/>
                 </Overlay>
@@ -57,14 +66,12 @@ class UploadAttachmentOverlayContainer extends React.Component {
 UploadAttachmentOverlayContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
     card: PropTypes.object.isRequired,
-    isUploading: PropTypes.bool.isRequired,
-    progress: PropTypes.number.isRequired
+    files: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        isUploading: state.task.uploadAttachment.isUploading,
-        progress: state.task.uploadAttachment.progress
+        files: state.task.uploadAttachment.files,
     };
 }
 
