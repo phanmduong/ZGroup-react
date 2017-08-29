@@ -16,7 +16,8 @@ class ListRegister extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr>
-                        <th/>
+                        <th>Lớp</th>
+                        <th>Gọi</th>
                         <th>Họ tên</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -24,7 +25,6 @@ class ListRegister extends React.Component {
                         <th>Saler</th>
                         <th>Chiến dịch</th>
                         <th>Học phí</th>
-                        <th>Lớp</th>
                         <th>Đăng kí</th>
                         <th/>
                     </tr>
@@ -47,6 +47,13 @@ class ListRegister extends React.Component {
                         return (
                             <tr key={register.id}>
                                 <td>
+                                    <button className="btn btn-round btn-fab btn-fab-mini text-white"
+                                            data-toggle="tooltip" title="" type="button" rel="tooltip"
+                                            data-original-title={register.class.name}>
+                                        <img src={register.course_avatar_url} alt=""/>
+                                    </button>
+                                </td>
+                                <td>
                                     <button className={"btn btn-round btn-fab btn-fab-mini text-white" + btn}
                                             data-toggle="tooltip" title="" type="button" rel="tooltip"
                                             onClick={() => this.props.viewCall(register)}
@@ -67,7 +74,7 @@ class ListRegister extends React.Component {
                                             (
                                                 <button className="btn btn-xs btn-main"
                                                         style={{backgroundColor: '#' + register.saler.color}}>
-                                                    {register.saler.name}
+                                                    {helper.getShortName(register.saler.name)}
                                                     <div className="ripple-container"/>
                                                 </button>
                                             )
@@ -112,8 +119,13 @@ class ListRegister extends React.Component {
                                     </div>
                                     }
                                 </td>
-                                <td>{register.class.name}</td>
-                                <td>{register.created_at}</td>
+                                <td>
+                                    <div data-toggle="tooltip" title=""
+                                         type="button" rel="tooltip"
+                                         data-original-title={register.created_at}>
+                                        {register.created_at.slice(8,10)+'/'+register.created_at.slice(5,7)}
+                                        </div>
+                                </td>
                                 <td>
                                     <ButtonGroupAction
                                         editUrl=""
