@@ -37,7 +37,7 @@ class AddMemberPopoverContainer extends React.Component {
         return (
             <div className="kt-overlay" style={{
                 width: "350px",
-                marginLeft: -150,
+                marginLeft: -80,
             }}>
                 <button
                     onClick={this.props.toggle}

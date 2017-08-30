@@ -111,6 +111,37 @@ export default function taskReducer(state = initialState.task, action) {
         case types.ASSIGN_MEMBER_SUCCESS:
             return {
                 ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    if (card.id === action.card.id) {
+                                        if (action.member.added) {
+                                            return {
+                                                ...card,
+                                                members: card.members.filter(m => m.id !== action.member.id)
+                                            };
+                                        } else {
+                                            return {
+                                                ...card,
+                                                members: [...card.members, {
+                                                    ...action.member,
+                                                    added: !action.member.added
+                                                }]
+                                            };
+                                        }
+
+                                    }
+                                    return card;
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                },
                 cardDetail: {
                     ...state.cardDetail,
                     card: {

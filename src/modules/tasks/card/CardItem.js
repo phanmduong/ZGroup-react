@@ -124,7 +124,7 @@ class CardItem extends React.Component {
                                         <div style={{display: "flex", flexWrap: "wrap", flexDirection: "row-reverse"}}>
                                             {card.members.map((member) => {
                                                 return (
-                                                    <div style={{padding: "2px 0"}}>
+                                                    <div key={member.id} style={{padding: "2px 0"}}>
                                                         <Avatar url={member.avatar_url} size={25}/>
                                                     </div>
                                                 );

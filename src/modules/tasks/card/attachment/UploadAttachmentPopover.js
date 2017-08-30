@@ -6,7 +6,7 @@ import Loading from "../../../../components/common/Loading";
 
 const UploadAttachmentPopover = ({toggle, handleChange, files}) => {
     return (
-        <div className="kt-overlay" style={{width: "300px", marginLeft: -100}}>
+        <div className="kt-overlay" style={{width: "300px", marginLeft: -30}}>
             <button
                 onClick={toggle}
                 type="button" className="close"

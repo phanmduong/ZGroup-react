@@ -6,7 +6,7 @@ const MemberPopover = ({
                            toggle, member, assignMember
                        }) => {
     return (
-        <div className="kt-overlay" style={{marginTop: 2,}}>
+        <div className="kt-overlay" style={{marginTop: 2}}>
             <button
                 onClick={toggle}
                 type="button" className="close"
