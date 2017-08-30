@@ -63,7 +63,7 @@ class ManageStaffApiController extends ApiController
         $user->start_company = $request->start_company;
         $user->avatar_url = trim_url($request->avatar_url);
         if ($request->color) {
-            $user->color = $request->color;
+            $user->color = trim_color($request->color);
         }
 
         $user->password = bcrypt('123456');
@@ -160,9 +160,8 @@ class ManageStaffApiController extends ApiController
         $user->homeland = $request->homeland;
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
-        $user->avatar_url = trim_url($request->avatar_url);
         if ($request->color) {
-            $user->color = $request->color;
+            $user->color = trim_color($request->color);
         }
         $user->save();
         $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
@@ -186,21 +185,6 @@ class ManageStaffApiController extends ApiController
 
         $user->delete();
         return $this->respondSuccessWithStatus("Xóa nhân viên thành công");
-    }
-
-    public function change_avatar(Request $request)
-    {
-        $avatar_url = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
-        $avatar_url = $this->s3_url . $avatar_url;
-        if ($avatar_url != null) {
-            $staff = User::find($request->id);
-            $staff->avatar_url = trim_url($avatar_url);
-            $staff->save();
-        }
-        return $this->respond([
-            "message" => "Tải lên thành công",
-            "avatar_url" => config('app.protocol') . trim_url($avatar_url),
-        ]);
     }
 
     public function create_avatar(Request $request)

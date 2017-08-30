@@ -1407,3 +1407,8 @@ function convert_email_form($email_form)
     $data = str_replace('[[BUTTONLINK]]', $email_form->link_button, $data);
     return $data;
 }
+
+function trim_color($color){
+    if ($color[0] === '#') return substr($color, 1);
+    return $color;
+}
