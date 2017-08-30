@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
-    <link href="manage/main.0229405311dab6ff5cb45d706a38a8c4.css" rel="stylesheet">
+    <link href="manage/main.fa8b6478200e07861097ebbfe739d01b.css" rel="stylesheet">
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
@@ -29,6 +29,8 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
+<!-- TagsInput Plugin -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.tagsinput.js"></script>
 <script src="{{url('config.js')}}"></script>
 <div id="app"></div>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-ui.min.js"
@@ -59,13 +61,11 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jasny-bootstrap.min.js"></script>
 <!--  Full Calendar Plugin    -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/fullcalendar.min.js"></script>
-<!-- TagsInput Plugin -->
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.tagsinput.js"></script>
 <!-- Material Dashboard javascript methods -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/material-dashboard.js"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
 
-<script type="text/javascript" src="manage/main.a55b055c1da27270c626.js"></script>
+<script type="text/javascript" src="manage/main.f55de0f28c72a6a83cda.js"></script>
 </body>
 </html>
