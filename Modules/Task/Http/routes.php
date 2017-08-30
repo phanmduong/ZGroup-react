@@ -35,7 +35,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/task/{taskId}/toggle', "TaskController@toggleTask");
 
     Route::get('/members/{filter?}', "TaskController@loadMembers");
-
-
     // End Task api
 });

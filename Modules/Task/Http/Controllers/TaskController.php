@@ -153,11 +153,13 @@ class TaskController extends ManageApiController
                     'title' => $board->title,
                     'order' => $board->order,
                     'cards' => $cards->map(function ($card) {
+                        $taskListIds = $card->taskLists->pluck("id");
                         return [
                             'id' => $card->id,
                             'title' => $card->title,
                             'board_id' => $card->board_id,
-                            'order' => $card->order
+                            'order' => $card->order,
+                            "tasks" => Task::whereIn("task_list_id", $taskListIds)->get()
                         ];
                     })
                 ];
