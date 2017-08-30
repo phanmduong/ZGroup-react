@@ -40,6 +40,11 @@ class App extends React.Component {
                                 <div className="collapse" id="collapseExample">
                                     <ul className="nav">
                                         <li>
+                                            <Link to="/my-profile">Trang cá nhân</Link>
+                                        </li>
+                                    </ul>
+                                    <ul className="nav">
+                                        <li>
                                             <a onClick={this.props.onLogOut}>Đăng xuất</a>
                                         </li>
                                     </ul>
@@ -110,7 +115,7 @@ class App extends React.Component {
                                     <li>
                                         <a onClick={this.props.onLogOut} className="dropdown-toggle" data-toggle="dropdown">
                                             <i className="material-icons">exit_to_app</i>
-                                            <p className="hidden-lg hidden-md">Profile</p>
+                                            <p className="hidden-lg hidden-md">Đăng xuất</p>
                                         </a>
                                     </li>
                                     <li className="separator hidden-lg hidden-md"/>

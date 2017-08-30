@@ -19,6 +19,8 @@ import EmailFormsContainer from "./modules/emailForms/EmailFormsContainer";
 import CreateEmailFormContainer from "./modules/emailForms/CreateEmailFormContainer";
 import CreateEmailTemplateContainer from "./modules/emailTemplates/CreateEmailTemplateContainer";
 import BlogContainer from "./modules/blog/BlogContainer";
+import ProfileContainer from "./modules/profile/ProfileContainer";
+import EditProfileContainer from "./modules/profile/EditProfileContainer";
 
 export default (
     <Route>
@@ -64,6 +66,10 @@ export default (
             <Route path="/manage/registerlist" component={RegisterListContainer}/>
             {/*End register student routes*/}
 
+            {/*Begin register student routes*/}
+            <Route path="/my-profile" component={ProfileContainer}/>
+            <Route path="/edit-profile" component={EditProfileContainer}/>
+            {/*End register student routes*/}
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

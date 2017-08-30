@@ -16,28 +16,22 @@ class AddStaffComponent extends React.Component {
     }
 
     checkValidate() {
-        if ($('#form-add-staff').valid()) {
-            this.props.addStaff();
+        if ($('#form-edit-profile').valid()) {
+            this.props.editProfile();
         }
     }
 
     render() {
-        let {name, email, age, address, homeland, phone, marital, literacy, role_id, start_company, username, color} = this.props.staffForm;
-        let roleSelect = this.props.roles.filter(function (roleData) {
-            return role_id == roleData.id;
-        })[0];
-        if (roleSelect === undefined || roleSelect === null) {
-            roleSelect = {};
-        }
-        let avatar = helper.avatarEmpty(this.props.staffForm.avatar_url) ?
-            NO_AVATAR : this.props.staffForm.avatar_url;
+        let {name, email, age, address, homeland, phone, marital, literacy, start_company, username, color, avatar_url, current_role} = this.props.profile;
+        let avatar = helper.avatarEmpty(avatar_url) ?
+            NO_AVATAR : avatar_url;
         return (
             <div>
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">
-                            {(this.props.isLoadingStaff ) ? <Loading/> :
-                                <form id="form-add-staff" onSubmit={(e) => {
+                            {(this.props.isLoadingProfile ) ? <Loading/> :
+                                <form id="form-edit-profile" onSubmit={(e) => {
                                     e.preventDefault();
                                 }}>
                                     <div className="card-header card-header-icon" data-background-color="rose">
@@ -45,7 +39,7 @@ class AddStaffComponent extends React.Component {
                                     </div>
                                     <div className="card-content">
                                         <h4 className="card-title">
-                                            {this.props.type === 'edit' ? 'Thay đổi thông tin nhân viên' : 'Thêm nhân viên'}
+                                             Chỉnh sửa thông tin cá nhân
                                         </h4>
 
                                         <FormInputText
@@ -70,7 +64,7 @@ class AddStaffComponent extends React.Component {
                                             value={username}
                                             required={true}
                                             type="text"
-                                            disabled={this.props.type === 'edit'}
+                                            disabled
                                         />
                                         <FormInputText
                                             label="Tuổi"
@@ -114,26 +108,6 @@ class AddStaffComponent extends React.Component {
                                             updateFormData={this.props.updateFormData}
                                             value={literacy}
                                         />
-                                        <div className="form-group">
-                                            <label>Chức vụ trong công ty</label>
-                                            <select
-                                                className="form-control"
-                                                value={role_id}
-                                                onChange={this.props.updateFormData}
-                                                name="role_id"
-                                            >
-                                                {this.props.roles !== null && this.props.roles !== undefined &&
-                                                this.props.roles.map((item, key) => {
-                                                    return (
-                                                        <option
-                                                            key={key}
-                                                            value={item.id}
-                                                        >
-                                                            {item.role_title}
-                                                        </option>);
-                                                })}
-                                            </select>
-                                        </div>
                                         <FormInputDate
                                             label="Hoạt đông trong công ty từ"
                                             name="start_company"
@@ -142,13 +116,12 @@ class AddStaffComponent extends React.Component {
                                             id="form-date-start-company"
                                         />
 
-                                        {this.props.isLoadingAddStaff ?
+                                        {this.props.isSaving ?
                                             (
                                                 <button
                                                     className="btn btn-fill btn-rose disabled"
                                                 >
-                                                    <i className="fa fa-spinner fa-spin"/>
-                                                    {this.props.type === 'edit' ? ' Đang cập nhật' : ' Đang thêm'}
+                                                    <i className="fa fa-spinner fa-spin"/> Đang cập nhật
                                                 </button>
                                             )
                                             :
@@ -157,7 +130,7 @@ class AddStaffComponent extends React.Component {
                                                     className="btn btn-fill btn-rose"
                                                     onClick={() => this.checkValidate()}
                                                 >
-                                                    {this.props.type === 'edit' ? 'Cập nhật' : 'Thêm'}
+                                                    Cập nhật
                                                 </button>
                                             )
                                         }
@@ -183,12 +156,12 @@ class AddStaffComponent extends React.Component {
                                     </div>
                                     <div className="card-content">
                                         <h6 className="category text-gray">
-                                            {helper.isEmptyInput(roleSelect.role_title) ? 'Đây là chức vụ' : roleSelect.role_title}
+                                            {helper.isEmptyInput(current_role.role_title) ? 'Đây là chức vụ' : current_role.role_title}
                                         </h6>
                                         <h4 className="card-title">
                                             {helper.isEmptyInput(name) ? 'Đây là tên' : name}</h4>
                                         <p className="description">
-                                            Bấm nút phía dưới để chọn ảnh đại diện
+                                            Bấm nút phía dưới để thay đổi đại diện
                                         </p>
                                         {(this.props.isChangingAvatar) ?
                                             (
@@ -199,7 +172,7 @@ class AddStaffComponent extends React.Component {
                                             :
                                             (
                                                 <button className="btn btn-rose btn-round">
-                                                    Chọn ảnh
+                                                    Thay đổi
                                                     <input type="file"
                                                            accept=".jpg,.png,.gif"
                                                            onChange={this.props.handleFileUpload}
@@ -246,17 +219,14 @@ class AddStaffComponent extends React.Component {
 }
 
 AddStaffComponent.propTypes = {
-    staffForm: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
+    editProfile: PropTypes.func.isRequired,
+    isLoadingProfile: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    isChangingAvatar: PropTypes.bool.isRequired,
     updateFormData: PropTypes.func.isRequired,
     changeColor: PropTypes.func.isRequired,
-    addStaff: PropTypes.func.isRequired,
     handleFileUpload: PropTypes.func.isRequired,
-    isLoadingAddStaff: PropTypes.bool.isRequired,
-    isChangingAvatar: PropTypes.bool.isRequired,
-    isLoadingStaff: PropTypes.bool.isRequired,
-    isLoadingRoles: PropTypes.bool.isRequired,
-    roles: PropTypes.array.isRequired,
-    type: PropTypes.string.isRequired,
 };
 
 export default AddStaffComponent;

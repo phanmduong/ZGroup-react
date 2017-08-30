@@ -10,6 +10,7 @@ import registerReducer from "../modules/registerStudents/registerReducer";
 import emailTemplatesReducer from "../modules/emailTemplates/emailTemplatesReducer";
 import emailFormsReducer from "../modules/emailForms/emailFormsReducer";
 import blogReducer from '../modules/blog/blogReducer';
+import profileReducer from '../modules/profile/profileReducer';
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -23,6 +24,7 @@ const appReducer = combineReducers({
     emailForms: emailFormsReducer,
     blog: blogReducer,
     registerStudents: registerReducer,
+    profile: profileReducer,
 });
 
 const rootReducer = (state, action) => {

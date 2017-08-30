@@ -52,7 +52,7 @@ FormInputText.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-    updateFormData: PropTypes.func.isRequired,
+    updateFormData: PropTypes.func,
     disabled: PropTypes.bool,
     required: PropTypes.bool,
     type: PropTypes.string,

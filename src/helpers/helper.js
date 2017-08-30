@@ -139,3 +139,11 @@ export function updateArrayElement(element, array) {
         return el;
     });
 }
+
+export function getShortName(name) {
+
+    var n = name.split(" ");
+    if (n.length > 1)
+        return n[n.length - 2] + ' ' + n[n.length - 1];
+    return name;
+}
