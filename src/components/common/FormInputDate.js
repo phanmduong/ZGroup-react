@@ -6,8 +6,11 @@ class FormInputDate extends React.Component {
         super(props, context);
     }
 
-    componentDidMount(){
-        $('#'+this.props.id).on('dp.change', this.props.updateFormData);
+    componentDidMount() {
+        $('#' + this.props.id).on('dp.change', this.props.updateFormData);
+        $('#' + this.props.id).datetimepicker({
+            format: this.props.format || "YYYY-MM-DD"
+        });
     }
 
     render() {
@@ -32,6 +35,7 @@ FormInputDate.propTypes = {
     label: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.string,
+    format: PropTypes.string,
     updateFormData: PropTypes.func.isRequired,
 };
 
