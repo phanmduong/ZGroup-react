@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TooltipButton from "../../../components/common/TooltipButton";
 import {updateCardTitle} from '../taskApi';
+import Avatar from "../../../components/common/Avatar";
 
 class CardItem extends React.Component {
     constructor(props, context) {
@@ -116,6 +117,22 @@ class CardItem extends React.Component {
                                 </div>
                             </div>
 
+
+                            <div style={{marginTop: "5px"}}>
+                                {
+                                    card.members && card.members.length > 0 && (
+                                        <div style={{display: "flex", flexWrap: "wrap", flexDirection: "row-reverse"}}>
+                                            {card.members.map((member) => {
+                                                return (
+                                                    <div style={{padding: "2px 0"}}>
+                                                        <Avatar url={member.avatar_url} size={25}/>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    )
+                                }
+                            </div>
                             <small>{tasksComplete(card.tasks)}/{totalTasks(card.tasks)}</small>
                             <div className="progress progress-line-default" style={{margin: 0}}>
                                 <div className="progress-bar progress-bar-rose" role="progressbar"

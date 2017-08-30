@@ -20,7 +20,7 @@ const CardBody = ({
     );
     return (
         <div className="row">
-            <div className="col-sm-8 col-md-9">
+            <div className="col-sm-7 col-md-8">
                 {
                     card.members && card.members.length > 0 && (
                         <div>
@@ -74,12 +74,10 @@ const CardBody = ({
                     )
                 }
 
-                <AttachmentWrapper deleteFile={deleteFile} card={card}/>
-
                 {card.id && <TaskListsContainer card={card}/>}
 
             </div>
-            <div className="col-sm-4 col-md-3">
+            <div className="col-sm-5 col-md-4">
                 <h4>
                     <strong>Thêm</strong>
                 </h4>
@@ -88,6 +86,7 @@ const CardBody = ({
                     <AddMemberOverlay card={card}/>
                     <UploadAttachmentOverlayContainer card={card}/>
                 </div>
+                <AttachmentWrapper deleteFile={deleteFile} card={card}/>
             </div>
         </div>
     );

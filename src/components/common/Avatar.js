@@ -10,7 +10,6 @@ const Avatar = ({url, size}) => {
             backgroundPosition: "center",
             backgroundSize: "cover",
             borderRadius: 4,
-            border: "1px solid #d9d9d9",
             backgroundImage: `url(${url})`
         }}/>
     );
