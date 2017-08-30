@@ -57,6 +57,7 @@ class AddStaffContainer extends React.Component {
 
     initForm() {
         helper.setFormValidation('#form-add-staff');
+
         $('#form-date-start-company').datetimepicker({
             format: "YYYY-MM-DD"
         });

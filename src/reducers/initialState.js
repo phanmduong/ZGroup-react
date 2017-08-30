@@ -314,13 +314,23 @@ export default {
     profile: {
         isLoading: false,
         profile: {
-            current_role: {
-            },
+            current_role: {},
             start_company: new Date().toISOString().slice(0, 10),
         },
         error: false,
         isChangingAvatar: false,
         isSaving: false,
         savingError: false
+    },
+
+    studySession: {
+        isLoading: false,
+        error: false,
+        studySessions: [],
+        studySession: {},
+        isSaving: false,
+        errorSave: false,
+        isEditing: false,
+        errorEdit: false,
     }
 };

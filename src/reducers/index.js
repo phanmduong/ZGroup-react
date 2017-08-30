@@ -11,6 +11,7 @@ import emailTemplatesReducer from "../modules/emailTemplates/emailTemplatesReduc
 import emailFormsReducer from "../modules/emailForms/emailFormsReducer";
 import blogReducer from '../modules/blog/blogReducer';
 import profileReducer from '../modules/profile/profileReducer';
+import studySessionReducer from '../modules/studysession/studySessionReducer';
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -25,6 +26,7 @@ const appReducer = combineReducers({
     blog: blogReducer,
     registerStudents: registerReducer,
     profile: profileReducer,
+    studySession: studySessionReducer,
 });
 
 const rootReducer = (state, action) => {

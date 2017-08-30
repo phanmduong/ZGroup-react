@@ -147,3 +147,4 @@ export function getShortName(name) {
         return n[n.length - 2] + ' ' + n[n.length - 1];
     return name;
 }
+

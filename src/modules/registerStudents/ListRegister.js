@@ -47,18 +47,33 @@ class ListRegister extends React.Component {
                         return (
                             <tr key={register.id}>
                                 <td>
-                                    <button className="btn btn-round btn-fab btn-fab-mini text-white"
-                                            data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                            data-original-title={register.class.name}>
-                                        <img src={register.course_avatar_url} alt=""/>
-                                    </button>
+                                    <div className="container-dot-bottom-right">
+                                        <button className="btn btn-round btn-fab btn-fab-mini text-white"
+                                                data-toggle="tooltip" title="" type="button" rel="tooltip"
+                                                data-placement="right"
+                                                data-original-title={register.class.name}>
+                                            <img src={register.course_avatar_url} alt=""/>
+                                        </button>
+                                        <div className="dot-bottom-right"
+                                             data-toggle="tooltip" title="" type="button" rel="tooltip"
+                                             data-placement="right"
+                                             data-original-title={'Học lần ' + register.study_time}>
+                                            {register.study_time}
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
-                                    <button className={"btn btn-round btn-fab btn-fab-mini text-white" + btn}
-                                            data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                            onClick={() => this.props.viewCall(register)}
-                                            data-original-title={titleCall}><i className="material-icons">phone</i>
-                                    </button>
+                                    <div className="container-call-status">
+                                        <button className={"btn btn-round " + btn + " full-width padding-left-right-10"}
+                                                data-toggle="tooltip" title="" type="button" rel="tooltip"
+                                                onClick={() => this.props.viewCall(register)}
+                                                data-original-title={titleCall}>
+                                            <i className="material-icons">
+                                                phone
+                                            </i> {register.call_status !== 'calling' && (register.time_to_reach + 'h')}
+                                        </button>
+
+                                    </div>
                                 </td>
                                 <td>{register.name}</td>
                                 <td>
@@ -123,8 +138,8 @@ class ListRegister extends React.Component {
                                     <div data-toggle="tooltip" title=""
                                          type="button" rel="tooltip"
                                          data-original-title={register.created_at}>
-                                        {register.created_at.slice(8,10)+'/'+register.created_at.slice(5,7)}
-                                        </div>
+                                        {register.created_at.slice(8, 10) + '/' + register.created_at.slice(5, 7)}
+                                    </div>
                                 </td>
                                 <td>
                                     <ButtonGroupAction

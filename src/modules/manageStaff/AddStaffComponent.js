@@ -70,6 +70,7 @@ class AddStaffComponent extends React.Component {
                                             value={username}
                                             required={true}
                                             type="text"
+                                            updateFormData={this.props.updateFormData}
                                             disabled={this.props.type === 'edit'}
                                         />
                                         <FormInputText

@@ -14,11 +14,23 @@ class ButtonGroupAction extends React.Component {
     render() {
         return (
             <div className="btn-group-action">
-                <Link data-toggle="tooltip" title="Sửa"
-                      to={this.props.editUrl}
-                      type="button" rel="tooltip">
-                    <i className="material-icons">edit</i>
-                </Link>
+                {this.props.edit ?
+                    (
+                        <a data-toggle="tooltip" title="Sửa"
+                           onClick={() => this.props.edit(this.props.object)} type="button"
+                           rel="tooltip">
+                            <i className="material-icons">edit</i>
+                        </a>
+                    )
+                    :
+                    (
+                        <Link data-toggle="tooltip" title="Sửa"
+                              to={this.props.editUrl}
+                              type="button" rel="tooltip">
+                            <i className="material-icons">edit</i>
+                        </Link>
+                    )
+                }
                 {!this.props.disabledDelete &&
                 <a data-toggle="tooltip" title="Xoá"
                    onClick={() => this.props.delete(this.props.object)} type="button"
@@ -34,6 +46,7 @@ class ButtonGroupAction extends React.Component {
 ButtonGroupAction.propTypes = {
     editUrl: PropTypes.string.isRequired,
     delete: PropTypes.func.isRequired,
+    edit: PropTypes.func,
     object: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.number,

@@ -115,19 +115,19 @@ table tr td .avatar-list-staff {
   margin-top: 20px;
 }
 
-#card-email-template .card-header{
+#card-email-template .card-header {
   border-radius: 10px;
 }
 
-#card-email-template .ct-chart{
+#card-email-template .ct-chart {
   border-radius: 10px;
   width: 100%;
-  background-size: cover!important;
-  background-position: center!important;
+  background-size: cover !important;
+  background-position: center !important;
   height: 200px;
 }
 
-#card-email-template .card-action{
+#card-email-template .card-action {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -135,14 +135,14 @@ table tr td .avatar-list-staff {
   width: 100%;
 }
 
-.no-data{
+.no-data {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.flex-row-center{
+.flex-row-center {
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -164,13 +164,52 @@ table tr td .avatar-list-staff {
   padding: 10px;
 }
 
-.table-responsive > .table > tbody > tr > td > #register-email{
+.table-responsive > .table > tbody > tr > td > #register-email {
   width: 100px;
   word-break: break-all
 }
 
 @media screen and (max-width: 767px) {
-  .table-responsive > .table > tbody > tr > td > #register-email{
+  .table-responsive > .table > tbody > tr > td > #register-email {
     width: 100%;
   }
+}
+
+.container-dot-bottom-right {
+  position: relative;
+  z-index: 10;
+}
+
+.dot-bottom-right {
+  position: absolute;
+  border-radius: 9px;
+  background-color: #c50000;
+  width: 18px;
+  color: #fff;
+  right: -7px;
+  bottom: -5px;
+  vertical-align: middle;
+  line-height: 18px;
+  text-align: center;
+  border: solid 1px white;
+  cursor: pointer;
+}
+
+.container-call-status {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.vertical-top {
+  vertical-align: top !important;
+}
+
+.full-width{
+  width: 100%!important;
+}
+
+.padding-left-right-10{
+  padding-left: 10px!important;
+  padding-right: 10px!important;
 }

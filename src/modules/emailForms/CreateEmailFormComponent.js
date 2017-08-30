@@ -45,84 +45,44 @@ class CreateEmailFormComponent extends React.Component {
                                     <div className="card-content">
                                         <h4 className="card-title">Tạo form</h4>
                                         {this.props.isLoadingEmailForm ? <Loading/> :
-                                            <div className="row">
-                                                <div className="col-md-8">
-                                                    <form role="form"
-                                                          id="form-email-form">
-                                                        <FormInputText
-                                                            label="Tên email form"
-                                                            required
-                                                            name="name"
-                                                            updateFormData={this.props.updateEmailFormData}
-                                                            value={name}
-                                                        />
-                                                        <FormInputText
-                                                            label="Tiêu đề"
-                                                            required
-                                                            name="title"
-                                                            updateFormData={this.props.updateEmailFormData}
-                                                            value={title}
-                                                        />
-                                                        <FormInputText
-                                                            label="Tiêu đề nhỏ"
-                                                            required
-                                                            name="subtitle"
-                                                            updateFormData={this.props.updateEmailFormData}
-                                                            value={subtitle}
-                                                        />
-                                                        <FormInputText
-                                                            label="Tiêu đề button"
-                                                            required
-                                                            name="titleButton"
-                                                            updateFormData={this.props.updateEmailFormData}
-                                                            value={titleButton}
-                                                        />
-                                                        <FormInputText
-                                                            label="Link button"
-                                                            required
-                                                            name="linkButton"
-                                                            updateFormData={this.props.updateEmailFormData}
-                                                            value={linkButton}
-                                                        />
-                                                    </form>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <img
-                                                        src={helper.isEmptyInput(logoUrl) ?
-                                                            NO_IMAGE : logoUrl
-                                                        }/>
-                                                    {this.props.isUpdatingLogo ?
-                                                        (
-                                                            <button className="btn btn-rose btn-round disabled"
-                                                                    type="button">
-                                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                                            </button>
-                                                        )
-                                                        :
-                                                        (
-                                                            <button className="btn btn-fill btn-rose" type="button">
-                                                                Chọn logo
-                                                                <input type="file"
-                                                                       accept=".jpg,.png,.gif"
-                                                                       onChange={this.props.handleFileUpload}
-                                                                       style={{
-                                                                           cursor: 'pointer',
-                                                                           opacity: "0.0",
-                                                                           position: "absolute",
-                                                                           top: 0,
-                                                                           left: 0,
-                                                                           bottom: 0,
-                                                                           right: 0,
-                                                                           width: "100%",
-                                                                           height: "100%"
-                                                                       }}
-                                                                />
-                                                            </button>
-                                                        )
-                                                    }
-                                                </div>
-                                            </div>
-
+                                            <form role="form"
+                                                  id="form-email-form">
+                                                <FormInputText
+                                                    label="Tên email form"
+                                                    required
+                                                    name="name"
+                                                    updateFormData={this.props.updateEmailFormData}
+                                                    value={name}
+                                                />
+                                                <FormInputText
+                                                    label="Tiêu đề"
+                                                    required
+                                                    name="title"
+                                                    updateFormData={this.props.updateEmailFormData}
+                                                    value={title}
+                                                />
+                                                <FormInputText
+                                                    label="Tiêu đề nhỏ"
+                                                    required
+                                                    name="subtitle"
+                                                    updateFormData={this.props.updateEmailFormData}
+                                                    value={subtitle}
+                                                />
+                                                <FormInputText
+                                                    label="Tiêu đề button"
+                                                    required
+                                                    name="titleButton"
+                                                    updateFormData={this.props.updateEmailFormData}
+                                                    value={titleButton}
+                                                />
+                                                <FormInputText
+                                                    label="Link button"
+                                                    required
+                                                    name="linkButton"
+                                                    updateFormData={this.props.updateEmailFormData}
+                                                    value={linkButton}
+                                                />
+                                            </form>
                                         }
                                     </div>
                                 </div>
@@ -170,7 +130,39 @@ class CreateEmailFormComponent extends React.Component {
                                 <i className="material-icons">announcement</i>
                             </div>
                             <div className="card-content"><h4 className="card-title">Thông tin về form </h4>
-
+                                <img
+                                    src={helper.isEmptyInput(logoUrl) ?
+                                        NO_IMAGE : logoUrl
+                                    }/>
+                                {this.props.isUpdatingLogo ?
+                                    (
+                                        <button className="btn btn-rose btn-round disabled"
+                                                type="button">
+                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                        </button>
+                                    )
+                                    :
+                                    (
+                                        <button className="btn btn-fill btn-rose" type="button">
+                                            Chọn logo
+                                            <input type="file"
+                                                   accept=".jpg,.png,.gif"
+                                                   onChange={this.props.handleFileUpload}
+                                                   style={{
+                                                       cursor: 'pointer',
+                                                       opacity: "0.0",
+                                                       position: "absolute",
+                                                       top: 0,
+                                                       left: 0,
+                                                       bottom: 0,
+                                                       right: 0,
+                                                       width: "100%",
+                                                       height: "100%"
+                                                   }}
+                                            />
+                                        </button>
+                                    )
+                                }
                                 <img
                                     src={helper.isEmptyInput(avatarUrl) ?
                                         NO_IMAGE : avatarUrl
@@ -272,7 +264,7 @@ class CreateEmailFormComponent extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Modal show={this.state.showModal} onHide={this.closeModal}>
+                <Modal show={this.state.showModal} bsSize="large" onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Chọn template</Modal.Title>
                     </Modal.Header>

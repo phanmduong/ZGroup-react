@@ -30,6 +30,36 @@ export const LITERACY = [
     }
 ];
 
+export const DAY_OF_WEEK = [
+    {
+        value: 'Thứ hai',
+        key: 'Thứ hai'
+    },
+    {
+        value: 'Thứ ba',
+        key: 'Thứ ba',
+    },
+    {
+        value: 'Thứ tư',
+        key: 'Thứ tư',
+    },
+    {
+        value: 'Thứ năm',
+        key: 'Thứ năm',
+    },
+    {
+        value: 'Thứ sáu',
+        key: 'Thứ sáu',
+    },
+    {
+        value: 'Thứ bảy',
+        key: 'Thứ bảy',
+    },
+    {
+        value: 'Chủ nhật',
+        key: 'Chủ nhật',
+    },
+]
 const LINK_UPLOAD_IMAGE_EDITOR = env.MANAGE_API_URL + '/upload-image-editor';
 
 export function linkUploadImageEditor() {
