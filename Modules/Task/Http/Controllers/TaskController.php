@@ -147,7 +147,7 @@ class TaskController extends ManageApiController
         $boards = Board::where('project_id', '=', $projectId)->orderBy('order')->get();
         $data = [
             "boards" => $boards->map(function ($board) {
-                $cards = $board->cards()->orderBy('order')->get();
+                $cards = $board->cards()->where("status", "open")->orderBy('order')->get();
                 return [
                     'id' => $board->id,
                     'title' => $board->title,
@@ -256,6 +256,18 @@ class TaskController extends ManageApiController
         }
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
+
+    public function updateCardTitle($cardId, Request $request)
+    {
+        if (is_null($request->title)) {
+            return $this->responseBadRequest("Thiếu params");
+        }
+        $card = Card::find($cardId);
+        $card->title = trim($request->title);
+        $card->save();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
 
     public function updateCard($cardId, Request $request)
     {

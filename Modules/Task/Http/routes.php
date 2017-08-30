@@ -20,6 +20,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/cards/update', "TaskController@updateCards");
     Route::get('/card/{cardId}/detail', "TaskController@card");
     Route::post('/card/{cardId}/update', "TaskController@updateCard");
+    Route::put('/card/{cardId}/update-title', "TaskController@updateCardTitle");
     Route::post('/card/{cardId}/user/{userId}', "CardController@assignMember");
     Route::post('/card/{cardId}/file', "FileController@uploadFile");
     Route::delete('/card-file/{fileId}', "FileController@deleteFile");
