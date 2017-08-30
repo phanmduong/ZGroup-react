@@ -31,16 +31,18 @@ class RegisterTransformer extends Transformer
                 $register->user->avatar_url : "http://api.colorme.vn/img/user.png",
             "phone" => $register->user->phone,
             'paid_status' => $register->status == 1,
+            'time_to_reach' => $register->time_to_reach,
             'course_avatar_url' => $register->studyClass->course->icon_url,
-            'course_money'=> $register->studyClass->course->price,
+            'course_money' => $register->studyClass->course->price,
             'money' => $register->money,
+            'study_time' => $register->study_time,
             "class" => [
                 "name" => $register->studyClass->name,
                 "id" => $register->studyClass->id,
                 "study_time" => $register->studyClass->study_time,
                 "description" => $register->studyClass->description,
-                "room"=> $register->studyClass->room->name,
-                "base"=>$register->studyClass->base->address
+                "room" => $register->studyClass->room->name,
+                "base" => $register->studyClass->base->address
             ],
             "created_at" => format_time_to_mysql(strtotime($register->created_at))
         ];

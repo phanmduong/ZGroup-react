@@ -7,7 +7,8 @@ use \RobbieP\CloudConvertLaravel\Facades\CloudConvert as CloudConvert;
 use Jenssegers\Agent\Agent as Agent;
 use \Aws\ElasticTranscoder\ElasticTranscoderClient as ElasticTranscoderClient;
 
-function generate_protocol_url($url){
+function generate_protocol_url($url)
+{
     if ($url) {
         return config('app.protocol') . trim_url($url);
     } else {
@@ -1408,7 +1409,25 @@ function convert_email_form($email_form)
     return $data;
 }
 
-function trim_color($color){
+function trim_color($color)
+{
     if ($color[0] === '#') return substr($color, 1);
     return $color;
+}
+
+function is_exist_study_session($study_session)
+{
+    $study_sessions = \App\StudySession::all();
+
+    foreach ($study_sessions as $s) {
+        $start_time = date("G:i", strtotime($s->start_time));
+        $end_time = date("G:i", strtotime($s->end_time));
+        $weekday = $s->weekday;
+        if ($study_session->weekday == $weekday && $start_time == $study_session->start_time
+            && $end_time == $study_session->end_time
+        ) {
+            return true;
+        }
+    }
+    return false;
 }

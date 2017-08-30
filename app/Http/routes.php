@@ -114,6 +114,13 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
     Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
     //End user api
+
+    //Begin study session api
+    Route::get('/study-session', 'ManageStudySessionApiController@get_study_session');
+    Route::post('/study-session/add', 'ManageStudySessionApiController@add_study_session');
+    Route::post('/delete-study-session', 'ManageStudySessionApiController@delete_study_session');
+    Route::post('/study-session/{studySessionId}/edit', 'ManageStudySessionApiController@edit_study_session');
+    //End study session api
 });
 
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
