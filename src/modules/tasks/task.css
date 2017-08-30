@@ -129,4 +129,6 @@
     width: 100%;
     margin: 5px;
 }
-
+.keetool-card-wrapper:hover {
+    background: #fafafa;
+}

@@ -112,6 +112,14 @@ export function updateCard(card) {
     }
     return axios.post(url, card);
 }
+export function updateCardTitle(card) {
+    let url = env.MANAGE_API_URL + "/card/" + card.id + "/update-title";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, card);
+}
 
 export function createTaskList(taskList) {
     let url = env.MANAGE_API_URL + "/tasklist/create";

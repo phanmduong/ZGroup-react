@@ -616,3 +616,12 @@ export function deleteFile(file) {
         taskApi.deleteFile(file);
     };
 }
+
+export function updateCardInBoard(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_CARD_IN_BOARD_SUCCESS,
+            card
+        });
+    };
+}
