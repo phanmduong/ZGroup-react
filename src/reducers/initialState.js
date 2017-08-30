@@ -149,6 +149,10 @@ export default {
     },
 
     task: {
+        manageLabel: {
+            label: {},
+            isSavingLabel: false
+        },
         uploadAttachment: {
             files: []
         },
@@ -314,8 +318,7 @@ export default {
     profile: {
         isLoading: false,
         profile: {
-            current_role: {
-            },
+            current_role: {},
             start_company: new Date().toISOString().slice(0, 10),
         },
         error: false,

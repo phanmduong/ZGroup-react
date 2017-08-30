@@ -7,13 +7,20 @@ import * as taskActions from '../../taskActions';
 import {bindActionCreators} from "redux";
 import CardLabelPopover from "./CardLabelPopover";
 
-class LabelOverlayContainer extends React.Component {
+class CardLabelOverlayContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.toggle = this.toggle.bind(this);
         this.state = {
             show: false
         };
+    }
+
+    changeColor(color) {
+        console.log(color.hex);
+        // let staffForm = {...this.props.staffForm};
+        // staffForm.color = color.hex;
+        // this.props.staffActions.updateAddStaffFormData(staffForm);
     }
 
     toggle() {
@@ -41,13 +48,13 @@ class LabelOverlayContainer extends React.Component {
 }
 
 
-LabelOverlayContainer.propTypes = {
+CardLabelOverlayContainer.propTypes = {
     taskActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        files: state.task.uploadAttachment.files,
+        files: state.task.uploadAttachment.files
     };
 }
 
@@ -57,4 +64,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LabelOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CardLabelOverlayContainer);

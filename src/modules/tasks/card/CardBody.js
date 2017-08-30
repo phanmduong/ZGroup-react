@@ -10,7 +10,7 @@ import Loading from "../../../components/common/Loading";
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import MemberDetailOverlayContainer from "./member/MemberDetailOverlayContainer";
 import AttachmentWrapper from "./attachment/AttachmentWrapper";
-import LabelOverlayContainer from "./label/LabelOverlayContainer";
+import LabelOverlayContainer from "./label/CardLabelOverlayContainer";
 
 const CardBody = ({
                       card, isSavingCard, toggleEditCardDescription, deleteFile,
