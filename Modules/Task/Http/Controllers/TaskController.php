@@ -159,7 +159,8 @@ class TaskController extends ManageApiController
                             'title' => $card->title,
                             'board_id' => $card->board_id,
                             'order' => $card->order,
-                            "tasks" => Task::whereIn("task_list_id", $taskListIds)->get()
+                            "tasks" => Task::whereIn("task_list_id", $taskListIds)->get(),
+                            "members" => $this->memberTransformer->transformCollection($card->assignees)
                         ];
                     })
                 ];
