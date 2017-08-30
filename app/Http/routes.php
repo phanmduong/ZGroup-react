@@ -391,7 +391,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get("group/classes", "GroupController@group_classes");
 
     Route::get("manage/quan-li-nhan-su", "RoleController@index");
-    Route::post('manage/changesurveystatus', 'HomeController@change_survey_status');
+
 
     Route::get("classes/{classId}/students", "ClassController@students");
     Route::get("loadnotifications", "StudentController@load_notifications");
@@ -536,6 +536,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('manage/changeattendstatus', 'HomeController@change_attend_status');
     Route::post('manage/changehwstatus', 'HomeController@change_hw_status');
     Route::post('manage/changeattendance', 'HomeController@change_attendance');
+    Route::post('manage/changesurveystatus', 'HomeController@change_survey_status');
     Route::get('manage/set_class_lesson_time', 'HomeController@set_class_lesson_time');
 
     Route::get('manage/duplicateclass/{class_id}', 'HomeController@duplicate_class');
