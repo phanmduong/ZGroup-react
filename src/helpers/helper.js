@@ -19,6 +19,7 @@ export function avatarEmpty(input) {
 }
 
 export function confirm(type, title, html, success, cancel) {
+    //  warning, error, success, info and question
     swal({
         title,
         type,

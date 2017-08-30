@@ -6,6 +6,18 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.DELETE_ATTACHMENT_SUCCESS:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        files: state.cardDetail.card.files.filter((f) => f.id !== action.file.id)
+                    }
+                }
+            };
+
         case types.BEGIN_LOAD_CARD_DETAIL:
             return {
                 ...state,

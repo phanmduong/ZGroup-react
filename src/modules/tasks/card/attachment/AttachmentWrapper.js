@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Media} from "react-bootstrap";
 import Avatar from "../../../../components/common/Avatar";
+import TooltipButton from "../../../../components/common/TooltipButton";
+import {confirm} from '../../../../helpers/helper';
 
-const AttachmentWrapper = ({card}) => {
+const AttachmentWrapper = ({card, deleteFile}) => {
+
     return (
         <div>
             {
@@ -39,14 +42,31 @@ const AttachmentWrapper = ({card}) => {
                                             <Media.Heading>{file.name}</Media.Heading>
                                             <div>
                                                 <div>Tải lên lúc {file.created_at}</div>
-                                                <div><a href={file.url} download>Tải xuống</a></div>
+                                                <div className="btn-group-action">
+                                                    <TooltipButton text="Tải tập tin" placement="top">
+                                                        <a href={file.url} download>
+                                                            <i className="material-icons">file_download</i>
+                                                        </a>
+                                                    </TooltipButton>
+                                                    <TooltipButton text="Xoá tập tin" placement="top">
+                                                        <a onClick={() => {
+                                                            confirm("warning",
+                                                                "Xác nhận xoá tập tin",
+                                                                "Tập tin này sẽ bị xoá vĩnh viễn",
+                                                                () => {
+                                                                    deleteFile(file);
+                                                                });
+                                                        }}>
+                                                            <i className="material-icons">delete</i>
+                                                        </a>
+                                                    </TooltipButton>
+                                                </div>
                                             </div>
                                         </Media.Body>
                                     </Media>
                                 );
                             })
                         }
-
                     </div>
                 )
             }
@@ -55,7 +75,8 @@ const AttachmentWrapper = ({card}) => {
 }
 
 AttachmentWrapper.propTypes = {
-    card: PropTypes.object.isRequired
+    card: PropTypes.object.isRequired,
+    deleteFile: PropTypes.func.isRequired
 };
 
 export default AttachmentWrapper;

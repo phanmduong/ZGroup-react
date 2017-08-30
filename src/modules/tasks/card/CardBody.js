@@ -11,7 +11,10 @@ import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import MemberDetailOverlayContainer from "./member/MemberDetailOverlayContainer";
 import AttachmentWrapper from "./attachment/AttachmentWrapper";
 
-const CardBody = ({card, isSavingCard, toggleEditCardDescription, isEditing, saveCard, cancelEdit, updateEditor}) => {
+const CardBody = ({
+                      card, isSavingCard, toggleEditCardDescription, deleteFile,
+                      isEditing, saveCard, cancelEdit, updateEditor
+                  }) => {
     const editTooltip = (
         <Tooltip id="tooltip">Chỉnh sửa mô tả công việc</Tooltip>
     );
@@ -71,7 +74,7 @@ const CardBody = ({card, isSavingCard, toggleEditCardDescription, isEditing, sav
                     )
                 }
 
-                <AttachmentWrapper card={card}/>
+                <AttachmentWrapper deleteFile={deleteFile} card={card}/>
 
                 {card.id && <TaskListsContainer card={card}/>}
 
@@ -93,6 +96,7 @@ const CardBody = ({card, isSavingCard, toggleEditCardDescription, isEditing, sav
 CardBody.propTypes = {
     card: PropTypes.object.isRequired,
     cancelEdit: PropTypes.func.isRequired,
+    deleteFile: PropTypes.func.isRequired,
     toggleEditCardDescription: PropTypes.func.isRequired,
     saveCard: PropTypes.func.isRequired,
     updateEditor: PropTypes.func.isRequired,

@@ -606,3 +606,13 @@ export function loadCardDetail(cardId) {
             });
     };
 }
+
+export function deleteFile(file) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_ATTACHMENT_SUCCESS,
+            file
+        });
+        taskApi.deleteFile(file);
+    };
+}
