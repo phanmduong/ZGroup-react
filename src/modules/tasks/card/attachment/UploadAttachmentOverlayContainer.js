@@ -32,8 +32,7 @@ class UploadAttachmentOverlayContainer extends React.Component {
 
 
     }
-
-
+    
     toggle() {
         this.setState({show: !this.state.show});
     }

@@ -75,6 +75,7 @@ class CardDetailModalContainer extends React.Component {
                         this.props.isLoading ?
                             <Loading/> : (
                                 <CardBody
+                                    deleteFile={this.props.taskActions.deleteFile}
                                     toggleEditCardDescription={this.toggleEditCardDescription}
                                     isSavingCard={this.props.isSavingCard}
                                     description={this.state.description}
