@@ -13,6 +13,17 @@ class FileController extends ManageApiController
         parent::__construct();
     }
 
+    public function deleteFile($fileId)
+    {
+        $file = File::find($fileId);
+        if (is_null($file)) {
+            return $this->responseInternalServerError("Xoá tập tin không thành công");
+        }
+        deleteFileFromS3($file->file_key);
+        $file->delete();
+        return $this->respondSuccess("Xoá tập tin thành công");
+    }
+
     public function uploadFile($cardId, Request $request)
     {
         $file_name = uploadLargeFileToS3($request, 'file');
@@ -36,10 +47,7 @@ class FileController extends ManageApiController
             return $this->respond($file);
         } else {
             return $this->respondErrorWithStatus("Tải ảnh lên không thành công");
-
         }
-
-
     }
 
 }

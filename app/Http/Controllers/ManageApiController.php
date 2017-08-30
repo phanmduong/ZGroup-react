@@ -38,6 +38,14 @@ class ManageApiController extends Controller
         ]);
     }
 
+    public function respondSuccess($message)
+    {
+        return $this->respond([
+            'message' => $message
+        ]);
+    }
+
+
     public function getStatusCode()
     {
         return $this->statusCode;
@@ -87,5 +95,10 @@ class ManageApiController extends Controller
     public function responseUnAuthorized($message = 'Un Authorized!')
     {
         return $this->setStatusCode(Response::HTTP_UNAUTHORIZED)->responseWithError($message);
+    }
+
+    public function responseInternalServerError($message = 'Internal Server Error!')
+    {
+        return $this->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)->responseWithError($message);
     }
 }
