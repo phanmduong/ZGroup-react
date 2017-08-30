@@ -2365,5 +2365,6 @@ class HomeController extends ManageController
             });
         })->download('xls');
     }
+
 }
 

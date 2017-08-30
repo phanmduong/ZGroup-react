@@ -391,6 +391,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get("group/classes", "GroupController@group_classes");
 
     Route::get("manage/quan-li-nhan-su", "RoleController@index");
+    Route::post('manage/changesurveystatus', 'HomeController@change_survey_status');
 
     Route::get("classes/{classId}/students", "ClassController@students");
     Route::get("loadnotifications", "StudentController@load_notifications");
