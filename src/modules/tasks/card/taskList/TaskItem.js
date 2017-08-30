@@ -9,7 +9,7 @@ class TaskItem extends React.Component {
     }
 
     render() {
-        const {task} = this.props;
+        const {task, card} = this.props;
 
         return (
             <ListGroupItem
@@ -19,13 +19,13 @@ class TaskItem extends React.Component {
                     <label>
                         <input
                             checked={task.status || false}
-                            onChange={() => this.props.toggleTaskStatus(task)}
+                            onChange={() => this.props.toggleTaskStatus(task, card)}
                             type="checkbox" name="optionsCheckboxes"/>
                         {task.title}
                     </label>
                 </div>
                 <button
-                    onClick={() => this.props.deleteTask(task)}
+                    onClick={() => this.props.deleteTask(task, card)}
                     type="button" className="close"
                     style={{color: '#5a5a5a'}}>
                     <span aria-hidden="true">×</span>
@@ -41,6 +41,7 @@ class TaskItem extends React.Component {
 TaskItem.propTypes = {
     deleteTask: PropTypes.func.isRequired,
     toggleTaskStatus: PropTypes.func.isRequired,
+    card: PropTypes.object.isRequired,
     task: PropTypes.object.isRequired
 };
 

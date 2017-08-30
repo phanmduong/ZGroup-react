@@ -484,7 +484,7 @@ export function saveTaskList(taskList) {
     };
 }
 
-export function createTask(task) {
+export function createTask(task, card) {
     return function (dispatch) {
         dispatch({
             taskListId: task.task_list_id,
@@ -496,16 +496,18 @@ export function createTask(task) {
                 dispatch({
                     type: types.CREATE_TASK_SUCCESS,
                     task: res.data.task,
-                    taskListId: task.task_list_id
+                    taskListId: task.task_list_id,
+                    card
                 });
             });
 
     };
 }
 
-export function deleteTask(task) {
+export function deleteTask(task, card) {
     return function (dispatch) {
         dispatch({
+            card,
             task,
             type: types.DELETE_TASK_SUCCESS
         });
@@ -513,9 +515,10 @@ export function deleteTask(task) {
     };
 }
 
-export function toggleTaskStatus(task) {
+export function toggleTaskStatus(task, card) {
     return function (dispatch) {
         dispatch({
+            card,
             task,
             type: types.TOGGLE_TASK_STATUS
         });

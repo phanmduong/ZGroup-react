@@ -176,6 +176,31 @@ export default function taskReducer(state = initialState.task, action) {
         case types.TOGGLE_TASK_STATUS:
             return {
                 ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    return {
+                                        ...card,
+                                        tasks: card.tasks.map((task) => {
+                                            if (task.id === action.task.id) {
+                                                return {
+                                                    ...task,
+                                                    status: !task.status
+                                                };
+                                            }
+                                            return task;
+                                        })
+                                    };
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                },
                 cardDetail: {
                     ...state.cardDetail,
                     card: {
@@ -204,6 +229,23 @@ export default function taskReducer(state = initialState.task, action) {
         case types.DELETE_TASK_SUCCESS:
             return {
                 ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    return {
+                                        ...card,
+                                        tasks: card.tasks.filter((task) => task.id !== action.task.id)
+                                    };
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                },
                 cardDetail: {
                     ...state.cardDetail,
                     card: {
@@ -244,6 +286,23 @@ export default function taskReducer(state = initialState.task, action) {
         case types.CREATE_TASK_SUCCESS:
             return {
                 ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    return {
+                                        ...card,
+                                        tasks: [...card.tasks, action.task]
+                                    };
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                },
                 cardDetail: {
                     ...state.cardDetail,
                     card: {

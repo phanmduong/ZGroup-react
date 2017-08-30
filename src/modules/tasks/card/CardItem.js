@@ -42,11 +42,15 @@ class CardItem extends React.Component {
     }
 
     render() {
+        const tasksComplete = (tasks) => tasks.filter(t => t.status).length;
+        const totalTasks = (tasks) => tasks.length;
+        const percent = (tasks) => tasksComplete(tasks) / totalTasks(tasks);
+
         const {card, board} = this.props;
         if (this.state.isEditable) {
             return (
-                <div className="card-content keetool-card"
-                     style={{cursor: "grab"}}>
+                <div className="card-content keetool-card">
+
                     <div className="card keetool-card">
                         <div className="card-content keetool-card"
                              style={{position: "relative"}}>
@@ -94,6 +98,7 @@ class CardItem extends React.Component {
                     }}
                     key={card.id} id={card.id} data-order={card.order}
                     className="card-content keetool-card">
+
                     <div className="card keetool-card keetool-card-wrapper">
                         <div className="card-content keetool-card">
                             <div className="card-title keetool-card"
@@ -110,8 +115,21 @@ class CardItem extends React.Component {
                                     </TooltipButton>
                                 </div>
                             </div>
+
+                            <small>{tasksComplete(card.tasks)}/{totalTasks(card.tasks)}</small>
+                            <div className="progress progress-line-default" style={{margin: 0}}>
+                                <div className="progress-bar progress-bar-rose" role="progressbar"
+                                     aria-valuenow="60"
+                                     aria-valuemin="0" aria-valuemax="100"
+                                     style={{width: 100 * percent(card.tasks) + "%"}}>
+                                    <span className="sr-only">{100 * percent(card.tasks)}% Complete</span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+
+
                 </div>
             );
         }

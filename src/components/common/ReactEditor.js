@@ -16,18 +16,18 @@ class ReactEditor extends React.Component {
         this.uploadImageCallBack = this.uploadImageCallBack.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.setState({
             editorState: this.htmlToDraft(this.props.value)
         });
 
     }
 
-    draftToHtml(content){
+    draftToHtml(content) {
         return draftToHtml(convertToRaw(content));
     }
 
-    htmlToDraft(html){
+    htmlToDraft(html) {
         const blocksFromHtml = htmlToDraft(html);
         const contentState = ContentState.createFromBlockArray(blocksFromHtml.contentBlocks);
         return EditorState.createWithContent(contentState);
@@ -85,7 +85,7 @@ class ReactEditor extends React.Component {
                             height: '100%',
                             width: '100%',
                         },
-                        alt: { present: true, mandatory: true },
+                        alt: {present: true, mandatory: false},
                     }
                 }}
                 onEditorStateChange={this.onEditorStateChange}

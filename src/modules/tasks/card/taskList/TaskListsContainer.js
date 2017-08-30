@@ -20,7 +20,7 @@ class TaskListsContainer extends React.Component {
                     this.props.taskActions.createTask({
                         title: event.target.value,
                         task_list_id: taskListId
-                    });
+                    }, this.props.card);
                 }
             }
         };
@@ -74,6 +74,7 @@ class TaskListsContainer extends React.Component {
                                     {
                                         taskList.tasks.map((task) =>
                                             <TaskItem
+                                                card={this.props.card}
                                                 toggleTaskStatus={this.props.taskActions.toggleTaskStatus}
                                                 deleteTask={this.props.taskActions.deleteTask}
                                                 key={task.id}

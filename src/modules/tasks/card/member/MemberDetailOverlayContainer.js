@@ -22,7 +22,8 @@ class MemberDetailOverlayContainer extends React.Component {
         this.props.taskActions.assignMember(this.props.card, this.props.member);
     }
 
-    toggle() {
+    toggle(event) {
+        event.stopPropagation();
         this.setState({show: !this.state.show});
     }
 
