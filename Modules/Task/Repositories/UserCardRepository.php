@@ -72,10 +72,13 @@ class UserCardRepository
             return $data;
         });
 
+        $cardLabels = $card->cardLabels;
+
         return [
             "description" => $card->description,
             "members" => $members,
             "taskLists" => $taskLists,
+            "cardLabels" => $cardLabels,
             "files" => $files
         ];
     }

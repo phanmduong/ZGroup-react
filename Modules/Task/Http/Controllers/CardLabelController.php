@@ -36,6 +36,8 @@ class CardLabelController extends ManageApiController
         $cardLabel->name = trim($request->name);
         $cardLabel->project_id = $projectId;
         $cardLabel->color = trim($request->color);
+        $cardLabel->editor_id = $this->user->id;
+        $cardLabel->creator_id = $this->user->id;
         $cardLabel->save();
 
         return $this->respondSuccessWithStatus([
@@ -68,5 +70,26 @@ class CardLabelController extends ManageApiController
         ]);
     }
 
+    public function assignCardLabel($cardLabelId, $cardId)
+    {
+        $card = Card::find($cardId);
+        if (is_null($card)) {
+            return $this->responseBadRequest("Thẻ không tồn tại");
+        }
+
+        $temp = $card->cardLabels()->where("card_labels.id", $cardLabelId)->first();
+
+        if (is_null($temp)) {
+            $card->cardLabels()->attach($cardLabelId, [
+                "labeler_id" => $this->user->id,
+            ]);
+        } else {
+            $card->cardLabels()->detach($cardLabelId);
+        }
+
+        return $this->respondSuccessWithStatus([
+            "message" => "gắn nhãn thành công"
+        ]);
+    }
 
 }

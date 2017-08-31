@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\TaskList;
 
 class Card extends Model
@@ -37,11 +38,18 @@ class Card extends Model
         return $this->hasMany(TaskList::class, "card_id");
     }
 
-    public function assignees() {
-        return $this->belongsToMany(User::class,"card_user","card_id", "user_id");
+    public function assignees()
+    {
+        return $this->belongsToMany(User::class, "card_user", "card_id", "user_id");
     }
 
-    public function files(){
+    public function files()
+    {
         return $this->hasMany(File::class, "card_id");
+    }
+
+    public function cardLabels()
+    {
+        return $this->belongsToMany(CardLabel::class, "card_card_labels", "card_id", "card_label_id");
     }
 }
