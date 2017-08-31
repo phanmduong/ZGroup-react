@@ -9,6 +9,20 @@ export default function taskReducer(state = initialState.task, action) {
         case types.DELETE_CARD_LABEL_SUCCESS:
             return {
                 ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        return {
+                            ...board,
+                            cards: board.cards.map((card) => {
+                                return {
+                                    ...card,
+                                    cardLabels: card.cardLabels.filter((label => label.id !== action.cardLabel.id))
+                                };
+                            })
+                        };
+                    })
+                },
                 cardDetail: {
                     ...state.cardDetail,
                     card: {
@@ -20,6 +34,28 @@ export default function taskReducer(state = initialState.task, action) {
         case types.ASSIGN_CARD_LABEL_SUCCESS:
             return {
                 ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    if (card.id === action.card.id) {
+                                        return {
+                                            ...card,
+                                            cardLabels: action.labelAdded ?
+                                                card.cardLabels.filter((label) => label.id !== action.cardLabel.id)
+                                                : [...card.cardLabels, action.cardLabel]
+                                        };
+                                    }
+                                    return card;
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                },
                 cardDetail: {
                     ...state.cardDetail,
                     card: {

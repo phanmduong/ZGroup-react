@@ -635,6 +635,7 @@ export function assignCardLabel(cardLabel, card, labelAdded) {
         dispatch({
             type: types.ASSIGN_CARD_LABEL_SUCCESS,
             cardLabel,
+            card,
             labelAdded
         });
         taskApi.assignCardLabel(card.id, cardLabel.id);
