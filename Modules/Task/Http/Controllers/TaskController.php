@@ -155,9 +155,12 @@ class TaskController extends ManageApiController
                     'order' => $board->order,
                     'cards' => $cards->map(function ($card) {
                         $taskListIds = $card->taskLists->pluck("id");
+                        $hasDeadline = $card->deadline && $card->deadline != "0000-00-00 00:00:00";
                         return [
                             'id' => $card->id,
                             'title' => $card->title,
+                            "deadline_elapse" =>  $hasDeadline ? time_remain_string(strtotime($card->deadline)) : null,
+                            "deadline" => $hasDeadline ? $card->deadline : null,
                             'board_id' => $card->board_id,
                             'order' => $card->order,
                             "cardLabels" => $card->cardLabels,

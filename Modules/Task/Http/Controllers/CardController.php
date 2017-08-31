@@ -4,7 +4,7 @@ namespace Modules\Task\Http\Controllers;
 
 use App\Card;
 use App\Http\Controllers\ManageApiController;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 use Modules\Task\Repositories\UserCardRepository;
 
 class CardController extends ManageApiController
@@ -29,12 +29,17 @@ class CardController extends ManageApiController
         if (is_null($card)) {
             return $this->responseBadRequest("Thẻ không tồn tại");
         }
-        if (is_null($request->deadline)) {
+        if (is_null($request->deadline) || $request->deadline == "") {
             return $this->responseBadRequest("Thiếu hạn chót");
         }
-        $card->deadline = $request->deadline;
+
+        $card->deadline = format_time_to_mysql(strtotime($request->deadline));
         $card->save();
-        return $this->respondSuccessWithStatus(["message" => "Sửa hạn chót thành công"]);
+        return $this->respondSuccessWithStatus([
+            "deadline_elapse" => time_remain_string(strtotime($card->deadline)),
+            "deadline" => $card->deadline,
+            "message" => "Sửa hạn chót thành công"
+        ]);
     }
 
 }
