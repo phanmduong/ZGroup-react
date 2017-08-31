@@ -23,6 +23,7 @@ import ProfileContainer from "./modules/profile/ProfileContainer";
 import EditProfileContainer from "./modules/profile/EditProfileContainer";
 import StudySessionContainer from "./modules/studySession/StudySessionContainer";
 import ScheduleClassContainer from "./modules/scheduleClass/ScheduleClassContainer";
+import GensContainer from "./modules/gens/GensContainer";
 
 export default (
     <Route>
@@ -80,6 +81,10 @@ export default (
             {/*Begin study session routes*/}
             <Route path="/manage/scheduleclass" component={ScheduleClassContainer}/>
             {/*End study session routes*/}
+
+            {/*Begin gens routes*/}
+            <Route path="/manage/gens" component={GensContainer}/>
+            {/*End gens routes*/}
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

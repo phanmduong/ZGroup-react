@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonGroupAction from '../../components/common/ButtonGroupAction'
+import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import PropTypes from 'prop-types';
 
 class ListStudySession extends React.Component {

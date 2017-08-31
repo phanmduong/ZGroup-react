@@ -357,6 +357,18 @@ export default {
         isLoadingStudySession: false,
         errorStudySession: false,
         studySessions: [],
+    },
 
+    gens: {
+        gens: [],
+        isLoading: false,
+        error: false,
+        gen: {},
+        isSaving: false,
+        errorSave: false,
+        isEditing: false,
+        errorEdit: false,
+        currentPage: 1,
+        totalPages: 1
     }
 };
