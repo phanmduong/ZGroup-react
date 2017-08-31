@@ -1211,8 +1211,8 @@ class HomeController extends ManageController
                 $data = [
                     "id" => $item->id,
                     "caller" => [
-                        "id" => $item->caller->id,
-                        "name" => $item->caller->name
+                        "id" => $item->caller ? $item->caller->id "Không có",
+                        "name" => $item->caller ? $item->caller->name : "Không có"
                     ],
                     "student" => [
                         'id' => $item->student->id,
