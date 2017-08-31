@@ -160,6 +160,7 @@ class TaskController extends ManageApiController
                             'title' => $card->title,
                             'board_id' => $card->board_id,
                             'order' => $card->order,
+                            "cardLabels" => $card->cardLabels,
                             "tasks" => Task::whereIn("task_list_id", $taskListIds)->get(),
                             "members" => $this->memberTransformer->transformCollection($card->assignees)
                         ];
@@ -383,7 +384,6 @@ class TaskController extends ManageApiController
         $data = $this->userCardRepository->loadCardDetail($cardId);
         return $this->respond($data);
     }
-
 
 
 }
