@@ -21,7 +21,8 @@ import CreateEmailTemplateContainer from "./modules/emailTemplates/CreateEmailTe
 import BlogContainer from "./modules/blog/BlogContainer";
 import ProfileContainer from "./modules/profile/ProfileContainer";
 import EditProfileContainer from "./modules/profile/EditProfileContainer";
-import StudySessionContainer from "./modules/studysession/StudySessionContainer";
+import StudySessionContainer from "./modules/studySession/StudySessionContainer";
+import ScheduleClassContainer from "./modules/scheduleClass/ScheduleClassContainer";
 
 export default (
     <Route>
@@ -74,6 +75,10 @@ export default (
 
             {/*Begin study session routes*/}
             <Route path="/manage/studysession" component={StudySessionContainer}/>
+            {/*End study session routes*/}
+
+            {/*Begin study session routes*/}
+            <Route path="/manage/scheduleclass" component={ScheduleClassContainer}/>
             {/*End study session routes*/}
         </Route>
         <Route path="login" component={LoginContainer}/>

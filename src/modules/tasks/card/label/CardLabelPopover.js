@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ListGroup, ListGroupItem} from "react-bootstrap";
-import UploadButton from "../../../../components/common/uploadButton/UploadButton";
-import Loading from "../../../../components/common/Loading";
+// import {ListGroup, ListGroupItem} from "react-bootstrap";
+// import UploadButton from "../../../../components/common/uploadButton/UploadButton";
+// import Loading from "../../../../components/common/Loading";
 
 const CardLabelPopover = ({toggle}) => {
     return (

@@ -3,7 +3,7 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 let studySessions;
-export default function staffsReducer(state = initialState.studySession, action) {
+export default function studySessionReducer(state = initialState.studySession, action) {
 
     switch (action.type) {
         case types.BEGIN_LOAD_STUDY_SESSION:
@@ -50,7 +50,7 @@ export default function staffsReducer(state = initialState.studySession, action)
                 ...{
                     isSaving: false,
                     errorSave: false,
-                    studySessions: [...action.studySession, ...state.studySessions]
+                    studySessions: [action.studySession, ...state.studySessions]
                 }
             };
         case types.ADD_STUDY_SESSION_ERROR:

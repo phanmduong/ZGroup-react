@@ -327,10 +327,30 @@ export default {
         isLoading: false,
         error: false,
         studySessions: [],
-        studySession: {},
+        studySession: {
+            start_time: '',
+            end_time: ''
+        },
         isSaving: false,
         errorSave: false,
         isEditing: false,
         errorEdit: false,
+    },
+
+    scheduleClass: {
+        isLoading: false,
+        error: false,
+        scheduleClasses: [],
+        scheduleClass: {
+            studySessionIds: []
+        },
+        isSaving: false,
+        errorSave: false,
+        isEditing: false,
+        errorEdit: false,
+        isLoadingStudySession: false,
+        errorStudySession: false,
+        studySessions: [],
+
     }
 };

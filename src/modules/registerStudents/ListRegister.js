@@ -32,14 +32,14 @@ class ListRegister extends React.Component {
                     <tbody>
                     {this.props.registers.map((register) => {
                         let btn = '';
-                        let titleCall = 'Chưa gọi';
+                        let titleCall = 'Chưa gọi - Còn ' + register.time_to_reach + 'h';
                         if (register.call_status === 'success') {
                             btn = ' btn-success';
-                            titleCall = 'Gọi thành công';
+                            titleCall = 'Gọi thành công trong vòng ' + register.time_to_reach + 'h';
                         }
                         else if (register.call_status === 'failed') {
                             btn = ' btn-danger';
-                            titleCall = 'Gọi thất bại';
+                            titleCall = 'Gọi thất bại - Còn ' + register.time_to_reach + 'h';
                         } else if (register.call_status === 'calling') {
                             btn = ' btn-info';
                             titleCall = 'Đang gọi';

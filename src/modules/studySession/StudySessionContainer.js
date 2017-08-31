@@ -13,6 +13,7 @@ import ListStudySession from './ListStudySession';
 import * as studySessionActions from './studySessionActions';
 import * as helper from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 class StudySessionContainer extends React.Component {
     constructor(props, context) {
@@ -254,6 +255,15 @@ class StudySessionContainer extends React.Component {
         );
     }
 }
+
+StudySessionContainer.propTypes = {
+    studySessionActions: PropTypes.object.isRequired,
+    studySessions: PropTypes.array.isRequired,
+    studySession: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

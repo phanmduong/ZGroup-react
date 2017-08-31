@@ -1,5 +1,6 @@
 import React from 'react';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction'
+import PropTypes from 'prop-types';
 
 class ListStudySession extends React.Component {
     constructor(props, context) {
@@ -43,6 +44,12 @@ class ListStudySession extends React.Component {
         );
     }
 }
+
+ListStudySession.propTypes = {
+    deleteStudySession: PropTypes.func.isRequired,
+    studySessions: PropTypes.array.isRequired,
+    onClickEdit: PropTypes.func.isRequired,
+};
 
 
 export default ListStudySession;

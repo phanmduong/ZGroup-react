@@ -30,7 +30,7 @@ class Select extends React.Component {
 
 
 Select.propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     options: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
     defaultMessage: PropTypes.string,
