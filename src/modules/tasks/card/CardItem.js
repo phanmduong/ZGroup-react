@@ -43,9 +43,9 @@ class CardItem extends React.Component {
     }
 
     render() {
-        const tasksComplete = (tasks) => tasks.filter(t => t.status).length;
-        const totalTasks = (tasks) => tasks.length;
-        const percent = (tasks) => tasksComplete(tasks) / totalTasks(tasks);
+        const tasksComplete = (tasks) => tasks ? tasks.filter(t => t.status).length : 0;
+        const totalTasks = (tasks) => tasks ? tasks.length : 0;
+        const percent = (tasks) => totalTasks(tasks) === 0 ? 0 : tasksComplete(tasks) / totalTasks(tasks);
 
         const {card, board} = this.props;
         if (this.state.isEditable) {
