@@ -5,9 +5,9 @@ import * as ReactDOM from "react-dom";
 import {connect} from "react-redux";
 import * as taskActions from '../../taskActions';
 import {bindActionCreators} from "redux";
-import CardLabelPopover from "./CardLabelPopover";
+import CardLabelPopover from "./CardLabelOverlay";
 
-class LabelOverlayContainer extends React.Component {
+class CardLabelOverlayContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.toggle = this.toggle.bind(this);
@@ -28,12 +28,18 @@ class LabelOverlayContainer extends React.Component {
                     <i className="material-icons">label</i> nhãn
                 </button>
                 <Overlay
+                    rootClose={true}
                     show={this.state.show}
                     onHide={() => this.setState({show: false})}
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <CardLabelPopover toggle={this.toggle}/>
+                    <CardLabelPopover
+                        card={this.props.card}
+                        deleteCardLabel={this.props.taskActions.deleteCardLabel}
+                        assignCardLabel={this.props.taskActions.assignCardLabel}
+                        projectId={this.props.projectId}
+                        toggle={this.toggle}/>
                 </Overlay>
             </div>
         );
@@ -41,13 +47,16 @@ class LabelOverlayContainer extends React.Component {
 }
 
 
-LabelOverlayContainer.propTypes = {
-    taskActions: PropTypes.object.isRequired
+CardLabelOverlayContainer.propTypes = {
+    taskActions: PropTypes.object.isRequired,
+    card: PropTypes.object.isRequired,
+    projectId: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        files: state.task.uploadAttachment.files,
+        projectId: Number(state.task.boardList.projectId),
+        card: state.task.cardDetail.card
     };
 }
 
@@ -57,4 +66,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LabelOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CardLabelOverlayContainer);

@@ -167,6 +167,7 @@ export function loadBoards(projectId) {
         taskApi.loadBoards(projectId)
             .then((res) => {
                 dispatch({
+                    projectId: projectId,
                     type: types.LOAD_BOARDS_SUCCESS,
                     boards: res.data.boards
                 });
@@ -625,6 +626,27 @@ export function updateCardInBoard(card) {
         dispatch({
             type: types.UPDATE_CARD_IN_BOARD_SUCCESS,
             card
+        });
+    };
+}
+
+export function assignCardLabel(cardLabel, card, labelAdded) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ASSIGN_CARD_LABEL_SUCCESS,
+            cardLabel,
+            card,
+            labelAdded
+        });
+        taskApi.assignCardLabel(card.id, cardLabel.id);
+    };
+}
+
+export function deleteCardLabel(cardLabel) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_CARD_LABEL_SUCCESS,
+            cardLabel
         });
     };
 }

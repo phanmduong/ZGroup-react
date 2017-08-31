@@ -6,6 +6,67 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.DELETE_CARD_LABEL_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        return {
+                            ...board,
+                            cards: board.cards.map((card) => {
+                                return {
+                                    ...card,
+                                    cardLabels: card.cardLabels.filter((label => label.id !== action.cardLabel.id))
+                                };
+                            })
+                        };
+                    })
+                },
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        cardLabels: state.cardDetail.card.cardLabels.filter((label) => label.id !== action.cardLabel.id)
+                    }
+                }
+            };
+        case types.ASSIGN_CARD_LABEL_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    if (card.id === action.card.id) {
+                                        return {
+                                            ...card,
+                                            cardLabels: action.labelAdded ?
+                                                card.cardLabels.filter((label) => label.id !== action.cardLabel.id)
+                                                : [...card.cardLabels, action.cardLabel]
+                                        };
+                                    }
+                                    return card;
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                },
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        cardLabels:
+                            action.labelAdded ?
+                                state.cardDetail.card.cardLabels.filter((label) => label.id !== action.cardLabel.id)
+                                : [...state.cardDetail.card.cardLabels, action.cardLabel]
+                    }
+                }
+            };
         case types.UPDATE_CARD_IN_BOARD_SUCCESS:
             return {
                 ...state,
@@ -488,7 +549,8 @@ export default function taskReducer(state = initialState.task, action) {
                 boardList: {
                     ...state.boardList,
                     isLoadingBoards: false,
-                    boards: action.boards
+                    boards: action.boards,
+                    projectId: action.projectId
                 }
             };
         case types.BEGIN_LOAD_BOARDS:

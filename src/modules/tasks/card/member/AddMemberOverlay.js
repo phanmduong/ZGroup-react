@@ -25,7 +25,7 @@ class AddMemberOverlay extends React.Component {
                         ref="target" onClick={this.toggle}>
                     <i className="material-icons">people</i> Thành viên
                 </button>
-                <Overlay
+                <Overlay rootClose={true}
                     show={this.state.show}
                     onHide={() => this.setState({show: false})}
                     placement="left"

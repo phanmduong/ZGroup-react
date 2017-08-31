@@ -112,6 +112,7 @@ export function updateCard(card) {
     }
     return axios.post(url, card);
 }
+
 export function updateCardTitle(card) {
     let url = env.MANAGE_API_URL + "/card/" + card.id + "/update-title";
     const token = localStorage.getItem('token');
@@ -230,4 +231,40 @@ export function deleteFile(file) {
         url += "?token=" + token;
     }
     return axios.delete(url);
+}
+
+export function createCardLabel(projectId, label) {
+    let url = env.MANAGE_API_URL + `/project/${projectId}/create-label`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, label);
+}
+
+export function loadLabels(projectId) {
+    let url = env.MANAGE_API_URL + `/project/${projectId}/labels`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function deleteCardLabel(labelId) {
+    let url = env.MANAGE_API_URL + `/cardlabel/${labelId}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
+export function assignCardLabel(cardId, cardLabelId) {
+    let url = env.MANAGE_API_URL + `/cardlabel/${cardLabelId}/card/${cardId}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
 }

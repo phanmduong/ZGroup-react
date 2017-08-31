@@ -149,6 +149,10 @@ export default {
     },
 
     task: {
+        manageLabel: {
+            label: {},
+            isSavingLabel: false
+        },
         uploadAttachment: {
             files: []
         },
@@ -179,6 +183,7 @@ export default {
         },
 
         boardList: {
+            projectId: 0,
             boards: [],
             isLoadingBoards: false
         },

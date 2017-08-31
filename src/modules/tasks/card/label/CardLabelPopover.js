@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import {ListGroup, ListGroupItem} from "react-bootstrap";
-// import UploadButton from "../../../../components/common/uploadButton/UploadButton";
-// import Loading from "../../../../components/common/Loading";
 
 const CardLabelPopover = ({toggle}) => {
     return (
@@ -20,8 +17,6 @@ const CardLabelPopover = ({toggle}) => {
 };
 CardLabelPopover.propTypes = {
     toggle: PropTypes.func.isRequired,
-    // files: PropTypes.array.isRequired,
-    // handleChange: PropTypes.func.isRequired
 };
 
 export default CardLabelPopover;

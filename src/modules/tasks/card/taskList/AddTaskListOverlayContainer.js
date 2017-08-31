@@ -48,6 +48,7 @@ class AddTaskListOverlayContainer extends React.Component {
                     <i className="material-icons">work</i> Việc cần làm
                 </button>
                 <Overlay
+                    rootClose={true}
                     show={this.state.show}
                     onHide={() => this.setState({show: false})}
                     placement="bottom"

@@ -101,10 +101,8 @@ class CardItem extends React.Component {
                     className="card-content keetool-card">
 
                     <div className="card keetool-card keetool-card-wrapper">
-                        <div className="card-content keetool-card">
-                            <div className="card-title keetool-card"
-                                 style={{display: "flex", justifyContent: "space-between", lineHeight: "18px"}}>
-                                {card.title}
+                        <div className="card-content keetool-card" style={{position: "relative"}}>
+                            <div style={{position: "absolute", top: 10, right: 10}}>
                                 <div className="board-action">
                                     <TooltipButton text="Chỉnh sửa thẻ" placement="top">
                                         <a onClick={(event) => {
@@ -115,6 +113,34 @@ class CardItem extends React.Component {
                                         </a>
                                     </TooltipButton>
                                 </div>
+                            </div>
+
+                            {card.cardLabels && card.cardLabels.length > 0 && (
+                                <div style={{display: "flex", flexWrap: "wrap", marginBottom: 5}}>
+                                    {
+                                        card.cardLabels.map((label) => {
+                                            return (
+                                                <TooltipButton key={label.id} text={label.name} placement="top">
+                                                    <div style={{
+                                                        backgroundColor: label.color,
+                                                        width: 40,
+                                                        height: 7,
+                                                        borderRadius: 5,
+                                                        marginRight: 5
+                                                    }}>
+                                                    </div>
+                                                </TooltipButton>
+
+                                            );
+                                        })
+                                    }
+                                </div>
+                            )}
+
+
+                            <div className="card-title keetool-card"
+                                 style={{display: "flex", justifyContent: "space-between", lineHeight: "18px"}}>
+                                {card.title}
                             </div>
 
 
