@@ -1431,3 +1431,22 @@ function is_exist_study_session($study_session)
     }
     return false;
 }
+
+function format_data_schedule_class($schedule)
+{
+    $sessionsStr = "";
+    $study_session_ids = array();
+
+    foreach ($schedule->studySessions as $session) {
+        $sessionsStr .= $session->weekday . ": " . date("G:i", strtotime($session->start_time)) . "-" . date("G:i", strtotime($session->end_time)) . "<br/>";
+        array_push($study_session_ids, $session->id);
+    }
+
+    return [
+        'id' => $schedule->id,
+        'name' => $schedule->name,
+        'description' => $schedule->description,
+        'sessions_str' => $sessionsStr,
+        'study_session_ids' => $study_session_ids
+    ];
+}
