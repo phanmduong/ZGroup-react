@@ -2,7 +2,9 @@
 
 namespace Modules\Task\Http\Controllers;
 
+use App\Card;
 use App\Http\Controllers\ManageApiController;
+use App\Http\Requests\Request;
 use Modules\Task\Repositories\UserCardRepository;
 
 class CardController extends ManageApiController
@@ -19,6 +21,20 @@ class CardController extends ManageApiController
     {
         $this->userCardRepository->assign($cardId, $userId);
         return $this->respond(["status" => 1]);
+    }
+
+    public function updateCardDeadline($cardId, Request $request)
+    {
+        $card = Card::find($cardId);
+        if (is_null($card)) {
+            return $this->responseBadRequest("Thẻ không tồn tại");
+        }
+        if (is_null($request->deadline)) {
+            return $this->responseBadRequest("Thiếu hạn chót");
+        }
+        $card->deadline = $request->deadline;
+        $card->save();
+        return $this->respondSuccessWithStatus(["message" => "Sửa hạn chót thành công"])
     }
 
 }
