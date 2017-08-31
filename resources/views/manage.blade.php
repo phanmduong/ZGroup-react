@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
-    <link href="manage/main.629ae57932952defb4534c304b5f3ec0.css" rel="stylesheet">
+    <link href="manage/main.0cb30540bb7f6b51c08b8fa384ab8ce8.css" rel="stylesheet">
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
@@ -66,6 +66,6 @@
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
 
-<script type="text/javascript" src="manage/main.ff52cbb9b5fda3b025eb.js"></script>
+<script type="text/javascript" src="manage/main.f3e35989be9e88a4254f.js"></script>
 </body>
 </html>
