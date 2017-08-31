@@ -51,22 +51,24 @@
                                     @foreach($student->registers as $register)
                                         <div class="col m6" style="border: 1px solid #7a7a7a;">
                                             <ul class="collection">
-                                                <li class="collection-item">Môn {{$register->studyClass->course->name}}</li>
+                                                <li class="collection-item">
+                                                    Môn {{$register->studyClass->course->name}}</li>
                                                 {{--<li class="collection-item">{{$register->studyClass->course->duration}}--}}
-                                                    {{--buổi--}}
+                                                {{--buổi--}}
                                                 {{--</li>--}}
                                                 {{--<li class="collection-item">{{currency_vnd_format($register->studyClass->course->price)}}</li>--}}
                                                 <li class="collection-item">Lớp {{$register->studyClass->name}}</li>
                                                 <li class="collection-item">{{$register->studyClass->study_time}}</li>
-                                                <li class="collection-item">Ngày bắt đầu: {{$register->studyClass->study_time}}</li>
+                                                <li class="collection-item">Ngày bắt
+                                                    đầu: {{$register->studyClass->study_time}}</li>
 
                                                 {{--<li class="collection-item">--}}
-                                                    {{--Giảng viên:--}}
-                                                    {{--{{$register->studyClass->teach['name'] ? $register->studyClass->teach['name'] : "Chưa có"}}--}}
+                                                {{--Giảng viên:--}}
+                                                {{--{{$register->studyClass->teach['name'] ? $register->studyClass->teach['name'] : "Chưa có"}}--}}
                                                 {{--</li>--}}
                                                 {{--<li class="collection-item">--}}
-                                                    {{--Trợ giảng:--}}
-                                                    {{--{{$register->studyClass->assist['name'] ? $register->studyClass->assist['name'] : "Chưa có"}}--}}
+                                                {{--Trợ giảng:--}}
+                                                {{--{{$register->studyClass->assist['name'] ? $register->studyClass->assist['name'] : "Chưa có"}}--}}
                                                 {{--</li>--}}
                                                 <li class="collection-item">{{format_time_to_mysql(strtotime($register->created_at))}}</li>
                                                 <li class="collection-item">
@@ -120,9 +122,8 @@
                                     @foreach($student->is_called->sortByDesc('updated_at') as $item)
                                         <li class="collection-item">
                                             <div>{{format_date_full_option($item->updated_at)}}</div>
-                                            <div><strong>{{$item->caller->name}}</strong>
+                                            <div><strong>{{$item->caller ? $item->caller->name : "Đã xoá"}}</strong>
                                                 gọi {!!call_status($item->call_status) !!}
-
                                             </div>
                                             <div>Ghi chú: {{$item->note}}</div>
                                         </li>
