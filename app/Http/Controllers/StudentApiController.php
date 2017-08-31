@@ -61,7 +61,8 @@ class StudentApiController extends ApiController
     public function get_money(Request $request)
     {
         if ($request->register_id == null || $request->money == null ||
-            $request->code == null || $request->received_id_card == null) {
+            $request->code == null || $request->received_id_card == null
+        ) {
             return $this->responseBadRequest('Not enough parameters!');
         }
         $register_id = $request->register_id;
@@ -166,6 +167,7 @@ class StudentApiController extends ApiController
             $registers = $gen->registers();
         }
 
+
         if ($request->saler_id != null) {
             $registers = $registers->where('saler_id', $request->saler_id);
         }
@@ -174,6 +176,27 @@ class StudentApiController extends ApiController
             $registers = $registers->where('status', $request->status);
         }
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
+
+        foreach ($registers as &$register) {
+            $register->study_time = 1;
+            $user = $register->user;
+            foreach ($user->registers()->where('id', '!=', $register->id)->get() as $r) {
+                if ($r->studyClass->course_id == $register->studyClass->course_id) {
+                    $register->study_time += 1;
+                }
+            }
+            if ($register->call_status == 0) {
+                if (($register->time_to_reach == 0)) {
+                    $register->time_to_reach = $register->time_to_call != '0000-00-00 00:00:00' ?
+                        ceil(diffDate(date('Y-m-d H:i:s'), $register->time_to_call)) : 0;
+                }
+            } else {
+                if ($register->call_status == 2) {
+                    $register->time_to_reach = null;
+                }
+            }
+        }
+
         return $this->respondWithPagination($registers, ['registers' => $this->registerTransformer->transformCollection($registers)]);
     }
 
