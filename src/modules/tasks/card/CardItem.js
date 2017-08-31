@@ -139,7 +139,12 @@ class CardItem extends React.Component {
 
 
                             <div className="card-title keetool-card"
-                                 style={{display: "flex", justifyContent: "space-between", lineHeight: "18px"}}>
+                                 style={{
+                                     display: "flex",
+                                     justifyContent: "space-between",
+                                     lineHeight: "18px",
+                                     fontWeight: 600
+                                 }}>
                                 {card.title}
                             </div>
 

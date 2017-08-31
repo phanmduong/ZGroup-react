@@ -650,3 +650,11 @@ export function deleteCardLabel(cardLabel) {
         });
     };
 }
+
+export function updateCardDeadline(card){
+    return function (dispatch) {
+        dispatch({
+            type: types.,
+        });
+    };
+}

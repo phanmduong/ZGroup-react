@@ -125,13 +125,20 @@
     font-size: 18px;
 }
 
-.card-detail-btn-group .btn {
+.card-detail-btn-action {
+    text-align: left;
     width: 100%;
     margin: 5px;
 }
+
+.card-detail-btn-group i {
+    margin-right: 5px;
+}
+
 .keetool-card-wrapper:hover {
     background: #fafafa;
 }
+
 .alert {
-    z-index: 99999!important;
+    z-index: 99999 !important;
 }

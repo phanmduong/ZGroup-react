@@ -29,7 +29,7 @@ const TaskListForm = ({updateFormData, taskList, submit, isSaving}) => {
                     ) :
                     (
                         <button
-                            style={{margin: 0}}
+                            // style={{margin: 0}}
                             disabled={isEmptyInput(title)}
                             type="button"
                             className="btn btn-rose"

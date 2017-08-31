@@ -11,6 +11,7 @@ import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import MemberDetailOverlayContainer from "./member/MemberDetailOverlayContainer";
 import AttachmentWrapper from "./attachment/AttachmentWrapper";
 import LabelOverlayContainer from "./label/CardLabelOverlayContainer";
+import DeadlineOverlayContainer from "./deadline/DeadlineOverlayContainer";
 
 const CardBody = ({
                       card, isSavingCard, toggleEditCardDescription, deleteFile,
@@ -101,6 +102,7 @@ const CardBody = ({
                 <div className="card-detail-btn-group">
                     <AddTaskListOverlayContainer card={card}/>
                     <LabelOverlayContainer/>
+                    <DeadlineOverlayContainer/>
                     <AddMemberOverlay card={card}/>
                     <UploadAttachmentOverlayContainer card={card}/>
                 </div>

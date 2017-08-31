@@ -5,36 +5,29 @@ import * as ReactDOM from "react-dom";
 import {connect} from "react-redux";
 import * as taskActions from '../../taskActions';
 import {bindActionCreators} from "redux";
-import UploadAttachmentPopover from "./UploadAttachmentPopover";
-import "./attachment.scss";
+import DeadLinePopover from "./DeadLinePopover";
 
-class UploadAttachmentOverlayContainer extends React.Component {
+class DeadlineOverlayContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.handleChange = this.handleChange.bind(this);
         this.toggle = this.toggle.bind(this);
         this.state = {
             show: false
         };
+        this.handleChange = this.handleChange.bind(this);
+        this.saveDeadline = this.saveDeadline.bind(this);
+    }
+
+    toggle() {
+        this.setState({show: !this.state.show});
     }
 
     handleChange(event) {
-        const files = Array.from(event.target.files);
-
-        files.map((file, index) => {
-            const fileWrapper = {
-                file: file,
-                index,
-                name: file.name
-            };
-            this.props.taskActions.uploadAttachment(this.props.card, fileWrapper);
-        });
-
-
+        console.log(event.target.value);
     }
-    
-    toggle() {
-        this.setState({show: !this.state.show});
+
+    saveDeadline() {
+
     }
 
     render() {
@@ -42,7 +35,7 @@ class UploadAttachmentOverlayContainer extends React.Component {
             <div style={{position: "relative"}}>
                 <button className="btn btn-default card-detail-btn-action"
                         ref="target" onClick={this.toggle}>
-                    <i className="material-icons">attachment</i> Đính kèm
+                    <i className="material-icons">timer</i> Hạn chót
                 </button>
                 <Overlay
                     rootClose={true}
@@ -51,10 +44,10 @@ class UploadAttachmentOverlayContainer extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <UploadAttachmentPopover
-                        files={this.props.files}
-                        handleChange={this.handleChange}
-                        toggle={this.toggle}/>
+                    <DeadLinePopover
+                        saveDeadline={this.saveDeadline}
+                        toggle={this.toggle}
+                        handleChange={this.handleChange}/>
                 </Overlay>
             </div>
         );
@@ -62,15 +55,14 @@ class UploadAttachmentOverlayContainer extends React.Component {
 }
 
 
-UploadAttachmentOverlayContainer.propTypes = {
+DeadlineOverlayContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
-    card: PropTypes.object.isRequired,
-    files: PropTypes.array.isRequired
+    card: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        files: state.task.uploadAttachment.files,
+        card: state.task.cardDetail.card,
     };
 }
 
@@ -80,4 +72,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UploadAttachmentOverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(DeadlineOverlayContainer);

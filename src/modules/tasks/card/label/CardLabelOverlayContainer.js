@@ -23,7 +23,7 @@ class CardLabelOverlayContainer extends React.Component {
     render() {
         return (
             <div style={{position: "relative"}}>
-                <button className="btn btn-default"
+                <button className="btn btn-default card-detail-btn-action"
                         ref="target" onClick={this.toggle}>
                     <i className="material-icons">label</i> nhãn
                 </button>

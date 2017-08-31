@@ -21,16 +21,16 @@ class AddMemberOverlay extends React.Component {
     render() {
         return (
             <div style={{position: "relative"}}>
-                <button className="btn btn-default"
+                <button className="btn btn-default card-detail-btn-action"
                         ref="target" onClick={this.toggle}>
                     <i className="material-icons">people</i> Thành viên
                 </button>
                 <Overlay rootClose={true}
-                    show={this.state.show}
-                    onHide={() => this.setState({show: false})}
-                    placement="left"
-                    container={this}
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}>
+                         show={this.state.show}
+                         onHide={() => this.setState({show: false})}
+                         placement="left"
+                         container={this}
+                         target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <AddMemberPopoverContainer
                         card={this.props.card}
                         toggle={this.toggle}/>

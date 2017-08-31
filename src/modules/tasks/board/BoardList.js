@@ -104,7 +104,7 @@ class BoardList extends React.Component {
                         <div key={board.id} data-order={board.order} id={board.id}
                              className="card card-container keetool-board">
                             <div className="board-title undraggable">
-                                {board.title}
+                                <span style={{fontWeight: 600}}>{board.title}</span>
                                 <div className="board-action">
                                     <a onClick={() => this.props.editBoard(board)}>
                                         <i className="material-icons">edit</i>
