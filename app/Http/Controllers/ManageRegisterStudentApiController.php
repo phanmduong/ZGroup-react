@@ -47,8 +47,8 @@ class ManageRegisterStudentApiController extends ManageApiController
                 'id' => $item->id,
                 'updated_at' => format_date_full_option($item->updated_at),
                 'caller' => [
-                    'name' => $item->caller->name,
-                    'color' => $item->caller->color
+                    'name' => $item->caller ? $item->caller->name : 'Không có',
+                    'color' => $item->caller ? $item->caller->color : ''
                 ],
                 'call_status' => call_status_text($item->call_status),
                 'note' => $item->note
