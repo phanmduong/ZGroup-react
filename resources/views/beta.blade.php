@@ -60,7 +60,7 @@
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/table.css">
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/video.css">
 
-    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?22222">
+    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?66668888">
 </head>
 <body>
 <div id="fb-root"></div>
@@ -138,7 +138,7 @@
 <script>
     var socket = io('http://colorme.vn:3000/');
 </script>
-<script src="{{url('colorme-react/bundle.js')}}?22222"></script>
+<script src="{{url('colorme-react/bundle.js')}}?66668888"></script>
 <!-- Facebook Pixel Code -->
 <script>
     !function (f, b, e, v, n, t, s) {
