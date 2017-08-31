@@ -488,7 +488,8 @@ export default function taskReducer(state = initialState.task, action) {
                 boardList: {
                     ...state.boardList,
                     isLoadingBoards: false,
-                    boards: action.boards
+                    boards: action.boards,
+                    projectId: action.projectId
                 }
             };
         case types.BEGIN_LOAD_BOARDS:

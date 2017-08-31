@@ -183,6 +183,7 @@ export default {
         },
 
         boardList: {
+            projectId: 0,
             boards: [],
             isLoadingBoards: false
         },

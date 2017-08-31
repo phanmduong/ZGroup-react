@@ -34,6 +34,7 @@ class MemberDetailOverlayContainer extends React.Component {
                     <Avatar key={this.props.member.id} url={this.props.member.avatar_url} size={30}/>
                 </a>
                 <Overlay
+                    rootClose={true}
                     show={this.state.show}
                     onHide={() => this.setState({show: false})}
                     placement="bottom"

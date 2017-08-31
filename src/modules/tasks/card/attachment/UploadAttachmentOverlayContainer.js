@@ -45,6 +45,7 @@ class UploadAttachmentOverlayContainer extends React.Component {
                     <i className="material-icons">attachment</i> Đính kèm
                 </button>
                 <Overlay
+                    rootClose={true}
                     show={this.state.show}
                     onHide={() => this.setState({show: false})}
                     placement="bottom"

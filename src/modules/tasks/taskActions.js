@@ -167,6 +167,7 @@ export function loadBoards(projectId) {
         taskApi.loadBoards(projectId)
             .then((res) => {
                 dispatch({
+                    projectId: projectId,
                     type: types.LOAD_BOARDS_SUCCESS,
                     boards: res.data.boards
                 });

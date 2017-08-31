@@ -5,7 +5,7 @@ import * as ReactDOM from "react-dom";
 import {connect} from "react-redux";
 import * as taskActions from '../../taskActions';
 import {bindActionCreators} from "redux";
-import CardLabelPopover from "./CardLabelPopover";
+import CardLabelPopover from "./CardLabelOverlay";
 
 class CardLabelOverlayContainer extends React.Component {
     constructor(props, context) {
@@ -16,31 +16,27 @@ class CardLabelOverlayContainer extends React.Component {
         };
     }
 
-    changeColor(color) {
-        console.log(color.hex);
-        // let staffForm = {...this.props.staffForm};
-        // staffForm.color = color.hex;
-        // this.props.staffActions.updateAddStaffFormData(staffForm);
-    }
-
     toggle() {
         this.setState({show: !this.state.show});
     }
 
     render() {
         return (
-            <div style={{position: "relative"}}>
+            <div style={{position: "relative"}} >
                 <button className="btn btn-default"
                         ref="target" onClick={this.toggle}>
                     <i className="material-icons">label</i> nhãn
                 </button>
                 <Overlay
+                    rootClose={true}
                     show={this.state.show}
                     onHide={() => this.setState({show: false})}
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <CardLabelPopover toggle={this.toggle}/>
+                    <CardLabelPopover
+                        projectId={this.props.projectId}
+                        toggle={this.toggle}/>
                 </Overlay>
             </div>
         );
@@ -49,12 +45,13 @@ class CardLabelOverlayContainer extends React.Component {
 
 
 CardLabelOverlayContainer.propTypes = {
-    taskActions: PropTypes.object.isRequired
+    taskActions: PropTypes.object.isRequired,
+    projectId: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        files: state.task.uploadAttachment.files
+        projectId: Number(state.task.boardList.projectId)
     };
 }
 

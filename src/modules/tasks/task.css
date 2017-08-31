@@ -132,3 +132,6 @@
 .keetool-card-wrapper:hover {
     background: #fafafa;
 }
+.alert {
+    z-index: 99999!important;
+}

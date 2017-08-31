@@ -1,13 +1,109 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {CirclePicker} from "react-color";
+import FormInputText from "../../../../components/common/FormInputText";
+import {createCardLabel, loadLabels, deleteCardLabel} from '../../taskApi';
+import {isEmptyInput, showErrorNotification, confirm} from "../../../../helpers/helper";
+import Loading from "../../../../components/common/Loading";
 
 class CardLabelOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            color: ""
+            color: "",
+            create: false,
+            label: {},
+            labels: [],
+            isLoading: false,
+            isDeleting: false
         };
+        this.toggle = this.toggle.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
+        this.changeColor = this.changeColor.bind(this);
+        this.saveLabel = this.saveLabel.bind(this);
+        this.editLabel = this.editLabel.bind(this);
+        this.loadLabels = this.loadLabels.bind(this);
+        this.deleteLabel = this.deleteLabel.bind(this);
+        this.toggleDelete = this.toggleDelete.bind(this);
+    }
+
+    componentWillMount() {
+        this.loadLabels();
+    }
+
+    loadLabels() {
+        this.setState({create: false, isLoading: true});
+        loadLabels(this.props.projectId).then((res) => {
+            this.setState({
+                labels: res.data.data.labels,
+                isLoading: false
+            });
+        });
+    }
+
+    deleteLabel(label) {
+        deleteCardLabel(label.id);
+        this.loadLabels();
+    }
+
+    toggleDelete() {
+        this.setState({
+            isDeleting: !this.state.isDeleting
+        });
+    }
+
+    editLabel(label) {
+        this.setState({
+            label,
+            create: true
+        });
+    }
+
+    updateFormData(event) {
+        this.setState({
+            label: {
+                ...this.state.label,
+                name: event.target.value
+            }
+        });
+    }
+
+    changeColor(color) {
+        this.setState({
+            label: {
+                ...this.state.label,
+                color: color.hex
+            }
+        });
+    }
+
+    toggle() {
+        this.setState({
+            create: !this.state.create
+        });
+    }
+
+    saveLabel() {
+        if (isEmptyInput(this.state.label.name)) {
+            showErrorNotification("Bạn cần nhập tên nhãn");
+        } else if (isEmptyInput(this.state.label.color)) {
+            showErrorNotification("Bạn cần chọn màu");
+        } else {
+            this.setState({
+                isLoading: true,
+                create: false
+            });
+            createCardLabel(this.props.projectId, this.state.label)
+                .then(() => {
+                    this.setState({
+                        label: {},
+                        create: false
+                    });
+                    this.loadLabels();
+                });
+
+
+        }
     }
 
     render() {
@@ -20,19 +116,109 @@ class CardLabelOverlay extends React.Component {
                     <span aria-hidden="true">×</span>
                     <span className="sr-only">Close</span>
                 </button>
-                <h4>Nhãn</h4>
-                <CirclePicker width="100%"
-                              color={this.state.color}
-                              onChangeComplete={this.props.changeColor}/>
+                <div style={{position: "relative"}}>
+                    {
+                        this.state.create ? (
+                            <a className="text-rose" style={{position: "absolute", left: "0px", top: "2px"}}
+                               onClick={this.toggle}>
+                                <i className="material-icons">keyboard_arrow_left</i>
+                            </a>
+                        ) : (
+                            <a className="text-rose" style={{position: "absolute", left: "0px", top: "2px"}}
+                               onClick={this.toggle}>
+                                <i className="material-icons">add</i>
+                            </a>
+                        )
+                    }
+
+                    <h4 style={{textAlign: "center"}}>Nhãn</h4>
+                </div>
+
+                {
+                    this.state.create ? (
+                        <div>
+                            <FormInputText
+                                label="Tên nhãn"
+                                name="name"
+                                updateFormData={this.updateFormData}
+                                value={this.state.label.name || ""}/>
+                            <div style={{paddingLeft: "15px", marginTop: "20px"}}>
+                                <CirclePicker
+                                    width="100%"
+                                    color={this.state.label.color}
+                                    onChangeComplete={this.changeColor}/>
+                            </div>
+                            {
+                                this.state.isDeleting ? (
+                                    <div style={{display: "flex", flexWrap: 'no-wrap'}}>
+                                        <button style={{margin: "30px 5px 10px 0"}}
+                                                className="btn btn-danger"
+                                                onClick={() => this.deleteLabel(this.state.label)}>
+                                            Xác nhận
+                                        </button>
+                                        <button style={{margin: "30px 0 10px 5px"}}
+                                                className="btn btn-default"
+                                                onClick={this.toggleDelete}>
+                                            Huỷ
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div style={{display: "flex", flexWrap: 'no-wrap'}}>
+                                        <button style={{margin: "30px 5px 10px 0"}}
+                                                className="btn btn-rose" onClick={this.saveLabel}>
+                                            Lưu
+                                        </button>
+                                        <button style={{margin: "30px 0 10px 5px"}}
+                                                className="btn btn-danger"
+                                                onClick={this.toggleDelete}>
+                                            Xoá
+                                        </button>
+                                    </div>
+                                )
+                            }
+
+
+                        </div>
+                    ) : (
+                        <div>
+                            {
+                                this.state.isLoading ? <Loading/> : (
+                                    <div>
+                                        {this.state.labels.map((label) => {
+                                            return (
+                                                <div key={label.id} style={{display: "flex"}}>
+                                                    <button className="btn"
+                                                            style={{
+                                                                textAlign: "left",
+                                                                backgroundColor: label.color,
+                                                                width: "calc(100% - 30px)",
+                                                                margin: "2px 0"
+                                                            }}>
+                                                        {label.name}
+                                                    </button>
+                                                    <div className="board-action" style={{lineHeight: "45px"}}>
+                                                        <a onClick={() => this.editLabel(label)}><i
+                                                            className="material-icons">edit</i></a>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )
+                            }
+                        </div>
+                    )
+                }
+
+
             </div>
         );
     }
 }
 
 CardLabelOverlay.propTypes = {
-    myProp: PropTypes.string.isRequired,
     toggle: PropTypes.func.isRequired,
-    changeColor: PropTypes.func.isRequired
+    projectId: PropTypes.number.isRequired
 };
 
 export default CardLabelOverlay;
