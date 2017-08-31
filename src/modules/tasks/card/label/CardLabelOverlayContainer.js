@@ -22,7 +22,7 @@ class CardLabelOverlayContainer extends React.Component {
 
     render() {
         return (
-            <div style={{position: "relative"}} >
+            <div style={{position: "relative"}}>
                 <button className="btn btn-default"
                         ref="target" onClick={this.toggle}>
                     <i className="material-icons">label</i> nhãn
@@ -35,6 +35,9 @@ class CardLabelOverlayContainer extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <CardLabelPopover
+                        card={this.props.card}
+                        deleteCardLabel={this.props.taskActions.deleteCardLabel}
+                        assignCardLabel={this.props.taskActions.assignCardLabel}
                         projectId={this.props.projectId}
                         toggle={this.toggle}/>
                 </Overlay>
@@ -46,12 +49,14 @@ class CardLabelOverlayContainer extends React.Component {
 
 CardLabelOverlayContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
+    card: PropTypes.object.isRequired,
     projectId: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        projectId: Number(state.task.boardList.projectId)
+        projectId: Number(state.task.boardList.projectId),
+        card: state.task.cardDetail.card
     };
 }
 

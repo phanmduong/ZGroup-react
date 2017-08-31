@@ -629,3 +629,23 @@ export function updateCardInBoard(card) {
         });
     };
 }
+
+export function assignCardLabel(cardLabel, card, labelAdded) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ASSIGN_CARD_LABEL_SUCCESS,
+            cardLabel,
+            labelAdded
+        });
+        taskApi.assignCardLabel(card.id, cardLabel.id);
+    };
+}
+
+export function deleteCardLabel(cardLabel) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_CARD_LABEL_SUCCESS,
+            cardLabel
+        });
+    };
+}

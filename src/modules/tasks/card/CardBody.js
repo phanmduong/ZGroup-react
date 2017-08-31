@@ -22,6 +22,22 @@ const CardBody = ({
     return (
         <div className="row">
             <div className="col-sm-7 col-md-8">
+                <div style={{display: "flex", flexWrap: "wrap"}}>
+                    {
+                        card.cardLabels && card.cardLabels.map((label) => {
+                            return (
+                                <button
+                                    key={label.id}
+                                    style={{background: label.color}} className="btn btn-sm">
+                                    {label.name}
+                                    <div className="ripple-container">
+                                    </div>
+                                </button>
+                            );
+                        })
+                    }
+
+                </div>
                 {
                     card.members && card.members.length > 0 && (
                         <div>

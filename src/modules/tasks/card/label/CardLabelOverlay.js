@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {CirclePicker} from "react-color";
 import FormInputText from "../../../../components/common/FormInputText";
 import {createCardLabel, loadLabels, deleteCardLabel} from '../../taskApi';
-import {isEmptyInput, showErrorNotification, confirm} from "../../../../helpers/helper";
+import {isEmptyInput, showErrorNotification} from "../../../../helpers/helper";
 import Loading from "../../../../components/common/Loading";
 
 class CardLabelOverlay extends React.Component {
@@ -15,6 +15,7 @@ class CardLabelOverlay extends React.Component {
             label: {},
             labels: [],
             isLoading: false,
+            isProcessing: false,
             isDeleting: false
         };
         this.toggle = this.toggle.bind(this);
@@ -32,7 +33,7 @@ class CardLabelOverlay extends React.Component {
     }
 
     loadLabels() {
-        this.setState({create: false, isLoading: true});
+        this.setState({label: {}, create: false, isLoading: true, isDeleting: false});
         loadLabels(this.props.projectId).then((res) => {
             this.setState({
                 labels: res.data.data.labels,
@@ -42,8 +43,22 @@ class CardLabelOverlay extends React.Component {
     }
 
     deleteLabel(label) {
-        deleteCardLabel(label.id);
-        this.loadLabels();
+        this.setState({
+            isProcessing: true
+        });
+        deleteCardLabel(label.id)
+            .then(() => {
+                this.loadLabels();
+                const labelAdded = this.props.card.cardLabels.filter((cardLabel) => {
+                    return cardLabel.id === label.id;
+                }).length > 0;
+                if (labelAdded) {
+                    this.props.deleteCardLabel(label);
+                }
+                this.setState({
+                    isProcessing: false
+                });
+            });
     }
 
     toggleDelete() {
@@ -86,6 +101,8 @@ class CardLabelOverlay extends React.Component {
     saveLabel() {
         if (isEmptyInput(this.state.label.name)) {
             showErrorNotification("Bạn cần nhập tên nhãn");
+        } else if (this.state.label.name.length > 20) {
+            showErrorNotification("Độ dài tên nhãn không quá 20 kí tự");
         } else if (isEmptyInput(this.state.label.color)) {
             showErrorNotification("Bạn cần chọn màu");
         } else {
@@ -138,7 +155,7 @@ class CardLabelOverlay extends React.Component {
                     this.state.create ? (
                         <div>
                             <FormInputText
-                                label="Tên nhãn"
+                                label={"Tên nhãn - " + (this.state.label.name ? this.state.label.name.length : 0) + " kí tự"}
                                 name="name"
                                 updateFormData={this.updateFormData}
                                 value={this.state.label.name || ""}/>
@@ -150,18 +167,23 @@ class CardLabelOverlay extends React.Component {
                             </div>
                             {
                                 this.state.isDeleting ? (
-                                    <div style={{display: "flex", flexWrap: 'no-wrap'}}>
-                                        <button style={{margin: "30px 5px 10px 0"}}
-                                                className="btn btn-danger"
-                                                onClick={() => this.deleteLabel(this.state.label)}>
-                                            Xác nhận
-                                        </button>
-                                        <button style={{margin: "30px 0 10px 5px"}}
-                                                className="btn btn-default"
-                                                onClick={this.toggleDelete}>
-                                            Huỷ
-                                        </button>
+                                    <div>
+                                        {this.state.isProcessing ? <Loading/> : (
+                                            <div style={{display: "flex", flexWrap: 'no-wrap'}}>
+                                                <button style={{margin: "30px 5px 10px 0"}}
+                                                        className="btn btn-danger"
+                                                        onClick={() => this.deleteLabel(this.state.label)}>
+                                                    Xác nhận
+                                                </button>
+                                                <button style={{margin: "30px 0 10px 5px"}}
+                                                        className="btn btn-default"
+                                                        onClick={this.toggleDelete}>
+                                                    Huỷ
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
+
                                 ) : (
                                     <div style={{display: "flex", flexWrap: 'no-wrap'}}>
                                         <button style={{margin: "30px 5px 10px 0"}}
@@ -184,17 +206,29 @@ class CardLabelOverlay extends React.Component {
                             {
                                 this.state.isLoading ? <Loading/> : (
                                     <div>
-                                        {this.state.labels.map((label) => {
+                                        {this.state.labels && this.state.labels.map((label) => {
+                                            const labelAdded = this.props.card.cardLabels ? this.props.card.cardLabels.filter((cardLabel) => {
+                                                return cardLabel.id === label.id;
+                                            }).length > 0 : false;
                                             return (
                                                 <div key={label.id} style={{display: "flex"}}>
-                                                    <button className="btn"
-                                                            style={{
-                                                                textAlign: "left",
-                                                                backgroundColor: label.color,
-                                                                width: "calc(100% - 30px)",
-                                                                margin: "2px 0"
-                                                            }}>
+                                                    <button
+                                                        onClick={() => {
+                                                            this.props.assignCardLabel(label, this.props.card, labelAdded);
+                                                        }}
+                                                        className="btn"
+                                                        style={{
+                                                            textAlign: "left",
+                                                            backgroundColor: label.color,
+                                                            width: "calc(100% - 30px)",
+                                                            margin: "2px 0",
+                                                            display: "flex",
+                                                            justifyContent: "space-between"
+                                                        }}>
                                                         {label.name}
+                                                        <div>
+                                                            {labelAdded ? <i className="material-icons">done</i> : ""}
+                                                        </div>
                                                     </button>
                                                     <div className="board-action" style={{lineHeight: "45px"}}>
                                                         <a onClick={() => this.editLabel(label)}><i
@@ -218,6 +252,9 @@ class CardLabelOverlay extends React.Component {
 
 CardLabelOverlay.propTypes = {
     toggle: PropTypes.func.isRequired,
+    deleteCardLabel: PropTypes.func.isRequired,
+    card: PropTypes.object.isRequired,
+    assignCardLabel: PropTypes.func.isRequired,
     projectId: PropTypes.number.isRequired
 };
 

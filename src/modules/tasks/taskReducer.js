@@ -6,6 +6,31 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.DELETE_CARD_LABEL_SUCCESS:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        cardLabels: state.cardDetail.card.cardLabels.filter((label) => label.id !== action.cardLabel.id)
+                    }
+                }
+            };
+        case types.ASSIGN_CARD_LABEL_SUCCESS:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        cardLabels:
+                            action.labelAdded ?
+                                state.cardDetail.card.cardLabels.filter((label) => label.id !== action.cardLabel.id)
+                                : [...state.cardDetail.card.cardLabels, action.cardLabel]
+                    }
+                }
+            };
         case types.UPDATE_CARD_IN_BOARD_SUCCESS:
             return {
                 ...state,
