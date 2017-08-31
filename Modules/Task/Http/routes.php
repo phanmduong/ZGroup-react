@@ -35,5 +35,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/task/{taskId}/toggle', "TaskController@toggleTask");
 
     Route::get('/members/{filter?}', "TaskController@loadMembers");
+
+    Route::post('/project/{projectId}/create-label', "CardLabelController@createLabel");
+    Route::get('/project/{projectId}/labels', "CardLabelController@loadLabels");
+    Route::delete('/cardlabel/{cardLabelId}', "CardLabelController@deleteCardLabel");
+
     // End Task api
 });

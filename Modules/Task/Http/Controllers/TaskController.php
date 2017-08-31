@@ -14,6 +14,7 @@ use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\TaskList;
 use Modules\Task\Repositories\UserCardRepository;
 use Modules\Task\Transformers\MemberTransformer;
@@ -382,4 +383,7 @@ class TaskController extends ManageApiController
         $data = $this->userCardRepository->loadCardDetail($cardId);
         return $this->respond($data);
     }
+
+
+
 }

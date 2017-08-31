@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Task\Entities\CardLabel;
 
 class Project extends Model
 {
@@ -24,5 +25,10 @@ class Project extends Model
     public function editor()
     {
         return $this->belongsTo(User::class, 'editor_id');
+    }
+
+    public function labels()
+    {
+        return $this->hasMany(CardLabel::class, "project_id");
     }
 }
