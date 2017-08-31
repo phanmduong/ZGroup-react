@@ -183,7 +183,9 @@ class ManageStaffApiController extends ApiController
             return $this->responseNotAccepted($errors);
         }
 
-        $user->delete();
+        $user->role_id = 0;
+        $user->role = 0;
+        $user->save();
         return $this->respondSuccessWithStatus("Xóa nhân viên thành công");
     }
 

@@ -121,6 +121,13 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/delete-study-session', 'ManageStudySessionApiController@delete_study_session');
     Route::post('/study-session/{studySessionId}/edit', 'ManageStudySessionApiController@edit_study_session');
     //End study session api
+
+    //Begin schedule class api
+    Route::get('/schedule-classes', 'ManageScheduleClassApiController@get_schedules');
+    Route::post('/schedule-class/add', 'ManageScheduleClassApiController@add_schedule');
+    Route::post('/delete-schedule-class', 'ManageScheduleClassApiController@delete_schedule');
+    Route::post('/schedule-class/{scheduleClassId}/edit', 'ManageScheduleClassApiController@edit_schedule');
+    //End schedule class api
 });
 
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
