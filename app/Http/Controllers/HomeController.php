@@ -1226,7 +1226,7 @@ class HomeController extends ManageController
                             return [
                                 'id' => $item->id,
                                 'updated_at' => format_time_to_mysql(strtotime($item->updated_at)),
-                                'caller_name' => $item->caller->name,
+                                'caller_name' => $item->caller ? $item->caller->name : "Không có",
                                 'call_status' => $item->call_status,
                                 'note' => $item->note
                             ];
