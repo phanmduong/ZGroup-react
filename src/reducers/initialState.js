@@ -170,6 +170,7 @@ export default {
             isSavingTaskList: false
         },
         cardDetail: {
+            isSavingDeadline: false,
             isLoading: false,
             card: {},
             showModal: false,

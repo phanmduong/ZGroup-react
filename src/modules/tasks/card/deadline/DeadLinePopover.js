@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormInputDateTime from "../../../../components/common/FormInputDateTime";
+import Loading from "../../../../components/common/Loading";
 
-const DeadlinePopover = ({toggle, handleChange, saveDeadline}) => {
+const DeadlinePopover = ({toggle, handleChange, saveDeadline, isSavingDeadline}) => {
     return (
         <div className="kt-overlay" style={{width: "300px", marginLeft: -30}}>
             <button
@@ -15,14 +16,21 @@ const DeadlinePopover = ({toggle, handleChange, saveDeadline}) => {
             <h4>Sửa hạn chót</h4>
             <div>
                 <FormInputDateTime name="dateline" id="deadline" updateFormData={handleChange}/>
-                <button onClick={saveDeadline} className="btn btn-rose">Lưu</button>
-                <button onClick={saveDeadline} className="btn btn-rose">Xoá</button>
+                {
+                    isSavingDeadline ? <Loading/> : (
+                        <div>
+                            <button onClick={saveDeadline} className="btn btn-rose">Lưu</button>
+                            {/*<button onClick={saveDeadline} className="btn btn-rose">Xoá</button>*/}
+                        </div>
+                    )
+                }
             </div>
         </div>
     );
 };
 DeadlinePopover.propTypes = {
     toggle: PropTypes.func.isRequired,
+    isSavingDeadline: PropTypes.bool.isRequired,
     saveDeadline: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired
 };

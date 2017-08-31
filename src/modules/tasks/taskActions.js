@@ -654,7 +654,17 @@ export function deleteCardLabel(cardLabel) {
 export function updateCardDeadline(card){
     return function (dispatch) {
         dispatch({
-            type: types.,
+            type: types.BEGIN_UPDATE_CARD_DEADLINE
         });
+        taskApi.updateCardDeadline(card)
+            .then((res) => {
+                dispatch({
+                    card,
+                    type: types.UPDATE_CARD_DEADLINE_SUCCESS,
+                    deadline: res.data.data.deadline,
+                    deadline_elapse: res.data.data.deadline_elapse
+                });
+            });
+
     };
 }

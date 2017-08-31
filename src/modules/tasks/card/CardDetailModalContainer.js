@@ -68,7 +68,10 @@ class CardDetailModalContainer extends React.Component {
                 onHide={this.props.taskActions.closeCardDetailModal}>
                 <Modal.Header closeButton>
                     <Modal.Title className="card-modal-title">{this.props.card.title}</Modal.Title>
-                    <p> Trong bảng <strong>{this.props.card.board && this.props.card.board.title}</strong></p>
+                    <p>
+                        Trong bảng <strong>{this.props.card.board && this.props.card.board.title}</strong>
+                        <small style={{color: "#8f8f8f"}}> - {this.props.card.deadline_elapse}</small>
+                    </p>
                 </Modal.Header>
                 <Modal.Body style={{paddingTop: 0}}>
                     {

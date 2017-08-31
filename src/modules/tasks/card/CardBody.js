@@ -23,6 +23,12 @@ const CardBody = ({
     return (
         <div className="row">
             <div className="col-sm-7 col-md-8">
+                {card.deadline && (
+                    <div>
+                        Hạn chót: <strong>{card.deadline}</strong>
+                    </div>
+                )}
+
                 <div style={{display: "flex", flexWrap: "wrap"}}>
                     {
                         card.cardLabels && card.cardLabels.map((label) => {

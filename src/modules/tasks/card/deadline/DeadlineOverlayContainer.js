@@ -6,13 +6,15 @@ import {connect} from "react-redux";
 import * as taskActions from '../../taskActions';
 import {bindActionCreators} from "redux";
 import DeadLinePopover from "./DeadLinePopover";
+import {isEmptyInput, showErrorNotification} from "../../../../helpers/helper";
 
 class DeadlineOverlayContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.toggle = this.toggle.bind(this);
         this.state = {
-            show: false
+            show: false,
+            deadline: ""
         };
         this.handleChange = this.handleChange.bind(this);
         this.saveDeadline = this.saveDeadline.bind(this);
@@ -23,11 +25,21 @@ class DeadlineOverlayContainer extends React.Component {
     }
 
     handleChange(event) {
-        console.log(event.target.value);
+        this.setState({
+            deadline: event.target.value
+        });
     }
 
     saveDeadline() {
-
+        if (isEmptyInput(this.state.deadline)) {
+            showErrorNotification("Bạn cần phải nhập hạn chót");
+        } else {
+            this.props.taskActions.updateCardDeadline({
+                ...this.props.card,
+                deadline: this.state.deadline
+            });
+            this.toggle();
+        }
     }
 
     render() {
@@ -45,6 +57,7 @@ class DeadlineOverlayContainer extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <DeadLinePopover
+                        isSavingDeadline={this.props.isSavingDeadline}
                         saveDeadline={this.saveDeadline}
                         toggle={this.toggle}
                         handleChange={this.handleChange}/>
@@ -57,11 +70,13 @@ class DeadlineOverlayContainer extends React.Component {
 
 DeadlineOverlayContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
+    isSavingDeadline: PropTypes.bool.isRequired,
     card: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
+        isSavingDeadline: state.task.cardDetail.isSavingDeadline,
         card: state.task.cardDetail.card,
     };
 }

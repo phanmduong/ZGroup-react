@@ -6,6 +6,50 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.BEGIN_UPDATE_CARD_DEADLINE:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    isSavingDeadline: true
+                }
+            };
+
+        case types.UPDATE_CARD_DEADLINE_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    if (card.id === action.card.id) {
+                                        return {
+                                            ...card,
+                                            deadline_elapse:action.deadline_elapse,
+                                            deadline: action.deadline
+                                        };
+                                    }
+                                    return card;
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                },
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        deadline: action.deadline,
+                        deadline_elapse: action.deadline_elapse
+                    },
+                    isSavingDeadline: false
+                }
+            };
+
         case types.DELETE_CARD_LABEL_SUCCESS:
             return {
                 ...state,

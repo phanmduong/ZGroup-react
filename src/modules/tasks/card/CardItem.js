@@ -147,6 +147,13 @@ class CardItem extends React.Component {
                                  }}>
                                 {card.title}
                             </div>
+                            {
+                                card.deadline_elapse && (
+                                    <div>
+                                        <small>{card.deadline_elapse}</small>
+                                    </div>
+                                )
+                            }
 
 
                             <div style={{marginTop: "5px"}}>
