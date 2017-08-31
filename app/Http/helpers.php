@@ -676,7 +676,6 @@ function uploadFileToS3(\Illuminate\Http\Request $request, $fileField, $size, $o
         return $filePath;
     }
     return null;
-
 }
 
 function uploadThunbImageToS3(\Illuminate\Http\Request $request, $fileField, $size, $oldfile = null)

@@ -34,7 +34,7 @@ class CardController extends ManageApiController
         }
         $card->deadline = $request->deadline;
         $card->save();
-        return $this->respondSuccessWithStatus(["message" => "Sửa hạn chót thành công"])
+        return $this->respondSuccessWithStatus(["message" => "Sửa hạn chót thành công"]);
     }
 
 }
