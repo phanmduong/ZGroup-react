@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Gen extends Model
 {
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
     public function scopeGetCurrentGen()
     {
         //status = 1: gen dang duoc tuyen sinh

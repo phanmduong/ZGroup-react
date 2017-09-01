@@ -128,6 +128,15 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/delete-schedule-class', 'ManageScheduleClassApiController@delete_schedule');
     Route::post('/schedule-class/{scheduleClassId}/edit', 'ManageScheduleClassApiController@edit_schedule');
     //End schedule class api
+
+    //Begin gens api
+    Route::get('/gens', 'ManageGenApiController@get_gens');
+    Route::post('/gen/add', 'ManageGenApiController@add_gen');
+    Route::post('/gen/{genId}/edit', 'ManageGenApiController@edit_gen');
+    Route::post('/delete-gen', 'ManageGenApiController@delete_gen');
+    Route::post('/gen/change-status', 'ManageGenApiController@change_status');
+    Route::post('/gen/change-teach-status', 'ManageGenApiController@change_teach_status');
+    //End gens api
 });
 
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
