@@ -382,10 +382,12 @@ class TaskController extends ManageApiController
         return $this->respond(["message" => "success"]);
     }
 
-    public function card($cardId)
+    public function loadCalendarEvents($userId)
     {
-        $data = $this->userCardRepository->loadCardDetail($cardId);
-        return $this->respond($data);
+        $calendarEvents = $this->userCardRepository->loadCalendarEvents($userId);
+        return $this->respondSuccessWithStatus([
+            "calendarEvents" => $calendarEvents
+        ]);
     }
 
 

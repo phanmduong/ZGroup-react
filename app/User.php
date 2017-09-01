@@ -229,16 +229,25 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Register', 'saler_id');
     }
-    public function base(){
-        return $this->belongsTo(Base::class,'base_id');
+
+    public function base()
+    {
+        return $this->belongsTo(Base::class, 'base_id');
     }
 
-    public function email_forms(){
+    public function email_forms()
+    {
         return $this->hasMany(EmailForms::class, 'creator');
     }
 
-    public function cards(){
-        return $this->belongsToMany(Card::class,"card_user","user_id", "card_id");
+    public function cards()
+    {
+        return $this->belongsToMany(Card::class, "card_user", "user_id", "card_id");
+    }
+
+    public function calendarEvents()
+    {
+        return $this->hasMany(CalendarEvent::class, "user_id");
     }
 }
 
