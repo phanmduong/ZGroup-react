@@ -16,32 +16,38 @@
 
     <!--  Material Dashboard CSS    -->
     <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/material-dashboard.css" rel="stylesheet"/>
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/demo.css" rel="stylesheet"/>
+
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-3.1.1.min.js"
+            type="text/javascript"></script>
+    <!--   Core JS Files   -->
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-ui.min.js"
+            type="text/javascript"></script>
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap.min.js"
+            type="text/javascript"></script>
+    <!-- Forms Validations Plugin -->
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
+    <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
+    <!-- DateTimePicker Plugin -->
+    <!--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>-->
+    <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.js"></script>
 
     <link href="manage/main.318d6c22359c37f5f3139a5d10ff2b16.css" rel="stylesheet">
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-3.1.1.min.js"
-        type="text/javascript"></script>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
-{{--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>--}}
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.js"></script>
-
-<!-- TagsInput Plugin -->
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.tagsinput.js"></script>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-ui.min.js"
-        type="text/javascript"></script>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap.min.js"
-        type="text/javascript"></script>
+<!-- Select Plugin -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.select-bootstrap.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/material.min.js"
         type="text/javascript"></script>
+<script src="{{url('config.js')}}"></script>
+<body>
+<div id="app"></div>
+</body>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/perfect-scrollbar.jquery.min.js"
         type="text/javascript"></script>
 <!--  Charts Plugin -->
@@ -54,8 +60,6 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-jvectormap.js"></script>
 <!-- Sliders Plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/nouislider.min.js"></script>
-<!-- Select Plugin -->
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.select-bootstrap.js"></script>
 <!--  DataTables.net Plugin    -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.datatables.js"></script>
 <!-- Sweet Alert 2 plugin -->
@@ -64,13 +68,9 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jasny-bootstrap.min.js"></script>
 <!--  Full Calendar Plugin    -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/fullcalendar.min.js"></script>
+<!-- TagsInput Plugin -->
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.tagsinput.js"></script>
 <!-- Material Dashboard javascript methods -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/material-dashboard.js"></script>
-<!-- Material Dashboard DEMO methods, don't include it in your project! -->
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
-<script src="{{url('config.js')}}"></script>
-<body>
-<div id="app"></div>
 <script type="text/javascript" src="manage/main.9e74e6eed7401f7edbe8.js"></script>
-</body>
 </html>
