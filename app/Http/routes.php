@@ -137,6 +137,13 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('/gen/change-status', 'ManageGenApiController@change_status');
     Route::post('/gen/change-teach-status', 'ManageGenApiController@change_teach_status');
     //End gens api
+
+    //Begin student api
+    Route::get('/student/{studentId}','ManageStudentApiController@get_info_student');
+    Route::get('/student/{studentId}/registers','ManageStudentApiController@get_registers');
+    Route::get('/student/{studentId}/history-calls','ManageStudentApiController@history_calls');
+    //End student api
+
 });
 
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
