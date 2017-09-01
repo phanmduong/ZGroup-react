@@ -26,7 +26,6 @@ class DeadlineOverlayContainer extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props.card.deadline);
         this.setState({deadline: this.props.card.deadline});
     }
 
@@ -63,7 +62,7 @@ class DeadlineOverlayContainer extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <DeadLinePopover
-                        deadline={this.state.deadline}
+                        deadline={this.state.deadline || ""}
                         isSavingDeadline={this.props.isSavingDeadline}
                         saveDeadline={this.saveDeadline}
                         toggle={this.toggle}

@@ -11,7 +11,7 @@ class InlineInputDateTime extends React.Component {
     componentDidMount() {
         $('#' + this.props.id).on('dp.change', this.props.updateFormData);
         $('#' + this.props.id).datetimepicker({
-            defaultDate: moment(this.props.value, DATETIME_FORMAT),
+            defaultDate: this.props.value ? moment(this.props.value, DATETIME_FORMAT) : moment(),
             inline: true,
             format: DATETIME_FORMAT
         });

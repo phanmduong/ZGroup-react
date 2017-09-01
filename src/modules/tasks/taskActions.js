@@ -651,13 +651,14 @@ export function deleteCardLabel(cardLabel) {
     };
 }
 
-export function updateCardDeadline(card){
+export function updateCardDeadline(card) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_UPDATE_CARD_DEADLINE
         });
         taskApi.updateCardDeadline(card)
             .then((res) => {
+                showNotification("Sửa hạn chót thành công");
                 dispatch({
                     card,
                     type: types.UPDATE_CARD_DEADLINE_SUCCESS,
