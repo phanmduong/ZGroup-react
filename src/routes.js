@@ -46,6 +46,7 @@ export default (
             {/*End Base route*/}
 
             {/*Begin tasks route*/}
+            <Route path="/calendar" component={ProjectListContainer}/>
             <Route path="project/list" component={ProjectListContainer}/>
             <Route path="project/create" component={CreateProjectContainer} type="create"/>
             <Route path="project/:projectId/edit" component={CreateProjectContainer} type="edit"/>

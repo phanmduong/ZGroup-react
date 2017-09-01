@@ -44,7 +44,7 @@ class BoardListContainer extends React.Component {
 
     render() {
         return (
-            <div style={{overflow: "hidden"}}>
+            <div>
                 <CreateBoardModalContainer projectId={this.props.params.projectId}/>
                 <CreateCardModalContainer/>
                 <CardDetailModalContainer/>
