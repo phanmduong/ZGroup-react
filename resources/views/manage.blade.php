@@ -70,7 +70,7 @@
 
 
 <script src="{{url('config.js')}}"></script>
-<script type="text/javascript" src="manage/main.9e74e6eed7401f7edbe8.js"></script>
+<script type="text/javascript" src="manage/main.2bde4f1c4d11d2440265.js"></script>
 
 
 
