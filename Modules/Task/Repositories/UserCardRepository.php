@@ -11,6 +11,7 @@ namespace Modules\Task\Repositories;
 
 use App\Card;
 use App\Colorme\Transformers\TaskTransformer;
+use App\User;
 
 class UserCardRepository
 {
@@ -19,6 +20,26 @@ class UserCardRepository
     public function __construct(TaskTransformer $taskTransformer)
     {
         $this->taskTransformer = $taskTransformer;
+    }
+
+    public function loadCalendarEvents($userId)
+    {
+        $user = User::find($userId);
+        return $user->calendarEvents->map(function ($event) {
+            return [
+                "title" => $event->title,
+                "id" => $event->id,
+                "allDay" => $event->all_day,
+                "start" => $event->start,
+                "end" => $event->end,
+                "status" => $event->status,
+                "editable" => $event->editable,
+                "color" => $event->color,
+                "textColor" => $event->textColor,
+                "overlay" => $event->overlay,
+                "url" => $event->url
+            ];
+        });
     }
 
     public function assign($cardId, $userId)
