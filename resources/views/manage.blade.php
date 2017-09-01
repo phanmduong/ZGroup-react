@@ -27,7 +27,6 @@
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
-<body>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-3.1.1.min.js"
         type="text/javascript"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
@@ -37,7 +36,6 @@
 
 <!-- TagsInput Plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.tagsinput.js"></script>
-<script src="{{url('config.js')}}"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-ui.min.js"
         type="text/javascript"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap.min.js"
@@ -70,6 +68,8 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/material-dashboard.js"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/demo.js"></script>
+<script src="{{url('config.js')}}"></script>
+<body>
 <div id="app"></div>
 <script type="text/javascript" src="manage/main.9e74e6eed7401f7edbe8.js"></script>
 </body>
