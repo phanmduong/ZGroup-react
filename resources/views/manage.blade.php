@@ -47,6 +47,7 @@
 <script src="{{url('config.js')}}"></script>
 <body>
 <div id="app"></div>
+<script type="text/javascript" src="manage/main.9e74e6eed7401f7edbe8.js"></script>
 </body>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/perfect-scrollbar.jquery.min.js"
         type="text/javascript"></script>
@@ -72,5 +73,5 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.tagsinput.js"></script>
 <!-- Material Dashboard javascript methods -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/material-dashboard.js"></script>
-<script type="text/javascript" src="manage/main.9e74e6eed7401f7edbe8.js"></script>
+
 </html>
