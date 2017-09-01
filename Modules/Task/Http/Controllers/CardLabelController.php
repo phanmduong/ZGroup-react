@@ -11,15 +11,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\TaskList;
+use Modules\Task\Repositories\UserCardRepository;
 
 class CardLabelController extends ManageApiController
 {
+    protected $userCardRepository;
 
-
-    public function __construct()
+    public function __construct(UserCardRepository $userCardRepository)
     {
         parent::__construct();
-
+        $this->userCardRepository = $userCardRepository;
     }
 
     public function createLabel($projectId, Request $request)
@@ -64,6 +65,10 @@ class CardLabelController extends ManageApiController
             return $this->responseBadRequest("nhãn không tồn tại");
         }
 
+        foreach ($cardLabel->cards as $card) {
+            $this->userCardRepository->updateCalendarEvent($card->id);
+        }
+
         $cardLabel->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xoá nhãn thành công"
@@ -83,13 +88,17 @@ class CardLabelController extends ManageApiController
             $card->cardLabels()->attach($cardLabelId, [
                 "labeler_id" => $this->user->id,
             ]);
+
         } else {
             $card->cardLabels()->detach($cardLabelId);
         }
+
+        $this->userCardRepository->updateCalendarEvent($cardId);
 
         return $this->respondSuccessWithStatus([
             "message" => "gắn nhãn thành công"
         ]);
     }
+
 
 }

@@ -9,6 +9,7 @@
 namespace Modules\Task\Repositories;
 
 
+use App\CalendarEvent;
 use App\Card;
 use App\Colorme\Transformers\TaskTransformer;
 use App\User;
@@ -48,11 +49,50 @@ class UserCardRepository
         $assignee = $card->assignees()->where('id', '=', $userId)->first();
         if ($assignee) {
             $card->assignees()->detach($userId);
+            $this->removeCalendarEvent($cardId, $userId);
         } else {
             $card->assignees()->attach($userId);
+            $this->updateCalendarEvent($cardId);
         }
 
         return true;
+    }
+
+    public function removeCalendarEvent($cardId, $userId)
+    {
+        $card = Card::find($cardId);
+        $assignees = $card->assignees;
+        $event = CalendarEvent::where("user_id", $userId)->where("card_id", $card->id)->first();
+        if ($event) {
+            $event->delete();
+        }
+    }
+
+    public function updateCalendarEvent($cardId)
+    {
+        $card = Card::find($cardId);
+        $assignees = $card->assignees;
+        foreach ($assignees as $assignee) {
+            $color = "#777";
+            $cardLabel = $card->cardLabels()->first();
+            if (!is_null($cardLabel)) {
+                $color = $cardLabel->color;
+            }
+            $this->removeCalendarEvent($cardId, $assignee->id);
+
+            $calendarEvent = new CalendarEvent();
+            $calendarEvent->user_id = $assignee->id;
+            $calendarEvent->card_id = $card->id;
+            $calendarEvent->all_day = false;
+            $calendarEvent->start = $card->deadline;
+            $calendarEvent->end = $card->deadline;
+            $calendarEvent->title = $card->title;
+            $calendarEvent->type = "card";
+            $calendarEvent->url = "project/" . $card->board->project_id . "/boards";
+            $calendarEvent->color = $color;
+
+            $calendarEvent->save();
+        }
     }
 
     public function loadCardDetail($cardId)
