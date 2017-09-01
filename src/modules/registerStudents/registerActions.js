@@ -5,12 +5,12 @@ import * as types from '../../constants/actionTypes';
 import * as registerStudentsApi from './registerStudentsApi';
 import {showErrorNotification, showNotification, showTypeNotification} from '../../helpers/helper';
 
-export function loadRegisterStudent(page, genId, search) {
+export function loadRegisterStudent(page, genId, search, salerId, campaignId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
-        registerStudentsApi.getRegisterStudent(page, genId, search).then(function (res) {
+        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId).then(function (res) {
             dispatch(loadDataSuccessful(res));
         }).catch(error => {
             console.log(error);
@@ -25,6 +25,7 @@ export function loadDataSuccessful(res) {
     return ({
         type: types.LOAD_DATA_REGISTER_LIST_SUCCESSFUL,
         registers: res.data.registers,
+        genId: res.data.gen.id,
         currentPage: res.data.paginator.current_page,
         totalPages: res.data.paginator.total_pages,
         isLoading: false,

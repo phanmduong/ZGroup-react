@@ -24,6 +24,11 @@ import EditProfileContainer from "./modules/profile/EditProfileContainer";
 import StudySessionContainer from "./modules/studySession/StudySessionContainer";
 import ScheduleClassContainer from "./modules/scheduleClass/ScheduleClassContainer";
 import GensContainer from "./modules/gens/GensContainer";
+import RegistersContainer from "./modules/infoStudent/registers/RegistersContainer";
+import InfoStudentContainer from "./modules/infoStudent/InfoStudentContainer";
+import HistoryCallContainer from "./modules/infoStudent/historyCalls/HistoryCallContainer";
+import ProgressContainer from "./modules/infoStudent/progress/ProgressContainer";
+import CareContainer from "./modules/infoStudent/care/CareContainer";
 import CalendarContainer from "./modules/tasks/calendar/CalendarContainer";
 
 export default (
@@ -87,6 +92,12 @@ export default (
             {/*Begin gens routes*/}
             <Route path="/manage/gens" component={GensContainer}/>
             {/*End gens routes*/}
+            <Route path="/info-student/:studentId" component={InfoStudentContainer}>
+                <IndexRoute component={RegistersContainer}/>
+                <Route path="history-calls" component={HistoryCallContainer}/>
+                <Route path="progress" component={ProgressContainer}/>
+                <Route path="care" component={CareContainer}/>
+            </Route>
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

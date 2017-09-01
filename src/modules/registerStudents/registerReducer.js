@@ -24,6 +24,7 @@ export default function registerReducer(state = initialState.registerStudents, a
                     registers: action.registers,
                     currentPage: action.currentPage,
                     totalPages: action.totalPages,
+                    genId: action.genId
                 }
             };
         case types.LOAD_DATA_REGISTER_LIST_ERROR:
@@ -159,7 +160,7 @@ function changeCallStatusStudent(studentId, registers, callStatus) {
 
 function deleteRegister(registerId, registers) {
     if (registers) {
-        registers = registers.filter(register=> register.id !== registerId);
+        registers = registers.filter(register => register.id !== registerId);
     }
     return registers;
 }

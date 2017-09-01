@@ -2,9 +2,10 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 
-export function getRegisterStudent(page = 1, genId, search = '', salerId = '') {
+export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '') {
     let token = localStorage.getItem('token');
-    let url = env.API_URL + "/register-list?page=" + page + "&gen_id=" + genId + "&search=" + search + "&saler_id=" + salerId + "&token=" + token;
+    let url = env.API_URL + "/register-list?page=" + page + "&gen_id=" + genId + "&search=" + search +
+        "&saler_id=" + salerId + '&campaign_id=' + campaignId + "&token=" + token;
     return axios.get(url);
 }
 

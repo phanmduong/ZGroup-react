@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import * as helper from '../../helpers/helper';
 
-// import {Link} from "react-router";
+import {Link} from "react-router";
 
 class ListRegister extends React.Component {
     constructor(props, context) {
@@ -75,7 +75,11 @@ class ListRegister extends React.Component {
 
                                     </div>
                                 </td>
-                                <td>{register.name}</td>
+                                <td>
+                                    <Link to={`/info-student/${register.student_id}`}>
+                                        {register.name}
+                                    </Link>
+                                </td>
                                 <td>
                                     <div id="register-email" data-toggle="tooltip" title=""
                                          type="button" rel="tooltip"
@@ -88,7 +92,9 @@ class ListRegister extends React.Component {
                                         register.saler ?
                                             (
                                                 <button className="btn btn-xs btn-main"
-                                                        style={{backgroundColor: '#' + register.saler.color}}>
+                                                        style={{backgroundColor: '#' + register.saler.color}}
+                                                        onClick={() => this.props.loadRegisterStudentBySaler(register.saler.id)}
+                                                >
                                                     {helper.getShortName(register.saler.name)}
                                                     <div className="ripple-container"/>
                                                 </button>
@@ -108,7 +114,9 @@ class ListRegister extends React.Component {
                                         register.campaign ?
                                             (
                                                 <button className="btn btn-xs btn-main"
-                                                        style={{backgroundColor: '#' + register.campaign.color}}>
+                                                        style={{backgroundColor: '#' + register.campaign.color}}
+                                                        onClick={() => this.props.loadRegisterStudentByCampaign(register.campaign.id)}
+                                                >
                                                     {register.campaign.name}
                                                     <div className="ripple-container"/>
                                                 </button>
@@ -163,6 +171,8 @@ ListRegister.propTypes = {
     registers: PropTypes.array.isRequired,
     viewCall: PropTypes.func.isRequired,
     deleteRegister: PropTypes.func.isRequired,
+    loadRegisterStudentByCampaign: PropTypes.func.isRequired,
+    loadRegisterStudentBySaler: PropTypes.func.isRequired,
 
 };
 

@@ -375,5 +375,17 @@ export default {
     personalCalendar: {
         calendarEvents: [],
         isLoading: false
+    },
+
+    infoStudent:{
+        student: {},
+        isLoadingStudent: false,
+        errorStudent: false,
+        registers: [],
+        isLoadingRegisters: false,
+        errorRegisters: false,
+        historyCalls: [],
+        isLoadingHistoryCalls: false,
+        errorHistoryCalls: false,
     }
 };
