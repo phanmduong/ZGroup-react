@@ -91,6 +91,7 @@ class BasesContainer extends React.Component {
                                 </Link>
                             </div>
 
+
                             <Search
                                 onChange={this.basesSearchChange}
                                 value={this.state.query}
@@ -103,28 +104,29 @@ class BasesContainer extends React.Component {
                                     handleSwitch={this.handleSwitch}
                                     bases={this.props.bases}/>}
                         </div>
+
+                        <div className="card-content">
+                            <ul className="pagination pagination-primary">
+                                {_.range(1, this.props.totalPages + 1).map(page => {
+                                    if (Number(currentPage) === page) {
+                                        return (
+                                            <li key={page} className="active">
+                                                <a onClick={() => this.loadBases(page)}>{page}</a>
+                                            </li>
+                                        );
+                                    } else {
+                                        return (
+                                            <li key={page}>
+                                                <a onClick={() => this.loadBases(page)}>{page}</a>
+                                            </li>
+                                        );
+                                    }
+
+                                })}
+                            </ul>
+                        </div>
                     </div>
 
-                    <div className="card-content">
-                        <ul className="pagination pagination-primary">
-                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                if (Number(currentPage) === page) {
-                                    return (
-                                        <li key={page} className="active">
-                                            <a onClick={() => this.loadBases(page)}>{page}</a>
-                                        </li>
-                                    );
-                                } else {
-                                    return (
-                                        <li key={page}>
-                                            <a onClick={() => this.loadBases(page)}>{page}</a>
-                                        </li>
-                                    );
-                                }
-
-                            })}
-                        </ul>
-                    </div>
 
                 </div>
             </div>

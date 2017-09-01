@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Avatar = ({url, size}) => {
+const Avatar = ({url, size, className}) => {
     return (
-        <div style={{
+        <div className={className || ""} style={{
             width: size,
             marginRight: 5,
             height: size,
@@ -17,6 +17,7 @@ const Avatar = ({url, size}) => {
 
 Avatar.propTypes = {
     url: PropTypes.string.isRequired,
+    className: PropTypes.string,
     size: PropTypes.number.isRequired
 };
 

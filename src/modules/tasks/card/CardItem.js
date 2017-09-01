@@ -103,25 +103,27 @@ class CardItem extends React.Component {
                     <div className="card keetool-card keetool-card-wrapper">
                         <div className="card-content keetool-card" style={{position: "relative"}}>
                             <div style={{position: "absolute", top: 10, right: 10}}>
-                                <div className="board-action">
+                                <div className="board-action keetool-card">
                                     <TooltipButton text="Chỉnh sửa thẻ" placement="top">
-                                        <a onClick={(event) => {
+                                        <a className="keetool-card" onClick={(event) => {
                                             event.stopPropagation();
                                             this.toggleEdit();
                                         }}>
-                                            <i style={{fontSize: "18px"}} className="material-icons">edit</i>
+                                            <i style={{fontSize: "18px"}}
+                                               className="material-icons keetool-card">edit</i>
                                         </a>
                                     </TooltipButton>
                                 </div>
                             </div>
 
                             {card.cardLabels && card.cardLabels.length > 0 && (
-                                <div style={{display: "flex", flexWrap: "wrap", marginBottom: 5}}>
+                                <div className="keetool-card"
+                                     style={{display: "flex", flexWrap: "wrap", marginBottom: 5}}>
                                     {
                                         card.cardLabels.map((label) => {
                                             return (
                                                 <TooltipButton key={label.id} text={label.name} placement="top">
-                                                    <div style={{
+                                                    <div className="keetool-card" style={{
                                                         backgroundColor: label.color,
                                                         width: 40,
                                                         height: 7,
@@ -149,21 +151,25 @@ class CardItem extends React.Component {
                             </div>
                             {
                                 card.deadline_elapse && (
-                                    <div>
-                                        <small>{card.deadline_elapse}</small>
+                                    <div className="keetool-card">
+                                        <small className="keetool-card">{card.deadline_elapse}</small>
                                     </div>
                                 )
                             }
 
 
-                            <div style={{marginTop: "5px"}}>
+                            <div className="keetool-card" style={{marginTop: "5px"}}>
                                 {
                                     card.members && card.members.length > 0 && (
-                                        <div style={{display: "flex", flexWrap: "wrap", flexDirection: "row-reverse"}}>
+                                        <div className="keetool-card"
+                                             style={{display: "flex", flexWrap: "wrap", flexDirection: "row-reverse"}}>
                                             {card.members.map((member) => {
                                                 return (
-                                                    <div key={member.id} style={{padding: "2px 0"}}>
-                                                        <Avatar url={member.avatar_url} size={25}/>
+                                                    <div className="keetool-card" key={member.id}
+                                                         style={{padding: "2px 0"}}>
+                                                        <Avatar className="keetool-card"
+                                                                url={member.avatar_url}
+                                                                size={25}/>
                                                     </div>
                                                 );
                                             })}
@@ -171,13 +177,13 @@ class CardItem extends React.Component {
                                     )
                                 }
                             </div>
-                            <small>{tasksComplete(card.tasks)}/{totalTasks(card.tasks)}</small>
-                            <div className="progress progress-line-default" style={{margin: 0}}>
-                                <div className="progress-bar progress-bar-rose" role="progressbar"
+                            <small className="keetool-card">{tasksComplete(card.tasks)}/{totalTasks(card.tasks)}</small>
+                            <div className="progress progress-line-default keetool-card" style={{margin: 0}}>
+                                <div className="progress-bar progress-bar-rose keetool-card" role="progressbar"
                                      aria-valuenow="60"
                                      aria-valuemin="0" aria-valuemax="100"
                                      style={{width: 100 * percent(card.tasks) + "%"}}>
-                                    <span className="sr-only">{100 * percent(card.tasks)}% Complete</span>
+                                    <span className="sr-only keetool-card">{100 * percent(card.tasks)}% Complete</span>
                                 </div>
                             </div>
 
