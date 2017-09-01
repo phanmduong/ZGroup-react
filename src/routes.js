@@ -24,6 +24,7 @@ import EditProfileContainer from "./modules/profile/EditProfileContainer";
 import StudySessionContainer from "./modules/studySession/StudySessionContainer";
 import ScheduleClassContainer from "./modules/scheduleClass/ScheduleClassContainer";
 import GensContainer from "./modules/gens/GensContainer";
+import CalendarContainer from "./modules/tasks/calendar/CalendarContainer";
 
 export default (
     <Route>
@@ -46,7 +47,7 @@ export default (
             {/*End Base route*/}
 
             {/*Begin tasks route*/}
-            <Route path="/calendar" component={ProjectListContainer}/>
+            <Route path="/calendar" component={CalendarContainer}/>
             <Route path="project/list" component={ProjectListContainer}/>
             <Route path="project/create" component={CreateProjectContainer} type="create"/>
             <Route path="project/:projectId/edit" component={CreateProjectContainer} type="edit"/>

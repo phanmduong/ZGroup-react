@@ -278,3 +278,12 @@ export function assignCardLabel(cardId, cardLabelId) {
     }
     return axios.post(url);
 }
+
+export function loadCalendarEvents(userId) {
+    let url = env.MANAGE_API_URL + `/user/${userId}/calendar-events`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

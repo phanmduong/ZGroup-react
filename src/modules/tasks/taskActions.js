@@ -669,3 +669,19 @@ export function updateCardDeadline(card) {
 
     };
 }
+
+export function loadCalendarEvents(userId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CALENDAR_EVENTS
+        });
+        taskApi.loadCalendarEvents(userId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CALENDAR_EVENTS_SUCCESS,
+                    calendarEvents: res.data.data.calendarEvents
+                });
+            });
+
+    };
+}

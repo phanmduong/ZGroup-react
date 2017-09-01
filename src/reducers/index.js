@@ -14,6 +14,7 @@ import profileReducer from '../modules/profile/profileReducer';
 import studySessionReducer from '../modules/studySession/studySessionReducer';
 import scheduleClassReducer from '../modules/scheduleClass/scheduleClassReducer';
 import gensReducer from '../modules/gens/gensReducer';
+import personalCalendarReducer from '../modules/tasks/calendar/personalCalendarReducer';
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -30,7 +31,8 @@ const appReducer = combineReducers({
     profile: profileReducer,
     studySession: studySessionReducer,
     scheduleClass: scheduleClassReducer,
-    gens: gensReducer
+    gens: gensReducer,
+    personalCalendar: personalCalendarReducer
 });
 
 const rootReducer = (state, action) => {

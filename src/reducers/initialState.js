@@ -370,5 +370,10 @@ export default {
         errorEdit: false,
         currentPage: 1,
         totalPages: 1
+    },
+
+    personalCalendar: {
+        calendarEvents: [],
+        isLoading: false
     }
 };
