@@ -159,8 +159,8 @@ class TaskController extends ManageApiController
                         return [
                             'id' => $card->id,
                             'title' => $card->title,
-                            "deadline_elapse" =>  $hasDeadline ? time_remain_string(strtotime($card->deadline)) : null,
-                            "deadline" => $hasDeadline ? $card->deadline : null,
+                            "deadline_elapse" => $hasDeadline ? time_remain_string(strtotime($card->deadline)) : null,
+                            "deadline" => $hasDeadline ? format_vn_short_datetime(strtotime($card->deadline)) : null,
                             'board_id' => $card->board_id,
                             'order' => $card->order,
                             "cardLabels" => $card->cardLabels,

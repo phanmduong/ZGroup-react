@@ -37,7 +37,7 @@ class CardController extends ManageApiController
         $card->save();
         return $this->respondSuccessWithStatus([
             "deadline_elapse" => time_remain_string(strtotime($card->deadline)),
-            "deadline" => $card->deadline,
+            "deadline" => format_vn_short_datetime(strtotime($card->deadline)),
             "message" => "Sửa hạn chót thành công"
         ]);
     }

@@ -10,6 +10,10 @@
     <meta name="viewport" content="width=device-width"/>
     <!-- Bootstrap core CSS     -->
     <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!--datetime picker-->
+    <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+
     <!--  Material Dashboard CSS    -->
     <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/material-dashboard.css" rel="stylesheet"/>
     <!--  CSS for Demo Purpose, don't include it in your project     -->
@@ -28,7 +32,9 @@
         type="text/javascript"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
+{{--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>--}}
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.js"></script>
+
 <!-- TagsInput Plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.tagsinput.js"></script>
 <script src="{{url('config.js')}}"></script>
