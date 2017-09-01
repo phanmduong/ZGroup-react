@@ -66,3 +66,5 @@ export function linkUploadImageEditor() {
     let token = localStorage.getItem('token');
     return LINK_UPLOAD_IMAGE_EDITOR + '?token=' + token;
 }
+
+export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";

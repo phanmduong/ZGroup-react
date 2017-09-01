@@ -142,3 +142,10 @@
 .alert {
     z-index: 99999 !important;
 }
+
+.deadline-popover {
+    margin-left: -30px;
+    width: 250px;
+    padding: 10px;
+    /*height: 500px;*/
+}

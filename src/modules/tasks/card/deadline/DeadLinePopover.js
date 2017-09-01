@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormInputDateTime from "../../../../components/common/FormInputDateTime";
+// import FormInputDateTime from "../../../../components/common/FormInputDateTime";
+import InlineInputDateTime from "../../../../components/common/InlineInputDateTime";
 import Loading from "../../../../components/common/Loading";
 
-const DeadlinePopover = ({toggle, handleChange, saveDeadline, isSavingDeadline}) => {
+const DeadlinePopover = ({toggle, handleChange, deadline, saveDeadline, isSavingDeadline}) => {
     return (
-        <div className="kt-overlay" style={{width: "300px", marginLeft: -30}}>
+        <div className="kt-overlay deadline-popover">
             <button
                 onClick={toggle}
                 type="button" className="close"
@@ -15,7 +16,10 @@ const DeadlinePopover = ({toggle, handleChange, saveDeadline, isSavingDeadline})
             </button>
             <h4>Sửa hạn chót</h4>
             <div>
-                <FormInputDateTime name="dateline" id="deadline" updateFormData={handleChange}/>
+                <InlineInputDateTime
+                    value={deadline}
+                    id="deadline"
+                    updateFormData={handleChange}/>
                 {
                     isSavingDeadline ? <Loading/> : (
                         <div>
@@ -30,6 +34,7 @@ const DeadlinePopover = ({toggle, handleChange, saveDeadline, isSavingDeadline})
 };
 DeadlinePopover.propTypes = {
     toggle: PropTypes.func.isRequired,
+    deadline: PropTypes.string.isRequired,
     isSavingDeadline: PropTypes.bool.isRequired,
     saveDeadline: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired

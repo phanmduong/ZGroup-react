@@ -7,6 +7,7 @@ import * as taskActions from '../../taskActions';
 import {bindActionCreators} from "redux";
 import DeadLinePopover from "./DeadLinePopover";
 import {isEmptyInput, showErrorNotification} from "../../../../helpers/helper";
+import {DATETIME_FORMAT} from "../../../../constants/constants";
 
 class DeadlineOverlayContainer extends React.Component {
     constructor(props, context) {
@@ -24,9 +25,14 @@ class DeadlineOverlayContainer extends React.Component {
         this.setState({show: !this.state.show});
     }
 
-    handleChange(event) {
+    componentWillMount() {
+        console.log(this.props.card.deadline);
+        this.setState({deadline: this.props.card.deadline});
+    }
+
+    handleChange({date}) {
         this.setState({
-            deadline: event.target.value
+            deadline: date.format(DATETIME_FORMAT)
         });
     }
 
@@ -57,6 +63,7 @@ class DeadlineOverlayContainer extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <DeadLinePopover
+                        deadline={this.state.deadline}
                         isSavingDeadline={this.props.isSavingDeadline}
                         saveDeadline={this.saveDeadline}
                         toggle={this.toggle}
