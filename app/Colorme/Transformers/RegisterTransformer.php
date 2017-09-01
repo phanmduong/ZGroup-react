@@ -22,6 +22,7 @@ class RegisterTransformer extends Transformer
     {
         $data = [
             "id" => $register->id,
+            "gen_id" => $register->gen_id,
             "code" => $register->code,
             "name" => $register->user->name,
             "student_id" => $register->user->id,
@@ -55,12 +56,14 @@ class RegisterTransformer extends Transformer
         $data['call_status'] = call_status_text($register->call_status);
         if ($register->saler) {
             $data["saler"] = [
+                'id' => $register->saler->id,
                 "name" => $register->saler->name,
                 "color" => $register->saler->color
             ];
         }
         if ($register->marketing_campaign) {
             $data["campaign"] = [
+                'id' => $register->marketing_campaign->id,
                 'name' => $register->marketing_campaign->name,
                 "color" => $register->marketing_campaign->color
             ];

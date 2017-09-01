@@ -172,6 +172,10 @@ class StudentApiController extends ApiController
             $registers = $registers->where('saler_id', $request->saler_id);
         }
 
+        if ($request->campaign_id != null) {
+            $registers = $registers->where('campaign_id', $request->campaign_id);
+        }
+
         if ($request->status != null) {
             $registers = $registers->where('status', $request->status);
         }
@@ -197,7 +201,12 @@ class StudentApiController extends ApiController
             }
         }
 
-        return $this->respondWithPagination($registers, ['registers' => $this->registerTransformer->transformCollection($registers)]);
+        return $this->respondWithPagination($registers, [
+            'registers' => $this->registerTransformer->transformCollection($registers),
+            'gen' => [
+                'id' => $gen->id
+            ]
+        ]);
     }
 
     public function callHistory(Request $request)
