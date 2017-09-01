@@ -41,7 +41,7 @@ export default (
             {/*End Role route*/}
 
             {/*Begin base route*/}
-            <Route path="base/list" component={BasesContainer}/>
+            <Route path="/manage/bases" component={BasesContainer}/>
             <Route path="base/create" component={CreateBaseContainer} type="create"/>
             <Route path="base/:baseId/edit" component={CreateBaseContainer} type="edit"/>
             {/*End Base route*/}
