@@ -187,7 +187,7 @@ table tr td .avatar-list-staff {
   right: -7px;
   bottom: -5px;
   vertical-align: middle;
-  line-height: 18px!important;
+  line-height: 18px !important;
   text-align: center;
   border: solid 1px white;
   cursor: pointer;
@@ -222,8 +222,8 @@ table tr td .avatar-list-staff {
 }
 
 .square-100 {
-  width: 100px!important;
-  height: 100px!important;
+  width: 100px !important;
+  height: 100px !important;
 }
 
 .content-qr-code {
@@ -231,33 +231,33 @@ table tr td .avatar-list-staff {
   float: right
 }
 
-.width-50-percent{
+.width-50-percent {
   width: 200px;
 }
 
-.margin-left{
+.margin-left {
   margin-left: 40px;
 }
 
-.content-progress-student{
+.content-progress-student {
   align-items: center;
   display: flex;
   flex-direction: row;
 }
 
-.content-progress-student{
+.content-progress-student {
   align-items: center;
   display: flex;
   flex-direction: row;
   margin-left: 39px;
 }
 
-.progress-student{
+.progress-student {
   width: 300px;
   margin-bottom: 0px;
 }
 
-.text-progress-student{
+.text-progress-student {
   margin-left: 5px;
 }
 
@@ -267,6 +267,12 @@ table tr td .avatar-list-staff {
   }
 }
 
-.timeline-body .flex-row-center>.material-icons{
+.timeline-body .flex-row-center > .material-icons {
   font-size: 14px;
 }
+
+.text-name-student-register {
+  color: black;
+  font-weight: 600;
+}
+
