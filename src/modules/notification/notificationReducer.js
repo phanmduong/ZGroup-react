@@ -20,7 +20,8 @@ export default function notificationReducer(state = initialState.notification, a
                 notificationList: {
                     ...state.notificationList,
                     isLoading: false,
-                    notifications: action.notifications
+                    notifications: action.notifications,
+                    isEmpty: action.isEmpty
                 }
             };
         default:

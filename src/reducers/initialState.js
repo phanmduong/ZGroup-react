@@ -380,7 +380,8 @@ export default {
     notification: {
         notificationList: {
             notifications: [],
-            isLoading: false
+            isLoading: false,
+            isEmpty: false
         }
     }
 };

@@ -27,6 +27,9 @@ class NotificationContainer extends React.Component {
                     })
                 }
                 {this.props.isLoading && <li><Loading/></li>}
+                {!this.props.isEmpty && !this.props.isLoading && (
+                    <button className="btn btn-simple">Tải thêm</button>
+                )}
             </ul>
         );
     }
@@ -35,13 +38,15 @@ class NotificationContainer extends React.Component {
 NotificationContainer.propTypes = {
     notificationActions: PropTypes.object.isRequired,
     notifications: PropTypes.array.isRequired,
+    isEmpty: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         notifications: state.notification.notificationList.notifications,
-        isLoading: state.notification.notificationList.isLoading
+        isLoading: state.notification.notificationList.isLoading,
+        isEmpty: state.notification.notificationList.isEmpty
     };
 }
 

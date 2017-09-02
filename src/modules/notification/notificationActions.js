@@ -6,9 +6,11 @@ export function loadMyNotification() {
         dispatch({type: types.BEGIN_LOAD_NOTIFICATIONS});
         notificationApi.loadMyNofitications()
             .then((res) => {
+                const notifications = res.data.data.notifications;
                 dispatch({
                     type: types.LOAD_NOTIFICATIONS_SUCCESS,
-                    notifications: res.data.data.notifications
+                    notifications,
+                    isEmpty: notifications.length === 0
                 });
             });
     };
