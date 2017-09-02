@@ -26,7 +26,16 @@ class NotificationRepository
     {
         $user = User::find($userId);
         $notifications = $this->notificationTransformer
-            ->transformCollection($user->received_notifications()->take($limit)->skip($skip));
+            ->transformCollection($user->received_notifications()
+                ->orderBy("created_at", "desc")
+                ->take($limit)->skip($skip * $limit)->get());
         return $notifications;
+    }
+
+    public function countUnreadNotification($userId)
+    {
+        $user = User::find($userId);
+        $count = $user->received_notifications()->where("seen", 0)->count();
+        return $count;
     }
 }

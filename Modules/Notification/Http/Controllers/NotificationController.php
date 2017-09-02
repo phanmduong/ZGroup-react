@@ -23,11 +23,17 @@ class NotificationController extends ManageApiController
      * Return a listing of the resource.
      * @return Response
      */
-    public function notifications()
+    public function notifications(Request $request)
     {
-        $notifications = $this->notificationRepository->getUserReceivedNotifications($this->user->id);
+        $page = $request->page;
+        if (is_null($page)) {
+            $page = 1;
+        }
+        $notifications = $this->notificationRepository->getUserReceivedNotifications($this->user->id, $page - 1);
+        $unreadCount = $this->notificationRepository->countUnreadNotification($this->user->id);
         return $this->respondSuccessWithStatus([
-            "notifications" => $notifications
+            "notifications" => $notifications,
+            "unread" => $unreadCount
         ]);
     }
 

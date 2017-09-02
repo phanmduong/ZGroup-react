@@ -69,7 +69,7 @@ class UserCardRepository
                 $data = array(
                     "message" => " vừa thêm bạn vào card Môn học trong dự án IT",
                     "link" => url('/project/' . $card->board->project->id . '/boards/'),
-                    'created_at' => format_time_to_mysql($notification->created_at),
+                    'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
                     "receiver_id" => $notification->receiver_id
                 );
 
