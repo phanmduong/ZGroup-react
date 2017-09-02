@@ -377,7 +377,7 @@ export default {
         isLoading: false
     },
 
-    infoStudent:{
+    infoStudent: {
         student: {},
         isLoadingStudent: false,
         errorStudent: false,
@@ -387,5 +387,10 @@ export default {
         historyCalls: [],
         isLoadingHistoryCalls: false,
         errorHistoryCalls: false,
+        progress: [],
+        isLoadingProgress: false,
+        errorProgress: false,
+        isEditingStudent: false,
+        errorEditing: false,
     }
 };

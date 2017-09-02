@@ -3,27 +3,71 @@
  */
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {Link, IndexLink} from 'react-router';
 import {bindActionCreators} from 'redux';
 import * as studentActions from './studentActions';
 import * as helper from '../../helpers/helper';
 import {NO_AVATAR} from '../../constants/env';
 import Loading from '../../components/common/Loading';
+import {Modal} from 'react-bootstrap';
+import FormInputText from '../../components/common/FormInputText';
 
 class InfoStudentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.studentId = this.props.params.studentId;
         this.path = '';
+        this.closeModal = this.closeModal.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
+        this.editInfoStudent = this.editInfoStudent.bind(this);
+        this.state = {
+            showModal: false,
+            student: {}
+        };
     }
 
     componentWillMount() {
         this.props.studentActions.loadInfoStudent(this.studentId);
     }
 
+    updateFormData(event) {
+        const field = event.target.name;
+        let student = {...this.state.student};
+        student[field] = event.target.value;
+        this.setState(
+            {
+                student: student
+            }
+        );
+    }
+
+    closeModal() {
+        this.setState({showModal: false});
+    }
+
+    openModal() {
+        this.setState(
+            {
+                showModal: true,
+                student: this.props.student
+            }
+        );
+    }
+
+    componentDidUpdate() {
+        helper.setFormValidation('#form-edit-student');
+    }
+
+    editInfoStudent() {
+        if ($('#form-edit-student').valid()) {
+            this.props.studentActions.editInfoStudent(this.state.student, this.closeModal);
+        }
+    }
+
     render() {
         this.path = this.props.location.pathname;
-        console.log(this.path);
         return (
             <div>
                 <div className="row">
@@ -87,26 +131,100 @@ class InfoStudentContainer extends React.Component {
                                             <h4 className="card-title">{this.props.student.name}</h4>
                                             <h6 className="category text-gray">{this.props.student.email}</h6>
                                             <p className="description">{this.props.student.phone}</p>
-                                            <button className="btn btn-rose btn-round">Sửa
-                                            </button>
+                                            {this.props.isEditingStudent ?
+                                                (
+                                                    <button
+                                                        className="btn btn-fill btn-rose disabled"
+                                                    >
+                                                        <i className="fa fa-spinner fa-spin"/> Đang sửa
+                                                    </button>
+                                                )
+                                                :
+                                                <button className="btn btn-rose"
+                                                        onClick={this.openModal}
+                                                >Sửa
+                                                </button>
+                                            }
                                         </div>
                                     }
-
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.showModal} onHide={this.closeModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Chỉnh sửa thông tin học viên</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form id="form-edit-student" onSubmit={(e) => {
+                            e.preventDefault();
+                        }}>
+                            <FormInputText
+                                label="Họ và tên"
+                                name="name"
+                                updateFormData={this.updateFormData}
+                                value={this.state.student.name}
+                                type="text"
+                            />
+                            <FormInputText
+                                label="Email"
+                                name="email"
+                                updateFormData={this.updateFormData}
+                                value={this.state.student.email}
+                                required={true}
+                                type="email"
+                            />
+                            <FormInputText
+                                label="Số điện thoại"
+                                name="phone"
+                                value={this.state.student.phone}
+                                type="text"
+                                updateFormData={this.updateFormData}
+                            />
+                            {this.props.isEditingStudent ?
+                                (
+                                    <button
+                                        className="btn btn-fill btn-rose disabled"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/> Đang cập nhật
+                                    </button>
+                                )
+                                :
+                                <button className="btn btn-rose"
+                                        onClick={this.editInfoStudent}
+                                > Cập nhật
+                                </button>
+                            }
+
+                        </form>
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
 }
 
+
+InfoStudentContainer.contextTypes = {
+    router: PropTypes.object
+};
+
+InfoStudentContainer.propTypes = {
+    student: PropTypes.object.isRequired,
+    studentActions: PropTypes.object.isRequired,
+    isLoadingStudent: PropTypes.bool.isRequired,
+    isEditingStudent: PropTypes.bool.isRequired,
+    children: PropTypes.element,
+    pathname: PropTypes.string.isRequired,
+    location: PropTypes.object.isRequired
+};
+
 function mapStateToProps(state) {
     return {
         student: state.infoStudent.student,
-        isLoadingStudent: state.infoStudent.isLoadingStudent
+        isLoadingStudent: state.infoStudent.isLoadingStudent,
+        isEditingStudent: state.infoStudent.isEditingStudent
     };
 }
 

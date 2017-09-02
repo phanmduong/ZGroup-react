@@ -30,3 +30,26 @@ export function historyCalls(studentId) {
 
     return axios.get(url);
 }
+
+export function loadProgress(studentId) {
+    let url = env.MANAGE_API_URL + `/student/${studentId}/progress`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function editStudent(student) {
+    let url = env.MANAGE_API_URL + `/student/${student.id}/edit`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url,{
+        id: student.id,
+        name: student.name,
+        email: student.email,
+        phone: student.phone,
+    });
+}

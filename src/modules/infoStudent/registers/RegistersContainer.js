@@ -7,6 +7,7 @@ import {bindActionCreators} from 'redux';
 import * as studentActions from '../studentActions';
 import Loading from '../../../components/common/Loading';
 import * as helper from '../../../helpers/helper';
+import PropTypes from 'prop-types';
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
@@ -85,6 +86,15 @@ class RegistersContainer extends React.Component {
         );
     }
 }
+
+RegistersContainer.propTypes = {
+    registers: PropTypes.array.isRequired,
+    studentActions: PropTypes.object.isRequired,
+    isLoadingRegisters: PropTypes.bool.isRequired,
+    pathname: PropTypes.string.isRequired,
+    location: PropTypes.object,
+    params: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

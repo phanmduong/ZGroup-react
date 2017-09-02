@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as studentActions from '../studentActions';
 import Loading from '../../../components/common/Loading';
-import * as helper from '../../../helpers/helper';
+import PropTypes from 'prop-types';
 
 class HistoryCallContainer extends React.Component {
     constructor(props, context) {
@@ -61,6 +61,15 @@ class HistoryCallContainer extends React.Component {
         );
     }
 }
+
+HistoryCallContainer.propTypes = {
+    historyCalls: PropTypes.array.isRequired,
+    studentActions: PropTypes.object.isRequired,
+    isLoadingHistoryCalls: PropTypes.bool.isRequired,
+    pathname: PropTypes.string.isRequired,
+    location: PropTypes.object,
+    params: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

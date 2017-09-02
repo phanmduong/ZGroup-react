@@ -187,10 +187,11 @@ table tr td .avatar-list-staff {
   right: -7px;
   bottom: -5px;
   vertical-align: middle;
-  line-height: 18px;
+  line-height: 18px!important;
   text-align: center;
   border: solid 1px white;
   cursor: pointer;
+  height: 18px;
 }
 
 .container-call-status {
@@ -203,19 +204,65 @@ table tr td .avatar-list-staff {
   vertical-align: top !important;
 }
 
-.full-width{
-  width: 100%!important;
+.full-width {
+  width: 100% !important;
 }
 
-.padding-left-right-10{
-  padding-left: 10px!important;
-  padding-right: 10px!important;
+.padding-left-right-10 {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
 }
 
-.circle{
+.circle {
   border-radius: 50%;
 }
 
-.margintop-10{
+.margintop-10 {
   margin-top: 10px;
+}
+
+.square-100 {
+  width: 100px!important;
+  height: 100px!important;
+}
+
+.content-qr-code {
+  text-align: center;
+  float: right
+}
+
+.width-50-percent{
+  width: 200px;
+}
+
+.margin-left{
+  margin-left: 40px;
+}
+
+.content-progress-student{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.content-progress-student{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-left: 39px;
+}
+
+.progress-student{
+  width: 300px;
+  margin-bottom: 0px;
+}
+
+.text-progress-student{
+  margin-left: 5px;
+}
+
+@media screen and (max-width: 991px) {
+  .content-qr-code {
+    float: left
+  }
 }

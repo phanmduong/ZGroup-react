@@ -2,8 +2,8 @@
  * Created by phanmduong on 9/1/17.
  */
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+// import {connect} from 'react-redux';
+// import {bindActionCreators} from 'redux';
 
 class CareContainer extends React.Component {
     constructor(props, context) {
@@ -17,12 +17,13 @@ class CareContainer extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {};
-}
+// function mapStateToProps(state) {
+//     return {};
+// }
+//
+// function mapDispatchToProps(dispatch) {
+//     return {};
+// }
 
-function mapDispatchToProps(dispatch) {
-    return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CareContainer);
+// export default connect(mapStateToProps, mapDispatchToProps)(CareContainer);
+export default (CareContainer);

@@ -92,12 +92,14 @@ export default (
             {/*Begin gens routes*/}
             <Route path="/manage/gens" component={GensContainer}/>
             {/*End gens routes*/}
+
             <Route path="/info-student/:studentId" component={InfoStudentContainer}>
                 <IndexRoute component={RegistersContainer}/>
                 <Route path="history-calls" component={HistoryCallContainer}/>
                 <Route path="progress" component={ProgressContainer}/>
                 <Route path="care" component={CareContainer}/>
             </Route>
+
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

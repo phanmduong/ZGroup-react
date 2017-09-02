@@ -80,6 +80,56 @@ export default function studySessionReducer(state = initialState.infoStudent, ac
                     errorHistoryCalls: true,
                 }
             };
+        case types.BEGIN_LOAD_PROGRESS_INFO_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isLoadingProgress: true,
+                    errorProgress: false,
+                }
+            };
+        case types.LOAD_PROGRESS_INFO_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingProgress: false,
+                    errorProgress: false,
+                    progress: action.progress
+                }
+            };
+        case types.LOAD_PROGRESS_INFO_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingProgress: false,
+                    errorProgress: true,
+                }
+            };
+        case types.BEGIN_LOAD_EDIT_INFO_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isEditingStudent: true,
+                    errorEditing: false,
+                }
+            };
+        case types.LOAD_EDIT_INFO_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isEditingStudent: false,
+                    errorEditing: false,
+                    student: action.student
+                }
+            };
+        case types.LOAD_EDIT_INFO_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isEditingStudent: false,
+                    errorEditing: true,
+                }
+            };
         default:
             return state;
     }
