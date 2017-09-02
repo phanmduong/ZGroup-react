@@ -40,6 +40,10 @@ class ManageStudentApiController extends ManageApiController
         $registers = $registers->map(function ($register) {
             $data = [];
             $class = $register->studyClass()->first();
+            $data = [
+                'paid_status' => $register->status == 1,
+                'money' => $register->money,
+            ];
 
             $data['class'] = [
                 'id' => $class->id,
@@ -47,9 +51,29 @@ class ManageStudentApiController extends ManageApiController
                 'avatar_url' => $class->course->icon_url,
                 "study_time" => $class->study_time,
                 "description" => $class->description,
-                "room" => $class->room->name,
-                "base" => $class->base->address
             ];
+
+            if ($class->room) {
+                $data['class']['room'] = $class->room->name;
+            }
+
+            if ($class->base) {
+                $data['class']['base'] = $class->base->address;
+            }
+
+            if ($class->teach) {
+                $data['class']['teach'] = [
+                    'name' => $class->teach->name,
+                    'id' => $class->teach->id
+                ];
+            }
+
+            if ($class->assist) {
+                $data['class']['assist'] = [
+                    'name' => $class->assist->name,
+                    'id' => $class->assist->id
+                ];
+            }
 
             if ($register->saler) {
                 $data['saler'] = [
