@@ -381,7 +381,8 @@ export default {
         notificationList: {
             notifications: [],
             isLoading: false,
-            isEmpty: false
+            isEmpty: false,
+            unread: 0
         }
     },
     infoStudent: {

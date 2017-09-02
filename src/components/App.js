@@ -81,24 +81,15 @@ class App extends React.Component {
                             <div className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
-                                        <a href="#pablo" className="dropdown-toggle" data-toggle="dropdown">
+                                        <a href="#pablo">
                                             <i className="material-icons">dashboard</i>
                                             <p className="hidden-lg hidden-md">Dashboard</p>
                                         </a>
                                     </li>
-                                    <li className="dropdown">
-                                        <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                            <i className="material-icons">notifications</i>
-                                            <span className="notification">5</span>
-                                            <p className="hidden-lg hidden-md">
-                                                Notifications
-                                                <b className="caret"/>
-                                            </p>
-                                        </a>
-                                        <NotificationContainer/>
-                                    </li>
+                                    <NotificationContainer/>
                                     <li>
-                                        <a onClick={this.props.onLogOut} className="dropdown-toggle" data-toggle="dropdown">
+                                        <a onClick={this.props.onLogOut} className="dropdown-toggle"
+                                           data-toggle="dropdown">
                                             <i className="material-icons">exit_to_app</i>
                                             <p className="hidden-lg hidden-md">Đăng xuất</p>
                                         </a>
