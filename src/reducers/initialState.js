@@ -287,7 +287,7 @@ export default {
             isSaving: false,
             saveError: false,
             isPreSaving: false,
-            preSaveError: false,
+            preSaveError: false
         },
         categories: {
             categories: [],
@@ -297,7 +297,7 @@ export default {
         category: {
             name: '',
             isCreating: false,
-            error: false,
+            error: false
         }
     },
     registerStudents: {
@@ -340,7 +340,7 @@ export default {
         isSaving: false,
         errorSave: false,
         isEditing: false,
-        errorEdit: false,
+        errorEdit: false
     },
 
     scheduleClass: {
@@ -356,7 +356,7 @@ export default {
         errorEdit: false,
         isLoadingStudySession: false,
         errorStudySession: false,
-        studySessions: [],
+        studySessions: []
     },
 
     gens: {
@@ -383,5 +383,22 @@ export default {
             isLoading: false,
             isEmpty: false
         }
+    },
+    infoStudent: {
+        student: {},
+        isLoadingStudent: false,
+        errorStudent: false,
+        registers: [],
+        isLoadingRegisters: false,
+        errorRegisters: false,
+        historyCalls: [],
+        isLoadingHistoryCalls: false,
+        errorHistoryCalls: false,
+        progress: [],
+        isLoadingProgress: false,
+        errorProgress: false,
+        isEditingStudent: false,
+        errorEditing: false
+
     }
 };

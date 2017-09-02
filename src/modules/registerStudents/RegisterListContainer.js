@@ -21,7 +21,9 @@ class RegisterListContainer extends React.Component {
             selectGenId: '',
             showModal: false,
             register: {},
-            note: ''
+            note: '',
+            salerId: '',
+            campaignId: ''
         };
         this.timeOut = null;
         this.registersSearchChange = this.registersSearchChange.bind(this);
@@ -31,6 +33,8 @@ class RegisterListContainer extends React.Component {
         this.viewCall = this.viewCall.bind(this);
         this.changeCallStatusStudent = this.changeCallStatusStudent.bind(this);
         this.deleteRegister = this.deleteRegister.bind(this);
+        this.loadRegisterStudentBySaler = this.loadRegisterStudentBySaler.bind(this);
+        this.loadRegisterStudentByCampaign = this.loadRegisterStudentByCampaign.bind(this);
 
     }
 
@@ -47,7 +51,12 @@ class RegisterListContainer extends React.Component {
             gens = _.reverse(gens);
             this.setState({
                 gens: gens,
-                selectGenId: gens[0].id
+            });
+        }
+
+        if (!nextProps.isLoadingRegisters && nextProps.isLoadingRegisters !== this.props.isLoadingRegisters) {
+            this.setState({
+                selectGenId: nextProps.genId
             });
         }
     }
@@ -71,12 +80,32 @@ class RegisterListContainer extends React.Component {
         this.openModal();
     }
 
+    loadRegisterStudentBySaler(salerId) {
+        this.setState({
+            page: 1,
+            query: '',
+            campaignId: '',
+            salerId
+        });
+        this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, '', salerId, '');
+    }
+
+    loadRegisterStudentByCampaign(campaignId) {
+        this.setState({
+            page: 1,
+            query: '',
+            campaignId,
+            salerId: ''
+        });
+        this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, '', '', campaignId);
+    }
+
     loadRegisterStudent(page, genId) {
         this.setState({
             page,
             selectGenId: genId
         });
-        this.props.registerActions.loadRegisterStudent(page, genId, this.state.query);
+        this.props.registerActions.loadRegisterStudent(page, genId, this.state.query, this.state.salerId, this.state.campaignId);
     }
 
     registersSearchChange(value) {
@@ -93,14 +122,20 @@ class RegisterListContainer extends React.Component {
     }
 
     changeGens(value) {
-        this.loadRegisterStudent(1, value);
+        this.setState({
+            page: 1,
+            query: '',
+            campaignId: '',
+            salerId: ''
+        });
+        this.props.registerActions.loadRegisterStudent(1, value, '', '', '');
     }
 
     changeCallStatusStudent(callStatus, studentId) {
         this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal);
     }
 
-    deleteRegister(register){
+    deleteRegister(register) {
         this.props.registerActions.deleteRegisterStudent(register.id);
     }
 
@@ -129,7 +164,7 @@ class RegisterListContainer extends React.Component {
                                     <Search
                                         onChange={this.registersSearchChange}
                                         value={this.state.query}
-                                        placeholder="Tìm kiếm nhân viên"
+                                        placeholder="Tìm kiếm học viên"
                                     />
                                     {
                                         this.props.isLoadingRegisters ? <Loading/> :
@@ -137,6 +172,8 @@ class RegisterListContainer extends React.Component {
                                                 registers={this.props.registers}
                                                 viewCall={this.viewCall}
                                                 deleteRegister={this.deleteRegister}
+                                                loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
+                                                loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
 
                                             />
                                     }
@@ -389,6 +426,7 @@ function mapStateToProps(state) {
         isLoadingRegisters: state.registerStudents.isLoading,
         isLoadingHistoryCall: state.registerStudents.isLoadingHistoryCall,
         isChangingStatus: state.registerStudents.isChangingStatus,
+        genId: state.registerStudents.genId,
     };
 }
 
