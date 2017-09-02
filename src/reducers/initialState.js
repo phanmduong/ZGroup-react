@@ -375,5 +375,12 @@ export default {
     personalCalendar: {
         calendarEvents: [],
         isLoading: false
+    },
+
+    notification: {
+        notificationList: {
+            notifications: [],
+            isLoading: false
+        }
     }
 };

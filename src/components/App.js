@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import TabContainer from "../modules/tab/TabContainer";
 import {Link} from 'react-router';
 import * as helper from '../helpers/helper';
+import NotificationContainer from "../modules/notification/NotificationContainer";
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -94,23 +95,7 @@ class App extends React.Component {
                                                 <b className="caret"/>
                                             </p>
                                         </a>
-                                        <ul className="dropdown-menu">
-                                            <li>
-                                                <a href="#">Mike John responded to your email</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">You have 5 new tasks</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">You're now friend with Andrew</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Another Notification</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Another One</a>
-                                            </li>
-                                        </ul>
+                                        <NotificationContainer/>
                                     </li>
                                     <li>
                                         <a onClick={this.props.onLogOut} className="dropdown-toggle" data-toggle="dropdown">
