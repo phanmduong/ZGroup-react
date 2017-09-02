@@ -9,6 +9,7 @@ import Loading from '../../../components/common/Loading';
 import Attendances from './Attendances';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 class ProgressContainer extends React.Component {
     constructor(props, context) {
@@ -29,10 +30,7 @@ class ProgressContainer extends React.Component {
         if (percent > 70) {
             return 1;
         } else {
-            const sumAll = items.reduce((sum, i) => {
-                return sum + i.status;
-            }, 0);
-            if (sumAll < 0) {
+            if (lessonsAttended <= 0) {
                 return 0;
             } else {
                 return -1;
@@ -40,32 +38,38 @@ class ProgressContainer extends React.Component {
         }
     }
 
+    tooltip(text) {
+        const toolTip = (
+            <Tooltip id="tooltip">{text}</Tooltip>
+        );
+        return (
+            <OverlayTrigger placement="right" overlay={toolTip}>
+                <div style={{fontSize: '1px'}}>.</div>
+            </OverlayTrigger>
+        );
+    }
+
     renderCup(type) {
         switch (type) {
             case 1:
                 return (
                     <div className="dot-bottom-right"
-                         data-toggle="tooltip" title="" type="button" rel="tooltip"
-                         data-placement="right"
-                         data-original-title={'Bằng giỏi'}
                          style={{backgroundColor: '#ffc300'}}
                     >
+                        {this.tooltip('Bằng giỏi')}
                     </div>
                 );
             case -1:
                 return (
                     <div className="dot-bottom-right"
-                         data-toggle="tooltip" title="" type="button" rel="tooltip"
-                         data-placement="right"
-                         data-original-title='Không có bằng'
-                         style={{backgroundColor: '#909090'}}
+                         style={{backgroundColor: '#959595'}}
                     >
+                        {this.tooltip('Không có bằng')}
                     </div>
                 );
             default:
-                return (<div>12</div>);
+                return (<div></div>);
         }
-
     }
 
     render() {
@@ -108,6 +112,22 @@ class ProgressContainer extends React.Component {
                                                             <i className="material-icons">loop</i>&nbsp; &nbsp; Học lần
                                                             thứ {progressClass.time}
                                                         </div>
+                                                        {
+                                                            progressClass.teach &&
+                                                            <div className="flex-row-center">
+                                                                <i className="material-icons">account_box
+                                                                </i>&nbsp; &nbsp; Giảng
+                                                                viên: {progressClass.teach.name}
+                                                            </div>
+                                                        }
+                                                        {
+                                                            progressClass.assist &&
+                                                            <div className="flex-row-center">
+                                                                <i className="material-icons">account_box
+                                                                </i>&nbsp; &nbsp; Trợ
+                                                                giảng: {progressClass.assist.name}
+                                                            </div>
+                                                        }
                                                         <div className="flex-row-center">
                                                             <i className="material-icons">assignment_turned_in</i>&nbsp; &nbsp;
                                                             Điểm danh
@@ -140,10 +160,9 @@ class ProgressContainer extends React.Component {
 }
 
 ProgressContainer.propTypes = {
-    progress: PropTypes.object.isRequired,
+    progress: PropTypes.array.isRequired,
     studentActions: PropTypes.object.isRequired,
     isLoadingProgress: PropTypes.bool.isRequired,
-    pathname: PropTypes.string.isRequired,
     location: PropTypes.object,
     params: PropTypes.object.isRequired,
 };

@@ -216,7 +216,7 @@ InfoStudentContainer.propTypes = {
     isLoadingStudent: PropTypes.bool.isRequired,
     isEditingStudent: PropTypes.bool.isRequired,
     children: PropTypes.element,
-    pathname: PropTypes.string.isRequired,
+    pathname: PropTypes.string,
     location: PropTypes.object.isRequired
 };
 

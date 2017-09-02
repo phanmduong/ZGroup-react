@@ -66,7 +66,6 @@ HistoryCallContainer.propTypes = {
     historyCalls: PropTypes.array.isRequired,
     studentActions: PropTypes.object.isRequired,
     isLoadingHistoryCalls: PropTypes.bool.isRequired,
-    pathname: PropTypes.string.isRequired,
     location: PropTypes.object,
     params: PropTypes.object.isRequired,
 };

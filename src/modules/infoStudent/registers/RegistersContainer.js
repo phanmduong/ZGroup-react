@@ -43,11 +43,27 @@ class RegistersContainer extends React.Component {
                                                 </div>
                                                 <div className="flex-row-center">
                                                     <i className="material-icons">home</i>&nbsp; &nbsp;
-                                                    {register.class.room + ' - ' + register.class.base}
+                                                    {register.class.room && register.class.room + ' - '}
+                                                    {register.class.base}
                                                 </div>
                                                 <div className="flex-row-center">
                                                     <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
                                                 </div>
+                                                {
+                                                    register.class.teach &&
+                                                    <div className="flex-row-center">
+                                                        <i className="material-icons">account_box
+                                                        </i>&nbsp; &nbsp; Giảng viên: {register.class.teach.name}
+                                                    </div>
+                                                }
+                                                {
+                                                    register.class.assist &&
+                                                    <div className="flex-row-center">
+                                                        <i className="material-icons">account_box
+                                                        </i>&nbsp; &nbsp; Trợ giảng: {register.class.assist.name}
+                                                    </div>
+                                                }
+
                                             </div>
                                             <div className="timeline-heading margintop-10">
                                                 <div className="flex-row-center">
@@ -68,6 +84,25 @@ class RegistersContainer extends React.Component {
                                                             {helper.getShortName(register.campaign.name)}
                                                             <div className="ripple-container"/>
                                                         </button>
+                                                    }
+                                                    {
+                                                        register.paid_status ?
+                                                            (
+                                                                <button className="btn btn-xs btn-rose"
+                                                                        style={{width: '70px'}}
+                                                                >
+                                                                    {register.money}
+                                                                    <div className="ripple-container"/>
+                                                                </button>
+                                                            )
+                                                            :
+                                                            (
+                                                                <button className="btn btn-xs btn-rose"
+                                                                >
+                                                                    Chưa đóng
+                                                                    <div className="ripple-container"/>
+                                                                </button>
+                                                            )
                                                     }
 
                                                 </div>
@@ -91,7 +126,6 @@ RegistersContainer.propTypes = {
     registers: PropTypes.array.isRequired,
     studentActions: PropTypes.object.isRequired,
     isLoadingRegisters: PropTypes.bool.isRequired,
-    pathname: PropTypes.string.isRequired,
     location: PropTypes.object,
     params: PropTypes.object.isRequired,
 };
