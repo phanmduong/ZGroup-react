@@ -9,14 +9,18 @@
 namespace App\Http\Controllers;
 
 
+use App\Colorme\Transformers\ProgressTransformer;
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ManageStudentApiController extends ManageApiController
 {
+    protected $progressTransformer;
 
-    public function __construct()
+    public function __construct(ProgressTransformer $progressTransformer)
     {
-        parent::__construct();
+        $this->progressTransformer = $progressTransformer;
     }
 
     public function get_info_student($studentId)
@@ -89,6 +93,37 @@ class ManageStudentApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             'history_calls' => $history_calls,
+        ]);
+    }
+
+    public function get_progress($studentId)
+    {
+        $target_user = User::find($studentId);
+        if ($target_user) {
+            $registers = $target_user->registers()
+                ->where('status', 1)->whereExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('classes')
+                        ->whereRaw('classes.id = registers.class_id')
+                        ->where('name', 'like', '%.%');
+                })->orderBy('created_at', 'desc')->get();
+            return $this->respondSuccessWithStatus([
+                'progress' => $this->progressTransformer->transformCollection($registers)
+            ]);
+        } else {
+            return $this->responseBadRequest("student not existed");
+        }
+    }
+
+    public function edit_student(Request $request)
+    {
+        $student = User::find($request->id);
+        $student->name = $request->name;
+        $student->email = $request->email;
+        $student->phone = $request->phone;
+        $student->save();
+        return $this->respondSuccessWithStatus([
+            'student' => $student
         ]);
     }
 }

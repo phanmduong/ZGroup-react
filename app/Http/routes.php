@@ -139,9 +139,11 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     //End gens api
 
     //Begin student api
-    Route::get('/student/{studentId}','ManageStudentApiController@get_info_student');
-    Route::get('/student/{studentId}/registers','ManageStudentApiController@get_registers');
-    Route::get('/student/{studentId}/history-calls','ManageStudentApiController@history_calls');
+    Route::get('/student/{studentId}', 'ManageStudentApiController@get_info_student');
+    Route::get('/student/{studentId}/registers', 'ManageStudentApiController@get_registers');
+    Route::get('/student/{studentId}/history-calls', 'ManageStudentApiController@history_calls');
+    Route::get('/student/{studentId}/progress', 'ManageStudentApiController@get_progress');
+    Route::post('/student/{studentId}/edit', 'ManageStudentApiController@edit_student');
     //End student api
 
 });

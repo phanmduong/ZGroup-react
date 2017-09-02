@@ -54,6 +54,8 @@ class ProgressTransformer extends Transformer
             'description' => $register->studyClass->description,
             'study_time' => $register->studyClass->study_time,
             'icon_url' => $register->studyClass->course->icon_url,
+            "room" => $register->studyClass->room->name,
+            "base" => $register->studyClass->base->address,
             "time" => $times,
             'attendances' => $attendances
         ];
