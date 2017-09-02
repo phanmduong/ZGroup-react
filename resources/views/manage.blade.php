@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
-    <link href="manage/main.318d6c22359c37f5f3139a5d10ff2b16.css" rel="stylesheet">
+    <link href="manage/main.1c9df36fb0b5c7c26b290b1b5625ee87.css" rel="stylesheet">
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
@@ -74,7 +74,7 @@
 
 
 <script src="{{url('config.js')}}"></script>
-<script type="text/javascript" src="manage/main.0a5052c6e791b18c79af.js"></script>
+<script type="text/javascript" src="manage/main.dc52666794c7e1bae55c.js"></script>
 
 
 
