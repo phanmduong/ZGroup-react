@@ -8,6 +8,11 @@ class Notification extends Model
 {
     protected $table = 'notifications';
 
+    public function type()
+    {
+        return $this->belongsTo(NotificationType::class, "type");
+    }
+
     public function receiver()
     {
         return $this->belongsTo('App\User', 'receiver_id');
@@ -23,11 +28,13 @@ class Notification extends Model
         return $this->belongsTo('App\Product', 'product_id');
     }
 
-    public function transaction(){
-        return $this->belongsTo('App\Transaction','product_id');
+    public function transaction()
+    {
+        return $this->belongsTo('App\Transaction', 'product_id');
     }
 
-    public function topic(){
-        return $this->belongsTo('App\Topic','product_id');
+    public function topic()
+    {
+        return $this->belongsTo('App\Topic', 'product_id');
     }
 }
