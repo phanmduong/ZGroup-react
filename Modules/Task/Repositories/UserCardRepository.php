@@ -12,7 +12,9 @@ namespace Modules\Task\Repositories;
 use App\CalendarEvent;
 use App\Card;
 use App\Colorme\Transformers\TaskTransformer;
+use App\Notification;
 use App\User;
+use Illuminate\Support\Facades\Redis;
 
 class UserCardRepository
 {
@@ -43,7 +45,7 @@ class UserCardRepository
         });
     }
 
-    public function assign($cardId, $userId)
+    public function assign($cardId, $userId, $currentUser = null)
     {
         $card = Card::find($cardId);
         $assignee = $card->assignees()->where('id', '=', $userId)->first();
@@ -53,6 +55,31 @@ class UserCardRepository
         } else {
             $card->assignees()->attach($userId);
             $this->updateCalendarEvent($cardId);
+
+
+            if ($currentUser) {
+
+                $notification = new Notification;
+                $notification->actor_id = $currentUser->id;
+                $notification->card_id = $cardId;
+                $notification->receiver_id = $userId;
+                $notification->type = 7;
+                $notification->save();
+
+                $data = array(
+                    "message" => " vừa thêm bạn vào card Môn học trong dự án IT",
+                    "link" => url('/project/' . $card->board->project->id . '/boards/'),
+                    'created_at' => format_time_to_mysql($notification->created_at),
+                    "receiver_id" => $notification->receiver_id
+                );
+
+                $publish_data = array(
+                    "event" => "notification",
+                    "data" => $data
+                );
+                Redis::publish('colorme-channel', json_encode($publish_data));
+            }
+
         }
 
         return true;

@@ -20,7 +20,7 @@ class CardController extends ManageApiController
 
     public function assignMember($cardId, $userId)
     {
-        $this->userCardRepository->assign($cardId, $userId);
+        $this->userCardRepository->assign($cardId, $userId, $this->user);
         return $this->respond(["status" => 1]);
     }
 

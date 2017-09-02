@@ -62,6 +62,12 @@ class NotificationTypeSeeder extends Seeder
                 'id' => 6,
                 "template" => "[[ACTOR]] đã đánh dấu nổi bật bài viết [[TARGET]]",
                 "icon" => "<i class=\"material-icons\">thumb_up</i>"
+            ], [
+                'name' => "assign_member_to_card",
+                'color' => "#c50000",
+                'id' => 7,
+                "template" => "[[ACTOR]] vừa thêm bạn vào thẻ [[CARD]] trong dự án [[PROJECT]]",
+                "icon" => "<i class=\"material-icons\">thumb_up</i>"
             ]
         ]);
     }

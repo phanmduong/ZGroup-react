@@ -8,7 +8,7 @@ class Notification extends Model
 {
     protected $table = 'notifications';
 
-    public function type()
+    public function notificationType()
     {
         return $this->belongsTo(NotificationType::class, "type");
     }
@@ -36,5 +36,10 @@ class Notification extends Model
     public function topic()
     {
         return $this->belongsTo('App\Topic', 'product_id');
+    }
+
+    public function card()
+    {
+        return $this->belongsTo(Card::class, "card_id");
     }
 }

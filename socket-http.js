@@ -2,8 +2,10 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var Redis = require('ioredis');
-var redis = new Redis(6379, 'redis1.d3zfqq.0001.apse1.cache.amazonaws.com');
-redis.subscribe('colorme-channel', function (err, count) {
+var ENV = require('./socketEnv');
+
+var redis = new Redis(ENV.REDIS_PORT, ENV.REDIS_HOST);
+redis.subscribe(ENV.CHANNEL, function (err, count) {
 });
 redis.on('message', function (channel, message) {
     console.log('Message Recieved: ' + message);

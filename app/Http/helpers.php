@@ -1412,6 +1412,7 @@ function convert_email_form($email_form)
     return $data;
 }
 
+
 function trim_color($color)
 {
     if ($color[0] === '#') return substr($color, 1);
