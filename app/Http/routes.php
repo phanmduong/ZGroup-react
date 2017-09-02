@@ -107,6 +107,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::get('/history-call-student', 'ManageRegisterStudentApiController@history_call_student');
     Route::post('/change-call-status-student', 'ManageRegisterStudentApiController@change_call_status');
     Route::post('/delete-register-student', 'ManageRegisterStudentApiController@delete_register');
+    Route::get('/register-student/{registerId}/classes', 'ManageRegisterStudentApiController@get_classes');
     //End register students api
 
     //Begin user api

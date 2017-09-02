@@ -129,5 +129,19 @@ class ManageRegisterStudentApiController extends ManageApiController
         ]);
     }
 
+    public function get_classes($registerId)
+    {
+        $register = Register::find($registerId);
+        $current_gen = $register->gen;
+        $classes = $current_gen->studyclasses()->where('course_id', '=', $register->studyClass->course_id)->where('id', '!=', $register->class_id)->get();
+        $classes = $classes->map(function ($class) {
+            $class['total_paid'] = $class->registers()->where('status', 1)->count();
+            $class['total_register'] = $class->registers()->count();
+            return $class;
+        });
+        return $this->respondSuccessWithStatus([
+            'classes' => $classes
+        ]);
+    }
 
 }
