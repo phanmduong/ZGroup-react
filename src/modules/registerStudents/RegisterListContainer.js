@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import ListRegister from "./ListRegister";
+import ListClass from "./ListClass";
 import * as registerActions from './registerActions';
 import _ from 'lodash';
 import Loading from '../../components/common/Loading';
@@ -20,6 +21,7 @@ class RegisterListContainer extends React.Component {
             gens: [],
             selectGenId: '',
             showModal: false,
+            showModalChangeClass: false,
             register: {},
             note: '',
             salerId: '',
@@ -30,6 +32,8 @@ class RegisterListContainer extends React.Component {
         this.changeGens = this.changeGens.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
+        this.openModalChangeClass = this.openModalChangeClass.bind(this);
+        this.closeModalChangeClass = this.closeModalChangeClass.bind(this);
         this.viewCall = this.viewCall.bind(this);
         this.changeCallStatusStudent = this.changeCallStatusStudent.bind(this);
         this.deleteRegister = this.deleteRegister.bind(this);
@@ -72,6 +76,15 @@ class RegisterListContainer extends React.Component {
                 note: ''
             }
         );
+    }
+
+    closeModalChangeClass() {
+        this.setState({showModalChangeClass: false});
+    }
+
+    openModalChangeClass(registerId) {
+        this.setState({showModalChangeClass: true});
+        this.props.registerActions.loadClasses(registerId);
     }
 
     viewCall(register) {
@@ -174,6 +187,7 @@ class RegisterListContainer extends React.Component {
                                                 deleteRegister={this.deleteRegister}
                                                 loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
                                                 loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
+                                                openModalChangeClass={this.openModalChangeClass}
 
                                             />
                                     }
@@ -395,6 +409,27 @@ class RegisterListContainer extends React.Component {
                     </Modal.Body>
                     }
                 </Modal>
+                <Modal show={this.state.showModalChangeClass}
+                       onHide={() => {
+                           if (!this.props.isChangingClass)
+                               this.closeModalChangeClass();
+                       }}
+                       bsSize="large"
+                >
+                    <Modal.Header closeButton={this.props.isChangingClass}>
+                        <Modal.Title>Thay đổi lớp đăng kí</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.props.isLoadingClasses ?
+                            <Loading/>
+                            :
+                            <ListClass
+                                classes={this.props.classes}
+                            />
+
+                        }
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
@@ -403,6 +438,7 @@ class RegisterListContainer extends React.Component {
 RegisterListContainer.propTypes = {
     registers: PropTypes.array.isRequired,
     gens: PropTypes.array.isRequired,
+    classes: PropTypes.array.isRequired,
     historyCall: PropTypes.array.isRequired,
     registerActions: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
@@ -412,11 +448,14 @@ RegisterListContainer.propTypes = {
     isLoadingGens: PropTypes.bool.isRequired,
     isLoadingHistoryCall: PropTypes.bool.isRequired,
     isChangingStatus: PropTypes.bool.isRequired,
+    isLoadingClasses: PropTypes.bool.isRequired,
+    isChangingClass: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         registers: state.registerStudents.registers,
+        classes: state.registerStudents.classes,
         totalPages: state.registerStudents.totalPages,
         currentPage: state.registerStudents.currentPage,
         telecallId: state.registerStudents.telecallId,
@@ -426,6 +465,8 @@ function mapStateToProps(state) {
         isLoadingRegisters: state.registerStudents.isLoading,
         isLoadingHistoryCall: state.registerStudents.isLoadingHistoryCall,
         isChangingStatus: state.registerStudents.isChangingStatus,
+        isChangingClass: state.registerStudents.isChangingClass,
+        isLoadingClasses: state.registerStudents.isLoadingClasses,
         genId: state.registerStudents.genId,
     };
 }

@@ -314,7 +314,12 @@ export default {
         errorHistoryCall: false,
         isChangingStatus: false,
         errorChangeStatus: false,
-        telecallId: 0
+        telecallId: 0,
+        isChangingClass: false,
+        errorChangeClass: false,
+        isLoadingClasses: false,
+        errorClasses: false,
+        classes: []
     },
 
     profile: {

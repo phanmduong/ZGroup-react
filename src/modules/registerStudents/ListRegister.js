@@ -27,6 +27,7 @@ class ListRegister extends React.Component {
                         <th>Học phí</th>
                         <th>Đăng kí</th>
                         <th/>
+                        <th>Đổi lớp</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -76,7 +77,8 @@ class ListRegister extends React.Component {
                                     </div>
                                 </td>
                                 <td>
-                                    <Link to={`/info-student/${register.student_id}`} className="text-name-student-register">
+                                    <Link to={`/info-student/${register.student_id}`}
+                                          className="text-name-student-register">
                                         {register.name}
                                     </Link>
                                 </td>
@@ -157,6 +159,14 @@ class ListRegister extends React.Component {
                                         disabledDelete={Boolean(register.paid_status)}
                                     />
                                 </td>
+                                <td>
+                                    <button
+                                        className="btn btn-fill btn-rose"
+                                        onClick={() => this.props.openModalChangeClass(register.id)}
+                                    >
+                                        Đổi
+                                    </button>
+                                </td>
                             </tr>);
                     })}
 
@@ -170,6 +180,7 @@ class ListRegister extends React.Component {
 ListRegister.propTypes = {
     registers: PropTypes.array.isRequired,
     viewCall: PropTypes.func.isRequired,
+    openModalChangeClass: PropTypes.func.isRequired,
     deleteRegister: PropTypes.func.isRequired,
     loadRegisterStudentByCampaign: PropTypes.func.isRequired,
     loadRegisterStudentBySaler: PropTypes.func.isRequired,

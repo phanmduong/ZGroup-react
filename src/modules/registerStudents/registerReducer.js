@@ -119,7 +119,32 @@ export default function registerReducer(state = initialState.registerStudents, a
             return {
                 ...state,
                 registers: registers
-            }
+            };
+        case types.BEGIN_LOAD_CLASSES_REGISTER_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isLoadingClasses: true,
+                    errorClasses: false,
+                }
+            };
+        case types.LOAD_CLASSES_REGISTER_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingClasses: false,
+                    errorClasses: false,
+                    classes: action.classes,
+                }
+            };
+        case types.LOAD_CLASSES_REGISTER_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingClasses: false,
+                    errorClasses: true,
+                }
+            };
         default:
             return state;
     }
