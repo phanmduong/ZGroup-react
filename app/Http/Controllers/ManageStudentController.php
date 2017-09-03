@@ -105,6 +105,7 @@ class ManageStudentController extends ManageController
         $this->data['register'] = $register;
         $this->data['classes'] = $classes;
         $this->data['old_registers'] = $register->user->registers()->orderBy('created_at', 'desc')->get();
+//        return response()->json($this->data);
         return view('manage.student.change_class', $this->data);
     }
 }

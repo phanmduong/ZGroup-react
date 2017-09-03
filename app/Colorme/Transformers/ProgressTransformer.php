@@ -47,6 +47,7 @@ class ProgressTransformer extends Transformer
 //            }
         })->sortBy('order')->values()->all();
 
+
         $data = [
             'id' => $register->id,
             'code' => $register->code,
@@ -54,9 +55,26 @@ class ProgressTransformer extends Transformer
             'description' => $register->studyClass->description,
             'study_time' => $register->studyClass->study_time,
             'icon_url' => $register->studyClass->course->icon_url,
+            "room" => $register->studyClass->room->name,
+            "base" => $register->studyClass->base->address,
             "time" => $times,
             'attendances' => $attendances
         ];
+
+        if ($register->studyClass->teach) {
+            $data['teach'] = [
+                'name' => $register->studyClass->teach->name,
+                'id' => $register->studyClass->teach->id
+            ];
+        }
+
+        if ($register->studyClass->assist) {
+            $data['assist'] = [
+                'name' => $register->studyClass->assist->name,
+                'id' => $register->studyClass->assist->id
+            ];
+        }
+
         return $data;
     }
 }

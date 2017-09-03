@@ -23,17 +23,21 @@
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
-    <link href="manage/main.318d6c22359c37f5f3139a5d10ff2b16.css" rel="stylesheet">
+    <link href="manage/main.18002576d5de72df0229b08dd0156f24.css" rel="stylesheet">
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
 <body>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-3.1.1.min.js"
-        type="text/javascript"></script>
+{{--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery-3.1.1.min.js"--}}
+{{--type="text/javascript"></script>--}}
+<script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
-{{--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>--}}
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.js"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
+{{--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.js"></script>--}}
 
 <!-- TagsInput Plugin -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.tagsinput.js"></script>
@@ -70,8 +74,7 @@
 
 
 <script src="{{url('config.js')}}"></script>
-<script type="text/javascript" src="manage/main.0a5052c6e791b18c79af.js"></script>
-
+<script type="text/javascript" src="manage/main.95e581c109f49f7c28c9.js"></script>
 
 
 <!-- Material Dashboard javascript methods -->
