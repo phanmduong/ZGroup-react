@@ -8,7 +8,7 @@ import OutsideAlerter from '../../components/common/OutsideAlerter';
 import socket from '../../services/socketio';
 import "./notification.css";
 import {CHANNEL} from '../../constants/env';
-import {showNotification, showNotificationMessage} from "../../helpers/helper";
+import {showNotificationMessage} from "../../helpers/helper";
 
 class NotificationContainer extends React.Component {
     constructor(props, context) {
