@@ -42,11 +42,18 @@ class RegisterTransformer extends Transformer
                 "id" => $register->studyClass->id,
                 "study_time" => $register->studyClass->study_time,
                 "description" => $register->studyClass->description,
-                "room" => $register->studyClass->room->name,
-                "base" => $register->studyClass->base->address
             ],
             "created_at" => format_time_to_mysql(strtotime($register->created_at))
         ];
+
+        if ($register->studyClass->room) {
+            $data['class']['room'] = $register->studyClass->room->name;
+        }
+
+        if ($register->studyClass->base) {
+            $data['class']['base'] = $register->studyClass->base->address;
+        }
+
         if ($register->call_status == 0) {
             $count = TeleCall::where('student_id', $register->user_id)->count();
             if ($count == 0) {
