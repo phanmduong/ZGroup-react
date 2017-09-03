@@ -52,19 +52,31 @@ class ListClass extends React.Component {
                                         </div>
                                     </td>
                                     <td>
-                                        <button
-                                            className="btn btn-fill btn-rose"
-                                            onClick={() => {
-                                            }}
-                                        >
-                                            Đổi
-                                        </button>
+                                        {this.props.isChangingClass ?
+                                            (
+                                                <button
+                                                    className="btn btn-fill btn-rose disabled"
+                                                >
+                                                    <i className="fa fa-spinner fa-spin"/> Đang thay đổi
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button
+                                                    className="btn btn-fill btn-rose"
+                                                    onClick={() => {
+                                                        this.props.confirmChangeClass(classItem);
+                                                    }}
+                                                >
+                                                    Đổi
+                                                </button>
+                                            )
+                                        }
                                     </td>
                                 </tr>
-                            )
+                            );
                         })
                     }
-
                     </tbody>
                 </table>
             </div>
@@ -74,7 +86,8 @@ class ListClass extends React.Component {
 
 ListClass.propTypes = {
     classes: PropTypes.array.isRequired,
-
+    confirmChangeClass: PropTypes.func.isRequired,
+    isChangingClass: PropTypes.bool.isRequired,
 };
 
 export default ListClass;

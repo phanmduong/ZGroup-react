@@ -25,8 +25,9 @@ class RegisterListContainer extends React.Component {
             register: {},
             note: '',
             salerId: '',
-            campaignId: ''
-        };
+            campaignId: '',
+            selectRegisterId: 0
+        }
         this.timeOut = null;
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.changeGens = this.changeGens.bind(this);
@@ -39,6 +40,7 @@ class RegisterListContainer extends React.Component {
         this.deleteRegister = this.deleteRegister.bind(this);
         this.loadRegisterStudentBySaler = this.loadRegisterStudentBySaler.bind(this);
         this.loadRegisterStudentByCampaign = this.loadRegisterStudentByCampaign.bind(this);
+        this.confirmChangeClass = this.confirmChangeClass.bind(this);
 
     }
 
@@ -83,7 +85,10 @@ class RegisterListContainer extends React.Component {
     }
 
     openModalChangeClass(registerId) {
-        this.setState({showModalChangeClass: true});
+        this.setState({
+            showModalChangeClass: true,
+            selectRegisterId: registerId
+        });
         this.props.registerActions.loadClasses(registerId);
     }
 
@@ -150,6 +155,10 @@ class RegisterListContainer extends React.Component {
 
     deleteRegister(register) {
         this.props.registerActions.deleteRegisterStudent(register.id);
+    }
+
+    confirmChangeClass(classData) {
+        this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, this.closeModalChangeClass);
     }
 
     render() {
@@ -416,7 +425,7 @@ class RegisterListContainer extends React.Component {
                        }}
                        bsSize="large"
                 >
-                    <Modal.Header closeButton={this.props.isChangingClass}>
+                    <Modal.Header closeButton={!this.props.isChangingClass}>
                         <Modal.Title>Thay đổi lớp đăng kí</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -425,6 +434,8 @@ class RegisterListContainer extends React.Component {
                             :
                             <ListClass
                                 classes={this.props.classes}
+                                confirmChangeClass={this.confirmChangeClass}
+                                isChangingClass={this.props.isChangingClass}
                             />
 
                         }

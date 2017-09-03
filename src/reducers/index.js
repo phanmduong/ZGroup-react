@@ -24,7 +24,6 @@ const appReducer = combineReducers({
     roles: rolesReducer,
     baseList: baseListReducer,
     task: taskReducer,
-    register: registerReducer,
     emailTemplates: emailTemplatesReducer,
     emailForms: emailFormsReducer,
     blog: blogReducer,

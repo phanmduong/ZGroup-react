@@ -145,6 +145,32 @@ export default function registerReducer(state = initialState.registerStudents, a
                     errorClasses: true,
                 }
             };
+        case types.BEGIN_CONFIRM_CHANGE_CLASS_REGISTER_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isChangingClass: true,
+                    errorChangeClass: false,
+                }
+            };
+        case types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_SUCCESS:
+            registers = changeClassRegister(action.registerId, action.class, state.registers);
+            return {
+                ...state,
+                ...{
+                    isChangingClass: false,
+                    errorChangeClass: false,
+                    registers: registers,
+                }
+            };
+        case types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingClass: false,
+                    errorChangeClass: true,
+                }
+            };
         default:
             return state;
     }
@@ -163,6 +189,23 @@ function changeCallStatus(registerId, registers, callStatus) {
                 return register;
             }
         );
+    }
+    return registers;
+}
+
+function changeClassRegister(registerId, classData, registers) {
+    if (registers) {
+        registers = registers.map(register => {
+                if (register.id === registerId) {
+                    return {
+                        ...register,
+                        class: classData
+                    };
+                }
+                return register;
+            }
+        );
+        console.log(registers);
     }
     return registers;
 }

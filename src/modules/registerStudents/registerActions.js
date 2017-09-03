@@ -141,3 +141,28 @@ export function loadClasses(registerId) {
     };
 }
 
+export function confirmChangeClass(registerId, classId, closeModalChangeClass) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CONFIRM_CHANGE_CLASS_REGISTER_STUDENT
+        });
+        registerStudentsApi.confirmChangeClass(registerId, classId)
+            .then((res) => {
+                showNotification(res.data.data.message);
+                closeModalChangeClass();
+                dispatch({
+                    type: types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_SUCCESS,
+                    registerId: registerId,
+                    class: res.data.data.class
+
+                });
+            })
+            .catch(() => {
+                showErrorNotification("Thay đổi lớp thất bại");
+                dispatch({
+                    type: types.CONFIRM_CHANGE_CLASS_REGISTER_STUDENT_ERROR
+                });
+            });
+    };
+}
+
