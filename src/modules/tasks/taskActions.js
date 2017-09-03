@@ -542,6 +542,14 @@ export function loadMembers(query, cardId) {
     };
 }
 
+export function clearMembers() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLEAR_MEMBERS
+        });
+    };
+}
+
 
 export function deleteTaskList(taskList) {
     return function (dispatch) {

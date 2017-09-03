@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 import * as notificationActions from './notificationActions';
 import Loading from "../../components/common/Loading";
 import OutsideAlerter from '../../components/common/OutsideAlerter';
+import socket from '../../services/socketio';
 import "./notification.css";
+import {CHANNEL} from '../../constants/env';
+import {showNotification, showNotificationMessage} from "../../helpers/helper";
 
 class NotificationContainer extends React.Component {
     constructor(props, context) {
@@ -17,15 +20,26 @@ class NotificationContainer extends React.Component {
         this.loadNotifications = this.loadNotifications.bind(this);
         this.toggle = this.toggle.bind(this);
         this.close = this.close.bind(this);
+        this.socketListen = this.socketListen.bind(this);
     }
 
     componentWillMount() {
         this.props.notificationActions.loadMyNotification();
+        this.socketListen();
     }
 
-    loadNotifications(event) {
-        event.stopPropagation();
-        event.preventDefault();
+    socketListen() {
+        const channel = CHANNEL + ":notification";
+        socket.on(channel, (data) => {
+            const {message, link, receiver_id, actor_id} = data;
+            console.log(data);
+            if (Number(receiver_id) === this.props.user.id && this.props.user.id !== actor_id) {
+                showNotificationMessage(`<a href="${link}">${message}</a>`);
+            }
+        });
+    }
+
+    loadNotifications() {
         this.setState({
             page: this.state.page + 1
         });
@@ -33,6 +47,9 @@ class NotificationContainer extends React.Component {
     }
 
     toggle() {
+        if (this.props.unread > 0) {
+            this.props.notificationActions.readAllNotifications();
+        }
         this.setState({
             open: !this.state.open
         });
@@ -54,7 +71,7 @@ class NotificationContainer extends React.Component {
                 <a className="dropdown-toggle"
                    onClick={this.toggle}>
                     <i className="material-icons">notifications</i>
-                    <span className="notification">{this.props.unread}</span>
+                    {this.props.unread > 0 && <span className="notification">{this.props.unread}</span>}
                     <p className="hidden-lg hidden-md">
                         Notifications
                         <b className="caret"/>
@@ -95,6 +112,7 @@ NotificationContainer.propTypes = {
     notifications: PropTypes.array.isRequired,
     isEmpty: PropTypes.bool.isRequired,
     unread: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired
 };
 
@@ -103,7 +121,8 @@ function mapStateToProps(state) {
         notifications: state.notification.notificationList.notifications,
         isLoading: state.notification.notificationList.isLoading,
         isEmpty: state.notification.notificationList.isEmpty,
-        unread: state.notification.notificationList.unread
+        unread: state.notification.notificationList.unread,
+        user: state.login.user
     };
 }
 

@@ -44,7 +44,11 @@ class OutsideAlerter extends React.Component {
 }
 
 OutsideAlerter.propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.element.isRequired,
+        PropTypes.array.isRequired
+    ]),
+
     className: PropTypes.string.isRequired,
     handle: PropTypes.func.isRequired
 };

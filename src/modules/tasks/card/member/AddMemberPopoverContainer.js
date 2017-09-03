@@ -18,6 +18,10 @@ class AddMemberPopoverContainer extends React.Component {
         this.toggleAssign = this.toggleAssign.bind(this);
     }
 
+    componentWillMount() {
+        this.props.taskActions.clearMembers();
+    }
+
     onSearchChange(event) {
         const value = event.target.value;
         this.setState({query: value});

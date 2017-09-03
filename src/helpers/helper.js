@@ -44,6 +44,10 @@ export function showErrorNotification(message) {
     showNotification(message, "top", "right", "danger");
 }
 
+export function showNotificationMessage(message) {
+    showNotification(message, "bottom", "left", "info");
+}
+
 export function showNotification(message, from = "top", align = "right", type = "success") {
     // type = ['', 'info', 'success', 'warning', 'danger', 'rose', 'primary'];
 

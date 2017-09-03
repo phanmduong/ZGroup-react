@@ -6,6 +6,14 @@ export default function notificationReducer(state = initialState.notification, a
 
     switch (action.type) {
 
+        case types.READ_ALL_NOTIFICATIONS:
+            return {
+                ...state,
+                notificationList: {
+                    ...state.notificationList,
+                    unread: 0
+                }
+            };
         case types.BEGIN_LOAD_NOTIFICATIONS:
             return {
                 ...state,

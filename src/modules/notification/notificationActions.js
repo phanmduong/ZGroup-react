@@ -17,3 +17,11 @@ export function loadMyNotification(page = 1) {
     };
 }
 
+export function readAllNotifications() {
+    return function (dispatch) {
+        dispatch({type: types.READ_ALL_NOTIFICATIONS});
+        notificationApi.readAllNofitications();
+    };
+}
+
+
