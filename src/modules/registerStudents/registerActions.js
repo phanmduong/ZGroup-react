@@ -121,3 +121,23 @@ export function deleteRegisterStudent(registerId) {
     };
 }
 
+export function loadClasses(registerId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASSES_REGISTER_STUDENT
+        });
+        registerStudentsApi.loadClasses(registerId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CLASSES_REGISTER_STUDENT_SUCCESS,
+                    classes: res.data.data.classes
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_CLASSES_REGISTER_STUDENT_ERROR
+                });
+            });
+    };
+}
+
