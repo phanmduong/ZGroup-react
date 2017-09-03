@@ -68,6 +68,12 @@ class NotificationTypeSeeder extends Seeder
                 'id' => 7,
                 "template" => "[[ACTOR]] vừa thêm bạn vào thẻ [[CARD]] trong dự án [[PROJECT]]",
                 "icon" => "<i class=\"material-icons\">thumb_up</i>"
+            ], [
+                'name' => "set_card_deadline",
+                'color' => "#c50000",
+                'id' => 8,
+                "template" => "[[ACTOR]] vừa bổ sung hạn chót vào thẻ [[CARD]] trong dự án [[PROJECT]]",
+                "icon" => "<i class=\"material-icons\">thumb_up</i>"
             ]
         ]);
     }
