@@ -72,6 +72,7 @@ class ClientManageController extends Controller
     public function writeEnv(Request $request)
     {
         file_put_contents(base_path() . "/.env", $request->env);
+        file_put_contents(base_path() . "/socketEnv.js", $request->server_socket);
         Artisan::call('config:cache');
         return $this->respond([
             'status' => 1,
