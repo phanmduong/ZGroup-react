@@ -84,7 +84,9 @@ class NotificationContainer extends React.Component {
                         this.props.notifications.map((notification) => {
                             return (
                                 <li key={notification.id}>
-                                    <a href={notification.url}>{notification.message}</a>
+                                    <a href={notification.url}
+                                       dangerouslySetInnerHTML={{__html: notification.message}}>
+                                    </a>
                                 </li>
                             );
                         })
