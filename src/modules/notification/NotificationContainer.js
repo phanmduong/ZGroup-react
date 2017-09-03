@@ -28,20 +28,18 @@ class NotificationContainer extends React.Component {
         this.socketListen();
     }
 
-    componentWillReceiveProps() {
-
-    }
-
     socketListen() {
         const channel = CHANNEL + ":notification";
         socket.on(channel, (data) => {
-            const {message, link, receiver_id, actor_id} = data;
+            const {message, link, receiver_id, actor_id, icon, color} = data;
 
             if (Number(receiver_id) === this.props.user.id && this.props.user.id !== actor_id) {
                 showNotificationMessage(`<a href="${link}">${message}</a>`);
                 this.props.notificationActions.newNotification({
                     ...data,
-                    url: link
+                    url: link,
+                    icon,
+                    color
                 });
             }
         });
