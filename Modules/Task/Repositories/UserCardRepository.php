@@ -57,27 +57,38 @@ class UserCardRepository
             $this->updateCalendarEvent($cardId);
 
 
-            if ($currentUser) {
+            if ($currentUser && $currentUser->id != $userId) {
+
+                $project = $card->board->project;
 
                 $notification = new Notification;
                 $notification->actor_id = $currentUser->id;
                 $notification->card_id = $cardId;
                 $notification->receiver_id = $userId;
                 $notification->type = 7;
+                $message = $notification->notificationType->template;
+
+                $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
+                $message = str_replace('[[CARD]]', "<strong>" . $card->title . "</strong>", $message);
+                $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
+                $notification->message = $message;
+
                 $notification->save();
 
                 $data = array(
-                    "message" => " vừa thêm bạn vào card Môn học trong dự án IT",
-                    "link" => url('/project/' . $card->board->project->id . '/boards/'),
+                    "message" => $message,
+                    "link" => '/project/' . $project->id . '/boards',
                     'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
-                    "receiver_id" => $notification->receiver_id
+                    "receiver_id" => $notification->receiver_id,
+                    "actor_id" => $notification->actor_id
                 );
 
                 $publish_data = array(
                     "event" => "notification",
                     "data" => $data
                 );
-                Redis::publish('colorme-channel', json_encode($publish_data));
+
+                Redis::publish(config("app.channel"), json_encode($publish_data));
             }
 
         }

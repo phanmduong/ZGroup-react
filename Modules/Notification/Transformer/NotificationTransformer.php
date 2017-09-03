@@ -28,12 +28,7 @@ class NotificationTransformer extends Transformer
                 $card = $notification->card;
                 $board = $card->board;
                 $data["url"] = "/project/" . $board->project_id . "/boards";
-                $message = $notification->notificationType->template;
-
-                $message = str_replace('[[ACTOR]]', $notification->actor->name, $message);
-                $message = str_replace('[[CARD]]', $card->title, $message);
-                $message = str_replace('[[PROJECT]]', $board->project->name, $message);
-                $data["message"] = $message;
+                $data["message"] = $notification->message;
                 break;
         }
         return $data;

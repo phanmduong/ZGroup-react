@@ -38,4 +38,11 @@ class NotificationRepository
         $count = $user->received_notifications()->where("seen", 0)->count();
         return $count;
     }
+
+    public function readAllNotification($userId)
+    {
+        $user = User::find($userId);
+        $user->received_notifications()->where("seen", 0)->update(['seen' => 1]);;
+        return true;
+    }
 }

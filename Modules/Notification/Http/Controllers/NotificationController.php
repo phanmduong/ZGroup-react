@@ -19,10 +19,6 @@ class NotificationController extends ManageApiController
         $this->notificationRepository = $notificationRepository;
     }
 
-    /**
-     * Return a listing of the resource.
-     * @return Response
-     */
     public function notifications(Request $request)
     {
         $page = $request->page;
@@ -37,13 +33,12 @@ class NotificationController extends ManageApiController
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
+    public function readNotifications()
     {
-        return view('notification::create');
+        $this->notificationRepository->readAllNotification($this->user->id);
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
+        ]);
     }
 
     /**
