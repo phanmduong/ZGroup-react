@@ -11,6 +11,7 @@ export function loadMyNotification(page = 1) {
                     type: types.LOAD_NOTIFICATIONS_SUCCESS,
                     notifications,
                     unread: res.data.data.unread,
+                    reset: page === 1,
                     isEmpty: notifications.length === 0
                 });
             });
@@ -25,3 +26,11 @@ export function readAllNotifications() {
 }
 
 
+export function newNotification(notification) {
+    return function (dispatch) {
+        dispatch({
+            type: types.NEW_NOTIFICATION,
+            notification
+        });
+    };
+}

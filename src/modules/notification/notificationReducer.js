@@ -5,7 +5,15 @@ import initialState from '../../reducers/initialState';
 export default function notificationReducer(state = initialState.notification, action) {
 
     switch (action.type) {
-
+        case types.NEW_NOTIFICATION:
+            return {
+                ...state,
+                notificationList: {
+                    ...state.notificationList,
+                    notifications: [action.notification, ...state.notificationList.notifications],
+                    unread: (state.notificationList.unread + 1)
+                }
+            };
         case types.READ_ALL_NOTIFICATIONS:
             return {
                 ...state,
@@ -28,7 +36,7 @@ export default function notificationReducer(state = initialState.notification, a
                 notificationList: {
                     ...state.notificationList,
                     isLoading: false,
-                    notifications: [
+                    notifications: action.reset ? action.notifications : [
                         ...state.notificationList.notifications,
                         ...action.notifications
                     ],

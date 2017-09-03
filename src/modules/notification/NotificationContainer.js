@@ -28,13 +28,21 @@ class NotificationContainer extends React.Component {
         this.socketListen();
     }
 
+    componentWillReceiveProps() {
+
+    }
+
     socketListen() {
         const channel = CHANNEL + ":notification";
         socket.on(channel, (data) => {
             const {message, link, receiver_id, actor_id} = data;
-            console.log(data);
+
             if (Number(receiver_id) === this.props.user.id && this.props.user.id !== actor_id) {
                 showNotificationMessage(`<a href="${link}">${message}</a>`);
+                this.props.notificationActions.newNotification({
+                    ...data,
+                    url: link
+                });
             }
         });
     }
@@ -81,9 +89,9 @@ class NotificationContainer extends React.Component {
                 <ul className="dropdown-menu">
 
                     {
-                        this.props.notifications.map((notification) => {
+                        this.props.notifications.map((notification, index) => {
                             return (
-                                <li key={notification.id}>
+                                <li key={index}>
                                     <a href={notification.url}
                                        dangerouslySetInnerHTML={{__html: notification.message}}>
                                     </a>
