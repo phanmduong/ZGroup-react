@@ -25,55 +25,55 @@ class NotificationTypeSeeder extends Seeder
                 'color' => "#c50000",
                 'id' => 0,
                 "template" => "[[ACTOR]] đã thích bài viết [[TARGET]]",
-                "icon" => "<i class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "new_comment",
                 'color' => "#c50000",
                 'id' => 1,
                 "template" => "[[ACTOR]] đã bình luận bài viết [[TARGET]]",
-                "icon" => "<i class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "also_comment",
                 'color' => "#c50000",
                 'id' => 2,
                 "template" => "[[ACTOR]] cũng đã bình luận bài viết [[TARGET]]",
-                "icon" => "<i class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "money_transferring",
                 'color' => "#c50000",
                 'id' => 3,
                 "template" => "[[ACTOR]] đang chuyển [[AMOUNT]] cho [[TARGET]]",
-                "icon" => "<i class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "money_transferred",
                 'color' => "#c50000",
                 'id' => 4,
                 "template" => "[[ACTOR]] đã chuyển [[AMOUNT]] cho [[TARGET]]",
-                "icon" => "<i class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "new_topic",
                 'color' => "#c50000",
                 'id' => 5,
                 "template" => "[[ACTOR]] đã tạo topic [[TARGET]]",
-                "icon" => "<i class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "feature",
                 'color' => "#c50000",
                 'id' => 6,
                 "template" => "[[ACTOR]] đã đánh dấu nổi bật bài viết [[TARGET]]",
-                "icon" => "<i class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "assign_member_to_card",
                 'color' => "#c50000",
                 'id' => 7,
                 "template" => "[[ACTOR]] vừa thêm bạn vào thẻ [[CARD]] trong dự án [[PROJECT]]",
-                "icon" => "<i class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "set_card_deadline",
                 'color' => "#c50000",
                 'id' => 8,
                 "template" => "[[ACTOR]] vừa bổ sung hạn chót vào thẻ [[CARD]] trong dự án [[PROJECT]]",
-                "icon" => "<i class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ]
         ]);
     }

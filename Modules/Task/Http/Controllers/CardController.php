@@ -7,6 +7,7 @@ use App\Card;
 use App\Http\Controllers\ManageApiController;
 use App\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Modules\Task\Repositories\UserCardRepository;
 
 class CardController extends ManageApiController
@@ -41,17 +42,17 @@ class CardController extends ManageApiController
         $this->userCardRepository->updateCalendarEvent($cardId);
 
         $currentUser = $this->user;
+        $project = $card->board->project;
 
         foreach ($card->assignees as $user) {
-            if ($currentUser && $currentUser->id != $user->id) {
 
-                $project = $card->board->project;
+            if ($currentUser && $currentUser->id != $user->id) {
 
                 $notification = new Notification;
                 $notification->actor_id = $currentUser->id;
                 $notification->card_id = $cardId;
                 $notification->receiver_id = $user->id;
-                $notification->type = 7;
+                $notification->type = 8;
                 $message = $notification->notificationType->template;
 
                 $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
