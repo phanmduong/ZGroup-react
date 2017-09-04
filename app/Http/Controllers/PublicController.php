@@ -789,44 +789,7 @@ class PublicController extends Controller
 
     public function test()
     {
-        $date = new \DateTime();
-        $date->modify('+1 hours');
-        $formatted_time = $date->format('Y-m-d H:i:') . "00";
-        $calendarEvents = CalendarEvent::where("start", "=", $formatted_time)->get();
-        foreach ($calendarEvents as $calendarEvent) {
-            $notification = new Notification;
-            $notification->actor_id = 0;
-            $notification->receiver_id = $calendarEvent->user_id;
-            $notification->type = 10;
-            $message = $notification->notificationType->template;
-
-            $message = str_replace('[[EVENT]]', "<strong>" . $calendarEvent->title . "</strong>", $message);
-            $notification->message = $message;
-
-            $notification->color = $notification->notificationType->color;
-            $notification->icon = $notification->notificationType->icon;
-            $notification->url = '/calendar';
-
-            $notification->save();
-            $data = array(
-                "message" => $message,
-                "link" => $notification->url,
-                'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
-                "receiver_id" => $notification->receiver_id,
-                "actor_id" => $notification->actor_id,
-                "icon" => $notification->icon,
-                "color" => $notification->color
-            );
-
-            $publish_data = array(
-                "event" => "notification",
-                "data" => $data
-            );
-
-            Redis::publish(config("app.channel"), json_encode($publish_data));
-        }
-
-
+        
         return "done";
     }
 
