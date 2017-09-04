@@ -34,7 +34,7 @@ class NotificationContainer extends React.Component {
             const {message, link, receiver_id, actor_id, icon, color} = data;
 
             if (Number(receiver_id) === this.props.user.id && this.props.user.id !== actor_id) {
-                showNotificationMessage(`<a href="${link}">${message}</a>`);
+                showNotificationMessage(`<a href="${link}">${message}</a>`, icon, color);
                 this.props.notificationActions.newNotification({
                     ...data,
                     url: link,

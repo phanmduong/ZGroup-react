@@ -44,19 +44,21 @@ export function showErrorNotification(message) {
     showNotification(message, "top", "right", "danger");
 }
 
-export function showNotificationMessage(message) {
-    showNotification(message, "bottom", "left", "info");
+export function showNotificationMessage(message, icon, color) {
+    showNotification(message, "bottom", "left", "info", icon);
+    $(".alert-info.alert-with-icon.animated.fadeInDown:last-child").css("background-color", color);
 }
 
-export function showNotification(message, from = "top", align = "right", type = "success") {
+export function showNotification(message, from = "top", align = "right", type = "success", icon = "notifications") {
     // type = ['', 'info', 'success', 'warning', 'danger', 'rose', 'primary'];
 
     $.notify({
-        icon: "notifications",
+        icon,
         message
 
     }, {
         type,
+        url_target: '_blank',
         timer: 3000,
         placement: {
             from: from,
