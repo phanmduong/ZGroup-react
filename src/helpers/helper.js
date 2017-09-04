@@ -154,3 +154,20 @@ export function getShortName(name) {
     return name;
 }
 
+export function dotNumber(number) {
+    if (number)
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+export function calculatorRating(ratingNumbers, avgRatings) {
+    let sumScore = 0;
+    let sum = 0;
+    ratingNumbers.forEach(function (value, index) {
+        sumScore += value * avgRatings[index];
+        sum += value;
+    });
+
+    //round 2 decimal
+    return Math.round(sumScore * 100 / sum) / 100;
+}
+

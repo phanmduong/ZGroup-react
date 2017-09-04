@@ -27,7 +27,6 @@ class ListRegister extends React.Component {
                         <th>Học phí</th>
                         <th>Đăng kí</th>
                         <th/>
-                        <th>Đổi lớp</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -157,15 +156,17 @@ class ListRegister extends React.Component {
                                         delete={this.props.deleteRegister}
                                         object={register}
                                         disabledDelete={Boolean(register.paid_status)}
+                                        children={() => {
+                                            return (
+                                                <a data-toggle="tooltip" title="Đổi lớp"
+                                                   onClick={() => this.props.openModalChangeClass(register.id)}
+                                                   type="button"
+                                                   rel="tooltip">
+                                                    <i className="material-icons">swap_vertical_circle</i>
+                                                </a>
+                                            );
+                                        }}
                                     />
-                                </td>
-                                <td>
-                                    <button
-                                        className="btn btn-fill btn-rose"
-                                        onClick={() => this.props.openModalChangeClass(register.id)}
-                                    >
-                                        Đổi
-                                    </button>
                                 </td>
                             </tr>);
                     })}

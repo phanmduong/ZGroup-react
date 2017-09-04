@@ -30,11 +30,16 @@ import HistoryCallContainer from "./modules/infoStudent/historyCalls/HistoryCall
 import ProgressContainer from "./modules/infoStudent/progress/ProgressContainer";
 import CareContainer from "./modules/infoStudent/care/CareContainer";
 import CalendarContainer from "./modules/tasks/calendar/CalendarContainer";
+import DashboardContainer from "./modules/dashboard/DashboardContainer";
 
 export default (
     <Route>
         <Route path="/" component={AppContainer}>
-            <IndexRoute component={ManageStaffsContainer}/>
+            <IndexRoute component={DashboardContainer}/>
+            {/*Begin dashboard routes*/}
+            <Route path="/manage/dashboard" component={DashboardContainer}/>
+            {/*End dashboard routes*/}
+
             <Route path="manage/quan-li-nhan-su" component={ManageStaffsContainer}/>
             <Route path="add-staff" component={AddStaffContainer} type="create"/>
             <Route path="staff/:staffId/edit" component={AddStaffContainer} type="edit"/>
@@ -99,7 +104,6 @@ export default (
                 <Route path="progress" component={ProgressContainer}/>
                 <Route path="care" component={CareContainer}/>
             </Route>
-
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>
