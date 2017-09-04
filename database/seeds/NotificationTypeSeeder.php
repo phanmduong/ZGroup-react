@@ -80,6 +80,12 @@ class NotificationTypeSeeder extends Seeder
                 'id' => 9,
                 "template" => "Chúc mừng bạn, học viên của bạn, [[SALER]], vừa thanh toán thành công [[MONEY]] cho khoá học [[COURSE]]",
                 "icon" => "<i style=\"color:#4CAF50\" class=\"material-icons\">account_circle</i>"
+            ], [
+                'name' => "remind_calendar_event",
+                'color' => "#B71C1C",
+                'id' => 10,
+                "template" => "Còn 1 tiếng nữa, sự kiện [[EVENT]] sẽ diễn ra",
+                "icon" => "<i style=\"color:#B71C1C\" class=\"material-icons\">hourglass_empty</i>"
             ]
         ]);
     }

@@ -2,48 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Attendance;
 use App\Base;
 use App\CalendarEvent;
 use App\Category;
 use App\CategoryProduct;
-use App\ClassLesson;
-use App\ClassSurvey;
 use App\Course;
 use App\Email;
 use App\Gen;
-use App\Group;
-use App\GroupMember;
+use App\Http\Requests\RegisterFormRequest;
 use App\Image;
-use App\Jobs\CloseSurvey;
-use App\Jobs\CreateSurvey;
 use App\Landing;
-use App\LessonSurvey;
+use App\Notification;
 use App\Product;
 use App\Providers\AppServiceProvider;
 use App\Register;
-use App\Role;
-use App\Shift;
-use App\ShiftSession;
 use App\StudyClass;
-use App\Http\Requests\RegisterFormRequest;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\SurveyUser;
-use App\Tab;
 use App\Test;
-use App\Topic;
-use App\TopicAttendance;
 use App\User;
-use Carbon\Carbon;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Redis;
 use Modules\EmailMaketing\Entities\EmailForms;
 
@@ -811,9 +790,43 @@ class PublicController extends Controller
     public function test()
     {
         $date = new \DateTime();
-        $date->modify('+2 hours');
+        $date->modify('+1 hours');
         $formatted_time = $date->format('Y-m-d H:i:') . "00";
         $calendarEvents = CalendarEvent::where("start", "=", $formatted_time)->get();
+        foreach ($calendarEvents as $calendarEvent) {
+            $notification = new Notification;
+            $notification->actor_id = 0;
+            $notification->receiver_id = $calendarEvent->user_id;
+            $notification->type = 10;
+            $message = $notification->notificationType->template;
+
+            $message = str_replace('[[EVENT]]', "<strong>" . $calendarEvent->title . "</strong>", $message);
+            $notification->message = $message;
+
+            $notification->color = $notification->notificationType->color;
+            $notification->icon = $notification->notificationType->icon;
+            $notification->url = '/calendar';
+
+            $notification->save();
+            $data = array(
+                "message" => $message,
+                "link" => $notification->url,
+                'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
+                "receiver_id" => $notification->receiver_id,
+                "actor_id" => $notification->actor_id,
+                "icon" => $notification->icon,
+                "color" => $notification->color
+            );
+
+            $publish_data = array(
+                "event" => "notification",
+                "data" => $data
+            );
+
+            Redis::publish(config("app.channel"), json_encode($publish_data));
+        }
+
+
         return "done";
     }
 

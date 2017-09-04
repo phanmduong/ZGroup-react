@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\NotifyCalendarEvent;
+use App\Console\Commands\RemindCalendarEvent;
 use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
         Commands\StartLesson::class,
         Commands\SendSurvey::class,
         Commands\CreateShifts::class,
-        Commands\SendRemindSms::class
+        Commands\SendRemindSms::class,
+        RemindCalendarEvent::class
     ];
 
     /**
@@ -37,6 +38,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('mail:startlesson')->dailyAt('12:00');
         $schedule->command('survey:send')->dailyAt('01:00');
         $schedule->command('shift:create')->weekly()->fridays()->at('23:00');
+        $schedule->command('calendarEvent:remind')->everyMinute();
 
     }
 }
