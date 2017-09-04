@@ -97,6 +97,12 @@ class ManageDashboardApiController extends ManageApiController
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money', ' date');
         }
 
+        $data['classes'] = $classes->get()->map(function ($class) {
+            $class['avatar_url'] = $class->course()->first()->icon_url;
+            $class['total_paid'] = $class->registers()->where('status', 1)->count();
+            $class['total_register'] = $class->registers()->count();
+            return $class;
+        });
         $registers_by_date = array();
         $paid_by_date = array();
         $money_by_date = array();
@@ -158,7 +164,7 @@ class ManageDashboardApiController extends ManageApiController
         $register_number = $registers->count();
 
         $remain_days = (strtotime($gen->end_time) - time());
-        $percent_remain_days = $remain_days < 0 ? 100 :
+        $percent_remain_days = $remain_days < 0 ? 0 :
             100 * $remain_days / (strtotime($gen->end_time) - strtotime($gen->start_time));
         $remain_days = round((is_numeric($remain_days) ? $remain_days : 0) / (24 * 3600), 2);
 
