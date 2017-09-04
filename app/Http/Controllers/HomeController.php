@@ -1447,6 +1447,45 @@ class HomeController extends ManageController
                 $groupMember->save();
             }
 
+            if ($register->saler) {
+                $saler = $register->saler;
+                $notification = new Notification;
+                $notification->actor_id = $register->user_id;
+                $notification->receiver_id = $register->saler_id;
+                $notification->type = 9;
+                $message = $notification->notificationType->template;
+
+                $message = str_replace('[[SALER]]', "<strong>" . $saler->name . "</strong>", $message);
+                $message = str_replace('[[MONEY]]', "<strong>" . currency_vnd_format($register->money) . "</strong>", $message);
+                $message = str_replace('[[COURSE]]', "<strong>" . $register->studyClass->course->name . "</strong>", $message);
+                $notification->message = $message;
+
+                $notification->color = $notification->notificationType->color;
+                $notification->icon = $notification->notificationType->icon;
+                $notification->url = "/info-student/" . $register->user_id;
+
+                $notification->save();
+
+                $data = array(
+                    "message" => $message,
+                    "link" => $notification->url,
+                    'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
+                    "receiver_id" => $notification->receiver_id,
+                    "actor_id" => $notification->actor_id,
+                    "icon" => $notification->icon,
+                    "color" => $notification->color
+                );
+
+                $publish_data = array(
+                    "event" => "notification",
+                    "data" => $data
+                );
+
+                Redis::publish(config("app.channel"), json_encode($publish_data));
+
+
+            }
+
             send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
             send_sms_confirm_money($register);
 

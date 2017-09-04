@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Attendance;
 use App\Base;
+use App\CalendarEvent;
 use App\Category;
 use App\CategoryProduct;
 use App\ClassLesson;
@@ -809,8 +810,11 @@ class PublicController extends Controller
 
     public function test()
     {
-        $hashed_random_password = Hash::make(str_random(8));
-        return $hashed_random_password;
+        $date = new \DateTime();
+        $date->modify('+2 hours');
+        $formatted_time = $date->format('Y-m-d H:i:') . "00";
+        $calendarEvents = CalendarEvent::where("start", "=", $formatted_time)->get();
+        return "done";
     }
 
     public function beta()
@@ -828,10 +832,11 @@ class PublicController extends Controller
         return redirect(config('app.protocol') . 'manage.' . config('app.domain'));
     }
 
-    public function render_email_form($email_form_id){
+    public function render_email_form($email_form_id)
+    {
         $email_form = EmailForms::find($email_form_id);
         $email_form->template = $email_form->template()->first();
         $data = convert_email_form($email_form);
-        return view('emails.view_email_form', ['data'=>$data]);
+        return view('emails.view_email_form', ['data' => $data]);
     }
 }

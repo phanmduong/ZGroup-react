@@ -75,12 +75,13 @@ class UserCardRepository
 
                 $notification->color = $notification->notificationType->color;
                 $notification->icon = $notification->notificationType->icon;
+                $notification->url = '/project/' . $project->id . '/boards';
 
                 $notification->save();
 
                 $data = array(
                     "message" => $message,
-                    "link" => '/project/' . $project->id . '/boards',
+                    "link" => $notification->url,
                     'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
                     "receiver_id" => $notification->receiver_id,
                     "actor_id" => $notification->actor_id,

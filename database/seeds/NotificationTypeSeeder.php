@@ -64,16 +64,22 @@ class NotificationTypeSeeder extends Seeder
                 "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "assign_member_to_card",
-                'color' => "#c50000",
+                'color' => "#2196F3",
                 'id' => 7,
                 "template" => "[[ACTOR]] vừa thêm bạn vào thẻ [[CARD]] trong dự án [[PROJECT]]",
-                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment_ind</i>"
             ], [
                 'name' => "set_card_deadline",
-                'color' => "#c50000",
+                'color' => "#B71C1C",
                 'id' => 8,
                 "template" => "[[ACTOR]] vừa bổ sung hạn chót vào thẻ [[CARD]] trong dự án [[PROJECT]]",
-                "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
+                "icon" => "<i style=\"color:#B71C1C\" class=\"material-icons\">alarm_add</i>"
+            ], [
+                'name' => "notify_saler_student_paid",
+                'color' => "#4CAF50",
+                'id' => 9,
+                "template" => "Chúc mừng bạn, học viên của bạn, [[SALER]], vừa thanh toán thành công [[MONEY]] cho khoá học [[COURSE]]",
+                "icon" => "<i style=\"color:#4CAF50\" class=\"material-icons\">account_circle</i>"
             ]
         ]);
     }
