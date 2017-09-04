@@ -73,10 +73,10 @@ class DashboardComponent extends React.Component {
                                     </div>
                                     <h4>Số ngày còn lại: {remain_days}</h4>
                                     <TooltipButton placement='top'
-                                                   text={`${Math.round(percent_remain_days)}%`}>
+                                                   text={`${Math.round((100-percent_remain_days))}%`}>
                                         <div className="progress progress-line-rose">
                                             <div className="progress-bar progress-bar-rose" role="progressbar"
-                                                 style={{width: percent_remain_days + '%'}}>
+                                                 style={{width: (100-percent_remain_days) + '%'}}>
                                             </div>
                                         </div>
                                     </TooltipButton>
