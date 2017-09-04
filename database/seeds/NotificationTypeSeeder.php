@@ -86,6 +86,12 @@ class NotificationTypeSeeder extends Seeder
                 'id' => 10,
                 "template" => "Còn 1 tiếng nữa, sự kiện [[EVENT]] sẽ diễn ra",
                 "icon" => "<i style=\"color:#B71C1C\" class=\"material-icons\">hourglass_empty</i>"
+            ], [
+                'name' => "update_card_description",
+                'color' => "#2196F3",
+                'id' => 11,
+                "template" => "[[USER]] vừa thay đổi mô tả của thẻ [[CARD]]",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
             ]
         ]);
     }

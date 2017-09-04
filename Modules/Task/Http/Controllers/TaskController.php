@@ -8,12 +8,14 @@ use App\Colorme\Transformers\BoardTransformer;
 use App\Colorme\Transformers\CardTransformer;
 use App\Colorme\Transformers\TaskTransformer;
 use App\Http\Controllers\ManageApiController;
+use App\Notification;
 use App\Project;
 use App\Repositories\UserRepository;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Redis;
 use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\TaskList;
 use Modules\Task\Repositories\UserCardRepository;
@@ -274,6 +276,50 @@ class TaskController extends ManageApiController
         $card = Card::find($cardId);
         $card->description = trim($request->description);
         $card->save();
+
+        $currentUser = $this->user;
+
+        foreach ($card->assignees as $assignee) {
+            if ($currentUser && $currentUser->id != $assignee->id) {
+
+                $project = $card->board->project;
+
+                $notification = new Notification;
+                $notification->actor_id = $currentUser->id;
+                $notification->card_id = $cardId;
+                $notification->receiver_id = $assignee->id;
+                $notification->type = 11;
+                $message = $notification->notificationType->template;
+
+                $message = str_replace('[[USER]]', "<strong>" . $currentUser->name . "</strong>", $message);
+                $message = str_replace('[[CARD]]', "<strong>" . $card->title . "</strong>", $message);
+                $notification->message = $message;
+
+                $notification->color = $notification->notificationType->color;
+                $notification->icon = $notification->notificationType->icon;
+                $notification->url = '/project/' . $project->id . '/boards';
+
+                $notification->save();
+
+                $data = array(
+                    "message" => $message,
+                    "link" => $notification->url,
+                    'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
+                    "receiver_id" => $notification->receiver_id,
+                    "actor_id" => $notification->actor_id,
+                    "icon" => $notification->icon,
+                    "color" => $notification->color
+                );
+
+                $publish_data = array(
+                    "event" => "notification",
+                    "data" => $data
+                );
+
+                Redis::publish(config("app.channel"), json_encode($publish_data));
+            }
+        }
+
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 

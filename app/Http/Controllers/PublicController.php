@@ -789,7 +789,7 @@ class PublicController extends Controller
 
     public function test()
     {
-        
+
         return "done";
     }
 

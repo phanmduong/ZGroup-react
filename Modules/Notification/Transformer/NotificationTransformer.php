@@ -23,16 +23,18 @@ class NotificationTransformer extends Transformer
             'created_at' => time_elapsed_string(strtotime($notification->created_at)),
             'seen' => $notification->seen == 1,
             "icon" => $notification->icon,
-            "color" => $notification->color
+            "color" => $notification->color,
+            "url" => $notification->url,
+            "message" => $notification->message
         ];
-        switch ($notification->type) {
-            case 7:
-                $card = $notification->card;
-                $board = $card->board;
-                $data["url"] = "/project/" . $board->project_id . "/boards";
-                $data["message"] = $notification->message;
-                break;
-        }
+//        switch ($notification->type) {
+//            case 7:
+//                $card = $notification->card;
+//                $board = $card->board;
+//                $data["url"] = "/project/" . $board->project_id . "/boards";
+//                $data["message"] = $notification->message;
+//                break;
+//        }
         return $data;
     }
 }
