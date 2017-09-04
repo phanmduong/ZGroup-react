@@ -73,6 +73,9 @@ class UserCardRepository
                 $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
                 $notification->message = $message;
 
+                $notification->color = $notification->notificationType->color;
+                $notification->icon = $notification->notificationType->icon;
+
                 $notification->save();
 
                 $data = array(
@@ -80,7 +83,9 @@ class UserCardRepository
                     "link" => '/project/' . $project->id . '/boards',
                     'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
                     "receiver_id" => $notification->receiver_id,
-                    "actor_id" => $notification->actor_id
+                    "actor_id" => $notification->actor_id,
+                    "icon" => $notification->icon,
+                    "color" => $notification->color
                 );
 
                 $publish_data = array(
