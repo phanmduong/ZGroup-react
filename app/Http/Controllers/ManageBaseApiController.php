@@ -69,6 +69,21 @@ class ManageBaseApiController extends ManageApiController
         return $this->respondWithPagination($bases, $data);
     }
 
+    public function get_base_all()
+    {
+        $bases = Base::orderBy('created_at')->get();
+        $data = [
+            "bases" => $bases->map(function ($base) {
+                return [
+                    'id' => $base->id,
+                    'name' => $base->name,
+                ];
+            }),
+        ];
+
+        return $this->respondSuccessWithStatus($data);
+    }
+
     public function setDefaultBase($baseId)
     {
         $bases = Base::where("center", 1)->get();
