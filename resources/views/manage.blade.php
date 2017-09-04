@@ -12,7 +12,7 @@
     <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/bootstrap.min.css" rel="stylesheet"/>
 
     <!--datetime picker-->
-    <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+    {{--<link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.css" rel="stylesheet"/>--}}
 
     <!--  Material Dashboard CSS    -->
     <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/material-dashboard.css" rel="stylesheet"/>
