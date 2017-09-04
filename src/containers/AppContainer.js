@@ -9,6 +9,7 @@ import * as helper from '../helpers/helper';
 
 
 let self;
+
 class DashboardContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -21,7 +22,9 @@ class DashboardContainer extends React.Component {
         this.props.loginActions.getUserLocal();
     }
 
-    checkToken(){
+
+
+    checkToken() {
         let tokenLocal = helper.getTokenLocal();
         tokenLocal.then(function () {
             self.props.loginActions.getUserLocal();
@@ -31,7 +34,7 @@ class DashboardContainer extends React.Component {
 
         let token = localStorage.getItem('token');
         let user = JSON.parse(localStorage.getItem('user'));
-        if (user === null || user.role === null || user.role === 0){
+        if (user === null || user.role === null || user.role === 0) {
             this.onLogOut();
         }
         if (token === null || token.trim() === '') {
@@ -52,7 +55,6 @@ class DashboardContainer extends React.Component {
     }
 
 
-
     render() {
         return (
             <App
@@ -69,7 +71,7 @@ DashboardContainer.contextTypes = {
     router: PropTypes.object
 };
 
-DashboardContainer.propTypes={
+DashboardContainer.propTypes = {
     loginActions: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
 };

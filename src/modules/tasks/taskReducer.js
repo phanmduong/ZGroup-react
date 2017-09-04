@@ -6,6 +6,14 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.CLEAR_MEMBERS:
+            return {
+                ...state,
+                addMember: {
+                    ...state.addMember,
+                    members: []
+                }
+            };
         case types.BEGIN_UPDATE_CARD_DEADLINE:
             return {
                 ...state,
@@ -28,7 +36,7 @@ export default function taskReducer(state = initialState.task, action) {
                                     if (card.id === action.card.id) {
                                         return {
                                             ...card,
-                                            deadline_elapse:action.deadline_elapse,
+                                            deadline_elapse: action.deadline_elapse,
                                             deadline: action.deadline
                                         };
                                     }

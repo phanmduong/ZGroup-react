@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import TabContainer from "../modules/tab/TabContainer";
 import {Link} from 'react-router';
 import * as helper from '../helpers/helper';
+import NotificationContainer from "../modules/notification/NotificationContainer";
 
 // This is a class-based component because the current
 // version of hot reloading won't hot reload a stateless
@@ -80,40 +81,15 @@ class App extends React.Component {
                             <div className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
-                                        <a href="#pablo" className="dropdown-toggle" data-toggle="dropdown">
+                                        <a href="#pablo">
                                             <i className="material-icons">dashboard</i>
                                             <p className="hidden-lg hidden-md">Dashboard</p>
                                         </a>
                                     </li>
-                                    <li className="dropdown">
-                                        <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                                            <i className="material-icons">notifications</i>
-                                            <span className="notification">5</span>
-                                            <p className="hidden-lg hidden-md">
-                                                Notifications
-                                                <b className="caret"/>
-                                            </p>
-                                        </a>
-                                        <ul className="dropdown-menu">
-                                            <li>
-                                                <a href="#">Mike John responded to your email</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">You have 5 new tasks</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">You're now friend with Andrew</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Another Notification</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Another One</a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                    <NotificationContainer/>
                                     <li>
-                                        <a onClick={this.props.onLogOut} className="dropdown-toggle" data-toggle="dropdown">
+                                        <a onClick={this.props.onLogOut} className="dropdown-toggle"
+                                           data-toggle="dropdown">
                                             <i className="material-icons">exit_to_app</i>
                                             <p className="hidden-lg hidden-md">Đăng xuất</p>
                                         </a>
