@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Register extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'registers';
 
     public function scopeGetRegisterByClasses($scope, $classes, $offset, $limit)
