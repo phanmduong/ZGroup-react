@@ -12,9 +12,9 @@
     <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/bootstrap.min.css" rel="stylesheet"/>
 
     <!--datetime picker-->
-    {{--<link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.css" rel="stylesheet"/>--}}
+{{--<link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/bootstrap-datetimepicker.min.css" rel="stylesheet"/>--}}
 
-    <!--  Material Dashboard CSS    -->
+<!--  Material Dashboard CSS    -->
     <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/material-dashboard.css" rel="stylesheet"/>
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/css/demo.css" rel="stylesheet"/>
@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
-    <link href="manage/main.94910dc28715b0b830c5dafac27845d1.css" rel="stylesheet">
+    <link href="manage/main.1f69ffadcb15393b771c632b1dc9ce8c.css" rel="stylesheet">
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
@@ -74,7 +74,7 @@
 
 
 <script src="{{url('config.js')}}"></script>
-<script type="text/javascript" src="manage/main.ee673a49aade41af97c8.js"></script>
+<script type="text/javascript" src="manage/main.4bce98a9beaf47d1fb80.js"></script>
 
 
 <!-- Material Dashboard javascript methods -->
