@@ -186,6 +186,11 @@ function format_vn_short_datetime($time)
     return rebuild_date('H:i d-m-Y', $time);
 }
 
+function format_vn_date($time)
+{
+    return rebuild_date('d/m/Y', $time);
+}
+
 //addTimeToDate($register->created_at,"+24 hours");
 function addTimeToDate($date_str, $hour)
 {

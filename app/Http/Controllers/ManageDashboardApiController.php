@@ -8,12 +8,14 @@
 
 namespace App\Http\Controllers;
 
+use App\StudyClass;
 use App\User;
 use App\Base;
 use App\Course;
 use App\Gen;
 use App\Register;
 use App\Repositories\DashboardRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ManageDashboardApiController extends ManageApiController
@@ -184,6 +186,9 @@ class ManageDashboardApiController extends ManageApiController
 
         $rating = $this->dashboardRepository->ratingUser($this->user);
         $user = $this->user;
+
+        $is_saler = $registers->where('saler_id', $user->id)->first() ? true : false;
+
         $data['user'] = [
             'id' => $user->id,
             'name' => $user->name,
@@ -196,11 +201,34 @@ class ManageDashboardApiController extends ManageApiController
                 'id' => $user->current_role->id,
                 'role_title' => $user->current_role->role_title
             ],
+            'role' => $user->role,
+            'is_saler' => $is_saler
         ];
 
         if (!empty($rating))
             $data['user']['rating'] = $rating;
 
         return $this->respondSuccessWithStatus($data);
+    }
+
+    public function change_class_status(Request $request)
+    {
+
+        if ($this->user->role === 2) {
+            $class_id = $request->class_id;
+            if ($class_id != null) {
+                $class = StudyClass::find($class_id);
+                $class->status = ($class->status == 1) ? 0 : 1;
+                $class->save();
+            }
+            return $this->respondSuccessWithStatus([
+                'class' => [
+                    'id' => $class->id,
+                    'status' => $class->status
+                ]
+            ]);
+        }
+
+        return $this->responseUnAuthorized();
     }
 }

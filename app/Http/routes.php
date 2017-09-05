@@ -153,6 +153,13 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     //Begin dashboard api
     Route::get('/gens/{gen_id}/dashboard/{base_id?}', 'ManageDashboardApiController@dashboard');
+    Route::post('/change-class-status', 'ManageDashboardApiController@change_class_status');
+    //End dashboard api
+
+    //Begin collect money api
+    Route::get('/collect-money/search-registers', 'ManageCollectMoneyApiController@search_registers');
+    Route::post('/collect-money/pay-money', 'ManageCollectMoneyApiController@pay_money');
+    //End collect money api
 
 });
 
