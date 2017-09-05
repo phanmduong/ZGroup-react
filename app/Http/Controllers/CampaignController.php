@@ -242,7 +242,6 @@ class CampaignController extends ManageController
         $take = 5;
         $delay = 40;
         $total_mails = 0;
-        dd($list_ids);
         foreach ($lists_array as $l) {
             $total_mails += $l->subscribers()->count();
         }

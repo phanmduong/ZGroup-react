@@ -790,29 +790,33 @@ class PublicController extends Controller
 
     public function test()
     {
-//        $mail = new SendMailController();
-//        $cam = EmailCampaign::find(115);
-//        $str = implode(',', $this->list_ids);
-//        $query = "select distinct email from subscribers where id in " .
-//            "(select subscriber_id from subscriber_subscribers_list where subscribers_list_id in ($str)) limit " . $this->take . " offset " . $this->skip;
-//        $subscribers = DB::select($query);
-//        foreach ($subscribers as $subscriber) {
-//            if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
-//                $url = '/manage/email/open?cam_id=' . $cam->id . '&to=' . $subscriber->email;
-//                $content = $cam->template->content . '<img src="' . $url . '" width="1" height="1"/>';
-//                $result = $mail->sendAllEmail([$subscriber->email], $cam->subject, $content);
-//                $email_id = $result->get('MessageId');
-//                $email = Email::find($email_id);
-//                if ($email == null) {
-//                    $email = new Email();
-//                    $email->id = $email_id;
-//                    $email->status = 0;
-//                }
-//                $email->campaign_id = $cam->id;
-//                $email->to = $subscriber->email;
-//                $email->save();
-//            }
-//        }
+        $mail = new SendMailController();
+        $cam = EmailCampaign::find(115);
+        $list_ids = $cam->subscribers_lists()->select('id')->get()->pluck('id')->toArray();
+        $str = implode(',', $list_ids);
+        $take = 1;
+        $skip = 0;
+
+        $query = "select distinct email from subscribers where id in " .
+            "(select subscriber_id from subscriber_subscribers_list where subscribers_list_id in ($str)) limit " . $take . " offset " . $skip;
+        $subscribers = DB::select($query);
+        foreach ($subscribers as $subscriber) {
+            if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
+                $url = '/manage/email/open?cam_id=' . $cam->id . '&to=' . $subscriber->email;
+                $content = $cam->template->content . '<img src="' . $url . '" width="1" height="1"/>';
+                $result = $mail->sendAllEmail([$subscriber->email], $cam->subject, $content);
+                $email_id = $result->get('MessageId');
+                $email = Email::find($email_id);
+                if ($email == null) {
+                    $email = new Email();
+                    $email->id = $email_id;
+                    $email->status = 0;
+                }
+                $email->campaign_id = $cam->id;
+                $email->to = $subscriber->email;
+                $email->save();
+            }
+        }
         return "done";
     }
 
