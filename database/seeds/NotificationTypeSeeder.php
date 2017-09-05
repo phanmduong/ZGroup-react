@@ -92,6 +92,18 @@ class NotificationTypeSeeder extends Seeder
                 'id' => 11,
                 "template" => "[[USER]] vừa thay đổi mô tả của thẻ [[CARD]]",
                 "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
+            ], [
+                'name' => "rename_card",
+                'color' => "#2196F3",
+                'id' => 12,
+                "template" => "[[ACTOR]] vừa thay đổi tên của thẻ [[CARD]] thành [[NAME]]",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
+            ], [
+                'name' => "submit_homework",
+                'color' => "#2196F3",
+                'id' => 13,
+                "template" => "[[TEACHER]] ơi! Học viên của bạn,[[STUDENT]] vừa nộp bài vào topic [[TOPIC]] của lớp [[CLASS]]. Bạn nhớ dành thời gian vào comment nhé!",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">bookmark</i>"
             ]
         ]);
     }

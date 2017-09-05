@@ -7,6 +7,7 @@ use App\Colorme\Transformers\NotificationTransformer;
 use App\CV;
 use App\Group;
 use App\GroupMember;
+use App\Notification;
 use App\Order;
 use App\Product;
 use App\Topic;
@@ -14,6 +15,7 @@ use App\TopicAction;
 use App\TopicAttendance;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class UserApiController extends ApiController
 {
@@ -25,7 +27,7 @@ class UserApiController extends ApiController
         $this->notificationTransformer = $notificationTransformer;
     }
 
-    public function join_topic( Request $request)
+    public function join_topic(Request $request)
     {
         $userId = $request->user_id;
         $topicId = $request->topic_id;
@@ -42,7 +44,7 @@ class UserApiController extends ApiController
 
     }
 
-    public function add_user_to_group( Request $request)
+    public function add_user_to_group(Request $request)
     {
         $user_id = $request->user_id;
         $group_link = $request->group_link;
@@ -61,7 +63,7 @@ class UserApiController extends ApiController
         }
     }
 
-    public function change_avatar( Request $request)
+    public function change_avatar(Request $request)
     {
         $avatar_name = uploadFileToS3($request, 'avatar', 250, $this->user->avatar_name);
         if ($avatar_name != null) {
@@ -75,7 +77,7 @@ class UserApiController extends ApiController
         ]);
     }
 
-    public function notifications( Request $request)
+    public function notifications(Request $request)
     {
         if ($request->limit) {
             $limit = $request->limit;
@@ -100,7 +102,7 @@ class UserApiController extends ApiController
     }
 
 
-    public function upload_image( Request $request)
+    public function upload_image(Request $request)
     {
         $size = $request->size;
         $old_name = $request->old_name;
@@ -126,7 +128,7 @@ class UserApiController extends ApiController
         return $this->respond($data);
     }
 
-    public function delete_product( $product_id)
+    public function delete_product($product_id)
     {
         $product = Product::find($product_id);
         if ($product->author_id == $this->user->id) {
@@ -162,7 +164,7 @@ class UserApiController extends ApiController
 //        }
 //    }
 
-    public function upload_video( Request $request)
+    public function upload_video(Request $request)
     {
         $old_name = $request->old_name;
 
@@ -180,13 +182,56 @@ class UserApiController extends ApiController
         }
     }
 
-    public function delete_file( Request $request)
+    public function delete_file(Request $request)
     {
 //        deleteFileFromS3($request->file_name);
         return $this->respond(['message' => "Xoá file thành công"]);
     }
 
-    public function save_product( Request $request)
+    private function send_save_product_topic_noti($receivers, $currentUser, $topic, $class)
+    {
+        foreach ($receivers as $user) {
+            if ($currentUser && $currentUser->id != $user->id) {
+
+                $notification = new Notification;
+                $notification->actor_id = $currentUser->id;
+                $notification->receiver_id = $user->id;
+                $notification->type = 13;
+                $message = $notification->notificationType->template;
+
+                $message = str_replace('[[TEACHER]]', "<strong>" . $user->name . "</strong>", $message);
+                $message = str_replace('[[STUDENT]]', "<strong>" . $currentUser->name . "</strong>", $message);
+                $message = str_replace('[[TOPIC]]', "<strong>" . $topic->title . "</strong>", $message);
+                $message = str_replace('[[CLASS]]', "<strong>" . $class->name . "</strong>", $message);
+                $notification->message = $message;
+
+                $notification->color = $notification->notificationType->color;
+                $notification->icon = $notification->notificationType->icon;
+                $notification->url = config("app.protocol") . config("app.domain") . "/post/bai-tap-colorme-" . $product->id;
+
+                $notification->save();
+
+                $data = array(
+                    "message" => $message,
+                    "link" => $notification->url,
+                    'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
+                    "receiver_id" => $notification->receiver_id,
+                    "actor_id" => $notification->actor_id,
+                    "icon" => $notification->icon,
+                    "color" => $notification->color
+                );
+
+                $publish_data = array(
+                    "event" => "notification",
+                    "data" => $data
+                );
+
+                Redis::publish(config("app.channel"), json_encode($publish_data));
+            }
+        }
+    }
+
+    public function save_product(Request $request)
     {
         if ($request->id) {
             $product = Product::find($request->id);
@@ -215,6 +260,8 @@ class UserApiController extends ApiController
 
         $product->save();
 
+        $receivers = [];
+
         if ($request->topicId) {
             $topicAttendance = TopicAttendance::where('user_id', $this->user->id)->where('topic_id', $request->topicId)->first();
             if ($topicAttendance) {
@@ -226,6 +273,21 @@ class UserApiController extends ApiController
                 $topicAction->content = "Đã nộp bài";
                 $topicAction->save();
             }
+            $topic = Topic::find($request->topicId);
+            $group = $topic->group;
+            if ($group) {
+                $class = $group->studyClass;
+                if ($class) {
+                    if ($class->teach) {
+                        $receivers[] = $class->teach;
+                    }
+                    if ($class->assist) {
+                        $receivers[] = $class->assist;
+                    }
+                    $this->send_save_product_topic_noti($receivers, $this->user, $topic, $class);
+                }
+            }
+
         }
 
         foreach ($product->colors as $color) {
@@ -241,10 +303,11 @@ class UserApiController extends ApiController
             $color->save();
         }
 
+
         return $this->respond(['message' => "Đăng bài thành công", "url" => convert_vi_to_en($product->title) . "-" . $product->id]);
     }
 
-    public function update_user_info( Request $request)
+    public function update_user_info(Request $request)
     {
         $errors = [];
         $user1 = User::where('email', '=', $request->email)->first();
@@ -285,7 +348,7 @@ class UserApiController extends ApiController
         return $this->respondSuccessWithStatus([]);
     }
 
-    public function set_current_cv( $cv_id)
+    public function set_current_cv($cv_id)
     {
         $this->user->cv_id = $cv_id;
         $this->user->save();
