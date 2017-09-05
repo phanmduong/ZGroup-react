@@ -188,7 +188,7 @@ class UserApiController extends ApiController
         return $this->respond(['message' => "Xoá file thành công"]);
     }
 
-    private function send_save_product_topic_noti($receivers, $currentUser, $topic, $class)
+    private function send_save_product_topic_noti($receivers, $currentUser, $topic, $class, $product)
     {
         foreach ($receivers as $user) {
             if ($currentUser && $currentUser->id != $user->id) {
@@ -284,7 +284,7 @@ class UserApiController extends ApiController
                     if ($class->assist) {
                         $receivers[] = $class->assist;
                     }
-                    $this->send_save_product_topic_noti($receivers, $this->user, $topic, $class);
+                    $this->send_save_product_topic_noti($receivers, $this->user, $topic, $class, $product);
                 }
             }
 
