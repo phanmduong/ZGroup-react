@@ -19,7 +19,7 @@ class ProjectItem extends React.Component {
                         </div>
                     </div>
                     <div className="row" style={{fontSize: "16px", fontWeight: 600}}>
-                        <i className="material-icons">account_balance_wallet</i> {project.title}
+                        {/*<i className="material-icons">account_balance_wallet</i> {project.title}*/}
                     </div>
                     <div className="row"
                          style={{height: "5px", marginTop: "10px", marginBottom: "10px", background: "#42a5f5"}}>

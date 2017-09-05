@@ -86,7 +86,10 @@ class ListRegister extends React.Component {
                                          type="button" rel="tooltip"
                                          data-original-title={register.email}>{register.email}</div>
                                 </td>
-                                <td>{register.phone}</td>
+                                <td><a href={"tel:" + register.phone} className="text-name-student-register">
+                                    {helper.formatPhone(register.phone)}
+                                </a>
+                                </td>
                                 <td>{register.code}</td>
                                 <td>
                                     {

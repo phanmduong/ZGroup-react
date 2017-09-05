@@ -69,9 +69,6 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.updateAddStaffFormData(staffForm);
     }
 
-
-
-
     render() {
         let roles = (this.props.roles !== undefined) ? this.props.roles : [];
         return (

@@ -24,7 +24,7 @@ export function loadBases() {
 export function loadDashboard(genId, baseId) {
     let url = env.MANAGE_API_URL + `/gens/${genId}/dashboard`;
     if (baseId) {
-        url += '/'+ baseId;
+        url += '/' + baseId;
     }
     let token = localStorage.getItem('token');
     if (token) {
@@ -32,4 +32,17 @@ export function loadDashboard(genId, baseId) {
     }
 
     return axios.get(url);
+}
+
+export function changeClassStatus(classId) {
+    let url = env.MANAGE_API_URL + `/change-class-status`;
+
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        'class_id': classId
+    });
 }

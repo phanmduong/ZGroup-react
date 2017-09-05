@@ -21,7 +21,7 @@ class Barchart extends React.Component {
                 seriesBarDistance: 10,
                 axisX: {
                     labelInterpolationFnc: function (value) {
-                        return value.slice(5);
+                        return value.slice(8, 10) + ' / ' + value.slice(5, 7);
                     }
                 },
                 axisY: {

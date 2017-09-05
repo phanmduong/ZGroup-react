@@ -5,6 +5,7 @@ import TooltipButton from '../../components/common/TooltipButton';
 import {Link} from 'react-router';
 import {NO_AVATAR} from '../../constants/env';
 import Barchart from './Barchart';
+import ListClass from './ListClass';
 import PropTypes from 'prop-types';
 
 class DashboardComponent extends React.Component {
@@ -23,7 +24,7 @@ class DashboardComponent extends React.Component {
             let {
                 total_money, target_revenue, register_number, paid_number, zero_paid_number, remain_days,
                 percent_remain_days, total_classes, courses, user, bonus, count_paid, count_total, registers_by_date, date_array,
-                paid_by_date, money_by_date
+                paid_by_date, money_by_date, classes
 
             } = this.props.dashboard;
 
@@ -73,10 +74,10 @@ class DashboardComponent extends React.Component {
                                     </div>
                                     <h4>Số ngày còn lại: {remain_days}</h4>
                                     <TooltipButton placement='top'
-                                                   text={`${Math.round((100-percent_remain_days))}%`}>
+                                                   text={`${Math.round((100 - percent_remain_days))}%`}>
                                         <div className="progress progress-line-rose">
                                             <div className="progress-bar progress-bar-rose" role="progressbar"
-                                                 style={{width: (100-percent_remain_days) + '%'}}>
+                                                 style={{width: (100 - percent_remain_days) + '%'}}>
                                             </div>
                                         </div>
                                     </TooltipButton>
@@ -147,7 +148,10 @@ class DashboardComponent extends React.Component {
                                             </div>
                                         </TooltipButton>
                                     }
-
+                                    {user.is_saler &&
+                                    <Link to={"/manage/registerlist/" + user.id} className="btn btn-rose btn-round">Danh
+                                        sách đăng kí</Link>
+                                    }
 
                                     <Link to='/my-profile' className="btn btn-rose btn-round">Trang cá nhân</Link>
                                 </div>
@@ -192,6 +196,23 @@ class DashboardComponent extends React.Component {
                             </div>
                         </div>
                     </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                    <i className="material-icons">assignment</i>
+                                </div>
+                                <div className="card-content">
+                                    <h4 className="card-title">Danh sách lớp</h4>
+                                    <ListClass
+                                        classes={classes}
+                                        user={user}
+                                        changeClassStatus={this.props.changeClassStatus}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             );
         }
@@ -200,7 +221,8 @@ class DashboardComponent extends React.Component {
 
 DashboardComponent.propTypes = {
     isLoading: PropTypes.bool.isRequired,
-    dashboard: PropTypes.object.isRequired
+    dashboard: PropTypes.object.isRequired,
+    changeClassStatus: PropTypes.func.isRequired
 };
 
 

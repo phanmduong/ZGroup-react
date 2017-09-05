@@ -171,3 +171,9 @@ export function calculatorRating(ratingNumbers, avgRatings) {
     return Math.round(sumScore * 100 / sum) / 100;
 }
 
+export function isClassWait(className) {
+    return className.indexOf('.') > -1;
+}
+
+
+

@@ -383,6 +383,16 @@ export default {
         errorBases: false,
         dashboard: {},
         isLoading: true,
+        error: false,
+    },
+
+    collectMoney: {
+        currentPage: 1,
+        totalPages: 1,
+        nextCode: '',
+        nextWaitingCode: '',
+        users: [],
+        isLoading: false,
         error: false
     }
 };

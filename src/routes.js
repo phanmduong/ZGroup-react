@@ -31,6 +31,7 @@ import ProgressContainer from "./modules/infoStudent/progress/ProgressContainer"
 import CareContainer from "./modules/infoStudent/care/CareContainer";
 import CalendarContainer from "./modules/tasks/calendar/CalendarContainer";
 import DashboardContainer from "./modules/dashboard/DashboardContainer";
+import CollectMoneyContainer from "./modules/collectMoney/CollectMoneyContainer";
 
 export default (
     <Route>
@@ -78,7 +79,7 @@ export default (
             {/*End blog routes*/}
 
             {/*Begin register student routes*/}
-            <Route path="/manage/registerlist" component={RegisterListContainer}/>
+            <Route path="/manage/registerlist(/:salerId)" component={RegisterListContainer}/>
             {/*End register student routes*/}
 
             {/*Begin register student routes*/}
@@ -98,12 +99,19 @@ export default (
             <Route path="/manage/gens" component={GensContainer}/>
             {/*End gens routes*/}
 
+            {/*Begin info student routes*/}
             <Route path="/info-student/:studentId" component={InfoStudentContainer}>
                 <IndexRoute component={RegistersContainer}/>
                 <Route path="history-calls" component={HistoryCallContainer}/>
                 <Route path="progress" component={ProgressContainer}/>
                 <Route path="care" component={CareContainer}/>
             </Route>
+            {/*End info student routes*/}
+
+            {/*Begin collect money routes*/}
+            <Route path="/manage/moneycollect" component={CollectMoneyContainer}/>
+            {/*End collect money routes*/}
+
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

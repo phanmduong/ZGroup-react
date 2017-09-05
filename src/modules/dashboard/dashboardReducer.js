@@ -2,6 +2,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let classes;
 export default function dashboardReducer(state = initialState.dashboard, action) {
     switch (action.type) {
         case types.BEGIN_LOAD_GENS_DATA_DASHBOARD:
@@ -57,7 +58,7 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                     errorBases: true
                 }
             };
-            case types.BEGIN_LOAD_DASHBOARD_DATA:
+        case types.BEGIN_LOAD_DASHBOARD_DATA:
             return {
                 ...state,
                 ...{
@@ -83,8 +84,33 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                     error: true
                 }
             };
-
+        case types.BEGIN_CHANGE_CLASS_STATUS_DASHBOARD:
+            classes = changeClassStatus(action.classId, state.dashboard.classes);
+            return {
+                ...state,
+                ...{
+                    dashboard: {
+                        ...state.dashboard,
+                        classes: classes
+                    }
+                }
+            };
         default:
             return state;
     }
+}
+
+function changeClassStatus(classId, classes) {
+    if (classes) {
+        classes = classes.map((classItem) => {
+            if (classItem.id === classId) {
+                return {
+                    ...classItem,
+                    status: classItem.status === 1 ? 0 : 1
+                };
+            }
+            return classItem;
+        });
+    }
+    return classes;
 }

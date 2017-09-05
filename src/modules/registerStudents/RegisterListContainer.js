@@ -41,12 +41,15 @@ class RegisterListContainer extends React.Component {
         this.loadRegisterStudentBySaler = this.loadRegisterStudentBySaler.bind(this);
         this.loadRegisterStudentByCampaign = this.loadRegisterStudentByCampaign.bind(this);
         this.confirmChangeClass = this.confirmChangeClass.bind(this);
-
     }
 
     componentWillMount() {
         this.props.registerActions.loadGensData();
-        this.loadRegisterStudent(1, '');
+        if (this.props.params.salerId) {
+            this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
+        } else {
+            this.loadRegisterStudent(1, '');
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -154,7 +157,9 @@ class RegisterListContainer extends React.Component {
     }
 
     deleteRegister(register) {
-        this.props.registerActions.deleteRegisterStudent(register.id);
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa đăng kí này không?", () => {
+            this.props.registerActions.deleteRegisterStudent(register.id);
+        });
     }
 
     confirmChangeClass(classData) {
@@ -461,6 +466,9 @@ RegisterListContainer.propTypes = {
     isChangingStatus: PropTypes.bool.isRequired,
     isLoadingClasses: PropTypes.bool.isRequired,
     isChangingClass: PropTypes.bool.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -1,5 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as dashboardApi from './dashboardApi';
+import * as helper from '../../helpers/helper';
 
 /*eslint no-console: 0 */
 
@@ -56,6 +57,28 @@ export function loadDashboardData(genId, baseId) {
             }).catch(() => {
             dispatch({
                 type: types.LOAD_DASHBOARD_DATA_ERROR
+            });
+        });
+    };
+}
+
+export function changeClassStatus(classId) {
+    return function (dispatch) {
+        helper.showTypeNotification('Đang thay đổi trạng thái lớp', 'info');
+        dispatch({
+            type: types.BEGIN_CHANGE_CLASS_STATUS_DASHBOARD,
+            classId: classId,
+        });
+        dashboardApi.changeClassStatus(classId)
+            .then(() => {
+                helper.showNotification('Thay đổi trạng thái lớp thành công');
+                dispatch({
+                    type: types.CHANGE_CLASS_STATUS_DASHBOARD_SUCCESS,
+                });
+            }).catch(() => {
+            helper.showErrorNotification('Thay đổi trạng thái lớp thất bại');
+            dispatch({
+                type: types.CHANGE_CLASS_STATUS_DASHBOARD_ERROR
             });
         });
     };

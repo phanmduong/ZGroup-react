@@ -21,6 +21,7 @@ class DashboardContainer extends React.Component {
         this.onChangeGen = this.onChangeGen.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.loadInitDashboard = this.loadInitDashboard.bind(this);
+        this.changeClassStatus = this.changeClassStatus.bind(this);
     }
 
     componentWillMount() {
@@ -89,6 +90,10 @@ class DashboardContainer extends React.Component {
         this.loadDashboard(this.state.selectGenId, value);
     }
 
+    changeClassStatus(classId){
+        this.props.dashboardActions.changeClassStatus(classId);
+    }
+
     render() {
         return (
             <div>
@@ -119,6 +124,7 @@ class DashboardContainer extends React.Component {
                             <DashboardComponent
                                 {...this.props}
                                 loadDashboard={this.loadInitDashboard}
+                                changeClassStatus={this.changeClassStatus}
                             />
 
                         </div>
