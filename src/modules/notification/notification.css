@@ -6,4 +6,5 @@
 .notification-list-wrapper {
     overflow-y: auto;
     max-height: 400px;
+    padding-top: 0;
 }

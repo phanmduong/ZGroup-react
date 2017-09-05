@@ -9,6 +9,7 @@ import socket from '../../services/socketio';
 import "./notification.css";
 import {CHANNEL} from '../../constants/env';
 import {showNotificationMessage} from "../../helpers/helper";
+import {MANAGE_BASE_URL} from "../../constants/env";
 
 class NotificationContainer extends React.Component {
     constructor(props, context) {
@@ -87,9 +88,10 @@ class NotificationContainer extends React.Component {
 
                     {
                         this.props.notifications.map((notification, index) => {
+                            const backgroundColor = notification.seen === 2 ? "#fff" : "#f5f5f5";
                             return (
-                                <li key={index}>
-                                    <a href={notification.url}>
+                                <li key={index} style={{backgroundColor}}>
+                                    <a href={MANAGE_BASE_URL + "/notification/" + notification.id + "/redirect"}>
                                         <div className="notification-item"
                                              dangerouslySetInnerHTML={{__html: notification.message}}>
                                         </div>
