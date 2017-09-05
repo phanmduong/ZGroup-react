@@ -75,7 +75,7 @@ class UserCardRepository
 
                 $notification->color = $notification->notificationType->color;
                 $notification->icon = $notification->notificationType->icon;
-                $notification->url = '/project/' . $project->id . '/boards';
+                $notification->url = '/project/' . $project->id . '/boards' . "?card_id=" . $cardId;
 
                 $notification->save();
 
