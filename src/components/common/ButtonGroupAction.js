@@ -48,9 +48,7 @@ class ButtonGroupAction extends React.Component {
                         </a>
                     )
                 }
-                {
-                    this.props.children && this.props.children()
-                }
+                {this.props.children}
             </div>
         );
     }
@@ -65,7 +63,7 @@ ButtonGroupAction.propTypes = {
         PropTypes.number,
     ]),
     disabledDelete: PropTypes.bool,
-    children: PropTypes.bool.element
+    children: PropTypes.element
 };
 
 export default ButtonGroupAction;
