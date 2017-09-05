@@ -36,6 +36,7 @@ Route::get('manage/email/open', 'PublicController@open_email');
 Route::post('manage/receive_notifications', 'PublicController@receive_notifications');
 Route::post('manage/receive_video_convert_notifications', 'PublicController@receive_video_convert_notifications');
 Route::get('access_forbidden', 'PublicController@access_forbidden');
+Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
 
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {

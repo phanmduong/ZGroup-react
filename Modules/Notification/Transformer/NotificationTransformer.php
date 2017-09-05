@@ -21,7 +21,7 @@ class NotificationTransformer extends Transformer
             'receiver_id' => $notification->receiver_id,
             "type" => $notification->type,
             'created_at' => time_elapsed_string(strtotime($notification->created_at)),
-            'seen' => $notification->seen == 1,
+            'seen' => $notification->seen,
             "icon" => $notification->icon,
             "color" => $notification->color,
             "url" => $notification->url,

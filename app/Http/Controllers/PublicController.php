@@ -789,8 +789,7 @@ class PublicController extends Controller
 
     public function test()
     {
-
-        return "done";
+        return redirect("https://manage.keetool.com/");
     }
 
     public function beta()
@@ -814,5 +813,13 @@ class PublicController extends Controller
         $email_form->template = $email_form->template()->first();
         $data = convert_email_form($email_form);
         return view('emails.view_email_form', ['data' => $data]);
+    }
+
+    public function notificationRedirect($id)
+    {
+        $notification = Notification::find($id);
+        $notification->seen = 2;
+        $notification->save();
+        return redirect($notification->url);
     }
 }

@@ -42,7 +42,7 @@ class NotificationRepository
     public function readAllNotification($userId)
     {
         $user = User::find($userId);
-        $user->received_notifications()->where("seen", 0)->update(['seen' => 1]);;
+        $user->received_notifications()->where("seen", 0)->update(['seen' => 1]);
         return true;
     }
 }
