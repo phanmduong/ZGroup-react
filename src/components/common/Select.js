@@ -8,7 +8,6 @@ class Select extends React.Component {
 
     componentDidMount() {
         $('.selectpicker').selectpicker();
-
     }
 
     render() {
@@ -17,10 +16,11 @@ class Select extends React.Component {
                 value={this.props.value}
                 onChange={(event) => this.props.onChange(event.target.value)}
                 className="selectpicker"
-                data-style="btn btn-primary btn-round" data-size="7">
-                <option selected disabled>{this.props.defaultMessage || "Please select"}</option>
+                data-style={this.props.disableRound ? "btn btn-rose" : "btn btn-rose btn-round"}>
+                <option disabled>{this.props.defaultMessage || "Please select"}</option>
                 {this.props.options.map((option, index) => {
-                    return <option key={index} value={option.key}>{option.value}</option>;
+                    return <option key={index}
+                                   value={option.key}>{option.value}</option>;
                 })}
             </select>
 
@@ -30,10 +30,14 @@ class Select extends React.Component {
 
 
 Select.propTypes = {
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
     options: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
     defaultMessage: PropTypes.string,
+    disableRound: PropTypes.bool
 };
 
 export default Select;
