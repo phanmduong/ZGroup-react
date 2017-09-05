@@ -404,7 +404,7 @@ function send_mail_activate_class($register, $emailcc)
     Mail::queue('emails.activate_class', $data, function ($m) use ($user, $subject, $emailcc) {
         $m->from('no-reply@colorme.vn', 'Color Me');
 
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
+        $m->to($user['email'], $user['name'])->subject($subject);
     });
 }
 

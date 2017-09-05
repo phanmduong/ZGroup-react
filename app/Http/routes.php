@@ -88,6 +88,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     // Begin Base api
     Route::get('/bases', "ManageBaseApiController@bases");
+    Route::get('/base/all', "ManageBaseApiController@get_base_all");
     Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
     Route::post('/base/create', "ManageBaseApiController@createBase");
     Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
@@ -133,6 +134,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     //Begin gens api
     Route::get('/gens', 'ManageGenApiController@get_gens');
+    Route::get('/gen/all', 'ManageGenApiController@get_all_gens');
     Route::post('/gen/add', 'ManageGenApiController@add_gen');
     Route::post('/gen/{genId}/edit', 'ManageGenApiController@edit_gen');
     Route::post('/delete-gen', 'ManageGenApiController@delete_gen');
@@ -147,6 +149,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::get('/student/{studentId}/progress', 'ManageStudentApiController@get_progress');
     Route::post('/student/{studentId}/edit', 'ManageStudentApiController@edit_student');
     //End student api
+
+    //Begin dashboard api
+    Route::get('/gens/{gen_id}/dashboard/{base_id?}', 'ManageDashboardApiController@dashboard');
 
 });
 
@@ -545,7 +550,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/gens/{page?}', 'HomeController@manage_gens');
     Route::get('manage/courses/{page?}', 'HomeController@courses');
     Route::get('manage/classes/{page?}', 'HomeController@classes');
-    Route::get('manage/registerlist', 'HomeController@registerList');
+//    Route::get('manage/registerlist', 'HomeController@registerList');
     Route::get('manage/waitlist', 'HomeController@waitList');
     Route::get('manage/study-history/{student_id}', 'HomeController@study_history');
     Route::get('manage/studentsneedcall/{page?}', 'HomeController@student_needs_call');

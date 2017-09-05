@@ -23,6 +23,7 @@ class ManageGenApiController extends ManageApiController
     {
         $limit = 7;
         $gens = Gen::orderBy('id', 'decs')->paginate($limit);
+        $current_gen = Gen::getCurrentGen();
         $data = [
             "gens" => $gens->map(function ($gen) {
                 return [
@@ -34,9 +35,30 @@ class ManageGenApiController extends ManageApiController
                     'status' => $gen->status,
                     'teach_status' => $gen->teach_status,
                 ];
-            })
+            }),
+            'current_gen' => [
+                'id' => $current_gen->id
+            ]
         ];
         return $this->respondWithPagination($gens, $data);
+    }
+
+    public function get_all_gens()
+    {
+        $gens = Gen::orderBy('id', 'decs')->get();
+        $current_gen = Gen::getCurrentGen();
+        $data = [
+            "gens" => $gens->map(function ($gen) {
+                return [
+                    'id' => $gen->id,
+                    'name' => $gen->name,
+                ];
+            }),
+            'current_gen' => [
+                'id' => $current_gen->id
+            ]
+        ];
+        return $this->respondSuccessWithStatus($data);
     }
 
     public function add_gen(Request $request)
