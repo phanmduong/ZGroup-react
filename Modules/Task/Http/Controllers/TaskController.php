@@ -113,22 +113,7 @@ class TaskController extends ManageApiController
 
         $data = [
             "projects" => $projects->map(function ($project) {
-                return [
-                    'id' => $project->id,
-                    'title' => $project->title,
-                    'description' => $project->description,
-                    'status' => $project->status,
-                    'creator' => [
-                        "id" => $project->creator->id,
-                        "name" => $project->creator->name
-                    ],
-                    'editor' => [
-                        "id" => $project->editor->id,
-                        "name" => $project->editor->name
-                    ],
-                    'created_at' => format_time_main($project->created_at),
-                    'updated_at' => format_time_main($project->updated_at)
-                ];
+                return $project->transform();
             }),
 
         ];
