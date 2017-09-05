@@ -83,15 +83,16 @@ class NotificationContainer extends React.Component {
                         <b className="caret"/>
                     </p>
                 </a>
-
-                <ul className="dropdown-menu">
+                <ul className="dropdown-menu notification-list-wrapper">
 
                     {
                         this.props.notifications.map((notification, index) => {
                             return (
                                 <li key={index}>
-                                    <a href={notification.url}
-                                       dangerouslySetInnerHTML={{__html: notification.message}}>
+                                    <a href={notification.url}>
+                                        <div className="notification-item"
+                                             dangerouslySetInnerHTML={{__html: notification.message}}>
+                                        </div>
                                     </a>
                                 </li>
                             );

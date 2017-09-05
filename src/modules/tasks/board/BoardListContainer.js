@@ -25,6 +25,28 @@ class BoardListContainer extends React.Component {
         this.props.taskActions.loadBoards(this.props.params.projectId);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.boards.length === 0 && nextProps.boards.length > 0) {
+            const cardId = this.props.location.query.card_id;
+            let card = null;
+            let board = null;
+            nextProps.boards.forEach((b) => {
+                b.cards.forEach((c) => {
+                    if (c.id === Number(cardId)) {
+                        card = c;
+                        board = b;
+                    }
+                });
+            });
+            if (card) {
+                this.props.taskActions.openCardDetailModal({
+                    ...card,
+                    board
+                });
+            }
+        }
+    }
+
     moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
         this.props.taskActions.moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder);
     }
@@ -68,6 +90,7 @@ class BoardListContainer extends React.Component {
 BoardListContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
     boards: PropTypes.array.isRequired,
+    location: PropTypes.object.isRequired,
     isLoadingBoards: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired
 };
