@@ -58,6 +58,8 @@ class Project extends Model
             'members' => $this->members->map(function ($member){
                 return [
                     "id" => $member->id,
+                    "name" => $member->name,
+                    "email" => $member->email,
                     "avatar_url" => generate_protocol_url($member->avatar_url)
                 ];
             }),

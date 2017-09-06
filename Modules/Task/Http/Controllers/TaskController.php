@@ -397,6 +397,21 @@ class TaskController extends ManageApiController
         ]);
     }
 
+    public function loadProjectMembers($filter = "", Request $request)
+    {
+        $project = Project::find($request->project_id);
+        if (is_null($project)) {
+            return $this->responseBadRequest("Dự án không tồn tại");
+        }
+        $this->memberTransformer->setProject($project);
+
+        $members = $this->userRepository->loadStaffs($filter, 10, 0);
+
+        return $this->respond([
+            "members" => $this->memberTransformer->transformCollection($members)
+        ]);
+    }
+
     public function deleteTaskList($id)
     {
         $taskList = TaskList::find($id);

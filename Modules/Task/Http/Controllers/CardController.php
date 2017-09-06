@@ -8,21 +8,30 @@ use App\Http\Controllers\ManageApiController;
 use App\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Modules\Task\Repositories\ProjectRepository;
 use Modules\Task\Repositories\UserCardRepository;
 
 class CardController extends ManageApiController
 {
     protected $userCardRepository;
+    protected $projectRepository;
 
-    public function __construct(UserCardRepository $userCardRepository)
+    public function __construct(UserCardRepository $userCardRepository, ProjectRepository $projectRepository)
     {
         parent::__construct();
         $this->userCardRepository = $userCardRepository;
+        $this->projectRepository = $projectRepository;
     }
 
     public function assignMember($cardId, $userId)
     {
         $this->userCardRepository->assign($cardId, $userId, $this->user);
+        return $this->respond(["status" => 1]);
+    }
+
+    public function assignProjectMember($projectId, $userId)
+    {
+        $this->projectRepository->assign($projectId, $userId, $this->user);
         return $this->respond(["status" => 1]);
     }
 
