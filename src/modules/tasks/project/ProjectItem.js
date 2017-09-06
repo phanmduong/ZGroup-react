@@ -33,7 +33,7 @@ class ProjectItem extends React.Component {
                     </div>
                     <div className="row" style={{fontSize: "16px", fontWeight: 600}}>
 
-                        <i className="material-icons">account_balance_wallet</i> {project.title.length > 15 ? project.title.slice(0, 12) + "..." : project.title}
+                        <i className="material-icons">account_balance_wallet</i> {project.title.length > 20 ? project.title.slice(0, 17) + "..." : project.title}
                     </div>
                     <div className="row"
                          style={{height: "5px", marginTop: "10px", marginBottom: "10px", background: project.color ? project.color : "#d9d9d9"}}/>

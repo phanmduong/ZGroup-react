@@ -46,7 +46,6 @@ class ProjectDetailModalContainer extends Component {
     }
 
     changeColor(color) {
-
         this.props.taskActions.updateProjectData({
             ...this.props.project,
             color: color.hex
@@ -83,7 +82,7 @@ class ProjectDetailModalContainer extends Component {
 
                                 <CirclePicker
                                     width="100%"
-                                    color={project.color}
+                                    color={project.color || ""}
                                     onChangeComplete={this.changeColor}/>
 
                                 <div className="form-group">
