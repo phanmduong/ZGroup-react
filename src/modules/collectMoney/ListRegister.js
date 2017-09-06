@@ -29,6 +29,7 @@ class ListRegister extends React.Component {
                     {this.props.registers.map((register) => {
                         return (
                             <ItemRegister
+                                user={this.props.user}
                                 key={register.id}
                                 register={register}
                                 updateMoney={this.props.updateMoney}
@@ -49,6 +50,7 @@ ListRegister.propTypes = {
     nextWaitingCode: PropTypes.string.isRequired,
     registers: PropTypes.array.isRequired,
     updateMoney: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 

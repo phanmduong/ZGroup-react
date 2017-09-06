@@ -34,6 +34,7 @@ class ListUser extends React.Component {
                                      style={{height: '0px'}}>
                                     <div className="panel-body">
                                         <ListRegister
+                                            user={user}
                                             nextCode={this.props.nextCode}
                                             nextWaitingCode={this.props.nextWaitingCode}
                                             registers={user.registers}

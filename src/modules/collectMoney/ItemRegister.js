@@ -70,7 +70,7 @@ class ItemRegister extends React.Component {
             helper.showTypeNotification('Vui lòng nhập số tiền', 'warning');
             return;
         }
-        this.props.updateMoney(this.state.register);
+        this.props.updateMoney(this.props.user, this.state.register);
     }
 
     render() {
@@ -203,6 +203,7 @@ ItemRegister.propTypes = {
     nextCode: PropTypes.string.isRequired,
     register: PropTypes.object.isRequired,
     updateMoney: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 
