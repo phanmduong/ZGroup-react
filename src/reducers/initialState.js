@@ -115,6 +115,11 @@ export default {
     },
 
     task: {
+        projectDetail: {
+            showModal: false,
+            project: {},
+            isSaving: false
+        },
         manageLabel: {
             label: {},
             isSavingLabel: false
