@@ -65,7 +65,12 @@ class TaskController extends ManageApiController
         $project->description = trim($request->description);
         $project->creator_id = $this->user->id;
         $project->editor_id = $this->user->id;
-        $project->status = Project::$OPEN;
+        $project->color = $request->color;
+        if ($request->status) {
+            $project->status = $request->status;
+        } else {
+            $project->status = Project::$OPEN;
+        }
         $project->save();
 
         return $this->respondSuccessWithStatus(["message" => $message]);
