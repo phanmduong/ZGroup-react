@@ -7,10 +7,15 @@ use App\Colorme\Transformers\Transformer;
 class MemberTransformer extends Transformer
 {
     protected $card;
+    protected $project;
 
     public function setCard($card)
     {
         $this->card = $card;
+    }
+
+    public function setProject($project) {
+        $this->project = $project;
     }
 
     public function transform($member)
@@ -24,6 +29,13 @@ class MemberTransformer extends Transformer
         ];
         if ($this->card) {
             $memberIds = $this->card->assignees()->pluck("id")->toArray();
+            if (in_array($member->id, $memberIds)) {
+                $data['added'] = true;
+            }
+        }
+
+        if ($this->project) {
+            $memberIds = $this->project->members()->pluck("id")->toArray();
             if (in_array($member->id, $memberIds)) {
                 $data['added'] = true;
             }
