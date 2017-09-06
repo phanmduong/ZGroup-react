@@ -50,7 +50,7 @@ class SendMarketingEmail extends Job implements ShouldQueue
 //        $subscribers = $l->subscribers()->take($this->take)->skip($this->skip)->get();
         foreach ($subscribers as $subscriber) {
             if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
-                $url = '/manage/email/open?cam_id=' . $cam->id . '&to=' . $subscriber->email;
+                $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $cam->id . '&to=' . $subscriber->email;
                 $content = $cam->template->content . '<img src="' . $url . '" width="1" height="1"/>';
                 $result = $mail->sendAllEmail([$subscriber->email], $cam->subject, $content);
                 $email_id = $result->get('MessageId');
