@@ -7,6 +7,8 @@ import * as taskActions from '../taskActions';
 import FormInputText from "../../../components/common/FormInputText";
 import {CirclePicker} from "react-color";
 import Select from 'react-select';
+import AddMemberProjectOverlay from "./AddMemberProjectOverlay";
+import Avatar from "../../../components/common/Avatar";
 
 
 class ProjectDetailModalContainer extends Component {
@@ -124,7 +126,17 @@ class ProjectDetailModalContainer extends Component {
                         </div>
 
                         <div className="col-sm-4">
+                            <div className="card-detail-btn-group">
+                                <AddMemberProjectOverlay/>
 
+                            </div>
+                            <div style={{padding: 5, display: "flex", flexWrap: "wrap"}}>
+                                {
+                                    project.members && project.members.map((member) => {
+                                        return <Avatar key={member.id} url={member.avatar_url} size={48}/>;
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
                 </Modal.Body>

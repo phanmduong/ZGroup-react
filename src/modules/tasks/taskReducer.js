@@ -6,6 +6,7 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+
         case types.SUBMIT_PROJECT_SUCCESS:
             return {
                 ...state,
@@ -272,6 +273,42 @@ export default function taskReducer(state = initialState.task, action) {
                             progress: 0
                         }
                     ]
+                }
+            };
+
+        case types.ASSIGN_PROJECT_MEMBER_SUCCESS:
+            return {
+                ...state,
+                addMember: {
+                    ...state.addMember,
+                    members: state.addMember.members.map((member) => {
+                        if (member.id === action.member.id) {
+                            return {
+                                ...member,
+                                added: !member.added
+                            };
+                        }
+                        return member;
+                    })
+                },
+                projectDetail: {
+                    ...state.projectDetail,
+                    project: {
+                        ...state.projectDetail.project,
+                        members: [...state.projectDetail.project.members, action.member]
+                    }
+                },
+                project: {
+                    ...state.project,
+                    projects: state.project.projects.map((project) => {
+                        if (project.id === action.project.id) {
+                            return {
+                                ...project,
+                                members: [...project.members, action.member]
+                            };
+                        }
+                        return project;
+                    })
                 }
             };
 

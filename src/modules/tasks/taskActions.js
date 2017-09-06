@@ -542,6 +542,21 @@ export function loadMembers(query, cardId) {
     };
 }
 
+export function loadProjectMembers(query, cardId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_MEMBERS
+        });
+        taskApi.loadProjectMembers(query, cardId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_MEMBERS_SUCCESS,
+                    members: res.data.members
+                });
+            });
+    };
+}
+
 export function clearMembers() {
     return function (dispatch) {
         dispatch({
@@ -569,6 +584,17 @@ export function assignMember(card, member) {
             member
         });
         taskApi.toggleAssignMember(card, member);
+    };
+}
+
+export function assignProjectMember(project, member) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ASSIGN_PROJECT_MEMBER_SUCCESS,
+            project,
+            member
+        });
+        taskApi.toggleAssignProjectMember(project, member);
     };
 }
 

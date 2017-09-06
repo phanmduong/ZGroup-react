@@ -208,6 +208,15 @@ export function toggleAssignMember(card, member) {
     return axios.post(url);
 }
 
+export function toggleAssignProjectMember(project, member) {
+    let url = env.MANAGE_API_URL + "/project/" + project.id + "/user/" + member.id;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
 export function uploadFile(card, index = 0, file, completeHandler, progressHandler, error) {
     let url = env.MANAGE_API_URL + '/card/' + card.id + "/file";
     const token = localStorage.getItem('token');
@@ -285,5 +294,16 @@ export function loadCalendarEvents(userId) {
     if (token) {
         url += "?token=" + token;
     }
+    return axios.get(url);
+}
+
+export function loadProjectMembers(filter, projectId) {
+    let url = env.MANAGE_API_URL + "/project-members/" + filter;
+    console.log(url);
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    url += "&project_id=" + projectId;
     return axios.get(url);
 }
