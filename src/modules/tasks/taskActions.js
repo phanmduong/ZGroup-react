@@ -693,3 +693,45 @@ export function loadCalendarEvents(userId) {
 
     };
 }
+
+export function openProjectDetailModal(project) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_PROJECT_DETAIL_MODAL,
+            project
+        });
+    };
+}
+
+export function closeProjectDetailModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_PROJECT_DETAIL_MODAL
+        });
+    };
+}
+
+export function updateProjectData(project) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_PROJECT_DATA,
+            project
+        });
+    };
+}
+
+export function submitProject(project) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SUBMIT_PROJECT,
+            project
+        });
+        taskApi.createProject(project)
+            .then(() => {
+                dispatch({
+                    type: types.SUBMIT_PROJECT_SUCCESS,
+                    project
+                });
+            });
+    };
+}

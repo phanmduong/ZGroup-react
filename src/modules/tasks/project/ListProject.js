@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import {Link} from "react-router";
-// import FormInputSelect from "../../../components/common/FormInputSelect";
-// import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import ProjectItem from "./ProjectItem";
+import ProjectDetailModalContainer from "./ProjectDetailModalContainer";
 
 class ListProject extends React.Component {
     constructor(props, context) {
@@ -14,6 +12,7 @@ class ListProject extends React.Component {
     render() {
         return (
             <div className="row">
+                <ProjectDetailModalContainer/>
                 {this.props.projects.map((project) => <ProjectItem key={project.id} project={project}/>)}
             </div>
         );

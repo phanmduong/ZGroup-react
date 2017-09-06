@@ -6,6 +6,60 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.SUBMIT_PROJECT_SUCCESS:
+            return {
+                ...state,
+                project: {
+                    ...state.project,
+                    projects: state.project.projects.map((project) => {
+                        if (project.id === action.project.id) {
+                            return {
+                                ...project,
+                                ...action.project
+                            };
+                        }
+                        return project;
+                    })
+                },
+                projectDetail: {
+                    ...state.projectDetail,
+                    isSaving: false
+                }
+            };
+        case types.BEGIN_SUBMIT_PROJECT:
+            return {
+                ...state,
+                projectDetail: {
+                    ...state.projectDetail,
+                    isSaving: true
+                }
+            };
+        case types.UPDATE_PROJECT_DATA:
+            return {
+                ...state,
+                projectDetail: {
+                    ...state.projectDetail,
+                    project: action.project
+                }
+            };
+        case types.CLOSE_PROJECT_DETAIL_MODAL:
+            return {
+                ...state,
+                projectDetail: {
+                    ...state.projectDetail,
+                    showModal: false,
+                    project: {}
+                }
+            };
+        case types.OPEN_PROJECT_DETAIL_MODAL:
+            return {
+                ...state,
+                projectDetail: {
+                    ...state.projectDetail,
+                    showModal: true,
+                    project: action.project
+                }
+            };
         case types.CLEAR_MEMBERS:
             return {
                 ...state,
