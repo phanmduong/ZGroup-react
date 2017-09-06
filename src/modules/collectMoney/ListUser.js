@@ -13,7 +13,7 @@ class ListUser extends React.Component {
                 {
                     this.props.users.map((user) => {
                         return (
-                            <div className="panel panel-default">
+                            <div className="panel panel-default" key={user.id}>
                                 <div className="panel-heading" role="tab" id={'headingCollectMoneyUser' + user.id}>
                                     <a role="button" data-toggle="collapse" data-parent="#accordion"
                                        href={'#collectMoneyUser' + user.id}
@@ -34,6 +34,7 @@ class ListUser extends React.Component {
                                      style={{height: '0px'}}>
                                     <div className="panel-body">
                                         <ListRegister
+                                            user={user}
                                             nextCode={this.props.nextCode}
                                             nextWaitingCode={this.props.nextWaitingCode}
                                             registers={user.registers}
@@ -52,7 +53,7 @@ class ListUser extends React.Component {
 
 ListUser.propTypes = {
     nextCode: PropTypes.string.isRequired,
-    nextWaitingCode: PropTypes.number.isRequired,
+    nextWaitingCode: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
     updateMoney: PropTypes.func.isRequired,
 };

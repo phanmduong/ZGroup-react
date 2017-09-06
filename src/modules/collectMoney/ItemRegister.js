@@ -47,7 +47,13 @@ class ItemRegister extends React.Component {
         if (event.target.type === "checkbox") {
             register[field] = event.target.checked;
         } else {
-            register[field] = event.target.value;
+            if (field == 'money') {
+                if (!isNaN(Number(event.target.value.toString().replace(/\./g, "")))) {
+                    register[field] = event.target.value;
+                }
+            } else {
+                register[field] = event.target.value;
+            }
         }
         this.setState({
             register: register
@@ -64,7 +70,7 @@ class ItemRegister extends React.Component {
             helper.showTypeNotification('Vui lòng nhập số tiền', 'warning');
             return;
         }
-        this.props.updateMoney(this.state.register);
+        this.props.updateMoney(this.props.user, this.state.register);
     }
 
     render() {
@@ -97,14 +103,16 @@ class ItemRegister extends React.Component {
                     </td>
                 }
                 {register.is_paid ?
-                    <td>{register.money}</td>
+                    <td>
+                        {(helper.isEmptyInput(register.money) || register.money === 0)
+                            ? 0 : helper.dotNumber(register.money)}đ</td>
                     :
                     <td>
                         <div className="form-group">
                             <input
                                 type="text"
                                 className="form-control"
-                                value={this.state.register.money}
+                                value={helper.dotNumber(this.state.register.money)}
                                 name="money"
                                 onChange={this.updateFormData}
                             />
@@ -195,6 +203,7 @@ ItemRegister.propTypes = {
     nextCode: PropTypes.string.isRequired,
     register: PropTypes.object.isRequired,
     updateMoney: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
 };
 
 

@@ -10,6 +10,7 @@ import Search from '../../components/common/Search';
 import PropTypes from 'prop-types';
 import * as collectMoneyActions from './collectMoneyActions';
 import ListUser from './ListUser';
+import * as helper from '../../helpers/helper';
 
 class CollectMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -46,8 +47,11 @@ class CollectMoneyContainer extends React.Component {
         this.props.collectMoneyActions.searchStudentRegister(this.state.query, page);
     }
 
-    updateMoney(register) {
-        this.props.collectMoneyActions.payMoneyRegister(register);
+    updateMoney(user, register) {
+        helper.confirm("question", "Thu tiền học",
+            `Bạn sắp thu ${helper.dotNumber(register.money)}đ từ học viên ${user.name}. <br/>Bạn có muốn tiếp tục?`, () => {
+            this.props.collectMoneyActions.payMoneyRegister(register);
+        });
     }
 
     render() {
@@ -104,7 +108,7 @@ CollectMoneyContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     nextCode: PropTypes.string.isRequired,
-    nextWaitingCode: PropTypes.number.isRequired,
+    nextWaitingCode: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     collectMoneyActions: PropTypes.object.isRequired,

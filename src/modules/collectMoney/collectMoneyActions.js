@@ -35,6 +35,7 @@ export function payMoneyRegister(register) {
         });
         collectMoneyApi.payMoney(register)
             .then((res) => {
+                helper.sweetAlertSuccess("Nộp tiền thành công");
                 dispatch({
                     type: types.PAY_REGISTER_COLLECT_MONEY_SUCCESS,
                     register: res.data.data.register,
@@ -42,7 +43,7 @@ export function payMoneyRegister(register) {
                     nextWaitingCode: res.data.data.next_waiting_code,
                 });
             }).catch(() => {
-            helper.showErrorNotification('Có lỗi xảy ra');
+            helper.sweetAlertError("Có lỗi xảy ra. Kiểm tra và thử lại");
             dispatch({
                 type: types.PAY_REGISTER_COLLECT_MONEY_ERROR,
                 registerId: register.id
