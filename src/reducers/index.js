@@ -19,6 +19,7 @@ import personalCalendarReducer from '../modules/tasks/calendar/personalCalendarR
 import dashboardReducer from '../modules/dashboard/dashboardReducer';
 import notificationReducer from '../modules/notification/notificationReducer';
 import collectMoneyReducer from '../modules/collectMoney/collectMoneyReducer';
+import historyCollectMoneyReducer from '../modules/historyCollectMoney/historyCollectMoneyReducer';
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -40,6 +41,7 @@ const appReducer = combineReducers({
     dashboard: dashboardReducer,
     notification: notificationReducer,
     collectMoney: collectMoneyReducer,
+    historyCollectMoney: historyCollectMoneyReducer,
 });
 
 const rootReducer = (state, action) => {

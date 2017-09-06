@@ -3,7 +3,7 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 let users;
-export default function dashboardReducer(state = initialState.collectMoney, action) {
+export default function collectMoneyReducer(state = initialState.collectMoney, action) {
     switch (action.type) {
         case types.BEGIN_SEARCH_REGISTERS_COLLECT_MONEY:
             return {

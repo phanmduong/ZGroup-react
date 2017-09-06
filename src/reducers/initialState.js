@@ -399,5 +399,12 @@ export default {
         users: [],
         isLoading: false,
         error: false
+    },
+    historyCollectMoney: {
+        currentPage: 1,
+        totalPages: 1,
+        registers: [],
+        isLoading: false,
+        error: false
     }
 };

@@ -134,7 +134,13 @@ class ListRegister extends React.Component {
                                     }
                                 </td>
                                 <td>
-                                    <h6>{register.paid_status ? helper.convertMoneyToK(register.money) + '/' + helper.convertMoneyToK(register.course_money) : 'Chưa nộp'}</h6>
+                                    <h6>
+                                        {
+                                            register.paid_status ?
+                                                <b className="text-money">{helper.convertMoneyToK(register.money) + '/' + helper.convertMoneyToK(register.course_money)}</b>
+                                                : 'Chưa nộp'
+                                        }
+                                    </h6>
                                     {register.paid_status &&
                                     <div className="progress progress-line-primary progress-bar-table">
                                         <div className="progress-bar" role="progressbar" aria-valuenow="60"

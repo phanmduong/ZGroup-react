@@ -32,6 +32,7 @@ import CareContainer from "./modules/infoStudent/care/CareContainer";
 import CalendarContainer from "./modules/tasks/calendar/CalendarContainer";
 import DashboardContainer from "./modules/dashboard/DashboardContainer";
 import CollectMoneyContainer from "./modules/collectMoney/CollectMoneyContainer";
+import HistoryCollectMoneyContainer from "./modules/historyCollectMoney/HistoryCollectMoneyContainer";
 
 export default (
     <Route>
@@ -111,6 +112,10 @@ export default (
             {/*Begin collect money routes*/}
             <Route path="/manage/moneycollect" component={CollectMoneyContainer}/>
             {/*End collect money routes*/}
+
+            {/*Begin history collect money routes*/}
+            <Route path="/manage/paidlist" component={HistoryCollectMoneyContainer}/>
+            {/*End history collect money routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

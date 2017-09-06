@@ -325,3 +325,7 @@ $starInactive: #c4c5c6;
 .star-rating {
   margin: 0 auto ($ratingSize * 0.05);
 }
+
+.text-email {
+  text-transform: lowercase!important;
+}

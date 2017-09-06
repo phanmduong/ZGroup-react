@@ -47,6 +47,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadGensData();
         if (this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
+            this.setState({salerId: this.props.params.salerId});
         } else {
             this.loadRegisterStudent(1, '');
         }

@@ -129,7 +129,7 @@ class InfoStudentContainer extends React.Component {
                                         :
                                         <div className="card-content">
                                             <h4 className="card-title">{this.props.student.name}</h4>
-                                            <h6 className="category text-gray">{this.props.student.email}</h6>
+                                            <h6 className="category text-gray text-email">{this.props.student.email}</h6>
                                             <p className="description">{this.props.student.phone}</p>
                                             {this.props.isEditingStudent ?
                                                 (
