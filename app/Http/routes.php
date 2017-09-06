@@ -547,7 +547,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('manage/storecategoryproduct', 'ManageProductController@store_category_product');
 
     Route::get('manage/tabs', 'HomeController@show_tabs');
-    Route::get('manage/moneycollect', 'HomeController@money_collect');
+//    Route::get('manage/moneycollect', 'HomeController@money_collect');
     Route::get('manage/roles', 'HomeController@show_roles');
 
     Route::get('manage/scheduleclass', 'ManageClassController@schedule');
@@ -559,7 +559,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/gens/{page?}', 'HomeController@manage_gens');
     Route::get('manage/courses/{page?}', 'HomeController@courses');
     Route::get('manage/classes/{page?}', 'HomeController@classes');
-    Route::get('manage/registerlist', 'HomeController@registerList');
+//    Route::get('manage/registerlist', 'HomeController@registerList');
     Route::get('manage/waitlist', 'HomeController@waitList');
     Route::get('manage/study-history/{student_id}', 'HomeController@study_history');
     Route::get('manage/studentsneedcall/{page?}', 'HomeController@student_needs_call');
