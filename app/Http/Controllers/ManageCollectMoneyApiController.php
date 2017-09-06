@@ -172,4 +172,56 @@ class ManageCollectMoneyApiController extends ManageApiController
         return $this->respondSuccessWithStatus($return_data);
     }
 
+    public function history_collect_money(Request $request)
+    {
+        $search = $request->search;
+        $limit = 40;
+
+        if ($search) {
+            $registers = Register::where('registers.status', 1)->join('users', 'users.id', '=', 'registers.user_id')
+                ->where(function ($query) use ($search) {
+                    $query->where('users.name', 'like', '%' . $search . '%');
+                    $query->orwhere('users.phone', 'like', '%' . $search . '%');
+                    $query->orwhere('users.email', 'like', '%' . $search . '%');
+                    $query->orwhere('registers.code', 'like', '%' . $search . '%');
+                })
+                ->select('registers.*', 'users.name', 'users.email', 'users.phone')
+                ->orderBy('paid_time', 'desc')->paginate($limit);
+        } else {
+            $registers = Register::where('status', 1)->orderBy('paid_time', 'desc')->paginate($limit);
+        }
+        $data = [
+            'registers' => $registers->map(function ($register) {
+                $register_data = [
+                    'id' => $register->id,
+                    'student' => [
+                        'id' => $register->user_id,
+                        'name' => $register->user->name,
+                        'email' => $register->user->email,
+                        'phone' => $register->user->phone,
+                    ],
+                    'money' => $register->money,
+                    'code' => $register->code,
+                    'paid_status' => $register->status == 1,
+                    'paid_time' => format_date_to_mysql(strtotime($register->paid_time)),
+                    'paid_time_full' => format_date_full_option($register->paid_time),
+                    'course_money' => $register->studyClass->course->price,
+                    'class' => [
+                        'id' => $register->studyClass->id,
+                        'name' => $register->studyClass->name,
+                        'icon_url' => $register->studyClass->course->icon_url
+                    ]
+                ];
+                if ($register->saler)
+                    $register_data['saler'] = [
+                        'id' => $register->saler->id,
+                        'name' => $register->saler->name,
+                        'color' => $register->saler->color,
+                    ];
+                return $register_data;
+            })
+        ];
+        return $this->respondWithPagination($registers, $data);
+    }
+
 }

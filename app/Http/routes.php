@@ -159,6 +159,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     //Begin collect money api
     Route::get('/collect-money/search-registers', 'ManageCollectMoneyApiController@search_registers');
     Route::post('/collect-money/pay-money', 'ManageCollectMoneyApiController@pay_money');
+    Route::get('/collect-money/history', 'ManageCollectMoneyApiController@history_collect_money');
     //End collect money api
 
 });
@@ -558,7 +559,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/gens/{page?}', 'HomeController@manage_gens');
     Route::get('manage/courses/{page?}', 'HomeController@courses');
     Route::get('manage/classes/{page?}', 'HomeController@classes');
-//    Route::get('manage/registerlist', 'HomeController@registerList');
+    Route::get('manage/registerlist', 'HomeController@registerList');
     Route::get('manage/waitlist', 'HomeController@waitList');
     Route::get('manage/study-history/{student_id}', 'HomeController@study_history');
     Route::get('manage/studentsneedcall/{page?}', 'HomeController@student_needs_call');
