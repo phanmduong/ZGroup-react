@@ -104,7 +104,7 @@ CollectMoneyContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     nextCode: PropTypes.string.isRequired,
-    nextWaitingCode: PropTypes.number.isRequired,
+    nextWaitingCode: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     collectMoneyActions: PropTypes.object.isRequired,

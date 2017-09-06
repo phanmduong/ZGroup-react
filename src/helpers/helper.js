@@ -8,7 +8,7 @@ export function numberWithCommas(x) {
 }
 
 export function isEmptyInput(input) {
-    return input === null || input === undefined || input.trim().length <= 0;
+    return input === null || input === undefined || input.toString().trim().length <= 0;
 }
 
 export function avatarEmpty(input) {
@@ -156,7 +156,8 @@ export function getShortName(name) {
 
 export function dotNumber(number) {
     if (number)
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return number.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return number;
 }
 
 export function calculatorRating(ratingNumbers, avgRatings) {
@@ -175,5 +176,24 @@ export function isClassWait(className) {
     return className.indexOf('.') > -1;
 }
 
+export function sweetAlertSuccess(message) {
+    swal({
+        title: "Thành công",
+        text: message,
+        type: "success",
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-success"
+    });
+}
+
+export function sweetAlertError(message) {
+    swal({
+        title: "Thất bại",
+        text: message,
+        type: "error",
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-error"
+    });
+}
 
 
