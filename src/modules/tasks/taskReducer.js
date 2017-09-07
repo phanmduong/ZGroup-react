@@ -6,7 +6,58 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.CHANGE_ROLE_PROJECT_MEMBER:
+            return {
+                ...state,
+                addMember: {
+                    ...state.addMember,
+                    members: state.addMember.members.map((member) => {
+                        if (member.id === action.member.id) {
+                            return {
+                                ...member,
+                                is_admin: !member.is_admin
+                            };
+                        }
+                        return member;
+                    })
+                },
+                projectDetail: {
+                    ...state.projectDetail,
+                    project: {
+                        ...state.projectDetail.project,
+                        members: state.projectDetail.project.members.map((member) => {
+                            if (member.id === action.member.id) {
+                                return {
+                                    ...member,
+                                    is_admin: !member.is_admin
+                                };
+                            }
+                            return member;
+                        })
 
+                    }
+                },
+                project: {
+                    ...state.project,
+                    projects: state.project.projects.map((project) => {
+                        if (project.id === action.project.id) {
+                            return {
+                                ...project,
+                                members: project.members.map((member) => {
+                                    if (member.id === action.member.id) {
+                                        return {
+                                            ...member,
+                                            is_admin: !member.is_admin
+                                        };
+                                    }
+                                    return member;
+                                })
+                            };
+                        }
+                        return project;
+                    })
+                }
+            };
         case types.SUBMIT_PROJECT_SUCCESS:
             return {
                 ...state,
@@ -295,17 +346,32 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.projectDetail,
                     project: {
                         ...state.projectDetail.project,
-                        members: [...state.projectDetail.project.members, action.member]
+                        members: action.member.added
+                            ? state.projectDetail.project.members.filter(m => m.id !== action.member.id)
+                            : [...state.projectDetail.project.members, {
+                                ...action.member,
+                                added: !action.member.added
+                            }]
                     }
                 },
                 project: {
                     ...state.project,
                     projects: state.project.projects.map((project) => {
                         if (project.id === action.project.id) {
-                            return {
-                                ...project,
-                                members: [...project.members, action.member]
-                            };
+                            if (action.member.added) {
+                                return {
+                                    ...project,
+                                    members: project.members.filter(m => m.id !== action.member.id)
+                                };
+                            } else {
+                                return {
+                                    ...project,
+                                    members: [...project.members, {
+                                        ...action.member,
+                                        added: !action.member.added
+                                    }]
+                                };
+                            }
                         }
                         return project;
                     })

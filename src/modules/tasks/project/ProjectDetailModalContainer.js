@@ -8,7 +8,7 @@ import FormInputText from "../../../components/common/FormInputText";
 import {CirclePicker} from "react-color";
 import Select from 'react-select';
 import AddMemberProjectOverlay from "./AddMemberProjectOverlay";
-import Avatar from "../../../components/common/Avatar";
+import ProjectMemberDetailOverlayContainer from "./ProjectMemberDetailOverlayContainer";
 
 
 class ProjectDetailModalContainer extends Component {
@@ -64,6 +64,23 @@ class ProjectDetailModalContainer extends Component {
                 <Modal.Body>
                     <div className="row">
                         <div className="col-sm-8">
+                            {
+                                project.members && (
+                                    <div>
+                                        <h5>
+                                            <strong>Thành viên</strong>
+                                        </h5>
+                                        <div style={{padding: 5, display: "flex", flexWrap: "wrap"}}>
+                                            {
+                                                project.members.map((member) => {
+                                                    return <ProjectMemberDetailOverlayContainer
+                                                        key={member.id}
+                                                        member={member}/>;
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+                                )}
                             <h5>
                                 <strong>Mô tả</strong>
                             </h5>
@@ -129,13 +146,6 @@ class ProjectDetailModalContainer extends Component {
                             <div className="card-detail-btn-group">
                                 <AddMemberProjectOverlay/>
 
-                            </div>
-                            <div style={{padding: 5, display: "flex", flexWrap: "wrap"}}>
-                                {
-                                    project.members && project.members.map((member) => {
-                                        return <Avatar key={member.id} url={member.avatar_url} size={48}/>;
-                                    })
-                                }
                             </div>
                         </div>
                     </div>

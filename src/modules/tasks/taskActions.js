@@ -598,6 +598,17 @@ export function assignProjectMember(project, member) {
     };
 }
 
+export function changeProjectMemberRole(project, member) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_ROLE_PROJECT_MEMBER,
+            project,
+            member
+        });
+        taskApi.changeProjectMemberRole(project.id, member.id, member.is_admin ? 0 : 1);
+    };
+}
+
 export function uploadAttachment(card, fileWrapper) {
     return function (dispatch) {
         const error = () => {
