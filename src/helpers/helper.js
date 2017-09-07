@@ -43,6 +43,9 @@ export function confirm(type, title, html, success, cancel) {
 export function showErrorNotification(message) {
     showNotification(message, "top", "right", "danger");
 }
+export function showWarningNotification(message) {
+    showNotification(message, "top", "right", "warning");
+}
 
 export function showNotificationMessage(message, icon, color) {
     showNotification(message, "bottom", "left", "info", icon);

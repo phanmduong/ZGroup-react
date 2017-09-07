@@ -7,6 +7,7 @@ import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import Avatar from "../../../components/common/Avatar";
 import ProjectMemberPopover from "./ProjectMemberPopover";
+import {showWarningNotification} from "../../../helpers/helper";
 
 class ProjectMemberDetailOverlayContainer extends React.Component {
     constructor(props, context) {
@@ -29,7 +30,15 @@ class ProjectMemberDetailOverlayContainer extends React.Component {
     }
 
     setAdmin() {
-        this.props.taskActions.changeProjectMemberRole(this.props.project, this.props.member);
+        const admins = this.props.project.members.filter(member => member.is_admin);
+        const numAdmins = admins.length;
+
+        if (numAdmins === 1 && admins[0].id === this.props.member.id) {
+            showWarningNotification("Dự án phải có ít nhất 1 quản trị viên");
+        } else {
+            this.props.taskActions.changeProjectMemberRole(this.props.project, this.props.member);
+        }
+
     }
 
     render() {

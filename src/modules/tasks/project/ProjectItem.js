@@ -11,7 +11,9 @@ class ProjectItem extends React.Component {
         this.onEditClick = this.onEditClick.bind(this);
     }
 
-    onEditClick() {
+    onEditClick(event) {
+        event.stopPropagation();
+        event.preventDefault();
         this.props.taskActions.openProjectDetailModal(this.props.project);
     }
 
@@ -54,7 +56,7 @@ class ProjectItem extends React.Component {
                         if (isAdmin) {
                             event.preventDefault();
                             event.stopPropagation();
-                            this.onEditClick();
+                            this.onEditClick(event);
                         }
                     }} className="row"
                          style={{display: "flex", flexFlow: "row-reverse wrap", height: "29px"}}>
