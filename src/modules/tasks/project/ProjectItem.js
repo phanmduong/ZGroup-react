@@ -24,7 +24,7 @@ class ProjectItem extends React.Component {
         const tooltip = (
             <Tooltip id="tooltip">{project.description}</Tooltip>
         );
-        const isAdmin = project.members.filter(member => member.is_admin && member.id === this.props.user.id).length > 0;
+        const isAdmin = project.members.filter(member => member.is_admin && member.id === this.props.user.id).length > 0 || this.props.user.role === 2;
         return (
             <div className="col-md-4 col-sm-6">
                 <Link to={"project/" + project.id + "/boards"}
@@ -60,17 +60,18 @@ class ProjectItem extends React.Component {
                         {project.board_count} bảng | {project.card_count} thẻ
                         | {project.members ? project.members.length : 0} thành viên<br/>
                     </div>
-                    <div onClick={(event) => {
-                        if (isAdmin) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            this.onEditClick(event);
-                        }
-                    }} className="row"
+                    <div className="row"
                          style={{display: "flex", flexFlow: "row-reverse wrap", height: "29px"}}>
                         {
                             project.members.length > 5 && (
-                                <div key={-1} style={{padding: "2px 0px"}}>
+                                <div onClick={(event) => {
+                                    if (isAdmin) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                        this.onEditClick(event);
+                                    }
+                                }}
+                                     key={-1} style={{padding: "2px 0px"}}>
                                     <div style={{
                                         width: "25px",
                                         marginRight: "5px",
@@ -88,7 +89,15 @@ class ProjectItem extends React.Component {
                         {
                             project.members && project.members.slice(0, 4).map((member) => {
                                 return (
-                                    <div key={member.id} style={{padding: "2px 0px"}}>
+                                    <div
+                                        onClick={(event) => {
+                                            if (isAdmin) {
+                                                event.preventDefault();
+                                                event.stopPropagation();
+                                                this.onEditClick(event);
+                                            }
+                                        }}
+                                        key={member.id} style={{padding: "2px 0px"}}>
                                         <div style={{
                                             width: "25px",
                                             marginRight: "5px",
