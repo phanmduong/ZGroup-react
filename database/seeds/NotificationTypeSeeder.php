@@ -117,13 +117,13 @@ class NotificationTypeSeeder extends Seeder
                 "template" => "[[ACTOR]] vừa xoá bạn khỏi dự án [[PROJECT]]",
                 "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
             ], [
-                'name' => "edit_project",
+                'name' => "edit_title_project",
                 'color' => "#2196F3",
                 'id' => 16,
                 "template" => "[[ACTOR]] vừa thay đổi tên của dự án [[PROJECT]] thành [[NEW_NAME]]",
                 "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
             ], [
-                'name' => "edit_project",
+                'name' => "edit_description_project",
                 'color' => "#2196F3",
                 'id' => 17,
                 "template" => "[[ACTOR]] vừa thay đổi mô tả của dự án [[PROJECT]]",

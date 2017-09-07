@@ -51,6 +51,87 @@ class TaskController extends ManageApiController
         $this->projectRepository = $projectRepository;
     }
 
+    private function notiEditTitleProject($currentUser, $project, $receiverId, $oldName)
+    {
+        if ($currentUser && $currentUser->id != $receiverId) {
+
+
+            $notification = new Notification;
+            $notification->actor_id = $currentUser->id;
+            $notification->receiver_id = $receiverId;
+            $notification->type = 16;
+            $message = $notification->notificationType->template;
+
+            $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
+            $message = str_replace('[[PROJECT]]', "<strong>" . $oldName . "</strong>", $message);
+            $message = str_replace('[[NEW_NAME]]', "<strong>" . $project->title . "</strong>", $message);
+            $notification->message = $message;
+
+            $notification->color = $notification->notificationType->color;
+            $notification->icon = $notification->notificationType->icon;
+            $notification->url = '/project/' . $project->id . '/boards';
+
+            $notification->save();
+
+            $data = array(
+                "message" => $message,
+                "link" => $notification->url,
+                'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
+                "receiver_id" => $notification->receiver_id,
+                "actor_id" => $notification->actor_id,
+                "icon" => $notification->icon,
+                "color" => $notification->color
+            );
+
+            $publish_data = array(
+                "event" => "notification",
+                "data" => $data
+            );
+
+            Redis::publish(config("app.channel"), json_encode($publish_data));
+        }
+    }
+
+
+    private function notiEditDescriptionProject($currentUser, $project, $receiverId)
+    {
+        if ($currentUser && $currentUser->id != $receiverId) {
+
+
+            $notification = new Notification;
+            $notification->actor_id = $currentUser->id;
+            $notification->receiver_id = $receiverId;
+            $notification->type = 17;
+            $message = $notification->notificationType->template;
+
+            $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
+            $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
+            $notification->message = $message;
+
+            $notification->color = $notification->notificationType->color;
+            $notification->icon = $notification->notificationType->icon;
+            $notification->url = '/project/' . $project->id . '/boards';
+
+            $notification->save();
+
+            $data = array(
+                "message" => $message,
+                "link" => $notification->url,
+                'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
+                "receiver_id" => $notification->receiver_id,
+                "actor_id" => $notification->actor_id,
+                "icon" => $notification->icon,
+                "color" => $notification->color
+            );
+
+            $publish_data = array(
+                "event" => "notification",
+                "data" => $data
+            );
+
+            Redis::publish(config("app.channel"), json_encode($publish_data));
+        }
+    }
 
     public function createProject(Request $request)
     {
@@ -64,8 +145,9 @@ class TaskController extends ManageApiController
             $project = new Project();
             $message = "Tạo dự án thành công";
         }
-
+        $oldTitle = $project->title;
         $project->title = trim($request->title);
+        $oldDescription = $project->description;
         $project->description = trim($request->description);
         $project->creator_id = $this->user->id;
         $project->editor_id = $this->user->id;
@@ -76,6 +158,17 @@ class TaskController extends ManageApiController
             $project->status = Project::$OPEN;
         }
         $project->save();
+
+        if ($oldTitle !== $project->title) {
+            foreach ($project->members as $member) {
+                $this->notiEditTitleProject($this->user, $project, $member->id, $oldTitle);
+            }
+        }
+        if ($oldDescription !== $project->description) {
+            foreach ($project->members as $member) {
+                $this->notiEditDescriptionProject($this->user, $project, $member->id);
+            }
+        }
 
         $this->projectRepository->assign($project->id, $this->user->id, $this->user, Project::$ADMIN_ROLE);
 
