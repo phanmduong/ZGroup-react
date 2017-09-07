@@ -13,14 +13,26 @@ use App\Project;
 
 class ProjectRepository
 {
-    public function assign($projectId, $userId, $currentUser = null)
+    public function assignRoleMember($projectId, $memberId, $role, $currentUser)
+    {
+        $project = Project::find($projectId);
+        $project->members()->updateExistingPivot($memberId, [
+            "adder_id" => $currentUser->id,
+            "role" => $role
+        ]);
+    }
+
+    public function assign($projectId, $userId, $currentUser, $role = 0)
     {
         $project = Project::find($projectId);
         $member = $project->members()->where('id', '=', $userId)->first();
         if ($member) {
             $project->members()->detach($userId);
         } else {
-            $project->members()->attach($userId);
+            $project->members()->attach($userId, [
+                "adder_id" => $currentUser->id,
+                "role" => $role
+            ]);
 
 //            if ($currentUser && $currentUser->id != $userId) {
 //

@@ -23,6 +23,12 @@ class CardController extends ManageApiController
         $this->projectRepository = $projectRepository;
     }
 
+    public function changeRoleProjectMember($projectId, $memberId, $role)
+    {
+        $this->projectRepository->assignRoleMember($projectId, $memberId, $role, $this->user);
+        return $this->respond(["status" => 1]);
+    }
+
     public function assignMember($cardId, $userId)
     {
         $this->userCardRepository->assign($cardId, $userId, $this->user);
@@ -71,7 +77,7 @@ class CardController extends ManageApiController
 
                 $notification->color = $notification->notificationType->color;
                 $notification->icon = $notification->notificationType->icon;
-                $notification->url = '/project/' . $project->id . '/boards'. "?card_id=" . $cardId;
+                $notification->url = '/project/' . $project->id . '/boards' . "?card_id=" . $cardId;
 
                 $notification->save();
 
@@ -140,7 +146,7 @@ class CardController extends ManageApiController
 
                 $notification->color = $notification->notificationType->color;
                 $notification->icon = $notification->notificationType->icon;
-                $notification->url = '/project/' . $project->id . '/boards'. "?card_id=" . $cardId;
+                $notification->url = '/project/' . $project->id . '/boards' . "?card_id=" . $cardId;
 
                 $notification->save();
 

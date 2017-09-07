@@ -54,6 +54,14 @@ class UserCardRepository
             $this->removeCalendarEvent($cardId, $userId);
         } else {
             $card->assignees()->attach($userId);
+            $project = $card->board->project;
+            $temp = $project->members()->where("id", $userId)->first();
+            if ($temp === null) {
+                $project->members()->attach($userId, [
+                    "adder_id" => $currentUser->id,
+                    "role" => 0
+                ]);
+            }
             $this->updateCalendarEvent($cardId);
 
 

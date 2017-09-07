@@ -8,6 +8,7 @@
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Task\Http\Controllers'], function () {
     // Begin Task api
     Route::get('/project/{projectId}', "TaskController@project");
+    Route::put('/project/{projectId}/member/{memberId}/role/{role}', "CardController@changeRoleProjectMember");
     Route::post('/project/create', "TaskController@createProject");
     Route::post('/project/status/{projectId}', "TaskController@changeProjectStatus");
     Route::post('/project/delete/{baseId}', "TaskController@deleteProject");

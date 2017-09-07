@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\TaskList;
+use Modules\Task\Repositories\ProjectRepository;
 use Modules\Task\Repositories\UserCardRepository;
 use Modules\Task\Transformers\MemberTransformer;
 
@@ -28,6 +29,7 @@ class TaskController extends ManageApiController
     protected $memberTransformer;
     protected $taskTransformer;
     protected $userRepository;
+    protected $projectRepository;
     protected $userCardRepository;
 
     public function __construct(
@@ -36,6 +38,7 @@ class TaskController extends ManageApiController
         MemberTransformer $memberTransformer,
         BoardTransformer $boardTransformer,
         CardTransformer $cardTransformer,
+        ProjectRepository $projectRepository,
         UserCardRepository $userCardRepository)
     {
         parent::__construct();
@@ -45,6 +48,7 @@ class TaskController extends ManageApiController
         $this->userRepository = $userRepository;
         $this->memberTransformer = $memberTransformer;
         $this->userCardRepository = $userCardRepository;
+        $this->projectRepository = $projectRepository;
     }
 
 
@@ -72,6 +76,8 @@ class TaskController extends ManageApiController
             $project->status = Project::$OPEN;
         }
         $project->save();
+
+        $this->projectRepository->assign($project->id, $this->user->id, $this->user, Project::$ADMIN_ROLE);
 
         return $this->respondSuccessWithStatus(["message" => $message]);
     }
@@ -287,7 +293,7 @@ class TaskController extends ManageApiController
 
                 $notification->color = $notification->notificationType->color;
                 $notification->icon = $notification->notificationType->icon;
-                $notification->url = '/project/' . $project->id . '/boards'. "?card_id=" . $cardId;
+                $notification->url = '/project/' . $project->id . '/boards' . "?card_id=" . $cardId;
 
                 $notification->save();
 

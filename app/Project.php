@@ -11,6 +11,8 @@ class Project extends Model
 
     public static $OPEN = "open";
     public static $CLOSE = "close";
+    public static $ADMIN_ROLE = 1;
+    public static $MEMBER_ROLE = 0;
 
     public function boards()
     {
@@ -32,11 +34,17 @@ class Project extends Model
         return $this->hasMany(CardLabel::class, "project_id");
     }
 
-    public function members() {
-        return $this->belongsToMany(User::class, 'project_user', 'project_id', 'user_id');
+    public function members()
+    {
+        return $this
+            ->belongsToMany(User::class,
+                'project_user',
+                'project_id', 'user_id')
+            ->withPivot('role', "adder_id");
     }
 
-    public function transform() {
+    public function transform()
+    {
         $boardIds = $this->boards()->pluck("id");
         $board_count = $boardIds->count();
         return [
@@ -55,11 +63,13 @@ class Project extends Model
             "color" => $this->color,
             'board_count' => $board_count,
             'card_count' => Card::whereIn("board_id", $boardIds)->count(),
-            'members' => $this->members->map(function ($member){
+            'members' => $this->members->map(function ($member) {
                 return [
                     "id" => $member->id,
                     "name" => $member->name,
                     "email" => $member->email,
+                    "is_admin" => $member->pivot->role === 1,
+                    "added" => true,
                     "avatar_url" => generate_protocol_url($member->avatar_url)
                 ];
             }),
