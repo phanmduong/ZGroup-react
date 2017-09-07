@@ -7,7 +7,7 @@ import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
 import Avatar from "../../../components/common/Avatar";
 import * as taskActions from '../taskActions';
-
+import {showWarningNotification} from "../../../helpers/helper";
 
 
 class AddMemberProjectPopoverContainer extends React.Component {
@@ -36,7 +36,14 @@ class AddMemberProjectPopoverContainer extends React.Component {
     }
 
     toggleAssign(member) {
-        this.props.taskActions.assignProjectMember(this.props.project, member);
+        const admins = this.props.project.members.filter(member => member.is_admin);
+        const numAdmins = admins.length;
+
+        if (numAdmins === 1 && admins[0].id === member.id) {
+            showWarningNotification("Dự án phải có ít nhất 1 quản trị viên");
+        } else {
+            this.props.taskActions.assignProjectMember(this.props.project, member);
+        }
     }
 
     render() {

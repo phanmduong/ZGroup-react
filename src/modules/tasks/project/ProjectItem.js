@@ -4,6 +4,8 @@ import {Link} from "react-router";
 import * as taskActions from '../taskActions';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {shortenStr} from "../../../helpers/helper";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 class ProjectItem extends React.Component {
     constructor(props, context) {
@@ -19,6 +21,9 @@ class ProjectItem extends React.Component {
 
     render() {
         const {project} = this.props;
+        const tooltip = (
+            <Tooltip id="tooltip">{project.description}</Tooltip>
+        );
         const isAdmin = project.members.filter(member => member.is_admin && member.id === this.props.user.id).length > 0;
         return (
             <div className="col-md-4 col-sm-6">
@@ -48,7 +53,10 @@ class ProjectItem extends React.Component {
                              background: project.color ? project.color : "#d9d9d9"
                          }}/>
                     <div className="row" style={{textTransform: "none", marginBottom: "10px"}}>
-                        {project.description}<br/>
+                        <OverlayTrigger placement="top" overlay={tooltip}>
+                            <span>{shortenStr(project.description, 25)}</span>
+                        </OverlayTrigger>
+                        <br/>
                         {project.board_count} bảng | {project.card_count} thẻ
                         | {project.members ? project.members.length : 0} thành viên<br/>
                     </div>

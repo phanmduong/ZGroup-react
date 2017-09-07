@@ -3,6 +3,14 @@
 import jwt from 'jsonwebtoken';
 import * as env from '../constants/env';
 
+export function shortenStr(str, length) {
+    if (str.length > length) {
+        return str.slice(0, length - 3) + "...";
+    } else {
+        return str;
+    }
+}
+
 export function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -43,6 +51,7 @@ export function confirm(type, title, html, success, cancel) {
 export function showErrorNotification(message) {
     showNotification(message, "top", "right", "danger");
 }
+
 export function showWarningNotification(message) {
     showNotification(message, "top", "right", "warning");
 }

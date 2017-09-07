@@ -18,10 +18,21 @@ class ProjectMemberDetailOverlayContainer extends React.Component {
             show: false
         };
         this.setAdmin = this.setAdmin.bind(this);
+        this.isAdmin = this.isAdmin.bind(this);
+    }
+
+    isAdmin() {
+        const admins = this.props.project.members.filter(member => member.is_admin);
+        const numAdmins = admins.length;
+        return numAdmins === 1 && admins[0].id === this.props.member.id;
     }
 
     assignMember() {
-        this.props.taskActions.assignProjectMember(this.props.project, this.props.member);
+        if (this.isAdmin() && this.props.member.added) {
+            showWarningNotification("Dự án phải có ít nhất 1 quản trị viên");
+        } else {
+            this.props.taskActions.assignProjectMember(this.props.project, this.props.member);
+        }
     }
 
     toggle(event) {
@@ -30,10 +41,7 @@ class ProjectMemberDetailOverlayContainer extends React.Component {
     }
 
     setAdmin() {
-        const admins = this.props.project.members.filter(member => member.is_admin);
-        const numAdmins = admins.length;
-
-        if (numAdmins === 1 && admins[0].id === this.props.member.id) {
+        if (this.isAdmin()) {
             showWarningNotification("Dự án phải có ít nhất 1 quản trị viên");
         } else {
             this.props.taskActions.changeProjectMemberRole(this.props.project, this.props.member);
