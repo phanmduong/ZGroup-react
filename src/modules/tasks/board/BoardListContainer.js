@@ -11,6 +11,7 @@ import Loading from "../../../components/common/Loading";
 import BoardList from "./BoardList";
 import CreateCardModalContainer from "../card/CreateCardModalContainer";
 import CardDetailModalContainer from "../card/CardDetailModalContainer";
+import BoardFilterContainer from "./BoardFilterContainer";
 
 class BoardListContainer extends React.Component {
     constructor(props, context) {
@@ -71,16 +72,19 @@ class BoardListContainer extends React.Component {
                 <CreateCardModalContainer/>
                 <CardDetailModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
-                    <BoardList
-                        updateCardInBoard={this.props.taskActions.updateCardInBoard}
-                        openCardDetailModal={this.props.taskActions.openCardDetailModal}
-                        moveBoard={this.props.taskActions.moveBoard}
-                        changeOrderCard={this.props.taskActions.changeOrderCard}
-                        moveCard={this.moveCard}
-                        addCard={this.addCard}
-                        editBoard={this.editBoard}
-                        openCreateBoardModal={this.openCreateBoardModal}
-                        boards={this.props.boards}/>
+                    <div>
+                        <BoardFilterContainer/>
+                        <BoardList
+                            updateCardInBoard={this.props.taskActions.updateCardInBoard}
+                            openCardDetailModal={this.props.taskActions.openCardDetailModal}
+                            moveBoard={this.props.taskActions.moveBoard}
+                            changeOrderCard={this.props.taskActions.changeOrderCard}
+                            moveCard={this.moveCard}
+                            addCard={this.addCard}
+                            editBoard={this.editBoard}
+                            openCreateBoardModal={this.openCreateBoardModal}
+                            boards={this.props.boards}/>
+                    </div>
                 )}
             </div>
         );

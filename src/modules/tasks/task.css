@@ -9,13 +9,11 @@
 }
 
 .board-container {
-    height: calc(100vh - 150px);
     display: flex;
     flex-direction: row;
     overflow-x: scroll;
     padding-top: 20px;
     margin-bottom: -15px;
-    overflow-y: hidden;
 }
 
 .board > .card-content {
@@ -24,7 +22,7 @@
 }
 
 .board {
-    height: calc(100% - 65px);
+    height: calc(100vh - 150px);
     margin-left: -10px;
     margin-right: -20px;
     padding-right: 10px;
