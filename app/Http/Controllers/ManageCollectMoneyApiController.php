@@ -191,6 +191,12 @@ class ManageCollectMoneyApiController extends ManageApiController
         } else {
             $registers = Register::where('status', 1)->orderBy('paid_time', 'desc')->paginate($limit);
         }
+
+        if ($request->saler_id) {
+            $registers = Register::where('status', 1)->where('saler_id', $request->saler_id)
+                ->orderBy('paid_time', 'desc')->paginate($limit);
+        }
+
         $data = [
             'registers' => $registers->map(function ($register) {
                 $register_data = [
