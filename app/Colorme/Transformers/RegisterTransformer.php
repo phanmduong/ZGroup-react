@@ -54,12 +54,6 @@ class RegisterTransformer extends Transformer
             $data['class']['base'] = $register->studyClass->base->address;
         }
 
-        if ($register->call_status == 0) {
-            $count = TeleCall::where('student_id', $register->user_id)->count();
-            if ($count == 0) {
-                $register->call_status = 4;
-            }
-        }
         $data['call_status'] = call_status_text($register->call_status);
         if ($register->saler) {
             $data["saler"] = [

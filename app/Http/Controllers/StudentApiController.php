@@ -181,6 +181,9 @@ class StudentApiController extends ApiController
         }
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
+        $registers->map(function ($register){
+
+        });
         foreach ($registers as &$register) {
             $register->study_time = 1;
             $user = $register->user;
@@ -190,7 +193,8 @@ class StudentApiController extends ApiController
                 }
             }
             if ($register->call_status == 0) {
-                if (($register->time_to_reach == 0)) {
+                if ($register->time_to_reach == 0) {
+                    $register->call_status = 4;
                     $register->time_to_reach = $register->time_to_call != '0000-00-00 00:00:00' ?
                         ceil(diffDate(date('Y-m-d H:i:s'), $register->time_to_call)) : 0;
                 }

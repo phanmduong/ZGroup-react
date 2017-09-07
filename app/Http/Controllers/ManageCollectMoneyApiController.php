@@ -180,10 +180,11 @@ class ManageCollectMoneyApiController extends ManageApiController
         if ($search) {
             $registers = Register::where('registers.status', 1)->join('users', 'users.id', '=', 'registers.user_id')
                 ->where(function ($query) use ($search) {
-                    $query->where('users.name', 'like', '%' . $search . '%');
-                    $query->orwhere('users.phone', 'like', '%' . $search . '%');
-                    $query->orwhere('users.email', 'like', '%' . $search . '%');
-                    $query->orwhere('registers.code', 'like', '%' . $search . '%');
+                    $query->where('users.name', 'like', '%' . $search . '%')
+                        ->orwhere('users.phone', 'like', '%' . $search . '%')
+                        ->orwhere('users.email', 'like', '%' . $search . '%')
+                        ->orwhere('registers.code', 'like', '%' . $search . '%')
+                        ->orWhere('registers.note', 'like', '%' . $search . '%');
                 })
                 ->select('registers.*', 'users.name', 'users.email', 'users.phone')
                 ->orderBy('paid_time', 'desc')->paginate($limit);
@@ -202,6 +203,7 @@ class ManageCollectMoneyApiController extends ManageApiController
                     ],
                     'money' => $register->money,
                     'code' => $register->code,
+                    'note' => $register->note,
                     'paid_status' => $register->status == 1,
                     'paid_time' => format_date_to_mysql(strtotime($register->paid_time)),
                     'paid_time_full' => format_date_full_option($register->paid_time),
