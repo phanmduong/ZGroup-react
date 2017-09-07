@@ -104,7 +104,32 @@ class NotificationTypeSeeder extends Seeder
                 'id' => 13,
                 "template" => "[[TEACHER]] ơi! Học viên của bạn,[[STUDENT]] vừa nộp bài vào topic [[TOPIC]] của lớp [[CLASS]]. Bạn nhớ dành thời gian vào comment nhé!",
                 "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">bookmark</i>"
+            ], [
+                'name' => "assign_to_project",
+                'color' => "#2196F3",
+                'id' => 14,
+                "template" => "[[ACTOR]] vừa thêm bạn vào dự án [[PROJECT]]",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
+            ], [
+                'name' => "remove_from_project",
+                'color' => "#2196F3",
+                'id' => 15,
+                "template" => "[[ACTOR]] vừa xoá bạn khỏi dự án [[PROJECT]]",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
+            ], [
+                'name' => "edit_project",
+                'color' => "#2196F3",
+                'id' => 16,
+                "template" => "[[ACTOR]] vừa thay đổi tên của dự án [[PROJECT]] thành [[NEW_NAME]]",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
+            ], [
+                'name' => "edit_project",
+                'color' => "#2196F3",
+                'id' => 17,
+                "template" => "[[ACTOR]] vừa thay đổi mô tả của dự án [[PROJECT]]",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
             ]
+
         ]);
     }
 }
