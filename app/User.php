@@ -249,5 +249,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(CalendarEvent::class, "user_id");
     }
+
+    public function projects()
+    {
+        return $this->belongsToMany(
+            Project::class,
+            'project_user', 'user_id',
+            'project_id')
+            ->withPivot('role', "adder_id");
+    }
 }
 

@@ -206,14 +206,23 @@ class TaskController extends ManageApiController
 
         $limit = 20;
 
-        if ($query) {
-            $projects = Project::where("title", "like", "%$query%")
-                ->orWhere("description", "like", "%$query%")
-                ->orderBy('created_at')->paginate($limit);
+        if ($this->user->role === 2) {
+            if ($query) {
+                $projects = Project::where("title", "like", "%$query%")
+                    ->orWhere("description", "like", "%$query%")
+                    ->orderBy('created_at')->paginate($limit);
+            } else {
+                $projects = Project::orderBy('created_at')->paginate($limit);
+            }
         } else {
-            $projects = Project::orderBy('created_at')->paginate($limit);
+            if ($query) {
+                $projects = $this->user->projects()->where("title", "like", "%$query%")
+                    ->orWhere("description", "like", "%$query%")
+                    ->orderBy('created_at')->paginate($limit);
+            } else {
+                $projects = $this->user->projects()->orderBy('created_at')->paginate($limit);
+            }
         }
-
 
         $data = [
             "projects" => $projects->map(function ($project) {
