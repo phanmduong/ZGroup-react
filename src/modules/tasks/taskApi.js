@@ -299,7 +299,6 @@ export function loadCalendarEvents(userId) {
 
 export function loadProjectMembers(filter, projectId) {
     let url = env.MANAGE_API_URL + "/project-members/" + filter;
-    console.log(url);
     const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -307,3 +306,13 @@ export function loadProjectMembers(filter, projectId) {
     url += "&project_id=" + projectId;
     return axios.get(url);
 }
+
+export function changeProjectMemberRole(projectId, memberId, role) {
+    let url = env.MANAGE_API_URL + `/project/${projectId}/member/${memberId}/role/${role}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url);
+}
+
