@@ -21,6 +21,7 @@ import notificationReducer from '../modules/notification/notificationReducer';
 import collectMoneyReducer from '../modules/collectMoney/collectMoneyReducer';
 import historyCollectMoneyReducer from '../modules/historyCollectMoney/historyCollectMoneyReducer';
 import historyCallsReducer from '../modules/historyCalls/historyCallsReducer';
+import classesReducer from '../modules/classes/classesReducer';
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -44,6 +45,7 @@ const appReducer = combineReducers({
     collectMoney: collectMoneyReducer,
     historyCollectMoney: historyCollectMoneyReducer,
     historyCalls: historyCallsReducer,
+    classes: classesReducer,
 });
 
 const rootReducer = (state, action) => {

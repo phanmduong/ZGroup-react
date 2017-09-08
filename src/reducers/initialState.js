@@ -413,5 +413,12 @@ export default {
         teleCalls: [],
         isLoading: false,
         error: false
+    },
+    classes: {
+        currentPage: 1,
+        totalPages: 1,
+        classes: [],
+        isLoading: false,
+        error: false
     }
 };

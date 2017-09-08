@@ -64,7 +64,7 @@ class ListClass extends React.Component {
                                     <td>{classItem.study_time}</td>
                                     <td>{classItem.datestart}</td>
                                     <td>
-                                        {this.props.user.role === 2 ?
+                                        {classItem.edit_status ?
                                             (<Switch
                                                     genId={classItem.id}
                                                     onChange={() => {this.props.changeClassStatus(classItem.id);
