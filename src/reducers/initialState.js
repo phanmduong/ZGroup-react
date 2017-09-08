@@ -406,5 +406,12 @@ export default {
         registers: [],
         isLoading: false,
         error: false
+    },
+    historyCalls: {
+        currentPage: 1,
+        totalPages: 1,
+        teleCalls: [],
+        isLoading: false,
+        error: false
     }
 };

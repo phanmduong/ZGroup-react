@@ -33,6 +33,7 @@ import CalendarContainer from "./modules/tasks/calendar/CalendarContainer";
 import DashboardContainer from "./modules/dashboard/DashboardContainer";
 import CollectMoneyContainer from "./modules/collectMoney/CollectMoneyContainer";
 import HistoryCollectMoneyContainer from "./modules/historyCollectMoney/HistoryCollectMoneyContainer";
+import HistoryCallsContainer from "./modules/historyCalls/HistoryCallsContainer";
 
 export default (
     <Route>
@@ -115,6 +116,10 @@ export default (
 
             {/*Begin history collect money routes*/}
             <Route path="/manage/paidlist" component={HistoryCollectMoneyContainer}/>
+            {/*End history collect money routes*/}
+
+            {/*Begin history collect money routes*/}
+            <Route path="/manage/telesalehistory(/:callerId)" component={HistoryCallsContainer}/>
             {/*End history collect money routes*/}
 
         </Route>

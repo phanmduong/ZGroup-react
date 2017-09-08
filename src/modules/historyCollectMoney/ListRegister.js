@@ -60,23 +60,15 @@ class ListRegister extends React.Component {
                                 </a>
                                 </td>
                                 <td className="text-center">{register.code}</td>
-                                <td>
-                                    <h6>
-                                        {
-                                            register.paid_status ?
-                                                <b className="text-money">{helper.convertMoneyToK(register.money) + '/' + helper.convertMoneyToK(register.course_money)}</b>
-                                                : 'Chưa nộp'
-                                        }
-                                    </h6>
-                                    {register.paid_status &&
-                                    <div className="progress progress-line-primary progress-bar-table">
-                                        <div className="progress-bar" role="progressbar" aria-valuenow="60"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"
-                                             style={{width: register.money * 100 / register.course_money}}>
-                                            <span className="sr-only">{register.money * 100 / register.course_money}% Complete</span>
-                                        </div>
-                                    </div>
+                                <td className="text-center">
+                                    {
+                                        register.paid_status ?
+                                            <button className="btn btn-xs btn-main main-background-color"
+                                            >
+                                                {helper.dotNumber(register.money)} vnd
+                                                <div className="ripple-container"/>
+                                            </button>
+                                            : 'Chưa nộp'
                                     }
                                 </td>
                                 <td className="text-center">
@@ -91,12 +83,13 @@ class ListRegister extends React.Component {
                                 </td>
                                 <td>
                                     {
-                                        register.saler ?
+                                        register.collector ?
                                             (
                                                 <button className="btn btn-xs btn-main"
-                                                        style={{backgroundColor: '#' + register.saler.color}}
+                                                        style={{backgroundColor: '#' + register.collector.color}}
+                                                        onClick={() => this.props.loadHistoryCollectMoneyByCollector(register.collector.id)}
                                                 >
-                                                    {helper.getShortName(register.saler.name)}
+                                                    {helper.getShortName(register.collector.name)}
                                                     <div className="ripple-container"/>
                                                 </button>
                                             )
@@ -110,7 +103,14 @@ class ListRegister extends React.Component {
                                     }
 
                                 </td>
-                                <td>{register.note}</td>
+                                <td>
+                                    <TooltipButton
+                                        text={register.note}
+                                        placement='top'
+                                    >
+                                        <div id="register-email">{register.note}</div>
+                                    </TooltipButton>
+                                </td>
                             </tr>
                         );
                     })}
@@ -124,6 +124,7 @@ class ListRegister extends React.Component {
 
 ListRegister.propTypes = {
     registers: PropTypes.array.isRequired,
+    loadHistoryCollectMoneyByCollector: PropTypes.func.isRequired,
 };
 
 
