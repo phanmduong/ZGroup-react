@@ -192,8 +192,8 @@ class ManageCollectMoneyApiController extends ManageApiController
             $registers = Register::where('status', 1)->orderBy('paid_time', 'desc')->paginate($limit);
         }
 
-        if ($request->saler_id) {
-            $registers = Register::where('status', 1)->where('saler_id', $request->saler_id)
+        if ($request->staff_id) {
+            $registers = Register::where('status', 1)->where('staff_id', $request->staff_id)
                 ->orderBy('paid_time', 'desc')->paginate($limit);
         }
 
@@ -220,11 +220,11 @@ class ManageCollectMoneyApiController extends ManageApiController
                         'icon_url' => $register->studyClass->course->icon_url
                     ]
                 ];
-                if ($register->saler)
-                    $register_data['saler'] = [
-                        'id' => $register->saler->id,
-                        'name' => $register->saler->name,
-                        'color' => $register->saler->color,
+                if ($register->staff)
+                    $register_data['collector'] = [
+                        'id' => $register->staff->id,
+                        'name' => $register->staff->name,
+                        'color' => $register->staff->color,
                     ];
                 return $register_data;
             })
