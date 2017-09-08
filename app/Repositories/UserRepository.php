@@ -26,4 +26,14 @@ class UserRepository
             ->get();
         return $members;
     }
+
+    public function user($user)
+    {
+        if ($user)
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'color' => $user->color
+            ];
+    }
 }
