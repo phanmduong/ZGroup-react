@@ -162,6 +162,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::get('/collect-money/history', 'ManageCollectMoneyApiController@history_collect_money');
     //End collect money api
 
+    //Begin history call api
+    Route::get('/history-calls', 'ManageHistoryCallApiController@history_calls');
+    //End history call api
+
 });
 
 Route::group(['domain' => 'api.' . config('app.domain')], function () {
