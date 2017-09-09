@@ -10,6 +10,7 @@ import Search from '../../components/common/Search';
 import * as classActions from './classActions';
 import ListClass from './ListClass';
 import PropTypes from 'prop-types';
+import * as helper from '../../helpers/helper';
 
 class ClassesContainer extends React.Component {
     constructor(props, context) {
@@ -17,14 +18,35 @@ class ClassesContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
+            teacherId: ''
         };
         this.timeOut = null;
         this.loadClasses = this.loadClasses.bind(this);
         this.classesSearchChange = this.classesSearchChange.bind(this);
+        this.deleteClass = this.deleteClass.bind(this);
+        this.duplicateClass = this.duplicateClass.bind(this);
+        this.changeClassStatus = this.changeClassStatus.bind(this);
     }
 
     componentWillMount() {
-        this.loadClasses();
+        if (this.props.params.teacherId) {
+            this.setState({
+                teacherId: this.props.params.teacherId
+            });
+            this.loadClasses(1, '', this.props.params.teacherId);
+        } else {
+            this.loadClasses();
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.params.teacherId !== this.props.params.teacherId) {
+            this.setState({
+                teacherId: nextProps.params.teacherId,
+                query: ''
+            });
+            this.loadClasses(1, '', nextProps.params.teacherId);
+        }
     }
 
     classesSearchChange(value) {
@@ -36,14 +58,30 @@ class ClassesContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.classActions.loadClasses(this.state.query, this.state.page);
+            this.props.classActions.loadClasses(this.state.query, this.state.page, this.state.teacherId);
         }.bind(this), 500);
     }
 
-    loadClasses(page = 1) {
+    loadClasses(page = 1, query = '', teacherId = '') {
         this.setState({page});
-        this.props.classActions.loadClasses(this.state.query, page);
+        this.props.classActions.loadClasses(query, page, teacherId);
     }
+
+    deleteClass(classData) {
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa lớp " + classData.name + " không?", () => {
+            this.props.classActions.deleteClass(classData.id);
+        });
+
+    }
+
+    duplicateClass(classData) {
+        this.props.classActions.duplicateClass(classData.id);
+    }
+
+    changeClassStatus(classData) {
+        this.props.classActions.changeClassStatus(classData.id);
+    }
+
 
     render() {
         return (
@@ -64,19 +102,26 @@ class ClassesContainer extends React.Component {
                             <div>
                                 <ListClass
                                     classes={this.props.classes}
+                                    deleteClass={this.deleteClass}
+                                    duplicateClass={this.duplicateClass}
+                                    changeClassStatus={this.changeClassStatus}
                                 />
                                 <ul className="pagination pagination-primary">
                                     {_.range(1, this.props.totalPages + 1).map(page => {
                                         if (Number(this.state.page) === page) {
                                             return (
                                                 <li key={page} className="active">
-                                                    <a onClick={() => this.loadClasses(page)}>{page}</a>
+                                                    <a onClick={() => this.loadClasses(page, this.state.query, this.state.teacherId)}>
+                                                        {page}
+                                                    </a>
                                                 </li>
                                             );
                                         } else {
                                             return (
                                                 <li key={page}>
-                                                    <a onClick={() => this.loadClasses(page)}>{page}</a>
+                                                    <a onClick={() => this.loadClasses(page, this.state.query, this.state.teacherId)}>
+                                                        {page}
+                                                    </a>
                                                 </li>
                                             );
                                         }
@@ -98,6 +143,9 @@ ClassesContainer.propTypes = {
     classes: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     classActions: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

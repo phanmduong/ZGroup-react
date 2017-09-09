@@ -2,7 +2,7 @@ import React from 'react';
 import Switch from 'react-bootstrap-switch';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
-import TooltipButton from '../../components/common/TooltipButton';
+// import TooltipButton from '../../components/common/TooltipButton';
 import {Link} from 'react-router';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 
@@ -24,7 +24,8 @@ class ListClass extends React.Component {
                         <th>Khóa</th>
                         <th>Giảng viên</th>
                         <th>Trợ giảng</th>
-                        <th>Trạng thái tuyển sinh</th>
+                        <th>Trạng tháih</th>
+                        <th>Học viên</th>
                         <th/>
                     </tr>
                     </thead>
@@ -32,7 +33,7 @@ class ListClass extends React.Component {
                     {
                         this.props.classes.map((classItem) => {
                             return (
-                                <tr>
+                                <tr key={classItem.id}>
                                     <td>
                                         <button className="btn btn-round btn-fab btn-fab-mini text-white"
                                                 data-toggle="tooltip" title="" type="button" rel="tooltip"
@@ -49,12 +50,13 @@ class ListClass extends React.Component {
                                         {
                                             classItem.teacher ?
                                                 (
-                                                    <button className="btn btn-xs btn-main"
+                                                    <Link className="btn btn-xs btn-main"
                                                             style={{backgroundColor: '#' + classItem.teacher.color}}
+                                                          to={"/manage/classes/"+ classItem.teacher.id}
                                                     >
                                                         {helper.getShortName(classItem.teacher.name)}
                                                         <div className="ripple-container"/>
-                                                    </button>
+                                                    </Link>
                                                 )
                                                 :
                                                 (
@@ -70,12 +72,13 @@ class ListClass extends React.Component {
                                         {
                                             classItem.teacher_assistant ?
                                                 (
-                                                    <button className="btn btn-xs btn-main"
+                                                    <Link className="btn btn-xs btn-main"
                                                             style={{backgroundColor: '#' + classItem.teacher_assistant.color}}
+                                                            to={"/manage/classes/"+ classItem.teacher_assistant.id}
                                                     >
                                                         {helper.getShortName(classItem.teacher_assistant.name)}
                                                         <div className="ripple-container"/>
-                                                    </button>
+                                                    </Link>
                                                 )
                                                 :
                                                 (
@@ -92,7 +95,7 @@ class ListClass extends React.Component {
                                             (<Switch
                                                     genId={classItem.id}
                                                     onChange={() => {
-                                                        this.props.changeClassStatus(classItem.id);
+                                                        this.props.changeClassStatus(classItem);
                                                     }}
                                                     bsSize="mini"
                                                     onText="Bật" offText="Tắt"
@@ -106,11 +109,26 @@ class ListClass extends React.Component {
 
                                     </td>
                                     <td>
+                                        <h6>{classItem.total_register + "/" + classItem.regis_target}</h6>
+                                        <div className="progress progress-line-danger progress-bar-table">
+                                            <div className="progress-bar" role="progressbar" aria-valuenow="60"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100"
+                                                 style={{width: classItem.total_register * 100 / classItem.regis_target}}>
+                                                <span
+                                                    className="sr-only">{classItem.total_register * 100 / classItem.regis_target}%</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
                                         <ButtonGroupAction
-                                            disabledDelete={classItem.is_delete}
+                                            disabledDelete={!classItem.is_delete}
+                                            delete={this.props.deleteClass}
+                                            object={classItem}
                                         >
                                             <a data-toggle="tooltip" title="Duplicate"
                                                type="button"
+                                               onClick={()=>this.props.duplicateClass(classItem)}
                                                rel="tooltip">
                                                 <i className="material-icons">content_copy</i>
                                             </a>
@@ -129,7 +147,8 @@ class ListClass extends React.Component {
 
 ListClass.propTypes = {
     classes: PropTypes.array.isRequired,
-    user: PropTypes.object.isRequired,
+    deleteClass: PropTypes.func.isRequired,
+    duplicateClass: PropTypes.func.isRequired,
     changeClassStatus: PropTypes.func.isRequired,
 };
 

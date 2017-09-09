@@ -35,7 +35,7 @@ export function loadDashboard(genId, baseId) {
 }
 
 export function changeClassStatus(classId) {
-    let url = env.MANAGE_API_URL + `/change-class-status`;
+    let url = env.MANAGE_API_URL + `/class/change-status`;
 
     let token = localStorage.getItem('token');
     if (token) {

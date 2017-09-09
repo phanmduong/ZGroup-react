@@ -124,7 +124,7 @@ export default (
             {/*End history collect money routes*/}
 
             {/*Begin class routes*/}
-            <Route path="/manage/classes" component={ClassesContainer}/>
+            <Route path="/manage/classes(/:teacherId)" component={ClassesContainer}/>
             {/*End class routes*/}
 
         </Route>
