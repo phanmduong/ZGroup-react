@@ -420,5 +420,11 @@ export default {
         classes: [],
         isLoading: false,
         error: false
+    },
+
+    rule:{
+        ruleView: '',
+        isLoading: false,
+        error: false
     }
 };

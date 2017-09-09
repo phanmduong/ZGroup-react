@@ -18,6 +18,8 @@ class ClassesContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
+        };
+        this.search = {
             teacherId: ''
         };
         this.timeOut = null;
@@ -30,22 +32,18 @@ class ClassesContainer extends React.Component {
 
     componentWillMount() {
         if (this.props.params.teacherId) {
-            this.setState({
-                teacherId: this.props.params.teacherId
-            });
-            this.loadClasses(1, '', this.props.params.teacherId);
-        } else {
-            this.loadClasses();
+            this.search.teacherId = this.props.params.teacherId;
         }
+        this.loadClasses();
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.params.teacherId !== this.props.params.teacherId) {
+            this.search.teacherId = nextProps.params.teacherId;
             this.setState({
-                teacherId: nextProps.params.teacherId,
                 query: ''
             });
-            this.loadClasses(1, '', nextProps.params.teacherId);
+            this.loadClasses(1, '');
         }
     }
 
@@ -58,13 +56,13 @@ class ClassesContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.classActions.loadClasses(this.state.query, this.state.page, this.state.teacherId);
+            this.loadClasses(1, value);
         }.bind(this), 500);
     }
 
-    loadClasses(page = 1, query = '', teacherId = '') {
+    loadClasses(page = 1, query = '') {
         this.setState({page});
-        this.props.classActions.loadClasses(query, page, teacherId);
+        this.props.classActions.loadClasses(query, page, this.search.teacherId);
     }
 
     deleteClass(classData) {
@@ -92,11 +90,28 @@ class ClassesContainer extends React.Component {
                     </div>
                     <div className="card-content">
                         <h4 className="card-title">Danh sách lớp học</h4>
-                        <Search
-                            onChange={this.classesSearchChange}
-                            value={this.state.query}
-                            placeholder="Tìm kiếm lớp"
-                        />
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="col-md-3">
+                                    <button
+                                        type="button"
+                                        className="btn btn-rose"
+                                        onClick={() => {
+                                        }}
+                                    >
+                                        Thêm lớp
+                                    </button>
+                                </div>
+                                <div className="col-md-9">
+                                    <Search
+                                        onChange={this.classesSearchChange}
+                                        value={this.state.query}
+                                        placeholder="Tìm kiếm lớp"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
 
                         {this.props.isLoading ? <Loading/> :
                             <div>
@@ -111,7 +126,7 @@ class ClassesContainer extends React.Component {
                                         if (Number(this.state.page) === page) {
                                             return (
                                                 <li key={page} className="active">
-                                                    <a onClick={() => this.loadClasses(page, this.state.query, this.state.teacherId)}>
+                                                    <a onClick={() => this.loadClasses(page, this.state.query)}>
                                                         {page}
                                                     </a>
                                                 </li>
@@ -119,7 +134,7 @@ class ClassesContainer extends React.Component {
                                         } else {
                                             return (
                                                 <li key={page}>
-                                                    <a onClick={() => this.loadClasses(page, this.state.query, this.state.teacherId)}>
+                                                    <a onClick={() => this.loadClasses(page, this.state.query)}>
                                                         {page}
                                                     </a>
                                                 </li>

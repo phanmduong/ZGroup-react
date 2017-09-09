@@ -120,23 +120,8 @@ class App extends React.Component {
                             <nav className="pull-left">
                                 <ul>
                                     <li>
-                                        <a href="#">
-                                            Home
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            Company
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            Portfolio
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            Blog
+                                        <a onClick={this.props.openModalRule}>
+                                            Quy định
                                         </a>
                                     </li>
                                 </ul>
@@ -162,8 +147,8 @@ App.propTypes = {
     pathname: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
     onLogOut: PropTypes.func.isRequired,
+    openModalRule: PropTypes.func.isRequired,
     isLoadingTab: PropTypes.bool,
-
 };
 
 export default App;

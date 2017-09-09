@@ -24,7 +24,7 @@ class ListClass extends React.Component {
                         <th>Khóa</th>
                         <th>Giảng viên</th>
                         <th>Trợ giảng</th>
-                        <th>Trạng tháih</th>
+                        <th>Trạng thái</th>
                         <th>Học viên</th>
                         <th/>
                     </tr>
