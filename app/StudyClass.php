@@ -3,10 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class StudyClass extends Model
 {
+    use SoftDeletes;
     protected $table = "classes";
+
+    protected $dates = ['deleted_at'];
 
     public function scopeGetClassesByCourseAndGen($scope, $gen_id, $course_id)
     {
