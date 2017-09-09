@@ -36,4 +36,15 @@ class UserRepository
                 'color' => $user->color
             ];
     }
+
+    public function student($student)
+    {
+        if ($student)
+            return [
+                'id' => $student->id,
+                'name' => $student->name,
+                'phone' => $student->phone,
+                'email' => $student->email,
+            ];
+    }
 }

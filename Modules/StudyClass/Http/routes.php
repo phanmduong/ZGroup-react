@@ -6,4 +6,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'clas
     Route::get('/duplicate/{class_id}', 'ManageClassApiController@duplicate_class');
     Route::post('/delete', 'ManageClassApiController@delete_class');
     Route::post('/change-status', 'ManageClassApiController@change_status');
+    Route::get('/{class_id}', 'ManageClassApiController@get_data_class');
 });

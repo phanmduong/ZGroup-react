@@ -27,7 +27,7 @@ class ManageClassApiController extends ManageApiController
     {
 
         $search = $request->search;
-        $limit = 40;
+        $limit = 10;
         if ($request->limit)
             $limit = $request->limit;
 
@@ -128,5 +128,22 @@ class ManageClassApiController extends ManageApiController
         }
 
         return $this->responseUnAuthorized();
+    }
+
+    public function get_data_class($class_id)
+    {
+        $class = StudyClass::find($class_id);
+
+        if (!$class) {
+            return $this->responseWithError("Lớp này không tồn tại");
+        }
+
+        $data = $this->classRepository->get_class($class);
+        $registers = $this->classRepository->get_student($class);
+
+        if ($registers){
+            $data['registers'] = $registers;
+        }
+        return $this->respondSuccessWithStatus($data);
     }
 }
