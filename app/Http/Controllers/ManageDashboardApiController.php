@@ -190,6 +190,7 @@ class ManageDashboardApiController extends ManageApiController
         $data['date_array'] = $date_array;
         $data['money_by_date'] = $money_by_date;
 
+
         $rating = $this->dashboardRepository->ratingUser($this->user);
         $user = $this->user;
 
