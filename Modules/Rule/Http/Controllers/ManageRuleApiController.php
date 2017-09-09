@@ -25,7 +25,7 @@ class ManageRuleApiController extends ManageApiController
     {
         $rule_chapters = RuleChapter::orderBy('order')->get();
         $rule_chapters = $this->ruleRepository->rule_chapters($rule_chapters);
-
+//return $this->respondSuccessWithStatus($rule_chapters);
         $view = View::make('rule::index', ['rule_chapters' => $rule_chapters]);
         $contents = $view->render();
         return $this->respondSuccessWithStatus([
