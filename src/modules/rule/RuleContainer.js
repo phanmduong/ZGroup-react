@@ -22,7 +22,10 @@ class RuleContainer extends React.Component {
             <div>
                 {
                     this.props.isLoading ? <Loading/> :
-                        <div dangerouslySetInnerHTML={{__html: this.props.ruleView}}/>
+                        <div>
+                            <div id="content" dangerouslySetInnerHTML={{__html: this.props.ruleView}}/>
+                        </div>
+
                 }
             </div>
         );

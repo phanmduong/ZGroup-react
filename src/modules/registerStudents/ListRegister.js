@@ -156,7 +156,7 @@ class ListRegister extends React.Component {
                                         editUrl=""
                                         delete={this.props.deleteRegister}
                                         object={register}
-                                        disabledDelete={Boolean(register.paid_status)}>
+                                        disabledDelete={!register.is_delete}>
                                         <a data-toggle="tooltip" title="Đổi lớp"
                                            onClick={() => this.props.openModalChangeClass(register.id)}
                                            type="button"

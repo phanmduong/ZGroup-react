@@ -13,6 +13,7 @@ import NotificationContainer from "../modules/notification/NotificationContainer
 class App extends React.Component {
 
     render() {
+        let avatar = helper.avatarEmpty(this.props.user.avatar_url) ? NO_AVATAR : this.props.user.avatar_url
         return (
             <div className="wrapper">
                 <div className="sidebar" data-active-color="rose" data-background-color="black"
@@ -30,8 +31,13 @@ class App extends React.Component {
                     <div className="sidebar-wrapper">
                         <div className="user">
                             <div className="photo">
-                                <img
-                                    src={helper.avatarEmpty(this.props.user.avatar_url) ? NO_AVATAR : this.props.user.avatar_url}/>
+                                <img className="img"
+                                     style={{
+                                         background: 'url(' + avatar + ') center center / cover',
+                                         width: '80px',
+                                         height: '80px'
+                                     }}
+                                />
                             </div>
                             <div className="info">
                                 <a data-toggle="collapse" href="#collapseExample" className="collapsed">
