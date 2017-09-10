@@ -161,7 +161,6 @@ class StudentApiController extends ApiController
             $users_id = User::where('email', 'like', '%' . $search . '%')
                 ->orWhere('phone', 'like', '%' . $search . '%')
                 ->orWhere('name', 'like', '%' . $search . '%')->get()->pluck('id')->toArray();
-//            dd($users_id);
             $registers = $gen->registers()->whereIn('user_id', $users_id);
         } else {
             $registers = $gen->registers();
@@ -203,6 +202,7 @@ class StudentApiController extends ApiController
                     $register->time_to_reach = null;
                 }
             }
+            $register->is_delete = is_delete_register($this->user, $register);
         }
 
         return $this->respondWithPagination($registers, [

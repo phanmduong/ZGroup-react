@@ -1459,3 +1459,12 @@ function format_data_schedule_class($schedule)
         'study_session_ids' => $study_session_ids
     ];
 }
+
+function is_delete_register($user, $register)
+{
+    if ($user->role == 2 || !isset($register->saler) || $register->saler->id == $user->id) {
+        return true;
+    }
+
+    return false;
+}

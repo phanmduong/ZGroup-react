@@ -43,7 +43,8 @@ class RegisterTransformer extends Transformer
                 "study_time" => $register->studyClass->study_time,
                 "description" => $register->studyClass->description,
             ],
-            "created_at" => format_time_to_mysql(strtotime($register->created_at))
+            "created_at" => format_time_to_mysql(strtotime($register->created_at)),
+            "is_delete" => $register->is_delete
         ];
 
         if ($register->studyClass->room) {
