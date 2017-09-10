@@ -563,7 +563,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/gens/{page?}', 'HomeController@manage_gens');
     Route::get('manage/courses/{page?}', 'HomeController@courses');
     Route::get('manage/classes/{page?}', 'HomeController@classes');
-    Route::get('manage/registerlist', 'HomeController@registerList');
+//    Route::get('manage/registerlist', 'HomeController@registerList');
     Route::get('manage/waitlist', 'HomeController@waitList');
     Route::get('manage/study-history/{student_id}', 'HomeController@study_history');
     Route::get('manage/studentsneedcall/{page?}', 'HomeController@student_needs_call');
