@@ -140,10 +140,20 @@ class ManageClassApiController extends ManageApiController
 
         $data = $this->classRepository->get_class($class);
         $registers = $this->classRepository->get_student($class);
+        $attendances = $this->classRepository->get_attendances_class($class);
 
         if ($registers){
             $data['registers'] = $registers;
         }
-        return $this->respondSuccessWithStatus($data);
+
+        if ($attendances){
+            $data['attendances'] = $attendances;
+        }
+
+
+
+        return $this->respondSuccessWithStatus([
+            'class'=>$data
+        ]);
     }
 }

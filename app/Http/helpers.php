@@ -21,6 +21,11 @@ function format_date_full_option($time)
     return rebuild_date("j F, Y, H:i", strtotime($time));
 }
 
+function format_full_time_date($time)
+{
+    return rebuild_date("H:i, j F, Y", strtotime($time));
+}
+
 function format_date($time)
 {
     return rebuild_date('d F, Y', strtotime($time));

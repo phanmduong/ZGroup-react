@@ -16,13 +16,16 @@ class ClassRepository
     protected $genRepository;
     protected $courseRepository;
     protected $attendancesRepository;
+    protected $registerRepository;
 
-    public function __construct(GenRepository $genRepository, CourseRepository $courseRepository, UserRepository $userRepository, AttendancesRepository $attendancesRepository)
+    public function __construct(GenRepository $genRepository, CourseRepository $courseRepository, UserRepository $userRepository,
+                                AttendancesRepository $attendancesRepository, RegisterRepository $registerRepository)
     {
         $this->genRepository = $genRepository;
         $this->courseRepository = $courseRepository;
         $this->userRepository = $userRepository;
         $this->attendancesRepository = $attendancesRepository;
+        $this->registerRepository = $registerRepository;
     }
 
     public function get_class($class)
@@ -34,8 +37,11 @@ class ClassRepository
             'study_time' => $class->study_time,
             'status' => $class->status,
             'activated' => $class->activated,
+            'total_paid' => $class->registers()->where('status', 1)->count(),
+            'target' => $class->target,
             'total_register' => $class->registers()->count(),
             'regis_target' => $class->regis_target,
+            'created_at' => format_full_time_date($class->created_at)
         ];
 
         $teacher = $this->userRepository->user($class->teach);
@@ -79,15 +85,26 @@ class ClassRepository
         if ($class) {
 
             $registers = $class->registers->map(function ($register) {
-                return [
-                    'id' => $register->id,
-                    'student' => $this->userRepository->student($register->user),
-                    'total_attendances' => $this->attendancesRepository->get_total_attendances($register),
-                    'attendances'=>$this->attendancesRepository->get_attendances($register)
-                ];
+                $data = $this->registerRepository->register($register);
+                $data['student'] = $this->userRepository->student($register->user);
+                $data['total_attendances'] = $this->attendancesRepository->get_total_attendances($register);
+                $data['attendances'] = $this->attendancesRepository->get_attendances($register);
+                return $data;
             });
 
             return $registers;
         }
+    }
+
+    public function get_attendances_class($class)
+    {
+        return $this->attendancesRepository->get_attendances_class_lessons($this->get_class_lession($class));
+    }
+
+    public function get_class_lession($class)
+    {
+        return $class->classLessons()->join('lessons', 'class_lesson.lesson_id', '=', 'lessons.id')
+            ->select('class_lesson.*', 'lessons.order', 'lessons.name')
+            ->orderBy('order')->get();
     }
 }

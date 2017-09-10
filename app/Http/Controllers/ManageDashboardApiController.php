@@ -103,13 +103,7 @@ class ManageDashboardApiController extends ManageApiController
         }
 
         $data['classes'] = $classes->get()->map(function ($class) {
-            $class['avatar_url'] = $class->course()->first()->icon_url;
-            $class['total_paid'] = $class->registers()->where('status', 1)->count();
-            $class['total_register'] = $class->registers()->count();
-            if ($this->user->role == 2) {
-                $class['edit_status'] = true;
-            }
-            return $class;
+            return $this->classRepository->get_class($class);
         });
         $registers_by_date = array();
         $paid_by_date = array();

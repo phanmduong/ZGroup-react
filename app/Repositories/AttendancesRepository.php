@@ -23,7 +23,20 @@ class AttendancesRepository
             $data = $register->attendances->map(function ($attendance){
                 return [
                     'id' => $attendance->id,
+                    'status' => $attendance->status
                 ];
+            });
+            return $data;
+        }
+    }
+
+    public function get_attendances_class_lessons($class_lessons){
+        if ($class_lessons){
+            $data = $class_lessons->map(function ($class_lesson){
+                    return [
+                        'order'=>$class_lesson->order,
+                        'total_attendance'=> $class_lesson->attendances()->where('status',1)->count()
+                    ];
             });
             return $data;
         }

@@ -70,7 +70,7 @@ class ClassTransformer extends Transformer
                     'order' => $c->lesson->order,
                     'description' => $c->lesson->description
                 ];
-            });
+            })->first();
         }
 
 

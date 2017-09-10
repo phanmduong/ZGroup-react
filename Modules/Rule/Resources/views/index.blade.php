@@ -25,7 +25,8 @@
             </blockquote>
         @endif
     @endforeach
-
+    <br/>
+    <br/>
 @endforeach
 
 
