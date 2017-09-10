@@ -26,16 +26,18 @@ class ListClass extends React.Component {
                     {
                         this.props.classes.map((classItem) => {
                             return (
-                                <tr>
+                                <tr key={classItem.id}>
                                     <td>
                                         <button className="btn btn-round btn-fab btn-fab-mini text-white"
                                                 data-toggle="tooltip" title="" type="button" rel="tooltip"
                                                 data-placement="right"
                                                 data-original-title={classItem.name}>
-                                            <img src={classItem.avatar_url} alt=""/>
+                                            <img src={classItem.course.icon_url} alt=""/>
                                         </button>
                                     </td>
-                                    <td>{classItem.name}</td>
+                                    <td>
+                                        <a className="color-text-main" onClick={() => this.props.openModalClass(classItem)}>{classItem.name}</a>
+                                    </td>
                                     <td>
                                         <h6>{classItem.total_paid + "/" + classItem.target}</h6>
                                         <div className="progress progress-line-success progress-bar-table">
@@ -43,7 +45,7 @@ class ListClass extends React.Component {
                                                  aria-valuenow="60"
                                                  aria-valuemin="0"
                                                  aria-valuemax="100"
-                                                 style={{width: classItem.total_paid * 100 / classItem.target}}>
+                                                 style={{width: classItem.total_paid * 100 / classItem.target+'%'}}>
                                                 <span
                                                     className="sr-only">{classItem.total_paid * 100 / classItem.target}%</span>
                                             </div>
@@ -55,7 +57,7 @@ class ListClass extends React.Component {
                                             <div className="progress-bar" role="progressbar" aria-valuenow="60"
                                                  aria-valuemin="0"
                                                  aria-valuemax="100"
-                                                 style={{width: classItem.total_register * 100 / classItem.regis_target}}>
+                                                 style={{width: classItem.total_register * 100 / classItem.regis_target+'%'}}>
                                                 <span
                                                     className="sr-only">{classItem.total_register * 100 / classItem.regis_target}%</span>
                                             </div>
@@ -67,7 +69,8 @@ class ListClass extends React.Component {
                                         {classItem.edit_status ?
                                             (<Switch
                                                     genId={classItem.id}
-                                                    onChange={() => {this.props.changeClassStatus(classItem.id);
+                                                    onChange={() => {
+                                                        this.props.changeClassStatus(classItem.id);
                                                     }}
                                                     bsSize="mini"
                                                     onText="Bật" offText="Tắt"
@@ -95,6 +98,7 @@ ListClass.propTypes = {
     classes: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
     changeClassStatus: PropTypes.func.isRequired,
+    openModalClass: PropTypes.func.isRequired,
 };
 
 export default ListClass;

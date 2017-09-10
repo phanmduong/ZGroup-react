@@ -213,6 +213,7 @@ class DashboardComponent extends React.Component {
                                         classes={classes}
                                         user={user}
                                         changeClassStatus={this.props.changeClassStatus}
+                                        openModalClass={this.props.openModalClass}
                                     />
                                 </div>
                             </div>
@@ -227,7 +228,8 @@ class DashboardComponent extends React.Component {
 DashboardComponent.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     dashboard: PropTypes.object.isRequired,
-    changeClassStatus: PropTypes.func.isRequired
+    changeClassStatus: PropTypes.func.isRequired,
+    openModalClass: PropTypes.func.isRequired
 };
 
 

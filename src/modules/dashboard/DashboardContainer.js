@@ -8,6 +8,10 @@ import Select from '../../components/common/Select';
 import Loading from '../../components/common/Loading';
 import * as dashboardActions from './dashboardActions';
 import DashboardComponent from './DashboardComponent';
+import {Modal} from 'react-bootstrap';
+import ClassContainer from './ClassContainer';
+import PropTypes from 'prop-types';
+import TooltipButton from '../../components/common/TooltipButton';
 
 class DashboardContainer extends React.Component {
     constructor(props, context) {
@@ -16,12 +20,18 @@ class DashboardContainer extends React.Component {
             selectGenId: 0,
             selectBaseId: 0,
             gens: [],
-            bases: []
+            bases: [],
+            showModalClass: false,
+            classSelected: {
+                name: ''
+            }
         };
         this.onChangeGen = this.onChangeGen.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.loadInitDashboard = this.loadInitDashboard.bind(this);
         this.changeClassStatus = this.changeClassStatus.bind(this);
+        this.closeModalClass = this.closeModalClass.bind(this);
+        this.openModalClass = this.openModalClass.bind(this);
     }
 
     componentWillMount() {
@@ -90,8 +100,22 @@ class DashboardContainer extends React.Component {
         this.loadDashboard(this.state.selectGenId, value);
     }
 
-    changeClassStatus(classId){
+    changeClassStatus(classId) {
         this.props.dashboardActions.changeClassStatus(classId);
+    }
+
+    closeModalClass() {
+        this.setState({showModalClass: false});
+    }
+
+    openModalClass(classData) {
+        this.setState(
+            {
+                showModalClass: true,
+                classSelected: classData
+            }
+        );
+        this.props.dashboardActions.loadClass(classData.id);
     }
 
     render() {
@@ -125,8 +149,51 @@ class DashboardContainer extends React.Component {
                                 {...this.props}
                                 loadDashboard={this.loadInitDashboard}
                                 changeClassStatus={this.changeClassStatus}
+                                openModalClass={this.openModalClass}
                             />
-
+                            <Modal
+                                show={this.state.showModalClass}
+                                onHide={this.closeModalClass}
+                                bsSize="large"
+                            >
+                                <Modal.Header closeButton>
+                                    <h3>
+                                        <strong>Thông tin lớp học {this.state.classSelected.name}</strong>
+                                    </h3>
+                                    <p>Lớp được tạo lúc <strong>
+                                        <small>{this.state.classSelected.created_at}</small>
+                                    </strong></p>
+                                    <div className="flex flex-wrap">
+                                        {
+                                            this.state.classSelected.teacher &&
+                                            <TooltipButton text="Giảng viên"
+                                                           placement="top"
+                                            >
+                                                <button className="btn btn-sm"
+                                                        style={{background: '#' + this.state.classSelected.teacher.color}}>
+                                                    {this.state.classSelected.teacher.name}
+                                                    <div className="ripple-container"/>
+                                                </button>
+                                            </TooltipButton>
+                                        }
+                                        {
+                                            this.state.classSelected.teacher_assistant &&
+                                            <TooltipButton text="Trơ giảng"
+                                                           placement="top"
+                                            >
+                                                <button className="btn btn-sm"
+                                                        style={{background: '#' + this.state.classSelected.teacher_assistant.color}}>
+                                                    {this.state.classSelected.teacher_assistant.name}
+                                                    <div className="ripple-container"/>
+                                                </button>
+                                            </TooltipButton>
+                                        }
+                                    </div>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <ClassContainer/>
+                                </Modal.Body>
+                            </Modal>
                         </div>
                     )
                 }
@@ -135,6 +202,17 @@ class DashboardContainer extends React.Component {
             ;
     }
 }
+
+DashboardContainer.propTypes = {
+    gens: PropTypes.array.isRequired,
+    dashboardActions: PropTypes.object.isRequired,
+    bases: PropTypes.array.isRequired,
+    isLoadingGens: PropTypes.bool.isRequired,
+    isLoadingBases: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    currentGen: PropTypes.object.isRequired,
+    dashboard: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

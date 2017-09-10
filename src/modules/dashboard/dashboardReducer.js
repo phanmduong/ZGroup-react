@@ -95,6 +95,32 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                     }
                 }
             };
+        case types.BEGIN_LOAD_CLASS_DATA_DASHBOARD:
+            return {
+                ...state,
+                ...{
+                    isLoadingClass: true,
+                    errorClass: false
+
+                }
+            };
+        case types.LOAD_CLASS_DASHBOARD_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingClass: false,
+                    errorClass: false,
+                    class: action.class,
+                }
+            };
+        case types.LOAD_CLASS_DASHBOARD_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingClass: false,
+                    errorClass: true
+                }
+            };
         default:
             return state;
     }

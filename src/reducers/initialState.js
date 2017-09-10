@@ -389,6 +389,9 @@ export default {
         dashboard: {},
         isLoading: true,
         error: false,
+        class: {},
+        isLoadingClass: false,
+        errorClass: false,
     },
 
     collectMoney: {
