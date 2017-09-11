@@ -50,11 +50,12 @@ class ManageClassApiController extends ManageApiController
         $data = [
             "classes" => $classes->map(function ($class) {
                 $data = $this->classRepository->get_class($class);
-                if ($this->user->role == 2) {
-                    $data['edit_status'] = true;
-                }
+                $data['edit_status'] = $this->classRepository->edit_status($this->user);
+                $data['is_delete_class'] = $this->classRepository->is_delete($this->user, $class);
+                $data['is_duplicate'] = $this->classRepository->is_duplicate($this->user);
                 return $data;
-            })
+            }),
+            'is_create_class' => $this->classRepository->is_create($this->user)
         ];
 
         return $this->respondWithPagination($classes, $data);
@@ -96,7 +97,7 @@ class ManageClassApiController extends ManageApiController
         $class = StudyClass::find($request->class_id);
 
         if ($class) {
-            if ($class->registers()->count() > 0) {
+            if ($this->classRepository->is_delete($this->user, $class)) {
                 return $this->responseWithError("Không thể xóa lớp. Lớp đã có " . $class->registers()->count() . " học viên");
             }
 
@@ -142,18 +143,17 @@ class ManageClassApiController extends ManageApiController
         $registers = $this->classRepository->get_student($class);
         $attendances = $this->classRepository->get_attendances_class($class);
 
-        if ($registers){
+        if ($registers) {
             $data['registers'] = $registers;
         }
 
-        if ($attendances){
+        if ($attendances) {
             $data['attendances'] = $attendances;
         }
 
 
-
         return $this->respondSuccessWithStatus([
-            'class'=>$data
+            'class' => $data
         ]);
     }
 }

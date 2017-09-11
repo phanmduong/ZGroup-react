@@ -61,12 +61,6 @@ class ClassRepository
         if ($teacher_assistant)
             $data['teacher_assistant'] = $teacher_assistant;
 
-        if ($class->registers()->count() <= 0) {
-            $data['is_delete'] = true;
-        } else {
-            $data['is_delete'] = false;
-        }
-
         return $data;
     }
 
@@ -106,5 +100,41 @@ class ClassRepository
         return $class->classLessons()->join('lessons', 'class_lesson.lesson_id', '=', 'lessons.id')
             ->select('class_lesson.*', 'lessons.order', 'lessons.name')
             ->orderBy('order')->get();
+    }
+
+    public function is_create($user)
+    {
+        if ($user->role == 2) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function is_delete($user, $class)
+    {
+        if ($user->role == 2 && $class->registers()->count() <= 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function edit_status($user)
+    {
+        if ($user->role == 2) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function is_duplicate($user)
+    {
+        if ($user->role == 2) {
+            return true;
+        }
+
+        return false;
     }
 }

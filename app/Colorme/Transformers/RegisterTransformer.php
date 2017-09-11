@@ -37,6 +37,7 @@ class RegisterTransformer extends Transformer
             'course_money' => $register->studyClass->course->price,
             'money' => $register->money,
             'study_time' => $register->study_time,
+            'note' => $register->note,
             "class" => [
                 "name" => $register->studyClass->name,
                 "id" => $register->studyClass->id,
