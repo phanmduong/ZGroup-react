@@ -122,7 +122,7 @@ class ManagePostController extends ManageController
                 $temp->commented = 0;
 
                 foreach ($class->group->topics as $topic) {
-                    $temp->uncomments += $topic->topicAttendances()->where('commented', false)->whereNotNull('product_id')->count();
+                    $temp->uncomments += $topic->topicAttendances()->where('commented', false)->where('ta_commented', false)->whereNotNull('product_id')->count();
                     $temp->commented += $topic->topicAttendances()->where('commented', true)->count();
                 };
                 $total_comments += $temp->uncomments + $temp->commented;
@@ -136,7 +136,7 @@ class ManagePostController extends ManageController
                 $temp->commented = 0;
                 foreach ($class->group->topics as $topic) {
 
-                    $temp->uncomments += $topic->topicAttendances()->where('ta_commented', false)->whereNotNull('product_id')->count();
+                    $temp->uncomments += $topic->topicAttendances()->where('commented', false)->where('ta_commented', false)->whereNotNull('product_id')->count();
                     $temp->commented += $topic->topicAttendances()->where('ta_commented', true)->count();
                 };
                 $total_comments += $temp->uncomments + $temp->commented;
