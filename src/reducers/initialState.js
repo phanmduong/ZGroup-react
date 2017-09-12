@@ -426,10 +426,15 @@ export default {
         classes: [],
         isLoading: false,
         error: false,
-        isCreateClass: false
+        isCreateClass: false,
+        errorCreateClass: false,
+        isLoadingInfoCreateClass: false,
+        errorInfoCreateClass: false,
+        infoCreateClass: {},
+        class:{}
     },
 
-    rule:{
+    rule: {
         ruleView: '',
         isLoading: false,
         error: false

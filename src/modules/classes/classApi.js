@@ -43,3 +43,11 @@ export function changeClassStatus(classId) {
     });
 }
 
+export function infoCreateClass() {
+    let url = env.MANAGE_API_URL + "/class/info-create-class";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

@@ -51,6 +51,39 @@ export default function classesReducer(state = initialState.classes, action) {
                 ...state,
                 classes: classes
             };
+        case types.BEGIN_LOAD_INFO_CREATE_CLASS:
+
+            return {
+                ...state,
+                ...{
+                    isLoadingInfoCreateClass: true,
+                    errorInfoCreateClass: false,
+                }
+            };
+        case types.LOAD_INFO_CREATE_CLASS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingInfoCreateClass: false,
+                    errorInfoCreateClass: false,
+                    infoCreateClass: action.infoCreateClass
+                }
+            };
+        case types.LOAD_INFO_CREATE_CLASS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingInfoCreateClass: false,
+                    errorInfoCreateClass: true,
+                }
+            };
+        case types.UPDATE_FORM_CREATE_CLASS:
+            return {
+                ...state,
+                ...{
+                    class: action.class
+                }
+            };
         default:
             return state;
     }
