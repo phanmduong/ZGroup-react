@@ -111,7 +111,7 @@ class ProductApiController extends ApiController
         join groups on topics.group_id = groups.id
         join classes on classes.id = groups.class_id
         where classes.gen_id = " . $current_teach_gen->id . "
-         and ((topic_attendances.commented = false and classes.teacher_id = " . $this->user->id . ") or 
+         and ((topic_attendances.commented = false and classes.teacher_id = " . $this->user->id . ") and 
         (topic_attendances.ta_commented = false and classes.`teaching_assistant_id` = " . $this->user->id . ")) ) order by products.created_at  ");
 //       limit " . $limit . " offset " . ($page - 1) * $limit
 
