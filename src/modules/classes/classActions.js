@@ -14,6 +14,7 @@ export function loadClasses(search, page, teacherId) {
                 dispatch({
                     type: types.LOAD_CLASSES_DATA_SUCCESS,
                     classes: res.data.classes,
+                    isCreateClass: res.data.is_create_class,
                     currentPage: res.data.paginator.current_page,
                     totalPages: res.data.paginator.total_pages
                 });

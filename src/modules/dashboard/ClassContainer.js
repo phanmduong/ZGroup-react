@@ -98,11 +98,17 @@ class ClassContainer extends React.Component {
                                             <td className="text-center">
                                                 {
                                                     register.paid_status ?
-                                                        <button className="btn btn-xs btn-main main-background-color"
+                                                        <TooltipButton
+                                                            text={register.note}
+                                                            placement="top"
                                                         >
-                                                            {helper.dotNumber(register.money)} vnd
-                                                            <div className="ripple-container"/>
-                                                        </button>
+                                                            <button
+                                                                className="btn btn-xs btn-main main-background-color"
+                                                            >
+                                                                {helper.dotNumber(register.money)} vnd
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        </TooltipButton>
                                                         : 'Chưa nộp'
                                                 }
                                             </td>

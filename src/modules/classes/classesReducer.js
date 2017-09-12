@@ -21,6 +21,7 @@ export default function classesReducer(state = initialState.classes, action) {
                     isLoading: false,
                     error: false,
                     classes: action.classes,
+                    isCreateClass: action.isCreateClass,
                     currentPage: action.currentPage,
                     totalPages: action.totalPages
                 }

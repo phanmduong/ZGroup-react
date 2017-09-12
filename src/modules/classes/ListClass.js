@@ -51,8 +51,8 @@ class ListClass extends React.Component {
                                             classItem.teacher ?
                                                 (
                                                     <Link className="btn btn-xs btn-main"
-                                                            style={{backgroundColor: '#' + classItem.teacher.color}}
-                                                          to={"/manage/classes/"+ classItem.teacher.id}
+                                                          style={{backgroundColor: '#' + classItem.teacher.color}}
+                                                          to={"/manage/classes/" + classItem.teacher.id}
                                                     >
                                                         {helper.getShortName(classItem.teacher.name)}
                                                         <div className="ripple-container"/>
@@ -73,8 +73,8 @@ class ListClass extends React.Component {
                                             classItem.teacher_assistant ?
                                                 (
                                                     <Link className="btn btn-xs btn-main"
-                                                            style={{backgroundColor: '#' + classItem.teacher_assistant.color}}
-                                                            to={"/manage/classes/"+ classItem.teacher_assistant.id}
+                                                          style={{backgroundColor: '#' + classItem.teacher_assistant.color}}
+                                                          to={"/manage/classes/" + classItem.teacher_assistant.id}
                                                     >
                                                         {helper.getShortName(classItem.teacher_assistant.name)}
                                                         <div className="ripple-container"/>
@@ -106,7 +106,6 @@ class ListClass extends React.Component {
                                                 classItem.status === 1 ? 'Mở' : 'Đóng'
                                             )
                                         }
-
                                     </td>
                                     <td>
                                         <h6>{classItem.total_register + "/" + classItem.regis_target}</h6>
@@ -122,16 +121,21 @@ class ListClass extends React.Component {
                                     </td>
                                     <td>
                                         <ButtonGroupAction
-                                            disabledDelete={!classItem.is_delete}
+                                            disabledDelete={!classItem.is_delete_class}
                                             delete={this.props.deleteClass}
                                             object={classItem}
+                                            edit={(classData) => this.props.openModalClass(classData, true)}
                                         >
-                                            <a data-toggle="tooltip" title="Duplicate"
-                                               type="button"
-                                               onClick={()=>this.props.duplicateClass(classItem)}
-                                               rel="tooltip">
-                                                <i className="material-icons">content_copy</i>
-                                            </a>
+                                            {
+                                                classItem.is_duplicate &&
+                                                <a data-toggle="tooltip" title="Duplicate"
+                                                   type="button"
+                                                   onClick={() => this.props.duplicateClass(classItem)}
+                                                   rel="tooltip">
+                                                    <i className="material-icons">content_copy</i>
+                                                </a>
+                                            }
+
                                         </ButtonGroupAction>
                                     </td>
                                 </tr>
@@ -150,6 +154,7 @@ ListClass.propTypes = {
     deleteClass: PropTypes.func.isRequired,
     duplicateClass: PropTypes.func.isRequired,
     changeClassStatus: PropTypes.func.isRequired,
+    openModalClass: PropTypes.func.isRequired,
 };
 
 export default ListClass;

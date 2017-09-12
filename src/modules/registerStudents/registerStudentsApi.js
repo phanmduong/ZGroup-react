@@ -68,3 +68,13 @@ export function loadClasses(registerId) {
     let url = env.MANAGE_API_URL + `/register-student/${registerId}/classes?token=` + token;
     return axios.get(url);
 }
+
+export function loadRegisterByStudent(studentId) {
+    let url = env.MANAGE_API_URL + `/student/${studentId}/registers`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}

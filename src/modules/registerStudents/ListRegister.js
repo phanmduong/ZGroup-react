@@ -95,13 +95,13 @@ class ListRegister extends React.Component {
                                     {
                                         register.saler ?
                                             (
-                                                <button className="btn btn-xs btn-main"
+                                                <Link className="btn btn-xs btn-main"
                                                         style={{backgroundColor: '#' + register.saler.color}}
-                                                        onClick={() => this.props.loadRegisterStudentBySaler(register.saler.id)}
+                                                      to={`/manage/registerlist/${register.saler.id}`}
                                                 >
                                                     {helper.getShortName(register.saler.name)}
                                                     <div className="ripple-container"/>
-                                                </button>
+                                                </Link>
                                             )
                                             :
                                             (
@@ -136,11 +136,13 @@ class ListRegister extends React.Component {
                                 <td className="text-center">
                                     {
                                         register.paid_status ?
-                                            <button className="btn btn-xs btn-main main-background-color"
-                                            >
+
+                                            <div className="btn btn-xs btn-main main-background-color"
+                                                 data-toggle="tooltip" title=""
+                                                 type="button" rel="tooltip"
+                                                 data-original-title={register.note}>
                                                 {helper.dotNumber(register.money)} vnd
-                                                <div className="ripple-container"/>
-                                            </button>
+                                            </div>
                                             : 'Chưa nộp'
                                     }
                                 </td>

@@ -290,7 +290,10 @@ export default {
         errorChangeClass: false,
         isLoadingClasses: false,
         errorClasses: false,
-        classes: []
+        classes: [],
+        isLoadingRegistersByStudent: false,
+        errorRegistersByStudent: false,
+        registersByStudent: []
     },
 
     profile: {
@@ -422,7 +425,8 @@ export default {
         totalPages: 1,
         classes: [],
         isLoading: false,
-        error: false
+        error: false,
+        isCreateClass: false
     },
 
     rule:{

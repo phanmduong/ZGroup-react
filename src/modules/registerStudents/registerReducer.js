@@ -171,6 +171,31 @@ export default function registerReducer(state = initialState.registerStudents, a
                     errorChangeClass: true,
                 }
             };
+        case types.BEGIN_LOAD_REGISTERS_BY_STUDENT_REGISTER_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isLoadingRegistersByStudent: true,
+                    errorRegistersByStudent: false,
+                }
+            };
+        case types.LOAD_REGISTERS_BY_STUDENT_REGISTER_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingRegistersByStudent: false,
+                    errorRegistersByStudent: false,
+                    registersByStudent: action.registersByStudent,
+                }
+            };
+        case types.LOAD_REGISTERS_BY_STUDENT_REGISTER_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingRegistersByStudent: true,
+                    errorRegistersByStudent: true,
+                }
+            };
         default:
             return state;
     }

@@ -20,7 +20,10 @@ class TooltipButton extends React.Component {
 }
 
 TooltipButton.propTypes = {
-    text: PropTypes.string.isRequired,
+    text: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
     placement: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired
 };

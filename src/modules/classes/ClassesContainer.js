@@ -11,6 +11,8 @@ import * as classActions from './classActions';
 import ListClass from './ListClass';
 import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
+import {Modal} from 'react-bootstrap';
+import AddClassContainer from './AddClassContainer';
 
 class ClassesContainer extends React.Component {
     constructor(props, context) {
@@ -18,6 +20,9 @@ class ClassesContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
+            showModalClass: false,
+            classSelected: {},
+            editClass: false
         };
         this.search = {
             teacherId: ''
@@ -28,6 +33,8 @@ class ClassesContainer extends React.Component {
         this.deleteClass = this.deleteClass.bind(this);
         this.duplicateClass = this.duplicateClass.bind(this);
         this.changeClassStatus = this.changeClassStatus.bind(this);
+        this.closeModalClass = this.closeModalClass.bind(this);
+        this.openModalClass = this.openModalClass.bind(this);
     }
 
     componentWillMount() {
@@ -80,74 +87,118 @@ class ClassesContainer extends React.Component {
         this.props.classActions.changeClassStatus(classData.id);
     }
 
+    closeModalClass() {
+        this.setState({showModalClass: false});
+    }
+
+    openModalClass(classData = {}, editClass = false) {
+        this.setState({
+            showModalClass: true,
+            classSelected: classData,
+            editClass: editClass
+        });
+    }
 
     render() {
         return (
-            <div className="container-fluid">
-                <div className="card">
-                    <div className="card-header card-header-icon" data-background-color="rose">
-                        <i className="material-icons">assignment</i>
-                    </div>
-                    <div className="card-content">
-                        <h4 className="card-title">Danh sách lớp học</h4>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="col-md-3">
-                                    <button
-                                        type="button"
-                                        className="btn btn-rose"
-                                        onClick={() => {
-                                        }}
-                                    >
-                                        Thêm lớp
-                                    </button>
-                                </div>
-                                <div className="col-md-9">
-                                    <Search
-                                        onChange={this.classesSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm lớp"
-                                    />
-                                </div>
-                            </div>
+            <div>
+                <div className="container-fluid">
+                    <div className="card">
+                        <div className="card-header card-header-icon" data-background-color="rose">
+                            <i className="material-icons">assignment</i>
                         </div>
+                        <div className="card-content">
+                            <h4 className="card-title">Danh sách lớp học</h4>
+                            {
+                                this.props.isCreateClass ?
+                                    (
+                                        <div className="row">
+                                            <div className="col-md-12">
+                                                <div className="col-md-3">
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-rose"
+                                                        onClick={() => {
+                                                            this.openModalClass();
+                                                        }}
+                                                    >
+                                                        Thêm lớp
+                                                    </button>
+                                                </div>
+                                                <div className="col-md-9">
+                                                    <Search
+                                                        onChange={this.classesSearchChange}
+                                                        value={this.state.query}
+                                                        placeholder="Tìm kiếm lớp"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                    :
+                                    (
+                                        <Search
+                                            onChange={this.classesSearchChange}
+                                            value={this.state.query}
+                                            placeholder="Tìm kiếm lớp"
+                                        />
+                                    )
+                            }
 
 
-                        {this.props.isLoading ? <Loading/> :
-                            <div>
-                                <ListClass
-                                    classes={this.props.classes}
-                                    deleteClass={this.deleteClass}
-                                    duplicateClass={this.duplicateClass}
-                                    changeClassStatus={this.changeClassStatus}
-                                />
-                                <ul className="pagination pagination-primary">
-                                    {_.range(1, this.props.totalPages + 1).map(page => {
-                                        if (Number(this.state.page) === page) {
-                                            return (
-                                                <li key={page} className="active">
-                                                    <a onClick={() => this.loadClasses(page, this.state.query)}>
-                                                        {page}
-                                                    </a>
-                                                </li>
-                                            );
-                                        } else {
-                                            return (
-                                                <li key={page}>
-                                                    <a onClick={() => this.loadClasses(page, this.state.query)}>
-                                                        {page}
-                                                    </a>
-                                                </li>
-                                            );
-                                        }
+                            {this.props.isLoading ? <Loading/> :
+                                <div>
+                                    <ListClass
+                                        classes={this.props.classes}
+                                        deleteClass={this.deleteClass}
+                                        duplicateClass={this.duplicateClass}
+                                        changeClassStatus={this.changeClassStatus}
+                                        openModalClass={this.openModalClass}
+                                    />
+                                    <ul className="pagination pagination-primary">
+                                        {_.range(1, this.props.totalPages + 1).map(page => {
+                                            if (Number(this.state.page) === page) {
+                                                return (
+                                                    <li key={page} className="active">
+                                                        <a onClick={() => this.loadClasses(page, this.state.query)}>
+                                                            {page}
+                                                        </a>
+                                                    </li>
+                                                );
+                                            } else {
+                                                return (
+                                                    <li key={page}>
+                                                        <a onClick={() => this.loadClasses(page, this.state.query)}>
+                                                            {page}
+                                                        </a>
+                                                    </li>
+                                                );
+                                            }
 
-                                    })}
-                                </ul>
-                            </div>
-                        }
+                                        })}
+                                    </ul>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
+                <Modal
+                    show={this.state.showModalClass}
+                    onHide={this.closeModalClass}
+                    bsSize="large"
+                >
+                    <Modal.Header closeButton>
+                        {this.state.editClass ? "Chỉnh sửa lớp " + this.state.classSelected.name : "Tạo lớp học"}
+                    </Modal.Header>
+                    <Modal.Body>
+                        <AddClassContainer
+                            edit={this.state.editClass}
+                            classData={this.state.classSelected}
+                        />
+                    </Modal.Body>
+                </Modal>
             </div>
+
         );
     }
 }
@@ -157,6 +208,7 @@ ClassesContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     classes: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    isCreateClass: PropTypes.bool.isRequired,
     classActions: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
@@ -168,7 +220,8 @@ function mapStateToProps(state) {
         currentPage: state.classes.currentPage,
         totalPages: state.classes.totalPages,
         classes: state.classes.classes,
-        isLoading: state.classes.isLoading
+        isLoading: state.classes.isLoading,
+        isCreateClass: state.classes.isCreateClass,
     };
 }
 
