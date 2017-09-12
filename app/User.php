@@ -258,5 +258,9 @@ class User extends Authenticatable
             'project_id')
             ->withPivot('role', "adder_id");
     }
+
+    public function rules(){
+        return $this->hasMany(Rule::class, 'creator_id');
+    }
 }
 

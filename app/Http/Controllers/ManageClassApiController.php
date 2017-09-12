@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class ManageClassApiController extends ApiController
+class ManageClassApiController extends ManageApiController
 {
     public function __construct()
     {

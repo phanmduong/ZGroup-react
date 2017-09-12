@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ClassRepository;
 use App\StudyClass;
 use App\User;
 use App\Base;
@@ -21,11 +22,13 @@ use Illuminate\Support\Facades\DB;
 class ManageDashboardApiController extends ManageApiController
 {
     protected $dashboardRepository;
+    protected $classRepository;
 
-    public function __construct(DashboardRepository $dashboardRepository)
+    public function __construct(DashboardRepository $dashboardRepository, ClassRepository $classRepository)
     {
         parent::__construct();
         $this->dashboardRepository = $dashboardRepository;
+        $this->classRepository = $classRepository;
     }
 
     public function dashboard($gen_id, $base_id = null)
@@ -100,10 +103,7 @@ class ManageDashboardApiController extends ManageApiController
         }
 
         $data['classes'] = $classes->get()->map(function ($class) {
-            $class['avatar_url'] = $class->course()->first()->icon_url;
-            $class['total_paid'] = $class->registers()->where('status', 1)->count();
-            $class['total_register'] = $class->registers()->count();
-            return $class;
+            return $this->classRepository->get_class($class);
         });
         $registers_by_date = array();
         $paid_by_date = array();
@@ -184,6 +184,7 @@ class ManageDashboardApiController extends ManageApiController
         $data['date_array'] = $date_array;
         $data['money_by_date'] = $money_by_date;
 
+
         $rating = $this->dashboardRepository->ratingUser($this->user);
         $user = $this->user;
 
@@ -216,17 +217,16 @@ class ManageDashboardApiController extends ManageApiController
 
         if ($this->user->role === 2) {
             $class_id = $request->class_id;
-            if ($class_id != null) {
-                $class = StudyClass::find($class_id);
-                $class->status = ($class->status == 1) ? 0 : 1;
-                $class->save();
+            $class = $this->classRepository->change_status($class_id);
+            if ($class) {
+                return $this->respondSuccessWithStatus([
+                    'class' => [
+                        'id' => $class->id,
+                        'status' => $class->status
+                    ]
+                ]);
             }
-            return $this->respondSuccessWithStatus([
-                'class' => [
-                    'id' => $class->id,
-                    'status' => $class->status
-                ]
-            ]);
+            return $this->responseWithError("Có lỗi xảy ra");
         }
 
         return $this->responseUnAuthorized();

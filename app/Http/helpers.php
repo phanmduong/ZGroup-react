@@ -21,6 +21,11 @@ function format_date_full_option($time)
     return rebuild_date("j F, Y, H:i", strtotime($time));
 }
 
+function format_full_time_date($time)
+{
+    return rebuild_date("H:i, j F, Y", strtotime($time));
+}
+
 function format_date($time)
 {
     return rebuild_date('d F, Y', strtotime($time));
@@ -1458,4 +1463,13 @@ function format_data_schedule_class($schedule)
         'sessions_str' => $sessionsStr,
         'study_session_ids' => $study_session_ids
     ];
+}
+
+function is_delete_register($user, $register)
+{
+    if ($user->role == 2 || !isset($register->saler) || $register->saler->id == $user->id) {
+        return true;
+    }
+
+    return false;
 }

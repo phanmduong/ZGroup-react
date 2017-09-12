@@ -26,4 +26,26 @@ class UserRepository
             ->get();
         return $members;
     }
+
+    public function user($user)
+    {
+        if ($user)
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'color' => $user->color
+            ];
+    }
+
+    public function student($student)
+    {
+        if ($student)
+            return [
+                'id' => $student->id,
+                'name' => $student->name,
+                'phone' => $student->phone,
+                'email' => $student->email,
+                'avatar_url'=>generate_protocol_url($student->avatar_url)
+            ];
+    }
 }

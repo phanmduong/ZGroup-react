@@ -37,13 +37,15 @@ class RegisterTransformer extends Transformer
             'course_money' => $register->studyClass->course->price,
             'money' => $register->money,
             'study_time' => $register->study_time,
+            'note' => $register->note,
             "class" => [
                 "name" => $register->studyClass->name,
                 "id" => $register->studyClass->id,
                 "study_time" => $register->studyClass->study_time,
                 "description" => $register->studyClass->description,
             ],
-            "created_at" => format_time_to_mysql(strtotime($register->created_at))
+            "created_at" => format_time_to_mysql(strtotime($register->created_at)),
+            "is_delete" => $register->is_delete
         ];
 
         if ($register->studyClass->room) {
@@ -54,12 +56,6 @@ class RegisterTransformer extends Transformer
             $data['class']['base'] = $register->studyClass->base->address;
         }
 
-        if ($register->call_status == 0) {
-            $count = TeleCall::where('student_id', $register->user_id)->count();
-            if ($count == 0) {
-                $register->call_status = 4;
-            }
-        }
         $data['call_status'] = call_status_text($register->call_status);
         if ($register->saler) {
             $data["saler"] = [

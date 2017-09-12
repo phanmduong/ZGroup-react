@@ -241,4 +241,8 @@ class ManageRegisterStudentApiController extends ManageApiController
         ]);
     }
 
+    public function get_registers_by_user($userId){
+//        $regis
+    }
+
 }
