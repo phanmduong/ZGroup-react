@@ -45,7 +45,26 @@ class UserRepository
                 'name' => $student->name,
                 'phone' => $student->phone,
                 'email' => $student->email,
-                'avatar_url'=>generate_protocol_url($student->avatar_url)
+                'avatar_url' => generate_protocol_url($student->avatar_url)
             ];
+    }
+
+    public function staffs()
+    {
+        return User::where('role', '>', 0)->get()->map(function ($staff) {
+            return $this->staff($staff);
+        });
+    }
+
+    public function staff($staff)
+    {
+        if ($staff) {
+            return [
+                'id' => $staff->id,
+                'name' => $staff->name,
+                'phone' => $staff->phone,
+                'email' => $staff->email,
+            ];
+        }
     }
 }
