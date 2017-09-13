@@ -15,21 +15,25 @@ class OldNotificationTransformer extends Transformer
     {
         $data = [
             'id' => $notification->id,
-            'receiver' => [
+            'created_at' => time_elapsed_string(strtotime($notification->created_at)),
+            'seen' => $notification->seen == 1
+        ];
+        if ($notification->receiver) {
+            $data['receiver'] = [
                 'id' => $notification->receiver->id,
                 'avatar_url' => ($notification->receiver->avatar_url == null) ? url('img/user.png') : $notification->receiver->avatar_url,
                 'name' => $notification->receiver->name,
                 'username' => $notification->receiver->username
             ],
-            'actor' => [
+        }
+        if ($notification->actor) {
+            $data['actor'] = [
                 'id' => $notification->actor->id,
                 'avatar_url' => ($notification->actor->avatar_url == null) ? url('img/user.png') : $notification->actor->avatar_url,
                 'name' => $notification->actor->name,
                 'username' => $notification->actor->username
-            ],
-            'created_at' => time_elapsed_string(strtotime($notification->created_at)),
-            'seen' => $notification->seen == 1
-        ];
+            ];
+        }
 
         if ($notification->type <= 2 && $notification->type >= 0) {
 //            if ($notification->product == null) {
