@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Color;
 use App\Colorme\Transformers\NotificationTransformer;
+use App\Colorme\Transformers\OldNotificationTransformer;
 use App\CV;
 use App\Group;
 use App\GroupMember;
@@ -20,11 +21,16 @@ use Illuminate\Support\Facades\Redis;
 class UserApiController extends ApiController
 {
     protected $notificationTransformer;
+    protected $oldNotificationTransformer;
 
-    public function __construct(NotificationTransformer $notificationTransformer)
+    public function __construct(
+        NotificationTransformer $notificationTransformer,
+        OldNotificationTransformer $oldNotificationTransformer
+    )
     {
         parent::__construct();
         $this->notificationTransformer = $notificationTransformer;
+        $this->oldNotificationTransformer = $oldNotificationTransformer;
     }
 
     public function join_topic(Request $request)
@@ -86,7 +92,7 @@ class UserApiController extends ApiController
         }
         $notifications = $this->user->received_notifications()->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($notifications, [
-            'notifications' => $this->notificationTransformer->transformCollection($notifications),
+            'notifications' => $this->oldNotificationTransformer->transformCollection($notifications),
             'unseen' => $this->user->received_notifications()->where('seen', 0)->count()
         ]);
     }
