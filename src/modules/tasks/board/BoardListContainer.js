@@ -11,7 +11,7 @@ import Loading from "../../../components/common/Loading";
 import BoardList from "./BoardList";
 import CreateCardModalContainer from "../card/CreateCardModalContainer";
 import CardDetailModalContainer from "../card/CardDetailModalContainer";
-import BoardFilterContainer from "./BoardFilterContainer";
+import CardFilterContainer from "./filter/CardFilterContainer";
 
 class BoardListContainer extends React.Component {
     constructor(props, context) {
@@ -73,7 +73,7 @@ class BoardListContainer extends React.Component {
                 <CardDetailModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>
-                        <BoardFilterContainer/>
+                        <CardFilterContainer/>
                         <BoardList
                             updateCardInBoard={this.props.taskActions.updateCardInBoard}
                             openCardDetailModal={this.props.taskActions.openCardDetailModal}

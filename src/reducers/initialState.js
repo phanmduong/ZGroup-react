@@ -429,9 +429,16 @@ export default {
         isCreateClass: false
     },
 
-    rule:{
+    rule: {
         ruleView: '',
         isLoading: false,
         error: false
+    },
+
+    cardFilter: {
+        cardLabels: [],
+        members: [],
+        selectedCardLabels: [],
+        selectedMembers: []
     }
 };

@@ -169,7 +169,9 @@ export function loadBoards(projectId) {
                 dispatch({
                     projectId: projectId,
                     type: types.LOAD_BOARDS_SUCCESS,
-                    boards: res.data.boards
+                    boards: res.data.boards,
+                    cardLabels: res.data.cardLabels,
+                    members: res.data.members
                 });
             });
     };
