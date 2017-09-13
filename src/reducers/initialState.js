@@ -426,12 +426,14 @@ export default {
         classes: [],
         isLoading: false,
         error: false,
-        isCreateClass: false,
+        isCreatingClass: false,
         errorCreateClass: false,
         isLoadingInfoCreateClass: false,
         errorInfoCreateClass: false,
         infoCreateClass: {},
-        class:{}
+        class:{
+            datestart: new Date().toISOString().slice(0, 10)
+        }
     },
 
     rule: {
