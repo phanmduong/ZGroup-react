@@ -24,7 +24,7 @@ class OldNotificationTransformer extends Transformer
                 'avatar_url' => ($notification->receiver->avatar_url == null) ? url('img/user.png') : $notification->receiver->avatar_url,
                 'name' => $notification->receiver->name,
                 'username' => $notification->receiver->username
-            ],
+            ];
         }
         if ($notification->actor) {
             $data['actor'] = [
