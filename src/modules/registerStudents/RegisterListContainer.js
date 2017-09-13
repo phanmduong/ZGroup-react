@@ -24,11 +24,11 @@ class RegisterListContainer extends React.Component {
             showModalChangeClass: false,
             register: {},
             note: '',
-            salerId: '',
             campaignId: '',
             selectRegisterId: 0
-        }
+        };
         this.timeOut = null;
+        this.salerId = '';
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.changeGens = this.changeGens.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -38,7 +38,6 @@ class RegisterListContainer extends React.Component {
         this.viewCall = this.viewCall.bind(this);
         this.changeCallStatusStudent = this.changeCallStatusStudent.bind(this);
         this.deleteRegister = this.deleteRegister.bind(this);
-        this.loadRegisterStudentBySaler = this.loadRegisterStudentBySaler.bind(this);
         this.loadRegisterStudentByCampaign = this.loadRegisterStudentByCampaign.bind(this);
         this.confirmChangeClass = this.confirmChangeClass.bind(this);
     }
@@ -47,7 +46,13 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadGensData();
         if (this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
-            this.setState({salerId: this.props.params.salerId});
+            this.setState({
+                page: 1,
+                query: '',
+                campaignId: '',
+                selectGenId: ''
+            });
+            this.salerId = this.props.params.salerId;
         } else {
             this.loadRegisterStudent(1, '');
         }
@@ -68,6 +73,16 @@ class RegisterListContainer extends React.Component {
             this.setState({
                 selectGenId: nextProps.genId
             });
+        }
+
+        if (nextProps.params.salerId !== this.props.params.salerId) {
+            this.props.registerActions.loadRegisterStudent(1, '', '', nextProps.params.salerId, '');
+            this.setState({
+                page: 1,
+                query: '',
+                campaignId: '',
+            });
+            this.salerId = nextProps.params.salerId;
         }
     }
 
@@ -98,59 +113,47 @@ class RegisterListContainer extends React.Component {
 
     viewCall(register) {
         this.props.registerActions.loadHistoryCallStudent(register.student_id, register.id);
+        this.props.registerActions.loadRegisterByStudent(register.student_id);
         this.setState({register});
         this.openModal();
-    }
-
-    loadRegisterStudentBySaler(salerId) {
-        this.setState({
-            page: 1,
-            query: '',
-            campaignId: '',
-            salerId
-        });
-        this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, '', salerId, '');
     }
 
     loadRegisterStudentByCampaign(campaignId) {
         this.setState({
             page: 1,
-            query: '',
             campaignId,
-            salerId: ''
         });
-        this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, '', '', campaignId);
+        this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, this.state.query, this.salerId, campaignId);
     }
 
-    loadRegisterStudent(page, genId) {
+    loadRegisterStudent(page) {
         this.setState({
             page,
-            selectGenId: genId
         });
-        this.props.registerActions.loadRegisterStudent(page, genId, this.state.query, this.state.salerId, this.state.campaignId);
+        this.props.registerActions.loadRegisterStudent(page, this.state.selectGenId, this.state.query, this.salerId, this.state.campaignId);
     }
 
     registersSearchChange(value) {
         this.setState({
             page: 1,
-            query: value
+            query: value,
+            campaignId: ''
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, value);
+            this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, value, this.salerId, '');
         }.bind(this), 500);
     }
 
     changeGens(value) {
         this.setState({
             page: 1,
-            query: '',
             campaignId: '',
-            salerId: ''
+            selectGenId: value
         });
-        this.props.registerActions.loadRegisterStudent(1, value, '', '', '');
+        this.props.registerActions.loadRegisterStudent(1, value, this.state.query, this.salerId, '');
     }
 
     changeCallStatusStudent(callStatus, studentId) {
@@ -211,13 +214,13 @@ class RegisterListContainer extends React.Component {
                                             if (Number(this.state.page) === page) {
                                                 return (
                                                     <li key={page} className="active">
-                                                        <a onClick={() => this.loadRegisterStudent(page, this.state.selectGenId)}>{page}</a>
+                                                        <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
                                                     </li>
                                                 );
                                             } else {
                                                 return (
                                                     <li key={page}>
-                                                        <a onClick={() => this.loadRegisterStudent(page, this.state.selectGenId)}>{page}</a>
+                                                        <a onClick={() => this.loadRegisterStudent(page)}>{page}</a>
                                                     </li>
                                                 );
                                             }
@@ -306,7 +309,7 @@ class RegisterListContainer extends React.Component {
                                        data-parent="#accordion" href="#collapseThree" aria-expanded="false"
                                        aria-controls="collapseThree">
                                         <h4 className="panel-title">
-                                            Lịch sử gọi điện
+                                            Thông tin đăng kí
                                             <i className="material-icons">keyboard_arrow_down</i>
                                         </h4>
                                     </a>
@@ -314,6 +317,58 @@ class RegisterListContainer extends React.Component {
 
                                 <div id="collapseThree" className="panel-collapse collapse" role="tabpanel"
                                      aria-labelledby="headingThree" aria-expanded="false" style={{height: '0px'}}>
+                                    {
+                                        this.props.isLoadingRegistersByStudent ? <Loading/> :
+                                            <ul className="timeline timeline-simple">
+                                                {
+                                                    this.props.registersByStudent.map(function (register, index) {
+                                                        return (
+                                                            <li className="timeline-inverted" key={index}>
+                                                                <div className="timeline-badge">
+                                                                    <img className="circle size-40-px"
+                                                                         src={register.class.avatar_url} alt=""/>
+                                                                </div>
+                                                                <div className="timeline-panel">
+                                                                    <h4>
+                                                                        <b>{register.class.name}</b>
+                                                                    </h4>
+                                                                    <div className="timeline-body">
+                                                                        <div className="flex-row-center">
+                                                                            <i className="material-icons">access_time</i>
+                                                                            <b>&nbsp; &nbsp; {register.class.study_time} </b>
+                                                                        </div>
+                                                                        <div className="flex-row-center">
+                                                                            <i className="material-icons">home</i>&nbsp; &nbsp;
+                                                                            {register.class.room && register.class.room + ' - '}
+                                                                            {register.class.base}
+                                                                        </div>
+                                                                        <div className="flex-row-center">
+                                                                            <i className="material-icons">date_range</i>&nbsp; &nbsp; {register.class.description}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        );
+                                                    })
+                                                }
+                                            </ul>
+                                    }
+                                </div>
+                            </div>
+                            <div className="panel panel-default">
+                                <div className="panel-heading" role="tab" id="headingFour">
+                                    <a className="collapsed" role="button" data-toggle="collapse"
+                                       data-parent="#accordion" href="#collapseFour" aria-expanded="false"
+                                       aria-controls="collapseFour">
+                                        <h4 className="panel-title">
+                                            Lịch sử gọi điện
+                                            <i className="material-icons">keyboard_arrow_down</i>
+                                        </h4>
+                                    </a>
+                                </div>
+
+                                <div id="collapseFour" className="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingFour" aria-expanded="false" style={{height: '0px'}}>
                                     {
                                         this.props.isLoadingHistoryCall ? <Loading/> :
                                             <ul className="timeline timeline-simple">
@@ -457,6 +512,7 @@ RegisterListContainer.propTypes = {
     gens: PropTypes.array.isRequired,
     classes: PropTypes.array.isRequired,
     historyCall: PropTypes.array.isRequired,
+    registersByStudent: PropTypes.array.isRequired,
     registerActions: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
@@ -467,6 +523,7 @@ RegisterListContainer.propTypes = {
     isChangingStatus: PropTypes.bool.isRequired,
     isLoadingClasses: PropTypes.bool.isRequired,
     isChangingClass: PropTypes.bool.isRequired,
+    isLoadingRegistersByStudent: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -480,6 +537,7 @@ function mapStateToProps(state) {
         currentPage: state.registerStudents.currentPage,
         telecallId: state.registerStudents.telecallId,
         gens: state.registerStudents.gens,
+        registersByStudent: state.registerStudents.registersByStudent,
         historyCall: state.registerStudents.historyCall,
         isLoadingGens: state.registerStudents.isLoadingGens,
         isLoadingRegisters: state.registerStudents.isLoading,
@@ -487,6 +545,7 @@ function mapStateToProps(state) {
         isChangingStatus: state.registerStudents.isChangingStatus,
         isChangingClass: state.registerStudents.isChangingClass,
         isLoadingClasses: state.registerStudents.isLoadingClasses,
+        isLoadingRegistersByStudent: state.registerStudents.isLoadingRegistersByStudent,
         genId: state.registerStudents.genId,
     };
 }

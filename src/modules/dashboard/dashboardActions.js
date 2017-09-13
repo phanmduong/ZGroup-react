@@ -84,6 +84,25 @@ export function changeClassStatus(classId) {
     };
 }
 
+export function loadClass(classId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASS_DATA_DASHBOARD
+        });
+        dashboardApi.loadClass(classId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CLASS_DASHBOARD_SUCCESS,
+                    class: res.data.data.class
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_CLASS_DASHBOARD_ERROR
+            });
+        });
+    };
+}
+
 
 
 

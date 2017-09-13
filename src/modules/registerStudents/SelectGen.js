@@ -37,7 +37,10 @@ class Select extends React.Component {
 
 
 Select.propTypes = {
-    value: PropTypes.number.isRequired,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
     options: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
     defaultMessage: PropTypes.string,

@@ -27,7 +27,7 @@ class DashboardComponent extends React.Component {
                 paid_by_date, money_by_date, classes
 
             } = this.props.dashboard;
-
+            let avatar = helper.avatarEmpty(user.avatar_url) ? NO_AVATAR : user.avatar_url;
             return (
                 <div>
                     <div className="row">
@@ -106,9 +106,14 @@ class DashboardComponent extends React.Component {
                         <div className="col-md-4">
                             <div className="card card-profile" style={{marginTop: '24px'}}>
                                 <div className="card-avatar">
-                                    <a>
+                                    <a className="content-avatar">
                                         <img className="img"
-                                             src={helper.isEmptyInput(user.avatar_url) ? NO_AVATAR : user.avatar_url}/>
+                                             style={{
+                                                 background: 'url(' + avatar + ') center center / cover',
+                                                 width: '130px',
+                                                 height: '130px'
+                                             }}
+                                        />
                                     </a>
                                 </div>
                                 <div className="card-content">
@@ -208,6 +213,7 @@ class DashboardComponent extends React.Component {
                                         classes={classes}
                                         user={user}
                                         changeClassStatus={this.props.changeClassStatus}
+                                        openModalClass={this.props.openModalClass}
                                     />
                                 </div>
                             </div>
@@ -222,7 +228,8 @@ class DashboardComponent extends React.Component {
 DashboardComponent.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     dashboard: PropTypes.object.isRequired,
-    changeClassStatus: PropTypes.func.isRequired
+    changeClassStatus: PropTypes.func.isRequired,
+    openModalClass: PropTypes.func.isRequired
 };
 
 

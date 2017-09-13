@@ -1,0 +1,160 @@
+import React from 'react';
+import Switch from 'react-bootstrap-switch';
+import * as helper from '../../helpers/helper';
+import PropTypes from 'prop-types';
+// import TooltipButton from '../../components/common/TooltipButton';
+import {Link} from 'react-router';
+import ButtonGroupAction from '../../components/common/ButtonGroupAction';
+
+class ListClass extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+    }
+
+    render() {
+        return (
+            <div className="table-responsive">
+                <table className="table">
+                    <thead className="text-rose">
+                    <tr>
+                        <th/>
+                        <th>Tên</th>
+                        <th>Ngày khai giảng</th>
+                        <th>Thời gian học</th>
+                        <th>Khóa</th>
+                        <th>Giảng viên</th>
+                        <th>Trợ giảng</th>
+                        <th>Trạng thái</th>
+                        <th>Học viên</th>
+                        <th/>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.props.classes.map((classItem) => {
+                            return (
+                                <tr key={classItem.id}>
+                                    <td>
+                                        <button className="btn btn-round btn-fab btn-fab-mini text-white"
+                                                data-toggle="tooltip" title="" type="button" rel="tooltip"
+                                                data-placement="right"
+                                                data-original-title={classItem.name}>
+                                            <img src={classItem.course ? classItem.course.icon_url : ''} alt=""/>
+                                        </button>
+                                    </td>
+                                    <td>{classItem.name}</td>
+                                    <td>{classItem.datestart}</td>
+                                    <td>{classItem.study_time}</td>
+                                    <td className="text-center">{classItem.gen ? classItem.gen.name : ''}</td>
+                                    <td>
+                                        {
+                                            classItem.teacher ?
+                                                (
+                                                    <Link className="btn btn-xs btn-main"
+                                                          style={{backgroundColor: '#' + classItem.teacher.color}}
+                                                          to={"/manage/classes/" + classItem.teacher.id}
+                                                    >
+                                                        {helper.getShortName(classItem.teacher.name)}
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                )
+                                                :
+                                                (
+                                                    <div className="no-data">
+                                                        Không có
+                                                    </div>
+                                                )
+
+                                        }
+
+                                    </td>
+                                    <td>
+                                        {
+                                            classItem.teacher_assistant ?
+                                                (
+                                                    <Link className="btn btn-xs btn-main"
+                                                          style={{backgroundColor: '#' + classItem.teacher_assistant.color}}
+                                                          to={"/manage/classes/" + classItem.teacher_assistant.id}
+                                                    >
+                                                        {helper.getShortName(classItem.teacher_assistant.name)}
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                )
+                                                :
+                                                (
+                                                    <div className="no-data">
+                                                        Không có
+                                                    </div>
+                                                )
+
+                                        }
+
+                                    </td>
+                                    <td className="text-center">
+                                        {classItem.edit_status ?
+                                            (<Switch
+                                                    genId={classItem.id}
+                                                    onChange={() => {
+                                                        this.props.changeClassStatus(classItem);
+                                                    }}
+                                                    bsSize="mini"
+                                                    onText="Bật" offText="Tắt"
+                                                    value={(classItem.status === 1)}/>
+                                            )
+                                            :
+                                            (
+                                                classItem.status === 1 ? 'Mở' : 'Đóng'
+                                            )
+                                        }
+                                    </td>
+                                    <td>
+                                        <h6>{classItem.total_register + "/" + classItem.regis_target}</h6>
+                                        <div className="progress progress-line-danger progress-bar-table">
+                                            <div className="progress-bar" role="progressbar" aria-valuenow="60"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100"
+                                                 style={{width: classItem.total_register * 100 / classItem.regis_target}}>
+                                                <span
+                                                    className="sr-only">{classItem.total_register * 100 / classItem.regis_target}%</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <ButtonGroupAction
+                                            disabledDelete={!classItem.is_delete_class}
+                                            delete={this.props.deleteClass}
+                                            object={classItem}
+                                            edit={(classData) => this.props.openModalClass(classData, true)}
+                                        >
+                                            {
+                                                classItem.is_duplicate &&
+                                                <a data-toggle="tooltip" title="Duplicate"
+                                                   type="button"
+                                                   onClick={() => this.props.duplicateClass(classItem)}
+                                                   rel="tooltip">
+                                                    <i className="material-icons">content_copy</i>
+                                                </a>
+                                            }
+
+                                        </ButtonGroupAction>
+                                    </td>
+                                </tr>
+                            );
+                        })
+                    }
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
+}
+
+ListClass.propTypes = {
+    classes: PropTypes.array.isRequired,
+    deleteClass: PropTypes.func.isRequired,
+    duplicateClass: PropTypes.func.isRequired,
+    changeClassStatus: PropTypes.func.isRequired,
+    openModalClass: PropTypes.func.isRequired,
+};
+
+export default ListClass;

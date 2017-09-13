@@ -6,22 +6,28 @@ import App from '../components/App';
 // Import actions here!!
 import * as loginActions from '../modules/login/loginActions';
 import * as helper from '../helpers/helper';
-
+import {Modal} from 'react-bootstrap';
+import RuleContainer from '../modules/rule/RuleContainer';
 
 let self;
 
-class DashboardContainer extends React.Component {
+class AppContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.onLogOut = this.onLogOut.bind(this);
         self = this;
+        this.state = {
+            showModalRule: false
+        };
+        this.openModalRule = this.openModalRule.bind(this);
+        this.closeModalRule = this.closeModalRule.bind(this);
+
     }
 
     componentWillMount() {
         this.checkToken();
         this.props.loginActions.getUserLocal();
     }
-
 
 
     checkToken() {
@@ -54,24 +60,51 @@ class DashboardContainer extends React.Component {
         this.props.loginActions.logOut();
     }
 
+    closeModalRule() {
+        this.setState({showModalRule: false});
+    }
+
+    openModalRule() {
+        this.setState(
+            {
+                showModalRule: true,
+            }
+        );
+    }
+
 
     render() {
         return (
-            <App
-                pathname={this.props.location.pathname}
-                {...this.props}
-                onLogOut={this.onLogOut}
-            />
+            <div>
+                <App
+                    pathname={this.props.location.pathname}
+                    {...this.props}
+                    onLogOut={this.onLogOut}
+                    openModalRule={this.openModalRule}
+                />
+                <Modal
+                    show={this.state.showModalRule}
+                    onHide={this.closeModalRule}
+                    bsSize="large"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title><h3><strong>NỘI QUY VÀ QUY ĐỊNH THƯỞNG PHẠT</strong></h3></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <RuleContainer/>
+                    </Modal.Body>
+                </Modal>
+            </div>
         );
     }
 }
 
 
-DashboardContainer.contextTypes = {
+AppContainer.contextTypes = {
     router: PropTypes.object
 };
 
-DashboardContainer.propTypes = {
+AppContainer.propTypes = {
     loginActions: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
 };
@@ -88,4 +121,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

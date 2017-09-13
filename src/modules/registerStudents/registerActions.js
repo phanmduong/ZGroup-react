@@ -141,6 +141,26 @@ export function loadClasses(registerId) {
     };
 }
 
+export function loadRegisterByStudent(studentId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_REGISTERS_BY_STUDENT_REGISTER_STUDENT
+        });
+        registerStudentsApi.loadRegisterByStudent(studentId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_REGISTERS_BY_STUDENT_REGISTER_STUDENT_SUCCESS,
+                    registersByStudent: res.data.data.registers
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_REGISTERS_BY_STUDENT_REGISTER_STUDENT_ERROR
+                });
+            });
+    };
+}
+
 export function confirmChangeClass(registerId, classId, closeModalChangeClass) {
     return function (dispatch) {
         dispatch({

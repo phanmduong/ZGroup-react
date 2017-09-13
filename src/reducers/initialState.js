@@ -290,7 +290,10 @@ export default {
         errorChangeClass: false,
         isLoadingClasses: false,
         errorClasses: false,
-        classes: []
+        classes: [],
+        isLoadingRegistersByStudent: false,
+        errorRegistersByStudent: false,
+        registersByStudent: []
     },
 
     profile: {
@@ -389,6 +392,9 @@ export default {
         dashboard: {},
         isLoading: true,
         error: false,
+        class: {},
+        isLoadingClass: false,
+        errorClass: false,
     },
 
     collectMoney: {
@@ -404,6 +410,27 @@ export default {
         currentPage: 1,
         totalPages: 1,
         registers: [],
+        isLoading: false,
+        error: false
+    },
+    historyCalls: {
+        currentPage: 1,
+        totalPages: 1,
+        teleCalls: [],
+        isLoading: false,
+        error: false
+    },
+    classes: {
+        currentPage: 1,
+        totalPages: 1,
+        classes: [],
+        isLoading: false,
+        error: false,
+        isCreateClass: false
+    },
+
+    rule:{
+        ruleView: '',
         isLoading: false,
         error: false
     }

@@ -327,5 +327,26 @@ $starInactive: #c4c5c6;
 }
 
 .text-email {
-  text-transform: lowercase!important;
+  text-transform: lowercase !important;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.flex-wrap {
+  flex-wrap: wrap !important;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.size-40-px{
+  width: 40px;
+  height: 40px;
 }

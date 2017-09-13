@@ -9,6 +9,7 @@ import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
 import * as historyCollectMoneyActions from './historyCollectMoneyActions';
 import ListRegister from './ListRegister';
+import PropTypes from 'prop-types';
 
 class HistoryCollectMoneyContainer extends React.Component {
     constructor(props, context) {
@@ -16,10 +17,12 @@ class HistoryCollectMoneyContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
+            collectorId: '',
         };
         this.timeOut = null;
         this.loadHistoryCollectMoney = this.loadHistoryCollectMoney.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
+        this.loadHistoryCollectMoneyByCollector = this.loadHistoryCollectMoneyByCollector.bind(this);
     }
 
     componentWillMount() {
@@ -29,7 +32,8 @@ class HistoryCollectMoneyContainer extends React.Component {
     registersSearchChange(value) {
         this.setState({
             page: 1,
-            query: value
+            query: value,
+            collectorId: ''
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
@@ -41,7 +45,16 @@ class HistoryCollectMoneyContainer extends React.Component {
 
     loadHistoryCollectMoney(page = 1) {
         this.setState({page});
-        this.props.historyCollectMoneyActions.historyCollectMoney(this.state.query, page);
+        this.props.historyCollectMoneyActions.historyCollectMoney(this.state.query, page, this.state.collectorId);
+    }
+
+    loadHistoryCollectMoneyByCollector(collectorId) {
+        this.setState({
+            page: 1,
+            query: '',
+            collectorId: collectorId
+        });
+        this.props.historyCollectMoneyActions.historyCollectMoney('', 1, collectorId);
     }
 
     render() {
@@ -63,6 +76,7 @@ class HistoryCollectMoneyContainer extends React.Component {
                             <div>
                                 <ListRegister
                                     registers={this.props.registers}
+                                    loadHistoryCollectMoneyByCollector={this.loadHistoryCollectMoneyByCollector}
                                 />
                                 <ul className="pagination pagination-primary">
                                     {_.range(1, this.props.totalPages + 1).map(page => {
@@ -90,6 +104,14 @@ class HistoryCollectMoneyContainer extends React.Component {
         );
     }
 }
+
+HistoryCollectMoneyContainer.propTypes = {
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    registers: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    historyCollectMoneyActions: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

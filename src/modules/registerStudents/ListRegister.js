@@ -95,13 +95,13 @@ class ListRegister extends React.Component {
                                     {
                                         register.saler ?
                                             (
-                                                <button className="btn btn-xs btn-main"
+                                                <Link className="btn btn-xs btn-main"
                                                         style={{backgroundColor: '#' + register.saler.color}}
-                                                        onClick={() => this.props.loadRegisterStudentBySaler(register.saler.id)}
+                                                      to={`/manage/registerlist/${register.saler.id}`}
                                                 >
                                                     {helper.getShortName(register.saler.name)}
                                                     <div className="ripple-container"/>
-                                                </button>
+                                                </Link>
                                             )
                                             :
                                             (
@@ -133,23 +133,17 @@ class ListRegister extends React.Component {
                                             )
                                     }
                                 </td>
-                                <td>
-                                    <h6>
-                                        {
-                                            register.paid_status ?
-                                                <b className="text-money">{helper.convertMoneyToK(register.money) + '/' + helper.convertMoneyToK(register.course_money)}</b>
-                                                : 'Chưa nộp'
-                                        }
-                                    </h6>
-                                    {register.paid_status &&
-                                    <div className="progress progress-line-primary progress-bar-table">
-                                        <div className="progress-bar" role="progressbar" aria-valuenow="60"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100"
-                                             style={{width: register.money * 100 / register.course_money}}>
-                                            <span className="sr-only">{register.money * 100 / register.course_money}% Complete</span>
-                                        </div>
-                                    </div>
+                                <td className="text-center">
+                                    {
+                                        register.paid_status ?
+
+                                            <div className="btn btn-xs btn-main main-background-color"
+                                                 data-toggle="tooltip" title=""
+                                                 type="button" rel="tooltip"
+                                                 data-original-title={register.note}>
+                                                {helper.dotNumber(register.money)} vnd
+                                            </div>
+                                            : 'Chưa nộp'
                                     }
                                 </td>
                                 <td>
@@ -164,7 +158,7 @@ class ListRegister extends React.Component {
                                         editUrl=""
                                         delete={this.props.deleteRegister}
                                         object={register}
-                                        disabledDelete={Boolean(register.paid_status)}>
+                                        disabledDelete={!register.is_delete}>
                                         <a data-toggle="tooltip" title="Đổi lớp"
                                            onClick={() => this.props.openModalChangeClass(register.id)}
                                            type="button"

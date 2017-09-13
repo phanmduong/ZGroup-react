@@ -1,36 +1,32 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadGens() {
-    let url = env.MANAGE_API_URL + "/gen/all";
+export function loadClasses(search, page = 1, teacherId = '') {
+    let url = env.MANAGE_API_URL + "/class/all?search=" + search + "&teacher_id=" + teacherId + "&page=" + page;
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token;
+        url += "&token=" + token;
     }
-
     return axios.get(url);
 }
 
-export function loadBases() {
-    let url = env.MANAGE_API_URL + "/base/all";
+export function deleteClass(classId) {
+    let url = env.MANAGE_API_URL + "/class/delete";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-
-    return axios.get(url);
+    return axios.post(url, {
+        'class_id': classId
+    });
 }
 
-export function loadDashboard(genId, baseId) {
-    let url = env.MANAGE_API_URL + `/gens/${genId}/dashboard`;
-    if (baseId) {
-        url += '/' + baseId;
-    }
+export function duplicateClass(classId) {
+    let url = env.MANAGE_API_URL + "/class/duplicate/" + classId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-
     return axios.get(url);
 }
 
@@ -47,12 +43,3 @@ export function changeClassStatus(classId) {
     });
 }
 
-export function loadClass(classId) {
-    let url = env.MANAGE_API_URL + `/class/${classId}`;
-    let token = localStorage.getItem('token');
-    if (token) {
-        url += "?token=" + token;
-    }
-
-    return axios.get(url);
-}
