@@ -129,8 +129,7 @@ class CardItem extends React.Component {
                                                         height: 7,
                                                         borderRadius: 5,
                                                         marginRight: 5
-                                                    }}>
-                                                    </div>
+                                                    }} />
                                                 </TooltipButton>
 
                                             );

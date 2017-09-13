@@ -37,8 +37,7 @@ const CardBody = ({
                                     key={label.id}
                                     style={{background: label.color}} className="btn btn-sm">
                                     {label.name}
-                                    <div className="ripple-container">
-                                    </div>
+                                    <div className="ripple-container"/>
                                 </button>
                             );
                         })

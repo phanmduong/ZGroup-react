@@ -21,7 +21,7 @@ class ProfileContainer extends React.Component {
         this.changeColor = this.changeColor.bind(this);
         this.state = {
             color: ''
-        }
+        };
     }
 
     componentWillMount() {

@@ -73,12 +73,12 @@ class TaskListsContainer extends React.Component {
                                 <ListGroup>
                                     {
                                         taskList.tasks.map((task) =>
-                                            <TaskItem
+                                            (<TaskItem
                                                 card={this.props.card}
                                                 toggleTaskStatus={this.props.taskActions.toggleTaskStatus}
                                                 deleteTask={this.props.taskActions.deleteTask}
                                                 key={task.id}
-                                                task={task}/>)
+                                                task={task}/>))
                                     }
                                     <ListGroupItem>
                                         {

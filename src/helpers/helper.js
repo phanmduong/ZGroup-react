@@ -209,4 +209,6 @@ export function sweetAlertError(message) {
     });
 }
 
-
+export function intersect(array1, array2) {
+    return array1.filter(cardLabel => array2.filter(t => t.id === cardLabel.id).length > 0);
+}
