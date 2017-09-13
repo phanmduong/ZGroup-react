@@ -21,7 +21,7 @@ class OldNotificationTransformer extends Transformer
         if ($notification->receiver) {
             $data['receiver'] = [
                 'id' => $notification->receiver->id,
-                'avatar_url' => ($notification->receiver->avatar_url == null) ? url('img/user.png') : $notification->receiver->avatar_url,
+                'avatar_url' => ($notification->receiver->avatar_url == null) ? url('img/user.png') : generate_protocol_url($notification->receiver->avatar_url),
                 'name' => $notification->receiver->name,
                 'username' => $notification->receiver->username
             ];
@@ -29,7 +29,7 @@ class OldNotificationTransformer extends Transformer
         if ($notification->actor) {
             $data['actor'] = [
                 'id' => $notification->actor->id,
-                'avatar_url' => ($notification->actor->avatar_url == null) ? url('img/user.png') : $notification->actor->avatar_url,
+                'avatar_url' => ($notification->actor->avatar_url == null) ? url('img/user.png') : generate_protocol_url($notification->actor->avatar_url),
                 'name' => $notification->actor->name,
                 'username' => $notification->actor->username
             ];
