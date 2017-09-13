@@ -1,0 +1,16 @@
+{
+    "name": "CheckInCheckOut",
+    "alias": "checkincheckout",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\CheckInCheckOut\\Providers\\CheckInCheckOutServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
