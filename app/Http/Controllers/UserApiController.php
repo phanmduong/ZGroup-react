@@ -90,7 +90,7 @@ class UserApiController extends ApiController
         } else {
             $limit = 20;
         }
-        $notifications = $this->user->received_notifications()->orderBy('created_at', 'desc')->paginate($limit);
+        $notifications = $this->user->received_notifications()->where("type", "<", 7)->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($notifications, [
             'notifications' => $this->oldNotificationTransformer->transformCollection($notifications),
             'unseen' => $this->user->received_notifications()->where('seen', 0)->count()

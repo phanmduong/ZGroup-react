@@ -930,6 +930,8 @@ function notification_type($type)
             return "new_topic";
         case 6:
             return "feature";
+        default:
+            return "unsupport";
     }
 }
 
