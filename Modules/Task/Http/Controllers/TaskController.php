@@ -271,6 +271,12 @@ class TaskController extends ManageApiController
                 ];
             })
         ];
+        $project = Project::find($projectId);
+        $members = $project->members()->get(['id', 'name', "color"]);
+        $cardLables = $project->labels()->get(['id', 'name', "color"]);
+
+        $data['members'] = $members;
+        $data['cardLabels'] = $cardLables;
         return $this->respond($data);
     }
 
