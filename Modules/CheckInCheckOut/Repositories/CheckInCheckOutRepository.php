@@ -11,6 +11,7 @@ namespace Modules\CheckInCheckOut\Repositories;
 
 use App\Base;
 use App\ClassLesson;
+use App\Shift;
 use App\TeachingLesson;
 use Modules\CheckInCheckOut\Entities\AppSession;
 use Modules\CheckInCheckOut\Entities\CheckInCheckOut;
@@ -90,6 +91,7 @@ class CheckInCheckOutRepository
             $wifi = new Wifi();
             $wifi->name = $wifiName;
             $wifi->mac = $mac;
+            $wifi->base_id = $base_id;
             $wifi->save();
         }
     }
@@ -119,12 +121,23 @@ class CheckInCheckOutRepository
             $classLesson = $teachingLesson->classLesson;
             $start_time = $today . " " . $classLesson->start_time;
             $end_time = $today . " " . $classLesson->end_time;
-            $minutesInterval = $this->timeIntervalInMinutes($start_time, $end_time);
-            if ($minutesInterval < $timespan) {
-                $timespan = $minutesInterval;
-                $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
-                $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
-                $checkInCheckOut->shift_id = 0;
+
+            if ($checkInCheckOut->kind == 1) {
+                $minutesInterval = $this->timeIntervalInMinutes($start_time, $checkInCheckOut->created_at);
+                if ($minutesInterval < $timespan) {
+                    $timespan = $minutesInterval;
+                    $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
+                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+                    $checkInCheckOut->shift_id = 0;
+                }
+            } else if ($checkInCheckOut->kind == 2) {
+                $minutesInterval = $this->timeIntervalInMinutes($end_time, $checkInCheckOut->created_at);
+                if ($minutesInterval < $timespan) {
+                    $timespan = $minutesInterval;
+                    $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
+                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+                    $checkInCheckOut->shift_id = 0;
+                }
             }
         }
 
@@ -135,14 +148,52 @@ class CheckInCheckOutRepository
             $classLesson = $teachingLesson->classLesson;
             $start_time = $today . " " . $classLesson->start_time;
             $end_time = $today . " " . $classLesson->end_time;
-            $minutesInterval = $this->timeIntervalInMinutes($start_time, $end_time);
-            if ($minutesInterval < $timespan) {
-                $timespan = $minutesInterval;
-                $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
-                $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
-                $checkInCheckOut->shift_id = 0;
+
+            if ($checkInCheckOut->kind == 1) {
+                $minutesInterval = $this->timeIntervalInMinutes($start_time, $checkInCheckOut->created_at);
+                if ($minutesInterval < $timespan) {
+                    $timespan = $minutesInterval;
+                    $checkInCheckOut->teacher_teaching_lesson_id = 0;
+                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = $teachingLesson->id;
+                    $checkInCheckOut->shift_id = 0;
+                }
+            } else if ($checkInCheckOut->kind == 2) {
+                $minutesInterval = $this->timeIntervalInMinutes($end_time, $checkInCheckOut->created_at);
+                if ($minutesInterval < $timespan) {
+                    $timespan = $minutesInterval;
+                    $checkInCheckOut->teacher_teaching_lesson_id = 0;
+                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = $teachingLesson->id;
+                    $checkInCheckOut->shift_id = 0;
+                }
             }
         }
+
+        // shifts
+//        $shifts = Shift::whereDate("date", $today)
+//            ->where("teacher_id", $checkInCheckOut->user_id)->get();
+//        foreach ($shifts as $shift) {
+//            $classLesson = $teachingLesson->classLesson;
+//            $start_time = $today . " " . $classLesson->start_time;
+//            $end_time = $today . " " . $classLesson->end_time;
+//
+//            if ($checkInCheckOut->kind == 1) {
+//                $minutesInterval = $this->timeIntervalInMinutes($start_time, $checkInCheckOut->created_at);
+//                if ($minutesInterval < $timespan) {
+//                    $timespan = $minutesInterval;
+//                    $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
+//                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+//                    $checkInCheckOut->shift_id = 0;
+//                }
+//            } else if ($checkInCheckOut->kind == 2) {
+//                $minutesInterval = $this->timeIntervalInMinutes($end_time, $checkInCheckOut->created_at);
+//                if ($minutesInterval < $timespan) {
+//                    $timespan = $minutesInterval;
+//                    $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
+//                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+//                    $checkInCheckOut->shift_id = 0;
+//                }
+//            }
+//        }
 
     }
 
