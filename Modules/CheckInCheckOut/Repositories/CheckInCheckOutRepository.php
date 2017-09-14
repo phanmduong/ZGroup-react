@@ -10,6 +10,8 @@ namespace Modules\CheckInCheckOut\Repositories;
 
 
 use App\Base;
+use App\ClassLesson;
+use App\TeachingLesson;
 use Modules\CheckInCheckOut\Entities\AppSession;
 use Modules\CheckInCheckOut\Entities\CheckInCheckOut;
 use Modules\CheckInCheckOut\Entities\Device;
@@ -92,6 +94,58 @@ class CheckInCheckOutRepository
         }
     }
 
+    private function timeIntervalInMinutes($t1, $t2)
+    {
+        $t1 = strtotime($t1);
+        $t2 = strtotime($t2);
+        $diff = abs($t2 - $t1);
+        $minutes = $diff / 60;
+        return $minutes;
+    }
+
+    public function matchCheckinCheckout($checkInCheckOut)
+    {
+        $teacherTeachinglessonID = -1;
+        $taTeachingLessonID = -1;
+        $shiftID = -1;
+        $timespan = 100000;
+        $today = date("Y-m-d");
+        $classLessonIds = ClassLesson::where("time", $today)->pluck("id");
+
+        // teacher
+        $teachingLessons = TeachingLesson::whereIn("class_lesson_id", $classLessonIds)
+            ->where("teacher_id", $checkInCheckOut->user_id)->get();
+        foreach ($teachingLessons as $teachingLesson) {
+            $classLesson = $teachingLesson->classLesson;
+            $start_time = $today . " " . $classLesson->start_time;
+            $end_time = $today . " " . $classLesson->end_time;
+            $minutesInterval = $this->timeIntervalInMinutes($start_time, $end_time);
+            if ($minutesInterval < $timespan) {
+                $timespan = $minutesInterval;
+                $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
+                $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+                $checkInCheckOut->shift_id = 0;
+            }
+        }
+
+        // teaching assistant
+        $teachingLessons = TeachingLesson::whereIn("class_lesson_id", $classLessonIds)
+            ->where("teaching_assistant_id", $checkInCheckOut->user_id)->get();
+        foreach ($teachingLessons as $teachingLesson) {
+            $classLesson = $teachingLesson->classLesson;
+            $start_time = $today . " " . $classLesson->start_time;
+            $end_time = $today . " " . $classLesson->end_time;
+            $minutesInterval = $this->timeIntervalInMinutes($start_time, $end_time);
+            if ($minutesInterval < $timespan) {
+                $timespan = $minutesInterval;
+                $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
+                $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+                $checkInCheckOut->shift_id = 0;
+            }
+        }
+
+    }
+
     /**
      * @param $kind (check in: 1 | checkout: 2)
      * @param $status
@@ -141,10 +195,11 @@ class CheckInCheckOutRepository
 //                $checkInCheckOut->status = 1;
 //            }
         }
+        $device = Device::where('device_id', $device_id)->first();
         $checkInCheckOut->distance = $minDistance;
         $checkInCheckOut->base_id = $minBase->id;
         $checkInCheckOut->user_id = $user_id;
-        $checkInCheckOut->device_id = $device_id;
+        $checkInCheckOut->device_id = $device->id;
         $checkInCheckOut->save();
         return $checkInCheckOut;
     }

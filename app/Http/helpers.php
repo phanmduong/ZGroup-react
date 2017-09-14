@@ -36,6 +36,11 @@ function format_time($time)
     return rebuild_date('g:i a', $time);
 }
 
+function format_time_only_mysql($time)
+{
+    return rebuild_date('H:i:s', $time);
+}
+
 function format_time_shift($time)
 {
     return rebuild_date('H:i', $time);
@@ -93,8 +98,8 @@ function computeTimeInterval($start, $end)
 //    $dt->add(new DateInterval('PT200M'));
 //    $interval = $dt->diff(new DateTime($end));
 //    return $interval;
-    $t1 = StrToTime($start);
-    $t2 = StrToTime($end);
+    $t1 = strtotime($start);
+    $t2 = strtotime($end);
     $diff = $t2 - $t1;
     $hours = $diff / (60 * 60);
     return $hours;
@@ -1174,6 +1179,7 @@ function format_time_main($time)
     return rebuild_date('d/m/Y H:i:s', strtotime($time));
 }
 
+
 function weekdayViToNumber($weekday)
 {
     switch ($weekday) {
@@ -1475,6 +1481,7 @@ function is_delete_register($user, $register)
 
     return false;
 }
+
 function haversineGreatCircleDistance(
     $latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371008)
 {

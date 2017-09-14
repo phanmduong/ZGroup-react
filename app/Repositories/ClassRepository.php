@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 
 use App\StudyClass;
+use App\TeachingLesson;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 
@@ -184,8 +185,12 @@ class ClassRepository
 
                 $start_date->modify('next ' . $weekday);
                 $classLessons[$count]->time = $start_date->format('Y-m-d');
-
+                $classLessons[$count]->start_time = format_time_only_mysql(strtotime($studySession->start_time));
+                $classLessons[$count]->end_time = format_time_only_mysql(strtotime($studySession->end_time));
                 $classLessons[$count]->save();
+
+                $class = $classLessons[$count]->studyClass;
+                $this->renderTeachingLessons($classLessons[$count]->id, $class->teacher_id, $class->teaching_assistant_id);
 
                 $count++;
                 if ($count == $duration) {
@@ -193,5 +198,18 @@ class ClassRepository
                 }
             }
         }
+    }
+
+    public function renderTeachingLessons($classLessonId, $teacherId, $teachingAssitantId)
+    {
+        $teachingLesson = TeachingLesson::where('class_lesson_id', $classLessonId)->first();
+        if (is_null($teachingLesson)) {
+            $teachingLesson = new TeachingLesson();
+            $teachingLesson->class_lesson_id = $classLessonId;
+            $teachingLesson->teaching_assistant_id = $teachingAssitantId;
+            $teachingLesson->teacher_id = $teacherId;
+            $teachingLesson->save();
+        }
+
     }
 }
