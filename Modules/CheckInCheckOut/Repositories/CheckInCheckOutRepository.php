@@ -110,7 +110,7 @@ class CheckInCheckOutRepository
      */
     public function matchCheckinCheckout($checkInCheckOut)
     {
-        $timespan = 100000;
+        $timespan = 30;
         $today = date("Y-m-d");
         $classLessonIds = ClassLesson::where("time", $today)->pluck("id");
 
