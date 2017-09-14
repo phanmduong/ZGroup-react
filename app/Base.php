@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\CheckInCheckOut\Entities\Wifi;
 
 class Base extends Model
 {
@@ -20,5 +21,10 @@ class Base extends Model
     public function classes()
     {
         return $this->hasMany('App\StudyClass', 'base_id');
+    }
+
+    public function wifis()
+    {
+        return $this->hasMany(Wifi::class, "base_id");
     }
 }

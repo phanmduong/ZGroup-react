@@ -23,9 +23,14 @@ class CheckInCheckOutController extends ManageApiController
         $base = Base::find($base_id);
 
         $distance = haversineGreatCircleDistance($lat, $long, $base->latitude, $base->longtitude);
-        dd($distance);
+
+        if ($distance < $base->distance_allow) {
+            $inRange = true;
+        } else {
+            $inRange = false;
+        }
         return $this->respondSuccessWithStatus([
-            "in_allow_range" => true
+            "in_allow_range" => $inRange
         ]);
     }
 
