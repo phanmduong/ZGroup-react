@@ -949,7 +949,7 @@ class HomeController extends ManageController
     {
         $courses = Course::all();
         $this->data['courses'] = $courses;
-        $this->data['staffs'] = User::where('role', 1)->get();
+        $this->data['staffs'] = User::where('role', ">", 0)->get();
         $gens = Gen::all();
         $this->data['gens'] = $gens;
         $this->data['isEdit'] = true;

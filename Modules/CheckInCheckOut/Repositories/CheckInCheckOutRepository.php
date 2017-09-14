@@ -105,11 +105,11 @@ class CheckInCheckOutRepository
         return $minutes;
     }
 
+    /**
+     * @param $checkInCheckOut
+     */
     public function matchCheckinCheckout($checkInCheckOut)
     {
-        $teacherTeachinglessonID = -1;
-        $taTeachingLessonID = -1;
-        $shiftID = -1;
         $timespan = 100000;
         $today = date("Y-m-d");
         $classLessonIds = ClassLesson::where("time", $today)->pluck("id");
@@ -169,32 +169,32 @@ class CheckInCheckOutRepository
         }
 
         // shifts
-//        $shifts = Shift::whereDate("date", $today)
-//            ->where("teacher_id", $checkInCheckOut->user_id)->get();
-//        foreach ($shifts as $shift) {
-//            $classLesson = $teachingLesson->classLesson;
-//            $start_time = $today . " " . $classLesson->start_time;
-//            $end_time = $today . " " . $classLesson->end_time;
-//
-//            if ($checkInCheckOut->kind == 1) {
-//                $minutesInterval = $this->timeIntervalInMinutes($start_time, $checkInCheckOut->created_at);
-//                if ($minutesInterval < $timespan) {
-//                    $timespan = $minutesInterval;
-//                    $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
-//                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
-//                    $checkInCheckOut->shift_id = 0;
-//                }
-//            } else if ($checkInCheckOut->kind == 2) {
-//                $minutesInterval = $this->timeIntervalInMinutes($end_time, $checkInCheckOut->created_at);
-//                if ($minutesInterval < $timespan) {
-//                    $timespan = $minutesInterval;
-//                    $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
-//                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
-//                    $checkInCheckOut->shift_id = 0;
-//                }
-//            }
-//        }
+        $shifts = Shift::where("date", $today)
+            ->where("user_id", $checkInCheckOut->user_id)->get();
+        foreach ($shifts as $shift) {
+            $shiftSession = $shift->shift_session;
+            $start_time = $today . " " . $shiftSession->start_time;
+            $end_time = $today . " " . $shiftSession->end_time;
 
+            if ($checkInCheckOut->kind == 1) {
+                $minutesInterval = $this->timeIntervalInMinutes($start_time, $checkInCheckOut->created_at);
+                if ($minutesInterval < $timespan) {
+                    $timespan = $minutesInterval;
+                    $checkInCheckOut->teacher_teaching_lesson_id = 0;
+                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+                    $checkInCheckOut->shift_id = $shift->id;
+                }
+            } else if ($checkInCheckOut->kind == 2) {
+                $minutesInterval = $this->timeIntervalInMinutes($end_time, $checkInCheckOut->created_at);
+                if ($minutesInterval < $timespan) {
+                    $timespan = $minutesInterval;
+                    $checkInCheckOut->teacher_teaching_lesson_id = 0;
+                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+                    $checkInCheckOut->shift_id = $shift->id;
+                }
+            }
+        }
+        $checkInCheckOut->save();
     }
 
     /**
@@ -250,8 +250,9 @@ class CheckInCheckOutRepository
         $checkInCheckOut->distance = $minDistance;
         $checkInCheckOut->base_id = $minBase->id;
         $checkInCheckOut->user_id = $user_id;
-        $checkInCheckOut->device_id = $device->id;
+        $checkInCheckOut->device_id = $device ? $device->id : 0;
         $checkInCheckOut->save();
+        $this->matchCheckinCheckout($checkInCheckOut);
         return $checkInCheckOut;
     }
 
