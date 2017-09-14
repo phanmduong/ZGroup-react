@@ -116,7 +116,7 @@ class CheckInCheckOutController extends ManageApiController
             return $this->respondSuccessWithStatus([
                 "check_in" => [
                     'time' => format_time(strtotime($checkIn->created_at)),
-                    'base' => $checkIn->base->name . ' ' . $checkIn->base->address,
+                    'base' => $checkIn->base->name,
 
                 ],
                 "message" => "Check in thành công"
