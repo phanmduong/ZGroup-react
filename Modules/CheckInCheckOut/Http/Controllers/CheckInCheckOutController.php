@@ -44,7 +44,12 @@ class CheckInCheckOutController extends ManageApiController
             return $this->respondSuccessWithStatus(["message" => "OK"]);
         } else {
             $user = User::find($check);
-            return $this->respondErrorWithStatus(["message" => "Thiết bị này là của " . $user->name]);
+            return $this->respondErrorWithStatus([
+                "device_user" => [
+                    'name' => $user->name,
+                    'id' => $user->id
+                ]
+            ]);
         }
 
     }
