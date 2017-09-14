@@ -4,6 +4,7 @@ namespace Modules\CheckInCheckOut\Http\Controllers;
 
 use App\Base;
 use App\Http\Controllers\ManageApiController;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\CheckInCheckOut\Repositories\CheckInCheckOutRepository;
@@ -19,6 +20,35 @@ class CheckInCheckOutController extends ManageApiController
         $this->checkInCheckOutRepository = $checkInCheckOutRepository;
     }
 
+    public function checkDevice(Request $request)
+    {
+        $device_id = $request->device_id;
+        $os = $request->device_os;
+        $device_name = $request->device_name;
+        $message = "";
+        if (is_null($device_id)) {
+            $message .= "Bạn cần truyền lên device_id\n";
+        }
+        if (is_null($os)) {
+            $message .= "Bạn cần truyền lên device_os\n";
+        }
+        if (is_null($device_name)) {
+            $message .= "Bạn cần truyền lên device_name\n";
+        }
+        if ($message !== "") {
+            return $this->responseBadRequest($message);
+        }
+        $user_id = $this->user->id;
+        $this->checkInCheckOutRepository->addAppSession($device_id, $user_id);
+        $check = $this->checkInCheckOutRepository->checkDevice($device_name, $os, $device_id, $user_id);
+        if ($check === 0) {
+            return $this->respondSuccessWithStatus(["message" => "OK"]);
+        } else {
+            $user = User::find($check);
+            return $this->respondErrorWithStatus(["message" => "Thiết bị này là của " . $user->name]);
+        }
+
+    }
 
     /**
      * Đo khoảng cách từ điểm A(long1, la1) và điểm B(long2, la2) xem có lớn hơn allowdistance(khoảng cách cho phép) không.
@@ -41,7 +71,8 @@ class CheckInCheckOutController extends ManageApiController
             $inRange = false;
         }
         return $this->respondSuccessWithStatus([
-            "in_allow_range" => $inRange
+            "in_allow_range" => $inRange,
+            "distance" => $distance
         ]);
     }
 
@@ -87,6 +118,7 @@ class CheckInCheckOutController extends ManageApiController
         $lat = $request->lat;
         $device_id = $request->device_id;
         $mac = $request->mac;
+        $wifiName = $request->wifi_name;
 
         $message = "";
         if (is_null($long)) {
@@ -101,10 +133,13 @@ class CheckInCheckOutController extends ManageApiController
         if (is_null($mac)) {
             $message .= "Bạn cần truyền lên mac\n";
         }
+        if (is_null($mac)) {
+            $message .= "Bạn cần truyền lên wifi_name\n";
+        }
         if ($message !== "") {
             return $this->responseBadRequest($message);
         }
-        $checkIn = $this->checkInCheckOutRepository->addCheckInCheckOut(2, $long, $lat, $this->user->id, $device_id, $mac);
+        $checkIn = $this->checkInCheckOutRepository->addCheckInCheckOut(2, $long, $lat, $this->user->id, $device_id, $mac, $wifiName);
         if ($checkIn->status === 1) {
             return $this->respondSuccessWithStatus(["message" => "Check in thành công"]);
         }

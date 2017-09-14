@@ -79,6 +79,17 @@ class CheckInCheckOutRepository
         return $wifi;
     }
 
+    public function setWifi($wifiName, $mac, $base_id)
+    {
+        $wifi = $this->getWifi($mac, $base_id);
+        if (is_null($wifi)) {
+            $wifi = new Wifi();
+            $wifi->name = $wifiName;
+            $wifi->mac = $mac;
+            $wifi->save();
+        }
+    }
+
     /**
      * @param $kind (check in: 1 | checkout: 2)
      * @param $status
@@ -92,7 +103,7 @@ class CheckInCheckOutRepository
      * @param $mac
      * @return CheckInCheckOut
      */
-    public function addCheckInCheckOut($kind, $long, $lat, $user_id, $device_id, $mac)
+    public function addCheckInCheckOut($kind, $long, $lat, $user_id, $device_id, $mac, $wifiName)
     {
         $checkInCheckOut = new CheckInCheckOut();
         $checkInCheckOut->kind = $kind;
@@ -119,12 +130,14 @@ class CheckInCheckOutRepository
         if ($minDistance > $minBase->distance_allow) {
             $checkInCheckOut->status = 3;
         } else {
-            $wifi = $this->getWifi($mac, $minBase->id);
-            if (is_null($wifi)) {
-                $checkInCheckOut->status = 2;
-            } else {
-                $checkInCheckOut->status = 1;
-            }
+            $this->setWifi($wifiName, $mac, $minBase->id);
+            $checkInCheckOut->status = 1;
+//            $wifi = $this->getWifi($mac, $minBase->id);
+//            if (is_null($wifi)) {
+//                $checkInCheckOut->status = 2;
+//            } else {
+//                $checkInCheckOut->status = 1;
+//            }
         }
         $checkInCheckOut->distance = $minDistance;
         $checkInCheckOut->base_id = $minBase->id;

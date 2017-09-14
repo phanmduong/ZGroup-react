@@ -4,4 +4,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'chec
     Route::get('/allow-distance', 'CheckInCheckOutController@getDistance');
     Route::post('/check-in', 'CheckInCheckOutController@checkIn');
     Route::post('/check-out', 'CheckInCheckOutController@checkOut');
+    Route::post('/check-device', 'CheckInCheckOutController@checkDevice');
 });
