@@ -19,4 +19,12 @@ class GenRepository
                 'name' => $gen->name
             ];
     }
+
+    public function gens($gens)
+    {
+        if ($gens)
+            return $gens->map(function ($gen) {
+                return $this->gen($gen);
+            });
+    }
 }

@@ -2,11 +2,17 @@
 
 namespace Modules\StudyClass\Http\Controllers;
 
+use App\Course;
+use App\Gen;
 use App\Group;
 use App\Http\Controllers\ManageApiController;
 use App\Repositories\ClassRepository;
 use App\Repositories\CourseRepository;
+use App\Repositories\RoomRepository;
+use App\Repositories\ScheduleRepository;
 use App\Repositories\UserRepository;
+use App\Room;
+use App\Schedule;
 use App\StudyClass;
 use App\Repositories\GenRepository;
 use Illuminate\Http\Request;
@@ -16,11 +22,22 @@ use Illuminate\Routing\Controller;
 class ManageClassApiController extends ManageApiController
 {
     protected $classRepository;
+    protected $scheduleRepository;
+    protected $roomRepository;
+    protected $courseRepository;
+    protected $genRepository;
+    protected $userRepository;
 
-    public function __construct(ClassRepository $classRepository)
+    public function __construct(ClassRepository $classRepository, ScheduleRepository $scheduleRepository, RoomRepository $roomRepository,
+                                CourseRepository $courseRepository, GenRepository $genRepository, UserRepository $userRepository)
     {
         parent::__construct();
         $this->classRepository = $classRepository;
+        $this->scheduleRepository = $scheduleRepository;
+        $this->roomRepository = $roomRepository;
+        $this->courseRepository = $courseRepository;
+        $this->userRepository = $userRepository;
+        $this->genRepository = $genRepository;
     }
 
     public function get_classes(Request $request)
@@ -149,6 +166,95 @@ class ManageClassApiController extends ManageApiController
 
         if ($attendances) {
             $data['attendances'] = $attendances;
+        }
+
+
+        return $this->respondSuccessWithStatus([
+            'class' => $data
+        ]);
+    }
+
+    public function info_create_class()
+    {
+
+
+        $schedules = $this->scheduleRepository->schedules(Schedule::all());
+        $rooms = $this->roomRepository->rooms(Room::orderBy('base_id')->get());
+        $courses = $this->courseRepository->courses(Course::all());
+        $gens = $this->genRepository->gens(Gen::orderBy('id', 'desc')->get());
+        $staffs = $this->userRepository->staffs();
+
+        return $this->respondSuccessWithStatus([
+            'schedules' => $schedules,
+            'rooms' => $rooms,
+            'courses' => $courses,
+            'gens' => $gens,
+            'staffs' => $staffs,
+        ]);
+
+    }
+
+    public function create_class(Request $request)
+    {
+        if ($request->id == -1) {
+            $class = new StudyClass;
+
+        } else {
+            $class = StudyClass::find($request->id);
+        }
+
+        $class->datestart = date('Y-m-d', strtotime($request->datestart));
+        $class->name = $request->name;
+        $class->schedule_id = $request->schedule_id;
+        $class->room_id = $request->room_id;
+        $class->base_id = Room::find($class->room_id)->base->id;
+        $class->description = $request->description;
+
+        $class->gen_id = $request->gen_id;
+        $class->target = $request->target;
+        $class->regis_target = $request->regis_target;
+        $class->course_id = $request->course_id;
+        $class->teaching_assistant_id = $request->teaching_assistant_id;
+        $class->teacher_id = $request->teacher_id;
+        $class->study_time = $request->study_time;
+        $class->status = ($request->status == null) ? 0 : 1;
+
+        $class->save();
+
+
+        if ($request->id == -1) {
+            $group = new Group();
+            $group->name = "Lớp " . $class->name;
+            $group->creator_id = $this->user->id;
+            $group->class_id = $class->id;
+            $group->avatar_url = $class->course->icon_url;
+            $group->link = extract_class_name($class->name);
+            $group->save();
+
+
+            // create the class_lessons for this class
+            generate_class_lesson($class);
+
+
+        } else {
+            $group = Group::where("class_id", $class->id)->first();
+            if ($group) {
+                $group->name = "Lớp " . $class->name;
+                $group->avatar_url = $class->course->icon_url;
+                $group->link = extract_class_name($class->name);
+                $group->save();
+            }
+        }
+
+        if ($request->schedule_id) {
+            // auto generate time for each class_lesson
+            set_class_lesson_time($class);
+        }
+
+        $data = $this->classRepository->get_class($class);
+
+        if ($this->user->role == 2) {
+            $data['edit_status'] = true;
         }
 
 

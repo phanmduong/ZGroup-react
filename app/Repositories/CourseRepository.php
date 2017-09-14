@@ -20,4 +20,13 @@ class CourseRepository
                 'icon_url' => $course->icon_url,
             ];
     }
+
+    public function courses($courses)
+    {
+        if ($courses) {
+            return $courses->map(function ($course) {
+                return $this->course($course);
+            });
+        }
+    }
 }
