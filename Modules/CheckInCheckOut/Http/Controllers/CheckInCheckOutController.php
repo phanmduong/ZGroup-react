@@ -44,7 +44,12 @@ class CheckInCheckOutController extends ManageApiController
             return $this->respondSuccessWithStatus(["message" => "OK"]);
         } else {
             $user = User::find($check);
-            return $this->respondErrorWithStatus(["message" => "Thiết bị này là của " . $user->name]);
+            return $this->respondErrorWithStatus([
+                "device_user" => [
+                    'name' => $user->name,
+                    'id' => $user->id
+                ]
+            ]);
         }
 
     }
@@ -82,6 +87,7 @@ class CheckInCheckOutController extends ManageApiController
         $lat = $request->lat;
         $device_id = $request->device_id;
         $mac = $request->mac;
+        $wifiName = $request->wifi_name;
 
         $message = "";
         if (is_null($long)) {
@@ -96,10 +102,16 @@ class CheckInCheckOutController extends ManageApiController
         if (is_null($mac)) {
             $message .= "Bạn cần truyền lên mac\n";
         }
+
+        if (is_null($wifiName)) {
+            $message .= "Bạn cần truyền lên wifi_name\n";
+        }
+
         if ($message !== "") {
             return $this->responseBadRequest($message);
         }
-        $checkIn = $this->checkInCheckOutRepository->addCheckInCheckOut(1, $long, $lat, $this->user->id, $device_id, $mac);
+
+        $checkIn = $this->checkInCheckOutRepository->addCheckInCheckOut(1, $long, $lat, $this->user->id, $device_id, $mac, $wifiName);
         if ($checkIn->status === 1) {
             return $this->respondSuccessWithStatus(["message" => "Check in thành công"]);
         }
