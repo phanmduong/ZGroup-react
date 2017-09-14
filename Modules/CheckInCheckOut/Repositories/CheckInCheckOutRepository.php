@@ -81,24 +81,23 @@ class CheckInCheckOutRepository
 
     /**
      * @param $kind (check in: 1 | checkout: 2)
-     * @param $status (successful: 1 | fail: 2)
+     * @param $status
+     *      1 if everything is correct
+     *      2 if wifi is invalid
+     *      3 if the location is too far from base
      * @param $long
      * @param $lat
      * @param $user_id
      * @param $device_id
      * @param $mac
-     * @return int
-     *      1 if everything is correct
-     *      2 if wifi is invalid
-     *      3 if the location is too far from base
+     * @return CheckInCheckOut
      */
-    public function addCheckInCheckOut($kind, $status, $long, $lat, $user_id, $device_id, $mac)
+    public function addCheckInCheckOut($kind, $long, $lat, $user_id, $device_id, $mac)
     {
         $checkInCheckOut = new CheckInCheckOut();
         $checkInCheckOut->kind = $kind;
-        $checkInCheckOut->status = $status;
-        $checkInCheckOut->long = $long;
-        $checkInCheckOut->lat = $lat;
+        $checkInCheckOut->longtitude = $long;
+        $checkInCheckOut->latitude = $lat;
         $bases = Base::all();
         $minDistance = -1;
         $minBase = null;
@@ -118,19 +117,21 @@ class CheckInCheckOutRepository
 
 
         if ($minDistance > $minBase->distance_allow) {
-            return 3;
+            $checkInCheckOut->status = 3;
         } else {
             $wifi = $this->getWifi($mac, $minBase->id);
             if (is_null($wifi)) {
-                return 2;
+                $checkInCheckOut->status = 2;
             } else {
-                $checkInCheckOut->base_id = $minBase->id;
-                $checkInCheckOut->user_id = $user_id;
-                $checkInCheckOut->device_id = $device_id;
-                $checkInCheckOut->save();
-                return 1;
+                $checkInCheckOut->status = 1;
             }
         }
+        $checkInCheckOut->distance = $minDistance;
+        $checkInCheckOut->base_id = $minBase->id;
+        $checkInCheckOut->user_id = $user_id;
+        $checkInCheckOut->device_id = $device_id;
+        $checkInCheckOut->save();
+        return $checkInCheckOut;
     }
 
 }

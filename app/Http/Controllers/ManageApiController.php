@@ -38,6 +38,7 @@ class ManageApiController extends Controller
         ]);
     }
 
+
     public function respondSuccess($message)
     {
         return $this->respond([
