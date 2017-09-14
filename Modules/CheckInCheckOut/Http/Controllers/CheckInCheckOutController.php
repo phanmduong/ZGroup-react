@@ -39,7 +39,6 @@ class CheckInCheckOutController extends ManageApiController
             return $this->responseBadRequest($message);
         }
         $user_id = $this->user->id;
-        $this->checkInCheckOutRepository->addAppSession($device_id, $user_id);
         $check = $this->checkInCheckOutRepository->checkDevice($device_name, $os, $device_id, $user_id);
         if ($check === 0) {
             return $this->respondSuccessWithStatus(["message" => "OK"]);

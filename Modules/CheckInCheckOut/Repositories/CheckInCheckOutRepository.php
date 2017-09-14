@@ -59,8 +59,10 @@ class CheckInCheckOutRepository
             $device->device_id = $device_id;
             $device->user_id = $user_id;
             $device->save();
+            $this->addAppSession($device->id, $user_id);
             return 0;
         } else {
+            $this->addAppSession($device->id, $user_id);
             if ($device->user_id === $user_id) {
                 return 0;
             } else {

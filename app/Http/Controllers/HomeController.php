@@ -18,6 +18,7 @@ use App\Link;
 use App\Order;
 use App\Product;
 use App\Register;
+use App\Repositories\ClassRepository;
 use App\Room;
 use App\Schedule;
 use App\StudyClass;
@@ -41,10 +42,15 @@ use Maatwebsite\Excel\Facades\Excel;
 class HomeController extends ManageController
 {
     protected $notificationTransformer;
+    protected $classRepository;
 
-    public function __construct(NotificationTransformer $notificationTransformer)
+    public function __construct(
+        NotificationTransformer $notificationTransformer,
+        ClassRepository $classRepository
+    )
     {
         parent::__construct();
+        $this->classRepository = $classRepository;
         $this->notificationTransformer = $notificationTransformer;
     }
 
@@ -916,7 +922,8 @@ class HomeController extends ManageController
 
 
             // create the class_lessons for this class
-            generate_class_lesson($class);
+//            generate_class_lesson($class);
+            $this->classRepository->generateClassLesson($class);
 
 
         } else {
@@ -931,7 +938,8 @@ class HomeController extends ManageController
 
         if ($request->schedule_id) {
             // auto generate time for each class_lesson
-            set_class_lesson_time($class);
+//            set_class_lesson_time($class);
+            $this->classRepository->setClassLessonTime($class);
         }
 
         return redirect('manage/classes');

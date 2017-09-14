@@ -10,6 +10,8 @@ namespace App\Repositories;
 
 
 use App\StudyClass;
+use DateTime;
+use Illuminate\Support\Facades\DB;
 
 class ClassRepository
 {
@@ -136,5 +138,60 @@ class ClassRepository
         }
 
         return false;
+    }
+
+    public function generateClassLesson($class)
+    {
+        $course = $class->course;
+        $class_lessons = $class->lessons;
+        $course_lessons = $course->lessons;
+
+        foreach ($course_lessons as $lesson) {
+            if (!($class->lessons->contains($lesson))) {
+                DB::table('class_lesson')->insert([
+                    ['class_id' => $class->id, 'lesson_id' => $lesson->id]
+                ]);
+                $class_lessons->push($lesson);
+            }
+        }
+        foreach ($class_lessons as $lesson) {
+            if (!($course_lessons->contains($lesson))) {
+                DB::table('class_lesson')->where('lesson_id', '=', $lesson->id)->where('class_id', $class->id)->delete();
+            }
+        }
+    }
+
+    public function setClassLessonTime($class)
+    {
+        $start_date = new DateTime(date('Y-m-d', strtotime($class->datestart)));
+        $start_date->modify('yesterday');
+
+        $schedule = $class->schedule;
+        $studySessions = $schedule->studySessions;
+
+        $classLessons = $class->classLessons()
+            ->join('lessons', 'class_lesson.lesson_id', '=', 'lessons.id')
+            ->orderBy('lessons.order')->select('class_lesson.*')->get();
+
+
+        $duration = $class->course->duration;
+        $week = ceil($duration / count($studySessions));
+        $count = 0;
+
+        for ($i = 0; $i < $week; $i++) {
+            foreach ($studySessions as $studySession) {
+                $weekday = weekdayViToEn($studySession->weekday);
+
+                $start_date->modify('next ' . $weekday);
+                $classLessons[$count]->time = $start_date->format('Y-m-d');
+
+                $classLessons[$count]->save();
+
+                $count++;
+                if ($count == $duration) {
+                    break;
+                }
+            }
+        }
     }
 }
