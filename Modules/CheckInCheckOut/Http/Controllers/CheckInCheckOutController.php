@@ -137,7 +137,7 @@ class CheckInCheckOutController extends ManageApiController
                     'message' => "Khoảng cách quá xa so với cơ sở gần nhất",
                     "check_in" => [
                         'time' => format_time(strtotime($checkIn->created_at)),
-                        'base' => "Bạn ở quá xab"
+                        'base' => "Bạn ở quá xa"
                     ],
                 ]
             );
@@ -198,7 +198,7 @@ class CheckInCheckOutController extends ManageApiController
                     'message' => "Khoảng cách quá xa so với cơ sở gần nhất",
                     "check_in" => [
                         'time' => format_time(strtotime($checkOut->created_at)),
-                        'base' => "Bạn ở quá xab"
+                        'base' => "Bạn ở quá xa"
                     ],
                 ]
             );
