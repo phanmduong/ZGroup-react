@@ -30,6 +30,14 @@ class ManageApiController extends Controller
         ]);
     }
 
+    public function respondErrorWithData($data)
+    {
+        return $this->respond([
+            'data' => $data,
+            'status' => 0
+        ]);
+    }
+
     public function respondSuccessWithStatus($data)
     {
         return $this->respond([
