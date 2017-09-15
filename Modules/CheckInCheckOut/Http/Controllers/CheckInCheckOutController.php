@@ -113,7 +113,7 @@ class CheckInCheckOutController extends ManageApiController
 
         $checkIn = $this->checkInCheckOutRepository->addCheckInCheckOut(1, $long, $lat, $this->user->id, $device_id, $mac, $wifiName);
         if ($checkIn->status === 1) {
-            return $this->respondSuccessWithStatus(["message" => "Check in thành công"]);
+            return $this->respondSuccessWithStatus(["message" => $checkIn->message]);
         }
         if ($checkIn->status === 2) {
             return $this->respondErrorWithStatus("Mạng Wifi không hợp lệ");
@@ -150,14 +150,14 @@ class CheckInCheckOutController extends ManageApiController
         if ($message !== "") {
             return $this->responseBadRequest($message);
         }
-        $checkIn = $this->checkInCheckOutRepository->addCheckInCheckOut(2, $long, $lat, $this->user->id, $device_id, $mac, $wifiName);
-        if ($checkIn->status === 1) {
-            return $this->respondSuccessWithStatus(["message" => "Check in thành công"]);
+        $checkOut = $this->checkInCheckOutRepository->addCheckInCheckOut(2, $long, $lat, $this->user->id, $device_id, $mac, $wifiName);
+        if ($checkOut->status === 1) {
+            return $this->respondSuccessWithStatus(["message" => $checkOut]);
         }
-        if ($checkIn->status === 2) {
+        if ($checkOut->status === 2) {
             return $this->respondErrorWithStatus("Mạng Wifi không hợp lệ");
         }
-        if ($checkIn->status === 3) {
+        if ($checkOut->status === 3) {
             return $this->respondErrorWithStatus("Khoảng cách quá xa so với cơ sở gần nhất");
         }
 

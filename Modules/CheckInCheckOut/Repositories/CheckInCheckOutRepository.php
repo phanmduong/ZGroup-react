@@ -13,6 +13,8 @@ use App\Base;
 use App\ClassLesson;
 use App\Shift;
 use App\TeachingLesson;
+use DateTime;
+use Illuminate\Support\Facades\DB;
 use Modules\CheckInCheckOut\Entities\AppSession;
 use Modules\CheckInCheckOut\Entities\CheckInCheckOut;
 use Modules\CheckInCheckOut\Entities\Device;
@@ -107,13 +109,23 @@ class CheckInCheckOutRepository
 
     /**
      * @param $checkInCheckOut
+     * @return mixed
      */
     public function matchCheckinCheckout($checkInCheckOut)
     {
         $timespan = 30;
         $today = date("Y-m-d");
         $classLessonIds = ClassLesson::where("time", $today)->pluck("id");
-
+        $checkInCheckOut->message = "Hiện đang không có lớp hoặc ca trực nào khả dụng.";
+        $date = new DateTime;
+        $date->modify('-30 minutes');
+        $formatted_date = $date->format('Y-m-d H:i:s');
+        $count = CheckInCheckOut::where("user_id", $checkInCheckOut->user_id)
+            ->where("created_at", ">=", $formatted_date)->count();
+        if ($count >= 5) {
+            $checkInCheckOut->message = "Chức năng check in/ check out hiện tại đang bị tạm khoá vì phát hiện nghi vấn. Vui lòng chờ 30 phút để có thể check in/ check out trở lại.";
+            return $checkInCheckOut;
+        }
         // teacher
         $teachingLessons = TeachingLesson::whereIn("class_lesson_id", $classLessonIds)
             ->where("teacher_id", $checkInCheckOut->user_id)->get();
@@ -121,7 +133,8 @@ class CheckInCheckOutRepository
             $classLesson = $teachingLesson->classLesson;
             $start_time = $today . " " . $classLesson->start_time;
             $end_time = $today . " " . $classLesson->end_time;
-
+            $class = $classLesson->studyClass;
+            $lesson = $classLesson->lesson;
             if ($checkInCheckOut->kind == 1) {
                 $minutesInterval = $this->timeIntervalInMinutes($start_time, $checkInCheckOut->created_at);
                 if ($minutesInterval < $timespan) {
@@ -129,7 +142,9 @@ class CheckInCheckOutRepository
                     $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
                     $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
                     $checkInCheckOut->shift_id = 0;
+                    $checkInCheckOut->message = "Bạn vừa check in thành công vào lớp " . $class->name . " với vai trò là giảng viên buổi " . $lesson->order;
                 }
+
             } else if ($checkInCheckOut->kind == 2) {
                 $minutesInterval = $this->timeIntervalInMinutes($end_time, $checkInCheckOut->created_at);
                 if ($minutesInterval < $timespan) {
@@ -137,7 +152,9 @@ class CheckInCheckOutRepository
                     $checkInCheckOut->teacher_teaching_lesson_id = $teachingLesson->id;
                     $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
                     $checkInCheckOut->shift_id = 0;
+                    $checkInCheckOut->message = "Bạn vừa check out thành công vào lớp " . $class->name . " với vai trò là giảng viên buổi " . $lesson->order;
                 }
+
             }
         }
 
@@ -148,7 +165,8 @@ class CheckInCheckOutRepository
             $classLesson = $teachingLesson->classLesson;
             $start_time = $today . " " . $classLesson->start_time;
             $end_time = $today . " " . $classLesson->end_time;
-
+            $class = $classLesson->studyClass;
+            $lesson = $classLesson->lesson;
             if ($checkInCheckOut->kind == 1) {
                 $minutesInterval = $this->timeIntervalInMinutes($start_time, $checkInCheckOut->created_at);
                 if ($minutesInterval < $timespan) {
@@ -156,6 +174,7 @@ class CheckInCheckOutRepository
                     $checkInCheckOut->teacher_teaching_lesson_id = 0;
                     $checkInCheckOut->teaching_assistant_teaching_lesson_id = $teachingLesson->id;
                     $checkInCheckOut->shift_id = 0;
+                    $checkInCheckOut->message = "Bạn vừa check in thành công vào lớp " . $class->name . " với vai trò là trợ giảng buổi " . $lesson->order;
                 }
             } else if ($checkInCheckOut->kind == 2) {
                 $minutesInterval = $this->timeIntervalInMinutes($end_time, $checkInCheckOut->created_at);
@@ -164,6 +183,7 @@ class CheckInCheckOutRepository
                     $checkInCheckOut->teacher_teaching_lesson_id = 0;
                     $checkInCheckOut->teaching_assistant_teaching_lesson_id = $teachingLesson->id;
                     $checkInCheckOut->shift_id = 0;
+                    $checkInCheckOut->message = "Bạn vừa check out thành công vào lớp " . $class->name . " với vai trò là trợ giảng buổi " . $lesson->order;
                 }
             }
         }
@@ -176,6 +196,7 @@ class CheckInCheckOutRepository
             $start_time = $today . " " . $shiftSession->start_time;
             $end_time = $today . " " . $shiftSession->end_time;
 
+
             if ($checkInCheckOut->kind == 1) {
                 $minutesInterval = $this->timeIntervalInMinutes($start_time, $checkInCheckOut->created_at);
                 if ($minutesInterval < $timespan) {
@@ -183,7 +204,9 @@ class CheckInCheckOutRepository
                     $checkInCheckOut->teacher_teaching_lesson_id = 0;
                     $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
                     $checkInCheckOut->shift_id = $shift->id;
+                    $checkInCheckOut->message = "Bạn vừa check in thành công " . $shiftSession->name . ($shiftSession->start_time . " - " . $shiftSession->end_time);
                 }
+
             } else if ($checkInCheckOut->kind == 2) {
                 $minutesInterval = $this->timeIntervalInMinutes($end_time, $checkInCheckOut->created_at);
                 if ($minutesInterval < $timespan) {
@@ -191,10 +214,14 @@ class CheckInCheckOutRepository
                     $checkInCheckOut->teacher_teaching_lesson_id = 0;
                     $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
                     $checkInCheckOut->shift_id = $shift->id;
+                    $checkInCheckOut->message = "Bạn vừa check out thành công " . $shiftSession->name . ($shiftSession->start_time . " - " . $shiftSession->end_time);
                 }
+
             }
         }
         $checkInCheckOut->save();
+        return $checkInCheckOut;
+
     }
 
     /**
@@ -252,7 +279,7 @@ class CheckInCheckOutRepository
         $checkInCheckOut->user_id = $user_id;
         $checkInCheckOut->device_id = $device ? $device->id : 0;
         $checkInCheckOut->save();
-        $this->matchCheckinCheckout($checkInCheckOut);
+
         return $checkInCheckOut;
     }
 
