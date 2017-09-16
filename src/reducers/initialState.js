@@ -116,8 +116,7 @@ export default {
 
     task: {
         comment: {
-            comments: [],
-            comment: {}
+            comments: []
         },
         projectDetail: {
             showModal: false,

@@ -774,3 +774,12 @@ export function submitProject(project) {
             });
     };
 }
+
+export function saveCardCommentSuccess(comment) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CREATE_CARD_COMMENT_SUCCESS,
+            comment
+        });
+    };
+}

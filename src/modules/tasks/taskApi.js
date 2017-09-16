@@ -4,6 +4,17 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+export function commentCard(value, cardId) {
+    let url = env.MANAGE_API_URL + `/card/${cardId}/comment`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        comment_content: value
+    });
+}
+
 
 export function loadProjects(page = 1, query = null) {
     let url = env.MANAGE_API_URL + "/projects?page=" + page;
