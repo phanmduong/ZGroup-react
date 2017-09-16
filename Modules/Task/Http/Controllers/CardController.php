@@ -187,7 +187,7 @@ class CardController extends ManageApiController
         if (is_null($content)) {
             return $this->respondErrorWithStatus("Params cần: comment_content, card_id");
         }
-        $comment = $this->cardRepository->saveCardComment($content, $commenter_id, $cardId);
+        $comment = $this->cardRepository->saveCardComment($content, $commenter_id, $cardId, $this->user);
         return $this->respondSuccessWithStatus(["comment" => $comment->transform()]);
     }
 
