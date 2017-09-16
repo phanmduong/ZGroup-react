@@ -351,12 +351,13 @@ class CheckInCheckOutRepository
         } else {
             $this->setWifi($wifiName, $mac, $minBase->id);
             $checkInCheckOut->status = 1;
-//            $wifi = $this->getWifi($mac, $minBase->id);
-//            if (is_null($wifi)) {
-//                $checkInCheckOut->status = 2;
-//            } else {
-//                $checkInCheckOut->status = 1;
-//            }
+            $wifi = $this->getWifi($mac, $minBase->id);
+            if (is_null($wifi)) {
+                $checkInCheckOut->status = 2;
+            } else {
+                $checkInCheckOut->status = 1;
+                $checkInCheckOut->wifi_id = $wifi->id;
+            }
         }
         $device = Device::where('device_id', $device_id)->first();
         $checkInCheckOut->distance = $minDistance;

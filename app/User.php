@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\CheckInCheckOut\Entities\CheckInCheckOut;
 use Modules\EmailMaketing\Entities\EmailForms;
 
 class User extends Authenticatable
@@ -259,8 +260,14 @@ class User extends Authenticatable
             ->withPivot('role', "adder_id");
     }
 
-    public function rules(){
+    public function rules()
+    {
         return $this->hasMany(Rule::class, 'creator_id');
+    }
+
+    public function checkInCheckOuts()
+    {
+        return $this->hasMany(CheckInCheckOut::class, "user_id");
     }
 }
 

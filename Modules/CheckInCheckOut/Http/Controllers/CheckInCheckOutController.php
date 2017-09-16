@@ -7,6 +7,7 @@ use App\Http\Controllers\ManageApiController;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\CheckInCheckOut\Entities\CheckInCheckOut;
 use Modules\CheckInCheckOut\Repositories\CheckInCheckOutRepository;
 
 class CheckInCheckOutController extends ManageApiController
@@ -78,6 +79,51 @@ class CheckInCheckOutController extends ManageApiController
             "in_allow_range" => $inRange,
             "distance" => $distance
         ]);
+    }
+
+    public function history()
+    {
+        $checkInCheckouts = $this->user->checkInCheckOuts()->orderBy("created_at", "desc")->paginate(20);
+        $items = $checkInCheckouts->map(function ($item) {
+            $data = [
+                "id" => $item->id,
+                "status" => $item->status,
+                "message" => $item->message
+            ];
+            if ($item->wifi) {
+                $data["wifi"] = $item->wifi->name;
+            }
+            if ($item->base) {
+                $data["base"] = $item->base->name;
+            }
+            if ($item->teacherTeachingLesson) {
+                $class = $item->teacherTeachingLesson->classLesson->studyClass;
+                $data["class"] = [
+                    "icon_url" => $class->course->icon_url,
+                    "name" => $class->name,
+                    "role" => "Giảng viên"
+                ];
+            }
+            if ($item->taTeachingLesson) {
+                $class = $item->taTeachingLesson->classLesson->studyClass;
+                $data["class"] = [
+                    "icon_url" => $class->course->icon_url,
+                    "name" => $class->name,
+                    "role" => "Trợ giảng"
+                ];
+            }
+            if ($item->shift) {
+                $shiftSession = $item->shift->shift_session;
+                $data["shift"] = [
+                    "name" => $shiftSession->name,
+                    "start_time" => $shiftSession->start_time,
+                    "end_time" => $shiftSession->end_time,
+                    "role" => "Nhân viên Sales"
+                ];
+            }
+            return $data;
+        });
+        return $this->respondWithPagination($checkInCheckouts, ["data" => $items]);
     }
 
 
