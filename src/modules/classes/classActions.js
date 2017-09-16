@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import * as classApi from './classApi';
 import * as helper from '../../helpers/helper';
+import {UPDATE_FORM_CREATE_CLASS} from "../../constants/actionTypes";
 
 /*eslint no-console: 0 */
 
@@ -93,6 +94,32 @@ export function changeClassStatus(classId) {
                 type: types.CHANGE_CLASS_STATUS_ERROR
             });
         });
+    };
+}
+
+export function infoCreateClass() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_INFO_CREATE_CLASS,
+        });
+        classApi.infoCreateClass()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_INFO_CREATE_CLASS_SUCCESS,
+                    infoCreateClass: res.data.data
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_INFO_CREATE_CLASS_ERROR
+            });
+        });
+    };
+}
+
+export function updateFormCreateClass(classData) {
+    return {
+      type: UPDATE_FORM_CREATE_CLASS,
+      class: classData,
     };
 }
 
