@@ -120,6 +120,7 @@ class CheckInCheckOutRepository
         $today = date("Y-m-d");
         $classLessonIds = ClassLesson::where("time", $today)->pluck("id");
         $checkInCheckOut->message = "Hiện đang không có lớp hoặc ca trực nào khả dụng.";
+        $checkInCheckOut->status = 4;
 
         // teacher
         $teachingLessons = TeachingLesson::whereIn("class_lesson_id", $classLessonIds)
@@ -224,6 +225,7 @@ class CheckInCheckOutRepository
                 ->where("created_at", ">=", $formatted_date)->count();
             if ($count >= 5) {
                 $checkInCheckOut->message = "Chức năng check in/ check out hiện tại đang bị tạm khoá vì phát hiện nghi vấn. Vui lòng chờ 30 phút để có thể check in/ check out trở lại.";
+                $checkInCheckOut->status = 4;
                 return $checkInCheckOut;
             }
         }
@@ -238,6 +240,7 @@ class CheckInCheckOutRepository
      *      1 if everything is correct
      *      2 if wifi is invalid
      *      3 if the location is too far from base
+     *      4 other errors
      * @param $long
      * @param $lat
      * @param $user_id

@@ -142,6 +142,15 @@ class CheckInCheckOutController extends ManageApiController
                 ]
             );
         }
+        if ($checkIn->status === 4) {
+            return $this->respondErrorWithData([
+                    'message' => $checkIn->message,
+                    "check_in" => [
+                        'time' => format_time(strtotime($checkIn->created_at)),
+                    ],
+                ]
+            );
+        }
     }
 
     public function checkOut(Request $request)
@@ -182,7 +191,15 @@ class CheckInCheckOutController extends ManageApiController
                 ],
                 "message" => $checkOut->message
             ]);
-
+        }
+        if ($checkOut->status === 4) {
+            return $this->respondErrorWithData([
+                    'message' => $checkOut->message,
+                    "check_in" => [
+                        'time' => format_time(strtotime($checkOut->created_at)),
+                    ],
+                ]
+            );
         }
         if ($checkOut->status === 2) {
             return $this->respondErrorWithData([
