@@ -209,6 +209,11 @@ class ClassRepository
             $teachingLesson->teaching_assistant_id = $teachingAssitantId;
             $teachingLesson->teacher_id = $teacherId;
             $teachingLesson->save();
+        } else {
+            $teachingLesson->class_lesson_id = $classLessonId;
+            $teachingLesson->teaching_assistant_id = $teachingAssitantId;
+            $teachingLesson->teacher_id = $teacherId;
+            $teachingLesson->save();
         }
 
     }
