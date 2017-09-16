@@ -243,7 +243,7 @@ class CheckInCheckOutRepository
                         $shiftArr = [$shift];
                         $isCheckin = true;
                         $sampleShift = $shift;
-                        while (1) {
+                        while ($sampleShift != null) {
                             $start_time = $sampleShift->shift_session->start_time;
                             $shiftSession = ShiftSession::where("end_time", $start_time)->first();
                             if (is_null($shiftSession)) break;
