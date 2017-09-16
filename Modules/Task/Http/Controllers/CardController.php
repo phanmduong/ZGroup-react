@@ -8,6 +8,7 @@ use App\Http\Controllers\ManageApiController;
 use App\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Modules\Task\Repositories\CardRepository;
 use Modules\Task\Repositories\ProjectRepository;
 use Modules\Task\Repositories\UserCardRepository;
 
@@ -15,12 +16,17 @@ class CardController extends ManageApiController
 {
     protected $userCardRepository;
     protected $projectRepository;
+    protected $cardRepository;
 
-    public function __construct(UserCardRepository $userCardRepository, ProjectRepository $projectRepository)
+    public function __construct(
+        CardRepository $cardRepository,
+        UserCardRepository $userCardRepository,
+        ProjectRepository $projectRepository)
     {
         parent::__construct();
         $this->userCardRepository = $userCardRepository;
         $this->projectRepository = $projectRepository;
+        $this->cardRepository = $cardRepository;
     }
 
     public function changeRoleProjectMember($projectId, $memberId, $role)
@@ -171,6 +177,19 @@ class CardController extends ManageApiController
 
         $this->userCardRepository->updateCalendarEvent($card->id);
         return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function commentCard(Request $request)
+    {
+        $content = $request->comment_content;
+        $commenter_id = $this->user->id;
+        $card_id = $request->card_id;
+
+        if (is_null($content) || is_null($card_id)) {
+            return $this->respondErrorWithStatus("Params cần: comment_content, card_id");
+        }
+        $comment = $this->cardRepository->saveCardComment($content, $commenter_id, $card_id);
+        return $this->respondSuccessWithStatus($comment);
     }
 
 

@@ -27,6 +27,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/project/{projectId}/user/{userId}', "CardController@assignProjectMember");
     Route::post('/card/{cardId}/file', "FileController@uploadFile");
     Route::delete('/card-file/{fileId}', "FileController@deleteFile");
+    Route::post('/card/{cardId}/comment', "CardController@commentCard");
 
     Route::post('/tasklist/create', "TaskController@createTaskList");
     Route::delete('/tasklist/{id}/delete', "TaskController@deleteTaskList");
@@ -46,5 +47,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/cardlabel/{cardLabelId}/card/{cardId}', "CardLabelController@assignCardLabel");
 
     Route::get('/user/{userId}/calendar-events', "TaskController@loadCalendarEvents");
+
     // End Task api
 });
