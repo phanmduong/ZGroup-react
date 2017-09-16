@@ -115,6 +115,10 @@ export default {
     },
 
     task: {
+        comment: {
+            comments: [],
+            comment: {}
+        },
         projectDetail: {
             showModal: false,
             project: {},
@@ -431,7 +435,7 @@ export default {
         isLoadingInfoCreateClass: false,
         errorInfoCreateClass: false,
         infoCreateClass: {},
-        class:{
+        class: {
             datestart: new Date().toISOString().slice(0, 10)
         }
     },

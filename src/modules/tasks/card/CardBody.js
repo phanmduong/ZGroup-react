@@ -12,6 +12,7 @@ import MemberDetailOverlayContainer from "./member/MemberDetailOverlayContainer"
 import AttachmentWrapper from "./attachment/AttachmentWrapper";
 import LabelOverlayContainer from "./label/CardLabelOverlayContainer";
 import DeadlineOverlayContainer from "./deadline/DeadlineOverlayContainer";
+import CommentInputContainer from "./comment/CommentInputContainer";
 
 const CardBody = ({
                       card, isSavingCard, toggleEditCardDescription, deleteFile,
@@ -98,7 +99,7 @@ const CardBody = ({
                 }
 
                 {card.id && <TaskListsContainer card={card}/>}
-
+                <CommentInputContainer/>
             </div>
             <div className="col-sm-5 col-md-4">
                 <h4>
