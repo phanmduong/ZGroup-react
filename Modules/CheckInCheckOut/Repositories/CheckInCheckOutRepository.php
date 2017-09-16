@@ -242,8 +242,9 @@ class CheckInCheckOutRepository
                     if ($shift->checkin_id == null || $shift->checkin_id == 0) {
                         $shiftArr = [$shift];
                         $isCheckin = true;
+                        $sampleShift = $shift;
                         while (1) {
-                            $start_time = $shift->shift_session->start_time;
+                            $start_time = $sampleShift->shift_session->start_time;
                             $shiftSession = ShiftSession::where("end_time", $start_time)->first();
                             if (is_null($shiftSession)) break;
                             $todayShift = $shiftSession->shifts()->where("user_id", $checkInCheckOut->user_id)->where("date", date("Y-m-d "))->first();
@@ -255,6 +256,7 @@ class CheckInCheckOutRepository
                             if ($todayShift->checkin_id != null && $todayShift->checkin_id != 0) {
                                 break;
                             }
+                            $sampleShift = $todayShift;
                         }
                         if ($isCheckin) {
                             foreach ($shiftArr as $s) {
