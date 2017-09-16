@@ -128,6 +128,12 @@ class NotificationTypeSeeder extends Seeder
                 'id' => 17,
                 "template" => "[[ACTOR]] vừa thay đổi mô tả của dự án [[PROJECT]]",
                 "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
+            ], [
+                'name' => "comment_card",
+                'color' => "#2196F3",
+                'id' => 18,
+                "template" => "[[ACTOR]] bình luận vào thẻ [[CARD]] trong dự án [[PROJECT]]",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">comment</i>"
             ]
 
         ]);
