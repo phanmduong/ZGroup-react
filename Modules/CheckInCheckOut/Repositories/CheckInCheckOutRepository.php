@@ -120,7 +120,7 @@ class CheckInCheckOutRepository
         $today = date("Y-m-d");
         $classLessonIds = ClassLesson::where("time", $today)->pluck("id");
         $checkInCheckOut->message = "Hiện đang không có lớp hoặc ca trực nào khả dụng.";
-        $checkInCheckOut->status = 4;
+        $checkInCheckOut->status = 5;
 
         // teacher
         $teachingLessons = TeachingLesson::whereIn("class_lesson_id", $classLessonIds)
@@ -201,7 +201,7 @@ class CheckInCheckOutRepository
                     $checkInCheckOut->teacher_teaching_lesson_id = 0;
                     $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
                     $checkInCheckOut->shift_id = $shift->id;
-                    $checkInCheckOut->message = "Bạn vừa check in thành công " . $shiftSession->name . ($shiftSession->start_time . " - " . $shiftSession->end_time);
+                    $checkInCheckOut->message = "Bạn vừa check in thành công " . $shiftSession->name . " ".($shiftSession->start_time . " - " . $shiftSession->end_time);
                 }
 
             } else if ($checkInCheckOut->kind == 2) {
@@ -211,7 +211,7 @@ class CheckInCheckOutRepository
                     $checkInCheckOut->teacher_teaching_lesson_id = 0;
                     $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
                     $checkInCheckOut->shift_id = $shift->id;
-                    $checkInCheckOut->message = "Bạn vừa check out thành công " . $shiftSession->name . ($shiftSession->start_time . " - " . $shiftSession->end_time);
+                    $checkInCheckOut->message = "Bạn vừa check out thành công " . $shiftSession->name ." " .($shiftSession->start_time . " - " . $shiftSession->end_time);
                 }
             }
         }

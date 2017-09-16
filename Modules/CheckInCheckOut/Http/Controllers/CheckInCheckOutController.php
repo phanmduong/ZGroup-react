@@ -116,8 +116,17 @@ class CheckInCheckOutController extends ManageApiController
             return $this->respondSuccessWithStatus([
                 "check_in" => [
                     'time' => format_time(strtotime($checkIn->created_at)),
-                    'base' => $checkIn->base->name,
+                    'base' => $checkIn->base ? $checkIn->base->name : "",
+                ],
+                "message" => $checkIn->message
+            ]);
 
+        }
+        if ($checkIn->status === 5) {
+            return $this->respondSuccessWithStatus([
+                "check_in" => [
+                    'time' => format_time(strtotime($checkIn->created_at)),
+                    'base' => $checkIn->base ? $checkIn->base->name : ""
                 ],
                 "message" => $checkIn->message
             ]);
@@ -128,6 +137,7 @@ class CheckInCheckOutController extends ManageApiController
                     'message' => "Mạng Wifi không hợp lệ",
                     "check_in" => [
                         'time' => format_time(strtotime($checkIn->created_at)),
+                        'base' => $checkIn->base ? $checkIn->base->name : "",
                     ],
                 ]
             );
@@ -147,6 +157,7 @@ class CheckInCheckOutController extends ManageApiController
                     'message' => $checkIn->message,
                     "check_in" => [
                         'time' => format_time(strtotime($checkIn->created_at)),
+                        'base' => $checkIn->base ? $checkIn->base->name : ""
                     ],
                 ]
             );
@@ -186,16 +197,27 @@ class CheckInCheckOutController extends ManageApiController
             return $this->respondSuccessWithStatus([
                 "check_in" => [
                     'time' => format_time(strtotime($checkOut->created_at)),
-                    'base' => $checkOut->base->name,
+                    'base' => $checkOut->base ? $checkOut->base->name : "",
 
                 ],
                 "message" => $checkOut->message
             ]);
         }
+        if ($checkOut->status === 5) {
+            return $this->respondSuccessWithStatus([
+                "check_in" => [
+                    'time' => format_time(strtotime($checkOut->created_at)),
+                    'base' => $checkOut->base ? $checkOut->base->name : "",
+                ],
+                "message" => $checkOut->message
+            ]);
+
+        }
         if ($checkOut->status === 4) {
             return $this->respondErrorWithData([
                     'message' => $checkOut->message,
                     "check_in" => [
+                        'base' => $checkOut->base ? $checkOut->base->name : "",
                         'time' => format_time(strtotime($checkOut->created_at)),
                     ],
                 ]
@@ -205,7 +227,8 @@ class CheckInCheckOutController extends ManageApiController
             return $this->respondErrorWithData([
                     'message' => "Mạng Wifi không hợp lệ",
                     "check_in" => [
-                        'time' => format_time(strtotime($checkOut->created_at)),
+                        'base' => $checkOut->base ? $checkOut->base->name : "",
+                        'time' => format_time(strtotime($checkOut->created_at))
                     ],
                 ]
             );
