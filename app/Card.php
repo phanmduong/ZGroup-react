@@ -52,4 +52,9 @@ class Card extends Model
     {
         return $this->belongsToMany(CardLabel::class, "card_card_labels", "card_id", "card_label_id");
     }
+
+    public function cardComments()
+    {
+        return $this->hasMany(CardComment::class, "card_id");
+    }
 }

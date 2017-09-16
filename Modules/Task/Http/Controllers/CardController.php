@@ -179,17 +179,16 @@ class CardController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
-    public function commentCard(Request $request)
+    public function commentCard(Request $request, $cardId)
     {
         $content = $request->comment_content;
         $commenter_id = $this->user->id;
-        $card_id = $request->card_id;
 
-        if (is_null($content) || is_null($card_id)) {
+        if (is_null($content)) {
             return $this->respondErrorWithStatus("Params cần: comment_content, card_id");
         }
-        $comment = $this->cardRepository->saveCardComment($content, $commenter_id, $card_id);
-        return $this->respondSuccessWithStatus($comment);
+        $comment = $this->cardRepository->saveCardComment($content, $commenter_id, $cardId);
+        return $this->respondSuccessWithStatus(["comment" => $comment->transform()]);
     }
 
 

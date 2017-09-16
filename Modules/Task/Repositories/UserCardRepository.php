@@ -11,6 +11,7 @@ namespace Modules\Task\Repositories;
 
 use App\CalendarEvent;
 use App\Card;
+use App\CardComment;
 use App\Colorme\Transformers\TaskTransformer;
 use App\Notification;
 use App\User;
@@ -187,12 +188,17 @@ class UserCardRepository
 
         $cardLabels = $card->cardLabels;
 
+        $cardComments = $card->cardComments->map(function ($c) {
+            return $c->transform();
+        });
+
         return [
             "description" => $card->description,
             "members" => $members,
             "taskLists" => $taskLists,
             "cardLabels" => $cardLabels,
-            "files" => $files
+            "files" => $files,
+            "comments" => $cardComments
         ];
     }
 }
