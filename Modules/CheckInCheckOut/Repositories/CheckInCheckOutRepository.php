@@ -250,13 +250,12 @@ class CheckInCheckOutRepository
                             $todayShift = $shiftSession->shifts()->where("user_id", $checkInCheckOut->user_id)->where("date", date("Y-m-d "))->first();
                             if ($todayShift == null) {
                                 $isCheckin = false;
-                                break;
                             }
                             $shiftArr[] = $todayShift;
-                            if ($todayShift->checkin_id != null && $todayShift->checkin_id != 0) {
-                                break;
-                            }
                             $sampleShift = $todayShift;
+                            if ($todayShift->checkin_id != null || $todayShift->checkin_id != 0) {
+                                $sampleShift = null;
+                            }
                         }
                         if ($isCheckin) {
                             foreach ($shiftArr as $s) {
