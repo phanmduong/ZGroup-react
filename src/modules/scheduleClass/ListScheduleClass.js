@@ -30,12 +30,12 @@ class ListScheduleClass extends React.Component {
                                     <ButtonGroupAction
                                         delete={this.props.deleteScheduleClass}
                                         object={scheduleClass}
-                                        editUrl=''
+                                        editUrl=""
                                         edit={this.props.onClickEdit}
                                     />
                                 </td>
                             </tr>
-                        )
+                        );
                     })}
                     </tbody>
                 </table>

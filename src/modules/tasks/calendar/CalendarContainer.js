@@ -15,11 +15,11 @@ class ProjectListContainer extends React.Component {
         this.props.taskActions.loadCalendarEvents(this.props.user.id);
     }
 
-    componentDidUpdate() {
+    componentDidMount() {
         this.initFullCalendar(this.props.calendarEvents);
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
         this.initFullCalendar(this.props.calendarEvents);
     }
 
@@ -30,7 +30,6 @@ class ProjectListContainer extends React.Component {
 
         let today = new Date();
 
-        console.log(calendarEvents);
 
         $calendar.fullCalendar({
             viewRender: function (view, element) {
@@ -82,8 +81,7 @@ class ProjectListContainer extends React.Component {
                         </div>
                         {
                             this.props.isLoading ? <Loading/> : (
-                                <div id="calendar" style={{padding: "20px"}}>
-                                </div>
+                                <div id="calendar" style={{padding: "20px"}} />
                             )
                         }
                     </div>

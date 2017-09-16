@@ -147,3 +147,12 @@
     padding: 10px;
     /*height: 500px;*/
 }
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.select-container {
+    margin-left: 10px;
+}

@@ -209,6 +209,9 @@ export function sweetAlertError(message) {
     });
 }
 
+export function intersect(array1, array2) {
+    return array1.filter(cardLabel => array2.filter(t => t.id === cardLabel.id).length > 0);
+}
 export function convertTimeToSecond(time) {
     var a = time.split(':'); // split it at the colons
 

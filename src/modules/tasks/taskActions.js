@@ -169,7 +169,9 @@ export function loadBoards(projectId) {
                 dispatch({
                     projectId: projectId,
                     type: types.LOAD_BOARDS_SUCCESS,
-                    boards: res.data.boards
+                    boards: res.data.boards,
+                    cardLabels: res.data.cardLabels,
+                    members: res.data.members
                 });
             });
     };
@@ -770,5 +772,14 @@ export function submitProject(project) {
                     project
                 });
             });
+    };
+}
+
+export function saveCardCommentSuccess(comment) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CREATE_CARD_COMMENT_SUCCESS,
+            comment
+        });
     };
 }

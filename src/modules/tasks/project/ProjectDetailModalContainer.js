@@ -73,9 +73,9 @@ class ProjectDetailModalContainer extends Component {
                                         <div style={{padding: 5, display: "flex", flexWrap: "wrap"}}>
                                             {
                                                 project.members.map((member) => {
-                                                    return <ProjectMemberDetailOverlayContainer
+                                                    return (<ProjectMemberDetailOverlayContainer
                                                         key={member.id}
-                                                        member={member}/>;
+                                                        member={member}/>);
                                                 })
                                             }
                                         </div>

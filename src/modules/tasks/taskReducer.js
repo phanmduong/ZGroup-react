@@ -266,6 +266,20 @@ export default function taskReducer(state = initialState.task, action) {
                     isLoading: true
                 }
             };
+        case types.CREATE_CARD_COMMENT_SUCCESS:
+            return {
+                ...state,
+                comment: {
+                    ...state.comment,
+                    comments: state.comment
+                        .comments.filter(c => c.id === action.comment.id).length > 0 ?
+                        state.comment.comments :
+                        [
+                            ...state.comment.comments,
+                            action.comment
+                        ]
+                }
+            };
         case types.LOAD_CARD_DETAIL_SUCCESS:
             return {
                 ...state,
@@ -276,6 +290,10 @@ export default function taskReducer(state = initialState.task, action) {
                         ...state.cardDetail.card,
                         ...action.card
                     }
+                },
+                comment: {
+                    ...state.comment,
+                    comments: action.card.comments
                 }
             };
         case types.UPLOAD_ATTACHMENT_SUCCESS:

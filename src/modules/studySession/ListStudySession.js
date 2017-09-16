@@ -30,12 +30,12 @@ class ListStudySession extends React.Component {
                                     <ButtonGroupAction
                                         delete={this.props.deleteStudySession}
                                         object={studySession}
-                                        editUrl=''
+                                        editUrl=""
                                         edit={this.props.onClickEdit}
                                     />
                                 </td>
                             </tr>
-                        )
+                        );
                     })}
                     </tbody>
                 </table>

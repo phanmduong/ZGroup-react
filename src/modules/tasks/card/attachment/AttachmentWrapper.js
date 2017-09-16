@@ -76,7 +76,7 @@ const AttachmentWrapper = ({card, deleteFile}) => {
             }
         </div>
     );
-}
+};
 
 AttachmentWrapper.propTypes = {
     card: PropTypes.object.isRequired,

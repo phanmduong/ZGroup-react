@@ -23,6 +23,7 @@ import historyCollectMoneyReducer from '../modules/historyCollectMoney/historyCo
 import historyCallsReducer from '../modules/historyCalls/historyCallsReducer';
 import classesReducer from '../modules/classes/classesReducer';
 import ruleReducer from '../modules/rule/ruleReducer';
+import cardFilterReducer from "../modules/tasks/board/filter/cardFilterReducer";
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -47,6 +48,7 @@ const appReducer = combineReducers({
     historyCollectMoney: historyCollectMoneyReducer,
     historyCalls: historyCallsReducer,
     classes: classesReducer,
+    cardFilter: cardFilterReducer,
     rule: ruleReducer,
 });
 

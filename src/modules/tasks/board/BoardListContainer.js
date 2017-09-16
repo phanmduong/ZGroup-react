@@ -11,7 +11,8 @@ import Loading from "../../../components/common/Loading";
 import BoardList from "./BoardList";
 import CreateCardModalContainer from "../card/CreateCardModalContainer";
 import CardDetailModalContainer from "../card/CardDetailModalContainer";
-import BoardFilterContainer from "./BoardFilterContainer";
+import CardFilterContainer from "./filter/CardFilterContainer";
+import {intersect} from "../../../helpers/helper";
 
 class BoardListContainer extends React.Component {
     constructor(props, context) {
@@ -65,6 +66,7 @@ class BoardListContainer extends React.Component {
         this.props.taskActions.editBoard(board);
     }
 
+
     render() {
         return (
             <div>
@@ -73,7 +75,7 @@ class BoardListContainer extends React.Component {
                 <CardDetailModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>
-                        <BoardFilterContainer/>
+                        <CardFilterContainer/>
                         <BoardList
                             updateCardInBoard={this.props.taskActions.updateCardInBoard}
                             openCardDetailModal={this.props.taskActions.openCardDetailModal}
@@ -100,9 +102,47 @@ BoardListContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
+    const {selectedCardLabels, selectedMembers} = state.cardFilter;
+    const boards = state.task.boardList.boards.map((board) => {
+
+        const cards = board.cards.map((card) => {
+            let hasCardLabel = selectedCardLabels.length > 0;
+            let hasMember = selectedMembers.length > 0;
+
+            if (!hasCardLabel && !hasMember) {
+                // no filter
+                return card;
+            } else if (!hasCardLabel && hasMember || hasCardLabel && !hasMember) {
+                // filter by CardLabel or Member
+                // filter by cardLabel
+
+                if (selectedCardLabels.length > 0 && intersect(selectedCardLabels, card.cardLabels).length > 0) {
+                    return card;
+                }
+
+                // filter by members
+                if (selectedMembers.length > 0 && intersect(selectedMembers, card.members).length > 0) {
+                    return card;
+                }
+            } else {
+                // filter by both CardLabel and Member
+                if (intersect(selectedCardLabels, card.cardLabels).length > 0
+                    && intersect(selectedMembers, card.members).length > 0) {
+                    return card;
+                }
+            }
+            return null;
+
+        }).filter(c => c !== null);
+        return {
+            ...board,
+            cards
+        };
+    });
+
     return {
         isLoadingBoards: state.task.boardList.isLoadingBoards,
-        boards: state.task.boardList.boards
+        boards
     };
 }
 

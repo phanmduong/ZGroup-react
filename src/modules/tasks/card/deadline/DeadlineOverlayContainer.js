@@ -21,12 +21,14 @@ class DeadlineOverlayContainer extends React.Component {
         this.saveDeadline = this.saveDeadline.bind(this);
     }
 
-    toggle() {
-        this.setState({show: !this.state.show});
-    }
+
 
     componentWillMount() {
         this.setState({deadline: this.props.card.deadline});
+    }
+
+    toggle() {
+        this.setState({show: !this.state.show});
     }
 
     handleChange({date}) {

@@ -115,6 +115,9 @@ export default {
     },
 
     task: {
+        comment: {
+            comments: []
+        },
         projectDetail: {
             showModal: false,
             project: {},
@@ -431,7 +434,7 @@ export default {
         isLoadingInfoCreateClass: false,
         errorInfoCreateClass: false,
         infoCreateClass: {},
-        class:{
+        class: {
             datestart: new Date().toISOString().slice(0, 10)
         }
     },
@@ -440,5 +443,12 @@ export default {
         ruleView: '',
         isLoading: false,
         error: false
+    },
+
+    cardFilter: {
+        cardLabels: [],
+        members: [],
+        selectedCardLabels: [],
+        selectedMembers: []
     }
 };

@@ -6,6 +6,8 @@ import {Modal} from "react-bootstrap";
 import * as taskActions from '../taskActions';
 import CardBody from "./CardBody";
 import Loading from "../../../components/common/Loading";
+import socket from '../../../services/socketio';
+import {CHANNEL} from "../../../constants/env";
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -18,6 +20,16 @@ class CardDetailModalContainer extends React.Component {
             isEditing: false,
             description: ""
         };
+    }
+
+    componentWillMount() {
+        const channel = CHANNEL + ":card_comment";
+        socket.on(channel, (comment) => {
+            if (this.props.card.id === Number(comment.card_id)) {
+                this.props.taskActions.saveCardCommentSuccess(comment);
+            }
+
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -100,6 +112,7 @@ CardDetailModalContainer.propTypes = {
     isSavingCard: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     card: PropTypes.object.isRequired
 };
 
@@ -107,6 +120,7 @@ function mapStateToProps(state) {
     return {
         showModal: state.task.cardDetail.showModal,
         isLoading: state.task.cardDetail.isLoading,
+        user: state.login.user,
         isSavingCard: state.task.cardDetail.isSavingCard,
         card: state.task.cardDetail.card
     };
