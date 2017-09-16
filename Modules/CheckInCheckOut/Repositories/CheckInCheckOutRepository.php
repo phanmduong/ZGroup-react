@@ -268,6 +268,7 @@ class CheckInCheckOutRepository
                                     $checkIn->save();
 
                                     $s->checkin_id = $checkIn->id;
+                                    $s->save();
                                 }
                                 if ($s->checkout_id == null || $s->checkout_id == 0) {
                                     $checkOut = $checkInCheckOut->replicate();
@@ -277,6 +278,7 @@ class CheckInCheckOutRepository
                                     $checkOut->save();
 
                                     $s->checkout_id = $checkOut->id;
+                                    $s->save();
                                 }
                             }
                         }
