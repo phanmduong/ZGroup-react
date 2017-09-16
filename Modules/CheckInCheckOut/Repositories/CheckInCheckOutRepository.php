@@ -12,6 +12,7 @@ namespace Modules\CheckInCheckOut\Repositories;
 use App\Base;
 use App\ClassLesson;
 use App\Shift;
+use App\ShiftSession;
 use App\TeachingLesson;
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -238,6 +239,46 @@ class CheckInCheckOutRepository
                     $checkInCheckOut->message = "Bạn vừa check out thành công " . $shiftSession->name . " (" . $shiftSession->start_time . " - " . $shiftSession->end_time . ")";
                     $shift->checkout_id = $checkInCheckOut->id;
                     $shift->save();
+                    if ($shift->checkin_id == null || $shift->checkin_id == 0) {
+                        $shiftArr = [$shift];
+                        $isCheckin = true;
+                        while (1) {
+                            $start_time = $shift->shift_session->start_time;
+                            $shiftSession = ShiftSession::where("end_time", $start_time)->first();
+                            if (is_null($shiftSession)) break;
+                            $todayShift = $shiftSession->shifts()->where("user_id", $checkInCheckOut->user_id)->where("date", date("Y-m-d "))->first();
+                            if ($todayShift == null) {
+                                $isCheckin = false;
+                                break;
+                            }
+                            $shiftArr[] = $todayShift;
+                            if ($todayShift->checkin_id != null && $todayShift->checkin_id != 0) {
+                                break;
+                            }
+                        }
+                        if ($isCheckin) {
+                            foreach ($shiftArr as $s) {
+                                if ($s->checkin_id == null || $s->checkin_id == 0) {
+                                    $checkIn = $checkInCheckOut->replicate();
+                                    $checkIn->kind = 1;
+                                    $checkIn->status = 6;
+                                    $checkIn->shift_id = $s->id;
+                                    $checkIn->save();
+
+                                    $s->checkin_id = $checkIn->id;
+                                }
+                                if ($s->checkout_id == null || $s->checkout_id == 0) {
+                                    $checkOut = $checkInCheckOut->replicate();
+                                    $checkOut->kind = 2;
+                                    $checkOut->status = 6;
+                                    $checkOut->shift_id = $s->id;
+                                    $checkOut->save();
+
+                                    $s->checkout_id = $checkOut->id;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -267,6 +308,8 @@ class CheckInCheckOutRepository
      *      2 if wifi is invalid
      *      3 if the location is too far from base
      *      4 other errors
+     *      5 other errors
+     *      6 autogenerate
      * @param $long
      * @param $lat
      * @param $user_id
