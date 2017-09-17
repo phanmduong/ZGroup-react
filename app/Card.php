@@ -6,12 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\TaskList;
+use Modules\Task\Transformers\MemberTransformer;
 
 class Card extends Model
 {
     use SoftDeletes;
 
     protected $table = "cards";
+
+    protected $memberTransformer;
 
     public function tasks()
     {
@@ -56,5 +59,28 @@ class Card extends Model
     public function cardComments()
     {
         return $this->hasMany(CardComment::class, "card_id");
+    }
+
+    public function transform()
+    {
+        $this->memberTransformer = new MemberTransformer();
+        $taskListIds = $this->taskLists->pluck("id");
+        $hasDeadline = $this->deadline && $this->deadline != "0000-00-00 00:00:00";
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            "deadline_elapse" => $hasDeadline ? time_remain_string(strtotime($this->deadline)) : null,
+            "deadline" => $hasDeadline ? format_vn_short_datetime(strtotime($this->deadline)) : null,
+            'board_id' => $this->board_id,
+            "board" => [
+                "id" => $this->board->id,
+                "title" => $this->board->title
+            ],
+            "status" => $this->status,
+            'order' => $this->order,
+            "cardLabels" => $this->cardLabels,
+            "tasks" => Task::whereIn("task_list_id", $taskListIds)->get(),
+            "members" => $this->memberTransformer->transformCollection($this->assignees)
+        ];
     }
 }
