@@ -7,6 +7,7 @@ import {NO_AVATAR} from '../../constants/env';
 import Barchart from './Barchart';
 import ListClass from './ListClass';
 import PropTypes from 'prop-types';
+import ListAttendanceShift from './ListAttendanceShift';
 
 class DashboardComponent extends React.Component {
     constructor(props, context) {
@@ -24,7 +25,7 @@ class DashboardComponent extends React.Component {
             let {
                 total_money, target_revenue, register_number, paid_number, zero_paid_number, remain_days,
                 percent_remain_days, total_classes, courses, user, bonus, count_paid, count_total, registers_by_date, date_array,
-                paid_by_date, money_by_date, classes
+                paid_by_date, money_by_date, classes, shifts
 
             } = this.props.dashboard;
             let avatar = helper.avatarEmpty(user.avatar_url) ? NO_AVATAR : user.avatar_url;
@@ -201,6 +202,28 @@ class DashboardComponent extends React.Component {
                             </div>
                         </div>
                     </div>
+                    {
+                        shifts &&
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">insert_chart</i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">Lịch trực hôm nay
+                                            <small></small>
+                                        </h4>
+                                        <ListAttendanceShift
+                                            baseId={this.props.baseId}
+                                            shifts = {shifts}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
                     <div className="row">
                         <div className="col-md-12">
                             <div className="card">

@@ -147,6 +147,7 @@ class DashboardContainer extends React.Component {
                             </div>
                             <DashboardComponent
                                 {...this.props}
+                                baseId={this.state.selectBaseId}
                                 loadDashboard={this.loadInitDashboard}
                                 changeClassStatus={this.changeClassStatus}
                                 openModalClass={this.openModalClass}

@@ -2,6 +2,7 @@
 
 import jwt from 'jsonwebtoken';
 import * as env from '../constants/env';
+import _ from 'lodash';
 
 export function shortenStr(str, length) {
     if (str.length > length) {
@@ -212,14 +213,24 @@ export function sweetAlertError(message) {
 export function intersect(array1, array2) {
     return array1.filter(cardLabel => array2.filter(t => t.id === cardLabel.id).length > 0);
 }
+
 export function convertTimeToSecond(time) {
     var a = time.split(':'); // split it at the colons
+
+    if (isEmptyInput(a[2]))
+        return (+a[0]) * 60 * 60 + (+a[1]) * 60;
+
+    if (isEmptyInput(a[1]))
+        return (+a[0]) * 60 * 60;
+
+    if (isEmptyInput(a[0]))
+        return 0;
 
 // minutes are worth 60 seconds. Hours are worth 60 minutes.
     return (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
 }
 
-export function calculatorAttandanceStaff(check_in_time, check_out_time, start_teaching_time, end_teaching_time) {
+export function calculatorAttendanceStaff(check_in_time, check_out_time, start_teaching_time, end_teaching_time) {
     check_in_time = convertTimeToSecond(check_in_time);
     check_out_time = convertTimeToSecond(check_out_time);
     start_teaching_time = convertTimeToSecond(start_teaching_time);
@@ -368,8 +379,197 @@ export function calculatorAttandanceStaff(check_in_time, check_out_time, start_t
         early_leave_span,
         late_leave_span,
     };
-    console.log(data);
     return data;
 }
 
+export function calculatorAttendanceShift(check_in_time, check_out_time, start_shift_time, end_shift_time, most_early_time, most_late_time) {
+    check_in_time = convertTimeToSecond(check_in_time);
+    check_out_time = convertTimeToSecond(check_out_time);
+    start_shift_time = convertTimeToSecond(start_shift_time);
+    end_shift_time = convertTimeToSecond(end_shift_time);
+    most_early_time = convertTimeToSecond(most_early_time);
+    most_late_time = convertTimeToSecond(most_late_time);
+
+    let before_shift_span = convertTimeToSecond("00:05:00");
+    let after_shift_span = convertTimeToSecond("00:05:00");
+    let start_working_time = most_early_time - before_shift_span;
+
+    let end_working_time = most_late_time + after_shift_span;
+
+    let working_time = end_working_time - start_working_time;
+    console.log(working_time);
+    let start_time = start_shift_time - before_shift_span;
+    let end_time = end_shift_time + after_shift_span;
+    let require_shift_span = end_shift_time - start_shift_time;
+
+    let empty_arrive_span;
+    let early_arrive_span;
+    let shift_span;
+    let late_arrive_span;
+    let early_leave_span;
+    let late_leave_span;
+    let empty_leave_span;
+
+    let early_span = (start_time - start_working_time) * 100 / working_time;
+    console.log(early_span);
+    let late_span = (end_working_time - end_time) * 100 / working_time;
+    console.log(late_span);
+
+    if (check_in_time <= start_time) {
+
+        empty_arrive_span = 0;
+
+        early_arrive_span = (before_shift_span / working_time) * 100;
+
+        late_arrive_span = 0;
+
+        if (check_out_time >= end_time) {
+
+            shift_span = (require_shift_span / working_time) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = (after_shift_span / working_time) * 100;
+
+            empty_leave_span = 0;
+
+        }
+
+        else if (check_out_time >= end_shift_time) {
+
+            shift_span = (require_shift_span / working_time) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = ((check_out_time - end_shift_time) / working_time) * 100;
+
+            empty_leave_span = ((end_time - check_out_time) / working_time) * 100;
+        }
+
+        else {
+
+            shift_span = ((check_out_time - start_shift_time) / working_time) * 100;
+
+            early_leave_span = ((end_shift_time - check_out_time) / working_time) * 100;
+
+            late_leave_span = 0;
+
+            empty_leave_span = (after_shift_span / working_time) * 100;
+
+        }
+
+    }
+
+    else if (check_in_time <= start_shift_time) {
+
+        empty_arrive_span = ((check_in_time - start_time) / working_time) * 100;
+
+        early_arrive_span = ((start_shift_time - check_in_time) / working_time) * 100;
+
+        late_arrive_span = 0;
+
+        if (check_out_time >= end_time) {
+
+            shift_span = (require_shift_span / working_time) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = (after_shift_span / working_time) * 100;
+
+            empty_leave_span = 0;
+
+        }
+
+        else if (check_out_time >= end_shift_time) {
+
+            shift_span = (require_shift_span / working_time) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = ((check_out_time - end_shift_time) / working_time) * 100;
+
+            empty_leave_span = ((end_time - check_out_time) / working_time) * 100;
+        }
+
+        else {
+
+            shift_span = ((check_out_time - start_shift_time) / working_time) * 100;
+
+            early_leave_span = ((end_shift_time - check_out_time) / working_time) * 100;
+
+            late_leave_span = 0;
+
+            empty_leave_span = (after_shift_span / working_time) * 100;
+
+        }
+
+    }
+
+    else {
+
+        empty_arrive_span = (before_shift_span / working_time) * 100;
+
+        early_arrive_span = 0;
+
+        late_arrive_span = ((check_in_time - start_shift_time) / working_time) * 100;
+
+        if (check_out_time >= end_time) {
+
+            shift_span = ((end_shift_time - check_in_time) / working_time) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = (after_shift_span / working_time) * 100;
+
+            empty_leave_span = 0;
+
+        }
+
+        else if (check_out_time >= end_shift_time) {
+
+            shift_span = ((end_shift_time - check_in_time) / working_time) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = ((check_out_time - end_shift_time) / working_time) * 100;
+
+            empty_leave_span = ((end_time - check_out_time) / working_time) * 100;
+
+        }
+
+        else {
+
+            shift_span = ((check_out_time - check_in_time) / working_time) * 100;
+
+            early_leave_span = ((end_shift_time - check_out_time) / working_time) * 100;
+
+            late_leave_span = 0;
+
+            empty_leave_span = (after_shift_span / working_time) * 100;
+        }
+    }
+
+    let data = {
+        early_span,
+        late_span,
+        empty_arrive_span,
+        early_arrive_span,
+        shift_span,
+        late_arrive_span,
+        early_leave_span,
+        late_leave_span,
+        empty_leave_span
+    };
+    return data;
+}
+
+export function groupBy(collection, iteratee, props) {
+    return _.chain(collection)
+        .groupBy(iteratee)
+        .toPairs()
+        .map(function (currentItem) {
+            return _.zipObject(props, currentItem);
+        })
+        .value();
+}
 
