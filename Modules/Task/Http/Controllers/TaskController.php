@@ -544,5 +544,12 @@ class TaskController extends ManageApiController
         ]);
     }
 
+    public function archiveCard($cardId)
+    {
+        $card = Card::find($cardId);
+        $card->status = $card->status == "open" ? "close" : "open";
+        $card->save();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
 
 }

@@ -16,6 +16,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/board/create', "TaskController@createBoard");
     Route::get('/boards/{projectId}', "TaskController@getBoards");
     Route::post('/boards/update', "TaskController@updateBoards");
+    Route::put('/card/{cardId}/toggle-archive', "TaskController@archiveCard");
 
     Route::post('/card/create', "TaskController@createCard");
     Route::post('/cards/update', "TaskController@updateCards");
