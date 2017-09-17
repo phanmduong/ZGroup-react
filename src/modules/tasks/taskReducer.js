@@ -6,6 +6,25 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_ARCHIVE_CARDS:
+            return {
+                ...state,
+                archiveCard: {
+                    ...state.archiveCard,
+                    isLoading: true,
+                    cards: action.page === 1 ? [] : state.archiveCard.cards
+                }
+            };
+        case types.LOAD_ARCHIVE_CARDS_SUCCESS:
+            return {
+                ...state,
+                archiveCard: {
+                    ...state.archiveCard,
+                    isLoading: false,
+                    isEmpty: action.cards.length === 0,
+                    cards: [...state.archiveCard.cards, ...action.cards]
+                }
+            };
         case types.ARCHIVE_CARD:
             return {
                 ...state,
@@ -15,6 +34,30 @@ export default function taskReducer(state = initialState.task, action) {
                         if (board.id === action.card.board_id) {
                             const cards = board.cards.filter((card) => {
                                 return card.id !== action.card.id;
+                            });
+                            return {
+                                ...board,
+                                cards
+                            };
+                        }
+                        return board;
+                    })
+                }
+            };
+
+        case types.UNARCHIVE_CARD:
+            return {
+                ...state,
+                archiveCard: {
+                    ...state.archiveCard,
+                    cards: state.archiveCard.cards.filter(card => card.id !== action.card.id)
+                },
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            const cards = [...board.cards, {...action.card, status: "open"}].sort(function (a, b) {
+                                return parseFloat(a.order) - parseFloat(b.order);
                             });
                             return {
                                 ...board,

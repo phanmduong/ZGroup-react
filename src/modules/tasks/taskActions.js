@@ -793,3 +793,30 @@ export function archiveCard(card) {
         taskApi.toggleArchive(card);
     };
 }
+
+export function unarchiveCard(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UNARCHIVE_CARD,
+            card
+        });
+        taskApi.toggleArchive(card);
+    };
+}
+
+export function loadArchiveCards(projectId, page = 1) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ARCHIVE_CARDS,
+            page
+        });
+        taskApi.loadArchiveCards(projectId, page)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ARCHIVE_CARDS_SUCCESS,
+                    cards: res.data.cards,
+                    page
+                });
+            });
+    };
+}

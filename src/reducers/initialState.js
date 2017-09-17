@@ -115,6 +115,11 @@ export default {
     },
 
     task: {
+        archiveCard: {
+            cards: [],
+            isLoading: false,
+            isEmpty: false
+        },
         comment: {
             comments: []
         },

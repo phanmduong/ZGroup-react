@@ -4,6 +4,15 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+export function loadArchiveCards(projectId, page = 1) {
+    let url = env.MANAGE_API_URL + `/project/${projectId}/archive-cards?page=` + page;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+
 export function toggleArchive(card) {
     let url = env.MANAGE_API_URL + `/card/${card.id}/toggle-archive`;
     const token = localStorage.getItem('token');

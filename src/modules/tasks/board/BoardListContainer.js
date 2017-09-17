@@ -75,7 +75,8 @@ class BoardListContainer extends React.Component {
                 <CardDetailModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>
-                        <CardFilterContainer/>
+                        <CardFilterContainer
+                            projectId={Number(this.props.params.projectId)}/>
                         <BoardList
                             archiveCard={this.props.taskActions.archiveCard}
                             updateCardInBoard={this.props.taskActions.updateCardInBoard}

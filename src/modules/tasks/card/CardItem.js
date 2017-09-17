@@ -15,6 +15,7 @@ class CardItem extends React.Component {
         this.toggleEdit = this.toggleEdit.bind(this);
         this.updateEditFormData = this.updateEditFormData.bind(this);
         this.archiveCard = this.archiveCard.bind(this);
+        this.unarchiveCard = this.unarchiveCard.bind(this);
     }
 
     toggleEdit() {
@@ -32,6 +33,10 @@ class CardItem extends React.Component {
 
     archiveCard() {
         this.props.archiveCard(this.props.card);
+    }
+
+    unarchiveCard() {
+        this.props.unarchiveCard(this.props.card);
     }
 
     saveCard() {
@@ -52,7 +57,8 @@ class CardItem extends React.Component {
         const totalTasks = (tasks) => tasks ? tasks.length : 0;
         const percent = (tasks) => totalTasks(tasks) === 0 ? 0 : tasksComplete(tasks) / totalTasks(tasks);
 
-        const {card, board} = this.props;
+        const {card} = this.props;
+        const board = card.board;
         if (this.state.isEditable) {
             return (
                 <div className="card-content keetool-card">
@@ -118,14 +124,35 @@ class CardItem extends React.Component {
                                                className="material-icons keetool-card">edit</i>
                                         </a>
                                     </TooltipButton>
-                                    <TooltipButton text="Lưu trữ thẻ" placement="top">
-                                        <a className="keetool-card" style={{marginLeft: 2}} onClick={(event) => {
-                                            event.stopPropagation();
-                                            this.archiveCard();
-                                        }}>
-                                            <i className="material-icons" style={{fontSize: "16px"}}>archive</i>
-                                        </a>
-                                    </TooltipButton>
+                                    {
+                                        this.props.card.status === "open" && (
+                                            <TooltipButton text="Lưu trữ thẻ" placement="top">
+                                                <a className="keetool-card" style={{marginLeft: 2}}
+                                                   onClick={(event) => {
+                                                       event.stopPropagation();
+                                                       this.archiveCard();
+                                                   }}>
+                                                    <i className="material-icons" style={{fontSize: "16px"}}>archive</i>
+                                                </a>
+                                            </TooltipButton>
+                                        )
+                                    }
+
+                                    {
+                                        this.props.card.status === "close" && (
+                                            <TooltipButton text="Khôi phục thẻ" placement="top">
+                                                <a className="keetool-card" style={{marginLeft: 2}}
+                                                   onClick={(event) => {
+                                                       event.stopPropagation();
+                                                       this.unarchiveCard();
+                                                   }}>
+                                                    <i className="material-icons"
+                                                       style={{fontSize: "16px"}}>unarchive</i>
+                                                </a>
+                                            </TooltipButton>
+                                        )
+                                    }
+
                                 </div>
                             </div>
 
@@ -213,8 +240,8 @@ CardItem.propTypes = {
     openCardDetailModal: PropTypes.func.isRequired,
     updateCardInBoard: PropTypes.func.isRequired,
     card: PropTypes.object.isRequired,
-    archiveCard: PropTypes.func.isRequired,
-    board: PropTypes.object.isRequired
+    archiveCard: PropTypes.func,
+    unarchiveCard: PropTypes.func
 };
 
 export default CardItem;

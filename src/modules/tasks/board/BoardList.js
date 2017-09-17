@@ -123,7 +123,6 @@ class BoardList extends React.Component {
                                             updateCardInBoard={this.props.updateCardInBoard}
                                             key={card.id}
                                             card={card}
-                                            board={board}
                                             openCardDetailModal={this.props.openCardDetailModal}/>
                                     );
                                 })}

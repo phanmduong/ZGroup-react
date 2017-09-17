@@ -2,7 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
+import * as taskActions from '../taskActions';
 import {Button, Modal} from "react-bootstrap";
+import Loading from "../../../components/common/Loading";
+import CardItem from "./CardItem";
 
 
 class ArchiveCardsModalContainer extends React.Component {
@@ -13,7 +16,12 @@ class ArchiveCardsModalContainer extends React.Component {
         };
         this.close = this.close.bind(this);
         this.open = this.open.bind(this);
+        this.loadMore = this.loadMore.bind(this);
+        this.state = {
+            page: 1
+        };
     }
+
 
     close() {
         this.setState({showModal: false});
@@ -21,6 +29,14 @@ class ArchiveCardsModalContainer extends React.Component {
 
     open() {
         this.setState({showModal: true});
+        this.props.taskActions.loadArchiveCards(this.props.projectId);
+    }
+
+    loadMore() {
+        this.props.taskActions.loadArchiveCards(this.props.projectId, this.state.page + 1);
+        this.setState({
+            page: this.state.page + 1
+        })
     }
 
     render() {
@@ -31,37 +47,30 @@ class ArchiveCardsModalContainer extends React.Component {
 
                 <Modal show={this.state.showModal} onHide={this.close}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Lưu trữ</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <h4>Text in a modal</h4>
-                        <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+                        {this.props.cards.map((card) => {
+                            return (
+                                <CardItem
+                                    unarchiveCard={this.props.taskActions.unarchiveCard}
+                                    key={card.id}
+                                    openCardDetailModal={this.props.taskActions.openCardDetailModal}
+                                    updateCardInBoard={this.props.taskActions.updateCardInBoard}
+                                    card={card}/>
+                            );
+                        })}
+                        {
+                            !this.props.isEmpty && (
+                                <div style={{textAlign: "center"}}>
+                                    {
+                                        this.props.isLoading ? <Loading/> :
+                                            <Button onClick={this.loadMore}>Tải thêm</Button>
+                                    }
+                                </div>
+                            )
+                        }
 
-
-                        <hr/>
-
-                        <h4>Overflowing text to show scroll behavior</h4>
-                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in,
-                            egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus
-                            vel augue laoreet rutrum faucibus dolor auctor.</p>
-                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque
-                            nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                            fringilla.</p>
-                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in,
-                            egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus
-                            vel augue laoreet rutrum faucibus dolor auctor.</p>
-                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque
-                            nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                            fringilla.</p>
-                        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in,
-                            egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus
-                            vel augue laoreet rutrum faucibus dolor auctor.</p>
-                        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque
-                            nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                            fringilla.</p>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.close}>Close</Button>
@@ -73,18 +82,24 @@ class ArchiveCardsModalContainer extends React.Component {
 }
 
 ArchiveCardsModalContainer.propTypes = {
-    //myProp: PropTypes.string.isRequired
+    taskActions: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isEmpty: PropTypes.bool.isRequired,
+    projectId: PropTypes.number.isRequired,
+    cards: PropTypes.array.isRequired
 };
 
-function mapStateToProps(state,) {
+function mapStateToProps(state) {
     return {
-        state: state
+        isLoading: state.task.archiveCard.isLoading,
+        cards: state.task.archiveCard.cards,
+        isEmpty: state.task.archiveCard.isEmpty
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({}, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch)
     };
 }
 

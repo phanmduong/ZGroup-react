@@ -65,7 +65,8 @@ class CardFilterContainer extends React.Component {
                         onChange={this.cardLabelSelectChange}
                     />
                 </div>
-                <ArchiveCardsModalContainer/>
+                <ArchiveCardsModalContainer
+                    projectId={this.props.projectId}/>
             </div>
         );
     }
@@ -74,6 +75,7 @@ class CardFilterContainer extends React.Component {
 CardFilterContainer.propTypes = {
     cardFilterActions: PropTypes.object.isRequired,
     cardLabels: PropTypes.array.isRequired,
+    projectId: PropTypes.number.isRequired,
     selectedCardLabels: PropTypes.array.isRequired,
     selectedMembers: PropTypes.array.isRequired,
     members: PropTypes.array.isRequired
