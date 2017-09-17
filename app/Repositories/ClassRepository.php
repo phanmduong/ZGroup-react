@@ -67,6 +67,14 @@ class ClassRepository
         return $data;
     }
 
+    public function attendances_teacher($class, $teacher_id){
+        return $this->attendancesRepository->attendances_teacher_class_lesson($this->get_class_lession($class),$teacher_id );
+    }
+
+    public function attendances_teaching_assistant($class, $teacher_id){
+        return $this->attendancesRepository->attendances_ta_class_lesson($this->get_class_lession($class),$teacher_id );
+    }
+
     public function change_status($class_id)
     {
         if ($class_id != null) {
