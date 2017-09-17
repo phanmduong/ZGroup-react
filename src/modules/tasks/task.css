@@ -156,3 +156,12 @@
 .select-container {
     margin-left: 10px;
 }
+
+.filter-container .filter-item {
+    line-height: 36px;
+}
+
+.filter-container .filter-item .btn {
+    margin-top: -2px;
+    margin-left: 10px;
+}

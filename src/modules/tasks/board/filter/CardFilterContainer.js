@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as cardFilterActions from './cardFilterActions';
 import Select from 'react-select';
+import ArchiveCardsModalContainer from "../../card/ArchiveCardsModalContainer";
 
 
 class CardFilterContainer extends React.Component {
@@ -41,9 +42,7 @@ class CardFilterContainer extends React.Component {
 
         return (
             <div className="filter-container">
-                <div style={{
-                    lineHeight: "36px"
-                }}>
+                <div className="filter-item">
                     Lọc bởi:
                 </div>
                 <div className="select-container">
@@ -66,6 +65,7 @@ class CardFilterContainer extends React.Component {
                         onChange={this.cardLabelSelectChange}
                     />
                 </div>
+                <ArchiveCardsModalContainer/>
             </div>
         );
     }
