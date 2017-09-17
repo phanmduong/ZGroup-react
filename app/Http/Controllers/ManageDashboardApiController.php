@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\ClassRepository;
 use App\Shift;
+use App\ShiftSession;
 use App\StudyClass;
 use App\User;
 use App\Base;
@@ -45,7 +46,7 @@ class ManageDashboardApiController extends ManageApiController
             $base = Base::find($base_id);
             $classes = $base->classes()->where('gen_id', $gen_id);
 
-            $shifts = Shift::where('user_id', $this->user->id)->where('gen_id', $gen_id)->where('base_id', $base_id)->whereRaw('date(now()) = date(date)')
+            $shifts = Shift::where('gen_id', $gen_id)->where('base_id', $base_id)->whereRaw('date(now()) = date(date)')
                 ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
                 ->orderBy('shifts.shift_session_id')
                 ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();;
@@ -77,7 +78,7 @@ class ManageDashboardApiController extends ManageApiController
         } else {
             $classes = $gen->studyclasses();
 
-            $shifts = Shift::where('user_id', $this->user->id)->where('gen_id', $gen_id)->whereRaw('date(now()) = date(date)')
+            $shifts = Shift::where('gen_id', $gen_id)->whereRaw('date(now()) = date(date)')
                 ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
                 ->orderBy('shifts.shift_session_id')
                 ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();
@@ -182,23 +183,29 @@ class ManageDashboardApiController extends ManageApiController
             100 * $remain_days / (strtotime($gen->end_time) - strtotime($gen->start_time));
         $remain_days = round((is_numeric($remain_days) ? $remain_days : 0) / (24 * 3600), 2);
 
-
         $shifts = $shifts->map(function ($shift) {
             $attendanceShift = [
                 'id' => $shift->id,
                 'name' => $shift->name,
-                'start_time' => $shift->start_time,
-                'end_time' => $shift->end_time,
+                'start_shift_time' => format_time_shift(strtotime($shift->start_time)),
+                'end_shift_time' => format_time_shift(strtotime($shift->end_time)),
+                'staff' => [
+                    'id' => $shift->user->id,
+                    'name' => $shift->user->name,
+                    'color' => $shift->user->color,
+                ],
+                'base' => [
+                    'id' => $shift->base->id,
+                    'name' => $shift->base->name,
+                ]
             ];
 
             if ($shift->check_in) {
-                $attendanceShift['check_in_time'] = format_time_only_mysql(strtotime($shift->check_in->created_at));
-                $attendanceShift['check_in_date_time'] = format_date_full_option($shift->check_in->created_at);
+                $attendanceShift['check_in_time'] = format_time_shift(strtotime($shift->check_in->created_at));
             }
 
             if ($shift->check_out) {
-                $attendanceShift['check_out_time'] = format_time_only_mysql(strtotime($shift->check_out->created_at));
-                $attendanceShift['check_out_date_time'] = format_date_full_option($shift->check_out->created_at);
+                $attendanceShift['check_out_time'] = format_time_shift(strtotime($shift->check_out->created_at));
             }
 
             return $attendanceShift;
@@ -207,6 +214,7 @@ class ManageDashboardApiController extends ManageApiController
 
         if ($shifts->count() != 0)
             $data['shifts'] = $shifts;
+
         $data['courses'] = $courses;
         $data['bonus'] = $bonus;
         $data['total_money'] = $total_money;

@@ -29,4 +29,12 @@ class TeachingLesson extends Model
     public function ta_check_out(){
         return $this->belongsTo(CheckInCheckOut::class, "ta_checkout_id");
     }
+
+    public function teacher(){
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
+
+    public function teaching_assistant(){
+        return $this->belongsTo(User::class, 'teaching_assistant_id');
+    }
 }

@@ -64,6 +64,7 @@ class UserRepository
                 'name' => $staff->name,
                 'phone' => $staff->phone,
                 'email' => $staff->email,
+                'color' => $staff->color,
             ];
         }
     }
