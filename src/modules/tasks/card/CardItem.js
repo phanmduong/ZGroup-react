@@ -14,6 +14,7 @@ class CardItem extends React.Component {
         this.saveCard = this.saveCard.bind(this);
         this.toggleEdit = this.toggleEdit.bind(this);
         this.updateEditFormData = this.updateEditFormData.bind(this);
+        this.archiveCard = this.archiveCard.bind(this);
     }
 
     toggleEdit() {
@@ -27,6 +28,10 @@ class CardItem extends React.Component {
         this.setState({
             isEditable: !this.state.isEditable
         });
+    }
+
+    archiveCard() {
+        this.props.archiveCard(this.props.card);
     }
 
     saveCard() {
@@ -109,8 +114,16 @@ class CardItem extends React.Component {
                                             event.stopPropagation();
                                             this.toggleEdit();
                                         }}>
-                                            <i style={{fontSize: "18px"}}
+                                            <i style={{fontSize: "16px"}}
                                                className="material-icons keetool-card">edit</i>
+                                        </a>
+                                    </TooltipButton>
+                                    <TooltipButton text="Lưu trữ thẻ" placement="top">
+                                        <a className="keetool-card" style={{marginLeft: 2}} onClick={(event) => {
+                                            event.stopPropagation();
+                                            this.archiveCard();
+                                        }}>
+                                            <i className="material-icons" style={{fontSize: "16px"}}>archive</i>
                                         </a>
                                     </TooltipButton>
                                 </div>
@@ -129,7 +142,7 @@ class CardItem extends React.Component {
                                                         height: 7,
                                                         borderRadius: 5,
                                                         marginRight: 5
-                                                    }} />
+                                                    }}/>
                                                 </TooltipButton>
 
                                             );
@@ -141,8 +154,7 @@ class CardItem extends React.Component {
 
                             <div className="card-title keetool-card"
                                  style={{
-                                     display: "flex",
-                                     justifyContent: "space-between",
+                                     paddingRight: "25px",
                                      lineHeight: "18px",
                                      fontWeight: 600
                                  }}>
@@ -201,6 +213,7 @@ CardItem.propTypes = {
     openCardDetailModal: PropTypes.func.isRequired,
     updateCardInBoard: PropTypes.func.isRequired,
     card: PropTypes.object.isRequired,
+    archiveCard: PropTypes.func.isRequired,
     board: PropTypes.object.isRequired
 };
 

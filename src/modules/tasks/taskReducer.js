@@ -6,6 +6,25 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.ARCHIVE_CARD:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (board.id === action.card.board_id) {
+                            const cards = board.cards.filter((card) => {
+                                return card.id !== action.card.id;
+                            });
+                            return {
+                                ...board,
+                                cards
+                            };
+                        }
+                        return board;
+                    })
+                }
+            };
         case types.CHANGE_ROLE_PROJECT_MEMBER:
             return {
                 ...state,

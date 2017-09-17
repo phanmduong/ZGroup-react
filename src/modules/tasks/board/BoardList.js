@@ -119,6 +119,7 @@ class BoardList extends React.Component {
                                 {board.cards.map((card) => {
                                     return (
                                         <CardItem
+                                            archiveCard={this.props.archiveCard}
                                             updateCardInBoard={this.props.updateCardInBoard}
                                             key={card.id}
                                             card={card}
@@ -153,6 +154,7 @@ BoardList.propTypes = {
     changeOrderCard: PropTypes.func.isRequired,
     addCard: PropTypes.func.isRequired,
     updateCardInBoard: PropTypes.func.isRequired,
+    archiveCard: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired,
     moveBoard: PropTypes.func.isRequired,
     openCardDetailModal: PropTypes.func.isRequired,

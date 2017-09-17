@@ -783,3 +783,13 @@ export function saveCardCommentSuccess(comment) {
         });
     };
 }
+
+export function archiveCard(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ARCHIVE_CARD,
+            card
+        });
+        taskApi.toggleArchive(card);
+    };
+}

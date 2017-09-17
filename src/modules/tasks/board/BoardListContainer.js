@@ -77,6 +77,7 @@ class BoardListContainer extends React.Component {
                     <div>
                         <CardFilterContainer/>
                         <BoardList
+                            archiveCard={this.props.taskActions.archiveCard}
                             updateCardInBoard={this.props.taskActions.updateCardInBoard}
                             openCardDetailModal={this.props.taskActions.openCardDetailModal}
                             moveBoard={this.props.taskActions.moveBoard}
