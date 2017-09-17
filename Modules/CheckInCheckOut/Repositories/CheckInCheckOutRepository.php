@@ -117,7 +117,7 @@ class CheckInCheckOutRepository
         $checkInCheckOut->teacher_teaching_lesson_id = 0;
         $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
         $checkInCheckOut->shift_id = 0;
-        $timespan = 30;
+        $timespan = 60;
         $today = date("Y-m-d");
         $classLessonIds = ClassLesson::where("time", $today)->pluck("id");
         $checkInCheckOut->message = "Hiện đang không có lớp hoặc ca trực nào khả dụng.";
