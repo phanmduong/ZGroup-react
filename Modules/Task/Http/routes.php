@@ -44,6 +44,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
     Route::post('/project/{projectId}/create-label', "CardLabelController@createLabel");
     Route::get('/project/{projectId}/labels', "CardLabelController@loadLabels");
+    Route::get('/project/{projectId}/archive-cards', "CardController@archiveCards");
     Route::delete('/cardlabel/{cardLabelId}', "CardLabelController@deleteCardLabel");
     Route::post('/cardlabel/{cardLabelId}/card/{cardId}', "CardLabelController@assignCardLabel");
 

@@ -6,6 +6,7 @@ use App\CalendarEvent;
 use App\Card;
 use App\Http\Controllers\ManageApiController;
 use App\Notification;
+use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Modules\Task\Repositories\CardRepository;
@@ -191,5 +192,14 @@ class CardController extends ManageApiController
         return $this->respondSuccessWithStatus(["comment" => $comment->transform()]);
     }
 
+    public function archiveCards($projectId)
+    {
+        $project = Project::find($projectId);
+        $board_ids = $project->boards()->pluck('id');
+        $cards = Card::whereIn("board_id", $board_ids)->where("status", "close")->orderBy("updated_at", "desc")->paginate(10);
+        return $this->respondWithPagination($cards, ["cards" => $cards->map(function ($card) {
+            return $card->transform();
+        })]);
+    }
 
 }
