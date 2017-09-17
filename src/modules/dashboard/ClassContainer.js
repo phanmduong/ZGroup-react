@@ -12,6 +12,7 @@ import TooltipButton from '../../components/common/TooltipButton';
 import {NO_AVATAR} from '../../constants/env';
 import * as helper from '../../helpers/helper';
 import _ from 'lodash';
+import AttendanceTeacher from './AttendanceTeacher';
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -158,6 +159,31 @@ class ClassContainer extends React.Component {
                                 })}
 
                             </div>
+                            {classData.teacher &&
+                            <div><h4><strong>Điểm danh giảng viên</strong></h4>
+                                {classData.teacher.attendances.map((attendance, index) => {
+                                        return <AttendanceTeacher
+                                            attendance={attendance}
+                                            key={index}
+                                        />;
+                                    }
+                                )}
+
+                            </div>
+                            }
+                            {classData.teacher_assistant &&
+                            <div><h4><strong>Điểm danh trợ giảng</strong></h4>
+                                {classData.teacher_assistant.attendances.map((attendance, index) => {
+                                        return <AttendanceTeacher
+                                            attendance={attendance}
+                                            key={index}
+                                        />;
+                                    }
+                                )}
+
+                            </div>
+                            }
+
                         </div>
                     </div>
                 </div>

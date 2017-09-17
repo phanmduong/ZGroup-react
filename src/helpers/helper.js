@@ -212,3 +212,164 @@ export function sweetAlertError(message) {
 export function intersect(array1, array2) {
     return array1.filter(cardLabel => array2.filter(t => t.id === cardLabel.id).length > 0);
 }
+export function convertTimeToSecond(time) {
+    var a = time.split(':'); // split it at the colons
+
+// minutes are worth 60 seconds. Hours are worth 60 minutes.
+    return (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+}
+
+export function calculatorAttandanceStaff(check_in_time, check_out_time, start_teaching_time, end_teaching_time) {
+    check_in_time = convertTimeToSecond(check_in_time);
+    check_out_time = convertTimeToSecond(check_out_time);
+    start_teaching_time = convertTimeToSecond(start_teaching_time);
+    end_teaching_time = convertTimeToSecond(end_teaching_time);
+
+    let before_teaching_span = convertTimeToSecond("00:15:00");
+    let after_teaching_span = convertTimeToSecond("00:15:00");
+    let start_time = start_teaching_time - before_teaching_span;
+    let end_time = end_teaching_time + after_teaching_span;
+    let required_attend_span = end_time - start_time;
+    let require_teaching_span = end_teaching_time - start_teaching_time;
+
+    let empty_arrive_span;
+    let early_arrive_span;
+    let teaching_span;
+    let late_arrive_span;
+    let early_leave_span;
+    let late_leave_span;
+
+    if (check_in_time <= start_time) {
+
+        empty_arrive_span = 0;
+
+        early_arrive_span = (before_teaching_span / required_attend_span) * 100;
+
+        late_arrive_span = 0;
+
+        if (check_out_time >= end_time) {
+
+            teaching_span = (require_teaching_span / required_attend_span) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = (after_teaching_span / required_attend_span) * 100;
+
+
+        }
+
+        else if (check_out_time >= end_teaching_time) {
+
+            teaching_span = (require_teaching_span / required_attend_span) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = ((check_out_time - end_teaching_time) / required_attend_span) * 100;
+
+        }
+
+        else {
+
+            teaching_span = ((check_out_time - start_teaching_time) / required_attend_span) * 100;
+
+            early_leave_span = ((end_teaching_time - check_out_time) / required_attend_span) * 100;
+
+            late_leave_span = 0;
+
+        }
+
+    }
+
+    else if (check_in_time <= start_teaching_time) {
+
+        empty_arrive_span = ((check_in_time - start_time) / required_attend_span) * 100;
+
+        early_arrive_span = ((start_teaching_time - check_in_time) / required_attend_span) * 100;
+
+        late_arrive_span = 0;
+
+        if (check_out_time >= end_time) {
+
+            teaching_span = (require_teaching_span / required_attend_span) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = (after_teaching_span / required_attend_span) * 100;
+
+        }
+
+        else if (check_out_time >= end_teaching_time) {
+
+            teaching_span = (require_teaching_span / required_attend_span) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = ((check_out_time - end_teaching_time) / required_attend_span) * 100;
+
+        }
+
+        else {
+
+            teaching_span = ((check_out_time - start_teaching_time) / required_attend_span) * 100;
+
+            early_leave_span = ((end_teaching_time - check_out_time) / required_attend_span) * 100;
+
+            late_leave_span = 0;
+
+        }
+
+    }
+
+    else {
+
+        empty_arrive_span = (before_teaching_span / required_attend_span) * 100;
+
+        early_arrive_span = 0;
+
+        late_arrive_span = ((check_in_time - start_teaching_time) / required_attend_span) * 100;
+
+        if (check_out_time >= end_time) {
+
+            teaching_span = ((end_teaching_time - check_in_time) / required_attend_span) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = (after_teaching_span / required_attend_span) * 100;
+
+        }
+
+        else if (check_out_time >= end_teaching_time) {
+
+            teaching_span = ((end_teaching_time - check_in_time) / required_attend_span) * 100;
+
+            early_leave_span = 0;
+
+            late_leave_span = ((check_out_time - end_teaching_time) / required_attend_span) * 100;
+
+
+        }
+
+        else {
+
+            teaching_span = ((check_out_time - check_in_time) / required_attend_span) * 100;
+
+            early_leave_span = ((end_teaching_time - check_out_time) / required_attend_span) * 100;
+
+            late_leave_span = 0;
+
+        }
+    }
+
+    let data = {
+        empty_arrive_span,
+        early_arrive_span,
+        teaching_span,
+        late_arrive_span,
+        early_leave_span,
+        late_leave_span,
+    };
+    console.log(data);
+    return data;
+}
+
+
