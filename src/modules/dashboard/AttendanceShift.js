@@ -61,7 +61,7 @@ class AttendanceShift extends React.Component {
                                         className="progress-bar"
                                         style={{
                                             width: dataAttendance.empty_arrive_span + '%',
-                                            backgroundColor: 'rgba(229, 211, 148, 0.56)'
+                                            backgroundColor: '#ffdda1'
                                         }}
                                     >
                                     </div>
