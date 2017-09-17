@@ -16,11 +16,11 @@ class ListAttendanceShift extends React.Component {
         if (helper.isEmptyInput(this.props.baseId) || this.props.baseId === 0) {
             let shiftsGroup = helper.groupBy(shifts, shift => shift.base.name, ["base", "shifts"]);
             return (
-                <div>
+                <div className="row">
                     {
                         shiftsGroup.map((shiftGroup) => {
                             return (
-                                <div>
+                                <div className="col-md-6">
                                     <h5><strong>{shiftGroup.base}</strong></h5>
                                     {
                                         shiftGroup.shifts.map((shift, index) => {
