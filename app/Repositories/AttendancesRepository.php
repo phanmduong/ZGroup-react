@@ -57,12 +57,12 @@ class AttendancesRepository
 
                 if ($attendance && $attendance->teacher_check_in) {
                     $data_attendance['attendance']['check_in_time'] = format_time_only_mysql(strtotime($attendance->teacher_check_in->created_at));
-                    $data_attendance['attendance']['check_in_date_time'] = format_vn_short_datetime($attendance->teacher_check_in->created_at);
+                    $data_attendance['attendance']['check_in_date_time'] = format_vn_short_datetime(strtotime($attendance->teacher_check_in->created_at));
                 }
 
                 if ($attendance && $attendance->teacher_check_out) {
                     $data_attendance['attendance']['check_out_time'] = format_time_only_mysql(strtotime($attendance->teacher_check_out->created_at));
-                    $data_attendance['attendance']['check_out_date_time'] = format_vn_short_datetime($attendance->teacher_check_out->created_at);
+                    $data_attendance['attendance']['check_out_date_time'] = format_vn_short_datetime(strtotime($attendance->teacher_check_out->created_at));
                 }
                 return $data_attendance;
             });
@@ -83,12 +83,12 @@ class AttendancesRepository
 
                 if ($attendance && $attendance->ta_check_in) {
                     $data_attendance['attendance']['check_in_time'] = format_time_only_mysql(strtotime($attendance->ta_check_in->created_at));
-                    $data_attendance['attendance']['check_in_date_time'] = format_vn_short_datetime($attendance->ta_check_in->created_at);
+                    $data_attendance['attendance']['check_in_date_time'] = format_vn_short_datetime(strtotime($attendance->ta_check_in->created_at));
                 }
 
                 if ($attendance && $attendance->ta_check_out) {
                     $data_attendance['attendance']['check_out_time'] = format_time_only_mysql(strtotime($attendance->ta_check_out->created_at));
-                    $data_attendance['attendance']['check_out_date_time'] = format_vn_short_datetime($attendance->ta_check_out->created_at);
+                    $data_attendance['attendance']['check_out_date_time'] = format_vn_short_datetime(strtotime($attendance->ta_check_out->created_at));
                 }
                 return $data_attendance;
             });
