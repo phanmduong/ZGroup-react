@@ -73,7 +73,7 @@
 
 
 <script src="{{url('config.js')}}"></script>
-<script type="text/javascript" src="manage/main.68b90a6b92d2ae472138.js"></script>
+<script type="text/javascript" src="manage/main.c3c468c62141ba335825.js"></script>
 
 
 <!-- Material Dashboard javascript methods -->
