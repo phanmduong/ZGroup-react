@@ -818,7 +818,6 @@ class PublicController extends Controller
 //            }
 //        }
 
-        send_mail_activate_class(Register::find(15085),"quan@colorme.vn");
         return "done";
     }
 
