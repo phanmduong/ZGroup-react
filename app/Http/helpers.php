@@ -346,7 +346,7 @@ function send_mail_confirm_receive_studeny_money($register, $emailcc)
 
     $subject = "[ColorME] Xác nhận thanh toán thành công khoá học " . $data['course']->name;
 
-    Mail::queue('emails.confirm_money_email', $data, function ($m) use ($user, $subject, $emailcc) {
+    Mail::queue('emails.confirm_money_email_2', $data, function ($m) use ($user, $subject, $emailcc) {
         $m->from('no-reply@colorme.vn', 'Color Me');
 
         $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
