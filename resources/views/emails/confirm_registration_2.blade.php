@@ -6,7 +6,8 @@
     <!--<![endif]-->
     <style type="text/css">
         a {
-            color:#c50000!important;
+            color:#e53935!important;
+            text-decoration: none;
         }
         .product-image {
             display:block !important;
