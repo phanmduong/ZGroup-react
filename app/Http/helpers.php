@@ -413,6 +413,7 @@ function send_mail_activate_class($register, $emailcc)
     $data['class'] = $register->studyClass;
     $data['student'] = $user;
     $data['regis'] = $register;
+    $data['user'] = $user;
     $data['course'] = $data['class']->course;
     $subject = "[ColorME] Thông báo khai giảng khoá học " . $data['course']->name;
 
