@@ -133,7 +133,7 @@
                         <table class="container" align="center" width="600" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="mobile-no-radius" style="background-color:#ffffff; border-radius: 15px;padding-bottom: 50px">
                                     <!-- HEADER-->
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td>
-                                                <img class="header-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1504776863M4iIUglTNbHEQCU.jpg" border="0" alt="[[AVT]]" title="logo" width="600" height="auto" style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                                                <img class="header-image" src="{{$course->image_url}} border="0" alt="[[AVT]]" title="logo" width="600" height="auto" style="display: block; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                                             </td></tr></tbody></table>
                                     <!--end HEADER-->
                                     <!-- BLOCK - 1 column / main -->
