@@ -689,9 +689,9 @@ function uploadFileToS3(\Illuminate\Http\Request $request, $fileField, $size, $o
         }
         $filePath = '/images/' . $imageFileName;
         $s3->getDriver()->put($filePath, fopen($image, 'r+'), ['ContentType' => $mimeType, 'visibility' => 'public']);
-        if ($oldfile != null) {
-            $s3->delete($oldfile);
-        }
+//        if ($oldfile != null) {
+//            $s3->delete($oldfile);
+//        }
         return $filePath;
     }
     return null;
