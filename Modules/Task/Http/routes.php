@@ -30,6 +30,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::delete('/card-file/{fileId}', "FileController@deleteFile");
     Route::post('/card/{cardId}/comment', "CardController@commentCard");
 
+    Route::post('', "CardController@commentCard");
+
     Route::post('/tasklist/create', "TaskController@createTaskList");
     Route::delete('/tasklist/{id}/delete', "TaskController@deleteTaskList");
     Route::post('/tasklist/create', "TaskController@createTaskList");

@@ -297,47 +297,6 @@
                         </table>
                     </td>
                 </tr>
-                {{--<tr>--}}
-                {{--<td>--}}
-                {{--<!-- TWO COLUMNS -->--}}
-                {{--<table cellspacing="0" cellpadding="0" border="0" width="100%">--}}
-                {{--<tr>--}}
-                {{--<td valign="top" style="padding: 0;" class="mobile-wrapper">--}}
-                {{--<!-- LEFT COLUMN -->--}}
-                {{--<table cellpadding="0" cellspacing="0" border="0" width="47%" style="width: 47%;"--}}
-                {{--align="left">--}}
-                {{--<tr>--}}
-                {{--<td style="padding: 0 0 10px 0;">--}}
-                {{--<table cellpadding="0" cellspacing="0" border="0" width="100%">--}}
-                {{--<tr>--}}
-                {{--<td align="left"--}}
-                {{--style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">--}}
-                {{--Password--}}
-                {{--</td>--}}
-                {{--</tr>--}}
-                {{--</table>--}}
-                {{--</td>--}}
-                {{--</tr>--}}
-                {{--</table>--}}
-                {{--<!-- RIGHT COLUMN -->--}}
-                {{--<table cellpadding="0" cellspacing="0" border="0" width="47%" style="width: 47%;"--}}
-                {{--align="right">--}}
-                {{--<tr>--}}
-                {{--<td style="padding: 0 0 10px 0;">--}}
-                {{--<table cellpadding="0" cellspacing="0" border="0" width="100%">--}}
-                {{--<tr>--}}
-                {{--<td align="right"--}}
-                {{--style="font-family: Arial, sans-serif; color: #e53935; font-size: 16px;">{{$password}}</td>--}}
-                {{--</tr>--}}
-                {{--</table>--}}
-                {{--</td>--}}
-                {{--</tr>--}}
-                {{--</table>--}}
-                {{--</td>--}}
-                {{--</tr>--}}
-                {{--</table>--}}
-                {{--</td>--}}
-                {{--</tr>--}}
 
                 <tr>
                     <td style="padding: 10px 0 0px 0; border-top: 1px solid #eaeaea; border-bottom: 1px dashed #aaaaaa;">

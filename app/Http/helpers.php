@@ -326,7 +326,7 @@ function send_mail_confirm_registration($user, $class_id, $emailcc)
 
     $subject = "[ColorME] Xác nhận đăng kí khoá học " . $course->name;
 
-    Mail::queue('emails.confirm_email_2', $data, function ($m) use ($user, $subject, $emailcc) {
+    Mail::queue('emails.confirm_registration_2', $data, function ($m) use ($user, $subject, $emailcc) {
         $m->from('no-reply@colorme.vn', 'Color Me');
 
         $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
