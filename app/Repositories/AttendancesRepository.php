@@ -11,6 +11,11 @@ namespace App\Repositories;
 
 class AttendancesRepository
 {
+    protected $userRepository;
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
     public function get_total_attendances($register)
     {
         if ($register) {
@@ -55,14 +60,16 @@ class AttendancesRepository
                     'end_teaching_time' => $class_lesson->end_time,
                 ];
 
+                if ($attendance) {
+                    $data_attendance['staff'] = $this->userRepository->staff($attendance->teacher);
+                }
+
                 if ($attendance && $attendance->teacher_check_in) {
-                    $data_attendance['attendance']['check_in_time'] = format_time_only_mysql(strtotime($attendance->teacher_check_in->created_at));
-                    $data_attendance['attendance']['check_in_date_time'] = format_vn_short_datetime(strtotime($attendance->teacher_check_in->created_at));
+                    $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->teacher_check_in->created_at));
                 }
 
                 if ($attendance && $attendance->teacher_check_out) {
-                    $data_attendance['attendance']['check_out_time'] = format_time_only_mysql(strtotime($attendance->teacher_check_out->created_at));
-                    $data_attendance['attendance']['check_out_date_time'] = format_vn_short_datetime(strtotime($attendance->teacher_check_out->created_at));
+                    $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->teacher_check_out->created_at));
                 }
                 return $data_attendance;
             });
@@ -81,14 +88,16 @@ class AttendancesRepository
                     'end_teaching_time' => $class_lesson->end_time,
                 ];
 
+                if ($attendance) {
+                    $data_attendance['staff'] = $this->userRepository->staff($attendance->teaching_assistant);
+                }
+
                 if ($attendance && $attendance->ta_check_in) {
-                    $data_attendance['attendance']['check_in_time'] = format_time_only_mysql(strtotime($attendance->ta_check_in->created_at));
-                    $data_attendance['attendance']['check_in_date_time'] = format_vn_short_datetime(strtotime($attendance->ta_check_in->created_at));
+                    $data_attendance['attendance']['check_in_time'] = format_time_shift(strtotime($attendance->ta_check_in->created_at));
                 }
 
                 if ($attendance && $attendance->ta_check_out) {
-                    $data_attendance['attendance']['check_out_time'] = format_time_only_mysql(strtotime($attendance->ta_check_out->created_at));
-                    $data_attendance['attendance']['check_out_date_time'] = format_vn_short_datetime(strtotime($attendance->ta_check_out->created_at));
+                    $data_attendance['attendance']['check_out_time'] = format_time_shift(strtotime($attendance->ta_check_out->created_at));
                 }
                 return $data_attendance;
             });
