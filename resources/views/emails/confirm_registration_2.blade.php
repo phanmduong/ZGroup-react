@@ -779,7 +779,7 @@
                                         <tbody>
                                         <tr>
                                             <td style="padding-top: 0px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:12px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:22px">
-                                                <b>Hotline</b>: 0162.717.5613 (bạn Linh)<br/>
+                                                <b>Hotline</b>: <a href="tel:01627175613">0162.717.5613 (bạn Linh)</a><br/>
                                                 <b>Website</b>: <a href="http://colorme.vn/">http://colorme.vn/</a><br/>
                                                 <b>Fanpage</b>: <a href="https://www.facebook.com/ColorME.Hanoi">https://www.facebook.com/ColorME.Hanoi</a><br/>
                                                 <b>Email</b>: <a href="mailto:colorme.idea@gmail.com">colorme.idea@gmail.com</a><br/>
