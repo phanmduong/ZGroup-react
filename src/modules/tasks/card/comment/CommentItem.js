@@ -12,11 +12,17 @@ class CommentItem extends React.Component {
                     <img style={{borderRadius: 5}} width={48} height={48} src={comment.commenter.avatar_url}
                          alt={comment.commenter.name}/>
                 </Media.Left>
-                <Media.Body>
+                <Media.Body style={{position: "relative"}}>
                     <Media.Heading>{comment.commenter.name}
                         <small style={{color: "#919191", marginLeft: 10}}>{comment.created_at}</small>
                     </Media.Heading>
                     <div>{comment.content}</div>
+                    <a style={{
+                        color: "rgb(90, 90, 90)",
+                        position: "absolute",
+                        top: 5, right: 5
+                    }}
+                       onClick={() => this.props.delete(comment)}>x</a>
                 </Media.Body>
             </Media>
         );
@@ -25,7 +31,8 @@ class CommentItem extends React.Component {
 }
 
 CommentItem.propTypes = {
-    comment: PropTypes.object.isRequired
+    comment: PropTypes.object.isRequired,
+    delete: PropTypes.func.isRequired
 };
 
 CommentItem.defaultProps = {};

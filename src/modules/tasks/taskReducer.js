@@ -6,6 +6,14 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.DELETE_CARD_COMMENT:
+            return {
+                ...state,
+                comment: {
+                    ...state.comment,
+                    comments: state.comment.comments.filter(c => c.id !== action.comment.id)
+                }
+            };
         case types.BEGIN_LOAD_ARCHIVE_CARDS:
             return {
                 ...state,

@@ -34,7 +34,7 @@ class CommentInputContainer extends React.Component {
 
     render() {
         return (
-            <div style={{marginTop: 20}}>
+            <div style={{marginTop: 10}}>
                 {
                     this.state.isCommenting ? <Loading/> : (
                         <textarea

@@ -820,3 +820,12 @@ export function loadArchiveCards(projectId, page = 1) {
             });
     };
 }
+
+export function deleteCardComment(comment) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_CARD_COMMENT,
+            comment
+        });
+    };
+}

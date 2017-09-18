@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import CommentItem from "./CommentItem";
+import * as taskActions from '../../taskActions';
 
 class CommentListContainer extends Component {
     constructor(props, context) {
@@ -11,11 +12,16 @@ class CommentListContainer extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{
+                borderTop: "1px solid #d9d9d9",
+                marginTop: 20,
+                paddingTop: 20
+            }}>
                 {
                     this.props.comments.map((comment) => {
                         return (
                             <CommentItem
+                                delete={this.props.taskActions.deleteCardComment}
                                 key={comment.id}
                                 comment={comment}/>
                         );
@@ -27,7 +33,8 @@ class CommentListContainer extends Component {
 }
 
 CommentListContainer.propTypes = {
-    comments: PropTypes.array.isRequired
+    comments: PropTypes.array.isRequired,
+    taskActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -38,7 +45,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({}, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch)
     };
 }
 
