@@ -73,7 +73,9 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                 ...{
                     isLoading: false,
                     error: false,
-                    dashboard: action.dashboard
+                    dashboard: action.dashboard,
+                    time: action.dashboard.time,
+                    date: action.dashboard.current_date,
                 }
             };
         case types.LOAD_DASHBOARD_DATA_ERROR:
@@ -119,6 +121,36 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                 ...{
                     isLoadingClass: false,
                     errorClass: true
+                }
+            };
+        case types.BEGIN_LOAD_ATTENDANCE_SHIFTS_DATA_DASHBOARD:
+            return {
+                ...state,
+                ...{
+                    isLoadingAttendanceShifts: true,
+                    errorAttendanceShifts: false,
+                    time: action.time
+                }
+            };
+        case types.LOAD_ATTENDANCE_SHIFTS_DASHBOARD_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingAttendanceShifts: false,
+                    errorAttendanceShifts: false,
+                    date: action.date,
+                    dashboard: {
+                        ...state.dashboard,
+                        shifts: action.shifts
+                    }
+                }
+            };
+        case types.LOAD_ATTENDANCE_SHIFTS_DASHBOARD_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingAttendanceShifts: false,
+                    errorAttendanceShifts: true
                 }
             };
         default:

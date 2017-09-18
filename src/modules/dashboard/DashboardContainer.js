@@ -32,6 +32,7 @@ class DashboardContainer extends React.Component {
         this.changeClassStatus = this.changeClassStatus.bind(this);
         this.closeModalClass = this.closeModalClass.bind(this);
         this.openModalClass = this.openModalClass.bind(this);
+        this.loadAttendanceShift = this.loadAttendanceShift.bind(this);
     }
 
     componentWillMount() {
@@ -118,6 +119,16 @@ class DashboardContainer extends React.Component {
         this.props.dashboardActions.loadClass(classData.id);
     }
 
+    loadAttendanceShift(time) {
+        if (this.state.selectBaseId === 0) {
+            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, '', this.props.time + time);
+        }
+        else {
+            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, this.state.selectBaseId, this.props.time + time);
+        }
+
+    }
+
     render() {
         return (
             <div>
@@ -151,6 +162,7 @@ class DashboardContainer extends React.Component {
                                 loadDashboard={this.loadInitDashboard}
                                 changeClassStatus={this.changeClassStatus}
                                 openModalClass={this.openModalClass}
+                                loadAttendanceShift={this.loadAttendanceShift}
                             />
                             <Modal
                                 show={this.state.showModalClass}
@@ -211,8 +223,11 @@ DashboardContainer.propTypes = {
     isLoadingGens: PropTypes.bool.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    isLoadingAttendanceShifts: PropTypes.bool.isRequired,
     currentGen: PropTypes.object.isRequired,
     dashboard: PropTypes.object.isRequired,
+    time: PropTypes.number.isRequired,
+    date: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -223,7 +238,10 @@ function mapStateToProps(state) {
         bases: state.dashboard.bases,
         isLoadingBases: state.dashboard.isLoadingBases,
         isLoading: state.dashboard.isLoading,
+        isLoadingAttendanceShifts: state.dashboard.isLoadingAttendanceShifts,
         dashboard: state.dashboard.dashboard,
+        time: state.dashboard.time,
+        date: state.dashboard.date,
     };
 }
 

@@ -14,7 +14,6 @@ class AttendanceShift extends React.Component {
             dataAttendance = helper.calculatorAttendanceShift(shift.check_in_time, shift.check_out_time, shift.start_shift_time,
                 shift.end_shift_time, this.props.most_early_time, this.props.most_late_time
             );
-            console.log(dataAttendance);
         }
         return (
             <div>

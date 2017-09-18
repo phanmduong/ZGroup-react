@@ -403,6 +403,10 @@ export default {
         class: {},
         isLoadingClass: false,
         errorClass: false,
+        time: 0,
+        date: '',
+        isLoadingAttendanceShifts: false,
+        errorAttendanceShifts: false,
     },
 
     collectMoney: {

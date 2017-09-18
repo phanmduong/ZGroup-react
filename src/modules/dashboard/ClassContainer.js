@@ -162,10 +162,21 @@ class ClassContainer extends React.Component {
                             {classData.teacher &&
                             <div><h4><strong>Điểm danh giảng viên</strong></h4>
                                 {classData.teacher.attendances.map((attendance, index) => {
-                                        return <AttendanceTeacher
-                                            attendance={attendance}
-                                            key={index}
-                                        />;
+                                        return (
+                                            <div key={index}>
+                                                <strong>Buổi {attendance.order} </strong>
+                                                {
+                                                    attendance.staff &&
+                                                    attendance.staff.name
+
+                                                }
+                                                <AttendanceTeacher
+                                                    attendance={attendance}
+
+                                                />
+                                            </div>
+                                        )
+                                            ;
                                     }
                                 )}
 
@@ -174,10 +185,20 @@ class ClassContainer extends React.Component {
                             {classData.teacher_assistant &&
                             <div><h4><strong>Điểm danh trợ giảng</strong></h4>
                                 {classData.teacher_assistant.attendances.map((attendance, index) => {
-                                        return <AttendanceTeacher
-                                            attendance={attendance}
-                                            key={index}
-                                        />;
+                                        return (
+                                            <div key={index}>
+                                                <strong>Buổi {attendance.order} </strong>
+                                                {
+                                                    attendance.staff &&
+                                                    attendance.staff.name
+
+                                                }
+                                                <AttendanceTeacher
+                                                    attendance={attendance}
+
+                                                />
+                                            </div>
+                                        );
                                     }
                                 )}
 

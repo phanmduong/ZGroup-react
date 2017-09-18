@@ -16,15 +16,7 @@ class AttendanceTeacher extends React.Component {
         }
 
         return (
-            <div key={attendance.order}>
-
-                    <strong>Buổi {attendance.order} </strong>
-                    {
-                        attendance.staff &&
-                        attendance.staff.name
-
-                    }
-
+            <div>
                 <div>{
                     attendance.attendance && attendance.attendance.check_in_time ?
                         (

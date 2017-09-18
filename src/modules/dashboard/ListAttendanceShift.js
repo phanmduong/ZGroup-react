@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import AttendanceShift from "./AttendanceShift";
 import * as helper from '../../helpers/helper';
+import PropTypes from 'prop-types';
 
 class ListAttendanceShift extends React.Component {
     constructor(props, context) {
@@ -13,14 +14,14 @@ class ListAttendanceShift extends React.Component {
             return shift.base.id;
         }]);
 
-        if (helper.isEmptyInput(this.props.baseId) || this.props.baseId === 0) {
+        if (helper.isEmptyInput(this.props.baseId) || this.props.baseId == 0) {
             let shiftsGroup = helper.groupBy(shifts, shift => shift.base.name, ["base", "shifts"]);
             return (
                 <div className="row">
                     {
-                        shiftsGroup.map((shiftGroup) => {
+                        shiftsGroup.map((shiftGroup, key) => {
                             return (
-                                <div className="col-md-6">
+                                <div className="col-md-6" key={key}>
                                     <h5><strong>{shiftGroup.base}</strong></h5>
                                     {
                                         shiftGroup.shifts.map((shift, index) => {
@@ -35,7 +36,7 @@ class ListAttendanceShift extends React.Component {
                                         })
                                     }
                                 </div>
-                            )
+                            );
 
                         })
 
@@ -54,7 +55,7 @@ class ListAttendanceShift extends React.Component {
                                     shift={shift}
                                     key={index}
                                 />
-                            )
+                            );
                         })
                     }
                 </div>
@@ -62,5 +63,14 @@ class ListAttendanceShift extends React.Component {
     }
 }
 
+
+ListAttendanceShift.propTypes = {
+    baseId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
+    shifts: PropTypes.array.isRequired,
+
+};
 
 export default ListAttendanceShift;

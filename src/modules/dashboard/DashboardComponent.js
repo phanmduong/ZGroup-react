@@ -8,6 +8,8 @@ import Barchart from './Barchart';
 import ListClass from './ListClass';
 import PropTypes from 'prop-types';
 import ListAttendanceShift from './ListAttendanceShift';
+import ListAttendanceClass from './ListAttendanceClass';
+import {DATE} from '../../constants/constants';
 
 class DashboardComponent extends React.Component {
     constructor(props, context) {
@@ -25,7 +27,7 @@ class DashboardComponent extends React.Component {
             let {
                 total_money, target_revenue, register_number, paid_number, zero_paid_number, remain_days,
                 percent_remain_days, total_classes, courses, user, bonus, count_paid, count_total, registers_by_date, date_array,
-                paid_by_date, money_by_date, classes, shifts
+                paid_by_date, money_by_date, classes, shifts, now_classes, current_date
 
             } = this.props.dashboard;
             let avatar = helper.avatarEmpty(user.avatar_url) ? NO_AVATAR : user.avatar_url;
@@ -203,7 +205,7 @@ class DashboardComponent extends React.Component {
                         </div>
                     </div>
                     {
-                        shifts &&
+                        (shifts || this.props.date !== current_date) &&
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="card">
@@ -211,12 +213,64 @@ class DashboardComponent extends React.Component {
                                         <i className="material-icons">insert_chart</i>
                                     </div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Lịch trực hôm nay
+                                        <div className="flex flex-row flex-space-between">
+                                            <h4 className="card-title">
+                                                {this.props.date === current_date ? 'Lịch trực hôm nay' : 'Lịch trực ' + this.props.date}
+                                                <small></small>
+                                            </h4>
+                                            <div className="flex flex-row">
+                                                <button
+                                                    className="btn btn-rose btn-sm"
+                                                    onClick={() => this.props.loadAttendanceShift(-DATE)}
+                                                >
+                                                    <span className="btn-label">
+                                                        <i className="material-icons">keyboard_arrow_left</i>
+                                                    </span>
+                                                    Trước
+                                                </button>
+                                                <button
+                                                    className="btn btn-rose btn-sm"
+                                                    onClick={() => this.props.loadAttendanceShift(DATE)}
+                                                >
+                                                    Sau
+                                                    <span className="btn-label btn-label-right">
+                                                        <i className="material-icons">
+                                                            keyboard_arrow_right
+                                                        </i>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {
+                                            this.props.isLoadingAttendanceShifts ? <Loading/> :
+                                                (
+                                                    shifts ?
+                                                        <ListAttendanceShift
+                                                            baseId={this.props.baseId}
+                                                            shifts={shifts}
+                                                        /> : <div><strong>Hiện không có lịch trực</strong></div>
+                                                )
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    {
+                        now_classes &&
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">insert_chart</i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">Lớp học hôm nay
                                             <small></small>
                                         </h4>
-                                        <ListAttendanceShift
+                                        <ListAttendanceClass
                                             baseId={this.props.baseId}
-                                            shifts = {shifts}
+                                            now_classes={now_classes}
                                         />
                                     </div>
                                 </div>
@@ -250,9 +304,16 @@ class DashboardComponent extends React.Component {
 
 DashboardComponent.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isLoadingAttendanceShifts: PropTypes.bool.isRequired,
     dashboard: PropTypes.object.isRequired,
     changeClassStatus: PropTypes.func.isRequired,
-    openModalClass: PropTypes.func.isRequired
+    openModalClass: PropTypes.func.isRequired,
+    loadAttendanceShift: PropTypes.func.isRequired,
+    baseId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
+    date: PropTypes.string.isRequired,
 };
 
 

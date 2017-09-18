@@ -162,7 +162,7 @@ export function updateArrayElement(element, array) {
 
 export function getShortName(name) {
 
-    var n = name.split(" ");
+    var n = name.trim().split(" ");
     if (n.length > 1)
         return n[n.length - 2] + ' ' + n[n.length - 1];
     return name;
@@ -397,7 +397,6 @@ export function calculatorAttendanceShift(check_in_time, check_out_time, start_s
     let end_working_time = most_late_time + after_shift_span;
 
     let working_time = end_working_time - start_working_time;
-    console.log(working_time);
     let start_time = start_shift_time - before_shift_span;
     let end_time = end_shift_time + after_shift_span;
     let require_shift_span = end_shift_time - start_shift_time;
@@ -411,9 +410,7 @@ export function calculatorAttendanceShift(check_in_time, check_out_time, start_s
     let empty_leave_span;
 
     let early_span = (start_time - start_working_time) * 100 / working_time;
-    console.log(early_span);
     let late_span = (end_working_time - end_time) * 100 / working_time;
-    console.log(late_span);
 
     if (check_in_time <= start_time) {
 

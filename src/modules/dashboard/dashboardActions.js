@@ -103,6 +103,27 @@ export function loadClass(classId) {
     };
 }
 
+export function loadAttendanceShifts(genId, baseId, time) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ATTENDANCE_SHIFTS_DATA_DASHBOARD,
+            time: time
+        });
+        dashboardApi.loadAttendanceShifts(genId, baseId, time)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ATTENDANCE_SHIFTS_DASHBOARD_SUCCESS,
+                    shifts: res.data.data.shifts,
+                    date: res.data.data.date,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_ATTENDANCE_SHIFTS_DASHBOARD_ERROR
+            });
+        });
+    };
+}
+
 
 
 
