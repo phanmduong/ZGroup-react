@@ -265,6 +265,7 @@ class CheckInCheckOutRepository
                                     $checkIn->status = 6;
                                     $checkIn->shift_id = $s->id;
                                     $checkIn->message = "Bạn vừa check in thành công " . $s->shift_session->name . " (" . $s->shift_session->start_time . " - " . $s->shift_session->end_time . ")";
+                                    $checkIn->created_at = format_time_to_mysql(strtotime($s->shift_session->start_time));
                                     $checkIn->save();
 
                                     $s->checkin_id = $checkIn->id;
@@ -275,6 +276,7 @@ class CheckInCheckOutRepository
                                     $checkOut->kind = 2;
                                     $checkOut->status = 6;
                                     $checkOut->shift_id = $s->id;
+                                    $checkOut->created_at = format_time_to_mysql(strtotime($s->shift_session->end_time));
                                     $checkOut->message = "Bạn vừa check out thành công " . $s->shift_session->name . " (" . $s->shift_session->start_time . " - " . $s->shift_session->end_time . ")";
                                     $checkOut->save();
 
