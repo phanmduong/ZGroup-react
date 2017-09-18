@@ -416,7 +416,7 @@ function send_mail_activate_class($register, $emailcc)
     $data['course'] = $data['class']->course;
     $subject = "[ColorME] Thông báo khai giảng khoá học " . $data['course']->name;
 
-    Mail::queue('emails.activate_class', $data, function ($m) use ($user, $subject, $emailcc) {
+    Mail::queue('emails.activate_class_2', $data, function ($m) use ($user, $subject, $emailcc) {
         $m->from('no-reply@colorme.vn', 'Color Me');
 
         $m->to($user['email'], $user['name'])->subject($subject);
