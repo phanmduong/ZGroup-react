@@ -8,6 +8,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ClassLesson;
+use App\Repositories\AttendancesRepository;
 use App\Repositories\ClassRepository;
 use App\Shift;
 use App\ShiftSession;
@@ -25,12 +27,14 @@ class ManageDashboardApiController extends ManageApiController
 {
     protected $dashboardRepository;
     protected $classRepository;
+    protected $attendancesRepository;
 
-    public function __construct(DashboardRepository $dashboardRepository, ClassRepository $classRepository)
+    public function __construct(DashboardRepository $dashboardRepository, ClassRepository $classRepository, AttendancesRepository $attendancesRepository)
     {
         parent::__construct();
         $this->dashboardRepository = $dashboardRepository;
         $this->classRepository = $classRepository;
+        $this->attendancesRepository = $attendancesRepository;
     }
 
     public function dashboard($gen_id, $base_id = null)
@@ -44,12 +48,13 @@ class ManageDashboardApiController extends ManageApiController
 
         if ($base_id) {
             $base = Base::find($base_id);
+            $now_classes = $base->classes();
             $classes = $base->classes()->where('gen_id', $gen_id);
 
             $shifts = Shift::where('gen_id', $gen_id)->where('base_id', $base_id)->whereRaw('date(now()) = date(date)')
                 ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
                 ->orderBy('shifts.shift_session_id')
-                ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();;
+                ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();
 
             $registers = $this->dashboardRepository->registers($gen_id, $classes);
             $paid_number = $this->dashboardRepository->registers($gen_id, $classes)->where('status', 1)->where('money', '>', 0)->count();
@@ -113,11 +118,35 @@ class ManageDashboardApiController extends ManageApiController
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
                 ->where('gen_id', $gen_id)
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money', ' date');
+            $now_classes = StudyClass::orderBy('id');
         }
 
         $data['classes'] = $classes->get()->map(function ($class) {
             return $this->classRepository->get_class($class);
         });
+
+        $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
+            ->whereRaw('date(now()) = date(time)')
+            ->select('classes.*', 'class_lesson.time', 'class_lesson.start_time','class_lesson.end_time', 'class_lesson.id as class_lesson_id');
+
+        $now_classes = $now_classes->get()->map(function ($class) {
+            $dataClass = $this->classRepository->get_class($class);
+            $dataClass['time'] = $class->time;
+            $dataClass['start_time'] = $class->start_time;
+            $dataClass['end_time'] = $class->end_time;
+            $classLesson = ClassLesson::find($class->class_lesson_id);
+            if ($dataClass['teacher']) {
+                $dataClass['attendance_teacher'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson, $dataClass['teacher']['id']);
+            }
+            if ($dataClass['teacher_assistant']) {
+                $dataClass['attendance_teacher_assistant'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson, $dataClass['teacher_assistant']['id']);
+            }
+            return $dataClass;
+        });
+
+        if ($now_classes->count() > 0) {
+            $data['now_classes'] = $now_classes;
+        }
         $registers_by_date = array();
         $paid_by_date = array();
         $money_by_date = array();
@@ -253,6 +282,63 @@ class ManageDashboardApiController extends ManageApiController
 
         if (!empty($rating))
             $data['user']['rating'] = $rating;
+
+        $data['time'] = strtotime(date("Y-m-d H:i:s"));
+        $data['current_date'] = format_vn_date(strtotime(date("Y-m-d H:i:s")));
+
+        return $this->respondSuccessWithStatus($data);
+    }
+
+    public function get_attendance_shift($gen_id, Request $request, $base_id = null)
+    {
+        $time = $request->time;
+        if ($base_id) {
+
+            $shifts = Shift::where('gen_id', $gen_id)->where('base_id', $base_id)->whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
+                ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
+                ->orderBy('shifts.shift_session_id')
+                ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();
+        } else {
+            $shifts = Shift::where('gen_id', $gen_id)->whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(date)')
+                ->join('shift_sessions', 'shifts.shift_session_id', '=', 'shift_sessions.id')
+                ->orderBy('shifts.shift_session_id')
+                ->select('shifts.*', 'shift_sessions.start_time', 'shift_sessions.end_time', 'shift_sessions.name')->get();
+        }
+        $data = [];
+
+        $shifts = $shifts->map(function ($shift) {
+            $attendanceShift = [
+                'id' => $shift->id,
+                'name' => $shift->name,
+                'start_shift_time' => format_time_shift(strtotime($shift->start_time)),
+                'end_shift_time' => format_time_shift(strtotime($shift->end_time)),
+                'staff' => [
+                    'id' => $shift->user->id,
+                    'name' => $shift->user->name,
+                    'color' => $shift->user->color,
+                ],
+                'base' => [
+                    'id' => $shift->base->id,
+                    'name' => $shift->base->name,
+                ]
+            ];
+
+            if ($shift->check_in) {
+                $attendanceShift['check_in_time'] = format_time_shift(strtotime($shift->check_in->created_at));
+            }
+
+            if ($shift->check_out) {
+                $attendanceShift['check_out_time'] = format_time_shift(strtotime($shift->check_out->created_at));
+            }
+
+            return $attendanceShift;
+
+        });
+
+        if ($shifts->count() != 0)
+            $data['shifts'] = $shifts;
+
+        $data['date'] = format_vn_date($time);
 
         return $this->respondSuccessWithStatus($data);
     }

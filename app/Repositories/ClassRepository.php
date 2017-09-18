@@ -9,6 +9,7 @@
 namespace App\Repositories;
 
 
+use App\Room;
 use App\StudyClass;
 use App\TeachingLesson;
 use DateTime;
@@ -20,15 +21,17 @@ class ClassRepository
     protected $courseRepository;
     protected $attendancesRepository;
     protected $registerRepository;
+    protected $roomRepository;
 
     public function __construct(GenRepository $genRepository, CourseRepository $courseRepository, UserRepository $userRepository,
-                                AttendancesRepository $attendancesRepository, RegisterRepository $registerRepository)
+                                AttendancesRepository $attendancesRepository, RegisterRepository $registerRepository, RoomRepository $roomRepository)
     {
         $this->genRepository = $genRepository;
         $this->courseRepository = $courseRepository;
         $this->userRepository = $userRepository;
         $this->attendancesRepository = $attendancesRepository;
         $this->registerRepository = $registerRepository;
+        $this->roomRepository = $roomRepository;
     }
 
     public function get_class($class)
@@ -51,6 +54,7 @@ class ClassRepository
         $teacher_assistant = $this->userRepository->user($class->assist);
         $gen = $this->genRepository->gen($class->gen);
         $course = $this->courseRepository->course($class->course);
+        $room = $this->roomRepository->room($class->room);
 
         if ($gen)
             $data['gen'] = $gen;
@@ -64,15 +68,21 @@ class ClassRepository
         if ($teacher_assistant)
             $data['teacher_assistant'] = $teacher_assistant;
 
+        if ($room) {
+            $data['room'] = $room;
+        }
+
         return $data;
     }
 
-    public function attendances_teacher($class, $teacher_id){
-        return $this->attendancesRepository->attendances_teacher_class_lesson($this->get_class_lession($class),$teacher_id );
+    public function attendances_teacher($class, $teacher_id)
+    {
+        return $this->attendancesRepository->attendances_teacher_class_lesson($this->get_class_lession($class), $teacher_id);
     }
 
-    public function attendances_teaching_assistant($class, $teacher_id){
-        return $this->attendancesRepository->attendances_ta_class_lesson($this->get_class_lession($class),$teacher_id );
+    public function attendances_teaching_assistant($class, $teacher_id)
+    {
+        return $this->attendancesRepository->attendances_ta_class_lesson($this->get_class_lession($class), $teacher_id);
     }
 
     public function change_status($class_id)
