@@ -5,6 +5,9 @@
     <link href="https://media-cdn.withings.com/email/permanent/template/font-nokia-2.css" rel="stylesheet" type="text/css">
     <!--<![endif]-->
     <style type="text/css">
+        a {
+            color:#c50000!important;
+        }
         .product-image {
             display:block !important;
             width: 100% !important;
@@ -217,6 +220,48 @@
                                                                                                     <tr>
                                                                                                         <td align="right"
                                                                                                             style="font-family: Arial, sans-serif; color: #e53935; font-size: 16px;">{{$user->email}}</td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td style="padding: 10px 0 0 0;">
+                                                                        <!-- TWO COLUMNS -->
+                                                                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                                                            <tr>
+                                                                                <td valign="top" class="mobile-wrapper">
+                                                                                    <!-- LEFT COLUMN -->
+                                                                                    <table cellpadding="0" cellspacing="0" border="0" width="47%" style="width: 47%;"
+                                                                                           align="left">
+                                                                                        <tr>
+                                                                                            <td style="padding: 0 0 10px 0;">
+                                                                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                                                    <tr>
+                                                                                                        <td align="left"
+                                                                                                            style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                                                                                            Password
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                    <!-- RIGHT COLUMN -->
+                                                                                    <table cellpadding="0" cellspacing="0" border="0" width="47%" style="width: 47%;"
+                                                                                           align="right">
+                                                                                        <tr>
+                                                                                            <td style="padding: 0 0 10px 0;">
+                                                                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                                                    <tr>
+                                                                                                        <td align="right"
+                                                                                                            style="font-family: Arial, sans-serif; color: #e53935; font-size: 16px;">{{$user->phone}}</td>
                                                                                                     </tr>
                                                                                                 </table>
                                                                                             </td>
@@ -758,7 +803,7 @@
                                                 <table width="170" border="0" cellpadding="0" cellspacing="0" style="margin: auto;" align="center">
                                                     <tbody><tr>
                                                         <td style="text-align: center; border-radius:30px; background-color: #c50000; color: #ffffff; border-style:solid; border-color: #c50000; border-width: 2px">
-                                                            <a href="http://colorme.vn/" target="_blank" style="display:block; width:100%; font-size:14px; min-height:40px; line-height:40px; font-weight: 200; text-decoration:none; color: #ffffff; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, Open sans, Arial, sans-serif; cursor:pointer;">
+                                                            <a href="http://colorme.vn/" target="_blank" style="display:block; width:100%; font-size:14px; min-height:40px; line-height:40px; font-weight: 200; text-decoration:none; color: #ffffff!important; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, Open sans, Arial, sans-serif; cursor:pointer;">
                                                                 ĐĂNG NHẬP NGAY
                                                             </a>
                                                         </td>
