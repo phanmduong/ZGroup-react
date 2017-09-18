@@ -128,7 +128,7 @@
 <body style="margin:0; padding:0;background:#e8e8e8">
 <!-- ENCAPSULATION - Setting of the email width-->
 <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#e8e8e8"><tbody><tr><td>
-            <div style="max-height:0; width:0; overflow:hidden; float:left; display:none;">Keep tabs on the homestead all summer long with Nokia Home, plus enjoy 2 months free Premium Security if you get one before July 31.</div>
+            <div style="max-height:0; width:0; overflow:hidden; float:left; display:none;">Thông báo từ colorME</div>
             <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#e8e8e8"><tbody><tr><td class="mobile-no-padding" style="padding-top: 20px; padding-right: 20px; padding-left: 20px;">
                         <table class="container" align="center" width="600" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="mobile-no-radius" style="background-color:#ffffff; border-radius: 15px;padding-bottom: 50px">
                                     <!-- HEADER-->
