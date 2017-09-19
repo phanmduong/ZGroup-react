@@ -4,6 +4,7 @@ namespace Modules\Task\Http\Controllers;
 
 use App\Board;
 use App\Card;
+use App\CardComment;
 use App\Colorme\Transformers\BoardTransformer;
 use App\Colorme\Transformers\CardTransformer;
 use App\Colorme\Transformers\TaskTransformer;
@@ -492,6 +493,12 @@ class TaskController extends ManageApiController
             return $this->responseBadRequest("Công việc không tồn tại");
         }
         $task->delete();
+        return $this->respond(["message" => "success"]);
+    }
+
+    public function deleteCardComment($id){
+        $cardComment = CardComment::find($id);
+        $cardComment->delete();
         return $this->respond(["message" => "success"]);
     }
 
