@@ -20,9 +20,7 @@
 .board-container {
     display: inline-flex;
     flex-direction: row;
-    padding-top: 20px;
-    padding-bottom: 10px;
-    padding-right: 20px;
+    padding: 10px;
 }
 
 .board > .card-content {
@@ -31,9 +29,8 @@
 }
 
 .board {
-    margin-left: -10px;
-    margin-right: -20px;
-    padding-right: 10px;
+    height: calc(100vh - 330px);
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
 
