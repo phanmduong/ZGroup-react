@@ -53,7 +53,17 @@ class ProjectMemberDetailOverlayContainer extends React.Component {
         return (
             <div style={{position: "relative"}}>
                 <a ref="target" onClick={this.toggle}>
-                    <Avatar key={this.props.member.id} url={this.props.member.avatar_url} size={30}/>
+                    <div style={{
+                        borderRadius: 5,
+                        boxSizing: "border-box",
+                        marginRight: 5,
+                        border: this.props.member.is_admin ? "2px solid rgb(255, 193, 7)" : "none"
+                    }}>
+                        <Avatar
+                            distance={0}
+                            key={this.props.member.id}
+                            url={this.props.member.avatar_url} size={30}/>
+                    </div>
                 </a>
                 <Overlay
                     rootClose={true}
