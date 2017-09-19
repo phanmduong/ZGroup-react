@@ -34,6 +34,29 @@ export function commentCard(value, cardId) {
 }
 
 
+export function toggleArchiveProject(project) {
+    let url = env.MANAGE_API_URL + `/project/${project.id}/toggle-archive`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url);
+}
+
+
+export function loadArchiveProjects(page = 1, query = null) {
+    let url = env.MANAGE_API_URL + "/projects/archive?page=" + page;
+    let token = localStorage.getItem('token');
+    if (query) {
+        url += "&q=" + query;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+
+
 export function loadProjects(page = 1, query = null) {
     let url = env.MANAGE_API_URL + "/projects?page=" + page;
     let token = localStorage.getItem('token');

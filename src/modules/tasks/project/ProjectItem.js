@@ -11,6 +11,7 @@ class ProjectItem extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.onEditClick = this.onEditClick.bind(this);
+        this.archiveProject = this.archiveProject.bind(this);
     }
 
     onEditClick(event) {
@@ -19,10 +20,22 @@ class ProjectItem extends React.Component {
         this.props.taskActions.openProjectDetailModal(this.props.project);
     }
 
+    archiveProject(event) {
+        event.stopPropagation();
+        event.preventDefault();
+        this.props.taskActions.archiveProject(this.props.project);
+    }
+
     render() {
         const {project} = this.props;
         const tooltip = (
             <Tooltip id="tooltip">{project.description}</Tooltip>
+        );
+        const editTooltip = (
+            <Tooltip id="tooltip">Sửa dự án</Tooltip>
+        );
+        const archiveTooltip = (
+            <Tooltip id="tooltip">Lưu trữ dự án</Tooltip>
         );
         const isAdmin = project.members.filter(member => member.is_admin && member.id === this.props.user.id).length > 0 || this.props.user.role === 2;
         return (
@@ -32,15 +45,30 @@ class ProjectItem extends React.Component {
                       className="btn btn-default btn-lg">
                     {
                         isAdmin && (
-                            <div style={{position: "absolute", top: "20px", right: "15px"}}>
-                                <div className="board-action">
-                                    <a style={{color: "#455a64"}} onClick={this.onEditClick}>
-                                        <i className="material-icons" style={{fontSize: "18px"}}>edit</i>
-                                    </a>
+                            <OverlayTrigger placement="top" overlay={editTooltip}>
+                                <div style={{position: "absolute", top: "20px", right: "30px"}}>
+                                    <div className="board-action">
+                                        <a style={{color: "#455a64"}} onClick={this.onEditClick}>
+                                            <i className="material-icons" style={{fontSize: "18px"}}>edit</i>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            </OverlayTrigger>
                         )
                     }
+                    <OverlayTrigger placement="top" overlay={archiveTooltip}>
+                        <div style={{position: "absolute", top: "20px", right: "12px"}}>
+                            <div className="board-action">
+                                <a style={{color: "#455a64"}} onClick={this.archiveProject}>
+                                    {
+                                        project.status === "open" ?
+                                            <i className="material-icons" style={{fontSize: "18px"}}>archive</i> :
+                                            <i className="material-icons" style={{fontSize: "18px"}}>unarchive</i>
+                                    }
+                                </a>
+                            </div>
+                        </div>
+                    </OverlayTrigger>
 
                     <div className="row" style={{fontSize: "16px", fontWeight: 600}}>
                         <i className="material-icons">account_balance_wallet</i> {project.title.length > 20 ? project.title.slice(0, 17) + "..." : project.title}

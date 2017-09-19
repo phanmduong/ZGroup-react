@@ -35,6 +35,7 @@ import CollectMoneyContainer from "./modules/collectMoney/CollectMoneyContainer"
 import HistoryCollectMoneyContainer from "./modules/historyCollectMoney/HistoryCollectMoneyContainer";
 import HistoryCallsContainer from "./modules/historyCalls/HistoryCallsContainer";
 import ClassesContainer from "./modules/classes/ClassesContainer";
+import ArchiveProjectListContainer from "./modules/tasks/project/ArchiveProjectListContainer";
 
 export default (
     <Route>
@@ -63,6 +64,7 @@ export default (
             {/*Begin tasks route*/}
             <Route path="/calendar" component={CalendarContainer}/>
             <Route path="project/list" component={ProjectListContainer}/>
+            <Route path="project/archive" component={ArchiveProjectListContainer}/>
             <Route path="project/create" component={CreateProjectContainer} type="create"/>
             <Route path="project/:projectId/edit" component={CreateProjectContainer} type="edit"/>
             <Route path="project/:projectId/boards" component={BoardListContainer}/>

@@ -10,13 +10,14 @@ import {confirm} from "../../../helpers/helper";
 import _ from 'lodash';
 import Search from "../../../components/common/Search";
 
-class ProjectListContainer extends React.Component {
+class ArchiveProjectListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.deleteProject = this.deleteProject.bind(this);
         this.loadProjects = this.loadProjects.bind(this);
         this.changeProjectStatus = this.changeProjectStatus.bind(this);
         this.projectsSearchChange = this.projectsSearchChange.bind(this);
+        this.isArchived = true;
         this.state = {
             page: 1,
             query: ""
@@ -24,7 +25,7 @@ class ProjectListContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.taskActions.loadProjects();
+        this.props.taskActions.loadProjects(1, null, this.isArchived);
     }
 
     changeProjectStatus(project, status) {
@@ -71,11 +72,8 @@ class ProjectListContainer extends React.Component {
                             <h4 className="card-title">Dự án</h4>
 
                             <div style={{marginTop: "15px"}}>
-                                <Link to="/project/create" className="btn btn-rose">
-                                    Thêm dự án
-                                </Link>
-                                <Link to="/project/archive" className="btn btn-default">
-                                    Dự án lưu trữ
+                                <Link to="/project/list" className="btn btn-default">
+                                    Dự án đang chạy
                                 </Link>
                             </div>
 
@@ -118,7 +116,7 @@ class ProjectListContainer extends React.Component {
     }
 }
 
-ProjectListContainer.propTypes = {
+ArchiveProjectListContainer.propTypes = {
     projects: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     isLoadingProjects: PropTypes.bool.isRequired,
@@ -142,4 +140,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ArchiveProjectListContainer);

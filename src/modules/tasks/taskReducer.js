@@ -6,6 +6,14 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.ARCHIVE_PROJECT:
+            return {
+                ...state,
+                project: {
+                    ...state.project,
+                    projects: state.project.projects.filter(p => p.id !== action.project.id)
+                }
+            };
         case types.DELETE_CARD_COMMENT:
             return {
                 ...state,
