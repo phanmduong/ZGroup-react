@@ -556,15 +556,15 @@ Route::group(['middleware' => 'web'], function () {
 //    Route::get('manage/moneycollect', 'HomeController@money_collect');
     Route::get('manage/roles', 'HomeController@show_roles');
 
-    Route::get('manage/scheduleclass', 'ManageClassController@schedule');
-    Route::get('manage/studysession', 'ManageClassController@studySession');
+//    Route::get('manage/scheduleclass', 'ManageClassController@schedule');
+//    Route::get('manage/studysession', 'ManageClassController@studySession');
 
     Route::get('manage/telesalehistory/{page?}', 'HomeController@all_tele_sale_history');
     Route::get('manage/get_telecalls_list', 'HomeController@telecalls_list');
 
-    Route::get('manage/gens/{page?}', 'HomeController@manage_gens');
+//    Route::get('manage/gens/{page?}', 'HomeController@manage_gens');
     Route::get('manage/courses/{page?}', 'HomeController@courses');
-    Route::get('manage/classes/{page?}', 'HomeController@classes');
+//    Route::get('manage/classes/{page?}', 'HomeController@classes');
 //    Route::get('manage/registerlist', 'HomeController@registerList');
     Route::get('manage/waitlist', 'HomeController@waitList');
     Route::get('manage/study-history/{student_id}', 'HomeController@study_history');
