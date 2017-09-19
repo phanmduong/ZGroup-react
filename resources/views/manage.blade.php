@@ -24,6 +24,7 @@
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
     <link href="manage/main.81cbbccdd4cf6149d98c72a4f17ff22a.css" rel="stylesheet">
+
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
 <body>
