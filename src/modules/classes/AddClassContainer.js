@@ -29,13 +29,23 @@ class AddClassContainer extends React.Component {
         this.changeTeachAssis = this.changeTeachAssis.bind(this);
         this.changeSchedule = this.changeSchedule.bind(this);
         this.checkValidate = this.checkValidate.bind(this);
+        this.createClass = this.createClass.bind(this);
+        this.editClass = this.editClass.bind(this);
     }
 
     componentWillMount() {
+        if (this.props.edit) {
+            this.props.classActions.updateFormCreateClass({...this.props.classData});
+        } else {
+            this.props.classActions.updateFormCreateClass({
+                datestart: new Date().toISOString().slice(0, 10)
+            });
+        }
         this.props.classActions.infoCreateClass();
     }
 
     componentWillReceiveProps(nextProps) {
+
         if (nextProps.isLoadingInfoCreateClass !== this.props.isLoadingInfoCreateClass && !nextProps.isLoadingInfoCreateClass) {
             let dataGens = [];
             nextProps.infoCreateClass.gens.forEach(gen => {
@@ -73,7 +83,7 @@ class AddClassContainer extends React.Component {
                     }
                 });
             });
-            let dataRoomBefore={};
+            let dataRoomBefore = {};
             let dataRooms = [];
             nextProps.infoCreateClass.rooms.forEach(room => {
                 if (dataRoomBefore.base_id !== room.base_id) {
@@ -142,38 +152,50 @@ class AddClassContainer extends React.Component {
         const field = event.target.name;
         let classData = {...this.props.class};
         classData[field] = event.target.value;
-        this.props.classActions.updateFormCreateClass(classData);
-    }
-
-    checkValidate(){
-        let {gen_id, course_id, schedule_id, datestart, room_id} = this.props.class;
-        if ($("#form-add-class").valid()){
-            if (helper.isEmptyInput(datestart)){
-                helper.showTypeNotification("Vui lòng chọn ngày khai giảng", "warning");
-                return;
-            }
-            if (helper.isEmptyInput(room_id)){
-                helper.showTypeNotification("Vui lòng chọn phòng học", "warning");
-                return;
-            }
-            if (helper.isEmptyInput(schedule_id)){
-                helper.showTypeNotification("Vui lòng chọn lịch học", "warning");
-                return;
-            }
-            if (helper.isEmptyInput(course_id)){
-                helper.showTypeNotification("Vui lòng chọn môn học", "warning");
-                return;
-            }
-            if (helper.isEmptyInput(gen_id)){
-                helper.showTypeNotification("Vui lòng chọn khóa học", "warning");
-                return;
-            }
+        if (classData[field] !== this.props.class[field]) {
+            this.props.classActions.updateFormCreateClass(classData);
         }
     }
 
-    componentDidUpdate(prevProps){
-        if (prevProps.isLoadingInfoCreateClass !== this.props.isLoadingInfoCreateClass && prevProps.isLoadingInfoCreateClass) {
-            helper.setFormValidation("#form-add-class");
+    checkValidate() {
+        let {gen_id, course_id, schedule_id, datestart, room_id} = this.props.class;
+        helper.setFormValidation("#form-add-class");
+        if ($("#form-add-class").valid()) {
+            if (helper.isEmptyInput(datestart)) {
+                helper.showTypeNotification("Vui lòng chọn ngày khai giảng", "warning");
+                return false;
+            }
+            if (helper.isEmptyInput(room_id)) {
+                helper.showTypeNotification("Vui lòng chọn phòng học", "warning");
+                return false;
+            }
+            if (helper.isEmptyInput(schedule_id)) {
+                helper.showTypeNotification("Vui lòng chọn lịch học", "warning");
+                return false;
+            }
+            if (helper.isEmptyInput(course_id)) {
+                helper.showTypeNotification("Vui lòng chọn môn học", "warning");
+                return false;
+            }
+            if (helper.isEmptyInput(gen_id)) {
+                helper.showTypeNotification("Vui lòng chọn khóa học", "warning");
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    createClass() {
+        console.log("onclick");
+        if (this.checkValidate()) {
+            this.props.classActions.createClass(this.props.class, this.props.closeModal);
+        }
+    }
+
+    editClass() {
+        if (this.checkValidate()) {
+            this.props.classActions.editClass(this.props.class, this.props.closeModal);
         }
     }
 
@@ -307,22 +329,22 @@ class AddClassContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        {this.props.isCreatingClass ?
+                        {this.props.isStoringClass ?
                             (
                                 <button
                                     className="btn btn-fill btn-rose disabled"
                                 >
                                     <i className="fa fa-spinner fa-spin"/>
-                                    {this.props.type === 'edit' ? ' Đang cập nhật' : ' Đang thêm'}
+                                    {this.props.edit ? ' Đang cập nhật' : ' Đang thêm'}
                                 </button>
                             )
                             :
                             (
                                 <button
                                     className="btn btn-fill btn-rose"
-                                    onClick={this.checkValidate}
+                                    onClick={this.props.edit ? this.editClass : this.createClass}
                                 >
-                                    {this.props.type === 'edit' ? 'Cập nhật' : 'Thêm'}
+                                    {this.props.edit ? 'Cập nhật' : 'Thêm'}
                                 </button>
                             )
                         }
@@ -335,7 +357,7 @@ class AddClassContainer extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        isCreatingClass: state.classes.isCreatingClass,
+        isStoringClass: state.classes.isStoringClass,
         isLoadingInfoCreateClass: state.classes.isLoadingInfoCreateClass,
         class: state.classes.class,
         infoCreateClass: state.classes.infoCreateClass,

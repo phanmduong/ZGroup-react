@@ -132,7 +132,7 @@ class ListClass extends React.Component {
                                                    type="button"
                                                    onClick={() => this.props.duplicateClass(classItem)}
                                                    rel="tooltip">
-                                                    <i className="material-icons">content_copy</i>
+                                                    <i className="material-icons">control_point_duplicate</i>
                                                 </a>
                                             }
 

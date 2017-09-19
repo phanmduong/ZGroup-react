@@ -123,5 +123,46 @@ export function updateFormCreateClass(classData) {
     };
 }
 
+export function createClass(classData, closeModal) {
+    classData = {...classData, id: ''};
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_CLASS,
+        });
+        classApi.addClass(classData)
+            .then((res) => {
+                closeModal();
+                dispatch({
+                    type: types.LOAD_CREATE_CLASS_SUCCESS,
+                    class: res.data.data.class
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_CREATE_CLASS_ERROR
+            });
+        });
+    };
+}
+
+export function editClass(classData, closeModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_EDIT_CLASS,
+        });
+        classApi.addClass(classData)
+            .then((res) => {
+                closeModal();
+                dispatch({
+                    type: types.LOAD_EDIT_CLASS_SUCCESS,
+                    class: res.data.data.class
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_EDIT_CLASS_ERROR
+            });
+        });
+    };
+}
+
 
 

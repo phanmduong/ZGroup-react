@@ -84,6 +84,59 @@ export default function classesReducer(state = initialState.classes, action) {
                     class: action.class
                 }
             };
+        case types.BEGIN_CREATE_CLASS:
+
+            return {
+                ...state,
+                ...{
+                    isStoringClass: true,
+                    errorStoreClass: false,
+                }
+            };
+        case types.LOAD_CREATE_CLASS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isStoringClass: false,
+                    errorStoreClass: false,
+                    classes: [action.class, ...state.classes]
+                }
+            };
+        case types.LOAD_CREATE_CLASS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isStoringClass: false,
+                    errorStoreClass: true,
+                }
+            };
+        case types.BEGIN_EDIT_CLASS:
+
+            return {
+                ...state,
+                ...{
+                    isStoringClass: true,
+                    errorStoreClass: false,
+                }
+            };
+        case types.LOAD_EDIT_CLASS_SUCCESS:
+            classes = changeClass(action.class, state.classes);
+            return {
+                ...state,
+                ...{
+                    isStoringClass: false,
+                    errorStoreClass: false,
+                    classes: classes
+                }
+            };
+        case types.LOAD_EDIT_CLASS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isStoringClass: false,
+                    errorStoreClass: true,
+                }
+            };
         default:
             return state;
     }
@@ -104,6 +157,18 @@ function changeClassStatus(classId, classes) {
                     ...classItem,
                     status: classItem.status === 1 ? 0 : 1
                 };
+            }
+            return classItem;
+        });
+    }
+    return classes;
+}
+
+function changeClass(classData, classes) {
+    if (classes) {
+        classes = classes.map((classItem) => {
+            if (classItem.id === classData.id) {
+                return classData;
             }
             return classItem;
         });

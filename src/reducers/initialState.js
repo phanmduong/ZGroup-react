@@ -442,14 +442,15 @@ export default {
         classes: [],
         isLoading: false,
         error: false,
-        isCreatingClass: false,
-        errorCreateClass: false,
         isLoadingInfoCreateClass: false,
         errorInfoCreateClass: false,
         infoCreateClass: {},
         class: {
             datestart: new Date().toISOString().slice(0, 10)
-        }
+        },
+        isStoringClass: false,
+        errorStoreClass: false,
+
     },
 
     rule: {
