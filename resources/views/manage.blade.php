@@ -74,7 +74,7 @@
 
 
 <script src="{{url('config.js')}}"></script>
-<script type="text/javascript" src="manage/main.9b15542184b92f70eab2.js"></script>
+<script type="text/javascript" src="manage/main.170e6b73d9497a32250b.js"></script>
 
 
 <!-- Material Dashboard javascript methods -->
