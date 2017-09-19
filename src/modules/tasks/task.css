@@ -30,9 +30,9 @@
     overflow: scroll;
 }
 
-.board::-webkit-scrollbar {
-    display: none;
-}
+/*.board::-webkit-scrollbar {*/
+    /*display: none;*/
+/*}*/
 
 .card-content > .card {
     margin: 5px 0;
