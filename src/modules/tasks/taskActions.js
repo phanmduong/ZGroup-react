@@ -46,22 +46,36 @@ export function deleteProject(project) {
 }
 
 
-export function loadProjects(page = 1, query = null) {
+export function loadProjects(page = 1, query = null, isArchive = false) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_PROJECTS
         });
-        taskApi.loadProjects(page, query)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_PROJECTS_SUCCESS,
-                    projects: res.data.projects,
-                    currentPage: res.data.paginator.current_page,
-                    totalPages: res.data.paginator.total_pages
+        if (isArchive) {
+            taskApi.loadArchiveProjects(page, query)
+                .then((res) => {
+                    dispatch({
+                        type: types.LOAD_PROJECTS_SUCCESS,
+                        projects: res.data.projects,
+                        currentPage: res.data.paginator.current_page,
+                        totalPages: res.data.paginator.total_pages
+                    });
                 });
-            });
+        } else {
+            taskApi.loadProjects(page, query)
+                .then((res) => {
+                    dispatch({
+                        type: types.LOAD_PROJECTS_SUCCESS,
+                        projects: res.data.projects,
+                        currentPage: res.data.paginator.current_page,
+                        totalPages: res.data.paginator.total_pages
+                    });
+                });
+        }
+
     };
 }
+
 
 export function updateCreateProjectFormData(project) {
     return function (dispatch) {
@@ -114,6 +128,15 @@ export function createProject(project) {
     };
 }
 
+export function archiveProject(project) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ARCHIVE_PROJECT,
+            project
+        });
+        taskApi.toggleArchiveProject(project);
+    };
+}
 
 export function updateCreateBoardFormData(board) {
     return function (dispatch) {
@@ -123,6 +146,8 @@ export function updateCreateBoardFormData(board) {
         });
     };
 }
+
+
 
 
 export function createBoard(board) {
