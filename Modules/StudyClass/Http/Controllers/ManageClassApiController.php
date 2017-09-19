@@ -99,9 +99,9 @@ class ManageClassApiController extends ManageApiController
 
         $data = $this->classRepository->get_class($new_class);
 
-        if ($this->user->role == 2) {
-            $data['edit_status'] = true;
-        }
+        $data['edit_status'] = $this->classRepository->edit_status($this->user);
+        $data['is_delete_class'] = $this->classRepository->is_delete($this->user, $new_class);
+        $data['is_duplicate'] = $this->classRepository->is_duplicate($this->user);
 
         return $this->respondSuccessWithStatus([
             'class' => $data
@@ -114,7 +114,7 @@ class ManageClassApiController extends ManageApiController
         $class = StudyClass::find($request->class_id);
 
         if ($class) {
-            if ($this->classRepository->is_delete($this->user, $class)) {
+            if (!$this->classRepository->is_delete($this->user, $class)) {
                 return $this->responseWithError("Không thể xóa lớp. Lớp đã có " . $class->registers()->count() . " học viên");
             }
 
@@ -161,10 +161,10 @@ class ManageClassApiController extends ManageApiController
         $attendances = $this->classRepository->get_attendances_class($class);
 
         if (!is_null($data['teacher']['id']))
-            $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class,$data['teacher']['id']);
+            $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class, $data['teacher']['id']);
 
         if (!is_null($data['teacher_assistant']['id']))
-            $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class,$data['teacher_assistant']['id']);
+            $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class, $data['teacher_assistant']['id']);
 
         if ($registers) {
             $data['registers'] = $registers;
@@ -200,16 +200,16 @@ class ManageClassApiController extends ManageApiController
 
     }
 
-    public function create_class(Request $request)
+    public function store_class(Request $request)
     {
-        if ($request->id == -1) {
-            $class = new StudyClass;
-
-        } else {
+        if ($request->id) {
             $class = StudyClass::find($request->id);
+        } else {
+            $class = new StudyClass();
         }
 
         $class->datestart = date('Y-m-d', strtotime($request->datestart));
+
         $class->name = $request->name;
         $class->schedule_id = $request->schedule_id;
         $class->room_id = $request->room_id;
@@ -228,7 +228,15 @@ class ManageClassApiController extends ManageApiController
         $class->save();
 
 
-        if ($request->id == -1) {
+        if ($request->id) {
+            $group = Group::where("class_id", $class->id)->first();
+            if ($group) {
+                $group->name = "Lớp " . $class->name;
+                $group->avatar_url = $class->course->icon_url;
+                $group->link = extract_class_name($class->name);
+                $group->save();
+            }
+        } else {
             $group = new Group();
             $group->name = "Lớp " . $class->name;
             $group->creator_id = $this->user->id;
@@ -237,31 +245,19 @@ class ManageClassApiController extends ManageApiController
             $group->link = extract_class_name($class->name);
             $group->save();
 
+            $this->classRepository->generateClassLesson($class);
 
-            // create the class_lessons for this class
-            generate_class_lesson($class);
-
-
-        } else {
-            $group = Group::where("class_id", $class->id)->first();
-            if ($group) {
-                $group->name = "Lớp " . $class->name;
-                $group->avatar_url = $class->course->icon_url;
-                $group->link = extract_class_name($class->name);
-                $group->save();
-            }
         }
 
         if ($request->schedule_id) {
-            // auto generate time for each class_lesson
-            set_class_lesson_time($class);
+            $this->classRepository->setClassLessonTime($class);
         }
 
         $data = $this->classRepository->get_class($class);
 
-        if ($this->user->role == 2) {
-            $data['edit_status'] = true;
-        }
+        $data['edit_status'] = $this->classRepository->edit_status($this->user);
+        $data['is_delete_class'] = $this->classRepository->is_delete($this->user, $class);
+        $data['is_duplicate'] = $this->classRepository->is_duplicate($this->user);
 
 
         return $this->respondSuccessWithStatus([
