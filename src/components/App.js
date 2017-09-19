@@ -115,7 +115,7 @@ class App extends React.Component {
                             </div>
                         </div>
                     </nav>
-                    <div className="content">
+                    <div className="keetool-content">
                         <div className="container-fluid">
                             {!this.props.isLoadingTab ? this.props.children : <div id="loading-page"><Loading/></div>}
                         </div>
