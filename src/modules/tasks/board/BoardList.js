@@ -98,47 +98,49 @@ class BoardList extends React.Component {
 
     render() {
         return (
-            <div className="board-container">
-                {this.props.boards.sort((a, b) => a.order - b.order).map((board) => {
-                    return (
-                        <div key={board.id} data-order={board.order} id={board.id}
-                             className="card card-container keetool-board">
-                            <div className="board-title undraggable">
-                                <span style={{fontWeight: 600}}>{board.title}</span>
-                                <div className="board-action">
-                                    <a onClick={() => this.props.editBoard(board)}>
-                                        <i className="material-icons">edit</i>
-                                    </a>
-                                    <a onClick={() => this.props.addCard(board)}>
-                                        <i className="material-icons">add</i>
-                                    </a>
+            <div className="board-canvas">
+                <div className="board-container">
+                    {this.props.boards.sort((a, b) => a.order - b.order).map((board) => {
+                        return (
+                            <div key={board.id} data-order={board.order} id={board.id}
+                                 className="card card-container keetool-board">
+                                <div className="board-title undraggable">
+                                    <span style={{fontWeight: 600}}>{board.title}</span>
+                                    <div className="board-action">
+                                        <a onClick={() => this.props.editBoard(board)}>
+                                            <i className="material-icons">edit</i>
+                                        </a>
+                                        <a onClick={() => this.props.addCard(board)}>
+                                            <i className="material-icons">add</i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div className="board" id={board.id}>
+                                    {board.cards.map((card) => {
+                                        return (
+                                            <CardItem
+                                                archiveCard={this.props.archiveCard}
+                                                updateCardInBoard={this.props.updateCardInBoard}
+                                                key={card.id}
+                                                card={card}
+                                                openCardDetailModal={this.props.openCardDetailModal}/>
+                                        );
+                                    })}
+
+
                                 </div>
                             </div>
-
-                            <div className="board" id={board.id}>
-                                {board.cards.map((card) => {
-                                    return (
-                                        <CardItem
-                                            archiveCard={this.props.archiveCard}
-                                            updateCardInBoard={this.props.updateCardInBoard}
-                                            key={card.id}
-                                            card={card}
-                                            openCardDetailModal={this.props.openCardDetailModal}/>
-                                    );
-                                })}
-
-
+                        );
+                    })}
+                    <div className="card-container undraggable" data-order="-1">
+                        <div className="create-new-board" style={{marginTop: 0}}
+                             onClick={this.props.openCreateBoardModal}>
+                            <div>
+                                <i className="material-icons flex-item">control_point</i>
                             </div>
-                        </div>
-                    );
-                })}
-                <div className="card-container undraggable" data-order="-1">
-                    <div className="create-new-board" style={{marginTop: 0}}
-                         onClick={this.props.openCreateBoardModal}>
-                        <div>
-                            <i className="material-icons flex-item">control_point</i>
-                        </div>
-                        <div className="card-title flex-item"> Tạo bảng mới
+                            <div className="card-title flex-item"> Tạo bảng mới
+                            </div>
                         </div>
                     </div>
                 </div>

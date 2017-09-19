@@ -1,19 +1,28 @@
 .card-container {
-    min-height: 300px;
-    margin: 5px;
-    min-width: 270px;
-    max-width: 270px;
+    width: 270px;
+    margin: 0 5px;
     height: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    vertical-align: top;
     white-space: normal;
-    overflow: hidden;
+
+}
+
+.board-canvas {
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
 }
 
 .board-container {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
-    overflow-x: scroll;
     padding-top: 20px;
-    margin-bottom: -15px;
+    padding-bottom: 10px;
+    padding-right: 20px;
 }
 
 .board > .card-content {
@@ -22,17 +31,15 @@
 }
 
 .board {
-    height: calc(100vh - 150px);
     margin-left: -10px;
     margin-right: -20px;
     padding-right: 10px;
     -webkit-overflow-scrolling: touch;
-    overflow: scroll;
 }
 
-/*.board::-webkit-scrollbar {*/
-    /*display: none;*/
-/*}*/
+.board::-webkit-scrollbar {
+    display: none;
+}
 
 .card-content > .card {
     margin: 5px 0;
@@ -165,3 +172,4 @@
     margin-top: -2px;
     margin-left: 10px;
 }
+
