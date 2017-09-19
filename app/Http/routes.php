@@ -154,6 +154,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     //Begin dashboard api
     Route::get('/gens/{gen_id}/dashboard/{base_id?}', 'ManageDashboardApiController@dashboard');
     Route::post('/gens/{gen_id}/attendance-shifts/{base_id?}', 'ManageDashboardApiController@get_attendance_shift');
+    Route::post('/gens/{gen_id}/attendance-classes/{base_id?}', 'ManageDashboardApiController@get_attendance_class');
     Route::post('/change-class-status', 'ManageDashboardApiController@change_class_status');
     //End dashboard api
 
