@@ -199,28 +199,40 @@ class TaskController extends ManageApiController
         return $this->respondSuccessWithStatus($data);
     }
 
+    public function toggleProject($projectId) {
+        $project = Project::find($projectId);
+        $project->status = $project->status == "open" ? "close" : "open";
+        $project->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Sửa trạng thái thành công"
+        ]);
+    }
 
-    public function projects(Request $request)
+    public function loadProjects($request, $status)
     {
         $query = trim($request->q);
 
         $limit = 20;
 
         if ($this->user->role === 2) {
+            $projects = Project::where('status', $status);
             if ($query) {
-                $projects = Project::where("title", "like", "%$query%")
-                    ->orWhere("description", "like", "%$query%")
-                    ->orderBy('created_at')->paginate($limit);
+                $projects = $projects->where(function ($q) use ($query) {
+                    $q->where("title", "like", "%$query%")
+                        ->orWhere("description", "like", "%$query%");
+                })->orderBy('created_at')->paginate($limit);
             } else {
-                $projects = Project::orderBy('created_at')->paginate($limit);
+                $projects = $projects->orderBy('created_at')->paginate($limit);
             }
         } else {
+            $projects = $this->user->projects()->where('status', $status);
             if ($query) {
-                $projects = $this->user->projects()->where("title", "like", "%$query%")
-                    ->orWhere("description", "like", "%$query%")
-                    ->orderBy('created_at')->paginate($limit);
+                $projects = $projects->where(function ($q) use ($query) {
+                    $q->where("title", "like", "%$query%")
+                        ->orWhere("description", "like", "%$query%");
+                })->orderBy('created_at')->paginate($limit);
             } else {
-                $projects = $this->user->projects()->orderBy('created_at')->paginate($limit);
+                $projects = $projects->orderBy('created_at')->paginate($limit);
             }
         }
 
@@ -231,6 +243,16 @@ class TaskController extends ManageApiController
 
         ];
         return $this->respondWithPagination($projects, $data);
+    }
+
+    public function archiveProjects(Request $request)
+    {
+        return $this->loadProjects($request, "close");
+    }
+
+    public function projects(Request $request)
+    {
+        return $this->loadProjects($request, "open");
     }
 
     public function changeProjectStatus($projectId, Request $request)
