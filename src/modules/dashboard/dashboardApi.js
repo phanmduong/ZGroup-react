@@ -71,3 +71,18 @@ export function loadAttendanceShifts(genId, baseId, time) {
         time: time
     });
 }
+
+export function loadAttendanceClasses(genId, baseId, time) {
+    let url = env.MANAGE_API_URL + `/gens/${genId}/attendance-classes`;
+    if (baseId) {
+        url += '/' + baseId;
+    }
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url,{
+        time: time
+    });
+}

@@ -124,6 +124,27 @@ export function loadAttendanceShifts(genId, baseId, time) {
     };
 }
 
+export function loadAttendanceClasses(genId, baseId, time) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ATTENDANCE_CLASSES_DATA_DASHBOARD,
+            time: time
+        });
+        dashboardApi.loadAttendanceClasses(genId, baseId, time)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ATTENDANCE_CLASSES_DASHBOARD_SUCCESS,
+                    classes: res.data.data.classes,
+                    date: res.data.data.date,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_ATTENDANCE_CLASSES_DASHBOARD_ERROR
+            });
+        });
+    };
+}
+
 
 
 

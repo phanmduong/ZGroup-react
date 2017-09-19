@@ -74,8 +74,10 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                     isLoading: false,
                     error: false,
                     dashboard: action.dashboard,
-                    time: action.dashboard.time,
-                    date: action.dashboard.current_date,
+                    timeShifts: action.dashboard.time,
+                    dateShifts: action.dashboard.current_date,
+                    timeClasses: action.dashboard.time,
+                    dateClasses: action.dashboard.current_date,
                 }
             };
         case types.LOAD_DASHBOARD_DATA_ERROR:
@@ -129,7 +131,7 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                 ...{
                     isLoadingAttendanceShifts: true,
                     errorAttendanceShifts: false,
-                    time: action.time
+                    timeShifts: action.time
                 }
             };
         case types.LOAD_ATTENDANCE_SHIFTS_DASHBOARD_SUCCESS:
@@ -138,7 +140,7 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                 ...{
                     isLoadingAttendanceShifts: false,
                     errorAttendanceShifts: false,
-                    date: action.date,
+                    dateShifts: action.date,
                     dashboard: {
                         ...state.dashboard,
                         shifts: action.shifts
@@ -151,6 +153,36 @@ export default function dashboardReducer(state = initialState.dashboard, action)
                 ...{
                     isLoadingAttendanceShifts: false,
                     errorAttendanceShifts: true
+                }
+            };
+        case types.BEGIN_LOAD_ATTENDANCE_CLASSES_DATA_DASHBOARD:
+            return {
+                ...state,
+                ...{
+                    isLoadingAttendanceClasses: true,
+                    errorAttendanceClasses: false,
+                    timeClasses: action.time
+                }
+            };
+        case types.LOAD_ATTENDANCE_CLASSES_DASHBOARD_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingAttendanceClasses: false,
+                    errorAttendanceClasses: false,
+                    dateClasses: action.date,
+                    dashboard: {
+                        ...state.dashboard,
+                        now_classes: action.classes
+                    }
+                }
+            };
+        case types.LOAD_ATTENDANCE_CLASSES_DASHBOARD_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingAttendanceClasses: false,
+                    errorAttendanceClasses: true
                 }
             };
         default:

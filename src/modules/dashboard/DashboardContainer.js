@@ -33,6 +33,7 @@ class DashboardContainer extends React.Component {
         this.closeModalClass = this.closeModalClass.bind(this);
         this.openModalClass = this.openModalClass.bind(this);
         this.loadAttendanceShift = this.loadAttendanceShift.bind(this);
+        this.loadAttendanceClass = this.loadAttendanceClass.bind(this);
     }
 
     componentWillMount() {
@@ -121,10 +122,20 @@ class DashboardContainer extends React.Component {
 
     loadAttendanceShift(time) {
         if (this.state.selectBaseId === 0) {
-            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, '', this.props.time + time);
+            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, '', this.props.timeShifts + time);
         }
         else {
-            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, this.state.selectBaseId, this.props.time + time);
+            this.props.dashboardActions.loadAttendanceShifts(this.state.selectGenId, this.state.selectBaseId, this.props.timeShifts + time);
+        }
+
+    }
+
+    loadAttendanceClass(time) {
+        if (this.state.selectBaseId === 0) {
+            this.props.dashboardActions.loadAttendanceClasses(this.state.selectGenId, '', this.props.timeClasses + time);
+        }
+        else {
+            this.props.dashboardActions.loadAttendanceClasses(this.state.selectGenId, this.state.selectBaseId, this.props.timeClasses + time);
         }
 
     }
@@ -163,6 +174,7 @@ class DashboardContainer extends React.Component {
                                 changeClassStatus={this.changeClassStatus}
                                 openModalClass={this.openModalClass}
                                 loadAttendanceShift={this.loadAttendanceShift}
+                                loadAttendanceClass={this.loadAttendanceClass}
                             />
                             <Modal
                                 show={this.state.showModalClass}
@@ -224,10 +236,13 @@ DashboardContainer.propTypes = {
     isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isLoadingAttendanceShifts: PropTypes.bool.isRequired,
+    isLoadingAttendanceClasses: PropTypes.bool.isRequired,
     currentGen: PropTypes.object.isRequired,
     dashboard: PropTypes.object.isRequired,
-    time: PropTypes.number.isRequired,
-    date: PropTypes.string.isRequired,
+    timeShifts: PropTypes.number.isRequired,
+    dateShifts: PropTypes.string.isRequired,
+    timeClasses: PropTypes.number.isRequired,
+    dateClasses: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -239,9 +254,12 @@ function mapStateToProps(state) {
         isLoadingBases: state.dashboard.isLoadingBases,
         isLoading: state.dashboard.isLoading,
         isLoadingAttendanceShifts: state.dashboard.isLoadingAttendanceShifts,
+        isLoadingAttendanceClasses: state.dashboard.isLoadingAttendanceClasses,
         dashboard: state.dashboard.dashboard,
-        time: state.dashboard.time,
-        date: state.dashboard.date,
+        timeShifts: state.dashboard.timeShifts,
+        dateShifts: state.dashboard.dateShifts,
+        timeClasses: state.dashboard.timeClasses,
+        dateClasses: state.dashboard.dateClasses,
     };
 }
 
