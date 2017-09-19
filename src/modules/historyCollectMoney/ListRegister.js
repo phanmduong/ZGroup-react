@@ -33,7 +33,7 @@ class ListRegister extends React.Component {
                                 <td>
                                     <TooltipButton
                                         text={register.class.name}
-                                        placement='top'
+                                        placement="top"
                                     >
                                         <button className="btn btn-round btn-fab btn-fab-mini text-white"
                                                 data-original-title={register.class.name}>
@@ -50,7 +50,7 @@ class ListRegister extends React.Component {
                                 <td>
                                     <TooltipButton
                                         text={register.student.email}
-                                        placement='top'
+                                        placement="top"
                                     >
                                         <div id="register-email">{register.student.email}</div>
                                     </TooltipButton>
@@ -74,7 +74,7 @@ class ListRegister extends React.Component {
                                 <td className="text-center">
                                     <TooltipButton
                                         text={register.paid_time_full}
-                                        placement='top'
+                                        placement="top"
                                     >
                                         <div>
                                             {register.paid_time.slice(8, 10) + '/' + register.paid_time.slice(5, 7)}
@@ -106,7 +106,7 @@ class ListRegister extends React.Component {
                                 <td>
                                     <TooltipButton
                                         text={register.note}
-                                        placement='top'
+                                        placement="top"
                                     >
                                         <div id="register-email">{register.note}</div>
                                     </TooltipButton>

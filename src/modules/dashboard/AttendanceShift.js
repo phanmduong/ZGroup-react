@@ -54,37 +54,32 @@ class AttendanceShift extends React.Component {
                                          style={{
                                              width: dataAttendance.early_span + '%',
                                              backgroundColor: 'transparent'
-                                         }}>
-                                    </div>
+                                         }} />
                                     <div
                                         className="progress-bar"
                                         style={{
                                             width: dataAttendance.empty_arrive_span + '%',
                                             backgroundColor: '#ffdda1'
                                         }}
-                                    >
-                                    </div>
+                                     />
                                     <div
                                         className="progress-bar progress-bar-warning"
                                         style={{
                                             width: dataAttendance.early_arrive_span + '%',
                                         }}
-                                    >
-                                    </div>
+                                     />
                                     <div
                                         className="progress-bar progress-bar-danger"
                                         style={{
                                             width: dataAttendance.late_arrive_span + '%',
                                         }}
-                                    >
-                                    </div>
+                                     />
                                     <div
                                         className="progress-bar progress-bar-success"
                                         style={{
                                             width: dataAttendance.shift_span + '%',
                                         }}
-                                    >
-                                    </div>
+                                     />
                                     <div
                                         className="progress-bar progress-bar-danger"
                                         style={{
@@ -108,14 +103,12 @@ class AttendanceShift extends React.Component {
                                          style={{
                                              width: dataAttendance.late_span + '%',
                                              backgroundColor: 'transparent'
-                                         }}>
-                                    </div>
+                                         }} />
                                 </div>
                             )
                             :
                             (
-                                <div className="progress">
-                                </div>
+                                <div className="progress" />
                             )
                     }
 

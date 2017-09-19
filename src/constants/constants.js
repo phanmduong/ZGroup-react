@@ -59,7 +59,7 @@ export const DAY_OF_WEEK = [
         value: 'Chủ nhật',
         key: 'Chủ nhật',
     },
-]
+];
 
 export const DATE = 60 * 60 * 24;
 const LINK_UPLOAD_IMAGE_EDITOR = env.MANAGE_API_URL + '/upload-image-editor';

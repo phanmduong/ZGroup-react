@@ -45,57 +45,51 @@ class DashboardComponent extends React.Component {
                                     </h4>
                                     <h4>Doanh
                                         thu: {helper.dotNumber(total_money)}đ/{helper.dotNumber(target_revenue)}đ</h4>
-                                    <TooltipButton placement='top'
+                                    <TooltipButton placement="top"
                                                    text={Math.round(total_money * 100 / target_revenue) + '%'}>
                                         <div className="progress progress-line-primary"
                                         >
                                             <div className="progress-bar" role="progressbar"
-                                                 style={{width: total_money * 100 / target_revenue + '%'}}>
-                                            </div>
+                                                 style={{width: total_money * 100 / target_revenue + '%'}} />
                                         </div>
                                     </TooltipButton>
                                     <h4>Đã đóng tiền: {paid_number}/{register_number}</h4>
                                     <div className="progress progress-line-danger">
-                                        <TooltipButton placement='top'
+                                        <TooltipButton placement="top"
                                                        text={`${paid_number} học viên đã nộp tiền`}>
                                             <div className="progress-bar progress-bar-success"
-                                                 style={{width: paid_number * 100 / register_number + '%'}}>
-                                            </div>
+                                                 style={{width: paid_number * 100 / register_number + '%'}} />
                                         </TooltipButton>
-                                        <TooltipButton placement='top'
+                                        <TooltipButton placement="top"
                                                        text={`${zero_paid_number} học viên nộp 0 đồng`}>
                                             <div className="progress-bar progress-bar-warning"
-                                                 style={{width: zero_paid_number * 100 / register_number + '%'}}>
-                                            </div>
+                                                 style={{width: zero_paid_number * 100 / register_number + '%'}} />
                                         </TooltipButton>
-                                        <TooltipButton placement='top'
+                                        <TooltipButton placement="top"
                                                        text={`${register_number - zero_paid_number - paid_number} chưa nộp tiền`}>
                                             <div className="progress progress-line-danger"
-                                                 style={{width: (register_number - zero_paid_number - paid_number) * 100 / register_number + '%'}}>
-                                            </div>
+                                                 style={{width: (register_number - zero_paid_number - paid_number) * 100 / register_number + '%'}} />
                                         </TooltipButton>
                                     </div>
                                     <h4>Số ngày còn lại: {remain_days}</h4>
-                                    <TooltipButton placement='top'
+                                    <TooltipButton placement="top"
                                                    text={`${Math.round((100 - percent_remain_days))}%`}>
                                         <div className="progress progress-line-rose">
                                             <div className="progress-bar progress-bar-rose" role="progressbar"
-                                                 style={{width: (100 - percent_remain_days) + '%'}}>
-                                            </div>
+                                                 style={{width: (100 - percent_remain_days) + '%'}} />
                                         </div>
                                     </TooltipButton>
                                     <h4>Tổng số lớp: {total_classes}</h4>
                                     <div className="progress progress-line-danger">
                                         {courses.map((course, index) => {
                                             return (
-                                                <TooltipButton placement='top' key={index}
+                                                <TooltipButton placement="top" key={index}
                                                                text={`${course.name}: ${course.total_classes} lớp`}>
                                                     <div className="progress-bar"
                                                          style={{
                                                              width: (course.total_classes * 100 / total_classes) + '%',
                                                              background: course.color
-                                                         }}>
-                                                    </div>
+                                                         }} />
                                                 </TooltipButton>
                                             );
                                         })}
@@ -129,13 +123,12 @@ class DashboardComponent extends React.Component {
                                                     Thưởng cá nhân: <strong>{helper.dotNumber(bonus)}đ</strong><br/>
                                                     Chỉ tiêu cá nhân
                                                 </p>
-                                                <TooltipButton placement='top'
+                                                <TooltipButton placement="top"
                                                                text={`${count_paid}/${count_total}`}>
                                                     <div className="progress progress-line-rose">
                                                         <div className="progress-bar progress-bar-rose"
                                                              role="progressbar"
-                                                             style={{width: `${count_paid * 100 / count_total}%`}}>
-                                                        </div>
+                                                             style={{width: `${count_paid * 100 / count_total}%`}} />
                                                     </div>
                                                 </TooltipButton>
                                             </div>
@@ -145,7 +138,7 @@ class DashboardComponent extends React.Component {
                                     }
                                     {
                                         (user.rating) &&
-                                        <TooltipButton placement='top'
+                                        <TooltipButton placement="top"
                                                        text={helper.calculatorRating([user.rating.rating_number_teach, user.rating.rating_number_ta],
                                                            [user.rating.rating_avg_teach, user.rating.rating_avg_ta])}>
                                             <div className="star-rating">
@@ -161,7 +154,7 @@ class DashboardComponent extends React.Component {
                                         sách đăng kí</Link>
                                     }
 
-                                    <Link to='/my-profile' className="btn btn-rose btn-round">Trang cá nhân</Link>
+                                    <Link to="/my-profile" className="btn btn-rose btn-round">Trang cá nhân</Link>
                                 </div>
                             </div>
                         </div>
@@ -174,12 +167,12 @@ class DashboardComponent extends React.Component {
                                 </div>
                                 <div className="card-content">
                                     <h4 className="card-title">Số lượng đăng kí theo ngày
-                                        <small></small>
+                                        <small />
                                     </h4>
                                     <Barchart
                                         label={date_array}
                                         data={[registers_by_date, paid_by_date]}
-                                        id='barchar_register_by_date'
+                                        id="barchar_register_by_date"
                                     />
                                 </div>
                             </div>
@@ -193,12 +186,12 @@ class DashboardComponent extends React.Component {
                                 </div>
                                 <div className="card-content">
                                     <h4 className="card-title">Doanh thu theo ngày
-                                        <small></small>
+                                        <small />
                                     </h4>
                                     <Barchart
                                         label={date_array}
                                         data={[money_by_date]}
-                                        id='barchar_money_by_date'
+                                        id="barchar_money_by_date"
                                     />
                                 </div>
                             </div>
@@ -216,7 +209,7 @@ class DashboardComponent extends React.Component {
                                         <div className="flex flex-row flex-space-between">
                                             <h4 className="card-title">
                                                 {this.props.dateShifts === current_date ? 'Lịch trực hôm nay' : 'Lịch trực ' + this.props.dateShifts}
-                                                <small></small>
+                                                <small />
                                             </h4>
                                             <div className="flex flex-row">
                                                 <button
@@ -268,7 +261,7 @@ class DashboardComponent extends React.Component {
                                         <div className="flex flex-row flex-space-between">
                                             <h4 className="card-title">
                                                 {this.props.dateClasses === current_date ? 'Lớp học hôm nay' : 'Lớp học ' + this.props.dateClasses}
-                                                <small></small>
+                                                <small />
                                             </h4>
                                             <div className="flex flex-row">
                                                 <button

@@ -852,5 +852,6 @@ export function deleteCardComment(comment) {
             type: types.DELETE_CARD_COMMENT,
             comment
         });
+        taskApi.deleteCardComment(comment);
     };
 }

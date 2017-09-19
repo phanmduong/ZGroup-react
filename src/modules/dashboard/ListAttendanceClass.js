@@ -46,7 +46,7 @@ class ListAttendanceClass extends React.Component {
                                         })
                                     }
                                 </div>
-                            )
+                            );
 
                         })
 
@@ -73,7 +73,7 @@ class ListAttendanceClass extends React.Component {
                                         classData={classData}
                                     />
                                 </div>
-                            )
+                            );
                         })
                     }
                 </div>

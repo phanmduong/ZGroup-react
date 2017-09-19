@@ -26,8 +26,7 @@ class InlineInputDateTime extends React.Component {
                     </div>
                 </div>
                 <div className="col-sm-12">
-                    <div id={this.props.id}>
-                    </div>
+                    <div id={this.props.id} />
                 </div>
             </div>
         );

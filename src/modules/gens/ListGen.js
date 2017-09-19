@@ -49,12 +49,12 @@ class ListGen extends React.Component {
                                     <ButtonGroupAction
                                         delete={this.props.deleteGen}
                                         object={gen}
-                                        editUrl=''
+                                        editUrl=""
                                         edit={this.props.onClickEdit}
                                     />
                                 </td>
                             </tr>
-                        )
+                        );
                     })}
                     </tbody>
                 </table>

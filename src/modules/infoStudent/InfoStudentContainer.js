@@ -81,25 +81,25 @@ class InfoStudentContainer extends React.Component {
                                                 <IndexLink to={`/info-student/${this.studentId}`}>
                                                     <i className="material-icons">add_box</i> Đăng kí
 
-                                                    <div className="ripple-container"></div>
+                                                    <div className="ripple-container" />
                                                 </IndexLink>
                                             </li>
                                             <li className={this.path === `/info-student/${this.studentId}/history-calls` ? 'active' : ''}>
                                                 <Link to={`/info-student/${this.studentId}/history-calls`}>
                                                     <i className="material-icons">smartphone</i> Cuộc gọi
-                                                    <div className="ripple-container"></div>
+                                                    <div className="ripple-container" />
                                                 </Link>
                                             </li>
                                             <li className={this.path === `/info-student/${this.studentId}/progress` ? 'active' : ''}>
                                                 <Link to={`/info-student/${this.studentId}/progress`}>
                                                     <i className="material-icons">create</i> Học tập
-                                                    <div className="ripple-container"></div>
+                                                    <div className="ripple-container" />
                                                 </Link>
                                             </li>
                                             <li className={this.path === `/info-student/${this.studentId}/care` ? 'active' : ''}>
                                                 <Link to={`/info-student/${this.studentId}/care`}>
                                                     <i className="material-icons">flag</i> Quan tâm
-                                                    <div className="ripple-container"></div>
+                                                    <div className="ripple-container" />
                                                 </Link>
                                             </li>
                                         </ul>

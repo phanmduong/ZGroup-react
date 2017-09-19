@@ -68,7 +68,7 @@ class ProgressContainer extends React.Component {
                     </div>
                 );
             default:
-                return (<div></div>);
+                return (<div />);
         }
     }
 

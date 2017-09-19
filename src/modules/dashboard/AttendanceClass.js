@@ -42,7 +42,7 @@ class AttendanceShift extends React.Component {
                     </div>
                 }
             </div>
-        )
+        );
     }
 }
 

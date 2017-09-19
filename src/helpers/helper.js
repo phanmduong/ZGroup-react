@@ -162,7 +162,7 @@ export function updateArrayElement(element, array) {
 
 export function getShortName(name) {
 
-    var n = name.trim().split(" ");
+    let n = name.trim().split(" ");
     if (n.length > 1)
         return n[n.length - 2] + ' ' + n[n.length - 1];
     return name;
@@ -215,7 +215,7 @@ export function intersect(array1, array2) {
 }
 
 export function convertTimeToSecond(time) {
-    var a = time.split(':'); // split it at the colons
+    let a = time.split(':'); // split it at the colons
 
     if (isEmptyInput(a[2]))
         return (+a[0]) * 60 * 60 + (+a[1]) * 60;

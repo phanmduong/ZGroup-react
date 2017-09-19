@@ -46,40 +46,33 @@ class AttendanceTeacher extends React.Component {
                                  style={{
                                      width: dataAttendance.empty_arrive_span + '%',
                                      backgroundColor: 'transparent'
-                                 }}>
-                            </div>
+                                 }} />
                             <div className="progress-bar progress-bar-warning"
-                                 style={{width: dataAttendance.early_arrive_span + '%'}}>
-                            </div>
+                                 style={{width: dataAttendance.early_arrive_span + '%'}} />
                             <div className="progress-bar progress-bar-danger"
-                                 style={{width: dataAttendance.late_arrive_span + '%'}}>
-                            </div>
+                                 style={{width: dataAttendance.late_arrive_span + '%'}} />
                             <div className="progress-bar progress-bar-success"
-                                 style={{width: dataAttendance.teaching_span + '%'}}>
-                            </div>
+                                 style={{width: dataAttendance.teaching_span + '%'}} />
                             <div className="progress-bar progress-bar-danger"
-                                 style={{width: dataAttendance.early_leave_span + '%'}}>
-                            </div>
+                                 style={{width: dataAttendance.early_leave_span + '%'}} />
                             <div className="progress-bar progress-bar-warning"
-                                 style={{width: dataAttendance.late_leave_span + '%'}}>
-                            </div>
+                                 style={{width: dataAttendance.late_leave_span + '%'}} />
                         </div>
                     )
                     :
                     (
-                        <div className="progress">
-                        </div>
+                        <div className="progress" />
                     )
 
                 }
 
             </div>
-        )
+        );
     }
 }
 
 AttendanceTeacher.propTypes = {
     attendance: PropTypes.object.isRequired
-}
+};
 
 export default AttendanceTeacher;

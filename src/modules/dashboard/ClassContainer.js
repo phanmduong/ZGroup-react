@@ -40,7 +40,7 @@ class ClassContainer extends React.Component {
                                     <th>Tình trạng học</th>
                                     <th>Mã học viên</th>
                                     <th>Học phí</th>
-                                    <th></th>
+                                    <th />
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -115,7 +115,7 @@ class ClassContainer extends React.Component {
                                             </td>
 
                                         </tr>
-                                    )
+                                    );
                                 })}
                                 </tbody>
                             </table>
@@ -155,7 +155,7 @@ class ClassContainer extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                    )
+                                    );
                                 })}
 
                             </div>

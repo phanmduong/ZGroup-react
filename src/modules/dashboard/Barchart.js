@@ -6,17 +6,17 @@ class Barchart extends React.Component {
     }
 
     componentDidMount() {
-        var data = {
+        let data = {
             labels: this.props.label,
             series: this.props.data
         };
 
-        var options = {
+        let options = {
             seriesBarDistance: 10,
             height: '500px'
         };
 
-        var responsiveOptions = [
+        let responsiveOptions = [
             ['screen and (min-width: 640px)', {
                 seriesBarDistance: 10,
                 axisX: {

@@ -19,11 +19,11 @@ class Select extends React.Component {
                 data-style={this.props.disableRound ? "btn btn-rose" : "btn btn-rose btn-round"}>
                 <option selected disabled>{this.props.defaultMessage || "Please select"}</option>
                 {this.props.options.map((option, index) => {
-                    return <option key={index}
+                    return (<option key={index}
                                    value={option.key}
                                    disabled={option.disable}
                                    style={{paddingLeft: this.props.isPaddingLeft && !option.disable ? "30px" : ""}}
-                    >{option.value}</option>;
+                    >{option.value}</option>);
                 })}
             </select>
 

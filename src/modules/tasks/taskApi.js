@@ -331,6 +331,15 @@ export function deleteCardLabel(labelId) {
     return axios.delete(url);
 }
 
+export function deleteCardComment(comment) {
+    let url = env.MANAGE_API_URL + `/card-comment/${comment.id}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
 export function assignCardLabel(cardId, cardLabelId) {
     let url = env.MANAGE_API_URL + `/cardlabel/${cardLabelId}/card/${cardId}`;
     const token = localStorage.getItem('token');

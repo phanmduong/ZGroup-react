@@ -36,7 +36,7 @@ class ArchiveCardsModalContainer extends React.Component {
         this.props.taskActions.loadArchiveCards(this.props.projectId, this.state.page + 1);
         this.setState({
             page: this.state.page + 1
-        })
+        });
     }
 
     render() {

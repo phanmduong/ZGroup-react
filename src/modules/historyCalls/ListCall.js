@@ -46,7 +46,7 @@ class ListCall extends React.Component {
                                 <td>
                                     <TooltipButton
                                         text={call.student.email}
-                                        placement='top'
+                                        placement="top"
                                     >
                                         <div id="register-email">{call.student.email}</div>
                                     </TooltipButton>
@@ -77,7 +77,7 @@ class ListCall extends React.Component {
                                 <td>
                                     <TooltipButton
                                         text={call.note || ''}
-                                        placement='top'
+                                        placement="top"
                                     >
                                         <div id="register-email">{call.note}</div>
                                     </TooltipButton>
