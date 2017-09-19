@@ -13,6 +13,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/project/status/{projectId}', "TaskController@changeProjectStatus");
     Route::post('/project/delete/{baseId}', "TaskController@deleteProject");
     Route::get('/projects', "TaskController@projects");
+    Route::get('/projects/archive', "TaskController@archiveProjects");
+    Route::put('/project/{projectId}/toggle-archive', "TaskController@toggleProject");
     Route::post('/board/create', "TaskController@createBoard");
     Route::get('/boards/{projectId}', "TaskController@getBoards");
     Route::post('/boards/update', "TaskController@updateBoards");
