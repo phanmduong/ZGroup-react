@@ -68,6 +68,7 @@ class BoardListContainer extends React.Component {
 
 
     render() {
+        const isAdmin = this.props.members.filter(member => member.is_admin && member.id === this.props.user.id).length > 0;
         return (
             <div>
                 <CreateBoardModalContainer projectId={this.props.params.projectId}/>
@@ -78,6 +79,8 @@ class BoardListContainer extends React.Component {
                         <CardFilterContainer
                             projectId={Number(this.props.params.projectId)}/>
                         <BoardList
+                            canDragBoard={isAdmin || this.props.canDragBoard}
+                            canDragCard={isAdmin || this.props.canDragCard}
                             archiveCard={this.props.taskActions.archiveCard}
                             updateCardInBoard={this.props.taskActions.updateCardInBoard}
                             openCardDetailModal={this.props.taskActions.openCardDetailModal}
@@ -97,9 +100,19 @@ class BoardListContainer extends React.Component {
 
 BoardListContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    members: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     isLoadingBoards: PropTypes.bool.isRequired,
+    canDragBoard: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.bool.isRequired
+    ]),
+    canDragCard: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.bool.isRequired
+    ]),
     params: PropTypes.object.isRequired
 };
 
@@ -144,7 +157,11 @@ function mapStateToProps(state) {
 
     return {
         isLoadingBoards: state.task.boardList.isLoadingBoards,
-        boards
+        canDragBoard: state.task.boardList.canDragBoard,
+        canDragCard: state.task.boardList.canDragCard,
+        members: state.task.boardList.members,
+        boards,
+        user: state.login.user
     };
 }
 

@@ -847,7 +847,28 @@ export default function taskReducer(state = initialState.task, action) {
                 };
             }
 
-
+        case types.CHANGE_PROJECT_SETTING:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    canDragBoard: action.project.canDragBoard,
+                    canDragCard: action.project.canDragCard
+                },
+                project: {
+                    ...state.project,
+                    projects: state.project.projects.map((project) => {
+                        if (project.id === action.project.id) {
+                            return action.project;
+                        }
+                        return project;
+                    })
+                },
+                projectDetail: {
+                    ...state.projectDetail,
+                    project: action.project
+                }
+            };
         case types.LOAD_BOARDS_SUCCESS:
             return {
                 ...state,
@@ -855,7 +876,10 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.boardList,
                     isLoadingBoards: false,
                     boards: action.boards,
-                    projectId: action.projectId
+                    projectId: action.projectId,
+                    members: action.members,
+                    canDragBoard: action.canDragBoard,
+                    canDragCard: action.canDragCard
                 }
             };
         case types.BEGIN_LOAD_BOARDS:

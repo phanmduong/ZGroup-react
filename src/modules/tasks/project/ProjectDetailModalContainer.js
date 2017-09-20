@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Modal} from "react-bootstrap";
+import {ListGroup, ListGroupItem, Modal} from "react-bootstrap";
 import PropTypes from 'prop-types';
 import * as taskActions from '../taskActions';
 import FormInputText from "../../../components/common/FormInputText";
@@ -9,6 +9,7 @@ import {CirclePicker} from "react-color";
 import Select from 'react-select';
 import AddMemberProjectOverlay from "./AddMemberProjectOverlay";
 import ProjectMemberDetailOverlayContainer from "./ProjectMemberDetailOverlayContainer";
+import Switch from "../../../components/common/Switch";
 
 
 class ProjectDetailModalContainer extends Component {
@@ -145,7 +146,29 @@ class ProjectDetailModalContainer extends Component {
                         <div className="col-sm-4">
                             <div className="card-detail-btn-group">
                                 <AddMemberProjectOverlay/>
-
+                            </div>
+                            <div>
+                                <h4>Cài đặt cho thành viên</h4>
+                                <ListGroup>
+                                    <ListGroupItem>
+                                        <Switch
+                                            onChange={() => this.props.taskActions.changeProjectSetting({
+                                                ...project,
+                                                canDragBoard: !project.canDragBoard
+                                            })}
+                                            value={!!project.canDragBoard}/>
+                                        Kéo thả bảng
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        <Switch
+                                            onChange={() => this.props.taskActions.changeProjectSetting({
+                                                ...project,
+                                                canDragCard: !project.canDragCard
+                                            })}
+                                            value={!!project.canDragCard}/>
+                                        Kéo thả thẻ
+                                    </ListGroupItem>
+                                </ListGroup>
                             </div>
                         </div>
                     </div>
