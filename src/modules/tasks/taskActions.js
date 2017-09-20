@@ -316,8 +316,11 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
         const boards = state.task.boardList.boards;
         const sourceBoard = boards.filter((b) => b.id === Number(sourceBoardId))[0];
         const targetBoard = boards.filter((b) => b.id === Number(targetBoardId))[0];
-        const card = sourceBoard.cards.filter(c => c.id === Number(cardId))[0];
 
+        const card = {
+            ...sourceBoard.cards.filter(c => c.id === Number(cardId))[0],
+            board_id: Number(targetBoardId)
+        };
 
         let order = 0;
         let sourceBoardCards = [];
