@@ -54,10 +54,11 @@ class ProjectMemberDetailOverlayContainer extends React.Component {
             <div style={{position: "relative"}}>
                 <a ref="target" onClick={this.toggle}>
                     <div style={{
-                        borderRadius: 5,
+                        borderRadius: 6,
+                        backgroundColor: this.props.project.color,
                         boxSizing: "border-box",
                         marginRight: 5,
-                        border: this.props.member.is_admin ? "2px solid rgb(255, 193, 7)" : "none"
+                        border: this.props.member.is_admin ? "3px solid " + this.props.project.color : "none"
                     }}>
                         <Avatar
                             distance={0}
