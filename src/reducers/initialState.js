@@ -165,7 +165,9 @@ export default {
         boardList: {
             projectId: 0,
             boards: [],
-            isLoadingBoards: false
+            isLoadingBoards: false,
+            canDragCard: false,
+            canDragBoard: false
         },
 
         createBoard: {

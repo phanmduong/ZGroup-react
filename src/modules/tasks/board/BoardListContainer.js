@@ -78,6 +78,8 @@ class BoardListContainer extends React.Component {
                         <CardFilterContainer
                             projectId={Number(this.props.params.projectId)}/>
                         <BoardList
+                            canDragBoard={this.props.canDragBoard}
+                            canDragCard={this.props.canDragCard}
                             archiveCard={this.props.taskActions.archiveCard}
                             updateCardInBoard={this.props.taskActions.updateCardInBoard}
                             openCardDetailModal={this.props.taskActions.openCardDetailModal}
@@ -100,6 +102,14 @@ BoardListContainer.propTypes = {
     boards: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     isLoadingBoards: PropTypes.bool.isRequired,
+    canDragBoard: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.bool.isRequired
+    ]),
+    canDragCard: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.bool.isRequired
+    ]),
     params: PropTypes.object.isRequired
 };
 
@@ -144,6 +154,8 @@ function mapStateToProps(state) {
 
     return {
         isLoadingBoards: state.task.boardList.isLoadingBoards,
+        canDragBoard: state.task.boardList.canDragBoard,
+        canDragCard: state.task.boardList.canDragCard,
         boards
     };
 }

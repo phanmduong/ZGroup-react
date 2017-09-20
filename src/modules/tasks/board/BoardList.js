@@ -25,6 +25,9 @@ class BoardList extends React.Component {
     }
 
     initBoardContainerDragula() {
+        if (!this.props.canDragBoard) {
+            return true;
+        }
         if (this.boardDrake) {
             this.boardDrake.destroy();
         }
@@ -57,6 +60,9 @@ class BoardList extends React.Component {
     }
 
     initBoardDragula() {
+        if (!this.props.canDragCard) {
+            return true;
+        }
         if (this.drake) {
             this.drake.destroy();
         }
@@ -150,6 +156,14 @@ class BoardList extends React.Component {
 }
 
 BoardList.propTypes = {
+    canDragBoard: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.bool.isRequired
+    ]),
+    canDragCard: PropTypes.oneOfType([
+        PropTypes.number.isRequired,
+        PropTypes.bool.isRequired
+    ]),
     boards: PropTypes.array.isRequired,
     openCreateBoardModal: PropTypes.func.isRequired,
     changeOrderCard: PropTypes.func.isRequired,

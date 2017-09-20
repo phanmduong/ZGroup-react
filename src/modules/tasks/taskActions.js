@@ -148,8 +148,6 @@ export function updateCreateBoardFormData(board) {
 }
 
 
-
-
 export function createBoard(board) {
     let editBoard = false;
     if (board.id) {
@@ -196,7 +194,9 @@ export function loadBoards(projectId) {
                     type: types.LOAD_BOARDS_SUCCESS,
                     boards: res.data.boards,
                     cardLabels: res.data.cardLabels,
-                    members: res.data.members
+                    members: res.data.members,
+                    canDragCard: res.data.canDragCard,
+                    canDragBoard: res.data.canDragBoard
                 });
             });
     };
@@ -853,5 +853,15 @@ export function deleteCardComment(comment) {
             comment
         });
         taskApi.deleteCardComment(comment);
+    };
+}
+
+export function changeProjectSetting(project) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CHANGE_PROJECT_SETTING,
+            project
+        });
+        taskApi.changeProjectSetting(project);
     };
 }
