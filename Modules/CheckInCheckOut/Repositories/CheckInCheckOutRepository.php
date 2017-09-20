@@ -350,12 +350,14 @@ class CheckInCheckOutRepository
 
         if ($minDistance > $minBase->distance_allow) {
             $checkInCheckOut->status = 3;
+            return $checkInCheckOut;
         } else {
             $this->setWifi($wifiName, $mac, $minBase->id);
             $checkInCheckOut->status = 1;
             $wifi = $this->getWifi($mac, $minBase->id);
             if (is_null($wifi)) {
                 $checkInCheckOut->status = 2;
+                return $checkInCheckOut;
             } else {
                 $checkInCheckOut->status = 1;
                 $checkInCheckOut->wifi_id = $wifi->id;

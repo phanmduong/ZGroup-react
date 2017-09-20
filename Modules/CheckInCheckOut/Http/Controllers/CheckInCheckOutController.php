@@ -158,6 +158,7 @@ class CheckInCheckOutController extends ManageApiController
         }
 
         $checkIn = $this->checkInCheckOutRepository->addCheckInCheckOut(1, $long, $lat, $this->user->id, $device_id, $mac, $wifiName);
+
         if ($checkIn->status === 1) {
             return $this->respondSuccessWithStatus([
                 "check_in" => [
