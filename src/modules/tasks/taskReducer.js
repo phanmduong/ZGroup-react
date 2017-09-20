@@ -877,6 +877,7 @@ export default function taskReducer(state = initialState.task, action) {
                     isLoadingBoards: false,
                     boards: action.boards,
                     projectId: action.projectId,
+                    members: action.members,
                     canDragBoard: action.canDragBoard,
                     canDragCard: action.canDragCard
                 }

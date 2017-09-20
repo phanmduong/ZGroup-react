@@ -148,7 +148,7 @@ class ProjectDetailModalContainer extends Component {
                                 <AddMemberProjectOverlay/>
                             </div>
                             <div>
-                                <h4>Cài đặt</h4>
+                                <h4>Cài đặt cho thành viên</h4>
                                 <ListGroup>
                                     <ListGroupItem>
                                         <Switch
@@ -156,7 +156,7 @@ class ProjectDetailModalContainer extends Component {
                                                 ...project,
                                                 canDragBoard: !project.canDragBoard
                                             })}
-                                            value={project.canDragBoard}/>
+                                            value={!!project.canDragBoard}/>
                                         Kéo thả bảng
                                     </ListGroupItem>
                                     <ListGroupItem>
@@ -165,7 +165,7 @@ class ProjectDetailModalContainer extends Component {
                                                 ...project,
                                                 canDragCard: !project.canDragCard
                                             })}
-                                            value={project.canDragCard}/>
+                                            value={!!project.canDragCard}/>
                                         Kéo thả thẻ
                                     </ListGroupItem>
                                 </ListGroup>

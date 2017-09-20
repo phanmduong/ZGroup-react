@@ -352,7 +352,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
                 return c.order === siblingOrder;
             });
 
-            console.log("index: " + index);
+            // console.log("index: " + index);
 
             const part1 = cards.slice(0, index);
             const part2 = cards.slice(index);
