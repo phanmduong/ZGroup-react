@@ -16,7 +16,7 @@ class CommentItem extends React.Component {
                     <Media.Heading>{comment.commenter.name}
                         <small style={{color: "#919191", marginLeft: 10}}>{comment.created_at}</small>
                     </Media.Heading>
-                    <div style={{whiteSpace: "pre"}} dangerouslySetInnerHTML={{__html: comment.content}}/>
+                    <div style={{whiteSpace: "pre-wrap"}} dangerouslySetInnerHTML={{__html: comment.content}}/>
                     <a style={{
                         color: "rgb(90, 90, 90)",
                         position: "absolute",

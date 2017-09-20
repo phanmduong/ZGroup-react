@@ -26,6 +26,14 @@ class CommentInputContainer extends React.Component {
         o.style.height = (10 + o.scrollHeight) + "px";
     }
 
+    componentDidUpdate() {
+        const o = document.querySelector("#textarea-card-comment");
+        if (o){
+            o.style.height = "1px";
+            o.style.height = (10 + o.scrollHeight) + "px";
+        }
+    }
+
     textAreaChange(event) {
         this.props.taskActions.updateCommentInputValue(event.target.value);
     }
@@ -54,6 +62,7 @@ class CommentInputContainer extends React.Component {
                     this.state.isCommenting ? <Loading/> : (
                         <div className="comment-input-wrapper">
                             <textarea
+                                id="textarea-card-comment"
                                 onChange={this.textAreaChange}
                                 value={this.props.value}
                                 onKeyUp={this.textAreaAdjust}
@@ -61,7 +70,9 @@ class CommentInputContainer extends React.Component {
                                 onKeyPress={this.onEnterKeyPress}
                                 className="comment-input"/>
                             <div className="btn-upload-file-comment">
-                                <UploadAttachmentOverlayContainer card={this.props.card}>
+                                <UploadAttachmentOverlayContainer
+                                    addToComment={true}
+                                    card={this.props.card}>
                                     <i style={{fontSize: "16px"}} className="material-icons">attachment</i>
                                 </UploadAttachmentOverlayContainer>
                             </div>

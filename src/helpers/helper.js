@@ -570,3 +570,6 @@ export function groupBy(collection, iteratee, props) {
         .value();
 }
 
+export function createFileUrl(file) {
+    return `<div><a class="text-rose comment-card-url" target="_blank" href="${file.url}">${file.name}</a></div>`;
+}

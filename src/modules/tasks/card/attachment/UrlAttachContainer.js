@@ -36,7 +36,7 @@ class UrlAttachContainer extends React.Component {
                     url: ""
                 });
                 showNotification("Đính kèm liên kết thành công");
-                this.props.taskActions.addUrlSuccess(res.data);
+                this.props.taskActions.addUrlSuccess(res.data, this.props.addToComment);
             });
     }
 
@@ -62,6 +62,7 @@ class UrlAttachContainer extends React.Component {
 
 UrlAttachContainer.propTypes = {
     card: PropTypes.object.isRequired,
+    addToComment: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired
 };
 

@@ -27,7 +27,8 @@ class UploadAttachmentOverlayContainer extends React.Component {
                 index,
                 name: file.name
             };
-            this.props.taskActions.uploadAttachment(this.props.card, fileWrapper);
+
+            this.props.taskActions.uploadAttachment(this.props.card, fileWrapper, this.props.addToComment);
         });
 
 
@@ -52,6 +53,7 @@ class UploadAttachmentOverlayContainer extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <UploadAttachmentPopover
+                        addToComment={this.props.addToComment}
                         card={this.props.card}
                         files={this.props.files}
                         handleChange={this.handleChange}
@@ -65,9 +67,14 @@ class UploadAttachmentOverlayContainer extends React.Component {
 
 UploadAttachmentOverlayContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
+    addToComment: PropTypes.bool,
     card: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
     files: PropTypes.array.isRequired
+};
+
+UploadAttachmentOverlayContainer.defaultProps = {
+    addToComment: false
 };
 
 function mapStateToProps(state) {

@@ -188,3 +188,7 @@
     right: 10px;
     top: 10px;
 }
+
+.comment-card-url {
+    text-decoration: underline;
+}

@@ -389,6 +389,10 @@ export default function taskReducer(state = initialState.task, action) {
         case types.UPLOAD_ATTACHMENT_SUCCESS:
             return {
                 ...state,
+                commentCard: {
+                    ...state.commentCard,
+                    value: action.addToComment ? state.commentCard.value + action.fileHtml : state.commentCard.value
+                },
                 cardDetail: {
                     ...state.cardDetail,
                     card: {

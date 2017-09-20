@@ -3,7 +3,7 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as taskApi from "./taskApi";
-import {showErrorNotification, showNotification} from '../../helpers/helper';
+import {createFileUrl, showErrorNotification, showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
@@ -636,7 +636,7 @@ export function changeProjectMemberRole(project, member) {
     };
 }
 
-export function uploadAttachment(card, fileWrapper) {
+export function uploadAttachment(card, fileWrapper, addToComment = false) {
     return function (dispatch) {
         const error = () => {
             showErrorNotification("Có lỗi xảy ra");
@@ -646,7 +646,9 @@ export function uploadAttachment(card, fileWrapper) {
             showNotification("Tải lên  tập tin đính kèm thành công");
             dispatch({
                 type: types.UPLOAD_ATTACHMENT_SUCCESS,
-                file
+                file,
+                addToComment,
+                fileHtml: createFileUrl(file)
             });
         };
         const progressHandler = (event) => {
@@ -669,11 +671,13 @@ export function uploadAttachment(card, fileWrapper) {
 }
 
 
-export function addUrlSuccess(file) {
+export function addUrlSuccess(file, addToComment = false) {
     return function (dispatch) {
         dispatch({
             type: types.UPLOAD_ATTACHMENT_SUCCESS,
-            file
+            file,
+            addToComment,
+            fileHtml: createFileUrl(file)
         });
     };
 }
