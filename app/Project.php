@@ -60,8 +60,8 @@ class Project extends Model
                 "id" => $this->editor->id,
                 "name" => $this->editor->name
             ],
-            "can_drag_board" => $this->can_drag_board,
-            "can_drag_card" => $this->can_drag_card,
+            "canDragBoard" => $this->can_drag_board,
+            "canDragCard" => $this->can_drag_card,
             "color" => $this->color,
             'board_count' => $board_count,
             'card_count' => Card::whereIn("board_id", $boardIds)->count(),

@@ -284,7 +284,16 @@ class TaskController extends ManageApiController
             })
         ];
         $project = Project::find($projectId);
-        $members = $project->members()->get(['id', 'name', "color"]);
+        $members = $project->members->map(function ($member) {
+            return [
+                "id" => $member->id,
+                "name" => $member->name,
+                "email" => $member->email,
+                "is_admin" => $member->pivot->role === 1,
+                "added" => true,
+                "avatar_url" => generate_protocol_url($member->avatar_url)
+            ];
+        });
         $cardLables = $project->labels()->get(['id', 'name', "color"]);
 
         $data['members'] = $members;
