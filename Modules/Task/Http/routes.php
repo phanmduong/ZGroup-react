@@ -47,6 +47,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::get('/members/{filter?}', "TaskController@loadMembers");
     Route::get('/project-members/{filter?}', "TaskController@loadProjectMembers");
 
+    Route::put('/project/{projectId}/setting', "TaskController@changeProjectSetting");
     Route::post('/project/{projectId}/create-label', "CardLabelController@createLabel");
     Route::get('/project/{projectId}/labels', "CardLabelController@loadLabels");
     Route::get('/project/{projectId}/archive-cards', "CardController@archiveCards");

@@ -200,7 +200,8 @@ class TaskController extends ManageApiController
         return $this->respondSuccessWithStatus($data);
     }
 
-    public function toggleProject($projectId) {
+    public function toggleProject($projectId)
+    {
         $project = Project::find($projectId);
         $project->status = $project->status == "open" ? "close" : "open";
         $project->save();
@@ -288,6 +289,8 @@ class TaskController extends ManageApiController
 
         $data['members'] = $members;
         $data['cardLabels'] = $cardLables;
+        $data['canDragBoard'] = $project->can_drag_board;
+        $data['canDragCard'] = $project->can_drag_card;
         return $this->respond($data);
     }
 
@@ -496,7 +499,8 @@ class TaskController extends ManageApiController
         return $this->respond(["message" => "success"]);
     }
 
-    public function deleteCardComment($id){
+    public function deleteCardComment($id)
+    {
         $cardComment = CardComment::find($id);
         $cardComment->delete();
         return $this->respond(["message" => "success"]);
@@ -566,6 +570,18 @@ class TaskController extends ManageApiController
         $card = Card::find($cardId);
         $card->status = $card->status == "open" ? "close" : "open";
         $card->save();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function changeProjectSetting($projectId, Request $request)
+    {
+        if (is_null($request->canDragBoard) || is_null($request->canDragCard)) {
+            return $this->respondErrorWithStatus("canDragBoard and canDragCard are required");
+        }
+        $project = Project::find($projectId);
+        $project->can_drag_board = $request->canDragBoard;
+        $project->can_drag_card = $request->canDragCard;
+        $project->save();
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
