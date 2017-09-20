@@ -50,4 +50,24 @@ class FileController extends ManageApiController
         }
     }
 
+    public function addUrl($cardId, Request $request)
+    {
+        $url = $request->url;
+        if (is_null($url)) {
+            return $this->respondErrorWithStatus("Bạn cần truyền lên url");
+        }
+
+        $file = new File();
+        $file->url = $url;
+        $file->name = $url;
+        $file->size = 0;
+        $file->card_id = $cardId;
+        $file->file_key = $url;
+        $file->ext = "url";
+        $file->type = "url";
+        $file->save();
+
+        return $this->respond($file);
+    }
+
 }
