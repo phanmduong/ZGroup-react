@@ -60,7 +60,8 @@ class CommentInputContainer extends React.Component {
             <div style={{marginTop: 10}}>
                 {
                     this.state.isCommenting ? <Loading/> : (
-                        <div className="comment-input-wrapper">
+                        <div>
+                            <div className="comment-input-wrapper">
                             <textarea
                                 id="textarea-card-comment"
                                 onChange={this.textAreaChange}
@@ -69,12 +70,18 @@ class CommentInputContainer extends React.Component {
                                 placeholder="Viết bình luận của bạn..."
                                 onKeyPress={this.onEnterKeyPress}
                                 className="comment-input"/>
-                            <div className="btn-upload-file-comment">
-                                <UploadAttachmentOverlayContainer
-                                    addToComment={true}
-                                    card={this.props.card}>
-                                    <i style={{fontSize: "18px", color: "#858585"}} className="material-icons">attachment</i>
-                                </UploadAttachmentOverlayContainer>
+                                <div className="btn-upload-file-comment">
+                                    <UploadAttachmentOverlayContainer
+                                        addToComment={true}
+                                        card={this.props.card}>
+                                        <i style={{fontSize: "18px", color: "#858585"}} className="material-icons">attachment</i>
+                                    </UploadAttachmentOverlayContainer>
+                                </div>
+                            </div>
+                            <div>
+                                <small>Bấm <b>Enter</b> để gửi bình luận</small>
+                                <br/>
+                                <small>Bấm <b>Shift + Enter</b> để xuống dòng</small>
                             </div>
                         </div>
                     )
