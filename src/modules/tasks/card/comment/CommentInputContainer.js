@@ -28,7 +28,7 @@ class CommentInputContainer extends React.Component {
 
     componentDidUpdate() {
         const o = document.querySelector("#textarea-card-comment");
-        if (o){
+        if (o) {
             o.style.height = "1px";
             o.style.height = (10 + o.scrollHeight) + "px";
         }
@@ -73,7 +73,7 @@ class CommentInputContainer extends React.Component {
                                 <UploadAttachmentOverlayContainer
                                     addToComment={true}
                                     card={this.props.card}>
-                                    <i style={{fontSize: "16px"}} className="material-icons">attachment</i>
+                                    <i style={{fontSize: "18px", color: "#858585"}} className="material-icons">attachment</i>
                                 </UploadAttachmentOverlayContainer>
                             </div>
                         </div>
