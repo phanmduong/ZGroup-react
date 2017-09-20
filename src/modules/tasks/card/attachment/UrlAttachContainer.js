@@ -17,6 +17,7 @@ class UrlAttachContainer extends React.Component {
             isUploading: false
         };
         this.submit = this.submit.bind(this);
+        this.onEnterKeyPress = this.onEnterKeyPress.bind(this);
     }
 
     updateFormData(event) {
@@ -40,6 +41,12 @@ class UrlAttachContainer extends React.Component {
             });
     }
 
+    onEnterKeyPress(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            this.submit();
+        }
+    }
+
     render() {
         return (
             <div>
@@ -47,6 +54,7 @@ class UrlAttachContainer extends React.Component {
                     this.state.isUploading ? <Loading/> : (
                         <div>
                             <FormInputText
+                                onKeyPress={this.onEnterKeyPress}
                                 label="Đính kèm liên kết"
                                 value={this.state.url}
                                 updateFormData={this.updateFormData}
