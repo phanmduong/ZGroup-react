@@ -127,13 +127,13 @@ class ManageDashboardApiController extends ManageApiController
 
         $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
             ->whereRaw('date(now()) = date(time)')
-            ->select('classes.*', 'class_lesson.time', 'class_lesson.start_time','class_lesson.end_time', 'class_lesson.id as class_lesson_id');
+            ->select('classes.*', 'class_lesson.time', 'class_lesson.start_time', 'class_lesson.end_time', 'class_lesson.id as class_lesson_id');
 
         $now_classes = $now_classes->get()->map(function ($class) {
             $dataClass = $this->classRepository->get_class($class);
             $dataClass['time'] = $class->time;
-            $dataClass['start_time'] = $class->start_time;
-            $dataClass['end_time'] = $class->end_time;
+            $dataClass['start_time'] = format_time_shift(strtotime($class->start_time));
+            $dataClass['end_time'] = format_time_shift(strtotime($class->start_time));
             $classLesson = ClassLesson::find($class->class_lesson_id);
             if ($dataClass['teacher']) {
                 $dataClass['attendance_teacher'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson, $dataClass['teacher']['id']);
@@ -356,14 +356,14 @@ class ManageDashboardApiController extends ManageApiController
         $data = [];
 
         $now_classes = $now_classes->join('class_lesson', 'classes.id', '=', 'class_lesson.class_id')
-            ->whereRaw('date(\''.format_time_to_mysql($time).'\') = date(time)')
-            ->select('classes.*', 'class_lesson.time', 'class_lesson.start_time','class_lesson.end_time', 'class_lesson.id as class_lesson_id');
+            ->whereRaw('date(\'' . format_time_to_mysql($time) . '\') = date(time)')
+            ->select('classes.*', 'class_lesson.time', 'class_lesson.start_time', 'class_lesson.end_time', 'class_lesson.id as class_lesson_id');
 
         $now_classes = $now_classes->get()->map(function ($class) {
             $dataClass = $this->classRepository->get_class($class);
             $dataClass['time'] = $class->time;
-            $dataClass['start_time'] = $class->start_time;
-            $dataClass['end_time'] = $class->end_time;
+            $dataClass['start_time'] = format_time_shift(strtotime($class->start_time));
+            $dataClass['end_time'] = format_time_shift(strtotime($class->start_time));
             $classLesson = ClassLesson::find($class->class_lesson_id);
             if ($dataClass['teacher']) {
                 $dataClass['attendance_teacher'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson, $dataClass['teacher']['id']);
