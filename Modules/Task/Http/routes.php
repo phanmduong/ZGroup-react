@@ -29,6 +29,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/card/{cardId}/user/{userId}', "CardController@assignMember");
     Route::post('/project/{projectId}/user/{userId}', "CardController@assignProjectMember");
     Route::post('/card/{cardId}/file', "FileController@uploadFile");
+    Route::post('/card/{cardId}/url', "FileController@addUrl");
     Route::delete('/card-file/{fileId}', "FileController@deleteFile");
     Route::delete('/card-comment/{id}', "TaskController@deleteCardComment");
     Route::post('/card/{cardId}/comment', "CardController@commentCard");
