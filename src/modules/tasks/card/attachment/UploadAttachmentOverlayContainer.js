@@ -32,7 +32,7 @@ class UploadAttachmentOverlayContainer extends React.Component {
 
 
     }
-    
+
     toggle() {
         this.setState({show: !this.state.show});
     }
@@ -40,10 +40,10 @@ class UploadAttachmentOverlayContainer extends React.Component {
     render() {
         return (
             <div style={{position: "relative"}}>
-                <button className="btn btn-default card-detail-btn-action"
-                        ref="target" onClick={this.toggle}>
-                    <i className="material-icons">attachment</i> Đính kèm
-                </button>
+                <a onClick={this.toggle} ref="target">
+                    {this.props.children}
+                </a>
+
                 <Overlay
                     rootClose={true}
                     show={this.state.show}

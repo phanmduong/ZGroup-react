@@ -112,7 +112,11 @@ const CardBody = ({
                     <LabelOverlayContainer/>
                     <DeadlineOverlayContainer/>
                     <AddMemberOverlay card={card}/>
-                    <UploadAttachmentOverlayContainer card={card}/>
+                    <UploadAttachmentOverlayContainer card={card}>
+                        <button className="btn btn-default card-detail-btn-action">
+                            <i className="material-icons">attachment</i> Đính kèm
+                        </button>
+                    </UploadAttachmentOverlayContainer>
                 </div>
                 <AttachmentWrapper deleteFile={deleteFile} card={card}/>
             </div>
