@@ -668,6 +668,17 @@ export function uploadAttachment(card, fileWrapper) {
     };
 }
 
+
+export function addUrlSuccess(file) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPLOAD_ATTACHMENT_SUCCESS,
+            file
+        });
+    };
+}
+
+
 export function loadCardDetail(cardId) {
     return function (dispatch) {
         dispatch({

@@ -40,7 +40,7 @@ class CommentInputContainer extends React.Component {
                         <textarea
                             placeholder="Viết bình luận của bạn..."
                             onKeyPress={this.onEnterKeyPress}
-                            className="comment-input"/>
+                            className="comment-input" />
                     )
                 }
 

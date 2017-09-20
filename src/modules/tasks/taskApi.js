@@ -299,6 +299,17 @@ export function uploadFile(card, index = 0, file, completeHandler, progressHandl
     ajax.send(formData);
 }
 
+export function addUrl(cardId, fileUrl) {
+    let url = env.MANAGE_API_URL + "/card/" + cardId + "/url";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        url: fileUrl
+    });
+}
+
 export function loadCardDetail(cardId) {
     let url = env.MANAGE_API_URL + "/card/" + cardId + "/detail";
     const token = localStorage.getItem('token');

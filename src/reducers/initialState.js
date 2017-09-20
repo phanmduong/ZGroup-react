@@ -191,7 +191,6 @@ export default {
             isSaving: false
         }
     },
-
     register: {
         registerList: {
             registers: [],

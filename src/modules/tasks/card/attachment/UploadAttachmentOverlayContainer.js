@@ -52,6 +52,7 @@ class UploadAttachmentOverlayContainer extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <UploadAttachmentPopover
+                        card={this.props.card}
                         files={this.props.files}
                         handleChange={this.handleChange}
                         toggle={this.toggle}/>

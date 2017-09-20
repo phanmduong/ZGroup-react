@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import UploadButton from "../../../../components/common/uploadButton/UploadButton";
 import Loading from "../../../../components/common/Loading";
+import UrlAttach from "./UrlAttachContainer";
 
-const UploadAttachmentPopover = ({toggle, handleChange, files}) => {
+const UploadAttachmentPopover = ({toggle, handleChange, files, card}) => {
     return (
         <div className="kt-overlay" style={{width: "300px", marginLeft: -30}}>
             <button
@@ -49,6 +50,12 @@ const UploadAttachmentPopover = ({toggle, handleChange, files}) => {
                                     <div>Máy tính</div>
                                 </UploadButton>
                             </ListGroupItem>
+                            <ListGroupItem className="kt-btn-upload-attachment-container">
+                                <div style={{paddingLeft: 15}}>
+                                    <UrlAttach
+                                        card={card}/>
+                                </div>
+                            </ListGroupItem>
                         </ListGroup>
                     )
             }
@@ -57,6 +64,7 @@ const UploadAttachmentPopover = ({toggle, handleChange, files}) => {
 };
 UploadAttachmentPopover.propTypes = {
     toggle: PropTypes.func.isRequired,
+    card: PropTypes.object.isRequired,
     files: PropTypes.array.isRequired,
     handleChange: PropTypes.func.isRequired
 };

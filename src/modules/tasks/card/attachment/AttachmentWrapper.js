@@ -41,14 +41,14 @@ const AttachmentWrapper = ({card, deleteFile}) => {
                                         <Media.Body>
                                             <div>
                                                 <strong>
-                                                    <a className="text-rose" href={file.url} download>{file.name}</a>
+                                                    <a className="text-rose" href={file.url} target="_blank">{file.name}</a>
                                                 </strong>
                                             </div>
                                             <div>
-                                                <div style={{fontSize:"12px"}}>Tải lên lúc {file.created_at}</div>
+                                                <div style={{fontSize: "12px"}}>Tải lên lúc {file.created_at}</div>
                                                 <div className="btn-group-action">
                                                     <TooltipButton text="Tải tập tin" placement="top">
-                                                        <a href={file.url} download>
+                                                        <a href={file.url} target="_blank">
                                                             <i className="material-icons">file_download</i>
                                                         </a>
                                                     </TooltipButton>
