@@ -66,6 +66,7 @@ class UploadAttachmentOverlayContainer extends React.Component {
 UploadAttachmentOverlayContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
     card: PropTypes.object.isRequired,
+    children: PropTypes.element.isRequired,
     files: PropTypes.array.isRequired
 };
 

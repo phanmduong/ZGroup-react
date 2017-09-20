@@ -876,3 +876,12 @@ export function changeProjectSetting(project) {
         taskApi.changeProjectSetting(project);
     };
 }
+
+export function updateCommentInputValue(value) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_CARD_COMMENT_INPUT_VALUE,
+            value
+        });
+    };
+}

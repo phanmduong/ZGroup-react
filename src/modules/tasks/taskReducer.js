@@ -6,6 +6,14 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.UPDATE_CARD_COMMENT_INPUT_VALUE:
+            return {
+                ...state,
+                commentCard: {
+                    ...state.commentCard,
+                    value: action.value
+                }
+            };
         case types.ARCHIVE_PROJECT:
             return {
                 ...state,
@@ -347,6 +355,10 @@ export default function taskReducer(state = initialState.task, action) {
         case types.CREATE_CARD_COMMENT_SUCCESS:
             return {
                 ...state,
+                commentCard: {
+                    ...state.commentCard,
+                    value: ""
+                },
                 comment: {
                     ...state.comment,
                     comments: state.comment

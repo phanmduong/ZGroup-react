@@ -170,3 +170,21 @@
     margin-left: 10px;
 }
 
+.comment-input-wrapper {
+    position: relative;
+    padding-right: 20px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+}
+
+.comment-input-wrapper > textarea {
+    border: none;
+    resize: none;
+    overflow: hidden;
+}
+
+.btn-upload-file-comment {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}

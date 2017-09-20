@@ -6,14 +6,28 @@ import * as taskActions from '../../taskActions';
 import {commentCard} from '../../taskApi';
 import './comment.css';
 import Loading from "../../../../components/common/Loading";
+import UploadAttachmentOverlayContainer from "../attachment/UploadAttachmentOverlayContainer";
 
 class CommentInputContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.onEnterKeyPress = this.onEnterKeyPress.bind(this);
         this.state = {
-            isCommenting: false
+            isCommenting: false,
+            value: ""
         };
+        this.textAreaChange = this.textAreaChange.bind(this);
+        this.textAreaAdjust = this.textAreaAdjust.bind(this);
+    }
+
+    textAreaAdjust(event) {
+        const o = event.target;
+        o.style.height = "1px";
+        o.style.height = (10 + o.scrollHeight) + "px";
+    }
+
+    textAreaChange(event) {
+        this.props.taskActions.updateCommentInputValue(event.target.value);
     }
 
     onEnterKeyPress(e) {
@@ -32,15 +46,26 @@ class CommentInputContainer extends React.Component {
         }
     }
 
+
     render() {
         return (
             <div style={{marginTop: 10}}>
                 {
                     this.state.isCommenting ? <Loading/> : (
-                        <textarea
-                            placeholder="Viết bình luận của bạn..."
-                            onKeyPress={this.onEnterKeyPress}
-                            className="comment-input" />
+                        <div className="comment-input-wrapper">
+                            <textarea
+                                onChange={this.textAreaChange}
+                                value={this.props.value}
+                                onKeyUp={this.textAreaAdjust}
+                                placeholder="Viết bình luận của bạn..."
+                                onKeyPress={this.onEnterKeyPress}
+                                className="comment-input"/>
+                            <div className="btn-upload-file-comment">
+                                <UploadAttachmentOverlayContainer card={this.props.card}>
+                                    <i style={{fontSize: "16px"}} className="material-icons">attachment</i>
+                                </UploadAttachmentOverlayContainer>
+                            </div>
+                        </div>
                     )
                 }
 
@@ -51,13 +76,15 @@ class CommentInputContainer extends React.Component {
 
 CommentInputContainer.propTypes = {
     card: PropTypes.object.isRequired,
+    value: PropTypes.string.isRequired,
     taskActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         card: state.task.cardDetail.card,
-        comment: state.task.comment.comment
+        comment: state.task.comment.comment,
+        value: state.task.commentCard.value
     };
 }
 
