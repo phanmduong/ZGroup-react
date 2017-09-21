@@ -164,5 +164,24 @@ export function editClass(classData, closeModal) {
     };
 }
 
+export function loadClass(classId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASS_DATA
+        });
+        classApi.loadClass(classId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CLASS_SUCCESS,
+                    class: res.data.data.class
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_CLASS_ERROR
+            });
+        });
+    };
+}
+
 
 

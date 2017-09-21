@@ -42,7 +42,7 @@ class ListClass extends React.Component {
                                             <img src={classItem.course ? classItem.course.icon_url : ''} alt=""/>
                                         </button>
                                     </td>
-                                    <td>{classItem.name}</td>
+                                    <td><Link to={`/class/${classItem.id}`}>{classItem.name}</Link></td>
                                     <td>{classItem.datestart}</td>
                                     <td>{classItem.study_time}</td>
                                     <td className="text-center">{classItem.gen ? classItem.gen.name : ''}</td>
