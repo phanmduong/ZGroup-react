@@ -188,3 +188,10 @@
 .comment-card-url {
     text-decoration: underline;
 }
+
+.Select-value-icon.card-label {
+    color: white;
+}
+.Select-value-icon.card-label:hover {
+    color: #d9d9d9!important;
+}

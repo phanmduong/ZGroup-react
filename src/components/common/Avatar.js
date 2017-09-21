@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Avatar = ({url, size, className, distance}) => {
+const Avatar = ({url, size, className, distance, style}) => {
     let marginRight = 5;
     if (distance || distance ===0) {
         marginRight = distance;
@@ -14,13 +14,15 @@ const Avatar = ({url, size, className, distance}) => {
             backgroundPosition: "center",
             backgroundSize: "cover",
             borderRadius: 4,
-            backgroundImage: `url(${url})`
+            backgroundImage: `url(${url})`,
+            ...style
         }}/>
     );
 };
 
 Avatar.propTypes = {
     distance: PropTypes.number,
+    style: PropTypes.object,
     url: PropTypes.string.isRequired,
     className: PropTypes.string,
     size: PropTypes.number.isRequired

@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import * as cardFilterActions from './cardFilterActions';
 import Select from 'react-select';
 import ProjectActionContainer from "../../card/ProjectActionContainer";
+import MemberReactSelectOption from "./MemberReactSelectOption";
+import MemberReactSelectValue from "./MemberReactSelectValue";
+import CardLabelReactSelectOption from "./CardLabelReactSelectOption";
+import CardLabelReactSelectValue from "./CardLabelReactSelectValue";
 
 
 class CardFilterContainer extends React.Component {
@@ -15,6 +19,7 @@ class CardFilterContainer extends React.Component {
     }
 
     userSelectChange(val) {
+        console.log(val);
         this.props.cardFilterActions.setSelectedMembers(val);
     }
 
@@ -39,17 +44,19 @@ class CardFilterContainer extends React.Component {
         });
         const {selectedMembers, selectedCardLabels} = this.props;
 
-
         return (
+
             <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "5px"}}>
                 <div className="filter-container">
                     <div className="select-container">
                         <Select
                             placeholder="Nhập tên"
-                            style={{minWidth: 120}}
+                            style={{minWidth: 200, maxWidth: 400}}
                             value={selectedMembers}
                             name="members"
                             multi={true}
+                            valueComponent={MemberReactSelectValue}
+                            optionComponent={MemberReactSelectOption}
                             options={members}
                             onChange={this.userSelectChange}
                         />
@@ -58,10 +65,12 @@ class CardFilterContainer extends React.Component {
                         <Select
                             placeholder="Nhập nhãn"
                             value={selectedCardLabels}
-                            style={{minWidth: 120}}
+                            style={{minWidth: 200, maxWidth: 400}}
                             name="cardLabels"
+                            optionComponent={CardLabelReactSelectOption}
                             multi={true}
                             options={cardLabels}
+                            valueComponent={CardLabelReactSelectValue}
                             onChange={this.cardLabelSelectChange}
                         />
                     </div>
