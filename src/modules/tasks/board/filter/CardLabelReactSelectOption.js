@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Avatar from "../../../../components/common/Avatar";
-import {Media} from "react-bootstrap";
 
 class CardLabelReactSelectOption extends React.Component {
     constructor(props, context) {
@@ -29,8 +27,8 @@ class CardLabelReactSelectOption extends React.Component {
     render() {
         const btnStyle = {
             backgroundColor: this.props.option.color,
-            margin: "1px 0",
-            width: "100%"
+            margin: 3,
+            width: "calc(100% - 6px)"
         };
 
         return (
