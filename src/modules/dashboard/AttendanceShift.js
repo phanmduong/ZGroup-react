@@ -18,7 +18,7 @@ class AttendanceShift extends React.Component {
         return (
             <div>
                 <h6>
-                    <button className="btn btn-sm min-width-100-px"
+                    <button className="btn btn-sm min-width-130-px"
                             style={{backgroundColor: shift.staff ? '#' + shift.staff.color : ''}}>
                         {shift.staff ? helper.getShortName(shift.staff.name) : ''}
                     </button>
