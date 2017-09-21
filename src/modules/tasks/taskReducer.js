@@ -6,6 +6,39 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.OPEN_ARCHIVE_CARD_MODAL:
+            return {
+                ...state,
+                archiveCard: {
+                    ...state.archiveCard,
+                    showModal: true
+                }
+            };
+        case types.CLOSE_ARCHIVE_CARD_MODAL:
+            return {
+                ...state,
+                archiveCard: {
+                    ...state.archiveCard,
+                    showModal: false
+                }
+            };
+        case types.BEGIN_LOAD_PROJECT_DETAIL:
+            return {
+                ...state,
+                projectDetail: {
+                    ...state.projectDetail,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_PROJECT_DETAIL_SUCCESS:
+            return {
+                ...state,
+                projectDetail: {
+                    ...state.projectDetail,
+                    isLoading: false,
+                    project: action.project
+                }
+            };
         case types.UPDATE_CARD_COMMENT_INPUT_VALUE:
             return {
                 ...state,
@@ -195,7 +228,7 @@ export default function taskReducer(state = initialState.task, action) {
                 projectDetail: {
                     ...state.projectDetail,
                     showModal: true,
-                    project: action.project
+                    projectId: action.projectId
                 }
             };
         case types.CLEAR_MEMBERS:

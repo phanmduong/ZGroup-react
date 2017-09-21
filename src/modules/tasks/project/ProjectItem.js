@@ -17,7 +17,7 @@ class ProjectItem extends React.Component {
     onEditClick(event) {
         event.stopPropagation();
         event.preventDefault();
-        this.props.taskActions.openProjectDetailModal(this.props.project);
+        this.props.taskActions.openProjectDetailModal(this.props.project.id);
     }
 
     archiveProject(event) {
@@ -31,44 +31,44 @@ class ProjectItem extends React.Component {
         const tooltip = (
             <Tooltip id="tooltip">{project.description}</Tooltip>
         );
-        const editTooltip = (
-            <Tooltip id="tooltip">Sửa dự án</Tooltip>
-        );
-        const archiveTooltip = (
-            <Tooltip id="tooltip">Lưu trữ dự án</Tooltip>
-        );
         const isAdmin = project.members.filter(member => member.is_admin && member.id === this.props.user.id).length > 0 || this.props.user.role === 2;
         return (
             <div className="col-md-4 col-sm-6">
                 <Link to={"project/" + project.id + "/boards"}
                       style={{width: "100%", background: "white", color: "#455a64", textAlign: "left"}}
                       className="btn btn-default btn-lg">
+
                     {
                         isAdmin && (
-                            <OverlayTrigger placement="top" overlay={editTooltip}>
-                                <div style={{position: "absolute", top: "20px", right: "30px"}}>
-                                    <div className="board-action">
-                                        <a style={{color: "#455a64"}} onClick={this.onEditClick}>
+                            <div className="dropdown" style={{position: "absolute", top: "10px", right: "10px"}}>
+                                <a className="dropdown-toggle btn-more-dropdown" type="button"
+                                   data-toggle="dropdown">
+                                    <i className="material-icons">more_horiz</i>
+                                </a>
+                                <ul className="dropdown-menu dropdown-menu-right">
+
+                                    <li className="more-dropdown-item">
+                                        <a onClick={this.onEditClick}>
                                             <i className="material-icons" style={{fontSize: "18px"}}>edit</i>
+                                            Chỉnh sửa dự án
                                         </a>
-                                    </div>
-                                </div>
-                            </OverlayTrigger>
+                                    </li>
+
+                                    <li className="more-dropdown-item">
+                                        <a onClick={this.archiveProject}>
+                                            {
+                                                project.status === "open" ? (
+                                                    <span><i className="material-icons" style={{fontSize: "18px"}}>archive</i>Lưu trữ dự án</span>
+                                                ) : (
+                                                    <span><i className="material-icons" style={{fontSize: "18px"}}>unarchive</i>Khôi phục dự án</span>
+                                                )
+                                            }
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         )
                     }
-                    <OverlayTrigger placement="top" overlay={archiveTooltip}>
-                        <div style={{position: "absolute", top: "20px", right: "12px"}}>
-                            <div className="board-action">
-                                <a style={{color: "#455a64"}} onClick={this.archiveProject}>
-                                    {
-                                        project.status === "open" ?
-                                            <i className="material-icons" style={{fontSize: "18px"}}>archive</i> :
-                                            <i className="material-icons" style={{fontSize: "18px"}}>unarchive</i>
-                                    }
-                                </a>
-                            </div>
-                        </div>
-                    </OverlayTrigger>
 
                     <div className="row" style={{fontSize: "16px", fontWeight: 600}}>
                         <i className="material-icons">account_balance_wallet</i> {project.title.length > 20 ? project.title.slice(0, 17) + "..." : project.title}

@@ -776,11 +776,11 @@ export function loadCalendarEvents(userId) {
     };
 }
 
-export function openProjectDetailModal(project) {
+export function openProjectDetailModal(projectId) {
     return function (dispatch) {
         dispatch({
             type: types.OPEN_PROJECT_DETAIL_MODAL,
-            project
+            projectId
         });
     };
 }
@@ -889,6 +889,37 @@ export function updateCommentInputValue(value) {
         dispatch({
             type: types.UPDATE_CARD_COMMENT_INPUT_VALUE,
             value
+        });
+    };
+}
+
+export function loadProjectDetail(projectId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_PROJECT_DETAIL
+        });
+        taskApi.loadProjectDetail(projectId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_PROJECT_DETAIL_SUCCESS,
+                    project: res.data.data
+                });
+            });
+    };
+}
+
+export function openArchiveCardModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_ARCHIVE_CARD_MODAL
+        });
+    };
+}
+
+export function closeArchiveCardModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_ARCHIVE_CARD_MODAL
         });
     };
 }

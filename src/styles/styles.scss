@@ -399,3 +399,20 @@ $starInactive: #c4c5c6;
   min-height: calc(100vh - 70px);
   padding: 10px;
 }
+
+.btn-more-dropdown {
+  color: #858585;
+}
+
+.more-dropdown-item .material-icons {
+  font-size: 16px !important;
+  margin-right: 5px;
+  position: relative;
+  top: -2px;
+}
+
+.dropdown:hover .hover-dropdown-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}

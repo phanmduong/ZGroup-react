@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as cardFilterActions from './cardFilterActions';
 import Select from 'react-select';
-import ArchiveCardsModalContainer from "../../card/ArchiveCardsModalContainer";
+import ProjectActionContainer from "../../card/ProjectActionContainer";
 
 
 class CardFilterContainer extends React.Component {
@@ -67,7 +67,8 @@ class CardFilterContainer extends React.Component {
                     </div>
 
                 </div>
-                <ArchiveCardsModalContainer
+                <ProjectActionContainer
+                    isAdmin={this.props.isAdmin}
                     projectId={this.props.projectId}/>
             </div>
         );
@@ -76,6 +77,7 @@ class CardFilterContainer extends React.Component {
 
 CardFilterContainer.propTypes = {
     cardFilterActions: PropTypes.object.isRequired,
+    isAdmin: PropTypes.bool.isRequired,
     cardLabels: PropTypes.array.isRequired,
     projectId: PropTypes.number.isRequired,
     selectedCardLabels: PropTypes.array.isRequired,

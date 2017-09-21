@@ -121,7 +121,8 @@ export default {
         archiveCard: {
             cards: [],
             isLoading: false,
-            isEmpty: false
+            isEmpty: false,
+            showModal: false
         },
         comment: {
             comments: []
@@ -129,7 +130,9 @@ export default {
         projectDetail: {
             showModal: false,
             project: {},
-            isSaving: false
+            projectId: 0,
+            isSaving: false,
+            isLoading: false
         },
         manageLabel: {
             label: {},

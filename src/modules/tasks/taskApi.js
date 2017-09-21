@@ -392,6 +392,16 @@ export function loadProjectMembers(filter, projectId) {
     return axios.get(url);
 }
 
+
+export function loadProjectDetail(projectId) {
+    let url = env.MANAGE_API_URL + "/project/" + projectId;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
 export function changeProjectMemberRole(projectId, memberId, role) {
     let url = env.MANAGE_API_URL + `/project/${projectId}/member/${memberId}/role/${role}`;
     const token = localStorage.getItem('token');

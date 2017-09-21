@@ -77,6 +77,7 @@ class BoardListContainer extends React.Component {
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>
                         <CardFilterContainer
+                            isAdmin={isAdmin}
                             projectId={Number(this.props.params.projectId)}/>
                         <BoardList
                             canDragBoard={isAdmin || this.props.canDragBoard}

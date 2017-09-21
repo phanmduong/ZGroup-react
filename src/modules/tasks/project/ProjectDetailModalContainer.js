@@ -10,6 +10,7 @@ import Select from 'react-select';
 import AddMemberProjectOverlay from "./AddMemberProjectOverlay";
 import ProjectMemberDetailOverlayContainer from "./ProjectMemberDetailOverlayContainer";
 import Switch from "../../../components/common/Switch";
+import Loading from "../../../components/common/Loading";
 
 
 class ProjectDetailModalContainer extends Component {
@@ -25,6 +26,11 @@ class ProjectDetailModalContainer extends Component {
             {value: 'close', label: 'close'}
         ];
 
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.showModal && nextProps.showModal && nextProps.projectId)
+            this.props.taskActions.loadProjectDetail(nextProps.projectId);
     }
 
     close() {
@@ -56,122 +62,127 @@ class ProjectDetailModalContainer extends Component {
     }
 
     render() {
-        const {project, isSaving, showModal} = this.props;
+        const {project, isSaving, showModal, isLoading} = this.props;
         return (
             <Modal show={showModal} bsSize="large" onHide={this.close}>
                 <Modal.Header closeButton>
                     <Modal.Title><strong>{project.title}</strong></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="row">
-                        <div className="col-sm-8">
-                            {
-                                project.members && (
-                                    <div>
-                                        <h5>
-                                            <strong>Thành viên</strong>
-                                        </h5>
-                                        <div style={{padding: 5, display: "flex", flexWrap: "wrap"}}>
-                                            {
-                                                project.members.map((member) => {
-                                                    return (<ProjectMemberDetailOverlayContainer
-                                                        key={member.id}
-                                                        member={member}/>);
-                                                })
-                                            }
-                                        </div>
-                                    </div>
-                                )}
-                            <h5>
-                                <strong>Mô tả</strong>
-                            </h5>
-                            <form role="form">
-
-                                <FormInputText
-                                    placeholder="Nhập tên dự án"
-                                    label="Tên dự án"
-                                    name="title"
-                                    updateFormData={this.updateFormData}
-                                    value={project.title}/>
-                                <FormInputText
-                                    placeholder="Nhập mô tả dự án"
-                                    label="Mô tả dự án"
-                                    name="description"
-                                    updateFormData={this.updateFormData}
-                                    value={project.description}/>
-
-                                <CirclePicker
-                                    width="100%"
-                                    color={project.color || ""}
-                                    onChangeComplete={this.changeColor}/>
-
-                                <div className="form-group">
-                                    <Select
-                                        name="status"
-                                        value={project.status}
-                                        options={this.statusOptions}
-                                        onChange={this.changeStatus}
-                                    />
-                                </div>
-
-                                <div>
-                                    {isSaving ?
-                                        (
-                                            <button
-                                                type="button"
-                                                className="btn btn-primary disabled">
-                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                            </button>
-                                        ) :
-                                        (
+                    {
+                        isLoading ? <Loading/> : (
+                            <div className="row">
+                                <div className="col-sm-8">
+                                    {
+                                        project.members && (
                                             <div>
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-rose"
-                                                    onClick={this.submit}>
-                                                    Lưu dự án
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-default"
-                                                    onClick={this.close}>
-                                                    Đóng
-                                                </button>
+                                                <h5>
+                                                    <strong>Thành viên</strong>
+                                                </h5>
+                                                <div style={{padding: 5, display: "flex", flexWrap: "wrap"}}>
+                                                    {
+                                                        project.members.map((member) => {
+                                                            return (<ProjectMemberDetailOverlayContainer
+                                                                key={member.id}
+                                                                member={member}/>);
+                                                        })
+                                                    }
+                                                </div>
                                             </div>
                                         )}
-                                </div>
-                            </form>
-                        </div>
+                                    <h5>
+                                        <strong>Mô tả</strong>
+                                    </h5>
+                                    <form role="form">
 
-                        <div className="col-sm-4">
-                            <div className="card-detail-btn-group">
-                                <AddMemberProjectOverlay/>
+                                        <FormInputText
+                                            placeholder="Nhập tên dự án"
+                                            label="Tên dự án"
+                                            name="title"
+                                            updateFormData={this.updateFormData}
+                                            value={project.title}/>
+                                        <FormInputText
+                                            placeholder="Nhập mô tả dự án"
+                                            label="Mô tả dự án"
+                                            name="description"
+                                            updateFormData={this.updateFormData}
+                                            value={project.description}/>
+
+                                        <CirclePicker
+                                            width="100%"
+                                            color={project.color || ""}
+                                            onChangeComplete={this.changeColor}/>
+
+                                        <div className="form-group">
+                                            <Select
+                                                name="status"
+                                                value={project.status}
+                                                options={this.statusOptions}
+                                                onChange={this.changeStatus}
+                                            />
+                                        </div>
+
+                                        <div>
+                                            {isSaving ?
+                                                (
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-primary disabled">
+                                                        <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                    </button>
+                                                ) :
+                                                (
+                                                    <div>
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-rose"
+                                                            onClick={this.submit}>
+                                                            Lưu dự án
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-default"
+                                                            onClick={this.close}>
+                                                            Đóng
+                                                        </button>
+                                                    </div>
+                                                )}
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div className="col-sm-4">
+                                    <div className="card-detail-btn-group">
+                                        <AddMemberProjectOverlay/>
+                                    </div>
+                                    <div>
+                                        <h4>Cài đặt cho thành viên</h4>
+                                        <ListGroup>
+                                            <ListGroupItem>
+                                                <Switch
+                                                    onChange={() => this.props.taskActions.changeProjectSetting({
+                                                        ...project,
+                                                        canDragBoard: !project.canDragBoard
+                                                    })}
+                                                    value={!!project.canDragBoard}/>
+                                                Kéo thả bảng
+                                            </ListGroupItem>
+                                            <ListGroupItem>
+                                                <Switch
+                                                    onChange={() => this.props.taskActions.changeProjectSetting({
+                                                        ...project,
+                                                        canDragCard: !project.canDragCard
+                                                    })}
+                                                    value={!!project.canDragCard}/>
+                                                Kéo thả thẻ
+                                            </ListGroupItem>
+                                        </ListGroup>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <h4>Cài đặt cho thành viên</h4>
-                                <ListGroup>
-                                    <ListGroupItem>
-                                        <Switch
-                                            onChange={() => this.props.taskActions.changeProjectSetting({
-                                                ...project,
-                                                canDragBoard: !project.canDragBoard
-                                            })}
-                                            value={!!project.canDragBoard}/>
-                                        Kéo thả bảng
-                                    </ListGroupItem>
-                                    <ListGroupItem>
-                                        <Switch
-                                            onChange={() => this.props.taskActions.changeProjectSetting({
-                                                ...project,
-                                                canDragCard: !project.canDragCard
-                                            })}
-                                            value={!!project.canDragCard}/>
-                                        Kéo thả thẻ
-                                    </ListGroupItem>
-                                </ListGroup>
-                            </div>
-                        </div>
-                    </div>
+                        )
+                    }
+
                 </Modal.Body>
             </Modal>
         );
@@ -181,7 +192,9 @@ class ProjectDetailModalContainer extends Component {
 ProjectDetailModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     project: PropTypes.object.isRequired,
+    projectId: PropTypes.number.isRequired,
     taskActions: PropTypes.object.isRequired
 };
 
@@ -189,7 +202,9 @@ function mapStateToProps(state) {
     return {
         showModal: state.task.projectDetail.showModal,
         isSaving: state.task.projectDetail.isSaving,
-        project: state.task.projectDetail.project
+        isLoading: state.task.projectDetail.isLoading,
+        project: state.task.projectDetail.project,
+        projectId: state.task.projectDetail.projectId
     };
 }
 

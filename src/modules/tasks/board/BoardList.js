@@ -113,12 +113,29 @@ class BoardList extends React.Component {
                                 <div className="board-title undraggable">
                                     <span style={{fontWeight: 600}}>{board.title}</span>
                                     <div className="board-action">
-                                        <a onClick={() => this.props.editBoard(board)}>
-                                            <i className="material-icons">edit</i>
-                                        </a>
-                                        <a onClick={() => this.props.addCard(board)}>
-                                            <i className="material-icons">add</i>
-                                        </a>
+
+                                        <div className="dropdown">
+                                            <a className="dropdown-toggle btn-more-dropdown" type="button"
+                                               data-toggle="dropdown">
+                                                <i className="material-icons">more_horiz</i>
+                                            </a>
+                                            <ul className="dropdown-menu dropdown-menu-right">
+                                                <li className="more-dropdown-item">
+                                                    <a onClick={() => this.props.editBoard(board)}>
+                                                        <i className="material-icons">edit</i>
+                                                        Sửa tên bảng
+                                                    </a>
+                                                </li>
+                                                <li className="more-dropdown-item">
+                                                    <a onClick={() => this.props.addCard(board)}>
+                                                        <i className="material-icons">add</i>
+                                                        Thêm thẻ
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+
                                     </div>
                                 </div>
 

@@ -115,43 +115,53 @@ class CardItem extends React.Component {
                         <div className="card-content keetool-card" style={{position: "relative"}}>
                             <div style={{position: "absolute", top: 10, right: 10}}>
                                 <div className="board-action keetool-card">
-                                    <TooltipButton text="Chỉnh sửa thẻ" placement="top">
-                                        <a className="keetool-card" onClick={(event) => {
-                                            event.stopPropagation();
-                                            this.toggleEdit();
-                                        }}>
-                                            <i style={{fontSize: "16px"}}
-                                               className="material-icons keetool-card">edit</i>
+                                    <div className="dropdown">
+                                        <a className="dropdown-toggle btn-more-dropdown" type="button"
+                                           data-toggle="dropdown">
+                                            <i className="material-icons">more_horiz</i>
                                         </a>
-                                    </TooltipButton>
-                                    {
-                                        this.props.card.status === "open" && (
-                                            <TooltipButton text="Lưu trữ thẻ" placement="top">
-                                                <a className="keetool-card" style={{marginLeft: 2}}
-                                                   onClick={(event) => {
-                                                       event.stopPropagation();
-                                                       this.archiveCard();
-                                                   }}>
-                                                    <i className="material-icons" style={{fontSize: "16px"}}>archive</i>
+                                        <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
+                                            <li className="more-dropdown-item">
+                                                <a className="keetool-card" onClick={(event) => {
+                                                    event.stopPropagation();
+                                                    this.toggleEdit();
+                                                }}>
+                                                    <i style={{fontSize: "16px"}}
+                                                       className="material-icons keetool-card">edit</i>
+                                                    Chỉnh sửa thẻ
                                                 </a>
-                                            </TooltipButton>
-                                        )
-                                    }
-
-                                    {
-                                        this.props.card.status === "close" && (
-                                            <TooltipButton text="Khôi phục thẻ" placement="top">
-                                                <a className="keetool-card" style={{marginLeft: 2}}
-                                                   onClick={(event) => {
-                                                       event.stopPropagation();
-                                                       this.unarchiveCard();
-                                                   }}>
-                                                    <i className="material-icons"
-                                                       style={{fontSize: "16px"}}>unarchive</i>
-                                                </a>
-                                            </TooltipButton>
-                                        )
-                                    }
+                                            </li>
+                                            {
+                                                this.props.card.status === "open" && (
+                                                    <li className="more-dropdown-item">
+                                                        <a className="keetool-card" style={{marginLeft: 2}}
+                                                           onClick={(event) => {
+                                                               event.stopPropagation();
+                                                               this.archiveCard();
+                                                           }}>
+                                                            <i className="material-icons" style={{fontSize: "16px"}}>archive</i>
+                                                            Lưu trữ thẻ
+                                                        </a>
+                                                    </li>
+                                                )
+                                            }
+                                            {
+                                                this.props.card.status === "close" && (
+                                                    <li className="more-dropdown-item">
+                                                        <a className="keetool-card" style={{marginLeft: 2}}
+                                                           onClick={(event) => {
+                                                               event.stopPropagation();
+                                                               this.unarchiveCard();
+                                                           }}>
+                                                            <i className="material-icons"
+                                                               style={{fontSize: "16px"}}>unarchive</i>
+                                                            Khôi phục thẻ
+                                                        </a>
+                                                    </li>
+                                                )
+                                            }
+                                        </ul>
+                                    </div>
 
                                 </div>
                             </div>

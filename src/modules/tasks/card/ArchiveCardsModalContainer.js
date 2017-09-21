@@ -15,7 +15,6 @@ class ArchiveCardsModalContainer extends React.Component {
             showModal: false
         };
         this.close = this.close.bind(this);
-        this.open = this.open.bind(this);
         this.loadMore = this.loadMore.bind(this);
         this.state = {
             page: 1
@@ -24,15 +23,10 @@ class ArchiveCardsModalContainer extends React.Component {
 
 
     close() {
-        this.setState({showModal: false});
+        this.props.taskActions.closeArchiveCardModal();
     }
 
-    open(event) {
-        event.stopPropagation();
-        event.preventDefault();
-        this.setState({showModal: true});
-        this.props.taskActions.loadArchiveCards(this.props.projectId);
-    }
+
 
     loadMore() {
         this.props.taskActions.loadArchiveCards(this.props.projectId, this.state.page + 1);
@@ -41,51 +35,42 @@ class ArchiveCardsModalContainer extends React.Component {
         });
     }
 
+
+
     render() {
 
         return (
-            <div className="filter-item">
-                <div className="dropdown">
-                    <a className="dropdown-toggle" style={{color: "#858585"}} type="button" data-toggle="dropdown">
-                        <i className="material-icons">more_horiz</i>
-                    </a>
-                    <ul className="dropdown-menu dropdown-menu-right">
-                        <li><a onClick={this.open}>Thẻ đã lưu trữ</a></li>
-                    </ul>
-                </div>
+            <Modal show={this.props.showModal} onHide={this.close}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Lưu trữ</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {this.props.cards.map((card) => {
+                        return (
+                            <CardItem
+                                unarchiveCard={this.props.taskActions.unarchiveCard}
+                                key={card.id}
+                                openCardDetailModal={this.props.taskActions.openCardDetailModal}
+                                updateCardInBoard={this.props.taskActions.updateCardInBoard}
+                                card={card}/>
+                        );
+                    })}
+                    {
+                        !this.props.isEmpty && (
+                            <div style={{textAlign: "center"}}>
+                                {
+                                    this.props.isLoading ? <Loading/> :
+                                        <Button onClick={this.loadMore}>Tải thêm</Button>
+                                }
+                            </div>
+                        )
+                    }
 
-                <Modal show={this.state.showModal} onHide={this.close}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Lưu trữ</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {this.props.cards.map((card) => {
-                            return (
-                                <CardItem
-                                    unarchiveCard={this.props.taskActions.unarchiveCard}
-                                    key={card.id}
-                                    openCardDetailModal={this.props.taskActions.openCardDetailModal}
-                                    updateCardInBoard={this.props.taskActions.updateCardInBoard}
-                                    card={card}/>
-                            );
-                        })}
-                        {
-                            !this.props.isEmpty && (
-                                <div style={{textAlign: "center"}}>
-                                    {
-                                        this.props.isLoading ? <Loading/> :
-                                            <Button onClick={this.loadMore}>Tải thêm</Button>
-                                    }
-                                </div>
-                            )
-                        }
-
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.close}>Close</Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={this.close}>Close</Button>
+                </Modal.Footer>
+            </Modal>
         );
     }
 }
@@ -94,6 +79,8 @@ ArchiveCardsModalContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
+    showModal: PropTypes.bool.isRequired,
+    isAdmin: PropTypes.bool.isRequired,
     projectId: PropTypes.number.isRequired,
     cards: PropTypes.array.isRequired
 };
@@ -102,7 +89,8 @@ function mapStateToProps(state) {
     return {
         isLoading: state.task.archiveCard.isLoading,
         cards: state.task.archiveCard.cards,
-        isEmpty: state.task.archiveCard.isEmpty
+        isEmpty: state.task.archiveCard.isEmpty,
+        showModal: state.task.archiveCard.showModal
     };
 }
 
