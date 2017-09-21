@@ -23,7 +23,13 @@ class ClassLesson extends Model
         return $this->belongsTo('App\StudyClass', 'class_id');
     }
 
-    public function teachingLesson(){
+    public function teachingLesson()
+    {
         return $this->hasMany(TeachingLesson::class, 'class_lesson_id');
+    }
+
+    public function teachingLessonChange()
+    {
+        return $this->hasMany(TeachingLessonChange::class, 'class_lesson_id');
     }
 }
