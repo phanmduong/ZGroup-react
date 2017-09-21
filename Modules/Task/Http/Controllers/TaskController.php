@@ -190,14 +190,11 @@ class TaskController extends ManageApiController
     {
         $project = Project::find($projectId);
         if ($project == null) {
-            return $this->responseNotFound("Cơ sở không tồn tại");
+            return $this->responseNotFound("dự ánkhông tồn tại");
         }
-        $data = [
-            "id" => $projectId,
-            "title" => $project->title,
-            "description" => $project->description
-        ];
-        return $this->respondSuccessWithStatus($data);
+
+
+        return $this->respondSuccessWithStatus($project->transform());
     }
 
     public function toggleProject($projectId)
@@ -325,7 +322,7 @@ class TaskController extends ManageApiController
         $card->creator_id = $this->user->id;
         $card->save();
 
-        return $this->respond(["card" => $this->cardTransformer->transform($card)]);
+        return $this->respond(["card" => $card->transform()]);
     }
 
     public function createBoard(Request $request)
