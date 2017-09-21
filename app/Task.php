@@ -3,12 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Task\Entities\TaskList;
 
 class Task extends Model
 {
-    public function card()
+    public function taskList()
     {
-        return $this->belongsTo(Card::class, 'card_id');
+        return $this->belongsTo(TaskList::class, 'task_list_id');
     }
 
     public function creator()

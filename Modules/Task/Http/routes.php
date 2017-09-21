@@ -56,6 +56,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/cardlabel/{cardLabelId}/card/{cardId}', "CardLabelController@assignCardLabel");
 
     Route::get('/user/{userId}/calendar-events', "TaskController@loadCalendarEvents");
+    Route::get('/task/{taskId}/available-members', "TaskController@taskAvailableMembers");
 
     // End Task api
 });
