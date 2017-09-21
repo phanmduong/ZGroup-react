@@ -115,6 +115,13 @@ export default {
     },
 
     task: {
+        addMemberToTask: {
+            showModal: false,
+            isLoading: false,
+            members: [],
+            task: {},
+            selectedMember: null
+        },
         commentCard: {
             value: ""
         },

@@ -19,7 +19,6 @@ class CardFilterContainer extends React.Component {
     }
 
     userSelectChange(val) {
-        console.log(val);
         this.props.cardFilterActions.setSelectedMembers(val);
     }
 

@@ -6,6 +6,49 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.UPDATE_ASSIGN_MEMBER_TO_TASK_FORM:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    selectedMember: action.member
+                }
+            };
+        case types.LOAD_AVAILABLE_MEMBERS_SUCCESS:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    isLoading: false,
+                    members: action.members
+                }
+            };
+        case types.BEGIN_LOAD_AVAILABLE_MEMBERS:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    isLoading: true
+                }
+            };
+        case types.OPEN_ADD_MEMBER_TO_TASK_MODAL:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    showModal: true,
+                    task: action.task
+                }
+            };
+        case types.CLOSE_ADD_MEMBER_TO_TASK_MODAL:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    showModal: false,
+                    task: {}
+                }
+            };
         case types.OPEN_ARCHIVE_CARD_MODAL:
             return {
                 ...state,

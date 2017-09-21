@@ -923,3 +923,42 @@ export function closeArchiveCardModal() {
         });
     };
 }
+
+export function openAddMemberToTaskModal(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_ADD_MEMBER_TO_TASK_MODAL,
+            task
+        });
+    };
+}
+
+export function closeAddMemberToTaskModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_ADD_MEMBER_TO_TASK_MODAL
+        });
+    };
+}
+
+export function updateAssignMemberToTaskForm(member) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_ASSIGN_MEMBER_TO_TASK_FORM,
+            member
+        });
+    };
+}
+
+export function loadAvailableMembers(task) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_AVAILABLE_MEMBERS});
+        taskApi.loadAvailableMembers(task.id)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_AVAILABLE_MEMBERS_SUCCESS,
+                    members: res.data.data.members
+                });
+            });
+    };
+}

@@ -6,6 +6,7 @@ import * as taskActions from '../../taskActions';
 import Loading from "../../../../components/common/Loading";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
+import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
@@ -33,6 +34,7 @@ class TaskListsContainer extends React.Component {
         const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
         return (
             <div className="task-lists">
+                <AddMemberToTaskModalContainer/>
                 {
                     this.props.card.taskLists && this.props.card.taskLists.map((taskList) => {
                         return (
@@ -74,6 +76,7 @@ class TaskListsContainer extends React.Component {
                                     {
                                         taskList.tasks.map((task) =>
                                             (<TaskItem
+                                                openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
                                                 toggleTaskStatus={this.props.taskActions.toggleTaskStatus}
                                                 deleteTask={this.props.taskActions.deleteTask}

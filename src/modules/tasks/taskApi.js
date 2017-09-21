@@ -145,6 +145,15 @@ export function createCard(card) {
     return axios.post(url, card);
 }
 
+export function loadAvailableMembers(taskId) {
+    let url = env.MANAGE_API_URL + `/task/${taskId}/available-members/`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
 
 export function updateCards(cards, boardId) {
     let url = env.MANAGE_API_URL + "/cards/update";
