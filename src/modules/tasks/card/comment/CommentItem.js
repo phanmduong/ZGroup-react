@@ -13,9 +13,10 @@ class CommentItem extends React.Component {
                          alt={comment.commenter.name}/>
                 </Media.Left>
                 <Media.Body style={{position: "relative"}}>
-                    <Media.Heading>{comment.commenter.name}
+                    <div>
+                        <b>{comment.commenter.name}</b>
                         <small style={{color: "#919191", marginLeft: 10}}>{comment.created_at}</small>
-                    </Media.Heading>
+                    </div>
                     <div style={{whiteSpace: "pre-wrap"}} dangerouslySetInnerHTML={{__html: comment.content}}/>
                     <a style={{
                         color: "rgb(90, 90, 90)",

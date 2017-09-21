@@ -27,7 +27,9 @@ class ArchiveCardsModalContainer extends React.Component {
         this.setState({showModal: false});
     }
 
-    open() {
+    open(event) {
+        event.stopPropagation();
+        event.preventDefault();
         this.setState({showModal: true});
         this.props.taskActions.loadArchiveCards(this.props.projectId);
     }
@@ -43,7 +45,14 @@ class ArchiveCardsModalContainer extends React.Component {
 
         return (
             <div className="filter-item">
-                <a onClick={this.open} className="btn btn-rose">Thẻ đã lưu trữ</a>
+                <div className="dropdown">
+                    <a className="dropdown-toggle" style={{color: "#858585"}} type="button" data-toggle="dropdown">
+                        <i className="material-icons">more_horiz</i>
+                    </a>
+                    <ul className="dropdown-menu dropdown-menu-right">
+                        <li><a onClick={this.open}>Thẻ đã lưu trữ</a></li>
+                    </ul>
+                </div>
 
                 <Modal show={this.state.showModal} onHide={this.close}>
                     <Modal.Header closeButton>

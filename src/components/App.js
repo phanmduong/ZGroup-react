@@ -87,9 +87,9 @@ class App extends React.Component {
                             <div className="collapse navbar-collapse">
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
-                                        <a href="#pablo">
-                                            <i className="material-icons">dashboard</i>
-                                            <p className="hidden-lg hidden-md">Dashboard</p>
+                                        <a onClick={this.props.openModalRule}>
+                                            <i className="material-icons">info</i>
+                                            <p className="hidden-lg hidden-md">Quy định</p>
                                         </a>
                                     </li>
                                     <NotificationContainer/>
@@ -120,27 +120,6 @@ class App extends React.Component {
                             {!this.props.isLoadingTab ? this.props.children : <div id="loading-page"><Loading/></div>}
                         </div>
                     </div>
-
-                    <footer className="footer">
-                        <div className="container-fluid">
-                            <nav className="pull-left">
-                                <ul>
-                                    <li>
-                                        <a onClick={this.props.openModalRule}>
-                                            Quy định
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <p className="copyright pull-right">
-                                &copy;
-                                {
-                                    new Date().getFullYear()
-                                }
-                                <a href="http://colorme.vn"> color ME</a>
-                            </p>
-                        </div>
-                    </footer>
                 </div>
             </div>
 

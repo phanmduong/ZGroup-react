@@ -41,29 +41,31 @@ class CardFilterContainer extends React.Component {
 
 
         return (
-            <div className="filter-container">
-                <div className="filter-item">
-                    Lọc bởi:
-                </div>
-                <div className="select-container">
-                    <Select
-                        style={{minWidth: 120}}
-                        value={selectedMembers}
-                        name="members"
-                        multi={true}
-                        options={members}
-                        onChange={this.userSelectChange}
-                    />
-                </div>
-                <div className="select-container">
-                    <Select
-                        value={selectedCardLabels}
-                        style={{minWidth: 120}}
-                        name="cardLabels"
-                        multi={true}
-                        options={cardLabels}
-                        onChange={this.cardLabelSelectChange}
-                    />
+            <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingLeft: "5px"}}>
+                <div className="filter-container">
+                    <div className="select-container">
+                        <Select
+                            placeholder="Nhập tên"
+                            style={{minWidth: 120}}
+                            value={selectedMembers}
+                            name="members"
+                            multi={true}
+                            options={members}
+                            onChange={this.userSelectChange}
+                        />
+                    </div>
+                    <div className="select-container">
+                        <Select
+                            placeholder="Nhập nhãn"
+                            value={selectedCardLabels}
+                            style={{minWidth: 120}}
+                            name="cardLabels"
+                            multi={true}
+                            options={cardLabels}
+                            onChange={this.cardLabelSelectChange}
+                        />
+                    </div>
+
                 </div>
                 <ArchiveCardsModalContainer
                     projectId={this.props.projectId}/>
