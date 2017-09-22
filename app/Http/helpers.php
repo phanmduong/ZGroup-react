@@ -1499,3 +1499,11 @@ function haversineGreatCircleDistance(
             cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
     return $angle * $earthRadius;
 }
+
+function is_class_lesson_change($class_lesson)
+{
+    $time_class_lesson = strtotime($class_lesson->time . ' ' . $class_lesson->start_time);
+    $time_now = strtotime("now");
+    if ($time_now < $time_class_lesson) return true;
+    return false;
+}

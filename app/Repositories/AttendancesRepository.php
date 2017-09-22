@@ -42,33 +42,38 @@ class AttendancesRepository
     {
         if ($class_lessons) {
             $data = $class_lessons->map(function ($class_lesson) {
-                return [
+                $data_class_lesson = [
                     'order' => $class_lesson->lesson->order,
-                    'total_attendance' => $class_lesson->attendances()->where('status', 1)->count()
+                    'total_attendance' => $class_lesson->attendances()->where('status', 1)->count(),
+                    'is_change' => is_class_lesson_change($class_lesson),
+                    'class_lesson_time' => $class_lesson->time,
+                    'class_lesson_id' => $class_lesson->id,
                 ];
+                return $data_class_lesson;
             });
             return $data;
         }
     }
 
-    public function attendances_teacher_class_lesson($class_lessons, $teacher_id)
+    public function attendances_teacher_class_lesson($class_lessons)
     {
         if ($class_lessons) {
-            $data = $class_lessons->map(function ($class_lesson) use ($teacher_id) {
+            $data = $class_lessons->map(function ($class_lesson) {
 
-                return $this->attendance_teacher_class_lesson($class_lesson, $teacher_id);
+                return $this->attendance_teacher_class_lesson($class_lesson);
             });
             return $data;
         }
     }
 
-    public function attendance_teacher_class_lesson($class_lesson, $teacher_id)
+    public function attendance_teacher_class_lesson($class_lesson)
     {
-        $attendance = $class_lesson->teachingLesson()->where('teacher_id', $teacher_id)->first();
+        $attendance = $class_lesson->teachingLesson()->first();
         $data_attendance = [
             'order' => $class_lesson->lesson->order,
             'start_teaching_time' => $class_lesson->start_time,
             'end_teaching_time' => $class_lesson->end_time,
+            'is_change' => is_class_lesson_change($class_lesson)
         ];
 
         if ($attendance) {
@@ -86,23 +91,24 @@ class AttendancesRepository
         return $data_attendance;
     }
 
-    public function attendances_ta_class_lesson($class_lessons, $ta_id)
+    public function attendances_ta_class_lesson($class_lessons)
     {
         if ($class_lessons) {
-            $data = $class_lessons->map(function ($class_lesson) use ($ta_id) {
-                return $this->attendance_ta_class_lesson($class_lesson, $ta_id);
+            $data = $class_lessons->map(function ($class_lesson) {
+                return $this->attendance_ta_class_lesson($class_lesson);
             });
             return $data;
         }
     }
 
-    public function attendance_ta_class_lesson($class_lesson, $ta_id)
+    public function attendance_ta_class_lesson($class_lesson)
     {
-        $attendance = $class_lesson->teachingLesson()->where('teaching_assistant_id', $ta_id)->first();
+        $attendance = $class_lesson->teachingLesson()->first();
         $data_attendance = [
             'order' => $class_lesson->lesson->order,
             'start_teaching_time' => $class_lesson->start_time,
             'end_teaching_time' => $class_lesson->end_time,
+            'is_change' => is_class_lesson_change($class_lesson)
         ];
 
         if ($attendance) {

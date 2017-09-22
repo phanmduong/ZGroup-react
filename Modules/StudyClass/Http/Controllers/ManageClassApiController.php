@@ -2,6 +2,8 @@
 
 namespace Modules\StudyClass\Http\Controllers;
 
+use App\ClassLesson;
+use App\ClassLessonChange;
 use App\Course;
 use App\Gen;
 use App\Group;
@@ -161,10 +163,10 @@ class ManageClassApiController extends ManageApiController
         $attendances = $this->classRepository->get_attendances_class($class);
 
         if (!is_null($data['teacher']['id']))
-            $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class, $data['teacher']['id']);
+            $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class);
 
         if (!is_null($data['teacher_assistant']['id']))
-            $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class, $data['teacher_assistant']['id']);
+            $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class);
 
         if ($registers) {
             $data['registers'] = $registers;
@@ -263,5 +265,34 @@ class ManageClassApiController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'class' => $data
         ]);
+    }
+
+    public function change_class_lesson(Request $request)
+    {
+
+        if ($request->id) {
+            $class_lesson = ClassLesson::find($request->id);
+
+            if ($class_lesson) {
+                $class_lesson_change = new ClassLessonChange();
+                $class_lesson_change->class_lesson_id = $class_lesson->id;
+                $class_lesson_change->old_time = $class_lesson->time;
+                $class_lesson_change->new_time = format_date_to_mysql($request->time);
+                $class_lesson_change->note = $request->note;
+                $class_lesson_change->actor_id = $this->user->id;
+
+                $class_lesson_change->save();
+                $class_lesson->time = format_date_to_mysql($request->time);
+
+                $class_lesson->save();
+
+                return $this->respondSuccessWithStatus([
+                    'class_lesson' => $class_lesson
+                ]);
+            } else {
+                return $this->respondErrorWithStatus("Buổi này không tồn tại");
+            }
+        }
+        return $this->respondErrorWithStatus("Thiếu class_lesson_id");
     }
 }

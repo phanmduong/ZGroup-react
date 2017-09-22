@@ -366,10 +366,10 @@ class ManageDashboardApiController extends ManageApiController
             $dataClass['end_time'] = format_time_shift(strtotime($class->end_time));
             $classLesson = ClassLesson::find($class->class_lesson_id);
             if ($dataClass['teacher']) {
-                $dataClass['attendance_teacher'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson, $dataClass['teacher']['id']);
+                $dataClass['attendance_teacher'] = $this->attendancesRepository->attendance_teacher_class_lesson($classLesson);
             }
             if ($dataClass['teacher_assistant']) {
-                $dataClass['attendance_teacher_assistant'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson, $dataClass['teacher_assistant']['id']);
+                $dataClass['attendance_teacher_assistant'] = $this->attendancesRepository->attendance_ta_class_lesson($classLesson);
             }
             return $dataClass;
         });
