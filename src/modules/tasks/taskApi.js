@@ -146,7 +146,7 @@ export function createCard(card) {
 }
 
 export function loadAvailableMembers(taskId) {
-    let url = env.MANAGE_API_URL + `/task/${taskId}/available-members/`;
+    let url = env.MANAGE_API_URL + `/task/${taskId}/available-members`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
