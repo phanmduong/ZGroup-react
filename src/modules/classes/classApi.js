@@ -79,3 +79,13 @@ export function addClass(classData) {
 
     });
 }
+
+export function loadClass(classId) {
+    let url = env.MANAGE_API_URL + `/class/${classId}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}

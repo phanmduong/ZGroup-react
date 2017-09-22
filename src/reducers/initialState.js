@@ -461,11 +461,11 @@ export default {
         isLoadingInfoCreateClass: false,
         errorInfoCreateClass: false,
         infoCreateClass: {},
-        class: {
-            datestart: new Date().toISOString().slice(0, 10)
-        },
         isStoringClass: false,
         errorStoreClass: false,
+        class: {},
+        isLoadingClass: false,
+        errorClass: false,
 
     },
 

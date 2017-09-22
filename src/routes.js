@@ -36,6 +36,12 @@ import HistoryCollectMoneyContainer from "./modules/historyCollectMoney/HistoryC
 import HistoryCallsContainer from "./modules/historyCalls/HistoryCallsContainer";
 import ClassesContainer from "./modules/classes/ClassesContainer";
 import ArchiveProjectListContainer from "./modules/tasks/project/ArchiveProjectListContainer";
+import ClassContainer from "./modules/classes/class/ClassContainer";
+import InfoClassContainer from "./modules/classes/class/info/InfoClassContainer";
+import CareClassContainer from "./modules/classes/class/care/CareContainer";
+import RegistersClassContainer from "./modules/classes/class/registers/RegistersContainer";
+import HistoryTeachingContainer from "./modules/classes/class/historyTeaching/HistoryTeachingContainer";
+import ProgressClassContainer from "./modules/classes/class/progress/ProgressContainer";
 
 export default (
     <Route>
@@ -127,6 +133,16 @@ export default (
 
             {/*Begin class routes*/}
             <Route path="/manage/classes(/:teacherId)" component={ClassesContainer}/>
+            {/*End class routes*/}
+
+            {/*Begin class routes*/}
+            <Route path="/class/:classId" component={ClassContainer}>
+                <IndexRoute component={InfoClassContainer}/>
+                <Route path="history-teaching" component={HistoryTeachingContainer}/>
+                <Route path="registers" component={RegistersClassContainer}/>
+                <Route path="progress" component={ProgressClassContainer}/>
+                <Route path="care" component={CareClassContainer}/>
+            </Route>
             {/*End class routes*/}
 
         </Route>
