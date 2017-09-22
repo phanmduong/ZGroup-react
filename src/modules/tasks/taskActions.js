@@ -977,11 +977,17 @@ export function saveMemberTask(task, user, card) {
                     user,
                     task
                 });
-                dispatch({
-                    type: types.ASSIGN_MEMBER_SUCCESS,
-                    card,
-                    member: user
-                });
+                if (user) {
+                    const isAdded = card.members.filter(m => m.id === user.id).length > 0;
+                    if (!isAdded) {
+                        dispatch({
+                            type: types.ASSIGN_MEMBER_SUCCESS,
+                            card,
+                            member: user
+                        });
+                    }
+                }
+
             });
     };
 }

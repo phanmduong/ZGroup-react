@@ -77,11 +77,11 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.addMemberToTask,
                     showModal: true,
                     task: action.task,
-                    selectedMember: {
+                    selectedMember: action.task.member ? {
                         ...action.task.member,
                         value: action.task.member.id,
                         label: action.task.member.name
-                    }
+                    } : null
                 }
             };
         case types.CLOSE_ADD_MEMBER_TO_TASK_MODAL:
