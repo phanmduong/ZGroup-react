@@ -616,7 +616,8 @@ class TaskController extends ManageApiController
         }
         $task->assignee_id = $userId;
         $card = $task->taskList->card;
-        if ($userId != 0) {
+        $member = $card->assignees()->where("id", $userId)->first();
+        if ($userId != 0 && $member == null) {
             $card->assignees()->attach($userId);
         }
         $task->save();
