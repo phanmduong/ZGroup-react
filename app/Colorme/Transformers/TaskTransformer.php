@@ -20,6 +20,10 @@ class TaskTransformer extends Transformer
             "id" => $task->id,
             "task_list_id" => $task->task_list_id
         ];
+        if ($task->deadline && $task->deadline != "0000-00-00 00:00:00") {
+            $data["deadline_str"] = time_remain_string(strtotime($task->deadline));
+            $data["deadline"] = date("H:i d-m-Y", strtotime($task->deadline));
+        }
         if ($task->member) {
             $data["member"] = [
                 "id" => $task->member->id,

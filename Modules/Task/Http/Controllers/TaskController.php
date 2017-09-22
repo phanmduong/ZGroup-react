@@ -621,7 +621,18 @@ class TaskController extends ManageApiController
             $card->assignees()->attach($userId);
         }
         $task->save();
-        return $this->respondSuccessWithStatus(["members" => "success"]);
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function saveTaskDeadline($taskId, Request $request)
+    {
+        $task = Task::find($taskId);
+        if (is_null($task)) {
+            return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
+        }
+        $task->deadline = $request->deadline;
+        $task->save();
+        return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
     }
 
 }
