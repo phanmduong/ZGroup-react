@@ -962,3 +962,26 @@ export function loadAvailableMembers(task) {
             });
     };
 }
+
+export function saveMemberTask(task, user, card) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_SAVE_MEMBER_TASK});
+        let userId = 0;
+        if (user) {
+            userId = user.id;
+        }
+        taskApi.saveMemberTask(userId, task.id)
+            .then(() => {
+                dispatch({
+                    type: types.SAVE_MEMBER_TASK_SUCCESS,
+                    user,
+                    task
+                });
+                dispatch({
+                    type: types.ASSIGN_MEMBER_SUCCESS,
+                    card,
+                    member: user
+                });
+            });
+    };
+}

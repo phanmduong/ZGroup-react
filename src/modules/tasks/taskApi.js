@@ -420,3 +420,12 @@ export function changeProjectMemberRole(projectId, memberId, role) {
     return axios.put(url);
 }
 
+export function saveMemberTask(memberId, taskId) {
+    let url = env.MANAGE_API_URL + `/task/${taskId}/member/${memberId}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url);
+}
+

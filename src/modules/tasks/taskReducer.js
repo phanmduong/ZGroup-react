@@ -6,6 +6,45 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.BEGIN_SAVE_MEMBER_TASK:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    isSaving: true
+                }
+            };
+        case types.SAVE_MEMBER_TASK_SUCCESS:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    isSaving: false
+                },
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: state.cardDetail.card.taskLists.map((taskList) => {
+                            if (action.task.task_list_id === taskList.id) {
+                                return {
+                                    ...taskList,
+                                    tasks: taskList.tasks.map((task) => {
+                                        if (task.id === action.task.id) {
+                                            return {
+                                                ...task,
+                                                member: action.user
+                                            };
+                                        }
+                                        return task;
+                                    })
+                                };
+                            }
+                            return taskList;
+                        })
+                    }
+                }
+            };
         case types.UPDATE_ASSIGN_MEMBER_TO_TASK_FORM:
             return {
                 ...state,
@@ -37,7 +76,12 @@ export default function taskReducer(state = initialState.task, action) {
                 addMemberToTask: {
                     ...state.addMemberToTask,
                     showModal: true,
-                    task: action.task
+                    task: action.task,
+                    selectedMember: {
+                        ...action.task.member,
+                        value: action.task.member.id,
+                        label: action.task.member.name
+                    }
                 }
             };
         case types.CLOSE_ADD_MEMBER_TO_TASK_MODAL:

@@ -13,6 +13,7 @@ class AddMemberToTaskModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.close = this.close.bind(this);
+        this.save = this.save.bind(this);
         this.userSelectChange = this.userSelectChange.bind(this);
     }
 
@@ -27,6 +28,10 @@ class AddMemberToTaskModalContainer extends React.Component {
 
     userSelectChange(val) {
         this.props.taskActions.updateAssignMemberToTaskForm(val);
+    }
+
+    save() {
+        this.props.taskActions.saveMemberTask(this.props.task, this.props.selectedMember, this.props.card);
     }
 
 
@@ -55,7 +60,14 @@ class AddMemberToTaskModalContainer extends React.Component {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.close}>Close</Button>
+                    {
+                        this.props.isSaving ? <Loading/> : (
+                            <div>
+                                <Button onClick={this.save}>Lưu</Button>
+                                <Button onClick={this.close}>Đóng</Button>
+                            </div>
+                        )
+                    }
                 </Modal.Footer>
             </Modal>
         );
@@ -65,7 +77,9 @@ class AddMemberToTaskModalContainer extends React.Component {
 AddMemberToTaskModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
     task: PropTypes.object.isRequired,
+    card: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
     selectedMember: PropTypes.object,
     members: PropTypes.array.isRequired
@@ -74,8 +88,10 @@ AddMemberToTaskModalContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoading: state.task.addMemberToTask.isLoading,
+        isSaving: state.task.addMemberToTask.isSaving,
         showModal: state.task.addMemberToTask.showModal,
         task: state.task.addMemberToTask.task,
+        card: state.task.cardDetail.card,
         members: state.task.addMemberToTask.members.map((member) => {
             return {
                 ...member,

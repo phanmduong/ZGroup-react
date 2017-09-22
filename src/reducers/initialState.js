@@ -120,6 +120,7 @@ export default {
             isLoading: false,
             members: [],
             task: {},
+            isSaving: false,
             selectedMember: null
         },
         commentCard: {

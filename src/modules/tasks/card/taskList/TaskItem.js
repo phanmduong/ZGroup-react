@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ListGroupItem} from "react-bootstrap";
+import Avatar from "../../../../components/common/Avatar";
 
 class TaskItem extends React.Component {
     constructor(props, context) {
@@ -27,17 +28,26 @@ class TaskItem extends React.Component {
                 {/*<label style="font-weight: 700;color: #858585;">*/}
                 {/*<input type="checkbox" name="optionsCheckboxes" value="on"/>*/}
                 {/*<span className="checkbox-material">*/}
-                {/*<span className="check"></span></span><div className="" style="width: 20px;margin-right: 5px;height: 20px;background-position: center center;display: inline-block;position: relative;top: 4px;background-size: cover;border-radius: inherit;background-image: url(&quot;http://d1j8r0kxyu9tj8.cloudfront.net/images/15041977476G2nhDo8SqzOUSq.jpg&quot;);">*/}
+                {/*<span className="check"></span></span>
+                <div className="" style="width: 20px;margin-right: 5px;height: 20px;background-position: center center;display: inline-block;position: relative;top: 4px;background-size: cover;border-radius: inherit;background-image: url(&quot;http://d1j8r0kxyu9tj8.cloudfront.net/images/15041977476G2nhDo8SqzOUSq.jpg&quot;);">*/}
                 {/**/}
-                {/*</div>Thêm khoá<small className="keetool-card" style="font-weight: 400;"> - Còn 2 ngày</small></label>*/}
+                {/*</div>Thêm khoá</label>*/}
                 {/*</div>*/}
                 <div className="checkbox">
-                    <label>
+                    <label style={{fontWeight: 700, color: "#858585"}}>
                         <input
                             checked={task.status || false}
                             onChange={() => this.props.toggleTaskStatus(task, card)}
                             type="checkbox" name="optionsCheckboxes"/>
+                        <div style={{display: "inline-block", position: "relative", top: 4}}>
+                            {
+                                task.member && (
+                                    <Avatar url={task.member.avatar_url} size={20}/>
+                                )
+                            }
+                        </div>
                         {task.title}
+                        <small className="keetool-card" style={{fontWeight: 400}}> - Còn 2 ngày</small>
                     </label>
                 </div>
                 <div className="dropdown" style={{
