@@ -115,6 +115,11 @@ export default {
     },
 
     task: {
+        taskDeadline: {
+            showModal: false,
+            isSaving: false,
+            task: {}
+        },
         addMemberToTask: {
             showModal: false,
             isLoading: false,

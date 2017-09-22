@@ -3,6 +3,8 @@
  */
 import axios from 'axios';
 import * as env from '../../constants/env';
+import moment from "moment";
+import {DATETIME_FORMAT} from "../../constants/constants";
 
 export function loadArchiveCards(projectId, page = 1) {
     let url = env.MANAGE_API_URL + `/project/${projectId}/archive-cards?page=` + page;
@@ -427,5 +429,16 @@ export function saveMemberTask(memberId, taskId) {
         url += "?token=" + token;
     }
     return axios.put(url);
+}
+
+export function saveTaskDeadline(task) {
+    let deadline = moment(task.deadline, DATETIME_FORMAT).format("YYYY-MM-DD HH:mm:ss");
+    let url = env.MANAGE_API_URL + `/task/${task.id}/deadline`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.put(url, {deadline});
 }
 

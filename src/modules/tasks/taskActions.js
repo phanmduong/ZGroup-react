@@ -924,6 +924,23 @@ export function closeArchiveCardModal() {
     };
 }
 
+export function openTaskDeadlineModal(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_TASK_DEADLINE_MODAL,
+            task
+        });
+    };
+}
+
+export function closeTaskDeadlineModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_TASK_DEADLINE_MODAL
+        });
+    };
+}
+
 export function openAddMemberToTaskModal(task) {
     return function (dispatch) {
         dispatch({
@@ -949,6 +966,29 @@ export function updateAssignMemberToTaskForm(member) {
         });
     };
 }
+
+export function saveTaskDeadline(task) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_SAVE_TASK_DEADLINE});
+        taskApi.saveTaskDeadline(task)
+            .then((res) => {
+                dispatch({
+                    type: types.SAVE_TASK_DEADLINE_SUCCESS,
+                    task: res.data.data.task
+                });
+            });
+    };
+}
+
+export function updateTaskDeadline(deadline) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_TASK_DEADLINE,
+            deadline
+        });
+    };
+}
+
 
 export function loadAvailableMembers(task) {
     return function (dispatch) {

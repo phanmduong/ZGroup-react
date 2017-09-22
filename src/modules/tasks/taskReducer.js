@@ -6,6 +6,73 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.UPDATE_TASK_DEADLINE:
+            return {
+                ...state,
+                taskDeadline: {
+                    ...state.taskDeadline,
+                    task: {
+                        ...state.taskDeadline.task,
+                        deadline: action.deadline
+                    }
+                }
+            };
+        case types.BEGIN_SAVE_TASK_DEADLINE:
+            return {
+                ...state,
+                taskDeadline: {
+                    ...state.taskDeadline,
+                    isSaving: true
+                }
+            };
+        case types.SAVE_TASK_DEADLINE_SUCCESS:
+            return {
+                ...state,
+                taskDeadline: {
+                    ...state.taskDeadline,
+                    isSaving: false
+                },
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: state.cardDetail.card.taskLists.map((taskList) => {
+                            if (taskList.id === Number(action.task.task_list_id)) {
+                                return {
+                                    ...taskList,
+                                    tasks: taskList.tasks.map((task) => {
+                                        if (task.id === action.task.id) {
+                                            return {...action.task};
+                                        }
+                                        return task;
+                                    })
+                                };
+                            }
+                            return taskList;
+                        })
+                    }
+                }
+
+            };
+
+        case types.OPEN_TASK_DEADLINE_MODAL:
+            return {
+                ...state,
+                taskDeadline: {
+                    ...state.taskDeadline,
+                    showModal: true,
+                    task: action.task
+                }
+            };
+        case types.CLOSE_TASK_DEADLINE_MODAL:
+            return {
+                ...state,
+                taskDeadline: {
+                    ...state.taskDeadline,
+                    showModal: false,
+                    task: {}
+                }
+            };
         case types.BEGIN_SAVE_MEMBER_TASK:
             return {
                 ...state,

@@ -7,6 +7,7 @@ import Loading from "../../../../components/common/Loading";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
+import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
@@ -35,6 +36,7 @@ class TaskListsContainer extends React.Component {
         return (
             <div className="task-lists">
                 <AddMemberToTaskModalContainer/>
+                <TaskDeadlineModalContainer/>
                 {
                     this.props.card.taskLists && this.props.card.taskLists.map((taskList) => {
                         return (
@@ -76,6 +78,7 @@ class TaskListsContainer extends React.Component {
                                     {
                                         taskList.tasks.map((task) =>
                                             (<TaskItem
+                                                openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
                                                 toggleTaskStatus={this.props.taskActions.toggleTaskStatus}

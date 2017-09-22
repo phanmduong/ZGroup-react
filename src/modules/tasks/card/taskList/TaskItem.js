@@ -7,6 +7,7 @@ class TaskItem extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.openAddMemberToTaskModal = this.openAddMemberToTaskModal.bind(this);
+        this.openTaskDeadlineModal = this.openTaskDeadlineModal.bind(this);
     }
 
 
@@ -18,21 +19,16 @@ class TaskItem extends React.Component {
         this.props.openAddMemberToTaskModal(this.props.task);
     }
 
+    openTaskDeadlineModal() {
+        this.props.openTaskDeadlineModal(this.props.task);
+    }
+
     render() {
         const {task, card} = this.props;
         return (
             <ListGroupItem
                 key={task.id}
                 style={{display: "flex", justifyContent: "space-between", position: "relative"}}>
-                {/*<div className="checkbox">*/}
-                {/*<label style="font-weight: 700;color: #858585;">*/}
-                {/*<input type="checkbox" name="optionsCheckboxes" value="on"/>*/}
-                {/*<span className="checkbox-material">*/}
-                {/*<span className="check"></span></span>
-                <div className="" style="width: 20px;margin-right: 5px;height: 20px;background-position: center center;display: inline-block;position: relative;top: 4px;background-size: cover;border-radius: inherit;background-image: url(&quot;http://d1j8r0kxyu9tj8.cloudfront.net/images/15041977476G2nhDo8SqzOUSq.jpg&quot;);">*/}
-                {/**/}
-                {/*</div>Thêm khoá</label>*/}
-                {/*</div>*/}
                 <div className="checkbox">
                     <label style={{fontWeight: 700, color: "#858585"}}>
                         <input
@@ -47,7 +43,11 @@ class TaskItem extends React.Component {
                             }
                         </div>
                         {task.title}
-                        <small className="keetool-card" style={{fontWeight: 400}}> - Còn 2 ngày</small>
+                        {
+                            task.deadline_str && (
+                                <small className="keetool-card" style={{fontWeight: 400}}> - {task.deadline_str}</small>
+                            )
+                        }
                     </label>
                 </div>
                 <div className="dropdown" style={{
@@ -72,6 +72,12 @@ class TaskItem extends React.Component {
                                 Phân thành viên
                             </a>
                         </li>
+                        <li className="more-dropdown-item">
+                            <a onClick={this.openTaskDeadlineModal}>
+                                <i className="material-icons">timer</i>
+                                Hạn chót
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </ListGroupItem>
@@ -84,6 +90,7 @@ class TaskItem extends React.Component {
 TaskItem.propTypes = {
     deleteTask: PropTypes.func.isRequired,
     openAddMemberToTaskModal: PropTypes.func.isRequired,
+    openTaskDeadlineModal: PropTypes.func.isRequired,
     toggleTaskStatus: PropTypes.func.isRequired,
     card: PropTypes.object.isRequired,
     task: PropTypes.object.isRequired

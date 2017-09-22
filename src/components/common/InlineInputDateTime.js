@@ -9,8 +9,9 @@ class InlineInputDateTime extends React.Component {
     }
 
     componentDidMount() {
-        $('#' + this.props.id).on('dp.change', this.props.updateFormData);
-        $('#' + this.props.id).datetimepicker({
+        const el = $('#' + this.props.id);
+        el.on('dp.change', this.props.updateFormData);
+        el.datetimepicker({
             defaultDate: this.props.value ? moment(this.props.value, DATETIME_FORMAT) : moment(),
             inline: true,
             format: DATETIME_FORMAT
@@ -26,7 +27,7 @@ class InlineInputDateTime extends React.Component {
                     </div>
                 </div>
                 <div className="col-sm-12">
-                    <div id={this.props.id} />
+                    <div id={this.props.id}/>
                 </div>
             </div>
         );
