@@ -597,18 +597,30 @@ class TaskController extends ManageApiController
         if (is_null($task)) {
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
-        $project = $task->taskList->card->board->project;
+        $card = $task->taskList->card;
+        $project = $card->board->project;
 
-        $members = $project->members->map(function ($member) {
-            return [
-                "id" => $member->id,
-                "name" => $member->name,
-                "avatar_url" => generate_protocol_url($member->avatar_url),
-            ];
-        });
+        $this->memberTransformer->setCard($card);
+        $this->memberTransformer->setProject(null);
+        $members = $this->memberTransformer->transformCollection($project->members);
 
         return $this->respondSuccessWithStatus(["members" => $members]);
 
+    }
+
+    public function addMemberToTask($taskId, $userId)
+    {
+        $task = Task::find($taskId);
+        if (is_null($task)) {
+            return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
+        }
+        $task->assignee_id = $userId;
+        $card = $task->taskList->card;
+        if ($userId != 0) {
+            $card->assignees()->attach($userId);
+        }
+        $task->save();
+        return $this->respondSuccessWithStatus(["members" => "success"]);
     }
 
 }

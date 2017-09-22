@@ -44,6 +44,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/task/create', "TaskController@createTask");
     Route::delete('/task/{taskId}/delete', "TaskController@deleteTask");
     Route::post('/task/{taskId}/toggle', "TaskController@toggleTask");
+    Route::put('/task/{taskId}/member/{userId}', "TaskController@addMemberToTask");
 
     Route::get('/members/{filter?}', "TaskController@loadMembers");
     Route::get('/project-members/{filter?}', "TaskController@loadProjectMembers");

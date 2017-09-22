@@ -12,6 +12,11 @@ class Task extends Model
         return $this->belongsTo(TaskList::class, 'task_list_id');
     }
 
+    public function member()
+    {
+        return $this->belongsTo(User::class, 'assignee_id');
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
