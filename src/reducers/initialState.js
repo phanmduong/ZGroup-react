@@ -471,7 +471,8 @@ export default {
         class: {},
         isLoadingClass: false,
         errorClass: false,
-
+        isChangingClassLesson: false,
+        errorChangeClassLesson: false,
     },
 
     rule: {

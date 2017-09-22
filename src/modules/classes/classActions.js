@@ -118,8 +118,8 @@ export function infoCreateClass() {
 
 export function updateFormCreateClass(classData) {
     return {
-      type: UPDATE_FORM_CREATE_CLASS,
-      class: classData,
+        type: UPDATE_FORM_CREATE_CLASS,
+        class: classData,
     };
 }
 
@@ -178,6 +178,31 @@ export function loadClass(classId) {
             }).catch(() => {
             dispatch({
                 type: types.LOAD_CLASS_ERROR
+            });
+        });
+    };
+}
+
+export function changeClassLesson(classLesson, classModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHANGE_CLASS_LESSON_DATA
+        });
+        classApi.changeClassLesson(classLesson)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification("Đổi buổi thành công");
+                    classModal();
+                    dispatch({
+                        type: types.CHANGE_CLASS_LESSON_SUCCESS,
+                        classLesson: res.data.data.class_lesson
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+            }).catch(() => {
+            dispatch({
+                type: types.CHANGE_CLASS_LESSON_ERROR
             });
         });
     };

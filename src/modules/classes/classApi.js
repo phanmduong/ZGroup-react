@@ -63,19 +63,19 @@ export function addClass(classData) {
     console.log(classData);
 
     return axios.post(url, {
-        'id' : classData.id,
-        'datestart' : classData.datestart,
-        'name' : classData.name,
-        'schedule_id' : classData.schedule_id,
-        'room_id' : classData.room_id,
-        'description' : classData.description,
-        'gen_id' : classData.gen_id,
-        'target' : classData.target,
-        'regis_target' : classData.regis_target,
-        'course_id' : classData.course_id,
-        'teaching_assistant_id' : classData.teacher_assis_id,
-        'teacher_id' : classData.teacher_id,
-        'study_time' : classData.study_time,
+        'id': classData.id,
+        'datestart': classData.datestart,
+        'name': classData.name,
+        'schedule_id': classData.schedule_id,
+        'room_id': classData.room_id,
+        'description': classData.description,
+        'gen_id': classData.gen_id,
+        'target': classData.target,
+        'regis_target': classData.regis_target,
+        'course_id': classData.course_id,
+        'teaching_assistant_id': classData.teacher_assis_id,
+        'teacher_id': classData.teacher_id,
+        'study_time': classData.study_time,
 
     });
 }
@@ -88,4 +88,20 @@ export function loadClass(classId) {
     }
 
     return axios.get(url);
+}
+
+export function changeClassLesson(classLesson) {
+    let url = env.MANAGE_API_URL + `/class/change-class-lesson`;
+
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+
+    return axios.post(url, {
+        'id': classLesson.id,
+        'note': classLesson.note,
+        'time': classLesson.time,
+    });
 }

@@ -163,6 +163,36 @@ export default function classesReducer(state = initialState.classes, action) {
                     errorClass: true
                 }
             };
+        case types.BEGIN_CHANGE_CLASS_LESSON_DATA:
+            return {
+                ...state,
+                ...{
+                    isChangingClassLesson: true,
+                    errorChangeClassLesson: false
+
+                }
+            };
+        case types.CHANGE_CLASS_LESSON_SUCCESS:
+
+            return {
+                ...state,
+                ...{
+                    isChangingClassLesson: false,
+                    errorChangeClassLesson: false,
+                    class: {
+                        ...state.class,
+                        attendances: changeDataClassLesson(action.classLesson, state.class.attendances)
+                    }
+                }
+            };
+        case types.CHANGE_CLASS_LESSON_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingClassLesson: false,
+                    errorChangeClassLesson: true
+                }
+            };
         default:
             return state;
     }
@@ -200,4 +230,22 @@ function changeClass(classData, classes) {
         });
     }
     return classes;
+}
+
+function changeDataClassLesson(classLesson, attendances) {
+    if (attendances) {
+        attendances = attendances.map(atttendance => {
+                if (atttendance.class_lesson_id === classLesson.id) {
+                    console.log(atttendance);
+                    return {
+                        ...atttendance,
+                        class_lesson_time: classLesson.time,
+                    };
+                }
+                return atttendance;
+            }
+        );
+    }
+
+    return attendances;
 }

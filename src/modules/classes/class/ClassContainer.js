@@ -25,6 +25,10 @@ class ClassContainer extends React.Component {
             classLessonSelected: {},
             teacherSelected: {},
             teachAssisSelected: {},
+            changeDate: {
+                date: '',
+                note: '',
+            }
         };
         this.closeModalClassLesson = this.closeModalClassLesson.bind(this);
         this.openModalClassLesson = this.openModalClassLesson.bind(this);
@@ -32,6 +36,7 @@ class ClassContainer extends React.Component {
         this.openModalChangeTeacher = this.openModalChangeTeacher.bind(this);
         this.closeModalTeachAssis = this.closeModalTeachAssis.bind(this);
         this.openModalTeachAssis = this.openModalTeachAssis.bind(this);
+        this.changeClassLesson = this.changeClassLesson.bind(this);
     }
 
     componentWillMount() {
@@ -46,7 +51,11 @@ class ClassContainer extends React.Component {
         this.setState(
             {
                 showModalClassLesson: true,
-                classLessonSelected: classLesson
+                classLessonSelected: classLesson,
+                changeDate: {
+                    date: classLesson.class_lesson_time,
+                    note: ''
+                }
             }
         );
     }
@@ -75,6 +84,14 @@ class ClassContainer extends React.Component {
                 teachAssisSelected: teacher
             }
         );
+    }
+
+    changeClassLesson() {
+        this.props.classActions.changeClassLesson({
+            note: this.state.changeDate.note,
+            time: this.state.changeDate.date,
+            id: this.state.classLessonSelected.class_lesson_id,
+        }, this.closeModalClassLesson);
     }
 
     render() {
@@ -165,16 +182,19 @@ class ClassContainer extends React.Component {
                                                                         <h6>
                                                                             <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.registers.length}
                                                                         </h6>
-                                                                        <TooltipButton placement="top"
-                                                                                       text="Đổi buổi"
-                                                                        >
-                                                                            <button className="btn btn-xs btn-round"
-                                                                                    onClick={this.openModalClassLesson}
+                                                                        {
+                                                                            attendance.is_change &&
+                                                                            <TooltipButton placement="top"
+                                                                                           text="Đổi buổi"
                                                                             >
-                                                                                <i className="material-icons">compare_arrows</i>
-                                                                                <div className="ripple-container"/>
-                                                                            </button>
-                                                                        </TooltipButton>
+                                                                                <button className="btn btn-xs btn-round"
+                                                                                        onClick={() => this.openModalClassLesson(attendance)}
+                                                                                >
+                                                                                    <i className="material-icons">compare_arrows</i>
+                                                                                    <div className="ripple-container"/>
+                                                                                </button>
+                                                                            </TooltipButton>
+                                                                        }
                                                                     </div>
 
                                                                     <div
@@ -211,17 +231,21 @@ class ClassContainer extends React.Component {
 
                                                                                 }
                                                                             </div>
-
-                                                                            <TooltipButton placement="top"
-                                                                                           text="Đổi giảng viên"
-                                                                            >
-                                                                                <button className="btn btn-xs btn-round"
-                                                                                        onClick={this.openModalChangeTeacher}
+                                                                            {
+                                                                                attendance.is_change &&
+                                                                                <TooltipButton placement="top"
+                                                                                               text="Đổi giảng viên"
                                                                                 >
-                                                                                    <i className="material-icons">compare_arrows</i>
-                                                                                    <div className="ripple-container"/>
-                                                                                </button>
-                                                                            </TooltipButton>
+                                                                                    <button
+                                                                                        className="btn btn-xs btn-round"
+                                                                                        onClick={this.openModalChangeTeacher}
+                                                                                    >
+                                                                                        <i className="material-icons">compare_arrows</i>
+                                                                                        <div
+                                                                                            className="ripple-container"/>
+                                                                                    </button>
+                                                                                </TooltipButton>
+                                                                            }
                                                                         </div>
                                                                         <AttendanceTeacher
                                                                             attendance={attendance}
@@ -250,16 +274,20 @@ class ClassContainer extends React.Component {
 
                                                                                 }
                                                                             </div>
-                                                                            <TooltipButton placement="top"
-                                                                                           text="Đổi trợ giảng"
-                                                                            >
-                                                                                <button className="btn btn-xs btn-round"
-                                                                                        onClick={this.openModalTeachAssis}
+                                                                            {
+                                                                                attendance.is_change &&
+                                                                                <TooltipButton placement="top"
+                                                                                               text="Đổi trợ giảng"
                                                                                 >
-                                                                                    <i className="material-icons">compare_arrows</i>
-                                                                                    <div className="ripple-container"/>
-                                                                                </button>
-                                                                            </TooltipButton>
+                                                                                    <button className="btn btn-xs btn-round"
+                                                                                            onClick={this.openModalTeachAssis}
+                                                                                    >
+                                                                                        <i className="material-icons">compare_arrows</i>
+                                                                                        <div className="ripple-container"/>
+                                                                                    </button>
+                                                                                </TooltipButton>
+                                                                            }
+
                                                                         </div>
                                                                         <AttendanceTeacher
                                                                             attendance={attendance}
@@ -285,25 +313,68 @@ class ClassContainer extends React.Component {
                 </div>
                 <Modal
                     show={this.state.showModalClassLesson}
-                    onHide={this.closeModalClassLesson}
+                    onHide={this.props.isChangingClassLesson ? null : this.closeModalClassLesson}
                 >
-                    <Modal.Header>
+                    <Modal.Header closeButton={!this.props.isChangingClassLesson}>
                         <h4 className="modal-title">Đổi ngày học</h4>
                     </Modal.Header>
                     <Modal.Body>
                         <form onSubmit={(e) => {
                             e.preventDefault();
                         }}>
-                            <FormInputDate label="Chọn ngày"/>
-                            <FormInputText label="Ghi chú"/>
-                            <button type="button" className="btn btn-success btn-round"><i
-                                className="material-icons">check</i> Xác nhận đổi
-                            </button>
-                            <button type="button" className="btn btn-danger btn-round"
-                                    onClick={this.closeModalClassLesson}
+                            <FormInputDate
+                                label="Chọn ngày"
+                                value={this.state.changeDate.date}
+                                updateFormData={(event) => this.setState({
+                                    changeDate:
+                                        {
+                                            ...this.state.changeDate,
+                                            date: event.target.value
+                                        }
+                                })}
+                                id="form-change-date"
+                                name="change-date"
+                            />
+                            <FormInputText
+                                label="Ghi chú"
+                                value={this.state.changeDate.note}
+                                updateFormData={(event) => this.setState({
+                                    changeDate:
+                                        {
+                                            ...this.state.changeDate,
+                                            note: event.target.value
+                                        }
+                                })}
+                                name="note-change-date"
+                            />
+                            {this.props.isChangingClassLesson ?
+                                (
+                                    <button type="button" className="btn btn-success btn-round disabled"
+                                            onClick={this.changeClassLesson}
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/> Đang đổi
+                                    </button>
+
+                                )
+                                :
+                                (
+                                    <button type="button" className="btn btn-success btn-round"
+                                            onClick={this.changeClassLesson}
+                                    ><i
+                                        className="material-icons">check</i> Xác nhận đổi
+                                    </button>
+                                )
+
+                            }
+
+                            <button type="button"
+                                    className={"btn btn-danger btn-round" + (this.props.isChangingClassLesson ? " disabled" : "")}
+                                    onClick={this.props.isChangingClassLesson ? null : this.closeModalClassLesson}
                             ><i
                                 className="material-icons">close</i> Huỷ
                             </button>
+
+
                         </form>
                     </Modal.Body>
                 </Modal>
@@ -322,13 +393,13 @@ class ClassContainer extends React.Component {
                             <FormInputText label="Ghi chú"/>
                             <button type="button" className="btn btn-success btn-round">
                                 <i
-                                className="material-icons">check</i> Xác nhận đổi
+                                    className="material-icons">check</i> Xác nhận đổi
                             </button>
                             <button type="button" className="btn btn-danger btn-round"
                                     onClick={this.closeModalChangeTeacher}
                             >
                                 <i
-                                className="material-icons">close</i> Huỷ
+                                    className="material-icons">close</i> Huỷ
                             </button>
                         </form>
                     </Modal.Body>
@@ -366,6 +437,7 @@ function mapStateToProps(state) {
     return {
         class: state.classes.class,
         isLoadingClass: state.classes.isLoadingClass,
+        isChangingClassLesson: state.classes.isChangingClassLesson,
     };
 }
 
