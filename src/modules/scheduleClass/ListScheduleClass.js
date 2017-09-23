@@ -25,7 +25,8 @@ class ListScheduleClass extends React.Component {
                             <tr key={scheduleClass.id}>
                                 <td>{scheduleClass.name}</td>
                                 <td>{scheduleClass.description}</td>
-                                <td dangerouslySetInnerHTML={{__html: scheduleClass.sessions_str}}/>
+                                {//eslint-disable-next-line
+                                }<td dangerouslySetInnerHTML={{__html: scheduleClass.sessions_str}}/>
                                 <td>
                                     <ButtonGroupAction
                                         delete={this.props.deleteScheduleClass}

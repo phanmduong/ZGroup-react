@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-
 import jwt from 'jsonwebtoken';
 import * as env from '../constants/env';
 import _ from 'lodash';
 
+/*eslint no-console: 0 */
 export function shortenStr(str, length) {
     if (str.length > length) {
         return str.slice(0, length - 3) + "...";

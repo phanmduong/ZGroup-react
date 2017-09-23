@@ -342,6 +342,7 @@ DashboardComponent.propTypes = {
     ]).isRequired,
     dateShifts: PropTypes.string.isRequired,
     dateClasses: PropTypes.string.isRequired,
+    loadDashboard: PropTypes.func.isRequired,
 };
 
 

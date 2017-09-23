@@ -373,7 +373,7 @@ class RegisterListContainer extends React.Component {
                                         this.props.isLoadingHistoryCall ? <Loading/> :
                                             <ul className="timeline timeline-simple">
                                                 {
-                                                    this.props.historyCall.map(function (history) {
+                                                    this.props.historyCall.map((history, index) => {
                                                         let btn = '';
                                                         if (history.call_status === 'success') {
                                                             btn = ' success';
@@ -385,7 +385,7 @@ class RegisterListContainer extends React.Component {
                                                         }
 
                                                         return (
-                                                            <li className="timeline-inverted">
+                                                            <li className="timeline-inverted" key={index}>
                                                                 <div className={"timeline-badge " + btn}>
                                                                     <i className="material-icons">phone</i>
                                                                 </div>
@@ -527,6 +527,7 @@ RegisterListContainer.propTypes = {
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    genId: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {

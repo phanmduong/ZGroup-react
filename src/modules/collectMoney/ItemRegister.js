@@ -19,7 +19,7 @@ class ItemRegister extends React.Component {
 
     componentDidMount() {
         $.material.init();
-        this.setState({
+        this.state = ({
             register: {
                 ...this.state.register,
                 ...{

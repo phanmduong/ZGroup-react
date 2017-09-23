@@ -11,14 +11,12 @@ import TooltipButton from '../../../../components/common/TooltipButton';
 import {NO_AVATAR} from '../../../../constants/env';
 import * as helper from '../../../../helpers/helper';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 
 class InfoClassContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
-
-
-
 
     render() {
         if (this.props.isLoadingClass) {
@@ -159,6 +157,11 @@ class InfoClassContainer extends React.Component {
 
     }
 }
+
+InfoClassContainer.propTypes = {
+    class: PropTypes.object.isRequired,
+    isLoadingClass: PropTypes.bool.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

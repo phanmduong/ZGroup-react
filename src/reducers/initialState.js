@@ -473,6 +473,13 @@ export default {
         errorClass: false,
         isChangingClassLesson: false,
         errorChangeClassLesson: false,
+        isLoadingStaffs: false,
+        errorStaff: false,
+        staffs: [],
+        isChangingTeachingAssis: false,
+        errorChangeTeachingAssis: false,
+        isChangingTeacher: false,
+        errorChangeTeacher: false,
     },
 
     rule: {

@@ -21,9 +21,9 @@ class ListClass extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.classes.map((classItem) => {
+                        this.props.classes.map((classItem, index) => {
                             return (
-                                <tr>
+                                <tr key = {index}>
                                     <td>{classItem.name}</td>
                                     <td>{classItem.study_time}</td>
                                     <td>
