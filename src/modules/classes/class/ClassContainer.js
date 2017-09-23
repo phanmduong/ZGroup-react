@@ -450,6 +450,11 @@ class ClassContainer extends React.Component {
                                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                         );
                                     }}
+                                    valueRenderer={(option)=>{
+                                        return (
+                                            <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                        );
+                                    }}
                                     onChange={(value) => this.setState({
                                         changeTeacher: {
                                             ...this.state.changeTeacher,
