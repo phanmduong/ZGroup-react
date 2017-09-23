@@ -8,6 +8,7 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
+import {confirm} from "../../../../helpers/helper";
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
@@ -46,7 +47,13 @@ class TaskListsContainer extends React.Component {
                                         <strong>{taskList.title}</strong>
                                     </h4>
                                     <button
-                                        onClick={() => this.props.taskActions.deleteTaskList(taskList)}
+                                        onClick={() => {
+                                            confirm("warning", "Xoá danh sách việc",
+                                                "Toàn bộ công việc trong danh sách này sẽ bị xoá vĩnh viễn",
+                                                () => {
+                                                    this.props.taskActions.deleteTaskList(taskList);
+                                                }, null);
+                                        }}
                                         type="button" className="close"
                                         style={{color: '#5a5a5a'}}>
                                         <span aria-hidden="true">×</span>

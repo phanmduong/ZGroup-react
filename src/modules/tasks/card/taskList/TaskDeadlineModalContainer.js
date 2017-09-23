@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import {Button, Modal} from "react-bootstrap";
 import * as taskActions from '../../taskActions';
 import Loading from "../../../../components/common/Loading";
-import InlineInputDateTime from "../../../../components/common/InlineInputDateTime";
 import {DATETIME_FORMAT} from "../../../../constants/constants";
+import FormInputDate from "../../../../components/common/FormInputDate";
 
 class TaskDeadlineModalContainer extends React.Component {
     constructor(props, context) {
@@ -25,31 +25,36 @@ class TaskDeadlineModalContainer extends React.Component {
     }
 
     handleChange({date}) {
+        console.log("update");
         this.props.taskActions.updateTaskDeadline(date.format(DATETIME_FORMAT));
     }
 
-    componentDidUpdate() {
-        $(".bootstrap-datetimepicker-widget table td.day > div").css("z-index", 0);
-    }
-
-
     render() {
         return (
-            <Modal bsSize="small" show={this.props.showModal} onHide={this.close}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Phân công việc</Modal.Title>
-                </Modal.Header>
+            <Modal bsSize="small" show={this.props.showModal}>
                 <Modal.Body>
-                    <InlineInputDateTime
+                    <button
+                        className="close"
+                        aria-label={this.props["aria-label"] || "Close"} //eslint-disable-line react/prop-types
+                        onClick={this.close}
+                        style={{marginTop: -2, color: "#858585"}}>
+                        <span aria-hidden="true">
+                          &times;
+                        </span>
+                    </button>
+                    <FormInputDate
                         value={this.props.task.deadline || ""}
-                        id="task-deadline"
+                        name="deadline"
+                        id="deadline"
+                        label="Hạn chót"
+                        format={DATETIME_FORMAT}
                         updateFormData={this.handleChange}/>
                 </Modal.Body>
                 <Modal.Footer>
                     {
                         this.props.isSaving ? <Loading/> : (
                             <div>
-                                <Button onClick={this.save}>Lưu</Button>
+                                <Button className="btn btn-rose" onClick={this.save}>Lưu</Button>
                                 <Button onClick={this.close}>Đóng</Button>
                             </div>
                         )

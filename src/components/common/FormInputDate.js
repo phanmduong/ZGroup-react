@@ -22,7 +22,7 @@ class FormInputDate extends React.Component {
                     className="form-control datetimepicker"
                     name={this.props.name}
                     id={this.props.id}
-                    value={this.props.value}
+                    value={this.props.value || ""}
                 />
             </div>
         );

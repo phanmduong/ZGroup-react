@@ -63,7 +63,7 @@ class AddMemberToTaskModalContainer extends React.Component {
                     {
                         this.props.isSaving ? <Loading/> : (
                             <div>
-                                <Button onClick={this.save}>Lưu</Button>
+                                <Button className="btn btn-rose" onClick={this.save}>Lưu</Button>
                                 <Button onClick={this.close}>Đóng</Button>
                             </div>
                         )

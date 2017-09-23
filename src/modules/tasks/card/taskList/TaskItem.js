@@ -61,12 +61,6 @@ class TaskItem extends React.Component {
                     </a>
                     <ul className="dropdown-menu dropdown-menu-left">
                         <li className="more-dropdown-item">
-                            <a onClick={() => this.props.deleteTask(task, card)}>
-                                <i className="material-icons">delete</i>
-                                Xoá công việc
-                            </a>
-                        </li>
-                        <li className="more-dropdown-item">
                             <a onClick={this.openAddMemberToTaskModal}>
                                 <i className="material-icons">person</i>
                                 Phân thành viên
@@ -76,6 +70,12 @@ class TaskItem extends React.Component {
                             <a onClick={this.openTaskDeadlineModal}>
                                 <i className="material-icons">timer</i>
                                 Hạn chót
+                            </a>
+                        </li>
+                        <li className="more-dropdown-item">
+                            <a onClick={() => this.props.deleteTask(task, card)}>
+                                <i className="material-icons">delete</i>
+                                Xoá công việc
                             </a>
                         </li>
                     </ul>
