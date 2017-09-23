@@ -44,9 +44,9 @@ class CreateShifts extends Command
     public function handle()
     {
         $date = new \DateTime();
-        $date->modify('+3 days');
+        $date->modify('+2 days');
         $formatted_date_from = $date->format('Y-m-d');
-        $date->modify('+6 days');
+        $date->modify('+5 days');
         $formatted_date_to = $date->format('Y-m-d');
         $dates = createDateRangeArray(strtotime($formatted_date_from), strtotime($formatted_date_to));
         $bases = Base::where('center', 1)->get();
