@@ -14,6 +14,7 @@ import FormInputText from '../../../components/common/FormInputText';
 import FormInputDate from '../../../components/common/FormInputDate';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
+import ItemReactSelect from '../../../components/common/ItemReactSelect';
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -444,6 +445,11 @@ class ClassContainer extends React.Component {
                                     name="form-field-name"
                                     value={this.state.changeTeacher.id}
                                     options={this.state.staffs}
+                                    optionRenderer={(option)=>{
+                                        return (
+                                            <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                        );
+                                    }}
                                     onChange={(value) => this.setState({
                                         changeTeacher: {
                                             ...this.state.changeTeacher,
@@ -509,6 +515,16 @@ class ClassContainer extends React.Component {
                                     name="form-field-name"
                                     value={this.state.changeTeachAssis.id}
                                     options={this.state.staffs}
+                                    optionRenderer={(option)=>{
+                                        return (
+                                            <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                        );
+                                    }}
+                                    valueRenderer={(option)=>{
+                                        return (
+                                            <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                        );
+                                    }}
                                     onChange={(value) => this.setState({
                                         changeTeachAssis: {
                                             ...this.state.changeTeachAssis,

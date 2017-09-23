@@ -12,6 +12,7 @@ import FormInputDate from '../../components/common/FormInputDate';
 import SelectDropdown from '../../components/common/Select';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
+import ItemReactSelect from '../../components/common/ItemReactSelect';
 
 class AddClassContainer extends React.Component {
     constructor(props, context) {
@@ -290,6 +291,16 @@ class AddClassContainer extends React.Component {
                                         options={this.state.optionsSelectCourse}
                                         onChange={this.changeCourse}
                                         placeholder="Chọn môn học"
+                                        optionRenderer={(option)=>{
+                                            return (
+                                                <ItemReactSelect label={option.label} url={option.icon_url}/>
+                                            );
+                                        }}
+                                        valueRenderer={(option)=>{
+                                            return (
+                                                <ItemReactSelect label={option.label} url={option.icon_url}/>
+                                            );
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -314,6 +325,16 @@ class AddClassContainer extends React.Component {
                                         options={this.state.optionsSelectStaff}
                                         onChange={this.changeTeacher}
                                         placeholder="Chọn giảng viên"
+                                        optionRenderer={(option)=>{
+                                            return (
+                                                <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                            );
+                                        }}
+                                        valueRenderer={(option)=>{
+                                            return (
+                                                <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                            );
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -324,6 +345,16 @@ class AddClassContainer extends React.Component {
                                         value={teacher_assis_id}
                                         options={this.state.optionsSelectStaff}
                                         onChange={this.changeTeachAssis}
+                                        optionRenderer={(option)=>{
+                                            return (
+                                                <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                            );
+                                        }}
+                                        valueRenderer={(option)=>{
+                                            return (
+                                                <ItemReactSelect label={option.label} url={option.avatar_url}/>
+                                            );
+                                        }}
                                         placeholder="Chọn trợ giảng"
                                     />
                                 </div>

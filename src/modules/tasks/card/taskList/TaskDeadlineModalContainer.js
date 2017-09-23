@@ -29,7 +29,6 @@ class TaskDeadlineModalContainer extends React.Component {
     }
 
     handleChange({date}) {
-        console.log("update");
         this.props.taskActions.updateTaskDeadline(date.format(DATETIME_FORMAT));
     }
 
