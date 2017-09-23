@@ -29,7 +29,7 @@ class TaskItem extends React.Component {
             <ListGroupItem
                 key={task.id}
                 style={{display: "flex", justifyContent: "space-between", position: "relative"}}>
-                <div className="checkbox">
+                <div className="checkbox" id={"task" + task.id}>
                     <label style={{fontWeight: 700, color: "#858585"}}>
                         <input
                             checked={task.status || false}

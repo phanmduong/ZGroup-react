@@ -972,6 +972,7 @@ export function saveTaskDeadline(task) {
         dispatch({type: types.BEGIN_SAVE_TASK_DEADLINE});
         taskApi.saveTaskDeadline(task)
             .then((res) => {
+                showNotification("Sửa hạn chót thành công");
                 dispatch({
                     type: types.SAVE_TASK_DEADLINE_SUCCESS,
                     task: res.data.data.task
@@ -1012,6 +1013,7 @@ export function saveMemberTask(task, user, card) {
         }
         taskApi.saveMemberTask(userId, task.id)
             .then(() => {
+                showNotification("Phân công việc thành công");
                 dispatch({
                     type: types.SAVE_MEMBER_TASK_SUCCESS,
                     user,
