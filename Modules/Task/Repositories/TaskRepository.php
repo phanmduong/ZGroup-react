@@ -91,7 +91,7 @@ class TaskRepository
         $task->save();
 
         $this->calendarEventRepository->updateCalendarEvent("task", $task->id);
-        
+
         $card = $task->taskList->card;
         $project = $card->board->project;
 
