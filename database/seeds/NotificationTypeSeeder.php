@@ -134,6 +134,18 @@ class NotificationTypeSeeder extends Seeder
                 'id' => 18,
                 "template" => "[[ACTOR]] bình luận vào thẻ [[CARD]] trong dự án [[PROJECT]]",
                 "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">comment</i>"
+            ], [
+                'name' => "add_member_to_task",
+                'color' => "#2196F3",
+                'id' => 19,
+                "template" => "[[ACTOR]] giao công việc cho bạn [[TASK]] trong thẻ [[CARD]] dự án [[PROJECT]]",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
+            ], [
+                'name' => "add_task_deadline",
+                'color' => "#2196F3",
+                'id' => 20,
+                "template" => "[[ACTOR]] thay đổi hạn chót thành [[DEADLINE]] cho công việc [[TASK]] trong thẻ [[CARD]] dự án [[PROJECT]]",
+                "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
             ]
 
         ]);

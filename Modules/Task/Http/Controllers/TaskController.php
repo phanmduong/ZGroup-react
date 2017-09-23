@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Redis;
 use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\TaskList;
 use Modules\Task\Repositories\ProjectRepository;
+use Modules\Task\Repositories\TaskRepository;
 use Modules\Task\Repositories\UserCardRepository;
 use Modules\Task\Transformers\MemberTransformer;
 
@@ -31,12 +32,14 @@ class TaskController extends ManageApiController
     protected $taskTransformer;
     protected $userRepository;
     protected $projectRepository;
+    protected $taskRepository;
     protected $userCardRepository;
 
     public function __construct(
         UserRepository $userRepository,
         TaskTransformer $taskTransformer,
         MemberTransformer $memberTransformer,
+        TaskRepository $taskRepository,
         BoardTransformer $boardTransformer,
         CardTransformer $cardTransformer,
         ProjectRepository $projectRepository,
@@ -50,6 +53,7 @@ class TaskController extends ManageApiController
         $this->memberTransformer = $memberTransformer;
         $this->userCardRepository = $userCardRepository;
         $this->projectRepository = $projectRepository;
+        $this->taskRepository = $taskRepository;
     }
 
     private function notiEditTitleProject($currentUser, $project, $receiverId, $oldName)
@@ -614,13 +618,7 @@ class TaskController extends ManageApiController
         if (is_null($task)) {
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
-        $task->assignee_id = $userId;
-        $card = $task->taskList->card;
-        $member = $card->assignees()->where("id", $userId)->first();
-        if ($userId != 0 && $member == null) {
-            $card->assignees()->attach($userId);
-        }
-        $task->save();
+        $this->taskRepository->addMemberToTask($task, $userId, $this->user);
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
@@ -630,8 +628,7 @@ class TaskController extends ManageApiController
         if (is_null($task)) {
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
-        $task->deadline = $request->deadline;
-        $task->save();
+        $task = $this->taskRepository->saveTaskDeadline($task, $request->deadline, $this->user);
         return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
     }
 

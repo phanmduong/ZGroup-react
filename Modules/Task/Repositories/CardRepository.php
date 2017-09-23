@@ -53,7 +53,7 @@ class CardRepository
                 $message = $notification->notificationType->template;
 
                 $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
-                $message = str_replace('[[CARD]]', "<strong>" . $card->name . "</strong>", $message);
+                $message = str_replace('[[CARD]]', "<strong>" . $card->title . "</strong>", $message);
                 $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
                 $notification->message = $message;
 
