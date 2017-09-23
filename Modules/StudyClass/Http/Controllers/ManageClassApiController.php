@@ -17,6 +17,9 @@ use App\Room;
 use App\Schedule;
 use App\StudyClass;
 use App\Repositories\GenRepository;
+use App\TeachingLesson;
+use App\TeachingLessonChange;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -288,6 +291,78 @@ class ManageClassApiController extends ManageApiController
 
                 return $this->respondSuccessWithStatus([
                     'class_lesson' => $class_lesson
+                ]);
+            } else {
+                return $this->respondErrorWithStatus("Buổi này không tồn tại");
+            }
+        }
+        return $this->respondErrorWithStatus("Thiếu class_lesson_id");
+    }
+
+    public function staffs()
+    {
+        $staffs = $this->userRepository->staffs();
+        return $this->respondSuccessWithStatus([
+            'staffs' => $staffs
+        ]);
+    }
+
+    public function change_teaching_assistant(Request $request)
+    {
+        if ($request->id) {
+            $teaching_lesson = TeachingLesson::where('class_lesson_id', $request->id)->first();
+
+            if ($teaching_lesson) {
+                $teaching_lesson_change = new TeachingLessonChange();
+                $teaching_lesson_change->class_lesson_id = $request->id;
+                $teaching_lesson_change->role = 2;
+                $teaching_lesson_change->old_user_id = $teaching_lesson->teaching_assistant_id;
+                $teaching_lesson_change->new_user_id = $request->staff_id;
+                $teaching_lesson_change->note = $request->note;
+                $teaching_lesson_change->actor_id = $this->user->id;
+
+                $teaching_lesson_change->save();
+
+                $teaching_lesson->teaching_assistant_id = $request->staff_id;
+                $teaching_lesson->save();
+
+                return $this->respondSuccessWithStatus([
+                    'class_lesson' => [
+                        'id' => $teaching_lesson->class_lesson_id,
+                        'staff' => $this->userRepository->staff($teaching_lesson->teaching_assistant)
+                    ]
+                ]);
+            } else {
+                return $this->respondErrorWithStatus("Buổi này không tồn tại");
+            }
+        }
+        return $this->respondErrorWithStatus("Thiếu class_lesson_id");
+    }
+
+    public function change_teacher(Request $request)
+    {
+        if ($request->id) {
+            $teaching_lesson = TeachingLesson::where('class_lesson_id', $request->id)->first();
+
+            if ($teaching_lesson) {
+                $teaching_lesson_change = new TeachingLessonChange();
+                $teaching_lesson_change->class_lesson_id = $request->id;
+                $teaching_lesson_change->role = 1;
+                $teaching_lesson_change->old_user_id = $teaching_lesson->teacher_id;
+                $teaching_lesson_change->new_user_id = $request->staff_id;
+                $teaching_lesson_change->note = $request->note;
+                $teaching_lesson_change->actor_id = $this->user->id;
+
+                $teaching_lesson_change->save();
+
+                $teaching_lesson->teacher_id = $request->staff_id;
+                $teaching_lesson->save();
+
+                return $this->respondSuccessWithStatus([
+                    'class_lesson' => [
+                        'id' => $teaching_lesson->class_lesson_id,
+                        'staff' => $this->userRepository->staff($teaching_lesson->teacher)
+                    ]
                 ]);
             } else {
                 return $this->respondErrorWithStatus("Buổi này không tồn tại");
