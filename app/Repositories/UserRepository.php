@@ -65,6 +65,7 @@ class UserRepository
                 'phone' => $staff->phone,
                 'email' => $staff->email,
                 'color' => $staff->color,
+                'avatar_url' => generate_protocol_url($staff->avatar_url),
             ];
         }
     }
