@@ -193,6 +193,95 @@ export default function classesReducer(state = initialState.classes, action) {
                     errorChangeClassLesson: true
                 }
             };
+        case types.BEGIN_CHANGE_TEACHER_DATA:
+            return {
+                ...state,
+                ...{
+                    isChangingTeacher: true,
+                    errorChangeTeacher: false
+
+                }
+            };
+        case types.CHANGE_TEACHER_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isChangingTeacher: false,
+                    errorChangeTeacher: false,
+                    class: {
+                        ...state.class,
+                        teacher: {
+                            ...state.class.teacher,
+                            attendances: changeDataTeach(action.classLesson, state.class.teacher.attendances)
+                        }
+                    }
+                }
+            };
+        case types.CHANGE_TEACHER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingTeacher: false,
+                    errorChangeTeacher: true
+                }
+            };
+        case types.BEGIN_CHANGE_TEACHING_ASSISTANT_DATA:
+            return {
+                ...state,
+                ...{
+                    isChangingTeachingAssis: true,
+                    errorChangeTeachingAssis: false
+
+                }
+            };
+        case types.CHANGE_TEACHING_ASSISTANT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isChangingTeachingAssis: false,
+                    errorChangeTeachingAssis: false,
+                    class: {
+                        ...state.class,
+                        teacher_assistant: {
+                            ...state.class.teacher_assistant,
+                            attendances: changeDataTeach(action.classLesson, state.class.teacher_assistant.attendances)
+                        }
+                    }
+                }
+            };
+        case types.CHANGE_TEACHING_ASSISTANT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingTeachingAssis: false,
+                    errorChangeTeachingAssis: true
+                }
+            };
+        case types.BEGIN_LOAD_STAFFS_CLASS_DATA:
+            return {
+                ...state,
+                ...{
+                    isLoadingStaffs: true,
+                    errorStaff: false
+                }
+            };
+        case types.LOAD_STAFFS_CLASS_DATA_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingStaffs: false,
+                    errorStaff: false,
+                    staffs: action.staffs
+                }
+            };
+        case types.LOAD_STAFFS_CLASS_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingStaffs: false,
+                    errorStaff: true
+                }
+            };
         default:
             return state;
     }
@@ -236,10 +325,26 @@ function changeDataClassLesson(classLesson, attendances) {
     if (attendances) {
         attendances = attendances.map(atttendance => {
                 if (atttendance.class_lesson_id === classLesson.id) {
-                    console.log(atttendance);
                     return {
                         ...atttendance,
                         class_lesson_time: classLesson.time,
+                    };
+                }
+                return atttendance;
+            }
+        );
+    }
+
+    return attendances;
+}
+
+function changeDataTeach(classLesson, attendances) {
+    if (attendances) {
+        attendances = attendances.map(atttendance => {
+                if (atttendance.class_lesson_id === classLesson.id) {
+                    return {
+                        ...atttendance,
+                        staff: classLesson.staff
                     };
                 }
                 return atttendance;

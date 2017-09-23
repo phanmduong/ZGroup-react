@@ -60,8 +60,6 @@ export function addClass(classData) {
         url += "?token=" + token;
     }
 
-    console.log(classData);
-
     return axios.post(url, {
         'id': classData.id,
         'datestart': classData.datestart,
@@ -99,9 +97,51 @@ export function changeClassLesson(classLesson) {
     }
 
 
-    return axios.post(url, {
+    return axios.put(url, {
         'id': classLesson.id,
         'note': classLesson.note,
         'time': classLesson.time,
     });
+}
+
+export function changeTeacher(classLesson) {
+    let url = env.MANAGE_API_URL + `/class/change-teacher`;
+
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+
+    return axios.put(url, {
+        'id': classLesson.id,
+        'staff_id': classLesson.staffId,
+        'note': classLesson.note,
+    });
+}
+
+export function changeTeachingAssistant(classLesson) {
+    let url = env.MANAGE_API_URL + `/class/change-teaching-assistant`;
+
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+
+    return axios.put(url, {
+        'id': classLesson.id,
+        'staff_id': classLesson.staffId,
+        'note': classLesson.note,
+    });
+}
+
+export function loadStaffs() {
+    let url = env.MANAGE_API_URL + `/class/staffs`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
 }

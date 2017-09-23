@@ -32,6 +32,10 @@ class InfoStudentContainer extends React.Component {
         this.props.studentActions.loadInfoStudent(this.studentId);
     }
 
+    componentDidUpdate() {
+        helper.setFormValidation('#form-edit-student');
+    }
+
     updateFormData(event) {
         const field = event.target.name;
         let student = {...this.state.student};
@@ -54,10 +58,6 @@ class InfoStudentContainer extends React.Component {
                 student: this.props.student
             }
         );
-    }
-
-    componentDidUpdate() {
-        helper.setFormValidation('#form-edit-student');
     }
 
     editInfoStudent() {
@@ -217,7 +217,8 @@ InfoStudentContainer.propTypes = {
     isEditingStudent: PropTypes.bool.isRequired,
     children: PropTypes.element,
     pathname: PropTypes.string,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -23,7 +23,8 @@ class RuleContainer extends React.Component {
                 {
                     this.props.isLoading ? <Loading/> :
                         <div>
-                            <div id="content" dangerouslySetInnerHTML={{__html: this.props.ruleView}}/>
+                            {//eslint-disable-next-line
+                            }<div id="content" dangerouslySetInnerHTML={{__html: this.props.ruleView}}/>
                         </div>
 
                 }

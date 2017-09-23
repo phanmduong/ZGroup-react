@@ -7,9 +7,8 @@ import Loading from "../../components/common/Loading";
 import OutsideAlerter from '../../components/common/OutsideAlerter';
 import socket from '../../services/socketio';
 import "./notification.css";
-import {CHANNEL} from '../../constants/env';
+import {CHANNEL, MANAGE_BASE_URL} from '../../constants/env';
 import {showNotificationMessage} from "../../helpers/helper";
-import {MANAGE_BASE_URL} from "../../constants/env";
 
 class NotificationContainer extends React.Component {
     constructor(props, context) {
@@ -91,8 +90,8 @@ class NotificationContainer extends React.Component {
                             return (
                                 <li key={index} style={{backgroundColor}}>
                                     <a href={MANAGE_BASE_URL + "/notification/" + notification.id + "/redirect"}>
-                                        <div className="notification-item"
-                                             dangerouslySetInnerHTML={{__html: notification.message}} />
+                                        {//eslint-disable-next-line
+                                        }<div className="notification-item" dangerouslySetInnerHTML={{__html: notification.message}} />
                                     </a>
                                 </li>
                             );

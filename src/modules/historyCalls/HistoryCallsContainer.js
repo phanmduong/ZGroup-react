@@ -32,11 +32,6 @@ class HistoryCallsContainer extends React.Component {
 
     }
 
-    loadHistoryCalls(page = 1, callerId = '') {
-        this.setState({page});
-        this.props.historyCallActions.historyCalls(page, callerId);
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.params.callerId !== this.props.params.callerId) {
             this.setState({
@@ -44,6 +39,11 @@ class HistoryCallsContainer extends React.Component {
             });
             this.loadHistoryCalls(1, nextProps.params.callerId);
         }
+    }
+
+    loadHistoryCalls(page = 1, callerId = '') {
+        this.setState({page});
+        this.props.historyCallActions.historyCalls(page, callerId);
     }
 
     render() {

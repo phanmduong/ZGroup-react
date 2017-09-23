@@ -16,6 +16,10 @@ class TaskDeadlineModalContainer extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    componentDidUpdate() {
+        $(".bootstrap-datetimepicker-widget table td.day > div").css("z-index", 0);
+    }
+
     close() {
         this.props.taskActions.closeTaskDeadlineModal();
     }

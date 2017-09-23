@@ -17,7 +17,8 @@ class CommentItem extends React.Component {
                         <b>{comment.commenter.name}</b>
                         <small style={{color: "#919191", marginLeft: 10}}>{comment.created_at}</small>
                     </div>
-                    <div style={{whiteSpace: "pre-wrap"}} dangerouslySetInnerHTML={{__html: comment.content}}/>
+                    {//eslint-disable-next-line
+                    }<div style={{whiteSpace: "pre-wrap"}} dangerouslySetInnerHTML={{__html: comment.content}}/>
                     <a style={{
                         color: "rgb(90, 90, 90)",
                         position: "absolute",

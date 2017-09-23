@@ -1,7 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as classApi from './classApi';
 import * as helper from '../../helpers/helper';
-import {UPDATE_FORM_CREATE_CLASS} from "../../constants/actionTypes";
 
 /*eslint no-console: 0 */
 
@@ -118,7 +117,7 @@ export function infoCreateClass() {
 
 export function updateFormCreateClass(classData) {
     return {
-        type: UPDATE_FORM_CREATE_CLASS,
+        type: types.UPDATE_FORM_CREATE_CLASS,
         class: classData,
     };
 }
@@ -203,6 +202,75 @@ export function changeClassLesson(classLesson, classModal) {
             }).catch(() => {
             dispatch({
                 type: types.CHANGE_CLASS_LESSON_ERROR
+            });
+        });
+    };
+}
+
+export function changeTeacher(classLesson, modal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHANGE_TEACHER_DATA
+        });
+        classApi.changeTeacher(classLesson)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification("Đổi giảng viên thành công");
+                    modal();
+                    dispatch({
+                        type: types.CHANGE_TEACHER_SUCCESS,
+                        classLesson: res.data.data.class_lesson
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+            }).catch(() => {
+            dispatch({
+                type: types.CHANGE_TEACHER_ERROR
+            });
+        });
+    };
+}
+
+export function changeTeachingAssistant(classLesson, modal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHANGE_TEACHING_ASSISTANT_DATA
+        });
+        classApi.changeTeachingAssistant(classLesson)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification("Đổi trợ giảng thành công");
+                    modal();
+                    dispatch({
+                        type: types.CHANGE_TEACHING_ASSISTANT_SUCCESS,
+                        classLesson: res.data.data.class_lesson
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+            }).catch(() => {
+            dispatch({
+                type: types.CHANGE_TEACHING_ASSISTANT_ERROR
+            });
+        });
+    };
+}
+
+export function loadStaffs() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_STAFFS_CLASS_DATA
+        });
+        classApi.loadStaffs()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_STAFFS_CLASS_DATA_SUCCESS,
+                    staffs: res.data.data.staffs
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_STAFFS_CLASS_DATA_ERROR
             });
         });
     };

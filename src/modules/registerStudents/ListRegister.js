@@ -96,7 +96,7 @@ class ListRegister extends React.Component {
                                         register.saler ?
                                             (
                                                 <Link className="btn btn-xs btn-main"
-                                                        style={{backgroundColor: '#' + register.saler.color}}
+                                                      style={{backgroundColor: '#' + register.saler.color}}
                                                       to={`/manage/registerlist/${register.saler.id}`}
                                                 >
                                                     {helper.getShortName(register.saler.name)}
@@ -150,7 +150,7 @@ class ListRegister extends React.Component {
                                     <div data-toggle="tooltip" title=""
                                          type="button" rel="tooltip"
                                          data-original-title={register.created_at}>
-                                        {register.created_at.slice(8, 10) + '/' + register.created_at.slice(5, 7)}
+                                        {register.created_at}
                                     </div>
                                 </td>
                                 <td>

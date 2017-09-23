@@ -28,17 +28,16 @@ class ProfileContainer extends React.Component {
         this.props.profileActions.loadMyProfile();
     }
 
-    handleFileUpload(event) {
-        let file = event.target.files[0];
-        this.props.profileActions.changeAvatar(file, this.props.profile.id);
-    }
-
     componentWillReceiveProps(nextProps) {
         if (!nextProps.isLoading && this.props.isLoading !== nextProps.isLoading) {
             this.setState({color: nextProps.profile.color});
         }
     }
 
+    handleFileUpload(event) {
+        let file = event.target.files[0];
+        this.props.profileActions.changeAvatar(file, this.props.profile.id);
+    }
 
     changeColor() {
         this.setState({color: this.props.profile.color});

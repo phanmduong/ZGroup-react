@@ -230,7 +230,6 @@ function changeClassRegister(registerId, classData, registers) {
                 return register;
             }
         );
-        console.log(registers);
     }
     return registers;
 }

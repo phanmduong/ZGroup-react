@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Barchart extends React.Component {
     constructor(props, context) {
@@ -43,5 +44,11 @@ class Barchart extends React.Component {
         );
     }
 }
+
+Barchart.propTypes = {
+    id: PropTypes.string,
+    label: PropTypes.array,
+    data: PropTypes.array,
+};
 
 export default Barchart;

@@ -11,6 +11,7 @@ import Select from 'react-select';
 import FormInputDate from '../../components/common/FormInputDate';
 import SelectDropdown from '../../components/common/Select';
 import * as helper from '../../helpers/helper';
+import PropTypes from 'prop-types';
 
 class AddClassContainer extends React.Component {
     constructor(props, context) {
@@ -187,7 +188,6 @@ class AddClassContainer extends React.Component {
     }
 
     createClass() {
-        console.log("onclick");
         if (this.checkValidate()) {
             this.props.classActions.createClass(this.props.class, this.props.closeModal);
         }
@@ -354,6 +354,17 @@ class AddClassContainer extends React.Component {
         }
     }
 }
+
+AddClassContainer.propTypes = {
+    isStoringClass: PropTypes.bool.isRequired,
+    isLoadingInfoCreateClass: PropTypes.bool.isRequired,
+    class: PropTypes.object.isRequired,
+    infoCreateClass: PropTypes.object.isRequired,
+    classActions: PropTypes.object.isRequired,
+    edit: PropTypes.bool,
+    closeModal: PropTypes.func,
+    classData: PropTypes.object,
+};
 
 function mapStateToProps(state) {
     return {

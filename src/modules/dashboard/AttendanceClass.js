@@ -1,6 +1,7 @@
 import React from 'react';
 import AttendanceTeacher from './AttendanceTeacher';
 import * as helper from '../../helpers/helper';
+import PropTypes from 'prop-types';
 
 class AttendanceShift extends React.Component {
     constructor(props, context) {
@@ -46,5 +47,7 @@ class AttendanceShift extends React.Component {
     }
 }
 
-
+AttendanceShift.propTypes= {
+    classData: PropTypes.object.isRequired
+};
 export default AttendanceShift;

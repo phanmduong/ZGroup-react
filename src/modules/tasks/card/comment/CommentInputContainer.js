@@ -20,18 +20,18 @@ class CommentInputContainer extends React.Component {
         this.textAreaAdjust = this.textAreaAdjust.bind(this);
     }
 
-    textAreaAdjust(event) {
-        const o = event.target;
-        o.style.height = "1px";
-        o.style.height = (10 + o.scrollHeight) + "px";
-    }
-
     componentDidUpdate() {
         const o = document.querySelector("#textarea-card-comment");
         if (o) {
             o.style.height = "1px";
             o.style.height = (10 + o.scrollHeight) + "px";
         }
+    }
+
+    textAreaAdjust(event) {
+        const o = event.target;
+        o.style.height = "1px";
+        o.style.height = (10 + o.scrollHeight) + "px";
     }
 
     textAreaChange(event) {
