@@ -165,10 +165,10 @@ class ManageClassApiController extends ManageApiController
         $registers = $this->classRepository->get_student($class);
         $attendances = $this->classRepository->get_attendances_class($class);
 
-        if (!is_null($data['teacher']['id']))
+        if (isset($data['teacher']))
             $data['teacher']['attendances'] = $this->classRepository->attendances_teacher($class);
 
-        if (!is_null($data['teacher_assistant']['id']))
+        if (isset($data['teacher_assistant']))
             $data['teacher_assistant']['attendances'] = $this->classRepository->attendances_teaching_assistant($class);
 
         if ($registers) {
