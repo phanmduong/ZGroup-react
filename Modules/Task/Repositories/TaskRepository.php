@@ -11,22 +11,28 @@ namespace Modules\Task\Repositories;
 
 use App\Colorme\Transformers\TaskTransformer;
 use App\Notification;
+use App\Repositories\CalendarEventRepository;
 use App\User;
 use Illuminate\Support\Facades\Redis;
 
 class TaskRepository
 {
     protected $taskTransformer;
+    protected $calendarEventRepository;
 
-    public function __construct(TaskTransformer $taskTransformer)
+    public function __construct(
+        CalendarEventRepository $calendarEventRepository,
+        TaskTransformer $taskTransformer)
     {
         $this->taskTransformer = $taskTransformer;
+        $this->calendarEventRepository = $calendarEventRepository;
     }
 
     public function saveTaskDeadline($task, $deadline, $currentUser)
     {
         $task->deadline = $deadline;
         $task->save();
+        $this->calendarEventRepository->updateCalendarEvent("task", $task->id);
 
         $card = $task->taskList->card;
         $project = $card->board->project;

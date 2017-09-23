@@ -14,16 +14,21 @@ use App\Card;
 use App\CardComment;
 use App\Colorme\Transformers\TaskTransformer;
 use App\Notification;
+use App\Repositories\CalendarEventRepository;
 use App\User;
 use Illuminate\Support\Facades\Redis;
 
 class UserCardRepository
 {
     protected $taskTransformer;
+    protected $calendarEventRepository;
 
-    public function __construct(TaskTransformer $taskTransformer)
+    public function __construct(
+        CalendarEventRepository $calendarEventRepository,
+        TaskTransformer $taskTransformer)
     {
         $this->taskTransformer = $taskTransformer;
+        $this->calendarEventRepository = $calendarEventRepository;
     }
 
     public function loadCalendarEvents($userId)
@@ -114,7 +119,7 @@ class UserCardRepository
     public function removeCalendarEvent($cardId, $userId)
     {
         $card = Card::find($cardId);
-        $assignees = $card->assignees;
+//        $assignees = $card->assignees;
         $event = CalendarEvent::where("user_id", $userId)->where("card_id", $card->id)->first();
         if ($event) {
             $event->delete();
@@ -123,29 +128,30 @@ class UserCardRepository
 
     public function updateCalendarEvent($cardId)
     {
-        $card = Card::find($cardId);
-        $assignees = $card->assignees;
-        foreach ($assignees as $assignee) {
-            $color = "#777";
-            $cardLabel = $card->cardLabels()->first();
-            if (!is_null($cardLabel)) {
-                $color = $cardLabel->color;
-            }
-            $this->removeCalendarEvent($cardId, $assignee->id);
-
-            $calendarEvent = new CalendarEvent();
-            $calendarEvent->user_id = $assignee->id;
-            $calendarEvent->card_id = $card->id;
-            $calendarEvent->all_day = false;
-            $calendarEvent->start = $card->deadline;
-            $calendarEvent->end = $card->deadline;
-            $calendarEvent->title = $card->title;
-            $calendarEvent->type = "card";
-            $calendarEvent->url = "project/" . $card->board->project_id . "/boards";
-            $calendarEvent->color = $color;
-
-            $calendarEvent->save();
-        }
+        $this->calendarEventRepository->updateCalendarEvent("card", $cardId);
+//        $card = Card::find($cardId);
+//        $assignees = $card->assignees;
+//        foreach ($assignees as $assignee) {
+//            $color = "#777";
+//            $cardLabel = $card->cardLabels()->first();
+//            if (!is_null($cardLabel)) {
+//                $color = $cardLabel->color;
+//            }
+//            $this->removeCalendarEvent($cardId, $assignee->id);
+//
+//            $calendarEvent = new CalendarEvent();
+//            $calendarEvent->user_id = $assignee->id;
+//            $calendarEvent->card_id = $card->id;
+//            $calendarEvent->all_day = false;
+//            $calendarEvent->start = $card->deadline;
+//            $calendarEvent->end = $card->deadline;
+//            $calendarEvent->title = $card->title;
+//            $calendarEvent->type = "card";
+//            $calendarEvent->url = "project/" . $card->board->project_id . "/boards";
+//            $calendarEvent->color = $color;
+//
+//            $calendarEvent->save();
+//        }
     }
 
     public function loadCardDetail($cardId)
