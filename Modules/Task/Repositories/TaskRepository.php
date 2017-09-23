@@ -37,7 +37,8 @@ class TaskRepository
         $card = $task->taskList->card;
         $project = $card->board->project;
         $user = $task->member;
-        if ($currentUser && $currentUser->id != $user->id) {
+
+        if ($user && $currentUser && $currentUser->id != $user->id) {
 
             $notification = new Notification;
             $notification->actor_id = $currentUser->id;
@@ -83,11 +84,14 @@ class TaskRepository
         $task->assignee_id = $userId;
         $card = $task->taskList->card;
         $member = $card->assignees()->where("id", $userId)->first();
+
         if ($userId != 0 && $member == null) {
             $card->assignees()->attach($userId);
         }
         $task->save();
 
+        $this->calendarEventRepository->updateCalendarEvent("task", $task->id);
+        
         $card = $task->taskList->card;
         $project = $card->board->project;
 

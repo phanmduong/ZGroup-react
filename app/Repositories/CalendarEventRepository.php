@@ -46,7 +46,7 @@ class CalendarEventRepository
                 $startTime = $card->deadline;
                 $endTime = $card->deadline;
                 $assignees = $card->assignees;
-                $title = "Thẻ " . $card->title;
+                $title = $card->title;
                 $calendarEvent->card_id = $targetId;
                 break;
             case "task":
@@ -60,30 +60,39 @@ class CalendarEventRepository
                 $startTime = $task->deadline;
                 $endTime = $task->deadline;
                 $assignees = [$task->member];
-                $title = "Công việc " . $task->title;
+                $title = $task->title;
                 $calendarEvent->task_id = $targetId;
                 break;
             default:
                 return null;
         }
+
         foreach ($assignees as $assignee) {
-
-            $event = CalendarEvent::where("user_id", $assignee->id)->where("card_id", $card->id)->first();
-            if ($event) {
-                $event->delete();
-            }
+            if ($assignee) {
+                switch ($type) {
+                    case "card":
+                        $event = CalendarEvent::where("user_id", $assignee->id)->where("card_id", $targetId)->first();
+                        break;
+                    case "task":
+                        $event = CalendarEvent::where("user_id", $assignee->id)->where("task_id", $targetId)->first();
+                        break;
+                    default:
+                        $event = null;
+                }
+                if ($event) {
+                    $event->delete();
+                }
 //            $this->removeCalendarEvent($cardId, $assignee->id);
-            $calendarEvent->user_id = $assignee->id;
-            $calendarEvent->all_day = false;
-            $calendarEvent->start = $startTime;
-            $calendarEvent->end = $endTime;
-            $calendarEvent->title = $title;
-            $calendarEvent->type = $type;
-            $calendarEvent->url = $url;
-            $calendarEvent->color = $color;
-            $calendarEvent->save();
-            return $calendarEvent;
-
+                $calendarEvent->user_id = $assignee->id;
+                $calendarEvent->all_day = false;
+                $calendarEvent->start = $startTime;
+                $calendarEvent->end = $endTime;
+                $calendarEvent->title = $title;
+                $calendarEvent->type = $type;
+                $calendarEvent->url = $url;
+                $calendarEvent->color = $color;
+                $calendarEvent->save();
+            }
         }
     }
 }
