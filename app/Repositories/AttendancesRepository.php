@@ -70,6 +70,7 @@ class AttendancesRepository
     {
         $attendance = $class_lesson->teachingLesson()->first();
         $data_attendance = [
+            'class_lesson_id' => $class_lesson->id,
             'order' => $class_lesson->lesson->order,
             'start_teaching_time' => $class_lesson->start_time,
             'end_teaching_time' => $class_lesson->end_time,
@@ -105,6 +106,7 @@ class AttendancesRepository
     {
         $attendance = $class_lesson->teachingLesson()->first();
         $data_attendance = [
+            'class_lesson_id' => $class_lesson->id,
             'order' => $class_lesson->lesson->order,
             'start_teaching_time' => $class_lesson->start_time,
             'end_teaching_time' => $class_lesson->end_time,
