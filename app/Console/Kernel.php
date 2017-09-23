@@ -37,8 +37,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('sms:send')->dailyAt('20:00');
 //        $schedule->command('mail:startlesson')->dailyAt('12:00');
         $schedule->command('survey:send')->dailyAt('01:00');
-//        $schedule->command('shift:create')->weekly()->fridays()->at('23:00');
-        $schedule->command('shift:create')->weekly()->saturdays()->at('23:00');
+        $schedule->command('shift:create')->weekly()->fridays()->at('23:00');
+//        $schedule->command('shift:create')->weekly()->saturdays()->at('23:00');
         $schedule->command('calendarEvent:remind')->everyMinute();
 
     }
