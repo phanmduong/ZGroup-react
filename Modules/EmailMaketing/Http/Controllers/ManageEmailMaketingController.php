@@ -191,4 +191,6 @@ class ManageEmailMaketingController extends ManageApiController
             'message' => 'Xóa Email form thành công'
         ]);
     }
+
+
 }
