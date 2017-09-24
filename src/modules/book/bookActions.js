@@ -3,6 +3,7 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as bookApi from './bookApi';
+import {showNotification} from "../../helpers/helper";
 
 // import _ from 'lodash';
 /*eslint no-console: 0 */
@@ -37,6 +38,22 @@ export function closeAddTaskListTemplateModal() {
         dispatch({
             type: types.CLOSE_ADD_TASK_LIST_TEMPLATE_MODAL
         });
+    };
+}
+
+export function storeTaskListTemplates(taskList) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_TASK_LIST_TEMPLATE
+        });
+        bookApi.storeTaskListTemplates(taskList)
+            .then((res) => {
+                showNotification("Tạo quy trình thành công");
+                dispatch({
+                    type: types.SAVE_TASK_LIST_TEMPLATE_SUCCESS,
+                    taskList: res.data.data.taskList
+                });
+            });
     };
 }
 

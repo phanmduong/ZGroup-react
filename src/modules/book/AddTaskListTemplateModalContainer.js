@@ -13,11 +13,18 @@ class AddTaskListTemplateModalContainer extends Component {
         super(props, context);
         this.close = this.close.bind(this);
         this.save = this.save.bind(this);
+        this.onEnterKeyPress = this.onEnterKeyPress.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
     }
 
     close() {
         this.props.bookActions.closeAddTaskListTemplateModal();
+    }
+
+    onEnterKeyPress(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            this.save();
+        }
     }
 
     save() {
@@ -40,6 +47,7 @@ class AddTaskListTemplateModalContainer extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <FormInputText
+                        onKeyPress={this.onEnterKeyPress}
                         value={taskList.title}
                         label="Tên quy trình"
                         updateFormData={this.updateFormData}

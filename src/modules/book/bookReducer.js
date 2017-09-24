@@ -6,11 +6,32 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+        case types.BEGIN_SAVE_TASK_LIST_TEMPLATE:
+            return {
+                ...state,
+                addTaskList: {
+                    ...state.addTaskList,
+                    isSaving: true
+                }
+            };
+        case types.SAVE_TASK_LIST_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                addTaskList: {
+                    ...state.addTaskList,
+                    isSaving: false,
+                    showModal: false
+                },
+                taskLists: {
+                    ...state.taskLists,
+                    taskLists: [...state.taskLists.taskLists, action.taskList]
+                }
+            };
         case types.UPDATE_ADD_TASK_LIST_FORM_DATA:
             return {
                 ...state,
-                taskLists: {
-                    ...state.taskLists,
+                addTaskList: {
+                    ...state.addTaskList,
                     taskList: action.taskList
                 }
             };
