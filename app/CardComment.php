@@ -8,15 +8,23 @@ class CardComment extends Model
 {
     protected $table = "card_comments";
 
-    public function commenter(){
+    public function commenter()
+    {
         return $this->belongsTo(User::class, "commenter_id");
     }
 
-    public function card() {
+    public function card()
+    {
         return $this->belongsTo(Card::class, "card_id");
     }
 
-    public function transform(){
+    public function cardCommentAttachments()
+    {
+        return $this->hasMany(CardComment::class, "card_comment_id");
+    }
+
+    public function transform()
+    {
         $commenter = $this->commenter;
         return [
             "id" => $this->id,
