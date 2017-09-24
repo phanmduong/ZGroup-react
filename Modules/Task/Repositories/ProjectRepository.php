@@ -11,10 +11,20 @@ namespace Modules\Task\Repositories;
 
 use App\Notification;
 use App\Project;
+use App\Repositories\NotificationRepository;
 use Illuminate\Support\Facades\Redis;
 
 class ProjectRepository
 {
+    protected $notificationRepository;
+
+    public function __construct(
+        NotificationRepository $notificationRepository
+    )
+    {
+        $this->notificationRepository = $notificationRepository;
+    }
+
     public function assignRoleMember($projectId, $memberId, $role, $currentUser)
     {
         $project = Project::find($projectId);
@@ -85,22 +95,7 @@ class ProjectRepository
 
             $notification->save();
 
-            $data = array(
-                "message" => $message,
-                "link" => $notification->url,
-                'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
-                "receiver_id" => $notification->receiver_id,
-                "actor_id" => $notification->actor_id,
-                "icon" => $notification->icon,
-                "color" => $notification->color
-            );
-
-            $publish_data = array(
-                "event" => "notification",
-                "data" => $data
-            );
-
-            Redis::publish(config("app.channel"), json_encode($publish_data));
+            $this->notificationRepository->sendNotification($notification);
         }
     }
 
