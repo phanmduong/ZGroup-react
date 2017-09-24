@@ -3,11 +3,9 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as taskApi from "./taskApi";
-import {createFileUrl, showErrorNotification, showNotification} from '../../helpers/helper';
+import {showErrorNotification, showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
-// import _ from 'lodash';
-/*eslint no-console: 0 */
 export function changeProjectStatus(project, status) {
     return function (dispatch) {
         dispatch({
@@ -650,8 +648,7 @@ export function uploadAttachment(card, fileWrapper, addToComment = false) {
             dispatch({
                 type: types.UPLOAD_ATTACHMENT_SUCCESS,
                 file,
-                addToComment,
-                fileHtml: createFileUrl(file)
+                addToComment
             });
         };
         const progressHandler = (event) => {
@@ -679,8 +676,7 @@ export function addUrlSuccess(file, addToComment = false) {
         dispatch({
             type: types.UPLOAD_ATTACHMENT_SUCCESS,
             file,
-            addToComment,
-            fileHtml: createFileUrl(file)
+            addToComment
         });
     };
 }
@@ -963,6 +959,15 @@ export function updateAssignMemberToTaskForm(member) {
         dispatch({
             type: types.UPDATE_ASSIGN_MEMBER_TO_TASK_FORM,
             member
+        });
+    };
+}
+
+export function deleteCardCommentAttachment(file) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_CARD_COMMENT_ATTACHMENT,
+            file
         });
     };
 }

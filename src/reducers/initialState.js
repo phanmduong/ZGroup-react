@@ -129,7 +129,8 @@ export default {
             selectedMember: null
         },
         commentCard: {
-            value: ""
+            value: "",
+            attachments: []
         },
         archiveCard: {
             cards: [],
