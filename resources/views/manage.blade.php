@@ -27,7 +27,7 @@
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
-<body>g
+<body>
 
 <script
         src="https://code.jquery.com/jquery-1.12.4.min.js"
