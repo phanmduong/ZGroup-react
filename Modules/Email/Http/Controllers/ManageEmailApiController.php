@@ -25,15 +25,40 @@ class ManageEmailApiController extends ManageApiController
         $query = $request->search;
         $limit = 20;
         if ($query) {
-            $subscribers_list = SubscribersList::where('name', 'like', '%' . $query . '%')
+            $subscribers_lists = SubscribersList::where('name', 'like', '%' . $query . '%')
                 ->orderBy('created_at', 'desc')->paginate($limit);
         } else {
-            $subscribers_list = SubscribersList::orderBy('created_at', 'desc')->paginate($limit);
+            $subscribers_lists = SubscribersList::orderBy('created_at', 'desc')->paginate($limit);
         }
         $data = [
-            'subscribers_list' => $this->emailRepository->subscribers_list($subscribers_list)
+            'subscribers_list' => $this->emailRepository->subscribers_list($subscribers_lists)
         ];
 
-        return $this->respondWithPagination($subscribers_list, $data);
+        return $this->respondWithPagination($subscribers_lists, $data);
+    }
+
+    public function delete_subscribers_list($subscribers_list_id)
+    {
+        $subscribers_list = SubscribersList::find($subscribers_list_id);
+        $subscribers_list->delete();
+
+        return $this->respondSuccess("Xóa subscribers list thành công");
+    }
+
+    public function store_subscribers_list(Request $request)
+    {
+        if ($request->id) {
+            $sub_list = SubscribersList::find($request->id);
+        } else {
+            $sub_list = new SubscribersList();
+        }
+
+        $sub_list->name = $request->name;
+        $sub_list->save();
+
+        return $this->respondSuccessWithStatus([
+            'subscribers_list' => $this->emailRepository->subscribers_list_item($sub_list)
+        ]);
+
     }
 }

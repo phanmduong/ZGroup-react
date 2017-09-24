@@ -16,14 +16,21 @@ class EmailRepository
     {
         if ($subscribers_list) {
             return $subscribers_list->map(function ($subscribers_item) {
-                return [
-                    'id' => $subscribers_item->id,
-                    'name' => $subscribers_item->name,
-                    'created_at' => format_full_time_date($subscribers_item->created_at),
-                    'updated_at' => format_full_time_date($subscribers_item->updated_at),
-                    'total_subscribers' => $subscribers_item->subscribers()->count(),
-                ];
+                return $this->subscribers_list_item($subscribers_item);
             });
+        }
+    }
+
+    public function subscribers_list_item($subscribers_list_item)
+    {
+        if ($subscribers_list_item) {
+            return [
+                'id' => $subscribers_list_item->id,
+                'name' => $subscribers_list_item->name,
+                'created_at' => format_full_time_date($subscribers_list_item->created_at),
+                'updated_at' => format_full_time_date($subscribers_list_item->updated_at),
+                'total_subscribers' => $subscribers_list_item->subscribers()->count(),
+            ];
         }
     }
 }
