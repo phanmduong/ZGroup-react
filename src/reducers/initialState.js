@@ -493,5 +493,15 @@ export default {
         members: [],
         selectedCardLabels: [],
         selectedMembers: []
+    },
+
+    emailSubscribersList: {
+        subscribersList: [],
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        isStoring: false,
+        errorStore: false,
     }
 };

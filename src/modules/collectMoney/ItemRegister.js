@@ -29,10 +29,6 @@ class ItemRegister extends React.Component {
         });
     }
 
-    componentDidUpdate(){
-        $.material.init();
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.nextCode !== this.props.nextCode) {
             this.setState({
@@ -42,6 +38,10 @@ class ItemRegister extends React.Component {
                 }
             });
         }
+    }
+
+    componentDidUpdate(){
+        $.material.init();
     }
 
     updateFormData(event) {
