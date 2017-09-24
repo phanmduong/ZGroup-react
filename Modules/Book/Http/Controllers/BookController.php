@@ -3,7 +3,7 @@
 namespace Modules\Book\Http\Controllers;
 
 use App\Http\Controllers\ManageApiController;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 use Modules\Task\Entities\TaskList;
 
 class BookController extends ManageApiController
