@@ -17,8 +17,7 @@ class ItemRegister extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
     }
 
-    componentDidMount() {
-        $.material.init();
+    componentWillMount() {
         this.state = ({
             register: {
                 ...this.state.register,
@@ -30,6 +29,7 @@ class ItemRegister extends React.Component {
         });
     }
 
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.nextCode !== this.props.nextCode) {
             this.setState({
@@ -39,6 +39,10 @@ class ItemRegister extends React.Component {
                 }
             });
         }
+    }
+
+    componentDidUpdate(){
+        $.material.init();
     }
 
     updateFormData(event) {

@@ -24,6 +24,7 @@ import historyCallsReducer from '../modules/historyCalls/historyCallsReducer';
 import classesReducer from '../modules/classes/classesReducer';
 import ruleReducer from '../modules/rule/ruleReducer';
 import cardFilterReducer from "../modules/tasks/board/filter/cardFilterReducer";
+import bookReducer from "../modules/book/bookReducer";
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -50,6 +51,7 @@ const appReducer = combineReducers({
     classes: classesReducer,
     cardFilter: cardFilterReducer,
     rule: ruleReducer,
+    book: bookReducer
 });
 
 const rootReducer = (state, action) => {

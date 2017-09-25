@@ -42,6 +42,7 @@ import CareClassContainer from "./modules/classes/class/care/CareContainer";
 import RegistersClassContainer from "./modules/classes/class/registers/RegistersContainer";
 import HistoryTeachingContainer from "./modules/classes/class/historyTeaching/HistoryTeachingContainer";
 import ProgressClassContainer from "./modules/classes/class/progress/ProgressContainer";
+import ProcessListContainer from "./modules/book/ProcessListContainer";
 
 export default (
     <Route>
@@ -134,6 +135,10 @@ export default (
             {/*Begin class routes*/}
             <Route path="/manage/classes(/:teacherId)" component={ClassesContainer}/>
             {/*End class routes*/}
+
+            {/*Begin book routes*/}
+            <Route path="/task-list-template" component={ProcessListContainer}/>
+            {/*End book routes*/}
 
             {/*Begin class routes*/}
             <Route path="/class/:classId" component={ClassContainer}>

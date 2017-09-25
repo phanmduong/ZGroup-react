@@ -114,6 +114,24 @@ export default {
         }
     },
 
+    book: {
+        taskListDetail: {
+            showModal: false,
+            taskList: {}
+        },
+        taskLists: {
+            taskLists: [],
+            isLoading: false,
+            currentPage: 0,
+            totalPages: 0
+        },
+        addTaskList: {
+            showModal: false,
+            isSaving: false,
+            taskList: {}
+        }
+    },
+
     task: {
         taskDeadline: {
             showModal: false,
