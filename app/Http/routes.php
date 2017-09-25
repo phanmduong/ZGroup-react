@@ -451,8 +451,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get("loadnotifications", "StudentController@load_notifications");
     Route::get("compute-certificate/{classId}", "ClassController@compute_certificate");
 
-    Route::get('manage/new_subscriber', 'ManageEmailApiController@new_subscriber');
-    Route::post('manage/store_subscriber', 'ManageEmailApiController@store_subscriber');
+    Route::get('manage/new_subscriber', 'EmailController@new_subscriber');
+    Route::post('manage/store_subscriber', 'EmailController@store_subscriber');
     Route::post('manage/sendmorelist', 'CampaignController@send_more_list');
 
     Route::get('manage/spendmoney', 'MoneyController@spend_money');
@@ -478,12 +478,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/campaigns', 'CampaignController@index');
     Route::get('manage/campaign/new', 'CampaignController@new_campaign');
 //    Subscribers
-    Route::get('manage/subscribers_list', 'ManageEmailApiController@subscribers_list');
-    Route::get('manage/new_subscribers_list', 'ManageEmailApiController@new_subscribers_list');
-    Route::post('manage/store_subscribers_list', 'ManageEmailApiController@store_subscribers_list');
-    Route::get('manage/subscribers', 'ManageEmailApiController@subscribers');
-    Route::get('manage/upload_subscribers_csv', 'ManageEmailApiController@upload_subscribers_csv');
-    Route::post('manage/subscribers_list/handle_file_upload', 'ManageEmailApiController@handle_file_upload');
+    Route::get('manage/subscribers_list', 'EmailController@subscribers_list');
+    Route::get('manage/new_subscribers_list', 'EmailController@new_subscribers_list');
+    Route::post('manage/store_subscribers_list', 'EmailController@store_subscribers_list');
+    Route::get('manage/subscribers', 'EmailController@subscribers');
+    Route::get('manage/upload_subscribers_csv', 'EmailController@upload_subscribers_csv');
+    Route::post('manage/subscribers_list/handle_file_upload', 'EmailController@handle_file_upload');
 
     Route::post('manage/savelesson', 'HomeController@save_lesson');
     Route::get('manage/allrating', 'PersonalRatingController@all_rating');
