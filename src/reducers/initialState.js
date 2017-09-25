@@ -463,7 +463,7 @@ export default {
         classes: [],
         isLoading: false,
         error: false,
-        isLoadingInfoCreateClass: false,
+        isLoadingInfoCreateClass: true,
         errorInfoCreateClass: false,
         infoCreateClass: {},
         isStoringClass: false,

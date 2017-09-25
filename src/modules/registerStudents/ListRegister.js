@@ -5,7 +5,7 @@ import * as helper from '../../helpers/helper';
 
 import {Link} from "react-router";
 
-class ListRegister extends React.Component {
+class  ListRegister extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
