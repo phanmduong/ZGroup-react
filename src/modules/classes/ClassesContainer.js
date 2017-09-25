@@ -100,13 +100,13 @@ class ClassesContainer extends React.Component {
                 target: classData.target,
                 regis_target: classData.regis_target,
                 study_time: classData.study_time,
-                gen_id: classData.gen.id,
-                course_id: classData.course.id,
-                teacher_assis_id: classData.teacher_assistant.id,
-                teacher_id: classData.teacher.id,
+                gen_id: classData.gen ? classData.gen.id : '',
+                course_id: classData.course ? classData.course.id : '',
+                teacher_assis_id: classData.teacher_assistant ? classData.teacher_assistant.id : '',
+                teacher_id: classData.teacher ? classData.teacher.id : '',
                 schedule_id: classData.schedule_id,
                 datestart: classData.datestart_en,
-                room_id: classData.room.id,
+                room_id: classData.room ? classData.room.id : '',
             };
         }
         this.setState({
