@@ -11,7 +11,8 @@ class TaskListItem extends React.Component {
     onEditClick(event) {
         event.stopPropagation();
         event.preventDefault();
-        // this.props.taskActions.openProjectDetailModal(this.props.project.id);
+        this.props.openTaskListTemplateDetailModal(this.props.taskList);
+        console.log("hello");
     }
 
     delete(event) {
@@ -66,7 +67,8 @@ class TaskListItem extends React.Component {
 
 
 TaskListItem.propTypes = {
-    taskList: PropTypes.object.isRequired
+    taskList: PropTypes.object.isRequired,
+    openTaskListTemplateDetailModal: PropTypes.func.isRequired
 };
 
 

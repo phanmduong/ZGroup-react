@@ -8,6 +8,7 @@ import TaskListItem from "./TaskListItem";
 import _ from 'lodash';
 import Loading from "../../components/common/Loading";
 import AddTaskListTemplateModalContainer from "./AddTaskListTemplateModalContainer";
+import TaskListDetailModalContainer from "./TaskListDetailModalContainer";
 
 class ProcessListContainer extends React.Component {
     constructor(props, context) {
@@ -15,6 +16,7 @@ class ProcessListContainer extends React.Component {
         this.loadTaskLists = this.loadTaskLists.bind(this);
         this.taskListSearchChange = this.taskListSearchChange.bind(this);
         this.openAddTaskListTemplateModal = this.openAddTaskListTemplateModal.bind(this);
+        this.openTaskListTemplateDetailModal = this.openTaskListTemplateDetailModal.bind(this);
         this.state = {
             page: 1,
             query: ""
@@ -49,10 +51,15 @@ class ProcessListContainer extends React.Component {
         this.props.bookActions.openAddTaskListTemplateModal();
     }
 
+    openTaskListTemplateDetailModal(taskList) {
+        this.props.bookActions.openTaskListDetailModal(taskList);
+    }
+
     render() {
         return (
             <div id="page-wrapper">
                 <AddTaskListTemplateModalContainer/>
+                <TaskListDetailModalContainer/>
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose">
@@ -80,8 +87,10 @@ class ProcessListContainer extends React.Component {
                                     {
                                         this.props.taskLists.map((taskList) => {
                                             return (
-                                                <TaskListItem key={taskList.id}
-                                                              taskList={taskList}/>
+                                                <TaskListItem
+                                                    openTaskListTemplateDetailModal={this.openTaskListTemplateDetailModal}
+                                                    key={taskList.id}
+                                                    taskList={taskList}/>
                                             );
                                         })}
                                 </div>

@@ -115,6 +115,10 @@ export default {
     },
 
     book: {
+        taskListDetail: {
+            showModal: false,
+            taskList: {}
+        },
         taskLists: {
             taskLists: [],
             isLoading: false,

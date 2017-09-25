@@ -66,3 +66,29 @@ export function updateFormData(taskList) {
         });
     };
 }
+
+
+export function openTaskListDetailModal(taskList) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_TASK_LIST_DETAIL_MODAL,
+            taskList
+        });
+    };
+}
+
+export function closeTaskListDetailModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_TASK_LIST_DETAIL_MODAL
+        });
+    };
+}
+
+export function deleteTaskTemplate() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_TASK_LIST_DETAIL_MODAL
+        });
+    };
+}
