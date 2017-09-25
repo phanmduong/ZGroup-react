@@ -218,16 +218,22 @@ class ManageDashboardApiController extends ManageApiController
                 'name' => $shift->name,
                 'start_shift_time' => format_time_shift(strtotime($shift->start_time)),
                 'end_shift_time' => format_time_shift(strtotime($shift->end_time)),
-                'staff' => [
+            ];
+
+            if ($shift->user) {
+                $attendanceShift['staff'] = [
                     'id' => $shift->user->id,
                     'name' => $shift->user->name,
                     'color' => $shift->user->color,
-                ],
-                'base' => [
+                ];
+            }
+
+            if ($shift->base) {
+                $attendanceShift['base'] = [
                     'id' => $shift->base->id,
                     'name' => $shift->base->name,
-                ]
-            ];
+                ];
+            }
 
             if ($shift->check_in) {
                 $attendanceShift['check_in_time'] = format_time_shift(strtotime($shift->check_in->created_at));
