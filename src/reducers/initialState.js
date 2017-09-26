@@ -115,9 +115,14 @@ export default {
     },
 
     book: {
+        taskSpan: {
+            showModal: false,
+            hours: 0
+        },
         taskListDetail: {
             showModal: false,
-            taskList: {}
+            taskList: {},
+            isSaving: false
         },
         taskLists: {
             taskLists: [],

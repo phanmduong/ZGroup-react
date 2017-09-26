@@ -85,7 +85,7 @@ class TaskListsContainer extends React.Component {
                                     {
                                         taskList.tasks.map((task) =>
                                             (<TaskItem
-                                                openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
+                                                openTaskDeadlineModal={this.props.taskActions.openTimeSpanModal}
                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
                                                 toggleTaskStatus={this.props.taskActions.toggleTaskStatus}

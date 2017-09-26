@@ -4,6 +4,7 @@
 import * as types from '../../constants/actionTypes';
 import * as bookApi from './bookApi';
 import {showNotification} from "../../helpers/helper";
+import * as taskApi from "../tasks/taskApi";
 
 // import _ from 'lodash';
 /*eslint no-console: 0 */
@@ -68,6 +69,17 @@ export function updateFormData(taskList) {
 }
 
 
+export function toggleTaskStatus(task) {
+    return function (dispatch) {
+        dispatch({
+            task,
+            type: types.TOGGLE_TASK_TEMPLATE_STATUS
+        });
+        taskApi.toggleTaskStatus(task);
+    };
+}
+
+
 export function openTaskListDetailModal(taskList) {
     return function (dispatch) {
         dispatch({
@@ -85,10 +97,46 @@ export function closeTaskListDetailModal() {
     };
 }
 
-export function deleteTaskTemplate() {
+export function deleteTaskTemplate(task) {
     return function (dispatch) {
         dispatch({
-            type: types.CLOSE_TASK_LIST_DETAIL_MODAL
+            type: types.DELETE_TASK_TEMPLATE,
+            task
+        });
+        taskApi.deleteTask(task);
+    };
+}
+
+export function createTask(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_TASK_TEMPLATE
+        });
+        taskApi
+            .createTask(task)
+            .then((res) => {
+                dispatch({
+                    type: types.SAVE_TASK_TEMPLATE_SUCCESS,
+                    task: res.data.task,
+                    taskListId: task.task_list_id
+                });
+            });
+    };
+}
+
+export function openTaskSpanModal(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_TASK_SPAN_MODAL,
+            task
+        });
+    };
+}
+
+export function closeTaskSpanModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_TASK_SPAN_MODAL
         });
     };
 }

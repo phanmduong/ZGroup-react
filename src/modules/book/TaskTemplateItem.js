@@ -7,7 +7,7 @@ class TaskTemplateItem extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.openAddMemberToTaskModal = this.openAddMemberToTaskModal.bind(this);
-        this.openTaskDeadlineModal = this.openTaskDeadlineModal.bind(this);
+        this.openTimeSpanModal = this.openTimeSpanModal.bind(this);
     }
 
 
@@ -19,8 +19,8 @@ class TaskTemplateItem extends React.Component {
         this.props.openAddMemberToTaskModal(this.props.task);
     }
 
-    openTaskDeadlineModal() {
-        this.props.openTaskDeadlineModal(this.props.task);
+    openTimeSpanModal() {
+        this.props.openTimeSpanModal(this.props.task);
     }
 
     render() {
@@ -67,9 +67,9 @@ class TaskTemplateItem extends React.Component {
                             </a>
                         </li>
                         <li className="more-dropdown-item">
-                            <a onClick={this.openTaskDeadlineModal}>
+                            <a onClick={this.openAddMemberToTaskModal}>
                                 <i className="material-icons">timer</i>
-                                Hạn chót
+                                Thời gian thực hiện
                             </a>
                         </li>
                         <li className="more-dropdown-item">
@@ -90,7 +90,7 @@ class TaskTemplateItem extends React.Component {
 TaskTemplateItem.propTypes = {
     deleteTaskTemplate: PropTypes.func.isRequired,
     openAddMemberToTaskModal: PropTypes.func.isRequired,
-    openTaskDeadlineModal: PropTypes.func.isRequired,
+    openTimeSpanModal: PropTypes.func.isRequired,
     toggleTaskStatus: PropTypes.func.isRequired,
     task: PropTypes.object.isRequired
 };

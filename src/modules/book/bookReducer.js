@@ -6,6 +6,73 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+        case types.OPEN_TASK_SPAN_MODAL:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    showModal: true,
+                    task: action.task
+                }
+            };
+        case types.CLOSE_TASK_SPAN_MODAL:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    showModal: false
+                }
+            };
+        case types.BEGIN_SAVE_TASK_TEMPLATE:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isSaving: true
+                }
+            };
+        case types.DELETE_TASK_TEMPLATE:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks.filter(task => task.id !== action.task.id)
+                    }
+                }
+            };
+        case types.SAVE_TASK_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isSaving: false,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: [...state.taskListDetail.taskList.tasks, action.task]
+                    }
+                }
+            };
+        case types.TOGGLE_TASK_TEMPLATE_STATUS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks.map((task) => {
+                            if (task.id === action.task.id) {
+                                return {
+                                    ...task,
+                                    status: !task.status
+                                };
+                            }
+                            return task;
+                        })
+                    }
+                }
+            };
         case types.OPEN_TASK_LIST_DETAIL_MODAL:
             return {
                 ...state,

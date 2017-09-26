@@ -12,7 +12,6 @@ class TaskListItem extends React.Component {
         event.stopPropagation();
         event.preventDefault();
         this.props.openTaskListTemplateDetailModal(this.props.taskList);
-        console.log("hello");
     }
 
     delete(event) {
