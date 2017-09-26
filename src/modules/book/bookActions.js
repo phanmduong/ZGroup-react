@@ -140,3 +140,29 @@ export function closeTaskSpanModal() {
         });
     };
 }
+
+export function updateTaskSpanForm(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_TASK_SPAN_FORM,
+            task
+        });
+    };
+}
+
+export function saveTaskSpan(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_TASK_SPAN
+        });
+
+        bookApi.saveTaskSpan(task)
+            .then((res) => {
+                dispatch({
+                    type: types.SAVE_TASK_SPAN_SUCCESS,
+                    task: res.data.data.task
+                });
+            });
+    };
+}
+

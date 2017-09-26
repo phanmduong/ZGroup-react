@@ -26,4 +26,15 @@ export function storeTaskListTemplates(taskList) {
     return axios.post(url, taskList);
 }
 
+export function saveTaskSpan(task) {
+    let url = env.MANAGE_API_URL + "/task/" + task.id + "/span";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, task);
+}
+
+
+
 

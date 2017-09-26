@@ -117,7 +117,11 @@ export default {
     book: {
         taskSpan: {
             showModal: false,
-            hours: 0
+            hours: 0,
+            task: {
+                span: 0
+            },
+            isSaving: false
         },
         taskListDetail: {
             showModal: false,

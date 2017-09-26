@@ -6,6 +6,47 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+        case types.SAVE_TASK_SPAN_SUCCESS:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    isSaving: false,
+                    showModal: false,
+                    task: {span: 0}
+                },
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks.map((task) => {
+                            if (task.id === action.task.id) {
+                                return {
+                                    ...task,
+                                    ...action.task
+                                };
+                            }
+                            return task;
+                        })
+                    }
+                }
+            };
+        case types.BEGIN_SAVE_TASK_SPAN:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    isSaving: true
+                }
+            };
+        case types.UPDATE_TASK_SPAN_FORM:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    task: action.task
+                }
+            };
         case types.OPEN_TASK_SPAN_MODAL:
             return {
                 ...state,

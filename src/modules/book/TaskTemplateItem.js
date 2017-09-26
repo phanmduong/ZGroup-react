@@ -7,7 +7,7 @@ class TaskTemplateItem extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.openAddMemberToTaskModal = this.openAddMemberToTaskModal.bind(this);
-        this.openTimeSpanModal = this.openTimeSpanModal.bind(this);
+        this.openTaskSpanModal = this.openTaskSpanModal.bind(this);
     }
 
 
@@ -19,8 +19,8 @@ class TaskTemplateItem extends React.Component {
         this.props.openAddMemberToTaskModal(this.props.task);
     }
 
-    openTimeSpanModal() {
-        this.props.openTimeSpanModal(this.props.task);
+    openTaskSpanModal() {
+        this.props.openTaskSpanModal(this.props.task);
     }
 
     render() {
@@ -44,8 +44,9 @@ class TaskTemplateItem extends React.Component {
                         </div>
                         {task.title}
                         {
-                            task.deadline_str && (
-                                <small className="keetool-card" style={{fontWeight: 400}}> - {task.deadline_str}</small>
+                            !!task.span && (
+                                <small className="keetool-card"
+                                       style={{fontWeight: 400}}> - trong {task.span} giờ</small>
                             )
                         }
                     </label>
@@ -67,7 +68,7 @@ class TaskTemplateItem extends React.Component {
                             </a>
                         </li>
                         <li className="more-dropdown-item">
-                            <a onClick={this.openAddMemberToTaskModal}>
+                            <a onClick={this.openTaskSpanModal}>
                                 <i className="material-icons">timer</i>
                                 Thời gian thực hiện
                             </a>
@@ -90,7 +91,7 @@ class TaskTemplateItem extends React.Component {
 TaskTemplateItem.propTypes = {
     deleteTaskTemplate: PropTypes.func.isRequired,
     openAddMemberToTaskModal: PropTypes.func.isRequired,
-    openTimeSpanModal: PropTypes.func.isRequired,
+    openTaskSpanModal: PropTypes.func.isRequired,
     toggleTaskStatus: PropTypes.func.isRequired,
     task: PropTypes.object.isRequired
 };
