@@ -33,4 +33,17 @@ class EmailRepository
             ];
         }
     }
+
+    public function subscriber($subscriber)
+    {
+        if ($subscriber) {
+            return [
+                'id' => $subscriber->id,
+                'email' => $subscriber->email,
+                'name' => $subscriber->name,
+                'created_at' => format_full_time_date($subscriber->created_at),
+                'updated_at' => format_full_time_date($subscriber->updated_at),
+            ];
+        }
+    }
 }

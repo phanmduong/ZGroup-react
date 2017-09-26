@@ -61,4 +61,28 @@ class ManageEmailApiController extends ManageApiController
         ]);
 
     }
+
+    public function subscribers(Request $request)
+    {
+        $list_id = $request->list_id;
+        $search = $request->search;
+
+        $limit = 20;
+        if ($search != null) {
+            $subscribers = SubscribersList::find($list_id)->subscribers()->where('email', 'like', '%' . $search . '%');
+        } else {
+            $subscribers = SubscribersList::find($list_id)->subscribers();
+        }
+
+        $subscribers = $subscribers->orderBy('created_at', 'desc')->paginate($limit);
+
+        $data = [
+            'subscribers' => $subscribers->map(function ($subscriber){
+                return $this->emailRepository->subscriber($subscriber);
+            }),
+        ];
+
+        return $this->respondWithPagination($subscribers, $data);
+
+    }
 }
