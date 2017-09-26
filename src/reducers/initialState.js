@@ -126,7 +126,8 @@ export default {
         taskListDetail: {
             showModal: false,
             taskList: {},
-            isSaving: false
+            isSaving: false,
+            isLoading: false
         },
         taskLists: {
             taskLists: [],

@@ -73,6 +73,22 @@ export default function taskReducer(state = initialState.task, action) {
                     task: {}
                 }
             };
+        case types.BEGIN_SAVE_MEMBER_TASK_TEMPLATE:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    isSaving: true
+                }
+            };
+        case types.SAVE_MEMBER_TASK_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    isSaving: false
+                }
+            };
         case types.BEGIN_SAVE_MEMBER_TASK:
             return {
                 ...state,
@@ -86,7 +102,8 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 addMemberToTask: {
                     ...state.addMemberToTask,
-                    isSaving: false
+                    isSaving: false,
+                    showModal:false
                 },
                 cardDetail: {
                     ...state.cardDetail,

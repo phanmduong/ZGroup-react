@@ -23,6 +23,13 @@ class TaskListDetailModalContainer extends Component {
 
     }
 
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.showModal && !this.props.showModal) {
+            this.props.bookActions.loadTaskListTemplate(nextProps.taskList.id);
+        }
+    }
+
     close() {
         this.props.bookActions.closeTaskListDetailModal();
     }
@@ -51,70 +58,75 @@ class TaskListDetailModalContainer extends Component {
                     <Modal.Title><strong>{taskList.title}</strong></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="task-lists">
-                        <AddMemberToTaskModalContainer/>
-                        <TaskSpanModalContainer/>
+                    {this.props.isLoading ? <Loading/> : (
+                        <div>
+                            <div className="task-lists">
+                                <AddMemberToTaskModalContainer isTemplate={true}/>
+                                <TaskSpanModalContainer/>
 
-                        <div key={taskList.id}>
-                            <small>
-                                {tasksComplete(taskList)}/{totalTasks(taskList)}
-                                {" "}
-                                ({totalTasks(taskList) === 0 ?
-                                "0%" : Math.round(percent(taskList) * 10000) / 100 + "%"})
-                            </small>
-                            <div className="progress progress-line-default">
-                                <div className="progress-bar progress-bar-rose"
-                                     role="progressbar"
-                                     aria-valuenow="60"
-                                     aria-valuemin="0" aria-valuemax="100"
-                                     style={{
-                                         width: totalTasks(taskList) === 0 ? 0 : percent(taskList) * 100 + "%"
-                                     }}>
+                                <div key={taskList.id}>
+                                    <small>
+                                        {tasksComplete(taskList)}/{totalTasks(taskList)}
+                                        {" "}
+                                        ({totalTasks(taskList) === 0 ?
+                                        "0%" : Math.round(percent(taskList) * 10000) / 100 + "%"})
+                                    </small>
+                                    <div className="progress progress-line-default">
+                                        <div className="progress-bar progress-bar-rose"
+                                             role="progressbar"
+                                             aria-valuenow="60"
+                                             aria-valuemin="0" aria-valuemax="100"
+                                             style={{
+                                                 width: totalTasks(taskList) === 0 ? 0 : percent(taskList) * 100 + "%"
+                                             }}>
                                         <span className="sr-only">
                                             {totalTasks(taskList) === 0 ?
                                                 "0%" : Math.round(percent(taskList) * 10000) / 100 + "%"}
                                             Complete
                                         </span>
+                                        </div>
+                                    </div>
+                                    <ListGroup>
+                                        {
+                                            taskList.tasks && taskList.tasks.map((task) =>
+                                                (<TaskTemplateItem
+                                                    openTaskSpanModal={this.props.bookActions.openTaskSpanModal}
+                                                    openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
+                                                    toggleTaskStatus={this.props.bookActions.toggleTaskStatus}
+                                                    key={task.id}
+                                                    task={task}
+                                                    deleteTaskTemplate={this.props.bookActions.deleteTaskTemplate}/>))
+                                        }
+                                        <ListGroupItem>
+                                            {
+                                                isSaving ? <Loading/> :
+                                                    (
+                                                        <div className="form-group" style={{marginTop: 0}}>
+                                                            <input
+                                                                placeholder="Thêm mục"
+                                                                type="text"
+                                                                className="form-control"
+                                                                onKeyDown={this.addTask(taskList)}/>
+                                                        </div>
+                                                    )
+                                            }
+
+                                        </ListGroupItem>
+                                    </ListGroup>
                                 </div>
+
                             </div>
-                            <ListGroup>
-                                {
-                                    taskList.tasks && taskList.tasks.map((task) =>
-                                        (<TaskTemplateItem
-                                            openTaskSpanModal={this.props.bookActions.openTaskSpanModal}
-                                            openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
-                                            toggleTaskStatus={this.props.bookActions.toggleTaskStatus}
-                                            key={task.id}
-                                            task={task}
-                                            deleteTaskTemplate={this.props.bookActions.deleteTaskTemplate}/>))
-                                }
-                                <ListGroupItem>
-                                    {
-                                        isSaving ? <Loading/> :
-                                            (
-                                                <div className="form-group" style={{marginTop: 0}}>
-                                                    <input
-                                                        placeholder="Thêm mục"
-                                                        type="text"
-                                                        className="form-control"
-                                                        onKeyDown={this.addTask(taskList)}/>
-                                                </div>
-                                            )
-                                    }
-
-                                </ListGroupItem>
-                            </ListGroup>
+                            <div>
+                                <button
+                                    type="button"
+                                    className="btn btn-default"
+                                    onClick={this.close}>
+                                    Đóng
+                                </button>
+                            </div>
                         </div>
+                    )}
 
-                    </div>
-                    <div>
-                        <button
-                            type="button"
-                            className="btn btn-default"
-                            onClick={this.close}>
-                            Đóng
-                        </button>
-                    </div>
                 </Modal.Body>
             </Modal>
         );
@@ -124,6 +136,7 @@ class TaskListDetailModalContainer extends Component {
 TaskListDetailModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     bookActions: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
     taskList: PropTypes.object.isRequired
@@ -133,6 +146,7 @@ function mapStateToProps(state) {
     return {
         showModal: state.book.taskListDetail.showModal,
         isSaving: state.book.taskListDetail.isSaving,
+        isLoading: state.book.taskListDetail.isLoading,
         taskList: state.book.taskListDetail.taskList
     };
 }

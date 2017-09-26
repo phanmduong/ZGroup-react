@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Button, Modal} from "react-bootstrap";
 import * as taskActions from '../../taskActions';
+import * as bookActions from '../../../book/bookActions';
 import MemberReactSelectValue from "../../board/filter/MemberReactSelectValue";
 import MemberReactSelectOption from "../../board/filter/MemberReactSelectOption";
 import Select from "react-select";
@@ -31,7 +32,11 @@ class AddMemberToTaskModalContainer extends React.Component {
     }
 
     save() {
-        this.props.taskActions.saveMemberTask(this.props.task, this.props.selectedMember, this.props.card);
+        if(this.props.isTemplate) {
+            this.props.bookActions.saveMemberTask(this.props.task, this.props.selectedMember);
+        } else {
+            this.props.taskActions.saveMemberTask(this.props.task, this.props.selectedMember, this.props.card);
+        }
     }
 
 
@@ -76,11 +81,13 @@ class AddMemberToTaskModalContainer extends React.Component {
 
 AddMemberToTaskModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
+    isTemplate: PropTypes.bool,
     isLoading: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     task: PropTypes.object.isRequired,
     card: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
+    bookActions: PropTypes.object.isRequired,
     selectedMember: PropTypes.object,
     members: PropTypes.array.isRequired
 };
@@ -105,7 +112,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        taskActions: bindActionCreators(taskActions, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch),
+        bookActions: bindActionCreators(bookActions, dispatch)
     };
 }
 

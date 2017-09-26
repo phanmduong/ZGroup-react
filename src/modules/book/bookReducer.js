@@ -6,6 +6,42 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_TASK_LIST_TEMPLATE:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_TASK_LIST_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isLoading: false,
+                    taskList: action.taskList
+                }
+            };
+        case types.SAVE_MEMBER_TASK_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks.map((task) => {
+                            if (task.id === action.task.id) {
+                                return {
+                                    ...task,
+                                    member: action.user
+                                };
+                            }
+                            return task;
+                        })
+                    }
+                }
+            };
         case types.SAVE_TASK_SPAN_SUCCESS:
             return {
                 ...state,
@@ -145,7 +181,8 @@ export default function bookReducer(state = initialState.book, action) {
                 addTaskList: {
                     ...state.addTaskList,
                     isSaving: false,
-                    showModal: false
+                    showModal: false,
+                    taskList: {}
                 },
                 taskLists: {
                     ...state.taskLists,
