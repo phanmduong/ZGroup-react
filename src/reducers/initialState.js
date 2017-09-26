@@ -115,9 +115,19 @@ export default {
     },
 
     book: {
+        taskSpan: {
+            showModal: false,
+            hours: 0,
+            task: {
+                span: 0
+            },
+            isSaving: false
+        },
         taskListDetail: {
             showModal: false,
-            taskList: {}
+            taskList: {},
+            isSaving: false,
+            isLoading: false
         },
         taskLists: {
             taskLists: [],
@@ -147,7 +157,8 @@ export default {
             selectedMember: null
         },
         commentCard: {
-            value: ""
+            value: "",
+            attachments: []
         },
         archiveCard: {
             cards: [],

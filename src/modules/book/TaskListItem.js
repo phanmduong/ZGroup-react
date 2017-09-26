@@ -12,14 +12,15 @@ class TaskListItem extends React.Component {
         event.stopPropagation();
         event.preventDefault();
         this.props.openTaskListTemplateDetailModal(this.props.taskList);
-        console.log("hello");
     }
 
-    delete(event) {
+    delete(event){
         event.stopPropagation();
         event.preventDefault();
-        // this.props.taskActions.archiveProject(this.props.project);
+        this.props.delete(this.props.taskList);
     }
+
+
 
     render() {
         const {taskList} = this.props;
@@ -34,7 +35,7 @@ class TaskListItem extends React.Component {
                            data-toggle="dropdown">
                             <i className="material-icons">more_horiz</i>
                         </a>
-                        <ul className="dropdown-menu dropdown-menu-right">
+                        <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
 
                             <li className="more-dropdown-item">
                                 <a onClick={this.delete}>
@@ -68,7 +69,8 @@ class TaskListItem extends React.Component {
 
 TaskListItem.propTypes = {
     taskList: PropTypes.object.isRequired,
-    openTaskListTemplateDetailModal: PropTypes.func.isRequired
+    openTaskListTemplateDetailModal: PropTypes.func.isRequired,
+    delete: PropTypes.func.isRequired
 };
 
 

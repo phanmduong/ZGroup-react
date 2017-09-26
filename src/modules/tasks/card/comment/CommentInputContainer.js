@@ -7,6 +7,8 @@ import {commentCard} from '../../taskApi';
 import './comment.css';
 import Loading from "../../../../components/common/Loading";
 import UploadAttachmentOverlayContainer from "../attachment/UploadAttachmentOverlayContainer";
+import CardCommentAttachment from "./CardCommentAttachment";
+import {createFileUrl} from "../../../../helpers/helper";
 
 class CommentInputContainer extends React.Component {
     constructor(props, context) {
@@ -40,9 +42,12 @@ class CommentInputContainer extends React.Component {
 
     onEnterKeyPress(e) {
         if (e.key === "Enter" && !e.shiftKey) {
-            const value = e.target.value;
+            let value = e.target.value;
             this.setState({
                 isCommenting: true
+            });
+            this.props.files.forEach((file) => {
+                value += createFileUrl(file);
             });
             commentCard(value, this.props.card.id)
                 .then((res) => {
@@ -79,6 +84,18 @@ class CommentInputContainer extends React.Component {
                                 </div>
                             </div>
                             <div>
+                                {
+                                    this.props.files.map((file) => {
+                                        return (
+                                            <CardCommentAttachment
+                                                key={file.id}
+                                                delete={this.props.taskActions.deleteCardCommentAttachment}
+                                                file={file}/>
+                                        );
+                                    })
+                                }
+                            </div>
+                            <div>
                                 <small>Bấm <b>Enter</b> để gửi bình luận</small>
                                 <br/>
                                 <small>Bấm <b>Shift + Enter</b> để xuống dòng</small>
@@ -94,6 +111,7 @@ class CommentInputContainer extends React.Component {
 
 CommentInputContainer.propTypes = {
     card: PropTypes.object.isRequired,
+    files: PropTypes.array.isRequired,
     value: PropTypes.string.isRequired,
     taskActions: PropTypes.object.isRequired
 };
@@ -102,7 +120,8 @@ function mapStateToProps(state) {
     return {
         card: state.task.cardDetail.card,
         comment: state.task.comment.comment,
-        value: state.task.commentCard.value
+        value: state.task.commentCard.value,
+        files: state.task.commentCard.attachments
     };
 }
 

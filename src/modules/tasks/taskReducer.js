@@ -73,6 +73,22 @@ export default function taskReducer(state = initialState.task, action) {
                     task: {}
                 }
             };
+        case types.BEGIN_SAVE_MEMBER_TASK_TEMPLATE:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    isSaving: true
+                }
+            };
+        case types.SAVE_MEMBER_TASK_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                addMemberToTask: {
+                    ...state.addMemberToTask,
+                    isSaving: false
+                }
+            };
         case types.BEGIN_SAVE_MEMBER_TASK:
             return {
                 ...state,
@@ -86,7 +102,8 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 addMemberToTask: {
                     ...state.addMemberToTask,
-                    isSaving: false
+                    isSaving: false,
+                    showModal:false
                 },
                 cardDetail: {
                     ...state.cardDetail,
@@ -201,6 +218,16 @@ export default function taskReducer(state = initialState.task, action) {
                     value: action.value
                 }
             };
+
+        case types.DELETE_CARD_COMMENT_ATTACHMENT:
+            return {
+                ...state,
+                commentCard: {
+                    ...state.commentCard,
+                    attachments: state.commentCard.attachments.filter(attachment => attachment.id !== action.file.id)
+                }
+            };
+
         case types.ARCHIVE_PROJECT:
             return {
                 ...state,
@@ -544,7 +571,8 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 commentCard: {
                     ...state.commentCard,
-                    value: ""
+                    value: "",
+                    attachments: []
                 },
                 comment: {
                     ...state.comment,
@@ -578,7 +606,9 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 commentCard: {
                     ...state.commentCard,
-                    value: action.addToComment ? state.commentCard.value + action.fileHtml : state.commentCard.value
+                    attachments: action.addToComment ?
+                        [...state.commentCard.attachments, action.file] :
+                        state.commentCard.attachments
                 },
                 cardDetail: {
                     ...state.cardDetail,

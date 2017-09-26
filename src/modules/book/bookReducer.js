@@ -6,6 +6,159 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+
+        case types.DELETE_TASK_LIST_TEMPLATE:
+            return {
+                ...state,
+                taskLists: {
+                    ...state.taskLists,
+                    taskLists: state.taskLists.taskLists.filter(taskList => taskList.id !== action.taskList.id)
+                }
+            };
+        case types.BEGIN_LOAD_TASK_LIST_TEMPLATE:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_TASK_LIST_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isLoading: false,
+                    taskList: action.taskList
+                }
+            };
+        case types.SAVE_MEMBER_TASK_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks.map((task) => {
+                            if (task.id === action.task.id) {
+                                return {
+                                    ...task,
+                                    member: action.user
+                                };
+                            }
+                            return task;
+                        })
+                    }
+                }
+            };
+        case types.SAVE_TASK_SPAN_SUCCESS:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    isSaving: false,
+                    showModal: false,
+                    task: {span: 0}
+                },
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks.map((task) => {
+                            if (task.id === action.task.id) {
+                                return {
+                                    ...task,
+                                    ...action.task
+                                };
+                            }
+                            return task;
+                        })
+                    }
+                }
+            };
+        case types.BEGIN_SAVE_TASK_SPAN:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    isSaving: true
+                }
+            };
+        case types.UPDATE_TASK_SPAN_FORM:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    task: action.task
+                }
+            };
+        case types.OPEN_TASK_SPAN_MODAL:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    showModal: true,
+                    task: action.task
+                }
+            };
+        case types.CLOSE_TASK_SPAN_MODAL:
+            return {
+                ...state,
+                taskSpan: {
+                    ...state.taskSpan,
+                    showModal: false
+                }
+            };
+        case types.BEGIN_SAVE_TASK_TEMPLATE:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isSaving: true
+                }
+            };
+        case types.DELETE_TASK_TEMPLATE:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks.filter(task => task.id !== action.task.id)
+                    }
+                }
+            };
+        case types.SAVE_TASK_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isSaving: false,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: [...state.taskListDetail.taskList.tasks, action.task]
+                    }
+                }
+            };
+        case types.TOGGLE_TASK_TEMPLATE_STATUS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks.map((task) => {
+                            if (task.id === action.task.id) {
+                                return {
+                                    ...task,
+                                    status: !task.status
+                                };
+                            }
+                            return task;
+                        })
+                    }
+                }
+            };
         case types.OPEN_TASK_LIST_DETAIL_MODAL:
             return {
                 ...state,
@@ -37,7 +190,8 @@ export default function bookReducer(state = initialState.book, action) {
                 addTaskList: {
                     ...state.addTaskList,
                     isSaving: false,
-                    showModal: false
+                    showModal: false,
+                    taskList: {}
                 },
                 taskLists: {
                     ...state.taskLists,

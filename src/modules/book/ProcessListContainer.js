@@ -3,12 +3,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as bookActions from './bookActions';
+import * as taskActions from '../tasks/taskActions';
 import Search from "../../components/common/Search";
 import TaskListItem from "./TaskListItem";
 import _ from 'lodash';
 import Loading from "../../components/common/Loading";
 import AddTaskListTemplateModalContainer from "./AddTaskListTemplateModalContainer";
 import TaskListDetailModalContainer from "./TaskListDetailModalContainer";
+import {confirm} from "../../helpers/helper";
 
 class ProcessListContainer extends React.Component {
     constructor(props, context) {
@@ -17,6 +19,7 @@ class ProcessListContainer extends React.Component {
         this.taskListSearchChange = this.taskListSearchChange.bind(this);
         this.openAddTaskListTemplateModal = this.openAddTaskListTemplateModal.bind(this);
         this.openTaskListTemplateDetailModal = this.openTaskListTemplateDetailModal.bind(this);
+        this.deleteTaskListTemplate = this.deleteTaskListTemplate.bind(this);
         this.state = {
             page: 1,
             query: ""
@@ -26,6 +29,15 @@ class ProcessListContainer extends React.Component {
     componentWillMount() {
         this.loadTaskLists();
     }
+
+    deleteTaskListTemplate(taskList){
+        confirm("warning", "Xoá danh sách việc",
+            "Toàn bộ công việc trong danh sách này sẽ bị xoá vĩnh viễn",
+            () => {
+                this.props.bookActions.deleteTaskList(taskList);
+            }, null);
+    }
+
 
 
     loadTaskLists(page = 1) {
@@ -67,7 +79,7 @@ class ProcessListContainer extends React.Component {
                         </div>
 
                         <div className="card-content">
-                            <h4 className="card-title">Dự án</h4>
+                            <h4 className="card-title">Quy trình</h4>
 
                             <div style={{marginTop: "15px"}}>
                                 <a onClick={this.openAddTaskListTemplateModal} className="btn btn-rose">
@@ -88,6 +100,7 @@ class ProcessListContainer extends React.Component {
                                         this.props.taskLists.map((taskList) => {
                                             return (
                                                 <TaskListItem
+                                                    delete={this.deleteTaskListTemplate}
                                                     openTaskListTemplateDetailModal={this.openTaskListTemplateDetailModal}
                                                     key={taskList.id}
                                                     taskList={taskList}/>
@@ -127,6 +140,7 @@ ProcessListContainer.propTypes = {
     taskLists: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     bookActions: PropTypes.object.isRequired,
+    taskActions: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired
 };
@@ -142,7 +156,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        bookActions: bindActionCreators(bookActions, dispatch)
+        bookActions: bindActionCreators(bookActions, dispatch),
+        taskActions: bindActionCreators(taskActions, dispatch)
     };
 }
 
