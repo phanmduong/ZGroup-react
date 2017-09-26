@@ -11,9 +11,6 @@ class TaskTemplateItem extends React.Component {
     }
 
 
-    componentDidMount() {
-        $.material.init();
-    }
 
     openAddMemberToTaskModal() {
         this.props.openAddMemberToTaskModal(this.props.task);
@@ -31,10 +28,6 @@ class TaskTemplateItem extends React.Component {
                 style={{display: "flex", justifyContent: "space-between", position: "relative"}}>
                 <div className="checkbox" id={"task" + task.id}>
                     <label style={{fontWeight: 700, color: "#858585"}}>
-                        <input
-                            checked={task.status || false}
-                            onChange={() => this.props.toggleTaskStatus(task)}
-                            type="checkbox" name="optionsCheckboxes"/>
                         <div style={{display: "inline-block", position: "relative", top: 4}}>
                             {
                                 task.member && (
@@ -92,7 +85,6 @@ TaskTemplateItem.propTypes = {
     deleteTaskTemplate: PropTypes.func.isRequired,
     openAddMemberToTaskModal: PropTypes.func.isRequired,
     openTaskSpanModal: PropTypes.func.isRequired,
-    toggleTaskStatus: PropTypes.func.isRequired,
     task: PropTypes.object.isRequired
 };
 

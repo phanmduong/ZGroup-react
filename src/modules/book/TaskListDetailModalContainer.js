@@ -48,9 +48,6 @@ class TaskListDetailModalContainer extends Component {
     }
 
     render() {
-        const tasksComplete = (taskList) => taskList.tasks ? taskList.tasks.filter(t => t.status).length : 0;
-        const totalTasks = (taskList) => taskList.tasks ? taskList.tasks.length : 0;
-        const percent = (taskList) => totalTasks(taskList) !== 0 ? tasksComplete(taskList) / totalTasks(taskList) : 0;
         const {taskList, showModal, isSaving} = this.props;
         return (
             <Modal show={showModal} onHide={this.close}>
@@ -65,34 +62,12 @@ class TaskListDetailModalContainer extends Component {
                                 <TaskSpanModalContainer/>
 
                                 <div key={taskList.id}>
-                                    <small>
-                                        {tasksComplete(taskList)}/{totalTasks(taskList)}
-                                        {" "}
-                                        ({totalTasks(taskList) === 0 ?
-                                        "0%" : Math.round(percent(taskList) * 10000) / 100 + "%"})
-                                    </small>
-                                    <div className="progress progress-line-default">
-                                        <div className="progress-bar progress-bar-rose"
-                                             role="progressbar"
-                                             aria-valuenow="60"
-                                             aria-valuemin="0" aria-valuemax="100"
-                                             style={{
-                                                 width: totalTasks(taskList) === 0 ? 0 : percent(taskList) * 100 + "%"
-                                             }}>
-                                        <span className="sr-only">
-                                            {totalTasks(taskList) === 0 ?
-                                                "0%" : Math.round(percent(taskList) * 10000) / 100 + "%"}
-                                            Complete
-                                        </span>
-                                        </div>
-                                    </div>
                                     <ListGroup>
                                         {
                                             taskList.tasks && taskList.tasks.map((task) =>
                                                 (<TaskTemplateItem
                                                     openTaskSpanModal={this.props.bookActions.openTaskSpanModal}
                                                     openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
-                                                    toggleTaskStatus={this.props.bookActions.toggleTaskStatus}
                                                     key={task.id}
                                                     task={task}
                                                     deleteTaskTemplate={this.props.bookActions.deleteTaskTemplate}/>))
