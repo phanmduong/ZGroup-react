@@ -8,6 +8,7 @@
 
 namespace App\Repositories;
 
+use App\Subscriber;
 use Illuminate\Support\Facades\DB;
 
 class EmailRepository
@@ -44,6 +45,27 @@ class EmailRepository
                 'created_at' => format_full_time_date($subscriber->created_at),
                 'updated_at' => format_full_time_date($subscriber->updated_at),
             ];
+        }
+    }
+
+    public function add_subscriber($list_id, $email, $name = null)
+    {
+        $subscriber = Subscriber::where('email', $email)->first();
+        if ($subscriber == null) {
+            if ($email != null) {
+                $subscriber = new Subscriber();
+                $subscriber->email = $email;
+                $subscriber->name = $name;
+                $subscriber->save();
+                $subscriber->subscribers_lists()->attach($list_id);
+            }
+        } else {
+            $count = $subscriber->subscribers_lists()->where('id', $list_id)->count();
+            if ($count <= 0) {
+                $subscriber->subscribers_lists()->attach($list_id);
+            }
+            $subscriber->name = $name;
+            $subscriber->save();
         }
     }
 }

@@ -4,10 +4,12 @@ namespace Modules\Email\Http\Controllers;
 
 use App\Http\Controllers\ManageApiController;
 use App\Repositories\EmailRepository;
+use App\Subscriber;
 use App\SubscribersList;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ManageEmailApiController extends ManageApiController
 {
@@ -77,12 +79,56 @@ class ManageEmailApiController extends ManageApiController
         $subscribers = $subscribers->orderBy('created_at', 'desc')->paginate($limit);
 
         $data = [
-            'subscribers' => $subscribers->map(function ($subscriber){
+            'subscribers' => $subscribers->map(function ($subscriber) {
                 return $this->emailRepository->subscriber($subscriber);
             }),
         ];
 
         return $this->respondWithPagination($subscribers, $data);
 
+    }
+
+    public function add_subscribers(Request $request)
+    {
+        $list_id = $request->list_id;
+        $textEmails = $request->emails;
+        $emails = explode(",", $textEmails);
+        foreach ($emails as $email) {
+            $this->emailRepository->add_subscriber($list_id, $email);
+        }
+
+        return $this->respondSuccess("Thêm thành công");
+    }
+
+    public function upfile_add_subscribers(Request $request)
+    {
+        $list_id = $request->list_id;
+        $file = $request->file('csv');
+
+        Excel::load($file->getRealPath(), function ($reader) use (&$duplicated, &$imported, $list_id) {
+            // Getting all results
+            $results = $reader->all();
+            foreach ($results as $i) {
+                $new_email = extract_email_from_str($i->email);
+                $this->emailRepository->add_subscriber($list_id, $new_email, $i->name);
+            }
+        })->get();
+
+        return $this->respondSuccess("Thêm thành công");
+    }
+
+    public function delete_subscriber(Request $request)
+    {
+        $list_id = $request->list_id;
+        $subscriber = SubscribersList::find($list_id)->subscribers()->where('id', $request->subscriber_id)->first();
+
+        if ($subscriber) {
+            $subscriber->subscribers_lists()->detach($list_id);
+            return $this->respondSuccessWithStatus([
+                'message' => "Xóa email thành công"
+            ]);
+        }
+
+        return $this->respondErrorWithStatus("Subscriber không tồn tại");
     }
 }
