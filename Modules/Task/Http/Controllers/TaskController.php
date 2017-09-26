@@ -13,6 +13,7 @@ use App\Notification;
 use App\Project;
 use App\Repositories\UserRepository;
 use App\Task;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -602,11 +603,18 @@ class TaskController extends ManageApiController
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
         $card = $task->taskList->card;
-        $project = $card->board->project;
+        if ($card) {
+            $project = $card->board->project;
+            $this->memberTransformer->setCard($card);
+            $this->memberTransformer->setProject(null);
+            $members = $this->memberTransformer->transformCollection($project->members);
+        } else {
+            $this->memberTransformer->setCard(null);
+            $this->memberTransformer->setProject(null);
+            $members = User::where("role", ">", 0)->get();
+            $members = $this->memberTransformer->transformCollection($members);
+        }
 
-        $this->memberTransformer->setCard($card);
-        $this->memberTransformer->setProject(null);
-        $members = $this->memberTransformer->transformCollection($project->members);
 
         return $this->respondSuccessWithStatus(["members" => $members]);
 
@@ -629,6 +637,20 @@ class TaskController extends ManageApiController
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
         $task = $this->taskRepository->saveTaskDeadline($task, $request->deadline, $this->user);
+        return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
+    }
+
+    public function saveTaskSpan($taskId, Request $request)
+    {
+        $task = Task::find($taskId);
+        $span = $request->span;
+        if (is_null($task)) {
+            return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
+        }
+
+        $task->span = $span;
+        $task->save();
+
         return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
     }
 

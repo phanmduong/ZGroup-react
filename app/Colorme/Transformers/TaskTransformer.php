@@ -18,6 +18,7 @@ class TaskTransformer extends Transformer
             "title" => $task->title,
             "status" => $task->status,
             "id" => $task->id,
+            "span" => $task->span,
             "task_list_id" => $task->task_list_id
         ];
         if ($task->deadline && $task->deadline != "0000-00-00 00:00:00") {
