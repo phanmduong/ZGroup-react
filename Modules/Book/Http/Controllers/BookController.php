@@ -8,9 +8,9 @@ use Modules\Task\Entities\TaskList;
 
 class BookController extends ManageApiController
 {
-    public function taskListTemplates()
+    public function taskListTemplates(Request $request)
     {
-        $taskListTemplates = TaskList::where("card_id", 0)->paginate(20);
+        $taskListTemplates = TaskList::where("card_id", 0)->where("title","like","%$request->q%")->paginate(20);
         return $this->respondWithPagination($taskListTemplates, [
             "templates" => $taskListTemplates->map(function ($item) {
                 return [

@@ -34,10 +34,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::delete('/card-comment/{id}', "TaskController@deleteCardComment");
     Route::post('/card/{cardId}/comment', "CardController@commentCard");
 
-    Route::post('', "CardController@commentCard");
 
     Route::post('/tasklist/create', "TaskController@createTaskList");
     Route::delete('/tasklist/{id}/delete', "TaskController@deleteTaskList");
+    Route::get('/tasklist/{id}', "TaskController@getTaskList");
     Route::post('/tasklist/create', "TaskController@createTaskList");
     Route::get('/tasklists/{cardId}', "TaskController@taskLists");
 
