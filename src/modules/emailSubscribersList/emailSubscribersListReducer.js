@@ -108,6 +108,40 @@ export default function baseListReducer(state = initialState.emailSubscribersLis
                     }
                 }
             };
+        case types.BEGIN_ADD_EMAIL_SUBSCRIBERS:
+            return {
+                ...state,
+                ...{
+                    isLoadingAddEmails: true,
+                    errorAddEmails: false,
+                }
+            };
+        case types.ADD_EMAIL_SUBSCRIBERS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingAddEmails: false,
+                    errorAddEmails: false,
+                }
+            };
+        case types.ADD_EMAIL_SUBSCRIBERS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingAddEmails: false,
+                    errorAddEmails: true
+                }
+            };
+        case types.DELETE_EMAIL_SUBSCRIBER_SUCCESS:
+            return {
+                ...state,
+                subscribers: {
+                    ...state.subscribers,
+                    ...{
+                        subscribers: deleteSubscriber(action.subscriberId, state.subscribers.subscribers)
+                    }
+                }
+            };
         default:
             return state;
     }
@@ -118,6 +152,13 @@ function deleteSubscribersList(subscribersListId, subscribersList) {
         subscribersList = subscribersList.filter(subscribersItem => subscribersItem.id !== subscribersListId);
     }
     return subscribersList;
+}
+
+function deleteSubscriber(subscriberId, subscribers) {
+    if (subscribers) {
+        subscribers = subscribers.filter(subscriberItem => subscriberItem.id !== subscriberId);
+    }
+    return subscribers;
 }
 
 function changeSubscribersList(subscribersListData, subscribersList) {

@@ -56,7 +56,7 @@ export function uploadImage(file) {
         emailTemplateApi.uploadImage(file, function (event) {
             let data = JSON.parse(event.currentTarget.response);
             dispatch(uploadImageEmailTemplateSuccess(data.link));
-        }, () => {
+        }, function() {
             helper.showErrorNotification("Đăng ảnh thất bại.");
             dispatch(uploadImageEmailTemplateFailed());
         });

@@ -1,5 +1,6 @@
 import React from 'react';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
+
 // import PropTypes from 'prop-types';
 
 class ListSubscribers extends React.Component {
@@ -30,6 +31,8 @@ class ListSubscribers extends React.Component {
                                     <td>{subscribers.created_at}</td>
                                     <td>{subscribers.updated_at}</td>
                                     <td><ButtonGroupAction
+                                        delete={this.props.deleteSubscriber}
+                                        object={subscribers.id}
                                     /></td>
                                 </tr>
                             );
