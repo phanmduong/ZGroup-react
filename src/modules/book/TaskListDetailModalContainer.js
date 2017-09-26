@@ -24,7 +24,7 @@ class TaskListDetailModalContainer extends Component {
     }
 
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         if (nextProps.showModal && !this.props.showModal) {
             this.props.bookActions.loadTaskListTemplate(nextProps.taskList.id);
         }

@@ -9,6 +9,16 @@ import * as taskApi from "../tasks/taskApi";
 // import _ from 'lodash';
 /*eslint no-console: 0 */
 
+export function deleteTaskList(taskList) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_TASK_LIST_TEMPLATE,
+            taskList
+        });
+        taskApi.deleteTaskList(taskList);
+    };
+}
+
 export function loadTaskListTemplates(page = 1, query = "") {
     return function (dispatch) {
         dispatch({
