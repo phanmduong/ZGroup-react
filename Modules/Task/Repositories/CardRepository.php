@@ -9,20 +9,23 @@
 namespace Modules\Task\Repositories;
 
 
-use App\CalendarEvent;
-use App\Card;
 use App\CardComment;
 use App\Colorme\Transformers\TaskTransformer;
 use App\Notification;
-use App\User;
+use App\Repositories\NotificationRepository;
 use Illuminate\Support\Facades\Redis;
 
 class CardRepository
 {
     protected $taskTransformer;
+    protected $notificationRepository;
 
-    public function __construct(TaskTransformer $taskTransformer)
+    public function __construct(
+        NotificationRepository $notificationRepository,
+        TaskTransformer $taskTransformer
+    )
     {
+        $this->notificationRepository = $notificationRepository;
         $this->taskTransformer = $taskTransformer;
     }
 
@@ -63,22 +66,7 @@ class CardRepository
 
                 $notification->save();
 
-                $data = array(
-                    "message" => $message,
-                    "link" => $notification->url,
-                    'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
-                    "receiver_id" => $notification->receiver_id,
-                    "actor_id" => $notification->actor_id,
-                    "icon" => $notification->icon,
-                    "color" => $notification->color
-                );
-
-                $publish_data = array(
-                    "event" => "notification",
-                    "data" => $data
-                );
-
-                Redis::publish(config("app.channel"), json_encode($publish_data));
+                $this->notificationRepository->sendNotification($notification);
             }
         }
 
