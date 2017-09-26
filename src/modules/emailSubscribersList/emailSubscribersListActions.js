@@ -72,3 +72,25 @@ export function storeSubscribersList(subscribersList, closeModal) {
             });
     };
 }
+
+export function loadSubscribers(listId, page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_EMAIL_SUBSCRIBERS,
+        });
+        emailSubcribersListApi.loadSubscribers(listId, page, search)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_EMAIL_SUBSCRIBERS_SUCCESS,
+                    subscribers: res.data.subscribers,
+                    currentPage: res.data.paginator.current_page,
+                    totalPages: res.data.paginator.total_pages
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_EMAIL_SUBSCRIBERS_ERROR,
+                });
+            });
+    };
+}

@@ -517,5 +517,12 @@ export default {
         totalPages: 1,
         isStoring: false,
         errorStore: false,
+        subscribers: {
+            subscribers: [],
+            isLoading: false,
+            error: false,
+            currentPage: 1,
+            totalPages: 1,
+        }
     }
 };

@@ -44,6 +44,7 @@ import HistoryTeachingContainer from "./modules/classes/class/historyTeaching/Hi
 import ProgressClassContainer from "./modules/classes/class/progress/ProgressContainer";
 import EmailSubscribersListContainer from "./modules/emailSubscribersList/EmailSubscribersListContainer";
 import ProcessListContainer from "./modules/book/ProcessListContainer";
+import SubscribersContainer from "./modules/emailSubscribersList/SubscribersContainer";
 
 export default (
     <Route>
@@ -153,6 +154,7 @@ export default (
 
             {/*Begin email subscribers list routes*/}
             <Route path="/manage/subscribers_list" component={EmailSubscribersListContainer}/>
+            <Route path="/subscribers/:listId" component={SubscribersContainer}/>
             {/*End email subscribers list routes*/}
 
         </Route>

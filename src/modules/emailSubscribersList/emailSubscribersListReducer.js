@@ -71,6 +71,43 @@ export default function baseListReducer(state = initialState.emailSubscribersLis
                     errorStore: true
                 }
             };
+        case types.BEGIN_LOAD_EMAIL_SUBSCRIBERS:
+            return {
+                ...state,
+                subscribers: {
+                    ...state.subscribers,
+                    ...{
+                        isLoading: true,
+                        error: false,
+                    }
+                }
+
+            };
+        case types.LOAD_EMAIL_SUBSCRIBERS_SUCCESS:
+            return {
+                ...state,
+                subscribers: {
+                    ...state.subscribers,
+                    ...{
+                        isLoading: false,
+                        error: false,
+                        currentPage: action.currentPage,
+                        totalPages: action.totalPages,
+                        subscribers: action.subscribers
+                    }
+                }
+            };
+        case types.LOAD_EMAIL_SUBSCRIBERS_ERROR:
+            return {
+                ...state,
+                subscribers: {
+                    ...state.subscribers,
+                    ...{
+                        isLoading: false,
+                        error: true
+                    }
+                }
+            };
         default:
             return state;
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router';
 
 class ListSubscribersList extends React.Component {
     constructor(props, context) {
@@ -25,7 +26,11 @@ class ListSubscribersList extends React.Component {
                         this.props.subscribersList.map((subscribersListItem, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>{subscribersListItem.name}</td>
+                                    <td>
+                                        <Link to={`/subscribers/${subscribersListItem.id}`}>
+                                            {subscribersListItem.name}
+                                        </Link>
+                                    </td>
                                     <td>{subscribersListItem.total_subscribers}</td>
                                     <td>{subscribersListItem.created_at}</td>
                                     <td>{subscribersListItem.updated_at}</td>
