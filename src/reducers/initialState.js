@@ -481,7 +481,7 @@ export default {
         classes: [],
         isLoading: false,
         error: false,
-        isLoadingInfoCreateClass: false,
+        isLoadingInfoCreateClass: true,
         errorInfoCreateClass: false,
         infoCreateClass: {},
         isStoringClass: false,
@@ -511,5 +511,22 @@ export default {
         members: [],
         selectedCardLabels: [],
         selectedMembers: []
+    },
+
+    emailSubscribersList: {
+        subscribersList: [],
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        isStoring: false,
+        errorStore: false,
+        subscribers: {
+            subscribers: [],
+            isLoading: false,
+            error: false,
+            currentPage: 1,
+            totalPages: 1,
+        }
     }
 };

@@ -42,7 +42,9 @@ import CareClassContainer from "./modules/classes/class/care/CareContainer";
 import RegistersClassContainer from "./modules/classes/class/registers/RegistersContainer";
 import HistoryTeachingContainer from "./modules/classes/class/historyTeaching/HistoryTeachingContainer";
 import ProgressClassContainer from "./modules/classes/class/progress/ProgressContainer";
+import EmailSubscribersListContainer from "./modules/emailSubscribersList/EmailSubscribersListContainer";
 import ProcessListContainer from "./modules/book/ProcessListContainer";
+import SubscribersContainer from "./modules/emailSubscribersList/SubscribersContainer";
 
 export default (
     <Route>
@@ -149,6 +151,11 @@ export default (
                 <Route path="care" component={CareClassContainer}/>
             </Route>
             {/*End class routes*/}
+
+            {/*Begin email subscribers list routes*/}
+            <Route path="/manage/subscribers_list" component={EmailSubscribersListContainer}/>
+            <Route path="/subscribers/:listId" component={SubscribersContainer}/>
+            {/*End email subscribers list routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

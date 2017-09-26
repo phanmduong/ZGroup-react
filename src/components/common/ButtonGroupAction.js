@@ -55,7 +55,7 @@ class ButtonGroupAction extends React.Component {
 }
 
 ButtonGroupAction.propTypes = {
-    editUrl: PropTypes.string.isRequired,
+    editUrl: PropTypes.string,
     delete: PropTypes.func.isRequired,
     edit: PropTypes.func,
     object: PropTypes.oneOfType([

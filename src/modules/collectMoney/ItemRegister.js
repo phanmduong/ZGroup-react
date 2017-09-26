@@ -29,7 +29,6 @@ class ItemRegister extends React.Component {
         });
     }
 
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.nextCode !== this.props.nextCode) {
             this.setState({
