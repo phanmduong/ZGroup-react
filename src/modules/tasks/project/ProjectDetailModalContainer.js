@@ -113,14 +113,19 @@ class ProjectDetailModalContainer extends Component {
                                             color={project.color || ""}
                                             onChangeComplete={this.changeColor}/>
 
-                                        <div className="form-group">
-                                            <Select
-                                                name="status"
-                                                value={project.status}
-                                                options={this.statusOptions}
-                                                onChange={this.changeStatus}
-                                            />
-                                        </div>
+                                        {
+                                            project.status !== "book_manufacture" && (
+                                                <div className="form-group">
+                                                    <Select
+                                                        name="status"
+                                                        value={project.status}
+                                                        options={this.statusOptions}
+                                                        onChange={this.changeStatus}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+
 
                                         <div>
                                             {isSaving ?

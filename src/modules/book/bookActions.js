@@ -160,6 +160,28 @@ export function updateTaskSpanForm(task) {
     };
 }
 
+export function loadBoards() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_BOARDS
+        });
+        bookApi.loadBoards()
+            .then((res) => {
+                const project = res.data;
+                dispatch({
+                    projectId: project.id,
+                    type: types.LOAD_BOARDS_SUCCESS,
+                    boards: project.boards,
+                    cardLabels: project.cardLabels,
+                    members: project.members,
+                    canDragCard: project.canDragCard,
+                    canDragBoard: project.canDragBoard
+                });
+            });
+    };
+}
+
+
 export function saveTaskSpan(task) {
     return function (dispatch) {
         dispatch({

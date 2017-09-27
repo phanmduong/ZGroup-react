@@ -806,6 +806,7 @@ export function submitProject(project) {
         });
         taskApi.createProject(project)
             .then(() => {
+                showNotification("Lưu dự án thành công");
                 dispatch({
                     type: types.SUBMIT_PROJECT_SUCCESS,
                     project

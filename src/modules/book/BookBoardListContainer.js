@@ -4,17 +4,19 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 // import PropTypes from 'prop-types';
 
-import * as taskActions from '../taskActions';
 import * as PropTypes from "prop-types";
-import CreateBoardModalContainer from "./CreateBoardModalContainer";
-import Loading from "../../../components/common/Loading";
-import BoardList from "./BoardList";
-import CreateCardModalContainer from "../card/CreateCardModalContainer";
-import CardDetailModalContainer from "../card/CardDetailModalContainer";
-import CardFilterContainer from "./filter/CardFilterContainer";
-import {intersect} from "../../../helpers/helper";
+import CreateBoardModalContainer from "../tasks/board/CreateBoardModalContainer";
+import CreateCardModalContainer from "../tasks/card/CreateCardModalContainer";
+import CardDetailModalContainer from "../tasks/card/CardDetailModalContainer";
+import Loading from "../../components/common/Loading";
+import CardFilterContainer from "../tasks/board/filter/CardFilterContainer";
+import BoardList from "../tasks/board/BoardList";
+import * as taskActions from '../tasks/taskActions';
+import * as bookActions from './bookActions';
+import {intersect} from "../../helpers/helper";
 
-class BoardListContainer extends React.Component {
+
+class BookBoardListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.openCreateBoardModal = this.openCreateBoardModal.bind(this);
@@ -24,7 +26,7 @@ class BoardListContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.taskActions.loadBoards(this.props.params.projectId);
+        this.props.bookActions.loadBoards();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -71,14 +73,14 @@ class BoardListContainer extends React.Component {
         const isAdmin = this.props.user.role === 2 || this.props.members.filter(member => member.is_admin && member.id === this.props.user.id).length > 0;
         return (
             <div>
-                <CreateBoardModalContainer projectId={this.props.params.projectId}/>
+                <CreateBoardModalContainer projectId={this.props.projectId}/>
                 <CreateCardModalContainer/>
                 <CardDetailModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>
                         <CardFilterContainer
                             isAdmin={isAdmin}
-                            projectId={Number(this.props.params.projectId)}/>
+                            projectId={Number(this.props.projectId)}/>
                         <BoardList
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}
@@ -99,8 +101,9 @@ class BoardListContainer extends React.Component {
     }
 }
 
-BoardListContainer.propTypes = {
+BookBoardListContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
+    bookActions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     members: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired,
@@ -113,8 +116,7 @@ BoardListContainer.propTypes = {
     canDragCard: PropTypes.oneOfType([
         PropTypes.number.isRequired,
         PropTypes.bool.isRequired
-    ]),
-    params: PropTypes.object.isRequired
+    ])
 };
 
 function mapStateToProps(state) {
@@ -157,6 +159,7 @@ function mapStateToProps(state) {
     });
 
     return {
+        projectId: state.task.boardList.projectId,
         isLoadingBoards: state.task.boardList.isLoadingBoards,
         canDragBoard: state.task.boardList.canDragBoard,
         canDragCard: state.task.boardList.canDragCard,
@@ -168,8 +171,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        taskActions: bindActionCreators(taskActions, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch),
+        bookActions: bindActionCreators(bookActions, dispatch)
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BoardListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(BookBoardListContainer);

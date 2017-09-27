@@ -46,5 +46,15 @@ export function saveTaskSpan(task) {
 }
 
 
+export function loadBoards() {
+    let url = env.MANAGE_API_URL + "/book/book-project";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+
 
 

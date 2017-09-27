@@ -45,6 +45,7 @@ import ProgressClassContainer from "./modules/classes/class/progress/ProgressCon
 import EmailSubscribersListContainer from "./modules/emailSubscribersList/EmailSubscribersListContainer";
 import ProcessListContainer from "./modules/book/ProcessListContainer";
 import SubscribersContainer from "./modules/emailSubscribersList/SubscribersContainer";
+import BookBoardListContainer from "./modules/book/BookBoardListContainer";
 
 export default (
     <Route>
@@ -140,6 +141,7 @@ export default (
 
             {/*Begin book routes*/}
             <Route path="/task-list-template" component={ProcessListContainer}/>
+            <Route path="/book-manufacture" component={BookBoardListContainer}/>
             {/*End book routes*/}
 
             {/*Begin class routes*/}

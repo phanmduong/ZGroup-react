@@ -50,7 +50,10 @@ class CreateBoardModalContainer extends React.Component {
 
 CreateBoardModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
-    projectId: PropTypes.string.isRequired,
+    projectId: PropTypes.oneOfType([
+        PropTypes.string.isRequired,
+        PropTypes.number.isRequired
+    ]),
     isSaving: PropTypes.bool.isRequired,
     board: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired

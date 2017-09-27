@@ -103,7 +103,7 @@ export default function taskReducer(state = initialState.task, action) {
                 addMemberToTask: {
                     ...state.addMemberToTask,
                     isSaving: false,
-                    showModal:false
+                    showModal: false
                 },
                 cardDetail: {
                     ...state.cardDetail,
@@ -375,7 +375,8 @@ export default function taskReducer(state = initialState.task, action) {
                 },
                 projectDetail: {
                     ...state.projectDetail,
-                    isSaving: false
+                    isSaving: false,
+                    showModal: false
                 }
             };
         case types.BEGIN_SUBMIT_PROJECT:
