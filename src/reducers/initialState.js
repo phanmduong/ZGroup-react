@@ -538,6 +538,8 @@ export default {
             error: false,
             currentPage: 1,
             totalPages: 1,
-        }
+        },
+        isLoadingAddEmails: false,
+        errorAddEmails: false,
     }
 };

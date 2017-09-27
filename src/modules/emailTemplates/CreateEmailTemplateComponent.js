@@ -45,9 +45,9 @@ class CreateEmailTemplateComponent extends React.Component {
                                         />
                                         {this.props.isSaving ?
                                             (
-                                                <button className="btn btn-fill btn-rose"
+                                                <button className="btn btn-fill btn-rose disabled"
                                                         type="button">
-                                                    <i className="fa fa-spinner fa-spin disabled"/>
+                                                    <i className="fa fa-spinner fa-spin"/>
                                                     {this.props.route.type === 'edit' ? ' Đang lưu template' : ' Đang tạo template'}
                                                 </button>
                                             )

@@ -94,3 +94,55 @@ export function loadSubscribers(listId, page, search) {
             });
     };
 }
+
+export function addSubscribers(listId, emails, closeModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_ADD_EMAIL_SUBSCRIBERS,
+        });
+        emailSubcribersListApi.addEmails(listId, emails)
+            .then(() => {
+                closeModal();
+                dispatch(loadSubscribers(listId, 1, ""));
+                helper.showNotification("Thêm email thành công");
+                dispatch({
+                    type: types.ADD_EMAIL_SUBSCRIBERS_SUCCESS,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.ADD_EMAIL_SUBSCRIBERS_ERROR,
+                });
+            });
+    };
+}
+
+export function deleteSubscriber(listId, subscriberId) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang xóa email", "info");
+        dispatch({
+            type: types.BEGIN_DELETE_EMAIL_SUBSCRIBER,
+        });
+        emailSubcribersListApi.deleteSubscriber(listId, subscriberId)
+            .then(res => {
+                if (res.data.status === 1) {
+                    helper.showNotification("Xóa emai thành công");
+                    dispatch({
+                        type: types.DELETE_EMAIL_SUBSCRIBER_SUCCESS,
+                        subscriberId: subscriberId
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.DELETE_EMAIL_SUBSCRIBER_ERROR,
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Xóa email thất bại");
+                dispatch({
+                    type: types.DELETE_EMAIL_SUBSCRIBER_ERROR,
+                });
+            });
+    };
+}
