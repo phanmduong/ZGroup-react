@@ -507,7 +507,7 @@ export function saveTaskListTemplate(taskListId, cardId) {
                 dispatch({
                     type: types.CREATE_TASK_LIST_SUCCESS,
                     taskList: res.data.data,
-                    cardMembers: res.data.data.card_members,
+                    card: res.data.data.card,
                     projectMembers: res.data.data.project_members
                 });
             });

@@ -986,7 +986,7 @@ export default function taskReducer(state = initialState.task, action) {
                             ...action.taskList,
                             tasks: action.taskList.tasks ? action.taskList.tasks : []
                         }],
-                        members: action.cardMembers ? action.cardMembers : state.cardDetail.card.members
+                        members: action.card ? action.card.members : state.cardDetail.card.members
 
                     }
                 },
@@ -997,10 +997,14 @@ export default function taskReducer(state = initialState.task, action) {
                             ...board,
                             cards: board.cards.map((card) => {
                                 if (card.id === Number(action.taskList.card_id)) {
-                                    return {
-                                        ...card,
-                                        members: action.cardMembers ? action.cardMembers : card.members()
-                                    };
+                                    if (action.card) {
+                                        return {
+                                            ...card,
+                                            ...action.card
+                                        };
+                                    } else {
+                                        return card;
+                                    }
                                 }
                                 return card;
                             })
