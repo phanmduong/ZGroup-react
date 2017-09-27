@@ -36,6 +36,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
 
     Route::post('/tasklist/create', "TaskController@createTaskList");
+    Route::post('/tasklist-template/create', "TaskController@createTaskListFromTemplate");
     Route::delete('/tasklist/{id}/delete', "TaskController@deleteTaskList");
     Route::get('/tasklist/{id}', "TaskController@getTaskList");
     Route::post('/tasklist/create', "TaskController@createTaskList");

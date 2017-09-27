@@ -25,6 +25,24 @@ class BookController extends ManageApiController
             })]);
     }
 
+    public function getAllTaskListTemplates()
+    {
+        $taskListTemplates = TaskList::where("card_id", 0)->orderBy("title")->get();
+        return $this->respondSuccessWithStatus(
+            [
+                "templates" => $taskListTemplates->map(function ($item) {
+                    return [
+                        "id" => $item->id,
+                        "title" => $item->title,
+                        "tasks" => $item->tasks->map(function ($task) {
+                            return $task->transform();
+                        })
+                    ];
+                })
+            ]
+        );
+    }
+
     public function storeTaskList(Request $request)
     {
         if (is_null($request->title)) {
