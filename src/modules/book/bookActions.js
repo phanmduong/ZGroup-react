@@ -36,6 +36,21 @@ export function loadTaskListTemplates(page = 1, query = "") {
     };
 }
 
+export function loadAllTaskListTemplates() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TASK_LIST_TEMPLATES
+        });
+        bookApi.loadAllTaskListTemplates()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LIST_TEMPLATES_SUCCESS,
+                    taskLists: res.data.data.templates
+                });
+            });
+    };
+}
+
 export function openAddTaskListTemplateModal() {
     return function (dispatch) {
         dispatch({

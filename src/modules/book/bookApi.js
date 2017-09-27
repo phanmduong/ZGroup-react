@@ -17,8 +17,19 @@ export function loadTaskListTemplates(page = 1, query = null) {
     return axios.get(url);
 }
 
+
+export function loadAllTaskListTemplates() {
+    let url = env.MANAGE_API_URL + "/book/all-task-list-templates";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+
 export function loadTaskListTemplate(taskListId) {
-    let url = env.MANAGE_API_URL + `/tasklist/${taskListId}` ;
+    let url = env.MANAGE_API_URL + `/tasklist/${taskListId}`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

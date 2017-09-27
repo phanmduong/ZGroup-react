@@ -495,6 +495,24 @@ export function updateCreateTaskListFormData(taskList) {
     };
 }
 
+export function saveTaskListTemplate(taskListId, cardId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_TASK_LIST
+        });
+
+        return new Promise((resolve) => {
+            taskApi.createTaskListFromTemplate(taskListId, cardId).then((res) => {
+                resolve();
+                dispatch({
+                    type: types.CREATE_TASK_LIST_SUCCESS,
+                    taskList: res.data.data
+                });
+            });
+        });
+    };
+}
+
 export function saveTaskList(taskList) {
     return function (dispatch) {
         dispatch({

@@ -6,6 +6,23 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_TASK_LIST_TEMPLATES:
+            return {
+                ...state,
+                createTaskList: {
+                    ...state.createTaskList,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_TASK_LIST_TEMPLATES_SUCCESS:
+            return {
+                ...state,
+                createTaskList: {
+                    ...state.createTaskList,
+                    taskLists: action.taskLists,
+                    isLoading: false
+                }
+            };
         case types.UPDATE_TASK_DEADLINE:
             return {
                 ...state,
@@ -965,7 +982,10 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.cardDetail,
                     card: {
                         ...state.cardDetail.card,
-                        taskLists: [...state.cardDetail.card.taskLists, {...action.taskList, tasks: []}]
+                        taskLists: [...state.cardDetail.card.taskLists, {
+                            ...action.taskList,
+                            tasks: action.taskList.tasks ? action.taskList.tasks : []
+                        }]
                     }
                 }
             };

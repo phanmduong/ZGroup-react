@@ -194,6 +194,8 @@ export default {
         },
         createTaskList: {
             taskList: {},
+            isLoading: false,
+            taskLists: [],
             isSavingTaskList: false
         },
         cardDetail: {

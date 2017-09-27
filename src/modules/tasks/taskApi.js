@@ -217,6 +217,18 @@ export function createTaskList(taskList) {
     return axios.post(url, taskList);
 }
 
+export function createTaskListFromTemplate(taskListId, cardId) {
+    let url = env.MANAGE_API_URL + "/tasklist-template/create";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        card_id: cardId,
+        task_list_id: taskListId
+    });
+}
+
 export function loadTaskLists(cardId) {
     let url = env.MANAGE_API_URL + "/tasklists/" + cardId;
     const token = localStorage.getItem('token');
