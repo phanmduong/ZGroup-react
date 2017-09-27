@@ -47,19 +47,11 @@ class Project extends Model
     {
         $boardIds = $this->boards()->pluck("id");
         $board_count = $boardIds->count();
-        return [
+        $data = [
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
-            'creator' => [
-                "id" => $this->creator->id,
-                "name" => $this->creator->name
-            ],
-            'editor' => [
-                "id" => $this->editor->id,
-                "name" => $this->editor->name
-            ],
             "canDragBoard" => $this->can_drag_board,
             "canDragCard" => $this->can_drag_card,
             "color" => $this->color,
@@ -78,5 +70,20 @@ class Project extends Model
             'created_at' => format_time_main($this->created_at),
             'updated_at' => format_time_main($this->updated_at)
         ];
+
+        if ($this->editor) {
+            $data['editor'] = [
+                "id" => $this->editor->id,
+                "name" => $this->editor->name
+            ];
+        }
+        if ($this->creator) {
+            $data['creator'] = [
+                "id" => $this->creator->id,
+                "name" => $this->creator->name
+            ];
+        }
+
+        return $data;
     }
 }
