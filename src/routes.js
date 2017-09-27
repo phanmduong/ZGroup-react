@@ -46,6 +46,7 @@ import EmailSubscribersListContainer from "./modules/emailSubscribersList/EmailS
 import ProcessListContainer from "./modules/book/ProcessListContainer";
 import SubscribersContainer from "./modules/emailSubscribersList/SubscribersContainer";
 import BookBoardListContainer from "./modules/book/BookBoardListContainer";
+import EmailCampaignsContainer from "./modules/emailCampaigns/EmailCampaignsContainer";
 
 export default (
     <Route>
@@ -158,6 +159,10 @@ export default (
             <Route path="/manage/subscribers_list" component={EmailSubscribersListContainer}/>
             <Route path="/subscribers/:listId" component={SubscribersContainer}/>
             {/*End email subscribers list routes*/}
+
+            {/*Begin email campaigns routes*/}
+            <Route path="/manage/campaigns(/:ownerId)" component={EmailCampaignsContainer}/>
+            {/*End email campaigns routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

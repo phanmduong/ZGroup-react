@@ -543,5 +543,13 @@ export default {
         },
         isLoadingAddEmails: false,
         errorAddEmails: false,
+    },
+
+    emailCampaigns: {
+        campaigns: [],
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
     }
 };

@@ -21,7 +21,7 @@ class AttendanceShift extends React.Component {
                 <h6>
                     <button className="btn btn-sm min-width-130-px"
                             style={{backgroundColor: shift.staff ? '#' + shift.staff.color : ''}}>
-                        {shift.staff ? helper.getShortName(shift.staff.name) : ''}
+                        {shift.staff ? helper.getShortName(shift.staff.name) : 'None'}
                     </button>
                     <strong> {shift.name} </strong>{shift.start_shift_time + " - " + shift.end_shift_time}
                     <div>{

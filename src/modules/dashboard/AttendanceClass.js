@@ -18,7 +18,7 @@ class AttendanceShift extends React.Component {
                         <div className="flex-row-center">
                             <button className="btn btn-sm min-width-130-px"
                                     style={{backgroundColor: classData.attendance_teacher.staff ?  "#" + classData.attendance_teacher.staff.color : ''}}>
-                                { classData.attendance_teacher.staff ? helper.getShortName(classData.attendance_teacher.staff.name) : ''}
+                                { classData.attendance_teacher.staff ? helper.getShortName(classData.attendance_teacher.staff.name) : 'None'}
                             </button>
                             <strong
                                 className="padding-horizontal-10px">Buổi {classData.attendance_teacher.order} </strong>
