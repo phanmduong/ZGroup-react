@@ -123,7 +123,7 @@ class TaskRepository
             "card_id" => $cardId,
             "title" => $taskList->title,
             'tasks' => $this->taskTransformer->transformCollection($taskList->tasks),
-            "card_members" => $this->memberTransformer->transformCollection($card->assignees),
+            "card" => $card->transform(),
             "project_members" => $project->members->map(function ($member) {
                 return [
                     "id" => $member->id,
