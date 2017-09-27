@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\DB;
 
 class EmailRepository
 {
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function subscribers_list($subscribers_list)
     {
         if ($subscribers_list) {
@@ -67,5 +73,51 @@ class EmailRepository
             $subscriber->name = $name;
             $subscriber->save();
         }
+    }
+
+    public function campaingns($campaigns)
+    {
+        if ($campaigns) {
+            return $campaigns->map(function ($campaign) {
+                return $this->campaingn($campaign);
+            });
+        }
+    }
+
+    public function campaingn($campaign)
+    {
+        if ($campaign) {
+            $open = $campaign->emails()->where('status', 3)->count();
+            $sended = $campaign->emails()->count();
+            $complaint = $campaign->emails()->where('status', 4)->count();
+            $delivery = $campaign->emails()->where('status', 1)->count() + $open + $complaint;
+
+            $total_subscribers_lists = $campaign->subscribers_lists->count();
+            $data = [
+                'id' => $campaign->id,
+                'name' => $campaign->name,
+                'owner' => $this->userRepository->staff($campaign->owner),
+                'send_status' => $campaign->sended,
+                'open' => $open,
+                'sended' => $sended,
+                'complaint' => $complaint,
+                'delivery' => $delivery,
+            ];
+
+            if ($total_subscribers_lists != 0) {
+
+                $list_ids = $campaign->subscribers_lists()->get()->pluck('id')->toArray();
+                $str = implode(',', $list_ids);
+                $query = "select distinct count(email) as nums from subscribers where id in " .
+                    "(select subscriber_id from subscriber_subscribers_list where subscribers_list_id in ($str)) ";
+                $total = DB::select($query)[0]->nums;
+            }
+
+            if (isset($total))
+                $data['total'] = $total;
+
+
+            return $data;
+        };
     }
 }
