@@ -9,27 +9,33 @@
 namespace Modules\Task\Repositories;
 
 
+use App\Card;
 use App\Colorme\Transformers\TaskTransformer;
 use App\Notification;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\NotificationRepository;
 use App\User;
 use Illuminate\Support\Facades\Redis;
+use Modules\Task\Entities\TaskList;
+use Modules\Task\Transformers\MemberTransformer;
 
 class TaskRepository
 {
     protected $taskTransformer;
+    protected $memberTransformer;
     protected $calendarEventRepository;
     protected $notificationRepository;
 
     public function __construct(
         NotificationRepository $notificationRepository,
+        MemberTransformer $memberTransformer,
         CalendarEventRepository $calendarEventRepository,
         TaskTransformer $taskTransformer)
     {
         $this->notificationRepository = $notificationRepository;
         $this->taskTransformer = $taskTransformer;
         $this->calendarEventRepository = $calendarEventRepository;
+        $this->memberTransformer = $memberTransformer;
     }
 
     public function saveTaskDeadline($task, $deadline, $currentUser)
@@ -81,6 +87,54 @@ class TaskRepository
             Redis::publish(config("app.channel"), json_encode($publish_data));
         }
         return $task;
+    }
+
+    public function createTaskListFromTemplate($taskListId, $cardId)
+    {
+        $taskListTemplate = TaskList::find($taskListId);
+        $taskList = $taskListTemplate->replicate();
+        $taskList->card_id = $cardId;
+        $card = Card::find($cardId);
+        $project = $card->board->project;
+        $taskList->save();
+        foreach ($taskListTemplate->tasks as $item) {
+            $task = $item->replicate();
+            $task->task_list_id = $taskList->id;
+            if ($task->span > 0) {
+                $date = new \DateTime();
+                $date->modify("+$task->span hours");
+                $task->deadline = $date->format("Y-m-d H:i:s");
+            }
+            $task->save();
+            if ($task->member) {
+                $member = $card->assignees()->where("id", $task->member->id)->first();
+                if ($member == null) {
+                    $card->assignees()->attach($task->member->id);
+                }
+
+                $projectMember = $project->members()->where("id", $task->member->id)->first();
+                if ($projectMember == null) {
+                    $project->members()->attach($task->member->id);
+                }
+            }
+        }
+        return [
+            "id" => $taskList->id,
+            "card_id" => $cardId,
+            "title" => $taskList->title,
+            'tasks' => $this->taskTransformer->transformCollection($taskList->tasks),
+            "card_members" => $this->memberTransformer->transformCollection($card->assignees),
+            "project_members" => $project->members->map(function ($member) {
+                return [
+                    "id" => $member->id,
+                    "name" => $member->name,
+                    "email" => $member->email,
+                    "is_admin" => $member->pivot->role === 1,
+                    "added" => true,
+                    "avatar_url" => generate_protocol_url($member->avatar_url)
+                ];
+            })
+        ];
     }
 
     public function addMemberToTask($task, $userId, $currentUser)

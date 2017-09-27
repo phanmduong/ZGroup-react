@@ -473,21 +473,10 @@ class TaskController extends ManageApiController
         if (is_null($request->task_list_id) || is_null($request->card_id)) {
             return $this->responseBadRequest("Thiếu params");
         }
-        $taskListTemplate = TaskList::find($request->task_list_id);
-        $taskList = $taskListTemplate->replicate();
-        $taskList->card_id = $request->card_id;
-        $taskList->save();
-        foreach ($taskListTemplate->tasks as $item) {
-            $task = $item->replicate();
-            $task->task_list_id = $taskList->id;
-            $task->save();
-        }
-        return $this->respondSuccessWithStatus([
-            "id" => $taskList->id,
-            "card_id" => $request->card_id,
-            "title" => $taskList->title,
-            'tasks' => $this->taskTransformer->transformCollection($taskList->tasks)
-        ]);
+        $taskListId = $request->task_list_id;
+        $cardId = $request->card_id;
+        $data = $this->taskRepository->createTaskListFromTemplate($taskListId, $cardId);
+        return $this->respondSuccessWithStatus($data);
     }
 
     public function getTaskList($id)

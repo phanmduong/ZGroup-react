@@ -257,7 +257,8 @@ class User extends Authenticatable
             Project::class,
             'project_user', 'user_id',
             'project_id')
-            ->withPivot('role', "adder_id");
+            ->withPivot('role', "adder_id")
+            ->withTimestamps();
     }
 
     public function rules()

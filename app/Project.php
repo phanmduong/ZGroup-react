@@ -40,7 +40,8 @@ class Project extends Model
             ->belongsToMany(User::class,
                 'project_user',
                 'project_id', 'user_id')
-            ->withPivot('role', "adder_id");
+            ->withPivot('role', "adder_id")
+            ->withTimestamps();
     }
 
     public function transform()
