@@ -6,6 +6,11 @@ import initialState from '../../../../reducers/initialState';
 
 export default function cardFilterReducer(state = initialState.cardFilter, action) {
     switch (action.type) {
+        case types.CREATE_TASK_LIST_SUCCESS:
+            return {
+                ...state,
+                members: action.projectMembers ? action.projectMembers : state.members
+            };
         case types.SET_SELECTED_MEMBERS:
             return {
                 ...state,

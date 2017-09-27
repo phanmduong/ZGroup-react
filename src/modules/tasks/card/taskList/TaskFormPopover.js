@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import TaskListForm from "./TaskListForm";
 import Select from "react-select";
 import Loading from "../../../../components/common/Loading";
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 const TaskFormPopover = ({
                              taskLists, onChangeTaskList, selectedTaskList, isLoading, saveTaskListTemplate,
                              toggle, taskList, saveTaskList, toggleCreateNew,
                              createNewTask, isSavingTaskList, updateCreateTaskListFormData
                          }) => {
+    const tooltip = (
+        <Tooltip id="tooltip">Tạo danh sách việc cần làm mới</Tooltip>
+    );
     return (
         <div className="kt-overlay">
             <div style={{display: "flex", justifyContent: "space-between", paddingBottom: 10}}>
@@ -25,14 +29,16 @@ const TaskFormPopover = ({
                             </button>
                         ) :
                         (
-                            <button
-                                onClick={toggleCreateNew}
-                                type="button" className="close"
-                                style={{color: '#5a5a5a'}}>
+                            <OverlayTrigger placement="top" overlay={tooltip}>
+                                <button
+                                    onClick={toggleCreateNew}
+                                    type="button" className="close"
+                                    style={{color: '#5a5a5a'}}>
                                 <span aria-hidden="true">
                                     <i className="material-icons">add</i>
                                 </span>
-                            </button>
+                                </button>
+                            </OverlayTrigger>
                         )
                 }
                 <button
@@ -58,6 +64,7 @@ const TaskFormPopover = ({
                             ) : (
                                 <div>
                                     <Select
+                                        placeholder='Chọn quy trình'
                                         style={{width: 150}}
                                         defaultMessage={'Chọn quy trình'}
                                         options={taskLists.map((taskList) => {

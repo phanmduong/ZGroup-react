@@ -985,8 +985,27 @@ export default function taskReducer(state = initialState.task, action) {
                         taskLists: [...state.cardDetail.card.taskLists, {
                             ...action.taskList,
                             tasks: action.taskList.tasks ? action.taskList.tasks : []
-                        }]
+                        }],
+                        members: action.cardMembers ? action.cardMembers : state.cardDetail.card.members
+
                     }
+                },
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        return {
+                            ...board,
+                            cards: board.cards.map((card) => {
+                                if (card.id === Number(action.taskList.card_id)) {
+                                    return {
+                                        ...card,
+                                        members: action.cardMembers ? action.cardMembers : card.members()
+                                    };
+                                }
+                                return card;
+                            })
+                        };
+                    })
                 }
             };
         case types.BEGIN_CREATE_TASK_LIST:
