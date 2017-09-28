@@ -5,6 +5,10 @@ export default {
             currentPage: 1,
             totalPages: 1,
             isLoading: false
+        },
+        createGood: {
+            isLoading: false,
+            good: {}
         }
     },
     login: {
