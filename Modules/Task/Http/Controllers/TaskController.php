@@ -497,7 +497,7 @@ class TaskController extends ManageApiController
         }
         $taskListId = $request->task_list_id;
         $cardId = $request->card_id;
-        $data = $this->taskRepository->createTaskListFromTemplate($taskListId, $cardId);
+        $data = $this->taskRepository->createTaskListFromTemplate($taskListId, $cardId, $this->user);
         return $this->respondSuccessWithStatus($data);
     }
 

@@ -89,7 +89,7 @@ class TaskRepository
         return $task;
     }
 
-    public function createTaskListFromTemplate($taskListId, $cardId)
+    public function createTaskListFromTemplate($taskListId, $cardId, $currentUser)
     {
         $taskListTemplate = TaskList::find($taskListId);
         $taskList = $taskListTemplate->replicate();
@@ -115,6 +115,30 @@ class TaskRepository
                 $projectMember = $project->members()->where("id", $task->member->id)->first();
                 if ($projectMember == null) {
                     $project->members()->attach($task->member->id);
+                }
+
+                $user = $task->member;
+                if ($currentUser && $currentUser->id != $user->id) {
+
+                    $notification = new Notification;
+                    $notification->actor_id = $currentUser->id;
+                    $notification->receiver_id = $user->id;
+                    $notification->type = 19;
+                    $message = $notification->notificationType->template;
+
+                    $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
+                    $message = str_replace('[[TASK]]', "<strong>" . $task->title . "</strong>", $message);
+                    $message = str_replace('[[CARD]]', "<strong>" . $card->title . "</strong>", $message);
+                    $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
+                    $notification->message = $message;
+
+                    $notification->color = $notification->notificationType->color;
+                    $notification->icon = $notification->notificationType->icon;
+                    $notification->url = '/project/' . $project->id . "/boards?card_id=" . $card->id;
+
+                    $notification->save();
+
+                    $this->notificationRepository->sendNotification($notification);
                 }
             }
         }
