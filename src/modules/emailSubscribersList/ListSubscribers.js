@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 class ListSubscribers extends React.Component {
     constructor(props, context) {
@@ -45,5 +45,9 @@ class ListSubscribers extends React.Component {
     }
 }
 
+ListSubscribers.propTypes = {
+    deleteSubscriber: PropTypes.func.isRequired,
+    subscribers: PropTypes.array.isRequired
+};
 
 export default ListSubscribers;

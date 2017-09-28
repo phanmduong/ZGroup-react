@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import _ from 'lodash';
 import Search from "../../components/common/Search";
 import Loading from "../../components/common/Loading";
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import ListSubscribers from './ListSubscribers';
 import * as helper from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
@@ -37,6 +37,10 @@ class SubscribersContainer extends React.Component {
 
     componentWillMount() {
         this.loadSubscribers();
+    }
+
+    componentDidUpdate() {
+        $('#emails').tagsinput();
     }
 
     subscribersSearchChange(value) {
@@ -84,10 +88,6 @@ class SubscribersContainer extends React.Component {
             query: ""
         });
         this.props.emailSubscribersListActions.addSubscribers(this.listId, $("#emails").val(), this.closeModalAddEmail);
-    }
-
-    componentDidUpdate() {
-        $('#emails').tagsinput();
     }
 
     uploadFile() {
@@ -278,6 +278,18 @@ class SubscribersContainer extends React.Component {
         );
     }
 }
+
+SubscribersContainer.propTypes = {
+    subscribers: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isLoadingAddEmails: PropTypes.bool.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    emailSubscribersListActions: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

@@ -6,6 +6,7 @@ import * as taskApi from "./taskApi";
 import {showErrorNotification, showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
+/*eslint no-console: 0 */
 export function changeProjectStatus(project, status) {
     return function (dispatch) {
         dispatch({

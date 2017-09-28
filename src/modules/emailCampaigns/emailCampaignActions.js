@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as emailCampaignApi from './emailCampaignApi';
-// import * as helper from '../../helpers/helper';
+import * as helper from '../../helpers/helper';
 
 /*eslint no-console: 0 */
 export function loadCampaigns(page, search, ownerId) {
@@ -20,6 +20,53 @@ export function loadCampaigns(page, search, ownerId) {
             .catch(() => {
                 dispatch({
                     type: types.LOAD_EMAIL_CAMPAIGNS_ERROR,
+                });
+            });
+    };
+}
+
+export function loadSubscribersList() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_SUBSCRIBERS_LIST_EMAIL_CAMPAIGNS,
+        });
+        emailCampaignApi.loadSubscribersList()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_SUBSCRIBERS_LIST_EMAIL_CAMPAIGNS_SUCCESS,
+                    subscribersList: res.data.data.subscribers_list,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_SUBSCRIBERS_LIST_EMAIL_CAMPAIGNS_ERROR,
+                });
+            });
+    };
+}
+
+export function storeCampaign(campaign, closeModal) {
+
+    if (helper.isEmptyInput(campaign.id)) {
+        campaign.id = "";
+    }
+
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_STORE_EMAIL_CAMPAIGN,
+        });
+        emailCampaignApi.storeCampaign(campaign)
+            .then(res => {
+                closeModal();
+                dispatch({
+                    type: types.STORE_EMAIL_CAMPAIGN_SUCCESS,
+                    campaign: res.data.data.campaign,
+                    edit: !helper.isEmptyInput(campaign.id)
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.STORE_EMAIL_CAMPAIGN_ERROR,
                 });
             });
     };
