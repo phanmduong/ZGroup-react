@@ -4,7 +4,7 @@ use App\Project;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BookManufactureSeeder extends Seeder
+class FashionManufactureSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,16 +13,16 @@ class BookManufactureSeeder extends Seeder
      */
     public function run()
     {
-        $bookProject = Project::where("status", "book_manufacture")->first();
+        $fashionProject = Project::where("status", "fashion_manufacture")->first();
 
-        if (is_null($bookProject)) {
+        if (is_null($fashionProject)) {
             DB::table('projects')->insert([
-                "title" => "Sản xuất sách",
-                "description" => "Quản lý sản xuất sách",
+                "title" => "Sản xuất thời trang",
+                "description" => "Quản lý sản xuất thời trang",
                 "color" => "#009688",
                 "can_drag_board" => false,
                 "can_drag_card" => true,
-                "status" => "book_manufacture"
+                "status" => "fashion_manufacture"
             ]);
         }
     }

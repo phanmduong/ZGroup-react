@@ -8,6 +8,7 @@ use App\CardComment;
 use App\Colorme\Transformers\BoardTransformer;
 use App\Colorme\Transformers\CardTransformer;
 use App\Colorme\Transformers\TaskTransformer;
+use App\Good;
 use App\Http\Controllers\ManageApiController;
 use App\Notification;
 use App\Project;
@@ -326,6 +327,27 @@ class TaskController extends ManageApiController
         $card->editor_id = $this->user->id;
         $card->creator_id = $this->user->id;
         $card->save();
+
+        $board = Board::find($request->board_id);
+        if ($board) {
+            $project = $board->project;
+            switch ($project->status) {
+                case "book_manufacture":
+                    $good = new Good();
+                    $good->name = $card->title;
+                    $good->save();
+                    $card->good_id = $good->id;
+                    $card->save();
+                    break;
+                case "fashion_manufacture":
+                    $good = new Good();
+                    $good->name = $card->title;
+                    $good->save();
+                    $card->good_id = $good->id;
+                    $card->save();
+                    break;
+            }
+        }
 
         return $this->respond(["card" => $card->transform()]);
     }

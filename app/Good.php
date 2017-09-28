@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Good extends Model
 {
     protected $table = "goods";
+
+    use SoftDeletes;
 
     public function orders()
     {
