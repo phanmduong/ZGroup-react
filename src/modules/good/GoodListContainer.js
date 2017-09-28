@@ -81,6 +81,7 @@ class GoodListContainer extends React.Component {
                                             <tr className="text-rose">
                                                 <th>Tên sản phẩm</th>
                                                 <th>Mã sản phẩm</th>
+                                                <th>Loại sản phẩm</th>
                                                 <th>Mô tả</th>
                                                 <th>Thêm vào lúc</th>
                                                 <th>Sửa gần nhất</th>
@@ -93,8 +94,9 @@ class GoodListContainer extends React.Component {
                                                     return (
                                                         <tr key={good.id}>
                                                             <td>{good.name}</td>
-                                                            <td>{good.description}</td>
                                                             <td>{good.code}</td>
+                                                            <td>{good.type}</td>
+                                                            <td>{good.description}</td>
                                                             <td>{good.created_at}</td>
                                                             <td>{good.updated_at}</td>
                                                             <td>

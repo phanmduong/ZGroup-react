@@ -127,9 +127,7 @@ class EmailCampaignsContainer extends React.Component {
                     <Modal.Header closeButton>
                         <Modal.Title>Chỉnh sửa chiến dịch</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
-
-                    </Modal.Body>
+                    <Modal.Body />
                 </Modal>
             </div>
         );

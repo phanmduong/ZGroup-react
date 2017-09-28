@@ -14,7 +14,7 @@ class ListCampaign extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr>
-                        <th></th>
+                        <th />
                         <th>Tên</th>
                         <th>Người tạo</th>
                         <th>Sended/Total</th>

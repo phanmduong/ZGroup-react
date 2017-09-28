@@ -64,7 +64,7 @@ const TaskFormPopover = ({
                             ) : (
                                 <div>
                                     <Select
-                                        placeholder='Chọn quy trình'
+                                        placeholder="Chọn quy trình"
                                         style={{width: 150}}
                                         defaultMessage={'Chọn quy trình'}
                                         options={taskLists.map((taskList) => {
