@@ -8,6 +8,12 @@ use Modules\Good\Entities\GoodProperty;
 
 class Good extends Model
 {
+    public static $GOOD_TYPE = [
+        "book" => "Sách",
+        "fashion" => "Thời trang",
+        "" => "Không xác định"
+    ];
+
     protected $table = "goods";
 
     use SoftDeletes;
@@ -37,11 +43,11 @@ class Good extends Model
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "created_at" => format_time_to_mysql(strtotime($this->created_at)),
-            "updated_at" => format_time_to_mysql(strtotime($this->updated_at)),
+            "created_at" => format_vn_short_datetime(strtotime($this->created_at)),
+            "updated_at" => format_vn_short_datetime(strtotime($this->updated_at)),
             "price" => $this->price,
             "description" => $this->description,
-            'type' => $this->type,
+            'type' => Good::$GOOD_TYPE[$this->type],
             "avatar_url" => $this->avatar_url,
             "cover_url" => $this->cover_url,
             "code" => $this->code,
