@@ -7,6 +7,7 @@ import _ from 'lodash';
 import Loading from "../../components/common/Loading";
 import PropTypes from 'prop-types';
 import * as goodActions from './goodActions';
+import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 
 class GoodListContainer extends React.Component {
     constructor(props, context) {
@@ -17,6 +18,7 @@ class GoodListContainer extends React.Component {
             query: ""
         };
         this.loadGoods = this.loadGoods.bind(this);
+        this.timeOut = null;
     }
 
     componentWillMount() {
@@ -24,11 +26,21 @@ class GoodListContainer extends React.Component {
     }
 
     loadGoods(page = 1) {
-        this.setState({page})
-
+        this.setState({page});
+        this.props.goodActions.loadGoods(page, this.state.query);
     }
 
-    goodsSearchChange() {
+    goodsSearchChange(value) {
+        this.setState({
+            page: 1,
+            query: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.goodActions.loadGoods(this.state.page, this.state.query);
+        }.bind(this), 500);
 
     }
 
@@ -58,7 +70,7 @@ class GoodListContainer extends React.Component {
                             <Search
                                 onChange={this.goodsSearchChange}
                                 value={this.state.query}
-                                placeholder="Tìm kiếm cơ sở (tên, địa chỉ)"
+                                placeholder="Tìm kiếm sản phẩm (tên, mô tả)"
                             />
 
                             {
@@ -69,13 +81,33 @@ class GoodListContainer extends React.Component {
                                             <tr className="text-rose">
                                                 <th>Tên sản phẩm</th>
                                                 <th>Mã sản phẩm</th>
+                                                <th>Mô tả</th>
                                                 <th>Thêm vào lúc</th>
                                                 <th>Sửa gần nhất</th>
                                                 <th/>
                                             </tr>
                                             </thead>
                                             <tbody>
-
+                                            {
+                                                this.props.goods.map((good) => {
+                                                    return (
+                                                        <tr key={good.id}>
+                                                            <td>{good.name}</td>
+                                                            <td>{good.description}</td>
+                                                            <td>{good.code}</td>
+                                                            <td>{good.created_at}</td>
+                                                            <td>{good.updated_at}</td>
+                                                            <td>
+                                                                <ButtonGroupAction
+                                                                    disabledDelete={true}
+                                                                    editUrl={"good/" + good.id + "/edit"}
+                                                                    object={good}
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })
+                                            }
                                             </tbody>
                                         </table>
                                     </div>
@@ -89,13 +121,13 @@ class GoodListContainer extends React.Component {
                                     if (Number(currentPage) === page) {
                                         return (
                                             <li key={page} className="active">
-                                                <a onClick={() => this.loadBases(page)}>{page}</a>
+                                                <a onClick={() => this.loadGoods(page)}>{page}</a>
                                             </li>
                                         );
                                     } else {
                                         return (
                                             <li key={page}>
-                                                <a onClick={() => this.loadBases(page)}>{page}</a>
+                                                <a onClick={() => this.loadGoods(page)}>{page}</a>
                                             </li>
                                         );
                                     }
@@ -116,6 +148,7 @@ GoodListContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     goodActions: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
+    goods: PropTypes.array.isRequired,
     currentPage: PropTypes.number.isRequired
 };
 
@@ -123,7 +156,8 @@ function mapStateToProps(state) {
     return {
         isLoading: state.good.goodList.isLoading,
         totalPages: state.good.goodList.totalPages,
-        currentPage: state.good.goodList.currentPage
+        currentPage: state.good.goodList.currentPage,
+        goods: state.good.goodList.goods
     };
 }
 

@@ -31,15 +31,8 @@ class ButtonGroupAction extends React.Component {
                         </Link>
                     )
                 }
-                {this.props.disabledDelete ?
-                    (
-                        <a data-toggle="tooltip" title="Không được xoá"
-                           type="button"
-                           rel="tooltip">
-                            <i className="material-icons">delete_forever</i>
-                        </a>
-                    )
-                    :
+                {
+                    !this.props.disabledDelete &&
                     (
                         <a data-toggle="tooltip" title="Xoá"
                            onClick={() => this.props.delete(this.props.object)} type="button"
@@ -56,7 +49,7 @@ class ButtonGroupAction extends React.Component {
 
 ButtonGroupAction.propTypes = {
     editUrl: PropTypes.string,
-    delete: PropTypes.func.isRequired,
+    delete: PropTypes.func,
     edit: PropTypes.func,
     object: PropTypes.oneOfType([
         PropTypes.object,
