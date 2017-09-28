@@ -1,4 +1,12 @@
 export default {
+    good: {
+        goodList: {
+            goods: [],
+            currentPage: 1,
+            totalPages: 1,
+            isLoading: false
+        }
+    },
     login: {
         email: "",
         password: "",

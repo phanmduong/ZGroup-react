@@ -27,6 +27,7 @@ import cardFilterReducer from "../modules/tasks/board/filter/cardFilterReducer";
 import emailSubscribersListReducer from "../modules/emailSubscribersList/emailSubscribersListReducer";
 import bookReducer from "../modules/book/bookReducer";
 import emailCampainsReducer from "../modules/emailCampaigns/emailCampainsReducer";
+import goodReducer from "../modules/good/goodReducer";
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -55,7 +56,8 @@ const appReducer = combineReducers({
     rule: ruleReducer,
     emailSubscribersList: emailSubscribersListReducer,
     book: bookReducer,
-    emailCampaigns: emailCampainsReducer
+    emailCampaigns: emailCampainsReducer,
+    good: goodReducer
 });
 
 const rootReducer = (state, action) => {

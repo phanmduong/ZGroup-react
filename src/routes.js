@@ -48,6 +48,7 @@ import SubscribersContainer from "./modules/emailSubscribersList/SubscribersCont
 import BookBoardListContainer from "./modules/book/BookBoardListContainer";
 import EmailCampaignsContainer from "./modules/emailCampaigns/EmailCampaignsContainer";
 import FashionBoardListContainer from "./modules/book/FashionBoardListContainer";
+import GoodListContainer from "./modules/good/GoodListContainer";
 
 export default (
     <Route>
@@ -141,11 +142,12 @@ export default (
             <Route path="/manage/classes(/:teacherId)" component={ClassesContainer}/>
             {/*End class routes*/}
 
-            {/*Begin book routes*/}
+            {/*Begin good routes*/}
             <Route path="/task-list-template" component={ProcessListContainer}/>
             <Route path="/book-manufacture" component={BookBoardListContainer}/>
             <Route path="/fashion-manufacture" component={FashionBoardListContainer}/>
-            {/*End book routes*/}
+            <Route path="/good/all" component={GoodListContainer}/>
+            {/*End good routes*/}
 
             {/*Begin class routes*/}
             <Route path="/class/:classId" component={ClassContainer}>
