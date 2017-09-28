@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Good\Entities\GoodProperty;
 
 class Good extends Model
 {
@@ -24,5 +25,10 @@ class Good extends Model
     public function goodWarehouse()
     {
         return $this->hasMany('App\GoodWarehouse', 'good_id');
+    }
+
+    public function properties()
+    {
+        return $this->hasMany(GoodProperty::class, "good_id");
     }
 }

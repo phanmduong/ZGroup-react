@@ -1,0 +1,16 @@
+{
+    "name": "Good",
+    "alias": "good",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Good\\Providers\\GoodServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

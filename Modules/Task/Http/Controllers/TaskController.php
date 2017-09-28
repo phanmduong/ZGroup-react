@@ -334,6 +334,7 @@ class TaskController extends ManageApiController
             switch ($project->status) {
                 case "book_manufacture":
                     $good = new Good();
+                    $good->type = "book";
                     $good->name = $card->title;
                     $good->save();
                     $card->good_id = $good->id;
@@ -341,6 +342,7 @@ class TaskController extends ManageApiController
                     break;
                 case "fashion_manufacture":
                     $good = new Good();
+                    $good->type = "fashion";
                     $good->name = $card->title;
                     $good->save();
                     $card->good_id = $good->id;
