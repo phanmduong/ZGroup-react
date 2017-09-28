@@ -40,6 +40,15 @@ class ManageEmailApiController extends ManageApiController
         return $this->respondWithPagination($subscribers_lists, $data);
     }
 
+    public function subscribers_list_all()
+    {
+        $subscribers_lists = SubscribersList::orderBy('created_at', 'desc')->get();
+        $subscribers_lists = $this->emailRepository->subscribers_list($subscribers_lists);
+        return $this->respondSuccessWithStatus([
+            'subscribers_list' => $subscribers_lists
+        ]);
+    }
+
     public function delete_subscribers_list($subscribers_list_id)
     {
         $subscribers_list = SubscribersList::find($subscribers_list_id);
@@ -155,5 +164,41 @@ class ManageEmailApiController extends ManageApiController
         ];
 
         return $this->respondWithPagination($campaigns, $data);
+    }
+
+    public function store_campaign(Request $request)
+    {
+
+        if ($request->id) {
+            $campaign = EmailCampaign::find($request->id);
+        } else {
+            $campaign = new EmailCampaign();
+            $campaign->owner_id = $this->user->id;
+        }
+
+        $campaign->sended = $request->send_status == 1 ? 1 : 0;
+        $campaign->name = $request->name;
+        $campaign->subject = $request->subject;
+
+        $subscribers_list_ids = $request->subscribers_list;
+
+
+        $campaign->save();
+
+        $current_list_ids = $campaign->subscribers_lists()->get()->pluck('id')->toArray();
+        foreach ($subscribers_list_ids as $l) {
+            if (!in_array($l, $current_list_ids)) {
+                $campaign->subscribers_lists()->attach($l);
+            }
+        }
+        foreach ($current_list_ids as $i) {
+            if (!in_array($i, $subscribers_list_ids)) {
+                $campaign->subscribers_lists()->detach($i);
+            }
+        }
+
+        return $this->respondSuccessWithStatus([
+            'campaign' => $this->emailRepository->campaingn($campaign)
+        ]);
     }
 }
