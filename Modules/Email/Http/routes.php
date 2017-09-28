@@ -8,4 +8,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'emai
     Route::post('/subscribers/add', 'ManageEmailApiController@add_subscribers');
     Route::post('/subscribers/upload-file', 'ManageEmailApiController@upfile_add_subscribers');
     Route::delete('/subscribers/delete', 'ManageEmailApiController@delete_subscriber');
+    Route::get('/campaigns', 'ManageEmailApiController@get_campaigns');
 });

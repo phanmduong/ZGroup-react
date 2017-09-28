@@ -2,6 +2,7 @@
 
 namespace Modules\Email\Http\Controllers;
 
+use App\EmailCampaign;
 use App\Http\Controllers\ManageApiController;
 use App\Repositories\EmailRepository;
 use App\Subscriber;
@@ -130,5 +131,29 @@ class ManageEmailApiController extends ManageApiController
         }
 
         return $this->respondErrorWithStatus("Subscriber không tồn tại");
+    }
+
+    public function get_campaigns(Request $request)
+    {
+        $query = $request->search;
+        $limit = 20;
+
+        if ($request->owner_id) {
+            $campaigns = EmailCampaign::where('name', 'like', '%' . $query . '%')
+                ->where('owner_id', $request->owner_id)->orderBy('created_at', 'desc')->paginate($limit);
+        } else {
+            if ($query) {
+                $campaigns = EmailCampaign::where('name', 'like', '%' . $query . '%')
+                    ->orderBy('created_at', 'desc')->paginate($limit);
+            } else {
+                $campaigns = EmailCampaign::orderBy('created_at', 'desc')->paginate($limit);
+            }
+        }
+
+        $data = [
+            'campaigns' => $this->emailRepository->campaingns($campaigns)
+        ];
+
+        return $this->respondWithPagination($campaigns, $data);
     }
 }
