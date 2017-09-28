@@ -31,4 +31,22 @@ class Good extends Model
     {
         return $this->hasMany(GoodProperty::class, "good_id");
     }
+
+    public function transform()
+    {
+        return [
+            "id" => $this->id,
+            "name" => $this->name,
+            "created_at" => format_time_to_mysql(strtotime($this->created_at)),
+            "updated_at" => format_time_to_mysql(strtotime($this->updated_at)),
+            "price" => $this->price,
+            "description" => $this->description,
+            'type' => $this->type,
+            "avatar_url" => $this->avatar_url,
+            "cover_url" => $this->cover_url,
+            "code" => $this->code,
+            "properties" => $this->properties
+        ];
+    }
 }
+
