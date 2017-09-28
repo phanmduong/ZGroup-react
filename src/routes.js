@@ -47,6 +47,7 @@ import ProcessListContainer from "./modules/book/ProcessListContainer";
 import SubscribersContainer from "./modules/emailSubscribersList/SubscribersContainer";
 import BookBoardListContainer from "./modules/book/BookBoardListContainer";
 import EmailCampaignsContainer from "./modules/emailCampaigns/EmailCampaignsContainer";
+import FashionBoardListContainer from "./modules/book/FashionBoardListContainer";
 
 export default (
     <Route>
@@ -143,6 +144,7 @@ export default (
             {/*Begin book routes*/}
             <Route path="/task-list-template" component={ProcessListContainer}/>
             <Route path="/book-manufacture" component={BookBoardListContainer}/>
+            <Route path="/fashion-manufacture" component={FashionBoardListContainer}/>
             {/*End book routes*/}
 
             {/*Begin class routes*/}
