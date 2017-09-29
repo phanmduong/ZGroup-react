@@ -39,6 +39,7 @@ class EmailCampaignsContainer extends React.Component {
     }
 
     componentWillMount() {
+        this.props.emailCampaignActions.loadSubscribersList();
         this.loadCampaigns();
         if (this.props.params.ownerId) {
             this.ownerId = this.props.params.ownerId;

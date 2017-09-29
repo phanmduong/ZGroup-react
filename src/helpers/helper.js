@@ -21,7 +21,7 @@ export function isEmptyInput(input) {
 }
 
 export function avatarEmpty(input) {
-    if (input === null || input === undefined || input.trim() === 'http://' || input.trim() === 'https://') {
+    if (isEmptyInput(input) || input.trim() === 'http://' || input.trim() === 'https://') {
         return true;
     }
     return false;

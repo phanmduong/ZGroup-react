@@ -22,7 +22,7 @@ class AddStaffComponent extends React.Component {
     }
 
     render() {
-        let {name, email, age, address, homeland, phone, marital, literacy, role_id, start_company, username, color} = this.props.staffForm;
+        let {name, email, age, address, homeland, phone, marital, literacy, role_id, start_company, username, color, base_id} = this.props.staffForm;
         let roleSelect = this.props.roles.filter(function (roleData) {
             return role_id == roleData.id;
         })[0];
@@ -115,6 +115,26 @@ class AddStaffComponent extends React.Component {
                                             updateFormData={this.props.updateFormData}
                                             value={literacy}
                                         />
+                                        <div className="form-group">
+                                            <label>Cơ sở</label>
+                                            <select className="form-control"
+                                                    value={base_id}
+                                                    onChange={this.props.updateFormData}
+                                                    name="base_id"
+                                            >
+                                                {this.props.bases !== null && this.props.bases !== undefined &&
+                                                this.props.bases.map((base, key) => {
+                                                    return (
+                                                        <option
+                                                            key={key}
+                                                            value={base.id}
+                                                        >
+
+                                                            {!helper.isEmptyInput(base.name) && `${base.name}: ${base.address}`}
+                                                        </option>);
+                                                })}
+                                            </select>
+                                        </div>
                                         <div className="form-group">
                                             <label>Chức vụ trong công ty</label>
                                             <select
@@ -257,6 +277,7 @@ AddStaffComponent.propTypes = {
     isLoadingStaff: PropTypes.bool.isRequired,
     isLoadingRoles: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
+    bases: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
 };
 
