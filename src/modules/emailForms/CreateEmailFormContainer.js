@@ -22,7 +22,7 @@ class CreateEmailFormContainer extends React.Component {
         this.handleFileUploadAvatar = this.handleFileUploadAvatar.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.emailFormsActions.updateEmailFormData(initialState.emailForms.emailForm);
         if (this.props.route.type === 'edit') {
             this.props.emailFormsActions.loadEmailForm(this.props.params.emailFormId);
@@ -62,7 +62,7 @@ class CreateEmailFormContainer extends React.Component {
         this.props.emailFormsActions.uploadAvatar(file);
     }
 
-    checkValidate(){
+    checkValidate() {
         if ($('#form-email-form').valid()) {
             if (helper.isEmptyInput(this.props.emailForm.logoUrl)) {
                 helper.showTypeNotification('Vui lòng chọn logo', 'warning');
@@ -72,15 +72,15 @@ class CreateEmailFormContainer extends React.Component {
                 helper.showTypeNotification('Vui lòng chọn ảnh đại điện', 'warning');
                 return false;
             }
-            if (helper.isEmptyInput(this.props.emailForm.content)){
+            if (helper.isEmptyInput(this.props.emailForm.content)) {
                 helper.showTypeNotification('Vui lòng nhập content', 'warning');
                 return false;
             }
-            if (helper.isEmptyInput(this.props.emailForm.footer)){
+            if (helper.isEmptyInput(this.props.emailForm.footer)) {
                 helper.showTypeNotification('Vui lòng nhập footer', 'warning');
                 return false;
             }
-            if (helper.isEmptyInput(this.props.emailForm.template.name)){
+            if (helper.isEmptyInput(this.props.emailForm.template.name)) {
                 helper.showTypeNotification('Vui lòng chọn template', 'warning');
                 return false;
             }
@@ -97,22 +97,20 @@ class CreateEmailFormContainer extends React.Component {
     }
 
     preSaveEmailForm() {
-        if (this.checkValidate()) {
-            this.props.emailFormsActions.preSaveEmailForm(this.props.emailForm);
-        }
+        this.props.emailFormsActions.preSaveEmailForm(this.props.emailForm);
     }
 
     render() {
         return (
             <CreateEmailFormComponent
                 {...this.props}
-                updateEmailFormData = {this.updateEmailFormData}
-                updateEditorContent = {this.updateEditorContent}
-                updateEditorFooter = {this.updateEditorFooter}
-                handleFileUpload = {this.handleFileUpload}
-                preSaveEmailForm = {this.preSaveEmailForm}
-                saveEmailForm = {this.saveEmailForm}
-                handleFileUploadAvatar = {this.handleFileUploadAvatar}
+                updateEmailFormData={this.updateEmailFormData}
+                updateEditorContent={this.updateEditorContent}
+                updateEditorFooter={this.updateEditorFooter}
+                handleFileUpload={this.handleFileUpload}
+                preSaveEmailForm={this.preSaveEmailForm}
+                saveEmailForm={this.saveEmailForm}
+                handleFileUploadAvatar={this.handleFileUploadAvatar}
             />
         );
     }
@@ -133,9 +131,9 @@ CreateEmailFormContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        emailForm : state.emailForms.emailForm,
-        isUpdatingLogo : state.emailForms.isUpdatingLogo,
-        isUpdatingAvatar : state.emailForms.isUpdatingAvatar,
+        emailForm: state.emailForms.emailForm,
+        isUpdatingLogo: state.emailForms.isUpdatingLogo,
+        isUpdatingAvatar: state.emailForms.isUpdatingAvatar,
         isSaving: state.emailForms.isSaving,
         isPreSaving: state.emailForms.isPreSaving,
         isLoadingEmailForm: state.emailForms.emailForm.isLoading

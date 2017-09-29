@@ -148,6 +148,10 @@ table tr td .avatar-list-staff {
   flex-direction: row;
 }
 
+.flex-justify-content-center{
+  justify-content: center;
+}
+
 .quiet {
   color: #8c8c8c
 }
@@ -431,4 +435,27 @@ $starInactive: #c4c5c6;
 
 .full-height{
   height: 100%;
+}
+
+.email-template{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: solid 4px transparent;
+}
+
+.email-template-selected>.card{
+  border: solid 4px #bdc1c9;
+  position: relative;
+}
+
+.email-template-selected-icon{
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.email-template-selected-icon .material-icons{
+  color: #00b836;
+  background: white;
+  border-radius: 50%;
 }

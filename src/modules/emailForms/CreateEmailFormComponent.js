@@ -28,6 +28,7 @@ class CreateEmailFormComponent extends React.Component {
     }
 
     openModal() {
+        this.props.preSaveEmailForm();
         this.setState({showModal: true});
     }
 
@@ -221,25 +222,13 @@ class CreateEmailFormComponent extends React.Component {
                                         <h4 className="card-title">{template.name}</h4>
                                     </div>
                                 </div>
-                                {this.props.isPreSaving ?
-                                    (
-                                        <button className="btn btn-fill btn-default"
-                                                type="button">
-                                            <i className="fa fa-spinner fa-spin disabled"/> Đang tạo form
-                                        </button>
-                                    )
-                                    :
-                                    (
+
                                         <button
                                             className="btn btn-fill btn-default"
                                             type="button"
-                                            onClick={this.props.preSaveEmailForm}
                                         >
-                                            Xem thử
+                                            Gửi thử
                                         </button>
-                                    )
-
-                                }
                                 {this.props.isSaving ?
                                     (
                                         <button className="btn btn-fill btn-rose"

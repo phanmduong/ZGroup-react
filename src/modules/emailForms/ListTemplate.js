@@ -15,6 +15,7 @@ class ListTemplate extends React.Component {
                         <ItemTemplate
                             key={template.id}
                             template={template}
+                            selectedTemplate={this.props.selectedTemplate}
                             onClick={this.props.onClickItem}
                         />
                     );
@@ -26,6 +27,7 @@ class ListTemplate extends React.Component {
 
 ListTemplate.propTypes = {
     templates: PropTypes.array.isRequired,
+    selectedTemplate: PropTypes.object.isRequired,
     onClickItem: PropTypes.func.isRequired
 };
 

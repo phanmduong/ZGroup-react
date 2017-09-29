@@ -1,7 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as emailFormApi from './emailFormApi';
 import * as helper from '../../helpers/helper';
-import {BASE_URL} from '../../constants/env';
 import {browserHistory} from 'react-router';
 
 export function loadForms(page, search) {
@@ -156,8 +155,6 @@ export function preSaveEmailForm(emailForm) {
         });
         emailFormApi.saveEmailForm(emailForm)
             .then((res) => {
-                helper.showNotification("Tải lên thành công");
-                window.open(BASE_URL + '/email-form/' + res.data.data.email_form.id, '_blank');
                 dispatch({
                     type: types.PRE_SAVE_EMAIL_FORM_SUCCESS,
                     emailFormId: res.data.data.email_form.id,

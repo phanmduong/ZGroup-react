@@ -1,38 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ItemTemplate = ({template, onClick}) => {
+const Image = ({template}) => {
+    return (<div
+        style={{
+            width: '100%',
+            background: 'url(' + template.thumbnail_url + ')',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            height: '150px',
+            borderRadius: '10px'
+        }}>
+    </div>);
+};
 
-    return (
-        <div className="col-md-4" onClick={() => onClick(template)} id="card-email-template">
-            <div className="card card-chart">
-                <div className="card-header" data-background-color="white" style={{
-                    borderRadius: '10px'
-                }}>
-                    <div id="simpleBarChart" className="ct-chart"
-                         style={{
-                             width: '100%',
-                             background: 'url(' + template.thumbnail_url + ')',
-                             backgroundSize: 'cover',
-                             backgroundPosition: 'center',
-                             height: '200px',
-                             borderRadius: '10px'
-                         }}
-                    />
-                </div>
-                <div className="card-content">
-                    <h4 className="card-title">{template.name}</h4>
-                    <p className="category">{template.owner.name}</p>
+const ItemTemplate = ({template, onClick, selectedTemplate}) => {
+
+    if (template.id === selectedTemplate.id) {
+        return (
+            <div className="email-template email-template-selected">
+                <div className="card">
+                    <div className="card-content">
+                        <Image template={template}/>
+                    </div>
+                    <div className="email-template-selected-icon">
+                        <i className="material-icons">check_circle</i>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        )
+    } else {
+
+        return (
+            <div className="email-template" onClick={() => onClick(template)}>
+                <div className="card">
+                    <div className="card-content">
+                        <Image template={template}/>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
 
 };
 
 ItemTemplate.propTypes = {
     onClick: PropTypes.func.isRequired,
     template: PropTypes.object.isRequired,
+    selectedTemplate: PropTypes.object.isRequired,
 };
 
 
