@@ -58,13 +58,16 @@ class CreateShifts extends Command
         foreach ($dates as $date) {
             foreach ($bases as $base) {
                 foreach ($shiftSessions as $shiftSession) {
-                    $shift = new Shift();
-                    $shift->gen_id = $current_gen->id;
-                    $shift->base_id = $base->id;
-                    $shift->shift_session_id = $shiftSession->id;
-                    $shift->week = $week + 1;
-                    $shift->date = $date;
-                    $shift->save();
+                    $shift = Shift::where("base_id", $base->id)->where("gen_id", $current_gen->id)->where("shift_session_id", $shiftSession->id)->where("date", $date)->first();
+                    if (is_null($shift)) {
+                        $shift = new Shift();
+                        $shift->gen_id = $current_gen->id;
+                        $shift->base_id = $base->id;
+                        $shift->shift_session_id = $shiftSession->id;
+                        $shift->week = $week + 1;
+                        $shift->date = $date;
+                        $shift->save();
+                    }
                 }
             }
         }
