@@ -96,6 +96,7 @@ class EmailRepository
             $data = [
                 'id' => $campaign->id,
                 'name' => $campaign->name,
+                'subject' => $campaign->subject,
                 'owner' => $this->userRepository->staff($campaign->owner),
                 'send_status' => $campaign->sended,
                 'open' => $open,
@@ -111,6 +112,8 @@ class EmailRepository
                 $query = "select distinct count(email) as nums from subscribers where id in " .
                     "(select subscriber_id from subscriber_subscribers_list where subscribers_list_id in ($str)) ";
                 $total = DB::select($query)[0]->nums;
+
+                $data['subscribers_list_ids'] = $list_ids;
             }
 
             if (isset($total))

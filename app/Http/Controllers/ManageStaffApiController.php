@@ -58,6 +58,7 @@ class ManageStaffApiController extends ApiController
         $user->address = $request->address;
         $user->role = 1;
         $user->role_id = $request->role_id;
+        $user->base_id = $request->base_id;
         $user->homeland = $request->homeland;
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
@@ -157,6 +158,7 @@ class ManageStaffApiController extends ApiController
         $user->age = $request->age;
         $user->address = $request->address;
         $user->role_id = $request->role_id;
+        $user->base_id = $request->base_id;
         $user->homeland = $request->homeland;
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
