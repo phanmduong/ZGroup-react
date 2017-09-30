@@ -1487,7 +1487,7 @@ function format_data_schedule_class($schedule)
 
 function is_delete_register($user, $register)
 {
-    if ($user->role == 2 || !isset($register->saler) || $register->saler->id == $user->id) {
+    if ($user->role == 2 || ($register->saler && $register->saler->id == $user->id)) {
         return true;
     }
 

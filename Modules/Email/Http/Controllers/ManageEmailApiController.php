@@ -201,4 +201,16 @@ class ManageEmailApiController extends ManageApiController
             'campaign' => $this->emailRepository->campaingn($campaign)
         ]);
     }
+
+    public function delete_campaign($campaign_id)
+    {
+        $campaign = EmailCampaign::find($campaign_id);
+
+        if ($campaign->sended == 0) {
+            $campaign->delete();
+            return $this->respondSuccessWithStatus(['message' => "Xóa chiến dịch thành công"]);
+        }
+
+        return $this->respondErrorWithStatus("Không thể xóa chiến dịch này");
+    }
 }
