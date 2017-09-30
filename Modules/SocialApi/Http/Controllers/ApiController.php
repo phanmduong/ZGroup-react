@@ -2,42 +2,31 @@
 
 namespace Modules\SocialApi\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Requests;
 
-
-class RegisterController extends ApiController
+class ApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      * @return Response
      */
-    public function register(Request $request)
-    {
-        if ($request->name == null || $request->email == null || $request->password == null || $request->username == null)
-            return $this->respondFail(['message' => "Thiếu trường"]);
-        $check_email = User::where("email", $request->email)->first();
-        $check_username = User::where("username", $request->username)->first();
-        if ($check_email) return $this->respondFail(['message' => "Email đã tồn tại"]);
-        if ($check_username) return $this->respondFail(['message' => "Username đã tồn tại"]);
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->username = $request->username;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        $token = JWTAuth::fromUser($user);
-
-        return $this->respondSuccess([
-            "token" => $token,
-            "user" => $user
-        ]);
+    private function respond($status,$data){
+        return response()->json([
+            "status" => $status,
+            "data" => $data
+        ],200);
     }
+
+    public function respondSuccess($data){
+        return $this->respond(1, $data);
+    }
+    public function respondFail($data){
+        return $this->respond(0, $data);
+    }
+
     public function index()
     {
         return view('socialapi::index');
@@ -96,3 +85,29 @@ class RegisterController extends ApiController
     {
     }
 }
+
+//<?php
+//
+//namespace App\Http\Controllers;
+//
+//use Illuminate\Http\Request;
+//
+//use App\Http\Requests;
+//
+//class ApiController extends Controller
+//{
+//    //
+//    private function respond($status,$data){
+//        return response()->json([
+//            "status" => $status,
+//            "data" => $data
+//        ],200);
+//    }
+//
+//    public function respondSuccess($data){
+//        return $this->respond(1, $data);
+//    }
+//    public function respondFail($data){
+//        return $this->respond(0, $data);
+//    }
+//}

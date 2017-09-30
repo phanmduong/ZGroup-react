@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-class LoginController extends Controller
+class LoginController extends ApiController
 {
     /**
      * Display a listing of the resource.
