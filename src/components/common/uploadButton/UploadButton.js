@@ -31,7 +31,10 @@ class UploadButton extends React.Component {
 UploadButton.propTypes = {
     onChange: PropTypes.func.isRequired,
     className: PropTypes.string,
-    children: PropTypes.element.isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.element.isRequired,
+        PropTypes.string.isRequired
+    ]),
     style: PropTypes.object,
 };
 

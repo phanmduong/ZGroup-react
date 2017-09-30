@@ -15,3 +15,19 @@ export function loadGoods(page = 1, query = null) {
     }
     return axios.get(url);
 }
+
+export function uploadAvatar(file, completeHandler, progressHandler, error) {
+    let url = env.API_URL + "/upload-image-froala";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formData = new FormData();
+    formData.append('image', file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.upload.onprogress = progressHandler;
+    ajax.addEventListener("error", error, false);
+    ajax.open("POST", url);
+    ajax.send(formData);
+}

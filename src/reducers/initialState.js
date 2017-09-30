@@ -8,7 +8,9 @@ export default {
         },
         createGood: {
             isLoading: false,
-            good: {}
+            good: {},
+            percent: 0,
+            isUploadingAvatar: false
         }
     },
     login: {
