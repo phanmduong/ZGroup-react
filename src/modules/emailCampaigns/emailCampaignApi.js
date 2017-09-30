@@ -30,3 +30,12 @@ export function storeCampaign(campaign) {
     }
     return axios.post(url, campaign);
 }
+
+export function deleteCampaign(campaignId) {
+    let url = env.MANAGE_API_URL + "/email/campaign/" + campaignId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}

@@ -16,8 +16,6 @@ class ListSubscribers extends React.Component {
                     <tr>
                         <th>Email</th>
                         <th>Tên</th>
-                        <th>Ngày tạo</th>
-                        <th>Ngày cập nhật</th>
                         <th/>
                     </tr>
                     </thead>
@@ -28,12 +26,12 @@ class ListSubscribers extends React.Component {
                                 <tr key={index}>
                                     <td>{subscribers.email}</td>
                                     <td>{subscribers.name}</td>
-                                    <td>{subscribers.created_at}</td>
-                                    <td>{subscribers.updated_at}</td>
-                                    <td><ButtonGroupAction
-                                        delete={this.props.deleteSubscriber}
-                                        object={subscribers.id}
-                                    /></td>
+                                    <td>
+                                        <ButtonGroupAction
+                                            delete={this.props.deleteSubscriber}
+                                            object={subscribers.id}
+                                        />
+                                    </td>
                                 </tr>
                             );
                         })

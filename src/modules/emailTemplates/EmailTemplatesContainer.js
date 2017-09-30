@@ -11,6 +11,7 @@ import Loading from "../../components/common/Loading";
 import ListTemplate from './ListTemplate';
 import * as emailTemplatesActions from './emailTemplatesActions';
 import _ from 'lodash';
+import * as helper from '../../helpers/helper';
 
 class EmailTemplatesContainer extends React.Component {
     constructor(props, context) {
@@ -48,7 +49,10 @@ class EmailTemplatesContainer extends React.Component {
     }
 
     deleteEmailTemplate(emailTemplate){
-        this.props.emailTemplatesActions.deleteEmailTemplate(emailTemplate.id);
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa email template này không?", () => {
+            this.props.emailTemplatesActions.deleteEmailTemplate(emailTemplate.id);
+        });
+
     }
 
     render() {

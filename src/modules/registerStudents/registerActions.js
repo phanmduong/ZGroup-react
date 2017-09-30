@@ -107,11 +107,18 @@ export function deleteRegisterStudent(registerId) {
         });
         registerStudentsApi.deleteRegisterStudent(registerId)
             .then((res) => {
-                showNotification(res.data.data.message);
-                dispatch({
-                    type: types.DELETE_REGISTER_STUDENT_SUCCESS,
-                    registerId
-                });
+                if (res.data.status === 1){
+                    showNotification(res.data.data.message);
+                    dispatch({
+                        type: types.DELETE_REGISTER_STUDENT_SUCCESS,
+                        registerId
+                    });
+                } else {
+                    showErrorNotification(res.data.data.message);
+                    dispatch({
+                        type: types.DELETE_REGISTER_STUDENT_ERROR
+                    });
+                }
             })
             .catch(() => {
                 showErrorNotification('Có lỗi xảy ra');

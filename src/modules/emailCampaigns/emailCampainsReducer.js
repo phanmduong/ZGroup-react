@@ -71,6 +71,12 @@ export default function emailCampaignReducer(state = initialState.emailCampaigns
                     errorStore: true
                 }
             };
+        case types.DELETE_EMAIL_CAMPAIGN_SUCCESS:
+            campaigns = deleteCampaign(action.campaignId, state.campaigns);
+            return {
+                ...state,
+                campaigns: campaigns
+            };
         default:
             return state;
     }
@@ -86,4 +92,11 @@ function changeCampaigns(campaignsData, campaigns) {
         });
     }
     return campaigns;
+}
+
+function deleteCampaign(campaignId, campaignsData) {
+    if (campaignsData) {
+        campaignsData = campaignsData.filter(campaign => campaign.id !== campaignId);
+    }
+    return campaignsData;
 }

@@ -13,6 +13,7 @@ class ListForm extends React.Component {
                 <table className="table">
                     <thead>
                     <tr className="text-rose">
+                        <th/>
                         <th>Tên form</th>
                         <th>Tiêu đề</th>
                         <th>Người tạo</th>
@@ -21,8 +22,28 @@ class ListForm extends React.Component {
                     </thead>
                     <tbody>
                     {this.props.forms.map(form => {
+                        let btn = 'btn-info';
+                        let title = "Chưa lưu";
+
+                        if (form.status === 1) {
+                            btn = 'btn-success';
+                            title = "Đã lưu";
+                        }
                         return (
                             <tr key={form.id}>
+                                <td>
+                                    <div className="container-call-status">
+                                        <button
+                                            className={"btn btn-round " + btn + " none-padding size-40-px"}
+                                            data-toggle="tooltip" title="" type="button" rel="tooltip"
+                                            data-original-title={title}>
+                                            <i className="material-icons">
+                                                save
+                                            </i>
+                                        </button>
+
+                                    </div>
+                                </td>
                                 <td>{form.name}</td>
                                 <td>{form.title}</td>
                                 <td>{form.creator.name}</td>

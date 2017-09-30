@@ -77,3 +77,15 @@ export function loadEmailForm(emailFormId) {
     }
     return axios.get(url);
 }
+
+export function sendMailTest(emailFormId, email) {
+    let url = env.MANAGE_API_URL + '/email-form/' + emailFormId + '/send-mail';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url,
+        {
+            email: email
+        });
+}

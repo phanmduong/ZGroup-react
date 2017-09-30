@@ -73,10 +73,7 @@ class EmailTemplatesContainer extends React.Component {
     resizeIframe() {
         let heightIframe = "2000px";
         if (process.env.NODE_ENV === 'production') {
-
-
-            heightIframe = document.getElementById("iframe-template").contentWindow.document.body.scrollHeight + 'px'
-
+            heightIframe = document.getElementById("iframe-template").contentWindow.document.body.scrollHeight + 40 + 'px';
         }
 
         this.setState({

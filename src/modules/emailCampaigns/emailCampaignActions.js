@@ -71,3 +71,25 @@ export function storeCampaign(campaign, closeModal) {
             });
     };
 }
+
+export function deleteEmailForm(campaignId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_DELETE_EMAIL_CAMPAIGN,
+        });
+        emailCampaignApi.deleteCampaign(campaignId)
+            .then(() => {
+                helper.showNotification('Xóa email form thành công');
+                dispatch({
+                    type: types.DELETE_EMAIL_CAMPAIGN_SUCCESS,
+                    campaignId
+                });
+            })
+            .catch(() => {
+                helper.showErrorNotification('Xóa email form thất bại');
+                dispatch({
+                    type: types.DELETE_EMAIL_CAMPAIGN_ERROR,
+                });
+            });
+    };
+}

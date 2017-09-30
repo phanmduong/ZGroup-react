@@ -1,6 +1,7 @@
 import React from 'react';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
+import Checkbox from '../../components/common/Checkbox';
 
 class ItemRegister extends React.Component {
     constructor(props, context) {
@@ -38,10 +39,6 @@ class ItemRegister extends React.Component {
                 }
             });
         }
-    }
-
-    componentDidUpdate(){
-        $.material.init();
     }
 
     updateFormData(event) {
@@ -125,25 +122,21 @@ class ItemRegister extends React.Component {
                 {register.is_paid ?
                     <td>
                         <div className="checkbox text-center">
-                            <label>
-                                <input type="checkbox"
-                                       name="optionsCheckboxes"
-                                       checked={register.received_id_card === 1}
-                                       disabled
-                                />
-                            </label>
+                            <Checkbox
+                                name="optionsCheckboxes"
+                                checked={register.received_id_card === 1}
+                                disabled
+                            />
                         </div>
                     </td>
                     :
                     <td>
                         <div className="checkbox text-center">
-                            <label>
-                                <input type="checkbox"
-                                       name="received_id_card"
-                                       checked={Boolean(this.state.register.received_id_card)}
-                                       onChange={this.updateFormData}
-                                />
-                            </label>
+                            <Checkbox
+                                name="received_id_card"
+                                checked={Boolean(this.state.register.received_id_card)}
+                                onChange={this.updateFormData}
+                            />
                         </div>
                     </td>
                 }

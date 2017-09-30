@@ -13,10 +13,16 @@ class CreateEmailFormComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            showModal: false
+            showModal: false,
+            showModalSendMail: false,
+            emailSend: {}
         };
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
+        this.closeModalSendMail = this.closeModalSendMail.bind(this);
+        this.openModalSendMail = this.openModalSendMail.bind(this);
+        this.updateEmailForm = this.updateEmailForm.bind(this);
+        this.sendMail = this.sendMail.bind(this);
     }
 
     componentDidMount() {
@@ -30,6 +36,33 @@ class CreateEmailFormComponent extends React.Component {
     openModal() {
         this.props.preSaveEmailForm();
         this.setState({showModal: true});
+    }
+
+    closeModalSendMail() {
+        this.setState({showModalSendMail: false});
+    }
+
+    openModalSendMail() {
+        this.setState({
+            showModalSendMail: true,
+            emailSend: {}
+        });
+    }
+
+    updateEmailForm(event) {
+        const field = event.target.name;
+        let data = {...this.state.emailSend};
+        data[field] = event.target.value;
+        this.setState({
+            emailSend: data
+        });
+    }
+
+    sendMail() {
+        helper.setFormValidation('#form-email-send');
+        if ($('#form-email-send').valid()) {
+            this.props.sendMail(this.state.emailSend.email);
+        }
     }
 
     render() {
@@ -223,17 +256,18 @@ class CreateEmailFormComponent extends React.Component {
                                     </div>
                                 </div>
 
-                                        <button
-                                            className="btn btn-fill btn-default"
-                                            type="button"
-                                        >
-                                            Gửi thử
-                                        </button>
+                                <button
+                                    className="btn btn-fill btn-default"
+                                    type="button"
+                                    onClick={this.openModalSendMail}
+                                >
+                                    Gửi thử
+                                </button>
                                 {this.props.isSaving ?
                                     (
-                                        <button className="btn btn-fill btn-rose"
+                                        <button className="btn btn-fill btn-rose disabled"
                                                 type="button">
-                                            <i className="fa fa-spinner fa-spin disabled"/>
+                                            <i className="fa fa-spinner fa-spin"/>
                                             {this.props.route.type === 'edit' ? 'Đang lưu form' : 'Đang tạo form'}
                                         </button>
                                     )
@@ -261,6 +295,44 @@ class CreateEmailFormComponent extends React.Component {
                         <EmailTemplatesContainer/>
                     </Modal.Body>
                 </Modal>
+                <Modal show={this.state.showModalSendMail} onHide={this.closeModalSendMail}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Gửi mail thử</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form role="form"
+                              id="form-email-send">
+                            <FormInputText
+                                label="Email"
+                                required
+                                name="email"
+                                updateFormData={this.updateEmailForm}
+                                value={this.state.emailSend.email}
+                            />
+                            {
+                                this.props.isSendingMail ?
+                                    (
+                                        <button
+                                            className="btn btn-fill btn-default"
+                                            type="button"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/> Đang gửi
+                                        </button>
+                                    )
+                                    :
+                                    (
+                                        <button
+                                            className="btn btn-fill btn-default"
+                                            type="button"
+                                            onClick={this.sendMail}
+                                        >
+                                            Gửi
+                                        </button>
+                                    )
+                            }
+                        </form>
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
@@ -272,6 +344,7 @@ CreateEmailFormComponent.propTypes = {
     isUpdatingAvatar: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isPreSaving: PropTypes.bool.isRequired,
+    isSendingMail: PropTypes.bool.isRequired,
     isLoadingEmailForm: PropTypes.bool.isRequired,
     emailFormsActions: PropTypes.object.isRequired,
     updateEmailFormData: PropTypes.func.isRequired,
@@ -281,6 +354,7 @@ CreateEmailFormComponent.propTypes = {
     handleFileUploadAvatar: PropTypes.func.isRequired,
     preSaveEmailForm: PropTypes.func.isRequired,
     saveEmailForm: PropTypes.func.isRequired,
+    sendMail: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
 };

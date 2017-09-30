@@ -35,6 +35,7 @@ class EmailCampaignsContainer extends React.Component {
         this.changeSubscribersList = this.changeSubscribersList.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.storeCampaign = this.storeCampaign.bind(this);
+        this.deleteCampaign = this.deleteCampaign.bind(this);
         this.ownerId = this.props.params.ownerId;
     }
 
@@ -142,6 +143,12 @@ class EmailCampaignsContainer extends React.Component {
         this.setState({campaign: campaign});
     }
 
+    deleteCampaign(campaign){
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa chiến dịch này không?", () => {
+            this.props.emailCampaignActions.deleteEmailForm(campaign.id);
+        });
+    }
+
     render() {
         return (
             <div id="page-wrapper">
@@ -174,6 +181,7 @@ class EmailCampaignsContainer extends React.Component {
                             {this.props.isLoading ? <Loading/> :
                                 <ListCampaign
                                     openModal={this.openModalStoreCampaign}
+                                    deleteCampaign={this.deleteCampaign}
                                     campaigns={this.props.campaigns}
                                 />
                             }

@@ -20,6 +20,7 @@ class CreateEmailFormContainer extends React.Component {
         this.saveEmailForm = this.saveEmailForm.bind(this);
         this.preSaveEmailForm = this.preSaveEmailForm.bind(this);
         this.handleFileUploadAvatar = this.handleFileUploadAvatar.bind(this);
+        this.sendMail = this.sendMail.bind(this);
     }
 
     componentWillMount() {
@@ -100,6 +101,15 @@ class CreateEmailFormContainer extends React.Component {
         this.props.emailFormsActions.preSaveEmailForm(this.props.emailForm);
     }
 
+    sendMail(email) {
+
+        if (helper.isEmptyInput(this.props.emailForm.template.name)) {
+            helper.showTypeNotification('Vui lòng chọn template', 'warning');
+            return false;
+        }
+        this.props.emailFormsActions.sendMailTest(this.props.emailForm, email);
+    }
+
     render() {
         return (
             <CreateEmailFormComponent
@@ -110,6 +120,7 @@ class CreateEmailFormContainer extends React.Component {
                 handleFileUpload={this.handleFileUpload}
                 preSaveEmailForm={this.preSaveEmailForm}
                 saveEmailForm={this.saveEmailForm}
+                sendMail={this.sendMail}
                 handleFileUploadAvatar={this.handleFileUploadAvatar}
             />
         );
@@ -122,6 +133,7 @@ CreateEmailFormContainer.propTypes = {
     isUpdatingAvatar: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isPreSaving: PropTypes.bool.isRequired,
+    isSendingMail: PropTypes.bool.isRequired,
     isLoadingEmailForm: PropTypes.bool.isRequired,
     emailFormsActions: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
@@ -136,7 +148,8 @@ function mapStateToProps(state) {
         isUpdatingAvatar: state.emailForms.isUpdatingAvatar,
         isSaving: state.emailForms.isSaving,
         isPreSaving: state.emailForms.isPreSaving,
-        isLoadingEmailForm: state.emailForms.emailForm.isLoading
+        isLoadingEmailForm: state.emailForms.emailForm.isLoading,
+        isSendingMail: state.emailForms.isSendingMail
     };
 }
 

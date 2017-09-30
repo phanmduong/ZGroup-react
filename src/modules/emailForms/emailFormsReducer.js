@@ -263,6 +263,30 @@ export default function baseListReducer(state = initialState.emailForms, action)
                     }
                 }
             };
+        case types.BEGIN_SEND_MAIL_FORM_TEST:
+            return {
+                ...state,
+                ...{
+                    isSendingMail: true,
+                    errorSendMail: false,
+                }
+            };
+        case types.SEND_EMAIL_FORM_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isSendingMail: false,
+                    errorSendMail: false,
+                }
+            };
+        case types.SEND_EMAIL_FORM_ERROR:
+            return {
+                ...state,
+                ...{
+                    isSendingMail: false,
+                    errorSendMail: true
+                }
+            };
         default:
             return state;
     }

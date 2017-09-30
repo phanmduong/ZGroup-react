@@ -289,6 +289,8 @@ export default {
         updateAvatarError: false,
         isSaving: false,
         isPreSaving: false,
+        isSendingMail: false,
+        errorSendMail: false,
         emailForm: {
             id: 0,
             name: '',
