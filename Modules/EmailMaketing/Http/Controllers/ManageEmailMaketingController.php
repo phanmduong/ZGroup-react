@@ -61,13 +61,12 @@ class ManageEmailMaketingController extends ManageApiController
         $limit = 20;
 
         if ($query) {
-            $email_forms = EmailForms::where('status', 1)
-                ->where(function ($q) use ($query) {
-                    $q->where('name', 'like', '%' . $query . '%')
-                        ->orWhere('title', 'like', '%' . $query . '%');
-                })->orderBy('created_at')->paginate($limit);
+            $email_forms = EmailForms::where(function ($q) use ($query) {
+                $q->where('name', 'like', '%' . $query . '%')
+                    ->orWhere('title', 'like', '%' . $query . '%');
+            })->orderBy('created_at')->paginate($limit);
         } else {
-            $email_forms = EmailForms::where('status', 1)->orderBy('created_at')->paginate($limit);
+            $email_forms = EmailForms::orderBy('created_at')->paginate($limit);
         }
 
         $data = [
@@ -82,6 +81,7 @@ class ManageEmailMaketingController extends ManageApiController
                     'avatar_url' => config('app.protocol') . trim_url($email_form->avatar_url),
                     'title_button' => $email_form->title_button,
                     'link_button' => $email_form->link_button,
+                    'status' => $email_form->status
                 ];
             })
         ];
@@ -214,6 +214,4 @@ class ManageEmailMaketingController extends ManageApiController
 
         return $this->respondErrorWithStatus("Email form không tồn tại");
     }
-
-
 }
