@@ -6,17 +6,20 @@ import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 import * as goodActions from "../good/goodActions";
 import UploadButton from "../../components/common/uploadButton/UploadButton";
+import {showErrorNotification} from "../../helpers/helper";
 
 class CreateGoodContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             header: "Thêm sản phẩm",
-            properties: []
+            property: {}
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.handleUpload = this.handleUpload.bind(this);
-        this.addProperties = this.addProperty.bind(this);
+        this.updateProperty = this.updateProperty.bind(this);
+        this.addProperties = this.addProperties.bind(this);
+        this.addPropertyToGood = this.addPropertyToGood.bind(this);
     }
 
     updateFormData(event) {
@@ -26,21 +29,40 @@ class CreateGoodContainer extends React.Component {
         this.props.goodActions.updateGoodFormData(good);
     }
 
-    addProperties() {
+    addProperties(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            if (!this.state.property.name || !this.state.property.value) {
+                showErrorNotification("Bạn cần nhập đủ cả Tên và Giá Trị thuộc tính");
+            } else {
+                this.addPropertyToGood();
+            }
+        }
+
+    }
+
+    addPropertyToGood() {
+        const good = {
+            ...this.props.good,
+            properties: [...this.props.good.properties, this.state.property]
+        };
         this.setState({
-            properties: [
-                ...this.state.properties,
-                {
-                    name: "",
-                    value: ""
-                }
-            ]
+            property: {}
         });
+        this.props.goodActions.updateGoodFormData(good);
     }
 
     handleUpload(event) {
         const file = event.target.files[0];
         this.props.goodActions.uploadAvatar(file);
+    }
+
+    updateProperty(event) {
+        const field = event.target.name;
+        let property = {...this.state.property};
+        property[field] = event.target.value;
+        this.setState({
+            property
+        });
     }
 
     componentWillMount() {
@@ -108,40 +130,64 @@ class CreateGoodContainer extends React.Component {
                                         <div style={{
                                             display: "flex"
                                         }}>
-                                            <table style={{
+                                            <table className="table table-hover" style={{
                                                 width: "100%"
                                             }}>
-                                                <tr>
+                                                <thead>
+                                                <tr className="text-rose">
                                                     <th>Tên thuộc tính</th>
                                                     <th>Giá trị</th>
                                                 </tr>
+                                                </thead>
+                                                <tbody>
                                                 {
-                                                    this.state.properties && this.state.properties.map((property, index) => {
+                                                    good.properties && good.properties.map((property, index) => {
                                                         return (
                                                             <tr key={index}>
                                                                 <td>
-                                                                    <input
-                                                                        style={{width: "100%"}}
-                                                                        type="text"/>
+                                                                    {property.name}
                                                                 </td>
                                                                 <td>
-                                                                    <input
-                                                                        style={{width: "100%"}}
-                                                                        type="text"/>
+                                                                    {property.value}
                                                                 </td>
                                                             </tr>
                                                         );
                                                     })
                                                 }
-
+                                                </tbody>
                                             </table>
                                         </div>
-                                        <button className="btn btn-simple btn-rose">
-                                            <i className="material-icons">add</i> Thêm thuộc tính
-                                        </button>
-                                    </div>
-                                </div>
+                                        <div style={{
+                                            display: "flex"
+                                        }}>
+                                            <div style={{flex: 1, padding: 5}}>
+                                                <FormInputText
+                                                    onKeyPress={this.addProperties}
+                                                    label="Nhập tên thuộc tính"
+                                                    value={this.state.property.name}
+                                                    updateFormData={this.updateProperty}
+                                                    name="name"/>
+                                            </div>
+                                            <div style={{flex: 1, padding: 5}}>
+                                                <FormInputText
+                                                    onKeyPress={this.addProperties}
+                                                    label="Nhập giá trị thuộc tính"
+                                                    updateFormData={this.updateProperty}
+                                                    value={this.state.property.value}
+                                                    name="value"/>
+                                            </div>
+                                            <button
+                                                style={{flex: 0}}
+                                                disabled={!this.state.property.name || !this.state.property.value}
+                                                onClick={this.addPropertyToGood} className="btn btn-simple btn-rose">
+                                                <i className="material-icons">add</i> Thêm thuộc tính
+                                            </button>
+                                        </div>
 
+                                    </div>
+
+                                </div>
+                                <button className="btn btn-rose">Lưu sản phẩm</button>
                             </div>
                             <div className="col-sm-4">
                                 <div className="card">

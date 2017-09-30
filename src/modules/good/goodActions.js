@@ -34,6 +34,7 @@ export function updateGoodFormData(good){
     };
 }
 
+
 export function uploadAvatar(file){
     return function (dispatch) {
         const error = () => {
