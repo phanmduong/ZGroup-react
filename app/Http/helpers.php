@@ -284,6 +284,15 @@ function send_mail($user, $view, $subject)
     });
 }
 
+function send_mail_query($user, $view, $data, $subject)
+{
+    Mail::queue($view, $data, function ($m) use ($user, $subject) {
+        $m->from('no-reply@colorme.vn', 'Color Me');
+
+        $m->to($user['email'], $user['name'])->subject($subject);
+    });
+}
+
 function send_marketing_mail($email, $view, $subject)
 {
 
@@ -1420,14 +1429,16 @@ function trim_url($url)
 function convert_email_form($email_form)
 {
     $data = $email_form->template->content;
-    $data = str_replace('[[LOGO]]', config('app.protocol') . $email_form->logo_url, $data);
-    $data = str_replace('[[AVT]]', config('app.protocol') . $email_form->avatar_url, $data);
-    $data = str_replace('[[TITLE]]', $email_form->title, $data);
-    $data = str_replace('[[SUBTITLE]]', $email_form->subtitle, $data);
-    $data = str_replace('[[CONTENT]]', $email_form->content, $data);
-    $data = str_replace('[[FOOTER]]', $email_form->footer, $data);
-    $data = str_replace('[[BUTTONTEXT]]', $email_form->title_button, $data);
-    $data = str_replace('[[BUTTONLINK]]', $email_form->link_button, $data);
+    $data = str_replace('[[LOGO]]', config('app.protocol') .
+        (!empty($email_form->logo_url) ? $email_form->logo_url : "d1j8r0kxyu9tj8.cloudfront.net/icons/no-logo.png"), $data);
+    $data = str_replace('[[AVT]]', config('app.protocol') .
+        (!empty($email_form->avatar_url) ? $email_form->avatar_url : "d1j8r0kxyu9tj8.cloudfront.net/icons/no-logo.png"), $data);
+    $data = str_replace('[[TITLE]]', (!empty($email_form->title) ? $email_form->title : "Tiêu đề"), $data);
+    $data = str_replace('[[SUBTITLE]]', (!empty($email_form->subtitle) ? $email_form->subtitle : "Phụ đề"), $data);
+    $data = str_replace('[[CONTENT]]', (!empty($email_form->content) ? $email_form->content : "Nội dung"), $data);
+    $data = str_replace('[[FOOTER]]', (!empty($email_form->footer) ? $email_form->footer : "Footer"), $data);
+    $data = str_replace('[[BUTTONTEXT]]', (!empty($email_form->title_button) ? $email_form->title_button : "Tiêu đề"), $data);
+    $data = str_replace('[[BUTTONLINK]]', (!empty($email_form->link_button) ? $email_form->link_button : "Link"), $data);
     return $data;
 }
 

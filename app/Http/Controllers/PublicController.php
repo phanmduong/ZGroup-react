@@ -9,6 +9,7 @@ use App\CategoryProduct;
 use App\Course;
 use App\Email;
 use App\EmailCampaign;
+use App\EmailTemplate;
 use App\Gen;
 use App\Http\Requests\RegisterFormRequest;
 use App\Image;
@@ -809,13 +810,14 @@ class PublicController extends Controller
         return redirect(config('app.protocol') . 'manage.' . config('app.domain'));
     }
 
-    public function render_email_form($email_form_id)
+    public function render_email_form($email_form_id, $email_template_id)
     {
         $email_form = EmailForms::find($email_form_id);
-        $email_form->template = $email_form->template()->first();
+        $email_form->template = EmailTemplate::find($email_template_id);
         $data = convert_email_form($email_form);
-        return view('emails.view_email_form', ['data' => $data]);
+        return view('emails.view_email', ['data' => $data]);
     }
+
 
     public function notificationRedirect($id)
     {

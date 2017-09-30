@@ -192,5 +192,28 @@ class ManageEmailMaketingController extends ManageApiController
         ]);
     }
 
+    public function send_email_test($email_form_id, Request $request)
+    {
+        $email_form = EmailForms::find($email_form_id);
+
+        if ($email_form) {
+            if ($request->email) {
+                $user = [
+                    'email' => $request->email,
+                    'name' => "Tester"
+                ];
+                $email_form->template = $email_form->template()->first();
+                $data = convert_email_form($email_form);
+
+                send_mail_query($user, 'emails.view_email', ['data' => $data], $email_form->name);
+                return $this->respondSuccessWithStatus(['message' => "Gửi mail thành công"]);
+
+            }
+            return $this->respondErrorWithStatus("Thiếu email");
+        }
+
+        return $this->respondErrorWithStatus("Email form không tồn tại");
+    }
+
 
 }
