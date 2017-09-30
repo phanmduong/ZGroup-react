@@ -26,4 +26,5 @@ class GoodController extends ManageApiController
             ]
         );
     }
+
 }
