@@ -293,6 +293,8 @@ export default {
         updateAvatarError: false,
         isSaving: false,
         isPreSaving: false,
+        isSendingMail: false,
+        errorSendMail: false,
         emailForm: {
             id: 0,
             name: '',
@@ -563,5 +565,8 @@ export default {
         error: false,
         currentPage: 1,
         totalPages: 1,
+        subscribersList: [],
+        isStoring: false,
+        errorStore: false,
     }
 };

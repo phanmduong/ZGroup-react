@@ -14,32 +14,53 @@ class ButtonGroupAction extends React.Component {
     render() {
         return (
             <div className="btn-group-action">
-                {this.props.edit ?
+                {this.props.disabledEdit ?
                     (
-                        <a data-toggle="tooltip" title="Sửa"
-                           onClick={() => this.props.edit(this.props.object)} type="button"
+                        <a data-toggle="tooltip" title="Không thể sửa"
+                           type="button"
                            rel="tooltip">
-                            <i className="material-icons">edit</i>
+                            <i className="material-icons">border_color</i>
                         </a>
                     )
                     :
                     (
-                        <Link data-toggle="tooltip" title="Sửa"
-                              to={this.props.editUrl}
-                              type="button" rel="tooltip">
-                            <i className="material-icons">edit</i>
-                        </Link>
+                        this.props.edit ?
+                            (
+                                <a data-toggle="tooltip" title="Sửa"
+                                   onClick={() => this.props.edit(this.props.object)} type="button"
+                                   rel="tooltip">
+                                    <i className="material-icons">edit</i>
+                                </a>
+                            )
+                            :
+                            (
+                                <Link data-toggle="tooltip" title="Sửa"
+                                      to={this.props.editUrl}
+                                      type="button" rel="tooltip">
+                                    <i className="material-icons">edit</i>
+                                </Link>
+                            )
                     )
                 }
                 {
-                    !this.props.disabledDelete &&
-                    (
-                        <a data-toggle="tooltip" title="Xoá"
-                           onClick={() => this.props.delete(this.props.object)} type="button"
-                           rel="tooltip">
-                            <i className="material-icons">delete</i>
-                        </a>
-                    )
+                }
+                {
+                    this.props.disabledDelete ?
+                        (
+                            <a data-toggle="tooltip" title="Không thể xoá"
+                               type="button"
+                               rel="tooltip">
+                                <i className="material-icons">delete_forever</i>
+                            </a>
+                        )
+                        :
+                        (
+                            <a data-toggle="tooltip" title="Xoá"
+                               onClick={() => this.props.delete(this.props.object)} type="button"
+                               rel="tooltip">
+                                <i className="material-icons">delete</i>
+                            </a>
+                        )
                 }
                 {this.props.children}
             </div>
@@ -56,6 +77,7 @@ ButtonGroupAction.propTypes = {
         PropTypes.number,
     ]),
     disabledDelete: PropTypes.bool,
+    disabledEdit: PropTypes.bool,
     children: PropTypes.element
 };
 

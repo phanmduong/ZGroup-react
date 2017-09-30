@@ -6,8 +6,11 @@ export const PROTOCOL = env.PROTOCOL;
 export const API_URL = PROTOCOL + "api." + URL;
 export const MANAGE_API_URL = PROTOCOL + "manageapi." + URL;
 export const BASE_URL = PROTOCOL + URL;
+export const DOMAIN = PROTOCOL + 'manage.' + URL;
+
 if (process.env.NODE_ENV === 'production') {
     MANAGE_URL = PROTOCOL + 'manage.' + URL;
+
 }
 else {
     MANAGE_URL = 'http://localhost:3000';

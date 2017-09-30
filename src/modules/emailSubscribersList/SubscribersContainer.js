@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import _ from 'lodash';
 import Search from "../../components/common/Search";
 import Loading from "../../components/common/Loading";
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import ListSubscribers from './ListSubscribers';
 import * as helper from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
@@ -36,7 +36,13 @@ class SubscribersContainer extends React.Component {
 
 
     componentWillMount() {
-        this.loadSubscribers();
+        if (this.listId) {
+            this.loadSubscribers();
+        }
+    }
+
+    componentDidUpdate() {
+        $('#emails').tagsinput();
     }
 
     subscribersSearchChange(value) {
@@ -86,10 +92,6 @@ class SubscribersContainer extends React.Component {
         this.props.emailSubscribersListActions.addSubscribers(this.listId, $("#emails").val(), this.closeModalAddEmail);
     }
 
-    componentDidUpdate() {
-        $('#emails').tagsinput();
-    }
-
     uploadFile() {
         if (this.state.file == undefined || this.state.file == null) {
             helper.showTypeNotification("Vui lòng chọn file", "info");
@@ -106,63 +108,81 @@ class SubscribersContainer extends React.Component {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-8">
+                            <div className="card">
 
-                    <div className="card">
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                    <i className="material-icons">email</i>
+                                </div>
 
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">email</i>
-                        </div>
-
-                        <div className="card-content">
-                            <h4 className="card-title">Danh sách email</h4>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="col-md-5">
-                                        <button className="btn btn-rose" onClick={this.openModalAddEmail}>
-                                            Thêm
-                                        </button>
-                                        <button className="btn btn-rose" onClick={this.openModalUpFile}>
-                                            Upload csv
-                                        </button>
+                                <div className="card-content">
+                                    <h4 className="card-title">Danh sách email</h4>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="col-md-5">
+                                                <button className="btn btn-rose" onClick={this.openModalAddEmail}>
+                                                    Thêm
+                                                </button>
+                                                <button className="btn btn-rose" onClick={this.openModalUpFile}>
+                                                    Upload csv
+                                                </button>
+                                            </div>
+                                            <Search
+                                                onChange={this.subscribersSearchChange}
+                                                value={this.state.query}
+                                                placeholder="Tìm kiếm"
+                                                className="col-md-7"
+                                            />
+                                        </div>
                                     </div>
-                                    <Search
-                                        onChange={this.subscribersSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm"
-                                        className="col-md-7"
-                                    />
+
+                                    {this.props.isLoading ? <Loading/> :
+                                        <ListSubscribers
+                                            subscribers={this.props.subscribers}
+                                            deleteSubscriber={this.deleteSubscriber}
+                                        />
+                                    }
+                                </div>
+                                <div className="card-content">
+                                    <ul className="pagination pagination-primary">
+                                        {_.range(1, this.props.totalPages + 1).map(page => {
+                                            if (Number(this.state.page) === page) {
+                                                return (
+                                                    <li key={page} className="active">
+                                                        <a onClick={() => this.loadSubscribers(page)}>{page}</a>
+                                                    </li>
+                                                );
+                                            } else {
+                                                return (
+                                                    <li key={page}>
+                                                        <a onClick={() => this.loadSubscribers(page)}>{page}</a>
+                                                    </li>
+                                                );
+                                            }
+
+                                        })}
+                                    </ul>
                                 </div>
                             </div>
 
-                            {this.props.isLoading ? <Loading/> :
-                                <ListSubscribers
-                                    subscribers={this.props.subscribers}
-                                    deleteSubscriber={this.deleteSubscriber}
-                                />
-                            }
+
+                        </div>
+                        <div className="col-md-4">
+                            <div className="card">
+                                <div className="card-header card-header-icon"
+                                     data-background-color="rose">
+                                    <i className="material-icons">perm_identity</i>
+                                </div>
+                                <div className="card-content">
+                                    <h4 className="card-title">
+                                        {this.listId ? "Sửa danh sách email" : "Tạo danh sách email"}
+                                    </h4>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="card-content">
-                        <ul className="pagination pagination-primary">
-                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                if (Number(this.state.page) === page) {
-                                    return (
-                                        <li key={page} className="active">
-                                            <a onClick={() => this.loadSubscribers(page)}>{page}</a>
-                                        </li>
-                                    );
-                                } else {
-                                    return (
-                                        <li key={page}>
-                                            <a onClick={() => this.loadSubscribers(page)}>{page}</a>
-                                        </li>
-                                    );
-                                }
-
-                            })}
-                        </ul>
-                    </div>
 
                 </div>
                 <Modal show={this.state.showModalAddEmail} onHide={this.closeModalAddEmail}>
@@ -278,6 +298,18 @@ class SubscribersContainer extends React.Component {
         );
     }
 }
+
+SubscribersContainer.propTypes = {
+    subscribers: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isLoadingAddEmails: PropTypes.bool.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    emailSubscribersListActions: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

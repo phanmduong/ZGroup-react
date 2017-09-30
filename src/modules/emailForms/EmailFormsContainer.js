@@ -11,6 +11,7 @@ import Loading from "../../components/common/Loading";
 import ListForm from './ListForms';
 import * as emailFormsActions from './emailFormsActions';
 import _ from 'lodash';
+import * as helper from '../../helpers/helper';
 
 class EmailFormsContainer extends React.Component {
     constructor(props, context) {
@@ -47,8 +48,10 @@ class EmailFormsContainer extends React.Component {
         this.props.emailFormsActions.loadForms(page, this.state.query);
     }
 
-    deleteEmailForm(emailForm){
-        this.props.emailFormsActions.deleteEmailForm(emailForm.id);
+    deleteEmailForm(emailForm) {
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa email form này không?", () => {
+            this.props.emailFormsActions.deleteEmailForm(emailForm.id);
+        });
     }
 
     render() {
@@ -138,8 +141,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         emailFormsActions: bindActionCreators(emailFormsActions, dispatch)
-}
-    ;
+    }
+        ;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmailFormsContainer);

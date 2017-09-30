@@ -22,20 +22,23 @@ class AddStaffContainer extends React.Component {
     componentWillMount() {
         this.props.staffActions.initForm();
         this.props.roleActions.loadRolesData();
+        this.props.staffActions.loadDataBase();
         if (this.props.route.type === 'edit') {
             this.props.staffActions.loadStaffData(this.props.params.staffId);
         }
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         this.initForm();
     }
 
     updateFormData(event) {
         const field = event.target.name;
         let staffForm = {...this.props.staffForm};
-        staffForm[field] = event.target.value;
-        this.props.staffActions.updateAddStaffFormData(staffForm);
+        if (staffForm[field] != event.target.value) {
+            staffForm[field] = event.target.value;
+            this.props.staffActions.updateAddStaffFormData(staffForm);
+        }
     }
 
     handleFileUpload(event) {
@@ -57,13 +60,12 @@ class AddStaffContainer extends React.Component {
 
     initForm() {
         helper.setFormValidation('#form-add-staff');
-
         $('#form-date-start-company').datetimepicker({
             format: "YYYY-MM-DD"
         });
     }
 
-    changeColor(color){
+    changeColor(color) {
         let staffForm = {...this.props.staffForm};
         staffForm.color = color.hex;
         this.props.staffActions.updateAddStaffFormData(staffForm);
@@ -71,6 +73,7 @@ class AddStaffContainer extends React.Component {
 
     render() {
         let roles = (this.props.roles !== undefined) ? this.props.roles : [];
+        let bases = (this.props.bases !== undefined) ? this.props.bases : [];
         return (
             <AddStaffComponent
                 {...this.props}
@@ -80,6 +83,7 @@ class AddStaffContainer extends React.Component {
                 type={this.props.route.type}
                 handleFileUpload={this.handleFileUpload}
                 roles={[{id: 0, role_title: ''}, ...roles]}
+                bases={[{id: 0, name: '', address: ''}, ...bases]}
             />
         );
     }
@@ -95,6 +99,7 @@ AddStaffContainer.propTypes = {
     isLoadingRoles: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
+    bases: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -113,6 +118,7 @@ function mapStateToProps(state) {
         isLoadingRoles: state.roles.isLoading,
         error: state.staffs.addStaff.error,
         roles: state.roles.roleListData,
+        bases: state.staffs.bases.basesData,
     };
 }
 

@@ -255,7 +255,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
                 addStaff: {
                     ...state.addStaff,
                     ...{
-                        staffForm: { ...initialState.staffs.addStaff.staffForm},
+                        staffForm: {...initialState.staffs.addStaff.staffForm},
                     }
                 }
             };
@@ -330,7 +330,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
             return {
                 ...state,
                 ...{
-                    bases:{
+                    bases: {
                         ...state.bases,
                         ...{
                             isLoading: action.isLoading,
@@ -343,7 +343,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
             return {
                 ...state,
                 ...{
-                    bases:{
+                    bases: {
                         ...state.bases,
                         ...{
                             isLoading: action.isLoading,
@@ -357,7 +357,7 @@ export default function staffsReducer(state = initialState.staffs, action) {
             return {
                 ...state,
                 ...{
-                    bases:{
+                    bases: {
                         ...state.bases,
                         ...{
                             isLoading: action.isLoading,

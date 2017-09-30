@@ -1,8 +1,8 @@
 import * as types from '../../constants/actionTypes';
 import * as emailFormApi from './emailFormApi';
 import * as helper from '../../helpers/helper';
-import {BASE_URL} from '../../constants/env';
 import {browserHistory} from 'react-router';
+import async from 'async';
 
 export function loadForms(page, search) {
     return function (dispatch) {
@@ -156,8 +156,6 @@ export function preSaveEmailForm(emailForm) {
         });
         emailFormApi.saveEmailForm(emailForm)
             .then((res) => {
-                helper.showNotification("Tải lên thành công");
-                window.open(BASE_URL + '/email-form/' + res.data.data.email_form.id, '_blank');
                 dispatch({
                     type: types.PRE_SAVE_EMAIL_FORM_SUCCESS,
                     emailFormId: res.data.data.email_form.id,
@@ -210,5 +208,48 @@ export function loadEmailForm(emailFormId) {
                     type: types.LOAD_EMAIL_FORM_ERROR,
                 });
             });
+    };
+}
+
+export function sendMailTest(emailForm, email) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SEND_MAIL_FORM_TEST,
+        });
+        async.waterfall([
+            function (callback) {
+                emailFormApi.saveEmailForm(emailForm)
+                    .then((res) => {
+                        callback(null, {emailFormId: res.data.data.email_form.id,});
+                    }).catch(() => {
+                    callback("Lỗi lưu email form");
+                });
+            },
+            function (emailForm, callback) {
+                emailFormApi.sendMailTest(emailForm.emailFormId, email)
+                    .then((res) => {
+                        if (res.data.status === 1) {
+                            callback(null, res.data);
+                        } else {
+                            callback(res.data.data.message);
+                        }
+                    }).catch(() => {
+                    callback("Gửi mail lỗi");
+                });
+            }
+        ], function (err, result) {
+            if (err) {
+                helper.showErrorNotification(err);
+                dispatch({
+                    type: types.SEND_EMAIL_FORM_ERROR,
+                });
+            }
+            if (result.status === 1) {
+                helper.showNotification("Gửi mail thành công");
+                dispatch({
+                    type: types.SEND_EMAIL_FORM_SUCCESS,
+                });
+            }
+        });
     };
 }

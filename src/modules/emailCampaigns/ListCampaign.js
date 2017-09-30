@@ -2,6 +2,7 @@ import React from 'react';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import {Link} from 'react-router';
 import * as helper from '../../helpers/helper';
+import PropTypes from 'prop-types';
 
 class ListCampaign extends React.Component {
     constructor(props, context) {
@@ -14,7 +15,7 @@ class ListCampaign extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr>
-                        <th />
+                        <th/>
                         <th>Tên</th>
                         <th>Người tạo</th>
                         <th>Sended/Total</th>
@@ -113,6 +114,11 @@ class ListCampaign extends React.Component {
                                         </div>
                                     </td>
                                     <td><ButtonGroupAction
+                                        edit={() => this.props.openModal(campaign)}
+                                        delete={this.props.deleteCampaign}
+                                        object={campaign}
+                                        disabledDelete={Boolean(campaign.send_status)}
+                                        disabledEdit={Boolean(campaign.send_status)}
                                     /></td>
                                 </tr>
                             );
@@ -124,6 +130,12 @@ class ListCampaign extends React.Component {
         );
     }
 }
+
+ListCampaign.propTypes = {
+    openModal: PropTypes.func.isRequired,
+    deleteCampaign: PropTypes.func.isRequired,
+    campaigns: PropTypes.array.isRequired
+};
 
 
 export default ListCampaign;
