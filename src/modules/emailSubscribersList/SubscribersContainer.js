@@ -99,11 +99,21 @@ class SubscribersContainer extends React.Component {
         this.setState({showModalAddEmail: false});
     }
 
-    openModalAddEmail() {
-        this.setState({
-            showModalAddEmail: true,
-            subscriber: {}
-        });
+    openModalAddEmail(subscriber) {
+        if (subscriber) {
+            this.setState({
+                showModalAddEmail: true,
+                subscriber: subscriber,
+                edit: true
+            });
+        } else {
+            this.setState({
+                showModalAddEmail: true,
+                subscriber: {},
+                edit: false
+            });
+        }
+
     }
 
     closeModalUpFile() {
@@ -117,11 +127,19 @@ class SubscribersContainer extends React.Component {
     }
 
     addEmails() {
-        this.setState({
-            page: 1,
-            query: ""
-        });
-        this.props.emailSubscribersListActions.addSubscribers(this.listId, this.state.subscriber, this.closeModalAddEmail);
+        helper.setFormValidation("#form-add-subscriber");
+        if ($("#form-add-subscriber").valid()) {
+            this.setState({
+                page: 1,
+                query: ""
+            });
+            if (this.state.edit) {
+                this.props.emailSubscribersListActions.editSubscriber(this.state.subscriber, this.closeModalAddEmail);
+            } else {
+                this.props.emailSubscribersListActions.addSubscriber(this.listId, this.state.subscriber, this.closeModalAddEmail);
+            }
+
+        }
     }
 
     uploadFile() {
@@ -166,7 +184,7 @@ class SubscribersContainer extends React.Component {
                                                 <h4 className="card-title">Danh sách email</h4>
                                                 <div className="row">
                                                     <div className="col-md-12">
-                                                        <div className="col-md-5">
+                                                        <div className="col-md-7">
                                                             <button className="btn btn-rose"
                                                                     onClick={this.openModalAddEmail}>
                                                                 Thêm
@@ -180,7 +198,7 @@ class SubscribersContainer extends React.Component {
                                                             onChange={this.subscribersSearchChange}
                                                             value={this.state.query}
                                                             placeholder="Tìm kiếm"
-                                                            className="col-md-7"
+                                                            className="col-md-5"
                                                         />
                                                     </div>
                                                 </div>
@@ -189,6 +207,7 @@ class SubscribersContainer extends React.Component {
                                                     <ListSubscribers
                                                         subscribers={this.props.subscribers}
                                                         deleteSubscriber={this.deleteSubscriber}
+                                                        openModalAddEmail={this.openModalAddEmail}
                                                     />
                                                 }
                                             </div>
@@ -308,7 +327,8 @@ class SubscribersContainer extends React.Component {
                             (
                                 <button className="btn btn-fill btn-rose disabled"
                                         type="button">
-                                    <i className="fa fa-spinner fa-spin"/> Đang thêm
+                                    <i className="fa fa-spinner fa-spin"/>
+                                    {this.state.edit ? ' Đang cập nhật' : ' Đang thêm'}
                                 </button>
                             )
                             :
@@ -318,7 +338,7 @@ class SubscribersContainer extends React.Component {
                                     type="button"
                                     onClick={this.addEmails}
                                 >
-                                    Thêm
+                                    {this.state.edit ? ' Cập nhật' : ' Thêm'}
                                 </button>
                             )
 

@@ -127,6 +127,10 @@ export default function baseListReducer(state = initialState.emailSubscribersLis
                 ...{
                     isLoadingAddEmails: false,
                     errorAddEmails: false,
+                    subscribers: {
+                        ...state.subscribers,
+                        subscribers: action.subscriber ? changeSubscribers(action.subscriber, state.subscribers.subscribers) : state.subscribers.subscribers
+                    }
                 }
             };
         case types.ADD_EMAIL_SUBSCRIBERS_ERROR:
@@ -201,4 +205,16 @@ function changeSubscribersList(subscribersListData, subscribersList) {
         });
     }
     return subscribersList;
+}
+
+function changeSubscribers(subscriberData, subscribers) {
+    if (subscribers) {
+        subscribers = subscribers.map((subscriber) => {
+            if (subscriber.id === subscriberData.id) {
+                return subscriberData;
+            }
+            return subscriber;
+        });
+    }
+    return subscribers;
 }

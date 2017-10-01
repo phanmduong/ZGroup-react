@@ -55,7 +55,7 @@ export function loadSubscribers(listId, page = 1, query = null) {
     return axios.get(url);
 }
 
-export function addEmails(listId, subscriber) {
+export function addSubscriber(listId, subscriber) {
     let url = env.MANAGE_API_URL + "/email/subscriber/add";
     let token = localStorage.getItem('token');
     if (token) {
@@ -65,6 +65,19 @@ export function addEmails(listId, subscriber) {
         list_id: listId,
         name: subscriber.name,
         email: subscriber.email
+    });
+}
+
+export function editSubscriber(subscriber) {
+    let url = env.MANAGE_API_URL + "/email/subscriber/edit";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        name: subscriber.name,
+        email: subscriber.email,
+        id: subscriber.id
     });
 }
 

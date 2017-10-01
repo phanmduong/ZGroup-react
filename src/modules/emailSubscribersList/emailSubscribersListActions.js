@@ -124,18 +124,39 @@ export function loadSubscribersListItem(listId) {
     };
 }
 
-export function addSubscribers(listId, subscriber, closeModal) {
+export function addSubscriber(listId, subscriber, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_EMAIL_SUBSCRIBERS,
         });
-        emailSubcribersListApi.addEmails(listId, subscriber)
+        emailSubcribersListApi.addSubscriber(listId, subscriber)
             .then(() => {
                 closeModal();
                 dispatch(loadSubscribers(listId, 1, ""));
                 helper.showNotification("Thêm email thành công");
                 dispatch({
                     type: types.ADD_EMAIL_SUBSCRIBERS_SUCCESS,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.ADD_EMAIL_SUBSCRIBERS_ERROR,
+                });
+            });
+    };
+}
+
+export function editSubscriber(subscriber, closeModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_ADD_EMAIL_SUBSCRIBERS,
+        });
+        emailSubcribersListApi.editSubscriber(subscriber)
+            .then((res) => {
+                closeModal();
+                dispatch({
+                    type: types.ADD_EMAIL_SUBSCRIBERS_SUCCESS,
+                    subscriber: res.data.data.subscriber
                 });
             })
             .catch(() => {

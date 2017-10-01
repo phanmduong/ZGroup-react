@@ -21,15 +21,16 @@ class ListSubscribers extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.subscribers.map((subscribers, index) => {
+                        this.props.subscribers.map((subscriber, index) => {
                             return (
                                 <tr key={index}>
-                                    <td>{subscribers.email}</td>
-                                    <td>{subscribers.name}</td>
+                                    <td>{subscriber.email}</td>
+                                    <td>{subscriber.name}</td>
                                     <td>
                                         <ButtonGroupAction
                                             delete={this.props.deleteSubscriber}
-                                            object={subscribers.id}
+                                            object={subscriber.id}
+                                            edit={()=>this.props.openModalAddEmail(subscriber)}
                                         />
                                     </td>
                                 </tr>
@@ -45,6 +46,7 @@ class ListSubscribers extends React.Component {
 
 ListSubscribers.propTypes = {
     deleteSubscriber: PropTypes.func.isRequired,
+    openModalAddEmail: PropTypes.func.isRequired,
     subscribers: PropTypes.array.isRequired
 };
 
