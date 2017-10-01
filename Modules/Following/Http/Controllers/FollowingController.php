@@ -2,16 +2,53 @@
 
 namespace Modules\Following\Http\Controllers;
 
+use App\Following;
+use App\Http\Controllers\ApiController;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 
-class FollowingController extends Controller
+class FollowingController extends ApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
-     * @return Response
+     * @return string
      */
+
+    public function followUnfollow($user_id, Request $request)
+    {
+        $user = $this->user;
+        $following = Following::where("following_id", $user->id)->where("followed_id", $user_id)->first();//$user->following()->where("followed_id", $user_id)->first();
+        if ($following == null) {
+            $following = new Following();
+            $following->following_id = $user->id;
+            $following->followed_id = $user_id;
+            $following->save();
+            return $this->respondSuccessWithStatus([
+                'message' => "Theo dõi thành công"
+            ]);
+        } else {
+            $following->delete();
+            return $this->respondSuccessWithStatus([
+                'message' => "Bỏ theo dõi thành công"
+            ]);
+        }
+    }
+
+    public function followCount($user_id, Request $request)
+    {
+        $user = User::find($user_id);
+        $followCount = $user->following()->count();
+        return $this->respondSuccessWithStatus([
+            'followCount' => $followCount
+        ]);
+    }
+
     public function index()
     {
         return view('following::index');

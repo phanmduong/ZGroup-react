@@ -1,6 +1,7 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'following', 'namespace' => 'Modules\Following\Http\Controllers'], function()
-{
-    Route::get('/', 'FollowingController@index');
+
+Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Following\Http\Controllers'], function () {
+    Route::post('/follow/{user_id}', 'FollowingController@followUnfollow');
+    Route::get('/follow-count/{user_id}', 'FollowingController@followCount');
 });

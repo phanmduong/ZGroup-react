@@ -270,5 +270,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(CheckInCheckOut::class, "user_id");
     }
+
+    public function following(){
+        return $this->belongsToMany(User::class, 'followings', 'following_id', 'followed_id');
+    }
+
+    public function follower(){
+        return $this->belongsToMany(User::class, 'followings', 'followed_id', 'following_id');
+    }
 }
 
