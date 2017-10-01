@@ -19,7 +19,9 @@ class CreateGoodContainer extends React.Component {
         this.handleUpload = this.handleUpload.bind(this);
         this.updateProperty = this.updateProperty.bind(this);
         this.addProperties = this.addProperties.bind(this);
+        this.handleUploadCover = this.handleUploadCover.bind(this);
         this.addPropertyToGood = this.addPropertyToGood.bind(this);
+        this.saveGood = this.saveGood.bind(this);
     }
 
     updateFormData(event) {
@@ -56,6 +58,11 @@ class CreateGoodContainer extends React.Component {
         this.props.goodActions.uploadAvatar(file);
     }
 
+    handleUploadCover(event) {
+        const file = event.target.files[0];
+        this.props.goodActions.uploadCover(file);
+    }
+
     updateProperty(event) {
         const field = event.target.name;
         let property = {...this.state.property};
@@ -65,11 +72,24 @@ class CreateGoodContainer extends React.Component {
         });
     }
 
+    saveGood() {
+        const good = {
+            ...this.props.good,
+            properties: JSON.stringify(this.props.good.properties)
+        };
+        if (!good.name || !good.code) {
+            showErrorNotification("Bạn cần nhập Tên và Mã sản phẩm");
+        } else {
+            this.props.goodActions.saveGood(good);
+        }
+    }
+
     componentWillMount() {
         if (this.props.route.type === "edit") {
             this.setState({
                 header: "Sửa sản phẩm"
             });
+            // this.props.goodActions.
         }
     }
 
@@ -187,7 +207,16 @@ class CreateGoodContainer extends React.Component {
                                     </div>
 
                                 </div>
-                                <button className="btn btn-rose">Lưu sản phẩm</button>
+                                {
+                                    this.props.isSaving ? (
+                                        <Loading/>
+                                    ) : (
+                                        <button
+                                            onClick={this.saveGood}
+                                            className="btn btn-rose">Lưu sản phẩm</button>
+                                    )
+                                }
+
                             </div>
                             <div className="col-sm-4">
                                 <div className="card">
@@ -195,7 +224,7 @@ class CreateGoodContainer extends React.Component {
                                         <i className="material-icons">announcement</i>
                                     </div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Thông tin</h4>
+                                        <h4 className="card-title">Ảnh</h4>
                                         {
                                             this.props.isUploadingAvatar ? (
                                                 <div className="progress">
@@ -227,6 +256,36 @@ class CreateGoodContainer extends React.Component {
                                             )
                                         }
 
+                                        {
+                                            this.props.isUploadingCover ? (
+                                                <div className="progress">
+                                                    <div className="progress-bar" role="progressbar" aria-valuenow="70"
+                                                         aria-valuemin="0" aria-valuemax="100"
+                                                         style={{width: `${this.props.percentCover}%`}}>
+                                                        <span className="sr-only">{this.props.percent}% Complete</span>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <img
+                                                        src={good.cover_url || "http://d255zuevr6tr8p.cloudfront.net/no_photo.png"}
+                                                        style={{
+                                                            width: "100%"
+                                                        }}/>
+
+                                                    <UploadButton
+                                                        style={{
+                                                            width: "100%"
+                                                        }}
+                                                        className="btn btn-rose"
+                                                        onChange={this.handleUploadCover}>
+                                                        chọn ảnh nền
+                                                    </UploadButton>
+                                                </div>
+                                            )
+                                        }
+
+
                                     </div>
                                 </div>
                             </div>
@@ -240,17 +299,23 @@ class CreateGoodContainer extends React.Component {
 
 CreateGoodContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
     isUploadingAvatar: PropTypes.bool.isRequired,
+    isUploadingCover: PropTypes.bool.isRequired,
     route: PropTypes.object.isRequired,
     goodActions: PropTypes.object.isRequired,
     percent: PropTypes.number.isRequired,
+    percentCover: PropTypes.number.isRequired,
     good: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.good.goodList.isLoading,
+        isSaving: state.good.createGood.isSaving,
+        percentCover: state.good.createGood.percentCover,
         isUploadingAvatar: state.good.createGood.isUploadingAvatar,
+        isUploadingCover: state.good.createGood.isUploadingCover,
         good: state.good.createGood.good,
         percent: state.good.createGood.percent
     };

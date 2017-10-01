@@ -4,6 +4,7 @@
 import * as types from '../../constants/actionTypes';
 import * as goodApi from './goodApi';
 import {showErrorNotification, showNotification} from "../../helpers/helper";
+import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
 /*eslint no-console: 0 */
@@ -25,7 +26,7 @@ export function loadGoods(page = 1, query = null) {
     };
 }
 
-export function updateGoodFormData(good){
+export function updateGoodFormData(good) {
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_GOOD_FORM_DATA,
@@ -35,7 +36,7 @@ export function updateGoodFormData(good){
 }
 
 
-export function uploadAvatar(file){
+export function uploadAvatar(file) {
     return function (dispatch) {
         const error = () => {
             showErrorNotification("Có lỗi xảy ra");
@@ -43,7 +44,7 @@ export function uploadAvatar(file){
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
             console.log(data);
-            showNotification("Tải lên  tập tin đính kèm thành công");
+            showNotification("Tải lên ảnh đại diện thành công");
             dispatch({
                 type: types.UPLOAD_GOOD_AVATAR_COMPLETE,
                 avatar_url: data.link
@@ -63,5 +64,69 @@ export function uploadAvatar(file){
 
         goodApi.uploadAvatar(file,
             completeHandler, progressHandler, error);
+    };
+}
+
+export function uploadCover(file) {
+    return function (dispatch) {
+        const error = () => {
+            showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = (event) => {
+            const data = JSON.parse(event.currentTarget.responseText);
+            console.log(data);
+            showNotification("Tải lên ảnh nền thành công");
+            dispatch({
+                type: types.UPLOAD_COVER_SUCCESS,
+                coverUrl: data.link
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_UPLOAD_COVER_PROGRESS,
+                percentCover: percentComplete
+            });
+        };
+
+        dispatch({
+            type: types.BEGIN_UPLOAD_COVER
+        });
+
+        goodApi.uploadAvatar(file,
+            completeHandler, progressHandler, error);
+    };
+}
+
+export function saveGood(good) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_GOOD
+        });
+
+        goodApi.saveGood(good)
+            .then(() => {
+                browserHistory.push("/good/all");
+                showNotification("Thêm sản phẩm thành công");
+                dispatch({
+                    type: types.SAVE_GOOD_SUCCESS
+                });
+            });
+    };
+}
+
+
+export function loadGood(good){
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GOODS
+        });
+
+        goodApi.loadGood(good)
+            .then((res) => {
+                dispatch({
+                    
+                })
+            })
     };
 }

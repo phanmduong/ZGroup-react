@@ -6,6 +6,54 @@ import initialState from '../../reducers/initialState';
 
 export default function baseListReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.SAVE_GOOD_SUCCESS:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    isSaving: false,
+                    good: {
+                        properties: []
+                    }
+                }
+            };
+        case types.BEGIN_SAVE_GOOD:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    isSaving: true
+                }
+            };
+        case types.UPLOAD_COVER_SUCCESS:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    isUploadingCover: false,
+                    good: {
+                        ...state.createGood.good,
+                        cover_url: action.coverUrl
+                    }
+                }
+            };
+        case types.UPDATE_UPLOAD_COVER_PROGRESS:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    percentCover: action.percentCover
+                }
+            };
+        case types.BEGIN_UPLOAD_COVER:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    isUploadingCover: true
+                }
+            };
+
         case types.UPDATE_GOOD_AVATAR_PROGRESS:
             return {
                 ...state,
@@ -21,7 +69,7 @@ export default function baseListReducer(state = initialState.good, action) {
                     ...state.createGood,
                     isUploadingAvatar: false,
                     good: {
-                        ...state.createGood,
+                        ...state.createGood.good,
                         avatar_url: action.avatar_url
                     }
                 }

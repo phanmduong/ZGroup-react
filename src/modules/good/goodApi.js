@@ -31,3 +31,22 @@ export function uploadAvatar(file, completeHandler, progressHandler, error) {
     ajax.open("POST", url);
     ajax.send(formData);
 }
+
+export function saveGood(good) {
+    let url = env.MANAGE_API_URL + "/good/create";
+    const token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, good);
+}
+
+export function loadGood(good) {
+    let url = env.MANAGE_API_URL + `/good/${good.id}`;
+
+    const token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

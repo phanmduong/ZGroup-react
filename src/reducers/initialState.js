@@ -12,7 +12,10 @@ export default {
                 properties: []
             },
             percent: 0,
-            isUploadingAvatar: false
+            percentCover: 0,
+            isUploadingAvatar: false,
+            isSaving: false,
+            isUploadingCover: false
         }
     },
     login: {
