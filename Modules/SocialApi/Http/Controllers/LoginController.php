@@ -2,9 +2,12 @@
 
 namespace Modules\SocialApi\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends ApiController
 {
@@ -12,6 +15,21 @@ class LoginController extends ApiController
      * Display a listing of the resource.
      * @return Response
      */
+    public function login(Request $request)
+    {
+        $user = User::where("email", $request->email)->first();
+        if ($user == null)
+            return $this->respondFail(['message' => "sai email rui"]);
+        if (Hash::check($request->password, $user->password)) {
+            $token = JWTAuth::fromUser($user);
+            return $this->respondSuccess([
+                "token" => $token,
+                "user" => $user
+            ]);
+        }
+        return $this->respondFail(['message' => "Sai password"]);
+    }
+
     public function index()
     {
         return view('socialapi::index');

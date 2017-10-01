@@ -59,6 +59,7 @@ class RegisterController extends ApiController
      */
     public function store(Request $request)
     {
+
     }
 
     /**
