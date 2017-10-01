@@ -49,6 +49,14 @@ class FollowingController extends ApiController
         ]);
     }
 
+
+    public function followers($user_id, Request $request){
+        $user = User::find($user_id);
+        $users = $user->follower()->get();
+        return $this->respondSuccessWithStatus([
+            "users"=>$users
+        ]);
+    }
     public function index()
     {
         return view('following::index');
