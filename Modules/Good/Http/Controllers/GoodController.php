@@ -5,6 +5,7 @@ namespace Modules\Good\Http\Controllers;
 use App\Good;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
+use Modules\Good\Entities\GoodProperty;
 
 
 class GoodController extends ManageApiController
@@ -25,6 +26,43 @@ class GoodController extends ManageApiController
                 })
             ]
         );
+    }
+
+    public function createGood(Request $request)
+    {
+        $name = $request->name;
+        $code = $request->code;
+        $description = $request->description;
+        $price = $request->price;
+        $avatarUrl = $request->avatar_url;
+        $coverUrl = $request->cover_url;
+
+        if (is_null("name") && is_null("code")) {
+            return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
+        }
+
+        $good = new Good();
+        $good->name = $name;
+        $good->code = $code;
+        $good->description = $description;
+        $good->price = $price;
+        $good->avatar_url = $avatarUrl;
+        $good->cover_url = $coverUrl;
+        $good->save();
+
+        $properties = json_decode($request->properties);
+
+        foreach ($properties as $p) {
+            $property = new GoodProperty();
+            $property->name = $p->name;
+            $property->value = $p->value;
+            $property->creator_id = $this->user->id;
+            $property->editor_id = $this->user->id;
+            $property->good_id = $good->id;
+            $property->save();
+        }
+
+        return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
 }

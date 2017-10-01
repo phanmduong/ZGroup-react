@@ -88,13 +88,11 @@ class ManagePostController extends ManageController
             $current_gen = Gen::getCurrentTeachGen();
         }
 
-        $staffs = User::whereExists(function ($query) use ($current_gen) {
-            $query->select(DB::raw(1))
-                ->from('classes')
-                ->where('classes.gen_id', $current_gen->id)
-                ->whereRaw('classes.teacher_id = users.id')
-                ->orWhere('classes.teaching_assistant_id', 'users.id');
-        })->get();
+        $teacherIds = $current_gen->studyclasses()->pluck("teacher_id")->toArray();
+        $taIds = $current_gen->studyclasses()->pluck("teaching_assistant_id")->toArray();
+        $ids = array_merge($teacherIds, $taIds);
+
+        $staffs = User::whereIn("id", $ids)->get();
 
         $this->data['staffs'] = $staffs->map(function ($staff) use ($current_gen) {
             $total_comments = 0;
