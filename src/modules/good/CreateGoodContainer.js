@@ -20,6 +20,7 @@ class CreateGoodContainer extends React.Component {
         this.updateProperty = this.updateProperty.bind(this);
         this.addProperties = this.addProperties.bind(this);
         this.handleUploadCover = this.handleUploadCover.bind(this);
+        this.removeProperty = this.removeProperty.bind(this);
         this.addPropertyToGood = this.addPropertyToGood.bind(this);
         this.saveGood = this.saveGood.bind(this);
     }
@@ -82,6 +83,15 @@ class CreateGoodContainer extends React.Component {
         } else {
             this.props.goodActions.saveGood(good);
         }
+    }
+
+    removeProperty(index) {
+        let properties = this.props.good.properties;
+        properties = [...properties.slice(0, index), ...properties.slice(index + 1)];
+        this.props.goodActions.updateGoodFormData({
+            ...this.props.good,
+            properties
+        });
     }
 
     componentWillMount() {
@@ -155,6 +165,7 @@ class CreateGoodContainer extends React.Component {
                                             }}>
                                                 <thead>
                                                 <tr className="text-rose">
+                                                    <th></th>
                                                     <th>Tên thuộc tính</th>
                                                     <th>Giá trị</th>
                                                 </tr>
@@ -164,6 +175,12 @@ class CreateGoodContainer extends React.Component {
                                                     good.properties && good.properties.map((property, index) => {
                                                         return (
                                                             <tr key={index}>
+                                                                <td>
+                                                                    <a style={{
+                                                                        color: "#c50000"
+                                                                    }}
+                                                                       onClick={() => this.removeProperty(index)}>&times;</a>
+                                                                </td>
                                                                 <td>
                                                                     {property.name}
                                                                 </td>
