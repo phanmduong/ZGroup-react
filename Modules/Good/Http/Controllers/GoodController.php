@@ -5,6 +5,7 @@ namespace Modules\Good\Http\Controllers;
 use App\Good;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodProperty;
 
 
@@ -41,7 +42,14 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
 
-        $good = new Good();
+
+
+        $id = $request->id;
+        if ($id) {
+            $good = Good::find($id);
+        } else {
+            $good = new Good();
+        }
         $good->name = $name;
         $good->code = $code;
         $good->description = $description;
@@ -51,6 +59,8 @@ class GoodController extends ManageApiController
         $good->save();
 
         $properties = json_decode($request->properties);
+
+        DB::table('good_properties')->where('good_id', '=', $good->id)->delete();
 
         foreach ($properties as $p) {
             $property = new GoodProperty();
@@ -65,7 +75,8 @@ class GoodController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
-    public function good($id){
+    public function good($id)
+    {
         $good = Good::find($id);
         return $this->respondSuccessWithStatus([
             "good" => $good->transform()
