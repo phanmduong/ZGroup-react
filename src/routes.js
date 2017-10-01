@@ -163,7 +163,7 @@ export default (
 
             {/*Begin email subscribers list routes*/}
             <Route path="/manage/subscribers_list" component={EmailSubscribersListContainer}/>
-            <Route path="/subscribers(/:listId)" component={SubscribersContainer}/>
+            <Route path="/email/subscribers(/:listId)" component={SubscribersContainer}/>
             {/*End email subscribers list routes*/}
 
             {/*Begin email campaigns routes*/}

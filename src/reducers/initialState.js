@@ -557,6 +557,9 @@ export default {
         },
         isLoadingAddEmails: false,
         errorAddEmails: false,
+        isLoadingSubscribersListItem: false,
+        errorSubscribersListItem: false,
+        subscribersListItem: {}
     },
 
     emailCampaigns: {

@@ -48,7 +48,7 @@ export function deleteSubscribersList(subscribersListId) {
     };
 }
 
-export function storeSubscribersList(subscribersList, closeModal) {
+export function storeSubscribersList(subscribersList) {
     if (helper.isEmptyInput(subscribersList.id)) {
         subscribersList.id = '';
     }
@@ -58,14 +58,23 @@ export function storeSubscribersList(subscribersList, closeModal) {
         });
         emailSubcribersListApi.storeSubscribersList(subscribersList)
             .then(res => {
-                closeModal();
-                dispatch({
-                    type: types.STORE_EMAIL_SUBSCRIBERS_LIST_SUCCESS,
-                    subscribersList: res.data.data.subscribers_list,
-                    edit: !helper.isEmptyInput(subscribersList.id)
-                });
+                if (res.data.status === 1) {
+                    helper.showNotification("Tải lên thành công");
+                    dispatch({
+                        type: types.STORE_EMAIL_SUBSCRIBERS_LIST_SUCCESS,
+                        subscribersList: res.data.data.subscribers_list,
+                        edit: !helper.isEmptyInput(subscribersList.id)
+                    });
+                } else {
+                    helper.showErrorNotification("Tải lên thất bại");
+                    dispatch({
+                        type: types.STORE_EMAIL_SUBSCRIBERS_LIST_ERROR,
+                    });
+                }
+
             })
             .catch(() => {
+                helper.showErrorNotification("Tải lên thất bại");
                 dispatch({
                     type: types.STORE_EMAIL_SUBSCRIBERS_LIST_ERROR,
                 });
@@ -95,12 +104,32 @@ export function loadSubscribers(listId, page, search) {
     };
 }
 
-export function addSubscribers(listId, emails, closeModal) {
+export function loadSubscribersListItem(listId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_EMAIL_SUBSCRIBERS_LIST_ITEM,
+        });
+        emailSubcribersListApi.loadSubscribersListItem(listId)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_EMAIL_SUBSCRIBERS_LIST_ITEM_SUCCESS,
+                    subscribersListItem: res.data.data.subscribers_list_item,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_EMAIL_SUBSCRIBERS_LIST_ITEM_ERROR,
+                });
+            });
+    };
+}
+
+export function addSubscribers(listId, subscriber, closeModal) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_EMAIL_SUBSCRIBERS,
         });
-        emailSubcribersListApi.addEmails(listId, emails)
+        emailSubcribersListApi.addEmails(listId, subscriber)
             .then(() => {
                 closeModal();
                 dispatch(loadSubscribers(listId, 1, ""));
@@ -114,6 +143,26 @@ export function addSubscribers(listId, emails, closeModal) {
                     type: types.ADD_EMAIL_SUBSCRIBERS_ERROR,
                 });
             });
+    };
+}
+
+export function uploadFileSubscribers(listId, file, closeModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_ADD_EMAIL_SUBSCRIBERS,
+        });
+        emailSubcribersListApi.uploadFile(listId, file, function () {
+            closeModal();
+            dispatch(loadSubscribers(listId, 1, ""));
+            helper.showNotification("Thêm email thành công");
+            dispatch({
+                type: types.ADD_EMAIL_SUBSCRIBERS_SUCCESS,
+            });
+        }, function () {
+            dispatch({
+                type: types.ADD_EMAIL_SUBSCRIBERS_ERROR,
+            });
+        });
     };
 }
 
@@ -145,4 +194,10 @@ export function deleteSubscriber(listId, subscriberId) {
                 });
             });
     };
+}
+
+export function init() {
+    return ({
+        type: types.INIT_FORM_EMAIL_SUBSCRIBERS_LIST,
+    });
 }

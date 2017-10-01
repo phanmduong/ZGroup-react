@@ -11,8 +11,7 @@ import PropTypes from 'prop-types';
 import ListSubscribersList from './ListSubscribersList';
 import * as emailSubscribersListActions from './emailSubscribersListActions';
 import * as helper from '../../helpers/helper';
-import {Modal} from 'react-bootstrap';
-import FormInputText from '../../components/common/FormInputText';
+import {Link} from 'react-router';
 
 class EmailSubscribersListContainer extends React.Component {
     constructor(props, context) {
@@ -20,18 +19,11 @@ class EmailSubscribersListContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
-            showModal: false,
-            edit: false,
-            subscribersList: {}
         };
         this.timeOut = null;
         this.subscriberListSearchChange = this.subscriberListSearchChange.bind(this);
         this.deleteSubscriberList = this.deleteSubscriberList.bind(this);
-        this.storeSubscribersList = this.storeSubscribersList.bind(this);
         this.subscriberListSearchChange = this.subscriberListSearchChange.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.updateFormData = this.updateFormData.bind(this);
     }
 
     componentWillMount() {
@@ -63,43 +55,6 @@ class EmailSubscribersListContainer extends React.Component {
         });
     }
 
-    updateFormData(event) {
-        const field = event.target.name;
-        let subscribersList = {...this.state.subscribersList};
-        subscribersList[field] = event.target.value;
-        this.setState({subscribersList: subscribersList});
-    }
-
-    closeModal() {
-        this.setState({showModal: false});
-    }
-
-    openModal(subscribersList = null) {
-        if (subscribersList) {
-            this.setState({
-                showModal: true,
-                edit: true,
-                subscribersList: subscribersList,
-            });
-        } else {
-            this.setState({
-                showModal: true,
-                edit: false,
-                subscribersList: {
-                    name: '',
-                    id: ''
-                },
-            });
-        }
-    }
-
-    storeSubscribersList() {
-        helper.setFormValidation("#form-edit-email");
-        if ($("#form-edit-email").valid()) {
-            this.props.emailSubscribersListActions.storeSubscribersList(this.state.subscribersList, this.closeModal);
-        }
-    }
-
     render() {
         return (
             <div id="page-wrapper">
@@ -116,9 +71,9 @@ class EmailSubscribersListContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="col-md-3">
-                                        <button className="btn btn-rose" onClick={() => this.openModal()}>
+                                        <Link className="btn btn-rose" to={"email/subscribers"}>
                                             Tạo
-                                        </button>
+                                        </Link>
                                     </div>
                                     <Search
                                         onChange={this.subscriberListSearchChange}
@@ -133,8 +88,6 @@ class EmailSubscribersListContainer extends React.Component {
                                 <ListSubscribersList
                                     subscribersList={this.props.subscribersList}
                                     deleteSubscriberList={this.deleteSubscriberList}
-                                    openModal={this.openModal}
-
                                 />
                             }
                         </div>
@@ -162,43 +115,6 @@ class EmailSubscribersListContainer extends React.Component {
                     </div>
 
                 </div>
-                <Modal show={this.state.showModal} onHide={this.closeModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Chỉnh sửa email</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <form id="form-edit-email" onSubmit={(e) => {
-                            e.preventDefault();
-                        }}>
-                            <FormInputText
-                                label="Tên"
-                                name="name"
-                                updateFormData={this.updateFormData}
-                                value={this.state.subscribersList.name}
-                                required={true}
-                                type="text"
-                            />
-                            {
-                                this.props.isStoring ?
-                                    (
-                                        <button
-                                            className="btn btn-fill btn-rose disabled"
-                                        >
-                                            <i className="fa fa-spinner fa-spin"/>
-                                            {this.state.edit ? 'Đang cập nhật' : 'Đang tạo'}
-                                        </button>
-                                    )
-                                    :
-                                    <button
-                                        className="btn btn-fill btn-rose"
-                                        onClick={this.storeSubscribersList}
-                                    >
-                                        {this.state.edit ? 'Cập nhật' : 'Tạo'}
-                                    </button>
-                            }
-                        </form>
-                    </Modal.Body>
-                </Modal>
             </div>
         );
     }
@@ -208,7 +124,6 @@ EmailSubscribersListContainer.propTypes = {
     subscribersList: PropTypes.array.isRequired,
     emailSubscribersListActions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    isStoring: PropTypes.bool.isRequired,
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
 };
@@ -217,7 +132,6 @@ function mapStateToProps(state) {
     return {
         subscribersList: state.emailSubscribersList.subscribersList,
         isLoading: state.emailSubscribersList.isLoading,
-        isStoring: state.emailSubscribersList.isStoring,
         currentPage: state.emailSubscribersList.currentPage,
         totalPages: state.emailSubscribersList.totalPages,
     };

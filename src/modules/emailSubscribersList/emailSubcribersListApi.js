@@ -13,6 +13,15 @@ export function loadSubscribersList(page = 1, query = null) {
     return axios.get(url);
 }
 
+export function loadSubscribersListItem(listId) {
+    let url = env.MANAGE_API_URL + "/email/subscribers-list/" + listId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
 export function deleteSubscribersList(subscribersListId) {
     let url = env.MANAGE_API_URL + "/email/subscribers-list/" + subscribersListId;
     let token = localStorage.getItem('token');
@@ -46,15 +55,16 @@ export function loadSubscribers(listId, page = 1, query = null) {
     return axios.get(url);
 }
 
-export function addEmails(listId, emails) {
-    let url = env.MANAGE_API_URL + "/email/subscribers/add";
+export function addEmails(listId, subscriber) {
+    let url = env.MANAGE_API_URL + "/email/subscriber/add";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     return axios.post(url, {
         list_id: listId,
-        emails: emails
+        name: subscriber.name,
+        email: subscriber.email
     });
 }
 

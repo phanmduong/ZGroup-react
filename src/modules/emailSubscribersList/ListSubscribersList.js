@@ -27,7 +27,7 @@ class ListSubscribersList extends React.Component {
                             return (
                                 <tr key={index}>
                                     <td>
-                                        <Link to={`/subscribers/${subscribersListItem.id}`}>
+                                        <Link to={`email/subscribers/${subscribersListItem.id}`}>
                                             {subscribersListItem.name}
                                         </Link>
                                     </td>
@@ -37,7 +37,7 @@ class ListSubscribersList extends React.Component {
                                     <td><ButtonGroupAction
                                         delete={this.props.deleteSubscriberList}
                                         object={subscribersListItem.id}
-                                        edit={() => this.props.openModal(subscribersListItem)}
+                                        editUrl={'email/subscribers/' + subscribersListItem.id}
                                     /></td>
                                 </tr>
                             );
@@ -53,7 +53,6 @@ class ListSubscribersList extends React.Component {
 ListSubscribersList.propTypes = {
     subscribersList: PropTypes.array.isRequired,
     deleteSubscriberList: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
 };
 
 export default ListSubscribersList;

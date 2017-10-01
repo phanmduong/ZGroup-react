@@ -7,12 +7,16 @@ import initialState from '../../reducers/initialState';
 let subscribersList;
 export default function baseListReducer(state = initialState.emailSubscribersList, action) {
     switch (action.type) {
+        case types.INIT_FORM_EMAIL_SUBSCRIBERS_LIST:
+            return initialState.emailSubscribersList;
         case types.BEGIN_LOAD_EMAIL_SUBSCRIBERS_LIST:
             return {
                 ...state,
                 ...{
                     isLoading: true,
                     error: false,
+                    currentPage: 1,
+                    totalPages: 1
                 }
             };
         case types.LOAD_EMAIL_SUBSCRIBERS_LIST_SUCCESS:
@@ -60,7 +64,8 @@ export default function baseListReducer(state = initialState.emailSubscribersLis
                 ...{
                     isStoring: false,
                     errorStore: false,
-                    subscribersList: subscribersList
+                    subscribersList: subscribersList,
+                    subscribersListItem: action.subscribersList
                 }
             };
         case types.STORE_EMAIL_SUBSCRIBERS_LIST_ERROR:
@@ -140,6 +145,31 @@ export default function baseListReducer(state = initialState.emailSubscribersLis
                     ...{
                         subscribers: deleteSubscriber(action.subscriberId, state.subscribers.subscribers)
                     }
+                }
+            };
+        case types.BEGIN_LOAD_EMAIL_SUBSCRIBERS_LIST_ITEM:
+            return {
+                ...state,
+                ...{
+                    isLoadingSubscribersListItem: true,
+                    errorSubscribersListItem: false,
+                }
+            };
+        case types.LOAD_EMAIL_SUBSCRIBERS_LIST_ITEM_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingSubscribersListItem: false,
+                    errorSubscribersListItem: false,
+                    subscribersListItem: action.subscribersListItem
+                }
+            };
+        case types.LOAD_EMAIL_SUBSCRIBERS_LIST_ITEM_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingSubscribersListItem: false,
+                    errorSubscribersListItem: true
                 }
             };
         default:
