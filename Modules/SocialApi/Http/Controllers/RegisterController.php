@@ -2,6 +2,8 @@
 
 namespace Modules\SocialApi\Http\Controllers;
 
+use App\Http\Controllers\ApiController;
+use App\Register;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,6 +14,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RegisterController extends ApiController
 {
+    public function __construct()
+    {
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -19,11 +25,11 @@ class RegisterController extends ApiController
     public function register(Request $request)
     {
         if ($request->name == null || $request->email == null || $request->password == null || $request->username == null)
-            return $this->respondFail(['message' => "Thiếu trường"]);
+            return $this->respondErrorWithStatus(['message' => "Thiếu trường"]);
         $check_email = User::where("email", $request->email)->first();
         $check_username = User::where("username", $request->username)->first();
-        if ($check_email) return $this->respondFail(['message' => "Email đã tồn tại"]);
-        if ($check_username) return $this->respondFail(['message' => "Username đã tồn tại"]);
+        if ($check_email) return $this->respondErrorWithStatus(['message' => "Email đã tồn tại"]);
+        if ($check_username) return $this->respondErrorWithStatus(['message' => "Username đã tồn tại"]);
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -33,7 +39,7 @@ class RegisterController extends ApiController
 
         $token = JWTAuth::fromUser($user);
 
-        return $this->respondSuccess([
+        return $this->respondSuccessWithStatus([
             "token" => $token,
             "user" => $user
         ]);
