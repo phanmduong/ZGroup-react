@@ -44,6 +44,7 @@ class RegisterController extends ApiController
             "user" => $user
         ]);
     }
+
     public function index()
     {
         return view('socialapi::index');
