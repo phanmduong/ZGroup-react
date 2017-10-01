@@ -43,7 +43,7 @@ class FollowingController extends ApiController
     public function followCount($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $followCount = $user->following()->count();
+        $followCount = $user->followings()->count();
         return $this->respondSuccessWithStatus([
             'followCount' => $followCount
         ]);
