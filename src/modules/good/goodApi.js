@@ -15,3 +15,38 @@ export function loadGoods(page = 1, query = null) {
     }
     return axios.get(url);
 }
+
+export function uploadAvatar(file, completeHandler, progressHandler, error) {
+    let url = env.API_URL + "/upload-image-froala";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let formData = new FormData();
+    formData.append('image', file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.upload.onprogress = progressHandler;
+    ajax.addEventListener("error", error, false);
+    ajax.open("POST", url);
+    ajax.send(formData);
+}
+
+export function saveGood(good) {
+    let url = env.MANAGE_API_URL + "/good/create";
+    const token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, good);
+}
+
+export function loadGood(goodId) {
+    let url = env.MANAGE_API_URL + `/good/${goodId}`;
+
+    const token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

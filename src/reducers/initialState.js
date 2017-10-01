@@ -8,7 +8,14 @@ export default {
         },
         createGood: {
             isLoading: false,
-            good: {}
+            good: {
+                properties: []
+            },
+            percent: 0,
+            percentCover: 0,
+            isUploadingAvatar: false,
+            isSaving: false,
+            isUploadingCover: false
         }
     },
     login: {

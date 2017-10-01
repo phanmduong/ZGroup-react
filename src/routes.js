@@ -148,6 +148,7 @@ export default (
             <Route path="/book-manufacture" component={BookBoardListContainer}/>
             <Route path="/fashion-manufacture" component={FashionBoardListContainer}/>
             <Route path="/good/all" component={GoodListContainer}/>
+            <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
             <Route path="/good/create" component={CreateGoodContainer} type="create"/>
             {/*End good routes*/}
 
