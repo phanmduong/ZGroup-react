@@ -116,17 +116,18 @@ export function saveGood(good) {
 }
 
 
-export function loadGood(good){
+export function loadGood(goodId) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_LOAD_GOODS
+            type: types.BEGIN_LOAD_GOOD_DETAIL
         });
 
-        goodApi.loadGood(good)
+        goodApi.loadGood(goodId)
             .then((res) => {
                 dispatch({
-                    
-                })
-            })
+                    type: types.LOAD_GOOD_DETAIL_SUCCESS,
+                    good: res.data.data.good
+                });
+            });
     };
 }

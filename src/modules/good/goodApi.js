@@ -41,8 +41,8 @@ export function saveGood(good) {
     return axios.post(url, good);
 }
 
-export function loadGood(good) {
-    let url = env.MANAGE_API_URL + `/good/${good.id}`;
+export function loadGood(goodId) {
+    let url = env.MANAGE_API_URL + `/good/${goodId}`;
 
     const token = localStorage.getItem("token");
     if (token) {

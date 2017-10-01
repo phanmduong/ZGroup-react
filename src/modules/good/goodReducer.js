@@ -6,6 +6,23 @@ import initialState from '../../reducers/initialState';
 
 export default function baseListReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.LOAD_GOOD_DETAIL_SUCCESS:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    isLoading: false,
+                    good: action.good
+                }
+            };
+        case types.BEGIN_LOAD_GOOD_DETAIL:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    isLoading: true
+                }
+            };
         case types.SAVE_GOOD_SUCCESS:
             return {
                 ...state,

@@ -89,7 +89,7 @@ class CreateGoodContainer extends React.Component {
             this.setState({
                 header: "Sửa sản phẩm"
             });
-            // this.props.goodActions.
+            this.props.goodActions.loadGood(this.props.params.goodId);
         }
     }
 
@@ -303,6 +303,7 @@ CreateGoodContainer.propTypes = {
     isUploadingAvatar: PropTypes.bool.isRequired,
     isUploadingCover: PropTypes.bool.isRequired,
     route: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     goodActions: PropTypes.object.isRequired,
     percent: PropTypes.number.isRequired,
     percentCover: PropTypes.number.isRequired,
@@ -311,7 +312,7 @@ CreateGoodContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.good.goodList.isLoading,
+        isLoading: state.good.createGood.isLoading,
         isSaving: state.good.createGood.isSaving,
         percentCover: state.good.createGood.percentCover,
         isUploadingAvatar: state.good.createGood.isUploadingAvatar,
