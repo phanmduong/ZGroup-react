@@ -30,10 +30,11 @@ export function changeProjectSetting(project) {
     if (token) {
         url += "?token=" + token;
     }
-    const {canDragCard, canDragBoard} = project;
+    const {canDragCard, canDragBoard, canEditTask} = project;
     return axios.put(url, {
         canDragCard,
-        canDragBoard
+        canDragBoard,
+        canEditTask
     });
 }
 

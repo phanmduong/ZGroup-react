@@ -6,6 +6,11 @@ import initialState from '../../../../reducers/initialState';
 
 export default function cardFilterReducer(state = initialState.cardFilter, action) {
     switch (action.type) {
+        case types.LOAD_CARD_LABEL_SUCCESS:
+            return {
+                ...state,
+                cardLabels: action.cardLabels
+            };
         case types.CREATE_TASK_LIST_SUCCESS:
             return {
                 ...state,
