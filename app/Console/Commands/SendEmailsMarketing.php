@@ -38,7 +38,7 @@ class SendEmailsMarketing extends Command
      */
     public function handle()
     {
-        $email_campaigns = EmailCampaign::where("DATE_FORMAT(NOW(), \"%Y-%m-%d %H:%i\")", "=", "DATE_FORMAT(timer, \"%Y-%m-%d %H:%i\")")->get();
+        $email_campaigns = EmailCampaign::whereRaw("DATE_FORMAT(NOW(), \"%Y-%m-%d %H:%i\") = DATE_FORMAT(timer, \"%Y-%m-%d %H:%i\")")->get();
         if ($email_campaigns) {
             $user = [
                 'email' => "duong@colorme.vn",

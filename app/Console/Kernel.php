@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         Commands\StartLesson::class,
         Commands\SendSurvey::class,
         Commands\CreateShifts::class,
+        Commands\SendEmailsMarketing::class,
         Commands\SendRemindSms::class,
         RemindCalendarEvent::class
     ];
