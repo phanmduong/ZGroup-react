@@ -45,7 +45,7 @@ class SendEmailsMarketing extends Command
                 'name' => "Tester"
             ];
 
-            send_mail_query($user, 'emails.view_email', ['data' => "ok"], "hen giowf guiwr mail");
+            send_mail_query($user, 'emails.view_email', ['data' => "ok"], "hẹn giờ gửi mail");
         }
     }
 }
