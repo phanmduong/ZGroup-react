@@ -57,9 +57,22 @@ class ProjectMemberDetailOverlayContainer extends React.Component {
                         borderRadius: 6,
                         backgroundColor: this.props.project.color,
                         boxSizing: "border-box",
-                        marginRight: 5,
-                        border: this.props.member.is_admin ? "3px solid " + this.props.project.color : "none"
+                        position: "relative",
+                        marginRight: 5
                     }}>
+                        {
+                            this.props.member.is_admin && (
+                                <div style={{
+                                    position: "absolute",
+                                    right: 3,
+                                    bottom: 3,
+                                    backgroundColor: "#42b72a",
+                                    width: 6,
+                                    height: 6,
+                                    borderRadius: "50%"
+                                }}/>
+                            )
+                        }
                         <Avatar
                             distance={0}
                             key={this.props.member.id}
