@@ -179,7 +179,7 @@ class TaskRepository
             $project = $card->board->project;
 
             $user = User::find($userId);
-            if ($currentUser && $currentUser->id != $user->id) {
+            if ($currentUser && $user != null && $currentUser->id != $user->id) {
 
                 $notification = new Notification;
                 $notification->actor_id = $currentUser->id;
