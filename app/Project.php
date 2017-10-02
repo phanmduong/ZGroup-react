@@ -55,6 +55,7 @@ class Project extends Model
             'status' => $this->status,
             "canDragBoard" => $this->can_drag_board,
             "canDragCard" => $this->can_drag_card,
+            "canEditTask" => $this->can_edit_task,
             "color" => $this->color,
             'board_count' => $board_count,
             'card_count' => Card::whereIn("board_id", $boardIds)->count(),
