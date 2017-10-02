@@ -303,6 +303,7 @@ class TaskController extends ManageApiController
         $data['cardLabels'] = $cardLables;
         $data['canDragBoard'] = $project->can_drag_board;
         $data['canDragCard'] = $project->can_drag_card;
+        $data['canEditTask'] = $project->can_edit_task;
         return $this->respond($data);
     }
 
