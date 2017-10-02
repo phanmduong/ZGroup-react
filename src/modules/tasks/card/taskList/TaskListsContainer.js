@@ -34,8 +34,6 @@ class TaskListsContainer extends React.Component {
         const tasksComplete = (taskList) => taskList.tasks.filter(t => t.status).length;
         const totalTasks = (taskList) => taskList.tasks.length;
         const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
-        const isAdmin = this.props.members.filter(member => member.is_admin && member.id === this.props.user.id).length > 0 || this.props.user.role === 2;
-        const canEditTask = isAdmin || this.props.canEditTask;
         return (
             <div className="task-lists">
                 <AddMemberToTaskModalContainer/>
@@ -48,23 +46,19 @@ class TaskListsContainer extends React.Component {
                                     <h4>
                                         <strong>{taskList.title}</strong>
                                     </h4>
-                                    {
-                                        canEditTask && (
-                                            <button
-                                                onClick={() => {
-                                                    confirm("warning", "Xoá danh sách việc",
-                                                        "Toàn bộ công việc trong danh sách này sẽ bị xoá vĩnh viễn",
-                                                        () => {
-                                                            this.props.taskActions.deleteTaskList(taskList);
-                                                        }, null);
-                                                }}
-                                                type="button" className="close"
-                                                style={{color: '#5a5a5a'}}>
-                                                <span aria-hidden="true">×</span>
-                                                <span className="sr-only">Close</span>
-                                            </button>
-                                        )
-                                    }
+                                    <button
+                                        onClick={() => {
+                                            confirm("warning", "Xoá danh sách việc",
+                                                "Toàn bộ công việc trong danh sách này sẽ bị xoá vĩnh viễn",
+                                                () => {
+                                                    this.props.taskActions.deleteTaskList(taskList);
+                                                }, null);
+                                        }}
+                                        type="button" className="close"
+                                        style={{color: '#5a5a5a'}}>
+                                        <span aria-hidden="true">×</span>
+                                        <span className="sr-only">Close</span>
+                                    </button>
                                 </div>
                                 <small>
                                     {tasksComplete(taskList)}/{totalTasks(taskList)}
@@ -91,7 +85,6 @@ class TaskListsContainer extends React.Component {
                                     {
                                         taskList.tasks.map((task) =>
                                             (<TaskItem
-                                                canEditTask={canEditTask}
                                                 openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
@@ -127,18 +120,11 @@ class TaskListsContainer extends React.Component {
 
 TaskListsContainer.propTypes = {
     card: PropTypes.object.isRequired,
-    members: PropTypes.array.isRequired,
-    user: PropTypes.object.isRequired,
-    canEditTask: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
-    return {
-        members: state.task.boardList.members,
-        user: state.login.user,
-        canEditTask: state.task.boardList.canEditTask
-    };
+function mapStateToProps() {
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {
