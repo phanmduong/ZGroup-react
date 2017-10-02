@@ -181,15 +181,6 @@ class ProjectDetailModalContainer extends Component {
                                                     value={!!project.canDragCard}/>
                                                 Kéo thả thẻ
                                             </ListGroupItem>
-                                            <ListGroupItem>
-                                                <Switch
-                                                    onChange={() => this.props.taskActions.changeProjectSetting({
-                                                        ...project,
-                                                        canEditTask: !project.canEditTask
-                                                    })}
-                                                    value={!!project.canEditTask}/>
-                                                Chỉnh sửa công việcs
-                                            </ListGroupItem>
                                         </ListGroup>
                                     </div>
                                 </div>

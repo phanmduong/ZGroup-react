@@ -39,7 +39,6 @@ class CardLabelOverlay extends React.Component {
                 labels: res.data.data.labels,
                 isLoading: false
             });
-            this.props.loadCardLabelsSuccess(res.data.data.labels);
         });
     }
 
@@ -253,7 +252,6 @@ class CardLabelOverlay extends React.Component {
 
 CardLabelOverlay.propTypes = {
     toggle: PropTypes.func.isRequired,
-    loadCardLabelsSuccess: PropTypes.func.isRequired,
     deleteCardLabel: PropTypes.func.isRequired,
     card: PropTypes.object.isRequired,
     assignCardLabel: PropTypes.func.isRequired,

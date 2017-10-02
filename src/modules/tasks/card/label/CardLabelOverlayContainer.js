@@ -35,7 +35,6 @@ class CardLabelOverlayContainer extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <CardLabelPopover
-                        loadCardLabelsSuccess={this.props.taskActions.loadCardLabelsSuccess}
                         card={this.props.card}
                         deleteCardLabel={this.props.taskActions.deleteCardLabel}
                         assignCardLabel={this.props.taskActions.assignCardLabel}

@@ -1060,12 +1060,3 @@ export function saveMemberTask(task, user, card) {
             });
     };
 }
-
-export function loadCardLabelsSuccess(cardLabels) {
-    return function (dispatch) {
-        dispatch({
-            type: types.LOAD_CARD_LABEL_SUCCESS,
-            cardLabels
-        });
-    }
-}
