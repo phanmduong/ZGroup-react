@@ -323,7 +323,10 @@ export default {
             error: false,
             currentPage: 1,
             totalPages: 1
-        }
+        },
+        subscribersList: [],
+        isStoring: false,
+        errorStore: false,
     },
 
     blog: {
@@ -566,7 +569,7 @@ export default {
         errorAddEmails: false,
         isLoadingSubscribersListItem: false,
         errorSubscribersListItem: false,
-        subscribersListItem: {}
+        subscribersListItem: {},
     },
 
     emailCampaigns: {
