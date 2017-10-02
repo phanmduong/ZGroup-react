@@ -93,11 +93,15 @@ class ManageEmailMaketingController extends ManageApiController
     {
         $email_form = EmailForms::where('id', $email_form_id)->first();
         $email_template = $email_form->template()->first();
-        $email_form->template = [
-            'id' => $email_template->id,
-            'name' => $email_template->name,
-            'thumbnail_url' => config('app.protocol') . trim_url($email_template->thumbnail_url),
-        ];
+        if ($email_template) {
+            $email_form->template = [
+                'id' => $email_template->id,
+                'name' => $email_template->name,
+                'thumbnail_url' => config('app.protocol') . trim_url($email_template->thumbnail_url),
+            ];
+        } else {
+            $email_form->template = [];
+        }
         $email_form->logo_url = config('app.protocol') . trim_url($email_form->logo_url);
         $email_form->avatar_url = config('app.protocol') . trim_url($email_form->avatar_url);
 
