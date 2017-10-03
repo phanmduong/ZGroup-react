@@ -2,16 +2,12 @@
 
 namespace Modules\EmailMaketing\Http\Controllers;
 
-use App\EmailCampaign;
 use App\EmailForm;
 use App\EmailTemplate;
 use App\Http\Controllers\ManageApiController;
-use App\Http\Controllers\SendMailController;
-use App\Jobs\SendEmail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 
 class ManageEmailMaketingController extends ManageApiController
 {
@@ -206,33 +202,14 @@ class ManageEmailMaketingController extends ManageApiController
 
         if ($email_form) {
             if ($request->email) {
-                $email_campaigns = EmailCampaign::where('sended', '<>', 1)->whereRaw("\"" . rebuild_date("Y-m-d H:i", time()) . "\" = DATE_FORMAT(timer, \"%Y-%m-%d %H:%i\")")->get();
-                if ($email_campaigns->count() > 0) {
-                    foreach ($email_campaigns as $email_campaign) {
-                        $email_campaign->sended = 2;
-                        $email_campaign->save();
+                $user = [
+                    'email' => $request->email,
+                    'name' => "Tester"
+                ];
+                $email_form->template = $email_form->template()->first();
+                $data = convert_email_form($email_form);
 
-                        $email_form = $email_campaign->email_form()->first();
-                        $email_form->template = $email_form->template()->first();
-                        $data = convert_email_form($email_form);
-
-                        $list_ids = $email_campaign->subscribers_lists()->get()->pluck('id')->toArray();
-                        $str = implode(',', $list_ids);
-                        $query = "select distinct email,name from subscribers where id in " .
-                            "(select subscriber_id from subscriber_subscribers_list where subscribers_list_id in ($str)) ";
-
-                        $subscribers = DB::select($query);
-
-                        $job = new SendEmail($email_campaign, $subscribers, $data);
-                        $this->dispatch($job);
-
-
-                        $email_campaign->sended = 1;
-                        $email_campaign->save();
-                    }
-
-
-                }
+                send_mail_query($user, 'emails.view_email', ['data' => $data], $email_form->name);
                 return $this->respondSuccessWithStatus(['message' => "Gửi mail thành công"]);
 
             }

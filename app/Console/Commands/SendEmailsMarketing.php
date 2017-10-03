@@ -59,16 +59,12 @@ class SendEmailsMarketing extends Command
 
                 $subscribers = DB::select($query);
 
+                $job = new SendEmail($email_campaign, $subscribers, $data);
+                dispatch($job);
 
-//                foreach ($subscribers as $subscriber) {
-//                    if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
-//                        $job = new SendEmail($email_campaign, $subscriber, $data);
-//                        dispatch($job);
-////                        send_mail_query($user, 'emails.view_email', ['data' => $data], $email_campaign->subject);
-//                    }
-////                }
-//                $email_campaign->sended = 1;
-//                $email_campaign->save();
+
+                $email_campaign->sended = 1;
+                $email_campaign->save();
             }
 
 
