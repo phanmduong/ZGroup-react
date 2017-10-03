@@ -57,7 +57,7 @@ export function savePostBlog(post) {
                     postId: res.data.data.product.id,
                 });
             }).catch(() => {
-            helper.showNotification("Tải lên thất bại");
+            helper.showErrorNotification("Tải lên thất bại");
             dispatch({
                 type: types.SAVE_POST_BLOG_FAILED
             });
@@ -79,7 +79,7 @@ export function preSavePostBlog(post) {
                     postId: res.data.data.product.id
                 });
             }).catch(() => {
-            helper.showNotification("Tải lên thất bại");
+            helper.showErrorNotification("Tải lên thất bại");
             dispatch({
                 type: types.PRE_SAVE_POST_BLOG_FAILED
             });

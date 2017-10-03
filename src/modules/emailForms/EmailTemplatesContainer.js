@@ -112,7 +112,7 @@ class EmailTemplatesContainer extends React.Component {
                                     this.props.emailForm.id ?
                                         (
                                             <iframe
-                                                src={`${DOMAIN}/email-form/${this.props.emailForm.id}/${this.state.selectedTemplate.id}`}
+                                                src={`${DOMAIN}/email-form-view/${this.props.emailForm.id}/${this.state.selectedTemplate.id}`}
                                                 id="iframe-template"
                                                 frameBorder="0"
                                                 style={{

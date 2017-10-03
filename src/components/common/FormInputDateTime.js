@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {DATETIME_FORMAT} from "../../constants/constants";
+import moment from "moment";
 
 class FormInputDateTime extends React.Component {
     constructor(props, context) {
@@ -19,7 +21,10 @@ class FormInputDateTime extends React.Component {
                 today: 'fa fa-screenshot',
                 clear: 'fa fa-trash',
                 close: 'fa fa-remove'
-            }
+            },
+            defaultDate: this.props.value ? moment(this.props.value, DATETIME_FORMAT) :
+                this.props.defaultDate ? this.props.defaultDate : moment(),
+            format: DATETIME_FORMAT
         });
     }
 
@@ -47,6 +52,7 @@ FormInputDateTime.propTypes = {
     value: PropTypes.string,
     format: PropTypes.string,
     updateFormData: PropTypes.func.isRequired,
+    defaultDate: PropTypes.object
 };
 
 export default FormInputDateTime;

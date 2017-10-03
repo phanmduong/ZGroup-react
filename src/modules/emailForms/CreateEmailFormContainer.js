@@ -21,10 +21,12 @@ class CreateEmailFormContainer extends React.Component {
         this.preSaveEmailForm = this.preSaveEmailForm.bind(this);
         this.handleFileUploadAvatar = this.handleFileUploadAvatar.bind(this);
         this.sendMail = this.sendMail.bind(this);
+        this.checkValidate = this.checkValidate.bind(this);
     }
 
     componentWillMount() {
         this.props.emailFormsActions.updateEmailFormData(initialState.emailForms.emailForm);
+        this.props.emailFormsActions.loadSubscribersList();
         if (this.props.route.type === 'edit') {
             this.props.emailFormsActions.loadEmailForm(this.props.params.emailFormId);
         }
@@ -122,6 +124,7 @@ class CreateEmailFormContainer extends React.Component {
                 saveEmailForm={this.saveEmailForm}
                 sendMail={this.sendMail}
                 handleFileUploadAvatar={this.handleFileUploadAvatar}
+                checkValidate={this.checkValidate}
             />
         );
     }
@@ -149,7 +152,9 @@ function mapStateToProps(state) {
         isSaving: state.emailForms.isSaving,
         isPreSaving: state.emailForms.isPreSaving,
         isLoadingEmailForm: state.emailForms.emailForm.isLoading,
-        isSendingMail: state.emailForms.isSendingMail
+        isSendingMail: state.emailForms.isSendingMail,
+        subscribersList: state.emailCampaigns.subscribersList,
+        isStoringCampaign: state.emailCampaigns.isStoring,
     };
 }
 

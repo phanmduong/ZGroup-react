@@ -253,3 +253,80 @@ export function sendMailTest(emailForm, email) {
         });
     };
 }
+
+
+export function loadSubscribersList() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_SUBSCRIBERS_LIST_EMAIL_CAMPAIGNS,
+        });
+        emailFormApi.loadSubscribersList()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_SUBSCRIBERS_LIST_EMAIL_CAMPAIGNS_SUCCESS,
+                    subscribersList: res.data.data.subscribers_list,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_SUBSCRIBERS_LIST_EMAIL_CAMPAIGNS_ERROR,
+                });
+            });
+    };
+}
+
+export function storeCampaign(emailForm, campaign, closeModal) {
+
+    if (helper.isEmptyInput(campaign.id)) {
+        campaign.id = "";
+    }
+
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_STORE_EMAIL_CAMPAIGN,
+        });
+        async.waterfall([
+            function (callback) {
+                emailFormApi.saveEmailForm(emailForm, 1)
+                    .then((res) => {
+                        dispatch({
+                            type: types.SAVE_EMAIL_FORM_SUCCESS,
+                            emailFormId: res.data.data.email_form.id,
+                        });
+                        callback(null, res.data.data.email_form.id);
+                    }).catch(() => {
+                    dispatch({
+                        type: types.SAVE_EMAIL_FORM_FAILED
+                    });
+                    callback("Lưu email form thất bại");
+                });
+            },
+            function (emailFormId, callback) {
+                emailFormApi.storeCampaign(campaign, emailFormId)
+                    .then(res => {
+                        closeModal();
+                        helper.showNotification("Tạo chiến dịch thành công");
+                        dispatch({
+                            type: types.STORE_EMAIL_CAMPAIGN_SUCCESS,
+                            campaign: res.data.data.campaign,
+                            edit: !helper.isEmptyInput(campaign.id)
+                        });
+                        callback(null);
+                    })
+                    .catch(() => {
+                        callback("Có lỗi xảy ra");
+                    });
+            }
+
+        ], function (err) {
+            if (err) {
+                helper.showErrorNotification(err);
+                dispatch({
+                    type: types.STORE_EMAIL_CAMPAIGN_ERROR,
+                });
+            }
+        });
+
+
+    };
+}

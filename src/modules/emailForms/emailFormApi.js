@@ -1,5 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
+import moment from "moment";
+import {DATETIME_FORMAT} from "../../constants/constants";
 
 export function loadForms(page = 1, query = null) {
     let url = env.MANAGE_API_URL + "/email-forms?page=" + page;
@@ -50,7 +52,7 @@ export function saveEmailForm(emailForm, status) {
         title: emailForm.title,
         subtitle: emailForm.subtitle,
         logo_url: emailForm.logoUrl,
-        template_id: emailForm.template.id,
+        template_id: emailForm.template ? emailForm.template.id : '',
         content: emailForm.content,
         footer: emailForm.footer,
         avatar_url: emailForm.avatarUrl,
@@ -88,4 +90,28 @@ export function sendMailTest(emailFormId, email) {
         {
             email: email
         });
+}
+
+export function loadSubscribersList() {
+    let url = env.MANAGE_API_URL + "/email/subscribers-list/all";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function storeCampaign(campaign, emailFormId) {
+    let timer = moment(campaign.timer, DATETIME_FORMAT).format("YYYY-MM-DD HH:mm:ss");
+    let url = env.MANAGE_API_URL + "/email/campaign/store";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        ...campaign, ... {
+            form_id: emailFormId,
+            timer: timer
+        }
+    });
 }

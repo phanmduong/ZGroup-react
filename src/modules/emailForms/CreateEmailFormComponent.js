@@ -8,6 +8,10 @@ import EmailTemplatesContainer from './EmailTemplatesContainer';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
 import {Modal} from 'react-bootstrap';
+import ReactSelect from 'react-select';
+import _ from 'lodash';
+import FormInputDateTime from '../../components/common/FormInputDateTime';
+import moment from "moment";
 
 class CreateEmailFormComponent extends React.Component {
     constructor(props, context) {
@@ -15,7 +19,12 @@ class CreateEmailFormComponent extends React.Component {
         this.state = {
             showModal: false,
             showModalSendMail: false,
-            emailSend: {}
+            emailSend: {},
+            showModalStoreCampaign: false,
+            campaign: {
+                subscribers_list: []
+            },
+            optionsSelectSubscriberList: [],
         };
         this.closeModal = this.closeModal.bind(this);
         this.openModal = this.openModal.bind(this);
@@ -23,10 +32,32 @@ class CreateEmailFormComponent extends React.Component {
         this.openModalSendMail = this.openModalSendMail.bind(this);
         this.updateEmailForm = this.updateEmailForm.bind(this);
         this.sendMail = this.sendMail.bind(this);
+        this.closeModalStoreCampaign = this.closeModalStoreCampaign.bind(this);
+        this.openModalStoreCampaign = this.openModalStoreCampaign.bind(this);
+        this.changeSubscribersList = this.changeSubscribersList.bind(this);
+        this.updateFormDataCampaign = this.updateFormDataCampaign.bind(this);
+        this.storeCampaign = this.storeCampaign.bind(this);
     }
 
     componentDidMount() {
         helper.setFormValidation('#form-email-form');
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.subscribersList && nextProps.subscribersList !== this.props.subscribersList) {
+            let dataSubscribersList = [];
+            nextProps.subscribersList.forEach(subscribersListItem => {
+                dataSubscribersList.push({
+                    ...subscribersListItem, ...{
+                        value: subscribersListItem.id,
+                        label: subscribersListItem.name
+                    }
+                });
+            });
+            this.setState({
+                optionsSelectSubscriberList: dataSubscribersList
+            });
+        }
     }
 
     closeModal() {
@@ -62,6 +93,48 @@ class CreateEmailFormComponent extends React.Component {
         helper.setFormValidation('#form-email-send');
         if ($('#form-email-send').valid()) {
             this.props.sendMail(this.state.emailSend.email);
+        }
+    }
+
+    changeSubscribersList(value) {
+        this.setState({
+            campaign: {
+                ...this.state.campaign,
+                subscribers_list: value
+            }
+        });
+    }
+
+    closeModalStoreCampaign() {
+        this.setState({
+            showModalStoreCampaign: false
+        });
+    }
+
+    openModalStoreCampaign() {
+        helper.setFormValidation('#form-email-form');
+        if (this.props.checkValidate()) {
+            this.setState({
+                showModalStoreCampaign: true,
+                campaign: {},
+            });
+        }
+    }
+
+    updateFormDataCampaign(event) {
+        const field = event.target.name;
+        let campaign = {...this.state.campaign};
+        campaign[field] = event.target.value;
+        this.setState({campaign: campaign});
+    }
+
+    storeCampaign() {
+        helper.setFormValidation("#form-campaign");
+        if ($("#form-campaign").valid()) {
+            this.props.emailFormsActions.storeCampaign(this.props.emailForm, {
+                ...this.state.campaign,
+                subscribers_list: _.map(this.state.campaign.subscribers_list, 'id')
+            }, this.closeModalStoreCampaign);
         }
     }
 
@@ -283,6 +356,13 @@ class CreateEmailFormComponent extends React.Component {
                                     )
 
                                 }
+                                <button
+                                    className="btn btn-fill btn-success"
+                                    type="button"
+                                    onClick={this.openModalStoreCampaign}
+                                >
+                                    Gửi
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -333,6 +413,64 @@ class CreateEmailFormComponent extends React.Component {
                         </form>
                     </Modal.Body>
                 </Modal>
+                <Modal show={this.state.showModalStoreCampaign} onHide={this.closeModalStoreCampaign}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Tạo chiến dịch</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form id="form-campaign" onSubmit={(e) => {
+                            e.preventDefault();
+                        }}>
+                            <FormInputText
+                                name="name"
+                                required
+                                label="Tên"
+                                updateFormData={this.updateFormDataCampaign}
+                                value={this.state.campaign.name}
+                            />
+                            <FormInputText
+                                name="subject"
+                                required
+                                label="Subject"
+                                updateFormData={this.updateFormDataCampaign}
+                                value={this.state.campaign.subject}
+                            />
+                            <FormInputDateTime
+                                name="timer"
+                                id="input-datetime-timer"
+                                updateFormData={this.updateFormDataCampaign}
+                                value={this.state.campaign.timer}
+                                defaultDate={moment().add(1, "hours")}
+                                label="Hẹn giờ gửi mail"
+                            />
+                            <ReactSelect
+                                name="form-field-name"
+                                options={this.state.optionsSelectSubscriberList}
+                                value={this.state.campaign.subscribers_list}
+                                placeholder="Chọn danh sách"
+                                multi
+                                onChange={this.changeSubscribersList}
+                            />
+                            {
+                                this.props.isStoringCampaign ?
+                                    (
+                                        <button
+                                            className="btn btn-fill btn-rose disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/> Đang tạo
+                                        </button>
+                                    )
+                                    :
+                                    <button
+                                        className="btn btn-fill btn-rose"
+                                        onClick={this.storeCampaign}
+                                    >
+                                        Tạo
+                                    </button>
+                            }
+                        </form>
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
@@ -355,6 +493,7 @@ CreateEmailFormComponent.propTypes = {
     preSaveEmailForm: PropTypes.func.isRequired,
     saveEmailForm: PropTypes.func.isRequired,
     sendMail: PropTypes.func.isRequired,
+    checkValidate: PropTypes.func.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
 };

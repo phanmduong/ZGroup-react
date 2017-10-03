@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
+import {Link} from 'react-router';
 
 class ListForm extends React.Component {
     constructor(props, context) {
@@ -44,7 +45,7 @@ class ListForm extends React.Component {
 
                                     </div>
                                 </td>
-                                <td>{form.name}</td>
+                                <td><Link to={"/email-form/" + form.id + "/edit"}>{form.name}</Link></td>
                                 <td>{form.title}</td>
                                 <td>{form.creator.name}</td>
                                 <td>

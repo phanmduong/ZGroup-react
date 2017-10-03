@@ -67,7 +67,7 @@ export default function baseListReducer(state = initialState.emailForms, action)
                     updateLogoError: true
                 }
             };
-            case types.BEGIN_UPLOAD_AVATAR_EMAIL_FORM:
+        case types.BEGIN_UPLOAD_AVATAR_EMAIL_FORM:
             return {
                 ...state,
                 ...{
@@ -287,11 +287,43 @@ export default function baseListReducer(state = initialState.emailForms, action)
                     errorSendMail: true
                 }
             };
+        case types.LOAD_SUBSCRIBERS_LIST_EMAIL_CAMPAIGNS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    subscribersList: action.subscribersList
+                }
+            };
+        case types.BEGIN_STORE_EMAIL_CAMPAIGN:
+            return {
+                ...state,
+                ...{
+                    isStoring: true,
+                    errorStore: false,
+                }
+            };
+        case types.STORE_EMAIL_CAMPAIGN_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isStoring: false,
+                    errorStore: false,
+                }
+            };
+        case types.STORE_EMAIL_CAMPAIGN_ERROR:
+            return {
+                ...state,
+                ...{
+                    isStoring: false,
+                    errorStore: true
+                }
+            };
         default:
             return state;
     }
 
 }
+
 
 function deleteEmailForm(emailFormId, emailFormsData) {
     if (emailFormsData) {
