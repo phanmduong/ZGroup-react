@@ -66,9 +66,9 @@ class SendEmailsMarketing extends Command
 //                        dispatch($job);
 ////                        send_mail_query($user, 'emails.view_email', ['data' => $data], $email_campaign->subject);
 //                    }
-//                }
-                $email_campaign->sended = 1;
-                $email_campaign->save();
+////                }
+//                $email_campaign->sended = 1;
+//                $email_campaign->save();
             }
 
 
