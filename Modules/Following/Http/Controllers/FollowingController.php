@@ -58,13 +58,28 @@ class FollowingController extends ApiController
         ]);
     }
 
-    public function followingsProducts(Request $request)
+    function compare($product1, $product2)
     {
-//        $user = $this->user;
-//        $followingProducts = $user->followingsProducts()->get();
-//        return $this->respondSuccessWithStatus([
-//            'products' => $followingProducts
-//        ]);
+        return $product1->created_at < $product2->created_at;
+    }
+
+    public function followingsProducts($page_id, Request $request)
+    {
+        $user = $this->user;
+        $users = $user->followings()->get();
+        $followingProducts = [];
+        foreach ($users as $usaaa) {
+            $products = $usaaa->products()->get();
+            foreach ($products as $product) {
+                array_push($followingProducts, $product);
+            }
+        }
+        usort($followingProducts, function ($product_1, $product_2) {
+            return $product_1->created_at <= $product_2->created_at;
+        });
+        return $this->respondSuccessWithStatus([
+            'products' => $followingProducts
+        ]);
     }
 
 
