@@ -3,6 +3,7 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as goodApi from './goodApi';
+import {uploadFile} from '../file/fileApi';
 import {showErrorNotification, showNotification} from "../../helpers/helper";
 import {browserHistory} from 'react-router';
 
@@ -129,5 +130,37 @@ export function loadGood(goodId) {
                     good: res.data.data.good
                 });
             });
+    };
+}
+
+export function uploadAttachment(good, fileWrapper) {
+    return function (dispatch) {
+        const error = () => {
+            showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = (event) => {
+            const file = JSON.parse(event.currentTarget.responseText);
+            showNotification("Tải lên tập tin đính kèm thành công");
+            dispatch({
+                type: types.UPLOAD_GOOD_FILES_SUCCESS,
+                file
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_UPLOAD_GOOD_FILES_PROGRESS,
+                progress: percentComplete,
+                fileWrapper
+            });
+        };
+
+        dispatch({
+            type: types.BEGIN_UPLOAD_GOOD_FILES,
+            fileWrapper
+        });
+
+        uploadFile(fileWrapper.index, fileWrapper.file,
+            completeHandler, progressHandler, error);
     };
 }

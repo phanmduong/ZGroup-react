@@ -7,6 +7,7 @@ import FormInputText from "../../components/common/FormInputText";
 import * as goodActions from "../good/goodActions";
 import UploadButton from "../../components/common/uploadButton/UploadButton";
 import {showErrorNotification} from "../../helpers/helper";
+import UploadFilesContainer from "./UploadFilesContainer";
 
 class CreateGoodContainer extends React.Component {
     constructor(props, context) {
@@ -305,6 +306,7 @@ class CreateGoodContainer extends React.Component {
 
                                     </div>
                                 </div>
+                                <UploadFilesContainer/>
                             </div>
                         </div>
                     )}

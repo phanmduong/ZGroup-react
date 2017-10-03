@@ -15,7 +15,8 @@ export default {
             percentCover: 0,
             isUploadingAvatar: false,
             isSaving: false,
-            isUploadingCover: false
+            isUploadingCover: false,
+            files: []
         }
     },
     login: {
