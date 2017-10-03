@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Email;
 use App\EmailCampaign;
 use App\Http\Controllers\SendMailController;
+use App\Jobs\SendEmail;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -41,7 +42,6 @@ class SendEmailsMarketing extends Command
      */
     public function handle()
     {
-        $mail = new SendMailController();
         $email_campaigns = EmailCampaign::where('sended', '<>', 1)->whereRaw("\"" . rebuild_date("Y-m-d H:i", time()) . "\" = DATE_FORMAT(timer, \"%Y-%m-%d %H:%i\")")->get();
         if ($email_campaigns->count() > 0) {
             foreach ($email_campaigns as $email_campaign) {
@@ -62,24 +62,8 @@ class SendEmailsMarketing extends Command
 
                 foreach ($subscribers as $subscriber) {
                     if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
-                        $user = [
-                            'name' => $subscriber->name ? $subscriber->name : "",
-                            'email' => $subscriber->email,
-                        ];
-                        $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $email_campaign->id . '&to=' . $subscriber->email;
-                        $content = $data . '<img src="' . $url . '" width="1" height="1"/>';
-//                        dd($content);
-                        $result = $mail->sendAllEmail([$subscriber->email], $email_campaign->subject, $content);
-                        $email_id = $result->get('MessageId');
-                        $email = Email::find($email_id);
-                        if ($email == null) {
-                            $email = new Email();
-                            $email->id = $email_id;
-                            $email->status = 0;
-                        }
-                        $email->campaign_id = $email_campaign->id;
-                        $email->to = $subscriber->email;
-                        $email->save();
+                        $job = new SendEmail($email_campaign, $subscriber, $data);
+                        dispatch($job);
 //                        send_mail_query($user, 'emails.view_email', ['data' => $data], $email_campaign->subject);
                     }
                 }

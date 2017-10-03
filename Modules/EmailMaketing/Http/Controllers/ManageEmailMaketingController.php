@@ -2,13 +2,16 @@
 
 namespace Modules\EmailMaketing\Http\Controllers;
 
+use App\EmailCampaign;
 use App\EmailForm;
 use App\EmailTemplate;
 use App\Http\Controllers\ManageApiController;
 use App\Http\Controllers\SendMailController;
+use App\Jobs\SendEmail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ManageEmailMaketingController extends ManageApiController
 {
@@ -199,35 +202,43 @@ class ManageEmailMaketingController extends ManageApiController
 
     public function send_email_test($email_form_id, Request $request)
     {
-        $mail = new SendMailController();
         $email_form = EmailForm::find($email_form_id);
 
         if ($email_form) {
             if ($request->email) {
-                $url = 10;
-//                $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $email_campaign->id . '&to=' . $subscriber->email;
-                $content = "test" . '<img src="' . $url . '" width="1" height="1"/>';
-//                        dd($content);
-                $result = $mail->sendAllEmail(['duongpmse04921@fpt.edu.vn'], "test", $content);
-                $email_id = $result->get('MessageId');
-                dd($email_id);
-//                $email = Email::find($email_id);
-//                if ($email == null) {
-//                    $email = new Email();
-//                    $email->id = $email_id;
-//                    $email->status = 0;
-//                }
-//                $email->campaign_id = $email_campaign->id;
-//                $email->to = $subscriber->email;
-//                $email->save();
-//                $user = [
-//                    'email' => $request->email,
-//                    'name' => "Tester"
-//                ];
-//                $email_form->template = $email_form->template()->first();
-//                $data = convert_email_form($email_form);
+                $email_campaigns = EmailCampaign::where('sended', '<>', 1)->whereRaw("\"" . rebuild_date("Y-m-d H:i", time()) . "\" = DATE_FORMAT(timer, \"%Y-%m-%d %H:%i\")")->get();
+                if ($email_campaigns->count() > 0) {
+                    foreach ($email_campaigns as $email_campaign) {
+                        $email_campaign->sended = 2;
+                        $email_campaign->save();
+
+                        $email_form = $email_campaign->email_form()->first();
+                        $email_form->template = $email_form->template()->first();
+                        $data = convert_email_form($email_form);
+
+                        $list_ids = $email_campaign->subscribers_lists()->get()->pluck('id')->toArray();
+                        $str = implode(',', $list_ids);
+                        $query = "select distinct email,name from subscribers where id in " .
+                            "(select subscriber_id from subscriber_subscribers_list where subscribers_list_id in ($str)) ";
+
+                        $subscribers = DB::select($query);
+
+
+                        foreach ($subscribers as $subscriber) {
+                            for ($i = 1; $i <= 10; $i++) {
+                                if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
+                                    $job = new SendEmail($email_campaign, $subscriber, $data);
+                                    $this->dispatch($job);
 //
-//                send_mail_query($user, 'emails.view_email', ['data' => $data], $email_form->name);
+                                }
+                            }
+                        }
+                        $email_campaign->sended = 1;
+                        $email_campaign->save();
+                    }
+
+
+                }
                 return $this->respondSuccessWithStatus(['message' => "Gửi mail thành công"]);
 
             }
