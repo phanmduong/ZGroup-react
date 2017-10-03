@@ -26,6 +26,11 @@ class EmailCampaign extends Model
         return $this->belongsTo('App\EmailTemplate', 'template_id');
     }
 
+    public function email_form()
+    {
+        return $this->belongsTo(EmailForm::class, 'form_id');
+    }
+
     public function emails()
     {
         return $this->hasMany('App\Email', 'campaign_id');

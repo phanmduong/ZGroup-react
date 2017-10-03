@@ -98,16 +98,28 @@ class ManageEmailApiController extends ManageApiController
 
     }
 
-    public function add_subscribers(Request $request)
+    public function add_subscriber(Request $request)
     {
         $list_id = $request->list_id;
-        $textEmails = $request->emails;
-        $emails = explode(",", $textEmails);
-        foreach ($emails as $email) {
-            $this->emailRepository->add_subscriber($list_id, $email);
-        }
+        $email = $request->email;
+        $name = $request->name;
+
+        $this->emailRepository->add_subscriber($list_id, $email, $name);
 
         return $this->respondSuccess("Thêm thành công");
+    }
+
+    public function edit_subscriber(Request $request)
+    {
+        $subscriber = Subscriber::find($request->id);
+
+        $subscriber->name = $request->name;
+        $subscriber->email = $request->email;
+
+        $subscriber->save();
+        return $this->respondSuccessWithStatus([
+            'subscriber' => $this->emailRepository->subscriber($subscriber)
+        ]);
     }
 
     public function upfile_add_subscribers(Request $request)
@@ -179,6 +191,8 @@ class ManageEmailApiController extends ManageApiController
         $campaign->sended = $request->send_status == 1 ? 1 : 0;
         $campaign->name = $request->name;
         $campaign->subject = $request->subject;
+        $campaign->form_id = $request->form_id;
+        $campaign->timer = $request->timer;
 
         $subscribers_list_ids = $request->subscribers_list;
 
@@ -212,5 +226,17 @@ class ManageEmailApiController extends ManageApiController
         }
 
         return $this->respondErrorWithStatus("Không thể xóa chiến dịch này");
+    }
+
+    public function subscribers_list_item($subscribers_list_id)
+    {
+        $subscribers_list = SubscribersList::find($subscribers_list_id);
+        if ($subscribers_list) {
+            return $this->respondSuccessWithStatus([
+                'subscribers_list_item' => $this->emailRepository->subscribers_list_item($subscribers_list)
+            ]);
+        }
+
+        return $this->respondErrorWithStatus("Có lỗi xảy ra");
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Modules\EmailMaketing\Http\Controllers;
 
+use App\EmailForm;
 use App\EmailTemplate;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\EmailMaketing\Entities\EmailForms;
 
 class ManageEmailMaketingController extends ManageApiController
 {
@@ -23,9 +23,9 @@ class ManageEmailMaketingController extends ManageApiController
     {
 
         if ($request->id) {
-            $email_form = EmailForms::find($request->id);
+            $email_form = EmailForm::find($request->id);
         } else {
-            $email_form = new EmailForms();
+            $email_form = new EmailForm();
             $email_form->creator = $this->user->id;
         }
 
@@ -61,12 +61,12 @@ class ManageEmailMaketingController extends ManageApiController
         $limit = 20;
 
         if ($query) {
-            $email_forms = EmailForms::where(function ($q) use ($query) {
+            $email_forms = EmailForm::where(function ($q) use ($query) {
                 $q->where('name', 'like', '%' . $query . '%')
                     ->orWhere('title', 'like', '%' . $query . '%');
             })->orderBy('created_at')->paginate($limit);
         } else {
-            $email_forms = EmailForms::orderBy('created_at')->paginate($limit);
+            $email_forms = EmailForm::orderBy('created_at')->paginate($limit);
         }
 
         $data = [
@@ -91,13 +91,17 @@ class ManageEmailMaketingController extends ManageApiController
 
     public function get_email_form($email_form_id)
     {
-        $email_form = EmailForms::where('id', $email_form_id)->first();
+        $email_form = EmailForm::where('id', $email_form_id)->first();
         $email_template = $email_form->template()->first();
-        $email_form->template = [
-            'id' => $email_template->id,
-            'name' => $email_template->name,
-            'thumbnail_url' => config('app.protocol') . trim_url($email_template->thumbnail_url),
-        ];
+        if ($email_template) {
+            $email_form->template = [
+                'id' => $email_template->id,
+                'name' => $email_template->name,
+                'thumbnail_url' => config('app.protocol') . trim_url($email_template->thumbnail_url),
+            ];
+        } else {
+            $email_form->template = [];
+        }
         $email_form->logo_url = config('app.protocol') . trim_url($email_form->logo_url);
         $email_form->avatar_url = config('app.protocol') . trim_url($email_form->avatar_url);
 
@@ -108,7 +112,7 @@ class ManageEmailMaketingController extends ManageApiController
 
     public function delete_email_form($email_form_id)
     {
-        $email_form = EmailForms::where('id', $email_form_id)->first();
+        $email_form = EmailForm::where('id', $email_form_id)->first();
         $email_form->delete();
         return $this->respondSuccessWithStatus([
             'message' => 'Xóa Email form thành công'
@@ -194,7 +198,7 @@ class ManageEmailMaketingController extends ManageApiController
 
     public function send_email_test($email_form_id, Request $request)
     {
-        $email_form = EmailForms::find($email_form_id);
+        $email_form = EmailForm::find($email_form_id);
 
         if ($email_form) {
             if ($request->email) {

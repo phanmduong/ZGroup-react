@@ -41,7 +41,7 @@ Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
-    Route::get('/email-form/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
+    Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('{path}', 'PublicController@manage')
         ->where('path', '.*');
 });
