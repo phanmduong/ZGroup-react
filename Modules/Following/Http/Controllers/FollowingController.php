@@ -40,23 +40,34 @@ class FollowingController extends ApiController
         }
     }
 
-    public function followCount($user_id, Request $request)
+    public function followers($user_id, Request $request)
     {
         $user = User::find($user_id);
-        $followCount = $user->followings()->count();
+        $users = $user->followers()->get();
         return $this->respondSuccessWithStatus([
-            'followCount' => $followCount
+            'users' => $users
         ]);
     }
 
-
-    public function followers($user_id, Request $request){
+    public function followings($user_id, Request $request)
+    {
         $user = User::find($user_id);
-        $users = $user->follower()->get();
+        $users = $user->followings()->get();
         return $this->respondSuccessWithStatus([
-            "users"=>$users
+            'users' => $users
         ]);
     }
+
+    public function followingsProducts(Request $request)
+    {
+//        $user = $this->user;
+//        $followingProducts = $user->followingsProducts()->get();
+//        return $this->respondSuccessWithStatus([
+//            'products' => $followingProducts
+//        ]);
+    }
+
+
     public function index()
     {
         return view('following::index');
