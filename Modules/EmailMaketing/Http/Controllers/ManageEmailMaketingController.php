@@ -223,16 +223,10 @@ class ManageEmailMaketingController extends ManageApiController
 
                         $subscribers = DB::select($query);
 
+                        $job = new SendEmail($email_campaign, $subscribers, $data);
+                        $this->dispatch($job);
 
-                        foreach ($subscribers as $subscriber) {
-                            for ($i = 1; $i <= 10; $i++) {
-                                if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
-                                    $job = new SendEmail($email_campaign, $subscriber, $data);
-                                    $this->dispatch($job);
-//
-                                }
-                            }
-                        }
+
                         $email_campaign->sended = 1;
                         $email_campaign->save();
                     }

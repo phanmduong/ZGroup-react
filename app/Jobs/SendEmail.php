@@ -17,17 +17,17 @@ class SendEmail extends Job implements ShouldQueue
 
     protected $email_campaign;
     protected $data;
-    protected $subscriber;
+    protected $subscribers;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(EmailCampaign $email_campaign, $subscriber, $data)
+    public function __construct(EmailCampaign $email_campaign, $subscribers, $data)
     {
         $this->email_campaign = $email_campaign;
-        $this->subscriber = $subscriber;
+        $this->subscribers = $subscribers;
         $this->data = $data;
     }
 
@@ -39,19 +39,26 @@ class SendEmail extends Job implements ShouldQueue
     public function handle()
     {
         $mail = new SendMailController();
-        $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $this->email_campaign->id . '&to=' . $this->subscriber->email;
-        $content = $this->data . '<img src="' . $url . '" width="1" height="1"/>';
-        $result = $mail->sendAllEmail([$this->subscriber->email], $this->email_campaign->subject, $content);
-        $email_id = $result->get('MessageId');
+        foreach ($this->subscribers as $subscriber) {
+            for ($i = 1; $i <= 10; $i++) {
+                if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
+                    $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $this->email_campaign->id . '&to=' . $subscriber->email;
+                    $content = $this->data . '<img src="' . $url . '" width="1" height="1"/>';
+                    $result = $mail->sendAllEmail([$subscriber->email], $this->email_campaign->subject, $content);
+                    $email_id = $result->get('MessageId');
 
-        $email = Email::find($email_id);
-        if ($email == null) {
-            $email = new Email();
-            $email->id = $email_id;
-            $email->status = 0;
+                    $email = Email::find($email_id);
+                    if ($email == null) {
+                        $email = new Email();
+                        $email->id = $email_id;
+                        $email->status = 0;
+                    }
+                    $email->campaign_id = $this->email_campaign->id;
+                    $email->to = $subscriber->email;
+                    $email->save();
+                }
+            }
         }
-        $email->campaign_id = $this->email_campaign->id;
-        $email->to = $this->subscriber->email;
-        $email->save();
     }
+
 }
