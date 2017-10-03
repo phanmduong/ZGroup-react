@@ -9,6 +9,7 @@ use App\CategoryProduct;
 use App\Course;
 use App\Email;
 use App\EmailCampaign;
+use App\EmailForm;
 use App\EmailTemplate;
 use App\Gen;
 use App\Http\Requests\RegisterFormRequest;
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
-use Modules\EmailMaketing\Entities\EmailForms;
+
 
 
 class PublicController extends Controller
@@ -812,7 +813,7 @@ class PublicController extends Controller
 
     public function render_email_form($email_form_id, $email_template_id)
     {
-        $email_form = EmailForms::find($email_form_id);
+        $email_form = EmailForm::find($email_form_id);
         $email_form->template = EmailTemplate::find($email_template_id);
         $data = convert_email_form($email_form);
         return view('emails.view_email', ['data' => $data]);

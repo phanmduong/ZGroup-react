@@ -5,6 +5,7 @@ namespace Modules\EmailMaketing\Http\Controllers;
 use App\EmailForm;
 use App\EmailTemplate;
 use App\Http\Controllers\ManageApiController;
+use App\Http\Controllers\SendMailController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -198,18 +199,35 @@ class ManageEmailMaketingController extends ManageApiController
 
     public function send_email_test($email_form_id, Request $request)
     {
+        $mail = new SendMailController();
         $email_form = EmailForm::find($email_form_id);
 
         if ($email_form) {
             if ($request->email) {
-                $user = [
-                    'email' => $request->email,
-                    'name' => "Tester"
-                ];
-                $email_form->template = $email_form->template()->first();
-                $data = convert_email_form($email_form);
-
-                send_mail_query($user, 'emails.view_email', ['data' => $data], $email_form->name);
+                $url = 10;
+//                $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $email_campaign->id . '&to=' . $subscriber->email;
+                $content = "test" . '<img src="' . $url . '" width="1" height="1"/>';
+//                        dd($content);
+                $result = $mail->sendAllEmail(['duongpmse04921@fpt.edu.vn'], "test", $content);
+                $email_id = $result->get('MessageId');
+                dd($email_id);
+//                $email = Email::find($email_id);
+//                if ($email == null) {
+//                    $email = new Email();
+//                    $email->id = $email_id;
+//                    $email->status = 0;
+//                }
+//                $email->campaign_id = $email_campaign->id;
+//                $email->to = $subscriber->email;
+//                $email->save();
+//                $user = [
+//                    'email' => $request->email,
+//                    'name' => "Tester"
+//                ];
+//                $email_form->template = $email_form->template()->first();
+//                $data = convert_email_form($email_form);
+//
+//                send_mail_query($user, 'emails.view_email', ['data' => $data], $email_form->name);
                 return $this->respondSuccessWithStatus(['message' => "Gửi mail thành công"]);
 
             }
