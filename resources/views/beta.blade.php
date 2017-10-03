@@ -13,13 +13,13 @@
 
 
     <!--emojione-->
-    {{--<script src="https://cdn.jsdelivr.net/emojione/3.0.3/lib/js/emojione.min.js"></script>--}}
-    {{--<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/3.0.3/extras/css/emojione.min.css"/>--}}
-    {{--<script type="text/javascript">--}}
-        {{--emojione.ascii = true;--}}
-        {{--emojione.greedyMatch = true;--}}
-    {{--</script>--}}
-    <!--end emojione-->
+{{--<script src="https://cdn.jsdelivr.net/emojione/3.0.3/lib/js/emojione.min.js"></script>--}}
+{{--<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/3.0.3/extras/css/emojione.min.css"/>--}}
+{{--<script type="text/javascript">--}}
+{{--emojione.ascii = true;--}}
+{{--emojione.greedyMatch = true;--}}
+{{--</script>--}}
+<!--end emojione-->
 
     <link rel="shortcut icon" href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg">
 
@@ -60,7 +60,7 @@
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/table.css">
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/video.css">
 
-    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?33333333">
+    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?44444444">
 </head>
 <body>
 <div id="fb-root"></div>
@@ -138,11 +138,11 @@
 <script>
     var socket = io('http://colorme.vn:3000/');
 </script>
-<script src="{{url('colorme-react/bundle.js')}}?33333333"></script>
+<script src="{{url('colorme-react/bundle.js')}}?44444444"></script>
 <!-- Facebook Pixel Code -->
 <script>
     !function (f, b, e, v, n, t, s) {
-        if (f.fbq)return;
+        if (f.fbq) return;
         n = f.fbq = function () {
             n.callMethod ?
                 n.callMethod.apply(n, arguments) : n.queue.push(arguments)
