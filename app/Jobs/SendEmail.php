@@ -40,23 +40,21 @@ class SendEmail extends Job implements ShouldQueue
     {
         $mail = new SendMailController();
         foreach ($this->subscribers as $subscriber) {
-            for ($i = 1; $i <= 10; $i++) {
-                if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
-                    $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $this->email_campaign->id . '&to=' . $subscriber->email;
-                    $content = $this->data . '<img src="' . $url . '" width="1" height="1"/>';
-                    $result = $mail->sendAllEmail([$subscriber->email], $this->email_campaign->subject, $content);
-                    $email_id = $result->get('MessageId');
+            if (filter_var($subscriber->email, FILTER_VALIDATE_EMAIL)) {
+                $url = config("app.protocol") . config("app.domain") . '/manage/email/open?cam_id=' . $this->email_campaign->id . '&to=' . $subscriber->email;
+                $content = $this->data . '<img src="' . $url . '" width="1" height="1"/>';
+                $result = $mail->sendAllEmail([$subscriber->email], $this->email_campaign->subject, $content);
+                $email_id = $result->get('MessageId');
 
-                    $email = Email::find($email_id);
-                    if ($email == null) {
-                        $email = new Email();
-                        $email->id = $email_id;
-                        $email->status = 0;
-                    }
-                    $email->campaign_id = $this->email_campaign->id;
-                    $email->to = $subscriber->email;
-                    $email->save();
+                $email = Email::find($email_id);
+                if ($email == null) {
+                    $email = new Email();
+                    $email->id = $email_id;
+                    $email->status = 0;
                 }
+                $email->campaign_id = $this->email_campaign->id;
+                $email->to = $subscriber->email;
+                $email->save();
             }
         }
     }
