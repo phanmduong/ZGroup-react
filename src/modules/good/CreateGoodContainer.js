@@ -8,6 +8,7 @@ import * as goodActions from "../good/goodActions";
 import UploadButton from "../../components/common/uploadButton/UploadButton";
 import {showErrorNotification} from "../../helpers/helper";
 import UploadFilesContainer from "./UploadFilesContainer";
+import FilesList from "./FilesList";
 
 class CreateGoodContainer extends React.Component {
     constructor(props, context) {
@@ -77,8 +78,10 @@ class CreateGoodContainer extends React.Component {
     saveGood() {
         const good = {
             ...this.props.good,
-            properties: JSON.stringify(this.props.good.properties)
+            properties: JSON.stringify(this.props.good.properties),
+            files_str: JSON.stringify(this.props.good.files)
         };
+
         if (!good.name || !good.code) {
             showErrorNotification("Bạn cần nhập Tên và Mã sản phẩm");
         } else {
@@ -306,7 +309,18 @@ class CreateGoodContainer extends React.Component {
 
                                     </div>
                                 </div>
-                                <UploadFilesContainer/>
+                                <div className="card">
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">mode_edit</i>
+                                    </div>
+                                    <UploadFilesContainer/>
+                                    <div className="card-content">
+                                        <FilesList
+                                            deleteFile={() => {
+                                            }}
+                                            files={this.props.good.files}/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )}

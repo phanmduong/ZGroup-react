@@ -11,6 +11,10 @@ export default function goodReducer(state = initialState.good, action) {
                 ...state,
                 createGood: {
                     ...state.createGood,
+                    good: {
+                        ...state.createGood.good,
+                        files: [...state.createGood.good.files, action.file]
+                    },
                     files: state.createGood
                         .files.filter(fileWrapper => fileWrapper.index !== Number(action.file.index))
                 }
@@ -70,7 +74,8 @@ export default function goodReducer(state = initialState.good, action) {
                     ...state.createGood,
                     isSaving: false,
                     good: {
-                        properties: []
+                        properties: [],
+                        files: []
                     }
                 }
             };

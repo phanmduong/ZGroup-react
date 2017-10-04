@@ -9,7 +9,8 @@ export default {
         createGood: {
             isLoading: false,
             good: {
-                properties: []
+                properties: [],
+                files: []
             },
             percent: 0,
             percentCover: 0,

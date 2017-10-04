@@ -33,58 +33,54 @@ class UploadFilesContainer extends React.Component {
     render() {
         const {files} = this.props;
         return (
-            <div className="card">
-                <div className="card-header card-header-icon" data-background-color="rose">
-                    <i className="material-icons">mode_edit</i>
-                </div>
-                <div className="card-content">
-                    <h4 className="card-title">Đính kèm tệp</h4>
-                    {
-                        files.length > 0 ?
-                            (
-                                <div>
-                                    {
-                                        files.map((fileWrapper) => (
-                                            <div key={fileWrapper.index}>
-                                                {fileWrapper.progress >= 100 ?
-                                                    <Loading text={"Hệ thống đang xử lý..."}/>
-                                                    : <Loading text={"Đang tải lên... " + fileWrapper.progress + "%"}/>}
 
-                                                <div>{fileWrapper.name}</div>
-                                                <div className="progress progress-line">
-                                                    <div className="progress-bar progress-bar-rose"
-                                                         role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                                                         aria-valuemax="100"
-                                                         style={{width: fileWrapper.progress + "%"}}>
+            <div className="card-content">
+                <h4 className="card-title">Đính kèm tệp</h4>
+                {
+                    files.length > 0 ?
+                        (
+                            <div>
+                                {
+                                    files.map((fileWrapper) => (
+                                        <div key={fileWrapper.index}>
+                                            {fileWrapper.progress >= 100 ?
+                                                <Loading text={"Hệ thống đang xử lý..."}/>
+                                                : <Loading text={"Đang tải lên... " + fileWrapper.progress + "%"}/>}
+
+                                            <div>{fileWrapper.name}</div>
+                                            <div className="progress progress-line">
+                                                <div className="progress-bar progress-bar-rose"
+                                                     role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                                                     aria-valuemax="100"
+                                                     style={{width: fileWrapper.progress + "%"}}>
                                                         <span
                                                             className="sr-only">{fileWrapper.progress}% Complete</span>
-                                                    </div>
                                                 </div>
                                             </div>
-                                        ))
-                                    }
-                                </div>
-                            ) :
-                            (
-                                <ListGroup>
-                                    <ListGroupItem className="kt-btn-upload-attachment-container">
-                                        <UploadButton
-                                            className="kt-btn-upload-attachment"
-                                            onChange={this.handleChange}>
-                                            <div>Máy tính</div>
-                                        </UploadButton>
-                                    </ListGroupItem>
-                                    <ListGroupItem className="kt-btn-upload-attachment-container">
-                                        <div style={{paddingLeft: 15}}>
-                                            {/*<UrlAttachContainer*/}
-                                            {/*addToComment={addToComment}*/}
-                                            {/*card={card}/>*/}
                                         </div>
-                                    </ListGroupItem>
-                                </ListGroup>
-                            )
-                    }
-                </div>
+                                    ))
+                                }
+                            </div>
+                        ) :
+                        (
+                            <ListGroup>
+                                <ListGroupItem className="kt-btn-upload-attachment-container">
+                                    <UploadButton
+                                        className="kt-btn-upload-attachment"
+                                        onChange={this.handleChange}>
+                                        <div>Máy tính</div>
+                                    </UploadButton>
+                                </ListGroupItem>
+                                <ListGroupItem className="kt-btn-upload-attachment-container">
+                                    <div style={{paddingLeft: 15}}>
+                                        {/*<UrlAttachContainer*/}
+                                        {/*addToComment={addToComment}*/}
+                                        {/*card={card}/>*/}
+                                    </div>
+                                </ListGroupItem>
+                            </ListGroup>
+                        )
+                }
             </div>
         );
     }
