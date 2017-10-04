@@ -318,12 +318,30 @@ export default function baseListReducer(state = initialState.emailForms, action)
                     errorStore: true
                 }
             };
+        case types.BEGIN_CHANGE_HIDE_EMAIL_FORM:
+            return {
+                ...state,
+                forms: changeHideForm(action.emailFormId, action.hide, state.forms)
+            };
         default:
             return state;
     }
-
 }
 
+function changeHideForm(emailFormId, hide, forms) {
+    if (forms) {
+        forms = forms.map((form) => {
+            if (form.id === emailFormId) {
+                return {
+                    ...form,
+                    hide: hide
+                };
+            }
+            return form;
+        });
+    }
+    return forms;
+}
 
 function deleteEmailForm(emailFormId, emailFormsData) {
     if (emailFormsData) {

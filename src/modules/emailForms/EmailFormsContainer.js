@@ -23,6 +23,7 @@ class EmailFormsContainer extends React.Component {
         this.timeOut = null;
         this.formsSearchChange = this.formsSearchChange.bind(this);
         this.deleteEmailForm = this.deleteEmailForm.bind(this);
+        this.changeHideForm = this.changeHideForm.bind(this);
     }
 
     componentWillMount() {
@@ -52,6 +53,10 @@ class EmailFormsContainer extends React.Component {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa email form này không?", () => {
             this.props.emailFormsActions.deleteEmailForm(emailForm.id);
         });
+    }
+
+    changeHideForm(emailFormId, hide) {
+        this.props.emailFormsActions.changeHideForm(emailFormId, hide ? 0 : 1);
     }
 
     render() {
@@ -88,6 +93,7 @@ class EmailFormsContainer extends React.Component {
                                 <ListForm
                                     forms={this.props.forms}
                                     deleteEmailForm={this.deleteEmailForm}
+                                    changeHideForm={this.changeHideForm}
                                 />}
                         </div>
                     </div>

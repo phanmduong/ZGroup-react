@@ -330,3 +330,34 @@ export function storeCampaign(emailForm, campaign, closeModal) {
 
     };
 }
+
+export function changeHideForm(emailFormId, hide) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang thay đổi", 'info');
+        dispatch({
+            type: types.BEGIN_CHANGE_HIDE_EMAIL_FORM,
+            emailFormId: emailFormId,
+            hide: hide
+        });
+        emailFormApi.changeHideForm(emailFormId, hide)
+            .then(res => {
+                if (res.data.status === 1) {
+                    helper.showNotification("Thay đổi thành công");
+                    dispatch({
+                        type: types.CHANGE_HIDE_EMAIL_FORM_SUCCESS,
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.CHANGE_HIDE_EMAIL_FORM_ERROR,
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra");
+                dispatch({
+                    type: types.CHANGE_HIDE_EMAIL_FORM_ERROR,
+                });
+            });
+    };
+}

@@ -93,3 +93,23 @@ export function deleteEmailForm(campaignId) {
             });
     };
 }
+
+export function loadForms() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_EMAIL_FORMS_EMAIL_CAMPAIGN,
+        });
+        emailCampaignApi.loadForms()
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_EMAIL_FORMS_EMAIL_CAMPAIGN_SUCCESS,
+                    forms: res.data.data.email_forms,
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_EMAIL_FORMS_EMAIL_CAMPAIGN_ERROR,
+                });
+            });
+    };
+}

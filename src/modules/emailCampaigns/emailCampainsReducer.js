@@ -77,6 +77,31 @@ export default function emailCampaignReducer(state = initialState.emailCampaigns
                 ...state,
                 campaigns: campaigns
             };
+        case types.BEGIN_LOAD_EMAIL_FORMS_EMAIL_CAMPAIGN:
+            return {
+                ...state,
+                ...{
+                    isLoadingForms: true,
+                    errorForms: false,
+                }
+            };
+        case types.LOAD_EMAIL_FORMS_EMAIL_CAMPAIGN_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingForms: false,
+                    errorForms: false,
+                    forms: action.forms
+                }
+            };
+        case types.LOAD_EMAIL_FORMS_EMAIL_CAMPAIGN_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingForms: false,
+                    errorForms: true
+                }
+            };
         default:
             return state;
     }

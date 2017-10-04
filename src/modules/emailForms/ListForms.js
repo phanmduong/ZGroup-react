@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import {Link} from 'react-router';
+import Switch from 'react-bootstrap-switch';
 
 class ListForm extends React.Component {
     constructor(props, context) {
@@ -18,6 +19,7 @@ class ListForm extends React.Component {
                         <th>Tên form</th>
                         <th>Tiêu đề</th>
                         <th>Người tạo</th>
+                        <th>Hiển thị</th>
                         <th/>
                     </tr>
                     </thead>
@@ -49,6 +51,13 @@ class ListForm extends React.Component {
                                 <td>{form.title}</td>
                                 <td>{form.creator.name}</td>
                                 <td>
+                                    <Switch
+                                        onChange={(elem, state) => this.props.changeHideForm(form.id, state)}
+                                        bsSize="mini"
+                                        onText="Bật" offText="Tắt"
+                                        value={(form.hide === 0)}/>
+                                </td>
+                                <td>
                                     <ButtonGroupAction
                                         editUrl={"/email-form/" + form.id + "/edit"}
                                         delete={this.props.deleteEmailForm}
@@ -68,6 +77,7 @@ class ListForm extends React.Component {
 ListForm.propTypes = {
     forms: PropTypes.array.isRequired,
     deleteEmailForm: PropTypes.func.isRequired,
+    changeHideForm: PropTypes.func.isRequired,
 };
 
 export default ListForm;

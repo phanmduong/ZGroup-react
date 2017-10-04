@@ -14,6 +14,9 @@ import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ListCampaign from './ListCampaign';
 import ReactSelect from 'react-select';
+import moment from "moment";
+import FormInputDateTime from '../../components/common/FormInputDateTime';
+import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
 
 class EmailCampaignsContainer extends React.Component {
     constructor(props, context) {
@@ -27,6 +30,7 @@ class EmailCampaignsContainer extends React.Component {
             },
             edit: false,
             optionsSelectSubscriberList: [],
+            optionsSelectEmailForms: [],
 
         };
         this.campaignsSearchChange = this.campaignsSearchChange.bind(this);
@@ -36,11 +40,13 @@ class EmailCampaignsContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.storeCampaign = this.storeCampaign.bind(this);
         this.deleteCampaign = this.deleteCampaign.bind(this);
+        this.changeEmailForm = this.changeEmailForm.bind(this);
         this.ownerId = this.props.params.ownerId;
     }
 
     componentWillMount() {
         this.props.emailCampaignActions.loadSubscribersList();
+        this.props.emailCampaignActions.loadForms();
         this.loadCampaigns();
         if (this.props.params.ownerId) {
             this.ownerId = this.props.params.ownerId;
@@ -71,6 +77,21 @@ class EmailCampaignsContainer extends React.Component {
                 optionsSelectSubscriberList: dataSubscribersList
             });
         }
+
+        if (nextProps.emailForms && nextProps.emailForms !== this.props.emailForms) {
+            let dataEmailForms = [];
+            nextProps.emailForms.forEach(emailForm => {
+                dataEmailForms.push({
+                    ...emailForm, ...{
+                        value: emailForm.id,
+                        label: emailForm.name
+                    }
+                });
+            });
+            this.setState({
+                optionsSelectEmailForms: dataEmailForms
+            });
+        }
     }
 
     campaignsSearchChange(value) {
@@ -94,14 +115,17 @@ class EmailCampaignsContainer extends React.Component {
 
     openModalStoreCampaign(campaign = null) {
         if (campaign) {
+            let dateIsValid = moment(campaign.timer, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
             this.setState({
                 showModal: true,
                 campaign: {
                     ...campaign,
-                    subscribers_list: campaign.subscribers_list_ids
+                    subscribers_list: campaign.subscribers_list_ids,
+                    timer: dateIsValid ? moment(campaign.timer, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT) : null
                 },
                 edit: true,
-            });
+            })
+            ;
         } else {
             this.setState({
                 showModal: true,
@@ -120,6 +144,15 @@ class EmailCampaignsContainer extends React.Component {
         });
     }
 
+    changeEmailForm(value) {
+        this.setState({
+            campaign: {
+                ...this.state.campaign,
+                form_id: value.id
+            }
+        });
+    }
+
     closeModalStoreCampaign() {
         this.setState({
             showModal: false
@@ -128,10 +161,12 @@ class EmailCampaignsContainer extends React.Component {
 
     storeCampaign() {
         helper.setFormValidation("#form-campaign");
+        console.log(this.state.campaign.subscribers_list);
         if ($("#form-campaign").valid()) {
             this.props.emailCampaignActions.storeCampaign({
                 ...this.state.campaign,
-                subscribers_list: _.map(this.state.campaign.subscribers_list, 'id')
+                subscribers_list: this.state.campaign.subscribers_list[0] && this.state.campaign.subscribers_list[0].id ?
+                    _.map(this.state.campaign.subscribers_list, 'id') : this.state.campaign.subscribers_list
             }, this.closeModalStoreCampaign);
         }
     }
@@ -143,7 +178,7 @@ class EmailCampaignsContainer extends React.Component {
         this.setState({campaign: campaign});
     }
 
-    deleteCampaign(campaign){
+    deleteCampaign(campaign) {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa chiến dịch này không?", () => {
             this.props.emailCampaignActions.deleteEmailForm(campaign.id);
         });
@@ -163,19 +198,12 @@ class EmailCampaignsContainer extends React.Component {
                         <div className="card-content">
                             <h4 className="card-title">Chiến dịch</h4>
                             <div className="row">
-                                <div className="col-md-12">
-                                    <div className="col-md-3">
-                                        <button className="btn btn-rose" onClick={() => this.openModalStoreCampaign()}>
-                                            Tạo
-                                        </button>
-                                    </div>
-                                    <Search
-                                        onChange={this.campaignsSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm"
-                                        className="col-md-9"
-                                    />
-                                </div>
+                                <Search
+                                    onChange={this.campaignsSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm"
+                                    className="col-md-12"
+                                />
                             </div>
 
                             {this.props.isLoading ? <Loading/> :
@@ -232,6 +260,14 @@ class EmailCampaignsContainer extends React.Component {
                                 updateFormData={this.updateFormData}
                                 value={this.state.campaign.subject}
                             />
+                            <FormInputDateTime
+                                name="timer"
+                                id="input-datetime-timer"
+                                updateFormData={this.updateFormData}
+                                value={this.state.campaign.timer}
+                                defaultDate={moment().add(1, "hours")}
+                                label="Hẹn giờ gửi mail"
+                            />
                             <ReactSelect
                                 name="form-field-name"
                                 options={this.state.optionsSelectSubscriberList}
@@ -240,6 +276,15 @@ class EmailCampaignsContainer extends React.Component {
                                 multi
                                 onChange={this.changeSubscribersList}
                             />
+                            <div className="form-group">
+                                <ReactSelect
+                                    name="form-field-name"
+                                    options={this.state.optionsSelectEmailForms}
+                                    value={this.state.campaign.form_id}
+                                    placeholder="Chọn email form"
+                                    onChange={this.changeEmailForm}
+                                />
+                            </div>
                             {
                                 this.props.isStoring ?
                                     (
@@ -283,6 +328,7 @@ function mapStateToProps(state) {
     return {
         campaigns: state.emailCampaigns.campaigns,
         subscribersList: state.emailCampaigns.subscribersList,
+        emailForms: state.emailCampaigns.forms,
         isStoring: state.emailCampaigns.isStoring,
         isLoading: state.emailCampaigns.isLoading,
         totalPages: state.emailCampaigns.totalPages,
