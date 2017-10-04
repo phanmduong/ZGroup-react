@@ -147,7 +147,7 @@ class UserCardRepository
     {
         $card = Card::find($cardId);
         $files = $card->files->map(function ($file) {
-           return $this->transform();
+            return $file->transform();
         });
         $taskLists = $card->taskLists->map(function ($taskList) {
             return [
