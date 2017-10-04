@@ -75,7 +75,9 @@ class GoodController extends ManageApiController
         $files = json_decode($request->files_str);
 
         foreach ($files as $file) {
-            $good->files()->attach($file->id);
+            if (!$good->files->contains($file->id)) {
+                $good->files()->attach($file->id);
+            }
         }
 
         return $this->respondSuccessWithStatus(["message" => "success"]);
