@@ -38,6 +38,11 @@ class Good extends Model
         return $this->hasMany(GoodProperty::class, "good_id");
     }
 
+    public function files()
+    {
+        return $this->belongsToMany(File::class, "file_good", "good_id", "file_id");
+    }
+
     public function transform()
     {
         return [

@@ -5,8 +5,6 @@ namespace Modules\File\Http\Controllers;
 use App\File;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 
 class FileController extends ManageApiController
 {
