@@ -4,8 +4,48 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-export default function baseListReducer(state = initialState.good, action) {
+export default function goodReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.UPLOAD_GOOD_FILES_SUCCESS:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    files: state.createGood
+                        .files.filter(fileWrapper => fileWrapper.index !== Number(action.file.index))
+                }
+            };
+        case types.UPDATE_UPLOAD_GOOD_FILES_PROGRESS:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    files: state.createGood.files.map((fileWrapper) => {
+                        if (fileWrapper.index === action.fileWrapper.index) {
+                            return {
+                                ...fileWrapper,
+                                progress: action.progress
+                            };
+                        }
+                        return fileWrapper;
+                    })
+                }
+            };
+        case types.BEGIN_UPLOAD_GOOD_FILES:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    files: [
+                        ...state.createGood.files,
+                        {
+                            name: action.fileWrapper.name,
+                            index: action.fileWrapper.index,
+                            progress: 0
+                        }
+                    ]
+                }
+            };
         case types.LOAD_GOOD_DETAIL_SUCCESS:
             return {
                 ...state,

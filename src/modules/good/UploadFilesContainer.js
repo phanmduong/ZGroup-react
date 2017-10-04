@@ -24,7 +24,7 @@ class UploadFilesContainer extends React.Component {
                 name: file.name
             };
 
-            this.props.goodActions.uploadAttachment(fileWrapper);
+            this.props.goodActions.uploadFiles(fileWrapper);
         });
 
 

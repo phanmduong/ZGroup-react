@@ -63,7 +63,6 @@ class AddTaskListOverlayContainer extends React.Component {
         taskList[field] = value;
         this.props.taskActions.updateCreateTaskListFormData(taskList);
     }
-
     onChangeTaskList(value) {
         this.setState({selectedTaskList: value});
     }

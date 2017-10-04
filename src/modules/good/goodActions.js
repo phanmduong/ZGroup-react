@@ -133,7 +133,7 @@ export function loadGood(goodId) {
     };
 }
 
-export function uploadAttachment(good, fileWrapper) {
+export function uploadFiles(fileWrapper) {
     return function (dispatch) {
         const error = () => {
             showErrorNotification("Có lỗi xảy ra");
