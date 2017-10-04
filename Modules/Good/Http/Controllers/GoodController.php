@@ -42,8 +42,6 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
 
-
-
         $id = $request->id;
         if ($id) {
             $good = Good::find($id);
@@ -58,6 +56,8 @@ class GoodController extends ManageApiController
         $good->cover_url = $coverUrl;
         $good->save();
 
+//        $properties = json_decode($request->properties);
+
         $properties = json_decode($request->properties);
 
         DB::table('good_properties')->where('good_id', '=', $good->id)->delete();
@@ -70,6 +70,12 @@ class GoodController extends ManageApiController
             $property->editor_id = $this->user->id;
             $property->good_id = $good->id;
             $property->save();
+        }
+
+        $files = json_decode($request->files_str);
+
+        foreach ($files as $file) {
+            $good->files()->attach($file->id);
         }
 
         return $this->respondSuccessWithStatus(["message" => "success"]);
