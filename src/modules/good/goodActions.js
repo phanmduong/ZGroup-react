@@ -99,6 +99,16 @@ export function uploadCover(file) {
     };
 }
 
+export function addUrlSuccess(file) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ADD_GOOD_URL_SUCCESS,
+            file
+        });
+    };
+}
+
+
 export function saveGood(good) {
     return function (dispatch) {
         dispatch({

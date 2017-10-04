@@ -6,6 +6,17 @@ import initialState from '../../reducers/initialState';
 
 export default function goodReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.ADD_GOOD_URL_SUCCESS:
+            return {
+                ...state,
+                createGood: {
+                    ...state.createGood,
+                    good: {
+                        ...state.createGood.good,
+                        files: [...state.createGood.good.files, action.file]
+                    }
+                }
+            };
         case types.UPLOAD_GOOD_FILES_SUCCESS:
             return {
                 ...state,

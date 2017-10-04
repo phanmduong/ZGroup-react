@@ -50,3 +50,14 @@ export function loadGood(goodId) {
     }
     return axios.get(url);
 }
+
+export function addUrl(fileUrl) {
+    let url = env.MANAGE_API_URL + "/file/url";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        url: fileUrl
+    });
+}

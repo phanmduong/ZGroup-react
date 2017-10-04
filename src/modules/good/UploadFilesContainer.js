@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import * as goodActions from '../good/goodActions';
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import UploadButton from "../../components/common/uploadButton/UploadButton";
+import GoodUrlAttachContainer from "./GoodUrlAttachContainer";
 
 
 class UploadFilesContainer extends React.Component {
@@ -73,9 +74,7 @@ class UploadFilesContainer extends React.Component {
                                 </ListGroupItem>
                                 <ListGroupItem className="kt-btn-upload-attachment-container">
                                     <div style={{paddingLeft: 15}}>
-                                        {/*<UrlAttachContainer*/}
-                                        {/*addToComment={addToComment}*/}
-                                        {/*card={card}/>*/}
+                                        <GoodUrlAttachContainer/>
                                     </div>
                                 </ListGroupItem>
                             </ListGroup>
