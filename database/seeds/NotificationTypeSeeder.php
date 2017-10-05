@@ -146,6 +146,12 @@ class NotificationTypeSeeder extends Seeder
                 'id' => 20,
                 "template" => "[[ACTOR]] thay đổi hạn chót thành [[DEADLINE]] cho công việc [[TASK]] trong thẻ [[CARD]] dự án [[PROJECT]]",
                 "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">assignment</i>"
+            ], [
+                'name' => "timer_sended_email_campaign",
+                'color' => "#4CAF50",
+                'id' => 21,
+                "template" => "Chiến dịch của bạn, [[NAME_CAMPAIGN]] đã bắt đầu được gửi",
+                "icon" => "<i style=\"color:#4CAF50\" class=\"material-icons\">mail</i>"
             ]
 
         ]);

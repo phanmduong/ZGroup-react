@@ -6,11 +6,14 @@ use App\Email;
 use App\EmailCampaign;
 use App\Http\Controllers\SendMailController;
 use App\Jobs\SendEmail;
+use App\Notification;
+use App\Repositories\NotificationRepository;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
 class SendEmailsMarketing extends Command
 {
+
     /**
      * The name and signature of the console command.
      *
@@ -24,15 +27,17 @@ class SendEmailsMarketing extends Command
      * @var string
      */
     protected $description = 'Command description';
+    protected $notificationRepository;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(NotificationRepository $notificationRepository)
     {
         parent::__construct();
+        $this->notificationRepository = $notificationRepository;
     }
 
     /**
@@ -62,9 +67,27 @@ class SendEmailsMarketing extends Command
                 $job = new SendEmail($email_campaign, $subscribers, $data);
                 dispatch($job);
 
+                $notification = new Notification;
+                $notification->actor_id = $email_campaign->owner_id;
+                $notification->receiver_id = $email_campaign->owner_id;
+                $notification->type = 21;
+                $message = $notification->notificationType->template;
+
+                $message = str_replace('[[NAME_CAMPAIGN]]', "<strong>" . $email_campaign->name . "</strong>", $message);
+                $notification->message = $message;
+
+                $notification->color = $notification->notificationType->color;
+                $notification->icon = $notification->notificationType->icon;
+                $notification->url = '/manage/campaigns';
+
+                $notification->save();
+
+                $this->notificationRepository->sendNotification($notification);
 
                 $email_campaign->sended = 1;
                 $email_campaign->save();
+
+
             }
 
 
