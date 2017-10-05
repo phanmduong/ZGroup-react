@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Email;
 use App\EmailCampaign;
-use App\Http\Controllers\SendMailController;
 use App\Jobs\SendEmail;
 use App\Notification;
 use App\Repositories\NotificationRepository;
@@ -32,7 +30,7 @@ class SendEmailsMarketing extends Command
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param NotificationRepository $notificationRepository
      */
     public function __construct(NotificationRepository $notificationRepository)
     {
