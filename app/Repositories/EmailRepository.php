@@ -103,6 +103,9 @@ class EmailRepository
                 'sended' => $sended,
                 'complaint' => $complaint,
                 'delivery' => $delivery,
+                'hide' => $campaign->hide ? $campaign->hide : 0,
+                'timer' => $campaign->timer,
+                'form_id' => $campaign->form_id
             ];
 
             if ($total_subscribers_lists != 0) {

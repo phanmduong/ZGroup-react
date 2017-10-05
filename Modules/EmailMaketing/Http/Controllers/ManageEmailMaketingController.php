@@ -60,13 +60,17 @@ class ManageEmailMaketingController extends ManageApiController
 
         $limit = 20;
 
+        $email_forms = EmailForm::where('hide', 0)->orWhere(function ($q) {
+            $q->where('hide', 1)->where('creator', $this->user->id);
+        });
+
         if ($query) {
-            $email_forms = EmailForm::where(function ($q) use ($query) {
+            $email_forms = $email_forms->where(function ($q) use ($query) {
                 $q->where('name', 'like', '%' . $query . '%')
                     ->orWhere('title', 'like', '%' . $query . '%');
             })->orderBy('created_at')->paginate($limit);
         } else {
-            $email_forms = EmailForm::orderBy('created_at')->paginate($limit);
+            $email_forms = $email_forms->orderBy('created_at')->paginate($limit);
         }
 
         $data = [
@@ -81,12 +85,42 @@ class ManageEmailMaketingController extends ManageApiController
                     'avatar_url' => config('app.protocol') . trim_url($email_form->avatar_url),
                     'title_button' => $email_form->title_button,
                     'link_button' => $email_form->link_button,
-                    'status' => $email_form->status
+                    'status' => $email_form->status,
+                    'hide' => $email_form->hide
                 ];
             })
         ];
 
         return $this->respondWithPagination($email_forms, $data);
+    }
+
+    public function all_email_forms()
+    {
+
+
+        $email_forms = EmailForm::where('hide', 0)->orWhere(function ($q) {
+            $q->where('hide', 1)->where('creator', $this->user->id);
+        })->orderBy('created_at')->get();
+
+        $data = [
+            "email_forms" => $email_forms->map(function ($email_form) {
+                return [
+                    'id' => $email_form->id,
+                    'name' => $email_form->name,
+                    'title' => $email_form->title,
+                    'subtitle' => $email_form->subtitle,
+                    'logo_url' => config('app.protocol') . trim_url($email_form->logo_url),
+                    'creator' => $email_form->creator()->first(),
+                    'avatar_url' => config('app.protocol') . trim_url($email_form->avatar_url),
+                    'title_button' => $email_form->title_button,
+                    'link_button' => $email_form->link_button,
+                    'status' => $email_form->status,
+                    'hide' => $email_form->hide
+                ];
+            })
+        ];
+
+        return $this->respondSuccessWithStatus($data);
     }
 
     public function get_email_form($email_form_id)
@@ -214,6 +248,26 @@ class ManageEmailMaketingController extends ManageApiController
 
             }
             return $this->respondErrorWithStatus("Thiếu email");
+        }
+
+        return $this->respondErrorWithStatus("Email form không tồn tại");
+    }
+
+    public function change_hide_email_form(Request $request)
+    {
+
+        if ($request->id == null) {
+            return $this->respondErrorWithStatus("Thiếu id");
+        }
+
+        $email_form = EmailForm::find($request->id);
+
+        if ($email_form) {
+            $email_form->hide = $request->hide;
+            $email_form->save();
+            return $this->respondSuccessWithStatus([
+                'message' => "Thay đổi thành công"
+            ]);
         }
 
         return $this->respondErrorWithStatus("Email form không tồn tại");

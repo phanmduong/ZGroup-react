@@ -56,6 +56,9 @@ class Good extends Model
             "avatar_url" => $this->avatar_url,
             "cover_url" => $this->cover_url,
             "code" => $this->code,
+            "files" => $this->files->map(function ($file) {
+                return $file->transform();
+            }),
             "properties" => $this->properties->map(function ($property) {
                 return $property->transform();
             })

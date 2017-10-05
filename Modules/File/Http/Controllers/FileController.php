@@ -20,6 +20,7 @@ class FileController extends ManageApiController
             $file->name = $clientFile->getClientOriginalName();
             $file->size = $clientFile->getSize();
             $file->file_key = $file_name;
+            $file->card_id = 0;
             $file->ext = $clientFile->getClientOriginalExtension();
             $file->type = $clientFile->getMimeType();
             $file->save();
@@ -31,6 +32,26 @@ class FileController extends ManageApiController
         } else {
             return $this->respondErrorWithStatus("Tải tệp lên không thành công");
         }
+    }
+
+    public function addUrl( Request $request)
+    {
+        $url = $request->url;
+        if (is_null($url)) {
+            return $this->respondErrorWithStatus("Bạn cần truyền lên url");
+        }
+
+        $file = new File();
+        $file->url = $url;
+        $file->name = $url;
+        $file->size = 0;
+        $file->card_id = 0;
+        $file->file_key = $url;
+        $file->ext = "url";
+        $file->type = "url";
+        $file->save();
+
+        return $this->respond($file);
     }
 
 }

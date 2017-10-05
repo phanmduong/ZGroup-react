@@ -159,21 +159,31 @@ class ManageEmailApiController extends ManageApiController
         $query = $request->search;
         $limit = 20;
 
+
+        $campaigns = EmailCampaign::leftJoin('email_forms', 'email_campaigns.form_id', '=', 'email_forms.id')
+            ->select('email_campaigns.*', 'email_forms.hide')
+            ->where(function ($q) {
+                $q->whereNull("email_forms.hide")->orWhere('email_forms.hide', 0)->orWhere(function ($q) {
+                    $q->where('email_forms.hide', 1)->where('email_forms.creator', $this->user->id);
+                });
+            });
+
         if ($request->owner_id) {
-            $campaigns = EmailCampaign::where('name', 'like', '%' . $query . '%')
-                ->where('owner_id', $request->owner_id)->orderBy('created_at', 'desc')->paginate($limit);
+            $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%')
+                ->where('owner_id', $request->owner_id)->orderBy('email_campaigns.created_at', 'desc')->paginate($limit);
         } else {
             if ($query) {
-                $campaigns = EmailCampaign::where('name', 'like', '%' . $query . '%')
-                    ->orderBy('created_at', 'desc')->paginate($limit);
+                $campaigns = $campaigns->where('email_campaigns.name', 'like', '%' . $query . '%')
+                    ->orderBy('email_campaigns.created_at', 'desc')->paginate($limit);
             } else {
-                $campaigns = EmailCampaign::orderBy('created_at', 'desc')->paginate($limit);
+                $campaigns = $campaigns->orderBy('email_campaigns.created_at', 'desc')->paginate($limit);
             }
         }
 
         $data = [
             'campaigns' => $this->emailRepository->campaingns($campaigns)
         ];
+
 
         return $this->respondWithPagination($campaigns, $data);
     }
