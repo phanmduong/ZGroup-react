@@ -29,11 +29,23 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 
 
-
 class PublicController extends Controller
 {
     private $user;
     private $data;
+
+    public function elightMail(Request $request)
+    {
+        $email = $request->email;
+        $msg = "First line of text\nSecond line of text";
+
+
+        $msg = wordwrap($msg, 70);
+
+
+        mail($email, "My subject", $msg);
+        return "done";
+    }
 
     public function store_images($topicId, Request $request)
     {
