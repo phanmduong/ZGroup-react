@@ -115,3 +115,16 @@ export function storeCampaign(campaign, emailFormId) {
         }
     });
 }
+
+export function changeHideForm(emailFormId, hide) {
+    let url = env.MANAGE_API_URL + '/email-form/change-hide';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url,
+        {
+            id: emailFormId,
+            hide: hide,
+        });
+}

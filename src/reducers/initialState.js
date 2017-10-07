@@ -583,5 +583,8 @@ export default {
         subscribersList: [],
         isStoring: false,
         errorStore: false,
+        isLoadingForms: false,
+        errorForms: false,
+        forms: []
     }
 };

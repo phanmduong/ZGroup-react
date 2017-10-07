@@ -186,7 +186,7 @@ class SubscribersContainer extends React.Component {
                                                     <div className="col-md-12">
                                                         <div className="col-md-7">
                                                             <button className="btn btn-rose"
-                                                                    onClick={this.openModalAddEmail}>
+                                                                    onClick={()=>this.openModalAddEmail()}>
                                                                 Thêm
                                                             </button>
                                                             <button className="btn btn-rose"
@@ -301,7 +301,7 @@ class SubscribersContainer extends React.Component {
                 </div>
                 <Modal show={this.state.showModalAddEmail} onHide={this.closeModalAddEmail}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Thêm email</Modal.Title>
+                        <Modal.Title>{this.state.edit ? "Sửa email" : "Thêm email"}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <form id="form-add-subscriber" onSubmit={(e) => {

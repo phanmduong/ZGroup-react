@@ -27,7 +27,7 @@ class ListCampaign extends React.Component {
                     <tbody>
                     {
                         this.props.campaigns.map((campaign, index) => {
-                            let btn = 'btn-danger';
+                            let btn = 'btn-default';
                             let title = "Chưa gửi";
 
                             if (campaign.send_status === 1) {

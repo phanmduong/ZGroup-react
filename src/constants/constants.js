@@ -70,3 +70,4 @@ export function linkUploadImageEditor() {
 }
 
 export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";
+export const DATETIME_FORMAT_SQL = "YYYY-MM-DD HH:mm:ss";
