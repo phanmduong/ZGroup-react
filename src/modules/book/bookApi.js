@@ -5,7 +5,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 
-export function loadTaskListTemplates(page = 1, query = null) {
+export function loadTaskListTemplates(page = 1, query = null, type = null) {
     let url = env.MANAGE_API_URL + "/book/task-list-templates?page=" + page;
     let token = localStorage.getItem('token');
     if (query) {
@@ -14,6 +14,11 @@ export function loadTaskListTemplates(page = 1, query = null) {
     if (token) {
         url += "&token=" + token;
     }
+
+    if (type) {
+        url += "&type=" + type;
+    }
+
     return axios.get(url);
 }
 

@@ -144,7 +144,8 @@ export default (
             {/*End class routes*/}
 
             {/*Begin good routes*/}
-            <Route path="/task-list-template" component={ProcessListContainer}/>
+            <Route path="/book/process" component={ProcessListContainer} type="book"/>
+            <Route path="/fashion/process" component={ProcessListContainer} type="fashion"/>
             <Route path="/book-manufacture" component={BookBoardListContainer}/>
             <Route path="/fashion-manufacture" component={FashionBoardListContainer}/>
             <Route path="/good/all" component={GoodListContainer}/>

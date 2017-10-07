@@ -30,7 +30,13 @@ class ProcessListContainer extends React.Component {
         this.loadTaskLists();
     }
 
-    deleteTaskListTemplate(taskList){
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.route.type !== this.props.route.type) {
+            this.props.bookActions.loadTaskListTemplates(1, "", nextProps.route.type);
+        }
+    }
+
+    deleteTaskListTemplate(taskList) {
         confirm("warning", "Xoá danh sách việc",
             "Toàn bộ công việc trong danh sách này sẽ bị xoá vĩnh viễn",
             () => {
@@ -38,11 +44,9 @@ class ProcessListContainer extends React.Component {
             }, null);
     }
 
-
-
     loadTaskLists(page = 1) {
         this.setState({page});
-        this.props.bookActions.loadTaskListTemplates(page, this.state.query);
+        this.props.bookActions.loadTaskListTemplates(page, this.state.query, this.props.route.type);
     }
 
     taskListSearchChange(query) {
@@ -140,6 +144,7 @@ ProcessListContainer.propTypes = {
     taskLists: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     bookActions: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired

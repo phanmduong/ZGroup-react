@@ -19,12 +19,12 @@ export function deleteTaskList(taskList) {
     };
 }
 
-export function loadTaskListTemplates(page = 1, query = "") {
+export function loadTaskListTemplates(page = 1, query = "", type = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_TASK_LIST_TEMPLATES
         });
-        bookApi.loadTaskListTemplates(page, query)
+        bookApi.loadTaskListTemplates(page, query, type)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_TASK_LIST_TEMPLATES_SUCCESS,
