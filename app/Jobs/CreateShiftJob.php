@@ -35,8 +35,7 @@ class CreateShiftJob extends Job implements ShouldQueue
     public function handle()
     {
         $date = new \DateTime();
-//        $date->modify('+3 days');
-        $date->modify('+2 days');
+        $date->modify('+3 days');
         $formatted_date_from = $date->format('Y-m-d');
         $date->modify('+6 days');
         $formatted_date_to = $date->format('Y-m-d');
