@@ -35,8 +35,7 @@ class CreateShiftJob extends Job implements ShouldQueue
     public function handle()
     {
         $date = new \DateTime();
-//        $date->modify('+3 days');
-        $date->modify('+9 days');
+        $date->modify('+3 days');
         $formatted_date_from = $date->format('Y-m-d');
         $date->modify('+6 days');
         $formatted_date_to = $date->format('Y-m-d');
@@ -72,7 +71,7 @@ class CreateShiftJob extends Job implements ShouldQueue
         foreach ($roles as $role) {
             $users = $role->users;
             foreach ($users as $user) {
-//                send_mail_regis_shift($user, $week, $current_gen, ['test@colorme.vn']);
+                send_mail_regis_shift($user, $week, $current_gen, ['test@colorme.vn']);
             }
         }
         $this->info('done');
