@@ -12,7 +12,12 @@ class BookController extends ManageApiController
 {
     public function taskListTemplates(Request $request)
     {
-        $taskListTemplates = TaskList::where("card_id", 0)->where("title", "like", "%$request->q%")->paginate(20);
+        $type = $request->type;
+        $taskListTemplates = TaskList::where("card_id", 0);
+        if ($type) {
+            $taskListTemplates = $taskListTemplates->where("type", $type);
+        }
+        $taskListTemplates = $taskListTemplates->where("title", "like", "%$request->q%")->orderBy("title")->paginate(20);
         return $this->respondWithPagination($taskListTemplates, [
             "templates" => $taskListTemplates->map(function ($item) {
                 return [
