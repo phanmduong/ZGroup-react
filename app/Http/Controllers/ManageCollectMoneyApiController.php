@@ -211,7 +211,7 @@ class ManageCollectMoneyApiController extends ManageApiController
                     'code' => $register->code,
                     'note' => $register->note,
                     'paid_status' => $register->status == 1,
-                    'paid_time' => format_date_to_mysql(strtotime($register->paid_time)),
+                    'paid_time' => format_date_to_mysql($register->paid_time),
                     'paid_time_full' => format_date_full_option($register->paid_time),
                     'course_money' => $register->studyClass->course->price,
                     'class' => [
