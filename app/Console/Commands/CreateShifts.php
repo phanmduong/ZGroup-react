@@ -48,5 +48,6 @@ class CreateShifts extends Command
     public function handle()
     {
         $this->dispatch(new CreateShiftJob());
+        $this->info('done');
     }
 }

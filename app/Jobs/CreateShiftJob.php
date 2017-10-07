@@ -74,6 +74,5 @@ class CreateShiftJob extends Job implements ShouldQueue
                 send_mail_regis_shift($user, $week, $current_gen, ['test@colorme.vn']);
             }
         }
-        $this->info('done');
     }
 }
