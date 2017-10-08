@@ -102,7 +102,6 @@ class GoodController extends ManageApiController
             $good_property_item = new GoodPropertyItem();
             $good_property_item->creator_id = $user->id;
             $good_property_item->editor_id = $user->id;
-
         }
         if ($request->name == null)
             return $this->respondErrorWithStatus("Thiếu trường name");
@@ -134,7 +133,7 @@ class GoodController extends ManageApiController
         );
     }
 
-    public function deletePropertyItem($property_item_id,Request $request)
+    public function deletePropertyItem($property_item_id, Request $request)
     {
         $goodPropertyItem = GoodPropertyItem::find($property_item_id);
         $goodPropertyItem->delete();
