@@ -7,16 +7,17 @@ use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodProperty;
+use Modules\Good\Entities\GoodPropertyItem;
 
 
 class GoodController extends ManageApiController
 {
     public function getAll(Request $request)
     {
-        $q = $request->q;
+        $keyword = $request->search;
 
-        $goods = Good::where(function ($query) use ($q) {
-            $query->where("name", "like", "%$q%")->orWhere("description", "like", "%$q%");
+        $goods = Good::where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
         })->orderBy("created_at", "desc")->paginate(20);
 
         return $this->respondWithPagination(
@@ -91,4 +92,54 @@ class GoodController extends ManageApiController
         ]);
     }
 
+    public function createGoodPropertyItem(Request $request)
+    {
+        $user = $this->user;
+        if ($request->id) {
+            $good_property_item = GoodPropertyItem::find($request->id);
+            $good_property_item->editor_id = $user->id;
+        } else {
+            $good_property_item = new GoodPropertyItem();
+            $good_property_item->creator_id = $user->id;
+            $good_property_item->editor_id = $user->id;
+
+        }
+        if ($request->name == null)
+            return $this->respondErrorWithStatus("Thiếu trường name");
+        $good_property_item->name = $request->name;
+        $good_property_item->prevalue = $request->prevalue;
+        $good_property_item->preunit = $request->preunit;
+        $good_property_item->save();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function allPropertyItems(Request $request)
+    {
+        $keyword = $request->search;
+        if ($request->type)
+            $goodPropertyItems = GoodPropertyItem::where("type", $request->type)->where(function ($query) use ($keyword) {
+                $query->where("prevalue", "like", "%$keyword%")->orWhere("preunit", "like", "%$keyword%");
+            })->orderBy("created_at", "desc")->paginate(20);
+        else
+            $goodPropertyItems = GoodPropertyItem::where(function ($query) use ($keyword) {
+                $query->where("prevalue", "like", "%$keyword%")->orWhere("preunit", "like", "%$keyword%");
+            })->orderBy("created_at", "desc")->paginate(20);
+        return $this->respondWithPagination(
+            $goodPropertyItems,
+            [
+                "good_property_items" => $goodPropertyItems->map(function ($goodPropertyItem) {
+                    return $goodPropertyItem->transform();
+                })
+            ]
+        );
+    }
+
+    public function deletePropertyItem($property_item_id,Request $request)
+    {
+        $goodPropertyItem = GoodPropertyItem::find($property_item_id);
+        $goodPropertyItem->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => "Xóa thành công"
+        ]);
+    }
 }
