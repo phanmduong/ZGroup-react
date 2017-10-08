@@ -39,8 +39,9 @@ class CourseTransformer extends Transformer
             'icon_url' => $course->icon_url,
             'image_url' => $course->image_url,
             'cover_url' => $course->cover_url,
-            'classes' => $this->classTransformer->transformCollection($course->classes()->where('gen_id', $current_gen->id)
-                ->orderBy('name', 'desc')->get())
+            'classes' => $this->classTransformer
+                ->transformCollection($course->classes()->where('gen_id', $current_gen->id)
+                    ->orderBy('name', 'desc')->get())
         ];
     }
 }

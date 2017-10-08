@@ -225,9 +225,9 @@ class TaskController extends ManageApiController
                 $projects = $projects->where(function ($q) use ($query) {
                     $q->where("title", "like", "%$query%")
                         ->orWhere("description", "like", "%$query%");
-                })->orderBy('created_at')->paginate($limit);
+                })->orderBy('created_at', "desc")->paginate($limit);
             } else {
-                $projects = $projects->orderBy('created_at')->paginate($limit);
+                $projects = $projects->orderBy('created_at', "desc")->paginate($limit);
             }
         } else {
             $projects = $this->user->projects()->where('status', $status);
@@ -235,9 +235,9 @@ class TaskController extends ManageApiController
                 $projects = $projects->where(function ($q) use ($query) {
                     $q->where("title", "like", "%$query%")
                         ->orWhere("description", "like", "%$query%");
-                })->orderBy('created_at')->paginate($limit);
+                })->orderBy('created_at', "desc")->paginate($limit);
             } else {
-                $projects = $projects->orderBy('created_at')->paginate($limit);
+                $projects = $projects->orderBy('created_at', "desc")->paginate($limit);
             }
         }
 
@@ -637,12 +637,15 @@ class TaskController extends ManageApiController
 
     public function changeProjectSetting($projectId, Request $request)
     {
-        if (is_null($request->canDragBoard) || is_null($request->canDragCard)) {
+        if (is_null($request->canDragBoard)
+            || is_null($request->canEditTask)
+            || is_null($request->canDragCard)) {
             return $this->respondErrorWithStatus("canDragBoard and canDragCard are required");
         }
         $project = Project::find($projectId);
         $project->can_drag_board = $request->canDragBoard;
         $project->can_drag_card = $request->canDragCard;
+        $project->can_edit_task = $request->canEditTask;
         $project->save();
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }

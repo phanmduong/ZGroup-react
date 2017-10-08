@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="fragment" content="!">
     <meta name="google-site-verification" content="xtTa2p_KrROT2c7_IyShaw1KDt3iIvZ9c_bufAvYhvs"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color ME - Trường học thiết kế Color ME</title>
 
     {{--website font--}}
@@ -13,13 +13,13 @@
 
 
     <!--emojione-->
-    {{--<script src="https://cdn.jsdelivr.net/emojione/3.0.3/lib/js/emojione.min.js"></script>--}}
-    {{--<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/3.0.3/extras/css/emojione.min.css"/>--}}
-    {{--<script type="text/javascript">--}}
-        {{--emojione.ascii = true;--}}
-        {{--emojione.greedyMatch = true;--}}
-    {{--</script>--}}
-    <!--end emojione-->
+{{--<script src="https://cdn.jsdelivr.net/emojione/3.0.3/lib/js/emojione.min.js"></script>--}}
+{{--<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/3.0.3/extras/css/emojione.min.css"/>--}}
+{{--<script type="text/javascript">--}}
+{{--emojione.ascii = true;--}}
+{{--emojione.greedyMatch = true;--}}
+{{--</script>--}}
+<!--end emojione-->
 
     <link rel="shortcut icon" href="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg">
 
@@ -60,7 +60,7 @@
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/table.css">
     <link rel="stylesheet" href="http://d1j8r0kxyu9tj8.cloudfront.net/libs/froala/css/plugins/video.css">
 
-    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?88888888">
+    <link rel="stylesheet" href="{{url('colorme-react/styles.css')}}?11111111111">
 </head>
 <body>
 <div id="fb-root"></div>
@@ -138,11 +138,11 @@
 <script>
     var socket = io('http://colorme.vn:3000/');
 </script>
-<script src="{{url('colorme-react/bundle.js')}}?88888888"></script>
+<script src="{{url('colorme-react/bundle.js')}}?11111111111"></script>
 <!-- Facebook Pixel Code -->
 <script>
     !function (f, b, e, v, n, t, s) {
-        if (f.fbq)return;
+        if (f.fbq) return;
         n = f.fbq = function () {
             n.callMethod ?
                 n.callMethod.apply(n, arguments) : n.queue.push(arguments)

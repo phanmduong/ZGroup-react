@@ -41,7 +41,7 @@ Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
-    Route::get('/email-form/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
+    Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('{path}', 'PublicController@manage')
         ->where('path', '.*');
 });
@@ -506,6 +506,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('manage/deletetag/{id}', 'TagController@delete_tag');
 
     Route::get('/test', 'PublicController@test');
+    Route::get('/elight-mail', 'PublicController@elightMail');
 
     Route::post('storeemail', 'PublicController@store_email');
 

@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         Commands\StartLesson::class,
         Commands\SendSurvey::class,
         Commands\CreateShifts::class,
+        Commands\SendEmailsMarketing::class,
         Commands\SendRemindSms::class,
         RemindCalendarEvent::class
     ];
@@ -33,6 +34,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 //        $schedule->command('sms:birthday')->everyMinute();
+        $schedule->command('emailsMarketing:send')->everyMinute();
         $schedule->command('activate:class')->dailyAt('12:00');
         $schedule->command('sms:send')->dailyAt('20:00');
 //        $schedule->command('mail:startlesson')->dailyAt('12:00');

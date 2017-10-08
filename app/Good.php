@@ -38,6 +38,11 @@ class Good extends Model
         return $this->hasMany(GoodProperty::class, "good_id");
     }
 
+    public function files()
+    {
+        return $this->belongsToMany(File::class, "file_good", "good_id", "file_id");
+    }
+
     public function transform()
     {
         return [
@@ -51,7 +56,12 @@ class Good extends Model
             "avatar_url" => $this->avatar_url,
             "cover_url" => $this->cover_url,
             "code" => $this->code,
-            "properties" => $this->properties
+            "files" => $this->files->map(function ($file) {
+                return $file->transform();
+            }),
+            "properties" => $this->properties->map(function ($property) {
+                return $property->transform();
+            })
         ];
     }
 }

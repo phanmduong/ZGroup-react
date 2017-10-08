@@ -16,4 +16,11 @@ class GoodProperty extends Model
         return $this->belongsTo(Good::class, "good_id");
     }
 
+    public function transform(){
+        return [
+            "name" => $this->name,
+            "value" => $this->value
+        ];
+    }
+
 }

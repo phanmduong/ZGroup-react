@@ -147,15 +147,7 @@ class UserCardRepository
     {
         $card = Card::find($cardId);
         $files = $card->files->map(function ($file) {
-            return [
-                "id" => $file->id,
-                "name" => $file->name,
-                "url" => generate_protocol_url($file->url),
-                "ext" => $file->ext,
-                "size" => $file->size,
-                "file_key" => $file->file_key,
-                "created_at" => format_time_main(strtotime($file->created_at))
-            ];
+            return $file->transform();
         });
         $taskLists = $card->taskLists->map(function ($taskList) {
             return [
