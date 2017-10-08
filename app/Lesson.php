@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lesson extends Model
 {
+    use SoftDeletes;
+    protected $table = "lessons";
     public function course()
     {
         return $this->belongsTo('App\Course', 'course_id');
@@ -24,5 +27,17 @@ class Lesson extends Model
     public function surveys()
     {
         return $this->belongsToMany('App\Survey', 'lesson_survey');
+    }
+    public function detailTransform(){
+        return [
+            'id' =>$this->id,
+            'name'=>$this->name,
+            'description' => $this->description,
+            'detail' => $this->detail,
+            'order'=>$this->order,
+            'detail_content'=> $this->detail_content,
+            'detail_teacher'=> $this->detail_teacher,
+            'created_at'=>format_time_to_mysql(strtotime($this->created_at))
+        ];
     }
 }

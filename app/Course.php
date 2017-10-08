@@ -46,6 +46,7 @@ class Course extends Model
     }
     public function transform(){
         return [
+            'id' =>$this->id,
             'name'=> $this->name,
             'icon_url' => $this->icon_url,
             'num_classes' => $this->classes()->where("name","like","%.%")->count(),
