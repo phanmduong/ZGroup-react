@@ -592,5 +592,15 @@ export default {
         isLoadingForms: false,
         errorForms: false,
         forms: []
+    },
+    shiftRegisters: {
+        isLoadingGensBases: false,
+        errorGensBases: false,
+        bases: [],
+        gens: [],
+        currentGen: {},
+        isLoading: false,
+        error: false,
+        shiftRegisters: []
     }
 };
