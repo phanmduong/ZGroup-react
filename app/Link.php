@@ -20,14 +20,15 @@ class Link extends Model
     public function detailedTransform()
     {
         return [
+            "id" => $this->id,
             "link_name" => $this->link_name,
             "link_url" => $this->link_url,
             "link_icon" => $this->link_icon,
-            "link_icon_url" => $this->link_icon_url,
+            "link_icon_url" => generate_protocol_url($this->link_icon_url),
             "course" => [
                 "id" => $this->course->id,
                 "name" => $this->course->name,
-                "icon_url" => $this->course->icon_url
+                "icon_url" => generate_protocol_url($this->course->icon_url)
             ]
         ];
     }
