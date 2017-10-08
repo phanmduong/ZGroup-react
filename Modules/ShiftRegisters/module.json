@@ -1,0 +1,16 @@
+{
+    "name": "ShiftRegisters",
+    "alias": "shiftregisters",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\ShiftRegisters\\Providers\\ShiftRegistersServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -84,6 +84,21 @@ class ManageBaseApiController extends ManageApiController
         return $this->respondSuccessWithStatus($data);
     }
 
+    public function get_base_center_all()
+    {
+        $bases = Base::where('center', 1)->orderBy('created_at')->get();
+        $data = [
+            "bases" => $bases->map(function ($base) {
+                return [
+                    'id' => $base->id,
+                    'name' => $base->name,
+                ];
+            }),
+        ];
+
+        return $this->respondSuccessWithStatus($data);
+    }
+
     public function setDefaultBase($baseId)
     {
         $bases = Base::where("center", 1)->get();
