@@ -5,6 +5,7 @@ namespace Modules\Course\Http\Controllers;
 use App\Course;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ManageApiController;
+use App\Link;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -31,11 +32,11 @@ class CourseController extends ManageApiController
 
     public function createOrEdit(Request $request)
     {
-        if($request->id)
+        if ($request->id)
             $course = Course::find($request->id);
         else
             $course = new Course;
-        if($request->name == null)
+        if ($request->name == null)
             return $this->respondErrorWithStatus(["message" => "Thiếu name"]);
         $course->name = $request->name;
         $course->duration = $request->duration;
@@ -51,13 +52,17 @@ class CourseController extends ManageApiController
         $course->icon_url = $request->icon_url;
         $course->detail = $request->detail;
         $course->save();
-        return $this->respondSuccessWithStatus(["message" => "Tạo/sửa thành công"]);
+        return $this->respondSuccessWithStatus([
+            "message" => "Tạo/sửa thành công",
+            "course" => $course->detailedTransform()
+        ]);
     }
 
-    public function getAllCourses(Request $request){
+    public function getAllCourses(Request $request)
+    {
         $keyword = $request->search;
-        $courses= Course::where(function ($query) use ($keyword){
-            $query->where("name","like","%$keyword%")->orWhere("price","like","%$keyword%");
+        $courses = Course::where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("price", "like", "%$keyword%");
         })->paginate(20);
         return $this->respondWithPagination(
             $courses,
@@ -69,18 +74,37 @@ class CourseController extends ManageApiController
         );
     }
 
-    public function deleteCourse($course_id,Request $request){
-        $course= Course::find($course_id);
-        if($course==null){
+    public function deleteCourse($course_id, Request $request)
+    {
+        $course = Course::find($course_id);
+        if ($course == null) {
             return $this->respondErrorWithStatus("Khóa học không tồn tại");
         }
-        $classes= $course->classes();
+        $classes = $course->classes();
         $course->delete();
-        foreach($classes as $class){
+        foreach ($classes as $class) {
             $class->delete();
         }
         return $this->respondSuccessWithStatus([
-            'message'=>" Xóa thành công"
+            'message' => " Xóa thành công"
         ]);
+    }
+
+    public function detailedLink($link_id)
+    {
+        $link = Link::find($link_id);
+        return $this->respondSuccessWithStatus([
+            "link" => $link->detailedTransform()
+        ]);
+    }
+
+    public function createLink(Request $request) {
+        $link = new Link;
+        if($request->link_name == null || $request->link_name == null || $request->course_id)
+            return $this->respondErrorWithStatus(["message" => "Thiếu course_id or link_url or link_name"]);
+        $link->link_name = $request->link_name;
+        $link->link_url = $request->link_url;
+        $link->link_description = $request->link_description;
+        $link->course_id = $request->course_id;
     }
 }
