@@ -57,7 +57,7 @@ class ManageUserApiController extends ManageApiController
         }
         return $this->respond([
             "message" => "Tải lên thành công",
-            "avatar_url" => config('app.protocol') . trim_url($avatar_url),
+            "avatar_url" => generate_protocol_url(trim_url($avatar_url)),
         ]);
     }
 

@@ -41,7 +41,9 @@ class Course extends Model
             "image_url" => $this->image_url,
             "icon_url" => $this->icon_url,
             "created_at" => format_time_to_mysql(strtotime($this->created_at)),
-            "detail" => $this->detail
+            "detail" => $this->detail,
+            "lessons" => $this->lessons,
+            "links" => $this->links
         ];
     }
     public function transform(){
