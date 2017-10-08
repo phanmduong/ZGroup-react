@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'production') {
 
 }
 else {
-    MANAGE_URL = env.DEV ? PROTOCOL + 'manage.' + URL : 'http://localhost:3000';
+    MANAGE_URL = 'http://localhost:3000';
 }
 
 export const MANAGE_BASE_URL = MANAGE_URL;
