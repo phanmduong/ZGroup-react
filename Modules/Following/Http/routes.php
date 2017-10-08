@@ -6,5 +6,5 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'n
     Route::get('/follow-count/{user_id}', 'FollowingController@followCount');
     Route::get('/followers/{user_id}','FollowingController@followers');
     Route::get('/followings/{user_id}', 'FollowingController@followings');
-
+    
 });
