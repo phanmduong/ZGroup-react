@@ -1,0 +1,16 @@
+{
+    "name": "Lesson",
+    "alias": "lesson",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Lesson\\Providers\\LessonServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

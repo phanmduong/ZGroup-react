@@ -73,11 +73,11 @@ class CourseController extends ManageApiController
         );
     }
 
-    public function deleteCourse($course_id, Request $request)
-    {
-        $course = Course::find($course_id);
-        if ($course == null) {
-            return $this->respondErrorWithStatus("Khóa học không tồn tại");
+
+    public function deleteCourse($course_id,Request $request){
+        $course= Course::find($course_id);
+        if($course==null){
+            return $this->respondErrorWithStatus(['message'=>"Khóa học không tồn tại"]);
         }
         $classes = $course->classes();
         $course->delete();
