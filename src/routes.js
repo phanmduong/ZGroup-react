@@ -50,6 +50,7 @@ import EmailCampaignsContainer from "./modules/emailCampaigns/EmailCampaignsCont
 import FashionBoardListContainer from "./modules/book/FashionBoardListContainer";
 import GoodListContainer from "./modules/good/GoodListContainer";
 import CreateGoodContainer from "./modules/good/CreateGoodContainer";
+import ShiftRegistersContainer from "./modules/shiftRegisters/ShiftRegistersContainer";
 
 export default (
     <Route>
@@ -171,6 +172,10 @@ export default (
             {/*Begin email campaigns routes*/}
             <Route path="/manage/campaigns(/:ownerId)" component={EmailCampaignsContainer}/>
             {/*End email campaigns routes*/}
+
+            {/*Begin shift register routes*/}
+            <Route path="/manage/regis-shifts" component={ShiftRegistersContainer}/>
+            {/*End shift register routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>
