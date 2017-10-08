@@ -61,3 +61,29 @@ export function addUrl(fileUrl) {
         url: fileUrl
     });
 }
+
+export function loadGoodPropertyItems(page = 1, query = null, type = "") {
+    let url = env.MANAGE_API_URL + "/good/all-property-items?page=" + page;
+    let token = localStorage.getItem('token');
+    if (query) {
+        url += "&search=" + query;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    if (type) {
+        url += "&type=" + type;
+    }
+
+    return axios.get(url);
+}
+
+export function deletePropertyItem(id) {
+    let url = env.MANAGE_API_URL + `/good/delete-property-item/${id}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}

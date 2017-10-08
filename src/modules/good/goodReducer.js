@@ -6,6 +6,34 @@ import initialState from '../../reducers/initialState';
 
 export default function goodReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.DELETE_GOOD_PROPERTY_ITEM:
+            return {
+                ...state,
+                propertyItem: {
+                    ...state.propertyItem,
+                    propertyItems: state.propertyItem.propertyItems.filter(item => item.id !== action.id)
+                }
+            };
+
+        case types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS:
+            return {
+                ...state,
+                propertyItem: {
+                    ...state.propertyItem,
+                    isLoading: false,
+                    propertyItems: action.propertyItems,
+                    totalPages: action.totalPages,
+                    currentPage: action.currentPage
+                }
+            };
+        case types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS:
+            return {
+                ...state,
+                propertyItem: {
+                    ...state.propertyItem,
+                    isLoading: true
+                }
+            };
         case types.ADD_GOOD_URL_SUCCESS:
             return {
                 ...state,

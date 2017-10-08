@@ -50,6 +50,7 @@ import EmailCampaignsContainer from "./modules/emailCampaigns/EmailCampaignsCont
 import FashionBoardListContainer from "./modules/book/FashionBoardListContainer";
 import GoodListContainer from "./modules/good/GoodListContainer";
 import CreateGoodContainer from "./modules/good/CreateGoodContainer";
+import PropertiesListContainer from "./modules/good/PropertiesListContainer";
 
 export default (
     <Route>
@@ -146,6 +147,9 @@ export default (
             {/*Begin good routes*/}
             <Route path="/book/process" component={ProcessListContainer} type="book"/>
             <Route path="/fashion/process" component={ProcessListContainer} type="fashion"/>
+            <Route path="/book/properties" component={PropertiesListContainer} type="book"/>
+            <Route path="/fashion/properties" component={PropertiesListContainer} type="fashion"/>
+
             <Route path="/book-manufacture" component={BookBoardListContainer}/>
             <Route path="/fashion-manufacture" component={FashionBoardListContainer}/>
             <Route path="/good/all" component={GoodListContainer}/>

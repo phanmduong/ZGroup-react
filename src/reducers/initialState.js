@@ -1,5 +1,11 @@
 export default {
     good: {
+        propertyItem: {
+            propertyItems: [],
+            isLoading: false,
+            currentPage: 1,
+            totalPages: 1
+        },
         goodList: {
             goods: [],
             currentPage: 1,

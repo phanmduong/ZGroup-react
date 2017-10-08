@@ -174,3 +174,30 @@ export function uploadFiles(fileWrapper) {
             completeHandler, progressHandler, error);
     };
 }
+
+export function loadGoodPropertyItems(page = 1, query = "", type = "") {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS
+        });
+        goodApi.loadGoodPropertyItems(page, query, type)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS,
+                    propertyItems: res.data.good_property_items,
+                    totalPages: res.data.paginator.total_pages,
+                    currentPage: res.data.paginator.current_page
+                });
+            });
+    };
+}
+
+export function deletePropertyItem(id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_GOOD_PROPERTY_ITEM,
+            id
+        });
+        goodApi.deletePropertyItem(id);
+    };
+}
