@@ -26,7 +26,12 @@ class CheckStaff
         } else {
             if (Auth::user()->isStaff() || Auth::user()->isAdmin()) {
                 $user = Auth::user();
-                $tabs = $user->current_role->tabs;
+
+                if ($user->current_role) {
+                    $tabs = $user->current_role->tabs;
+                } else {
+                    $tabs = collect([]);
+                }
 
                 $forbid_urls = [];
 
@@ -42,10 +47,10 @@ class CheckStaff
                     }
                 }
                 if(in_array($request->path(),$forbid_urls)){
-                    return redirect('/');    
+                    return redirect('/');
                 }
                 return $next($request);
-                
+
             } else {
                 return redirect('/');
             }
