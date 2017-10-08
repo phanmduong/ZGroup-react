@@ -3,6 +3,7 @@
 namespace Modules\Course\Http\Controllers;
 
 use App\Course;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,22 +14,28 @@ class CourseController extends ManageApiController
      * Display a listing of the resource.
      * @return Response
      */
+    public function __construct()
+    {
+
+        parent::__construct();
+
+    }
+
     public function getCourse($course_id)
     {
         $course = Course::find($course_id);
-        return $request->respondSuccessWithStatus([
+        return $this->respondSuccessWithStatus([
             "course" => $course->detailedTransform()
         ]);
     }
 
-    public function createOrEditCourse(Request $request)
+    public function createOrEdit(Request $request)
     {
-        //$course = Course::firstOrNew(['id' => $request->id]);
         if($request->id)
             $course = Course::find($request->id);
         else
             $course = new Course;
-        if($course->name == null)
+        if($request->name == null)
             return $this->respondErrorWithStatus(["message" => "Thiếu name"]);
         $course->name = $request->name;
         $course->duration = $request->duration;
@@ -47,61 +54,33 @@ class CourseController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "Tạo/sửa thành công"]);
     }
 
-    public function index()
-    {
-        return view('course::index');
+    public function getAllCourses(Request $request){
+        $keyword = $request->search;
+        $courses= Course::where(function ($query) use ($keyword){
+            $query->where("name","like","%$keyword%")->orWhere("price","like","%$keyword%");
+        })->paginate(20);
+        return $this->respondWithPagination(
+            $courses,
+            [
+                "courses" => $courses->map(function ($course) {
+                    return $course->transform();
+                })
+            ]
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
-    {
-        return view('course::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('course::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('course::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
+    public function deleteCourse($course_id,Request $request){
+        $course= Course::find($course_id);
+        if($course==null){
+            return $this->respondErrorWithStatus("Khóa học không tồn tại");
+        }
+        $classes= $course->classes();
+        $course->delete();
+        foreach($classes as $class){
+            $class->delete();
+        }
+        return $this->respondSuccessWithStatus([
+            'message'=>" Xóa thành công"
+        ]);
     }
 }

@@ -44,4 +44,14 @@ class Course extends Model
             "detail" => $this->detail
         ];
     }
+    public function transform(){
+        return [
+            'name'=> $this->name,
+            'icon_url' => $this->icon_url,
+            'num_classes' => $this->classes()->where("name","like","%.%")->count(),
+            'duration'=> $this->duration,
+            'price'=>$this->price,
+
+        ];
+    }
 }
