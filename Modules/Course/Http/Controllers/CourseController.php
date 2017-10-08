@@ -13,11 +13,12 @@ class CourseController extends ManageApiController
 {
     public function __construct()
     {
+
         parent::__construct();
+
     }
     public function getCourse(Request $request){
         $keyword = $request->search;
-        dd('pppp');
         $courses= Course::where(function ($query) use ($keyword){
             $query->where("name","like","%$keyword%")->orWhere("price","like","%$keyword%");
         })->orderBy("created_at","desc")->paginate(20);

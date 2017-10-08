@@ -16,7 +16,7 @@ class Course extends Model
     public function links(){
         return $this->hasMany('App\Link','course_id');
     }
-    public function tranform(){
+    public function transform(){
         return [
             'name'=> $this->name,
             'icon_url' => $this->icon_url,
