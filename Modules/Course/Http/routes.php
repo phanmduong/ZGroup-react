@@ -7,6 +7,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::get('/get-detailed/{cours_id}', 'CourseController@getCourse');
     Route::post('/create-edit', 'CourseController@createOrEdit');
     Route::get('/get-detailed-link/{link_id}', 'CourseController@detailedLink');
-    Route::get('/create-link', 'CourseController@createLink');
+    Route::post('/create-link', 'CourseController@createLink');
+    Route::delete('/delete-link/{link_id}', 'CourseController@deleteLink');
 });
 
