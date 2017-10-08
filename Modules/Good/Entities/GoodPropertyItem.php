@@ -19,6 +19,7 @@ class GoodPropertyItem extends Model
     public function transform()
     {
         return [
+            "id" => $this->id,
             "name" => $this->name,
             "prevalue" => $this->prevalue,
             "preunit" =>  $this->preunit,
