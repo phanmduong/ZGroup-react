@@ -1,8 +1,6 @@
 <?php
-
-Route::group(['middleware' => 'web', 'prefix' => 'course', 'namespace' => 'Modules\Course\Http\Controllers'], function()
-{
-
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'course', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
 
 
 });
+
