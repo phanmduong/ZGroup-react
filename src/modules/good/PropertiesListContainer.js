@@ -67,7 +67,7 @@ class PropertiesListContainer extends React.Component {
                             <h4 className="card-title">Thuộc tính sách</h4>
 
                             <div style={{marginTop: "15px"}}>
-                                <Link to="/base/create" className="btn btn-rose">
+                                <Link to={`/${this.props.route.type}-property/create`} className="btn btn-rose">
                                     Thêm thuộc tính
                                 </Link>
                             </div>
