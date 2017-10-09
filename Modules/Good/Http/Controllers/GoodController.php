@@ -4,14 +4,20 @@ namespace Modules\Good\Http\Controllers;
 
 use App\Good;
 use App\Http\Controllers\ManageApiController;
+use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
+use Modules\Good\Entities\GoodPropertyItemTask;
 
 
 class GoodController extends ManageApiController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
     public function getAll(Request $request)
     {
         $keyword = $request->search;
@@ -143,7 +149,20 @@ class GoodController extends ManageApiController
         $goodPropertyItem = GoodPropertyItem::find($property_item_id);
         $goodPropertyItem->delete();
         return $this->respondSuccessWithStatus([
-            'message' => "Xóa thành công"
+            'message' => "success"
+        ]);
+    }
+
+    public function  addPropertyItemTask($task_id, $property_item_id) {
+        $propertyItemTask = GoodPropertyItemTask::where('task_id', $task_id)->where('good_property_item_id', $property_item_id)->get()->first();
+        if($propertyItemTask)
+            return $this->respondErrorWithStatus([
+                'message' => "existed"
+            ]);
+        $task = Task::find($task_id);
+        $task->goodPropertyItems()->attach($property_item_id);
+        return $this->respondSuccessWithStatus([
+            'message' => "success"
         ]);
     }
 }
