@@ -114,15 +114,20 @@ class GoodController extends ManageApiController
 
     public function allPropertyItems(Request $request)
     {
+        $limit = 20;
         $keyword = $request->search;
         if ($request->type)
-            $goodPropertyItems = GoodPropertyItem::where("type", $request->type)->where(function ($query) use ($keyword) {
-                $query->where("prevalue", "like", "%$keyword%")->orWhere("preunit", "like", "%$keyword%");
-            })->orderBy("created_at", "desc")->paginate(20);
+            $goodPropertyItems = GoodPropertyItem::where("type", $request->type)
+                ->where(function ($query) use ($keyword) {
+
+                    $query->where("name", "like", "%$keyword%")
+                        ->orWhere("prevalue", "like", "%$keyword%")
+                        ->orWhere("preunit", "like", "%$keyword%");
+                })->orderBy("created_at", "desc")->paginate($limit);
         else
             $goodPropertyItems = GoodPropertyItem::where(function ($query) use ($keyword) {
                 $query->where("prevalue", "like", "%$keyword%")->orWhere("preunit", "like", "%$keyword%");
-            })->orderBy("created_at", "desc")->paginate(20);
+            })->orderBy("created_at", "desc")->paginate($limit);
         return $this->respondWithPagination(
             $goodPropertyItems,
             [
