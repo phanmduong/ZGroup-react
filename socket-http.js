@@ -30,7 +30,7 @@ redis.on('message', function (channel, message) {
     if (message.event === 'add_token_browser') {
         addTokenBrowser(message.data.user_id, message.data.token);
     } else {
-        io.emit(channel + ':' + message.event.fdsafdsa.fdsafdsa.fdsa, message.data);
+        io.emit(channel + ':' + message.event, message.data);
         if (message.data && message.data.receiver_id) {
             sendNotificationBrowser(message.data);
         }
