@@ -97,3 +97,12 @@ export function saveGoodProperty(property) {
     return axios.post(url, property);
 }
 
+export function loadGoodPropertyItem(id) {
+    let url = env.MANAGE_API_URL + `/good/property-item/${id}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}

@@ -227,3 +227,33 @@ export function saveGoodProperty(property, type) {
 
     };
 }
+
+export function loadGoodPropertyItem(id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GOOD_PROPERTY_ITEM
+        });
+
+        goodApi.loadGoodPropertyItem(id)
+            .then((res) => {
+                const result = res.data.data.good_property_item;
+                dispatch({
+                    type: types.LOAD_GOOD_PROPERTY_ITEM_SUCCESS,
+                    property: {
+                        ...result,
+                        prevalue: result.prevalue
+                            ? result.prevalue.split(",").map((v) => {
+                                return {value: v, label: v};
+                            })
+                            : [],
+                        preunit: result.preunit ?
+                            result.preunit.split(",").map((v) => {
+                                return {value: v, label: v};
+                            })
+                            : []
+                    }
+                });
+            });
+    };
+}
+
