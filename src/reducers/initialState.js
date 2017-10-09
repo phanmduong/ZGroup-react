@@ -1,5 +1,10 @@
 export default {
     good: {
+        createProperty: {
+            property: {},
+            isLoading: false,
+            isSaving: false
+        },
         propertyItem: {
             propertyItems: [],
             isLoading: false,

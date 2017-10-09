@@ -18,7 +18,7 @@ class ShiftRegistersWeek extends React.Component {
                                 onClick={() => this.props.changeCurrentWeek(-1)}
                             >
                                 <i className="material-icons">keyboard_arrow_left</i>
-                                <div className="ripple-container"></div>
+                                <div className="ripple-container" />
                             </button>
                             <button
                                 className={"btn btn-round btn-fab btn-fab-mini " +
@@ -26,13 +26,13 @@ class ShiftRegistersWeek extends React.Component {
                                 onClick={() => this.props.changeCurrentWeek(1)}>
 
                                 <i className="material-icons">keyboard_arrow_right</i>
-                                <div className="ripple-container"></div>
+                                <div className="ripple-container" />
                             </button>
                         </h2>
                         <h6><strong>Tổng thời gian làm việc: 16h/15h</strong></h6>
                         <div className="progress progress-line-warning">
                             <div className="progress-bar progress-bar-success"
-                            ></div>
+                             />
                         </div>
                     </div>
                 </div>

@@ -201,3 +201,29 @@ export function deletePropertyItem(id) {
         goodApi.deletePropertyItem(id);
     };
 }
+
+export function updateGoodPropertyFormData(property) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_GOOD_PROPERTY_FORM,
+            property
+        });
+    };
+}
+
+export function saveGoodProperty(property, type) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_GOOD_PROPERTY,
+        });
+        goodApi.saveGoodProperty(property)
+            .then(() => {
+                showNotification("Tạo thuộc tính cho sách thành công");
+                browserHistory.push(`/${type}/properties`);
+                dispatch({
+                    type: types.SAVE_GOOD_PROPERTY_SUCCESS
+                });
+            });
+
+    };
+}

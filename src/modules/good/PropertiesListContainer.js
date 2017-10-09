@@ -148,7 +148,6 @@ class PropertiesListContainer extends React.Component {
 
 PropertiesListContainer.propTypes = {
     propertyItems: PropTypes.array.isRequired,
-    deletePropertyItem: PropTypes.func.isRequired,
     route: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     totalPages: PropTypes.number.isRequired,

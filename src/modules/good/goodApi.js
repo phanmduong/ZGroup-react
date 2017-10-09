@@ -87,3 +87,13 @@ export function deletePropertyItem(id) {
     }
     return axios.delete(url);
 }
+
+export function saveGoodProperty(property) {
+    let url = env.MANAGE_API_URL + "/good/create-property-item";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, property);
+}
+
