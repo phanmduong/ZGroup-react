@@ -8,6 +8,8 @@ import * as shiftRegisterActions from './shiftRegisterActions';
 import Select from '../../components/common/Select';
 import Loading from '../../components/common/Loading';
 import ShiftRegistersWeek from './ShiftRegistersWeek';
+import socket from '../../services/socketio';
+import {CHANNEL} from "../../constants/env";
 
 class ShiftRegistersContainer extends React.Component {
     constructor(props, context) {
@@ -26,6 +28,16 @@ class ShiftRegistersContainer extends React.Component {
 
     componentWillMount() {
         this.props.shiftRegisterActions.loadGensAndBasesData();
+        const changelRegister = CHANNEL + ":regis-shift";
+        socket.on(changelRegister, (data) => {
+            this.props.shiftRegisterActions.updateDataRegister(data);
+
+        });
+        const changelRemoveRegister = CHANNEL + ":remove-shift";
+        socket.on(changelRemoveRegister, (data) => {
+            this.props.shiftRegisterActions.updateDataRegister(data);
+
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -37,7 +49,7 @@ class ShiftRegistersContainer extends React.Component {
             });
             this.props.shiftRegisterActions.loadShiftRegisters(nextProps.bases[0].id, nextProps.currentGen.id);
         }
-        if (nextProps.isLoadingGensBases !== this.props.isLoadingGensBases && !nextProps.isLoadingGensBases) {
+        if (nextProps.isLoading !== this.props.isLoading && !nextProps.isLoading) {
             this.setState({
                 currentWeek: 0
             });
@@ -66,18 +78,22 @@ class ShiftRegistersContainer extends React.Component {
 
     onChangeGen(value) {
         this.setState({selectGenId: value});
-        this.loadDashboard(value, this.state.selectBaseId);
+        this.loadShiftRegisters(this.state.selectBaseId, value);
     }
 
     onChangeBase(value) {
         this.setState({selectBaseId: value});
-        this.loadDashboard(this.state.selectGenId, value);
+        this.loadShiftRegisters(value, this.state.selectGenId);
     }
 
     changeCurrentWeek(by) {
         if (this.state.currentWeek + by >= 0 && this.state.currentWeek + by < this.props.shiftRegisters.length) {
             this.setState({currentWeek: this.state.currentWeek + by});
         }
+    }
+
+    loadShiftRegisters(baseId, genId) {
+        this.props.shiftRegisterActions.loadShiftRegisters(baseId, genId);
     }
 
 
@@ -122,9 +138,7 @@ class ShiftRegistersContainer extends React.Component {
     }
 }
 
-function
-
-mapStateToProps(state) {
+function mapStateToProps(state) {
     return {
         isLoadingGensBases: state.shiftRegisters.isLoadingGensBases,
         isLoading: state.shiftRegisters.isLoading,
@@ -135,9 +149,7 @@ mapStateToProps(state) {
     };
 }
 
-function
-
-mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
         shiftRegisterActions: bindActionCreators(shiftRegisterActions, dispatch)
     };

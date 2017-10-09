@@ -31,7 +31,7 @@ class App extends React.Component {
                     <div className="sidebar-wrapper">
                         <div className="user">
                             <div className="photo">
-                                <img className="img"
+                                <div className="img"
                                      style={{
                                          background: 'url(' + avatar + ') center center / cover',
                                          width: '80px',

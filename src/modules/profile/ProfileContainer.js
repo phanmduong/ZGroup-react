@@ -173,7 +173,7 @@ class ProfileContainer extends React.Component {
                                                             <div className="card card-profile">
                                                                 <div className="card-avatar">
                                                                     <a className="content-avatar">
-                                                                        <img className="img"
+                                                                        <div className="img"
                                                                              style={{
                                                                                  background: 'url(' + avatar + ') center center / cover',
                                                                                  width: '130px',

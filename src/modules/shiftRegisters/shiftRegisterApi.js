@@ -30,3 +30,21 @@ export function loadShiftRegisters(baseId, genId) {
 
     return axios.get(url);
 }
+
+export function register(shiftRegisterId) {
+    let url = env.API_URL + "/register-shift/" + shiftRegisterId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}
+
+export function removeRegister(shiftRegisterId) {
+    let url = env.API_URL + "/remove-shift-regis/" + shiftRegisterId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
+}

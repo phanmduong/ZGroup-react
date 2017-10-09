@@ -50,7 +50,7 @@ class ClassContainer extends React.Component {
                                     return (
                                         <tr key={register.id}>
                                             <td>
-                                                <img style={{
+                                                <div style={{
                                                     background: "url('" + avatar + "') center center / cover",
                                                     display: 'inline-block',
                                                     width: '30px',

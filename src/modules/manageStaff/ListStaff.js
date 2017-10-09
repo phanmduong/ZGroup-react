@@ -42,7 +42,7 @@ class ListStaff extends React.Component {
                                     return (
                                         <tr key={index}>
                                             <td>
-                                                <img className="avatar-list-staff"
+                                                <div className="avatar-list-staff"
                                                      style={{
                                                          background: 'url(' + avatar + ') center center / cover',
                                                          display: 'inline-block'

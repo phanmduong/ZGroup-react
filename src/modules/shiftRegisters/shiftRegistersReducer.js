@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let shiftRegisters;
 export default function shiftRegistersReducer(state = initialState.shiftRegisters, action) {
 
     switch (action.type) {
@@ -56,7 +57,90 @@ export default function shiftRegistersReducer(state = initialState.shiftRegister
                     error: true
                 }
             };
+        case types.UPDATE_DATA_SHIFT_REGISTER:
+            shiftRegisters = state.shiftRegisters;
+            shiftRegisters = changeDataRegister(shiftRegisters, action.shift.id, 'user', action.shift.user);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.shift.id, 'isLoadingRegister', false);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.shift.id, 'isLoadingRegisterError', false);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.shift.id, 'isLoadingRemoveRegister', false);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.shift.id, 'isLoadingRemoveRegisterError', false);
+            console.log(shiftRegisters);
+            return {
+                ...state,
+                shiftRegisters: shiftRegisters
+            };
+        case types.POST_SHIFT_REGISTER:
+            shiftRegisters = state.shiftRegisters;
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRegister', action.isLoadingRegister);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRegisterError', action.isLoadingRegisterError);
+            return {
+                ...state,
+                shiftRegisters: shiftRegisters
+            };
+        case types.SHIFT_REGISTER_SUCCESSFUL:
+            shiftRegisters = state.shiftRegisters;
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRegister', action.isLoadingRegister);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRegisterError', action.isLoadingRegisterError);
+            return {
+                ...state,
+                shiftRegisters: shiftRegisters
+            };
+        case types.SHIFT_REGISTER_ERROR:
+            shiftRegisters = state.shiftRegisters;
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRegister', action.isLoadingRegister);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRegisterError', action.isLoadingRegisterError);
+            return {
+                ...state,
+                shiftRegisters: shiftRegisters
+            };
+        case types.POST_SHIFT_REMOVE_REGISTER:
+            shiftRegisters = state.shiftRegisters;
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRemoveRegister', action.isLoadingRemoveRegister);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRemoveRegisterError', action.isLoadingRemoveRegisterError);
+            return {
+                ...state,
+                shiftRegisters: shiftRegisters
+            };
+        case types.SHIFT_REMOVE_REGISTER_SUCCESSFUL:
+            shiftRegisters = state.shiftRegisters;
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRemoveRegister', action.isLoadingRemoveRegister);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRemoveRegisterError', action.isLoadingRemoveRegisterError);
+            return {
+                ...state,
+                shiftRegisters: shiftRegisters
+            };
+        case types.SHIFT_REMOVE_REGISTER_ERROR:
+            shiftRegisters = state.shiftRegisters;
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRemoveRegister', action.isLoadingRemoveRegister);
+            shiftRegisters = changeDataRegister(shiftRegisters, action.registerId, 'isLoadingRemoveRegisterError', action.isLoadingRemoveRegisterError);
+            return {
+                ...state,
+                shiftRegisters: shiftRegisters
+            };
         default:
             return state;
     }
+}
+
+function changeDataRegister(shiftRegistersData, shiftRegisterId, nameObject, dataObject) {
+    try {
+        if (shiftRegistersData) {
+            shiftRegistersData = shiftRegistersData.map((week) => {
+                let dates = week.dates.map((date) => {
+                    let shifts = date.shifts.map((shift) => {
+                        if (shift.id === shiftRegisterId) {
+                            return {...shift, [nameObject]: dataObject};
+                        }
+                        return shift;
+                    });
+                    return {...date, shifts: shifts};
+                });
+                return {...week, dates: dates};
+            });
+        }
+    }
+    catch (err) {
+        console.log('changeDataRegister error');
+    }
+    return shiftRegistersData;
 }
