@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Good\Entities\GoodPropertyItem;
 use Modules\Task\Entities\TaskList;
 
 class Task extends Model
@@ -25,6 +26,11 @@ class Task extends Model
     public function editor()
     {
         return $this->belongsTo(User::class, 'editor_id');
+    }
+
+    public function goodPropertyItems()
+    {
+        return $this->belongsToMany(GoodPropertyItem::class, 'good_property_item_task','task_id','good_property_item_id');
     }
 
     public function transform()
