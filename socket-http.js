@@ -25,7 +25,7 @@ redis.subscribe(env.CHANNEL, function (err, count) {
 
 redis.on('message', function (channel, message) {
     // console.log('Message Recieved: ' + message);
-    message = JSON.parse(messagdsae);
+    message = JSON.parse(message);
 
     if (message.event === 'add_token_browser') {
         addTokenBrowser(message.data.user_id, message.data.token);
