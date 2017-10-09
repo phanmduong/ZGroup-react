@@ -108,8 +108,18 @@ class GoodController extends ManageApiController
         $good_property_item->name = $request->name;
         $good_property_item->prevalue = $request->prevalue;
         $good_property_item->preunit = $request->preunit;
+        $good_property_item->type = $request->type;
         $good_property_item->save();
         return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function getGoodPropertyItem($id)
+    {
+        $goodPropertyItem = GoodPropertyItem::find($id);
+        if ($goodPropertyItem == null) {
+            return $this->respondErrorWithStatus("Thuộc tính không tồn tại");
+        }
+        return $this->respondSuccessWithStatus(["good_property_item" => $goodPropertyItem->transform()]);
     }
 
     public function allPropertyItems(Request $request)

@@ -7,4 +7,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::delete("/delete-property-item/{property_item_id}", 'GoodController@deletePropertyItem');
     Route::get("/{id}","GoodController@good");
     Route::post("/create-property-item", 'GoodController@createGoodPropertyItem');
+    Route::get("/property-item/{id}", 'GoodController@getGoodPropertyItem');
 });
