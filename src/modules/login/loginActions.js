@@ -1,6 +1,9 @@
 import * as types from '../../constants/actionTypes';
 import * as loadLoginApi from './LoginApi';
 import * as helper from '../../helpers/helper';
+import async from 'async';
+import {messageingFirebase} from '../../constants/env';
+
 /*eslint no-console: 0 */
 export function beginUpdateLoginForm() {
     return {type: types.BEGIN_UPDATE_LOGIN_FORM};
@@ -13,11 +16,30 @@ export function loginError() {
 export function updateFormData(login) {
     return function (dispatch) {
         dispatch(beginUpdateLoginForm());
-        loadLoginApi.loadLoginApi(login).then(function (res) {
-            dispatch(updatedLoginForm(res));
-        }).catch(error => {
-            dispatch(loginError());
-            console.log(error);
+        async.waterfall([
+            function (callback) {
+                messageingFirebase.getToken()
+                    .then(function (currentToken) {
+                        console.log(currentToken);
+                        callback(null, currentToken);
+                    }).catch(function () {
+                    callback(null, "");
+                });
+            },
+            function (tokenBrowser, callback) {
+                loadLoginApi.loadLoginApi(login, tokenBrowser).then(function (res) {
+                    callback(null, res);
+                }).catch(error => {
+                    console.log(error);
+                    callback(error);
+                });
+            }
+        ], function (err, result) {
+            if (err) {
+                dispatch(loginError());
+            } else {
+                dispatch(updatedLoginForm(result));
+            }
         });
     };
 }
