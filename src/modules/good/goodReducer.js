@@ -6,6 +6,23 @@ import initialState from '../../reducers/initialState';
 
 export default function goodReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    showModal: true
+                }
+            };
+        case types.CLOSE_ADD_GOOD_PROPERTY_ITEM_MODAL:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    showModal: false
+                }
+            };
+
         case types.BEGIN_LOAD_GOOD_PROPERTY_ITEM:
             return {
                 ...state,

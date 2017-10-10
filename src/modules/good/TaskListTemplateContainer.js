@@ -4,12 +4,14 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import * as bookActions from "../book/bookActions";
 import * as taskActions from "../tasks/taskActions";
+import * as goodActions from "../good/goodActions";
 import AddMemberToTaskModalContainer from "../tasks/card/taskList/AddMemberToTaskModalContainer";
 import TaskSpanModalContainer from "../book/TaskSpanModalContainer";
 import Loading from "../../components/common/Loading";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskTemplateItem from "../book/TaskTemplateItem";
 import {Link} from "react-router";
+import AddPropertyItemsToTaskModalContainer from "./AddPropertyItemsToTaskModalContainer";
 
 
 class TaskListTemplateContainer extends React.Component {
@@ -115,6 +117,7 @@ class TaskListTemplateContainer extends React.Component {
                                 <div>
                                     <div className="task-lists">
                                         <AddMemberToTaskModalContainer isTemplate={true}/>
+                                        <AddPropertyItemsToTaskModalContainer/>
                                         <TaskSpanModalContainer/>
 
                                         <div key={taskList.id}>
@@ -122,6 +125,7 @@ class TaskListTemplateContainer extends React.Component {
                                                 {
                                                     taskList.tasks && taskList.tasks.map((task) =>
                                                         (<TaskTemplateItem
+                                                            openAddPropertyItemToTaskModal={this.props.goodActions.openAddPropertyItemModal}
                                                             openTaskSpanModal={this.props.bookActions.openTaskSpanModal}
                                                             openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                             key={task.id}
@@ -171,6 +175,7 @@ TaskListTemplateContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     bookActions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    goodActions: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
     taskList: PropTypes.object.isRequired
 };
@@ -186,7 +191,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         bookActions: bindActionCreators(bookActions, dispatch),
-        taskActions: bindActionCreators(taskActions, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch),
+        goodActions: bindActionCreators(goodActions, dispatch)
     };
 }
 

@@ -257,3 +257,20 @@ export function loadGoodPropertyItem(id) {
     };
 }
 
+
+export function openAddPropertyItemModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL
+        });
+    };
+}
+
+export function closeAddPropertyItemModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_ADD_GOOD_PROPERTY_ITEM_MODAL
+        });
+    };
+}
+

@@ -1,5 +1,8 @@
 export default {
     good: {
+        attachPropertyItem: {
+            showModal: false
+        },
         createProperty: {
             property: {},
             isLoading: false,
