@@ -10,6 +10,8 @@ class TaskList extends Model
 {
     protected $table = "task_lists";
 
+    protected $fillable = ["title"];
+
     public function tasks()
     {
         return $this->hasMany(Task::class, 'task_list_id');
@@ -25,6 +27,8 @@ class TaskList extends Model
         return [
             "id" => $this->id,
             "title" => $this->title,
+            "type" => $this->type,
+            "num_tasks" => $this->tasks()->count(),
             "tasks" => $this->tasks->map(function ($task) {
                 return $task->transform();
             })
