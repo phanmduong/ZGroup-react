@@ -1534,3 +1534,38 @@ function add_browser_notification($user_id, $token_browser)
 
     Redis::publish(config("app.channel"), json_encode($publish_data));
 }
+
+function send_notification_browser($notification, $user_id)
+{
+
+    $content = array(
+        "en" => remove_tag($notification['message'])
+    );
+
+    $fields = array(
+        'app_id' => "ceea18e8-322a-4748-b18b-fdf066d9a5ff",
+        'filters' => array(array("field" => "tag", "key" => "user_id", "relation" => "=", "value" => $user_id)),
+        'contents' => $content
+    );
+
+    $fields = json_encode($fields);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+        'Authorization: Basic OWFiNWY2YzQtY2Q1OC00ZGU4LTliZmItYjY3ZGM1MjljNTk4'));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    return $response;
+}
+
+function remove_tag($html){
+    return preg_replace('#<[^>]+>#', '', $html);
+}
