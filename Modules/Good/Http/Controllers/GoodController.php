@@ -156,4 +156,25 @@ class GoodController extends ManageApiController
             'message' => "Xóa thành công"
         ]);
     }
+
+    public function getPropertyItems(Request $request)
+    {
+        $type = $request->type;
+        if ($type) {
+            $propertyItems = GoodPropertyItem::where("type", $type)->orderBy("name");
+        } else {
+            $propertyItems = GoodPropertyItem::orderBy("name");
+        }
+
+        $propertyItems = $propertyItems->get()->map(function ($item) {
+            return [
+                "label" => $item->name,
+                "value" => $item->name,
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            "good_property_items" => $propertyItems
+        ]);
+    }
 }
