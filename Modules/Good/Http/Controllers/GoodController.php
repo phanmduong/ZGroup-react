@@ -163,14 +163,13 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public function  addPropertyItemTask($task_id, $property_item_id) {
-        $propertyItemTask = GoodPropertyItemTask::where('task_id', $task_id)->where('good_property_item_id', $property_item_id)->get()->first();
-        if($propertyItemTask)
-            return $this->respondErrorWithStatus([
-                'message' => "existed"
-            ]);
+    public function  addPropertyItemsTask($task_id, Request $request) {
+        $goodPropertyItems = json_decode($request->good_property_items);
         $task = Task::find($task_id);
-        $task->goodPropertyItems()->attach($property_item_id);
+        foreach ($goodPropertyItems as $goodPropertyItem) {
+            $task->goodPropertyItems()->attach($goodPropertyItem->id);
+        }
+
         return $this->respondSuccessWithStatus([
             'message' => "success"
         ]);
