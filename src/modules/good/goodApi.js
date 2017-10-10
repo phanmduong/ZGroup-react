@@ -106,3 +106,13 @@ export function loadGoodPropertyItem(id) {
 
     return axios.get(url);
 }
+
+
+export function loadAllGoodPropertyItems(type) {
+    let url = env.MANAGE_API_URL + `/good/property-items?type=${type}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
