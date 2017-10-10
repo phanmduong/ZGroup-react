@@ -512,7 +512,9 @@ class TaskController extends ManageApiController
         $data = [
             'id' => $taskList->id,
             'title' => $taskList->title,
-            'tasks' => $this->taskTransformer->transformCollection($taskList->tasks)
+            "num_tasks" => $taskList->tasks()->count(),
+            'tasks' => $this->taskTransformer->transformCollection($taskList->tasks),
+            'type' => $taskList->type
         ];
 
         return $this->respondSuccessWithStatus($data);
