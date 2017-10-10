@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {ListGroupItem} from "react-bootstrap";
 import Avatar from "../../components/common/Avatar";
+import {confirm} from "../../helpers/helper";
 
 class TaskTemplateItem extends React.Component {
     constructor(props, context) {
@@ -9,8 +10,6 @@ class TaskTemplateItem extends React.Component {
         this.openAddMemberToTaskModal = this.openAddMemberToTaskModal.bind(this);
         this.openTaskSpanModal = this.openTaskSpanModal.bind(this);
     }
-
-
 
     openAddMemberToTaskModal() {
         this.props.openAddMemberToTaskModal(this.props.task);
@@ -53,7 +52,7 @@ class TaskTemplateItem extends React.Component {
                        data-toggle="dropdown">
                         <i className="material-icons">more_horiz</i>
                     </a>
-                    <ul className="dropdown-menu dropdown-menu-left">
+                    <ul className="dropdown-menu dropdown-menu-right">
                         <li className="more-dropdown-item">
                             <a onClick={this.openAddMemberToTaskModal}>
                                 <i className="material-icons">person</i>
@@ -67,7 +66,11 @@ class TaskTemplateItem extends React.Component {
                             </a>
                         </li>
                         <li className="more-dropdown-item">
-                            <a onClick={() => this.props.deleteTaskTemplate(task)}>
+                            <a onClick={() => {
+                                confirm("warning", "Xoá", "Bạn có chắc chắn muốn xoá công việc này", () => {
+                                    this.props.deleteTaskTemplate(task);
+                                });
+                            }}>
                                 <i className="material-icons">delete</i>
                                 Xoá công việc
                             </a>
