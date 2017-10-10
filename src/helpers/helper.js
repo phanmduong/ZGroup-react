@@ -93,7 +93,7 @@ export function encodeToken(data) {
 export function decodeToken(token) {
     return new Promise(function (resolve, reject) {
         jwt.verify(token, env.SECRET_TOKEN, function (err, decoded) {
-            console.log('err' + err);
+            console.log('err: ' + err);
             console.log(decoded);
             if (err) {
                 reject(err);
@@ -596,87 +596,95 @@ export function iOS() {
 
     return false;
 }
+
 /* eslint-enable */
 
 export function initMaterial() {
     // init sidebar material
     /* eslint-disable */
 
-    if (typeof md !== 'undefined') {
-        mobile_menu_visible = 0;
-        toggle_initialized = false;
-        $toggle.click(function () {
+    try {
+        if (typeof md !== 'undefined') {
+            mobile_menu_visible = 0;
+            toggle_initialized = false;
+            $toggle.click(function () {
 
-            if (mobile_menu_visible == 1) {
-                $('html').removeClass('nav-open');
-
-                $('.close-layer').remove();
-                setTimeout(function () {
-                    $toggle.removeClass('toggled');
-                }, 400);
-
-                mobile_menu_visible = 0;
-            } else {
-                setTimeout(function () {
-                    $toggle.addClass('toggled');
-                }, 430);
-
-
-                main_panel_height = $('.main-panel')[0].scrollHeight;
-                $layer = $('<div class="close-layer"></div>');
-                $layer.css('height', main_panel_height + 'px');
-                $layer.appendTo(".main-panel");
-
-                setTimeout(function () {
-                    $layer.addClass('visible');
-                }, 100);
-
-                $layer.click(function () {
+                if (mobile_menu_visible == 1) {
                     $('html').removeClass('nav-open');
-                    mobile_menu_visible = 0;
 
-                    $layer.removeClass('visible');
+                    $('.close-layer').remove();
+                    setTimeout(function () {
+                        $toggle.removeClass('toggled');
+                    }, 400);
+
+                    mobile_menu_visible = 0;
+                } else {
+                    setTimeout(function () {
+                        $toggle.addClass('toggled');
+                    }, 430);
+
+
+                    main_panel_height = $('.main-panel')[0].scrollHeight;
+                    $layer = $('<div class="close-layer"></div>');
+                    $layer.css('height', main_panel_height + 'px');
+                    $layer.appendTo(".main-panel");
 
                     setTimeout(function () {
-                        $layer.remove();
-                        $toggle.removeClass('toggled');
+                        $layer.addClass('visible');
+                    }, 100);
 
-                    }, 400);
-                });
+                    $layer.click(function () {
+                        $('html').removeClass('nav-open');
+                        mobile_menu_visible = 0;
 
-                $('html').addClass('nav-open');
-                mobile_menu_visible = 1;
+                        $layer.removeClass('visible');
 
-            }
+                        setTimeout(function () {
+                            $layer.remove();
+                            $toggle.removeClass('toggled');
+
+                        }, 400);
+                    });
+
+                    $('html').addClass('nav-open');
+                    mobile_menu_visible = 1;
+
+                }
+            });
+
+            md.initRightMenu();
+        }
+        $(window).resize(function () {
+            md.initSidebarsCheck();
+
+            // reset the seq for charts drawing animations
+            seq = seq2 = 0;
+
         });
+    } catch (err) {
 
-        md.initRightMenu();
     }
-    $(window).resize(function () {
-        md.initSidebarsCheck();
-
-        // reset the seq for charts drawing animations
-        seq = seq2 = 0;
-
-    });
     /* eslint-enable */
 }
 
 export function closeSidebar() {
     /* eslint-disable */
-    if (typeof md !== 'undefined') {
+    try {
+        if (typeof md !== 'undefined') {
 
-        $('html').removeClass('nav-open');
+            $('html').removeClass('nav-open');
 
-        $('.close-layer').remove();
-        setTimeout(function () {
-            if (typeof $toggle !== 'undefined') {
-                $toggle.removeClass('toggled');
-            }
-        }, 400);
+            $('.close-layer').remove();
+            setTimeout(function () {
+                if (typeof $toggle !== 'undefined') {
+                    $toggle.removeClass('toggled');
+                }
+            }, 400);
 
-        mobile_menu_visible = 0;
+            mobile_menu_visible = 0;
+        }
+    } catch (err) {
+
     }
-
     /* eslint-enable */
 }

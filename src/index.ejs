@@ -25,41 +25,13 @@
 
 
     <link href="config.css" rel="stylesheet">
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
-    <script>
-        var OneSignal = window.OneSignal || [];
-        OneSignal.push(["init", {
-            appId: "ceea18e8-322a-4748-b18b-fdf066d9a5ff",
-            autoRegister: true, /* Set to true to automatically prompt visitors */
-            persistNotification: false,
-            subdomainName: 'keetool-client',
-            promptOptions: {
-                /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
-                /* actionMessage limited to 90 characters */
-                actionMessage: "We'd like to show you notifications for the latest news and updates.",
-                /* acceptButtonText limited to 15 characters */
-                acceptButtonText: "ALLOW",
-                /* cancelButtonText limited to 15 characters */
-                cancelButtonText: "NO THANKS"
-            },
-        }]);
-        OneSignal.push(function () {
-            OneSignal.on('subscriptionChange', function (isSubscribed) {
-                console.log("this user's subscription state is now: ", isSubscribed);
-                OneSignal.sendTag("user_id", "123", function (tagsSent) {
-                    console.log("TAG have finised");
-                })
-            });
-        })
-    </script>
 </head>
 <body>
-
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
 <script
         src="https://code.jquery.com/jquery-1.12.4.min.js"
         integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
         crossorigin="anonymous"></script>
-<!--<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>-->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>

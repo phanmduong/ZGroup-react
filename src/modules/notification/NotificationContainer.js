@@ -120,7 +120,7 @@ NotificationContainer.propTypes = {
     notifications: PropTypes.array.isRequired,
     isEmpty: PropTypes.bool.isRequired,
     unread: PropTypes.number.isRequired,
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object,
     isLoading: PropTypes.bool.isRequired
 };
 

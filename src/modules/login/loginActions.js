@@ -1,8 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as loadLoginApi from './LoginApi';
 import * as helper from '../../helpers/helper';
-import async from 'async';
-import {messageingFirebase} from '../../constants/env';
 
 /*eslint no-console: 0 */
 export function beginUpdateLoginForm() {
@@ -16,37 +14,15 @@ export function loginError() {
 export function updateFormData(login) {
     return function (dispatch) {
         dispatch(beginUpdateLoginForm());
-        async.waterfall([
-            function (callback) {
-                if (messageingFirebase) {
-                    messageingFirebase.getToken()
-                        .then(function (currentToken) {
-                            console.log(currentToken);
-                            callback(null, currentToken);
-                        }).catch(function (error) {
-                        console.log(error);
-                        callback(null, "");
-                    });
-                } else {
-                    callback(null, "");
-                }
-            },
-            function (tokenBrowser, callback) {
-                loadLoginApi.loadLoginApi(login, tokenBrowser).then(function (res) {
-                    callback(null, res);
-                }).catch(error => {
-                    console.log(error);
-                });
-            }
-        ], function (err, result) {
-            if (err) {
-                dispatch(loginError());
-            } else {
-                dispatch(updatedLoginForm(result));
-            }
+        loadLoginApi.loadLoginApi(login).then(function (res) {
+            dispatch(updatedLoginForm(res));
+        }).catch(error => {
+            console.log(error);
+            dispatch(loginError());
         });
     };
 }
+
 
 export function updatedLoginForm(res) {
     let token = null;
@@ -55,6 +31,11 @@ export function updatedLoginForm(res) {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
         helper.saveDataLoginLocal(helper.encodeToken(res.data));
+        /* eslint-disable */
+        OneSignal.sendTag("user_id", res.data.user.id, function (tagsSent) {
+            console.log("tag ok ", tagsSent);
+        });
+        /* eslint-enable */
     }
     return ({
         type: types.UPDATED_LOGIN_FORM,

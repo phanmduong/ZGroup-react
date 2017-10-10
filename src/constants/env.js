@@ -67,6 +67,23 @@ console.log(helper.iOS());
 
 export let messageingFirebase = messageing;
 
+var OneSignal = window.OneSignal || [];
+OneSignal.push(["init", {
+    appId: "ceea18e8-322a-4748-b18b-fdf066d9a5ff",
+    autoRegister: true, /* Set to true to automatically prompt visitors */
+    persistNotification: false,
+    subdomainName: 'colorme',
+    origin: 'http://localhost:3000',
+    promptOptions: {
+        /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+        /* actionMessage limited to 90 characters */
+        actionMessage: "Bạn có muốn nhận thông báo từ trang này ?",
+        /* acceptButtonText limited to 15 characters */
+        acceptButtonText: "ĐỒNG Ý",
+        /* cancelButtonText limited to 15 characters */
+        cancelButtonText: "HỦY"
+    },
+}]);
 
 
 

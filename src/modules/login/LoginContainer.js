@@ -26,7 +26,7 @@ class LoginContainer extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(function() {
+        setTimeout(function () {
             // after 1000 ms we add the class animated to the login/registerStudents card
             $('.card').removeClass('card-hidden');
         }, 700);
@@ -89,7 +89,7 @@ class LoginContainer extends React.Component {
 
 LoginContainer.propTypes = {
     loginActions: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
     token: PropTypes.string

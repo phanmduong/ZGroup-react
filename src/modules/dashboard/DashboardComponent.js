@@ -258,12 +258,14 @@ class DashboardComponent extends React.Component {
                                         <i className="material-icons">insert_chart</i>
                                     </div>
                                     <div className="card-content">
-                                        <div className="flex flex-row flex-space-between">
-                                            <h4 className="card-title">
-                                                {this.props.dateClasses === current_date ? 'Lớp học hôm nay' : 'Lớp học ' + this.props.dateClasses}
-                                                <small />
-                                            </h4>
-                                            <div className="flex flex-row">
+                                        <div className="row">
+                                            <div className="col-md-3">
+                                                <h4 className="card-title">
+                                                    {this.props.dateClasses === current_date ? 'Lớp học hôm nay' : 'Lớp học ' + this.props.dateClasses}
+                                                    <small />
+                                                </h4>
+                                            </div>
+                                            <div className="col-md-3 col-md-offset-6">
                                                 <button
                                                     className="btn btn-rose btn-sm"
                                                     onClick={() => this.props.loadAttendanceClass(-DATE)}
