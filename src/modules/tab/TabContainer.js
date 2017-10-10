@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Link} from "react-router";
 import * as tabsActions from './tabsActions';
+import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
 
 // Import actions here!!
@@ -67,7 +68,8 @@ class TabContainer extends React.Component {
                                         <a data-toggle="collapse"
                                            href={'#tab' + tab.id}>
                                             {//eslint-disable-next-line
-                                            }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                            }
+                                            <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                             <p>{tab.name}
                                                 <b className="caret"/>
                                             </p>
@@ -81,7 +83,10 @@ class TabContainer extends React.Component {
                                                             return (
                                                                 <li className={this.props.pathname === tabChild.url ? "active" : ""}
                                                                     key={"tabChild" + tabChild.id}>
-                                                                    <Link to={tabChild.url} activeClassName="active">
+                                                                    <Link to={tabChild.url} activeClassName="active"
+                                                                          onClick={() => {
+                                                                              helper.closeSidebar()
+                                                                          }}>
                                                                         {tabChild.name}
                                                                     </Link>
                                                                 </li>
@@ -97,9 +102,14 @@ class TabContainer extends React.Component {
                                 return (
                                     <li key={"keytabpar" + index}
                                         className={this.props.pathname === tab.url ? "active" : ""}>
-                                        <Link to={tab.url} activeClassName="active">
+                                        <Link to={tab.url} activeClassName="active"
+                                              onClick={() => {
+                                                  helper.closeSidebar();
+                                              }}
+                                        >
                                             {//eslint-disable-next-line
-                                            }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                            }
+                                            <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                             <p>{tab.name}</p>
                                         </Link>
                                     </li>

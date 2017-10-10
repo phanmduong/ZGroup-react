@@ -29,6 +29,10 @@ class AppContainer extends React.Component {
         this.props.loginActions.getUserLocal();
     }
 
+    componentDidUpdate() {
+        helper.initMaterial();
+    }
+
 
     checkToken() {
         let tokenLocal = helper.getTokenLocal();
@@ -52,7 +56,9 @@ class AppContainer extends React.Component {
         }
     }
 
+
     onLogOut() {
+        helper.closeSidebar();
         helper.removeDataLoginLocal();
         localStorage.removeItem('token');
         localStorage.removeItem('user');

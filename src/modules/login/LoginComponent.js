@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormInputText from '../../components/common/FormInputText';
-import {LOGO_LOGIN, MANAGE_BASE_URL} from '../../constants/env';
+import {LOGO_LOGIN} from '../../constants/env';
+import {browserHistory}from 'react-router';
 
 class LoginComponent extends React.Component {
     constructor(props, context) {
@@ -78,7 +79,7 @@ class LoginComponent extends React.Component {
                                                 <div className="footer text-center">
                                                     {
                                                         (!this.props.isLoading && this.props.token !== null && this.props.token !== '') ?
-                                                            window.open(MANAGE_BASE_URL,"_self") :
+                                                            browserHistory.push('/') :
                                                         this.props.isLoading ?
                                                             (
                                                                 <button type="submit"
