@@ -170,6 +170,7 @@ class GoodController extends ManageApiController
             return [
                 "label" => $item->name,
                 "value" => $item->name,
+                "id" => $item->id
             ];
         });
 
