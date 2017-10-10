@@ -114,8 +114,18 @@ class GoodController extends ManageApiController
         $good_property_item->name = $request->name;
         $good_property_item->prevalue = $request->prevalue;
         $good_property_item->preunit = $request->preunit;
+        $good_property_item->type = $request->type;
         $good_property_item->save();
         return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function getGoodPropertyItem($id)
+    {
+        $goodPropertyItem = GoodPropertyItem::find($id);
+        if ($goodPropertyItem == null) {
+            return $this->respondErrorWithStatus("Thuộc tính không tồn tại");
+        }
+        return $this->respondSuccessWithStatus(["good_property_item" => $goodPropertyItem->transform()]);
     }
 
     public function allPropertyItems(Request $request)
@@ -163,6 +173,28 @@ class GoodController extends ManageApiController
         $task->goodPropertyItems()->attach($property_item_id);
         return $this->respondSuccessWithStatus([
             'message' => "success"
+        ]);
+    }
+
+    public function getPropertyItems(Request $request)
+    {
+        $type = $request->type;
+        if ($type) {
+            $propertyItems = GoodPropertyItem::where("type", $type)->orderBy("name");
+        } else {
+            $propertyItems = GoodPropertyItem::orderBy("name");
+        }
+
+        $propertyItems = $propertyItems->get()->map(function ($item) {
+            return [
+                "label" => $item->name,
+                "value" => $item->name,
+                "id" => $item->id
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            "good_property_items" => $propertyItems
         ]);
     }
 }
