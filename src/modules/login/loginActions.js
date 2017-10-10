@@ -18,20 +18,24 @@ export function updateFormData(login) {
         dispatch(beginUpdateLoginForm());
         async.waterfall([
             function (callback) {
-                messageingFirebase.getToken()
-                    .then(function (currentToken) {
-                        console.log(currentToken);
-                        callback(null, currentToken);
-                    }).catch(function () {
+                if (messageingFirebase) {
+                    messageingFirebase.getToken()
+                        .then(function (currentToken) {
+                            console.log(currentToken);
+                            callback(null, currentToken);
+                        }).catch(function (error) {
+                        console.log(error);
+                        callback(null, "");
+                    });
+                } else {
                     callback(null, "");
-                });
+                }
             },
             function (tokenBrowser, callback) {
                 loadLoginApi.loadLoginApi(login, tokenBrowser).then(function (res) {
                     callback(null, res);
                 }).catch(error => {
                     console.log(error);
-                    callback(error);
                 });
             }
         ], function (err, result) {

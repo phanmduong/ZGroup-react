@@ -1,4 +1,6 @@
 /*eslint-disable */
+import * as helper from '../helpers/helper';
+
 let URL = env.DOMAIN;
 let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
@@ -31,30 +33,37 @@ export const CHANNEL = env.CHANNEL;
 export const SOCKET_HOST = env.SOCKET_HOST;
 export const SOCKET_PORT = env.SOCKET_PORT;
 
+let messageing;
 
-var configFirebase = {
-    apiKey: "AIzaSyDUlqBwvFM7FkfHx4RQAqz2BJBa6EyLI7k",
-    authDomain: "notificationkeetoolclient.firebaseapp.com",
-    databaseURL: "https://notificationkeetoolclient.firebaseio.com",
-    projectId: "notificationkeetoolclient",
-    storageBucket: "notificationkeetoolclient.appspot.com",
-    messagingSenderId: "1025515421415"
-};
-export let firebaseApp = firebase.initializeApp(configFirebase);
+if (!helper.iOS()) {
 
-let messageing = firebaseApp.messaging();
+    var configFirebase = {
+        apiKey: "AIzaSyDUlqBwvFM7FkfHx4RQAqz2BJBa6EyLI7k",
+        authDomain: "notificationkeetoolclient.firebaseapp.com",
+        databaseURL: "https://notificationkeetoolclient.firebaseio.com",
+        projectId: "notificationkeetoolclient",
+        storageBucket: "notificationkeetoolclient.appspot.com",
+        messagingSenderId: "1025515421415"
+    };
+    let firebaseApp = firebase.initializeApp(configFirebase);
 
-messageing.onMessage(function (payload) {
-    console.log("Message received. ", payload);
-});
+    messageing = firebaseApp.messaging();
 
-messageing.requestPermission()
-    .then(function () {
-        console.log('Notification permission granted.');
-    })
-    .catch(function (err) {
-        console.log('Unable to get permission to notify.', err);
+    messageing.onMessage(function (payload) {
+        console.log("Message received. ", payload);
     });
+
+    messageing.requestPermission()
+        .then(function () {
+            console.log('Notification permission granted.');
+        })
+        .catch(function (err) {
+            console.log('Unable to get permission to notify.', err);
+        });
+
+}
+
+console.log(helper.iOS());
 
 export let messageingFirebase = messageing;
 

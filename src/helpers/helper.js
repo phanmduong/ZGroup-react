@@ -573,3 +573,24 @@ export function groupBy(collection, iteratee, props) {
 export function createFileUrl(file) {
     return `<div><a class="text-rose comment-card-url" target="_blank" href="${file.url}">${file.name}</a></div>`;
 }
+
+/*eslint-disable */
+export function iOS() {
+
+    var iDevices = [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+    ];
+
+    if (!!navigator.platform) {
+        while (iDevices.length) {
+            if (navigator.platform === iDevices.pop()){ return true; }
+        }
+    }
+
+    return false;
+}

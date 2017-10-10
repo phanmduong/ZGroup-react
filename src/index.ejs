@@ -25,7 +25,17 @@
 
 
     <link href="config.css" rel="stylesheet">
-
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(["init", {
+            appId: "ceea18e8-322a-4748-b18b-fdf066d9a5ff",
+            autoRegister: false, /* Set to true to automatically prompt visitors */
+            notifyButton: {
+                enable: true /* Set to false to hide */
+            }
+        }]);
+    </script>
 </head>
 <body>
 
