@@ -9,6 +9,8 @@
 namespace App\Http\Controllers;
 
 
+use App\GroupMember;
+use App\Providers\AppServiceProvider;
 use App\Register;
 use App\Transaction;
 use App\User;
@@ -139,7 +141,19 @@ class ManageCollectMoneyApiController extends ManageApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
-            send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
+
+            if ($register->studyClass->group) {
+                $groupMember = new GroupMember();
+                $groupMember->group_id = $register->studyClass->group->id;
+                $groupMember->user_id = $register->user_id;
+                $groupMember->join_date = format_time_to_mysql(time());
+                $groupMember->acceptor_id = $this->user->id;
+                $groupMember->position = "member";
+                $groupMember->state = "joined";
+                $groupMember->save();
+            }
+
+            send_mail_confirm_receive_studeny_money($register, [AppServiceProvider::$config['email']]);
             send_sms_confirm_money($register);
         }
         $return_data = array(

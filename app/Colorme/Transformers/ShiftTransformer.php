@@ -21,7 +21,7 @@ class ShiftTransformer extends Transformer
                 'id' => $shift->user->id,
                 'name' => $shift->user->name,
                 'color' => $shift->user->color,
-                'avatar_url' => $shift->user->avatar_url ? $shift->user->avatar_url : url('img/user.png')
+                'avatar_url' => $shift->user->avatar_url ? generate_protocol_url($shift->user->avatar_url) : url('img/user.png')
             ];
         }
         return [

@@ -6,6 +6,7 @@ use \Illuminate\Support\Facades\Storage as Storage;
 use \RobbieP\CloudConvertLaravel\Facades\CloudConvert as CloudConvert;
 use Jenssegers\Agent\Agent as Agent;
 use \Aws\ElasticTranscoder\ElasticTranscoderClient as ElasticTranscoderClient;
+use Illuminate\Support\Facades\Redis;
 
 function generate_protocol_url($url)
 {
@@ -1517,4 +1518,19 @@ function is_class_lesson_change($class_lesson)
     $time_now = strtotime("now");
     if ($time_now < $time_class_lesson) return true;
     return false;
+}
+
+function add_browser_notification($user_id, $token_browser)
+{
+    $data = array(
+        "user_id" => $user_id,
+        'token' => $token_browser
+    );
+
+    $publish_data = array(
+        "event" => "add_token_browser",
+        "data" => $data
+    );
+
+    Redis::publish(config("app.channel"), json_encode($publish_data));
 }

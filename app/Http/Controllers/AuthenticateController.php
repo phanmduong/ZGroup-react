@@ -29,6 +29,11 @@ class AuthenticateController extends Controller
         }
         $user = User::where('email', $credentials['email'])->first();
         $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
+
+        if ($request->token_browser) {
+            add_browser_notification($user->id, $request->token_browser);
+        }
+
         // all good so return the token
         return response()->json([
             'token' => compact('token')['token'],
