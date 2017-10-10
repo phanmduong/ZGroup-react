@@ -117,7 +117,11 @@ class TaskListTemplateContainer extends React.Component {
                                 <div>
                                     <div className="task-lists">
                                         <AddMemberToTaskModalContainer isTemplate={true}/>
-                                        <AddPropertyItemsToTaskModalContainer/>
+                                        {
+                                            taskList.type &&
+                                            <AddPropertyItemsToTaskModalContainer type={taskList.type}/>
+                                        }
+
                                         <TaskSpanModalContainer/>
 
                                         <div key={taskList.id}>
@@ -125,6 +129,7 @@ class TaskListTemplateContainer extends React.Component {
                                                 {
                                                     taskList.tasks && taskList.tasks.map((task) =>
                                                         (<TaskTemplateItem
+                                                            type={taskList.type}
                                                             openAddPropertyItemToTaskModal={this.props.goodActions.openAddPropertyItemModal}
                                                             openTaskSpanModal={this.props.bookActions.openTaskSpanModal}
                                                             openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}

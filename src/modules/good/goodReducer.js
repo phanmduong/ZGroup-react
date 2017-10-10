@@ -6,12 +6,48 @@ import initialState from '../../reducers/initialState';
 
 export default function goodReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    isSaving: true
+                }
+            };
+            case types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    isSaving: false,
+                    showModal: false,
+                    goodPropertyItems: []
+                }
+            };
+        case types.BEGIN_LOAD_ALL_GOOD_PROPERTY_ITEMS:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    isLoading: false,
+                    goodPropertyItems: action.good_property_items
+                }
+            };
         case types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL:
             return {
                 ...state,
                 attachPropertyItem: {
                     ...state.attachPropertyItem,
-                    showModal: true
+                    showModal: true,
+                    task: action.task
                 }
             };
         case types.CLOSE_ADD_GOOD_PROPERTY_ITEM_MODAL:
@@ -19,7 +55,8 @@ export default function goodReducer(state = initialState.good, action) {
                 ...state,
                 attachPropertyItem: {
                     ...state.attachPropertyItem,
-                    showModal: false
+                    showModal: false,
+                    task: {}
                 }
             };
 

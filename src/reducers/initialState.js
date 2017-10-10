@@ -1,7 +1,11 @@
 export default {
     good: {
         attachPropertyItem: {
-            showModal: false
+            showModal: false,
+            isLoading: false,
+            goodPropertyItems: [],
+            task: {},
+            isSaving: false
         },
         createProperty: {
             property: {},

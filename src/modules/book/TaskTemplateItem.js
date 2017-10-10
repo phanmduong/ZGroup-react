@@ -22,7 +22,7 @@ class TaskTemplateItem extends React.Component {
     }
 
     openAddPropertyItemToTaskModal() {
-        this.props.openAddPropertyItemToTaskModal();
+        this.props.openAddPropertyItemToTaskModal(this.props.task);
     }
 
     render() {
@@ -71,12 +71,17 @@ class TaskTemplateItem extends React.Component {
                                 Thời gian thực hiện
                             </a>
                         </li>
-                        <li className="more-dropdown-item">
-                            <a onClick={this.openAddPropertyItemToTaskModal}>
-                                <i className="material-icons">build</i>
-                                Thuộc tính cần nhập khi hoàn thành
-                            </a>
-                        </li>
+                        {
+                            this.props.type && (
+                                <li className="more-dropdown-item">
+                                    <a onClick={this.openAddPropertyItemToTaskModal}>
+                                        <i className="material-icons">build</i>
+                                        Thuộc tính cần nhập khi hoàn thành
+                                    </a>
+                                </li>
+                            )
+                        }
+
                         <li className="more-dropdown-item">
                             <a onClick={() => {
                                 confirm("warning", "Xoá", "Bạn có chắc chắn muốn xoá công việc này", () => {
@@ -97,6 +102,7 @@ class TaskTemplateItem extends React.Component {
 }
 
 TaskTemplateItem.propTypes = {
+    type: PropTypes.string,
     deleteTaskTemplate: PropTypes.func.isRequired,
     openAddPropertyItemToTaskModal: PropTypes.func.isRequired,
     openAddMemberToTaskModal: PropTypes.func.isRequired,

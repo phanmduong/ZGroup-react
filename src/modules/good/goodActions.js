@@ -258,10 +258,11 @@ export function loadGoodPropertyItem(id) {
 }
 
 
-export function openAddPropertyItemModal() {
+export function openAddPropertyItemModal(task) {
     return function (dispatch) {
         dispatch({
-            type: types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL
+            type: types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL,
+            task
         });
     };
 }
@@ -274,3 +275,31 @@ export function closeAddPropertyItemModal() {
     };
 }
 
+export function loadAllGoodPropertyItems(type) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_GOOD_PROPERTY_ITEMS
+        });
+        goodApi.loadAllGoodPropertyItems(type)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
+                    good_property_items: res.data.data.good_property_items
+                });
+            });
+    };
+}
+
+export function addPropertyItemsToTask(goodPropertyItems, task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK
+        });
+        goodApi.addPropertyItemsToTask(goodPropertyItems, task.id)
+            .then(() => {
+                dispatch({
+                    type: types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS
+                });
+            });
+    };
+}
