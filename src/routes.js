@@ -51,7 +51,7 @@ import FashionBoardListContainer from "./modules/book/FashionBoardListContainer"
 import GoodListContainer from "./modules/good/GoodListContainer";
 import CreateGoodContainer from "./modules/good/CreateGoodContainer";
 import ShiftRegistersContainer from "./modules/shiftRegisters/ShiftRegistersContainer";
-
+import CoursesContainer from './modules/courses/CoursesContainer';
 export default (
     <Route>
         <Route path="/" component={AppContainer}>
@@ -177,6 +177,9 @@ export default (
             <Route path="/manage/regis-shifts" component={ShiftRegistersContainer}/>
             {/*End shift register routes*/}
 
+            {/*Begin course routes */}
+            <Route path="/manage/courses" component={CoursesContainer}/>
+            {/*End course routes */}
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

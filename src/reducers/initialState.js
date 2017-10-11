@@ -596,5 +596,10 @@ export default {
         isLoading: false,
         error: false,
         shiftRegisters: []
+    },
+    courses: {
+        isLoading: true,
+        error: false,
+        courses: []
     }
 };
