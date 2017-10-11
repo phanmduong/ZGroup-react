@@ -5,6 +5,7 @@ namespace Modules\Task\Entities;
 use App\Card;
 use App\Task;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Good\Entities\GoodPropertyItem;
 
 class TaskList extends Model
 {
@@ -20,6 +21,11 @@ class TaskList extends Model
     public function card()
     {
         return $this->belongsTo(Card::class, 'card_id');
+    }
+
+    public function goodPropertyItems()
+    {
+        return $this->belongsToMany(GoodPropertyItem::class, 'good_property_item_task', 'task_id', 'good_property_item_id');
     }
 
     public function transform()

@@ -13,7 +13,7 @@ class BookManufactureSeeder extends Seeder
      */
     public function run()
     {
-        $bookProject = Project::where("status", "book_manufacture")->first();
+        $bookProject = Project::where("status", "book")->first();
 
         if (is_null($bookProject)) {
             DB::table('projects')->insert([
@@ -22,7 +22,7 @@ class BookManufactureSeeder extends Seeder
                 "color" => "#009688",
                 "can_drag_board" => false,
                 "can_drag_card" => true,
-                "status" => "book_manufacture"
+                "status" => "book"
             ]);
         }
     }

@@ -59,7 +59,7 @@ class BookController extends ManageApiController
 
     public function getFashionProject()
     {
-        $project = Project::where("status", "fashion_manufacture")->first();
+        $project = Project::where("status", "fashion")->first();
         if (is_null($project)) {
             return $this->respondErrorWithStatus("Dự án sản xuấu chưa được tạo");
         }
@@ -102,7 +102,7 @@ class BookController extends ManageApiController
 
     public function bookProject()
     {
-        $project = Project::where("status", "book_manufacture")->first();
+        $project = Project::where("status", "book")->first();
         if (is_null($project)) {
             return $this->respondErrorWithStatus("Dự án sản xuấu chưa được tạo");
         }

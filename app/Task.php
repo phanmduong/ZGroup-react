@@ -40,6 +40,7 @@ class Task extends Model
             "status" => $this->status,
             "id" => $this->id,
             "span" => $this->span,
+            "good_property_items" => $this->goodPropertyItems,
             "task_list_id" => $this->task_list_id
         ];
         if ($this->deadline && $this->deadline != "0000-00-00 00:00:00") {

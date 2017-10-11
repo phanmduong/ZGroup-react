@@ -171,7 +171,7 @@ class GoodController extends ManageApiController
         }
 
         return $this->respondSuccessWithStatus([
-            'message' => "success"
+            'task' => $task->transform()
         ]);
     }
 
