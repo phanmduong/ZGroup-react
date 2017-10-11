@@ -44,7 +44,7 @@ class ManageStaffApiController extends ManageApiController
             return $this->respondErrorWithStatus($errors);
         }
 
-        $user = User::onlyTrashed()->where('username', '=', $username)->first();
+        $user = User::onlyTrashed()->where('username', '=', $username)->orWhere('email', '=', $request->email)->first();
         if (!$user) {
             $user = new User;
         }
