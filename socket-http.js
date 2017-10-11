@@ -27,10 +27,11 @@ var sendNotification = function (notification) {
 
     var data = {
         app_id: env.NOTI_APP_ID,
-        contents: {"en": text},
+        contents: {"en": text, "vi": text},
         filters: [
             {"field": "tag", "key": "user_id", "relation": "=", "value": notification.receiver_id}
-        ]
+        ],
+        url: env.PROTOCOL + 'manage.' + env.DOMAIN + notification.url
     };
 
     var headers = {
