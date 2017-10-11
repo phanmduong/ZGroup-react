@@ -128,6 +128,7 @@ class ShiftRegistersContainer extends React.Component {
                                     currentWeek={this.state.currentWeek}
                                     shiftRegisters={this.props.shiftRegisters}
                                     changeCurrentWeek={this.changeCurrentWeek}
+                                    userId={this.props.userId}
                                 />
                             }
                         </div>
@@ -146,6 +147,7 @@ function mapStateToProps(state) {
         bases: state.shiftRegisters.bases,
         gens: state.shiftRegisters.gens,
         currentGen: state.shiftRegisters.currentGen,
+        userId: state.login.user.id
     };
 }
 

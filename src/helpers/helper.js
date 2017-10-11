@@ -696,3 +696,49 @@ export function onesignalSetUserId(userId) {
     });
     /* eslint-enable */
 }
+
+export function getHoursTime(time) {
+    let a = time.split(':');
+
+    return Number(a[0]);
+}
+
+export function sumTimeShiftOfWeek(shiftRegistersWeek, userId) {
+    let sum = 0;
+
+    shiftRegistersWeek.dates.map(function (date) {
+        date.shifts.map(function (shift) {
+            if (shift.user && shift.user.id === userId) {
+                sum += convertTimeToSecond(shift.end_time) - convertTimeToSecond(shift.start_time);
+            }
+        });
+    });
+
+    return convertSecondToTime(sum);
+}
+
+export function convertSecondToTime(timeSecond) {
+    let second = addZeroTime(timeSecond % 60);
+
+    timeSecond /= 60;
+
+    let minutes = addZeroTime(timeSecond % 60);
+
+    timeSecond /= 60;
+
+    let hours = addZeroTime(timeSecond % 24);
+
+    return '' + hours + ':' + minutes + ':' + second;
+}
+
+function addZeroTime(time) {
+
+    if (time === 0) {
+        return '00';
+    }
+
+    if (time < 10) return '0' + time;
+
+    return time;
+
+}

@@ -1,5 +1,7 @@
 import React from 'react';
 import ShiftDates from './shift/ShiftDates';
+import {MAX_TIME_SHIFT_REIGSTER} from '../../constants/constants';
+import * as helper from '../../helpers/helper';
 
 class ShiftRegistersWeek extends React.Component {
     constructor(props, context) {
@@ -9,6 +11,9 @@ class ShiftRegistersWeek extends React.Component {
     render() {
         let currentWeek = this.props.currentWeek;
         let shiftRegisters = this.props.shiftRegisters;
+
+        let sumTimeShiftOfWeek= helper.sumTimeShiftOfWeek(shiftRegisters[currentWeek], this.props.userId);
+
         if (shiftRegisters[currentWeek]) {
             return (
                 <div className="row">
@@ -32,9 +37,11 @@ class ShiftRegistersWeek extends React.Component {
                                     <div className="ripple-container"/>
                                 </button>
                             </h2>
-                            <h6><strong>Tổng thời gian làm việc: 16h/15h</strong></h6>
+                            <h6><strong>Tổng thời gian làm việc: {helper.getHoursTime(sumTimeShiftOfWeek)}h/
+                                {helper.getHoursTime(MAX_TIME_SHIFT_REIGSTER)}h</strong></h6>
                             <div className="progress progress-line-warning">
                                 <div className="progress-bar progress-bar-success"
+                                     style={{width: helper.convertTimeToSecond(sumTimeShiftOfWeek)*100/helper.convertTimeToSecond(MAX_TIME_SHIFT_REIGSTER) + '%'}}
                                 />
                             </div>
                         </div>
@@ -50,9 +57,9 @@ class ShiftRegistersWeek extends React.Component {
                 </div>
             );
         } else {
-            return (<div>
+            return (<h3>
                 Không có lịch trực
-            </div>);
+            </h3>);
         }
     }
 }
