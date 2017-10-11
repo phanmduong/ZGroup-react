@@ -65,7 +65,7 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                         className="btn btn-rose">
                         {
                             this.props.isSaving ? (
-                                <span><i className="fa fa-spinner" aria-hidden="true"/> Đang lưu</span>
+                                <span><i className="fa fa-spinner fa-spin" aria-hidden="true"/> Đang lưu</span>
                             ) : <span>Lưu</span>
                         }
 

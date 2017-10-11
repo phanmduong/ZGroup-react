@@ -296,9 +296,10 @@ export function addPropertyItemsToTask(goodPropertyItems, task) {
             type: types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK
         });
         goodApi.addPropertyItemsToTask(goodPropertyItems, task.id)
-            .then(() => {
+            .then((res) => {
                 dispatch({
-                    type: types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS
+                    type: types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS,
+                    task: res.data.data.task
                 });
             });
     };

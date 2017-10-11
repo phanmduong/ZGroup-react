@@ -6,7 +6,23 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+        case types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks.map((task) => {
+                            if (task.id === Number(action.task.id)) {
+                                return action.task;
 
+                            }
+                            return task;
+                        })
+                    }
+                }
+            };
         case types.DELETE_TASK_LIST_TEMPLATE:
             return {
                 ...state,

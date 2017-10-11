@@ -14,7 +14,7 @@ export default function goodReducer(state = initialState.good, action) {
                     isSaving: true
                 }
             };
-            case types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS:
+        case types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS:
             return {
                 ...state,
                 attachPropertyItem: {
