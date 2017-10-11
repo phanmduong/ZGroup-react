@@ -63,7 +63,7 @@ if (!helper.iOS()) {
 
 }
 
-console.log(helper.iOS());
+// console.log(helper.iOS());
 
 export let messageingFirebase = messageing;
 
@@ -73,7 +73,6 @@ OneSignal.push(["init", {
     autoRegister: true, /* Set to true to automatically prompt visitors */
     persistNotification: false,
     subdomainName: 'colorme',
-    origin: 'http://localhost:3000',
     promptOptions: {
         /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
         /* actionMessage limited to 90 characters */

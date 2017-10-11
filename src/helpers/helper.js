@@ -688,3 +688,11 @@ export function closeSidebar() {
     }
     /* eslint-enable */
 }
+
+export function onesignalSetUserId(userId) {
+    /* eslint-disable */
+    OneSignal.sendTag("user_id", userId, function (tagsSent) {
+        console.log("tag ok ", tagsSent);
+    });
+    /* eslint-enable */
+}

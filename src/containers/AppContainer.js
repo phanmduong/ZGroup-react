@@ -60,6 +60,7 @@ class AppContainer extends React.Component {
     onLogOut() {
         helper.closeSidebar();
         helper.removeDataLoginLocal();
+        helper.onesignalSetUserId(0);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         this.context.router.push('login');

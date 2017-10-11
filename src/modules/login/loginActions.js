@@ -31,11 +31,7 @@ export function updatedLoginForm(res) {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(res.data.user));
         helper.saveDataLoginLocal(helper.encodeToken(res.data));
-        /* eslint-disable */
-        OneSignal.sendTag("user_id", res.data.user.id, function (tagsSent) {
-            console.log("tag ok ", tagsSent);
-        });
-        /* eslint-enable */
+        helper.onesignalSetUserId(res.data.user.id);
     }
     return ({
         type: types.UPDATED_LOGIN_FORM,
