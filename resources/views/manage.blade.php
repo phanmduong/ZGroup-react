@@ -72,9 +72,8 @@
 <!--  Full Calendar Plugin    -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/fullcalendar.min.js"></script>
 
-
 <script src="{{url('config.js')}}"></script>
-<script type="text/javascript" src="manage/main.3e2b4d48a0dc72f1b414.js"></script>
+<script type="text/javascript" src="manage/main.8b10c4e1ec1223f09344.js"></script>
 
 
 <!-- Material Dashboard javascript methods -->
