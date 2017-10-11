@@ -4,20 +4,26 @@ namespace Modules\Good\Http\Controllers;
 
 use App\Good;
 use App\Http\Controllers\ManageApiController;
+use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
 use Modules\Good\Entities\GoodPropertyItemTask;
+use Modules\Good\Repositories\GoodRepository;
 
 
 class GoodController extends ManageApiController
 {
-    public function __construct()
+    private $goodRepository;
+
+    public function __construct(GoodRepository $goodRepository)
     {
+        $this->goodRepository = $goodRepository;
         parent::__construct();
     }
+
     public function getAll(Request $request)
     {
         $keyword = $request->search;
@@ -163,9 +169,12 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public function  addPropertyItemsTask($task_id, Request $request) {
+    public function addPropertyItemsTask($task_id, Request $request)
+    {
         $goodPropertyItems = json_decode($request->good_property_items);
         $task = Task::find($task_id);
+        $task->goodPropertyItems($task->goodPropertyItems()->pluck("id"));
+
         foreach ($goodPropertyItems as $goodPropertyItem) {
             $task->goodPropertyItems()->attach($goodPropertyItem->id);
         }
@@ -178,22 +187,12 @@ class GoodController extends ManageApiController
     public function getPropertyItems(Request $request)
     {
         $type = $request->type;
-        if ($type) {
-            $propertyItems = GoodPropertyItem::where("type", $type)->orderBy("name");
-        } else {
-            $propertyItems = GoodPropertyItem::orderBy("name");
-        }
-
-        $propertyItems = $propertyItems->get()->map(function ($item) {
-            return [
-                "label" => $item->name,
-                "value" => $item->name,
-                "id" => $item->id
-            ];
-        });
+        $propertyItems = $this->goodRepository->getPropertyItems($type);
+        $boards = $this->goodRepository->getProjectBoards($type);
 
         return $this->respondSuccessWithStatus([
-            "good_property_items" => $propertyItems
+            "good_property_items" => $propertyItems,
+            "boards" => $boards
         ]);
     }
 }

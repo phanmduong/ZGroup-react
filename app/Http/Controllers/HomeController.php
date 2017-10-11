@@ -249,7 +249,7 @@ class HomeController extends ManageController
             $classes = $current_gen->studyclasses;
             $target_revenue = 0;
             foreach ($classes as $class) {
-                $target_revenue += $class->target * $class->course->price * 0.5;
+                $target_revenue += $class->target * $class->course->price * 0.6;
             }
 
             $this->data['target_revenue'] = $target_revenue;
@@ -371,7 +371,7 @@ class HomeController extends ManageController
             $target_revenue = 0;
 
             foreach ($classes->get() as $class) {
-                $target_revenue += $class->target * $class->course->price * 0.5;
+                $target_revenue += $class->target * $class->course->price * 0.6;
             }
 
             $this->data['target_revenue'] = $target_revenue;

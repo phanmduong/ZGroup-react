@@ -2,7 +2,7 @@
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
     Route::get('/all', 'GoodController@getAll');
-    Route::get('/property-items', 'GoodController@getPropertyItems');
+    Route::get('/task-setting', 'GoodController@getPropertyItems');
     Route::post("/create", "GoodController@createGood");
     Route::get("/all-property-items", 'GoodController@allPropertyItems');
     Route::delete("/delete-property-item/{property_item_id}", 'GoodController@deletePropertyItem');
