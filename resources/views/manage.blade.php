@@ -28,12 +28,11 @@
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
 <body>
-
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
 <script
         src="https://code.jquery.com/jquery-1.12.4.min.js"
         integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
         crossorigin="anonymous"></script>
-<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
@@ -75,7 +74,7 @@
 
 
 <script src="{{url('config.js')}}"></script>
-<script type="text/javascript" src="manage/main.bd4d0a8dc83e9eeeca6e.js"></script>
+<script type="text/javascript" src="manage/main.328dfc0182859568aa28.js"></script>
 
 
 <!-- Material Dashboard javascript methods -->

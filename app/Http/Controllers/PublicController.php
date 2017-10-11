@@ -839,4 +839,8 @@ class PublicController extends Controller
         $notification->save();
         return redirect($notification->url);
     }
+
+    public function send_noti_test(){
+        return response()->json(send_notification_browser([], 123));
+    }
 }
