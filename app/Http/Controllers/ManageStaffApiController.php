@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class ManageStaffApiController extends ApiController
+class ManageStaffApiController extends ManageApiController
 {
 
     public function __construct()
@@ -41,7 +41,7 @@ class ManageStaffApiController extends ApiController
         }
 
         if (!empty($errors)) {
-            return $this->responseNotAccepted($errors);
+            return $this->respondErrorWithStatus($errors);
         }
 
         $user = User::onlyTrashed()->where('username', '=', $username)->first();
@@ -148,7 +148,7 @@ class ManageStaffApiController extends ApiController
         }
 
         if ($errors) {
-            return $this->responseNotAccepted($errors);
+            return $this->respondErrorWithStatus($errors);
         }
 
         $user->name = $request->name;
@@ -182,7 +182,7 @@ class ManageStaffApiController extends ApiController
         }
 
         if ($errors) {
-            return $this->responseNotAccepted($errors);
+            return $this->respondErrorWithStatus($errors);
         }
 
         $user->role_id = 0;
