@@ -31,7 +31,7 @@ var sendNotification = function (notification) {
         filters: [
             {"field": "tag", "key": "user_id", "relation": "=", "value": notification.receiver_id}
         ],
-        url: env.PROTOCOL + 'manage.' + env.DOMAIN + notification.url
+        url: env.PROTOCOL + 'manage.' + env.DOMAIN + notification.link
     };
 
     var headers = {
