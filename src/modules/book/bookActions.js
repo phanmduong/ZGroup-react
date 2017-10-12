@@ -74,7 +74,12 @@ export function storeTaskListTemplates(taskList) {
         });
         bookApi.storeTaskListTemplates(taskList)
             .then((res) => {
-                showNotification("Tạo quy trình thành công");
+                if (taskList.id) {
+                    showNotification("Sửa quy trình thành công");
+                } else {
+                    showNotification("Tạo quy trình thành công");
+                }
+
                 dispatch({
                     type: types.SAVE_TASK_LIST_TEMPLATE_SUCCESS,
                     taskList: res.data.data.taskList
@@ -248,7 +253,9 @@ export function saveMemberTask(task, user) {
                     user,
                     task
                 });
-
+                dispatch({
+                    type: types.CLOSE_ADD_MEMBER_TO_TASK_MODAL
+                });
             });
     };
 }

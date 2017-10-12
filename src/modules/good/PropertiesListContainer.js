@@ -64,7 +64,9 @@ class PropertiesListContainer extends React.Component {
                         </div>
 
                         <div className="card-content">
-                            <h4 className="card-title">Thuộc tính sách</h4>
+                            <h4 className="card-title">{
+                                this.props.route.type === "book" ? "Thuộc tính sách" : "Thuộc tính thời trang"
+                            }</h4>
 
                             <div style={{marginTop: "15px"}}>
                                 <Link to={`/${this.props.route.type}-property/create`} className="btn btn-rose">
@@ -148,7 +150,6 @@ class PropertiesListContainer extends React.Component {
 
 PropertiesListContainer.propTypes = {
     propertyItems: PropTypes.array.isRequired,
-    deletePropertyItem: PropTypes.func.isRequired,
     route: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     totalPages: PropTypes.number.isRequired,

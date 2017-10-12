@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {browserHistory} from 'react-router';
 
 class TaskListItem extends React.Component {
     constructor(props, context) {
@@ -11,15 +12,15 @@ class TaskListItem extends React.Component {
     onEditClick(event) {
         event.stopPropagation();
         event.preventDefault();
-        this.props.openTaskListTemplateDetailModal(this.props.taskList);
+        // this.props.openTaskListTemplateDetailModal(this.props.taskList);
+        browserHistory.push("/tasklist-template/" + this.props.taskList.id);
     }
 
-    delete(event){
+    delete(event) {
         event.stopPropagation();
         event.preventDefault();
         this.props.delete(this.props.taskList);
     }
-
 
 
     render() {

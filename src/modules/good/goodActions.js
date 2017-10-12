@@ -201,3 +201,109 @@ export function deletePropertyItem(id) {
         goodApi.deletePropertyItem(id);
     };
 }
+
+export function updateGoodPropertyFormData(property) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_GOOD_PROPERTY_FORM,
+            property
+        });
+    };
+}
+
+export function saveGoodProperty(property, type) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_GOOD_PROPERTY,
+        });
+        goodApi.saveGoodProperty(property)
+            .then(() => {
+                showNotification("Tạo thuộc tính cho sách thành công");
+                browserHistory.push(`/${type}/properties`);
+                dispatch({
+                    type: types.SAVE_GOOD_PROPERTY_SUCCESS
+                });
+            });
+
+    };
+}
+
+export function loadGoodPropertyItem(id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GOOD_PROPERTY_ITEM
+        });
+
+        goodApi.loadGoodPropertyItem(id)
+            .then((res) => {
+                const result = res.data.data.good_property_item;
+                dispatch({
+                    type: types.LOAD_GOOD_PROPERTY_ITEM_SUCCESS,
+                    property: {
+                        ...result,
+                        prevalue: result.prevalue
+                            ? result.prevalue.split(",").map((v) => {
+                                return {value: v, label: v};
+                            })
+                            : [],
+                        preunit: result.preunit ?
+                            result.preunit.split(",").map((v) => {
+                                return {value: v, label: v};
+                            })
+                            : []
+                    }
+                });
+            });
+    };
+}
+
+
+export function openAddPropertyItemModal(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL,
+            task
+        });
+    };
+}
+
+export function closeAddPropertyItemModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_ADD_GOOD_PROPERTY_ITEM_MODAL
+        });
+    };
+}
+
+export function loadAllGoodPropertyItems(type) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_GOOD_PROPERTY_ITEMS
+        });
+        goodApi.loadAllGoodPropertyItems(type)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
+                    good_property_items: res.data.data.good_property_items,
+                    boards: res.data.data.boards
+                });
+            });
+    };
+}
+
+export function addPropertyItemsToTask(goodPropertyItems, task, currentBoard, targetBoard) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK
+        });
+        goodApi.addPropertyItemsToTask(goodPropertyItems, task.id, currentBoard, targetBoard)
+            .then((res) => {
+                dispatch({
+                    type: types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS,
+                    task: res.data.data.task,
+                    currentBoard,
+                    targetBoard
+                });
+            });
+    };
+}

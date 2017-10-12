@@ -6,6 +6,104 @@ import initialState from '../../reducers/initialState';
 
 export default function goodReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    isSaving: true
+                }
+            };
+        case types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    isSaving: false,
+                    showModal: false,
+                    goodPropertyItems: []
+                }
+            };
+        case types.BEGIN_LOAD_ALL_GOOD_PROPERTY_ITEMS:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    isLoading: false,
+                    goodPropertyItems: action.good_property_items,
+                    boards: action.boards
+                }
+            };
+        case types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    showModal: true,
+                    task: action.task
+                }
+            };
+        case types.CLOSE_ADD_GOOD_PROPERTY_ITEM_MODAL:
+            return {
+                ...state,
+                attachPropertyItem: {
+                    ...state.attachPropertyItem,
+                    showModal: false,
+                    task: {}
+                }
+            };
+
+        case types.BEGIN_LOAD_GOOD_PROPERTY_ITEM:
+            return {
+                ...state,
+                createProperty: {
+                    ...state.createProperty,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_GOOD_PROPERTY_ITEM_SUCCESS:
+            return {
+                ...state,
+                createProperty: {
+                    ...state.createProperty,
+                    property: action.property,
+                    isLoading: false
+                }
+            };
+        case types.BEGIN_SAVE_GOOD_PROPERTY:
+            return {
+                ...state,
+                createProperty: {
+                    ...state.createProperty,
+                    isSaving: true
+                }
+            };
+
+        case types.SAVE_GOOD_PROPERTY_SUCCESS:
+            return {
+                ...state,
+                createProperty: {
+                    ...state.createProperty,
+                    isSaving: false,
+                    property: {}
+                }
+            };
+        case types.UPDATE_GOOD_PROPERTY_FORM:
+            return {
+                ...state,
+                createProperty: {
+                    ...state.createProperty,
+                    property: action.property
+                }
+            };
         case types.DELETE_GOOD_PROPERTY_ITEM:
             return {
                 ...state,
