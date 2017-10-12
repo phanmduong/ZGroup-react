@@ -67,7 +67,7 @@ class HomeController extends ManageController
         $this->data['gens'] = Gen::all();
         return view('manage.dashboard', $this->data);
     }
-    
+
 
     public function get_dashboard_data(Request $request)
     {
@@ -2354,9 +2354,10 @@ class HomeController extends ManageController
             $student->email = $register->user->email;
             $student->phone = $register->user->phone;
             $student->class_name = $register->studyClass->name;
-            $student->created_at = $register->created_at;
+            $student->created_at = format_date_full_option(strtotime($register->created_at));
             return $student;
         })->toArray();
+
 
         return Excel::create('Danh sách chờ ' . ($is_paid == 1 ? 'Đã đóng tiền' : "chưa đóng tiền") . ' Khoá ' . $current_gen->name,
             function ($excel) use ($registers) {
