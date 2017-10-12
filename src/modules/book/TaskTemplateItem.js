@@ -113,6 +113,20 @@ class TaskTemplateItem extends React.Component {
                         </div>
                     )
                 }
+                {
+                    task.current_board && (
+                        <div>
+                            Bảng hiện tại: {task.current_board.title}
+                        </div>
+                    )
+                }
+                {
+                    task.target_board && (
+                        <div>
+                            Bảng đích: {task.target_board.title}
+                        </div>
+                    )
+                }
 
 
             </ListGroupItem>
