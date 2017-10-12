@@ -74,7 +74,7 @@ class ProcessListContainer extends React.Component {
     render() {
         return (
             <div id="page-wrapper">
-                <AddTaskListTemplateModalContainer/>
+                <AddTaskListTemplateModalContainer type={this.props.route.type}/>
                 <TaskListDetailModalContainer/>
                 <div className="container-fluid">
                     <div className="card">

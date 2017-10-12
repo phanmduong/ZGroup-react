@@ -28,7 +28,10 @@ class AddTaskListTemplateModalContainer extends Component {
     }
 
     save() {
-        this.props.bookActions.storeTaskListTemplates(this.props.taskList);
+        this.props.bookActions.storeTaskListTemplates({
+            ...this.props.taskList,
+            type: this.props.type
+        });
     }
 
     updateFormData(event) {
@@ -72,6 +75,7 @@ AddTaskListTemplateModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     taskList: PropTypes.object.isRequired,
+    type: PropTypes.string,
     bookActions: PropTypes.object.isRequired
 };
 
