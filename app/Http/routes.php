@@ -441,7 +441,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //quan ly lich truc
     Route::get('manage/shift', 'ManageShiftController@index');
-    Route::get('manage/regis-shifts', 'ManageShiftController@regis_shifts');
+//    Route::get('manage/regis-shifts', 'ManageShiftController@regis_shifts');
 
     Route::get('/manage/downloadsurveyclass', 'SurveyController@download_survey_class');
 
