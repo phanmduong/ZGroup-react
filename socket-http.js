@@ -12,7 +12,7 @@ redis.on('message', function (channel, message) {
     // console.log('Message Recieved: ' + message);
     message = JSON.parse(message);
     io.emit(channel + ':' + message.event, message.data);
-    if (message.data && message.data.receiver_id) {
+    if (message.event === 'notification' && message.data && message.data.receiver_id) {
         sendNotification(message.data);
     }
 });

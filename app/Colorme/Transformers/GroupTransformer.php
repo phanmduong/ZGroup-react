@@ -48,6 +48,7 @@ class GroupTransformer extends Transformer
                 return [
                     'username' => $member->username,
                     'name' => $member->name,
+                    'university' => $member->university,
                     'avatar_url' => $member->avatar_url ? $member->avatar_url : "http://d1j8r0kxyu9tj8.cloudfront.net/webs/user.png"
                 ];
             })

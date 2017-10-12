@@ -73,7 +73,7 @@
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/fullcalendar.min.js"></script>
 
 <script src="{{url('config.js')}}"></script>
-<script type="text/javascript" src="manage/main.1dc6c6ef117fa0b3eb0a.js"></script>
+<script type="text/javascript" src="manage/main.088eb0789ef5b3e2b353.js"></script>
 
 
 <!-- Material Dashboard javascript methods -->

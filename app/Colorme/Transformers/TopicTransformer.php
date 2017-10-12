@@ -43,6 +43,7 @@ class TopicTransformer extends Transformer
         $data = [
             'id' => $topic->id,
             'created_at' => time_elapsed_string(strtotime($topic->created_at)),
+            'created_time' => format_time_to_mysql(strtotime($topic->created_at)),
             'title' => $topic->title,
             'deadline' => time_remain_string(strtotime($topic->deadline)),
             'deadline_raw' => $topic->deadline,
