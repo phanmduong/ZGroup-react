@@ -16,9 +16,9 @@ class ListShiftPick extends React.Component {
                         <th></th>
                         <th>Người trực</th>
                         <th>Ca trực</th>
+                        <th>Tuần</th>
                         <th>Trang thái</th>
                         <th>Thời gian</th>
-                        <th>Tuần</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -37,8 +37,9 @@ class ListShiftPick extends React.Component {
                                 </td>
                                 <td>{shiftPicks.user ? shiftPicks.user.name : ''}</td>
                                 <td>
-                                    {shiftPicks.shift_pick.name + ": " + shiftPicks.shift_pick.start_time + '- ' + shiftPicks.shift_pick.end_time}
+                                    {shiftPicks.shift_pick.name + ": " + shiftPicks.shift_pick.start_time + ' - ' + shiftPicks.shift_pick.end_time}
                                 </td>
+                                <td>{shiftPicks.shift_pick.week}</td>
                                 <td>{
                                     (shiftPicks.shift_pick.status === 1 ?
                                             (
@@ -52,7 +53,6 @@ class ListShiftPick extends React.Component {
                                 }</td>
 
                                 <td>{shiftPicks.shift_pick.created_at}</td>
-                                <td>{shiftPicks.shift_pick.week}</td>
                             </tr>
                         );
                     })}
