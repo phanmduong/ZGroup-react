@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Link} from "react-router";
+// import {Link} from "react-router";
 import Search from "../../components/common/Search";
 import _ from 'lodash';
 import Loading from "../../components/common/Loading";
@@ -25,9 +25,16 @@ class GoodListContainer extends React.Component {
         this.loadGoods();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.route.type !== this.props.route.type) {
+            this.setState({page: 1});
+            this.props.goodActions.loadGoods(1, "", nextProps.route.type);
+        }
+    }
+
     loadGoods(page = 1) {
         this.setState({page});
-        this.props.goodActions.loadGoods(page, this.state.query);
+        this.props.goodActions.loadGoods(page, this.state.query, this.props.route.type);
     }
 
     goodsSearchChange(value) {
@@ -60,11 +67,11 @@ class GoodListContainer extends React.Component {
                         <div className="card-content">
                             <h4 className="card-title">Sản phẩm</h4>
 
-                            <div style={{marginTop: "15px"}}>
-                                <Link to="/good/create" className="btn btn-rose">
-                                    Thêm sản phẩm
-                                </Link>
-                            </div>
+                            {/*<div style={{marginTop: "15px"}}>*/}
+                                {/*<Link to="/good/create" className="btn btn-rose">*/}
+                                    {/*Thêm sản phẩm*/}
+                                {/*</Link>*/}
+                            {/*</div>*/}
 
 
                             <Search
@@ -81,7 +88,6 @@ class GoodListContainer extends React.Component {
                                             <tr className="text-rose">
                                                 <th>Tên sản phẩm</th>
                                                 <th>Mã sản phẩm</th>
-                                                <th>Loại sản phẩm</th>
                                                 <th>Mô tả</th>
                                                 <th>Thêm vào lúc</th>
                                                 <th>Sửa gần nhất</th>
@@ -95,7 +101,6 @@ class GoodListContainer extends React.Component {
                                                         <tr key={good.id}>
                                                             <td>{good.name}</td>
                                                             <td>{good.code}</td>
-                                                            <td>{good.type}</td>
                                                             <td>{good.description}</td>
                                                             <td>{good.created_at}</td>
                                                             <td>{good.updated_at}</td>
@@ -151,7 +156,8 @@ GoodListContainer.propTypes = {
     goodActions: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
     goods: PropTypes.array.isRequired,
-    currentPage: PropTypes.number.isRequired
+    currentPage: PropTypes.number.isRequired,
+    route: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

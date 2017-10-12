@@ -4,7 +4,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadGoods(page = 1, query = null) {
+export function loadGoods(page = 1, query = null, type = null) {
     let url = env.MANAGE_API_URL + "/good/all?page=" + page;
     let token = localStorage.getItem('token');
     if (query) {
@@ -12,6 +12,9 @@ export function loadGoods(page = 1, query = null) {
     }
     if (token) {
         url += "&token=" + token;
+    }
+    if (type) {
+        url += "&type=" + type;
     }
     return axios.get(url);
 }
@@ -105,7 +108,7 @@ export function addPropertyItemsToTask(goodPropertyItems, taskId, currentBoard, 
     }
     return axios.post(url, {
         good_property_items: JSON.stringify(goodPropertyItems),
-        current_board_id: currentBoard ? currentBoard.id : 0 ,
+        current_board_id: currentBoard ? currentBoard.id : 0,
         target_board_id: targetBoard ? targetBoard.id : 0
     });
 }

@@ -9,12 +9,12 @@ import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
 /*eslint no-console: 0 */
-export function loadGoods(page = 1, query = null) {
+export function loadGoods(page = 1, query = null, type = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_GOODS
         });
-        goodApi.loadGoods(page, query)
+        goodApi.loadGoods(page, query, type)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GOODS_SUCCESS,
