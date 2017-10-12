@@ -27,10 +27,18 @@ class GoodController extends ManageApiController
     public function getAll(Request $request)
     {
         $keyword = $request->search;
+        $type = $request->type;
+        if ($type) {
+            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+            });
+        } else {
+            $goods = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+            });
+        }
 
-        $goods = Good::where(function ($query) use ($keyword) {
-            $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-        })->orderBy("created_at", "desc")->paginate(20);
+        $goods = $goods->orderBy("created_at", "desc")->paginate(20);
 
         return $this->respondWithPagination(
             $goods,
