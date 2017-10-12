@@ -53,6 +53,7 @@ class BookController extends ManageApiController
             $taskList = new TaskList();
         }
         $taskList->title = $request->title;
+        $taskList->type = $request->type;
         $taskList->save();
         return $this->respondSuccessWithStatus(["taskList" => $taskList->transform()]);
     }
