@@ -32,7 +32,7 @@ export function loadShiftRegisters(baseId, genId) {
 }
 
 export function register(shiftRegisterId) {
-    let url = env.API_URL + "/register-shift/" + shiftRegisterId;
+    let url = env.MANAGE_API_URL + "/shift-registers/register-shift/" + shiftRegisterId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -41,7 +41,7 @@ export function register(shiftRegisterId) {
 }
 
 export function removeRegister(shiftRegisterId) {
-    let url = env.API_URL + "/remove-shift-regis/" + shiftRegisterId;
+    let url = env.MANAGE_API_URL + "/shift-registers/remove-shift-regis/" + shiftRegisterId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

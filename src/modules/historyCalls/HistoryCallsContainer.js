@@ -60,26 +60,26 @@ class HistoryCallsContainer extends React.Component {
                                 <ListCall
                                     teleCalls={this.props.teleCalls}
                                 />
-                                <ul className="pagination pagination-primary">
-                                    {_.range(1, this.props.totalPages + 1).map(page => {
-                                        if (Number(this.state.page) === page) {
-                                            return (
-                                                <li key={page} className="active">
-                                                    <a onClick={() => this.loadHistoryCalls(page, this.state.callerId)}>{page}</a>
-                                                </li>
-                                            );
-                                        } else {
-                                            return (
-                                                <li key={page}>
-                                                    <a onClick={() => this.loadHistoryCalls(page, this.state.callerId)}>{page}</a>
-                                                </li>
-                                            );
-                                        }
-
-                                    })}
-                                </ul>
                             </div>
                         }
+                        <ul className="pagination pagination-primary">
+                            {_.range(1, this.props.totalPages + 1).map(page => {
+                                if (Number(this.state.page) === page) {
+                                    return (
+                                        <li key={page} className="active">
+                                            <a onClick={() => this.loadHistoryCalls(page, this.state.callerId)}>{page}</a>
+                                        </li>
+                                    );
+                                } else {
+                                    return (
+                                        <li key={page}>
+                                            <a onClick={() => this.loadHistoryCalls(page, this.state.callerId)}>{page}</a>
+                                        </li>
+                                    );
+                                }
+
+                            })}
+                        </ul>
                     </div>
                 </div>
             </div>

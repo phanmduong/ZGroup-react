@@ -53,6 +53,7 @@ import CreateGoodContainer from "./modules/good/CreateGoodContainer";
 import PropertiesListContainer from "./modules/good/PropertiesListContainer";
 import ShiftRegistersContainer from "./modules/shiftRegisters/ShiftRegistersContainer";
 import CreateGoodPropertyContainer from "./modules/good/CreateGoodPropertyContainer";
+import HistoryShiftRegistersContainer from "./modules/historyShiftRegisters/HistoryShiftRegistersContainer";
 
 export default (
     <Route>
@@ -182,6 +183,7 @@ export default (
 
             {/*Begin shift register routes*/}
             <Route path="/manage/regis-shifts" component={ShiftRegistersContainer}/>
+            <Route path="/register-shifts/history" component={HistoryShiftRegistersContainer}/>
             {/*End shift register routes*/}
 
         </Route>

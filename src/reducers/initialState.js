@@ -602,5 +602,12 @@ export default {
         isLoading: false,
         error: false,
         shiftRegisters: []
-    }
+    },
+    historyShiftRegisters: {
+        currentPage: 1,
+        totalPages: 1,
+        shiftPicks: [],
+        isLoading: false,
+        error: false
+    },
 };

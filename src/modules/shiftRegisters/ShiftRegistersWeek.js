@@ -12,9 +12,10 @@ class ShiftRegistersWeek extends React.Component {
         let currentWeek = this.props.currentWeek;
         let shiftRegisters = this.props.shiftRegisters;
 
-        let sumTimeShiftOfWeek= helper.sumTimeShiftOfWeek(shiftRegisters[currentWeek], this.props.userId);
+
 
         if (shiftRegisters[currentWeek]) {
+            let sumTimeShiftOfWeek= helper.sumTimeShiftOfWeek(shiftRegisters[currentWeek], this.props.userId);
             return (
                 <div className="row">
                     <div className="col-md-12">
