@@ -616,6 +616,7 @@ export default {
         error: false,
         shiftRegisters: []
     },
+
     historyShiftRegisters: {
         currentPage: 1,
         totalPages: 1,
@@ -623,4 +624,10 @@ export default {
         isLoading: false,
         error: false
     },
+
+    courses: {
+        isLoading: false,
+        error: false,
+        coursesList: []
+    }
 };

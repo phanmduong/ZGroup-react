@@ -29,7 +29,11 @@ import bookReducer from "../modules/book/bookReducer";
 import emailCampainsReducer from "../modules/emailCampaigns/emailCampainsReducer";
 import goodReducer from "../modules/good/goodReducer";
 import shiftRegistersReducer from "../modules/shiftRegisters/shiftRegistersReducer";
+<<<<<<< HEAD
 import historyShiftRegistersReducer from "../modules/historyShiftRegisters/historyShiftRegistersReducer";
+=======
+import courseReducer from "../modules/courses/coursesReducer";
+>>>>>>> f9c5a18571f3ae386039ec74407f926ba721cc69
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -62,6 +66,7 @@ const appReducer = combineReducers({
     good: goodReducer,
     shiftRegisters: shiftRegistersReducer,
     historyShiftRegisters: historyShiftRegistersReducer,
+    courses: courseReducer,
 });
 
 const rootReducer = (state, action) => {
