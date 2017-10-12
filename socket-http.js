@@ -12,7 +12,7 @@ redis.on('message', function (channel, message) {
     // console.log('Message Recieved: ' + message);
     message = JSON.parse(message);
     io.emit(channel + ':' + message.event, message.data);
-    if (message.data && message.data.receiver_id) {
+    if (message.event === 'notification' && message.data && message.data.receiver_id) {
         sendNotification(message.data);
     }
 });
@@ -27,10 +27,11 @@ var sendNotification = function (notification) {
 
     var data = {
         app_id: env.NOTI_APP_ID,
-        contents: {"en": text},
+        contents: {"en": text, "vi": text},
         filters: [
             {"field": "tag", "key": "user_id", "relation": "=", "value": notification.receiver_id}
-        ]
+        ],
+        url: env.PROTOCOL + 'manage.' + env.DOMAIN + notification.link
     };
 
     var headers = {

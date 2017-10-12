@@ -41,7 +41,10 @@ class Task extends Model
             "id" => $this->id,
             "span" => $this->span,
             "good_property_items" => $this->goodPropertyItems,
-            "task_list_id" => $this->task_list_id
+            "task_list_id" => $this->task_list_id,
+            "order" => $this->order,
+            "current_board_id" => $this->current_board_id,
+            "target_board_id" => $this->target_board_id
         ];
         if ($this->deadline && $this->deadline != "0000-00-00 00:00:00") {
             $data["deadline_str"] = time_remain_string(strtotime($this->deadline));

@@ -173,7 +173,11 @@ class GoodController extends ManageApiController
     {
         $goodPropertyItems = json_decode($request->good_property_items);
         $task = Task::find($task_id);
-        $task->goodPropertyItems($task->goodPropertyItems()->pluck("id"));
+        $task->goodPropertyItems($task->goodPropertyItems->pluck("id"));
+
+        $task->current_board_id = $request->current_board_id;
+        $task->target_board_id = $request->target_board_id;
+        $task->save();
 
         foreach ($goodPropertyItems as $goodPropertyItem) {
             $task->goodPropertyItems()->attach($goodPropertyItem->id);
