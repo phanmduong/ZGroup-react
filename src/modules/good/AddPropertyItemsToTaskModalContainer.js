@@ -12,14 +12,32 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         super(props, context);
         this.close = this.close.bind(this);
         this.state = {
-            value: []
+            value: [],
+            currentBoard: {},
+            targetBoard: {}
         };
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.save = this.save.bind(this);
+        this.handleSelectCurrentBoard = this.handleSelectCurrentBoard.bind(this);
+        this.handleSelectTargetBoard = this.handleSelectTargetBoard.bind(this);
     }
 
     componentWillMount() {
         this.props.goodActions.loadAllGoodPropertyItems(this.props.type);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.task.id) {
+            this.setState({
+                value: nextProps.task.good_property_items.map((item) => {
+                    return {
+                        ...item,
+                        label: item.name,
+                        value: item.id
+                    };
+                })
+            });
+        }
     }
 
     close() {
@@ -30,13 +48,22 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         this.setState({value});
     }
 
+    handleSelectCurrentBoard(currentBoard) {
+        this.setState({currentBoard});
+    }
+
+    handleSelectTargetBoard(targetBoard) {
+        this.setState({targetBoard});
+    }
+
     save() {
-        this.props.goodActions.addPropertyItemsToTask(this.state.value, this.props.task);
+        this.props.goodActions.addPropertyItemsToTask(this.state.value, this.props.task,
+            this.state.currentBoard, this.state.targetBoard);
     }
 
     render() {
         const {showModal} = this.props;
-        const {value} = this.state;
+        const {value, currentBoard, targetBoard} = this.state;
         return (
             <Modal show={showModal} onHide={this.close}>
                 <Modal.Header closeButton>
@@ -46,14 +73,37 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                     {
                         this.props.isLoading ? <Loading/> : (
                             <div>
-                                <Select
-                                    closeOnSelect={false}
-                                    multi={true}
-                                    onChange={this.handleSelectChange}
-                                    options={this.props.goodPropertyItems}
-                                    placeholder="Lựa chọn thuộc tính"
-                                    value={value}
-                                />
+                                <div className="form-group">
+                                    <label>Thuộc tính cần nhập</label>
+                                    <Select
+                                        closeOnSelect={false}
+                                        multi={true}
+                                        onChange={this.handleSelectChange}
+                                        options={this.props.goodPropertyItems}
+                                        placeholder="Lựa chọn thuộc tính"
+                                        value={value}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Bảng hiện tại</label>
+                                    <Select
+                                        onChange={this.handleSelectCurrentBoard}
+                                        options={this.props.boards}
+                                        placeholder="Lựa chọn bảng hiện tại"
+                                        value={currentBoard}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Bảng đích</label>
+                                    <Select
+                                        onChange={this.handleSelectTargetBoard}
+                                        options={this.props.boards}
+                                        placeholder="Lựa chọn bảngs đích"
+                                        value={targetBoard}
+                                    />
+                                </div>
                             </div>
                         )
                     }
@@ -83,6 +133,7 @@ AddPropertyItemsToTaskModalContainer.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     task: PropTypes.object.isRequired,
     goodPropertyItems: PropTypes.array.isRequired,
+    boards: PropTypes.array.isRequired,
     goodActions: PropTypes.object.isRequired
 };
 
@@ -90,6 +141,7 @@ function mapStateToProps(state) {
     return {
         showModal: state.good.attachPropertyItem.showModal,
         task: state.good.attachPropertyItem.task,
+        boards: state.good.attachPropertyItem.boards,
         isLoading: state.good.attachPropertyItem.isLoading,
         isSaving: state.good.attachPropertyItem.isSaving,
         goodPropertyItems: state.good.attachPropertyItem.goodPropertyItems

@@ -284,22 +284,25 @@ export function loadAllGoodPropertyItems(type) {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
-                    good_property_items: res.data.data.good_property_items
+                    good_property_items: res.data.data.good_property_items,
+                    boards: res.data.data.boards
                 });
             });
     };
 }
 
-export function addPropertyItemsToTask(goodPropertyItems, task) {
+export function addPropertyItemsToTask(goodPropertyItems, task, currentBoard, targetBoard) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK
         });
-        goodApi.addPropertyItemsToTask(goodPropertyItems, task.id)
+        goodApi.addPropertyItemsToTask(goodPropertyItems, task.id, currentBoard, targetBoard)
             .then((res) => {
                 dispatch({
                     type: types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS,
-                    task: res.data.data.task
+                    task: res.data.data.task,
+                    currentBoard,
+                    targetBoard
                 });
             });
     };

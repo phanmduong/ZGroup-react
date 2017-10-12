@@ -105,7 +105,7 @@ class TaskTemplateItem extends React.Component {
                                 {
                                     task.good_property_items.map((item) => {
                                         return (
-                                            <li>{item.name}: {item.prevalue} {item.preunit}</li>
+                                            <li key={item.id}>{item.name}: {item.prevalue} {item.preunit}</li>
                                         );
                                     })
                                 }

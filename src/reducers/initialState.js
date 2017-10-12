@@ -5,7 +5,8 @@ export default {
             isLoading: false,
             goodPropertyItems: [],
             task: {},
-            isSaving: false
+            isSaving: false,
+            boards: []
         },
         createProperty: {
             property: {},

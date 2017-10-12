@@ -38,7 +38,8 @@ export default function goodReducer(state = initialState.good, action) {
                 attachPropertyItem: {
                     ...state.attachPropertyItem,
                     isLoading: false,
-                    goodPropertyItems: action.good_property_items
+                    goodPropertyItems: action.good_property_items,
+                    boards: action.boards
                 }
             };
         case types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL:
