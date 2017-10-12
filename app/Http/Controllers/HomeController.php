@@ -68,6 +68,62 @@ class HomeController extends ManageController
         return view('manage.dashboard', $this->data);
     }
 
+    public function downloadWaitList(Request $request)
+    {
+        // choose the current gen
+        if ($request->gen_id) {
+            $current_gen = Gen::find($request->gen_id);
+        } else {
+            $current_gen = Gen::getCurrentGen();
+        }
+        $waitClassesQuery = $current_gen->studyclasses()
+            ->where("name", "not like", "%.%");
+        if ($request->base_id) {
+            $waitClassesQuery = $waitClassesQuery->where('base_id', $request->base_id);
+        }
+        $waitClassIds = $waitClassesQuery->pluck('id');
+        $is_paid = 1;
+        if ($request->is_paid != null) {
+            $is_paid = $request->is_paid;
+        }
+        $registers_query = Register::where('gen_id', $current_gen->id)
+            ->where('status', $is_paid)
+            ->whereIn('class_id', $waitClassIds)
+            ->orderBy('created_at', 'desc');
+        $registers = $registers_query->get()->map(function ($register) {
+            $student = new \stdClass();
+            if ($register->call_status == 0) {
+                $count = TeleCall::where('student_id', $register->user_id)->count();
+                if ($count != 0) {
+                    $register->call_status = 2;
+                }
+            }
+            switch ($register->call_status) {
+                case 0:
+                    $student->call_status = "Chưa gọi";
+                    break;
+                case 1:
+                    $student->call_status = "Thành công";
+                    break;
+                case 2:
+                    $student->call_status = "Thất bại";
+                    break;
+            }
+            $student->name = $register->user->name;
+            $student->email = $register->user->email;
+            $student->phone = $register->user->phone;
+            $student->class_name = $register->studyClass->name;
+            $student->created_at = $register->created_at;
+            return $student;
+        })->toArray();
+        return Excel::create('Danh sách chờ ' . ($is_paid == 1 ? 'Đã đóng tiền' : "chưa đóng tiền") . ' Khoá ' . $current_gen->name,
+            function ($excel) use ($registers) {
+                $excel->sheet('students', function ($sheet) use ($registers) {
+                    $sheet->fromArray(json_decode(json_encode($registers), true));
+                });
+            })->download('xls');
+    }
+
     public function get_dashboard_data(Request $request)
     {
         $this->data['user'] = $this->user;

@@ -490,6 +490,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('manage/subscribers_list/handle_file_upload', 'EmailController@handle_file_upload');
 
     Route::post('manage/savelesson', 'HomeController@save_lesson');
+    Route::get('manage/downloadwaitlist', 'HomeController@downloadWaitList');
     Route::get('manage/allrating', 'PersonalRatingController@all_rating');
     Route::get('manage/personalrating', 'PersonalRatingController@index');
     Route::get('manage/ratingdetail', 'PersonalRatingController@rating_detail');
