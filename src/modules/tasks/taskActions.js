@@ -1067,5 +1067,5 @@ export function loadCardLabelsSuccess(cardLabels) {
             type: types.LOAD_CARD_LABEL_SUCCESS,
             cardLabels
         });
-    }
+    };
 }

@@ -53,6 +53,7 @@ import CreateGoodContainer from "./modules/good/CreateGoodContainer";
 import PropertiesListContainer from "./modules/good/PropertiesListContainer";
 import ShiftRegistersContainer from "./modules/shiftRegisters/ShiftRegistersContainer";
 import CreateGoodPropertyContainer from "./modules/good/CreateGoodPropertyContainer";
+import TaskListTemplateContainer from "./modules/good/TaskListTemplateContainer";
 
 export default (
     <Route>
@@ -151,7 +152,9 @@ export default (
             <Route path="/fashion/process" component={ProcessListContainer} type="fashion"/>
             <Route path="/book/properties" component={PropertiesListContainer} type="book"/>
             <Route path="/book-property/create" component={CreateGoodPropertyContainer} type="book"/>
-            <Route path="/fashion-property/create" component={CreateGoodPropertyContainer} type="fashion"/>
+            <Route path="/book-property/create" component={CreateGoodPropertyContainer} type="book"/>
+            <Route path="/property-item/:id/edit" component={CreateGoodPropertyContainer}/>
+            <Route path="/tasklist-template/:id" component={TaskListTemplateContainer}/>
             <Route path="/fashion/properties" component={PropertiesListContainer} type="fashion"/>
 
             <Route path="/book-manufacture" component={BookBoardListContainer}/>

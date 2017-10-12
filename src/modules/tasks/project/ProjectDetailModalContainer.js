@@ -114,7 +114,7 @@ class ProjectDetailModalContainer extends Component {
                                             onChangeComplete={this.changeColor}/>
 
                                         {
-                                            project.status !== "book_manufacture" && (
+                                            (project.status == "open" || project.status == "close")  && (
                                                 <div className="form-group">
                                                     <Select
                                                         name="status"

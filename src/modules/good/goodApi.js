@@ -87,3 +87,45 @@ export function deletePropertyItem(id) {
     }
     return axios.delete(url);
 }
+
+export function saveGoodProperty(property) {
+    let url = env.MANAGE_API_URL + "/good/create-property-item";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, property);
+}
+
+export function addPropertyItemsToTask(goodPropertyItems, taskId, currentBoard, targetBoard) {
+    let url = env.MANAGE_API_URL + `/good/add-property-item-task/${taskId}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        good_property_items: JSON.stringify(goodPropertyItems),
+        current_board_id: currentBoard.id,
+        target_board_id: targetBoard.id
+    });
+}
+
+export function loadGoodPropertyItem(id) {
+    let url = env.MANAGE_API_URL + `/good/property-item/${id}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+
+export function loadAllGoodPropertyItems(type) {
+    let url = env.MANAGE_API_URL + `/good/task-setting?type=${type}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
