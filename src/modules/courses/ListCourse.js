@@ -1,7 +1,8 @@
 import React from 'react';
-import TooltipButton from "../../components/common/TooltipButton";
 import PropTypes from 'prop-types';
 import * as helper from  "../../helpers/helper";
+import ButtonGroupAction from "../../components/common/ButtonGroupAction";
+
 class ListCourse extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -11,6 +12,7 @@ class ListCourse extends React.Component {
     }
 
     componentWillMount(){
+        console.log('list course will mount',this.props);
         this.setState({coursesList : this.props.courses});
     }
     render(){
@@ -21,37 +23,41 @@ class ListCourse extends React.Component {
                    cellSpacing="0" width="100%" style={{width: "100%"}}>
                 <thead className="text-rose">
                 <tr>
-                    <th>Course Name</th>
-                    <th>Desciption</th>
-                    <th>Price</th>
-                    <th>Image</th>
-                    <th>Icon</th>
+                    <th/>
+                    <th>Tên Khóa</th>
+                    <th>Số lớp đã mở</th>
+                    <th>Số buổi</th>
+                    <th>Giá</th>
                     <th/>
                 </tr>
                 </thead>
 
                 <tbody>
-                {this.state.coursesList.map((obj)=>{
+                {this.state.coursesList.map((course)=>{
                     return (
-                        <tr>
-                            <td>{obj.name}</td>
-                            <td>{obj.description}</td>
-                            <td>{helper.convertMoneyToK(obj.price)}</td>
-                            <td><img src={obj.image_url} style={{width: '100'}}/></td>
-                            <td><img src={obj.icon_url} style={{width: '50'}}/></td>
-                            <td className="btn-group-action">
-                                <TooltipButton text="Edit" placement="top">
-                                    <a >
-                                        <i className="material-icons">edit</i>
-                                    </a>
-                                </TooltipButton>
-                                <TooltipButton text="Delete" placement="top">
-                                    <a>
-                                        <i className="material-icons">delete</i>
-                                    </a>
-                                </TooltipButton>
-
+                        <tr key={course.id}>
+                            <td>
+                                <button className="btn btn-round btn-fab btn-fab-mini text-white"
+                                        data-toggle="tooltip" title="" type="button" rel="tooltip"
+                                        data-placement="right"
+                                        data-original-title={course.name}>
+                                    <img src={course.icon_url} alt=""/>
+                                </button>
                             </td>
+                            <td>{course.name}</td>
+                            <td>{course.duration}</td>
+                            <td>{course.duration}</td>
+
+                            <td>
+                                <div style={{width : 100}} className="btn btn-xs btn-main" data-toggle="tooltip" title="" type="button" rel="tooltip" data-original-title={helper.convertMoneyToK(course.price)}>
+                                    {helper.convertMoneyToK(course.price)}
+                                </div>
+                            </td>
+                            <ButtonGroupAction
+                                editUrl={"unknow"}
+                                delete={()=>{/*delete course*/}}
+                                courseect={course}
+                            />
                         </tr>
                     )
                 })}
@@ -59,11 +65,11 @@ class ListCourse extends React.Component {
 
                 <tfoot>
                 <tr>
-                    <th>Course Name</th>
-                    <th>Desciption</th>
-                    <th>Price</th>
-                    <th>Image</th>
-                    <th>Icon</th>
+                    <th/>
+                    <th>Tên Khóa</th>
+                    <th>Số lớp đã mở</th>
+                    <th>Số buổi</th>
+                    <th>Giá</th>
                     <th/>
                 </tr>
                 </tfoot>
