@@ -1,15 +1,17 @@
 import React from 'react';
 import TooltipButton from "../../components/common/TooltipButton";
 import PropTypes from 'prop-types';
-
+import * as helper from  "../../helpers/helper";
 class ListCourse extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {};
+        this.state = {
+            coursesList :[]
+        };
     }
 
     componentWillMount(){
-
+        this.setState({coursesList : this.props.courses});
     }
     render(){
         return (
@@ -29,27 +31,30 @@ class ListCourse extends React.Component {
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                    <td className="btn-group-action">
-                        <TooltipButton text="Edit" placement="top">
-                            <a >
-                                <i className="material-icons">edit</i>
-                            </a>
-                        </TooltipButton>
-                        <TooltipButton text="Delete" placement="top">
-                            <a>
-                                <i className="material-icons">delete</i>
-                            </a>
-                        </TooltipButton>
+                {this.state.coursesList.map((obj)=>{
+                    return (
+                        <tr>
+                            <td>{obj.name}</td>
+                            <td>{obj.description}</td>
+                            <td>{helper.convertMoneyToK(obj.price)}</td>
+                            <td><img src={obj.image_url} style={{width: '100'}}/></td>
+                            <td><img src={obj.icon_url} style={{width: '50'}}/></td>
+                            <td className="btn-group-action">
+                                <TooltipButton text="Edit" placement="top">
+                                    <a >
+                                        <i className="material-icons">edit</i>
+                                    </a>
+                                </TooltipButton>
+                                <TooltipButton text="Delete" placement="top">
+                                    <a>
+                                        <i className="material-icons">delete</i>
+                                    </a>
+                                </TooltipButton>
 
-                    </td>
-                </tr>
-
+                            </td>
+                        </tr>
+                    )
+                })}
                 </tbody>
 
                 <tfoot>

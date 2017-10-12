@@ -598,8 +598,8 @@ export default {
         shiftRegisters: []
     },
     courses: {
-        isLoading: true,
+        isLoading: false,
         error: false,
-        courses: []
+        coursesList: []
     }
 };

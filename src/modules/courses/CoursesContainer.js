@@ -10,14 +10,17 @@ class CoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            courses:{
-                isLoading : true,
+                isLoading: false,
+                error: true,
                 courses:[]
-            }
         };
+
     }
     componentWillMount(){
-        console.log(this.props);
+        this.props.coursesActions.loadCourses();
+    }
+    componentWillReceiveProps(){
+        this.setState({courses:this.props.coursesList});
     }
 
     render() {
@@ -35,9 +38,10 @@ class CoursesContainer extends React.Component {
 
                                     {this.props.isLoading ? <Loading/> :
                                         <ListCourse
-                                            courses={this.props.courses}
+                                            courses={this.props.coursesList}
                                         />
                                     }
+
                                 </div>
 
                             </div>
@@ -57,13 +61,15 @@ class CoursesContainer extends React.Component {
 CoursesContainer.propTypes = {
     coursesActions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    error: PropTypes.bool.isRequired,
     courses: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.courses.isLoading,
-        courses: state.courses.courses
+        error: state.courses.error,
+        coursesList: state.courses.coursesList
     };
 }
 

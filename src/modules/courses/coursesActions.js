@@ -9,7 +9,7 @@ export function loadCourses() {
             .then(res => {
                 dispatch({
                     type: types.LOADED_COURSES_DATA_SUCCESS,
-                    courses: res.data.data.courses
+                    courses: res.data.courses
                 });
             })
             .catch(() => {

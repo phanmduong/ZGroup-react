@@ -4,7 +4,6 @@ import initialState from '../../reducers/initialState';
 
 
 export default function courseReducer(state = initialState.courses, action) {
-
     switch (action.type) {
         case types.BEGIN_LOAD_COURSES_DATA:
             return {
@@ -15,12 +14,13 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.LOADED_COURSES_DATA_SUCCESS:
+
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     error: false,
-                    courses: action.courses
+                    coursesList: action.courses,
                 }
             };
         case types.LOADED_COURSES_DATA_ERROR:
