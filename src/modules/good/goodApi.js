@@ -105,8 +105,8 @@ export function addPropertyItemsToTask(goodPropertyItems, taskId, currentBoard, 
     }
     return axios.post(url, {
         good_property_items: JSON.stringify(goodPropertyItems),
-        current_board_id: currentBoard.id,
-        target_board_id: targetBoard.id
+        current_board_id: currentBoard ? currentBoard.id : 0 ,
+        target_board_id: targetBoard ? targetBoard.id : 0
     });
 }
 
