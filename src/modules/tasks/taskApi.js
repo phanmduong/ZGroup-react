@@ -455,3 +455,12 @@ export function saveTaskDeadline(task) {
     return axios.put(url, {deadline});
 }
 
+export function updateTasksOrder(tasks) {
+    let url = env.MANAGE_API_URL + "/tasklist/update-tasks-order";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.put(url, {tasks: JSON.stringify(tasks)});
+}

@@ -12,6 +12,7 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskTemplateItem from "../book/TaskTemplateItem";
 import {Link} from "react-router";
 import AddPropertyItemsToTaskModalContainer from "./AddPropertyItemsToTaskModalContainer";
+import {updateTasksOrder} from '../tasks/taskApi';
 
 
 class TaskListTemplateContainer extends React.Component {
@@ -25,6 +26,9 @@ class TaskListTemplateContainer extends React.Component {
         this.toggleEditTitle = this.toggleEditTitle.bind(this);
         this.saveTitle = this.saveTitle.bind(this);
         this.onEnterKeyPress = this.onEnterKeyPress.bind(this);
+        this.moveTaskDown = this.moveTaskDown.bind(this);
+        this.moveTaskUp = this.moveTaskUp.bind(this);
+        this.updateTasksOrder = this.updateTasksOrder.bind(this);
     }
 
     componentWillMount() {
@@ -73,6 +77,25 @@ class TaskListTemplateContainer extends React.Component {
         if (e.key === "Enter" && !e.shiftKey) {
             this.saveTitle();
         }
+    }
+
+    updateTasksOrder() {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+        this.timeout = setTimeout(() => {
+            updateTasksOrder(this.props.taskList.tasks);
+        }, 500);
+    }
+
+    moveTaskUp(task) {
+        this.props.taskActions.moveTaskUp(this.props.taskList, task);
+        this.updateTasksOrder();
+    }
+
+    moveTaskDown(task) {
+        this.props.taskActions.moveTaskDown(this.props.taskList, task);
+        this.updateTasksOrder();
     }
 
     render() {
@@ -127,15 +150,22 @@ class TaskListTemplateContainer extends React.Component {
                                         <div key={taskList.id}>
                                             <ListGroup>
                                                 {
-                                                    taskList.tasks && taskList.tasks.map((task) =>
-                                                        (<TaskTemplateItem
-                                                            type={taskList.type}
-                                                            openAddPropertyItemToTaskModal={this.props.goodActions.openAddPropertyItemModal}
-                                                            openTaskSpanModal={this.props.bookActions.openTaskSpanModal}
-                                                            openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
-                                                            key={task.id}
-                                                            task={task}
-                                                            deleteTaskTemplate={this.props.bookActions.deleteTaskTemplate}/>))
+                                                    taskList.tasks && taskList.tasks
+                                                        .sort((a, b) => a.order - b.order)
+                                                        .map((task) =>
+                                                            (<TaskTemplateItem
+                                                                canMoveUp={task.order !== 0}
+                                                                canMoveDown={task.order !== taskList.tasks.length - 1}
+                                                                isTemplate={true}
+                                                                moveTaskUp={this.moveTaskUp}
+                                                                moveTaskDown={this.moveTaskDown}
+                                                                type={taskList.type}
+                                                                openAddPropertyItemToTaskModal={this.props.goodActions.openAddPropertyItemModal}
+                                                                openTaskSpanModal={this.props.bookActions.openTaskSpanModal}
+                                                                openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
+                                                                key={task.id}
+                                                                task={task}
+                                                                deleteTaskTemplate={this.props.bookActions.deleteTaskTemplate}/>))
                                                 }
                                                 <ListGroupItem>
                                                     {

@@ -10,7 +10,8 @@ class TaskTemplateItem extends React.Component {
         this.openAddMemberToTaskModal = this.openAddMemberToTaskModal.bind(this);
         this.openTaskSpanModal = this.openTaskSpanModal.bind(this);
         this.openAddPropertyItemToTaskModal = this.openAddPropertyItemToTaskModal.bind(this);
-
+        this.moveTaskDown = this.moveTaskDown.bind(this);
+        this.moveTaskUp = this.moveTaskUp.bind(this);
     }
 
     openAddMemberToTaskModal() {
@@ -25,13 +26,61 @@ class TaskTemplateItem extends React.Component {
         this.props.openAddPropertyItemToTaskModal(this.props.task);
     }
 
+    moveTaskUp() {
+        this.props.moveTaskUp(this.props.task);
+    }
+
+    moveTaskDown() {
+        this.props.moveTaskDown(this.props.task);
+    }
+
     render() {
         const {task} = this.props;
         return (
             <ListGroupItem
                 key={task.id}>
-                <div  style={{display: "flex", justifyContent: "space-between", position: "relative"}}>
-                    <div className="checkbox" id={"task" + task.id}>
+                <div style={{display: "flex", justifyContent: "space-between", position: "relative"}}>
+                    {
+                        this.props.isTemplate && (
+                            <div style={{
+                                flex: 0,
+                                flexBasis: "20px",
+                                display: "flex",
+                                flexDirection: "column",
+                                fontSize: "20px"
+                            }}>
+                                {
+                                    this.props.canMoveUp ? (
+                                        <a onClick={this.moveTaskUp} className="text-rose">
+                                            <i className="fa fa-caret-up"
+                                               aria-hidden="true"/>
+                                        </a>
+                                    ) : (
+                                        <span style={{color: "#b2b2b2"}}>
+                                            <i className="fa fa-caret-up"
+                                               aria-hidden="true"/>
+                                        </span>
+                                    )
+                                }
+                                {
+                                    this.props.canMoveDown ? (
+                                        <a onClick={this.moveTaskDown} className="text-rose">
+                                            <i className="fa fa-caret-down"
+                                               aria-hidden="true"/>
+                                        </a>
+                                    ) : (
+                                        <span style={{color: "#b2b2b2"}}>
+                                            <i className="fa fa-caret-down"
+                                               aria-hidden="true"/>
+                                        </span>
+                                    )
+                                }
+
+                            </div>
+                        )
+                    }
+
+                    <div className="checkbox" id={"task" + task.id} style={{flex: 1}}>
                         <label style={{fontWeight: 700, color: "#858585"}}>
                             <div style={{display: "inline-block", position: "relative", top: 4}}>
                                 {
@@ -142,7 +191,12 @@ TaskTemplateItem.propTypes = {
     openAddPropertyItemToTaskModal: PropTypes.func.isRequired,
     openAddMemberToTaskModal: PropTypes.func.isRequired,
     openTaskSpanModal: PropTypes.func.isRequired,
-    task: PropTypes.object.isRequired
+    task: PropTypes.object.isRequired,
+    moveTaskUp: PropTypes.func,
+    moveTaskDown: PropTypes.func,
+    isTemplate: PropTypes.bool,
+    canMoveUp: PropTypes.bool,
+    canMoveDown: PropTypes.bool
 };
 
 TaskTemplateItem.defaultProps = {};

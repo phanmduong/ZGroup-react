@@ -6,6 +6,18 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+
+        case types.CHANGE_TASK_ORDER:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: action.tasks
+                    }
+                }
+            };
         case types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS:
             return {
                 ...state,
