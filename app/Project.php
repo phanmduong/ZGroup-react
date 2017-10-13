@@ -58,6 +58,9 @@ class Project extends Model
             "canDragCard" => $this->can_drag_card,
             "canEditTask" => $this->can_edit_task,
             "color" => $this->color,
+            "boards" => $this->boards->map(function ($board) {
+                return $board->transform();
+            }),
             'board_count' => $board_count,
             'card_count' => Card::whereIn("board_id", $boardIds)->count(),
             'members' => $this->members->map(function ($member) {
@@ -89,10 +92,7 @@ class Project extends Model
 
         $startBoard = $this->boards()->where("is_start", 1)->first();
         if ($startBoard) {
-            $data['start_board'] = [
-                "id" => $startBoard->id,
-                "title" => $startBoard->title
-            ];
+            $data['start_board'] = $startBoard->transform();
         }
 
         return $data;
