@@ -192,11 +192,11 @@ class TaskController extends ManageApiController
         return $this->respondSuccessWithStatus(['message' => "Xoá cơ sở thành công"]);
     }
 
-    public function project($projectId)
+    public function getProject($projectId)
     {
         $project = Project::find($projectId);
         if ($project == null) {
-            return $this->responseNotFound("dự ánkhông tồn tại");
+            return $this->responseNotFound("dự án không tồn tại");
         }
 
 
@@ -739,6 +739,26 @@ class TaskController extends ManageApiController
         $task->save();
 
         return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
+    }
+
+    public function putStartBoard($projectId, $boardId)
+    {
+        $project = Project::find($projectId);
+        if (is_null($project)) {
+            return $this->respondErrorWithStatus("Dự án với id này không tồn tại");
+        }
+        $boards = $project->boards;
+        foreach ($boards as $board) {
+            if ($board->id == $boardId) {
+                $board->is_start = true;
+                $board->save();
+            } else {
+                $board->is_start = false;
+                $board->save();
+            }
+        }
+
+        return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
 }

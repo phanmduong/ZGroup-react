@@ -48,6 +48,7 @@ class Project extends Model
     {
         $boardIds = $this->boards()->pluck("id");
         $board_count = $boardIds->count();
+
         $data = [
             'id' => $this->id,
             'title' => $this->title,
@@ -83,6 +84,14 @@ class Project extends Model
             $data['creator'] = [
                 "id" => $this->creator->id,
                 "name" => $this->creator->name
+            ];
+        }
+
+        $startBoard = $this->boards()->where("is_start", 1)->first();
+        if ($startBoard) {
+            $data['start_board'] = [
+                "id" => $startBoard->id,
+                "title" => $startBoard->title
             ];
         }
 
