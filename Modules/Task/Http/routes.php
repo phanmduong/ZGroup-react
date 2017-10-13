@@ -41,6 +41,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::get('/tasklist/{id}', "TaskController@getTaskList");
     Route::post('/tasklist/create', "TaskController@createTaskList");
     Route::get('/tasklists/{cardId}', "TaskController@taskLists");
+    Route::put('/tasklist/update-tasks-order', "TaskController@putUpdateTaskOrder");
 
     Route::post('/task/create', "TaskController@createTask");
     Route::delete('/task/{taskId}/delete', "TaskController@deleteTask");
@@ -48,6 +49,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::put('/task/{taskId}/member/{userId}', "TaskController@addMemberToTask");
     Route::put('/task/{taskId}/deadline', "TaskController@saveTaskDeadline");
     Route::put('/task/{taskId}/span', "TaskController@saveTaskSpan");
+
 
     Route::get('/members/{filter?}', "TaskController@loadMembers");
     Route::get('/project-members/{filter?}', "TaskController@loadProjectMembers");
@@ -61,7 +63,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
 
     Route::get('/user/{userId}/calendar-events', "TaskController@loadCalendarEvents");
     Route::get('/task/{taskId}/available-members', "TaskController@taskAvailableMembers");
-
 
 
     // End Task api

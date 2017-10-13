@@ -513,7 +513,11 @@ class TaskController extends ManageApiController
             'id' => $taskList->id,
             'title' => $taskList->title,
             "num_tasks" => $taskList->tasks()->count(),
-            'tasks' => $taskList->tasks->map(function($task){
+            'tasks' => $taskList->tasks()->orderBy("order")->get()->map(function ($task, $key) {
+                if ($task->order == null) {
+                    $task->order = $key;
+                    $task->save();
+                }
                 return $task->transform();
             }),
             'type' => $taskList->type
@@ -542,18 +546,42 @@ class TaskController extends ManageApiController
 
     public function createTask(Request $request)
     {
-        if (is_null($request->title)) {
+        if (is_null($request->title) || $request->task_list_id == null) {
             return $this->responseBadRequest("Thiếu params");
         }
+        $task = Task::where("task_list_id", $request->task_list_id)->orderBy("order", "desc")->first();
+
+        if ($task == null || $task->order == null) {
+            $order = 0;
+        } else {
+            $order = $task->order + 1;
+        }
+
         $task = new Task();
         $task->title = $request->title;
         $task->task_list_id = $request->task_list_id;
         $task->creator_id = $this->user->id;
+        $task->order = $order;
         $task->editor_id = $this->user->id;
         $task->save();
+
+
         return $this->respond([
             "task" => $this->taskTransformer->transform($task)
         ]);
+    }
+
+    public function putUpdateTaskOrder(Request $request)
+    {
+        $tasks = json_decode($request->tasks);
+        foreach ($tasks as $t) {
+            $task = Task::find($t->id);
+            if ($task->order != $t->order) {
+                $task->order = $t->order;
+                $task->save();
+            }
+        }
+        return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
     public function deleteTask($taskId)
