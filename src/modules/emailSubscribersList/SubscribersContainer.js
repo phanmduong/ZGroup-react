@@ -236,7 +236,7 @@ class SubscribersContainer extends React.Component {
                                     :
                                     (
                                         <div className="card-content">
-                                            <h4 className="card-title"></h4>
+                                            <h4 className="card-title" />
                                             <div className="flex-row-center flex-justify-content-center">
                                                 <h4>Vui lòng tạo danh sách email</h4>
                                             </div>

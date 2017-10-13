@@ -15,7 +15,7 @@ class HistoryShiftRegistersContainer extends React.Component {
         super(props, context);
         this.state = {
             page: 1
-        }
+        };
     }
 
     componentWillMount() {

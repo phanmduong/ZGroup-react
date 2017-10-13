@@ -169,7 +169,7 @@ class CreateGoodContainer extends React.Component {
                                             }}>
                                                 <thead>
                                                 <tr className="text-rose">
-                                                    <th></th>
+                                                    <th />
                                                     <th>Tên thuộc tính</th>
                                                     <th>Giá trị</th>
                                                 </tr>

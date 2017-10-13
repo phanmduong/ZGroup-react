@@ -85,7 +85,7 @@ class TabContainer extends React.Component {
                                                                     key={"tabChild" + tabChild.id}>
                                                                     <Link to={tabChild.url} activeClassName="active"
                                                                           onClick={() => {
-                                                                              helper.closeSidebar()
+                                                                              helper.closeSidebar();
                                                                           }}>
                                                                         {tabChild.name}
                                                                     </Link>

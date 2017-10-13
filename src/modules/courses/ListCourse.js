@@ -53,7 +53,7 @@ class ListCourse extends React.Component {
 
                             </td>
                         </tr>
-                    )
+                    );
                 })}
                 </tbody>
 

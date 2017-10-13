@@ -10,8 +10,7 @@ const Image = ({template}) => {
             backgroundPosition: 'center',
             height: '150px',
             borderRadius: '10px'
-        }}>
-    </div>);
+        }} />);
 };
 
 const ItemTemplate = ({template, onClick, selectedTemplate}) => {
@@ -28,7 +27,7 @@ const ItemTemplate = ({template, onClick, selectedTemplate}) => {
                     </div>
                 </div>
             </div>
-        )
+        );
     } else {
 
         return (
