@@ -567,7 +567,7 @@ class TaskController extends ManageApiController
 
 
         return $this->respond([
-            "task" => $this->taskTransformer->transform($task)
+            "task" => $task->transform()
         ]);
     }
 
