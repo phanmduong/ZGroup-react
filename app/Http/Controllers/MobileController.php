@@ -64,7 +64,9 @@ class MobileController extends ApiController
     {
         $courses = Course::orderBy('created_at', 'desc')->get();
         return response()->json([
-            'courses' => $courses,
+            'courses' => $courses->map(function ($course) {
+                return $course->detailedTransform();
+            })
         ]);
     }
 
