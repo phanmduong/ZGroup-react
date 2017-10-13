@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddStartBoardToBoard extends Migration
+class AddStartBoardToBoards extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,9 @@ class AddStartBoardToBoard extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('boards', function (Blueprint $table) {
+            $table->boolean('is_start');
+        });
     }
 
     /**
@@ -22,8 +24,6 @@ class AddStartBoardToBoard extends Migration
      */
     public function down()
     {
-        Schema::table('boards', function (Blueprint $table) {
-            $table->boolean('is_start');
-        });
+        //
     }
 }
