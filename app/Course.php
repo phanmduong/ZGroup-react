@@ -34,6 +34,7 @@ class Course extends Model
             'description' => $this->price,
             'linkmac' => $this->linkmac,
             'linkwindow' => $this->linkwindow,
+            'num_classes' => $this->classes()->where("name","like","%.%")->count(),
             'mac_how_install' => $this->mac_how_install,
             'window_how_install' => $this->window_how_install,
             'cover_url' => generate_protocol_url($this->cover_url),
