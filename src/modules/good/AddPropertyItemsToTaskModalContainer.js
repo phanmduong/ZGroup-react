@@ -29,13 +29,13 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.task.id && nextProps.task.id != this.props.task.id) {
             this.setState({
-                value: nextProps.task.good_property_items.map((item) => {
+                value: nextProps.task.good_property_items ? nextProps.task.good_property_items.map((item) => {
                     return {
                         ...item,
                         label: item.name,
                         value: item.id
                     };
-                }),
+                }) : [],
                 currentBoard: nextProps.task.current_board,
                 targetBoard: nextProps.task.target_board
             });

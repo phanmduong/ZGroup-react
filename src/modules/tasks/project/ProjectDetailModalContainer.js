@@ -21,6 +21,7 @@ class ProjectDetailModalContainer extends Component {
         this.changeColor = this.changeColor.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
+        this.changeStartBoard = this.changeStartBoard.bind(this);
         this.statusOptions = [
             {value: 'open', label: 'open'},
             {value: 'close', label: 'close'}
@@ -44,6 +45,13 @@ class ProjectDetailModalContainer extends Component {
         });
     }
 
+    changeStartBoard(option) {
+        this.props.taskActions.updateProjectData({
+            ...this.props.project,
+            start_board: option
+        });
+    }
+
     updateFormData(event) {
         let project = {...this.props.project};
         project[event.target.name] = event.target.value;
@@ -63,6 +71,13 @@ class ProjectDetailModalContainer extends Component {
 
     render() {
         const {project, isSaving, showModal, isLoading} = this.props;
+        const boardOptions = project.boards && project.boards.map((board) => {
+            return {
+                ...board,
+                label: board.title,
+                value: board.id
+            };
+        });
         return (
             <Modal show={showModal} bsSize="large" onHide={this.close}>
                 <Modal.Header closeButton>
@@ -108,13 +123,28 @@ class ProjectDetailModalContainer extends Component {
                                             updateFormData={this.updateFormData}
                                             value={project.description}/>
 
+                                        {
+                                            (project.status === "book" || project.status === "fashion") && (
+                                                <div className="form-group">
+                                                    <label>Bảng bắt đầu</label>
+                                                    <Select
+                                                        name="start"
+                                                        value={project.start_board ? project.start_board.id : 0}
+                                                        options={boardOptions}
+                                                        onChange={this.changeStartBoard}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+
+
                                         <CirclePicker
                                             width="100%"
                                             color={project.color || ""}
                                             onChangeComplete={this.changeColor}/>
 
                                         {
-                                            (project.status == "open" || project.status == "close")  && (
+                                            (project.status === "open" || project.status === "close")  && (
                                                 <div className="form-group">
                                                     <Select
                                                         name="status"
