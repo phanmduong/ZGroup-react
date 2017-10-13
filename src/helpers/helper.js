@@ -2,6 +2,8 @@
 import jwt from 'jsonwebtoken';
 import * as env from '../constants/env';
 import _ from 'lodash';
+import moment from 'moment';
+
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -604,6 +606,18 @@ export function initMaterial() {
     /* eslint-disable */
 
     try {
+
+
+        //init scroll
+        if (isWindows && !$('body').hasClass('sidebar-mini')) {
+            // if we are on windows OS we activate the perfectScrollbar function
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+            $('html').addClass('perfect-scrollbar-on');
+        } else {
+            $('html').addClass('perfect-scrollbar-off');
+        }
+
         if (typeof md !== 'undefined') {
             mobile_menu_visible = 0;
             toggle_initialized = false;
@@ -741,4 +755,9 @@ function addZeroTime(time) {
 
     return time;
 
+}
+
+export function formatTime(time, formatBefore, formatAtfer) {
+    let timeIsValid = moment(time, formatBefore).isValid();
+    return timeIsValid ? moment(time, formatBefore).format(formatAtfer) : null;
 }

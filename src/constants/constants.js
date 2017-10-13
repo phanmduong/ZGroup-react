@@ -72,3 +72,5 @@ export function linkUploadImageEditor() {
 
 export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";
 export const DATETIME_FORMAT_SQL = "YYYY-MM-DD HH:mm:ss";
+export const FULLTIME_FORMAT = "HH:mm:ss";
+export const TIME_FORMAT_H_M = "HH:mm";
