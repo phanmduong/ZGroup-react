@@ -13,7 +13,7 @@ class FashionManufactureSeeder extends Seeder
      */
     public function run()
     {
-        $fashionProject = Project::where("status", "fashion_manufacture")->first();
+        $fashionProject = Project::where("status", "fashion")->first();
 
         if (is_null($fashionProject)) {
             DB::table('projects')->insert([
@@ -22,7 +22,7 @@ class FashionManufactureSeeder extends Seeder
                 "color" => "#009688",
                 "can_drag_board" => false,
                 "can_drag_card" => true,
-                "status" => "fashion_manufacture"
+                "status" => "fashion"
             ]);
         }
     }

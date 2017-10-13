@@ -365,7 +365,7 @@ class MobileController extends ApiController
             $classes = $current_gen->studyclasses;
             $target_revenue = 0;
             foreach ($classes as $class) {
-                $target_revenue += $class->target * $class->course->price * 0.5;
+                $target_revenue += $class->target * $class->course->price * 0.55;
             }
 
             $data['target_revenue'] = $target_revenue;
@@ -510,7 +510,7 @@ class MobileController extends ApiController
             $target_revenue = 0;
 
             foreach ($classes->get() as $class) {
-                $target_revenue += $class->target * $class->course->price * 0.5;
+                $target_revenue += $class->target * $class->course->price * 0.55;
             }
 
             $data['target_revenue'] = $target_revenue;
@@ -577,7 +577,7 @@ class MobileController extends ApiController
             $classes = $current_gen->studyclasses;
             $target_revenue = 0;
             foreach ($classes as $class) {
-                $target_revenue += $class->target * $class->course->price * 0.5;
+                $target_revenue += $class->target * $class->course->price * 0.55;
             }
 
             $data['target_revenue'] = $target_revenue;
@@ -622,7 +622,7 @@ class MobileController extends ApiController
             $target_revenue = 0;
 
             foreach ($classes->get() as $class) {
-                $target_revenue += $class->target * $class->course->price * 0.5;
+                $target_revenue += $class->target * $class->course->price * 0.55;
             }
 
             $data['target_revenue'] = $target_revenue;

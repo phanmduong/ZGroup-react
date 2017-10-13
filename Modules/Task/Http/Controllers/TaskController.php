@@ -332,7 +332,7 @@ class TaskController extends ManageApiController
         if ($board) {
             $project = $board->project;
             switch ($project->status) {
-                case "book_manufacture":
+                case "book":
                     $good = new Good();
                     $good->type = "book";
                     $good->name = $card->title;
@@ -340,7 +340,7 @@ class TaskController extends ManageApiController
                     $card->good_id = $good->id;
                     $card->save();
                     break;
-                case "fashion_manufacture":
+                case "fashion":
                     $good = new Good();
                     $good->type = "fashion";
                     $good->name = $card->title;
@@ -512,8 +512,13 @@ class TaskController extends ManageApiController
         $data = [
             'id' => $taskList->id,
             'title' => $taskList->title,
-            'tasks' => $this->taskTransformer->transformCollection($taskList->tasks)
+            "num_tasks" => $taskList->tasks()->count(),
+            'tasks' => $taskList->tasks->map(function($task){
+                return $task->transform();
+            }),
+            'type' => $taskList->type
         ];
+
 
         return $this->respondSuccessWithStatus($data);
     }

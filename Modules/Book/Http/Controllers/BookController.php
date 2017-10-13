@@ -20,13 +20,7 @@ class BookController extends ManageApiController
         $taskListTemplates = $taskListTemplates->where("title", "like", "%$request->q%")->orderBy("title")->paginate(20);
         return $this->respondWithPagination($taskListTemplates, [
             "templates" => $taskListTemplates->map(function ($item) {
-                return [
-                    "id" => $item->id,
-                    "title" => $item->title,
-                    "tasks" => $item->tasks->map(function ($task) {
-                        return $task->transform();
-                    })
-                ];
+                return $item->transform();
             })]);
     }
 
@@ -53,15 +47,20 @@ class BookController extends ManageApiController
         if (is_null($request->title)) {
             return $this->respondErrorWithStatus("cần truyền lên title");
         }
-        $taskList = new TaskList();
+        if ($request->id) {
+            $taskList = TaskList::find($request->id);
+        } else {
+            $taskList = new TaskList();
+        }
         $taskList->title = $request->title;
+        $taskList->type = $request->type;
         $taskList->save();
         return $this->respondSuccessWithStatus(["taskList" => $taskList->transform()]);
     }
 
     public function getFashionProject()
     {
-        $project = Project::where("status", "fashion_manufacture")->first();
+        $project = Project::where("status", "fashion")->first();
         if (is_null($project)) {
             return $this->respondErrorWithStatus("Dự án sản xuấu chưa được tạo");
         }
@@ -104,7 +103,7 @@ class BookController extends ManageApiController
 
     public function bookProject()
     {
-        $project = Project::where("status", "book_manufacture")->first();
+        $project = Project::where("status", "book")->first();
         if (is_null($project)) {
             return $this->respondErrorWithStatus("Dự án sản xuấu chưa được tạo");
         }

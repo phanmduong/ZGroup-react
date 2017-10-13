@@ -4,27 +4,41 @@ namespace Modules\Good\Http\Controllers;
 
 use App\Good;
 use App\Http\Controllers\ManageApiController;
+use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
 use Modules\Good\Entities\GoodPropertyItemTask;
+use Modules\Good\Repositories\GoodRepository;
 
 
 class GoodController extends ManageApiController
 {
-    public function __construct()
+    private $goodRepository;
+
+    public function __construct(GoodRepository $goodRepository)
     {
+        $this->goodRepository = $goodRepository;
         parent::__construct();
     }
+
     public function getAll(Request $request)
     {
         $keyword = $request->search;
+        $type = $request->type;
+        if ($type) {
+            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+            });
+        } else {
+            $goods = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+            });
+        }
 
-        $goods = Good::where(function ($query) use ($keyword) {
-            $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-        })->orderBy("created_at", "desc")->paginate(20);
+        $goods = $goods->orderBy("created_at", "desc")->paginate(20);
 
         return $this->respondWithPagination(
             $goods,
@@ -114,8 +128,18 @@ class GoodController extends ManageApiController
         $good_property_item->name = $request->name;
         $good_property_item->prevalue = $request->prevalue;
         $good_property_item->preunit = $request->preunit;
+        $good_property_item->type = $request->type;
         $good_property_item->save();
         return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function getGoodPropertyItem($id)
+    {
+        $goodPropertyItem = GoodPropertyItem::find($id);
+        if ($goodPropertyItem == null) {
+            return $this->respondErrorWithStatus("Thuộc tính không tồn tại");
+        }
+        return $this->respondSuccessWithStatus(["good_property_item" => $goodPropertyItem->transform()]);
     }
 
     public function allPropertyItems(Request $request)
@@ -153,16 +177,30 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public function  addPropertyItemTask($task_id, $property_item_id) {
-        $propertyItemTask = GoodPropertyItemTask::where('task_id', $task_id)->where('good_property_item_id', $property_item_id)->get()->first();
-        if($propertyItemTask)
-            return $this->respondErrorWithStatus([
-                'message' => "existed"
-            ]);
+    public function addPropertyItemsTask($task_id, Request $request)
+    {
+        $goodPropertyItems = json_decode($request->good_property_items);
         $task = Task::find($task_id);
-        $task->goodPropertyItems()->attach($property_item_id);
+        $task->current_board_id = $request->current_board_id;
+        $task->target_board_id = $request->target_board_id;
+        $task->goodPropertyItems()->detach();
+        $task->goodPropertyItems()->attach(collect($goodPropertyItems)->pluck("id")->toArray());
+        $task->save();
+
         return $this->respondSuccessWithStatus([
-            'message' => "success"
+            'task' => $task->transform()
+        ]);
+    }
+
+    public function getPropertyItems(Request $request)
+    {
+        $type = $request->type;
+        $propertyItems = $this->goodRepository->getPropertyItems($type);
+        $boards = $this->goodRepository->getProjectBoards($type);
+
+        return $this->respondSuccessWithStatus([
+            "good_property_items" => $propertyItems,
+            "boards" => $boards
         ]);
     }
 }

@@ -37,7 +37,7 @@ Route::post('manage/receive_notifications', 'PublicController@receive_notificati
 Route::post('manage/receive_video_convert_notifications', 'PublicController@receive_video_convert_notifications');
 Route::get('access_forbidden', 'PublicController@access_forbidden');
 Route::get('/notification/{id}/redirect', 'PublicController@notificationRedirect');
-
+Route::get('send_noti_test', 'PublicController@send_noti_test');
 //Route::post('/api/topic/{topicId}/images','PublicController@_images');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
@@ -91,7 +91,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     // Begin Base api
     Route::get('/bases', "ManageBaseApiController@bases");
     Route::get('/base/all', "ManageBaseApiController@get_base_all");
-    Route::get('/base/center/all', "ManageBaseApiController@get_base_all");
+    Route::get('/base/center/all', "ManageBaseApiController@get_base_center_all");
     Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
     Route::post('/base/create', "ManageBaseApiController@createBase");
     Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
@@ -441,7 +441,7 @@ Route::group(['middleware' => 'web'], function () {
 
     //quan ly lich truc
     Route::get('manage/shift', 'ManageShiftController@index');
-    Route::get('manage/regis-shifts', 'ManageShiftController@regis_shifts');
+//    Route::get('manage/regis-shifts', 'ManageShiftController@regis_shifts');
 
     Route::get('/manage/downloadsurveyclass', 'SurveyController@download_survey_class');
 
@@ -490,6 +490,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('manage/subscribers_list/handle_file_upload', 'EmailController@handle_file_upload');
 
     Route::post('manage/savelesson', 'HomeController@save_lesson');
+    Route::get('manage/downloadwaitlist', 'HomeController@downloadWaitList');
     Route::get('manage/allrating', 'PersonalRatingController@all_rating');
     Route::get('manage/personalrating', 'PersonalRatingController@index');
     Route::get('manage/ratingdetail', 'PersonalRatingController@rating_detail');
