@@ -31,7 +31,20 @@ export default function courseReducer(state = initialState.courses, action) {
                     error: true,
                 }
             };
-
+        case types.OPEN_ADD_COURSES_MODAL_CONTAINER:
+            return {
+                ...state,
+                addCoursesModal: {
+                    isShowModal: true
+                }
+            };
+        case types.CLOSE_ADD_COURSES_MODAL_CONTAINER:
+            return {
+                ...state,
+                addCoursesModal: {
+                    isShowModal: false
+                }
+            };
         default:
             return state;
     }

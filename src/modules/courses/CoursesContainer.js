@@ -7,6 +7,8 @@ import {bindActionCreators} from 'redux';
 import Loading from "../../components/common/Loading";
 import Search from "../../components/common/Search";
 import _ from 'lodash';
+import  AddCoursesModalContainer from './AddCoursesModalContainer';
+
 class CoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -15,18 +17,25 @@ class CoursesContainer extends React.Component {
                 error: true,
                 courses:[]
         };
+        this.openAddCoursesModalContainer = this.openAddCoursesModalContainer.bind(this);
 
     }
     componentWillMount(){
         this.props.coursesActions.loadCourses();
     }
     componentWillReceiveProps(){
+        console.log('containerprops', this.props);
         this.setState({courses:this.props.coursesList});
+    }
+
+    openAddCoursesModalContainer(){
+        this.props.coursesActions.openAddCoursesModalContainer();
     }
 
     render() {
         return (
             <div className="content">
+                <AddCoursesModalContainer/>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -37,10 +46,24 @@ class CoursesContainer extends React.Component {
                                 <div className="card-content">
                                     <h4 className="card-title">Quản lý khóa học</h4>
                                     <table className="col-md-12">
-                                        <tr>
-                                            <td className="col-md-2"><button className="btn btn-fill btn-rose">Thêm môn học</button></td>
-                                            <td className="col-md-8"><Search placeholder='Tìm kiếm khóa học' /></td>
-                                        </tr>
+                                        <tbody>
+                                            <tr>
+                                                <td className="col-md-2">
+                                                    <a onClick={this.openAddCoursesModalContainer} className="btn btn-rose">
+                                                        Thêm khoá học
+                                                    </a>
+                                                </td>
+
+                                                <td className="col-md-8">
+                                                    <Search
+                                                        placeholder="Tìm kiếm khóa học"
+                                                        value=""
+                                                        onChange={()=>{}}
+                                                        className=""
+                                                    />
+                                                </td>
+                                            </tr>
+                                            </tbody>
                                     </table>
                                     {this.props.isLoading ? <Loading/> :
                                         <ListCourse
@@ -55,7 +78,7 @@ class CoursesContainer extends React.Component {
                                                 return (
                                                     <li key={page} className="active">
                                                         <a onClick={() => {
-                                                            console.log(page)
+                                                            console.log(page);
                                                         }}>{page}</a>
                                                     </li>
                                                 );
@@ -63,7 +86,7 @@ class CoursesContainer extends React.Component {
                                                 return (
                                                     <li key={page}>
                                                         <a onClick={() => {
-                                                            console.log(page)
+                                                            console.log(page);
                                                         }}>{page}</a>
                                                     </li>
                                                 );
@@ -91,14 +114,15 @@ CoursesContainer.propTypes = {
     coursesActions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
-    coursesList: PropTypes.array.isRequired
+    coursesList: PropTypes.array.isRequired,
+
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.courses.isLoading,
         error: state.courses.error,
-        coursesList: state.courses.coursesList
+        coursesList: state.courses.coursesList,
     };
 }
 

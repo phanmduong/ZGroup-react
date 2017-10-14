@@ -600,6 +600,10 @@ export default {
     courses: {
         isLoading: false,
         error: false,
-        coursesList: []
+        coursesList: [],
+        addCoursesModal:{
+            isShowModal  : false,
+            isSaving: false
+        }
     }
 };

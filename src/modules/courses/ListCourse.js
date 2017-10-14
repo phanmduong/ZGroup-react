@@ -45,7 +45,7 @@ class ListCourse extends React.Component {
                                 </button>
                             </td>
                             <td>{course.name}</td>
-                            <td>{course.duration}</td>
+                            <td>{course.num_classes}</td>
                             <td>{course.duration}</td>
 
                             <td>
@@ -53,26 +53,19 @@ class ListCourse extends React.Component {
                                     {helper.convertMoneyToK(course.price)}
                                 </div>
                             </td>
+                            <td>
                             <ButtonGroupAction
+
                                 editUrl={"unknow"}
                                 delete={()=>{/*delete course*/}}
                                 courseect={course}
                             />
+                            </td>
                         </tr>
                     )
                 })}
                 </tbody>
 
-                <tfoot>
-                <tr>
-                    <th/>
-                    <th>Tên Khóa</th>
-                    <th>Số lớp đã mở</th>
-                    <th>Số buổi</th>
-                    <th>Giá</th>
-                    <th/>
-                </tr>
-                </tfoot>
             </table>
         </div>
         );
