@@ -31,8 +31,8 @@ class ProcessListContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.route.type !== this.props.route.type) {
-            this.props.bookActions.loadTaskListTemplates(1, "", nextProps.route.type);
+        if (nextProps.params.type !== this.props.params.type) {
+            this.props.bookActions.loadTaskListTemplates(1, "", nextProps.params.type);
         }
     }
 
@@ -46,7 +46,7 @@ class ProcessListContainer extends React.Component {
 
     loadTaskLists(page = 1) {
         this.setState({page});
-        this.props.bookActions.loadTaskListTemplates(page, this.state.query, this.props.route.type);
+        this.props.bookActions.loadTaskListTemplates(page, this.state.query, this.props.params.type);
     }
 
     taskListSearchChange(query) {
@@ -74,7 +74,7 @@ class ProcessListContainer extends React.Component {
     render() {
         return (
             <div id="page-wrapper">
-                <AddTaskListTemplateModalContainer type={this.props.route.type}/>
+                <AddTaskListTemplateModalContainer type={this.props.params.type}/>
                 <TaskListDetailModalContainer/>
                 <div className="container-fluid">
                     <div className="card">
@@ -144,7 +144,7 @@ ProcessListContainer.propTypes = {
     taskLists: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     bookActions: PropTypes.object.isRequired,
-    route: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired

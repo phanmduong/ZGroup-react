@@ -151,21 +151,22 @@ export default (
             {/*End class routes*/}
 
             {/*Begin good routes*/}
-            <Route path="/book/process" component={ProcessListContainer} type="book"/>
-            <Route path="/fashion/process" component={ProcessListContainer} type="fashion"/>
-            <Route path="/book/properties" component={PropertiesListContainer} type="book"/>
+            <Route path="/good/:type/process" component={ProcessListContainer}/>
+
+            <Route path="/good/:type/properties" component={PropertiesListContainer}/>
+
+
             <Route path="/book-property/create" component={CreateGoodPropertyContainer} type="book"/>
             <Route path="/book-property/create" component={CreateGoodPropertyContainer} type="book"/>
             <Route path="/property-item/:id/edit" component={CreateGoodPropertyContainer}/>
             <Route path="/tasklist-template/:id" component={TaskListTemplateContainer}/>
-            <Route path="/fashion/properties" component={PropertiesListContainer} type="fashion"/>
+
 
             <Route path="/book-manufacture" component={BookBoardListContainer}/>
             <Route path="/fashion-manufacture" component={FashionBoardListContainer}/>
-            <Route path="/book/all" component={GoodListContainer} type="book"/>
-            <Route path="/fashion/all" component={GoodListContainer} type="fashion"/>
+            <Route path="/good/:type/all" component={GoodListContainer}/>
             <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
-            <Route path="/good/create" component={CreateGoodContainer} type="create"/>
+            <Route path="good/:type/create" component={CreateGoodContainer} type="create"/>
             {/*End good routes*/}
 
             {/*Begin class routes*/}

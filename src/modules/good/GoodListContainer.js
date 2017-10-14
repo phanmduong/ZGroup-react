@@ -27,15 +27,15 @@ class GoodListContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.route.type !== this.props.route.type) {
+        if (nextProps.params.type !== this.props.params.type) {
             this.setState({page: 1});
-            this.props.goodActions.loadGoods(1, "", nextProps.route.type);
+            this.props.goodActions.loadGoods(1, "", nextProps.params.type);
         }
     }
 
     loadGoods(page = 1) {
         this.setState({page});
-        this.props.goodActions.loadGoods(page, this.state.query, this.props.route.type);
+        this.props.goodActions.loadGoods(page, this.state.query, this.props.params.type);
     }
 
     goodsSearchChange(value) {
@@ -69,17 +69,15 @@ class GoodListContainer extends React.Component {
                             <h4 className="card-title">Sản phẩm</h4>
 
                             <div style={{marginTop: "15px"}}>
-                                <Link to="/good/create" className="btn btn-rose">
+                                <Link to={`/good/${this.props.params.type}/create`} className="btn btn-rose">
                                     Thêm sản phẩm
                                 </Link>
                             </div>
 
-
                             <Search
                                 onChange={this.goodsSearchChange}
                                 value={this.state.query}
-                                placeholder="Tìm kiếm sản phẩm (tên, mô tả)"
-                            />
+                                placeholder="Tìm kiếm sản phẩm (tên, mô tả)"/>
 
                             {
                                 this.props.isLoading ? <Loading/> : (
@@ -158,7 +156,7 @@ GoodListContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     goods: PropTypes.array.isRequired,
     currentPage: PropTypes.number.isRequired,
-    route: PropTypes.object.isRequired
+    params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

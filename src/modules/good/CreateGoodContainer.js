@@ -79,7 +79,8 @@ class CreateGoodContainer extends React.Component {
         const good = {
             ...this.props.good,
             properties: JSON.stringify(this.props.good.properties),
-            files_str: JSON.stringify(this.props.good.files)
+            files_str: JSON.stringify(this.props.good.files),
+            type: this.state.type
         };
 
         if (!good.name || !good.code) {
@@ -105,6 +106,7 @@ class CreateGoodContainer extends React.Component {
             });
             this.props.goodActions.loadGood(this.props.params.goodId);
         }
+        this.setState({type: this.props.params.type});
     }
 
     render() {
@@ -169,7 +171,7 @@ class CreateGoodContainer extends React.Component {
                                             }}>
                                                 <thead>
                                                 <tr className="text-rose">
-                                                    <th />
+                                                    <th/>
                                                     <th>Tên thuộc tính</th>
                                                     <th>Giá trị</th>
                                                 </tr>

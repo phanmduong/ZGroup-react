@@ -23,12 +23,12 @@ class PropertiesListContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.goodActions.loadGoodPropertyItems(1, this.state.query, this.props.route.type);
+        this.props.goodActions.loadGoodPropertyItems(1, this.state.query, this.props.params.type);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.route.type !== this.props.route.type) {
-            this.props.goodActions.loadGoodPropertyItems(1, this.state.query, nextProps.route.type);
+        if (nextProps.params.type !== this.props.params.type) {
+            this.props.goodActions.loadGoodPropertyItems(1, this.state.query, nextProps.params.type);
         }
 
     }
@@ -42,13 +42,13 @@ class PropertiesListContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.goodActions.loadGoodPropertyItems(this.state.page, this.state.query, this.props.route.type);
+            this.props.goodActions.loadGoodPropertyItems(this.state.page, this.state.query, this.props.params.type);
         }.bind(this), 500);
     }
 
     loadPropertyItems(page = 1) {
         this.setState({page});
-        this.props.goodActions.loadGoodPropertyItems(page, this.state.query, this.props.route.type);
+        this.props.goodActions.loadGoodPropertyItems(page, this.state.query, this.props.params.type);
     }
 
     render() {
@@ -65,11 +65,11 @@ class PropertiesListContainer extends React.Component {
 
                         <div className="card-content">
                             <h4 className="card-title">{
-                                this.props.route.type === "book" ? "Thuộc tính sách" : "Thuộc tính thời trang"
+                                this.props.params.type === "book" ? "Thuộc tính sách" : "Thuộc tính thời trang"
                             }</h4>
 
                             <div style={{marginTop: "15px"}}>
-                                <Link to={`/${this.props.route.type}-property/create`} className="btn btn-rose">
+                                <Link to={`/${this.props.params.type}-property/create`} className="btn btn-rose">
                                     Thêm thuộc tính
                                 </Link>
                             </div>
@@ -150,7 +150,7 @@ class PropertiesListContainer extends React.Component {
 
 PropertiesListContainer.propTypes = {
     propertyItems: PropTypes.array.isRequired,
-    route: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
