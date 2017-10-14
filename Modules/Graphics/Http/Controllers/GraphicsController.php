@@ -22,6 +22,7 @@ class GraphicsController extends Controller
         $data =[
             "cover" => $good->cover_url,
             "avatar" => $good->avatar_url,
+            "type" => $good->type,
         ];
         foreach ($properties as $property) {
             $data[$property->name] = $property->value;
