@@ -40,11 +40,12 @@ class CourseController extends ManageApiController
         $course->name = $request->name;
         $course->duration = $request->duration;
         $course->price = $request->price;
-        $course->description = $request->price;
+        $course->description = $request->description;
         $course->linkmac = $request->linkmac;
         $course->linkwindow = $request->linkwindow;
         $course->mac_how_install = $request->mac_how_install;
         $course->window_how_install = $request->window_how_install;
+        $course->cover_url = $request->cover_url;
         $course->cover_url = $request->cover_url;
         $course->color = $request->color;
         $course->image_url = $request->image_url;

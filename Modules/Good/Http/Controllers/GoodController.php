@@ -142,6 +142,14 @@ class GoodController extends ManageApiController
         return $this->respondSuccessWithStatus(["good_property_item" => $goodPropertyItem->transform()]);
     }
 
+    public function propertiesOfGood($good_id)
+    {
+        $goodProperties = GoodProperty::where('good_id', $good_id);
+        return $this->respondSuccessWithStatus([
+            'properties' => $goodProperties,
+        ]);
+    }
+
     public function allPropertyItems(Request $request)
     {
         $limit = 20;
