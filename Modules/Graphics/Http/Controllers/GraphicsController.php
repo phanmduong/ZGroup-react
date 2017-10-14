@@ -14,11 +14,14 @@ class GraphicsController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-
-    public function product($link, $goodId)
+    public function aaa()
     {
-        $good = Good::find($goodId);
-        $properties = GoodProperty::where('good_id', $goodId)->get();
+        return view('graphics::aaa');
+    }
+    public function product($good_id)
+    {
+        $good = Good::find($good_id);
+        $properties = GoodProperty::where('good_id', $good_id)->get();
 
         $data = [
             "cover" => $good->cover_url,
