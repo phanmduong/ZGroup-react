@@ -7,7 +7,11 @@
         <div class="filter"></div>
         <div class="content-center">
             <div class="container">
-                <h1 style="font-weight:600">{{$properties['type']}}<br>{{$properties['name']}}</br></h1>
+                <h1 style="font-weight:600">{{$properties['type']}}
+                    <br>
+                    {{$properties['name']}}
+                    </br>
+                </h1>
                 <h5>{{$properties['short_description']}}</h5><br>
                 <button type="button" class="btn btn-outline-neutral btn-round">
                     <i class="fa fa-shopping-cart"></i>
