@@ -75,6 +75,9 @@ class GoodController extends ManageApiController
         $good->price = $price;
         $good->avatar_url = $avatarUrl;
         $good->cover_url = $coverUrl;
+        if ($request->type) {
+            $good->type = $request->type;
+        }
         $good->save();
 
 //        $properties = json_decode($request->properties);
