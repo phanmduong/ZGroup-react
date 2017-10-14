@@ -624,10 +624,17 @@ export default {
         isLoading: false,
         error: false
     },
+    shiftSessions: {
+        isStoring: false,
+        errorStore: false,
+        shiftSessions: [],
+        isLoading: false,
+        error: false
+    },
 
     courses: {
         isLoading: false,
         error: false,
         coursesList: []
-    }
+    },
 };

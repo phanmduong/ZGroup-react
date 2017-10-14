@@ -30,6 +30,7 @@ import emailCampainsReducer from "../modules/emailCampaigns/emailCampainsReducer
 import goodReducer from "../modules/good/goodReducer";
 import shiftRegistersReducer from "../modules/shiftRegisters/shiftRegistersReducer";
 import historyShiftRegistersReducer from "../modules/historyShiftRegisters/historyShiftRegistersReducer";
+import shiftSessionsReducer from "../modules/shiftSessions/shiftSessionsReducer";
 import courseReducer from "../modules/courses/coursesReducer";
 
 const appReducer = combineReducers({
@@ -63,6 +64,7 @@ const appReducer = combineReducers({
     good: goodReducer,
     shiftRegisters: shiftRegistersReducer,
     historyShiftRegisters: historyShiftRegistersReducer,
+    shiftSessions: shiftSessionsReducer,
     courses: courseReducer,
 });
 

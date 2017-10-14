@@ -55,6 +55,7 @@ import ShiftRegistersContainer from "./modules/shiftRegisters/ShiftRegistersCont
 import CreateGoodPropertyContainer from "./modules/good/CreateGoodPropertyContainer";
 import TaskListTemplateContainer from "./modules/good/TaskListTemplateContainer";
 import HistoryShiftRegistersContainer from "./modules/historyShiftRegisters/HistoryShiftRegistersContainer";
+import ShiftSessionsContainer from "./modules/shiftSessions/ShiftSessionsContainer";
 import CoursesContainer from './modules/courses/CoursesContainer';
 
 export default (
@@ -190,6 +191,10 @@ export default (
             <Route path="/manage/regis-shifts" component={ShiftRegistersContainer}/>
             <Route path="/register-shifts/history" component={HistoryShiftRegistersContainer}/>
             {/*End shift register routes*/}
+
+            {/*Begin shift session routes*/}
+            <Route path="/manage/shift" component={ShiftSessionsContainer}/>
+            {/*End shift session routes */}
 
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>

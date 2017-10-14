@@ -1,6 +1,7 @@
 import React from 'react';
 import * as helper from '../../helpers/helper';
 import {NO_AVATAR} from '../../constants/env';
+import {TIME_FORMAT_H_M, FULLTIME_FORMAT} from '../../constants/constants';
 
 class ListShiftPick extends React.Component {
     constructor(props, context) {
@@ -37,7 +38,14 @@ class ListShiftPick extends React.Component {
                                 </td>
                                 <td>{shiftPicks.user ? shiftPicks.user.name : ''}</td>
                                 <td>
-                                    {shiftPicks.shift_pick.name + ": " + shiftPicks.shift_pick.start_time + ' - ' + shiftPicks.shift_pick.end_time}
+                                    {shiftPicks.shift_pick.start_time ?
+                                        (
+                                            shiftPicks.shift_pick.name + ": " +
+                                            helper.formatTime(shiftPicks.shift_pick.start_time , [TIME_FORMAT_H_M, FULLTIME_FORMAT], TIME_FORMAT_H_M)+
+                                            ' - ' + helper.formatTime(shiftPicks.shift_pick.end_time , [TIME_FORMAT_H_M, FULLTIME_FORMAT], TIME_FORMAT_H_M)
+                                        )
+                                        : "Đã xóa"
+                                    }
                                 </td>
                                 <td>{shiftPicks.shift_pick.week}</td>
                                 <td>{
