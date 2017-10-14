@@ -142,6 +142,7 @@ class TaskController extends ManageApiController
 
     public function createProject(Request $request)
     {
+
         if ($request->title == null) {
             return $this->responseBadRequest("Thiếu params");
         }
@@ -176,6 +177,24 @@ class TaskController extends ManageApiController
                 $this->notiEditDescriptionProject($this->user, $project, $member->id);
             }
         }
+        if ($request->start_board) {
+            $boardId = $request->start_board["id"];
+            $boards = $project->boards;
+            foreach ($boards as $board) {
+                if ($board->id == $boardId) {
+                    $board->is_start = true;
+                    $board->save();
+                } else {
+                    $board->is_start = false;
+                    $board->save();
+                }
+            }
+        } else {
+            $board = $project->boards()->where('is_start', 1)->first();
+            $board->is_start = 0;
+            $board->save();
+        }
+
 
         $this->projectRepository->assign($project->id, $this->user->id, $this->user, Project::$ADMIN_ROLE);
 
