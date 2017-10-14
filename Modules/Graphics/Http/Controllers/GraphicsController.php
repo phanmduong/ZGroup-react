@@ -19,6 +19,7 @@ class GraphicsController extends Controller
     {
         $good = Good::find($goodId);
         $properties = $good->properties();
+        dd($properties);
         $data =[
             "cover" => $good->cover_url,
             "avatar" => $good->avatar_url,
@@ -27,7 +28,7 @@ class GraphicsController extends Controller
         foreach ($properties as $property) {
             $data[$property->name] = $property->value;
         }
-        dd($data);
+
         return view('graphics::index', [
             'properties' => $data,
         ]);
