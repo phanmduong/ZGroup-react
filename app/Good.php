@@ -43,6 +43,11 @@ class Good extends Model
         return $this->belongsToMany(File::class, "file_good", "good_id", "file_id");
     }
 
+    public function coupons()
+    {
+        return $this->belongsToMany(Coupon::class, 'coupon_good', 'good_id','coupon_id');
+    }
+
     public function transform()
     {
         return [

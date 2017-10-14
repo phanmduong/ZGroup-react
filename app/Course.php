@@ -31,7 +31,7 @@ class Course extends Model
             'name' => $this->name,
             'duration' => $this->duration,
             'price' => $this->price,
-            'description' => $this->price,
+            'description' => $this->description,
             'linkmac' => $this->linkmac,
             'linkwindow' => $this->linkwindow,
             'num_classes' => $this->classes()->where("name","like","%.%")->count(),
