@@ -18,7 +18,7 @@ class GraphicsController extends Controller
     public function product($link, $goodId)
     {
         $good = Good::find($goodId);
-        $properties = $good->properties();
+        $properties = GoodProperty::where('good_id',$goodId);
 
         $data =[];
 //            "cover" => $good->cover_url,
