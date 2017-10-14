@@ -8,6 +8,7 @@ import Loading from "../../components/common/Loading";
 import PropTypes from 'prop-types';
 import * as goodActions from './goodActions';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
+import {Link} from "react-router";
 
 class GoodListContainer extends React.Component {
     constructor(props, context) {
@@ -67,11 +68,11 @@ class GoodListContainer extends React.Component {
                         <div className="card-content">
                             <h4 className="card-title">Sản phẩm</h4>
 
-                            {/*<div style={{marginTop: "15px"}}>*/}
-                                {/*<Link to="/good/create" className="btn btn-rose">*/}
-                                    {/*Thêm sản phẩm*/}
-                                {/*</Link>*/}
-                            {/*</div>*/}
+                            <div style={{marginTop: "15px"}}>
+                                <Link to="/good/create" className="btn btn-rose">
+                                    Thêm sản phẩm
+                                </Link>
+                            </div>
 
 
                             <Search
