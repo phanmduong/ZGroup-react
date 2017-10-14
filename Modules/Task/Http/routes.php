@@ -7,7 +7,7 @@
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'Modules\Task\Http\Controllers'], function () {
     // Begin Task api
-    Route::get('/project/{projectId}', "TaskController@project");
+    Route::get('/project/{projectId}', "TaskController@getProject");
     Route::put('/project/{projectId}/member/{memberId}/role/{role}', "CardController@changeRoleProjectMember");
     Route::post('/project/create', "TaskController@createProject");
     Route::post('/project/status/{projectId}', "TaskController@changeProjectStatus");
@@ -55,6 +55,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::get('/project-members/{filter?}', "TaskController@loadProjectMembers");
 
     Route::put('/project/{projectId}/setting', "TaskController@changeProjectSetting");
+    Route::put('/project/{projectId}/start-board/{boardId}', "TaskController@putStartBoard");
     Route::post('/project/{projectId}/create-label', "CardLabelController@createLabel");
     Route::get('/project/{projectId}/labels', "CardLabelController@loadLabels");
     Route::get('/project/{projectId}/archive-cards', "CardController@archiveCards");
