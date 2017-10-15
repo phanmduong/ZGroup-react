@@ -124,17 +124,6 @@
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-6">
                             <div class="links">
-                                <ul class="uppercase-links stacked-links">
-                                    <li>
-                                        <a href="#">
-                                            Tuyển dụng
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-3 col-xs-6">
-                            <div class="links">
                                 <ul class="stacked-links">
                                     <li>
                                         <h4>13.000<br> <small>Lượt xuất bản</small></h4>

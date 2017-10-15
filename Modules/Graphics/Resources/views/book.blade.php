@@ -122,19 +122,19 @@
             <div class="col-md-6">
                 <div>
                     <div class="description">
-                        <h1 class="big-title" style="color:#d73b19!important">
+                        <h1 class="big-title" style="color:{{$properties['main_color']}}!important">
                             {{$properties['counter1']}}
                         </h1>
 
                         <p>{{$properties['counter1_content']}}</p>
                         <br>
-                        <h1 class="big-title" style="color:#d73b19!important">
+                        <h1 class="big-title" style="color:{{$properties['main_color']}}!important">
                             {{$properties['counter2']}}
                         </h1>
 
                         <p>{{$properties['counter2_content']}}</p>
                         <br>
-                        <h1 class="big-title" style="color:#d73b19!important">
+                        <h1 class="big-title" style="color:{{$properties['main_color']}}!important">
                             {{$properties['counter3']}}
                         </h1>
 
