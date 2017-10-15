@@ -2,6 +2,7 @@
 <html lang="en">
 
     <head>
+        <script src="/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
         <meta charset="utf-8" />
         <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
         <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
@@ -181,7 +182,7 @@
     </body>
 
 <!-- Core JS Files -->
-<script src="/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+
 <script src="/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
 <script src="/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
