@@ -28,7 +28,7 @@ class GraphicsController extends Controller
                 'type' => $book->type,
                 'name' => $book->name,
                 'description' => $book->description,
-                'price' => $book->price
+                'price' => currency_vnd_format($book->price)
             ];
             foreach ($properties as $property) {
                 $bookdata[$property->name] = $property->value;
@@ -51,10 +51,13 @@ class GraphicsController extends Controller
         $properties = GoodProperty::where('good_id', $good_id)->get();
 
         $data = [
-            'cover' => $good->cover_url,
-            'avatar' => $good->avatar_url,
-            'type' => $good->type,
-            'name' => $good->name
+            'id' => $book->id,
+            'cover' => $book->cover_url,
+            'avatar' => $book->avatar_url,
+            'type' => $book->type,
+            'name' => $book->name,
+            'description' => $book->description,
+            'price' => currency_vnd_format($book->price)
         ];
         foreach ($properties as $property) {
             $data[$property->name] = $property->value;
