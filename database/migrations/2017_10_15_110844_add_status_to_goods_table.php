@@ -13,6 +13,12 @@ class AddStatusToGoodsTable extends Migration
     public function up()
     {
         //
+        Schema::table('coupons', function (Blueprint $table){
+            $table->integer('down_price')->nullable()->unsigned()->index();
+        });
+        Schema::table('goods', function(Blueprint $table){
+            $table->string('status');
+        });
     }
 
     /**

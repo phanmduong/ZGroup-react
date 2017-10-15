@@ -47,7 +47,7 @@ class GraphicsController extends Controller
 
     public function book($good_id)
     {
-        $good = Good::find($good_id);
+        $book = Good::find($good_id);
         $properties = GoodProperty::where('good_id', $good_id)->get();
 
         $data = [
