@@ -115,15 +115,7 @@ class BookController extends ManageApiController
             "status" => $project->status,
             "description" => $project->description,
             "boards" => $boards->map(function ($board) {
-                $cards = $board->cards()->where("status", "open")->orderBy('order')->get();
-                return [
-                    'id' => $board->id,
-                    'title' => $board->title,
-                    'order' => $board->order,
-                    'cards' => $cards->map(function ($card) {
-                        return $card->transform();
-                    })
-                ];
+                return $board->transformBoardWithCard();
             })
         ];
         $members = $project->members->map(function ($member) {
