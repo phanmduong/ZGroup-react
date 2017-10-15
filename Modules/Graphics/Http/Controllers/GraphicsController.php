@@ -33,6 +33,7 @@ class GraphicsController extends Controller
             }
             $book_arr[]=$bookdata;
         }
+        dd($book_arr);
         return view('graphics::index', [
             'books' => $book_arr,
         ]);
