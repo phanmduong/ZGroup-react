@@ -937,8 +937,8 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 
 .form-control {
   background-color: #FFFFFF;
-  border: 1px solid #DDDDDD;
-  border-radius: 4px;
+  border: 1px solid #DDDDDD!important;
+  border-radius: 4px!important;
   color: #66615b;
   font-size: 14px;
   transition: background-color 0.3s ease 0s;
@@ -949,7 +949,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 }
 .form-control:focus {
   background-color: #FFFFFF;
-  border: 1px solid #ccc;
+  border: 1px solid #ccc!important;;
   -webkit-box-shadow: none;
   box-shadow: none;
   outline: 0 !important;
@@ -1075,7 +1075,7 @@ textarea.form-control {
 }
 
 .register-form .form-control {
-  border: 1px solid transparent !important;
+  border: 1px solid transparent;
 }
 
 #inputs .input-group {
@@ -2508,6 +2508,11 @@ textarea.form-control {
   margin-top: -6%;
 }
 
+.modal-large{
+  width:70%;
+}
+
+
 @media screen and (max-width: 1024px) and (min-width: 768px) and (orientation: portrait){
   .profile-picture .fileinput-new img {
     width: 60%;
@@ -2533,6 +2538,10 @@ textarea.form-control {
     border-radius:0!important;
   }
 
+
+  .modal-large{
+    width:90%;
+  }
 }
 
 @media screen and (max-width: 767px) and (min-width: 481px) and (orientation: portrait){
@@ -2558,6 +2567,10 @@ textarea.form-control {
     -webkit-filter: drop-shadow(5px 5px 5px #AAA );
     filter: drop-shadow(5px 5px 5px #AAA);
     border-radius:0!important;
+  }
+
+  .modal-large{
+    width:90%;
   }
 }
 
@@ -2589,6 +2602,14 @@ textarea.form-control {
 
   .book-item {
     padding:0!important;
+  }
+  .shadow-image{
+    width:20%!important;
+    margin-bottom:15px;
+  }
+
+  .modal-large{
+    width:auto;
   }
 }
 
@@ -6160,6 +6181,16 @@ video {
   border: 0 none;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-image {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  width:100%;
+  height:auto;
+}
+.h-center{
+  display:flex;
+  align-items:center;
 }
 .modal-content .modal-header h6 {
   margin-top: 10px;
