@@ -18,6 +18,12 @@ class GraphicsController extends Controller
     {
         return view('graphics::index');
     }
+
+    public function aboutUs()
+    {
+        return view('graphics::about_us');
+    }
+
     public function product($good_id)
     {
         $good = Good::find($good_id);
