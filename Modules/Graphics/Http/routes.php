@@ -9,7 +9,11 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.dev", 'namespace' => 
     Route::get('/add-book/{goodId}', 'GraphicsController@addGoodToCart');
     Route::get('/remove-book/{goodId}', 'GraphicsController@removeBookFromCart');
     Route::get('/load-books-from-session', 'GraphicsController@getGoodsFromSession');
-
+    Route::get('/about-us', 'GraphicsController@about_us');
+    Route::post('/contact_information','GraphicsController@contact_info');
+    Route::get('/book/{good_id}', 'GraphicsController@book');
+    Route::get('/blog','GraphicsController@blog');
+    Route::get('/blog/post/{post_id}','GraphicsController@post');
 });
 
 

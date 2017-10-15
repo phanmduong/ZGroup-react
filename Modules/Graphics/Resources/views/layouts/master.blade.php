@@ -60,6 +60,7 @@
                     </a>
                 </li>
             </ul>
+
         </div>
     </div>
 </nav>
@@ -82,6 +83,7 @@
                         <i class="fa fa-google-plus" aria-hidden="true"></i>
                     </a>
                 </div>
+                <<<<<<< HEAD
             </div>
             <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
                 <div class="row">
@@ -109,88 +111,149 @@
                                     </a>
                                 </li>
                             </ul>
+                            =======
+                            <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 col-xs-6">
+                                        <div class="links">
+                                            <ul class="uppercase-links stacked-links">
+                                                <li>
+                                                    <a href="/">
+                                                        Trang chủ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/about-us">
+                                                        Về chúng tôi
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/index">
+                                                        Mua sách
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/blog">
+                                                        Blogs
+                                                    </a>
+                                                </li>
+                                            </ul>
 
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6">
-                        <div class="links">
-                            <ul class="uppercase-links stacked-links">
-                                <li>
-                                    <a href="contact.html">
-                                        Liên hệ
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        Nhà phân phối
-                                    </a>
-                                </li>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-6">
+                                        <div class="links">
+                                            <ul class="uppercase-links stacked-links">
+                                                <li>
+                                                    <a href="/contact-us">
+                                                        Liên hệ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        Nhà phân phối
+                                                    </a>
+                                                </li>
 
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6">
-                        <div class="links">
-                            <ul class="uppercase-links stacked-links">
-                                <li>
-                                    <a href="#">
-                                        Tuyển dụng
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-sm-3 col-xs-6">
-                        <div class="links">
-                            <ul class="stacked-links">
-                                <li>
-                                    <h4>13.000<br>
-                                        <small>Lượt xuất bản</small>
-                                    </h4>
-                                </li>
-                                <li>
-                                    <h4>256<br>
-                                        <small>Nhà phân phối</small>
-                                    </h4>
-                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-6">
+                                        <div class="links">
+                                            <ul class="stacked-links">
+                                                <li>
+                                                    <h4>13.000<br>
+                                                        <small>Lượt xuất bản</small>
+                                                    </h4>
+                                                </li>
+                                                <li>
+                                                    <h4>256<br>
+                                                        <small>Nhà phân phối</small>
+                                                    </h4>
+                                                </li>
+                                                >>>>>>> c93e443529880e44c104f52a64a2be0603474d24
 
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="copyright">
-                    <div class="pull-left">
-                        ©
-                        <script>document.write(new Date().getFullYear())</script>
-                        KEE Agency
-                    </div>
-                    <div class="links pull-right">
-                        <ul>
-                            <li>
-                                <a href="#">
-                                    Điều khoản
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Thanh toán
-                                </a>
-                            </li>
-                            |
-                            <li>
-                                <a href="#">
-                                    Vận chuyển
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-6">
+                                        <div class="links">
+                                            <ul class="uppercase-links stacked-links">
+                                                <li>
+                                                    <a href="contact.html">
+                                                        Liên hệ
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        Nhà phân phối
+                                                    </a>
+                                                </li>
 
-    </div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-6">
+                                        <div class="links">
+                                            <ul class="uppercase-links stacked-links">
+                                                <li>
+                                                    <a href="#">
+                                                        Tuyển dụng
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-6">
+                                        <div class="links">
+                                            <ul class="stacked-links">
+                                                <li>
+                                                    <h4>13.000<br>
+                                                        <small>Lượt xuất bản</small>
+                                                    </h4>
+                                                </li>
+                                                <li>
+                                                    <h4>256<br>
+                                                        <small>Nhà phân phối</small>
+                                                    </h4>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="copyright">
+                                    <div class="pull-left">
+                                        ©
+                                        <script>document.write(new Date().getFullYear())</script>
+                                        KEE Agency
+                                    </div>
+                                    <div class="links pull-right">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    Điều khoản
+                                                </a>
+                                            </li>
+                                            |
+                                            <li>
+                                                <a href="#">
+                                                    Thanh toán
+                                                </a>
+                                            </li>
+                                            |
+                                            <li>
+                                                <a href="#">
+                                                    Vận chuyển
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
 </footer>
 </body>
 

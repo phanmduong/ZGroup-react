@@ -307,7 +307,7 @@ function send_marketing_mail($email, $view, $subject)
 
 function currency_vnd_format($number)
 {
-    return number_format($number) . " vnd";
+    return number_format($number) . "đ";
 }
 
 function send_mail_confirm_order($order, $emailcc)
