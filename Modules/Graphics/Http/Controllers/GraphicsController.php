@@ -20,7 +20,7 @@ class GraphicsController extends Controller
         $books = Good::where('type', 'book')->get();
         $book_arr = [];
         foreach ($books as $book) {
-            $properties = GoodProperty::where('good_id', $book->id);
+            $properties = GoodProperty::where('good_id', $book->id)->get();
             $bookdata = [
                 'id' => $book->id,
                 'cover' => $book->cover_url,
@@ -33,7 +33,6 @@ class GraphicsController extends Controller
             }
             $book_arr[]=$bookdata;
         }
-        dd($book_arr);
         return view('graphics::index', [
             'books' => $book_arr,
         ]);
