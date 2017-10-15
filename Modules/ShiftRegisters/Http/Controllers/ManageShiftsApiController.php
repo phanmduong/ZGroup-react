@@ -77,20 +77,19 @@ class ManageShiftsApiController extends ManageApiController
 
         $data = [
             "shift_picks" => $shift_picks->map(function ($shiftPick) {
+                $shift_session = $shiftPick->shift->shift_session()->withTrashed()->first();
+
                 $shiftPickDate = [
                     'shift_pick' => [
                         'id' => $shiftPick->shift->id,
                         'week' => $shiftPick->shift->week,
                         'status' => $shiftPick->status,
-                        'created_at' => format_full_time_date($shiftPick->created_at)
+                        'created_at' => format_full_time_date($shiftPick->created_at),
+                        'name' => $shift_session->name,
+                        'start_time' => $shift_session->start_time,
+                        'end_time' => $shift_session->end_time,
                     ]
                 ];
-
-                if ($shiftPick->shift->shift_session) {
-                    $shiftPickDate['shift_pick']['name'] = $shiftPick->shift->shift_session->name;
-                    $shiftPickDate['shift_pick']['start_time'] = $shiftPick->shift->shift_session->start_time;
-                    $shiftPickDate['shift_pick']['end_time'] = $shiftPick->shift->shift_session->end_time;
-                }
 
                 if ($shiftPick->user) {
                     $shiftPickDate['user'] = [
