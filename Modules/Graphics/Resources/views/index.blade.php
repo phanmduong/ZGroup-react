@@ -60,7 +60,7 @@
                                 <h5 style="font-weight:600">{{$book['name']}}</h5>
                                 <h6>{{$book['short_description']}}</h6><br>
                                 <p>{{$book['description']}}</p>
-                                <h5>{{$book['price']}}đ</h5><br>
+                                <h5>{{$book['price']}}</h5><br>
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                                     <h5 style="font-weight:600">{{$book['name']}}</h5>
                                     <h6>{{$book['short_description']}}</h6><br>
                                     <p>{{$book['description']}}</p>
-                                    <h5>{{$book['price']}}đ</h5><br>
+                                    <h5>{{$book['price']}}</h5><br>
                                 </div>
                             </div>
                         </div>
