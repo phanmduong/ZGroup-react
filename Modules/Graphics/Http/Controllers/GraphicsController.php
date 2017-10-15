@@ -25,7 +25,7 @@ class GraphicsController extends Controller
         return view('graphics::about_us');
     }
 
-    public function product($good_id)
+    public function book($good_id)
     {
         $good = Good::find($good_id);
         $properties = GoodProperty::where('good_id', $good_id)->get();
@@ -38,7 +38,7 @@ class GraphicsController extends Controller
         foreach ($properties as $property) {
             $data[$property->name] = $property->value;
         }
-        return view('graphics::index', [
+        return view('graphics::book', [
             'properties' => $data,
         ]);
     }

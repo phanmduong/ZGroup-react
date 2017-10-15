@@ -1,16 +1,12 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'graphics', 'namespace' => 'Modules\Graphics\Http\Controllers'], function()
-{
-    Route::get('/', 'GraphicsController@aaa');
-
-    Route::get('/contact-us','GraphicsController@contact_us');
-    Route::get('/product/{good_id}', 'GraphicsController@product');
-
-
+Route::group(['middleware' => 'web','domain' => config('app.domain_commerce'), 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
     Route::get('/', 'GraphicsController@index');
+    Route::get('/contact-us', 'GraphicsController@contact_us');
     Route::get('/about-us', 'GraphicsController@aboutUs');
     Route::post('/contact_information','GraphicsController@contact_info');
-    //Route::get('/product/{good_id}', 'GraphicsController@product');
+    Route::get('/book/{good_id}', 'GraphicsController@book');
 
 });
+
+
