@@ -3,6 +3,7 @@
 namespace Modules\Graphics\Http\Controllers;
 
 use App\Good;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -40,7 +41,7 @@ class GraphicsController extends Controller
         ]);
     }
 
-    public function aboutUs()
+    public function about_us()
     {
         return view('graphics::about_us');
     }
@@ -83,5 +84,19 @@ class GraphicsController extends Controller
             $m->to($request->email, $request->name)->subject($subject);
         });
         return "OK";
+    }
+    public function post($blog_id){
+        $blog=Product::find($blog_id);
+        $user_name=User::find($blog->author_id)->name;
+        return view('graphics::post',[
+            'blog' => $blog,
+            'user_name'=>$user_name
+        ]);
+    }
+    public function blog(){
+        $blogs=Product::Where('type',2)->orderBy('created_at','desc')->paginate(9);
+        return view('graphics::blogs',[
+            'blogs' => $blogs
+        ]);
     }
 }
