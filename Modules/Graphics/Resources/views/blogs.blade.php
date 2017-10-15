@@ -44,7 +44,7 @@
                                 {{$blog->description}}
                             </p>
                             <br>
-                            <a href="#pablo" style="color:#c50000!important"><b>Xem thêm</b></a>
+                            <a href="{{'/blog/post/'.$blog->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
                         </div>
                     </div>
                 </div>
