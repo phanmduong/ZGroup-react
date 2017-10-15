@@ -41,4 +41,7 @@ class GraphicsController extends Controller
             'properties' => $data,
         ]);
     }
+    public function contact_us(){
+        return view('graphics::contact_us');
+    }
 }
