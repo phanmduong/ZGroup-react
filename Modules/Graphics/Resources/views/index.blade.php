@@ -69,14 +69,6 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-8 text-left">
-                                <br>
-                                <h5 style="font-weight:600">{{$book['name']}}</h5>
-                                <h6>{{$book['short_description']}}</h6><br>
-                                <p>{{$book['description']}}</p>
-                                <h5>{{$book['price']}}</h5><br>
-
-                            </div>
                         </div>
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                             <div style="display:flex;flex-direction:row;justify-content:space-between;">
