@@ -51,9 +51,10 @@ class GraphicsController extends Controller
         $properties = GoodProperty::where('good_id', $good_id)->get();
 
         $data = [
-            "cover" => $good->cover_url,
-            "avatar" => $good->avatar_url,
-            "type" => $good->type,
+            'cover' => $good->cover_url,
+            'avatar' => $good->avatar_url,
+            'type' => $good->type,
+            'name' => $good->name
         ];
         foreach ($properties as $property) {
             $data[$property->name] = $property->value;
