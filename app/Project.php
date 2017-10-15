@@ -48,6 +48,7 @@ class Project extends Model
     {
         $boardIds = $this->boards()->pluck("id");
         $board_count = $boardIds->count();
+
         $data = [
             'id' => $this->id,
             'title' => $this->title,
@@ -57,6 +58,9 @@ class Project extends Model
             "canDragCard" => $this->can_drag_card,
             "canEditTask" => $this->can_edit_task,
             "color" => $this->color,
+            "boards" => $this->boards->map(function ($board) {
+                return $board->transform();
+            }),
             'board_count' => $board_count,
             'card_count' => Card::whereIn("board_id", $boardIds)->count(),
             'members' => $this->members->map(function ($member) {
@@ -84,6 +88,11 @@ class Project extends Model
                 "id" => $this->creator->id,
                 "name" => $this->creator->name
             ];
+        }
+
+        $startBoard = $this->boards()->where("is_start", 1)->first();
+        if ($startBoard) {
+            $data['start_board'] = $startBoard->transform();
         }
 
         return $data;

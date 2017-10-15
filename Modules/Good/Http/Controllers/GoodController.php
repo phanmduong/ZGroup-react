@@ -75,6 +75,9 @@ class GoodController extends ManageApiController
         $good->price = $price;
         $good->avatar_url = $avatarUrl;
         $good->cover_url = $coverUrl;
+        if ($request->type) {
+            $good->type = $request->type;
+        }
         $good->save();
 
 //        $properties = json_decode($request->properties);
@@ -140,6 +143,14 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus("Thuộc tính không tồn tại");
         }
         return $this->respondSuccessWithStatus(["good_property_item" => $goodPropertyItem->transform()]);
+    }
+
+    public function propertiesOfGood($good_id)
+    {
+        $goodProperties = GoodProperty::where('good_id', $good_id);
+        return $this->respondSuccessWithStatus([
+            'properties' => $goodProperties,
+        ]);
     }
 
     public function allPropertyItems(Request $request)

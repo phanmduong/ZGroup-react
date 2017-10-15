@@ -64,11 +64,13 @@ class MobileController extends ApiController
     {
         $courses = Course::orderBy('created_at', 'desc')->get();
         return response()->json([
-            'courses' => $courses,
+            'courses' => $courses->map(function ($course) {
+                return $course->detailedTransform();
+            })
         ]);
     }
 
-    public function classes( $gen_id, $baseId, $couseId)
+    public function classes($gen_id, $baseId, $couseId)
     {
         $base = Base::find($baseId);
         $course = Course::find($couseId);
@@ -93,7 +95,7 @@ class MobileController extends ApiController
         ]);
     }
 
-    public function lessons( $courseId)
+    public function lessons($courseId)
     {
         $course = Course::find($courseId);
         if (!$course) {
@@ -112,7 +114,7 @@ class MobileController extends ApiController
         ]);
     }
 
-    public function student_code( $code)
+    public function student_code($code)
     {
         $register = Register::where('code', $code)->first();
 
@@ -151,7 +153,7 @@ class MobileController extends ApiController
         ]);
     }
 
-    public function attendance( $attendance_id, Request $request)
+    public function attendance($attendance_id, Request $request)
     {
         $attendance = Attendance::find($attendance_id);
         if (!$attendance) {
@@ -188,7 +190,7 @@ class MobileController extends ApiController
         }
     }
 
-    public function dashboardv2( $gen_id, $base_id = null)
+    public function dashboardv2($gen_id, $base_id = null)
     {
         $data = [];
 //        $data['user'] = $this->user;
@@ -539,7 +541,7 @@ class MobileController extends ApiController
         return response()->json($data, 200);
     }
 
-    public function dashboard( $gen_id, $base_id = null)
+    public function dashboard($gen_id, $base_id = null)
     {
 //        $current_gen = Gen::getCurrentGen();
         if ($this->user->role == 0) {
