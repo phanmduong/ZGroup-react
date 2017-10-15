@@ -7,7 +7,7 @@
             <div class="filter"></div>
             <div class="content-center">
                 <div class="container">
-                    <h1 style="font-weight:600; text-transform: uppercase">{{$properties['product-type']}}
+                    <h1 style="font-weight:600; text-transform: uppercase">{{$properties['product_type']}}
                         <br>
                         {{$properties['name']}}
                         </br>
