@@ -37,7 +37,7 @@ class GraphicsController extends Controller
         foreach ($properties as $property) {
             $data[$property->name] = $property->value;
         }
-        return view('graphics::index', [
+        return view('graphics::book', [
             'properties' => $data,
         ]);
     }
