@@ -152,9 +152,9 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Email: {{$email}}   </td>
-                                                        <td>Tên: {{$name}}   </td>
-                                                        <td>Tin nhắn: {{$message_str}}   </td>
+                                                        Email: {{$email}}   <br/>
+                                                        Tên: {{$name}}   <br/>
+                                                        Tin nhắn: {{$message_str}} <br/>
                                                     </tr>
 
                                                     </tbody></table>
