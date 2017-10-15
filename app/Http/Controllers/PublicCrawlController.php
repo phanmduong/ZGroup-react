@@ -30,6 +30,7 @@ class PublicCrawlController extends CrawlController
                 $courses = Course::all();
                 return view('crawler.home', ['products' => $products, 'courses' => $courses]);
             } else {
+
                 return view('beta');
             }
         //}

@@ -305,7 +305,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 });
 
 
-Route::group(['middleware' => 'web'], function () {
+Route::group(['middleware' => 'web', 'domain' => 'colorme.vn'], function () {
 
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
         Route::get('/', 'PublicController@beta');
