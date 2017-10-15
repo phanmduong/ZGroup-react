@@ -4,7 +4,7 @@ Route::group(['middleware' => 'web','domain' => config('app.domain_commerce'), '
     Route::get('/', 'GraphicsController@index');
     Route::get('/contact-us', 'GraphicsController@contact_us');
     Route::get('/about-us', 'GraphicsController@aboutUs');
-    Route::get('book/{good_id}', 'GraphicsController@book');
+    Route::get('/book/{good_id}', 'GraphicsController@book');
 });
 
 
