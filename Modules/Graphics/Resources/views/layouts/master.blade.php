@@ -29,20 +29,20 @@
                 <span class="navbar-toggler-bar"></span>
                 <span class="navbar-toggler-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Graphics</a>
+            <a class="navbar-brand" href="/">Graphics</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html" data-scroll="true" href="javascript:void(0)">Mua sách</a>
+                        <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Mua sách</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="blog.html" data-scroll="true" href="javascript:void(0)">Blogs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about-us.html" data-scroll="true" href="javascript:void(0)">Về chúng tôi</a>
+                        <a class="nav-link" href="/about-us" data-scroll="true" href="javascript:void(0)">Về chúng tôi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
+                        <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../index.html" data-scroll="true" href="javascript:void(0)">
