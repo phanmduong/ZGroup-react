@@ -117,7 +117,7 @@ class DashboardComponent extends React.Component {
                                     <div className="card-content">
                                         <h6 className="category text-gray">{user.current_role.role_title}</h6>
                                         <h4 className="card-title">{user.name}</h4>
-                                        {(count_paid) ?
+                                        {(user.is_saler) ?
                                             (
                                                 <div>
                                                     <p className="description">
