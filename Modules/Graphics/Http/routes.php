@@ -7,7 +7,7 @@ Route::group(['middleware' => 'web','domain' => config('app.domain_commerce'), '
     Route::post('/contact_information','GraphicsController@contact_info');
     Route::get('/book/{good_id}', 'GraphicsController@book');
     Route::get('/blog','GraphicsController@blog');
-    Route::get('/post/{blog_id}','GraphicsController@post');
+    Route::get('/blog/post/{post_id}','GraphicsController@post');
 });
 
 

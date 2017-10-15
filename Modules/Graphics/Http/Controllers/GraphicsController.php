@@ -85,13 +85,33 @@ class GraphicsController extends Controller
         });
         return "OK";
     }
-    public function post($blog_id){
-        $blog=Product::find($blog_id);
-        $user_name=User::find($blog->author_id)->name;
-        return view('graphics::post',[
-            'blog' => $blog,
-            'user_name'=>$user_name
-        ]);
+    public function post($post_id){
+        $post = Product::find($post_id);
+        $post->author;
+        $post->category;
+        $post->url = config('app.protocol') . $post->url;
+        if (trim($post->author->avatar_url) === '') {
+            $post->author->avatar_url = config('app.protocol') . 'd2xbg5ewmrmfml.cloudfront.net/web/no-avatar.png';
+        } else {
+            $post->author->avatar_url = config('app.protocol') . $post->author->avatar_url;
+        }
+        $posts_related = Product::where('id', '<>', $post_id)->inRandomOrder()->limit(3)->get();
+        $posts_related = $posts_related->map(function ($p) {
+            $p->url = config('app.protocol') . $p->url;
+            return $p;
+        });
+        $post->comments = $post->comments->map(function ($comment){
+            $comment->commenter->avatar_url = config('app.protocol') .$comment->commenter->avatar_url;
+
+            return $comment;
+        });
+//        dd($post);
+        return view('graphics::post',
+            [
+                'post' => $post,
+                'posts_related' => $posts_related
+            ]
+        );
     }
     public function blog(){
         $blogs=Product::Where('type',2)->orderBy('created_at','desc')->paginate(9);
