@@ -6,5 +6,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'graphics', 'namespace' => 'Mod
     Route::get('/about-us', function () {
         return view('graphics::about_us');
     });
+    Route::get('/contact-us','GraphicsController@contact_us');
     Route::get('/product/{good_id}', 'GraphicsController@product');
 });
