@@ -37,7 +37,7 @@
                         <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Mua sách</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="blog.html" data-scroll="true" href="javascript:void(0)">Blogs</a>
+                        <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/about-us" data-scroll="true" href="javascript:void(0)">Về chúng tôi</a>
@@ -82,22 +82,22 @@
                             <div class="links">
                                 <ul class="uppercase-links stacked-links">
                                     <li>
-                                        <a href="index.html">
+                                        <a href="/">
                                             Trang chủ
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="about-us.html">
+                                        <a href="/about-us">
                                             Về chúng tôi
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="index.html">
+                                        <a href="/index">
                                             Mua sách
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="blog.html">
+                                        <a href="/blog">
                                             Blogs
                                         </a>
                                     </li>
@@ -109,7 +109,7 @@
                             <div class="links">
                                 <ul class="uppercase-links stacked-links">
                                     <li>
-                                        <a href="contact.html">
+                                        <a href="/contact-us">
                                             Liên hệ
                                         </a>
                                     </li>
@@ -187,4 +187,5 @@
 <script src="/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>
+<script src="/js/graphics.js"></script>
 </html>
