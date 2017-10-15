@@ -36,47 +36,54 @@
                                     </div>
                                 </div>
                                 <div class="col-md-5">
-                                    <form role="form" id="contact-form" method="post" action="/question">
+                                    <div role="form" id="contact-form" method="post" action="#">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <div class="card-block">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Họ</label>
-                                                        <input type="text" name="name" class="form-control" placeholder="Ví dụ: Nguyễn">
+                                                        <input id="e-name1" type="text" name="name" class="form-control" placeholder="Ví dụ: Nguyễn">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Tên</label>
-                                                        <input type="text" name="name" class="form-control" placeholder="Ví dụ: Lan Anh">
+                                                        <input id="e-name2" type="text" name="name" class="form-control" placeholder="Ví dụ: Lan Anh">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Email</label>
-                                                <input type="email" name="email" class="form-control" placeholder="Ví dụ: android@colorme.vn">
+                                                <input id ="e-email" type="email" name="email" class="form-control" placeholder="Ví dụ: android@colorme.vn">
                                             </div>
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Lời nhắn</label>
-                                                <textarea name="question" class="form-control" id="message" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
+                                                <textarea id="e-message" name="question" class="form-control" id="message" rows="6" placeholder="Nhập lời nhắn của bạn vào đây"></textarea>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div id="alert"> </div>
+                                                </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <div class="checkbox">
-                                                        <input id="checkbox1" type="checkbox">
-                                                        <label for="checkbox1">
-                                                            Tôi không phải là robot!
-                                                        </label>
-                                                    </div>
+                                                    {{--<div class="checkbox">--}}
+                                                        {{--<input id="checkbox1" type="checkbox">--}}
+                                                        {{--<label for="checkbox1">--}}
+                                                            {{--Tôi không phải là robot!--}}
+                                                        {{--</label>--}}
+                                                    {{--</div>--}}
+
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary pull-right">Gửi tin nhắn
+                                                    <button type="submit" class="btn btn-primary pull-right" id="submit-1">Gửi tin nhắn
                                                     </button></div>
+
                                             </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -85,5 +92,44 @@
             </div>
         </div>
     </div>
+<script>
+    $(document).ready(function () {
+        $("#submit-1").click(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.log("submit-1");
 
+            var name1 = $('#e-name1').val();
+            var email = $('#e-email').val();
+            var name2 = $('#e-name2').val();
+            var message1= $('#e-message').val();
+
+            if (!name1 || !email || !name2 ) {
+                alert("Bạn vui lòng nhập đủ thông tin");
+                $("#alert").html("<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>");
+            } else {
+                var message = "Chúng tôi đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
+                alert(message);
+
+
+                $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
+                var url = "{{config('app.protocol').config('app.domain')}}/graphics/contact_information?email=" + email;
+                $('#e-name1').val("");
+                $('#e-email').val("");
+                $('#e-name2').val("");
+                $.post(url,
+                    {
+                        name: name1+" "+ name2,
+                        email: email,
+                        message_str: message1,
+                        _token: "{{csrf_token()}}"
+                    },function (data, status) {
+                    console.log("Data: " + data + "\nStatus: " + status);
+                });
+            }
+
+
+        });
+    });
+</script>
 @endsection

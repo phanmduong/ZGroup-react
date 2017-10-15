@@ -10,6 +10,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'graphics', 'namespace' => 'Mod
 
     Route::get('/', 'GraphicsController@index');
     Route::get('/about-us', 'GraphicsController@aboutUs');
+    Route::post('/contact_information','GraphicsController@contact_info');
     //Route::get('/product/{good_id}', 'GraphicsController@product');
 
 });
