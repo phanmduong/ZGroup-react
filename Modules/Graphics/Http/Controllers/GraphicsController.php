@@ -14,10 +14,16 @@ class GraphicsController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function aaa()
+    public function index()
     {
-        return view('graphics::aaa');
+        return view('graphics::index');
     }
+
+    public function aboutUs()
+    {
+        return view('graphics::about_us');
+    }
+
     public function product($good_id)
     {
         $good = Good::find($good_id);
