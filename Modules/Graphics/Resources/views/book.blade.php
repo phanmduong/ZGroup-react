@@ -240,11 +240,11 @@
                     <div>
                         <div class="description">
                             <h1 class="big-title">
-                                Tạp chí đồ hoạ <br> GRAPHHICS<br>
+                                {{$properties['title4']}}
                             </h1>
-                            <br><h5>ISSUE #02 - DRAW THE LINE</h5><br>
+                            <br><h5>{{$properties['subtitle4']}}</h5><br>
 
-                            <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống. Với cuốn sách Tiếng Anh Cơ Bản, Elight mong muốn người học sẽ có một chỗ dựa vững chắc và một nền tảng kiến thức đủ tốt để biến ngôn ngữ Tiếng Anh trở thành công cụ mạnh nhất giúp bạn tiến nhanh tới mọi mục tiêu mà bạn mong muốn !</p>
+                            <p>{{$properties['content4']}}</p>
                             <br>
                             <button type="button" class="btn btn-outline-default btn-round">
                                 <i class="fa fa-shopping-cart"></i>
@@ -258,12 +258,12 @@
 
                 <div class="col-md-6">
                     <div class="card card-profile card-plain">
-                        <img class="card-img-top" src="{{$properties['avatar']}}">
+                        <img class="card-img-top" src="{{$properties['img_url4']}}">
                     </div>
 
                 </div>
             </div>
         </div>
-        <hr>
+        <hr style="margin: 0!important;">
     </div>
 @endsection
