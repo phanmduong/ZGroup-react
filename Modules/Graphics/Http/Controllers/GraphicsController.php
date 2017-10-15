@@ -16,7 +16,25 @@ class GraphicsController extends Controller
      */
     public function index()
     {
-        return view('graphics::index');
+        $books = Good::where('type', 'book');
+        $book_arr = [];
+        foreach ($books as $book) {
+            $properties = GoodProperty::where('good_id', $book->id);
+            $bookdata = [
+                'id' => $book->id,
+                'cover' => $book->cover_url,
+                'avatar' => $book->avatar_url,
+                'type' => $book->type,
+                'name' => $book->name
+            ];
+            foreach ($properties as $property) {
+                $bookdata[$property->name] = $property->value;
+            }
+            $book_arr[]=$bookdata;
+        }
+        return view('graphics::index', [
+            'books' => $book_arr,
+        ]);
     }
 
     public function aboutUs()

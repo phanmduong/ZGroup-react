@@ -45,134 +45,36 @@
         </div>
 
         <div class="row">
+            @foreach($books as $book)
             <div class="col-md-6 book-item">
                 <div class="card card-profile" style="border-radius:0">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="card card-profile card-plain">
-                                    <img class="card-book-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035612VsAtwZU2JjcAcPV.jpg">
+                                    <img class="card-book-image" src="{{$book['avatar']}}">
                                 </div>
                             </div>
                             <div class="col-md-8 text-left">
                                 <br>
-                                <h5 style="font-weight:600">GRAPHICS ISSUE #1</h5>
-                                <h6>Connect the dots</h6><br>
-                                <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống.</p>
-                                <h5><b style="text-decoration: line-through;">150.000đ</b> <i class="fa fa-angle-right"></i> 150.000đ</h5><br>
+                                <h5 style="font-weight:600">{{$book['name']}}</h5>
+                                <h6>{{$book['short_description']}}</h6><br>
+                                <p>{{$book['description']}}</p>
+                                <h5>{{$book['price']}}đ</h5><br>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                         <div style="display:flex;flex-direction:row;justify-content:space-between;">
                             <div>
-                                <a href="#pablo" class="btn btn-sm btn-danger">-20%</a>
-                            </div>
-                            <div>
-                                <a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>
+                                <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">Xem thêm</a>
                                 <button data-toggle="modal" data-target="#modalBuy" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></button>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 book-item">
-                <div class="card card-profile" style="border-radius:0">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card card-profile card-plain">
-                                    <img class="card-book-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/150803561227NTDh8jKOY8HHO.jpg">
-                                </div>
-                            </div>
-                            <div class="col-md-8 text-left">
-                                <br>
-                                <h5 style="font-weight:600">GRAPHICS ISSUE #1</h5>
-                                <h6>Connect the dots</h6><br>
-                                <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống.</p>
-                                <h5><b style="text-decoration: line-through;">150.000đ</b> <i class="fa fa-angle-right"></i> 150.000đ</h5><br>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                        <div style="display:flex;flex-direction:row;justify-content:space-between;">
-                            <div>
-                                <a href="#pablo" class="btn btn-sm btn-danger">-20%</a>
-                            </div>
-                            <div>
-                                <a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>
-                                <a href="#pablo" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 book-item">
-                <div class="card card-profile" style="border-radius:0">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card card-profile card-plain">
-                                    <img class="card-book-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035535JwwD3G0CaSSwqa4.jpg">
-                                </div>
-                            </div>
-                            <div class="col-md-8 text-left">
-                                <br>
-                                <h5 style="font-weight:600">GRAPHICS ISSUE #1</h5>
-                                <h6>Connect the dots</h6><br>
-                                <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống.</p>
-                                <h5><b style="text-decoration: line-through;">150.000đ</b> <i class="fa fa-angle-right"></i> 150.000đ</h5><br>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                        <div style="display:flex;flex-direction:row;justify-content:space-between;">
-                            <div>
-                                <a href="#pablo" class="btn btn-sm btn-info">Nổi bật</a>
-                            </div>
-                            <div>
-                                <a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>
-                                <a href="#pablo" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 book-item">
-                <div class="card card-profile" style="border-radius:0">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card card-profile card-plain">
-                                    <img class="card-book-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035614nn5uuUbJUeAvoVf.png">
-                                </div>
-                            </div>
-                            <div class="col-md-8 text-left">
-                                <br>
-                                <h5 style="font-weight:600">GRAPHICS ISSUE #1</h5>
-                                <h6>Connect the dots</h6><br>
-                                <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống.</p>
-                                <h5><b style="text-decoration: line-through;">150.000đ</b> <i class="fa fa-angle-right"></i> 150.000đ</h5><br>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                        <div style="display:flex;flex-direction:row;justify-content:space-between;">
-                            <div>
-                                <a href="#pablo" class="btn btn-sm btn-info">Nổi bật</a>
-                            </div>
-                            <div>
-                                <a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>
-                                <a href="#pablo" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 
@@ -233,134 +135,36 @@
 
         </div>
         <div class="row">
-            <div class="col-md-6 book-item">
-                <div class="card card-profile" style="border-radius:0">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card card-profile card-plain">
-                                    <img class="card-book-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035612VsAtwZU2JjcAcPV.jpg">
+            @foreach($books as $book)
+                <div class="col-md-6 book-item">
+                    <div class="card card-profile" style="border-radius:0">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card card-profile card-plain">
+                                        <img class="card-book-image" src="{{$book['avatar']}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-8 text-left">
+                                    <br>
+                                    <h5 style="font-weight:600">{{$book['name']}}</h5>
+                                    <h6>{{$book['short_description']}}</h6><br>
+                                    <p>{{$book['description']}}</p>
+                                    <h5>{{$book['price']}}đ</h5><br>
                                 </div>
                             </div>
-                            <div class="col-md-8 text-left">
-                                <br>
-                                <h5 style="font-weight:600">GRAPHICS ISSUE #1</h5>
-                                <h6>Connect the dots</h6><br>
-                                <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống.</p>
-                                <h5><b style="text-decoration: line-through;">150.000đ</b> <i class="fa fa-angle-right"></i> 150.000đ</h5><br>
-                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                        <div style="display:flex;flex-direction:row;justify-content:space-between;">
-                            <div>
-                                <a href="#pablo" class="btn btn-sm btn-danger">-20%</a>
-                            </div>
-                            <div>
-                                <a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>
-                                <a href="#pablo" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 book-item">
-                <div class="card card-profile" style="border-radius:0">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card card-profile card-plain">
-                                    <img class="card-book-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/150803561227NTDh8jKOY8HHO.jpg">
+                        <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
+                            <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                                <div>
+                                    <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">Xem thêm</a>
+                                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></button>
                                 </div>
                             </div>
-                            <div class="col-md-8 text-left">
-                                <br>
-                                <h5 style="font-weight:600">GRAPHICS ISSUE #1</h5>
-                                <h6>Connect the dots</h6><br>
-                                <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống.</p>
-                                <h5><b style="text-decoration: line-through;">150.000đ</b> <i class="fa fa-angle-right"></i> 150.000đ</h5><br>
-                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                        <div style="display:flex;flex-direction:row;justify-content:space-between;">
-                            <div>
-                                <a href="#pablo" class="btn btn-sm btn-danger">-20%</a>
-                            </div>
-                            <div>
-                                <a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>
-                                <a href="#pablo" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 book-item">
-                <div class="card card-profile" style="border-radius:0">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card card-profile card-plain">
-                                    <img class="card-book-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035535JwwD3G0CaSSwqa4.jpg">
-                                </div>
-                            </div>
-                            <div class="col-md-8 text-left">
-                                <br>
-                                <h5 style="font-weight:600">GRAPHICS ISSUE #1</h5>
-                                <h6>Connect the dots</h6><br>
-                                <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống.</p>
-                                <h5><b style="text-decoration: line-through;">150.000đ</b> <i class="fa fa-angle-right"></i> 150.000đ</h5><br>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                        <div style="display:flex;flex-direction:row;justify-content:space-between;">
-                            <div>
-                                <a href="#pablo" class="btn btn-sm btn-info">Nổi bật</a>
-                            </div>
-                            <div>
-                                <a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>
-                                <a href="#pablo" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 book-item">
-                <div class="card card-profile" style="border-radius:0">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card card-profile card-plain">
-                                    <img class="card-book-image" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035614nn5uuUbJUeAvoVf.png">
-                                </div>
-                            </div>
-                            <div class="col-md-8 text-left">
-                                <br>
-                                <h5 style="font-weight:600">GRAPHICS ISSUE #1</h5>
-                                <h6>Connect the dots</h6><br>
-                                <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống.</p>
-                                <h5><b style="text-decoration: line-through;">150.000đ</b> <i class="fa fa-angle-right"></i> 150.000đ</h5><br>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                        <div style="display:flex;flex-direction:row;justify-content:space-between;">
-                            <div>
-                                <a href="#pablo" class="btn btn-sm btn-info">Nổi bật</a>
-                            </div>
-                            <div>
-                                <a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>
-                                <a href="#pablo" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 
