@@ -7,7 +7,7 @@
             <div class="filter"></div>
             <div class="content-center">
                 <div class="container">
-                    <h1 style="font-weight:600; text-transform: uppercase">{{$properties['type']}}
+                    <h1 style="font-weight:600; text-transform: uppercase">{{$properties['product-type']}}
                         <br>
                         {{$properties['name']}}
                         </br>
@@ -264,7 +264,6 @@
                 </div>
             </div>
         </div>
-
+        <hr>
     </div>
-    <hr>
 @endsection
