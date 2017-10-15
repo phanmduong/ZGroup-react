@@ -17,7 +17,7 @@ class GraphicsController extends Controller
      */
     public function index()
     {
-        $books = Good::where('type', 'book');
+        $books = Good::where('type', 'book')->get();
         $book_arr = [];
         foreach ($books as $book) {
             $properties = GoodProperty::where('good_id', $book->id);
