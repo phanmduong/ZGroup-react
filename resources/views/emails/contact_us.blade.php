@@ -146,7 +146,16 @@
                                                             Xác nhận thông tin
                                                         </td>
                                                     </tr>
-
+                                                    <tr>
+                                                        <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
+                                                            Thông tin của bạn
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Email: {{$email}}   </td>
+                                                        <td>Tên: {{$name}}   </td>
+                                                        <td>Tin nhắn: {{$message_str}}   </td>
+                                                    </tr>
 
                                                     </tbody></table>
                                             </td></tr></tbody></table>
@@ -154,16 +163,7 @@
                                     <!-- BLOCK - block 2 columns / phone -->
                                     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center"><tbody><tr><td style="padding-top: 40px; padding-bottom: 30px; padding-right: 30px; padding-left: 30px;">
                                         <tbody>
-                                        <tr>
-                                            <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                Thông tin của bạn
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Email: {{$email}}   </td>
-                                            <td>Tên: {{$name}}   </td>
-                                            <td>Tin nhắn: {{$message_str}}   </td>
-                                        </tr>
+
                                         </tbody>
                                     </table>
                                     <!-- end BLOCK - block 2 columns / phone -->
