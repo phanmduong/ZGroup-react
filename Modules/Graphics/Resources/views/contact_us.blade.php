@@ -113,7 +113,7 @@
 
 
                 $("#alert").html("<div class='alert alert-success'>" + message + "</div>");
-                var url = "{{config('app.protocol').config('app.domain')}}/graphics/contact_information?email=" + email;
+                var url = "{{config('app.protocol').config('app.domain')}}/contact_information?email=" + email;
                 $('#e-name1').val("");
                 $('#e-email').val("");
                 $('#e-name2').val("");
