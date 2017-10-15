@@ -65,7 +65,7 @@
                                     <h5 style="font-weight:600">{{$book['name']}}</h5>
                                     <h6>{{$book['short_description']}}</h6><br>
                                     <p>{{$book['description']}}</p>
-                                    <h5>{{$book['price']}}</h5><br>
+                                    <h5>{{currency_vnd_format($book['price'])}}</h5><br>
                                 </div>
 
                             </div>
@@ -76,7 +76,7 @@
                                     <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">
                                         Xem thêm
                                     </a>
-                                    <button onclick="openModalBuy({{$book["id"]}})" class="btn btn-sm btn-success">
+                                    <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})" class="btn btn-sm btn-success">
                                         Đặt mua ngay <i class="fa fa-angle-right"></i>
                                     </button>
                                 </div>
@@ -168,7 +168,7 @@
                                     <h5 style="font-weight:600">{{$book['name']}}</h5>
                                     <h6>{{$book['short_description']}}</h6><br>
                                     <p>{{$book['description']}}</p>
-                                    <h5>{{$book['price']}}</h5><br>
+                                    <h5>{{currency_vnd_format($book['price'])}}</h5><br>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +178,7 @@
                                     <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">Xem
                                         thêm</a>
                                     {{--<button data-toggle="modal" data-target="#modalBuy" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></button>--}}
-                                    <button onclick="openModalBuy({{$book["id"]}})" class="btn btn-sm btn-success">Đặt
+                                    <button onclick="openModalBuy({{$book["id"]}},{{$book['price']}})" class="btn btn-sm btn-success">Đặt
                                         mua ngay <i
                                                 class="fa fa-angle-right"></i></button>
                                 </div>

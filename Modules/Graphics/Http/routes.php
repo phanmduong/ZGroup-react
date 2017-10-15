@@ -9,6 +9,7 @@ Route::group(['middleware' => 'web', 'domain' => config("app.domain_commerce"), 
     Route::get('/add-book/{goodId}', 'GraphicsController@addGoodToCart');
     Route::get('/remove-book/{goodId}', 'GraphicsController@removeBookFromCart');
     Route::get('/load-books-from-session', 'GraphicsController@getGoodsFromSession');
+    Route::get('/count-books-from-session', 'GraphicsController@countGoodsFromSession');
     Route::get('/about-us', 'GraphicsController@about_us');
     Route::post('/contact_information', 'GraphicsController@contact_info');
     Route::get('/book/{good_id}', 'GraphicsController@book');

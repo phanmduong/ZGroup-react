@@ -43,7 +43,7 @@
                     <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Mua sách</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="blog.html" data-scroll="true" href="javascript:void(0)">Blogs</a>
+                    <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about-us" data-scroll="true" href="javascript:void(0)">Về chúng tôi</a>
@@ -52,11 +52,13 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../index.html" data-scroll="true" href="javascript:void(0)">
+                    <a class="nav-link" onclick="openModalBuyWithoutAdd()" data-scroll="true" href="javascript:void(0)">
                         <i class="fa fa-shopping-cart"></i>
                         Giỏ hàng
-                        <p style="background:#c50000!important; padding:5px 10px!important; border-radius:100px; color:white!important; margin-left:5px;">
-                            2</p>
+                        <p id="cart-num-items"
+                           style="display:none;background:#c50000!important; padding:5px 10px!important; border-radius:100px; color:white!important; margin-left:5px;">
+                            0
+                        </p>
                     </a>
                 </li>
             </ul>

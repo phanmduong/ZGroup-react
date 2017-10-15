@@ -29,7 +29,7 @@ class GraphicsController extends Controller
                 'type' => $book->type,
                 'name' => $book->name,
                 'description' => $book->description,
-                'price' => currency_vnd_format($book->price)
+                'price' => $book->price
             ];
             foreach ($properties as $property) {
                 $bookdata[$property->name] = $property->value;
@@ -74,6 +74,20 @@ class GraphicsController extends Controller
         $goods_str = json_encode($goods);
         $request->session()->put('goods', $goods_str);
         return ["status" => 1];
+    }
+
+    public function countGoodsFromSession(Request $request)
+    {
+        $goods_str = $request->session()->get('goods');
+        $goods = json_decode($goods_str);
+
+        $count = 0;
+
+        foreach ($goods as $good) {
+            $count += $good->number;
+        }
+
+        return $count;
     }
 
     public function removeBookFromCart($goodId, Request $request)
@@ -170,7 +184,9 @@ class GraphicsController extends Controller
         });
         return "OK";
     }
-    public function post($post_id){
+
+    public function post($post_id)
+    {
         $post = Product::find($post_id);
         $post->author;
         $post->category;
@@ -185,8 +201,8 @@ class GraphicsController extends Controller
             $p->url = config('app.protocol') . $p->url;
             return $p;
         });
-        $post->comments = $post->comments->map(function ($comment){
-            $comment->commenter->avatar_url = config('app.protocol') .$comment->commenter->avatar_url;
+        $post->comments = $post->comments->map(function ($comment) {
+            $comment->commenter->avatar_url = config('app.protocol') . $comment->commenter->avatar_url;
 
             return $comment;
         });
@@ -198,9 +214,11 @@ class GraphicsController extends Controller
             ]
         );
     }
-    public function blog(){
-        $blogs=Product::Where('type',2)->orderBy('created_at','desc')->paginate(9);
-        return view('graphics::blogs',[
+
+    public function blog()
+    {
+        $blogs = Product::Where('type', 2)->orderBy('created_at', 'desc')->paginate(9);
+        return view('graphics::blogs', [
             'blogs' => $blogs
         ]);
     }
