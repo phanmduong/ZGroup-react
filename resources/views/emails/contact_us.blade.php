@@ -148,13 +148,12 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                            Thông tin của bạn
+                                                            <b>Thông tin của bạn</b>
+                                                            <br/>
+                                                            Email: {{$email}}   <br/>
+                                                            Tên: {{$name}}   <br/>
+                                                            Tin nhắn: {{$message_str}} <br/>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
-                                                        Email: {{$email}}   <br/>
-                                                        Tên: {{$name}}   <br/>
-                                                        Tin nhắn: {{$message_str}} <br/>
                                                     </tr>
 
                                                     </tbody></table>
