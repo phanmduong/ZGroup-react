@@ -41,7 +41,7 @@
     </div>
 
 
-    <div class="container" id="bookinfo">
+    <div class="container" id="bookinfo" style="background: white">
 
         <div class="row">
 
@@ -115,7 +115,7 @@
     </div>
 
 
-    <div class="container" id="bookinfo1">
+    <div class="container" id="bookinfo1" style="background: white">
         <br><br>
         <div class="row">
 
@@ -235,7 +235,7 @@
     </div>
 
 
-    <div class="container" id="bookinfo2">
+    <div class="container" id="bookinfo2" style="background: white">
         <br><br>
         <div class="row">
 
