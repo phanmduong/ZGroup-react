@@ -304,7 +304,6 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 
 });
 
-
 Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], function () {
 
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
