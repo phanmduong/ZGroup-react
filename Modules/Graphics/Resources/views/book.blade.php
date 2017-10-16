@@ -7,7 +7,7 @@
             <div class="filter"></div>
             <div class="content-center">
                 <div class="container">
-                    <h1 style="font-weight:600; text-transform: uppercase">{{$properties['type']}}
+                    <h1 style="font-weight:600; text-transform: uppercase">{{$properties['product_type']}}
                         <br>
                         {{$properties['name']}}
                         </br>
@@ -38,235 +38,231 @@
 
             </div>
         </div>
-    </div>
+        <div class="container" id="bookinfo" style="background: white">
 
+            <div class="row">
 
-    <div class="container" id="bookinfo">
+                <div class="col-md-6">
+                    <div>
+                        <div class="description">
+                            <h1 class="big-title">
+                                {{$properties['title1']}}<br>
+                            </h1>
+                            <br><h5>{{$properties['subtitle1']}}</h5><br>
 
-        <div class="row">
+                            <p>
+                                {{$properties['content1']}}
+                            </p>
 
-            <div class="col-md-6">
-                <div>
-                    <div class="description">
-                        <h1 class="big-title">
-                            {{$properties['title1']}}<br>
-                        </h1>
-                        <br><h5>{{$properties['subtitle1']}}</h5><br>
-
-                        <p>
-                            {{$properties['content1']}}
-                        </p>
-
+                            <br>
+                            <button type="button" class="btn btn-outline-default btn-round">
+                                <i class="fa fa-shopping-cart"></i>
+                                Đặt mua ngay
+                            </button>
+                        </div>
                         <br>
-                        <button type="button" class="btn btn-outline-default btn-round">
-                            <i class="fa fa-shopping-cart"></i>
-                            Đặt mua ngay
-                        </button>
                     </div>
-                    <br>
+
                 </div>
 
-            </div>
+                <div class="col-md-6">
+                    <div class="card card-profile card-plain">
+                        <img class="card-img-top" src="{{$properties['img_url1']}}">
+                    </div>
 
-            <div class="col-md-6">
-                <div class="card card-profile card-plain">
-                    <img class="card-img-top" src="{{$properties['img_url1']}}">
                 </div>
-
             </div>
         </div>
-    </div>
 
 
 
 
-    <div class="subscribe-line subscribe-line-transparent" style="background-image: url('{{$properties['cover1']}}')">
+        <div class="subscribe-line subscribe-line-transparent" style="background-image: url('{{$properties['cover1']}}')">
 
-        <div class="content-center">
+            <div class="content-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-profile card-plain">
+                                <img class="card-img-top" src="{{$properties['img_url2']}}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <div class="description-light">
+                                    <h1 class="big-title">
+                                        {{$properties['title2']}}
+                                    </h1>
+                                    <br><h5>{{$properties['subtitle2']}}</h5><br>
+
+                                    <p>{{$properties['content2']}}</p>
+                                    <br>
+                                    <button type="button" class="btn btn-outline-neutral btn-round">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        Đặt mua ngay
+                                    </button>
+                                </div>
+                                <br>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container" id="bookinfo1" style="background: white">
+            <br><br>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div>
+                        <div class="description">
+                            <h1 class="big-title" style="color:{{$properties['main_color']}}!important">
+                                {{$properties['counter1']}}
+                            </h1>
+
+                            <p>{{$properties['counter1_content']}}</p>
+                            <br>
+                            <h1 class="big-title" style="color:{{$properties['main_color']}}!important">
+                                {{$properties['counter2']}}
+                            </h1>
+
+                            <p>{{$properties['counter2_content']}}</p>
+                            <br>
+                            <h1 class="big-title" style="color:{{$properties['main_color']}}!important">
+                                {{$properties['counter3']}}
+                            </h1>
+
+                            <p>{{$properties['counter3_content']}}</p>
+                            <br>
+                            <button type="button" class="btn btn-outline-default btn-round">
+                                <i class="fa fa-shopping-cart"></i>
+                                Đặt mua ngay
+                            </button>
+                        </div>
+                        <br>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card card-profile card-plain">
+                        <img class="card-img-top" src="{{$properties['img_url3']}}">
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="subscribe-line subscribe-line-transparent" style="background-image: url('{{$properties['cover3']}}')">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card card-profile card-plain">
-                            <img class="card-img-top" src="{{$properties['img_url2']}}">
+                    <div class="col-md-8 offset-md-2 text-center">
+                        <h2 class="big-title description-light">Đội ngũ tác giả</h2><br><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-profile">
+                            <div class="card-block">
+                                <div class="card-avatar">
+                                    <a href="#avatar">
+                                        <img src="{{$properties['author1_avt_url']}}" alt="...">
+                                        <h4 class="card-title">{{$properties['author1']}}</h4>
+                                    </a>
+                                </div>
+                                <p class="card-description text-center">
+                                    {{$properties['author1_comment']}}
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                                <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i class="fa fa-dribbble"></i></a>
+                                <a href="#pablo" class="btn btn-just-icon btn-instagram"><i class="fa fa-instagram"></i></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div>
-                            <div class="description-light">
-                                <h1 class="big-title">
-                                    {{$properties['title2']}}
-                                </h1>
-                                <br><h5>{{$properties['subtitle2']}}</h5><br>
 
-                                <p>{{$properties['content2']}}</p>
-                                <br>
-                                <button type="button" class="btn btn-outline-neutral btn-round">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Đặt mua ngay
-                                </button>
+                    <div class="col-md-4">
+                        <div class="card card-profile">
+                            <div class="card-block">
+                                <div class="card-avatar">
+                                    <a href="#avatar">
+                                        <img src="{{$properties['author2_avt_url']}}" alt="...">
+                                        <h4 class="card-title">{{$properties['author2']}}</h4>
+                                    </a>
+                                </div>
+                                <p class="card-description text-center">
+                                    {{$properties['author2_comment']}}
+                                </p>
                             </div>
+                            <div class="card-footer text-center">
+                                <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>
+                                <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i class="fa fa-dribbble"></i></a>
+                                <a href="#pablo" class="btn btn-just-icon btn-pinterest"><i class="fa fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card card-profile">
+                            <div class="card-block">
+                                <div class="card-avatar">
+                                    <a href="#avatar">
+                                        <img src="{{$properties['author3_avt_url']}}" alt="...">
+                                        <h4 class="card-title">{{$properties['author3']}}</h4>
+                                    </a>
+                                </div>
+                                <p class="card-description text-center">
+                                    {{$properties['author3_comment']}}
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="#pablo" class="btn btn-just-icon btn-youtube"><i class="fa fa-youtube"></i></a>
+                                <a href="#pablo" class="btn btn-just-icon btn-twitter"><i class="fa fa-twitter"></i></a>
+                                <a href="#pablo" class="btn btn-just-icon btn-instagram"><i class="fa fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container" id="bookinfo2" style="background: white">
+            <br><br>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div>
+                        <div class="description">
+                            <h1 class="big-title">
+                                {{$properties['title4']}}
+                            </h1>
+                            <br><h5>{{$properties['subtitle4']}}</h5><br>
+
+                            <p>{{$properties['content4']}}</p>
                             <br>
+                            <button type="button" class="btn btn-outline-default btn-round">
+                                <i class="fa fa-shopping-cart"></i>
+                                Đặt mua ngay
+                            </button>
                         </div>
+                        <br>
+                    </div>
 
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card card-profile card-plain">
+                        <img class="card-img-top" src="{{$properties['img_url4']}}">
                     </div>
                 </div>
             </div>
         </div>
+        <hr style="margin: 0!important;">
     </div>
-
-
-    <div class="container" id="bookinfo1">
-        <br><br>
-        <div class="row">
-
-            <div class="col-md-6">
-                <div>
-                    <div class="description">
-                        <h1 class="big-title" style="color:{{$properties['main_color']}}!important">
-                            {{$properties['counter1']}}
-                        </h1>
-
-                        <p>{{$properties['counter1_content']}}</p>
-                        <br>
-                        <h1 class="big-title" style="color:{{$properties['main_color']}}!important">
-                            {{$properties['counter2']}}
-                        </h1>
-
-                        <p>{{$properties['counter2_content']}}</p>
-                        <br>
-                        <h1 class="big-title" style="color:{{$properties['main_color']}}!important">
-                            {{$properties['counter3']}}
-                        </h1>
-
-                        <p>{{$properties['counter3_content']}}</p>
-                        <br>
-                        <button type="button" class="btn btn-outline-default btn-round">
-                            <i class="fa fa-shopping-cart"></i>
-                            Đặt mua ngay
-                        </button>
-                    </div>
-                    <br>
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-                <div class="card card-profile card-plain">
-                    <img class="card-img-top" src="{{$properties['img_url3']}}">
-                </div>
-                <br><br>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="subscribe-line subscribe-line-transparent" style="background-image: url('{{$properties['cover3']}}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 offset-md-2 text-center">
-                    <h2 class="big-title description-light">Đội ngũ tác giả</h2><br><br>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card card-profile">
-                        <div class="card-block">
-                            <div class="card-avatar">
-                                <a href="#avatar">
-                                    <img src="{{$properties['author1_avt_url']}}" alt="...">
-                                    <h4 class="card-title">{{$properties['author1']}}</h4>
-                                </a>
-                            </div>
-                            <p class="card-description text-center">
-                                {{$properties['author1_comment']}}
-                            </p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i class="fa fa-dribbble"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-instagram"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card card-profile">
-                        <div class="card-block">
-                            <div class="card-avatar">
-                                <a href="#avatar">
-                                    <img src="{{$properties['author2_avt_url']}}" alt="...">
-                                    <h4 class="card-title">{{$properties['author2']}}</h4>
-                                </a>
-                            </div>
-                            <p class="card-description text-center">
-                                {{$properties['author2_comment']}}
-                            </p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i class="fa fa-dribbble"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-pinterest"><i class="fa fa-pinterest"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card card-profile">
-                        <div class="card-block">
-                            <div class="card-avatar">
-                                <a href="#avatar">
-                                    <img src="{{$properties['author3_avt_url']}}" alt="...">
-                                    <h4 class="card-title">{{$properties['author3']}}</h4>
-                                </a>
-                            </div>
-                            <p class="card-description text-center">
-                                {{$properties['author3_comment']}}
-                            </p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="#pablo" class="btn btn-just-icon btn-youtube"><i class="fa fa-youtube"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-twitter"><i class="fa fa-twitter"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-instagram"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container" id="bookinfo2">
-        <br><br>
-        <div class="row">
-
-            <div class="col-md-6">
-                <div>
-                    <div class="description">
-                        <h1 class="big-title">
-                            Tạp chí đồ hoạ <br> GRAPHHICS<br>
-                        </h1>
-                        <br><h5>ISSUE #02 - DRAW THE LINE</h5><br>
-
-                        <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống. Với cuốn sách Tiếng Anh Cơ Bản, Elight mong muốn người học sẽ có một chỗ dựa vững chắc và một nền tảng kiến thức đủ tốt để biến ngôn ngữ Tiếng Anh trở thành công cụ mạnh nhất giúp bạn tiến nhanh tới mọi mục tiêu mà bạn mong muốn !</p>
-                        <br>
-                        <button type="button" class="btn btn-outline-default btn-round">
-                            <i class="fa fa-shopping-cart"></i>
-                            Đặt mua ngay
-                        </button>
-                    </div>
-                    <br>
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-                <div class="card card-profile card-plain">
-                    <img class="card-img-top" src="{{$properties['avatar']}}">
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <hr>
 @endsection
