@@ -90,6 +90,7 @@
                 </div>
             @endforeach
         </div>
+        <br><br>
     </div>
 
 
@@ -204,6 +205,7 @@
                 </div>
             @endforeach
         </div>
+        <br><br>
     </div>
 
 
@@ -302,14 +304,26 @@
                 <div>
                     <div class="description">
                         <h1 class="big-title">
-                            Tạp chí đồ hoạ <br> GRAPHHICS<br>
+                            Tạp chí đồ hoạ <br> GRAPHICS<br>
                         </h1>
-                        <br><h5>ISSUE #02 - DRAW THE LINE</h5><br>
+                        <br><h5>CHO NHỮNG NGƯỜI YÊU THÍCH THIẾT KẾ</h5><br>
 
-                        <p>Bất cứ ai khi học Tiếng Anh đều xuất phát từ những nhu cầu quan trọng trong cuộc sống. Với
-                            cuốn sách Tiếng Anh Cơ Bản, Elight mong muốn người học sẽ có một chỗ dựa vững chắc và một
-                            nền tảng kiến thức đủ tốt để biến ngôn ngữ Tiếng Anh trở thành công cụ mạnh nhất giúp bạn
-                            tiến nhanh tới mọi mục tiêu mà bạn mong muốn !</p>
+                        <p>Đã rất lâu trước đó, chúng tôi từng hi vọng sẽ có một ai đó ở Việt Nam viết ra những
+                            cuốn sách,
+                            những cuốn tạp chí liên quan đến thiết kế đồ họa. Nó phải thật đẹp, có nhiều thông
+                            tin hữu ích, để
+                            chúng tôi có thêm cảm hứng, và có thứ để cầm, nắm.</p>
+                        <br>
+                        <p>Nhưng nhiều năm sau, chúng tôi vẫn không thấy họ xuất hiện. Vì vậy chúng tôi quyết
+                            định sẽ không
+                            chờ đợi nữa, mà sẽ bắt tay vào tự thực hiện chúng, thứ chúng tôi từng ao ước.</p>
+                        <br>
+                        <p>Hi vọng lớn nhất, từ chúng tôi, là bạn có được thật nhiều điều thú vị khi đọc cuốn
+                            tạp chí này.
+                            Mọi sự giúp đỡ, ủng hộ từ bạn, dù là nhỏ nhất, đều là động lực để chúng tôi cố gắng
+                            làm tốt hơn
+                            trong mỗi số của tạp chí.
+                        </p>
                         <br>
                         <button type="button" class="btn btn-outline-default btn-round">
                             <i class="fa fa-shopping-cart"></i>
