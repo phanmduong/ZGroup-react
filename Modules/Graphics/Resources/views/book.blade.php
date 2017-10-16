@@ -260,7 +260,6 @@
                     <div class="card card-profile card-plain">
                         <img class="card-img-top" src="{{$properties['img_url4']}}">
                     </div>
-
                 </div>
             </div>
         </div>
