@@ -24,16 +24,17 @@ class PublicCrawlController extends CrawlController
     public function home()
     {
 
-        if (config('app.domain') === "colorme.vn") {
+        //if (config('app.domain') === "colorme.vn") {
             if ($this->isCrawler()) {
                 $products = Product::orderBy('created_at', 'desc')->limit(20)->get();
                 $courses = Course::all();
                 return view('crawler.home', ['products' => $products, 'courses' => $courses]);
             } else {
+
                 return view('beta');
             }
-        }
-        return redirect("http://manage." . config('app.domain'));
+        //}
+        //return redirect("http://manage." . config('app.domain'));
     }
 
     public function graphics_dot()

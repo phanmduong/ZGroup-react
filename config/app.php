@@ -14,7 +14,8 @@ return [
     'fcm_key' => env('FCM_KEY', ''),
     'topcv_key' => env('TOP_CV_KEY', ''),
     'sms_key' => env('SMS_KEY', ''),
-
+    'domain_social' => env('DOMAIN_SOCIAL', 'no_social'),
+    'domain_commerce' => env('DOMAIN_COMMERCE', 'no_commerce'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

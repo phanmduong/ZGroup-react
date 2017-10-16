@@ -304,8 +304,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 
 });
 
-
-Route::group(['middleware' => 'web'], function () {
+Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], function () {
 
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
         Route::get('/', 'PublicController@beta');
@@ -735,4 +734,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('manage/store-marketing-campaign', 'ManageMarketingController@store_marketing_campaign');
     Route::get('manage/delete-marketing-campaign/{campaign_id}', 'ManageMarketingController@delete_marketing_campaign');
     Route::get('/manage/staff/add-staff', 'RoleController@add_staff');
+
+
+    //Route graphics
 });
+
