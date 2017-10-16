@@ -235,7 +235,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/">
+                                    <a href="/about-us">
                                         Về chúng tôi
                                     </a>
                                 </li>
@@ -257,7 +257,7 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="/contact">
+                                    <a href="/contact-us">
                                         Liên hệ
                                     </a>
                                 </li>
