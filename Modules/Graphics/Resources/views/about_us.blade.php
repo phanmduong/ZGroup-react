@@ -23,7 +23,7 @@
 
                     <h3 class="title-uppercase">Liên hệ với chúng tôi</h3>
                     <br>
-                    <p>Chúng tôi hiểu rằng, một khi bạn đã đọc đến dòng này, nghĩa là chúng ta đã có một cơ hội rất lớn để hợp tác cùng nhau. Vậy thì đừng ngần ngại cho chúng tôi thông tin của bạn <a href="#contact-us">tại đây</a>, để chúng tôi có thể liên hệ lại bạn sớm nhất có thể nhé.</p>
+                    <p>Chúng tôi hiểu rằng, một khi bạn đã đọc đến dòng này, nghĩa là chúng ta đã có một cơ hội rất lớn để hợp tác cùng nhau. Vậy thì đừng ngần ngại cho chúng tôi thông tin của bạn <a href="/contact-us">tại đây</a>, để chúng tôi có thể liên hệ lại bạn sớm nhất có thể nhé.</p>
                     <br><br>
                     <h2 class="text-center creators">Nhân sự nổi bật</h2>
                     <div class="row">

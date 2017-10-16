@@ -144,7 +144,7 @@ class GraphicsController extends Controller
     public function book($good_id)
     {
         $book = Good::find($good_id);
-        if($book == null)
+        if ($book == null)
             return view('graphics::404');
         $properties = GoodProperty::where('good_id', $good_id)->get();
 
