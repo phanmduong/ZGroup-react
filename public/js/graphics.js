@@ -3,6 +3,14 @@ $(document).ready(function () {
     $("#cart-num-items").css("display", "none");
 });
 
+function hidePurchaseButton() {
+    $('#btn-purchase').css("display", "none");
+}
+
+function showPurchaseButton() {
+    $('#btn-purchase').css("display", "block");
+}
+
 function countBooksFromSession() {
     var url = window.url + "/count-books-from-session";
     $.get(url, function (data) {
@@ -30,9 +38,11 @@ function openModalBuyWithoutAdd() {
     $("#modal-buy-body").html("<i class='fa fa-spin fa-spinner'></i>Đang tải...");
     $('#modalBuy').modal('show');
     var urlLoadBook = window.url + "/load-books-from-session";
+    hidePurchaseButton();
     $.get(urlLoadBook, function (data) {
         $("#modal-buy-body").html(data);
         countBooksFromSession();
+        showPurchaseButton();
     });
 }
 
@@ -42,10 +52,12 @@ function openModalBuy(goodId, price) {
     var url = window.url + "/add-book/" + goodId;
     var urlLoadBook = window.url + "/load-books-from-session";
     $("#cart-num-items").css("display", "inline");
+    hidePurchaseButton();
     $.get(url, function (data) {
         addNumBook();
         $.get(urlLoadBook, function (data) {
             $("#modal-buy-body").html(data);
+            showPurchaseButton();
         })
     })
 }
@@ -55,7 +67,6 @@ var removeTimeout = null;
 
 
 function addItem(goodId, price) {
-    console.log("#good-" + goodId + "-number");
     var el = $("#good-" + goodId + "-number");
     var number = Number(el.html());
     number = number + 1;
@@ -89,9 +100,7 @@ function addItem(goodId, price) {
 }
 
 function removeItem(goodId, price) {
-    console.log("#good-" + goodId + "-number");
     var el = $("#good-" + goodId + "-number");
-    console.log(el);
     var number = Number(el.html());
     if (number == 1) {
         $("#book-" + goodId).html("");

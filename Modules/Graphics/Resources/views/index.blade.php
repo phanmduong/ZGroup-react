@@ -76,7 +76,8 @@
                                     <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">
                                         Xem thêm
                                     </a>
-                                    <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})" class="btn btn-sm btn-success">
+                                    <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
+                                            class="btn btn-sm btn-success">
                                         Đặt mua ngay <i class="fa fa-angle-right"></i>
                                     </button>
                                 </div>
@@ -178,7 +179,8 @@
                                     <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">Xem
                                         thêm</a>
                                     {{--<button data-toggle="modal" data-target="#modalBuy" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></button>--}}
-                                    <button onclick="openModalBuy({{$book["id"]}},{{$book['price']}})" class="btn btn-sm btn-success">Đặt
+                                    <button onclick="openModalBuy({{$book["id"]}},{{$book['price']}})"
+                                            class="btn btn-sm btn-success">Đặt
                                         mua ngay <i
                                                 class="fa fa-angle-right"></i></button>
                                 </div>
@@ -362,7 +364,8 @@
                         <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
                         <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
                                 style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                        <button data-dismiss="modal" data-toggle="modal" data-target="#modalPurchase"
+                        <button id="btn-purchase"
+                                data-dismiss="modal" data-toggle="modal" data-target="#modalPurchase"
                                 class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
                                     class="fa fa-angle-right"></i></button>
                     </div>

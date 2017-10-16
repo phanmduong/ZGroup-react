@@ -60,7 +60,11 @@ class GraphicsController extends Controller
         $added = false;
         foreach ($goods as &$good) {
             if ($good->id == $goodId) {
-                $good->number = $number;
+                if ($number) {
+                    $good->number = $number;
+                } else {
+                    $good->number += 1;
+                }
                 $added = true;
             }
         }
