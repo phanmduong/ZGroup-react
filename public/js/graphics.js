@@ -1,6 +1,11 @@
 $(document).ready(function () {
     countBooksFromSession();
     $("#cart-num-items").css("display", "none");
+    $("#modalPurchase").on("hidden.bs.modal", function () {
+        $("body").css("overflow", "auto");
+        console.log("modal hide");
+    });
+
 });
 
 var loadingText = "<div style=\"text-align: center;width: 100%;;padding: 15px;\"><i class='fa fa-spin fa-spinner'></i>Đang tải...</div>";
@@ -144,8 +149,8 @@ function numberWithCommas(x) {
 
 function submitOrder() {
     $("#purchase-error").css("display", "none");
-    $("#btn-purchase-group").css("display","none");
-    $("#purchase-loading-text").css("display","block");
+    $("#btn-purchase-group").css("display", "none");
+    $("#purchase-loading-text").css("display", "block");
     var data = {
         name: $("#graphics-name").val(),
         phone: $("#graphics-phone").val(),
@@ -158,15 +163,15 @@ function submitOrder() {
     if (!data.name || !data.phone || !data.email || !data.address || !data.payment) {
         alert("Bạn vui lòng nhập đủ thông tin");
         $("#purchase-error").css("display", "block");
-        $("#purchase-loading-text").css("display","none");
-        $("#btn-purchase-group").css("display","block");
+        $("#purchase-loading-text").css("display", "none");
+        $("#btn-purchase-group").css("display", "block");
         return;
     }
 
     var url = window.url + "/save-order";
     $.post(url, data, function () {
-        $("#purchase-loading-text").css("display","none");
-        $("#btn-purchase-group").css("display","block");
+        $("#purchase-loading-text").css("display", "none");
+        $("#btn-purchase-group").css("display", "block");
         $("#modalPurchase").modal("hide");
         $("#modalSuccess").modal("show");
         $("#graphics-name").val("");
@@ -182,4 +187,5 @@ function openPurchaseModal() {
     $('#modalBuy').modal('hide');
     $('#modalPurchase').modal("show");
     $("body").css("overflow", "hidden");
+
 }
