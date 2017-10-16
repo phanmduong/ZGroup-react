@@ -3,6 +3,7 @@
 namespace Modules\Graphics\Http\Controllers;
 
 use App\Good;
+use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -165,7 +166,7 @@ class GraphicsController extends Controller
             'type' => $book->type,
             'name' => $book->name,
             'description' => $book->description,
-            'price' => currency_vnd_format($book->price)
+            'price' => $book->price
         ];
         foreach ($properties as $property) {
             $data[$property->name] = $property->value;
@@ -233,5 +234,56 @@ class GraphicsController extends Controller
         return view('graphics::blogs', [
             'blogs' => $blogs
         ]);
+    }
+
+    public function saveOrder(Request $request)
+    {
+        $email = $request->email;
+        $name = $request->name;
+        $phone = $request->phone;
+        $address = $request->address;
+        $payment = $request->payment;
+
+        $goods_str = $request->session()->get('goods');
+        $goods_arr = json_decode($goods_str);
+
+        if (count($goods_arr) > 0) {
+            $order = new Order();
+            $order->name = $name;
+            $order->email = $email;
+            $order->phone = $phone;
+            $order->address = $address;
+            $order->payment = $payment;
+            $order->save();
+
+            if ($goods_arr) {
+                $total_price = 0;
+                foreach ($goods_arr as $item) {
+                    $good = Good::find($item->id);
+                    $order->goods()->attach($item->id, [
+                        "quantity" => $item->number,
+                        "price" => $good->price * $item->number
+                    ]);
+                    $total_price += $good->price * $item->number;
+                }
+            }
+            $subject = "Xác nhận đặt hàng thành công";
+            $data = ["order" => $order, "total_price" => $total_price];
+            $emailcc = ["graphics@colorme.vn"];
+            Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
+                $m->from('no-reply@colorme.vn', 'Graphics');
+                $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
+            });
+            return [
+                "status" => 1
+            ];
+        } else {
+            return [
+                "status" => 0,
+                "message" => "Bạn chưa đặt cuốn sách nào"
+            ];
+        }
+
+
     }
 }

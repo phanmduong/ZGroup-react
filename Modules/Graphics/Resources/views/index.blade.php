@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                            <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                            <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                                 <div>
                                     <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">
                                         Xem thêm
@@ -174,15 +174,14 @@
                             </div>
                         </div>
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
-                            <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                            <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                                 <div>
-                                    <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">Xem
-                                        thêm</a>
+                                    <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">
+                                        Xem thêm</a>
                                     {{--<button data-toggle="modal" data-target="#modalBuy" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></button>--}}
                                     <button onclick="openModalBuy({{$book["id"]}},{{$book['price']}})"
-                                            class="btn btn-sm btn-success">Đặt
-                                        mua ngay <i
-                                                class="fa fa-angle-right"></i></button>
+                                            class="btn btn-sm btn-success">
+                                        Đặt mua ngay <i class="fa fa-angle-right"></i></button>
                                 </div>
                             </div>
                         </div>

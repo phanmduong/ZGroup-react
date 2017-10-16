@@ -13,7 +13,9 @@
                         </br>
                     </h1>
                     <h5>{{$properties['short_description']}}</h5><br>
-                    <button type="button" class="btn btn-outline-neutral btn-round">
+                    <button onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                            type="button"
+                            class="btn btn-outline-neutral btn-round">
                         <i class="fa fa-shopping-cart"></i>
                         Đặt mua ngay
                     </button>
@@ -55,7 +57,9 @@
                             </p>
 
                             <br>
-                            <button type="button" class="btn btn-outline-default btn-round">
+                            <button type="button"
+                                    onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                                    class="btn btn-outline-default btn-round">
                                 <i class="fa fa-shopping-cart"></i>
                                 Đặt mua ngay
                             </button>
@@ -97,7 +101,9 @@
 
                                     <p>{{$properties['content2']}}</p>
                                     <br>
-                                    <button type="button" class="btn btn-outline-neutral btn-round">
+                                    <button
+                                            onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                                            type="button" class="btn btn-outline-neutral btn-round">
                                         <i class="fa fa-shopping-cart"></i>
                                         Đặt mua ngay
                                     </button>
@@ -137,7 +143,9 @@
 
                             <p>{{$properties['counter3_content']}}</p>
                             <br>
-                            <button type="button" class="btn btn-outline-default btn-round">
+                            <button onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                                    type="button"
+                                    class="btn btn-outline-default btn-round">
                                 <i class="fa fa-shopping-cart"></i>
                                 Đặt mua ngay
                             </button>
@@ -246,7 +254,9 @@
 
                             <p>{{$properties['content4']}}</p>
                             <br>
-                            <button type="button" class="btn btn-outline-default btn-round">
+                            <button onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                                    type="button"
+                                    class="btn btn-outline-default btn-round">
                                 <i class="fa fa-shopping-cart"></i>
                                 Đặt mua ngay
                             </button>

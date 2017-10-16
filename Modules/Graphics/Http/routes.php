@@ -15,6 +15,7 @@ Route::group(['middleware' => 'web', 'domain' => config("app.domain_commerce"), 
     Route::get('/book/{good_id}', 'GraphicsController@book');
     Route::get('/blog', 'GraphicsController@blog');
     Route::get('/blog/post/{post_id}', 'GraphicsController@post');
+    Route::post('/save-order',"GraphicsController@saveOrder");
 });
 
 

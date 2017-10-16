@@ -24,6 +24,7 @@
     <link href="/assets/css/nucleo-icons.css" rel="stylesheet">
     <script>
         window.url = "{{url("/")}}";
+        window.token = "{{csrf_token()}}";
     </script>
 </head>
 <body class="profile" style="background:#fafafa">
@@ -68,7 +69,63 @@
 </nav>
 
 @yield('content')
-<div id="modalBuy" class="modal fade" role="dialog">
+<div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
+    <div class="modal-dialog modal-large">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Thanh toán</h2>
+            </div>
+            <div class="modal-body">
+                <form class="register-form ">
+                    <h6>Họ và tên</h6>
+                    <input id="graphics-name" type="text" class="form-control" placeholder="Họ và tên"><br>
+                    <h6>Số điện thoại</h6>
+                    <input id="graphics-phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <h6>Email</h6>
+                    <input id="graphics-email" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <h6>Địa chỉ nhận sách</h6>
+                    <input id="graphics-address" type="text" class="form-control"
+                           placeholder="Địa chỉ nhận sách"><br>
+                    <h6>Phương thức thanh toán</h6>
+                    <select id="graphics-payment" class="form-control" id="sel1">
+                        <option value="Chuyển khoản">Chuyển khoản</option>
+                        <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
+                            Thanh toán trực tiếp khi nhận hàng(COD)
+                        </option>
+                    </select>
+                </form>
+                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error" }>Bạn vui
+                    lòng nhập đầy đủ thông tin
+                </div>
+            </div>
+            <div class="modal-footer" style="display: block">
+                <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
+                            class='fa fa-spin fa-spinner'></i>Đang tải...
+                </div>
+                <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
+                <div id="purchase-success" style='display:none;text-align: center' class='alert alert-success'>
+                    Chúng tôi đã nhận được đơn hàng của bạn, bạn vui lòng kiểm tra email. Chúng tôi sẽ liên hệ lại với
+                    bạn trong thời gian sớm nhất
+                </div>
+                <div id="btn-purchase-group" style="text-align: right">
+                    <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
+                        tục mua <i class="fa fa-angle-right"></i></button>
+                    <button
+                            onclick="submitOrder()"
+                            class="btn btn-sm btn-success"
+                            style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modalBuy" class="modal fade">
     <div class="modal-dialog modal-large">
 
         <!-- Modal content-->
@@ -77,7 +134,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h2 class="medium-title">Giỏ hàng</h2>
             </div>
-            <div class="modal-body" id="modal-buy-body" }>
+            <div class="modal-body" id="modal-buy-body">
                 <br>
                 <div>
                     <div class="row" style="margin-bottom:20px;">
@@ -122,7 +179,7 @@
                 <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
                         style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
                 <button id="btn-purchase"
-                        data-dismiss="modal" data-toggle="modal" data-target="#modalPurchase"
+                        onclick="openPurchaseModal()"
                         class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
                             class="fa fa-angle-right"></i></button>
             </div>
@@ -130,43 +187,8 @@
 
     </div>
 </div>
-<div id="modalPurchase" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-large">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h2 class="medium-title">Thanh toán</h2>
-            </div>
-            <div class="modal-body">
-                <form class="register-form ">
-                    <h6>Họ và tên</h6>
-                    <input id="graphics-name" type="text" class="form-control" placeholder="Họ và tên"><br>
-                    <h6>Số điện thoại</h6>
-                    <input id="graphics-phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
-                    <h6>Địa chỉ nhận sách</h6>
-                    <input id="graphics-address" type="text" class="form-control"
-                           placeholder="Địa chỉ nhận sách"><br>
-                    <h6>Phương thức thanh toán</h6>
-                    <select id="graphics-payment" class="form-control" id="sel1">
-                        <option>Chuyển khoản</option>
-                        <option>Thanh toán trực tiếp khi nhận hàng(COD)</option>
-                    </select>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
-                <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
-                    tục mua <i class="fa fa-angle-right"></i></button>
-                <button data-toggle="modal" data-target="#modalPurchase" class="btn btn-sm btn-success"
-                        style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
-                </button>
-            </div>
-        </div>
 
-    </div>
-</div>
 <footer class="footer footer-light footer-big">
     <div class="container">
         <div class="row">
@@ -190,22 +212,22 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="index.html">
+                                    <a href="/">
                                         Trang chủ
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="about-us.html">
+                                    <a href="/">
                                         Về chúng tôi
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="index.html">
+                                    <a href="/">
                                         Mua sách
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="blog.html">
+                                    <a href="/blog">
                                         Blogs
                                     </a>
                                 </li>
@@ -217,7 +239,7 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="contact.html">
+                                    <a href="/contact">
                                         Liên hệ
                                     </a>
                                 </li>
