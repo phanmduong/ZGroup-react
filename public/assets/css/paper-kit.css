@@ -2507,7 +2507,7 @@ textarea.form-control {
   width: 25%;
   margin-top: -6%;
   margin-bottom: 6%;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  -webkit-filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.15) );
 }
 
 .modal-large{
@@ -8836,6 +8836,14 @@ a.pswp__share--download:hover {
   text-align: center;
 }
 
+.col-md-4 > .card-profile{
+  height: 90%!important;
+}
+
+.margin-bottom-30px{
+  margin-bottom: 30px;
+}
+
 .card-book-image {
   width:80%;
   margin-top:-40%;
@@ -10802,4 +10810,16 @@ body {
 }
 .documentation .filter:after {
   height: 750px !important;
+}
+
+.flex{
+  display: flex !important;
+}
+
+.flex-col{
+  flex-direction: column;
+}
+
+.flex-justify-content-space-between{
+  justify-content: space-between;
 }

@@ -68,7 +68,105 @@
 </nav>
 
 @yield('content')
+<div id="modalBuy" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-large">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Giỏ hàng</h2>
+            </div>
+            <div class="modal-body" id="modal-buy-body" }>
+                <br>
+                <div>
+                    <div class="row" style="margin-bottom:20px;">
+                        <div class="col-md-1 h-center">
+                            <img class="shadow-image"
+                                 src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035612VsAtwZU2JjcAcPV.jpg">
+                        </div>
+                        <div class="col-md-4">
+                            <p><b style="font-weight:600;">GRAPHICS ISSUE #1</b></p>
+                            <p>Connect the dots</p>
+                        </div>
+                        <div class="col-md-3 h-center">
+                            <button class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-minus"></i>
+                            </button>
+                            &nbsp
+                            <button class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-plus"></i>
+                            </button>
+                            &nbsp
+                            <b style="font-weight:600;"> 5 </b>
+                        </div>
+                        <div class="col-md-2 h-center">
+                            <p>200.000đ</p>
+                        </div>
+                        <div class="col-md-2 h-center">
+                            <p><b style="font-weight:600;">1.000.000đ</b></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 class="text-left"><b>Tổng</b></h4>
+                        </div>
+                        <div class="col-md-8">
+                            <h4 class="text-right"><b>2.000.000đ</b></h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
+                <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                        style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                <button id="btn-purchase"
+                        data-dismiss="modal" data-toggle="modal" data-target="#modalPurchase"
+                        class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                            class="fa fa-angle-right"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="modalPurchase" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-large">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Thanh toán</h2>
+            </div>
+            <div class="modal-body">
+                <form class="register-form ">
+                    <h6>Họ và tên</h6>
+                    <input id="graphics-name" type="text" class="form-control" placeholder="Họ và tên"><br>
+                    <h6>Số điện thoại</h6>
+                    <input id="graphics-phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <h6>Địa chỉ nhận sách</h6>
+                    <input id="graphics-address" type="text" class="form-control"
+                           placeholder="Địa chỉ nhận sách"><br>
+                    <h6>Phương thức thanh toán</h6>
+                    <select id="graphics-payment" class="form-control" id="sel1">
+                        <option>Chuyển khoản</option>
+                        <option>Thanh toán trực tiếp khi nhận hàng(COD)</option>
+                    </select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
+                <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
+                    tục mua <i class="fa fa-angle-right"></i></button>
+                <button data-toggle="modal" data-target="#modalPurchase" class="btn btn-sm btn-success"
+                        style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
 <footer class="footer footer-light footer-big">
     <div class="container">
         <div class="row">

@@ -10,12 +10,12 @@
                 <p>{{$book->short_description}}</p>
             </div>
             <div class="col-md-3 h-center">
-                <button onclick="removeItem({{$book->id}})"
+                <button onclick="removeItem({{$book->id}}, {{$book->price}})"
                         class="btn btn-success btn-just-icon btn-sm">
                     <i class="fa fa-minus"></i>
                 </button>
                 &nbsp
-                <button onclick="addItem({{$book->id}})"
+                <button onclick="addItem({{$book->id}},{{$book->price}})"
                         class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-plus"></i>
                 </button>
                 &nbsp
@@ -25,7 +25,12 @@
                 <p>{{currency_vnd_format($book->price)}}</p>
             </div>
             <div class="col-md-2 h-center">
-                <p><b style="font-weight:600;">{{currency_vnd_format($book->price * $book->number)}}</b></p>
+                <p>
+                    <b style="font-weight:600;" id="book-{{$book->id}}-price"
+                       data-price="{{$book->price * $book->number}}">
+                        {{currency_vnd_format($book->price * $book->number)}}
+                    </b>
+                </p>
             </div>
         </div>
     @endforeach
@@ -35,7 +40,7 @@
     <div class="col-md-4">
         <h4 class="text-left"><b>Tổng</b></h4>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8" id="total-price" data-price="{{$total_price}}" }>
         <h4 class="text-right"><b>{{currency_vnd_format($total_price)}}</b></h4>
     </div>
 </div>
