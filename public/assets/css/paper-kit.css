@@ -8836,6 +8836,14 @@ a.pswp__share--download:hover {
   text-align: center;
 }
 
+.col-md-4 > .card-profile{
+  height: 90%!important;
+}
+
+.margin-bottom-30px{
+  margin-bottom: 30px;
+}
+
 .card-book-image {
   width:80%;
   margin-top:-40%;
