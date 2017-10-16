@@ -10811,3 +10811,15 @@ body {
 .documentation .filter:after {
   height: 750px !important;
 }
+
+.flex{
+  display: flex !important;
+}
+
+.flex-col{
+  flex-direction: column;
+}
+
+.flex-justify-content-space-between{
+  justify-content: space-between;
+}
