@@ -144,7 +144,6 @@ function numberWithCommas(x) {
 
 function submitOrder() {
     $("#purchase-error").css("display", "none");
-    $("#purchase-success").css("display","none");
     $("#btn-purchase-group").css("display","none");
     $("#purchase-loading-text").css("display","block");
     var data = {
@@ -165,11 +164,16 @@ function submitOrder() {
     }
 
     var url = window.url + "/save-order";
-    $.post(url, data, function (data) {
-        console.log(data);
+    $.post(url, data, function () {
         $("#purchase-loading-text").css("display","none");
-        $("#purchase-success").css("display","block");
         $("#btn-purchase-group").css("display","block");
+        $("#modalPurchase").modal("hide");
+        $("#modalSuccess").modal("show");
+        $("#graphics-name").val("");
+        $("#graphics-phone").val("");
+        $("#graphics-email").val("");
+        $("#graphics-address").val("");
+        $("#graphics-payment").val("");
     });
 
 }

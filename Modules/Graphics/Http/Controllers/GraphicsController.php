@@ -270,10 +270,11 @@ class GraphicsController extends Controller
             $subject = "Xác nhận đặt hàng thành công";
             $data = ["order" => $order, "total_price" => $total_price];
             $emailcc = ["graphics@colorme.vn"];
-            Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
+            Mail::queue('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
                 $m->from('no-reply@colorme.vn', 'Graphics');
                 $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
             });
+            $request->session()->flush();
             return [
                 "status" => 1
             ];

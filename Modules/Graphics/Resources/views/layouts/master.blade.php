@@ -106,10 +106,7 @@
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
                 <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
-                <div id="purchase-success" style='display:none;text-align: center' class='alert alert-success'>
-                    Chúng tôi đã nhận được đơn hàng của bạn, bạn vui lòng kiểm tra email. Chúng tôi sẽ liên hệ lại với
-                    bạn trong thời gian sớm nhất
-                </div>
+
                 <div id="btn-purchase-group" style="text-align: right">
                     <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
                         tục mua <i class="fa fa-angle-right"></i></button>
@@ -187,6 +184,27 @@
 
     </div>
 </div>
+
+<div id="modalSuccess" class="modal fade">
+    <div class="modal-dialog modal-large">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="medium-title">Đặt hàng thành công</h2>
+            </div>
+            <div class="modal-body">
+                <div style='text-align: center'>
+                    Chúng tôi đã nhận được đơn hàng của bạn, bạn vui lòng kiểm tra email. Chúng tôi sẽ liên hệ lại với
+                    bạn trong thời gian sớm nhất
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 
 <footer class="footer footer-light footer-big">
