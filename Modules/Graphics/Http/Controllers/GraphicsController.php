@@ -49,6 +49,8 @@ class GraphicsController extends Controller
     public function addGoodToCart($goodId, Request $request)
     {
         $goods_str = $request->session()->get('goods');
+        $number = $request->number;
+
         if ($goods_str) {
             $goods = json_decode($goods_str);
         } else {
@@ -58,7 +60,7 @@ class GraphicsController extends Controller
         $added = false;
         foreach ($goods as &$good) {
             if ($good->id == $goodId) {
-                $good->number += 1;
+                $good->number = $number;
                 $added = true;
             }
         }
@@ -82,9 +84,10 @@ class GraphicsController extends Controller
         $goods = json_decode($goods_str);
 
         $count = 0;
-
-        foreach ($goods as $good) {
-            $count += $good->number;
+        if ($goods) {
+            foreach ($goods as $good) {
+                $count += $good->number;
+            }
         }
 
         return $count;
@@ -93,6 +96,7 @@ class GraphicsController extends Controller
     public function removeBookFromCart($goodId, Request $request)
     {
         $goods_str = $request->session()->get('goods');
+        $number = $request->number;
 
         $goods = json_decode($goods_str);
 
@@ -100,7 +104,7 @@ class GraphicsController extends Controller
 
         foreach ($goods as &$good) {
             if ($good->id == $goodId) {
-                $good->number -= 1;
+                $good->number = $number;
             }
             if ($good->number > 0) {
                 $temp = new \stdClass();
@@ -123,10 +127,12 @@ class GraphicsController extends Controller
 
         $goods = [];
 
-        foreach ($goods_arr as $item) {
-            $good = Good::find($item->id);
-            $good->number = $item->number;
-            $goods[] = $good;
+        if ($goods_arr) {
+            foreach ($goods_arr as $item) {
+                $good = Good::find($item->id);
+                $good->number = $item->number;
+                $goods[] = $good;
+            }
         }
 
         $totalPrice = 0;

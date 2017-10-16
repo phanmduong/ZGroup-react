@@ -50,19 +50,45 @@ function openModalBuy(goodId, price) {
     })
 }
 
-function addItem(goodId) {
+var addTimeout = null;
+var removeTimeout = null;
+
+
+function addItem(goodId, price) {
     console.log("#good-" + goodId + "-number");
     var el = $("#good-" + goodId + "-number");
     var number = Number(el.html());
-    el.html(number + 1);
-    var url = window.url + "/add-book/" + goodId;
-    $("#cart-num-items").css("display", "inline");
+    number = number + 1;
+    el.html(number);
+
+    var priceElement = $("#book-" + goodId + "-price");
+    var oldPrice = Number(priceElement.data("price"));
+    var newPrice = oldPrice + price;
+    priceElement.html(numberWithCommas(newPrice) + "đ");
+    priceElement.data("price", newPrice);
+
+    var totalPriceEl = $("#total-price");
+    var oldTotalPrice = totalPriceEl.data("price");
+    var newTotalPrice = oldTotalPrice + price;
+    $("#total-price b").html(numberWithCommas(newTotalPrice) + "đ");
+    totalPriceEl.data("price", newTotalPrice);
     addNumBook();
-    $.get(url, function (data) {
-    })
+
+    if (addTimeout != null) {
+        clearTimeout(addTimeout);
+    }
+
+    addTimeout = setTimeout(function () {
+        var url = window.url + "/add-book/" + goodId + "?number=" + number;
+        $("#cart-num-items").css("display", "inline");
+
+        $.get(url, function (data) {
+        })
+    }, 500);
+
 }
 
-function removeItem(goodId) {
+function removeItem(goodId, price) {
     console.log("#good-" + goodId + "-number");
     var el = $("#good-" + goodId + "-number");
     console.log(el);
@@ -72,9 +98,35 @@ function removeItem(goodId) {
     } else {
         el.html(number - 1);
     }
+    number = number - 1;
+
+    var priceElement = $("#book-" + goodId + "-price");
+    var oldPrice = Number(priceElement.data("price"));
+    var newPrice = oldPrice - price;
+    priceElement.html(numberWithCommas(newPrice) + "đ");
+    priceElement.data("price", newPrice);
+
+    var totalPriceEl = $("#total-price");
+    var oldTotalPrice = totalPriceEl.data("price");
+    var newTotalPrice = oldTotalPrice - price;
+    $("#total-price b").html(numberWithCommas(newTotalPrice) + "đ");
+    totalPriceEl.data("price", newTotalPrice);
+
     minusNumBook();
 
-    var url = window.url + "/remove-book/" + goodId;
-    $.get(url, function (data) {
-    })
+    if (removeTimeout != null) {
+        clearTimeout(removeTimeout);
+    }
+
+    removeTimeout = setTimeout(function () {
+        var url = window.url + "/remove-book/" + goodId + "?number=" + number;
+        $("#cart-num-items").css("display", "inline");
+
+        $.get(url, function (data) {
+        })
+    }, 500);
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
