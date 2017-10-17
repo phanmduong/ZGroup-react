@@ -66,7 +66,8 @@
                                         <h5 style="font-weight:600">{{$book['name']}}</h5>
                                         <h6>{{$book['short_description']}}</h6><br>
                                         <p>{{$book['description']}}</p>
-                                        <h5><b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b> <i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price']*0.8)}}</h5><br>
+                                        <h5><b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b>
+                                            <i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price']*(1-$book['coupon_value']))}}</h5><br>
                                     </div>
 
                                 </div>
