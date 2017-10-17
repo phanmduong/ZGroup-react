@@ -76,9 +76,6 @@
                         <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
                             <div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">
                                 <div>
-                                    <a href="#pablo" class="btn btn-sm btn-danger">-20%</a>
-                                </div>
-                                <div>
                                     <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">
                                         Xem thêm
                                     </a>
@@ -87,6 +84,9 @@
                                         Đặt mua ngay <i class="fa fa-angle-right"></i>
                                     </button>
 
+                                </div>
+                                <div>
+                                    <a href="#pablo" class="btn btn-sm btn-danger">-20%</a>
                                 </div>
                             </div>
                         </div>
