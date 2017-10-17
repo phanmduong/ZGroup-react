@@ -87,7 +87,7 @@
 
                                 </div>
                                 <div>
-                                    <a href="#pablo" class="btn btn-sm btn-danger">{{$book['coupon']}}</a>
+                                    <a href="#pablo" class="btn btn-sm btn-danger">-{{$book['coupon_value']*100}}%</a>
                                 </div>
                             </div>
                         </div>
