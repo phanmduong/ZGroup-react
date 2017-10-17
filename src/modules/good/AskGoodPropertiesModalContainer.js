@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as goodActions from '../good/goodActions';
 import PropTypes from 'prop-types';
-import {Modal} from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 import GoodPropertyItem from "./GoodPropertyItem";
 
 class AskGoodPropertiesModalContainer extends React.Component {
@@ -49,6 +49,9 @@ class AskGoodPropertiesModalContainer extends React.Component {
                         })
                     }
                 </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={this.props.submitGoodProperties} className="btn btn-rose">Lưu</Button>
+                </Modal.Footer>
             </Modal>
         );
     }
@@ -59,6 +62,7 @@ AskGoodPropertiesModalContainer.propTypes = {
     goodProperties: PropTypes.array.isRequired,
     showModal: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
+    submitGoodProperties: PropTypes.func.isRequired,
     goodPropertiesOutput: PropTypes.object.isRequired,
     updateGoodPropertiesOutput: PropTypes.func.isRequired
 };

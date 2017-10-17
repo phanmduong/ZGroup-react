@@ -10,6 +10,7 @@ import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
 import {confirm} from "../../../../helpers/helper";
 import AskGoodPropertiesModalContainer from "../../../good/AskGoodPropertiesModalContainer";
+import {saveGoodProperties} from '../../../good/goodApi';
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
@@ -24,6 +25,7 @@ class TaskListsContainer extends React.Component {
         this.updateGoodPropertiesOutput = this.updateGoodPropertiesOutput.bind(this);
         this.openAskGoodPropertiesModal = this.openAskGoodPropertiesModal.bind(this);
         this.closeAskGoodPropertiesModal = this.closeAskGoodPropertiesModal.bind(this);
+        this.submitGoodProperties = this.submitGoodProperties.bind(this);
     }
 
     openAskGoodPropertiesModal(goodPropertyItems) {
@@ -39,7 +41,6 @@ class TaskListsContainer extends React.Component {
     }
 
     updateGoodPropertiesOutput(goodPropertiesOutput) {
-        console.log(goodPropertiesOutput);
         this.setState(goodPropertiesOutput);
     }
 
@@ -47,6 +48,23 @@ class TaskListsContainer extends React.Component {
         this.setState({
             showAskGoodPropertiesModal: false
         });
+    }
+
+    submitGoodProperties() {
+        let goodProperties = [];
+        for (let key in this.state.goodPropertiesOutput) {
+            let property = this.state.goodPropertiesOutput[key];
+            let obj = {
+                name: key,
+                value: property.value + " " + property.unit
+            };
+            goodProperties.push(obj);
+        }
+        console.log(this.props.card);
+        saveGoodProperties(this.props.card.good_id, goodProperties)
+            .then(() => {
+                this.closeAskGoodPropertiesModal();
+            });
     }
 
     addTask(taskListId) {
@@ -77,6 +95,7 @@ class TaskListsContainer extends React.Component {
         return (
             <div className="task-lists">
                 <AskGoodPropertiesModalContainer
+                    submitGoodProperties={this.submitGoodProperties}
                     updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}
                     goodPropertiesOutput={this.state.goodPropertiesOutput}
                     showModal={this.state.showAskGoodPropertiesModal}

@@ -132,3 +132,12 @@ export function loadAllGoodPropertyItems(type) {
     }
     return axios.get(url);
 }
+
+export function saveGoodProperties(goodId, goodProperties) {
+    let url = env.MANAGE_API_URL + `/good/${goodId}/save-good-properties`;
+    const token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {good_properties: JSON.stringify(goodProperties)});
+}
