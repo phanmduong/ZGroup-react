@@ -79,7 +79,9 @@ class Card extends Model
             "status" => $this->status,
             'order' => $this->order,
             "cardLabels" => $this->cardLabels,
-            "tasks" => Task::whereIn("task_list_id", $taskListIds)->get(),
+            "tasks" => Task::whereIn("task_list_id", $taskListIds)->get()->map(function ($task) {
+                return $task->transform();
+            }),
             "members" => $this->memberTransformer->transformCollection($this->assignees)
         ];
     }

@@ -403,7 +403,7 @@ class TaskController extends ManageApiController
 
         return $this->respond([
             "message" => $message,
-            "board" => $this->boardTransformer->transform($board)
+            "board" => $board->transformBoardWithCard()
         ]);
     }
 
@@ -557,7 +557,9 @@ class TaskController extends ManageApiController
             return [
                 'id' => $taskList->id,
                 'title' => $taskList->title,
-                'tasks' => $this->taskTransformer->transformCollection($taskList->tasks)
+                'tasks' => $taskList->tasks->map(function ($task) {
+                    return $task->transform();
+                })
             ];
         });
         return $this->respond($taskLists);
@@ -570,11 +572,13 @@ class TaskController extends ManageApiController
         }
         $task = Task::where("task_list_id", $request->task_list_id)->orderBy("order", "desc")->first();
 
-        if ($task == null || $task->order == null) {
+
+        if ($task === null || $task->order === null) {
             $order = 0;
         } else {
             $order = $task->order + 1;
         }
+
 
         $task = new Task();
         $task->title = $request->title;
@@ -743,7 +747,7 @@ class TaskController extends ManageApiController
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
         $task = $this->taskRepository->saveTaskDeadline($task, $request->deadline, $this->user);
-        return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
+        return $this->respondSuccessWithStatus(["task" => $task->transform()]);
     }
 
     public function saveTaskSpan($taskId, Request $request)
@@ -757,7 +761,7 @@ class TaskController extends ManageApiController
         $task->span = $span;
         $task->save();
 
-        return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
+        return $this->respondSuccessWithStatus(["task" => $task->transform()]);
     }
 
     public function putStartBoard($projectId, $boardId)

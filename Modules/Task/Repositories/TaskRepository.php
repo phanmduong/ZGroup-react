@@ -106,6 +106,12 @@ class TaskRepository
                 $task->deadline = $date->format("Y-m-d H:i:s");
             }
             $task->save();
+
+            // replicate all GoodPropertyItems
+            foreach ($item->goodPropertyItems as $goodPropertyItem) {
+                $task->goodPropertyItems()->attach($goodPropertyItem->id);
+            }
+
             if ($task->member) {
                 $member = $card->assignees()->where("id", $task->member->id)->first();
                 if ($member == null) {
@@ -146,7 +152,9 @@ class TaskRepository
             "id" => $taskList->id,
             "card_id" => $cardId,
             "title" => $taskList->title,
-            'tasks' => $this->taskTransformer->transformCollection($taskList->tasks),
+            'tasks' => $taskList->tasks->map(function ($task) {
+                return $task->transform();
+            }),
             "card" => $card->transform(),
             "project_members" => $project->members->map(function ($member) {
                 return [
