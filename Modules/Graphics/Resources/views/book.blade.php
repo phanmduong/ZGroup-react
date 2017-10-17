@@ -9,7 +9,7 @@
                 <div class="container">
                     <h1 style="font-weight:600; text-transform: uppercase">{{$properties['product_type']}}
                         <br>
-                        {{$properties['name']}}
+                        {{$properties['name']}`}
                         </br>
                     </h1>
                     <h5>{{$properties['short_description']}}</h5><br>
@@ -169,7 +169,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
-                        <h2 class="big-title description-light">Đội ngũ tác giả</h2><br><br>
+                        <h2 class="big-title description-light">{{$properties['title5']}}</h2><br><br>
                     </div>
                 </div>
                 <div class="row">
