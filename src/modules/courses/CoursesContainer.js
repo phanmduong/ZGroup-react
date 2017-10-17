@@ -62,7 +62,7 @@ CoursesContainer.propTypes = {
     coursesActions: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
-    courses: PropTypes.array.isRequired
+    coursesList: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {

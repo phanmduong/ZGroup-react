@@ -31,9 +31,9 @@ class ListCourse extends React.Component {
                 </thead>
 
                 <tbody>
-                {this.state.coursesList.map((obj)=>{
+                {this.state.coursesList.map((obj, index)=>{
                     return (
-                        <tr>
+                        <tr key={index}>
                             <td>{obj.name}</td>
                             <td>{obj.description}</td>
                             <td>{helper.convertMoneyToK(obj.price)}</td>

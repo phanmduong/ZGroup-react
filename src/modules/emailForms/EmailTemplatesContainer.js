@@ -168,6 +168,7 @@ class EmailTemplatesContainer extends React.Component {
 EmailTemplatesContainer.propTypes = {
     templates: PropTypes.array.isRequired,
     isLoadingTemplates: PropTypes.bool.isRequired,
+    isPreSaving: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,

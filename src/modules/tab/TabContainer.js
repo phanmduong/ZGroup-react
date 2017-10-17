@@ -68,8 +68,7 @@ class TabContainer extends React.Component {
                                         <a data-toggle="collapse"
                                            href={'#tab' + tab.id}>
                                             {//eslint-disable-next-line
-                                            }
-                                            <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                            }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                             <p>{tab.name}
                                                 <b className="caret"/>
                                             </p>
@@ -108,8 +107,7 @@ class TabContainer extends React.Component {
                                               }}
                                         >
                                             {//eslint-disable-next-line
-                                            }
-                                            <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                            }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                             <p>{tab.name}</p>
                                         </Link>
                                     </li>

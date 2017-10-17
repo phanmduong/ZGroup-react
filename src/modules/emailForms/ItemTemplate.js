@@ -1,17 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const Image = ({template}) => {
-    return (<div
-        style={{
-            width: '100%',
-            background: 'url(' + template.thumbnail_url + ')',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            height: '150px',
-            borderRadius: '10px'
-        }} />);
-};
+import Image from './Image';
 
 const ItemTemplate = ({template, onClick, selectedTemplate}) => {
 
@@ -49,6 +38,5 @@ ItemTemplate.propTypes = {
     template: PropTypes.object.isRequired,
     selectedTemplate: PropTypes.object.isRequired,
 };
-
 
 export default ItemTemplate;

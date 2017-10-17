@@ -161,7 +161,6 @@ class EmailCampaignsContainer extends React.Component {
 
     storeCampaign() {
         helper.setFormValidation("#form-campaign");
-        console.log(this.state.campaign.subscribers_list);
         if ($("#form-campaign").valid()) {
             this.props.emailCampaignActions.storeCampaign({
                 ...this.state.campaign,
@@ -319,6 +318,7 @@ EmailCampaignsContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     emailCampaignActions: PropTypes.object.isRequired,
+    emailForms: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,

@@ -2,6 +2,7 @@ import React from 'react';
 import * as helper from '../../helpers/helper';
 import {NO_AVATAR} from '../../constants/env';
 import {TIME_FORMAT_H_M, FULLTIME_FORMAT} from '../../constants/constants';
+import PropTypes from 'prop-types';
 
 class ListShiftPick extends React.Component {
     constructor(props, context) {
@@ -14,7 +15,7 @@ class ListShiftPick extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr>
-                        <th />
+                        <th/>
                         <th>Người trực</th>
                         <th>Ca trực</th>
                         <th>Tuần</th>
@@ -41,8 +42,8 @@ class ListShiftPick extends React.Component {
                                     {shiftPicks.shift_pick.start_time ?
                                         (
                                             shiftPicks.shift_pick.name + ": " +
-                                            helper.formatTime(shiftPicks.shift_pick.start_time , [TIME_FORMAT_H_M, FULLTIME_FORMAT], TIME_FORMAT_H_M)+
-                                            ' - ' + helper.formatTime(shiftPicks.shift_pick.end_time , [TIME_FORMAT_H_M, FULLTIME_FORMAT], TIME_FORMAT_H_M)
+                                            helper.formatTime(shiftPicks.shift_pick.start_time, [TIME_FORMAT_H_M, FULLTIME_FORMAT], TIME_FORMAT_H_M) +
+                                            ' - ' + helper.formatTime(shiftPicks.shift_pick.end_time, [TIME_FORMAT_H_M, FULLTIME_FORMAT], TIME_FORMAT_H_M)
                                         )
                                         : "Đã xóa"
                                     }
@@ -71,5 +72,8 @@ class ListShiftPick extends React.Component {
     }
 }
 
+ListShiftPick.propTypes = {
+    shiftPicks: PropTypes.array.isRequired
+};
 
 export default ListShiftPick;

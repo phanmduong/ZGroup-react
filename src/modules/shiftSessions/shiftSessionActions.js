@@ -75,7 +75,7 @@ export function deleteShiftSession(shiftSessionId) {
                 type: types.DELETE_SHIFT_SESSION_ERROR
             });
         });
-    }
+    };
 }
 
 

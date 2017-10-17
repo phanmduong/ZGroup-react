@@ -116,7 +116,8 @@ BookBoardListContainer.propTypes = {
     canDragCard: PropTypes.oneOfType([
         PropTypes.number.isRequired,
         PropTypes.bool.isRequired
-    ])
+    ]),
+    projectId: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {

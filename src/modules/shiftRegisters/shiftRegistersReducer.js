@@ -64,7 +64,6 @@ export default function shiftRegistersReducer(state = initialState.shiftRegister
             shiftRegisters = changeDataRegister(shiftRegisters, action.shift.id, 'isLoadingRegisterError', false);
             shiftRegisters = changeDataRegister(shiftRegisters, action.shift.id, 'isLoadingRemoveRegister', false);
             shiftRegisters = changeDataRegister(shiftRegisters, action.shift.id, 'isLoadingRemoveRegisterError', false);
-            console.log(shiftRegisters);
             return {
                 ...state,
                 shiftRegisters: shiftRegisters
@@ -140,6 +139,7 @@ function changeDataRegister(shiftRegistersData, shiftRegisterId, nameObject, dat
         }
     }
     catch (err) {
+        //eslint-disable-next-line
         console.log('changeDataRegister error');
     }
     return shiftRegistersData;
