@@ -42,7 +42,7 @@ class TimePicker extends React.Component {
 
 TimePicker.propTypes = {
     label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,

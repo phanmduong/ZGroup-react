@@ -318,7 +318,7 @@ EmailCampaignsContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     emailCampaignActions: PropTypes.object.isRequired,
-    emailForms: PropTypes.object.isRequired,
+    emailForms: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
