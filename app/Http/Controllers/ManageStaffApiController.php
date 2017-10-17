@@ -44,10 +44,7 @@ class ManageStaffApiController extends ManageApiController
             return $this->respondErrorWithStatus($errors);
         }
 
-        $user = User::onlyTrashed()->where('username', '=', $username)->orWhere('email', '=', $request->email)->first();
-        if (!$user) {
-            $user = new User;
-        }
+        $user = new User;
 
         $user->name = $request->name;
         $user->email = $request->email;
@@ -58,7 +55,7 @@ class ManageStaffApiController extends ManageApiController
         $user->address = $request->address;
         $user->role = 1;
         $user->role_id = $request->role_id;
-        $user->base_id = $request->base_id;
+        $user->base_id = $request->base_id ? $request->base_id : 0;
         $user->homeland = $request->homeland;
         $user->literacy = $request->literacy;
         $user->start_company = $request->start_company;
@@ -74,6 +71,8 @@ class ManageStaffApiController extends ManageApiController
             "user" => $user
         ]);
     }
+
+
 
     public function get_staffs(Request $request)
     {
@@ -93,7 +92,6 @@ class ManageStaffApiController extends ManageApiController
             $staffs = User::where('role', ">", 0)->orderBy('created_at')->paginate($limit);
         }
 
-
         $data = [
             "staffs" => $staffs->map(function ($staff) {
                 $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
@@ -108,6 +106,34 @@ class ManageStaffApiController extends ManageApiController
         $staff = User::find($staffId);
         $staff->avatar_url = config('app.protocol') . trim_url($staff->avatar_url);
         return $this->respondSuccessWithStatus(['staff' => $staff]);
+    }
+
+    public function get_all_user_not_staff(Request $request){
+        $q = trim($request->search);
+
+        $limit = 20;
+
+        if ($q) {
+            $users = User::where('role', "=", 0)
+                ->where(function ($query) use ($q) {
+                    $query->where('email', 'like', '%' . $q . '%')
+                        ->orWhere('name', 'like', '%' . $q . '%')
+                        ->orWhere('phone', 'like', '%' . $q . '%');
+                })
+                ->orderBy('created_at')->paginate($limit);
+        } else {
+            $users = User::where('role', "=", 0)->orderBy('created_at')->paginate($limit);
+        }
+
+
+        $data = [
+            "users" => $users->map(function ($user) {
+                $user->avatar_url = config('app.protocol') . trim_url($user->avatar_url);
+                return $user;
+            })
+        ];
+
+        return $this->respondWithPagination($users, $data);
     }
 
     public function get_roles()
@@ -145,9 +171,11 @@ class ManageStaffApiController extends ManageApiController
         $user = User::where('username', '=', $username)->first();
         if (!$user) {
             $errors = "Tài khoản chưa tồn tại";
+            return $this->respondErrorWithStatus($errors);
         }
 
-        if ($errors) {
+        if (User::where('username', '<>', $username)->where('email','=',$request->email)->first()) {
+            $errors = "Email đã tồn tại";
             return $this->respondErrorWithStatus($errors);
         }
 
