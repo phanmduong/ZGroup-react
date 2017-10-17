@@ -9,7 +9,7 @@
                 <div class="container">
                     <h1 style="font-weight:600; text-transform: uppercase">{{$properties['product_type']}}
                         <br>
-                        {{$properties['name']}`}
+                        {{$properties['name']}}
                         </br>
                     </h1>
                     <h5>{{$properties['short_description']}}</h5><br>
