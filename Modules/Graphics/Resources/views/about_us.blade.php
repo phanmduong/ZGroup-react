@@ -175,8 +175,7 @@
             </div>
 
         </div>
-
+        <hr style="margin: 0!important;">
     </div>
-    <hr>
 @endsection
 
