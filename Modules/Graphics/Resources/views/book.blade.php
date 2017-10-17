@@ -169,7 +169,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 offset-md-2 text-center">
-                        <h2 class="big-title description-light">{{$properties['title5']}}</h2><br><br>
+                        <h2 class="big-title description-light">{{$properties['name']}}</h2><br><br>
                     </div>
                 </div>
                 <div class="row">
@@ -182,6 +182,7 @@
                                         <h4 class="card-title">{{$properties['author1']}}</h4>
                                     </a>
                                 </div>
+                                <h4>{{$properties['author1']}}</h4><br>
                                 <p class="card-description text-center">
                                     {{$properties['author1_comment']}}
                                 </p>
@@ -203,6 +204,7 @@
                                         <h4 class="card-title">{{$properties['author2']}}</h4>
                                     </a>
                                 </div>
+                                <h4>{{$properties['author2']}}</h4><br>
                                 <p class="card-description text-center">
                                     {{$properties['author2_comment']}}
                                 </p>
@@ -224,6 +226,7 @@
                                         <h4 class="card-title">{{$properties['author3']}}</h4>
                                     </a>
                                 </div>
+                                <h4>{{$properties['author3']}}</h4><br>
                                 <p class="card-description text-center">
                                     {{$properties['author3_comment']}}
                                 </p>
