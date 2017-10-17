@@ -9,11 +9,44 @@ import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
 import {confirm} from "../../../../helpers/helper";
+import AskGoodPropertiesModalContainer from "../../../good/AskGoodPropertiesModalContainer";
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.addTask = this.addTask.bind(this);
+        this.toggleTaskStatus = this.toggleTaskStatus.bind(this);
+        this.state = {
+            showAskGoodPropertiesModal: false,
+            goodProperties: [],
+            goodPropertiesOutput: {}
+        };
+        this.updateGoodPropertiesOutput = this.updateGoodPropertiesOutput.bind(this);
+        this.openAskGoodPropertiesModal = this.openAskGoodPropertiesModal.bind(this);
+        this.closeAskGoodPropertiesModal = this.closeAskGoodPropertiesModal.bind(this);
+    }
+
+    openAskGoodPropertiesModal(goodPropertyItems) {
+        let goodPropertiesOutput = {};
+        goodPropertyItems.forEach((goodPropertyItem) => {
+            goodPropertiesOutput[goodPropertyItem.name] = {};
+        });
+        this.setState({
+            showAskGoodPropertiesModal: true,
+            goodProperties: goodPropertyItems,
+            goodPropertiesOutput
+        });
+    }
+
+    updateGoodPropertiesOutput(goodPropertiesOutput) {
+        console.log(goodPropertiesOutput);
+        this.setState(goodPropertiesOutput);
+    }
+
+    closeAskGoodPropertiesModal() {
+        this.setState({
+            showAskGoodPropertiesModal: false
+        });
     }
 
     addTask(taskListId) {
@@ -29,6 +62,13 @@ class TaskListsContainer extends React.Component {
         };
     }
 
+    toggleTaskStatus(task, card) {
+        if (task.good_property_items && task.good_property_items.length > 0) {
+            this.openAskGoodPropertiesModal(task.good_property_items);
+        }
+        // this.props.taskActions.toggleTaskStatus(task, card);
+    }
+
 
     render() {
         const tasksComplete = (taskList) => taskList.tasks.filter(t => t.status).length;
@@ -36,6 +76,13 @@ class TaskListsContainer extends React.Component {
         const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
         return (
             <div className="task-lists">
+                <AskGoodPropertiesModalContainer
+                    updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}
+                    goodPropertiesOutput={this.state.goodPropertiesOutput}
+                    showModal={this.state.showAskGoodPropertiesModal}
+                    closeModal={this.closeAskGoodPropertiesModal}
+                    goodProperties={this.state.goodProperties}
+                />
                 <AddMemberToTaskModalContainer/>
                 <TaskDeadlineModalContainer/>
                 {
@@ -88,7 +135,7 @@ class TaskListsContainer extends React.Component {
                                                 openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
-                                                toggleTaskStatus={this.props.taskActions.toggleTaskStatus}
+                                                toggleTaskStatus={this.toggleTaskStatus}
                                                 deleteTask={this.props.taskActions.deleteTask}
                                                 key={task.id}
                                                 task={task}/>))

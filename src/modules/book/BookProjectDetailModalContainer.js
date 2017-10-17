@@ -3,17 +3,17 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ListGroup, ListGroupItem, Modal} from "react-bootstrap";
 import PropTypes from 'prop-types';
-import * as taskActions from '../taskActions';
-import FormInputText from "../../../components/common/FormInputText";
+import * as taskActions from '../tasks/taskActions';
 import {CirclePicker} from "react-color";
 import Select from 'react-select';
-import AddMemberProjectOverlay from "./AddMemberProjectOverlay";
-import ProjectMemberDetailOverlayContainer from "./ProjectMemberDetailOverlayContainer";
-import Switch from "../../../components/common/Switch";
-import Loading from "../../../components/common/Loading";
+import Loading from "../../components/common/Loading";
+import ProjectMemberDetailOverlayContainer from "../tasks/project/ProjectMemberDetailOverlayContainer";
+import FormInputText from "../../components/common/FormInputText";
+import AddMemberProjectOverlay from "../tasks/project/AddMemberProjectOverlay";
+import Switch from "../../components/common/Switch";
 
 
-class ProjectDetailModalContainer extends Component {
+class BookProjectDetailModalContainer extends Component {
     constructor(props, context) {
         super(props, context);
         this.close = this.close.bind(this);
@@ -224,7 +224,7 @@ class ProjectDetailModalContainer extends Component {
     }
 }
 
-ProjectDetailModalContainer.propTypes = {
+BookProjectDetailModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -249,4 +249,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetailModalContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(BookProjectDetailModalContainer);

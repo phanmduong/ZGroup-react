@@ -80,7 +80,7 @@ class CreateGoodContainer extends React.Component {
             ...this.props.good,
             properties: JSON.stringify(this.props.good.properties),
             files_str: JSON.stringify(this.props.good.files),
-            type: this.state.type
+            type: this.state.type || this.props.good.type
         };
 
         if (!good.name || !good.code) {

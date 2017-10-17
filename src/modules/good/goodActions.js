@@ -219,7 +219,7 @@ export function saveGoodProperty(property, type) {
         goodApi.saveGoodProperty(property)
             .then(() => {
                 showNotification("Tạo thuộc tính cho sách thành công");
-                browserHistory.push(`/${type}/properties`);
+                browserHistory.push(`/good/${type}/properties`);
                 dispatch({
                     type: types.SAVE_GOOD_PROPERTY_SUCCESS
                 });

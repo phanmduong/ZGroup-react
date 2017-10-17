@@ -6,14 +6,14 @@ import {bindActionCreators} from 'redux';
 
 import * as PropTypes from "prop-types";
 import CreateBoardModalContainer from "../tasks/board/CreateBoardModalContainer";
-import CreateCardModalContainer from "../tasks/card/CreateCardModalContainer";
 import CardDetailModalContainer from "../tasks/card/CardDetailModalContainer";
 import Loading from "../../components/common/Loading";
-import CardFilterContainer from "../tasks/board/filter/CardFilterContainer";
-import BoardList from "../tasks/board/BoardList";
 import * as taskActions from '../tasks/taskActions';
 import * as bookActions from './bookActions';
 import {intersect} from "../../helpers/helper";
+import BookCardFilterContainer from "./BookCardFilterContainer";
+import BookBoardList from "./BookBoardList";
+import BookCreateCardModalContainer from "./BookCreateCardModalContainer";
 
 
 class BookBoardListContainer extends React.Component {
@@ -74,14 +74,15 @@ class BookBoardListContainer extends React.Component {
         return (
             <div>
                 <CreateBoardModalContainer projectId={this.props.projectId}/>
-                <CreateCardModalContainer/>
+                <BookCreateCardModalContainer/>
                 <CardDetailModalContainer/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>
-                        <CardFilterContainer
+                        <BookCardFilterContainer
                             isAdmin={isAdmin}
                             projectId={Number(this.props.projectId)}/>
-                        <BoardList
+                        <BookBoardList
+                            isAdmin={isAdmin}
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}
                             archiveCard={this.props.taskActions.archiveCard}
