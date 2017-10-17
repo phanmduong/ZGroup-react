@@ -32,11 +32,11 @@ class ListStaff extends React.Component {
                                     <th>Phone</th>
                                     <th>Cơ sở</th>
                                     <th>Chức vụ</th>
-                                    <th/>
+                                    {!this.props.disableActions && <th/>}
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {staffs.map(function (staff, index) {
+                                {staffs.map((staff, index) => {
                                     let avatar = helper.avatarEmpty(staff.avatar_url) ?
                                         NO_AVATAR : staff.avatar_url;
                                     return (
@@ -93,13 +93,16 @@ class ListStaff extends React.Component {
                                                 }
 
                                             </td>
-                                            <td>
-                                                <ButtonGroupAction
-                                                    delete={self.props.deleteStaff}
-                                                    editUrl={`staff/${staff.id}/edit`}
-                                                    object={staff}
-                                                />
-                                            </td>
+                                            {
+                                                !this.props.disableActions &&
+                                                <td>
+                                                    <ButtonGroupAction
+                                                        delete={self.props.deleteStaff}
+                                                        editUrl={`staff/${staff.id}/edit`}
+                                                        object={staff}
+                                                    />
+                                                </td>
+                                            }
                                         </tr>
                                     );
                                 })}
@@ -121,6 +124,7 @@ ListStaff.propTypes = {
     changeRoleStaff: PropTypes.func.isRequired,
     changeBaseStaff: PropTypes.func.isRequired,
     deleteStaff: PropTypes.func.isRequired,
+    disableActions: PropTypes.bool.isRequired,
 };
 
 export default ListStaff;

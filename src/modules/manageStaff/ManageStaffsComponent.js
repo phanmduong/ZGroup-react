@@ -1,18 +1,29 @@
 import React from 'react';
-import {Link, browserHistory} from 'react-router';
+import {Link} from 'react-router';
 import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
 import ListStaff from './ListStaff';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import {Modal} from 'react-bootstrap';
+import AddUserToStaff from './AddUserToStaff';
 
 class ManageStaffsComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            showModalAddUserToStaff: false,
+        };
+        this.closeModalAddUserToStaff = this.closeModalAddUserToStaff.bind(this);
+        this.openModalAddUserToStaff = this.openModalAddUserToStaff.bind(this);
     }
 
-    redirectAddStaff() {
-        browserHistory.push('add-staff');
+    closeModalAddUserToStaff() {
+        this.setState({showModalAddUserToStaff: false});
+    }
+
+    openModalAddUserToStaff() {
+        this.setState({showModalAddUserToStaff: true});
     }
 
     render() {
@@ -45,20 +56,33 @@ class ManageStaffsComponent extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="col-md-3">
+                                            <Link
+                                                className="btn btn-rose"
+                                                to="add-staff"
+                                            >
+                                                Tạo nhân viên
+                                            </Link>
+                                        </div>
+                                        <div className="col-md-3">
                                             <button
                                                 type="button"
                                                 className="btn btn-rose"
-                                                onClick={() => this.redirectAddStaff()}
+                                                onClick={() => this.openModalAddUserToStaff()}
                                             >
-                                                Thêm nhân viên
+                                                Thêm từ người dùng
                                             </button>
                                         </div>
-                                        <Search
-                                            onChange={this.props.staffsSearchChange}
-                                            value={this.props.search}
-                                            placeholder="Tìm kiếm nhân viên"
-                                            className="col-md-9"
-                                        />
+
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                    <Search
+                                        onChange={this.props.staffsSearchChange}
+                                        value={this.props.search}
+                                        placeholder="Tìm kiếm nhân viên"
+                                        className="col-md-12"
+                                    />
                                     </div>
                                 </div>
                                 <div className="row">
@@ -70,6 +94,7 @@ class ManageStaffsComponent extends React.Component {
                                             changeRoleStaff={this.props.changeRoleStaff}
                                             changeBaseStaff={this.props.changeBaseStaff}
                                             deleteStaff={this.props.deleteStaff}
+                                            disableActions={false}
                                         />
                                     )
                                     }
@@ -96,6 +121,16 @@ class ManageStaffsComponent extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.showModalAddUserToStaff} bsSize="large" onHide={this.closeModalAddUserToStaff}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Thêm nhân viên từ người dùng</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {
+                            this.state.showModalAddUserToStaff && <AddUserToStaff/>
+                        }
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }

@@ -38,6 +38,19 @@ export function getStaffs(page = 1, search= null) {
     return axios.get(url);
 }
 
+export function getUsers(page = 1, search= null) {
+    let url = env.MANAGE_API_URL + "/staff/get-all-user?page="+page;
+    let token = localStorage.getItem('token');
+    if (search){
+        url += "&search=" + search;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 export function changeRoleStaff(staffId, roleId) {
     let url = env.MANAGE_API_URL + "/change-role-staff";
     let token = localStorage.getItem('token');
