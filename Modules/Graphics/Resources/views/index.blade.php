@@ -224,16 +224,14 @@
                         <div class="card-block">
                             <div class="card-avatar">
                                 <a href="#avatar">
-                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15080356132lM4YvbGXc1oObP.jpg"
+                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508218566sUKn92Nn2Gg06m7.jpg"
                                          alt="...">
-                                    <h4 class="card-title">Huyền Thanh</h4>
+                                    <h4 class="card-title">Hương Phan</h4>
                                 </a>
                             </div>
                             <p class="card-description text-center">
-                            <h4><b>Huyền Thanh</b></h4><br>
-                            A group becomes a team when each member is sure enough of himself and his contribution
-                            to praise the skill of the others. No one can whistle a symphony. It takes an orchestra
-                            to play it.
+                            <h4><b>Hương Phan</b></h4><br>
+                            Đừng chỉ thiết kế bằng đôi tay và đôi mắt. Hãy thiết kế bằng cả trái tim. Và cuộc sống bạn đang sống sẽ là bản thiết kế đẹp nhất trong đời bạn.
                             </p>
                         </div>
                         <div class="card-footer text-center">
@@ -249,16 +247,14 @@
                         <div class="card-block">
                             <div class="card-avatar">
                                 <a href="#avatar">
-                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15080356135P12dr5zi9Mj56H.jpg"
+                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508218562TujLgiBeECfG2BC.png"
                                          alt="...">
                                     <h4 class="card-title">Hoàng Hiệp</h4>
                                 </a>
                             </div>
                             <p class="card-description text-center">
                             <h4><b>Hoàng Hiệp</b></h4><br>
-                            The strength of the team is each individual member. The strength of each member is the
-                            team. If you can laugh together, you can work together, silence isn’t golden, it’s
-                            deadly.
+                            Chỉ hy vọng Graphics có thể lấp được một lỗ hổng đã tồn tại rất lâu trong cộng đồng thiết kế tại Việt Nam mà thôi.
                             </p>
                         </div>
                         <div class="card-footer text-center">
@@ -274,16 +270,14 @@
                         <div class="card-block">
                             <div class="card-avatar">
                                 <a href="#avatar">
-                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035613AfNXUWyphuCbQOZ.jpg"
+                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508218556VpNtgHY8rQ3F14o.png"
                                          alt="...">
-                                    <h4 class="card-title">Hương Phan</h4>
+                                    <h4 class="card-title">Huyền Thanh</h4>
                                 </a>
                             </div>
                             <p class="card-description text-center">
-                            <h4><b>Hương Phan</b></h4><br>
-                            Great teams do not hold back with one another. They are unafraid to air their dirty
-                            laundry. They admit their mistakes, their weaknesses and their concerns without fear of
-                            reprisal.
+                            <h4><b>Huyền Thanh</b></h4><br>
+                            Chứa trong hơn 100 trang giấy của Graphics là một phần không thể thay thế của mỗi chúng tôi.
                             </p>
                         </div>
                         <div class="card-footer text-center">
