@@ -6,7 +6,7 @@
                      src="{{$book->avatar_url}}">
             </div>
             <div class="col-md-4">
-                <p><b style="font-weight:600;">{{$book->coupon_value}}</b></p>
+                <p><b style="font-weight:600;">{{$book->name}}</b></p>
                 <p>{{$book->short_description}}</p>
             </div>
             <div class="col-md-3 h-center">
