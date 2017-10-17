@@ -7,7 +7,7 @@
             </div>
             <div class="col-md-4">
                 <p><b style="font-weight:600;">{{$book->name}}</b></p>
-                <p>{{$book->short_description}}</p>
+                <p>{{$book->description}}</p>
             </div>
             <div class="col-md-3 h-center">
                 <button onclick="removeItem({{$book->id}}, {{$book->price}})"
