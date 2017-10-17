@@ -72,6 +72,7 @@ class Card extends Model
             "deadline_elapse" => $hasDeadline ? time_remain_string(strtotime($this->deadline)) : null,
             "deadline" => $hasDeadline ? format_vn_short_datetime(strtotime($this->deadline)) : null,
             'board_id' => $this->board_id,
+            "good_id" => $this->good_id,
             "board" => [
                 "id" => $this->board->id,
                 "title" => $this->board->title
