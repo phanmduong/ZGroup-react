@@ -228,11 +228,16 @@ class GraphicsController extends Controller
         );
     }
 
-    public function blog()
+    public function blog(Request $request)
     {
         $blogs = Product::Where('type', 2)->orderBy('created_at', 'desc')->paginate(9);
+        $display="";
+        if($request->page==null) $page_id=2; else $page_id=$request->page+1;
+        if($blogs->lastPage()==$request->page)  $display="display:none";
         return view('graphics::blogs', [
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'page_id'=>$page_id,
+            'display'=>$display,
         ]);
     }
 
