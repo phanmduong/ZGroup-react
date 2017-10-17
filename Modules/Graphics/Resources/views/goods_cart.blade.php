@@ -10,20 +10,19 @@
                 <p>{{$book->short_description}}</p>
             </div>
             <div class="col-md-3 h-center">
-                <button onclick="removeItem({{$book->id}}, {{$book['price']*(1-$book['coupon_value']))}})"
+                <button onclick="removeItem({{$book->id}}, {{$book->price}})"
                         class="btn btn-success btn-just-icon btn-sm">
                     <i class="fa fa-minus"></i>
                 </button>
                 &nbsp
-                <button onclick="addItem({{$book->id}},{{$book['price']*(1-$book['coupon_value']))}})"
+                <button onclick="addItem({{$book->id}},{{$book->price}})"
                         class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-plus"></i>
                 </button>
                 &nbsp
                 <b style="font-weight:600;" id="good-{{$book->id}}-number" }> {{$book->number}} </b>
             </div>
             <div class="col-md-2 h-center">
-                <p><b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b>
-                    <i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price']*(1-$book['coupon_value']))}}</p>
+                <p>{{currency_vnd_format($book->price)}}</p>
             </div>
             <div class="col-md-2 h-center">
                 <p>
