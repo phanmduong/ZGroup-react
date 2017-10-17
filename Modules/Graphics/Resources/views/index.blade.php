@@ -86,7 +86,7 @@
 
                                 </div>
                                 <div>
-                                    <a href="#pablo" class="btn btn-sm btn-danger">{{$property['coupon']}}</a>
+                                    <a href="#pablo" class="btn btn-sm btn-danger">{{$book[$property['coupon']]}}</a>
                                 </div>
                             </div>
                         </div>
