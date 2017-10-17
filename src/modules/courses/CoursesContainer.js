@@ -15,17 +15,12 @@ class CoursesContainer extends React.Component {
         this.state = {
                 isLoading: false,
                 error: true,
-                courses:[]
         };
         this.openAddCoursesModalContainer = this.openAddCoursesModalContainer.bind(this);
 
     }
     componentWillMount(){
         this.props.coursesActions.loadCourses();
-    }
-    componentWillReceiveProps(){
-        console.log('containerprops', this.props);
-        this.setState({courses:this.props.coursesList});
     }
 
     openAddCoursesModalContainer(){
@@ -78,7 +73,6 @@ class CoursesContainer extends React.Component {
                                                 return (
                                                     <li key={page} className="active">
                                                         <a onClick={() => {
-                                                            console.log(page);
                                                         }}>{page}</a>
                                                     </li>
                                                 );
@@ -86,7 +80,6 @@ class CoursesContainer extends React.Component {
                                                 return (
                                                     <li key={page}>
                                                         <a onClick={() => {
-                                                            console.log(page);
                                                         }}>{page}</a>
                                                     </li>
                                                 );

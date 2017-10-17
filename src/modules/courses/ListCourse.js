@@ -6,15 +6,8 @@ import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 class ListCourse extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            coursesList :[]
-        };
     }
 
-    componentWillMount(){
-        console.log('list course will mount',this.props);
-        this.setState({coursesList : this.props.courses});
-    }
     render(){
         return (
             <div className="material-datatables">
@@ -31,9 +24,8 @@ class ListCourse extends React.Component {
                     <th/>
                 </tr>
                 </thead>
-
                 <tbody>
-                {this.state.coursesList.map((course)=>{
+                {this.props.courses.map((course)=>{
                     return (
                         <tr key={course.id}>
                             <td>

@@ -20,7 +20,6 @@ export function loadCourses() {
 
 
 export function openAddCoursesModalContainer() {
-    console.log('openAddCoursesModalContainer');
     return function (dispatch) {
         dispatch({
             type: types.OPEN_ADD_COURSES_MODAL_CONTAINER
@@ -29,7 +28,6 @@ export function openAddCoursesModalContainer() {
 }
 
 export function closeAddCoursesModalContainer() {
-    console.log('closeAddCoursesModalContainer');
     return function (dispatch) {
         dispatch({
             type: types.CLOSE_ADD_COURSES_MODAL_CONTAINER

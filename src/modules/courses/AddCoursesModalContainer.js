@@ -2,8 +2,10 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as coursesActions from './coursesActions'
+import * as coursesActions from './coursesActions';
 import * as helper from '../../helpers/helper';
+import PropTypes from 'prop-types';
+import Loading from '../../components/common/Loading';
 
 class AddCoursesModalContainer extends React.Component {
     constructor(props, context) {
@@ -18,15 +20,6 @@ class AddCoursesModalContainer extends React.Component {
         };
         this.close = this.close.bind(this);
     }
-
-    componentWillReceiveProps(){
-        console.log('modal receive props',this.props);
-    }
-
-    componentDidMount(){
-        console.log('modal props',this.props);
-    }
-
 
     close(){
         this.props.coursesActions.closeAddCoursesModalContainer();
@@ -103,6 +96,11 @@ class AddCoursesModalContainer extends React.Component {
     }
 }
 
+AddCoursesModalContainer.propTypes = {
+    coursesActions: PropTypes.object.isRequired,
+    isShowModal: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+};
 
 function mapStateToProps(state) {
     return {
