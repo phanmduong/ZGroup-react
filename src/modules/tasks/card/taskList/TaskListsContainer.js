@@ -8,7 +8,7 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
-import {confirm} from "../../../../helpers/helper";
+import {confirm, showNotification} from "../../../../helpers/helper";
 import AskGoodPropertiesModalContainer from "../../../good/AskGoodPropertiesModalContainer";
 import {saveGoodProperties} from '../../../good/goodApi';
 
@@ -20,7 +20,10 @@ class TaskListsContainer extends React.Component {
         this.state = {
             showAskGoodPropertiesModal: false,
             goodProperties: [],
-            goodPropertiesOutput: {}
+            goodPropertiesOutput: {},
+            isSaving: false,
+            currentTask: {},
+            currentCard: {}
         };
         this.updateGoodPropertiesOutput = this.updateGoodPropertiesOutput.bind(this);
         this.openAskGoodPropertiesModal = this.openAskGoodPropertiesModal.bind(this);
@@ -56,14 +59,20 @@ class TaskListsContainer extends React.Component {
             let property = this.state.goodPropertiesOutput[key];
             let obj = {
                 name: key,
-                value: property.value + " " + property.unit
+                value: property.value + (property.unit ? " " + property.unit : "")
             };
             goodProperties.push(obj);
         }
-        console.log(this.props.card);
+        this.setState({isSaving: true});
         saveGoodProperties(this.props.card.good_id, goodProperties)
             .then(() => {
                 this.closeAskGoodPropertiesModal();
+                this.setState({isSaving: false});
+                showNotification("Cập nhật thuộc tính sản phẩm thành công");
+                this.props.taskActions.toggleTaskStatus(this.state.currentTask, this.state.currentCard);
+                const sourceBoardId = this.state.currentTask.current_board_id;
+                const targetBoardId = this.state.currentTask.target_board_id;
+                this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.state.currentCard.id);
             });
     }
 
@@ -81,10 +90,21 @@ class TaskListsContainer extends React.Component {
     }
 
     toggleTaskStatus(task, card) {
+        this.setState({
+            currentTask: task,
+            currentCard: card
+        });
         if (task.good_property_items && task.good_property_items.length > 0) {
-            this.openAskGoodPropertiesModal(task.good_property_items);
+            if (!task.status) {
+                this.openAskGoodPropertiesModal(task.good_property_items);
+            } else {
+                this.props.taskActions.toggleTaskStatus(task, card);
+            }
+
+        } else {
+            this.props.taskActions.toggleTaskStatus(task, card);
         }
-        // this.props.taskActions.toggleTaskStatus(task, card);
+
     }
 
 
@@ -95,6 +115,7 @@ class TaskListsContainer extends React.Component {
         return (
             <div className="task-lists">
                 <AskGoodPropertiesModalContainer
+                    isSaving={this.state.isSaving}
                     submitGoodProperties={this.submitGoodProperties}
                     updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}
                     goodPropertiesOutput={this.state.goodPropertiesOutput}
@@ -149,15 +170,21 @@ class TaskListsContainer extends React.Component {
                                 </div>
                                 <ListGroup>
                                     {
-                                        taskList.tasks.map((task) =>
-                                            (<TaskItem
+                                        taskList.tasks.map((task) => {
+                                            const isProcess = taskList.role === "process";
+                                            const isEnable = task.order == 0 || (isProcess &&
+                                                taskList.tasks.filter(t => !!t.status && t.order == Number(task.order) - 1).length > 0);
+                                            return (<TaskItem
+                                                isEnable={isEnable}
                                                 openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
                                                 toggleTaskStatus={this.toggleTaskStatus}
                                                 deleteTask={this.props.taskActions.deleteTask}
                                                 key={task.id}
-                                                task={task}/>))
+                                                task={task}/>);
+                                        })
+
                                     }
                                     <ListGroupItem>
                                         {

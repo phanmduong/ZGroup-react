@@ -831,18 +831,21 @@ export default function taskReducer(state = initialState.task, action) {
                             return {
                                 ...board,
                                 cards: board.cards.map((card) => {
-                                    return {
-                                        ...card,
-                                        tasks: card.tasks.map((task) => {
-                                            if (task.id === action.task.id) {
-                                                return {
-                                                    ...task,
-                                                    status: !task.status
-                                                };
-                                            }
-                                            return task;
-                                        })
-                                    };
+                                    if (card.id === action.card.id) {
+                                        return {
+                                            ...card,
+                                            tasks: card.tasks.map((task) => {
+                                                if (task.id === action.task.id) {
+                                                    return {
+                                                        ...task,
+                                                        status: !task.status
+                                                    };
+                                                }
+                                                return task;
+                                            })
+                                        };
+                                    }
+                                    return card;
                                 })
                             };
                         }
@@ -941,10 +944,13 @@ export default function taskReducer(state = initialState.task, action) {
                             return {
                                 ...board,
                                 cards: board.cards.map((card) => {
-                                    return {
-                                        ...card,
-                                        tasks: [...card.tasks, action.task]
-                                    };
+                                    if (card.id === action.card.id) {
+                                        return {
+                                            ...card,
+                                            tasks: [...card.tasks, action.task]
+                                        };
+                                    }
+                                    return card;
                                 })
                             };
                         }

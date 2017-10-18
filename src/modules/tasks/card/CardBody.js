@@ -42,6 +42,7 @@ const CardBody = ({
                                     <div className="ripple-container"/>
                                 </button>
                             );
+
                         })
                     }
 
