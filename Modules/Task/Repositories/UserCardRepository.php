@@ -150,11 +150,7 @@ class UserCardRepository
             return $file->transform();
         });
         $taskLists = $card->taskLists->map(function ($taskList) {
-            return [
-                'id' => $taskList->id,
-                'title' => $taskList->title,
-                'tasks' => $this->taskTransformer->transformCollection($taskList->tasks)
-            ];
+            return $taskList->transform();
         });
         $members = $card->assignees->map(function ($member) use ($card) {
             $data = [

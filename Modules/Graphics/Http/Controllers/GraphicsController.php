@@ -2,9 +2,11 @@
 
 namespace Modules\Graphics\Http\Controllers;
 
+use App\Good;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\Good\Entities\GoodProperty;
 
 class GraphicsController extends Controller
 {
@@ -12,61 +14,20 @@ class GraphicsController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
-    {
-        return view('graphics::index');
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
+    public function product($link, $goodId)
     {
-        return view('graphics::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('graphics::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('graphics::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
+        $good = Good::find($goodId);
+        $properties = $good->properties();
+        $data =[
+            "cover" => $good->cover_url,
+            "avatar" => $good->avatar_url,
+        ];
+        foreach ($properties as $property) {
+            $data[$property->name] = $property->value;
+        }
+        return view('graphics::index', [
+            'properties' => $data,
+        ]);
     }
 }
