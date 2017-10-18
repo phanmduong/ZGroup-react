@@ -20,7 +20,12 @@ class ReactEditor extends React.Component {
         this.setState({
             editorState: this.htmlToDraft(this.props.value)
         });
+    }
 
+    componentWillReceiveProps(nextProps){
+        if (nextProps.value === ''){
+            this.setState({editorState: ''});
+        }
     }
 
     draftToHtml(content) {

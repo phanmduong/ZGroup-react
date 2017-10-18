@@ -95,6 +95,7 @@ class ManageStaffsComponent extends React.Component {
                                             changeBaseStaff={this.props.changeBaseStaff}
                                             deleteStaff={this.props.deleteStaff}
                                             disableActions={false}
+                                            titleList="Danh sách nhân viên"
                                         />
                                     )
                                     }

@@ -21,7 +21,7 @@ class ListStaff extends React.Component {
                         <i className="material-icons">assignment</i>
                     </div>
                     <div className="card-content">
-                        <h4 className="card-title">Danh sách nhân viên</h4>
+                        <h4 className="card-title">{this.props.titleList}</h4>
                         <div className="table-responsive">
                             <table className="table">
                                 <thead className="text-rose">
@@ -125,6 +125,7 @@ ListStaff.propTypes = {
     changeBaseStaff: PropTypes.func.isRequired,
     deleteStaff: PropTypes.func.isRequired,
     disableActions: PropTypes.bool.isRequired,
+    titleList: PropTypes.string.isRequired,
 };
 
 export default ListStaff;
