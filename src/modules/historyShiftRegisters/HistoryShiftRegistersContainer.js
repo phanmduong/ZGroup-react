@@ -4,7 +4,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import * as historyShiftRegisterActions from './historyShiftRegisterActions';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Loading from '../../components/common/Loading';
 import ListShiftPick from './ListShiftPick';
@@ -65,6 +65,13 @@ class HistoryShiftRegistersContainer extends React.Component {
         );
     }
 }
+
+HistoryShiftRegistersContainer.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    shiftPicks: PropTypes.bool.isRequired,
+    historyShiftRegisterActions: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

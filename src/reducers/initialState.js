@@ -108,6 +108,13 @@ export default {
             basesData: [],
             isLoading: false,
             error: false,
+        },
+        users: {
+            userListData: [],
+            isLoading: false,
+            error: false,
+            currentPage: 1,
+            totalPages: 1
         }
     },
     roles: {
@@ -635,6 +642,10 @@ export default {
     courses: {
         isLoading: false,
         error: false,
-        coursesList: []
-    },
+        coursesList: [],
+        addCoursesModal: {
+            isShowModal: false,
+            isSaving: false
+        }
+    }
 };

@@ -17,3 +17,20 @@ export function loadCourses() {
             });
     };
 }
+
+
+export function openAddCoursesModalContainer() {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_ADD_COURSES_MODAL_CONTAINER
+        });
+    };
+}
+
+export function closeAddCoursesModalContainer() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_ADD_COURSES_MODAL_CONTAINER
+        });
+    };
+}

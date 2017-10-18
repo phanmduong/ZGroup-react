@@ -132,6 +132,7 @@ class CreateEmailFormContainer extends React.Component {
 
 CreateEmailFormContainer.propTypes = {
     emailForm: PropTypes.object.isRequired,
+    subscribersList: PropTypes.array.isRequired,
     isUpdatingLogo: PropTypes.bool.isRequired,
     isUpdatingAvatar: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,

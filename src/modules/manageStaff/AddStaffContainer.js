@@ -51,6 +51,10 @@ class AddStaffContainer extends React.Component {
     }
 
     addStaff() {
+        if (this.props.staffForm.role_id == null || this.props.staffForm.role_id == undefined || this.props.staffForm.role_id <= 0) {
+            helper.showTypeNotification("Vui lòng chọn chức vụ", 'warning');
+            return;
+        }
         if (this.props.route.type === 'edit') {
             this.props.staffActions.editStaffData(this.props.staffForm);
         } else {

@@ -53,7 +53,11 @@ class UserShiftRegister extends React.Component {
 }
 
 UserShiftRegister.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object,
+    classNameButton: PropTypes.string,
+    title: PropTypes.string,
+    avatarUrl: PropTypes.string,
+    onClick: PropTypes.func,
 };
 
 export default UserShiftRegister;

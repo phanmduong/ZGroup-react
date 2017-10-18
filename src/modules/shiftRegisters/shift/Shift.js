@@ -5,6 +5,7 @@ import * as shiftRegisterActions from '../shiftRegisterActions';
 import UserShiftRegister from './UserShiftRegister';
 import * as helper from '../../../helpers/helper';
 import {NO_AVATAR} from '../../../constants/env';
+import PropTypes from 'prop-types';
 
 class Shift extends React.Component {
     constructor(props, context) {
@@ -80,6 +81,15 @@ class Shift extends React.Component {
         }
     }
 }
+
+
+Shift.propTypes = {
+    shiftRegisterActions: PropTypes.object.isRequired,
+    shift: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+
+};
+
 
 function mapStateToProps(state) {
     return {

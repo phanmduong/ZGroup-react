@@ -37,8 +37,10 @@ class EmailTemplatesContainer extends React.Component {
             this.setState({
                 selectedTemplate: {
                     ...this.state.selectedTemplate,
-                    id: nextProps.emailForm.template.id
-                }
+                    id: nextProps.emailForm.template.id,
+
+                },
+                isLoadingIframe: false,
             });
         }
     }
@@ -105,11 +107,12 @@ class EmailTemplatesContainer extends React.Component {
                             </div>
                         </div>
                         <div className="col-xs-8">
-                            {(this.state.isLoadingIframe) && <Loading/>}
+                            {(this.state.isLoadingIframe || (this.props.isLoadingTemplates && ( this.state.selectedTemplate.id === undefined ||
+                                this.state.selectedTemplate.id === null))) && <Loading/>}
                             {
-                                this.state.selectedTemplate.id &&
-                                (
-                                    this.props.emailForm.id ?
+                                this.props.emailForm.id ?
+                                    (
+                                    this.state.selectedTemplate.id ?
                                         (
                                             <iframe
                                                 src={`${DOMAIN}/email-form-view/${this.props.emailForm.id}/${this.state.selectedTemplate.id}`}
@@ -129,14 +132,17 @@ class EmailTemplatesContainer extends React.Component {
                                         )
                                         :
                                         (
+                                            !this.state.isLoadingIframe &&
+                                            (this.state.selectedTemplate.id === undefined || this.state.selectedTemplate.id === null) &&
                                             <div className="flex-row-center flex-justify-content-center">
                                                 <h4>Vui lòng chọn template</h4>
                                             </div>
-
                                         )
+                                ) : (
+                                    <div/>
                                 )
-                            }
 
+                            }
                         </div>
                     </div>
                     <div className="card-content">
@@ -168,6 +174,7 @@ class EmailTemplatesContainer extends React.Component {
 EmailTemplatesContainer.propTypes = {
     templates: PropTypes.array.isRequired,
     isLoadingTemplates: PropTypes.bool.isRequired,
+    isPreSaving: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,

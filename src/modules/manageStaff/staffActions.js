@@ -4,6 +4,7 @@ import toastr from 'toastr';
 import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 import _ from 'lodash';
+
 /*eslint no-console: 0 */
 export function beginLoadStaffsData() {
     return {
@@ -43,6 +44,28 @@ export function loadStaffsDataError() {
         isLoading: false,
         error: true
     });
+}
+
+export function loadUsersData(page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_USERS_NOT_STAFF_DATA,
+            userListData: []
+        });
+        staffApi.getUsers(page, search)
+            .then(function (res) {
+                dispatch({
+                    type: types.LOAD_ALL_USERS_NOT_STAFF_DATA_SUCCESSFUL,
+                    userListData: res.data.users,
+                    currentPage: res.data.paginator.current_page,
+                    totalPages: res.data.paginator.total_pages,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_ALL_USERS_NOT_STAFF_DATA_ERROR,
+            });
+        });
+    };
 }
 
 
@@ -112,30 +135,34 @@ export function addStaffData(staff) {
             .then(function (res) {
                 dispatch(addStaffDataSucessful(res));
             }).catch((error) => {
-            dispatch(addStaffDataError(error.response.data.error));
+            dispatch(addStaffDataError(error.response.data.message));
             console.log(error);
         });
     };
 }
 
-export function addStaffDataSucessful() {
-    toastr.success("Thêm nhân viên thành công");
-    browserHistory.push('manage/quan-li-nhan-su');
-    return ({
-        type: types.ADD_STAFF_DATA_SUCCESSFUL,
-        isLoading: false,
-        error: false
-    });
+export function addStaffDataSucessful(res) {
+    if (res.data.status === 1) {
+        toastr.success("Thêm nhân viên thành công");
+        browserHistory.push('manage/quan-li-nhan-su');
+        return ({
+            type: types.ADD_STAFF_DATA_SUCCESSFUL,
+            isLoading: false,
+            error: false
+        });
+    } else {
+        return addStaffDataError(res.data.message);
+    }
 }
 
 export function addStaffDataError(data) {
     let isMessageError = false;
-    if (data.email) {
+    if (data && data.email) {
         toastr.error(data.email);
         isMessageError = true;
     }
 
-    if (data.username) {
+    if (data && data.username) {
         toastr.error(data.username);
         isMessageError = true;
     }
@@ -250,20 +277,24 @@ export function editStaffData(staff) {
             .then(function (res) {
                 dispatch(editStaffDataSucessful(res));
             }).catch((error) => {
-            dispatch(editStaffDataError(error.response.data.error));
+            dispatch(editStaffDataError(error.response.data.message));
             console.log(error);
         });
     };
 }
 
-export function editStaffDataSucessful() {
-    helper.showNotification("Cập nhật nhân viên thành công");
-    browserHistory.push('manage/quan-li-nhan-su');
-    return ({
-        type: types.EDIT_STAFF_DATA_SUCCESSFUL,
-        isLoading: false,
-        error: false
-    });
+export function editStaffDataSucessful(res) {
+    if (res.data.status === 1) {
+        helper.showNotification("Cập nhật nhân viên thành công");
+        browserHistory.push('manage/quan-li-nhan-su');
+        return ({
+            type: types.EDIT_STAFF_DATA_SUCCESSFUL,
+            isLoading: false,
+            error: false
+        });
+    } else {
+        return editStaffDataError(res.data.message);
+    }
 }
 
 export function editStaffDataError(data) {
@@ -295,7 +326,7 @@ export function deleteStaffData(staff) {
         dispatch(beginDeleteStaffData());
         staffApi.deleteStaff(staff)
             .then(function (res) {
-                dispatch(deleteStaffDataSucessful(staff.id,res));
+                dispatch(deleteStaffDataSucessful(staff.id, res));
             }).catch((error) => {
             dispatch(deleteStaffDataError(error.response.data.error));
             console.log(error);
@@ -416,7 +447,7 @@ export function loadRolesDataError() {
         ;
 }
 
-export function beginDataBaseLoad(){
+export function beginDataBaseLoad() {
     return {
         type: types.BEGIN_DATA_BASE_LOAD,
         isLoading: true,

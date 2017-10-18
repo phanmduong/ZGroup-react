@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as studentApi from './studentApi';
-// import * as helper from '../../helpers/helper';
+import * as helper from '../../helpers/helper';
 
 /*eslint no-console: 0 */
 
@@ -73,11 +73,17 @@ export function editInfoStudent(student, closeModal) {
         dispatch({type: types.BEGIN_LOAD_EDIT_INFO_STUDENT});
         studentApi.editStudent(student)
             .then(res => {
-                closeModal();
-                dispatch({
-                    type: types.LOAD_EDIT_INFO_STUDENT_SUCCESS,
-                    student: res.data.data.student
-                });
+                if (res.data.status === 1) {
+                    helper.showNotification("Cập nhật thông tin thành công.");
+                    closeModal();
+                    dispatch({
+                        type: types.LOAD_EDIT_INFO_STUDENT_SUCCESS,
+                        student: res.data.data.student
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({type: types.LOAD_EDIT_INFO_STUDENT_ERROR});
+                }
             })
             .catch(() => {
                 dispatch({type: types.LOAD_EDIT_INFO_STUDENT_ERROR});

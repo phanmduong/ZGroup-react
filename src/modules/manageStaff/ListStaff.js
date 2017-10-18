@@ -21,7 +21,7 @@ class ListStaff extends React.Component {
                         <i className="material-icons">assignment</i>
                     </div>
                     <div className="card-content">
-                        <h4 className="card-title">Danh sách nhân viên</h4>
+                        <h4 className="card-title">{this.props.titleList}</h4>
                         <div className="table-responsive">
                             <table className="table">
                                 <thead className="text-rose">
@@ -32,11 +32,11 @@ class ListStaff extends React.Component {
                                     <th>Phone</th>
                                     <th>Cơ sở</th>
                                     <th>Chức vụ</th>
-                                    <th/>
+                                    {!this.props.disableActions && <th/>}
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {staffs.map(function (staff, index) {
+                                {staffs.map((staff, index) => {
                                     let avatar = helper.avatarEmpty(staff.avatar_url) ?
                                         NO_AVATAR : staff.avatar_url;
                                     return (
@@ -93,13 +93,16 @@ class ListStaff extends React.Component {
                                                 }
 
                                             </td>
-                                            <td>
-                                                <ButtonGroupAction
-                                                    delete={self.props.deleteStaff}
-                                                    editUrl={`staff/${staff.id}/edit`}
-                                                    object={staff}
-                                                />
-                                            </td>
+                                            {
+                                                !this.props.disableActions &&
+                                                <td>
+                                                    <ButtonGroupAction
+                                                        delete={self.props.deleteStaff}
+                                                        editUrl={`staff/${staff.id}/edit`}
+                                                        object={staff}
+                                                    />
+                                                </td>
+                                            }
                                         </tr>
                                     );
                                 })}
@@ -121,6 +124,8 @@ ListStaff.propTypes = {
     changeRoleStaff: PropTypes.func.isRequired,
     changeBaseStaff: PropTypes.func.isRequired,
     deleteStaff: PropTypes.func.isRequired,
+    disableActions: PropTypes.bool.isRequired,
+    titleList: PropTypes.string.isRequired,
 };
 
 export default ListStaff;

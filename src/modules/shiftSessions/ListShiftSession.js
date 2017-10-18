@@ -3,6 +3,7 @@ import Checkbox from '../../components/common/Checkbox';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import moment from 'moment';
 import {TIME_FORMAT_H_M, FULLTIME_FORMAT} from '../../constants/constants';
+import PropTypes from 'prop-types';
 
 class ListShiftSession extends React.Component {
     constructor(props, context) {
@@ -19,7 +20,7 @@ class ListShiftSession extends React.Component {
                         <th>Thời điểm bắt đầu</th>
                         <th>Thời điểm kết thúc</th>
                         <th>Kích hoạt</th>
-                        <th></th>
+                        <th />
                     </tr>
                     </thead>
                     <tbody>
@@ -53,5 +54,10 @@ class ListShiftSession extends React.Component {
     }
 }
 
+ListShiftSession.propTypes = {
+    shiftSessions: PropTypes.array.isRequired,
+    openModalStore: PropTypes.func.isRequired,
+    deleteShiftSession: PropTypes.func.isRequired,
+};
 
 export default ListShiftSession;

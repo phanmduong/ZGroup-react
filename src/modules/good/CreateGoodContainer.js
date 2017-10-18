@@ -27,6 +27,16 @@ class CreateGoodContainer extends React.Component {
         this.saveGood = this.saveGood.bind(this);
     }
 
+    componentWillMount() {
+        if (this.props.route.type === "edit") {
+            this.setState({
+                header: "Sửa sản phẩm"
+            });
+            this.props.goodActions.loadGood(this.props.params.goodId);
+        }
+        this.setState({type: this.props.params.type});
+    }
+
     updateFormData(event) {
         const field = event.target.name;
         let good = {...this.props.good};
@@ -97,16 +107,6 @@ class CreateGoodContainer extends React.Component {
             ...this.props.good,
             properties
         });
-    }
-
-    componentWillMount() {
-        if (this.props.route.type === "edit") {
-            this.setState({
-                header: "Sửa sản phẩm"
-            });
-            this.props.goodActions.loadGood(this.props.params.goodId);
-        }
-        this.setState({type: this.props.params.type});
     }
 
     render() {

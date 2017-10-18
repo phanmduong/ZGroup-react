@@ -10,6 +10,7 @@ import Loading from '../../components/common/Loading';
 import ShiftRegistersWeek from './ShiftRegistersWeek';
 import socket from '../../services/socketio';
 import {CHANNEL} from "../../constants/env";
+import PropTypes from 'prop-types';
 
 class ShiftRegistersContainer extends React.Component {
     constructor(props, context) {
@@ -138,6 +139,17 @@ class ShiftRegistersContainer extends React.Component {
         );
     }
 }
+
+ShiftRegistersContainer.propTypes = {
+    isLoadingGensBases: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    shiftRegisters: PropTypes.array.isRequired,
+    gens: PropTypes.array.isRequired,
+    bases: PropTypes.array.isRequired,
+    currentGen: PropTypes.object.isRequired,
+    userId: PropTypes.number.isRequired,
+    shiftRegisterActions: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

@@ -1,5 +1,6 @@
 import React from 'react';
 import Shift from './Shift';
+import PropTypes from 'prop-types';
 
 class ShiftDates extends React.Component {
     constructor(props, context) {
@@ -18,7 +19,7 @@ class ShiftDates extends React.Component {
                         {
                             date.shifts && date.shifts.map((shift, index) => {
                                 return (
-                                    <div style={{marginBottom: '10px'}}>
+                                    <div style={{marginBottom: '10px'}} key={index}>
                                         <div>
                                             <Shift shift={shift} key={index}/>
                                         </div>
@@ -33,5 +34,8 @@ class ShiftDates extends React.Component {
     }
 }
 
+ShiftDates.propTypes = {
+    date: PropTypes.object.isRequired
+};
 
 export default ShiftDates;

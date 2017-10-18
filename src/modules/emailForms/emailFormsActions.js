@@ -140,7 +140,7 @@ export function saveEmailForm(emailForm) {
                     emailFormId: res.data.data.email_form.id,
                 });
             }).catch(() => {
-            helper.showNotification("Tải lên thất bại");
+            helper.showErrorNotification("Tải lên thất bại");
             dispatch({
                 type: types.SAVE_EMAIL_FORM_FAILED
             });
@@ -183,7 +183,7 @@ export function deleteEmailForm(emailFormId) {
                 });
             })
             .catch(() => {
-                helper.showNotification('Xóa email form thất bại');
+                helper.showErrorNotification('Xóa email form thất bại');
                 dispatch({
                     type: types.DELETE_EMAIL_FORM_ERROR,
                 });

@@ -5,7 +5,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as shiftSessionActions from './shiftSessionActions';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Loading from '../../components/common/Loading';
 import ListShiftSession from './ListShiftSession';
 import {Modal} from 'react-bootstrap';
@@ -192,6 +192,13 @@ class ShiftSessionsContainer extends React.Component {
         );
     }
 }
+
+ShiftSessionsContainer.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    shiftSessionActions: PropTypes.object.isRequired,
+    isStoring: PropTypes.bool.isRequired,
+    shiftSessions: PropTypes.array.isRequired,
+};
 
 function mapStateToProps(state) {
     return {
