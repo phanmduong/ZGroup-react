@@ -93,6 +93,7 @@ class TaskRepository
     {
         $taskListTemplate = TaskList::find($taskListId);
         $taskList = $taskListTemplate->replicate();
+        $taskList->role = "process";
         $taskList->card_id = $cardId;
         $card = Card::find($cardId);
         $project = $card->board->project;

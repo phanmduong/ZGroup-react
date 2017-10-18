@@ -290,38 +290,8 @@ class TaskController extends ManageApiController
 
     public function getBoards($projectId, Request $request)
     {
-
-        $boards = Board::where('project_id', '=', $projectId)->orderBy('order')->get();
-        $data = [
-            "boards" => $boards->map(function ($board) {
-                $cards = $board->cards()->where("status", "open")->orderBy('order')->get();
-                return [
-                    'id' => $board->id,
-                    'title' => $board->title,
-                    'order' => $board->order,
-                    'cards' => $cards->map(function ($card) {
-                        return $card->transform();
-                    })
-                ];
-            })
-        ];
         $project = Project::find($projectId);
-        $members = $project->members->map(function ($member) {
-            return [
-                "id" => $member->id,
-                "name" => $member->name,
-                "email" => $member->email,
-                "is_admin" => $member->pivot->role === 1,
-                "added" => true,
-                "avatar_url" => generate_protocol_url($member->avatar_url)
-            ];
-        });
-        $cardLables = $project->labels()->get(['id', 'name', "color"]);
-
-        $data['members'] = $members;
-        $data['cardLabels'] = $cardLables;
-        $data['canDragBoard'] = $project->can_drag_board;
-        $data['canDragCard'] = $project->can_drag_card;
+        $data = $this->projectRepository->loadProjectBoards($project);
         return $this->respond($data);
     }
 

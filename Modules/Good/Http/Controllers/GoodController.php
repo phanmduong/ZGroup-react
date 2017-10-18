@@ -50,11 +50,29 @@ class GoodController extends ManageApiController
         );
     }
 
+    public function loadGoodTaskProperties($goodId, $taskId)
+    {
+        $task = Task::find($taskId);
+        $goodPropertyNames = $task->goodPropertyItems->pluck("name");
+        $goodProperties = GoodProperty::where("good_id", $goodId)->whereIn("name", $goodPropertyNames)->get();
+        return $this->respondSuccessWithStatus([
+            "good_properties" => $goodProperties->map(function ($goodProperty) {
+                return [
+                    "name" => $goodProperty->name,
+                    "value" => $goodProperty->value
+                ];
+            })
+        ]);
+    }
+
     public function saveGoodProperties($id, Request $request)
     {
         $goodProperties = collect(json_decode($request->good_properties));
-        $goodPropertyIds = $goodProperties->pluck("id");
-        GoodProperty::whereIn("id", $goodPropertyIds)->delete();
+        $goodPropertyNames = $goodProperties->pluck("name")->toArray();
+
+
+        GoodProperty::where("good_id", $id)->whereIn("name", $goodPropertyNames)->delete();
+
         foreach ($goodProperties as $property) {
             $goodProperty = new GoodProperty();
             $goodProperty->name = $property->name;
@@ -62,7 +80,6 @@ class GoodController extends ManageApiController
             $goodProperty->good_id = $id;
             $goodProperty->save();
         }
-
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
