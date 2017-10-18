@@ -127,6 +127,7 @@ class TaskListsContainer extends React.Component {
                 <TaskDeadlineModalContainer/>
                 {
                     this.props.card.taskLists && this.props.card.taskLists.map((taskList) => {
+                        const isProcess = taskList.role === "process";
                         return (
                             <div key={taskList.id}>
                                 <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -168,12 +169,19 @@ class TaskListsContainer extends React.Component {
                                         </span>
                                     </div>
                                 </div>
+                                {
+                                    taskList.rol
+                                }
                                 <ListGroup>
                                     {
                                         taskList.tasks.map((task) => {
-                                            const isProcess = taskList.role === "process";
-                                            const isEnable = task.order == 0 || (isProcess &&
-                                                taskList.tasks.filter(t => !!t.status && t.order == Number(task.order) - 1).length > 0);
+                                            let isEnable = true;
+                                            if (isProcess) {
+                                                isEnable = !task.status &&
+                                                    (task.order == 0 || taskList.tasks.filter(t => !!t.status && t.order == Number(task.order) - 1).length > 0);
+                                            }
+
+
                                             return (<TaskItem
                                                 isEnable={isEnable}
                                                 openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
@@ -186,21 +194,26 @@ class TaskListsContainer extends React.Component {
                                         })
 
                                     }
-                                    <ListGroupItem>
-                                        {
-                                            taskList.isSavingTask ? <Loading/> :
-                                                (
-                                                    <div className="form-group" style={{marginTop: 0}}>
-                                                        <input
-                                                            placeholder="Thêm mục"
-                                                            type="text"
-                                                            className="form-control"
-                                                            onKeyDown={this.addTask(taskList.id)}/>
-                                                    </div>
-                                                )
-                                        }
+                                    {
+                                        !isProcess && (
+                                            <ListGroupItem>
+                                                {
+                                                    taskList.isSavingTask ? <Loading/> :
+                                                        (
+                                                            <div className="form-group" style={{marginTop: 0}}>
+                                                                <input
+                                                                    placeholder="Thêm mục"
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                    onKeyDown={this.addTask(taskList.id)}/>
+                                                            </div>
+                                                        )
+                                                }
 
-                                    </ListGroupItem>
+                                            </ListGroupItem>
+                                        )
+                                    }
+
                                 </ListGroup>
                             </div>
                         );
