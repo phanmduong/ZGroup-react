@@ -136,6 +136,10 @@ class GraphicsController extends Controller
             foreach ($goods_arr as $item) {
                 $good = Good::find($item->id);
                 $good->number = $item->number;
+                $properties = GoodProperty::where('good_id', $good->id)->get();
+                foreach ($properties as $property) {
+                    $good[$property->name] = $property->value;
+                }
                 $goods[] = $good;
             }
         }
