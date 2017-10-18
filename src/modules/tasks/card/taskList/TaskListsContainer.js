@@ -8,8 +8,9 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
-import {confirm} from "../../../../helpers/helper";
+import {confirm, showNotification} from "../../../../helpers/helper";
 import AskGoodPropertiesModalContainer from "../../../good/AskGoodPropertiesModalContainer";
+import {saveGoodProperties} from '../../../good/goodApi';
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
@@ -19,11 +20,15 @@ class TaskListsContainer extends React.Component {
         this.state = {
             showAskGoodPropertiesModal: false,
             goodProperties: [],
-            goodPropertiesOutput: {}
+            goodPropertiesOutput: {},
+            isSaving: false,
+            currentTask: {},
+            currentCard: {}
         };
         this.updateGoodPropertiesOutput = this.updateGoodPropertiesOutput.bind(this);
         this.openAskGoodPropertiesModal = this.openAskGoodPropertiesModal.bind(this);
         this.closeAskGoodPropertiesModal = this.closeAskGoodPropertiesModal.bind(this);
+        this.submitGoodProperties = this.submitGoodProperties.bind(this);
     }
 
     openAskGoodPropertiesModal(goodPropertyItems) {
@@ -39,7 +44,6 @@ class TaskListsContainer extends React.Component {
     }
 
     updateGoodPropertiesOutput(goodPropertiesOutput) {
-        console.log(goodPropertiesOutput);
         this.setState(goodPropertiesOutput);
     }
 
@@ -47,6 +51,29 @@ class TaskListsContainer extends React.Component {
         this.setState({
             showAskGoodPropertiesModal: false
         });
+    }
+
+    submitGoodProperties() {
+        let goodProperties = [];
+        for (let key in this.state.goodPropertiesOutput) {
+            let property = this.state.goodPropertiesOutput[key];
+            let obj = {
+                name: key,
+                value: property.value + (property.unit ? " " + property.unit : "")
+            };
+            goodProperties.push(obj);
+        }
+        this.setState({isSaving: true});
+        saveGoodProperties(this.props.card.good_id, goodProperties)
+            .then(() => {
+                this.closeAskGoodPropertiesModal();
+                this.setState({isSaving: false});
+                showNotification("Cập nhật thuộc tính sản phẩm thành công");
+                this.props.taskActions.toggleTaskStatus(this.state.currentTask, this.state.currentCard);
+                const sourceBoardId = this.state.currentTask.current_board_id;
+                const targetBoardId = this.state.currentTask.target_board_id;
+                this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.state.currentCard.id);
+            });
     }
 
     addTask(taskListId) {
@@ -63,10 +90,21 @@ class TaskListsContainer extends React.Component {
     }
 
     toggleTaskStatus(task, card) {
+        this.setState({
+            currentTask: task,
+            currentCard: card
+        });
         if (task.good_property_items && task.good_property_items.length > 0) {
-            this.openAskGoodPropertiesModal(task.good_property_items);
+            if (!task.status) {
+                this.openAskGoodPropertiesModal(task.good_property_items);
+            } else {
+                this.props.taskActions.toggleTaskStatus(task, card);
+            }
+
+        } else {
+            this.props.taskActions.toggleTaskStatus(task, card);
         }
-        // this.props.taskActions.toggleTaskStatus(task, card);
+
     }
 
 
@@ -77,6 +115,8 @@ class TaskListsContainer extends React.Component {
         return (
             <div className="task-lists">
                 <AskGoodPropertiesModalContainer
+                    isSaving={this.state.isSaving}
+                    submitGoodProperties={this.submitGoodProperties}
                     updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}
                     goodPropertiesOutput={this.state.goodPropertiesOutput}
                     showModal={this.state.showAskGoodPropertiesModal}
@@ -87,6 +127,7 @@ class TaskListsContainer extends React.Component {
                 <TaskDeadlineModalContainer/>
                 {
                     this.props.card.taskLists && this.props.card.taskLists.map((taskList) => {
+                        const isProcess = taskList.role === "process";
                         return (
                             <div key={taskList.id}>
                                 <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -128,33 +169,51 @@ class TaskListsContainer extends React.Component {
                                         </span>
                                     </div>
                                 </div>
+                                {
+                                    taskList.rol
+                                }
                                 <ListGroup>
                                     {
-                                        taskList.tasks.map((task) =>
-                                            (<TaskItem
+                                        taskList.tasks.map((task) => {
+                                            let isEnable = true;
+                                            if (isProcess) {
+                                                isEnable = !task.status &&
+                                                    (task.order == 0 || taskList.tasks.filter(t => !!t.status && t.order == Number(task.order) - 1).length > 0);
+                                            }
+
+
+                                            return (<TaskItem
+                                                isEnable={isEnable}
                                                 openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
                                                 toggleTaskStatus={this.toggleTaskStatus}
                                                 deleteTask={this.props.taskActions.deleteTask}
                                                 key={task.id}
-                                                task={task}/>))
-                                    }
-                                    <ListGroupItem>
-                                        {
-                                            taskList.isSavingTask ? <Loading/> :
-                                                (
-                                                    <div className="form-group" style={{marginTop: 0}}>
-                                                        <input
-                                                            placeholder="Thêm mục"
-                                                            type="text"
-                                                            className="form-control"
-                                                            onKeyDown={this.addTask(taskList.id)}/>
-                                                    </div>
-                                                )
-                                        }
+                                                task={task}/>);
+                                        })
 
-                                    </ListGroupItem>
+                                    }
+                                    {
+                                        !isProcess && (
+                                            <ListGroupItem>
+                                                {
+                                                    taskList.isSavingTask ? <Loading/> :
+                                                        (
+                                                            <div className="form-group" style={{marginTop: 0}}>
+                                                                <input
+                                                                    placeholder="Thêm mục"
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                    onKeyDown={this.addTask(taskList.id)}/>
+                                                            </div>
+                                                        )
+                                                }
+
+                                            </ListGroupItem>
+                                        )
+                                    }
+
                                 </ListGroup>
                             </div>
                         );

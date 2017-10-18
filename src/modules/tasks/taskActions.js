@@ -309,7 +309,8 @@ export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
     };
 }
 
-export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
+export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1) {
+    console.log(siblingOrder);
     return function (dispatch, getState) {
         const state = getState();
         const boards = state.task.boardList.boards;

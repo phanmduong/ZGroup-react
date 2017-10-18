@@ -3,8 +3,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as goodActions from '../good/goodActions';
 import PropTypes from 'prop-types';
-import {Modal} from 'react-bootstrap';
+import {Button, Modal} from 'react-bootstrap';
 import GoodPropertyItem from "./GoodPropertyItem";
+import Loading from "../../components/common/Loading";
 
 class AskGoodPropertiesModalContainer extends React.Component {
     constructor(props, context) {
@@ -49,6 +50,16 @@ class AskGoodPropertiesModalContainer extends React.Component {
                         })
                     }
                 </Modal.Body>
+                <Modal.Footer>
+                    {
+                        this.props.isSaving ? <Loading/> : (
+                            <div>
+                                <Button onClick={this.props.submitGoodProperties} className="btn btn-rose">Lưu</Button>
+                                <Button onClick={this.close}>Đóng</Button>
+                            </div>
+                        )
+                    }
+                </Modal.Footer>
             </Modal>
         );
     }
@@ -58,7 +69,9 @@ AskGoodPropertiesModalContainer.propTypes = {
     goodActions: PropTypes.object.isRequired,
     goodProperties: PropTypes.array.isRequired,
     showModal: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
+    submitGoodProperties: PropTypes.func.isRequired,
     goodPropertiesOutput: PropTypes.object.isRequired,
     updateGoodPropertiesOutput: PropTypes.func.isRequired
 };

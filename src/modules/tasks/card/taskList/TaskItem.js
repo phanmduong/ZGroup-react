@@ -32,6 +32,7 @@ class TaskItem extends React.Component {
                 <div className="checkbox" id={"task" + task.id}>
                     <label style={{fontWeight: 700, color: "#858585"}}>
                         <input
+                            disabled={!this.props.isEnable}
                             checked={task.status || false}
                             onChange={() => this.props.toggleTaskStatus(task, card)}
                             type="checkbox" name="optionsCheckboxes"/>
@@ -93,9 +94,12 @@ TaskItem.propTypes = {
     openTaskDeadlineModal: PropTypes.func.isRequired,
     toggleTaskStatus: PropTypes.func.isRequired,
     card: PropTypes.object.isRequired,
-    task: PropTypes.object.isRequired
+    task: PropTypes.object.isRequired,
+    isEnable: PropTypes.bool
 };
 
-TaskItem.defaultProps = {};
+TaskItem.defaultProps = {
+    isEnable: true
+};
 
 export default TaskItem;

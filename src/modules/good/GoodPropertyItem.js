@@ -8,14 +8,24 @@ class GoodPropertyItem extends React.Component {
         this.handleSelectUnitChange = this.handleSelectUnitChange.bind(this);
         this.handleSelectValueChange = this.handleSelectValueChange.bind(this);
         this.handleInputValueChange = this.handleInputValueChange.bind(this);
+        this.state = {
+            unit: {},
+            value: {}
+        };
     }
 
     handleSelectUnitChange(unitOption) {
         this.props.setUnit(unitOption.name, unitOption.value);
+        this.setState({
+            unit: unitOption
+        });
     }
 
     handleSelectValueChange(valueOption) {
         this.props.setValue(valueOption.name, valueOption.value);
+        this.setState({
+            value: valueOption
+        });
     }
 
     handleInputValueChange(event) {
@@ -36,7 +46,7 @@ class GoodPropertyItem extends React.Component {
                         {
                             property.prevalue ? (
                                 <Select
-                                    value="one"
+                                    value={this.state.value}
                                     options={property.prevalue.split(",").map((value) => {
                                         return {
                                             name: property.name,
@@ -60,7 +70,7 @@ class GoodPropertyItem extends React.Component {
                         property.preunit && (
                             <div style={{flex: 1}}>
                                 <Select
-                                    value="one"
+                                    value={this.state.unit}
                                     options={property.preunit.split(",").map((unit) => {
                                         return {
                                             name: property.name,
