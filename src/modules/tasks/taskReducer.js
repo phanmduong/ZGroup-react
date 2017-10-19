@@ -6,6 +6,14 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.OPEN_CLOSE_PROJECT_MODAL_PERSONAL_SETTING:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    showModal: action.showModal
+                }
+            };
         case types.BEGIN_LOAD_TASK_LIST_TEMPLATES:
             return {
                 ...state,

@@ -4,13 +4,12 @@ import {bindActionCreators} from 'redux';
 import {ListGroup, ListGroupItem, Modal} from "react-bootstrap";
 import PropTypes from 'prop-types';
 import * as taskActions from '../tasks/taskActions';
-import {CirclePicker} from "react-color";
 import Select from 'react-select';
 import Loading from "../../components/common/Loading";
 import ProjectMemberDetailOverlayContainer from "../tasks/project/ProjectMemberDetailOverlayContainer";
-import FormInputText from "../../components/common/FormInputText";
 import AddMemberProjectOverlay from "../tasks/project/AddMemberProjectOverlay";
 import Switch from "../../components/common/Switch";
+import ProjectDetailCommon from "../tasks/project/common/ProjectDetailCommon";
 
 
 class BookProjectDetailModalContainer extends Component {
@@ -110,51 +109,21 @@ class BookProjectDetailModalContainer extends Component {
                                     </h5>
                                     <form role="form">
 
-                                        <FormInputText
-                                            placeholder="Nhập tên dự án"
-                                            label="Tên dự án"
-                                            name="title"
+                                        <ProjectDetailCommon
                                             updateFormData={this.updateFormData}
-                                            value={project.title}/>
-                                        <FormInputText
-                                            placeholder="Nhập mô tả dự án"
-                                            label="Mô tả dự án"
-                                            name="description"
-                                            updateFormData={this.updateFormData}
-                                            value={project.description}/>
+                                            changeColor={this.changeColor}
+                                            project={project}/>
 
-                                        {
-                                            (project.status === "book" || project.status === "fashion") && (
-                                                <div className="form-group label-floating">
-                                                    <label className="control-label">Bảng bắt đầu</label>
-                                                    <Select
-                                                        name="start"
-                                                        value={project.start_board ? project.start_board.id : 0}
-                                                        options={boardOptions}
-                                                        onChange={this.changeStartBoard}
-                                                    />
-                                                </div>
-                                            )
-                                        }
+                                        <div className="form-group label-floating">
+                                            <label className="control-label">Bảng bắt đầu</label>
+                                            <Select
+                                                name="start"
+                                                value={project.start_board ? project.start_board.id : 0}
+                                                options={boardOptions}
+                                                onChange={this.changeStartBoard}
+                                            />
+                                        </div>
 
-
-                                        <CirclePicker
-                                            width="100%"
-                                            color={project.color || ""}
-                                            onChangeComplete={this.changeColor}/>
-
-                                        {
-                                            (project.status === "open" || project.status === "close") && (
-                                                <div className="form-group">
-                                                    <Select
-                                                        name="status"
-                                                        value={project.status}
-                                                        options={this.statusOptions}
-                                                        onChange={this.changeStatus}
-                                                    />
-                                                </div>
-                                            )
-                                        }
 
 
                                         <div>

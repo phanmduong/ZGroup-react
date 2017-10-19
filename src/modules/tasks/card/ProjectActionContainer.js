@@ -4,13 +4,16 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import ProjectDetailModalContainer from "../project/ProjectDetailModalContainer";
 import ArchiveCardsModalContainer from "./ArchiveCardsModalContainer";
+import * as projectPersonalSettingAction from '../project/projectPersonalSettingAction';
 import * as taskActions from '../taskActions';
+import ProjectPersonalSettingModalContainer from "../project/ProjectPersonalSettingModalContainer";
 
 class ProjectActionContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.openProjectSetting = this.openProjectSetting.bind(this);
         this.open = this.open.bind(this);
+        this.openProjectPersonalSetting = this.openProjectPersonalSetting.bind(this);
     }
 
     openProjectSetting() {
@@ -22,6 +25,10 @@ class ProjectActionContainer extends React.Component {
         event.preventDefault();
         this.props.taskActions.openArchiveCardModal();
         this.props.taskActions.loadArchiveCards(this.props.projectId);
+    }
+
+    openProjectPersonalSetting() {
+        this.props.projectPersonalSettingAction.openClosePersonalSettingModal(true);
     }
 
     render() {
@@ -36,10 +43,12 @@ class ProjectActionContainer extends React.Component {
                         {
                             this.props.isAdmin && <li><a onClick={this.openProjectSetting}>Cài đặt</a></li>
                         }
+                        <li><a onClick={this.openProjectPersonalSetting}>Cài đặt cá nhân</a></li>
 
                     </ul>
                 </div>
                 <ProjectDetailModalContainer/>
+                <ProjectPersonalSettingModalContainer/>
                 <ArchiveCardsModalContainer
                     isAdmin={this.props.isAdmin}
                     projectId={this.props.projectId}/>
@@ -51,7 +60,8 @@ class ProjectActionContainer extends React.Component {
 ProjectActionContainer.propTypes = {
     projectId: PropTypes.number.isRequired,
     isAdmin: PropTypes.bool.isRequired,
-    taskActions: PropTypes.object.isRequired
+    taskActions: PropTypes.object.isRequired,
+    projectPersonalSettingAction: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -62,7 +72,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        taskActions: bindActionCreators(taskActions, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch),
+        projectPersonalSettingAction: bindActionCreators(projectPersonalSettingAction, dispatch)
     };
 }
 

@@ -190,6 +190,10 @@ export default {
     },
 
     task: {
+        personalSetting: {
+            showModal: false,
+            setting: {}
+        },
         taskDeadline: {
             showModal: false,
             isSaving: false,

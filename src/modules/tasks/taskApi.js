@@ -464,3 +464,14 @@ export function updateTasksOrder(tasks) {
 
     return axios.put(url, {tasks: JSON.stringify(tasks)});
 }
+
+
+export function updateProjectPersonalSetting(projectId, setting) {
+    let url = env.MANAGE_API_URL + `/project/${projectId}/personal-setting`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {setting});
+}
+
