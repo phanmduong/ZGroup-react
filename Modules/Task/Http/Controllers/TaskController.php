@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Redis;
 use Modules\Task\Entities\CardLabel;
+use Modules\Task\Entities\ProjectUser;
 use Modules\Task\Entities\TaskList;
 use Modules\Task\Repositories\ProjectRepository;
 use Modules\Task\Repositories\TaskRepository;
@@ -191,8 +192,10 @@ class TaskController extends ManageApiController
             }
         } else {
             $board = $project->boards()->where('is_start', 1)->first();
-            $board->is_start = 0;
-            $board->save();
+            if ($board) {
+                $board->is_start = 0;
+                $board->save();
+            }
         }
 
 
@@ -673,6 +676,20 @@ class TaskController extends ManageApiController
         $project->can_drag_card = $request->canDragCard;
         $project->can_edit_task = $request->canEditTask;
         $project->save();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function changeProjectPersonalSetting($projectId, Request $request)
+    {
+        $projectUser = ProjectUser::where("project_id", $projectId)->where("user_id", $this->user->id)->first();
+        if ($projectUser == null) {
+            return $this->respondErrorWithStatus("You are not belonging to this project ");
+        }
+        if ($request->setting) {
+            return $this->respondErrorWithStatus("setting param is required");
+        }
+        $projectUser->setting = $request->setting;
+        $projectUser->save();
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
