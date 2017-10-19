@@ -23,8 +23,8 @@ class ReactEditor extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if (nextProps.value === ''){
-            this.setState({editorState: ''});
+        if (nextProps.value == '' || nextProps.value == undefined || nextProps.value == null){
+            this.setState({editorState: EditorState.createEmpty()});
         }
     }
 
