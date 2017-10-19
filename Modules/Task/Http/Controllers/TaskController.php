@@ -703,7 +703,16 @@ class TaskController extends ManageApiController
     {
         $projectUser = ProjectUser::where("project_id", $projectId)->where("user_id", $this->user->id)->first();
         if ($projectUser == null) {
-            return $this->respondErrorWithStatus("You are not belonging to this project ");
+            if ($this->user->role == 2) {
+                $projectUser = new ProjectUser();
+                $projectUser->user_id = $this->user->id;
+                $projectUser->project_id = $projectId;
+                $projectUser->role = 1;
+                $projectUser->save();
+            } else {
+                return $this->respondErrorWithStatus("You are not belonging to this project ");
+            }
+
         }
 
         return $this->respondSuccessWithStatus([
