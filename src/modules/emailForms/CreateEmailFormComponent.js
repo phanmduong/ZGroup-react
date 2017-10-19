@@ -486,7 +486,7 @@ CreateEmailFormComponent.propTypes = {
     isLoadingEmailForm: PropTypes.bool.isRequired,
     isStoringCampaign: PropTypes.bool.isRequired,
     emailFormsActions: PropTypes.object.isRequired,
-    subscribersList: PropTypes.array.isRequired,
+    subscribersList: PropTypes.object.isRequired,
     updateEmailFormData: PropTypes.func.isRequired,
     updateEditorContent: PropTypes.func.isRequired,
     updateEditorFooter: PropTypes.func.isRequired,

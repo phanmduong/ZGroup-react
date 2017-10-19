@@ -17,7 +17,7 @@ import CommentListContainer from "./comment/CommentListContainer";
 
 const CardBody = ({
                       card, isSavingCard, toggleEditCardDescription, deleteFile,
-                      isEditing, saveCard, cancelEdit, updateEditor
+                      isEditing, saveCard, cancelEdit, updateEditor, description
                   }) => {
     const editTooltip = (
         <Tooltip id="tooltip">Chỉnh sửa mô tả công việc</Tooltip>
@@ -79,7 +79,7 @@ const CardBody = ({
                                         <ReactEditor
                                             urlPost={linkUploadImageEditor()}
                                             fileField="image"
-                                            value={card.description || ""}
+                                            value={description || ""}
                                             updateEditor={updateEditor}/>
                                         <button
                                             onClick={saveCard}
@@ -127,6 +127,7 @@ const CardBody = ({
 
 CardBody.propTypes = {
     card: PropTypes.object.isRequired,
+    description: PropTypes.string,
     cancelEdit: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
     toggleEditCardDescription: PropTypes.func.isRequired,
