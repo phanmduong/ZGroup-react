@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Redis;
 use Modules\Task\Entities\CardLabel;
+use Modules\Task\Entities\ProjectUser;
 use Modules\Task\Entities\TaskList;
 use Modules\Task\Repositories\ProjectRepository;
 use Modules\Task\Repositories\TaskRepository;
@@ -191,8 +192,10 @@ class TaskController extends ManageApiController
             }
         } else {
             $board = $project->boards()->where('is_start', 1)->first();
-            $board->is_start = 0;
-            $board->save();
+            if ($board) {
+                $board->is_start = 0;
+                $board->save();
+            }
         }
 
 
@@ -290,38 +293,8 @@ class TaskController extends ManageApiController
 
     public function getBoards($projectId, Request $request)
     {
-
-        $boards = Board::where('project_id', '=', $projectId)->orderBy('order')->get();
-        $data = [
-            "boards" => $boards->map(function ($board) {
-                $cards = $board->cards()->where("status", "open")->orderBy('order')->get();
-                return [
-                    'id' => $board->id,
-                    'title' => $board->title,
-                    'order' => $board->order,
-                    'cards' => $cards->map(function ($card) {
-                        return $card->transform();
-                    })
-                ];
-            })
-        ];
         $project = Project::find($projectId);
-        $members = $project->members->map(function ($member) {
-            return [
-                "id" => $member->id,
-                "name" => $member->name,
-                "email" => $member->email,
-                "is_admin" => $member->pivot->role === 1,
-                "added" => true,
-                "avatar_url" => generate_protocol_url($member->avatar_url)
-            ];
-        });
-        $cardLables = $project->labels()->get(['id', 'name', "color"]);
-
-        $data['members'] = $members;
-        $data['cardLabels'] = $cardLables;
-        $data['canDragBoard'] = $project->can_drag_board;
-        $data['canDragCard'] = $project->can_drag_card;
+        $data = $this->projectRepository->loadProjectBoards($project, $this->user);
         return $this->respond($data);
     }
 
@@ -403,7 +376,7 @@ class TaskController extends ManageApiController
 
         return $this->respond([
             "message" => $message,
-            "board" => $this->boardTransformer->transform($board)
+            "board" => $board->transformBoardWithCard()
         ]);
     }
 
@@ -557,7 +530,9 @@ class TaskController extends ManageApiController
             return [
                 'id' => $taskList->id,
                 'title' => $taskList->title,
-                'tasks' => $this->taskTransformer->transformCollection($taskList->tasks)
+                'tasks' => $taskList->tasks->map(function ($task) {
+                    return $task->transform();
+                })
             ];
         });
         return $this->respond($taskLists);
@@ -570,11 +545,13 @@ class TaskController extends ManageApiController
         }
         $task = Task::where("task_list_id", $request->task_list_id)->orderBy("order", "desc")->first();
 
-        if ($task == null || $task->order == null) {
+
+        if ($task === null || $task->order === null) {
             $order = 0;
         } else {
             $order = $task->order + 1;
         }
+
 
         $task = new Task();
         $task->title = $request->title;
@@ -702,6 +679,47 @@ class TaskController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
+    public function changeProjectPersonalSetting($projectId, Request $request)
+    {
+        $projectUser = ProjectUser::where("project_id", $projectId)->where("user_id", $this->user->id)->first();
+        if ($projectUser == null) {
+            $projectUser = new ProjectUser();
+            $projectUser->project_id = $projectId;
+            $projectUser->user_id = $this->user->id;
+            if ($this->user->role == 2) {
+                $projectUser->role = 1;
+            }
+            $projectUser->save();
+        }
+        if ($request->setting == null) {
+            return $this->respondErrorWithStatus("setting param is required");
+        }
+        $projectUser->setting = $request->setting;
+        $projectUser->save();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function loadProjectPersonalSetting($projectId)
+    {
+        $projectUser = ProjectUser::where("project_id", $projectId)->where("user_id", $this->user->id)->first();
+        if ($projectUser == null) {
+            if ($this->user->role == 2) {
+                $projectUser = new ProjectUser();
+                $projectUser->user_id = $this->user->id;
+                $projectUser->project_id = $projectId;
+                $projectUser->role = 1;
+                $projectUser->save();
+            } else {
+                return $this->respondErrorWithStatus("You are not belonging to this project ");
+            }
+
+        }
+
+        return $this->respondSuccessWithStatus([
+            "setting" => $projectUser->setting
+        ]);
+    }
+
     public function taskAvailableMembers($taskId)
     {
         $task = Task::find($taskId);
@@ -743,7 +761,7 @@ class TaskController extends ManageApiController
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
         $task = $this->taskRepository->saveTaskDeadline($task, $request->deadline, $this->user);
-        return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
+        return $this->respondSuccessWithStatus(["task" => $task->transform()]);
     }
 
     public function saveTaskSpan($taskId, Request $request)
@@ -757,7 +775,7 @@ class TaskController extends ManageApiController
         $task->span = $span;
         $task->save();
 
-        return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
+        return $this->respondSuccessWithStatus(["task" => $task->transform()]);
     }
 
     public function putStartBoard($projectId, $boardId)

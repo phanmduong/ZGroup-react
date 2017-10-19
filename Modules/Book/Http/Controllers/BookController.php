@@ -7,9 +7,18 @@ use App\Http\Controllers\ManageApiController;
 use App\Project;
 use Illuminate\Http\Request;
 use Modules\Task\Entities\TaskList;
+use Modules\Task\Repositories\ProjectRepository;
 
 class BookController extends ManageApiController
 {
+    protected $projectRepository;
+
+    public function __construct(ProjectRepository $projectRepository)
+    {
+        parent::__construct();
+        $this->projectRepository = $projectRepository;
+    }
+
     public function taskListTemplates(Request $request)
     {
         $type = $request->type;
@@ -107,32 +116,7 @@ class BookController extends ManageApiController
         if (is_null($project)) {
             return $this->respondErrorWithStatus("Dự án sản xuấu chưa được tạo");
         }
-
-        $boards = Board::where('project_id', '=', $project->id)->orderBy('order')->get();
-        $data = [
-            "id" => $project->id,
-            "title" => $project->title,
-            "status" => $project->status,
-            "description" => $project->description,
-            "boards" => $boards->map(function ($board) {
-                return $board->transformBoardWithCard();
-            })
-        ];
-        $members = $project->members->map(function ($member) {
-            return [
-                "id" => $member->id,
-                "name" => $member->name,
-                "email" => $member->email,
-                "is_admin" => $member->pivot->role === 1,
-                "added" => true,
-                "avatar_url" => generate_protocol_url($member->avatar_url)
-            ];
-        });
-        $cardLables = $project->labels()->get(['id', 'name', "color"]);
-        $data['members'] = $members;
-        $data['cardLabels'] = $cardLables;
-        $data['canDragBoard'] = $project->can_drag_board;
-        $data['canDragCard'] = $project->can_drag_card;
+        $data = $this->projectRepository->loadProjectBoards($project, $this->user);
         return $this->respond($data);
     }
 }

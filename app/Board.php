@@ -46,7 +46,9 @@ class Board extends Model
             "title" => $this->title,
             "is_start" => $this->is_start,
             "order" => $this->order,
-            "cards" => $cards
+            "cards" => $cards->map(function ($card) {
+                return $card->transform();
+            })
         ];
     }
 }
