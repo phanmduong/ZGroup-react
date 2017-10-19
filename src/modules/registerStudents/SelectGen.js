@@ -24,7 +24,7 @@ class Select extends React.Component {
                 value={this.props.value}
                 onChange={(event) => this.props.onChange(event.target.value)}
                 className="selectpicker"
-                data-style="btn btn-primary btn-round">
+                data-style="btn btn-rose btn-round">
                 <option selected disabled>{this.props.defaultMessage || "Please select"}</option>
                 {this.props.options.map((option, index) => {
                     return <option key={index} value={option.id}>Khóa {option.name}</option>;
