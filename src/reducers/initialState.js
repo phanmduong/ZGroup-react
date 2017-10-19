@@ -647,5 +647,12 @@ export default {
             isShowModal: false,
             isSaving: false
         }
+    },
+
+    attendanceStudent: {
+        currentGen: 0,
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
     }
 };
