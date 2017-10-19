@@ -12,6 +12,7 @@ use Modules\Task\Repositories\ProjectRepository;
 class BookController extends ManageApiController
 {
     protected $projectRepository;
+
     public function __construct(ProjectRepository $projectRepository)
     {
         parent::__construct();
@@ -115,7 +116,7 @@ class BookController extends ManageApiController
         if (is_null($project)) {
             return $this->respondErrorWithStatus("Dự án sản xuấu chưa được tạo");
         }
-        $data = $this->projectRepository->loadProjectBoards($project);
+        $data = $this->projectRepository->loadProjectBoards($project, $this->user);
         return $this->respond($data);
     }
 }

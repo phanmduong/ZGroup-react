@@ -294,7 +294,7 @@ class TaskController extends ManageApiController
     public function getBoards($projectId, Request $request)
     {
         $project = Project::find($projectId);
-        $data = $this->projectRepository->loadProjectBoards($project);
+        $data = $this->projectRepository->loadProjectBoards($project, $this->user);
         return $this->respond($data);
     }
 
@@ -683,14 +683,32 @@ class TaskController extends ManageApiController
     {
         $projectUser = ProjectUser::where("project_id", $projectId)->where("user_id", $this->user->id)->first();
         if ($projectUser == null) {
-            return $this->respondErrorWithStatus("You are not belonging to this project ");
+            $projectUser = new ProjectUser();
+            $projectUser->project_id = $projectId;
+            $projectUser->user_id = $this->user->id;
+            if ($this->user->role == 2) {
+                $projectUser->role = 1;
+            }
+            $projectUser->save();
         }
-        if ($request->setting) {
+        if ($request->setting == null) {
             return $this->respondErrorWithStatus("setting param is required");
         }
         $projectUser->setting = $request->setting;
         $projectUser->save();
         return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function loadProjectPersonalSetting($projectId)
+    {
+        $projectUser = ProjectUser::where("project_id", $projectId)->where("user_id", $this->user->id)->first();
+        if ($projectUser == null) {
+            return $this->respondErrorWithStatus("You are not belonging to this project ");
+        }
+
+        return $this->respondSuccessWithStatus([
+            "setting" => $projectUser->setting
+        ]);
     }
 
     public function taskAvailableMembers($taskId)

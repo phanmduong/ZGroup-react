@@ -14,6 +14,7 @@ use App\Notification;
 use App\Project;
 use App\Repositories\NotificationRepository;
 use Illuminate\Support\Facades\Redis;
+use Modules\Task\Entities\ProjectUser;
 
 class ProjectRepository
 {
@@ -119,7 +120,8 @@ class ProjectRepository
         return true;
     }
 
-    public function loadProjectBoards($project){
+    public function loadProjectBoards($project, $currentUser)
+    {
         $boards = Board::where('project_id', '=', $project->id)->orderBy('order')->get();
         $data = [
             "id" => $project->id,
@@ -130,6 +132,15 @@ class ProjectRepository
                 return $board->transformBoardWithCard();
             })
         ];
+
+        if ($currentUser) {
+            $projectUser = ProjectUser::where("project_id", $project->id)->where("user_id", $currentUser->id)->first();
+            if ($projectUser) {
+                $data["setting"] = $projectUser->setting;
+            }
+        }
+
+
         $members = $project->members->map(function ($member) {
             return [
                 "id" => $member->id,

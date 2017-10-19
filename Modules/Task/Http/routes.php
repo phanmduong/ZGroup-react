@@ -55,11 +55,13 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::get('/project-members/{filter?}', "TaskController@loadProjectMembers");
 
     Route::put('/project/{projectId}/setting', "TaskController@changeProjectSetting");
-    Route::put('/project/{projectId}/personal-setting', "TaskController@changeProjectPersonalSetting");
     Route::put('/project/{projectId}/start-board/{boardId}', "TaskController@putStartBoard");
     Route::post('/project/{projectId}/create-label', "CardLabelController@createLabel");
     Route::get('/project/{projectId}/labels', "CardLabelController@loadLabels");
     Route::get('/project/{projectId}/archive-cards', "CardController@archiveCards");
+    Route::put('/project/{projectId}/personal-setting', "TaskController@changeProjectPersonalSetting");
+    Route::get('/project/{projectId}/personal-setting', "TaskController@loadProjectPersonalSetting");
+
     Route::delete('/cardlabel/{cardLabelId}', "CardLabelController@deleteCardLabel");
     Route::post('/cardlabel/{cardLabelId}/card/{cardId}', "CardLabelController@assignCardLabel");
 
