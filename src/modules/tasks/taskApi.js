@@ -466,7 +466,7 @@ export function updateTasksOrder(tasks) {
 }
 
 
-export function updateProjectPersonalSetting(projectId, setting) {
+export function submitProjectPersonalSetting(projectId, setting) {
     let url = env.MANAGE_API_URL + `/project/${projectId}/personal-setting`;
     const token = localStorage.getItem('token');
     if (token) {
@@ -475,3 +475,11 @@ export function updateProjectPersonalSetting(projectId, setting) {
     return axios.put(url, {setting});
 }
 
+export function loadProjectPersonalSetting(projectId) {
+    let url = env.MANAGE_API_URL + `/project/${projectId}/personal-setting`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}

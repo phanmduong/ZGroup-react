@@ -82,6 +82,7 @@ class BookBoardListContainer extends React.Component {
                             isAdmin={isAdmin}
                             projectId={Number(this.props.projectId)}/>
                         <BookBoardList
+                            display={this.props.setting.display || "full"}
                             isAdmin={isAdmin}
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}
@@ -109,6 +110,7 @@ BookBoardListContainer.propTypes = {
     members: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
+    setting: PropTypes.object.isRequired,
     isLoadingBoards: PropTypes.bool.isRequired,
     canDragBoard: PropTypes.oneOfType([
         PropTypes.number.isRequired,
@@ -166,6 +168,7 @@ function mapStateToProps(state) {
         canDragBoard: state.task.boardList.canDragBoard,
         canDragCard: state.task.boardList.canDragCard,
         members: state.task.boardList.members,
+        setting: state.task.boardList.setting,
         boards,
         user: state.login.user
     };

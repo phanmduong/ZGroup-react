@@ -80,6 +80,7 @@ class BoardListContainer extends React.Component {
                             isAdmin={isAdmin}
                             projectId={Number(this.props.params.projectId)}/>
                         <BoardList
+                            display={this.props.setting.display || "full"}
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}
                             archiveCard={this.props.taskActions.archiveCard}
@@ -106,6 +107,7 @@ BoardListContainer.propTypes = {
     boards: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     isLoadingBoards: PropTypes.bool.isRequired,
+    setting: PropTypes.object.isRequired,
     canDragBoard: PropTypes.oneOfType([
         PropTypes.number.isRequired,
         PropTypes.bool.isRequired
@@ -157,10 +159,12 @@ function mapStateToProps(state) {
     });
 
     return {
+        projectId: state.task.boardList.projectId,
         isLoadingBoards: state.task.boardList.isLoadingBoards,
         canDragBoard: state.task.boardList.canDragBoard,
         canDragCard: state.task.boardList.canDragCard,
         members: state.task.boardList.members,
+        setting: state.task.boardList.setting,
         boards,
         user: state.login.user
     };

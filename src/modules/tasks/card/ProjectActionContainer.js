@@ -44,7 +44,6 @@ class ProjectActionContainer extends React.Component {
                             this.props.isAdmin && <li><a onClick={this.openProjectSetting}>Cài đặt</a></li>
                         }
                         <li><a onClick={this.openProjectPersonalSetting}>Cài đặt cá nhân</a></li>
-
                     </ul>
                 </div>
                 <ProjectDetailModalContainer/>

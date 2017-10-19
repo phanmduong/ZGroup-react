@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Dragula from 'react-dragula';
-import CardItem from "../card/CardItem";
+import CardList from "../card/CardList";
 
 class BoardList extends React.Component {
     constructor(props, context) {
@@ -139,20 +139,15 @@ class BoardList extends React.Component {
                                     </div>
                                 </div>
 
-                                <div className="board" id={board.id}>
-                                    {board.cards.map((card) => {
-                                        return (
-                                            <CardItem
-                                                archiveCard={this.props.archiveCard}
-                                                updateCardInBoard={this.props.updateCardInBoard}
-                                                key={card.id}
-                                                card={card}
-                                                openCardDetailModal={this.props.openCardDetailModal}/>
-                                        );
-                                    })}
 
+                                <CardList
+                                    board={board}
+                                    display={this.props.display}
+                                    archiveCard={this.props.archiveCard}
+                                    updateCardInBoard={this.props.updateCardInBoard}
+                                    openCardDetailModal={this.props.openCardDetailModal}
+                                />
 
-                                </div>
                             </div>
                         );
                     })}
@@ -182,6 +177,7 @@ BoardList.propTypes = {
         PropTypes.bool.isRequired
     ]),
     boards: PropTypes.array.isRequired,
+    display: PropTypes.string,
     openCreateBoardModal: PropTypes.func.isRequired,
     changeOrderCard: PropTypes.func.isRequired,
     addCard: PropTypes.func.isRequired,

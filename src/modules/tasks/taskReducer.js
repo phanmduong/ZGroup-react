@@ -6,6 +6,56 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_PROJECT_PERSONAL_SETTING:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_PROJECT_PERSONAL_SETTING_SUCCESS:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    isLoading: false,
+                    setting: {
+                        ...action.setting,
+                        display: action.setting.display || "full"
+                    }
+                }
+            };
+        case types.BEGIN_SUBMIT_PROJECT_PERSONAL_SETTING:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    isSaving: true
+                }
+            };
+
+        case types.SUBMIT_PROJECT_PERSONAL_SETTING_SUCCESS:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    isSaving: false,
+                    showModal: false
+                },
+                boardList: {
+                    ...state.boardList,
+                    setting: action.setting
+                }
+            };
+        case types.UPDATE_PROJECT_PERSONAL_SETTING:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    setting: action.setting
+                }
+            };
         case types.OPEN_CLOSE_PROJECT_MODAL_PERSONAL_SETTING:
             return {
                 ...state,
@@ -1167,6 +1217,7 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.boardList,
                     isLoadingBoards: false,
                     boards: action.boards,
+                    setting: action.setting,
                     projectId: action.projectId,
                     members: action.members,
                     canDragBoard: action.canDragBoard,

@@ -192,6 +192,7 @@ export function loadBoards(projectId) {
                     projectId: projectId,
                     type: types.LOAD_BOARDS_SUCCESS,
                     boards: res.data.boards,
+                    setting: res.data.setting ? JSON.parse(res.data.setting) : {},
                     cardLabels: res.data.cardLabels,
                     members: res.data.members,
                     canDragCard: res.data.canDragCard,

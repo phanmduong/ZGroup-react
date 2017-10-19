@@ -192,7 +192,9 @@ export default {
     task: {
         personalSetting: {
             showModal: false,
-            setting: {}
+            setting: {},
+            isSaving: false,
+            isLoading: false
         },
         taskDeadline: {
             showModal: false,
@@ -267,6 +269,7 @@ export default {
             projectId: 0,
             members: [],
             boards: [],
+            setting: {},
             isLoadingBoards: false,
             canDragCard: false,
             canDragBoard: false
