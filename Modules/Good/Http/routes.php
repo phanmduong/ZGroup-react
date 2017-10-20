@@ -11,4 +11,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::post('/add-property-item-task/{task_id}', 'GoodController@addPropertyItemsTask');
     Route::get("/property-item/{property_item_id}", 'GoodController@getGoodPropertyItem');
     Route::get("/get-property/{good_id}", 'GoodController@propertiesOfGood');
+    Route::post("/{id}/save-good-properties", 'GoodController@saveGoodProperties');
+    Route::get("/{goodId}/task/{taskId}/good-properties", 'GoodController@loadGoodTaskProperties');
 });

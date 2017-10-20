@@ -72,6 +72,7 @@ class Card extends Model
             "deadline_elapse" => $hasDeadline ? time_remain_string(strtotime($this->deadline)) : null,
             "deadline" => $hasDeadline ? format_vn_short_datetime(strtotime($this->deadline)) : null,
             'board_id' => $this->board_id,
+            "good_id" => $this->good_id,
             "board" => [
                 "id" => $this->board->id,
                 "title" => $this->board->title
@@ -79,7 +80,9 @@ class Card extends Model
             "status" => $this->status,
             'order' => $this->order,
             "cardLabels" => $this->cardLabels,
-            "tasks" => Task::whereIn("task_list_id", $taskListIds)->get(),
+            "tasks" => Task::whereIn("task_list_id", $taskListIds)->get()->map(function ($task) {
+                return $task->transform();
+            }),
             "members" => $this->memberTransformer->transformCollection($this->assignees)
         ];
     }

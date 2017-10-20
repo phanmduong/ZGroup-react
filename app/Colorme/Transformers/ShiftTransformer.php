@@ -24,13 +24,15 @@ class ShiftTransformer extends Transformer
                 'avatar_url' => $shift->user->avatar_url ? generate_protocol_url($shift->user->avatar_url) : url('img/user.png')
             ];
         }
+
+        $shift_session = $shift->shift_session()->withTrashed()->first();
         return [
             'id' => $shift->id,
-            "name" => $shift->shift_session->name,
+            "name" => $shift_session->name,
             'user' => $user,
             'base' => ['name' => $shift->base->name, 'address' => $shift->base->address],
-            'start_time' => format_time_shift(strtotime($shift->shift_session->start_time)),
-            'end_time' => format_time_shift(strtotime($shift->shift_session->end_time))
+            'start_time' => format_time_shift(strtotime($shift_session->start_time)),
+            'end_time' => format_time_shift(strtotime($shift_session->end_time))
         ];
     }
 }
