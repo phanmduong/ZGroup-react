@@ -2,71 +2,41 @@
 
 namespace Modules\Order\Http\Controllers;
 
+use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Order;
 
-class OrderController extends Controller
+
+class OrderController extends ManageApiController
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
+    public function __construct()
     {
-        return view('order::index');
+        parent::__construct();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
+    public function allOrders(Request $request)
     {
-        return view('order::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('order::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('order::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
+        $start = $request->start;
+        $end = $request->end;
+        $type = $request->type;
+        if ($start) {
+            if ($type)
+                $orders = Order::where('type', $type)->whereBetween('created_at', array($start, $end))->orderBy("created_at", "desc")->paginate(20);
+            else
+                $orders = Order::whereBetween('created_at', array($start, $end))->orderBy("created_at", "desc")->paginate(20);
+        } else {
+            if ($type)
+                $orders = Order::where('type', $type)->orderBy("created_at", "desc")->paginate(20);
+            else
+                $orders = Order::orderBy("created_at", "desc")->paginate(20);
+        }
+        return $this->respondWithPagination(
+            $orders,
+            [
+                'orders' => $orders->map(function ($order) {
+                    return $order->transform();
+                })
+            ]
+        );
     }
 }

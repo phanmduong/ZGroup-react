@@ -17,4 +17,9 @@ class Warehouse extends Model
     {
         return $this->hasMany('App\GoodWarehouse', 'warehouse_id');
     }
+
+    public function base()
+    {
+        return $this->belongsTo(Base::class, 'base_id');
+    }
 }
