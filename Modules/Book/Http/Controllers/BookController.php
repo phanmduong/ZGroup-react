@@ -12,7 +12,6 @@ use Modules\Task\Repositories\ProjectRepository;
 class BookController extends ManageApiController
 {
     protected $projectRepository;
-
     public function __construct(ProjectRepository $projectRepository)
     {
         parent::__construct();
