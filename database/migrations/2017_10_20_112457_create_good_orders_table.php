@@ -13,18 +13,11 @@ class CreateGoodOrdersTable extends Migration
     public function up()
     {
         //
-        Schema::create('good_orders', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('quantity')->unsigned()->index();
-            $table->integer('price')->unsigned()->index();
+        Schema::table('good_order', function (Blueprint $table) {
             $table->integer('import_price')->unsigned()->index();
-            $table->integer('good_id')->unsigned()->index();
-            $table->integer('order_id')->unsigned()->index();
             $table->integer('coupon_id')->unsigned()->index();
             $table->integer('discount_percent')->unsigned()->index();
             $table->integer('discount_money')->unsigned()->index();
-            $table->timestamps();
-            $table->softDeletes();
         });
     }
 
