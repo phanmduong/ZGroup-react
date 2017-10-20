@@ -22,9 +22,6 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         this.handleSelectTargetBoard = this.handleSelectTargetBoard.bind(this);
     }
 
-    componentWillMount() {
-        this.props.goodActions.loadAllGoodPropertyItems(this.props.type);
-    }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.task.id && nextProps.task.id != this.props.task.id) {
@@ -39,6 +36,9 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                 currentBoard: nextProps.task.current_board,
                 targetBoard: nextProps.task.target_board
             });
+        }
+        if (!this.props.showModal && nextProps.showModal) {
+            this.props.goodActions.loadAllGoodPropertyItems(nextProps.type);
         }
     }
 

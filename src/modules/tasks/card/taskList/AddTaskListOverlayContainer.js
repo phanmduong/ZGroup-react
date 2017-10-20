@@ -16,14 +16,12 @@ class AddTaskListOverlayContainer extends React.Component {
         this.saveTaskList = this.saveTaskList.bind(this);
         this.updateCreateTaskListFormData = this.updateCreateTaskListFormData.bind(this);
         this.onChangeTaskList = this.onChangeTaskList.bind(this);
-        this.toggleCreateNew = this.toggleCreateNew.bind(this);
         this.saveTaskListTemplate = this.saveTaskListTemplate.bind(this);
         this.state = {
             show: false,
             isLoading: false,
             page: 1,
-            selectedTaskList: null,
-            createNewTask: false
+            selectedTaskList: null
         };
     }
 
@@ -34,9 +32,6 @@ class AddTaskListOverlayContainer extends React.Component {
         this.setState({show: !this.state.show});
     }
 
-    toggleCreateNew() {
-        this.setState({createNewTask: !this.state.createNewTask});
-    }
 
     saveTaskList() {
         this.props.taskActions
@@ -63,6 +58,7 @@ class AddTaskListOverlayContainer extends React.Component {
         taskList[field] = value;
         this.props.taskActions.updateCreateTaskListFormData(taskList);
     }
+
     onChangeTaskList(value) {
         this.setState({selectedTaskList: value});
     }
@@ -83,10 +79,9 @@ class AddTaskListOverlayContainer extends React.Component {
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
 
                     <TaskFormPopover
+                        isProcess={this.props.isProcess}
                         saveTaskListTemplate={this.saveTaskListTemplate}
                         isLoading={this.props.isLoading}
-                        toggleCreateNew={this.toggleCreateNew}
-                        createNewTask={this.state.createNewTask}
                         selectedTaskList={this.state.selectedTaskList}
                         taskLists={this.props.taskLists}
                         onChangeTaskList={this.onChangeTaskList}
@@ -110,7 +105,8 @@ AddTaskListOverlayContainer.propTypes = {
     bookActions: PropTypes.object.isRequired,
     taskList: PropTypes.object.isRequired,
     taskLists: PropTypes.array.isRequired,
-    card: PropTypes.object.isRequired
+    card: PropTypes.object.isRequired,
+    isProcess: PropTypes.bool
 };
 
 function mapStateToProps(state) {

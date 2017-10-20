@@ -90,6 +90,7 @@ class CardDetailModalContainer extends React.Component {
                         this.props.isLoading ?
                             <Loading/> : (
                                 <CardBody
+                                    isProcess={this.props.isProcess}
                                     deleteFile={this.props.taskActions.deleteFile}
                                     toggleEditCardDescription={this.toggleEditCardDescription}
                                     isSavingCard={this.props.isSavingCard}
@@ -113,6 +114,7 @@ CardDetailModalContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
+    isProcess: PropTypes.bool,
     card: PropTypes.object.isRequired
 };
 

@@ -17,7 +17,7 @@ import CommentListContainer from "./comment/CommentListContainer";
 
 const CardBody = ({
                       card, isSavingCard, toggleEditCardDescription, deleteFile,
-                      isEditing, saveCard, cancelEdit, updateEditor, description
+                      isEditing, saveCard, cancelEdit, updateEditor, description, isProcess
                   }) => {
     const editTooltip = (
         <Tooltip id="tooltip">Chỉnh sửa mô tả công việc</Tooltip>
@@ -109,7 +109,9 @@ const CardBody = ({
                     <strong>Thêm</strong>
                 </h4>
                 <div className="card-detail-btn-group">
-                    <AddTaskListOverlayContainer card={card}/>
+                    <AddTaskListOverlayContainer
+                        isProcess={isProcess}
+                        card={card}/>
                     <LabelOverlayContainer/>
                     <DeadlineOverlayContainer/>
                     <AddMemberOverlay card={card}/>
@@ -134,7 +136,8 @@ CardBody.propTypes = {
     saveCard: PropTypes.func.isRequired,
     updateEditor: PropTypes.func.isRequired,
     isSavingCard: PropTypes.bool.isRequired,
-    isEditing: PropTypes.bool.isRequired
+    isEditing: PropTypes.bool.isRequired,
+    isProcess: PropTypes.bool
 };
 
 export default CardBody;

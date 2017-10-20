@@ -73,7 +73,7 @@ class BoardListContainer extends React.Component {
             <div>
                 <CreateBoardModalContainer projectId={this.props.params.projectId}/>
                 <CreateCardModalContainer/>
-                <CardDetailModalContainer/>
+                <CardDetailModalContainer isProcess={false}/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>
                         <CardFilterContainer
