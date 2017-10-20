@@ -46,11 +46,13 @@ class Task extends Model
     public function transform()
     {
         $data = [
+            "current_board_id" => $this->current_board_id,
+            "target_board_id" => $this->target_board_id,
             "title" => $this->title,
             "status" => $this->status,
             "id" => $this->id,
             "span" => $this->span,
-            "good_property_items" => $this->goodPropertyItems->map(function($item) {
+            "good_property_items" => $this->goodPropertyItems->map(function ($item) {
                 return $item->transform();
             }),
             "task_list_id" => $this->task_list_id,

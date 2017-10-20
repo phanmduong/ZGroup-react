@@ -55,7 +55,8 @@
             <div class="row">
                 <div class="col-md-2 offset-md-10">
                     <div class="pull-right">
-                        <button class="btn btn-link btn-default btn-move-right">Bài viết cũ hơn<i class="fa fa-angle-right"></i></button>
+                        {{--<button class="btn btn-link btn-default btn-move-right">Bài viết cũ hơn<i class="fa fa-angle-right"></i></button>--}}
+                        <a href="{{'/blog?page='.$page_id}}" class="fa fa-angle-right" style="{{$display}}" >Bài viết cũ hơn</a>
                     </div>
                 </div>
             </div>

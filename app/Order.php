@@ -17,4 +17,12 @@ class Order extends Model
     {
         return $this->belongsTo('App\User', 'staff_id');
     }
+
+    public function goods()
+    {
+        return $this->belongsToMany(Good::class,
+            "good_order",
+            "order_id",
+            "good_id")->withPivot("quantity", "price");
+    }
 }

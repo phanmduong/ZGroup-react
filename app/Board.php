@@ -38,4 +38,17 @@ class Board extends Model
         ];
     }
 
+    public function transformBoardWithCard()
+    {
+        $cards = $this->cards()->where("status", "open")->orderBy('order')->get();
+        return [
+            "id" => $this->id,
+            "title" => $this->title,
+            "is_start" => $this->is_start,
+            "order" => $this->order,
+            "cards" => $cards->map(function ($card) {
+                return $card->transform();
+            })
+        ];
+    }
 }

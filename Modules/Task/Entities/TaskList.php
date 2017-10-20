@@ -34,6 +34,7 @@ class TaskList extends Model
             "id" => $this->id,
             "title" => $this->title,
             "type" => $this->type,
+            "role" => $this->role,
             "num_tasks" => $this->tasks()->count(),
             "tasks" => $this->tasks->map(function ($task) {
                 return $task->transform();

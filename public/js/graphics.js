@@ -1,7 +1,14 @@
 $(document).ready(function () {
     countBooksFromSession();
     $("#cart-num-items").css("display", "none");
+    $("#modalPurchase").on("hidden.bs.modal", function () {
+        $("body").css("overflow", "auto");
+        console.log("modal hide");
+    });
+
 });
+
+var loadingText = "<div style=\"text-align: center;width: 100%;;padding: 15px;\"><i class='fa fa-spin fa-spinner'></i>Đang tải...</div>";
 
 function hidePurchaseButton() {
     $('#btn-purchase').css("display", "none");
@@ -35,7 +42,7 @@ function minusNumBook() {
 }
 
 function openModalBuyWithoutAdd() {
-    $("#modal-buy-body").html("<i class='fa fa-spin fa-spinner'></i>Đang tải...");
+    $("#modal-buy-body").html(loadingText);
     $('#modalBuy').modal('show');
     var urlLoadBook = window.url + "/load-books-from-session";
     hidePurchaseButton();
@@ -47,7 +54,7 @@ function openModalBuyWithoutAdd() {
 }
 
 function openModalBuy(goodId, price) {
-    $("#modal-buy-body").html("<i class='fa fa-spin fa-spinner'></i>Đang tải...");
+    $("#modal-buy-body").html(loadingText);
     $('#modalBuy').modal('show');
     var url = window.url + "/add-book/" + goodId;
     var urlLoadBook = window.url + "/load-books-from-session";
@@ -140,3 +147,45 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function submitOrder() {
+    $("#purchase-error").css("display", "none");
+    $("#btn-purchase-group").css("display", "none");
+    $("#purchase-loading-text").css("display", "block");
+    var data = {
+        name: $("#graphics-name").val(),
+        phone: $("#graphics-phone").val(),
+        email: $("#graphics-email").val(),
+        address: $("#graphics-address").val(),
+        payment: $("#graphics-payment").val(),
+        _token: window.token
+    };
+
+    if (!data.name || !data.phone || !data.email || !data.address || !data.payment) {
+        alert("Bạn vui lòng nhập đủ thông tin");
+        $("#purchase-error").css("display", "block");
+        $("#purchase-loading-text").css("display", "none");
+        $("#btn-purchase-group").css("display", "block");
+        return;
+    }
+
+    var url = window.url + "/save-order";
+    $.post(url, data, function () {
+        $("#purchase-loading-text").css("display", "none");
+        $("#btn-purchase-group").css("display", "block");
+        $("#modalPurchase").modal("hide");
+        $("#modalSuccess").modal("show");
+        $("#graphics-name").val("");
+        $("#graphics-phone").val("");
+        $("#graphics-email").val("");
+        $("#graphics-address").val("");
+        $("#graphics-payment").val("");
+    });
+
+}
+
+function openPurchaseModal() {
+    $('#modalBuy').modal('hide');
+    $('#modalPurchase').modal("show");
+    $("body").css("overflow", "hidden");
+
+}
