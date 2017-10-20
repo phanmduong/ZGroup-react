@@ -13,7 +13,6 @@ class ChangeOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->renameColumn('staff_note', 'note');
             $table->string('note')->nullable()->change();
             $table->integer('warehouse_import_id')->unsigned()->index();
             $table->integer('warehouse_export_id')->unsigned()->index();
