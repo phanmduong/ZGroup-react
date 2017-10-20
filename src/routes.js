@@ -154,7 +154,6 @@ export default (
             <Route path="/good/:type/process" component={ProcessListContainer}/>
             <Route path="/good/:type/properties" component={PropertiesListContainer}/>
             <Route path="/book-property/create" component={CreateGoodPropertyContainer} type="book"/>
-            <Route path="/book-property/create" component={CreateGoodPropertyContainer} type="book"/>
             <Route path="/property-item/:id/edit" component={CreateGoodPropertyContainer}/>
             <Route path="/tasklist-template/:id" component={TaskListTemplateContainer}/>
 

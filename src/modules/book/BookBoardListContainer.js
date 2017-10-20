@@ -163,7 +163,7 @@ function mapStateToProps(state) {
     });
 
     return {
-        projectId: state.task.boardList.projectId,
+        projectId: Number(state.task.boardList.projectId),
         isLoadingBoards: state.task.boardList.isLoadingBoards,
         canDragBoard: state.task.boardList.canDragBoard,
         canDragCard: state.task.boardList.canDragCard,

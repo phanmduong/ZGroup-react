@@ -4,6 +4,7 @@ import Dragula from 'react-dragula';
 import CardList from "../card/CardList";
 
 class BoardList extends React.Component {
+
     constructor(props, context) {
         super(props, context);
         this.initBoardDragula = this.initBoardDragula.bind(this);
@@ -18,7 +19,6 @@ class BoardList extends React.Component {
         this.initBoardContainerDragula();
     }
 
-    //
     componentDidUpdate() {
         this.initBoardDragula();
         this.initBoardContainerDragula();
@@ -134,8 +134,6 @@ class BoardList extends React.Component {
                                                 </li>
                                             </ul>
                                         </div>
-
-
                                     </div>
                                 </div>
 

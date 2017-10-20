@@ -217,12 +217,21 @@ export function saveGoodProperty(property, type) {
             type: types.BEGIN_SAVE_GOOD_PROPERTY,
         });
         goodApi.saveGoodProperty(property)
-            .then(() => {
-                showNotification("Tạo thuộc tính cho sách thành công");
-                browserHistory.push(`/good/${type}/properties`);
-                dispatch({
-                    type: types.SAVE_GOOD_PROPERTY_SUCCESS
-                });
+            .then((res) => {
+                console.log(res.data);
+                if (res.data.status == 0) {
+                    showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.CREATE_GOOD_PROPERTY_ERROR
+                    });
+                } else {
+                    showNotification("Tạo thuộc tính cho sách thành công");
+                    browserHistory.push(`/good/${type}/properties`);
+                    dispatch({
+                        type: types.SAVE_GOOD_PROPERTY_SUCCESS
+                    });
+                }
+
             });
 
     };
@@ -305,5 +314,14 @@ export function addPropertyItemsToTask(goodPropertyItems, task, currentBoard, ta
                     targetBoard
                 });
             });
+    };
+}
+
+
+export function resetGoodPropertyForm() {
+    return function (dispatch) {
+        dispatch({
+            type: types.RESET_CREATE_GOOD_PROPERTY_FORM
+        });
     };
 }

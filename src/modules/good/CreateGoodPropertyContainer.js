@@ -17,6 +17,7 @@ class CreateGoodPropertyContainer extends React.Component {
     }
 
     componentWillMount() {
+        this.props.goodActions.resetGoodPropertyForm();
         if (this.props.params.id) {
             this.setState({
                 header: "Sửa thuộc tính"

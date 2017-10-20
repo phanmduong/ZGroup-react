@@ -452,6 +452,23 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.projectDetail,
                     isSaving: false,
                     showModal: false
+                },
+                boardList: {
+                    ...state.boardList,
+                    boards: action.project.start_board
+                        ? state.boardList.boards.map((board) => {
+                            if (board.id == action.project.start_board.id) {
+                                return {
+                                    ...board,
+                                    is_start: action.project.start_board.is_start
+                                };
+                            }
+                            return {
+                                ...board,
+                                is_start: false
+                            };
+                        })
+                        : state.boardList.boards
                 }
             };
         case types.BEGIN_SUBMIT_PROJECT:

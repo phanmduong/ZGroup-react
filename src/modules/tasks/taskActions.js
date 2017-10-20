@@ -828,11 +828,11 @@ export function submitProject(project) {
             project
         });
         taskApi.createProject(project)
-            .then(() => {
+            .then((res) => {
                 showNotification("Lưu dự án thành công");
                 dispatch({
                     type: types.SUBMIT_PROJECT_SUCCESS,
-                    project
+                    project: res.data.data.project
                 });
             });
     };
