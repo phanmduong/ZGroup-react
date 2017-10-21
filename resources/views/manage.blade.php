@@ -74,16 +74,7 @@
 
 <script src="{{url('config.js')}}"></script>
 
-<<<<<<< HEAD
 <script type="text/javascript" src="manage/main.198cc1ae6671a8954e2f.js"></script>
-
-=======
-<<<<<<< HEAD
-<script type="text/javascript" src="manage/main.b89f8db77dc98d755dbb.js"></script>
-=======
-<script type="text/javascript" src="manage/main.ce39edea866d2c900a6b.js"></script>
->>>>>>> master
->>>>>>> ddb22a29cc8ec91a0b05133a655e1823f24bd2cc
 
 <!-- Material Dashboard javascript methods -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/material-dashboard.js"></script>
