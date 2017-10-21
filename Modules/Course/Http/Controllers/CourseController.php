@@ -60,10 +60,14 @@ class CourseController extends ManageApiController
 
     public function getAllCourses(Request $request)
     {
+        if(!$request->limit)
+            $limit = 20;
+        else
+            $limit = $request->limit;
         $keyword = $request->search;
         $courses = Course::where(function ($query) use ($keyword) {
             $query->where("name", "like", "%$keyword%")->orWhere("price", "like", "%$keyword%");
-        })->paginate(20);
+        })->paginate($limit);
         return $this->respondWithPagination(
             $courses,
             [
