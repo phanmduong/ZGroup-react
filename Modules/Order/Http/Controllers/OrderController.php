@@ -2,6 +2,7 @@
 
 namespace Modules\Order\Http\Controllers;
 
+use App\Good_category;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
 use App\Order;
@@ -39,4 +40,17 @@ class OrderController extends ManageApiController
             ]
         );
     }
+    public function all_Category(){
+        $good_categories= Good_category::orderBy("created_at","desc")->get();
+        return $this->respondSuccessWithStatus([
+            $good_categories,
+            [
+                'good_categories' => $good_categories->map(function ($good_category) {
+                    return $good_category->Category_transform();
+                })
+            ]
+
+        ]);
+    }
+
 }
