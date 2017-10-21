@@ -119,7 +119,7 @@ class TaskRepository
                     $card->assignees()->attach($task->member->id);
                 }
 
-                $projectMember = $project->members()->where("id", $task->member->id)->first();
+                $projectMember = $project->members()->where("user_id", $task->member->id)->first();
                 if ($projectMember == null) {
                     $project->members()->attach($task->member->id);
                 }

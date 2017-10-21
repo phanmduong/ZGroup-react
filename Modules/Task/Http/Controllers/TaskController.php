@@ -201,7 +201,7 @@ class TaskController extends ManageApiController
 
         $this->projectRepository->assign($project->id, $this->user->id, $this->user, Project::$ADMIN_ROLE);
 
-        return $this->respondSuccessWithStatus(["message" => $message]);
+        return $this->respondSuccessWithStatus(["project" => $project->transform()]);
     }
 
     public function deleteProject($projectId)
