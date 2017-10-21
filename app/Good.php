@@ -101,6 +101,7 @@ class Good extends Model
     public function editTranform(){
         $manufacture = Manufacture::find($this->manufacture_id);
         $category = GoodCategory::find($this->good_category_id);
+        $total= $this->id;
         return[
             "id" => $this->id,
             "name" => $this->name,
