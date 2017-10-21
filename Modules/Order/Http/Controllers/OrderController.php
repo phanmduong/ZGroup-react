@@ -69,9 +69,21 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function editOrder(Request $request)
+    public function editOrder($order_id, Request $request)
     {
-
+        $order = Order::find($order_id);
+        if ($request->code == null || $request->staff_id)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu code || staff_id'
+            ]);
+        $order->note = $request->note;
+        $order->code = $request->code;
+        $order->staff_id = $request->staff_id;
+        $order->user_id = $request->user_id;
+        $order->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'ok'
+        ]);
     }
 
     public function allCategory()
