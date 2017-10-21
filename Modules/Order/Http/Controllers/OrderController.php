@@ -43,7 +43,6 @@ class OrderController extends ManageApiController
     public function all_Category(){
         $good_categories= Good_category::orderBy("created_at","desc")->get();
         return $this->respondSuccessWithStatus([
-            $good_categories,
             [
                 'good_categories' => $good_categories->map(function ($good_category) {
                     return $good_category->Category_transform();
@@ -52,5 +51,14 @@ class OrderController extends ManageApiController
 
         ]);
     }
-
+    public function add_Category(Request $request){
+        if($request->name== null) return $this->respondErrorWithStatus("Chưa có tên");
+        $good_category= new Good_category;
+        $good_category->name= $request->name;
+        $good_category->parent_id=$request->parent_id;
+        $good_category->save();
+        return $this->respondSuccessWithStatus([
+          "good_category"=>  $good_category->Category_transform()
+        ]);
+    }
 }
