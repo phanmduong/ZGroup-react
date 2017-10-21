@@ -13,6 +13,11 @@ class Order extends Model
         return $this->belongsTo('App\Good', 'good_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function staff()
     {
         return $this->belongsTo('App\User', 'staff_id');
@@ -28,8 +33,9 @@ class Order extends Model
         return $this->hasMany(GoodOrder::class, 'order_id');
     }
 
-    public function orderPaidMoneys() {
-        return $this->hasMany(OrderPaidMoney::class,'order_id');
+    public function orderPaidMoneys()
+    {
+        return $this->hasMany(OrderPaidMoney::class, 'order_id');
     }
 
     public function goods()
@@ -55,17 +61,37 @@ class Order extends Model
             ],
             'staff' => [
                 'id' => $this->staff ? $this->staff->id : null,
-                'name' => $this->staff ? $this->staff->name :null,
+                'name' => $this->staff ? $this->staff->name : null,
             ],
             'status' => $this->status,
-            'total' => $this->goodOrders->reduce(function ($total, $goodOrder){
-                    return $total + $goodOrder->price * $goodOrder->quantity;
-            }, 0),
-            'debt' => $this->goodOrders->reduce(function ($total, $goodOrder){
+            'total' => $this->goodOrders->reduce(function ($total, $goodOrder) {
                 return $total + $goodOrder->price * $goodOrder->quantity;
-            }, 0)  -  $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney){
-                return $paid + $orderPaidMoney->money;
+            }, 0),
+            'debt' => $this->goodOrders->reduce(function ($total, $goodOrder) {
+                    return $total + $goodOrder->price * $goodOrder->quantity;
+                }, 0) - $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                    return $paid + $orderPaidMoney->money;
                 }, 0),
+        ];
+    }
+
+    public function detailedTransform()
+    {
+        return [
+            'info_order' => [
+                'code' => $this->code,
+                'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
+                'staff' => [
+                    'id' => $this->staff ? $this->staff->id : null,
+                    'name' => $this->staff ? $this->staff->name : null,
+                ],
+                'note' => $this->staff_note,
+            ],
+            'info_user' => [
+                'id' => $this->user ? $this->user->id : null,
+                'name' => $this->user ? $this->user->name : null,
+                'email' => $this->user ? $this->user->name : null,
+            ],
         ];
     }
 }
