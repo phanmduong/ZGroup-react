@@ -3,8 +3,6 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\GoodCategory;
-
-use App\GoodOrder;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
 use App\Order;
@@ -26,17 +24,17 @@ class OrderController extends ManageApiController
         $totalOrders = Order::get()->count();
         $totalMoney = 0;
         $totalPaidMoney = 0;
-        $all_orders = Order::get();
-        foreach ($all_orders as $order) {
-            $good_orders = $order->goodOrders();
-            foreach ($good_orders as $good_order) {
-                $totalMoney += $good_order->quantity + $good_order->price;
+        $allOrders = Order::get();
+        foreach ($allOrders as $order) {
+            $goodOrders = $order->goodOrders()->get();
+            foreach ($goodOrders as $goodOrder) {
+                $totalMoney += $goodOrder->quantity * $goodOrder->price;
             }
         }
-        foreach ($all_orders as $order) {
-            $order_paid_moneys = $order->orderPaidMoneys();
-            foreach ($order_paid_moneys as $order_paid_money) {
-                $totalPaidMoney += $order_paid_money->money;
+        foreach ($allOrders as $order) {
+            $orderPaidMoneys = $order->orderPaidMoneys();
+            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                $totalPaidMoney += $orderPaidMoney->money;
             }
         }
         if ($start) {
@@ -61,6 +59,19 @@ class OrderController extends ManageApiController
                 })
             ]
         );
+    }
+
+    public function detailedOrder($order_id)
+    {
+        $order = Order::find($order_id);
+        return $this->respondSuccessWithStatus([
+            $order->detailedTransform()
+        ]);
+    }
+
+    public function editOrder(Request $request)
+    {
+
     }
 
     public function allCategory()
