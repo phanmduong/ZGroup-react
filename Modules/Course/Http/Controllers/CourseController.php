@@ -8,7 +8,7 @@ use App\Link;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-classCourseController extends ManageApiController
+class CourseController extends ManageApiController
 {
     /**
      * Display a listing of the resource.
