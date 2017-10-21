@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import TaskListForm from "./TaskListForm";
 import Select from "react-select";
 import Loading from "../../../../components/common/Loading";
-import {OverlayTrigger, Tooltip} from "react-bootstrap";
 
 const TaskFormPopover = ({
                              taskLists, onChangeTaskList, selectedTaskList, isLoading, saveTaskListTemplate,
@@ -12,8 +11,6 @@ const TaskFormPopover = ({
     return (
         <div className="kt-overlay">
             <div style={{display: "flex", justifyContent: "space-between", paddingBottom: 10}}>
-
-
                 <button
                     onClick={toggle}
                     type="button" className="close"

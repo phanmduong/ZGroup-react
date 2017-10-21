@@ -65,33 +65,40 @@ class AddTaskListOverlayContainer extends React.Component {
 
     render() {
         return (
-            <div style={{position: "relative"}}>
-                <button className="btn btn-default card-detail-btn-action"
-                        ref="target" onClick={this.toggle}>
-                    <i className="material-icons">work</i> Việc cần làm
-                </button>
-                <Overlay
-                    rootClose={true}
-                    show={this.state.show}
-                    onHide={() => this.setState({show: false})}
-                    placement="bottom"
-                    container={this}
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}>
+            <div>
+                {
+                    ((this.props.isProcess && this.props.card.taskLists && this.props.card.taskLists.length === 0)
+                        || !this.props.isProcess) && (
+                        <div style={{position: "relative"}}>
+                            <button className="btn btn-default card-detail-btn-action"
+                                    ref="target" onClick={this.toggle}>
+                                <i className="material-icons">work</i> Việc cần làm
+                            </button>
+                            <Overlay
+                                rootClose={true}
+                                show={this.state.show}
+                                onHide={() => this.setState({show: false})}
+                                placement="bottom"
+                                container={this}
+                                target={() => ReactDOM.findDOMNode(this.refs.target)}>
 
-                    <TaskFormPopover
-                        isProcess={this.props.isProcess}
-                        saveTaskListTemplate={this.saveTaskListTemplate}
-                        isLoading={this.props.isLoading}
-                        selectedTaskList={this.state.selectedTaskList}
-                        taskLists={this.props.taskLists}
-                        onChangeTaskList={this.onChangeTaskList}
-                        isSavingTaskList={this.props.isSavingTaskList}
-                        taskList={this.props.taskList}
-                        updateCreateTaskListFormData={this.updateCreateTaskListFormData}
-                        saveTaskList={this.saveTaskList}
-                        toggle={this.toggle}/>
+                                <TaskFormPopover
+                                    isProcess={this.props.isProcess}
+                                    saveTaskListTemplate={this.saveTaskListTemplate}
+                                    isLoading={this.props.isLoading}
+                                    selectedTaskList={this.state.selectedTaskList}
+                                    taskLists={this.props.taskLists}
+                                    onChangeTaskList={this.onChangeTaskList}
+                                    isSavingTaskList={this.props.isSavingTaskList}
+                                    taskList={this.props.taskList}
+                                    updateCreateTaskListFormData={this.updateCreateTaskListFormData}
+                                    saveTaskList={this.saveTaskList}
+                                    toggle={this.toggle}/>
 
-                </Overlay>
+                            </Overlay>
+                        </div>
+                    )
+                }
             </div>
         );
     }
