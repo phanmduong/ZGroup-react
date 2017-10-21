@@ -272,7 +272,7 @@ class GraphicsController extends Controller
                     $good = Good::find($item->id);
                     $order->goods()->attach($item->id, [
                         "quantity" => $item->number,
-                        "price" => $good->price * $item->number
+                        "price" => $good->price,
                     ]);
                     $total_price += $good->price * $item->number;
                 }
