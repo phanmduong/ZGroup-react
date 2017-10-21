@@ -49,6 +49,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::put('/task/{taskId}/member/{userId}', "TaskController@addMemberToTask");
     Route::put('/task/{taskId}/deadline', "TaskController@saveTaskDeadline");
     Route::put('/task/{taskId}/span', "TaskController@saveTaskSpan");
+    Route::put('/task/{taskId}/title', "TaskController@editTaskName");
 
 
     Route::get('/members/{filter?}', "TaskController@loadMembers");
