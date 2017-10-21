@@ -61,4 +61,25 @@ class OrderController extends ManageApiController
           "good_category"=>  $good_category->Category_transform()
         ]);
     }
+    public function edit_Category(Request $request){
+        if($request->id==null || $request->name ==null)
+            return $this->respondErrorWithStatus("Chưa có id hoặc tên");
+        $good_category=Good_category::find($request->id);
+        $good_category->name=$request->name;
+        if($request->parent_id != null) $good_category->parent_id=$request->parent_id;
+        $good_category->save();
+        return $this->respondSuccessWithStatus([
+            "good_category"=>  $good_category->Category_transform()
+        ]);
+    }
+    public function delete_Category($category_id,Request $request){
+        $good_category=Good_category::find($category_id);
+        if($good_category==null) return $this->respondErrorWithData([
+            "message"=> "Danh mục không tồn tại"
+        ]);
+        $good_category->delete();
+        return $this->respondErrorWithData([
+            "message"=> "Xóa thành công"
+        ]) ;
+    }
 }
