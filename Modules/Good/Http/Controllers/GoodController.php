@@ -247,4 +247,50 @@ class GoodController extends ManageApiController
             "boards" => $boards
         ]);
     }
+    public function getAllGood(Request $request){
+        $keyword = $request->search;
+        $goods = Good::where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+        });
+        $goods = $goods->orderBy("created_at", "desc")->paginate(20);
+
+        return $this->respondWithPagination(
+            $goods,
+            [
+                "goods" => $goods->map(function ($good) {
+                    return $good->GoodTransform();
+                })
+            ]
+        );
+
+    }
+    public function editGood(Request $request){
+        if($request->id == null)
+            return $this->respondErrorWithData([
+                "message" => "thiếu id"
+            ]);
+        $good = Good::find($request->id);
+        if($good == null) return $this->respondErrorWithData([
+            "message" => "Không tìm thấy sản phẩm"
+        ]);
+        if($request->name !=null) $good->name = $request->name;
+        if($request->code !=null) $good->code = $request->code;
+        if($request->price !=null) $good->price = $request->price;
+        if($request->manufacture_id !=null) $good->manufacture_id = $request->manufacture_id;
+        if($request->category_id !=null) $good->category_id = $request->category_id;
+        $good->save();
+        return $this->respondSuccessWithStatus([
+            "good" => $good->editTranform()
+        ]);
+    }
+    public function deleteGood($good_id,Request $request){
+        $good = Good::find($good_id);
+        if($good == null) return $this->respondErrorWithData([
+            "message" => "Không tìm thấy sản phẩm"
+        ]);
+        $good->delete();
+        return $this->respondErrorWithData([
+            "message" => "Xóa sản phẩm thành công"
+        ]);
+    }
 }

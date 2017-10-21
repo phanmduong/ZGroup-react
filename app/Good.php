@@ -32,7 +32,10 @@ class Good extends Model
     {
         return $this->hasMany('App\GoodWarehouse', 'good_id');
     }
-
+    public function Warehouses()
+    {
+        return $this->hasMany('App\Warehouse', 'good_id');
+    }
     public function properties()
     {
         return $this->hasMany(GoodProperty::class, "good_id");
@@ -67,6 +70,55 @@ class Good extends Model
             "properties" => $this->properties->map(function ($property) {
                 return $property->transform();
             })
+        ];
+    }
+    public function GoodTransform(){
+        $manufacture = Manufacture::find($this->manufacture_id);
+        $category = GoodCategory::find($this->good_category_id);
+        $total= $this->id;
+        return[
+            "id" => $this->id,
+            "name" => $this->name,
+            "code" => $this->code,
+            "price" => $this->price,
+            'quantity' => $this->importedGoods->reduce(function ($total, $importedGood){
+                return $total +  $importedGood->quantity;
+            }, 0),
+            "manufacture" => [
+                "id" => $manufacture ? $manufacture->id :null ,
+                "name" => $manufacture ? $manufacture->name :null ,
+            ],
+            "category" => [
+                "id" => $category ? $category->id :null ,
+                "name" => $category ? $category->name :null ,
+            ],
+            "warehouses" =>$this->Warehouse ? $this->Warehouse->map(function ($warehouse) {
+                    return $warehouse->Transform();
+            }) : null,
+
+        ];
+    }
+    public function editTranform(){
+        $manufacture = Manufacture::find($this->manufacture_id);
+        $category = GoodCategory::find($this->good_category_id);
+        return[
+            "id" => $this->id,
+            "name" => $this->name,
+            "code" => $this->code,
+            "price" => $this->price,
+            'quantity' => $this->importedGoods->reduce(function ($total, $importedGood){
+                return $total +  $importedGood->quantity;
+            }, 0),
+            "manufacture" => [
+                "id" => $manufacture ? $manufacture->id :null ,
+                "name" => $manufacture ? $manufacture->name :null ,
+            ],
+            "category" => [
+                "id" => $category ? $category->id :null ,
+                "name" => $category ? $category->name :null ,
+            ],
+
+
         ];
     }
 }
