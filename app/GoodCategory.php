@@ -5,12 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Good_category extends Model
+class GoodCategory extends Model
 {
     //
     protected $table = "good_categories";
     use SoftDeletes;
-    public function Category_transform(){
+    public function CategoryTransform(){
         return([
             'id'=> $this->id,
              'name'=>$this->name,

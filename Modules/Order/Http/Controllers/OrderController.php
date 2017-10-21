@@ -2,7 +2,7 @@
 
 namespace Modules\Order\Http\Controllers;
 
-use App\Good_category;
+use App\GoodCategory;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
 use App\Order;
@@ -40,44 +40,45 @@ class OrderController extends ManageApiController
             ]
         );
     }
-    public function all_Category(){
-        $good_categories= Good_category::orderBy("created_at","desc")->get();
+    public function allCategory(){
+        $goodCategories= GoodCategory::orderBy("created_at","desc")->get();
         return $this->respondSuccessWithStatus([
             [
-                'good_categories' => $good_categories->map(function ($good_category) {
-                    return $good_category->Category_transform();
+                'good_categories' => $goodCategories->map(function ($goodCategory) {
+                    return $goodCategory->CategoryTransform();
                 })
             ]
 
         ]);
     }
-    public function add_Category(Request $request){
+    public function addCategory(Request $request){
         if($request->name== null) return $this->respondErrorWithStatus("Chưa có tên");
-        $good_category= new Good_category;
-        $good_category->name= $request->name;
-        $good_category->parent_id=$request->parent_id;
-        $good_category->save();
+        $goodCategory= new GoodCategory;
+        $goodCategory->name= $request->name;
+        $goodCategory->parent_id=$request->parent_id;
+        $goodCategory->save();
         return $this->respondSuccessWithStatus([
-          "good_category"=>  $good_category->Category_transform()
+          "goodCategory"=>  $goodCategory->CategoryTransform()
         ]);
     }
-    public function edit_Category(Request $request){
+    public function editCategory(Request $request){
         if($request->id==null || $request->name ==null)
             return $this->respondErrorWithStatus("Chưa có id hoặc tên");
-        $good_category=Good_category::find($request->id);
-        $good_category->name=$request->name;
-        if($request->parent_id != null) $good_category->parent_id=$request->parent_id;
-        $good_category->save();
+        $goodCategory=GoodCategory::find($request->id);
+        if($goodCategory==null) return $this->respondErrorWithStatus("Không tồn tại thể lại này");
+        $goodCategory->name=$request->name;
+        if($request->parent_id != null) $goodCategory->parent_id=$request->parent_id;
+        $goodCategory->save();
         return $this->respondSuccessWithStatus([
-            "good_category"=>  $good_category->Category_transform()
+            "goodCategory"=>  $goodCategory->CategoryTransform()
         ]);
     }
-    public function delete_Category($category_id,Request $request){
-        $good_category=Good_category::find($category_id);
-        if($good_category==null) return $this->respondErrorWithData([
+    public function deleteCategory($category_id,Request $request){
+        $goodCategory=GoodCategory::find($category_id);
+        if($goodCategory==null) return $this->respondErrorWithData([
             "message"=> "Danh mục không tồn tại"
         ]);
-        $good_category->delete();
+        $goodCategory->delete();
         return $this->respondErrorWithData([
             "message"=> "Xóa thành công"
         ]) ;
