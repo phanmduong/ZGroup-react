@@ -18,9 +18,9 @@ class OrderController extends ManageApiController
     public function allOrders(Request $request)
     {
         $limit = 20;
-        $start = $request->start;
-        $end = $request->end;
-        $type = $request->type;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $status = $request->status;
         $totalOrders = Order::get()->count();
         $totalMoney = 0;
         $totalPaidMoney = 0;
@@ -37,14 +37,14 @@ class OrderController extends ManageApiController
                 $totalPaidMoney += $orderPaidMoney->money;
             }
         }
-        if ($start) {
-            if ($type)
-                $orders = Order::where('type', $type)->whereBetween('created_at', array($start, $end))->orderBy("created_at", "desc")->paginate($limit);
+        if ($startTime) {
+            if ($status)
+                $orders = Order::where('status', $status)->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->paginate($limit);
             else
-                $orders = Order::whereBetween('created_at', array($start, $end))->orderBy("created_at", "desc")->paginate($limit);
+                $orders = Order::whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->paginate($limit);
         } else {
-            if ($type)
-                $orders = Order::where('type', $type)->orderBy("created_at", "desc")->paginate($limit);
+            if ($status)
+                $orders = Order::where('status', $status)->orderBy("created_at", "desc")->paginate($limit);
             else
                 $orders = Order::orderBy("created_at", "desc")->paginate($limit);
         }
