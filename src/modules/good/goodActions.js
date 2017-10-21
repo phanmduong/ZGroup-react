@@ -218,7 +218,6 @@ export function saveGoodProperty(property, type) {
         });
         goodApi.saveGoodProperty(property)
             .then((res) => {
-                console.log(res.data);
                 if (res.data.status == 0) {
                     showErrorNotification(res.data.message);
                     dispatch({

@@ -1117,3 +1117,12 @@ export function moveTaskDown(taskList, task) {
         });
     };
 }
+
+export function saveTaskTitle(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.SAVE_TASK_TITLE_SUCCESS,
+            task
+        });
+    };
+}

@@ -174,6 +174,8 @@ export default {
             showModal: false,
             taskList: {},
             isSaving: false,
+            isSavingTask: false,
+            showEditTaskModal: false,
             isLoading: false
         },
         taskLists: {

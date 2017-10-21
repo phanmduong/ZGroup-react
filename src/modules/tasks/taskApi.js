@@ -483,3 +483,13 @@ export function loadProjectPersonalSetting(projectId) {
     }
     return axios.get(url);
 }
+
+export function saveTaskTitle(taskId, title) {
+    let url = env.MANAGE_API_URL + `/task/${taskId}/title`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {title});
+}
+

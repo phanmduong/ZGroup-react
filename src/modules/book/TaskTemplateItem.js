@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {ListGroupItem} from "react-bootstrap";
 import Avatar from "../../components/common/Avatar";
 import {confirm} from "../../helpers/helper";
+import EditTaskNameContainer from "../tasks/EditTaskNameContainer";
 
 class TaskTemplateItem extends React.Component {
     constructor(props, context) {
@@ -108,6 +109,10 @@ class TaskTemplateItem extends React.Component {
                             <i className="material-icons">more_horiz</i>
                         </a>
                         <ul className="dropdown-menu dropdown-menu-right">
+
+                            <EditTaskNameContainer
+                                task={this.props.task}/>
+
                             <li className="more-dropdown-item">
                                 <a onClick={this.openAddMemberToTaskModal}>
                                     <i className="material-icons">person</i>
