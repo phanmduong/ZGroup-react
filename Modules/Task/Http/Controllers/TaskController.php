@@ -201,7 +201,7 @@ class TaskController extends ManageApiController
 
         $this->projectRepository->assign($project->id, $this->user->id, $this->user, Project::$ADMIN_ROLE);
 
-        return $this->respondSuccessWithStatus(["message" => $message]);
+        return $this->respondSuccessWithStatus(["project" => $project->transform()]);
     }
 
     public function deleteProject($projectId)
@@ -796,6 +796,19 @@ class TaskController extends ManageApiController
         }
 
         return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function editTaskName($taskId, Request $request)
+    {
+        $task = Task::find($taskId);
+        if ($task == null) {
+            return $this->respondErrorWithStatus("Công việc không tồn tại");
+        }
+
+        $task->title = $request->title;
+        $task->save();
+
+        return $this->respondSuccessWithStatus(["task" => $task->transform()]);
     }
 
 }

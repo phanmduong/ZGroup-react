@@ -104,7 +104,7 @@ class ProjectRepository
     public function assign($projectId, $userId, $currentUser, $role = 0)
     {
         $project = Project::find($projectId);
-        $member = $project->members()->where('id', '=', $userId)->first();
+        $member = ProjectUser::where("user_id", $userId)->where("project_id", $projectId)->first();
         if ($member) {
             $project->members()->detach($userId);
             $this->notiRemoveFromProject($currentUser, $project, $userId);
