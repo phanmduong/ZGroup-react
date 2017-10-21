@@ -83,7 +83,7 @@ class Good extends Model
             "price" => $this->price,
             'quantity' => $this->importedGoods->reduce(function ($total, $importedGood){
                 return $total +  $importedGood->quantity;
-            }, 0),
+            }, $total),
             "manufacture" => [
                 "id" => $manufacture ? $manufacture->id :null ,
                 "name" => $manufacture ? $manufacture->name :null ,
@@ -109,7 +109,7 @@ class Good extends Model
             "price" => $this->price,
             'quantity' => $this->importedGoods->reduce(function ($total, $importedGood){
                 return $total +  $importedGood->quantity;
-            }, 0),
+            }, $total),
             "manufacture" => [
                 "id" => $manufacture ? $manufacture->id :null ,
                 "name" => $manufacture ? $manufacture->name :null ,
