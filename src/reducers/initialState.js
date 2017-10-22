@@ -1,4 +1,12 @@
 export default {
+    productList: {
+        products: [],
+        isLoading: false,
+        modalInProduct: {
+            priceModal: false,
+        }
+    },
+
     good: {
         attachPropertyItem: {
             showModal: false,
