@@ -13,7 +13,7 @@ export default function bookReducer(state = initialState.book, action) {
                     ...state.taskListDetail,
                     taskList: {
                         ...state.taskListDetail.taskList,
-                        tasks: state.taskListDetail.taskList.tasks.map((task) => {
+                        tasks: state.taskListDetail.taskList.tasks && state.taskListDetail.taskList.tasks.map((task) => {
                             if (task.id == action.task.id) {
                                 return {
                                     ...task,

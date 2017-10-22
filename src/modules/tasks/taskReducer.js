@@ -6,6 +6,30 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.SAVE_TASK_TITLE_SUCCESS:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: state.cardDetail.card.taskLists.map((taskList) => {
+                            return {
+                                ...taskList,
+                                tasks: taskList.tasks.map((task) => {
+                                    if (task.id == action.task.id) {
+                                        return {
+                                            ...task,
+                                            ...action.task
+                                        };
+                                    }
+                                    return task;
+                                })
+                            };
+                        })
+                    }
+                }
+            };
         case types.BEGIN_LOAD_PROJECT_PERSONAL_SETTING:
             return {
                 ...state,
