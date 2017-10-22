@@ -85,7 +85,7 @@ class EditTaskNameContainer extends React.Component {
                 </Modal>
                 <a onClick={this.open}>
                     <i className="material-icons">edit</i>
-                    Sửa tên
+                    Sửa nội dung
                 </a>
             </li>
         );
