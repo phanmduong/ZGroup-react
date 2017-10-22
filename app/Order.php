@@ -48,20 +48,12 @@ class Order extends Model
 
     public function transform()
     {
-        return [
+        $data = [
             'code' => $this->code,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'user' => [
                 'name' => $this->name,
                 'address' => $this->address,
-            ],
-            'base' => [
-                'name' => $this->warehouse ? ($this->warehouse->base ? $this->warehouse->base->name : null) : null,
-                'address' => $this->warehouse ? ($this->warehouse->base ? $this->warehouse->base->address : null) : null,
-            ],
-            'staff' => [
-                'id' => $this->staff ? $this->staff->id : null,
-                'name' => $this->staff ? $this->staff->name : null,
             ],
             'status' => $this->status,
             'total' => $this->goodOrders->reduce(function ($total, $goodOrder) {
@@ -73,25 +65,40 @@ class Order extends Model
                     return $paid + $orderPaidMoney->money;
                 }, 0),
         ];
+        if ($this->staff)
+            $data['staff'] = [
+                'id' => $this->staff->id,
+                'name' => $this->staff->name,
+            ];
+        if ($this->warehouse)
+            if ($this->warehouse->base)
+                $data['base'] = [
+                    'name' => $this->warehouse->base->name,
+                    'address' => $this->warehouse->base->address,
+                ];
+        return $data;
     }
 
     public function detailedTransform()
     {
-        return [
+        $data = [
             'info_order' => [
                 'code' => $this->code,
                 'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
-                'staff' => [
-                    'id' => $this->staff ? $this->staff->id : null,
-                    'name' => $this->staff ? $this->staff->name : null,
-                ],
                 'note' => $this->staff_note,
             ],
-            'info_user' => [
-                'id' => $this->user ? $this->user->id : null,
-                'name' => $this->user ? $this->user->name : null,
-                'email' => $this->user ? $this->user->name : null,
-            ],
         ];
+        if ($this->staff)
+            $data['info_order']['staff'] = [
+                'id' => $this->staff->id,
+                'name' => $this->staff->name,
+            ];
+        if($this->user)
+            $data['info_user'] = [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'email' => $this->user->name,
+            ];
+        return $data;
     }
 }
