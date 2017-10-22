@@ -57,6 +57,7 @@ import TaskListTemplateContainer from "./modules/good/TaskListTemplateContainer"
 import HistoryShiftRegistersContainer from "./modules/historyShiftRegisters/HistoryShiftRegistersContainer";
 import ShiftSessionsContainer from "./modules/shiftSessions/ShiftSessionsContainer";
 import CoursesContainer from './modules/courses/CoursesContainer';
+import CreateEditCoursesContainer from "./modules/courses/CreateEditCoursesContainer";
 
 export default (
     <Route>
@@ -196,6 +197,7 @@ export default (
 
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>
+            <Route path="/manage/courses/create-edit" component={CreateEditCoursesContainer}/>
             {/*End course routes */}
         </Route>
         <Route path="login" component={LoginContainer}/>

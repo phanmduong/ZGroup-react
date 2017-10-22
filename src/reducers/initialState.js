@@ -639,6 +639,12 @@ export default {
         addCoursesModal:{
             isShowModal  : false,
             isSaving: false
+        },
+        paginator: {
+            total_count: 1,
+            total_pages: 1,
+            current_page: 1,
+            limit: 1
         }
     }
 };
