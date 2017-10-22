@@ -91,6 +91,7 @@ class Good extends Model
             'id' => $this->id,
             'name' => $this->name,
             'code' => $this->code,
+            'avatar_url' => $this->avatar_url ? $this->avatar_url : 'https://cdn4.iconfinder.com/data/icons/smoothfill-shopping/30/shopping_045-shopping_cart-trolley-buy-goods-512.png',
             'price' => $this->price,
             'quantity' => $this->importedGoods->reduce(function ($total, $importedGood) {
                 return $total + $importedGood->quantity;
