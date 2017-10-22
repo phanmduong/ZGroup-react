@@ -249,10 +249,14 @@ class GoodController extends ManageApiController
     }
     public function getAllGood(Request $request){
         $keyword = $request->search;
+        if($request->limit)
+            $limit = $request->limit;
+        else
+            $limit = 20;
         $goods = Good::where(function ($query) use ($keyword) {
             $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
         });
-        $goods = $goods->orderBy("created_at", "desc")->paginate(20);
+        $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
 
         return $this->respondWithPagination(
             $goods,
