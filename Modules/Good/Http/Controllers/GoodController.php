@@ -262,8 +262,8 @@ class GoodController extends ManageApiController
                 })
             ]
         );
-
     }
+
     public function editGood(Request $request){
         if($request->id == null)
             return $this->respondErrorWithData([

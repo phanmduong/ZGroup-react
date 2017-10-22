@@ -35,7 +35,7 @@ class Good extends Model
 
     public function warehouses()
     {
-        return $this->hasMany('App\Warehouse', 'good_id');
+        return $this->belongsToMany(Warehouse::class, 'good_warehouse','good_id','warehouse_id');
     }
 
     public function properties()
@@ -87,7 +87,6 @@ class Good extends Model
 
     public function GoodTransform()
     {
-        $total = $this->id;
         $data = [
             'id' => $this->id,
             'name' => $this->name,
@@ -95,7 +94,7 @@ class Good extends Model
             'price' => $this->price,
             'quantity' => $this->importedGoods->reduce(function ($total, $importedGood) {
                 return $total + $importedGood->quantity;
-            }, $total),
+            }, 0),
         ];
         if ($this->warehouses)
             $data['warehouses'] = $this->warehouses->map(function ($warehouse) {
@@ -116,7 +115,6 @@ class Good extends Model
 
     public function editTranform()
     {
-        $total = $this->id;
         $data = [
             'id' => $this->id,
             'name' => $this->name,
@@ -124,7 +122,7 @@ class Good extends Model
             'price' => $this->price,
             'quantity' => $this->importedGoods->reduce(function ($total, $importedGood) {
                 return $total + $importedGood->quantity;
-            }, $total),
+            }, 0),
         ];
         if($this->manufacture)
             $data['manufacture'] = [
