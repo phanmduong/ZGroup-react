@@ -147,7 +147,7 @@ class GraphicsController extends Controller
         $totalPrice = 0;
 
         foreach ($goods as $good) {
-            $totalPrice += $good->price * $good["coupon_value"] * $good->number;
+            $totalPrice += $good->price * (1 - $good["coupon_value"]) * $good->number;
         }
         $data = [
             "books" => $goods,
