@@ -57,6 +57,7 @@ import TaskListTemplateContainer from "./modules/good/TaskListTemplateContainer"
 import HistoryShiftRegistersContainer from "./modules/historyShiftRegisters/HistoryShiftRegistersContainer";
 import ShiftSessionsContainer from "./modules/shiftSessions/ShiftSessionsContainer";
 import CoursesContainer from './modules/courses/CoursesContainer';
+import OrdersContainer from './modules/goodOrders/OrdersContainer';
 
 export default (
     <Route>
@@ -196,6 +197,10 @@ export default (
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>
             {/*End course routes */}
+
+            {/*Begin good order routes */}
+            <Route path="/goods/orders" component={OrdersContainer}/>
+            {/*End good order routes */}
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>
