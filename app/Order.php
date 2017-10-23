@@ -49,6 +49,7 @@ class Order extends Model
     public function transform()
     {
         $data = [
+            'id' =>$this->id,
             'code' => $this->code,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'user' => [
