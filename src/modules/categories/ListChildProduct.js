@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
-import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import AddCategoryModalContainer from './AddCategoryModalContainer';
 import * as categoriesActions from './categoriesActions';
 

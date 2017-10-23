@@ -21,12 +21,7 @@ class CategoriesContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.loadCategories();
-    }
-
-    loadCategories() {
         this.props.categoriesActions.loadCategories();
-        console.log('WILL MOUNT LOAD CATEGORIES', this.props.categories.categoriesList);
     }
 
     openAddCategoryModalContainer() {

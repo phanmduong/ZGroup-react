@@ -3,7 +3,6 @@ import {Modal} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as categoriesActions from './categoriesActions';
-import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Loading from '../../components/common/Loading';
 
