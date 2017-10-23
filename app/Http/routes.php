@@ -333,7 +333,6 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('/roles', 'RoleController@roles');
         Route::get('/roles/{roleId}', 'RoleController@role');
 
-        Route::get('/search-user', 'RoleController@searchUser');
         Route::get('/tabs', 'RoleController@tabs');
         Route::post('/roles', 'RoleController@store_role');
         Route::post('/nhanviens/{staffId}/role', 'RoleController@change_role');
