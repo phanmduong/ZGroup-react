@@ -143,7 +143,6 @@ class GraphicsController extends Controller
                 $goods[] = $good;
             }
         }
-        dd($goods);
 
         $totalPrice = 0;
 
