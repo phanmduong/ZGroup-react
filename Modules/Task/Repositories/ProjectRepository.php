@@ -122,7 +122,7 @@ class ProjectRepository
 
     public function loadProjectBoards($project, $currentUser)
     {
-        $boards = Board::where('project_id', '=', $project->id)->orderBy('order')->get();
+        $boards = Board::where('project_id', '=', $project->id)->where("status", "open")->orderBy('order')->get();
         $data = [
             "id" => $project->id,
             "title" => $project->title,

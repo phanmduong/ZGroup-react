@@ -15,10 +15,13 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::get('/projects', "TaskController@projects");
     Route::get('/projects/archive', "TaskController@archiveProjects");
     Route::put('/project/{projectId}/toggle-archive', "TaskController@toggleProject");
-    Route::post('/board/create', "TaskController@createBoard");
-    Route::get('/boards/{projectId}', "TaskController@getBoards");
-    Route::post('/boards/update', "TaskController@updateBoards");
+
     Route::put('/card/{cardId}/toggle-archive', "TaskController@archiveCard");
+
+    Route::post('/boards/update', "BoardController@updateBoards");
+    Route::post('/board/create', "BoardController@createBoard");
+    Route::get('/boards/{projectId}', "BoardController@getBoards");
+    Route::put('/board/{boardId}/archive', "BoardController@archiveBoard");
 
     Route::post('/card/create', "TaskController@createCard");
     Route::post('/cards/update', "TaskController@updateCards");
