@@ -118,8 +118,9 @@ class ListChildProduct extends React.Component {
     }
 }
 
-ListChildProduct.protoTypes={
+ListChildProduct.propTypes={
     categoriesActions: PropTypes.object.isRequired,
+    categories:PropTypes.object.isRequired,
 
 };
 

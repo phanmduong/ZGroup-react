@@ -177,8 +177,6 @@ class TaskListsContainer extends React.Component {
                                                 isEnable = !task.status &&
                                                     (task.order == 0 || taskList.tasks.filter(t => !!t.status && t.order == Number(task.order) - 1).length > 0);
                                             }
-                                            console.log(isProcess);
-                                            console.log(isEnable);
 
                                             return (<TaskItem
                                                 isEnable={isEnable}

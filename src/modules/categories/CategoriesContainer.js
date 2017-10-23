@@ -16,12 +16,7 @@ class CategoriesContainer extends React.Component {
             error: true,
         };
         this.openAddCategoryModalContainer = this.openAddCategoryModalContainer.bind(this);
-        console.log('CATEGORIES_CONTAINER', this.props.categories.categoriesList);
 
-    }
-
-    componentWillMount() {
-        this.props.categoriesActions.loadCategories();
     }
 
     openAddCategoryModalContainer() {
@@ -30,10 +25,7 @@ class CategoriesContainer extends React.Component {
 
 
     render() {
-        console.log('CATEGORIES_CONTAINER', this.props.categories.categoriesList);
-
         return (
-
             <div>
                 <div className="wrapper">
                     <div className="main-panel">
@@ -132,8 +124,9 @@ class CategoriesContainer extends React.Component {
     }
 }
 
-CategoriesContainer.protoTypes = {
+CategoriesContainer.propTypes = {
     categoriesActions: PropTypes.object.isRequired,
+    categories: PropTypes.object.isRequired,
     categoriesList: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,

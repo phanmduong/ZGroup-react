@@ -2,7 +2,6 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function categoriesReducer(state = initialState.categories, action) {
-    console.log('REDUCER',state);
 
     switch (action.type){
 

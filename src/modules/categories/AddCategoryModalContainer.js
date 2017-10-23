@@ -58,7 +58,7 @@ class AddCategoryModalContainer extends React.Component{
         );
     }
 }
-AddCategoryModalContainer.protoTypes = {
+AddCategoryModalContainer.propTypes = {
     categoriesActions: PropTypes.object.isRequired,
     isShowModal : PropTypes.bool.isRequired,
     isSaving : PropTypes.bool.isRequired,
