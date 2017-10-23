@@ -80,6 +80,7 @@ class BoardListContainer extends React.Component {
                             isAdmin={isAdmin}
                             projectId={Number(this.props.params.projectId)}/>
                         <BoardList
+                            archiveBoard={this.props.taskActions.archiveBoard}
                             display={this.props.setting.display || "full"}
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}

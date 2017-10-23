@@ -1126,3 +1126,13 @@ export function saveTaskTitle(task) {
         });
     };
 }
+
+export function archiveBoard(board) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ARCHIVE_BOARD_SUCCESS,
+            board
+        });
+        taskApi.archiveBoard(board.id);
+    };
+}

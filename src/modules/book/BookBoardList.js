@@ -137,6 +137,13 @@ class BoardList extends React.Component {
                                                                 </li>
                                                             )
                                                         }
+                                                        <li className="more-dropdown-item">
+                                                            <a onClick={() => this.props.archiveBoard(board)}>
+                                                                <i className="material-icons">archive</i>
+                                                                Lưu trữ
+                                                            </a>
+                                                        </li>
+
 
                                                     </ul>
                                                 </div>
@@ -198,6 +205,7 @@ BoardList.propTypes = {
     changeOrderCard: PropTypes.func.isRequired,
     addCard: PropTypes.func.isRequired,
     updateCardInBoard: PropTypes.func.isRequired,
+    archiveBoard: PropTypes.func.isRequired,
     archiveCard: PropTypes.func.isRequired,
     moveCard: PropTypes.func.isRequired,
     moveBoard: PropTypes.func.isRequired,

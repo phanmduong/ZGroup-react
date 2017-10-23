@@ -82,6 +82,7 @@ class BookBoardListContainer extends React.Component {
                             isAdmin={isAdmin}
                             projectId={Number(this.props.projectId)}/>
                         <BookBoardList
+                            archiveBoard={this.props.taskActions.archiveBoard}
                             display={this.props.setting.display || "full"}
                             isAdmin={isAdmin}
                             canDragBoard={isAdmin || this.props.canDragBoard}

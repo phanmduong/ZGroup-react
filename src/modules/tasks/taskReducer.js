@@ -6,6 +6,14 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.ARCHIVE_BOARD_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.filter(board => board.id != action.board.id)
+                }
+            };
         case types.SAVE_TASK_TITLE_SUCCESS:
             return {
                 ...state,
