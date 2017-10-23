@@ -32,6 +32,7 @@ import shiftRegistersReducer from "../modules/shiftRegisters/shiftRegistersReduc
 import historyShiftRegistersReducer from "../modules/historyShiftRegisters/historyShiftRegistersReducer";
 import shiftSessionsReducer from "../modules/shiftSessions/shiftSessionsReducer";
 import courseReducer from "../modules/courses/coursesReducer";
+import categoriesReducer from "../modules/categories/categoriesReducer";
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -66,6 +67,7 @@ const appReducer = combineReducers({
     historyShiftRegisters: historyShiftRegistersReducer,
     shiftSessions: shiftSessionsReducer,
     courses: courseReducer,
+    categories : categoriesReducer,
 });
 
 const rootReducer = (state, action) => {

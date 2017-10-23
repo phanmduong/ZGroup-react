@@ -654,5 +654,15 @@ export default {
             isShowModal: false,
             isSaving: false
         }
-    }
+    },
+
+    categories: {
+        addCategoriesModal: {
+            isShowModal:false,
+            isSaving : false
+        },
+        isLoading : false,
+        error : false,
+        categoriesList:[],
+    },
 };
