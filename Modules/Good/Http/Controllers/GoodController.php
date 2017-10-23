@@ -306,6 +306,10 @@ class GoodController extends ManageApiController
     public function updatePrice($goodId, Request $request)
     {
         $good = Good::find($goodId);
+        if(!$good)
+            return $this->respondErrorWithStatus([
+                'message' => 'khong co san pham'
+            ]);
         $good->price = $request->price;
         $good->save();
         return $this->respondSuccessWithStatus([
