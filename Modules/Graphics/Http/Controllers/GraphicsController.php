@@ -281,7 +281,7 @@ class GraphicsController extends Controller
             foreach ($goods as &$good) {
                 $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
                 $good->coupon_value = $coupon;
-                $total_price += $good->price * (1 - $coupon) * $item->number;
+                $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
             }
             $subject = "Xác nhận đặt hàng thành công";
             $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods];
