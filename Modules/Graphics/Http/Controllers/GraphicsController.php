@@ -265,18 +265,23 @@ class GraphicsController extends Controller
             $order->payment = $payment;
             $order->save();
 
+
             if ($goods_arr) {
-                $total_price = 0;
                 foreach ($goods_arr as $item) {
                     $good = Good::find($item->id);
                     $order->goods()->attach($item->id, [
                         "quantity" => $item->number,
                         "price" => $good->price,
                     ]);
-                    $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
-                    dd($coupon);
-                    $total_price += $good->price * (1 - $coupon) * $item->number;
+
                 }
+            }
+            $total_price = 0;
+            $goods = $order->goods;
+            foreach ($goods as &$good) {
+                $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
+                $good->coupon_value = $coupon;
+                $total_price += $good->price * (1 - $coupon) * $item->number;
             }
             $subject = "Xác nhận đặt hàng thành công";
             $data = ["order" => $order, "total_price" => $total_price];
