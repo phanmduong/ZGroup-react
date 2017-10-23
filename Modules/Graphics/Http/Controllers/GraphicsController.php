@@ -273,7 +273,8 @@ class GraphicsController extends Controller
                         "quantity" => $item->number,
                         "price" => $good->price,
                     ]);
-                    $total_price += $good->price * $item->number;
+                    $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
+                    $total_price += $good->price * (1 - $coupon) * $item->number;
                 }
             }
             $subject = "Xác nhận đặt hàng thành công";
