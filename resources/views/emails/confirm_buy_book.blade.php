@@ -254,7 +254,7 @@
                                                         <th style="text-align: left">Số lượng</th>
                                                         <th style="text-align: left">Tổng tiền</th>
                                                     </tr>
-                                                    @foreach($order->goods as $good)
+                                                    @foreach($goods as $good)
                                                         <tr>
                                                             <td><b>{{$good->name}}</b>
                                                                 <br>{{$good->properties()->where("name","short_description")->first() ? $good->properties()->where("name","short_description")->first()->value : ""}}

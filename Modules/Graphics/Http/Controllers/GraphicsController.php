@@ -284,7 +284,7 @@ class GraphicsController extends Controller
                 $total_price += $good->price * (1 - $coupon) * $item->number;
             }
             $subject = "Xác nhận đặt hàng thành công";
-            $data = ["order" => $order, "total_price" => $total_price];
+            $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods];
             $emailcc = ["graphics@colorme.vn"];
             Mail::queue('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
                 $m->from('no-reply@colorme.vn', 'Graphics');
