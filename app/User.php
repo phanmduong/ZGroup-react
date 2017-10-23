@@ -283,6 +283,16 @@ class User extends Authenticatable
 
     public function tranform()
     {
+        $data = $this->registers->map(function ($register) {
+            return [
+                'avatar_url' => $register->studyClass->course->icon_url,
+                'class_name' => $register->studyClass->name,
+                'course_name' => $register->studyClass->course->name,
+                'link' => '/course/'.convert_vi_to_en($register->studyClass->course->name),
+                'saler_name' => $register->saler->name,
+            ];
+        }
+        );
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -293,7 +303,7 @@ class User extends Authenticatable
             'work' => $this->work,
             'avatar_url' => $this->avatar_url,
             'link' => '/profile/' . $this->username,
-            'registers' => $this->registers,
+            'registers' => $data,
         ];
     }
 }
