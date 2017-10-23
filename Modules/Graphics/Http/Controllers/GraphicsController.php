@@ -274,6 +274,7 @@ class GraphicsController extends Controller
                         "price" => $good->price,
                     ]);
                     $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
+                    dd($coupon);
                     $total_price += $good->price * (1 - $coupon) * $item->number;
                 }
             }
