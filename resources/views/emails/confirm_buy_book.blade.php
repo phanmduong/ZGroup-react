@@ -265,7 +265,7 @@
                                                                 {{$good->coupon_value ? "-".($good->coupon_value * 100)."%" :"" }}
                                                             </td>
                                                             <td>{{$good->pivot->quantity}}</td>
-                                                            <td>{{currency_vnd_format((1 - $good->coupon_value) * $good->pivot->price)}}</td>
+                                                            <td>{{currency_vnd_format($good->pivot->quantity * (1 - $good->coupon_value) * $good->pivot->price)}}</td>
                                                         </tr>
                                                     @endforeach
                                                     <tr>
