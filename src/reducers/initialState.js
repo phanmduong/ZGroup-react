@@ -192,6 +192,11 @@ export default {
     },
 
     task: {
+        archiveBoard: {
+            showModal: false,
+            boards: [],
+            isLoading: false
+        },
         personalSetting: {
             showModal: false,
             setting: {},

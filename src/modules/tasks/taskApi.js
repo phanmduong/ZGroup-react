@@ -493,14 +493,4 @@ export function saveTaskTitle(taskId, title) {
     return axios.put(url, {title});
 }
 
-export function archiveBoard(boardId) {
-    let url = env.MANAGE_API_URL + `/board/${boardId}/archive`;
-    const token = localStorage.getItem('token');
-    if (token) {
-        url += "?token=" + token;
-    }
-    return axios.put(url);
-}
-
-
 

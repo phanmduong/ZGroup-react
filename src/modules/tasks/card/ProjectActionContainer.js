@@ -6,7 +6,9 @@ import ProjectDetailModalContainer from "../project/ProjectDetailModalContainer"
 import ArchiveCardsModalContainer from "./ArchiveCardsModalContainer";
 import * as projectPersonalSettingAction from '../project/projectPersonalSettingAction';
 import * as taskActions from '../taskActions';
+import * as boardActions from '../board/boardActions';
 import ProjectPersonalSettingModalContainer from "../project/ProjectPersonalSettingModalContainer";
+import ArchiveBoardsModalContainer from "../board/ArchiveBoardsModalContainer";
 
 class ProjectActionContainer extends React.Component {
     constructor(props, context) {
@@ -14,6 +16,7 @@ class ProjectActionContainer extends React.Component {
         this.openProjectSetting = this.openProjectSetting.bind(this);
         this.open = this.open.bind(this);
         this.openProjectPersonalSetting = this.openProjectPersonalSetting.bind(this);
+        this.openArchiveBoardsModal = this.openArchiveBoardsModal.bind(this);
     }
 
     openProjectSetting() {
@@ -31,6 +34,10 @@ class ProjectActionContainer extends React.Component {
         this.props.projectPersonalSettingAction.openClosePersonalSettingModal(true);
     }
 
+    openArchiveBoardsModal() {
+        this.props.boardActions.showArchiveBoardsModal(true);
+    }
+
     render() {
         return (
             <div className="filter-item">
@@ -39,7 +46,12 @@ class ProjectActionContainer extends React.Component {
                         <i className="material-icons">more_horiz</i>
                     </a>
                     <ul className="dropdown-menu dropdown-menu-right">
-                        <li><a onClick={this.open}>Thẻ đã lưu trữ</a></li>
+                        <li>
+                            <a onClick={this.openArchiveBoardsModal}>Bảng đã lưu trữ</a>
+                        </li>
+                        <li>
+                            <a onClick={this.open}>Thẻ đã lưu trữ</a>
+                        </li>
                         {
                             this.props.isAdmin && <li><a onClick={this.openProjectSetting}>Cài đặt</a></li>
                         }
@@ -49,8 +61,10 @@ class ProjectActionContainer extends React.Component {
                 <ProjectDetailModalContainer/>
                 <ProjectPersonalSettingModalContainer/>
                 <ArchiveCardsModalContainer
-                    isAdmin={this.props.isAdmin}
                     projectId={this.props.projectId}/>
+                <ArchiveBoardsModalContainer
+                    projectId={this.props.projectId}
+                />
             </div>
         );
     }
@@ -60,6 +74,7 @@ ProjectActionContainer.propTypes = {
     projectId: PropTypes.number.isRequired,
     isAdmin: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired,
+    boardActions: PropTypes.object.isRequired,
     projectPersonalSettingAction: PropTypes.object.isRequired
 };
 
@@ -72,7 +87,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         taskActions: bindActionCreators(taskActions, dispatch),
-        projectPersonalSettingAction: bindActionCreators(projectPersonalSettingAction, dispatch)
+        projectPersonalSettingAction: bindActionCreators(projectPersonalSettingAction, dispatch),
+        boardActions: bindActionCreators(boardActions, dispatch)
     };
 }
 
