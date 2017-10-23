@@ -20,13 +20,36 @@ class BoardController extends ManageApiController
         $this->projectRepository = $projectRepository;
     }
 
+    public function getArchiveBoards()
+    {
+        $boards = Board::where("status", "close")->orderBy("updated_at", "desc")->get();
+        return $this->respondSuccessWithStatus([
+            "boards" => $boards->map(function ($board) {
+                return $board->transform();
+            })
+        ]);
+    }
+
     public function archiveBoard($boardId)
     {
         $board = Board::find($boardId);
         if ($board == null) {
             return $this->respondErrorWithStatus("Bảng không tồn tại");
         }
+
         $board->status = "close";
+        $board->save();
+        return $this->respondSuccessWithStatus(["message" => "ok"]);
+    }
+
+    public function unarchiveBoard($boardId)
+    {
+        $board = Board::find($boardId);
+        if ($board == null) {
+            return $this->respondErrorWithStatus("Bảng không tồn tại");
+        }
+
+        $board->status = "open";
         $board->save();
         return $this->respondSuccessWithStatus(["message" => "ok"]);
     }
