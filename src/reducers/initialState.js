@@ -656,5 +656,18 @@ export default {
             isShowModal: false,
             isSaving: false
         }
+    },
+
+    goodOrders: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        orders: [],
+        totalOrder: 0,
+        totalMoney: 0,
+        totalPaidMoney: 0,
+        limit: 1,
+        totalCount: 1,
     }
 };
