@@ -20,12 +20,12 @@ class BoardController extends ManageApiController
         $this->projectRepository = $projectRepository;
     }
 
-    public function getArchiveBoards()
+    public function getArchiveBoards($projectId)
     {
-        $boards = Board::where("status", "close")->orderBy("updated_at", "desc")->get();
+        $boards = Board::where("project_id",$projectId)->where("status", "close")->orderBy("updated_at", "desc")->get();
         return $this->respondSuccessWithStatus([
             "boards" => $boards->map(function ($board) {
-                return $board->transform();
+                return $board->transformBoardWithCard();
             })
         ]);
     }

@@ -23,7 +23,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::get('/boards/{projectId}', "BoardController@getBoards");
     Route::put('/board/{boardId}/archive', "BoardController@archiveBoard");
     Route::put('/board/{boardId}/unarchive', "BoardController@unarchiveBoard");
-    Route::get('/boards/archive', "BoardController@getArchiveBoards");
+    Route::get('/boards/{projectId}/archive', "BoardController@getArchiveBoards");
 
     Route::post('/card/create', "TaskController@createCard");
     Route::post('/cards/update', "TaskController@updateCards");
