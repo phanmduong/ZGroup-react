@@ -289,7 +289,7 @@ class User extends Authenticatable
                 'class_name' => $register->studyClass->name,
                 'course_name' => $register->studyClass->course->name,
                 'link' => '/course/'.convert_vi_to_en($register->studyClass->course->name),
-                'saler_name' => $register->saler->name,
+                'saler_name' => $register->saler? $register->saler->name : null,
             ];
         }
         );
