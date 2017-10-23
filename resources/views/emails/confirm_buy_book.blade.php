@@ -259,7 +259,10 @@
                                                             <td><b>{{$good->name}}</b>
                                                                 <br>{{$good->properties()->where("name","short_description")->first() ? $good->properties()->where("name","short_description")->first()->value : ""}}
                                                             </td>
-                                                            <td>{{currency_vnd_format((1 - $good->coupon_value) * $good->price)}}</td>
+                                                            <td>
+                                                                {{currency_vnd_format((1 - $good->coupon_value) * $good->price)}}
+                                                                <span>{{$good->coupon_value ? "-".($good->coupon_value * 100)."%" :"" }}</span>
+                                                            </td>
                                                             <td>{{$good->pivot->quantity}}</td>
                                                             <td>{{currency_vnd_format((1 - $good->coupon_value) * $good->pivot->price)}}</td>
                                                         </tr>
