@@ -17,7 +17,7 @@ class OrderController extends ManageApiController
 
     public function allOrders(Request $request)
     {
-        $limit = 20;
+        $limit = 3;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
