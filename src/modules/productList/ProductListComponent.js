@@ -57,7 +57,7 @@ class ProductListComponent extends React.Component {
                                             data-original-title="Remove item"
                                             className="btn btn-info btn-xs"
                                             style={{width: "100%"}}
-                                            onClick={this.props.showPriceModal}>{product.price}
+                                            onClick={() => this.props.showPriceModal(product)}>{product.price}
                                         <div className="ripple-container"></div>
                                     </button>
                                 </td>

@@ -4,7 +4,8 @@ export default {
         isLoading: false,
         modalInProduct: {
             priceModal: false,
-        }
+        },
+        productEditing:{}
     },
 
     good: {

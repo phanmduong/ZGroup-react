@@ -13,6 +13,7 @@ export default function productListReducer(state = initialState.productList, act
         case types.TOGGLE_PRICE_MODAL:
             return {
                 ...state,
+                productEditing: action.product,
                 modalInProduct: {
                     ...state.modalInProduct,
                     priceModal: !state.modalInProduct.priceModal
