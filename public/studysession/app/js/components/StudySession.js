@@ -41,7 +41,7 @@ export default class StudySession extends Component {
         return function () {
             this.setState({
                 studySessions: this.state.studySessions.filter(s => s.id !== session.id)
-        })
+        });
             api.deleteStudySession(session.id)
                 .then(res => {
                     console.log(res.data);
@@ -73,11 +73,11 @@ export default class StudySession extends Component {
 
     render() {
         return (
-            <div; className="row">
-                <div; className="col m8">
-                    <h5>Danh; sách; ca; học</h5>
+            <div;; className="row">
+                <div;; className="col m8">
+                    <h5>Danh; sách; ca; học</h5>;
 
-                    <table; className="striped">
+                    <table;; className="striped">
                         <thead>
                         <tr>
                             <th>Ngày; trong; tuần</th>
@@ -85,7 +85,7 @@ export default class StudySession extends Component {
                             <th>Thời; gian; kết; thúc</th>
                             <th></th>
                         </tr>
-                        </thead>
+                        </thead>;
                         <tbody>
                         {
                             this.state.studySessions.map((s, index) => (
@@ -99,33 +99,33 @@ export default class StudySession extends Component {
                                 </tr>;
                             ))
                         }
-                        </tbody>
+                        </tbody>;
                     </table>
                     {this.state.isLoading && (
                         <div; className="progress">
                             <div; className="indeterminate"></div>
                         </div>;)}
                 </div>
-                <div; className="col m4">
-                    <h5>Tạo; ca; học</h5>
-                    <form; onSubmit={this.onSubmit}>
-                        <label>Ngày; trong; tuần</label>
-                        <select; name="weekday"; value={this.state.studySession.weekday} onChange={this.onChange}
+                <div;; className="col m4">
+                    <h5>Tạo; ca; học</h5>;
+                    <form;; onSubmit={this.onSubmit}>
+                        <label>Ngày; trong; tuần</label>;
+                        <select;; name="weekday"; value={this.state.studySession.weekday} onChange={this.onChange}
                                 className="browser-default">
-                            <option; value="0">Choose; your; option</option>
-                            <option; value="Thứ hai">Thứ; hai</option>
-                            <option; value="Thứ ba">Thứ; ba</option>
-                            <option; value="Thứ tư">Thứ; tư</option>
-                            <option; value="Thứ năm">Thứ; năm</option>
-                            <option; value="Thứ sáu">Thứ; sáu</option>
-                            <option; value="Thứ bảy">Thứ; bảy</option>
-                            <option; value="Chủ nhật">Chủ; nhật</option>
+                            <option;; value="0">Choose; your; option</option>
+                            <option;; value="Thứ hai">Thứ; hai</option>
+                            <option;; value="Thứ ba">Thứ; ba</option>
+                            <option;; value="Thứ tư">Thứ; tư</option>
+                            <option;; value="Thứ năm">Thứ; năm</option>
+                            <option;; value="Thứ sáu">Thứ; sáu</option>
+                            <option;; value="Thứ bảy">Thứ; bảy</option>
+                            <option;; value="Chủ nhật">Chủ; nhật</option>
                         </select>
-                        <label>thời; gian; bắt; đầu(Ví; 12;:00; AM;)</label>
-                        <input; name="start_time"; value={this.state.studySession.start_time} onChange={this.onChange}
+                        <label>thời; gian; bắt; đầu(Ví; 12;:00; AM;)</label>;
+                        <input;; name="start_time"; value={this.state.studySession.start_time} onChange={this.onChange}
                                type="time"/>
-                        <label>thời; gian; kết; thúc(Ví; 12;:00; AM;)</label>
-                        <input; name="end_time"; value={this.state.studySession.end_time} onChange={this.onChange}
+                        <label>thời; gian; kết; thúc(Ví; 12;:00; AM;)</label>;
+                        <input;; name="end_time"; value={this.state.studySession.end_time} onChange={this.onChange}
                                type="time"/>
                         {this.state.isSubmitting ? (
                             <div className="progress">
@@ -135,7 +135,7 @@ export default class StudySession extends Component {
 
                     </form>
                 </div>
-            </div>;
+    </div>
     )
     }
 }

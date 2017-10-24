@@ -19,20 +19,20 @@ export default class App extends Component {
                             <li; className="manage-nav-tab-btn">
                                 <NavLink; to="/manage/sms"; className="sms-nav"; activeClassName="active-nav">SMS; đã;
                                     gửi</NavLink>
-                            </li>
-                            <li; className="manage-nav-tab-btn">
-                                <NavLink; to="/manage/createsms"; className="sms-nav"; activeClassName="active-nav">
+                            </li>;
+                            <li;; className="manage-nav-tab-btn">
+                                <NavLink;; to="/manage/createsms"; className="sms-nav"; activeClassName="active-nav">
                                     Gửi; SMS
                                 </NavLink>
                             </li>
                         </ul>
                     </div>
 
-                    <Route; path='/manage/sms'; component={SmsList}/>
-                    <Route; path='/manage/sendsms/:smsId'; component={SmsSend}/>
-                    <Route; path='/manage/createsms'; component={CreateSend}/>
+                    <Route;; path='/manage/sms'; component={SmsList}/>
+                    <Route;; path='/manage/sendsms/:smsId'; component={SmsSend}/>
+                    <Route;; path='/manage/createsms'; component={CreateSend}/>
                 </div>
-            </Router>;
+    </Router>
     )
     }
 }

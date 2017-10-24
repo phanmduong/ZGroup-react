@@ -17,10 +17,11 @@ class OrderController extends ManageApiController
 
     public function allOrders(Request $request)
     {
-        $limit = 20;
+        $limit = 3;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
+        $keyWord = $request->search;
         $totalOrders = Order::get()->count();
         $totalMoney = 0;
         $totalPaidMoney = 0;
@@ -39,14 +40,22 @@ class OrderController extends ManageApiController
         }
         if ($startTime) {
             if ($status)
-                $orders = Order::where('status', $status)->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->paginate($limit);
+                $orders = Order::where('status', $status)->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
+                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+                })->paginate($limit);
             else
-                $orders = Order::whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->paginate($limit);
+                $orders = Order::whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
+                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+                })->paginate($limit);
         } else {
             if ($status)
-                $orders = Order::where('status', $status)->orderBy("created_at", "desc")->paginate($limit);
+                $orders = Order::where('status', $status)->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
+                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+                })->paginate($limit);
             else
-                $orders = Order::orderBy("created_at", "desc")->paginate($limit);
+                $orders = Order::orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
+                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+                })->paginate($limit);
         }
         return $this->respondWithPagination(
             $orders,

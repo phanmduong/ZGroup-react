@@ -153,18 +153,4 @@ class RoleController extends ManageController
         return response()->json($msg, 200);
     }
 
-    public function searchUser(Request $request)
-    {
-        $q = $request->q;
-        if ($q == '') {
-            return response()->json(['message' => "Bạn chưa điền nội dung tìm kiếm"], 200);
-        }
-        $users = User::where('role', 0)
-            ->where(function ($query) use ($q) {
-                $query->where('email', 'like', '%' . $q . '%')
-                    ->orWhere('name', 'like', '%' . $q . '%');
-            })
-            ->get();
-        return response()->json($users, 200);
-    }
 }

@@ -95,9 +95,11 @@ class TaskRepository
         $taskList = $taskListTemplate->replicate();
         $taskList->role = "process";
         $taskList->card_id = $cardId;
+        $taskList->save();
+
         $card = Card::find($cardId);
         $project = $card->board->project;
-        $taskList->save();
+
         foreach ($taskListTemplate->tasks as $item) {
             $task = $item->replicate();
             $task->task_list_id = $taskList->id;
@@ -119,7 +121,7 @@ class TaskRepository
                     $card->assignees()->attach($task->member->id);
                 }
 
-                $projectMember = $project->members()->where("id", $task->member->id)->first();
+                $projectMember = $project->members()->where("user_id", $task->member->id)->first();
                 if ($projectMember == null) {
                     $project->members()->attach($task->member->id);
                 }
@@ -152,6 +154,7 @@ class TaskRepository
         return [
             "id" => $taskList->id,
             "card_id" => $cardId,
+            "role" => $taskList->role,
             "title" => $taskList->title,
             'tasks' => $taskList->tasks->map(function ($task) {
                 return $task->transform();

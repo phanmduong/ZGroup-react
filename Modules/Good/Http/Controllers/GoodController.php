@@ -150,17 +150,25 @@ class GoodController extends ManageApiController
 
     public function createGoodPropertyItem(Request $request)
     {
+        if ($request->name == null)
+            return $this->respondErrorWithStatus("Thiếu trường name");
+
+        $goodPropertyItem = GoodPropertyItem::where("name", $request->name)->first();
         $user = $this->user;
         if ($request->id) {
+            if ($goodPropertyItem != null && $goodPropertyItem->id != $request->id) {
+                return $this->respondErrorWithStatus("Đã tồn tại thuộc tính với tên là " . $request->name);
+            }
             $good_property_item = GoodPropertyItem::find($request->id);
             $good_property_item->editor_id = $user->id;
         } else {
+            if ($goodPropertyItem != null) {
+                return $this->respondErrorWithStatus("Đã tồn tại thuộc tính với tên là " . $request->name);
+            }
             $good_property_item = new GoodPropertyItem();
             $good_property_item->creator_id = $user->id;
             $good_property_item->editor_id = $user->id;
         }
-        if ($request->name == null)
-            return $this->respondErrorWithStatus("Thiếu trường name");
         $good_property_item->name = $request->name;
         $good_property_item->prevalue = $request->prevalue;
         $good_property_item->preunit = $request->preunit;
@@ -247,12 +255,18 @@ class GoodController extends ManageApiController
             "boards" => $boards
         ]);
     }
-    public function getAllGood(Request $request){
+
+    public function getAllGood(Request $request)
+    {
         $keyword = $request->search;
+        if ($request->limit)
+            $limit = $request->limit;
+        else
+            $limit = 20;
         $goods = Good::where(function ($query) use ($keyword) {
             $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
         });
-        $goods = $goods->orderBy("created_at", "desc")->paginate(20);
+        $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
 
         return $this->respondWithPagination(
             $goods,
@@ -262,35 +276,48 @@ class GoodController extends ManageApiController
                 })
             ]
         );
-
     }
-    public function editGood(Request $request){
-        if($request->id == null)
+
+    public function editGood(Request $request)
+    {
+        if ($request->id == null)
             return $this->respondErrorWithData([
                 "message" => "thiếu id"
             ]);
         $good = Good::find($request->id);
-        if($good == null) return $this->respondErrorWithData([
+        if ($good == null) return $this->respondErrorWithData([
             "message" => "Không tìm thấy sản phẩm"
         ]);
-        if($request->name !=null) $good->name = $request->name;
-        if($request->code !=null) $good->code = $request->code;
-        if($request->price !=null) $good->price = $request->price;
-        if($request->manufacture_id !=null) $good->manufacture_id = $request->manufacture_id;
-        if($request->category_id !=null) $good->category_id = $request->category_id;
+        if ($request->name != null) $good->name = $request->name;
+        if ($request->code != null) $good->code = $request->code;
+        if ($request->price != null) $good->price = $request->price;
+        if ($request->manufacture_id != null) $good->manufacture_id = $request->manufacture_id;
+        if ($request->category_id != null) $good->category_id = $request->category_id;
         $good->save();
         return $this->respondSuccessWithStatus([
             "good" => $good->editTranform()
         ]);
     }
-    public function deleteGood($good_id,Request $request){
+
+    public function deleteGood($good_id, Request $request)
+    {
         $good = Good::find($good_id);
-        if($good == null) return $this->respondErrorWithData([
+        if ($good == null) return $this->respondErrorWithData([
             "message" => "Không tìm thấy sản phẩm"
         ]);
         $good->delete();
         return $this->respondErrorWithData([
             "message" => "Xóa sản phẩm thành công"
+        ]);
+    }
+
+    public function updatePrice($goodId, Request $request)
+    {
+        $good = Good::find($goodId);
+        $good->price = $request->price;
+        $good->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'ok',
         ]);
     }
 }

@@ -51,7 +51,7 @@ export default class Telecall extends Component {
                 this.props.addTelecall(telecall);
                 this.setState({
                     isLoading: false
-                })
+                });
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
             });
     }

@@ -65,7 +65,7 @@ class UserCardRepository
         } else {
             $card->assignees()->attach($userId);
             $project = $card->board->project;
-            $temp = $project->members()->where("id", $userId)->first();
+            $temp = $project->members()->where("user_id", $userId)->first();
             if ($temp === null) {
                 $project->members()->attach($userId, [
                     "adder_id" => $currentUser->id,

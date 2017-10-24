@@ -89,8 +89,7 @@ $(document).ready(function(){
             }
 
         });
-    };
-
+    }
     // Change the collor of navbar collapse
     $('#navbarToggler').on('show.bs.collapse', function () {
         if( $('nav').hasClass('navbar-transparent') && $(document).scrollTop() < 50 ){
@@ -135,8 +134,7 @@ $(document).ready(function(){
     // Activate Navbar
     if($('.nav-down').length != 0){
         pk.checkScrollForMovingNavbar();
-    };
-
+    }
 });
 
 $(document).on('click', '.navbar-toggler', function(){
@@ -282,7 +280,7 @@ pk = {
     },
 
 
-}
+};
 
 demo = {
     initPickColor: function(){
@@ -298,7 +296,7 @@ demo = {
             }
         });
     }
-}
+};
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
@@ -316,8 +314,7 @@ function debounce(func, wait, immediate) {
 		}, wait);
 		if (immediate && !timeout) func.apply(context, args);
 	};
-};
-
+}
 function hasScrolled() {
     var st = $(this).scrollTop();
     // Make sure they scroll more than delta
@@ -337,4 +334,4 @@ function hasScrolled() {
     }
 
     lastScrollTop = st;
-};
+}

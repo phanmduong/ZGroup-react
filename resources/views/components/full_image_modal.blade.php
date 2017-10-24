@@ -407,7 +407,7 @@
         $('#full-image-total-comment').html(total_comments + 1);
 
         var comment_content = $('#full-image-comment-input').val();
-        $('#')
+        $('#');
         $('#full-image-input-container').html('<div class="progress"> <div class="indeterminate"></div> </div>');
         $.post(
                 '{{url('storecomment')}}',

@@ -14,7 +14,7 @@ var StudentListItem = React.createClass({
 window.StudentsList = React.createClass({
     render: function () {
         return (
-            <table; className="striped">
+            <table;; className="striped">
                 <thead>
                 <tr>
                     <th>Tên</th>
@@ -23,14 +23,14 @@ window.StudentsList = React.createClass({
                     <th>Trường</th>
                     <th>Tiền; học</th>
                 </tr>
-                </thead>
+                </thead>;
 
                 <tbody>
                 {this.props.students.map(function (item) {
-                    return; <StudentListItem; key={item.id} student={item}/>
+                    return; <StudentListItem;; key={item.id} student={item}/>
                 })}
-                </tbody>
-            </table>;
-        )
+                </tbody>;
+    </table>
+    )
     }
 });
