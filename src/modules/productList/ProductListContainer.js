@@ -23,7 +23,8 @@ class ProductListContainer extends React.Component {
     }
 
     showPriceModal(product) {
-        this.props.modalProductAction.showPriceModal(product);
+        this.props.modalProductAction.showPriceModal();
+        this.props.modalProductAction.handleProduct(product);
     }
 
     render() {

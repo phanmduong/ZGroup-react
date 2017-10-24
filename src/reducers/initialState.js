@@ -4,8 +4,17 @@ export default {
         isLoading: false,
         modalInProduct: {
             priceModal: false,
+            isModalUpdating: false
         },
-        productEditing:{}
+        productEditing:{
+            id:'',
+            name:'',
+            code:'',
+            avatar_url:'',
+            price:'',
+            quantity:'',
+            warehouse:[]
+        }
     },
 
     good: {

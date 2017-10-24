@@ -71,7 +71,7 @@ class ProductListComponent extends React.Component {
                                     <a className="text-name-student-register"
                                        rel="tooltip" title=""
                                        data-original-title="Remove item">
-                                        fuck
+                                        {product.warehouses.length}
                                     </a>
                                 </td>
                                 <td style={{width: "100px"}}>
@@ -99,7 +99,8 @@ class ProductListComponent extends React.Component {
                     }
                     </tbody>
                 </table>
-                <PriceModalContainer/>
+                <PriceModalContainer
+                    showPriceModal={this.props.showPriceModal}/>
             </div>
         );
     }

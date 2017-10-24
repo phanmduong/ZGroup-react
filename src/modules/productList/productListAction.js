@@ -20,15 +20,24 @@ export function getProducts() {
 }
 
 export function updatePrice(productEditing) {
-    return function () {
+    return function (dispatch) {
+        dispatch(modalUpdating(true));
         productListApi.updatePriceApi(productEditing)
             .then(function (response) {
                 console.log("response", response);
+                dispatch(modalUpdating(false));
             })
             .catch(function (error) {
                 throw (error);
             });
     };
+}
+
+export function modalUpdating(updating) {
+    return ({
+        type: types.MODAL_UPDATING,
+        updating
+    });
 }
 
 
