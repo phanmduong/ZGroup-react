@@ -294,6 +294,15 @@ function send_mail_query($user, $view, $data, $subject)
     });
 }
 
+function send_mail_not_query($user, $view, $data, $subject)
+{
+    Mail::send($view, $data, function ($m) use ($user, $subject) {
+        $m->from('no-reply@colorme.vn', 'Color Me');
+
+        $m->to($user['email'], $user['name'])->subject($subject);
+    });
+}
+
 function send_marketing_mail($email, $view, $subject)
 {
 
