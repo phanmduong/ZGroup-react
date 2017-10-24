@@ -341,7 +341,6 @@ class TaskController extends ManageApiController
     }
 
 
-
     public function updateCards(Request $request)
     {
         if (is_null($request->cards) || is_null($request->board_id)) {
@@ -448,22 +447,52 @@ class TaskController extends ManageApiController
         if (is_null($taskList)) {
             return $this->responseBadRequest("Quy trình không tồn tại");
         }
-        $data = [
-            'id' => $taskList->id,
-            'title' => $taskList->title,
-            "num_tasks" => $taskList->tasks()->count(),
-            'tasks' => $taskList->tasks()->orderBy("order")->get()->map(function ($task, $key) {
-                if ($task->order == null) {
-                    $task->order = $key;
-                    $task->save();
-                }
-                return $task->transform();
-            }),
-            'type' => $taskList->type
-        ];
-
+        $data = $taskList->transformWithOrderedTasks();
 
         return $this->respondSuccessWithStatus($data);
+    }
+
+    public function autoAssignBoardToTask($id)
+    {
+        $taskList = TaskList::find($id);
+        if (is_null($taskList)) {
+            return $this->responseBadRequest("Quy trình không tồn tại");
+        }
+        $project = Project::where("status", "book")->first();
+        if ($project == null) {
+            return $this->respondErrorWithStatus("Dự án sách không tồn tại");
+        }
+        $tasks = $taskList->tasks()->orderBy("order")->get();
+        $numTasks = $tasks->count();
+
+        $boards = Board::where('project_id', '=', $project->id)->where("status", "open")->orderBy('order')->get();
+        $numBoards = $boards->count();
+
+        $num = min($numTasks, $numBoards);
+
+
+        for ($i = 0; $i < $num - 1; ++$i) {
+            $task = $tasks->get($i);
+            $board = $boards->get($i);
+            $nextBoard = $boards->get($i + 1);
+            $task->current_board_id = $board->id;
+            $task->target_board_id = $nextBoard->id;
+            $task->save();
+        }
+        $task = $tasks->get($num - 1);
+        $board = $boards->get($num - 1);
+        $nextBoard = $boards->get($num);
+        if ($numTasks < $numBoards) {
+            $task->current_board_id = $board->id;
+            $task->target_board_id = $nextBoard->id;
+        } else {
+            $task->current_board_id = $board->id;
+        }
+        $task->save();
+
+        return $this->respondSuccessWithStatus([
+            "tasklist" => $taskList->transformWithOrderedTasks()
+        ]);
     }
 
 
