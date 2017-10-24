@@ -18,10 +18,11 @@ class ListChildProduct extends React.Component {
     render(){
         return(
             <div>
+
+                    <div className="panel-body">
                 {/*     LIST CHILD GROUP    */}
-                <div  id = "collapseOne" className="panel-collapse collaps " role="tabpanel"
-                     aria-labelledby="headingOne" aria-expanded="false" style={{"height": "0px"}}>
-                    <div className="panel-body">
+
+                    <div className="panel-title">
                         <p style={{"marginLeft": "20px"}}>
                             <button rel="tooltip" data-placement="top" title=""
                                     data-original-title="Remove item"
@@ -39,26 +40,7 @@ class ListChildProduct extends React.Component {
                         </p>
 
                     </div>
-                    <div className="panel-body">
-                        <p style={{"marginLeft": "20px"}}>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Remove item"
-                                    className="btn btn-round btn-sm btn-info"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>mode_edit
-                            </button>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Không xoá được"
-                                    className="btn btn-round btn-sm btn-default"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>close
-                            </button>
-                            <a style={{"cursor": "pointer"}}>iPhone (27)</a>
-                        </p>
-
-                    </div>
-
-                    <div className="panel-body">
+                    <div className="panel-title">
                         <p style={{"marginLeft": "20px"}}>
                             <button rel="tooltip" data-placement="top" title=""
                                     data-original-title="Remove item"
@@ -77,7 +59,26 @@ class ListChildProduct extends React.Component {
 
                     </div>
 
-                    <div className="panel-body">
+                    <div className="panel-title">
+                        <p style={{"marginLeft": "20px"}}>
+                            <button rel="tooltip" data-placement="top" title=""
+                                    data-original-title="Remove item"
+                                    className="btn btn-round btn-sm btn-info"
+                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
+                                <i style={{"float": "none!important"}} className="material-icons"/>mode_edit
+                            </button>
+                            <button rel="tooltip" data-placement="top" title=""
+                                    data-original-title="Không xoá được"
+                                    className="btn btn-round btn-sm btn-default"
+                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
+                                <i style={{"float": "none!important"}} className="material-icons"/>close
+                            </button>
+                            <a style={{"cursor": "pointer"}}>iPhone (27)</a>
+                        </p>
+
+                    </div>
+
+                    <div className="panel-title">
                         <p style={{"marginLeft": "20px"}}>
                             <button rel="tooltip" data-placement="top" title=""
                                     data-original-title="Remove item"

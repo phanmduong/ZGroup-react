@@ -18,6 +18,9 @@ class CategoriesContainer extends React.Component {
         this.openAddCategoryModalContainer = this.openAddCategoryModalContainer.bind(this);
 
     }
+    componentWillMount(){
+        this.props.categoriesActions.loadCategories();
+    }
 
     openAddCategoryModalContainer() {
         this.props.categoriesActions.openAddCategoryModalContainer();
@@ -100,11 +103,9 @@ class CategoriesContainer extends React.Component {
                                                              role="tabpanel"
                                                              aria-labelledby="headingOne" aria-expanded="false"
                                                              style={{"height": "0px"}}>
-                                                            <div className="panel-body">
 
                                                                 <ListChildProduct
                                                                 />
-                                                            </div>
                                                         </div>
                                                     </div>
 
