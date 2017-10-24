@@ -58,7 +58,7 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.cardDetail,
                     card: {
                         ...state.cardDetail.card,
-                        taskLists: state.cardDetail.card.taskLists.map((taskList) => {
+                        taskLists: state.cardDetail.card.taskLists ? state.cardDetail.card.taskLists.map((taskList) => {
                             return {
                                 ...taskList,
                                 tasks: taskList.tasks.map((task) => {
@@ -71,7 +71,7 @@ export default function taskReducer(state = initialState.task, action) {
                                     return task;
                                 })
                             };
-                        })
+                        }) : []
                     }
                 }
             };
