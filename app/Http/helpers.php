@@ -294,7 +294,7 @@ function send_mail_query($user, $view, $data, $subject)
     });
 }
 
-function send_mail_not_query($user, $view, $data, $subject)
+function send_mail_not_queue($user, $view, $data, $subject)
 {
     Mail::send($view, $data, function ($m) use ($user, $subject) {
         $m->from('no-reply@colorme.vn', 'Color Me');
@@ -312,7 +312,6 @@ function send_marketing_mail($email, $view, $subject)
         $m->to($email, $email)->subject($subject);
     });
 }
-
 
 function currency_vnd_format($number)
 {
