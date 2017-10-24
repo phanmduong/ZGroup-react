@@ -15,9 +15,8 @@ class PriceModalContainer extends React.Component {
         this.showPriceModal = this.showPriceModal.bind(this);
     }
 
-    updatePrice(e) {
+    updatePrice() {
         console.log("batman");
-        e.preventDefault();
         this.props.productListAction.updatePrice(this.props.productEditing);
     }
 
@@ -85,7 +84,8 @@ PriceModalContainer.propTypes = {
     productListAction: PropTypes.object.isRequired,
     priceModal: PropTypes.bool.isRequired,
     productEditing: PropTypes.object.isRequired,
-    isModalUpdating: PropTypes.bool.isRequired
+    isModalUpdating: PropTypes.bool.isRequired,
+    showPriceModal:PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {

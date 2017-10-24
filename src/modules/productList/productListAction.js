@@ -12,6 +12,10 @@ export function getProducts() {
                     type: types.LOAD_PRODUCTS_SUCCESS,
                     products: response.data.goods
                 });
+                dispatch({
+                   type:types.MODAL_UPDATED,
+                   updated:false
+                });
             })
             .catch(function (error) {
                 throw(error);
@@ -26,6 +30,13 @@ export function updatePrice(productEditing) {
             .then(function (response) {
                 console.log("response", response);
                 dispatch(modalUpdating(false));
+                dispatch({
+                   type: types.TOGGLE_PRICE_MODAL
+                });
+                dispatch({
+                   type: types.MODAL_UPDATED,
+                   modalUpdated:true
+                });
             })
             .catch(function (error) {
                 throw (error);

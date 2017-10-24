@@ -31,7 +31,16 @@ export default function productListReducer(state = initialState.productList, act
             return{
                 ...state,
                 modalInProduct:{
+                    ...state.modalInProduct,
                     isModalUpdating: action.updating
+                }
+            };
+        case types.MODAL_UPDATED:
+            return{
+                ...state,
+                modalInProduct:{
+                    ...state.modalInProduct,
+                    modalUpdated: action.modalUpdated
                 }
             };
         default:

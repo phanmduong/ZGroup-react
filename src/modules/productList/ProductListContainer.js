@@ -22,6 +22,13 @@ class ProductListContainer extends React.Component {
         this.getProducts();
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.modalUpdated) {
+            console.log("nextProps");
+            this.getProducts();
+        }
+    }
+
     showPriceModal(product) {
         this.props.modalProductAction.showPriceModal();
         this.props.modalProductAction.handleProduct(product);
@@ -201,14 +208,18 @@ ProductListContainer.PropTypes = {
     productListAction: PropTypes.object.isRequired,
     modalProductAction: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,
-    isLoading:PropTypes.bool.isRequired
+    isLoading:PropTypes.bool.isRequired,
+    isModalUpdating: PropTypes.bool.isRequired,
+    modalUpdated:PropTypes.bool.isRequired
 };
 
 
 function mapStateToProps(state) {
     return {
         products: state.productList.products,
-        isLoading:state.productList.isLoading
+        isLoading:state.productList.isLoading,
+        isModalUpdating: state.productList.modalInProduct.isModalUpdating,
+        modalUpdated:state.productList.modalInProduct.modalUpdated
     };
 }
 
