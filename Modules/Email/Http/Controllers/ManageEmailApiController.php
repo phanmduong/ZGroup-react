@@ -128,7 +128,7 @@ class ManageEmailApiController extends ManageApiController
         $list_id = $request->list_id;
         $file = $request->file('csv');
 
-        $emails = Email::where('campaign_id' , 134)->where('campaign_id', 136)->get()->pluck('to')->toArray();
+        $emails = Email::where('campaign_id' , 134)->whereOr('campaign_id', 136)->get()->pluck('to')->toArray();
 
         Excel::load($file->getRealPath(), function ($reader) use ($emails, &$duplicated, &$imported, $list_id) {
             // Getting all results
