@@ -45,7 +45,7 @@ class SendEmailsMarketing extends Command
      */
     public function handle()
     {
-        $email_campaigns = EmailCampaign::where('sended', '<>', 1)->whereRaw("\"" . rebuild_date("Y-m-d H:i", time()) . "\" = DATE_FORMAT(timer, \"%Y-%m-%d %H:%i\")")->get();
+        $email_campaigns = EmailCampaign::where('sended', '=', 0)->whereRaw("\"" . rebuild_date("Y-m-d H:i", time()) . "\" = DATE_FORMAT(timer, \"%Y-%m-%d %H:%i\")")->get();
         if ($email_campaigns->count() > 0) {
             foreach ($email_campaigns as $email_campaign) {
                 $email_campaign->sended = 2;
@@ -84,8 +84,6 @@ class SendEmailsMarketing extends Command
 
                 $email_campaign->sended = 1;
                 $email_campaign->save();
-
-
             }
 
 
