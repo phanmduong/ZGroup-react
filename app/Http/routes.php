@@ -215,6 +215,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::get('product/{productId}/likers', 'ProductPublicApiController@likes');
 
     Route::post('product/{product_id}/feature', 'ProductApiController@feature');
+    Route::post('product/{product_id}/report', 'ProductApiController@report');
     Route::post('product/{productId}/comment', 'ProductApiController@comment');
     Route::post('product/{productId}/update', 'ProductApiController@update_product');
     Route::post('product/{productId}/unlike', 'ProductApiController@unlike');
