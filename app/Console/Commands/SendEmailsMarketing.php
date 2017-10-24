@@ -85,8 +85,6 @@ class SendEmailsMarketing extends Command
                 $email_campaign->sended = 1;
                 $email_campaign->save();
             }
-
-
         }
     }
 }
