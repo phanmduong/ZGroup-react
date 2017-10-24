@@ -104,7 +104,7 @@ class OrderController extends ManageApiController
         if ($request->name == null) return $this->respondErrorWithStatus("Chưa có tên");
         $goodCategory = new GoodCategory;
         $goodCategory->name = $request->name;
-        $goodCategory->parent_id = $request->parent_id;
+        if($request->parent_id != null) $goodCategory->parent_id = $request->parent_id; else $goodCategory->parent_id=0;
         $goodCategory->save();
         return $this->respondSuccessWithStatus([
             "goodCategory" => $goodCategory->CategoryTransform()
