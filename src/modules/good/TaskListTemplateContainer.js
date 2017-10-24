@@ -23,6 +23,7 @@ class TaskListTemplateContainer extends React.Component {
             isEditTitle: false,
             title: ""
         };
+        this.autoAssignBoardToTask = this.autoAssignBoardToTask.bind(this);
         this.toggleEditTitle = this.toggleEditTitle.bind(this);
         this.saveTitle = this.saveTitle.bind(this);
         this.onEnterKeyPress = this.onEnterKeyPress.bind(this);
@@ -98,6 +99,10 @@ class TaskListTemplateContainer extends React.Component {
         this.updateTasksOrder();
     }
 
+    autoAssignBoardToTask() {
+        this.props.taskActions.autoAssignBoardToTask(this.props.taskList.id);
+    }
+
     render() {
         const {taskList, isSaving} = this.props;
         return (
@@ -111,7 +116,7 @@ class TaskListTemplateContainer extends React.Component {
                         </div>
 
                         <div className="card-content">
-                            <h4 className="card-title">
+                            <h4 style={{position: "relative"}} className="card-title">
                                 Quy trình: {!this.props.isLoading && (
                                 <span>
                                     {
@@ -124,8 +129,9 @@ class TaskListTemplateContainer extends React.Component {
                                                 <a onClick={this.saveTitle}> <i
                                                     className="fa fa-check"
                                                     aria-hidden="true"/></a>
-                                                <a onClick={this.toggleEditTitle}> <i className="fa fa-times"
-                                                                                      aria-hidden="true"/></a>
+                                                <a onClick={this.toggleEditTitle}>
+                                                    <i className="fa fa-times"
+                                                       aria-hidden="true"/></a>
                                             </span>
                                         ) : (
                                             <span>{this.state.title} <a onClick={this.toggleEditTitle}>
@@ -134,8 +140,16 @@ class TaskListTemplateContainer extends React.Component {
                                         )
                                     }
                                 </span>
+
                             )}
+
+                                <a onClick={this.autoAssignBoardToTask}
+                                   style={{position: "absolute", right: 0, top: 0}}>
+                                    <i className="material-icons">autorenew</i>
+                                </a>
+
                             </h4>
+
                             {this.props.isLoading ? <Loading/> : (
                                 <div>
                                     <div className="task-lists">
