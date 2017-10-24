@@ -4,20 +4,48 @@ import initialState from '../../reducers/initialState';
 export default function categoriesReducer(state = initialState.categories, action) {
 
     switch (action.type){
+        case types.LOADED_ADD_CATEGORY_SUCCESS :
+            return{
+                ...state,
+                ...{
+                    categoriesList: [...state.categoriesList, ...action.category],
+                    addCategoriesModal: {
+                        isSaving: false,
+                    },
+                    isLoading: false,
+                }
+            };
+        case types.LOADED_ADD_CATEGORY_ERROR :
+            return {
+                ...state,
+                ...{addCategoriesModal:{
+                    isSaving : false,
+                }}
+            };
+        case types.BEGIN_ADD_CATEGORY :
+            return{
+                ...state,
+                addCategoriesModal : {
+                    isSaving : true,
+                },
+                isLoading : true,
+            };
 
         case types.OPEN_ADD_CATEGORY_MODAL_CONTAINER:
             return{
                 ...state,
-                addCategoriesModal : {
+                ...{addCategoriesModal :
+                    {
                     isShowModal: true,
-                }
+                }}
             };
         case types.CLOSE_ADD_CATEGORY_MODAL_CONTAINER:
             return{
                 ...state,
-                addCategoriesModal : {
+                ...{addCategoriesModal :
+                    {
                     isShowModal:false,
-                }
+                }}
             };
         case types.BEGIN_LOAD_CATEGORIES_DATA:
             return{

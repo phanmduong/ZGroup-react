@@ -12,11 +12,8 @@ class CategoriesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            isLoading: false,
-            error: true,
         };
         this.openAddCategoryModalContainer = this.openAddCategoryModalContainer.bind(this);
-
     }
     componentWillMount(){
         this.props.categoriesActions.loadCategories();
@@ -48,7 +45,7 @@ class CategoriesContainer extends React.Component {
 
                                                 {/*     ADD PARENT GROUP    */}
 
-                                                <div className="panel panel-default">
+                                                <div className="panel panel-default" style = {{paddingTop : "10px"}}>
                                                     <div className="panel-heading" role="tab" id="headingFour">
                                                         <div className="col-md-2">
                                                             <a onClick={() => {
@@ -61,53 +58,63 @@ class CategoriesContainer extends React.Component {
                                                 </div>
 
                                                 {/*     LIST PARENT GROUP   */}
-
                                                 {this.props.isLoading ? <Loading/> :
+                                                    this.props.categoriesList.map((category) => {
+                                                    if (category.parent_id === 0 )
+                                                        return (
+                                                        <div className="panel panel-default">
+                                                            <div className="panel-heading" role="tab" id="headingOne">
 
-                                                    <div className="panel panel-default">
-                                                        <div className="panel-heading" role="tab" id="headingOne">
-                                                            <a role="button" data-toggle="collapse"
-                                                               data-parent="#accordion"
-                                                               href="#collapseOne" aria-expanded="false"
-                                                               aria-controls="collapseOne"
-                                                               className="collapsed">
-                                                                <h4 className="panel-title">
-                                                                    <button rel="tooltip" data-placement="top" title=""
-                                                                            data-original-title="Remove item"
-                                                                            className="btn btn-round btn-sm btn-info"
-                                                                            style={{
-                                                                                "width": "20px",
-                                                                                height: "20px",
-                                                                                "padding": "0"
-                                                                            }}>
-                                                                        <i style={{"float": "none!important"}}
-                                                                           className="material-icons">mode_edit</i>
-                                                                    </button>
-                                                                    <button rel="tooltip" data-placement="top" title=""
-                                                                            data-original-title="Remove item"
-                                                                            className="btn btn-round btn-sm btn-danger"
-                                                                            style={{
-                                                                                "width": "20px",
-                                                                                "height": "20px",
-                                                                                "padding": "0"
-                                                                            }}>
-                                                                        <i style={{"float": "none!important"}}
-                                                                           className="material-icons">close</i>
-                                                                    </button>
-                                                                    Điện thoại (3)
-                                                                    <i className="material-icons">keyboard_arrow_down</i>
-                                                                </h4>
-                                                            </a>
-                                                        </div>
-                                                        <div id="collapseOne" className="panel-collapse collaps "
-                                                             role="tabpanel"
-                                                             aria-labelledby="headingOne" aria-expanded="false"
-                                                             style={{"height": "0px"}}>
+                                                                <button rel="tooltip" data-placement="top" title=""
+                                                                        data-original-title="Remove item"
+                                                                        className="btn btn-round btn-sm btn-info"
+                                                                        style={{
+                                                                            "width": "20px",
+                                                                            height: "20px",
+                                                                            "padding": "0"
+                                                                        }}>
+                                                                    <i style={{"float": "none!important"}}
+                                                                       className="material-icons">mode_edit</i>
+                                                                </button>
+                                                                <button rel="tooltip" data-placement="top" title=""
+                                                                        data-original-title="Remove item"
+                                                                        className="btn btn-round btn-sm btn-danger"
+                                                                        style={{
+                                                                            "width": "20px",
+                                                                            "height": "20px",
+                                                                            "padding": "0"
+                                                                        }}>
+                                                                    <i style={{"float": "none!important"}}
+                                                                       className="material-icons">close</i>
+                                                                </button>
+                                                                <a role="button" data-toggle="collapse"
+                                                                   data-parent="#accordion"
+                                                                   href={"#collapseOne" + category.id} aria-expanded="false"
+                                                                   aria-controls={"collapseOne" + category.id}
+                                                                   className="collapsed">
+                                                                    <h4 className="panel-title">
+
+                                                                        {category.name}
+                                                                        <i className="material-icons">keyboard_arrow_down</i>
+                                                                    </h4>
+                                                                </a>
+                                                            </div>
+
+
+                                                            <div id= {"collapseOne" + category.id} className="panel-collapse collaps "
+                                                                 role="tabpanel"
+                                                                 aria-labelledby="headingOne" aria-expanded="false"
+                                                                 style={{"height": "0px"}}>
 
                                                                 <ListChildProduct
+                                                                    id = {category.id}
                                                                 />
+                                                            </div>
                                                         </div>
-                                                    </div>
+
+                                                        );
+                                                    })
+
 
                                                 }
 

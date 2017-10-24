@@ -1,6 +1,23 @@
 import * as types from '../../constants/actionTypes';
 import * as categoriesAPI from './categoriesAPI';
 
+export function addCategory(name, id , close) {
+    return function (dispatch) {
+      dispatch({type : types.BEGIN_ADD_CATEGORY})  ;
+        categoriesAPI.addCategoryAPI(name,id)
+        .then((res) => {
+           close();
+           dispatch({
+               type : types.LOADED_ADD_CATEGORY_SUCCESS,
+               category : res.data.data.goodCategory
+           });
+
+        })
+        .catch(() => dispatch({
+            type : types.LOADED_ADD_CATEGORY_ERROR
+        }));
+    };
+}
 
 export function loadCategories() {
     return function (dispatch) {

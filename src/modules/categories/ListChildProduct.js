@@ -22,80 +22,32 @@ class ListChildProduct extends React.Component {
                     <div className="panel-body">
                 {/*     LIST CHILD GROUP    */}
 
-                    <div className="panel-title">
-                        <p style={{"marginLeft": "20px"}}>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Remove item"
-                                    className="btn btn-round btn-sm btn-info"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>mode_edit
-                            </button>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Không xoá được"
-                                    className="btn btn-round btn-sm btn-default"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>close
-                            </button>
-                            <a style={{"cursor": "pointer"}}>iPhone (27)</a>
-                        </p>
+                        {this.props.categoriesList.map((category) => {
+                            if (category.parent_id === this.props.id){
+                                return (
+                                    <div className="panel-title">
+                                        <p style={{"marginLeft": "20px"}}>
+                                            <button rel="tooltip" data-placement="top" title=""
+                                                    data-original-title="Remove item"
+                                                    className="btn btn-round btn-sm btn-info"
+                                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
+                                                <i style={{"float": "none!important"}} className="material-icons"/>mode_edit
+                                            </button>
+                                            <button rel="tooltip" data-placement="top" title=""
+                                                    data-original-title="Không xoá được"
+                                                    className="btn btn-round btn-sm btn-default"
+                                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
+                                                <i style={{"float": "none!important"}} className="material-icons"/>close
+                                            </button>
+                                            <a style={{"cursor": "pointer"}}>{category.name}</a>
+                                        </p>
 
-                    </div>
-                    <div className="panel-title">
-                        <p style={{"marginLeft": "20px"}}>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Remove item"
-                                    className="btn btn-round btn-sm btn-info"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>mode_edit
-                            </button>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Không xoá được"
-                                    className="btn btn-round btn-sm btn-default"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>close
-                            </button>
-                            <a style={{"cursor": "pointer"}}>iPhone (27)</a>
-                        </p>
+                                    </div>
 
-                    </div>
+                                );
+                            }
+                        })}
 
-                    <div className="panel-title">
-                        <p style={{"marginLeft": "20px"}}>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Remove item"
-                                    className="btn btn-round btn-sm btn-info"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>mode_edit
-                            </button>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Không xoá được"
-                                    className="btn btn-round btn-sm btn-default"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>close
-                            </button>
-                            <a style={{"cursor": "pointer"}}>iPhone (27)</a>
-                        </p>
-
-                    </div>
-
-                    <div className="panel-title">
-                        <p style={{"marginLeft": "20px"}}>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Remove item"
-                                    className="btn btn-round btn-sm btn-info"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>mode_edit
-                            </button>
-                            <button rel="tooltip" data-placement="top" title=""
-                                    data-original-title="Không xoá được"
-                                    className="btn btn-round btn-sm btn-default"
-                                    style={{"width": "20px", height: "20px", padding: "0px"}}>
-                                <i style={{"float": "none!important"}} className="material-icons"/>close
-                            </button>
-                            <a style={{"cursor": "pointer"}}>iPhone (27)</a>
-                        </p>
-
-                    </div>
                 {/*     ADD CHILD GROUP     */}
                     <AddCategoryModalContainer/>
                     <div className="panel panel-default">
@@ -121,13 +73,14 @@ class ListChildProduct extends React.Component {
 
 ListChildProduct.propTypes={
     categoriesActions: PropTypes.object.isRequired,
-    categories:PropTypes.object.isRequired,
+    categoriesList:PropTypes.array.isRequired,
+    id : PropTypes.number.isRequired,
 
 };
 
 function mapStateToProps(state) {
     return {
-        categories : state.categories,
+        categoriesList : state.categories.categoriesList,
     };
 }
 

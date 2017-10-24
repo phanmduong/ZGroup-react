@@ -661,7 +661,7 @@ export default {
             isShowModal:false,
             isSaving : false
         },
-        isLoading : false,
+        isLoading : true,
         error : false,
         categoriesList:[],
     },
