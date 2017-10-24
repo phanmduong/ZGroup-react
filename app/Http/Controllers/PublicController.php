@@ -36,7 +36,7 @@ class PublicController extends Controller
 
     public function redirect()
     {
-        return redirect(config("app.domain"));
+        return redirect(config('app.protocol') . config("app.domain"));
     }
 
     public function elightMail(Request $request)
