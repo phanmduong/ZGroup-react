@@ -338,7 +338,7 @@ class ProductApiController extends ApiController
 
     public function report(Request $request){
         return $this->respondSuccessWithStatus([
-            'message' => 'Cảm ơn bản đã báo cáo. Chúng tôi sẽ liên hệ với chủ bài viết.'
+            'message' => 'Cảm ơn bạn đã báo cáo. Chúng tôi sẽ liên hệ với chủ bài viết.'
         ]);
     }
 }

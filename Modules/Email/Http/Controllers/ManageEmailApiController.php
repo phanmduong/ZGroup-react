@@ -2,6 +2,7 @@
 
 namespace Modules\Email\Http\Controllers;
 
+use App\Email;
 use App\EmailCampaign;
 use App\Http\Controllers\ManageApiController;
 use App\Repositories\EmailRepository;
@@ -127,12 +128,16 @@ class ManageEmailApiController extends ManageApiController
         $list_id = $request->list_id;
         $file = $request->file('csv');
 
-        Excel::load($file->getRealPath(), function ($reader) use (&$duplicated, &$imported, $list_id) {
+        $emails = Email::where('campaign_id' , 134)->orWhere('campaign_id', 137)->orWhere('campaign_id', 136)->get()->pluck('to')->toArray();
+
+        Excel::load($file->getRealPath(), function ($reader) use ($emails, &$duplicated, &$imported, $list_id) {
             // Getting all results
             $results = $reader->all();
             foreach ($results as $i) {
                 $new_email = extract_email_from_str($i->email);
-                $this->emailRepository->add_subscriber($list_id, $new_email, $i->name);
+                if (!in_array($new_email, $emails)) {
+                    $this->emailRepository->add_subscriber($list_id, $new_email, $i->name);
+                }
             }
         })->get();
 
