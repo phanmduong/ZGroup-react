@@ -142,11 +142,14 @@ class TaskListTemplateContainer extends React.Component {
                                 </span>
 
                             )}
-
-                                <a onClick={this.autoAssignBoardToTask}
-                                   style={{position: "absolute", right: 0, top: 0}}>
-                                    <i className="material-icons">autorenew</i>
-                                </a>
+                                {
+                                    !this.props.isLoading && (
+                                        <a onClick={this.autoAssignBoardToTask}
+                                           style={{position: "absolute", right: 0, top: 0}}>
+                                            <i className="material-icons">autorenew</i>
+                                        </a>
+                                    )
+                                }
 
                             </h4>
 
