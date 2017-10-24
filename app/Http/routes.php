@@ -58,8 +58,9 @@ Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 //
 //});
 
-Route::group(['domain' => config('app.domain')], function () {
+Route::group(['domain' => "www.".config('app.domain')], function () {
 //    Route::get('/', 'PublicController@redirectManage');
+    Route::get('/', 'PublicController@redirect');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
