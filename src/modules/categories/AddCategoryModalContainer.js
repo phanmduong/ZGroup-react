@@ -13,6 +13,8 @@ class AddCategoryModalContainer extends React.Component {
             name: '',
         };
         this.close = this.close.bind(this);
+        this.addCategory = this.addCategory.bind(this);
+        this.editCategory = this.editCategory.bind(this);
     }
 
     close() {

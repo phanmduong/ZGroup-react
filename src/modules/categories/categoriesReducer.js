@@ -5,12 +5,47 @@ let categoriesList;
 export default function categoriesReducer(state = initialState.categories, action) {
 
     switch (action.type) {
+        case types.BEGIN_EDIT_CATEGORY:
+            return{
+                ...state,
+                addCategory : {
+                    isSaving : true,
+                }
+            };
+        case types.EDIT_CATEGORY_SUCCESS:
+            categoriesList = changeCategory(action.id, action.name ,action.categoriesList);
+            return{
+                ...state,
+                categoriesList : categoriesList,
+                addCategory:{
+                    isSaving : false,
+                }
+            };
+        case types.EDIT_CATEGORY_ERROR:
+            return{
+                ...state,
+                addCategory:{
+                    isSaving : false,
+                }
+            };
+        case types.BEGIN_DELETE_CATEGORY:
+            return{
+                ...state,
+                isLoading : true,
+            };
+
 
         case types.DELETE_CATEGORY_SUCCESS:
             categoriesList = deleteCategory(action.id, state.categoriesList);
             return {
                 ...state,
-                categoriesList: categoriesList
+                categoriesList: categoriesList,
+                isLoading : false,
+            };
+        case types.DELETE_CATEGORY_ERROR:
+            return{
+                ...state,
+                isLoading : false,
             };
         case types.LOADED_ADD_CATEGORY_SUCCESS :
             return {
@@ -100,6 +135,15 @@ function deleteCategory(id, categoriesList) {
         categoriesList = categoriesList.filter(category => category.id !== id);
     }
     return categoriesList;
+}
+
+function changeCategory(id , name,  categoriesList) {
+    if (categoriesList){
+        categoriesList = categoriesList.map(category => {
+            if(category.id === id){category.name = name ;}
+        });
+        return categoriesList;
+    }
 }
 
 

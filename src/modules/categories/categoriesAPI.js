@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
+
 export function loadCategoriesDataAPI() {
     let token = localStorage.getItem("token");
     let url = env.MANAGE_API_URL + '/order/category/all';
@@ -29,4 +30,18 @@ export function deleteCategoryAPI(id) {
         url += '?token=' + token;
     }
     return axios.delete(url);
+}
+
+export function editCategoryAPI(id, name) {
+    let token = localStorage.getItem("token");
+    let url = env.MANAGE_API_URL + '/order/category/edit';
+    if (token) {
+        url += '?token=' + token;
+    }
+    return axios.put(url,
+        {
+            'id': id,
+            'name': name,
+        }
+    );
 }
