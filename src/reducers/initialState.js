@@ -5,6 +5,7 @@ export default {
         modalInProduct: {
             priceModal: false,
             wareHouseModal:false,
+            avatarModal:false,
             isModalUpdating: false,
             modalUpdated:false
         },
@@ -15,7 +16,7 @@ export default {
             avatar_url:'',
             price:'',
             quantity:'',
-            warehouse:[]
+            warehouses:[]
         },
     },
 
