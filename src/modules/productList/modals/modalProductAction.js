@@ -13,4 +13,8 @@ export function handleProduct(product){
     });
 }
 
-
+export function showWareHouseModal() {
+    return({
+       type:types.TOGGLE_WARE_HOUSE_MODAL
+    });
+}

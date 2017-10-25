@@ -4,6 +4,7 @@ export default {
         isLoading: false,
         modalInProduct: {
             priceModal: false,
+            wareHouseModal:false,
             isModalUpdating: false,
             modalUpdated:false
         },

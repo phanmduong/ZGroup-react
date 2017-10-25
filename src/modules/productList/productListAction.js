@@ -13,7 +13,7 @@ export function getProducts() {
                     products: response.data.goods
                 });
                 dispatch({
-                   type:types.MODAL_UPDATED,
+                   type:types.UPDATED_PRODUCT_LIST_MODAL,
                    updated:false
                 });
             })
@@ -25,16 +25,15 @@ export function getProducts() {
 
 export function updatePrice(productEditing) {
     return function (dispatch) {
-        dispatch(modalUpdating(true));
+        dispatch(updatingProductListModal(true));
         productListApi.updatePriceApi(productEditing)
-            .then(function (response) {
-                console.log("response", response);
-                dispatch(modalUpdating(false));
+            .then(function () {
+                dispatch(updatingProductListModal(false));
                 dispatch({
                    type: types.TOGGLE_PRICE_MODAL
                 });
                 dispatch({
-                   type: types.MODAL_UPDATED,
+                   type: types.UPDATED_PRODUCT_LIST_MODAL,
                    modalUpdated:true
                 });
             })
@@ -44,9 +43,9 @@ export function updatePrice(productEditing) {
     };
 }
 
-export function modalUpdating(updating) {
+export function updatingProductListModal(updating) {
     return ({
-        type: types.MODAL_UPDATING,
+        type: types.UPDATING_PRODUCT_LIST_MODAL,
         updating
     });
 }

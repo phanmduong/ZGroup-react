@@ -1,6 +1,7 @@
 import React from 'react';
 import PriceModalContainer from "./modals/PriceModalContainer";
 import PropTypes from "prop-types";
+import WareHouseModalContainer from "./modals/WareHouseModalContainer";
 
 class ProductListComponent extends React.Component {
     constructor(props, context) {
@@ -101,6 +102,7 @@ class ProductListComponent extends React.Component {
                 </table>
                 <PriceModalContainer
                     showPriceModal={this.props.showPriceModal}/>
+                <WareHouseModalContainer/>
             </div>
         );
     }
