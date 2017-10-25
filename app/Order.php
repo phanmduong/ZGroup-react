@@ -81,19 +81,34 @@ class Order extends Model
 
     public function detailedTransform()
     {
+        $goodOrders = $this->goodOrders;
+        $goodOrders = $goodOrders->map(function ($goodOrder) {
+            $goodOrderData = [
+                'id' => $goodOrder->id,
+                'name' => $goodOrder->name,
+                'price' => $goodOrder->price,
+                'quantity' => $goodOrder->quantity,
+            ];
+            if($goodOrder->discount_money)
+                $goodOrderData['discount_money'] = $goodOrder->discount_money;
+            if($goodOrder->discount_percent)
+                $goodOrderData['discount_percent'] = $goodOrder->discount_percent;
+            return $goodOrderData;
+        });
         $data = [
             'info_order' => [
                 'code' => $this->code,
                 'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
                 'note' => $this->staff_note,
             ],
+            'good_orders' => $goodOrders,
         ];
         if ($this->staff)
             $data['info_order']['staff'] = [
                 'id' => $this->staff->id,
                 'name' => $this->staff->name,
             ];
-        if($this->user)
+        if ($this->user)
             $data['info_user'] = [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
