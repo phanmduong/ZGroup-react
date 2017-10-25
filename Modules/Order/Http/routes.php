@@ -6,7 +6,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
     Route::get('/category/all','OrderController@allCategory');
     Route::post('/category/add','OrderController@addCategory');
-    Route::put('/category/editCategory','OrderController@editCategory');
+    Route::put('/category/edit-category','OrderController@editCategory');
     Route::delete('category/{category_id}/delete','OrderController@deleteCategory');
 });
 
