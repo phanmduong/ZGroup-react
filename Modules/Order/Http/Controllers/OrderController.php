@@ -125,7 +125,7 @@ class OrderController extends ManageApiController
         if ($request->id == null || $request->name == null)
             return $this->respondErrorWithStatus("Chưa có id hoặc tên");
         $goodCategory = GoodCategory::find($request->id);
-        if ($goodCategory == null) return $this->respondErrorWithStatus("Không tồn tại thể lại này");
+        if ($goodCategory == null) return $this->respondErrorWithStatus("Không tồn tại thể loại này");
         $goodCategory->name = $request->name;
         if ($request->parent_id != null) $goodCategory->parent_id = $request->parent_id;
         $goodCategory->save();
@@ -141,7 +141,7 @@ class OrderController extends ManageApiController
             "message" => "Danh mục không tồn tại"
         ]);
         $goodCategory->delete();
-        return $this->respondErrorWithData([
+        return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
         ]);
     }
