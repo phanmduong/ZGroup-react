@@ -6,6 +6,43 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_ARCHIVE_BOARDS:
+            return {
+                ...state,
+                archiveBoard: {
+                    ...state.archiveBoard,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_ARCHIVE_BOARDS_SUCCESS:
+            return {
+                ...state,
+                archiveBoard: {
+                    ...state.archiveBoard,
+                    isLoading: false,
+                    boards: action.boards
+                }
+            };
+        case types.SHOW_ARCHIVE_BOARDS_MODAL:
+            return {
+                ...state,
+                archiveBoard: {
+                    ...state.archiveBoard,
+                    showModal: action.showModal
+                }
+            };
+        case types.UNARCHIVE_BOARD_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: [...state.boardList.boards, action.board]
+                },
+                archiveBoard: {
+                    ...state.archiveBoard,
+                    boards: state.archiveBoard.boards.filter(board => board.id != action.board.id)
+                }
+            };
         case types.ARCHIVE_BOARD_SUCCESS:
             return {
                 ...state,
@@ -21,7 +58,7 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.cardDetail,
                     card: {
                         ...state.cardDetail.card,
-                        taskLists: state.cardDetail.card.taskLists.map((taskList) => {
+                        taskLists: state.cardDetail.card.taskLists ? state.cardDetail.card.taskLists.map((taskList) => {
                             return {
                                 ...taskList,
                                 tasks: taskList.tasks.map((task) => {
@@ -34,7 +71,7 @@ export default function taskReducer(state = initialState.task, action) {
                                     return task;
                                 })
                             };
-                        })
+                        }) : []
                     }
                 }
             };

@@ -2,9 +2,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-// import PropTypes from 'prop-types';
-
 import * as taskActions from '../taskActions';
+import * as boardActions from '../board/boardActions';
 import * as PropTypes from "prop-types";
 import CreateBoardModalContainer from "./CreateBoardModalContainer";
 import Loading from "../../../components/common/Loading";
@@ -80,7 +79,7 @@ class BoardListContainer extends React.Component {
                             isAdmin={isAdmin}
                             projectId={Number(this.props.params.projectId)}/>
                         <BoardList
-                            archiveBoard={this.props.taskActions.archiveBoard}
+                            archiveBoard={this.props.boardActions.archiveBoard}
                             display={this.props.setting.display || "full"}
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}
@@ -103,6 +102,7 @@ class BoardListContainer extends React.Component {
 
 BoardListContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
+    boardActions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     members: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired,
@@ -173,7 +173,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        taskActions: bindActionCreators(taskActions, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch),
+        boardActions: bindActionCreators(boardActions, dispatch)
     };
 }
 
