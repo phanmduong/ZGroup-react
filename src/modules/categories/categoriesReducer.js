@@ -8,11 +8,10 @@ export default function categoriesReducer(state = initialState.categories, actio
             return{
                 ...state,
                 ...{
-                    categoriesList: [...state.categoriesList, ...action.category],
+                    categoriesList: [...state.categoriesList, action.category],
                     addCategoriesModal: {
                         isSaving: false,
                     },
-                    isLoading: false,
                 }
             };
         case types.LOADED_ADD_CATEGORY_ERROR :
@@ -20,23 +19,26 @@ export default function categoriesReducer(state = initialState.categories, actio
                 ...state,
                 ...{addCategoriesModal:{
                     isSaving : false,
-                }}
+                },
+                }
             };
         case types.BEGIN_ADD_CATEGORY :
-            return{
+            return {
                 ...state,
-                addCategoriesModal : {
-                    isSaving : true,
-                },
-                isLoading : true,
-            };
+                ...{
+                    addCategoriesModal: {
+                        isSaving: true,
+                    },
+                }
+    };
 
         case types.OPEN_ADD_CATEGORY_MODAL_CONTAINER:
             return{
                 ...state,
                 ...{addCategoriesModal :
                     {
-                    isShowModal: true,
+                        parent_id : action.parent_id ,
+                        isShowModal: true,
                 }}
             };
         case types.CLOSE_ADD_CATEGORY_MODAL_CONTAINER:

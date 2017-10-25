@@ -9,7 +9,7 @@ export function loadCategoriesDataAPI() {
     }
     return axios.get(url);
 }
-export function addCategoryAPI (name , id){
+export function addCategoryAPI (name , parent_id){
     let token = localStorage.getItem("token");
     let url = env.MANAGE_API_URL + '/order/category/add' ;
     if (token){
@@ -17,6 +17,6 @@ export function addCategoryAPI (name , id){
     }
     return axios.post(url,{
         'name' : name,
-        'parent_id' : id,
+        'parent_id' : parent_id,
     });
 }

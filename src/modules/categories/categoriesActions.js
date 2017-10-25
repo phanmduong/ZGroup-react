@@ -1,10 +1,10 @@
 import * as types from '../../constants/actionTypes';
 import * as categoriesAPI from './categoriesAPI';
 
-export function addCategory(name, id , close) {
+export function addCategory(name, parent_id , close) {
     return function (dispatch) {
       dispatch({type : types.BEGIN_ADD_CATEGORY})  ;
-        categoriesAPI.addCategoryAPI(name,id)
+        categoriesAPI.addCategoryAPI(name,parent_id)
         .then((res) => {
            close();
            dispatch({
@@ -38,10 +38,11 @@ export function loadCategories() {
 }
 
 
-export function openAddCategoryModalContainer() {
+export function openAddCategoryModalContainer(parent_id) {
     return function (dispatch) {
         dispatch({
-            type: types.OPEN_ADD_CATEGORY_MODAL_CONTAINER
+            type: types.OPEN_ADD_CATEGORY_MODAL_CONTAINER ,
+            parent_id :parent_id,
         });
     };
 }

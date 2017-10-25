@@ -659,7 +659,8 @@ export default {
     categories: {
         addCategoriesModal: {
             isShowModal:false,
-            isSaving : false
+            isSaving : false,
+            parent_id : '',
         },
         isLoading : true,
         error : false,

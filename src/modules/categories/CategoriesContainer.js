@@ -19,8 +19,8 @@ class CategoriesContainer extends React.Component {
         this.props.categoriesActions.loadCategories();
     }
 
-    openAddCategoryModalContainer() {
-        this.props.categoriesActions.openAddCategoryModalContainer();
+    openAddCategoryModalContainer(parent_id) {
+        this.props.categoriesActions.openAddCategoryModalContainer(parent_id);
     }
 
 
@@ -49,7 +49,7 @@ class CategoriesContainer extends React.Component {
                                                     <div className="panel-heading" role="tab" id="headingFour">
                                                         <div className="col-md-2">
                                                             <a onClick={() => {
-                                                                this.openAddCategoryModalContainer();
+                                                                this.openAddCategoryModalContainer(0);
                                                             }} className="btn btn-rose">
                                                                 Thêm nhóm cha
                                                             </a>
@@ -107,7 +107,7 @@ class CategoriesContainer extends React.Component {
                                                                  style={{"height": "0px"}}>
 
                                                                 <ListChildProduct
-                                                                    id = {category.id}
+                                                                    parent_id = {category.id}
                                                                 />
                                                             </div>
                                                         </div>
