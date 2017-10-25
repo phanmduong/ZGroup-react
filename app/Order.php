@@ -85,7 +85,6 @@ class Order extends Model
         $goodOrders = $goodOrders->map(function ($goodOrder) {
             $goodOrderData = [
                 'id' => $goodOrder->id,
-                'name' => $goodOrder->name,
                 'price' => $goodOrder->price,
                 'quantity' => $goodOrder->quantity,
             ];
