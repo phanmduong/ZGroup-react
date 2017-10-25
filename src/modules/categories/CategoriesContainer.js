@@ -11,16 +11,20 @@ import Loading from "../../components/common/Loading";
 class CategoriesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-        };
+        this.state = {};
         this.openAddCategoryModalContainer = this.openAddCategoryModalContainer.bind(this);
     }
-    componentWillMount(){
+
+    componentWillMount() {
         this.props.categoriesActions.loadCategories();
     }
 
-    openAddCategoryModalContainer(parent_id) {
-        this.props.categoriesActions.openAddCategoryModalContainer(parent_id);
+    openAddCategoryModalContainer(parent_id, name, isEdit) {
+        this.props.categoriesActions.openAddCategoryModalContainer(parent_id, name, isEdit);
+    }
+
+    deleteCategory(id) {
+        this.props.categoriesActions.deleteCategory(id);
     }
 
 
@@ -45,11 +49,11 @@ class CategoriesContainer extends React.Component {
 
                                                 {/*     ADD PARENT GROUP    */}
 
-                                                <div className="panel panel-default" style = {{paddingTop : "10px"}}>
+                                                <div className="panel panel-default" style={{paddingTop: "10px"}}>
                                                     <div className="panel-heading" role="tab" id="headingFour">
                                                         <div className="col-md-2">
                                                             <a onClick={() => {
-                                                                this.openAddCategoryModalContainer(0);
+                                                                this.openAddCategoryModalContainer(0, '', false);
                                                             }} className="btn btn-rose">
                                                                 Thêm nhóm cha
                                                             </a>
@@ -58,61 +62,79 @@ class CategoriesContainer extends React.Component {
                                                 </div>
 
                                                 {/*     LIST PARENT GROUP   */}
-                                                {this.props.isLoading ? <Loading/> :
+                                                {this.props.isLoading || this.props.isSaving ? <Loading/> :
                                                     this.props.categoriesList.map((category) => {
-                                                    if (category.parent_id === 0 )
-                                                        return (
-                                                        <div className="panel panel-default">
-                                                            <div className="panel-heading" role="tab" id="headingOne">
+                                                        if (category.parent_id === 0)
+                                                            return (
+                                                                <div className="panel panel-default">
+                                                                    <div className="panel-heading" role="tab"
+                                                                         id="headingOne">
 
-                                                                <button rel="tooltip" data-placement="top" title=""
-                                                                        data-original-title="Remove item"
-                                                                        className="btn btn-round btn-sm btn-info"
-                                                                        style={{
-                                                                            "width": "20px",
-                                                                            height: "20px",
-                                                                            "padding": "0"
-                                                                        }}>
-                                                                    <i style={{"float": "none!important"}}
-                                                                       className="material-icons">mode_edit</i>
-                                                                </button>
-                                                                <button rel="tooltip" data-placement="top" title=""
-                                                                        data-original-title="Remove item"
-                                                                        className="btn btn-round btn-sm btn-danger"
-                                                                        style={{
-                                                                            "width": "20px",
-                                                                            "height": "20px",
-                                                                            "padding": "0"
-                                                                        }}>
-                                                                    <i style={{"float": "none!important"}}
-                                                                       className="material-icons">close</i>
-                                                                </button>
-                                                                <a role="button" data-toggle="collapse"
-                                                                   data-parent="#accordion"
-                                                                   href={"#collapseOne" + category.id} aria-expanded="false"
-                                                                   aria-controls={"collapseOne" + category.id}
-                                                                   className="collapsed">
-                                                                    <h4 className="panel-title">
+                                                                        <button rel="tooltip" data-placement="top"
+                                                                                title=""
+                                                                                data-original-title="Remove item"
+                                                                                className="btn btn-round btn-sm btn-info"
+                                                                                style={{
+                                                                                    "width": "20px",
+                                                                                    height: "20px",
+                                                                                    "padding": "0"
+                                                                                }}
+                                                                                onClick={(e) => {
+                                                                                    this.openAddCategoryModalContainer(0, category.name, true);
+                                                                                    e.preventDefault();
+                                                                                }}
+                                                                        >
+                                                                            <i style={{"float": "none!important"}}
+                                                                               className="material-icons">mode_edit</i>
+                                                                        </button>
+                                                                        <button rel="tooltip" data-placement="top"
+                                                                                title=""
+                                                                                data-original-title="Remove item"
+                                                                                className="btn btn-round btn-sm btn-danger"
+                                                                                style={{
+                                                                                    "width": "20px",
+                                                                                    "height": "20px",
+                                                                                    "padding": "0"
+                                                                                }}
+                                                                                onClick={() => {
+                                                                                    this.deleteCategory(category.id);
+                                                                                }}
+                                                                        >
+                                                                            <i style={{"float": "none!important"}}
+                                                                               className="material-icons">close</i>
+                                                                        </button>
+                                                                        <a role="button" data-toggle="collapse"
+                                                                           data-parent="#accordion"
+                                                                           href={"#collapseOne" + category.id}
+                                                                           aria-expanded="false"
+                                                                           aria-controls={"collapseOne" + category.id}
+                                                                           className="collapsed">
+                                                                            <h4 className="panel-title">
 
-                                                                        {category.name}
-                                                                        <i className="material-icons">keyboard_arrow_down</i>
-                                                                    </h4>
-                                                                </a>
-                                                            </div>
+                                                                                {category.name}
+                                                                                <i className="material-icons">keyboard_arrow_down</i>
+                                                                            </h4>
+                                                                        </a>
+                                                                    </div>
 
 
-                                                            <div id= {"collapseOne" + category.id} className="panel-collapse collaps "
-                                                                 role="tabpanel"
-                                                                 aria-labelledby="headingOne" aria-expanded="false"
-                                                                 style={{"height": "0px"}}>
+                                                                    <div id={"collapseOne" + category.id}
+                                                                         className="panel-collapse collaps "
+                                                                         role="tabpanel"
+                                                                         aria-labelledby="headingOne"
+                                                                         aria-expanded="false"
+                                                                         style={{"height": "0px"}}>
 
-                                                                <ListChildProduct
-                                                                    parent_id = {category.id}
-                                                                />
-                                                            </div>
-                                                        </div>
+                                                                        <ListChildProduct
+                                                                            parent_id={category.id}
+                                                                            openAddCategoryModalContainer={this.openAddCategoryModalContainer}
+                                                                            deleteCategory={this.deleteCategory}
+                                                                            categoriesList={this.props.categoriesList}
+                                                                        />
+                                                                    </div>
+                                                                </div>
 
-                                                        );
+                                                            );
                                                     })
 
 
@@ -138,6 +160,7 @@ CategoriesContainer.propTypes = {
     categoriesList: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -145,6 +168,7 @@ function mapStateToProps(state) {
         isLoading: state.categories.isLoading,
         categoriesList: state.categories.categoriesList,
         error: state.categories.error,
+        isSaving: state.categories.addCategoriesModal.isSaving,
     };
 }
 

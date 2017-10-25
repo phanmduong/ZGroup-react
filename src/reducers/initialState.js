@@ -661,6 +661,8 @@ export default {
             isShowModal:false,
             isSaving : false,
             parent_id : '',
+            name : '',
+            isEdit : false ,
         },
         isLoading : true,
         error : false,

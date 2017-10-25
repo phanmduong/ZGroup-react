@@ -1,14 +1,22 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let categoriesList;
 export default function categoriesReducer(state = initialState.categories, action) {
 
-    switch (action.type){
+    switch (action.type) {
+
+        case types.DELETE_CATEGORY_SUCCESS:
+            categoriesList = deleteCategory(action.id, state.categoriesList);
+            return {
+                ...state,
+                categoriesList: categoriesList
+            };
         case types.LOADED_ADD_CATEGORY_SUCCESS :
-            return{
+            return {
                 ...state,
                 ...{
-                    categoriesList: [...state.categoriesList, action.category],
+                    categoriesList: [action.category, ...state.categoriesList],
                     addCategoriesModal: {
                         isSaving: false,
                     },
@@ -17,9 +25,10 @@ export default function categoriesReducer(state = initialState.categories, actio
         case types.LOADED_ADD_CATEGORY_ERROR :
             return {
                 ...state,
-                ...{addCategoriesModal:{
-                    isSaving : false,
-                },
+                ...{
+                    addCategoriesModal: {
+                        isSaving: false,
+                    },
                 }
             };
         case types.BEGIN_ADD_CATEGORY :
@@ -30,54 +39,67 @@ export default function categoriesReducer(state = initialState.categories, actio
                         isSaving: true,
                     },
                 }
-    };
+            };
 
         case types.OPEN_ADD_CATEGORY_MODAL_CONTAINER:
-            return{
-                ...state,
-                ...{addCategoriesModal :
-                    {
-                        parent_id : action.parent_id ,
-                        isShowModal: true,
-                }}
-            };
-        case types.CLOSE_ADD_CATEGORY_MODAL_CONTAINER:
-            return{
-                ...state,
-                ...{addCategoriesModal :
-                    {
-                    isShowModal:false,
-                }}
-            };
-        case types.BEGIN_LOAD_CATEGORIES_DATA:
-            return{
+            return {
                 ...state,
                 ...{
-                    isLoading : true,
-                    error : false,
+                    addCategoriesModal:
+                        {
+                            parent_id: action.parent_id,
+                            name: action.name,
+                            isEdit: action.isEdit,
+                            isShowModal: true,
+                        }
+                }
+            };
+        case types.CLOSE_ADD_CATEGORY_MODAL_CONTAINER:
+            return {
+                ...state,
+                ...{
+                    addCategoriesModal:
+                        {
+                            isShowModal: false,
+                        }
+                }
+            };
+        case types.BEGIN_LOAD_CATEGORIES_DATA:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                    error: false,
                 }
             };
         case types.LOADED_CATEGORIES_DATA_SUCCESS:
-            return{
+            return {
                 ...state,
                 ...{
                     isLoading: false,
                     error: false,
-                    categoriesList : action.categoriesList,
+                    categoriesList: action.categoriesList,
                 }
             };
         case types.LOADED_CATEGORIES_DATA_ERROR:
-            return{
+            return {
                 ...state,
                 ...{
-                    isLoading : false,
-                    error : true,
+                    isLoading: false,
+                    error: true,
                 }
             };
         default :
             return state;
     }
 
+}
+
+function deleteCategory(id, categoriesList) {
+    if (categoriesList) {
+        categoriesList = categoriesList.filter(category => category.id !== id);
+    }
+    return categoriesList;
 }
 
 

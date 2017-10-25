@@ -6,45 +6,78 @@ import * as categoriesActions from './categoriesActions';
 import PropTypes from 'prop-types';
 import Loading from '../../components/common/Loading';
 
-class AddCategoryModalContainer extends React.Component{
-    constructor(props, context){
+class AddCategoryModalContainer extends React.Component {
+    constructor(props, context) {
         super(props, context);
         this.state = {
-            name : '',
-            parent_id : this.props.parent_id,
+            name: '',
         };
         this.close = this.close.bind(this);
     }
-    close(){
+
+    close() {
         this.props.categoriesActions.closeAddCategoryModalContainer();
     }
-    addCategory(){
-        this.props.categoriesActions.addCategory(this.state.name , this.props.parent_id , this.close);
+
+    addCategory() {
+        this.props.categoriesActions.addCategory(this.state.name, this.props.parent_id, this.close);
     }
-    render(){
-        return(
-            <Modal show = {this.props.isShowModal} onHide={this.close}>
+
+    editCategory() {
+        this.props.categoriesActions.editCategory();
+    }
+
+    render() {
+        return (
+            <Modal show={this.props.isShowModal} onHide={this.close}>
                 <Modal.Header>
-                    <Modal.Title>
-                        <strong>Add Category</strong>
-                    </Modal.Title>
+                    {this.props.isEdit ?
+                        <Modal.Title>
+                            <strong>Edit Category</strong>
+                        </Modal.Title>
+                        :
+                        <Modal.Title>
+                            <strong> Nhóm </strong>
+                        </Modal.Title>
+
+                    }
+
                 </Modal.Header>
                 <Modal.Body>
                     {this.props.isSaving ? <Loading/> :
                         (
                             <div>
-                                <div className="modal-body">
+                                {this.props.isEdit ?
 
-                                    <div className="form-group label-floating is-empty">
-                                        <label className="control-label">Tên nhóm</label>
-                                        <input type="text" className="form-control"
-                                               onChange={(e) => {this.setState({name : e.target.value});
-                                               e.preventDefault();
-                                        }} />
-                                            <span className="material-input" />
-                                            <span className="material-input" />
+                                    <div className="modal-body">
+
+                                        <div className="form-group label-floating is-empty">
+                                            <label>Sửa tên nhóm</label>
+                                            <input type="text" className="form-control"
+                                                   defaultValue={this.props.name}
+                                                   onChange={(e) => {
+                                                       this.setState({name: e.target.value});
+                                                       e.preventDefault();
+                                                   }}/>
+                                            <span className="material-input"/>
+                                            <span className="material-input"/>
+                                        </div>
                                     </div>
-                                </div>
+                                    :
+                                    <div className="modal-body">
+
+                                        <div className="form-group label-floating is-empty">
+                                            <label className="control-label">Tên nhóm</label>
+                                            <input type="text" className="form-control"
+                                                   onChange={(e) => {
+                                                       this.setState({name: e.target.value});
+                                                       e.preventDefault();
+                                                   }}/>
+                                            <span className="material-input"/>
+                                            <span className="material-input"/>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         )
 
@@ -58,23 +91,33 @@ class AddCategoryModalContainer extends React.Component{
                                     className="btn btn-fill btn-rose disabled"
                                 >
                                     <i className="fa fa-spinner fa-spin"/>
-                                    Đang cập nhật
-                                    {/*{this.props.edit ? ' Đang cập nhật' : ' Đang thêm'}*/}
+                                    {this.props.isEdit ? ' Đang cập nhật' : ' Đang thêm'}
                                 </button>
                             )
                             :
                             (
-                                <button
-                                    className="btn btn-fill btn-rose"
-                                    onClick={(e) => {this.addCategory() ; e.preventDefault();}}
-                                    // this.props.edit ? this.editClass : this.createClass
-                                >
-                                    Cập nhật
-                                    {/*{this.props.edit ? 'Cập nhật' : 'Thêm'}*/}
+                                <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
+                                        type="button" className="btn btn-success " data-dismiss="modal"
+                                        onClick={(e) => {
+                                            if (this.props.isEdit) {
+                                                this.editCategory();
+                                                e.preventDefault();
+                                            }
+                                            else {
+                                                this.addCategory();
+                                                e.preventDefault();
+                                            }
+
+                                        }
+                                        }
+                                ><i className="material-icons">check</i>
+                                    {this.props.isEdit ? 'Cập nhật' : 'Thêm'}
                                 </button>
                             )
                         }
-                        <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item" type="button" className="btn btn-danger btn-round" data-dismiss="modal" onClick={() => this.close()}><i className="material-icons">close</i> Huỷ
+                        <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
+                                type="button" className="btn btn-danger " data-dismiss="modal"
+                                onClick={() => this.close()}><i className="material-icons">close</i> Huỷ
                         </button>
                     </form>
                 </Modal.Footer>
@@ -82,22 +125,30 @@ class AddCategoryModalContainer extends React.Component{
         );
     }
 }
+
 AddCategoryModalContainer.propTypes = {
     categoriesActions: PropTypes.object.isRequired,
-    isShowModal : PropTypes.bool.isRequired,
-    isSaving : PropTypes.bool.isRequired,
-    parent_id : PropTypes.number.isRequired,
+    isShowModal: PropTypes.bool.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    parent_id: PropTypes.number.isRequired,
+    name: PropTypes.string,
+    isEdit: PropTypes.bool.isRequired,
 };
+
 function mapStateToProps(state) {
-    return{
-        isShowModal : state.categories.addCategoriesModal.isShowModal,
-        isSaving : state.categories.addCategoriesModal.isSaving,
-        parent_id : state.categories.addCategoriesModal.parent_id,
+    return {
+        isShowModal: state.categories.addCategoriesModal.isShowModal,
+        isSaving: state.categories.addCategoriesModal.isSaving,
+        parent_id: state.categories.addCategoriesModal.parent_id,
+        name: state.categories.addCategoriesModal.name,
+        isEdit: state.categories.addCategoriesModal.isEdit,
     };
 }
+
 function mapDispatchToProps(dispatch) {
-    return{
-        categoriesActions : bindActionCreators(categoriesActions , dispatch)
+    return {
+        categoriesActions: bindActionCreators(categoriesActions, dispatch)
     };
 }
-export default connect (mapStateToProps , mapDispatchToProps )(AddCategoryModalContainer);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddCategoryModalContainer);
