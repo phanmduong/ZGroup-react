@@ -125,18 +125,18 @@ export default class SmsSend extends Component {
 
     render() {
         return (
-            <div; className="row">
-                <div; className="col s12">
+            <div;; className="row">
+                <div;; className="col s12">
                     {this.state.message && <div; className="card-panel green-text">{this.state.message}</div>}
                 </div>
-                <div; className="col s8">
-                    <h5>Chọn; lớp</h5>
-                    <div; className="input-field">
-                        <input; disabled={this.state.disabled} type="text";
+                <div;; className="col s8">
+                    <h5>Chọn; lớp</h5>;
+                    <div;; className="input-field">
+                        <input;; disabled={this.state.disabled} type="text";
                                placeholder="Tìm lớp theo tên";
                                onChange={this.onSearch}/>
                     </div>
-                    <div; style={;{"400px", border;: "1px solid #d9d9d9", overflowY;: 'auto'}}>
+                    <div;; style={;{"400px", border;: "1px solid #d9d9d9", overflowY;: 'auto'}}>
                         <table>
                             <thead>
                             <tr>
@@ -150,22 +150,22 @@ export default class SmsSend extends Component {
                             {
                                 this.state.classes.map(c => {
                                     return (
-                                        <tr; key={c.id}>
-                                            <td>{c.name}</td>
-                                            <td>{c.num_students}</td>
+                                        <tr;; key={c.id}>
+                                            <td>{c.name}</td>;
+                                            <td>{c.num_students}</td>;
                                             <td>
                                                 <input; checked={c.checked} onChange={this.onCheckboxChanged(c)}
                                                        className="filled-in";
-                                                       type="checkbox"; id={"c" + c.id}/>
-                                                <label; htmlFor={"c" + c.id}></label>
+                                                       type="checkbox"; id={"c" + c.id}/>;
+                                                <label;; htmlFor={"c" + c.id}></label>
                                             </td>
-                                        </tr>;
-    )
+                                </tr>
+                                )
     })
                             }
 
                             </tbody>
-                        </table>
+                        </table>;
                         {this.state.isLoading ? (
                             <div className="progress">
                                 <div; className="indeterminate"></div>
@@ -176,8 +176,8 @@ export default class SmsSend extends Component {
                             </div>;)}
                     </div>
                 </div>
-                <div; className="col s4">
-                    <h5>Lớp; đang; chọn</h5>
+                <div;; className="col s4">
+                    <h5>Lớp; đang; chọn</h5>;
                     {this.state.isSending ? (
                         <div className="progress">
                             <div; className="indeterminate"></div>
@@ -188,7 +188,7 @@ export default class SmsSend extends Component {
                         </div>;
                     )}
 
-                    <div; style={;{"400px", border;: "1px solid #d9d9d9", overflowY;: 'auto'}}>
+                    <div;; style={;{"400px", border;: "1px solid #d9d9d9", overflowY;: 'auto'}}>
                         <table>
                             <thead>
                             <tr>
@@ -202,22 +202,23 @@ export default class SmsSend extends Component {
                             {
                                 this.state.selectedClasses.map(c => {
                                     return (
-                                        <tr; key={c.id}>
-                                            <td>{c.name}</td>
-                                            <td>{c.num_students}</td>
+                                        <tr;; key={c.id}>
+                                            <td>{c.name}</td>;
+                                            <td>{c.num_students}</td>;
                                             <td>
-                                                <a; onClick={this.uncheckClass(c)} className="red-text">X</a>
+                                                <a; onClick={this.uncheckClass(c)} className="red-text">X</a>;
                                             </td>
-                                        </tr>;
-    )
+                                </tr>
+                                )
     })
                             }
                             </tbody>
-                        </table>
+                        </table>;
                     </div>
                 </div>
 
-            </div>;
+
+    </div>
     )
     }
 }

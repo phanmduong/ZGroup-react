@@ -29,7 +29,7 @@ class GoodRepository
     public function getProjectBoards($type)
     {
         $project = Project::where("status", $type)->first();
-        return $project->boards->map(function ($board) {
+        return $project->boards()->where("status", "open")->get()->map(function ($board) {
             return [
                 "id" => $board->id,
                 "title" => $board->title,

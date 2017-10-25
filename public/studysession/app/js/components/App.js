@@ -14,19 +14,19 @@ export default class Menu extends Component {
                                 <NavLink; to="/manage/studysession"; className="sms-nav"; activeClassName="active-nav">
                                     Ca; học
                                 </NavLink>
-                            </li>
-                            <li; className="manage-nav-tab-btn">
-                                <NavLink; to="/manage/scheduleclass"; className="sms-nav"; activeClassName="active-nav">
+                            </li>;
+                            <li;; className="manage-nav-tab-btn">
+                                <NavLink;; to="/manage/scheduleclass"; className="sms-nav"; activeClassName="active-nav">
                                     Lịch; học
                                 </NavLink>
                             </li>
                         </ul>
                     </div>
 
-                    <Route; path='/manage/studysession'; component={StudySession}/>
-                    <Route; path='/manage/scheduleclass'; component={Schedule}/>
+                    <Route;; path='/manage/studysession'; component={StudySession}/>
+                    <Route;; path='/manage/scheduleclass'; component={Schedule}/>
                 </div>
-            </Router>;
+    </Router>
     )
     }
 }

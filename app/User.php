@@ -271,13 +271,40 @@ class User extends Authenticatable
         return $this->hasMany(CheckInCheckOut::class, "user_id");
     }
 
-    public function followings(){
+    public function followings()
+    {
         return $this->belongsToMany(User::class, 'followings', 'following_id', 'followed_id');
     }
 
-    public function followers(){
+    public function followers()
+    {
         return $this->belongsToMany(User::class, 'followings', 'followed_id', 'following_id');
     }
 
+    public function tranform()
+    {
+        $data = $this->registers->map(function ($register) {
+            return [
+                'avatar_url' => $register->studyClass->course->icon_url,
+                'class_name' => $register->studyClass->name,
+                'course_name' => $register->studyClass->course->name,
+                'link' => '/course/'.convert_vi_to_en($register->studyClass->course->name),
+                'saler_name' => $register->saler? $register->saler->name : null,
+            ];
+        }
+        );
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'username' => $this->username,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'university' => $this->university,
+            'work' => $this->work,
+            'avatar_url' => $this->avatar_url,
+            'link' => '/profile/' . $this->username,
+            'registers' => $data,
+        ];
+    }
 }
 

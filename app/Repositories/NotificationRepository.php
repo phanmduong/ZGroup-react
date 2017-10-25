@@ -22,7 +22,8 @@ class NotificationRepository
             "receiver_id" => $notification->receiver_id,
             "actor_id" => $notification->actor_id,
             "icon" => $notification->icon,
-            "color" => $notification->color
+            "color" => $notification->color,
+            "id" => $notification->id
         );
 
         $publish_data = array(

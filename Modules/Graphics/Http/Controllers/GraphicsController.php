@@ -265,21 +265,28 @@ class GraphicsController extends Controller
             $order->payment = $payment;
             $order->save();
 
+
             if ($goods_arr) {
-                $total_price = 0;
                 foreach ($goods_arr as $item) {
                     $good = Good::find($item->id);
                     $order->goods()->attach($item->id, [
                         "quantity" => $item->number,
                         "price" => $good->price,
                     ]);
-                    $total_price += $good->price * $item->number;
+
                 }
             }
+            $total_price = 0;
+            $goods = $order->goods;
+            foreach ($goods as &$good) {
+                $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
+                $good->coupon_value = $coupon;
+                $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
+            }
             $subject = "Xác nhận đặt hàng thành công";
-            $data = ["order" => $order, "total_price" => $total_price];
+            $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods];
             $emailcc = ["graphics@colorme.vn"];
-            Mail::queue('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
+            Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
                 $m->from('no-reply@colorme.vn', 'Graphics');
                 $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
             });

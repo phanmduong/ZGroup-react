@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Board extends Model
 {
     protected $table = "boards";
+
+    use SoftDeletes;
 
     public function cards()
     {
@@ -28,6 +31,16 @@ class Board extends Model
         return $this->belongsTo(User::class, 'editor_id');
     }
 
+    public function currentTasks()
+    {
+        return $this->hasMany(Task::class, "current_board_id");
+    }
+
+    public function targetTasks()
+    {
+        return $this->hasMany(Task::class, "target_board_id");
+    }
+
     public function transform()
     {
         return [
@@ -37,6 +50,7 @@ class Board extends Model
             "order" => $this->order
         ];
     }
+
 
     public function transformBoardWithCard()
     {

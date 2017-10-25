@@ -16,7 +16,7 @@ export default class Schedule extends Component {
         return function () {
             this.setState({
                 schedules: this.state.schedules.filter(s => s.id !== schedule.id)
-        })
+        });
             api.deleteSchedule(schedule.id)
                 .then(res => {
                     console.log(res.data);
@@ -45,7 +45,7 @@ export default class Schedule extends Component {
                 isLoadingSessions: false
             });
 
-    })
+    });
         api.getSchedules()
             .then(res => {
                 if (res.data.status === 1;) {
@@ -105,7 +105,7 @@ export default class Schedule extends Component {
         schedule.studySessions.forEach(s => {
             schedule.sessions_str += s.weekday + ": " + s.start_time + "-" + s.end_time + "<br/>";
             study_session_ids.push(s.id);
-    })
+    });
         schedule.study_session_ids = study_session_ids.join(",");
         api.createSchedule(this.state.schedule)
             .then(res => {
@@ -133,10 +133,10 @@ export default class Schedule extends Component {
 
     render() {
         return (
-            <div; className="row">
-                <div; className="col m6">
-                    <h5>Danh; sách; lịch; học</h5>
-                    <table; className="striped">
+            <div;; className="row">
+                <div;; className="col m6">
+                    <h5>Danh; sách; lịch; học</h5>;
+                    <table;; className="striped">
                         <thead>
                         <tr>
                             <th>Tên</th>
@@ -144,47 +144,47 @@ export default class Schedule extends Component {
                             <th>Ca; học</th>
                             <th></th>
                         </tr>
-                        </thead>
+                        </thead>;
                         <tbody>
                         {this.state.schedules.map((s, index) => {
                             return (
-                                <tr; key={index}>
-                                    <td>{s.name}</td>
-                                    <td>{s.description}</td>
-                                    <td; dangerouslySetInnerHTML={;{s.sessions_str}}></td>
+                                <tr;; key={index}>
+                                    <td>{s.name}</td>;
+                                    <td>{s.description}</td>;
+                                    <td;; dangerouslySetInnerHTML={;{s.sessions_str}}></td>
                                     <td>
-                                        <button; onClick={this.deleteSchedule(s)} className="btn red">Xoá</button>
+                                        <button; onClick={this.deleteSchedule(s)} className="btn red">Xoá</button>;
                                     </td>
-                                </tr>;
-                            )
+                        </tr>
+                        )
                         })}
-                        </tbody>
+                        </tbody>;
                     </table>
                     {this.state.isLoadingSchedules && (
                         <div; className="progress">
                             <div; className="indeterminate"></div>
                         </div>;)}
                 </div>
-                <div; className="col m6">
-                    <h5>Tạo; lịch; học</h5>
-                    <form; onSubmit={this.onSubmit}>
-                        <label>Tên</label>
-                        <input; type="text"; value={this.state.schedule.name} name="name"; onChange={this.onTextChange}/>
-                        <label>Mô; tả</label>
-                        <input; type="text"; value={this.state.schedule.description} name="description";
+                <div;; className="col m6">
+                    <h5>Tạo; lịch; học</h5>;
+                    <form;; onSubmit={this.onSubmit}>
+                        <label>Tên</label>;
+                        <input;; type="text"; value={this.state.schedule.name} name="name"; onChange={this.onTextChange}/>
+                        <label>Mô; tả</label>;
+                        <input;; type="text"; value={this.state.schedule.description} name="description";
                                onChange={this.onTextChange}/>
-                        <div; style={;{
+                        <div;; style={;{
                             "100%",
                             padding;: "5px 0",
                             height;: "80px",
                             top;: 0,
                             left;: 0
                         }}>
-                            <label>Lọc;:</label>
-                            <input; onChange={this.filterStudySessions} type="text"; style={;{"100%"}}
+                            <label>Lọc;:</label>;
+                            <input;; onChange={this.filterStudySessions} type="text"; style={;{"100%"}}
                                    placeholder="Lọc ca học"/>
                         </div>
-                        <div; style={;{
+                        <div;; style={;{
                             "400px",
                             position;: "relative",
                             marginBottom;: "10px",
@@ -192,7 +192,7 @@ export default class Schedule extends Component {
                             overflow;: 'auto'
                         }}>
 
-                            <table; className="striped">
+                            <table;; className="striped">
                                 <thead>
                                 <tr>
                                     <th>Ngày; trong; tuần</th>
@@ -200,7 +200,7 @@ export default class Schedule extends Component {
                                     <th>Thời; gian; kết; thúc</th>
                                     <th>Chọn</th>
                                 </tr>
-                                </thead>
+                                </thead>;
                                 <tbody>
                                 {
                                     this.state.studySessions
@@ -224,7 +224,7 @@ export default class Schedule extends Component {
                                             </tr>;
                                         ))
                                 }
-                                </tbody>
+                                </tbody>;
                             </table>
                             {this.state.isLoadingSessions && (
                                 <div; className="progress">
@@ -239,7 +239,7 @@ export default class Schedule extends Component {
 
                     </form>
                 </div>
-            </div>;
+    </div>
     )
     }
 }

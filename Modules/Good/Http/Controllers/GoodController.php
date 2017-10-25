@@ -150,17 +150,25 @@ class GoodController extends ManageApiController
 
     public function createGoodPropertyItem(Request $request)
     {
+        if ($request->name == null)
+            return $this->respondErrorWithStatus("Thiếu trường name");
+
+        $goodPropertyItem = GoodPropertyItem::where("name", $request->name)->first();
         $user = $this->user;
         if ($request->id) {
+            if ($goodPropertyItem != null && $goodPropertyItem->id != $request->id) {
+                return $this->respondErrorWithStatus("Đã tồn tại thuộc tính với tên là " . $request->name);
+            }
             $good_property_item = GoodPropertyItem::find($request->id);
             $good_property_item->editor_id = $user->id;
         } else {
+            if ($goodPropertyItem != null) {
+                return $this->respondErrorWithStatus("Đã tồn tại thuộc tính với tên là " . $request->name);
+            }
             $good_property_item = new GoodPropertyItem();
             $good_property_item->creator_id = $user->id;
             $good_property_item->editor_id = $user->id;
         }
-        if ($request->name == null)
-            return $this->respondErrorWithStatus("Thiếu trường name");
         $good_property_item->name = $request->name;
         $good_property_item->prevalue = $request->prevalue;
         $good_property_item->preunit = $request->preunit;

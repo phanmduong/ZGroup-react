@@ -14,7 +14,8 @@ class MemberTransformer extends Transformer
         $this->card = $card;
     }
 
-    public function setProject($project) {
+    public function setProject($project)
+    {
         $this->project = $project;
     }
 
@@ -35,7 +36,7 @@ class MemberTransformer extends Transformer
         }
 
         if ($this->project) {
-            $memberIds = $this->project->members()->pluck("id")->toArray();
+            $memberIds = $this->project->members()->pluck("user_id")->toArray();
             if (in_array($member->id, $memberIds)) {
                 $data['added'] = true;
             }
