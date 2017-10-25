@@ -88,6 +88,8 @@ class Order extends Model
                 'id' => $goodOrder->id,
                 'price' => $goodOrder->price,
                 'quantity' => $goodOrder->quantity,
+                'name' => $goodOrder->good->name,
+                'code' => $goodOrder->good->code,
             ];
             if($goodOrder->discount_money)
                 $goodOrderData['discount_money'] = $goodOrder->discount_money;
@@ -112,7 +114,8 @@ class Order extends Model
             $data['info_user'] = [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
-                'email' => $this->user->name,
+                'email' => $this->user->email,
+                'phone' => $this->user->phone,
             ];
         return $data;
     }

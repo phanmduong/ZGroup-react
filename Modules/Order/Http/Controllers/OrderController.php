@@ -73,9 +73,9 @@ class OrderController extends ManageApiController
     public function detailedOrder($order_id)
     {
         $order = Order::find($order_id);
-        return $this->respondSuccessWithStatus([
+        return $this->respondSuccessWithStatus(
             $order->detailedTransform()
-        ]);
+        );
     }
 
     public function editOrder($order_id, Request $request)
