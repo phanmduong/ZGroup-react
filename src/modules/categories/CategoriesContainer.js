@@ -34,7 +34,6 @@ class CategoriesContainer extends React.Component {
             <div>
 
                 <div className="container-fluid">
-
                     <div className="card">
                         <div className="card-header card-header-icon"
                              data-background-color="rose">
@@ -44,7 +43,7 @@ class CategoriesContainer extends React.Component {
                             <h4 className="card-title">Danh sách nhóm</h4>
 
 
-                            <div className="panel-group" id="accordion" role="tablist"
+                            <div className="panel-group" role="tablist"
                                  aria-multiselectable="true">
 
                                 {/*     ADD PARENT GROUP    */}
@@ -69,13 +68,9 @@ class CategoriesContainer extends React.Component {
                                         if (category.parent_id === 0)
                                             return (
                                                 <div className="panel panel-default">
-                                                    <div className="panel-heading" role="tab"
-                                                         id="headingOne">
-
+                                                    <div className="panel-heading" role="tab">
                                                         <button rel="tooltip"
                                                                 data-placement="top"
-                                                                title=""
-                                                                data-original-title="Remove item"
                                                                 className="btn btn-round btn-sm btn-info"
                                                                 style={{
                                                                     "width": "20px",
@@ -92,8 +87,6 @@ class CategoriesContainer extends React.Component {
                                                         </button>
                                                         <button rel="tooltip"
                                                                 data-placement="top"
-                                                                title=""
-                                                                data-original-title="Remove item"
                                                                 className="btn btn-round btn-sm btn-danger"
                                                                 style={{
                                                                     "width": "20px",
@@ -121,7 +114,8 @@ class CategoriesContainer extends React.Component {
 
 
                                                     <div id={"collapseOne" + category.id}
-                                                         className="panel-collapse collapse "
+                                                         className="card card-content panel panel-default panel-group panel-collapse collapse "
+                                                         aria-multiselectable="true"
                                                          role="tabpanel"
                                                          aria-labelledby={"headingOne " + category.id}
                                                          aria-expanded="false"
