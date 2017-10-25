@@ -9,8 +9,6 @@ import ListGood from './ListGood';
 import TooltipButton from '../../../components/common/TooltipButton';
 import Loading from '../../../components/common/Loading';
 import * as goodOrderActions from '../goodOrderActions';
-import Select from 'react-select';
-import ItemReactSelect from '../../../components/common/ItemReactSelect';
 
 class OrderContainer extends React.Component {
     constructor(props, context) {
@@ -24,7 +22,7 @@ class OrderContainer extends React.Component {
 
     componentWillMount() {
         this.props.goodOrderActions.loadDetailOrder(this.props.params.orderId);
-        this.props.goodOrderActions.loadStaffs();
+        // this.props.goodOrderActions.loadStaffs();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -110,31 +108,13 @@ class OrderContainer extends React.Component {
                                                 name="created_at"
                                                 value={this.props.infoOrder.created_at}
                                                 disabled
-                                                className="none-padding"
                                             />
-                                            <div className="form-group none-margin">
-                                                <label className="control-label">
-                                                    Người bán
-                                                </label>
-                                                <Select
-                                                    name="form-field-name"
-                                                    value={this.props.infoOrder.staff ? this.props.infoOrder.staff.id : ''}
-                                                    options={this.state.optionsSelectStaff}
-                                                    placeholder="Chọn người bán"
-                                                    optionRenderer={(option) => {
-                                                        return (
-                                                            <ItemReactSelect label={option.label}
-                                                                             url={option.avatar_url}/>
-                                                        );
-                                                    }}
-                                                    valueRenderer={(option) => {
-                                                        return (
-                                                            <ItemReactSelect label={option.label}
-                                                                             url={option.avatar_url}/>
-                                                        );
-                                                    }}
-                                                />
-                                            </div>
+                                            <FormInputText
+                                                label="Người bán"
+                                                name="staff"
+                                                value={this.props.infoOrder.staff ? this.props.infoOrder.staff.name : 'Không có'}
+                                                disabled
+                                            />
                                             <FormInputText label="Ghi chú" name="note" value={this.props.infoOrder.note}/>
                                         </div>
                                         <div>
@@ -146,21 +126,29 @@ class OrderContainer extends React.Component {
                                                     </button>
                                                 </TooltipButton>
                                             </h4>
-                                            <FormInputText label="Tên khách hàng" name="afdsafdsasd"/>
-                                            <FormInputText label="Email" name="afdasgrssd"/>
-                                            <FormInputText label="Số điện thoại" name="asfdasfawed"/>
+                                            <FormInputText
+                                                label="Tên khách hàng"
+                                                name="name"
+                                                value={this.props.infoUser ? this.props.infoUser.name : ''}
+                                                disabled
+                                            />
+                                            <FormInputText
+                                                label="Email"
+                                                name="email"
+                                                value={this.props.infoUser ? this.props.infoUser.email : ''}
+                                                disabled
+                                            />
+                                            <FormInputText
+                                                label="Số điện thoại"
+                                                name="phone"
+                                                value={this.props.infoUser ? this.props.infoUser.phone : ''}
+                                                disabled
+                                            />
                                         </div>
                                         <div>
                                             <h4><strong>Thông tin giao hàng</strong></h4>
                                             <FormInputText label="Ngày giao" name="ae3qsd" f/>
-                                            <FormInputText label="Người giao" dfdsa/>
-                                        </div>
-                                        <div><h4><strong>Nhân viên bán hàng</strong></h4>
-                                            <TooltipButton text="Phan M Dương" placement="top">
-                                                <button className="btn btn-info btn-xs">
-                                                    Dương
-                                                </button>
-                                            </TooltipButton>
+                                            <FormInputText label="Người giao" name="dsadasd"/>
                                         </div>
                                     </div>
                                 }
@@ -191,6 +179,7 @@ function mapStateToProps(state) {
         isLoadingStaffs: state.goodOrders.isLoadingStaffs,
         staffs: state.goodOrders.staffs,
         infoOrder: state.goodOrders.order.infoOrder,
+        infoUser: state.goodOrders.order.infoUser,
         goodOrders: state.goodOrders.order.goodOrders,
 
     };

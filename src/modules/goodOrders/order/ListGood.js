@@ -1,6 +1,5 @@
 import React from 'react';
 import ButtonGroupAction from '../../../components/common/ButtonGroupAction';
-import FormInputText from '../../../components/common/FormInputText';
 import TooltipButton from '../../../components/common/TooltipButton';
 import * as helper from '../../../helpers/helper';
 
@@ -14,8 +13,8 @@ class ListGood extends React.Component {
             dom: '<fl<t>ip>',
             pagingType: "full_numbers",
             lengthMenu: [
-                [ -1, 10, 25, 50],
-                [ "Tất cả", 10, 25, 50]
+                [-1, 10, 25, 50],
+                ["Tất cả", 10, 25, 50]
             ],
             iDisplayLength: 10,
             responsive: true,
@@ -35,6 +34,16 @@ class ListGood extends React.Component {
                 },
                 emptyTable: "Không có sản phẩm",
             },
+            columns: [
+                { responsivePriority: 3 },
+                { responsivePriority: 2 },
+                { responsivePriority: 4 },
+                { responsivePriority: 8 },
+                { responsivePriority: 6 },
+                { responsivePriority: 7 },
+                { responsivePriority: 1 },
+                { responsivePriority: 5 }
+            ]
         });
     }
 
@@ -90,18 +99,21 @@ class ListGood extends React.Component {
                                     </td>
                                     <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                     <td>
-                                        {(goodOrder.discount_money || goodOrder.discount_percent) &&
-                                        <TooltipButton text="Giảm giá" placement="top">
-                                            <div className="flex-row-center" style={{minWidth: '100px'}}>
-                                                <i className="material-icons">card_giftcard</i>
-                                                {goodOrder.discount_money ? helper.dotNumber(goodOrder.discount_money) + 'đ'
-                                                    : goodOrder.discount_percent + '%'}
-                                            </div>
-                                        </TooltipButton>
-                                        }
+                                        <div style={{display: 'inline-block'}}>
+                                            {(goodOrder.discount_money || goodOrder.discount_percent) &&
+                                            <TooltipButton text="Giảm giá" placement="top">
+                                                <div className="flex-row-center">
+                                                    <i className="material-icons">card_giftcard</i>
+                                                    {goodOrder.discount_money ? helper.dotNumber(goodOrder.discount_money) + 'đ'
+                                                        : goodOrder.discount_percent + '%'}
+                                                </div>
+                                            </TooltipButton>
+                                            }
+                                        </div>
+
 
                                     </td>
-                                    <td>{helper.dotNumber(Math.round(totalMoney))}đ</td>
+                                    <td className="text-align-right">{helper.dotNumber(Math.round(totalMoney))}đ</td>
                                     <td>
                                         <ButtonGroupAction/>
                                     </td>
@@ -109,9 +121,47 @@ class ListGood extends React.Component {
                             );
                         })
                     }
-
-
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th/>
+                        <th><b>Tổng</b></th>
+                        <th className="text-align-right" colSpan="5">
+                            <b>{helper.dotNumber(totalMoneyAll)}đ</b>
+                        </th>
+                        <th/>
+                    </tr>
+                    <tr>
+                        <th/>
+                        <th>
+                            <b>Giảm</b>
+                        </th>
+                        <th className="text-align-right" colSpan="5">
+                            <b>0%</b>
+                        </th>
+                        <th/>
+                    </tr>
+                    <tr>
+                        <th/>
+                        <th>
+                            <b>Thuế</b>
+                        </th>
+                        <th className="text-align-right" colSpan="5">
+                            <b>0%</b>
+                        </th>
+                        <th/>
+                    </tr>
+                    <tr>
+                        <th/>
+                        <th>
+                            <h4><b>Phải trả</b></h4>
+                        </th>
+                        <th className="text-align-right" colSpan="5">
+                            <h4><b>{helper.dotNumber(totalMoneyAll)}đ</b></h4>
+                        </th>
+                        <th/>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         );
