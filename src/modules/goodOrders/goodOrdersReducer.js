@@ -38,6 +38,58 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     error: true
                 }
             };
+        case types.BEGIN_LOAD_DETAIL_ORDER:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isLoading: true,
+                    error: false
+                }
+            };
+        case types.LOAD_DETAIL_ORDER_SUCCESS:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isLoading: false,
+                    error: false,
+                    infoOrder: action.infoOrder,
+                    infoUser: action.infoUser,
+                    infoShip: action.infoShip,
+                    goodOrders: action.goodOrders,
+                }
+            };
+        case types.LOAD_DETAIL_ORDER_ERROR:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isLoading: false,
+                    error: true
+                }
+            };
+        case types.BEGIN_LOAD_STAFFS_ORDERS:
+            return {
+                ...state,
+                ...{
+                    isLoadingStaffs: true,
+                    errorStaffs: false,
+                }
+            }
+        case types.LOAD_STAFFS_ORDERS_SUCCESS:
+            return {
+                ...state,
+                staffs: action.staffs,
+                isLoadingStaffs: false,
+                errorStaffs: false,
+            }
+        case types.LOAD_STAFFS_ORDERS_ERROR:
+            return {
+                ...state,
+                isLoadingStaffs: false,
+                errorStaffs: true,
+            }
         default:
             return state;
     }

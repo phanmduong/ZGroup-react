@@ -24,3 +24,40 @@ export function loadAllOrders(page = 1, search = '', startTime = '', endTime = '
         });
     };
 }
+
+export function loadDetailOrder(orderId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_DETAIL_ORDER});
+        goodOrdersApi.loadDetailOrder(orderId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_DETAIL_ORDER_SUCCESS,
+                    infoOrder: res.data.data.info_order,
+                    infoUser: res.data.data.info_user,
+                    infoShip: res.data.data.info_ship,
+                    goodOrders: res.data.data.good_orders,
+                });
+            }).catch(()=>{
+            dispatch({
+                type: types.LOAD_DETAIL_ORDER_ERROR
+            });
+        });
+    };
+}
+
+export function loadStaffs() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_STAFFS_ORDERS});
+        goodOrdersApi.loadStaffs()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_STAFFS_ORDERS_SUCCESS,
+                    staffs: res.data.data.staffs
+                });
+            }).catch(()=>{
+            dispatch({
+                type: types.LOAD_STAFFS_ORDERS_ERROR
+            });
+        });
+    };
+}

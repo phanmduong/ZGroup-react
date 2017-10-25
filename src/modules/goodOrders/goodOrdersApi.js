@@ -17,3 +17,22 @@ export function loadAllOrders(page = 1, search = '', startTime = '', endTime = '
     }
     return axios.get(url);
 }
+
+export function loadDetailOrder(orderId) {
+    let url = env.MANAGE_API_URL + `/order/${orderId}/info`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadStaffs() {
+    let url = env.MANAGE_API_URL + `/class/staffs`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}

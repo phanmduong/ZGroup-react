@@ -46,8 +46,9 @@ class ItemOrder extends React.Component {
         return (
             <tr>
                 <td>
-                    <Link className="text-name-student-register">
-                        {order.code}
+                    <Link className="text-name-student-register" to={`/goods/order/${order.id}`}>
+                        {/*{order.code}*/}
+                        test
                     </Link>
                 </td>
                 <td>{order.created_at}</td>

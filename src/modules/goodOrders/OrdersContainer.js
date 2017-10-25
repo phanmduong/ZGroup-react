@@ -159,7 +159,7 @@ class OrdersContainer extends React.Component {
                                                 Tổng tiền: {this.props.totalMoney}
                                             </div>
                                         </TooltipButton>
-                                        <TooltipButton text="Tổng đơn hàng" placement="top">
+                                        <TooltipButton text="Tổng nợ" placement="top">
                                             <div className="btn btn-success btn-simple">
                                                 Tổng nợ: {this.props.totalMoney - this.props.totalPaidMoney}
                                             </div>

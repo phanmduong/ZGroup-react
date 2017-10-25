@@ -669,5 +669,16 @@ export default {
         totalPaidMoney: 0,
         limit: 1,
         totalCount: 1,
+        order: {
+            isLoading: false,
+            error: false,
+            infoOrder: {},
+            infoUser: {},
+            infoShip: {},
+            goodOrders: []
+        },
+        staffs: [],
+        isLoadingStaffs: false,
+        errorStaffs: false,
     }
 };

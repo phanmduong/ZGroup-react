@@ -58,6 +58,7 @@ import HistoryShiftRegistersContainer from "./modules/historyShiftRegisters/Hist
 import ShiftSessionsContainer from "./modules/shiftSessions/ShiftSessionsContainer";
 import CoursesContainer from './modules/courses/CoursesContainer';
 import OrdersContainer from './modules/goodOrders/OrdersContainer';
+import OrderContainer from './modules/goodOrders/order/OrderContainer';
 
 export default (
     <Route>
@@ -200,6 +201,7 @@ export default (
 
             {/*Begin good order routes */}
             <Route path="/goods/orders" component={OrdersContainer}/>
+            <Route path="/goods/order/:orderId" component={OrderContainer}/>
             {/*End good order routes */}
         </Route>
         <Route path="login" component={LoginContainer}/>
