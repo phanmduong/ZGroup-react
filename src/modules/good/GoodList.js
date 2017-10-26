@@ -12,7 +12,7 @@ class GoodList extends React.Component {
 
         // Setup - add a text input to each footer cell
         $('#good-table tfoot th').each(function () {
-            var title = $(this).text();
+            let title = $(this).text();
             if (title !== "") {
                 $(this).html('<input class="form-control" type="text" placeholder="Tìm ' + title.toLowerCase() + '" />');
             }
@@ -30,7 +30,7 @@ class GoodList extends React.Component {
             ],
             "language": generateDatatableLanguage("sản phẩm"),
             initComplete: function () {
-                var r = $('#good-table tfoot tr');
+                let r = $('#good-table tfoot tr');
                 r.find('th').each(function () {
                     $(this).css('padding', 8);
                 });

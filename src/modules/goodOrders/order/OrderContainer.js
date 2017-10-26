@@ -9,6 +9,7 @@ import ListGood from './ListGood';
 import TooltipButton from '../../../components/common/TooltipButton';
 import Loading from '../../../components/common/Loading';
 import * as goodOrderActions from '../goodOrderActions';
+import PropTypes from 'prop-types';
 
 class OrderContainer extends React.Component {
     constructor(props, context) {
@@ -172,6 +173,17 @@ class OrderContainer extends React.Component {
         );
     }
 }
+
+OrderContainer.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    isLoadingStaffs: PropTypes.bool.isRequired,
+    staffs: PropTypes.array.isRequired,
+    infoOrder: PropTypes.object.isRequired,
+    infoUser: PropTypes.object.isRequired,
+    goodOrderActions: PropTypes.object.isRequired,
+    goodOrders: PropTypes.array.isRequired,
+    params: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {
