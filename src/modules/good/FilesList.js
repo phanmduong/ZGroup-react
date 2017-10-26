@@ -46,25 +46,31 @@ class FilesList extends React.Component {
                                     </div>
                                     <div>
                                         <div style={{fontSize: "12px"}}>Tải lên lúc {file.created_at}</div>
-                                        <div className="btn-group-action">
-                                            <TooltipButton text="Tải tập tin" placement="top">
-                                                <a href={file.url} target="_blank">
-                                                    <i className="material-icons">file_download</i>
-                                                </a>
-                                            </TooltipButton>
-                                            <TooltipButton text="Xoá tập tin" placement="top">
-                                                <a onClick={() => {
-                                                    confirm("warning",
-                                                        "Xác nhận xoá tập tin",
-                                                        "Tập tin này sẽ bị xoá vĩnh viễn",
-                                                        () => {
-                                                            this.props.deleteFile(file);
-                                                        });
-                                                }}>
-                                                    <i className="material-icons">delete</i>
-                                                </a>
-                                            </TooltipButton>
-                                        </div>
+
+                                        {
+                                            !this.props.disableEdit && (
+                                                <div className="btn-group-action">
+                                                    <TooltipButton text="Tải tập tin" placement="top">
+                                                        <a href={file.url} target="_blank">
+                                                            <i className="material-icons">file_download</i>
+                                                        </a>
+                                                    </TooltipButton>
+                                                    <TooltipButton text="Xoá tập tin" placement="top">
+                                                        <a onClick={() => {
+                                                            confirm("warning",
+                                                                "Xác nhận xoá tập tin",
+                                                                "Tập tin này sẽ bị xoá vĩnh viễn",
+                                                                () => {
+                                                                    this.props.deleteFile(file);
+                                                                });
+                                                        }}>
+                                                            <i className="material-icons">delete</i>
+                                                        </a>
+                                                    </TooltipButton>
+                                                </div>
+                                            )
+                                        }
+
                                     </div>
                                 </Media.Body>
                             </Media>
@@ -77,7 +83,8 @@ class FilesList extends React.Component {
 }
 
 FilesList.propTypes = {
-    deleteFile: PropTypes.func.isRequired,
+    disableEdit: PropTypes.bool,
+    deleteFile: PropTypes.func,
     files: PropTypes.array.isRequired
 };
 

@@ -37,13 +37,6 @@ class GoodListContainer extends React.Component {
 
                         <div className="card-content">
                             <h4 className="card-title">Sản phẩm</h4>
-
-                            <div style={{marginTop: "15px"}}>
-                                <Link to={`/good/${this.props.params.type}/create`} className="btn btn-rose">
-                                    Thêm sản phẩm
-                                </Link>
-                            </div>
-
                             {
                                 this.props.isLoading ? <Loading/> : <GoodList goods={this.props.goods}/>
                             }

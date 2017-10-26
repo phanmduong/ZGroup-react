@@ -90,9 +90,9 @@ class GoodList extends React.Component {
                                     <td>{good.updated_at}</td>
                                     <td>
                                         <ButtonGroupAction
+                                            disabledEdit={true}
                                             disabledDelete={true}
-                                            editUrl={"good/" + good.id + "/edit"}
-                                            object={good}
+                                            detailUrl={"good/" + good.id + "/detail"}
                                         />
                                     </td>
                                 </tr>

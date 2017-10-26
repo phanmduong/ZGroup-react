@@ -14,53 +14,46 @@ class ButtonGroupAction extends React.Component {
     render() {
         return (
             <div className="btn-group-action">
-                {this.props.disabledEdit ?
+                {
+                    this.props.detailUrl && (
+                        <Link to={this.props.detailUrl}>
+                            <i className="material-icons">info</i>
+                        </Link>
+                    )
+                }
+
+                {
+                    !this.props.disabledEdit &&
+                    <div style={{display: "inline-block"}}>
+                        {
+                            this.props.edit ?
+                                (
+                                    <a data-toggle="tooltip" title="Sửa"
+                                       onClick={() => this.props.edit(this.props.object)} type="button"
+                                       rel="tooltip">
+                                        <i className="material-icons">edit</i>
+                                    </a>
+                                )
+                                :
+                                (
+                                    <Link data-toggle="tooltip" title="Sửa"
+                                          to={this.props.editUrl}
+                                          type="button" rel="tooltip">
+                                        <i className="material-icons">edit</i>
+                                    </Link>
+                                )
+                        }
+                    </div>
+                }
+                {
+                    !this.props.disabledDelete &&
                     (
-                        <a data-toggle="tooltip" title="Không thể sửa"
-                           type="button"
+                        <a data-toggle="tooltip" title="Xoá"
+                           onClick={() => this.props.delete(this.props.object)} type="button"
                            rel="tooltip">
-                            <i className="material-icons">border_color</i>
+                            <i className="material-icons">delete</i>
                         </a>
                     )
-                    :
-                    (
-                        this.props.edit ?
-                            (
-                                <a data-toggle="tooltip" title="Sửa"
-                                   onClick={() => this.props.edit(this.props.object)} type="button"
-                                   rel="tooltip">
-                                    <i className="material-icons">edit</i>
-                                </a>
-                            )
-                            :
-                            (
-                                <Link data-toggle="tooltip" title="Sửa"
-                                      to={this.props.editUrl}
-                                      type="button" rel="tooltip">
-                                    <i className="material-icons">edit</i>
-                                </Link>
-                            )
-                    )
-                }
-                {
-                }
-                {
-                    this.props.disabledDelete ?
-                        (
-                            <a data-toggle="tooltip" title="Không thể xoá"
-                               type="button"
-                               rel="tooltip">
-                                <i className="material-icons">delete_forever</i>
-                            </a>
-                        )
-                        :
-                        (
-                            <a data-toggle="tooltip" title="Xoá"
-                               onClick={() => this.props.delete(this.props.object)} type="button"
-                               rel="tooltip">
-                                <i className="material-icons">delete</i>
-                            </a>
-                        )
                 }
                 {this.props.children}
             </div>
@@ -70,6 +63,7 @@ class ButtonGroupAction extends React.Component {
 
 ButtonGroupAction.propTypes = {
     editUrl: PropTypes.string,
+    detailUrl: PropTypes.string,
     delete: PropTypes.func,
     edit: PropTypes.func,
     object: PropTypes.oneOfType([
