@@ -20,8 +20,8 @@ class CategoriesContainer extends React.Component {
         this.props.categoriesActions.loadCategories();
     }
 
-    openAddCategoryModalContainer(parent_id, name, isEdit) {
-        this.props.categoriesActions.openAddCategoryModalContainer(parent_id, name, isEdit);
+    openAddCategoryModalContainer(id , parent_id, name, isEdit) {
+        this.props.categoriesActions.openAddCategoryModalContainer(id , parent_id, name, isEdit);
     }
 
     deleteCategory(id) {
@@ -53,7 +53,7 @@ class CategoriesContainer extends React.Component {
                                         <td className="col-md-2"
                                             style={{paddingTop: "10px", paddingBottom: '15px'}}>
                                             <a onClick={() => {
-                                                this.openAddCategoryModalContainer(0, '', false);
+                                                this.openAddCategoryModalContainer('', 0, '', false);
                                             }} className="btn btn-rose">
                                                 Thêm nhóm cha
                                             </a>
@@ -69,56 +69,74 @@ class CategoriesContainer extends React.Component {
                                             return (
                                                 <div className="panel panel-default">
                                                     <div className="panel-heading" role="tab">
-                                                        <button rel="tooltip"
-                                                                data-placement="top"
-                                                                className="btn btn-round btn-sm btn-info"
-                                                                style={{
-                                                                    "width": "20px",
-                                                                    height: "20px",
-                                                                    "padding": "0"
-                                                                }}
-                                                                onClick={(e) => {
-                                                                    this.openAddCategoryModalContainer(0, category.name, true);
-                                                                    e.preventDefault();
-                                                                }}
-                                                        >
-                                                            <i style={{"float": "none!important"}}
-                                                               className="material-icons">mode_edit</i>
-                                                        </button>
-                                                        <button rel="tooltip"
-                                                                data-placement="top"
-                                                                className="btn btn-round btn-sm btn-danger"
-                                                                style={{
-                                                                    "width": "20px",
-                                                                    "height": "20px",
-                                                                    "padding": "0"
-                                                                }}
-                                                                onClick={() => {
-                                                                    this.deleteCategory(category.id);
-                                                                }}
-                                                        >
-                                                            <i style={{"float": "none!important"}}
-                                                               className="material-icons">close</i>
-                                                        </button>
-                                                        <a role="button" data-toggle="collapse"
-                                                           data-parent="#accordion"
-                                                           href={"#collapseOne" + category.id}
-                                                           aria-expanded="false"
-                                                           aria-controls={"collapseOne" + category.id}
-                                                           className="collapsed">
-                                                            <i className="material-icons">keyboard_arrow_down</i>
-                                                            {'      ' + category.name}
+                                                        <table className="col-md-15">
+                                                            <tbody>
+                                                            <tr className="panel-title">
+                                                                <td className="col-md-8"
+                                                                    style={{paddingTop: "10px", paddingBottom: '15px'}}>
+                                                                    <a role="button" data-toggle="collapse"
+                                                                       data-parent="#accordion"
+                                                                       href={"#collapseOne" + category.id}
+                                                                       aria-expanded="false"
+                                                                       aria-controls={"collapseOne" + category.id}
+                                                                       className="collapsed">
+                                                                        <i className="material-icons">keyboard_arrow_down</i>
+                                                                        {'      ' + category.name}
 
-                                                        </a>
+                                                                    </a>
+                                                                </td>
+                                                                <td className="col-md-2"
+                                                                    style={{paddingTop: "10px", paddingBottom: '15px'}}>
+                                                                    <button rel="tooltip"
+                                                                            data-placement="top"
+                                                                            className="btn btn-sm btn-success"
+                                                                            style={{
+                                                                                "width": "20px",
+                                                                                height: "20px",
+                                                                                "padding": "0"
+                                                                            }}
+                                                                            onClick={(e) => {
+                                                                                this.openAddCategoryModalContainer(category.id , category.parent_id, category.name, true);
+                                                                                e.preventDefault();
+                                                                            }}
+                                                                    >
+                                                                        <i style={{"float": "none!important"}}
+                                                                           className="material-icons">mode_edit</i>
+                                                                    </button>
+                                                                </td>
+                                                                <td className="col-md-2"
+                                                                    style={{paddingTop: "10px", paddingBottom: '15px'}}>
+                                                                    <button rel="tooltip"
+                                                                            data-placement="top"
+                                                                            className="btn btn-sm btn-danger"
+                                                                            style={{
+                                                                                "width": "20px",
+                                                                                "height": "20px",
+                                                                                "padding": "0"
+                                                                            }}
+                                                                            onClick={() => {
+                                                                                this.deleteCategory(category.id);
+                                                                            }}
+                                                                    >
+                                                                        <i style={{"float": "none!important"}}
+                                                                           className="material-icons">close</i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+
+
+
                                                     </div>
 
 
                                                     <div id={"collapseOne" + category.id}
-                                                         className="card card-content panel panel-default panel-group panel-collapse collapse "
+                                                         className="panel-collapse collapse "
                                                          aria-multiselectable="true"
                                                          role="tabpanel"
                                                          aria-labelledby={"headingOne " + category.id}
-                                                         aria-expanded="false"
+                                                         aria-expanded="true"
                                                          style={{"height": "0px"}}>
 
                                                         <ListChildProduct

@@ -2,7 +2,7 @@ import * as types from '../../constants/actionTypes';
 import * as categoriesAPI from './categoriesAPI';
 import * as helper from '../../helpers/helper';
 
-export  function editCategory(id , name) {
+export  function editCategory(id , name , close) {
     return function (dispatch) {
         helper.showTypeNotification("Đang cập nhật" , "success");
         dispatch({
@@ -10,19 +10,23 @@ export  function editCategory(id , name) {
         });
         categoriesAPI.editCategoryAPI(id , name)
             .then((res) => {
-            if(res.data.data.status)
+            close();
+            if(res.data.status)
             {
-                helper.showTypeNotification('Cập nhật thành công','danger');
+                helper.showTypeNotification('Cập nhật thành công ' + name ,'danger');
                 dispatch({
                     type : types.EDIT_CATEGORY_SUCCESS,
                     id : id,
                     name: name,
                 });
             }
+            else {
+                helper.sweetAlertError(res.data.message);
+            }
 
             })
             .catch(() => {
-            helper.sweetAlertError();
+            helper.sweetAlertError('Cập nhật thất bại');
             dispatch({
                 type : types.EDIT_CATEGORY_ERROR,
             });
@@ -38,11 +42,17 @@ export function deleteCategory(id) {
         });
         categoriesAPI.deleteCategoryAPI(id)
             .then((res) => {
-                    helper.showTypeNotification(" Đã xóa ", "danger");
-                    dispatch({
-                        type: types.DELETE_CATEGORY_SUCCESS,
-                        id: id,
-                    });
+            if (res.data.status){
+                helper.showTypeNotification(" Đã xóa ", "danger");
+                dispatch({
+                    type: types.DELETE_CATEGORY_SUCCESS,
+                    id: id,
+                });
+            }
+            else {
+                helper.sweetAlertError('Xóa thất bại');
+            }
+
             })
             .catch(() => {
                 helper.sweetAlertError('Xóa thất bại ');
@@ -60,15 +70,19 @@ export function addCategory(name, parent_id, close) {
         categoriesAPI.addCategoryAPI(name, parent_id)
             .then((res) => {
                 close();
-                helper.showTypeNotification('Đã thêm ' + name, 'danger');
-                dispatch({
-                    type: types.LOADED_ADD_CATEGORY_SUCCESS,
-                    category: res.data.data.goodCategory
-                });
-
+                if(res.data.status){
+                    helper.showTypeNotification('Đã thêm ' + name, 'danger');
+                    dispatch({
+                        type: types.ADD_CATEGORY_SUCCESS,
+                        category: res.data.data.goodCategory
+                    });
+                }
+                else {
+                    helper.sweetAlertError('Chưa được thêm ');
+                }
             })
             .catch(() => dispatch({
-                type: types.LOADED_ADD_CATEGORY_ERROR
+                type: types.ADD_CATEGORY_ERROR
             }));
     };
 }
@@ -92,12 +106,13 @@ export function loadCategories() {
 }
 
 
-export function openAddCategoryModalContainer(parent_id, name, isEdit) {
+export function openAddCategoryModalContainer(id , parent_id, name, isEdit) {
     return function (dispatch) {
         dispatch({
             type: types.OPEN_ADD_CATEGORY_MODAL_CONTAINER,
             parent_id: parent_id,
             name: name,
+            id : id,
             isEdit: isEdit,
         });
     };

@@ -34,7 +34,7 @@ export function deleteCategoryAPI(id) {
 
 export function editCategoryAPI(id, name) {
     let token = localStorage.getItem("token");
-    let url = env.MANAGE_API_URL + '/order/category/edit';
+    let url = env.MANAGE_API_URL + '/order/category/edit-category';
     if (token) {
         url += '?token=' + token;
     }

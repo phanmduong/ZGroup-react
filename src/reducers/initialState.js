@@ -660,6 +660,7 @@ export default {
         addCategoriesModal: {
             isShowModal:false,
             isSaving : false,
+            id :  '' ,
             parent_id : '',
             name : '',
             isEdit : false ,

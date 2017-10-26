@@ -5,33 +5,41 @@ let categoriesList;
 export default function categoriesReducer(state = initialState.categories, action) {
 
     switch (action.type) {
+
+        /*          EDIT            */
+
         case types.BEGIN_EDIT_CATEGORY:
-            return{
+            return {
                 ...state,
-                addCategory : {
-                    isSaving : true,
+                addCategory: {
+                    isSaving: true,
                 }
             };
         case types.EDIT_CATEGORY_SUCCESS:
-            categoriesList = changeCategory(action.id, action.name ,action.categoriesList);
-            return{
+            categoriesList = changeCategory(action.id, action.name, state.categoriesList);
+            return {
                 ...state,
-                categoriesList : categoriesList,
-                addCategory:{
-                    isSaving : false,
+                categoriesList: categoriesList,
+                addCategory: {
+                    isSaving: false,
                 }
             };
         case types.EDIT_CATEGORY_ERROR:
-            return{
+            return {
                 ...state,
-                addCategory:{
-                    isSaving : false,
+                addCategory: {
+                    isSaving: false,
                 }
             };
+
+
+        /*          DELETE            */
+
+
         case types.BEGIN_DELETE_CATEGORY:
-            return{
+            return {
                 ...state,
-                isLoading : true,
+                isLoading: true,
             };
 
 
@@ -40,41 +48,45 @@ export default function categoriesReducer(state = initialState.categories, actio
             return {
                 ...state,
                 categoriesList: categoriesList,
-                isLoading : false,
+                isLoading: false,
             };
         case types.DELETE_CATEGORY_ERROR:
-            return{
-                ...state,
-                isLoading : false,
-            };
-        case types.LOADED_ADD_CATEGORY_SUCCESS :
             return {
                 ...state,
-                ...{
-                    categoriesList: [action.category, ...state.categoriesList],
-                    addCategoriesModal: {
-                        isSaving: false,
-                    },
+                isLoading: false,
+            };
+
+
+        /*          ADD            */
+
+
+        case types.ADD_CATEGORY_SUCCESS :
+            return {
+                ...state,
+                categoriesList: [action.category, ...state.categoriesList],
+                addCategoriesModal: {
+                    isSaving: false,
                 }
             };
-        case types.LOADED_ADD_CATEGORY_ERROR :
+        case types.ADD_CATEGORY_ERROR :
             return {
                 ...state,
-                ...{
-                    addCategoriesModal: {
-                        isSaving: false,
-                    },
+                addCategoriesModal: {
+                    isSaving: false,
                 }
             };
         case types.BEGIN_ADD_CATEGORY :
             return {
                 ...state,
-                ...{
-                    addCategoriesModal: {
-                        isSaving: true,
-                    },
+                addCategoriesModal: {
+                    isSaving: true,
                 }
             };
+
+
+
+        /*          MODAL            */
+
 
         case types.OPEN_ADD_CATEGORY_MODAL_CONTAINER:
             return {
@@ -82,6 +94,7 @@ export default function categoriesReducer(state = initialState.categories, actio
                 ...{
                     addCategoriesModal:
                         {
+                            id: action.id,
                             parent_id: action.parent_id,
                             name: action.name,
                             isEdit: action.isEdit,
@@ -99,6 +112,11 @@ export default function categoriesReducer(state = initialState.categories, actio
                         }
                 }
             };
+
+
+        /*          LOAD            */
+
+
         case types.BEGIN_LOAD_CATEGORIES_DATA:
             return {
                 ...state,
@@ -130,6 +148,9 @@ export default function categoriesReducer(state = initialState.categories, actio
 
 }
 
+
+/*          Support            */
+
 function deleteCategory(id, categoriesList) {
     if (categoriesList) {
         categoriesList = categoriesList.filter(category => category.id !== id);
@@ -137,13 +158,16 @@ function deleteCategory(id, categoriesList) {
     return categoriesList;
 }
 
-function changeCategory(id , name,  categoriesList) {
-    if (categoriesList){
-        categoriesList = categoriesList.map(category => {
-            if(category.id === id){category.name = name ;}
+function changeCategory(id, name, categoriesList) {
+    if (categoriesList) {
+        categoriesList = categoriesList.map(function (category) {
+            if (category.id === id) {
+                return {...category, name: name};
+            }
+            else return category;
         });
-        return categoriesList;
     }
+    return categoriesList;
 }
 
 

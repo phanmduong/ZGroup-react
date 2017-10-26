@@ -26,7 +26,7 @@ class AddCategoryModalContainer extends React.Component {
     }
 
     editCategory() {
-        this.props.categoriesActions.editCategory();
+        this.props.categoriesActions.editCategory(this.props.id, this.state.name, this.close);
     }
 
     render() {
@@ -129,12 +129,13 @@ class AddCategoryModalContainer extends React.Component {
 }
 
 AddCategoryModalContainer.propTypes = {
-    categoriesActions: PropTypes.object.isRequired,
-    isShowModal: PropTypes.bool.isRequired,
-    isSaving: PropTypes.bool.isRequired,
-    parent_id: PropTypes.number.isRequired,
-    name: PropTypes.string,
-    isEdit: PropTypes.bool.isRequired,
+    categoriesActions: PropTypes.object,
+    isShowModal: PropTypes.bool,
+    isSaving: PropTypes.bool,
+    parent_id: PropTypes.number,
+    name : PropTypes.string,
+    id : PropTypes.number,
+    isEdit: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -144,6 +145,7 @@ function mapStateToProps(state) {
         parent_id: state.categories.addCategoriesModal.parent_id,
         name: state.categories.addCategoriesModal.name,
         isEdit: state.categories.addCategoriesModal.isEdit,
+        id : state.categories.addCategoriesModal.id,
     };
 }
 
