@@ -5,7 +5,6 @@ import {bindActionCreators} from 'redux';
 import Loading from "../../components/common/Loading";
 import PropTypes from 'prop-types';
 import * as goodActions from './goodActions';
-import {Link} from "react-router";
 import GoodList from "./GoodList";
 
 class GoodListContainer extends React.Component {

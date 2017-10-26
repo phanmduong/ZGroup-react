@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 import * as goodActions from "../good/goodActions";
-import UploadButton from "../../components/common/uploadButton/UploadButton";
-import {showErrorNotification} from "../../helpers/helper";
-import UploadFilesContainer from "./UploadFilesContainer";
 import FilesList from "./FilesList";
 
 class GoodDetailContainer extends React.Component {
