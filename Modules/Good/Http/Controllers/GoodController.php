@@ -24,6 +24,23 @@ class GoodController extends ManageApiController
         parent::__construct();
     }
 
+    public function getGoodsWithoutPagination(Request $request)
+    {
+        if ($request->type) {
+            $goods = Good::where("type", $request->type)->get()->map(function ($good) {
+                return $good->transform();
+            });
+        } else {
+            $goods = Good::all()->map(function ($good) {
+                return $good->transform();
+            });
+        }
+
+        return $this->respondSuccessWithStatus([
+            "goods" => $goods
+        ]);
+    }
+
     public function getAll(Request $request)
     {
         $keyword = $request->search;
