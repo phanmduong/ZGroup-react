@@ -175,16 +175,20 @@ class OrderController extends ManageApiController
                 'total_quantity' => $total_quantity,
                 'debt' => $debt,
             ];
-            $staff = [
-                'id' => $importOrder->staff->id,
-                'name' => $importOrder->staff->name,
-            ];
-            $user = [
-                'id' => $importOrder->staff->id,
-                'name' => $importOrder->user->name,
-            ];
-            $importOrderData['staff'] = $staff;
-            $importOrderData['user'] = $user;
+            if ($importOrder->staff()) {
+                $staff = [
+                    'id' => $importOrder->staff->id,
+                    'name' => $importOrder->staff->name,
+                ];
+                $importOrderData['staff'] = $staff;
+            }
+            if ($importOrder->user()) {
+                $user = [
+                    'id' => $importOrder->staff->id,
+                    'name' => $importOrder->user->name,
+                ];
+                $importOrderData['user'] = $user;
+            }
             return $importOrderData;
         });
 
