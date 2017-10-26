@@ -74,3 +74,19 @@ export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";
 export const DATETIME_FORMAT_SQL = "YYYY-MM-DD HH:mm:ss";
 export const FULLTIME_FORMAT = "HH:mm:ss";
 export const TIME_FORMAT_H_M = "HH:mm";
+
+export const DATATABLE_LANGUAGE = {
+    "lengthMenu": "Hiển thị _MENU_ sản phẩm trong 1 trang",
+    "zeroRecords": "Không có kết quả nào phù hợp",
+    "processing": "Đang xử lý...",
+    "info": "Hiển trị trang _PAGE_ trên tổng số _PAGES_ trang",
+    "infoEmpty": "Không có dữ liệu",
+    "infoFiltered": "(lọc từ _MAX_ sản phẩm)",
+    "search": "Tìm kiếm: ",
+    "paginate": {
+        "first": "đầu",
+        "last": "cuối",
+        "next": "tiếp",
+        "previous": "trước"
+    },
+};
