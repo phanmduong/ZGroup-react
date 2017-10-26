@@ -9,18 +9,16 @@ import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
 /*eslint no-console: 0 */
-export function loadGoods(page = 1, query = null, type = null) {
+export function loadGoods(type = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_GOODS
         });
-        goodApi.loadGoods(page, query, type)
+        goodApi.loadGoods(type)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GOODS_SUCCESS,
-                    goods: res.data.goods,
-                    currentPage: res.data.paginator.current_page,
-                    totalPages: res.data.paginator.total_pages
+                    goods: res.data.data.goods
                 });
             });
 

@@ -2,58 +2,28 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 // import {Link} from "react-router";
-import Search from "../../components/common/Search";
-import _ from 'lodash';
 import Loading from "../../components/common/Loading";
 import PropTypes from 'prop-types';
 import * as goodActions from './goodActions';
-import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import {Link} from "react-router";
+import GoodList from "./GoodList";
 
 class GoodListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.goodsSearchChange = this.goodsSearchChange.bind(this);
-        this.state = {
-            page: 1,
-            query: ""
-        };
-        this.loadGoods = this.loadGoods.bind(this);
-        this.timeOut = null;
     }
 
     componentWillMount() {
-        this.loadGoods();
+        this.props.goodActions.loadGoods(this.props.params.type);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.params.type !== this.props.params.type) {
-            this.setState({page: 1});
-            this.props.goodActions.loadGoods(1, "", nextProps.params.type);
+            this.props.goodActions.loadGoods(nextProps.params.type);
         }
-    }
-
-    loadGoods(page = 1) {
-        this.setState({page});
-        this.props.goodActions.loadGoods(page, this.state.query, this.props.params.type);
-    }
-
-    goodsSearchChange(value) {
-        this.setState({
-            page: 1,
-            query: value
-        });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.goodActions.loadGoods(this.state.page, this.state.query);
-        }.bind(this), 500);
-
     }
 
     render() {
-        const currentPage = this.state.page;
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
@@ -74,72 +44,9 @@ class GoodListContainer extends React.Component {
                                 </Link>
                             </div>
 
-                            <Search
-                                onChange={this.goodsSearchChange}
-                                value={this.state.query}
-                                placeholder="Tìm kiếm sản phẩm (tên, mô tả)"/>
-
                             {
-                                this.props.isLoading ? <Loading/> : (
-                                    <div className="table-responsive">
-                                        <table className="table">
-                                            <thead>
-                                            <tr className="text-rose">
-                                                <th>Tên sản phẩm</th>
-                                                <th>Mã sản phẩm</th>
-                                                <th>Mô tả</th>
-                                                <th>Thêm vào lúc</th>
-                                                <th>Sửa gần nhất</th>
-                                                <th/>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {
-                                                this.props.goods.map((good) => {
-                                                    return (
-                                                        <tr key={good.id}>
-                                                            <td>{good.name}</td>
-                                                            <td>{good.code}</td>
-                                                            <td>{good.description}</td>
-                                                            <td>{good.created_at}</td>
-                                                            <td>{good.updated_at}</td>
-                                                            <td>
-                                                                <ButtonGroupAction
-                                                                    disabledDelete={true}
-                                                                    editUrl={"good/" + good.id + "/edit"}
-                                                                    object={good}
-                                                                />
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })
-                                            }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )
+                                this.props.isLoading ? <Loading/> : <GoodList goods={this.props.goods}/>
                             }
-                        </div>
-
-                        <div className="card-content">
-                            <ul className="pagination pagination-primary">
-                                {_.range(1, this.props.totalPages + 1).map(page => {
-                                    if (Number(currentPage) === page) {
-                                        return (
-                                            <li key={page} className="active">
-                                                <a onClick={() => this.loadGoods(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    } else {
-                                        return (
-                                            <li key={page}>
-                                                <a onClick={() => this.loadGoods(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    }
-
-                                })}
-                            </ul>
                         </div>
                     </div>
 
@@ -153,17 +60,13 @@ class GoodListContainer extends React.Component {
 GoodListContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     goodActions: PropTypes.object.isRequired,
-    totalPages: PropTypes.number.isRequired,
     goods: PropTypes.array.isRequired,
-    currentPage: PropTypes.number.isRequired,
     params: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         isLoading: state.good.goodList.isLoading,
-        totalPages: state.good.goodList.totalPages,
-        currentPage: state.good.goodList.currentPage,
         goods: state.good.goodList.goods
     };
 }
