@@ -62,8 +62,14 @@ class SendEmailsMarketing extends Command
 
                 $subscribers = DB::select($query);
 
-                $job = new SendEmail($email_campaign, $subscribers, $data);
-                dispatch($job);
+                $subscribers_chunk = array_chunk($subscribers, 50);
+
+
+                foreach ($subscribers_chunk as $subscribers_array){
+                    $job = new SendEmail($email_campaign, $subscribers_array, $data);
+                    dispatch($job);
+                };
+
 
                 $notification = new Notification;
                 $notification->actor_id = $email_campaign->owner_id;
