@@ -38,6 +38,11 @@ class Order extends Model
         return $this->hasMany(OrderPaidMoney::class, 'order_id');
     }
 
+    public function importedGoods()
+    {
+        return $this->hasMany(ImportedGoods::class, 'order_import_id');
+    }
+
     public function goods()
     {
         return $this->belongsToMany(Good::class,

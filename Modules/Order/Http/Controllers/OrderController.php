@@ -147,76 +147,50 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function importedGoods(Request $request)
+    public function importOrders(Request $request)
     {
         $startTime = $request->start_time;
         $endTime = $request->end_time;
-        if($startTime)
-            $importedGoods = ImportedGoods::whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->get();
+        if ($startTime)
+            $importOrders = Order::where('type', 'import')->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->get();
         else
-            $importedGoods = ImportedGoods::orderBy("created_at", "desc")->get();
+            $importOrders = Order::where('type', 'import')->orderBy("created_at", "desc")->get();
+        $data = $importOrders->map(function ($importOrder) {
+            $total_money = $importOrder->importedGoods()->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity * $importedGood->import_price;
+            }, 0);
+            $total_quantity = $importOrder->importedGoods()->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity;
+            }, 0);
+            $debt = $total_money - $importOrder->orderPaidMoneys()->reduce(function ($total, $orderPaidMoney) {
+                    return $total + $orderPaidMoney->money;
+                }, 0);
+            $importOrderData = [
+                'code' => $importOrder->code,
+                'status' => $importOrder->status,
+                'created_at' => $importOrder->created_at,
+                'import_price' => $importOrder->import_price,
+                'warehouse_id' => $importOrder->warehouse_id,
+                'total_money' => $total_money,
+                'total_quantity' => $total_quantity,
+                'debt' => $debt,
+            ];
+            $staff = [
+                'id' => $importOrder->staff->id,
+                'name' => $importOrder->staff->name,
+            ];
+            $user = [
+                'id' => $importOrder->staff->id,
+                'name' => $importOrder->user->name,
+            ];
+            $importOrderData['staff'] = $staff;
+            $importOrderData['user'] = $user;
+            return $importOrderData;
+        });
+
         return $this->respondSuccessWithStatus([
-            'imported_goods' => $importedGoods->map(function ($importedGood) {
-                return [
-                    'id' => $importedGood->id,
-                    'good_id' => $importedGood->good_id,
-                    'quantity' => $importedGood->quantity,
-                    'import_price' => $importedGood->import_price,
-                    'warehouse_id' => $importedGood->warehouse_id,
-                ];
-            })
+            'import_orders' => $data
         ]);
     }
 
-    public function importedGood($importedGoodId, Request $request)
-    {
-        $importedGood = ImportedGoods::find($importedGoodId)->get();
-        $data = [
-            'id' => $importedGood->id,
-            'good_id' => $importedGood->good_id,
-            'quantity' => $importedGood->quantity,
-            'import_price' => $importedGood->import_price,
-            'expired_date' => $importedGood->expired_date,
-        ];
-        $staff = $importedGood->staff();
-        $base = $importedGood->warehouse() ? $importedGood->warehouse()->base() : null;
-        $good = $importedGood->good();
-        if ($staff)
-            $data['staff'] = [
-                'id' => $staff->id,
-                'name' => $staff->name,
-            ];
-        if ($base)
-            $data['base'] = [
-                'name' => $base->name,
-                'address' => $base->address,
-            ];
-        if ($good)
-            $data['good'] = [
-                'name' => $good->name,
-                'descriptuon' => $good->description,
-            ];
-        return $this->respondSuccessWithStatus([
-            'imported_good' => $data
-        ]);
-    }
-
-    public function addImportedGood(Request $request)
-    {
-        if ($request->good_id == null || $request->warehouse_id == null || $request->quantity == null || $request->import_price == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu trường nào đó'
-            ]);
-        $importedGood = new ImportedGoods;
-        $importedGood->good_id = $request->good_id;
-        $importedGood->warehouse_id = $request->warehouse_id;
-        $importedGood->quantity = $request->quantity;
-        $importedGood->expired_date = $request->expired_date;
-        $importedGood->import_price = $request->import_price;
-        $importedGood->staff_id = $this->user->id;
-        $importedGood->save();
-        return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
-        ]);
-    }
 }
