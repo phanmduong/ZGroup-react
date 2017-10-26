@@ -155,7 +155,7 @@ class OrderController extends ManageApiController
             $importedGoods = ImportedGoods::whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->get();
         else
             $importedGoods = ImportedGoods::orderBy("created_at", "desc")->get();
-        return $this->respond([
+        return $this->respondSuccessWithStatus([
             'imported_goods' => $importedGoods->map(function ($importedGood) {
                 return [
                     'id' => $importedGood->id,
@@ -196,7 +196,7 @@ class OrderController extends ManageApiController
                 'name' => $good->name,
                 'descriptuon' => $good->description,
             ];
-        return $this->respond([
+        return $this->respondSuccessWithStatus([
             'imported_good' => $data
         ]);
     }
