@@ -176,23 +176,42 @@ class OrderController extends ManageApiController
         $staff = $importedGood->staff();
         $base = $importedGood->warehouse() ? $importedGood->warehouse()->base() : null;
         $good = $importedGood->good();
-        if($staff)
+        if ($staff)
             $data['staff'] = [
                 'id' => $staff->id,
                 'name' => $staff->name,
             ];
-        if($base)
+        if ($base)
             $data['base'] = [
                 'name' => $base->name,
                 'address' => $base->address,
             ];
-        if($good)
+        if ($good)
             $data['good'] = [
                 'name' => $good->name,
                 'descriptuon' => $good->description,
             ];
         $this->respondSuccessWithStatus([
             'imported_good' => $data
+        ]);
+    }
+
+    public function addImportedGood(Request $request)
+    {
+        if ($request->good_id == null || $request->warehouse_id == null || $request->quantity == null || $request->import_price == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'ERROR'
+            ]);
+        $importedGood = new ImportedGoods;
+        $importedGood->good_id = $request->good_id;
+        $importedGood->warehouse_id = $request->warehouse_id;
+        $importedGood->quantity = $request->quantity;
+        $importedGood->expired_date = $request->expired_date;
+        $importedGood->import_price = $request->import_price;
+        $importedGood->staff_id = $this->user->id;
+        $importedGood->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
         ]);
     }
 }
