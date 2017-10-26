@@ -761,3 +761,21 @@ export function formatTime(time, formatBefore, formatAtfer) {
     let timeIsValid = moment(time, formatBefore).isValid();
     return timeIsValid ? moment(time, formatBefore).format(formatAtfer) : null;
 }
+
+export function generateDatatableLanguage(item) {
+    return {
+        "lengthMenu": `Hiển thị _MENU_ ${item} trên 1 trang`,
+        "zeroRecords": "Không có kết quả nào phù hợp",
+        "processing": "Đang xử lý...",
+        "info": "Hiển trị trang _PAGE_ trên tổng số _PAGES_ trang",
+        "infoEmpty": "Không có dữ liệu",
+        "infoFiltered": `(lọc từ _MAX_ ${item})`,
+        "search": "Tìm kiếm: ",
+        "paginate": {
+            "first": "đầu",
+            "last": "cuối",
+            "next": "tiếp",
+            "previous": "trước"
+        },
+    };
+}

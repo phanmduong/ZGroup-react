@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
-import {DATATABLE_LANGUAGE} from "../../constants/constants";
+import {generateDatatableLanguage} from "../../helpers/helper";
 
 class GoodList extends React.Component {
     constructor(props, context) {
@@ -28,7 +28,7 @@ class GoodList extends React.Component {
                 {"name": "Sửa gần nhất", "orderable": true},
                 {"name": "", "orderable": false}
             ],
-            "language": DATATABLE_LANGUAGE,
+            "language": generateDatatableLanguage("sản phẩm"),
             initComplete: function () {
                 var r = $('#good-table tfoot tr');
                 r.find('th').each(function () {
