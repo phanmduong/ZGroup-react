@@ -166,6 +166,7 @@ class OrderController extends ManageApiController
                     return $total + $orderPaidMoney->money;
                 }, 0);
             $importOrderData = [
+                'id' => $importOrder->id,
                 'code' => $importOrder->code,
                 'status' => $importOrder->status,
                 'created_at' => $importOrder->created_at,
@@ -184,7 +185,7 @@ class OrderController extends ManageApiController
             }
             if ($importOrder->user()) {
                 $user = [
-                    'id' => $importOrder->staff->id,
+                    'id' => $importOrder->user->id,
                     'name' => $importOrder->user->name,
                 ];
                 $importOrderData['user'] = $user;
