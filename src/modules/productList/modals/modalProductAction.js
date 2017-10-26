@@ -18,3 +18,9 @@ export function showWareHouseModal() {
        type:types.TOGGLE_WARE_HOUSE_MODAL
     });
 }
+
+export function showAvatarModal() {
+    return({
+       type:types.TOGGLE_AVATAR_MODAL
+    });
+}

@@ -50,6 +50,13 @@ export default function productListReducer(state = initialState.productList, act
                     wareHouseModal: !state.modalInProduct.wareHouseModal
                 }
             };
+        case types.TOGGLE_AVATAR_MODAL:
+            return{
+                ...state,
+                modalInProduct:{
+                    avatarModal: !state.modalInProduct.avatarModal
+                }
+            };
         default:
             return state;
     }

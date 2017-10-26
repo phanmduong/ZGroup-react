@@ -29,7 +29,7 @@ class PriceModalContainer extends React.Component {
 
     showPriceModal(e){
         e.preventDefault();
-        this.props.showPriceModal({});
+        this.props.showPriceModal(this.props.productEditing);
     }
 
     render() {
