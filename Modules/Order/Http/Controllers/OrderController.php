@@ -205,7 +205,7 @@ class OrderController extends ManageApiController
     {
         if ($request->good_id == null || $request->warehouse_id == null || $request->quantity == null || $request->import_price == null)
             return $this->respondErrorWithStatus([
-                'message' => 'ERROR'
+                'message' => 'Thiếu trường nào đó'
             ]);
         $importedGood = new ImportedGoods;
         $importedGood->good_id = $request->good_id;
