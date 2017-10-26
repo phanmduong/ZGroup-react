@@ -169,7 +169,7 @@ class OrderController extends ManageApiController
                 'id' => $importOrder->id,
                 'code' => $importOrder->code,
                 'status' => $importOrder->status,
-                'created_at' => $importOrder->format_vn_short_datetime(created_at),
+                'created_at' => format_vn_short_datetime($importOrder->created_at),
                 'import_price' => $importOrder->import_price,
                 'warehouse_id' => $importOrder->warehouse_id,
                 'total_money' => $total_money,
