@@ -156,13 +156,13 @@ class OrderController extends ManageApiController
         else
             $importOrders = Order::where('type', 'import')->orderBy("created_at", "desc")->get();
         $data = $importOrders->map(function ($importOrder) {
-            $total_money = $importOrder->importedGoods()->reduce(function ($total, $importedGood) {
+            $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
                 return $total + $importedGood->quantity * $importedGood->import_price;
             }, 0);
-            $total_quantity = $importOrder->importedGoods()->reduce(function ($total, $importedGood) {
+            $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
                 return $total + $importedGood->quantity;
             }, 0);
-            $debt = $total_money - $importOrder->orderPaidMoneys()->reduce(function ($total, $orderPaidMoney) {
+            $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
                     return $total + $orderPaidMoney->money;
                 }, 0);
             $importOrderData = [
@@ -193,4 +193,20 @@ class OrderController extends ManageApiController
         ]);
     }
 
+    public function importedGoodsOrder($importOrderId)
+    {
+        $importOrder = Order::find($importOrderId);
+        $importedGoods = $importOrder->importedGoods();
+        return $this->respondSuccessWithStatus([
+            'imported_goods' => $importedGoods->map(function ($importedGood) {
+                return [
+                    'name' => $importedGood->good->name,
+                    'code' => $importedGood->good->code,
+                    'quantity' => $importedGood->quantity,
+                    'import_price' => $importedGood->import_price
+                ];
+
+            })
+        ]);
+    }
 }
