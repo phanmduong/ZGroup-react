@@ -4,6 +4,7 @@ namespace Modules\Order\Http\Controllers;
 
 use App\GoodCategory;
 use App\Http\Controllers\ManageApiController;
+use App\ImportedGoods;
 use Illuminate\Http\Request;
 use App\Order;
 
@@ -113,7 +114,7 @@ class OrderController extends ManageApiController
         if ($request->name == null) return $this->respondErrorWithStatus("Chưa có tên");
         $goodCategory = new GoodCategory;
         $goodCategory->name = $request->name;
-        if($request->parent_id != null) $goodCategory->parent_id = $request->parent_id; else $goodCategory->parent_id=0;
+        if ($request->parent_id != null) $goodCategory->parent_id = $request->parent_id; else $goodCategory->parent_id = 0;
         $goodCategory->save();
         return $this->respondSuccessWithStatus([
             "goodCategory" => $goodCategory->CategoryTransform()
@@ -143,6 +144,55 @@ class OrderController extends ManageApiController
         $goodCategory->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
+        ]);
+    }
+
+    public function importedGoods(Request $request)
+    {
+        $importedGoods = ImportedGoods::orderBy("created_at", "desc")->get();
+        $this->respondSuccessWithStatus([
+            'imported_goods' => $importedGoods->map(function ($importedGood) {
+                return [
+                    'id' => $importedGood->id,
+                    'good_id' => $importedGood->good_id,
+                    'quantity' => $importedGood->quantity,
+                    'import_price' => $importedGood->import_price,
+                    'warehouse_id' => $importedGood->warehouse_id,
+                ];
+            })
+        ]);
+    }
+
+    public function importedGood($importedGoodId, Request $request)
+    {
+        $importedGood = ImportedGoods::find($importedGoodId)->get();
+        $data = [
+            'id' => $importedGood->id,
+            'good_id' => $importedGood->good_id,
+            'quantity' => $importedGood->quantity,
+            'import_price' => $importedGood->import_price,
+            'expired_date' => $importedGood->expired_date,
+        ];
+        $staff = $importedGood->staff();
+        $base = $importedGood->warehouse() ? $importedGood->warehouse()->base() : null;
+        $good = $importedGood->good();
+        if($staff)
+            $data['staff'] = [
+                'id' => $staff->id,
+                'name' => $staff->name,
+            ];
+        if($base)
+            $data['base'] = [
+                'name' => $base->name,
+                'address' => $base->address,
+            ];
+        if($good)
+            $data['good'] = [
+                'name' => $good->name,
+                'descriptuon' => $good->description,
+            ];
+        $this->respondSuccessWithStatus([
+            'imported_good' => $data
         ]);
     }
 }
