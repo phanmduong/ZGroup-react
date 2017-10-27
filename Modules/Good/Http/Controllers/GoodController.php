@@ -235,6 +235,23 @@ class GoodController extends ManageApiController
     {
         $keyword = $request->search;
         $type = $request->type;
+        if ($request->limit == -1) {
+            if ($type) {
+                $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
+                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                });
+            } else {
+                $goods = Good::where(function ($query) use ($keyword) {
+                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                });
+            }
+            $goods = $goods->orderBy("created_at", "desc")->get();
+            return $this->respondSuccessWithStatus([
+                    'goods' => $goods->map(function ($good) {
+                        return $good->transform();
+                    })
+            ]);
+        }
         if ($request->limit)
             $limit = $request->limit;
         else
@@ -318,7 +335,7 @@ class GoodController extends ManageApiController
         $manufactures = Manufacture::orderBy("created_at", "desc");
         dd($manufactures);
         return $this->respondSuccessWithStatus([
-            'manufactures' => $manufactures->map(function ($manufacture){
+            'manufactures' => $manufactures->map(function ($manufacture) {
                 return [
                     'id' => $manufacture->id,
                     'name' => $manufacture->name,
