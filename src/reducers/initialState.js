@@ -714,6 +714,12 @@ export default {
     importGoods: {
         isLoading: false,
         error: false,
-        importOrders: []
+        importOrders: [],
+        importGood: {
+            infoOrder: {},
+            infoPaid: {},
+            isLoading: false,
+            error: false,
+        }
     }
 };

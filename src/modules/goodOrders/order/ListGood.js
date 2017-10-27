@@ -12,6 +12,13 @@ class ListGood extends React.Component {
     }
 
     componentDidMount() {
+        $('#datatables-goodorders #footer-search th').not('.disabled-search').each(function () {
+            let title = $(this).text();
+            if (title !== "") {
+                $(this).html('<input class="form-control width-100" type="text" placeholder="Tìm ' + title.toLowerCase() + '" />');
+            }
+        });
+
         this.table = $('#datatables-goodorders').DataTable({
             dom: '<l<t>ip>',
             pagingType: "full_numbers",
@@ -21,22 +28,6 @@ class ListGood extends React.Component {
             ],
             iDisplayLength: 10,
             responsive: true,
-            language: {
-                search: "_INPUT_",
-                searchPlaceholder: "Nhập mã barcode hoặc tên hàng hóa",
-                lengthMenu: "<div>Hiển thị</div> _MENU_ <div>sản phẩm</div>",
-                zeroRecords: "Không tìm thấy sản phẩm",
-                infoEmpty: "Không tìm thấy sản phẩm",
-                infoFiltered: "(Đã tìm trong _MAX_ sản phẩm)",
-                info: "Hiển thị từ _START_ đến _END_ trên _TOTAL_ sản phẩm",
-                paginate: {
-                    first: "Đầu",
-                    last: "Cuối",
-                    previous: "Trước",
-                    next: "Tiếp",
-                },
-                emptyTable: "Không có sản phẩm",
-            },
             columns: [
                 {responsivePriority: 3},
                 {responsivePriority: 2},
@@ -47,6 +38,16 @@ class ListGood extends React.Component {
                 {responsivePriority: 1},
                 {responsivePriority: 5}
             ],
+            language: helper.generateDatatableLanguage("sản phẩm"),
+            initComplete: function () {
+                let r = $('#datatables-goodorders #footer-search tr');
+                r.find('th').each(function () {
+                    $(this).css('padding', 8);
+                });
+                $('#datatables-goodorders thead').append(r);
+                $('#search_0').css('text-align', 'center');
+                $('.card .material-datatables label').addClass('form-group');
+            },
         });
     }
 
@@ -63,7 +64,7 @@ class ListGood extends React.Component {
                     placeholder="Nhập mã barcode hoặc tên hàng hóa"
                 />
                 <div className="material-datatables">
-                    <table id="datatables-goodorders" className="table table-striped table-no-bordered table-hover"
+                    <table id="datatables-goodorders" className="table"
                            width="100%">
                         <thead className="text-rose">
                         <tr>
@@ -77,6 +78,18 @@ class ListGood extends React.Component {
                             <th className="disabled-sorting"/>
                         </tr>
                         </thead>
+                        <tfoot id="footer-search" className="text-rose">
+                        <tr>
+                            <th className="disabled-search"></th>
+                            <th>Mã hàng</th>
+                            <th>Tên hàng</th>
+                            <th>Số lượng</th>
+                            <th>Giá bán</th>
+                            <th>Chiết khấu</th>
+                            <th>Thành tiền</th>
+                            <th className="disabled-sorting"/>
+                        </tr>
+                        </tfoot>
                         <tbody>
                         {
                             this.props.goodOrders.map((goodOrder, index) => {

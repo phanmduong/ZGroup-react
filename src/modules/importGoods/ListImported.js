@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import {generateDatatableLanguage,dotNumber} from "../../helpers/helper";
+import {Link} from 'react-router';
 
 class ListImported extends React.Component {
     constructor(props, context) {
@@ -101,7 +102,7 @@ class ListImported extends React.Component {
                         this.props.importOrders.map((importOrder, index)=>{
                             return (
                                 <tr key={index}>
-                                    <td>{importOrder.code}</td>
+                                    <td><Link to={`/import-good/${importOrder.id}`}>{importOrder.code}</Link></td>
                                     <td>{importOrder.status}</td>
                                     <td>{importOrder.created_at}</td>
                                     <td>{importOrder.staff ? importOrder.staff.name : "Không nhập"}</td>

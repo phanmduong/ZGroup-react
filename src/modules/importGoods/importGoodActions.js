@@ -19,4 +19,21 @@ export function loadImportOrders(startTime, endTime) {
     };
 }
 
+export function loadImportGoodsOrder(orderId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_IMPORT_GOOD_ORDERS});
+        importGoodsApi.loadImportGoodsOrder(orderId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_IMPORT_GOOD_ORDERS_SUCCESS,
+                    importOrder: res.data.data.import_order,
+                });
+            }).catch(()=>{
+            dispatch({
+                type: types.LOAD_IMPORT_GOOD_ORDERS_ERROR
+            });
+        });
+    };
+}
+
 

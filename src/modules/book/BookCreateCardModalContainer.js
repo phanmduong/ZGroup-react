@@ -8,7 +8,7 @@ import FormInputText from "../../components/common/FormInputText";
 import {isEmptyInput} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 import Select from 'react-select';
-import GoodPropertyItem from "../good/GoodPropertyItem";
+// import GoodPropertyItem from "../good/GoodPropertyItem";
 import InputGoodProperties from "../good/InputGoodProperties";
 
 class BookCreateCardModalContainer extends React.Component {
