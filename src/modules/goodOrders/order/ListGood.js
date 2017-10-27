@@ -49,6 +49,19 @@ class ListGood extends React.Component {
                 $('.card .material-datatables label').addClass('form-group');
             },
         });
+        // Apply the search
+        this.table.columns().every(function () {
+            const that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+        $.material.init();
     }
 
     searchTable(value) {
