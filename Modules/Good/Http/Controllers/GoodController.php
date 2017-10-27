@@ -332,7 +332,7 @@ class GoodController extends ManageApiController
 
     public function allManufactures()
     {
-        $manufactures = Manufacture::orderBy("created_at", "desc");
+        $manufactures = Manufacture::orderBy("created_at", "desc")->get();
         return $this->respondSuccessWithStatus([
             'manufactures' => $manufactures->map(function ($manufacture) {
                 return [
