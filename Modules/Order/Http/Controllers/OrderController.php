@@ -236,7 +236,7 @@ class OrderController extends ManageApiController
             ];
         });
         return $this->respondSuccessWithStatus([
-            'order' => $data,
+            'import_order' => $data,
         ]);
     }
 }
