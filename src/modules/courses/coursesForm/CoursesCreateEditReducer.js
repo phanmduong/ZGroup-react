@@ -1,29 +1,29 @@
 
-import * as types from '../../constants/actionTypes';
-import initialState from '../../reducers/initialState';
+import * as types from '../../../constants/actionTypes';
+import initialState from '../../../reducers/initialState';
 
 
-export default function courseReducer(state = initialState.courses, action) {
+export default function courseReducer(state = initialState.coursesCreateEdit, action) {
+    console.log(action.type);
     switch (action.type) {
-        case types.BEGIN_LOAD_COURSES_DATA:
+        case types.BEGIN_LOAD_COURSE:
             return {
                 ...state,
                 ...{
                     isLoading: true,
-                    error: false,
+                    error: false
                 }
             };
-        case types.LOADED_COURSES_DATA_SUCCESS:
-
+        case types.LOAD_COURSE_SUCCESS:
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     error: false,
-                    coursesList: action.courses,
+                    data: action.data
                 }
             };
-        case types.LOADED_COURSES_DATA_ERROR:
+        case types.LOAD_COURSE_ERROR:
             return {
                 ...state,
                 ...{

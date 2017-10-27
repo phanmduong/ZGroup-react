@@ -646,5 +646,29 @@ export default {
             current_page: 1,
             limit: 1
         }
+    },
+    coursesCreateEdit:{
+      isLoading: false,
+      isEditing: false,
+      data:{
+          id: "",
+          name: "",
+          duration: "",
+          price: "",
+          description: "",
+          linkmac: "",
+          linkwindow: "",
+          num_classes: "",
+          mac_how_install: "",
+          window_how_install: "",
+          cover_url: "",
+          color: "",
+          image_url: "",
+          icon_url: "",
+          created_at: "",
+          detail: "",
+          lessons: [],
+          links: []
+      }
     }
 };

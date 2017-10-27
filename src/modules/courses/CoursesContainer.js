@@ -44,23 +44,21 @@ class CoursesContainer extends React.Component {
                                     <i className="material-icons">assignment</i>
                                 </div>
                                 <div className="card-content">
-                                    <h4 className="card-title" >Quản lý khóa học</h4>
+                                    <h4 className="card-title" >Quản lý môn học</h4>
                                     <table className="col-md-12">
                                         <tbody>
                                             <tr>
                                                 <td className="col-md-2">
 
-                                                        <Link className="btn btn-rose" to="/manage/courses/create-edit">
-                                                            Thêm khoá học
+                                                        <Link className="btn btn-rose" to="/manage/courses/create">
+                                                            Thêm Môn Học
                                                         </Link>
-
-
 
                                                 </td>
 
                                                 <td className="col-md-8">
                                                     <Search
-                                                        placeholder="Tìm kiếm khóa học"
+                                                        placeholder="Tìm kiếm môn học"
                                                         value=""
                                                         onChange={()=>{}}
                                                         className=""
