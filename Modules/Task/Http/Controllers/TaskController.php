@@ -787,4 +787,30 @@ class TaskController extends ManageApiController
         return $this->respondSuccessWithStatus(["task" => $task->transform()]);
     }
 
+    public function loadAllTaskListTemplates($projectId)
+    {
+        $project = Project::find($projectId);
+        if ($project == null) {
+            return $this->respondErrorWithStatus("Dự án không tồn tại");
+        }
+
+        $taskListTemplates = TaskList::where("card_id", 0)->where("type", $project->status)->get()->map(function ($taskList) {
+            return $taskList->transformWithOrderedTasks();
+        });
+        return $this->respondSuccessWithStatus([
+            "task_template_templates" => $taskListTemplates
+        ]);
+    }
+
+    public function getTasklistPropertyItems($taskListId)
+    {
+        $taskList = TaskList::find($taskListId);
+        $task = $taskList->tasks()->orderBy("order")->first();
+        return $this->respondSuccessWithStatus([
+            "good_property_items" => $task->goodPropertyItems->map(function ($item) {
+                return $item->transform();
+            })
+        ]);
+    }
+
 }
