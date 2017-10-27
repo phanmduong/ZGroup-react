@@ -719,7 +719,7 @@ export default {
             infoOrder: {},
             infoPaid: {},
             importOrder: {},
-            isLoading: false,
+            isLoading: true,
             error: false,
         }
     }

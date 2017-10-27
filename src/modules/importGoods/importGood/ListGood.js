@@ -94,7 +94,7 @@ class ListGood extends React.Component {
                     </tfoot>
                     <tbody>
                     {
-                        this.props.importGoods.map((good, index)=>{
+                        this.props.importGoods && this.props.importGoods.map((good, index)=>{
                             return (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
