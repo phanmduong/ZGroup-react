@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import ReactEditor from '../../../components/common/ReactEditor';
 import  * as coursesCreateEditActions from './CoursesCreateEditActions';
-import initialState from '../../../reducers/initialState';
 import FormInputText from '../../../components/common/FormInputText';
 import {NO_IMAGE} from '../../../constants/env';
 import TabCourse from "../TabCourse";
 import Loading from "../../../components/common/Loading";
-import * as helper from '../../../helpers/helper'
+import * as helper from '../../../helpers/helper';
+import {linkUploadImageEditor} from '../../../constants/constants';
 
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
@@ -39,6 +39,7 @@ class CreateEditCoursesContainer extends React.Component {
             links: []
         }
         this.updateFormData = this.updateFormData.bind(this);
+        this.uploadAvatar = this.uploadAvatar.bind(this);
     }
 
 
@@ -50,7 +51,7 @@ class CreateEditCoursesContainer extends React.Component {
 
     componentWillReceiveProps(nextProps){
         console.log('recieve props',nextProps);
-        this.setState(nextProps.data.data.course);
+        this.setState(nextProps.data);
     }
 
     updateCourseDetail(detail){
@@ -68,6 +69,10 @@ class CreateEditCoursesContainer extends React.Component {
         console.log('state',this.state);
     }
 
+    uploadAvatar(event){
+        let file = event.target.files[0];
+        this.props.coursesCreateEditActions.uploadAvatar(file, this.state);
+    }
 
     render() {
         return (
@@ -171,7 +176,7 @@ class CreateEditCoursesContainer extends React.Component {
                                              <h4 className="card-title">Chi tiết khoá học</h4>
                                              {this.props.isLoading ? <Loading/> :
                                                  <ReactEditor
-                                                     urlPost={""}
+                                                     urlPost={linkUploadImageEditor()}
                                                      fileField="image"
                                                      name="detail"
                                                      updateEditor={()=>{}}
@@ -179,7 +184,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                      value={this.state.detail}
                                                  />
                                              }
-                                             <p>{this.state.detail}</p>
+
                                          </div>
 
                                      </div>
@@ -204,7 +209,65 @@ class CreateEditCoursesContainer extends React.Component {
                                             :
                                             (
                                                 <button className="btn btn-fill btn-rose" type="button">
+                                                    Chọn ảnh icon
+                                                    <input type="file"
+                                                           accept=".jpg,.png,.gif"
+                                                           onChange={this.props.handleFileUploadAvatar}
+                                                           style={{
+                                                               cursor: 'pointer',
+                                                               opacity: "0.0",
+                                                               position: "absolute",
+                                                               top: 0,
+                                                               left: 0,
+                                                               bottom: 0,
+                                                               right: 0,
+                                                               width: "100%",
+                                                               height: "100%"
+                                                           }}
+                                                    />
+                                                </button>
+                                            )
+                                        }
+                                        <img src = {helper.isEmptyInput(this.state.image_url) ? NO_IMAGE : this.state.image_url} />
+                                        { this.props.isUpdatingAvatar ?
+                                            (
+                                                <button className="btn btn-rose btn-round disabled" type="button">
+                                                    <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button className="btn btn-fill btn-rose" type="button">
                                                     Chọn ảnh đại diện
+                                                    <input type="file"
+                                                           accept=".jpg,.png,.gif"
+                                                           onChange={this.uploadAvatar}
+                                                           style={{
+                                                               cursor: 'pointer',
+                                                               opacity: "0.0",
+                                                               position: "absolute",
+                                                               top: 0,
+                                                               left: 0,
+                                                               bottom: 0,
+                                                               right: 0,
+                                                               width: "100%",
+                                                               height: "100%"
+                                                           }}
+                                                    />
+                                                </button>
+                                            )
+                                        }
+                                        <img src = {helper.isEmptyInput(this.state.cover_url) ? NO_IMAGE : this.state.cover_url} />
+                                        { NO_IMAGE=='' ?
+                                            (
+                                                <button className="btn btn-rose btn-round disabled" type="button">
+                                                    <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                </button>
+                                            )
+                                            :
+                                            (
+                                                <button className="btn btn-fill btn-rose" type="button">
+                                                    Chọn cover
                                                     <input type="file"
                                                            accept=".jpg,.png,.gif"
                                                            onChange={this.props.handleFileUploadAvatar}
@@ -240,7 +303,9 @@ CreateEditCoursesContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoading: state.coursesCreateEdit.isLoading,
-        data: state.coursesCreateEdit.data
+        data: state.coursesCreateEdit.data,
+        isUpdatingAvatar: state.coursesCreateEdit.isUpdatingAvatar,
+        updateAvatarError: state.coursesCreateEdit.updateAvatarError
     };
 }
 

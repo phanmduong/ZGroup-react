@@ -31,6 +31,34 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
                     error: true,
                 }
             };
+        case types.BEGIN_UPLOAD_AVATAR_COURSE:
+            return {
+                ...state,
+                ...{
+                    isUpdatingAvatar: true,
+                    updateAvatarError: false,
+                }
+            };
+        case types.UPLOAD_AVATAR_COURSE_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    error: false,
+                    isUpdatingAvatar: false,
+                    updateAvatarError: false,
+                    data: action.data
+                }
+            };
+        case types.UPLOAD_AVATAR_COURSE_FAILED:
+            return {
+                ...state,
+                ...{
+                    isUpdatingAvatar: false,
+                    updateAvatarError: true,
+
+                }
+            };
         default:
             return state;
     }

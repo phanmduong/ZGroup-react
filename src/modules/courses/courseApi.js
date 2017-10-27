@@ -19,3 +19,15 @@ export function loadCourse(id) {
     }
     return axios.get(url);
 }
+
+export function uploadImage(file, completeHandler, error) {
+    let url = env.API_URL + '/upload-image-froala';
+    let formdata = new FormData();
+    formdata.append('image', file);
+    let ajax = new XMLHttpRequest();
+    ajax.addEventListener("load", completeHandler, false);
+    ajax.open("POST", url);
+    ajax.send(formdata);
+    ajax.addEventListener("error", error, false);
+}
+

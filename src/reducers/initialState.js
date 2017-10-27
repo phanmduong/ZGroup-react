@@ -650,6 +650,12 @@ export default {
     coursesCreateEdit:{
       isLoading: false,
       isEditing: false,
+      isUpdatingAvatar: false,
+      updateAvatarError: false,
+      isUpdatingLogo: false,
+      updateLogoError: false,
+      isUpdatingCover: false,
+      updateCoverError: false,
       data:{
           id: "",
           name: "",

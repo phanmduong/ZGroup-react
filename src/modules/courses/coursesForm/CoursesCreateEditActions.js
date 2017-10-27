@@ -1,5 +1,6 @@
 import * as types from '../../../constants/actionTypes';
 import * as courseApi from '../courseApi'
+import * as helper from '../../../helpers/helper';
 
 
 export function updateCourses() {
@@ -15,10 +16,10 @@ export function loadCourses(id) {
         dispatch({type: types.BEGIN_LOAD_COURSE});
         courseApi.loadCourse(id)
             .then((res)=>{
-
+                console.log(res);
                 dispatch({
                     type: types.LOAD_COURSE_SUCCESS,
-                    data: res.data
+                    data: res.data.data.course
                 });
             })
             .catch(()=>{
@@ -26,6 +27,43 @@ export function loadCourses(id) {
             });
     };
 }
+
+
+export function uploadAvatar(file, course) {
+    return function (dispatch) {
+        dispatch({ type: types.BEGIN_UPLOAD_AVATAR_COURSE});
+        courseApi.uploadImage(file, function (event) {
+            helper.showNotification("Đăng ảnh thành công.");
+            let data = JSON.parse(event.currentTarget.response);
+            course.image_url = data.link;
+            dispatch({
+                type: types.UPLOAD_AVATAR_COURSE_SUCCESS,
+                imageUrl: data.link,
+                data: course
+            });
+        }, () => {
+            helper.showErrorNotification("Đăng ảnh thất bại.");
+            dispatch(uploadAvatarCourseFailed());
+        });
+    };
+}
+
+export function uploadAvatarCourseSuccess(imageUrl) {
+    return (
+        {
+            type: types.UPLOAD_AVATAR_COURSE_SUCCESS,
+            imageUrl: imageUrl
+        }
+    );
+}
+export function uploadAvatarCourseFailed() {
+    return (
+        {
+            type: types.UPLOAD_AVATAR_COURSE_FAILED,
+        }
+    );
+}
+
 
 const dataDefault = {
         id: "",
