@@ -502,6 +502,24 @@ export function autoAssignBoardToTask(taskListId) {
     return axios.put(url);
 }
 
+export function loadGoodPropertyItems(taskListId) {
+    let url = env.MANAGE_API_URL + `/tasklist-templates/${taskListId}/items`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadTaskListTemplates(projectId) {
+    let url = env.MANAGE_API_URL + `/tasklist-templates/${projectId}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
 
 
 

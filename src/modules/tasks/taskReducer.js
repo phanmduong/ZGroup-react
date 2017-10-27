@@ -6,6 +6,43 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+
+        case types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isLoading: true
+                }
+            };
+
+        case types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isLoading: false,
+                    goodPropertyItems: action.goodPropertyItems
+                }
+            };
+
+        case types.BEGIN_LOAD_POLL_TASK_LIST_TEMPLATES:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isLoadingTaskListTemplate: true
+                }
+            };
+        case types.LOAD_POLL_TASK_LIST_TEMPLATES_SUCCESS:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isLoadingTaskListTemplate: false,
+                    taskListTemplates: action.taskListTemplates
+                }
+            };
         case types.BEGIN_LOAD_ARCHIVE_BOARDS:
             return {
                 ...state,

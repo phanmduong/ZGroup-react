@@ -75,7 +75,7 @@ class BookBoardListContainer extends React.Component {
         return (
             <div>
                 <CreateBoardModalContainer projectId={this.props.projectId}/>
-                <BookCreateCardModalContainer/>
+                <BookCreateCardModalContainer projectId={this.props.projectId}/>
                 <CardDetailModalContainer isProcess={true}/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>

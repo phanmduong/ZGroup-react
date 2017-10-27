@@ -4,18 +4,18 @@ export default {
         isLoading: false,
         modalInProduct: {
             priceModal: false,
-            wareHouseModal:false,
+            wareHouseModal: false,
             isModalUpdating: false,
-            modalUpdated:false
+            modalUpdated: false
         },
-        productEditing:{
-            id:'',
-            name:'',
-            code:'',
-            avatar_url:'',
-            price:'',
-            quantity:'',
-            warehouse:[]
+        productEditing: {
+            id: '',
+            name: '',
+            code: '',
+            avatar_url: '',
+            price: '',
+            quantity: '',
+            warehouse: []
         },
     },
 
@@ -289,7 +289,11 @@ export default {
             card: {},
             isSaving: false,
             showModal: false,
-            board: {}
+            board: {},
+            isLoading: false,
+            isLoadingTaskListTemplate: false,
+            taskListTemplates: [],
+            goodPropertyItems: []
         },
 
         boardList: {
