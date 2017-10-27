@@ -718,6 +718,7 @@ export default {
         importGood: {
             infoOrder: {},
             infoPaid: {},
+            importOrder: {},
             isLoading: false,
             error: false,
         }

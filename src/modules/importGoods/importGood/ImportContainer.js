@@ -27,6 +27,7 @@ class ImportContainer extends React.Component {
     }
 
     render() {
+        console.log(this.props.importOrder)
         return (
             <div>
                 <div className="row">

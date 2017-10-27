@@ -10,7 +10,7 @@ class ListGood extends React.Component {
     componentDidMount() {
 
         // Setup - add a text input to each footer cell
-        $('#goods-table tfoot th').each(function () {
+        $('#goods-table tfoot th').not('.disabled-search').each(function () {
             let title = $(this).text();
             if (title !== "") {
                 $(this).html('<input class="form-control width-100" type="text" placeholder="Tìm ' + title.toLowerCase() + '" />');
@@ -82,7 +82,7 @@ class ListGood extends React.Component {
                     </thead>
                     <tfoot>
                     <tr className="text-rose">
-                        <th>STT</th>
+                        <th className="disabled-search"></th>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
