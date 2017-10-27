@@ -4,6 +4,7 @@ namespace Modules\Good\Http\Controllers;
 
 use App\Good;
 use App\Http\Controllers\ManageApiController;
+use App\Manufacture;
 use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
@@ -309,6 +310,19 @@ class GoodController extends ManageApiController
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'ok',
+        ]);
+    }
+
+    public function allManufactures()
+    {
+        $manufactures = Manufacture::orderBy("created_at", "desc");
+        return $this->respondSuccessWithStatus([
+            'manufactures' => $manufactures->map(function ($manufacture){
+                return [
+                    'id' => $manufacture->id,
+                    'name' => $manufacture->name,
+                ];
+            })
         ]);
     }
 }
