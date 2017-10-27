@@ -235,6 +235,13 @@ class OrderController extends ManageApiController
                 'note' => $orderPaidMoney->note,
             ];
         });
+        if ($importOrder->user()) {
+            $user = [
+                'id' => $importOrder->user->id,
+                'name' => $importOrder->user->name,
+            ];
+            $data['user'] = $user;
+        }
         return $this->respondSuccessWithStatus([
             'import_order' => $data,
         ]);
