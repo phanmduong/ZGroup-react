@@ -709,5 +709,11 @@ export default {
         staffs: [],
         isLoadingStaffs: false,
         errorStaffs: false,
+    },
+
+    importGoods: {
+        isLoading: false,
+        error: false,
+        importOrders: []
     }
 };

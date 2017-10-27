@@ -14,7 +14,7 @@ class WareHouseModalContainer extends React.Component {
         return (
             <Modal show={this.props.wareHouseModal}
                    onHide={this.showPriceModal}>
-                <div tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+                <div tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
                      style={{display: 'none'}}>
                     <div className="modal-dialog">
                         <div className="modal-content">
@@ -37,7 +37,7 @@ class WareHouseModalContainer extends React.Component {
                                             <th>Địa chỉ</th>
                                             <th>Cơ sở</th>
                                             <th>Số lượng</th>
-                                            <th></th>
+                                            <th />
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -67,15 +67,12 @@ class WareHouseModalContainer extends React.Component {
                                         </tr>
 
                                         <tr>
-                                            <td></td>
+                                            <td />
                                             <td><b>Tổng</b></td>
-                                            <td>
-                                            </td>
-                                            <td></td>
+                                            <td />
+                                            <td />
                                             <td><b>200</b></td>
-                                            <td>
-
-                                            </td>
+                                            <td />
                                         </tr>
 
                                         </tbody>

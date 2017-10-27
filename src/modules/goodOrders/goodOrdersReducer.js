@@ -76,20 +76,20 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     isLoadingStaffs: true,
                     errorStaffs: false,
                 }
-            }
+            };
         case types.LOAD_STAFFS_ORDERS_SUCCESS:
             return {
                 ...state,
                 staffs: action.staffs,
                 isLoadingStaffs: false,
                 errorStaffs: false,
-            }
+            };
         case types.LOAD_STAFFS_ORDERS_ERROR:
             return {
                 ...state,
                 isLoadingStaffs: false,
                 errorStaffs: true,
-            }
+            };
         default:
             return state;
     }
