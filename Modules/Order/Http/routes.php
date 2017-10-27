@@ -9,6 +9,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::put('/category/edit-category','OrderController@editCategory');
     Route::delete('category/{category_id}/delete','OrderController@deleteCategory');
     Route::get('/import-orders', 'OrderController@importOrders');
-    Route::get('/imported-goods-order/{importOrderId}', 'OrderController@importedGoodsOrder');
+    Route::get('/detailed-import-order/{importOrderId}', 'OrderController@detailedImportOrder');
 });
 

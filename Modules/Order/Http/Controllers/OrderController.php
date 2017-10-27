@@ -198,20 +198,45 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function importedGoodsOrder($importOrderId)
+    public function detailedImportOrder($importOrderId)
     {
         $importOrder = Order::find($importOrderId);
-        $importedGoods = $importOrder->importedGoods;
+        $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+            return $total + $importedGood->quantity * $importedGood->import_price;
+        }, 0);
+        $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+            return $total + $importedGood->quantity;
+        }, 0);
+        $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
+                return $total + $orderPaidMoney->money;
+            }, 0);
+        $data = [
+            'id' => $importOrder->id,
+            'name' => $importOrder->name,
+            'code' => $importOrder->code,
+            'created_at' => format_vn_short_datetime(strtotime($importOrder->created_at)),
+            'note' => $importOrder->note,
+            'total_money' => $total_money,
+            'total_quantity' => $total_quantity,
+            'debt' => $debt,
+        ];
+        $data['imported_goods'] = $importOrder->importedGoods->map(function ($importedGood) {
+            return [
+                'name' => $importedGood->good->name,
+                'code' => $importedGood->good->code,
+                'quantity' => $importedGood->quantity,
+                'import_price' => $importedGood->import_price
+            ];
+        });
+        $data['order_paid_money'] = $importOrder->orderPaidMoneys->map(function ($orderPaidMoney) {
+            return [
+                'id' => $orderPaidMoney->id,
+                'money' => $orderPaidMoney->money,
+                'note' => $orderPaidMoney->note,
+            ];
+        });
         return $this->respondSuccessWithStatus([
-            'imported_goods' => $importedGoods->map(function ($importedGood) {
-                return [
-                    'name' => $importedGood->good->name,
-                    'code' => $importedGood->good->code,
-                    'quantity' => $importedGood->quantity,
-                    'import_price' => $importedGood->import_price
-                ];
-
-            })
+            'order' => $data,
         ]);
     }
 }
