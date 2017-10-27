@@ -39,7 +39,7 @@ export default function categoriesReducer(state = initialState.categories, actio
         case types.BEGIN_DELETE_CATEGORY:
             return {
                 ...state,
-                isLoading: true,
+                addCategoriesModal: { isSaving : true , }
             };
 
 
@@ -48,12 +48,16 @@ export default function categoriesReducer(state = initialState.categories, actio
             return {
                 ...state,
                 categoriesList: categoriesList,
-                isLoading: false,
+                addCategoriesModal : {
+                    isSaving : false,
+                }
             };
         case types.DELETE_CATEGORY_ERROR:
             return {
                 ...state,
-                isLoading: false,
+                addCategoriesModal : {
+                    isSaving : false,
+                }
             };
 
 
@@ -63,7 +67,7 @@ export default function categoriesReducer(state = initialState.categories, actio
         case types.ADD_CATEGORY_SUCCESS :
             return {
                 ...state,
-                categoriesList: [action.category, ...state.categoriesList],
+                categoriesList: [action.category , ...state.categoriesList],
                 addCategoriesModal: {
                     isSaving: false,
                 }
@@ -153,7 +157,7 @@ export default function categoriesReducer(state = initialState.categories, actio
 
 function deleteCategory(id, categoriesList) {
     if (categoriesList) {
-        categoriesList = categoriesList.filter(category => category.id !== id);
+        categoriesList = categoriesList.filter((category) => category.id !== id);
     }
     return categoriesList;
 }

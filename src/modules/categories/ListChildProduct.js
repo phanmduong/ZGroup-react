@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AddCategoryModalContainer from './AddCategoryModalContainer';
 import Loading from "../../components/common/Loading";
 
 
@@ -18,35 +17,50 @@ class ListChildProduct extends React.Component {
                     this.props.categoriesList.map((category) => {
                         if (category.parent_id === this.props.parent_id) {
                             return (
-                                <div style={{marginTop: "20px", marginBottom: '20px', marginLeft: "20px"}}>
-                                    <button rel="tooltip" data-placement="top"
-                                            className="btn btn-sm btn-success"
-                                            style={{
-                                                "width": "20px",
-                                                height: "20px",
-                                                padding: "0px"
-                                            }}
-                                            onClick={() => {
-                                                this.props.openAddCategoryModalContainer(category.id, category.parent_id , category.name, true);
-                                            }}>
-                                        <i style={{"float": "none!important"}}
-                                           className="material-icons"/>mode_edit
-                                    </button>
-                                    <button rel="tooltip" data-placement="top"
-                                            className="btn  btn-sm btn-danger"
-                                            style={{
-                                                "width": "20px",
-                                                height: "20px",
-                                                padding: "0px"
-                                            }}
-                                            onClick ={() => {
-                                                this.props.deleteCategory(category.id);
-                                            }}>
-                                        <i style={{"float": "none!important"}}
-                                           className="material-icons"/>close
-                                    </button>
-                                    <a style={{"cursor": "pointer"}}>{category.name}</a>
-                                </div>
+                                <table key={category.id} className="col-md-15">
+                                    <tbody>
+                                    <tr className="panel-title">
+                                        <td className = "col-md-8">
+                                            <div style={{marginTop: "20px", marginBottom: '20px', marginLeft: "20px"}}>
+                                                <a style={{"cursor": "pointer"}}>{category.name}</a>
+                                            </div>
+                                        </td>
+                                        <td className="col-md-2"
+                                            style={{paddingTop: "10px", paddingBottom: '15px'}}>
+                                            <button rel="tooltip" data-placement="top"
+                                                    className="btn btn-sm btn-success"
+                                                    style={{
+                                                        "width": "20px",
+                                                        height: "20px",
+                                                        padding: "0px"
+                                                    }}
+                                                    onClick={() => {
+                                                        this.props.openAddCategoryModalContainer(category.id, category.parent_id , category.name, true);
+                                                    }}>
+                                                <i style={{"float": "none!important"}}
+                                                   className="material-icons">mode_edit</i>
+                                            </button>
+
+                                        </td>
+                                        <td className="col-md-2"
+                                            style={{paddingTop: "10px", paddingBottom: '15px'}}>
+                                            <button rel="tooltip" data-placement="top"
+                                                    className="btn  btn-sm btn-danger"
+                                                    style={{
+                                                        "width": "20px",
+                                                        height: "20px",
+                                                        padding: "0px"
+                                                    }}
+                                                    onClick ={() => {
+                                                        this.props.deleteCategory(category.id);
+                                                    }}>
+                                                <i style={{"float": "none!important"}}
+                                                   className="material-icons">close</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             );
                         }
                     })
@@ -55,8 +69,6 @@ class ListChildProduct extends React.Component {
 
 
                 {/*     ADD CHILD GROUP     */}
-                <AddCategoryModalContainer
-                />
 
                 <div style={{marginTop: "20px", marginBottom: '20px', marginLeft: "20px"}}>
                     <a onClick={() => {

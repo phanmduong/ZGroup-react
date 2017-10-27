@@ -67,7 +67,7 @@ class CategoriesContainer extends React.Component {
                                     this.props.categoriesList.map((category) => {
                                         if (category.parent_id === 0)
                                             return (
-                                                <div className="panel panel-default">
+                                                <div key={category.id} className="panel panel-default">
                                                     <div className="panel-heading" role="tab">
                                                         <table className="col-md-15">
                                                             <tbody>
