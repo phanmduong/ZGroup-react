@@ -24,32 +24,6 @@ class GoodController extends ManageApiController
         parent::__construct();
     }
 
-    public function getAll(Request $request)
-    {
-        $keyword = $request->search;
-        $type = $request->type;
-        if ($type) {
-            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-            });
-        } else {
-            $goods = Good::where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-            });
-        }
-
-        $goods = $goods->orderBy("created_at", "desc")->paginate(20);
-
-        return $this->respondWithPagination(
-            $goods,
-            [
-                "goods" => $goods->map(function ($good) {
-                    return $good->transform();
-                })
-            ]
-        );
-    }
-
     public function loadGoodTaskProperties($goodId, $taskId)
     {
         $task = Task::find($taskId);
@@ -256,23 +230,31 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public function getAllGood(Request $request)
+    public function getAllGoods(Request $request)
     {
         $keyword = $request->search;
+        $type = $request->type;
         if ($request->limit)
             $limit = $request->limit;
         else
             $limit = 20;
-        $goods = Good::where(function ($query) use ($keyword) {
-            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-        });
+        if ($type) {
+            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+            });
+        } else {
+            $goods = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+            });
+        }
+
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
 
         return $this->respondWithPagination(
             $goods,
             [
                 "goods" => $goods->map(function ($good) {
-                    return $good->GoodTransform();
+                    return $good->transform();
                 })
             ]
         );
@@ -290,7 +272,7 @@ class GoodController extends ManageApiController
                 'message' => 'Thiếu trường'
             ]);
         $good->name = $request->name;
-        $good->avt_url = $request->avt_url;
+        $good->avatar_url = $request->avatat_url;
         $good->price = $request->price;
         $good->manufacture_id = $request->manufacture_id;
         $good->category_id = $request->category_id;

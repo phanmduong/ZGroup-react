@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
-    Route::get('/all', 'GoodController@getAll');
+    Route::get('/all', 'GoodController@getAllGoods');
     Route::get('/task-setting', 'GoodController@getPropertyItems');
     Route::post("/create", "GoodController@createGood");
     Route::get("/all-property-items", 'GoodController@allPropertyItems');
@@ -16,8 +16,4 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/good-all','GoodController@getAllGood');
     Route::put('/{goodId}/update-price', 'GoodController@updatePrice');
     Route::put('/edit/{goodId}','GoodController@editGood');
-});
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'goods', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
-    Route::get('/good-all','GoodController@getAllGood');
-    Route::delete('delete/{good_id}','GoodController@deleteGood');
 });
