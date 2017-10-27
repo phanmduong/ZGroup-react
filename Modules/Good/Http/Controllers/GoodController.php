@@ -278,24 +278,25 @@ class GoodController extends ManageApiController
         );
     }
 
-    public function editGood(Request $request)
+    public function editGood($goodId, Request $request)
     {
-        if ($request->id == null)
+        $good = Good::find($goodId);
+        if ($good == null)
             return $this->respondErrorWithData([
-                "message" => "thiếu id"
+                "message" => "Không tìm thấy sản phẩm"
             ]);
-        $good = Good::find($request->id);
-        if ($good == null) return $this->respondErrorWithData([
-            "message" => "Không tìm thấy sản phẩm"
-        ]);
-        if ($request->name != null) $good->name = $request->name;
-        if ($request->code != null) $good->code = $request->code;
-        if ($request->price != null) $good->price = $request->price;
-        if ($request->manufacture_id != null) $good->manufacture_id = $request->manufacture_id;
-        if ($request->category_id != null) $good->category_id = $request->category_id;
+        if (!$request->price || !$request->name || !$request->manufacture_id || !$request->category_id)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu trường'
+            ]);
+        $good->name = $request->name;
+        $good->avt_url = $request->avt_url;
+        $good->price = $request->price;
+        $good->manufacture_id = $request->manufacture_id;
+        $good->category_id = $request->category_id;
         $good->save();
         return $this->respondSuccessWithStatus([
-            "good" => $good->editTranform()
+            'message' => 'SUCCESS'
         ]);
     }
 
@@ -314,9 +315,13 @@ class GoodController extends ManageApiController
     public function updatePrice($goodId, Request $request)
     {
         $good = Good::find($goodId);
-        if(!$good)
+        if (!$good)
             return $this->respondErrorWithStatus([
                 'message' => 'khong co san pham'
+            ]);
+        if (!$request->price)
+            return $this->respondErrorWithStatus([
+                'message' => 'thieu gia'
             ]);
         $good->price = $request->price;
         $good->save();
