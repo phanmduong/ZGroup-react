@@ -5,7 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class GoodCategory extends Model
+class
+GoodCategory extends Model
 {
     //
     protected $table = "good_categories";
@@ -17,4 +18,10 @@ class GoodCategory extends Model
             'parent_id'=>$this->parent_id
         ]);
     }
+
+    public function goods()
+    {
+        return $this->belongsToMany(Good::class, 'good_good_category', 'good_category_id', 'good_id');
+    }
+
 }

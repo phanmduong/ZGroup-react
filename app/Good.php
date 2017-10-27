@@ -53,6 +53,11 @@ class Good extends Model
         return $this->belongsToMany(Coupon::class, 'coupon_good', 'good_id', 'coupon_id');
     }
 
+    public function goodCategories()
+    {
+        return $this->belongsToMany(GoodCategory::class,'good_good_category', 'good_id', 'good_category_id');
+    }
+
     public function manufacture()
     {
         return $this->belongsTo(Manufacture::class, 'manufacture_id');
