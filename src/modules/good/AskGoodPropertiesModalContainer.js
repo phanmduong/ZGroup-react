@@ -16,7 +16,14 @@ class AskGoodPropertiesModalContainer extends React.Component {
     close() {
         this.props.closeModal();
     }
-    
+
+
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.showModal && nextProps.showModal) {
+            this.props.goodActions.loadGoodPropertiesFilled(this.props.card.id, nextProps.goodProperties);
+        }
+    }
+
 
     render() {
         return (
@@ -47,6 +54,7 @@ class AskGoodPropertiesModalContainer extends React.Component {
 
 AskGoodPropertiesModalContainer.propTypes = {
     goodActions: PropTypes.object.isRequired,
+    card: PropTypes.object.isRequired,
     goodProperties: PropTypes.array.isRequired,
     showModal: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,

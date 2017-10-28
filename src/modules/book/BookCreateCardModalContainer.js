@@ -41,6 +41,7 @@ class BookCreateCardModalContainer extends React.Component {
         const isValid = isNotEmptyGoodProperty(this.props.goodPropertyItems, this.state.goodPropertiesOutput);
         if (isValid) {
             let goodProperties = [];
+
             for (let key in this.state.goodPropertiesOutput) {
                 let property = this.state.goodPropertiesOutput[key];
                 let obj = {
@@ -50,11 +51,12 @@ class BookCreateCardModalContainer extends React.Component {
                 goodProperties.push(obj);
             }
 
+
             this.props.taskActions.createCard({
                 ...this.props.card,
                 board_id: this.props.board.id,
                 task_list_id: this.state.taskListTemplate.id,
-                goodProperties: JSON.stringify(goodProperties)
+                good_properties: JSON.stringify(goodProperties)
             });
         }
     }

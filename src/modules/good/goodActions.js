@@ -322,3 +322,13 @@ export function resetGoodPropertyForm() {
         });
     };
 }
+
+export function loadGoodPropertiesFilled(cardId, goodProperties) {
+    return function (dispatch) {
+        goodApi.loadGoodPropertiesFilled(cardId, goodProperties);
+        dispatch({
+            type: types.RESET_CREATE_GOOD_PROPERTY_FORM
+        });
+    };
+}
+

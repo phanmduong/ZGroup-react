@@ -123,15 +123,17 @@ class TaskListsContainer extends React.Component {
         return (
             <div className="task-lists">
                 <AskGoodPropertiesModalContainer
+                    card={this.props.card}
                     isSaving={this.state.isSaving}
                     submitGoodProperties={this.submitGoodProperties}
                     updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}
                     goodPropertiesOutput={this.state.goodPropertiesOutput}
                     showModal={this.state.showAskGoodPropertiesModal}
                     closeModal={this.closeAskGoodPropertiesModal}
-                    goodProperties={this.state.goodProperties}
-                />
+                    goodProperties={this.state.goodProperties}/>
+
                 <AddMemberToTaskModalContainer/>
+
                 <TaskDeadlineModalContainer/>
                 {
                     this.props.card.taskLists && this.props.card.taskLists.map((taskList) => {
