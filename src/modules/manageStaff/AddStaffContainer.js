@@ -17,6 +17,7 @@ class AddStaffContainer extends React.Component {
         this.addStaff = this.addStaff.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.changeColor = this.changeColor.bind(this);
+        this.usernameEmpty = true;
     }
 
     componentWillMount() {
@@ -25,6 +26,7 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.loadDataBase();
         if (this.props.route.type === 'edit') {
             this.props.staffActions.loadStaffData(this.props.params.staffId);
+            this.usernameEmpty = false;
         }
     }
 
@@ -36,6 +38,17 @@ class AddStaffContainer extends React.Component {
         const field = event.target.name;
         let staffForm = {...this.props.staffForm};
         if (staffForm[field] != event.target.value) {
+            if (field === 'email'){
+                if (helper.isEmptyInput(staffForm['username']) || this.usernameEmpty){
+                    this.usernameEmpty = true;
+                    staffForm['username'] = event.target.value;
+                }
+            }
+
+            if (field === 'username'){
+                this.usernameEmpty = false;
+            }
+
             staffForm[field] = event.target.value;
             this.props.staffActions.updateAddStaffFormData(staffForm);
         }
