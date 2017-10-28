@@ -237,7 +237,7 @@ class GoodController extends ManageApiController
         $type = $request->type;
         if ($request->limit == -1) {
             if ($type) {
-                $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
+                $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
                     $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
                 });
             } else {
