@@ -47,6 +47,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::delete('/card-file/{fileId}', "FileController@deleteFile");
     Route::delete('/card-comment/{id}', "TaskController@deleteCardComment");
     Route::post('/card/{cardId}/comment', "CardController@commentCard");
+    Route::post('/card/{cardId}/properties-filled', "CardController@getGoodPropertiesFilled");
 
 
     // tasklist api
