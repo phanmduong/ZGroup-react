@@ -8,9 +8,10 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
-import {confirm, showErrorNotification, showNotification} from "../../../../helpers/helper";
+import {confirm, showNotification} from "../../../../helpers/helper";
 import AskGoodPropertiesModalContainer from "../../../good/AskGoodPropertiesModalContainer";
 import {saveGoodProperties} from '../../../good/goodApi';
+import {isNotEmptyGoodProperty} from "../../../../helpers/goodPropertyHelper";
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
@@ -55,37 +56,9 @@ class TaskListsContainer extends React.Component {
 
     submitGoodProperties() {
 
-        let errorValue = "";
-        let errorUnit = "";
+        const isValid = isNotEmptyGoodProperty(this.state.goodProperties, this.state.goodPropertiesOutput);
 
-        this.state.goodProperties.forEach((t) => {
-            let output = this.state.goodPropertiesOutput;
-
-            if (output[t.name].value == null || output[t.name].value == "") {
-                if (errorValue == "") {
-                    errorValue += t.name;
-                } else {
-                    errorValue += ", " + t.name;
-                }
-            }
-
-            if (t.preunit && (output[t.name].unit == null || output[t.name].unit == "")) {
-                if (errorUnit == "") {
-                    errorUnit += t.name;
-                } else {
-                    errorUnit += ", " + t.name;
-                }
-            }
-
-        });
-        if (errorValue !== "") {
-            showErrorNotification("Bạn nhập thiếu giá trị thuộc tính: " + errorValue);
-        }
-        if (errorUnit !== "") {
-            showErrorNotification("Bạn nhập thiếu đơn vị thuộc tính: " + errorUnit);
-        }
-
-        if (errorUnit === "" && errorValue === "") {
+        if (isValid) {
             let goodProperties = [];
             for (let key in this.state.goodPropertiesOutput) {
                 let property = this.state.goodPropertiesOutput[key];

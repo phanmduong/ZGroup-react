@@ -236,7 +236,7 @@ export function createCard(card) {
         });
         taskApi.createCard(card)
             .then(res => {
-                showNotification("Tạo thẻ mới thành công");
+                showNotification("Tạo sản phẩm mới thành công");
                 dispatch({
                     type: types.CREATE_CARD_SUCCESS,
                     card: res.data.card
@@ -311,7 +311,6 @@ export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
 }
 
 export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1) {
-    console.log(siblingOrder);
     return function (dispatch, getState) {
         const state = getState();
         const boards = state.task.boardList.boards;
@@ -1173,7 +1172,6 @@ export function loadGoodPropertyItems(taskListId) {
         });
         taskApi.loadGoodPropertyItems(taskListId)
             .then((res) => {
-                console.log(res.data.data.good_property_items);
                 dispatch({
                     type: types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS,
                     goodPropertyItems: res.data.data.good_property_items

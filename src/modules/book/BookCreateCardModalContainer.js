@@ -8,8 +8,8 @@ import FormInputText from "../../components/common/FormInputText";
 import {isEmptyInput} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 import Select from 'react-select';
-import GoodPropertyItem from "../good/GoodPropertyItem";
 import InputGoodProperties from "../good/InputGoodProperties";
+import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
 
 class BookCreateCardModalContainer extends React.Component {
     constructor(props, context) {
@@ -21,7 +21,8 @@ class BookCreateCardModalContainer extends React.Component {
         this.updateGoodPropertiesOutput = this.updateGoodPropertiesOutput.bind(this);
         this.state = {
             taskListTemplate: {},
-            goodPropertiesOutput: {}
+            goodPropertiesOutput: {},
+            goodProperties: []
         };
 
     }
@@ -37,11 +38,29 @@ class BookCreateCardModalContainer extends React.Component {
     }
 
     submit() {
-        this.props.taskActions.createCard({...this.props.card, board_id: this.props.board.id});
+        const isValid = isNotEmptyGoodProperty(this.props.goodPropertyItems, this.state.goodPropertiesOutput);
+        if (isValid) {
+            let goodProperties = [];
+            for (let key in this.state.goodPropertiesOutput) {
+                let property = this.state.goodPropertiesOutput[key];
+                let obj = {
+                    name: key,
+                    value: property.value + (property.unit ? " " + property.unit : "")
+                };
+                goodProperties.push(obj);
+            }
+
+            this.props.taskActions.createCard({
+                ...this.props.card,
+                board_id: this.props.board.id,
+                task_list_id: this.state.taskListTemplate.id,
+                goodProperties: JSON.stringify(goodProperties)
+            });
+        }
     }
 
     updateGoodPropertiesOutput(goodPropertiesOutput) {
-        this.setState(goodPropertiesOutput);
+        this.setState({goodPropertiesOutput});
     }
 
     updateFormData(event) {

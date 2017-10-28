@@ -16,6 +16,7 @@ class AskGoodPropertiesModalContainer extends React.Component {
     close() {
         this.props.closeModal();
     }
+    
 
     render() {
         return (

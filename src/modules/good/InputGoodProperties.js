@@ -11,12 +11,18 @@ class InputGoodProperties extends React.Component {
 
     setUnit(name, unit) {
         let goodPropertiesOutput = {...this.props.goodPropertiesOutput};
+        if (!goodPropertiesOutput[name]) {
+            goodPropertiesOutput[name] = {};
+        }
         goodPropertiesOutput[name].unit = unit;
         this.props.updateGoodPropertiesOutput(goodPropertiesOutput);
     }
 
     setValue(name, value) {
         let goodPropertiesOutput = {...this.props.goodPropertiesOutput};
+        if (!goodPropertiesOutput[name]) {
+            goodPropertiesOutput[name] = {};
+        }
         goodPropertiesOutput[name].value = value;
         this.props.updateGoodPropertiesOutput(goodPropertiesOutput);
     }
