@@ -23,7 +23,7 @@ class OrderController extends ManageApiController
         $endTime = $request->end_time;
         $status = $request->status;
         $keyWord = $request->search;
-        $totalOrders = Order::get()->count();
+        $totalOrders = Order::where('type', 'order')->get()->count();
         $totalMoney = 0;
         $totalPaidMoney = 0;
         $allOrders = Order::get();
