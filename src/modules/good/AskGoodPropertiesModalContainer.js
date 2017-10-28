@@ -2,21 +2,22 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as goodActions from '../good/goodActions';
+import * as taskActions from '../tasks/taskActions';
 import PropTypes from 'prop-types';
 import {Button, Modal} from 'react-bootstrap';
 import Loading from "../../components/common/Loading";
 import InputGoodProperties from "./InputGoodProperties";
+import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
+import {saveGoodProperties} from "./goodApi";
+import {showNotification} from "../../helpers/helper";
 
 class AskGoodPropertiesModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.close = this.close.bind(this);
+        this.submitGoodProperties = this.submitGoodProperties.bind(this);
+        this.updateGoodPropertiesOutput = this.updateGoodPropertiesOutput.bind(this);
     }
-
-    close() {
-        this.props.closeModal();
-    }
-
 
     componentWillReceiveProps(nextProps) {
         if (!this.props.showModal && nextProps.showModal) {
@@ -24,6 +25,42 @@ class AskGoodPropertiesModalContainer extends React.Component {
         }
     }
 
+    submitGoodProperties() {
+
+        const isValid = isNotEmptyGoodProperty(this.state.goodProperties, this.state.goodPropertiesOutput);
+
+        if (isValid) {
+            let goodProperties = [];
+            for (let key in this.state.goodPropertiesOutput) {
+                let property = this.state.goodPropertiesOutput[key];
+                let obj = {
+                    name: key,
+                    value: property.value + (property.unit ? " " + property.unit : "")
+                };
+                goodProperties.push(obj);
+            }
+            this.setState({isSaving: true});
+            saveGoodProperties(this.props.card.good_id, goodProperties)
+                .then(() => {
+                    this.close();
+                    this.setState({isSaving: false});
+                    showNotification("Cập nhật thuộc tính sản phẩm thành công");
+                    this.props.taskActions.toggleTaskStatus(this.state.currentTask, this.state.currentCard);
+                    const sourceBoardId = this.state.currentTask.current_board_id;
+                    const targetBoardId = this.state.currentTask.target_board_id;
+                    this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.state.currentCard.id);
+                });
+        }
+
+    }
+
+    updateGoodPropertiesOutput(goodPropertiesOutput) {
+        this.props.taskActions.updateGoodPropertiesOutput(goodPropertiesOutput);
+    }
+
+    close() {
+        this.props.taskActions.closeAskGoodPropertiesModal();
+    }
 
     render() {
         return (
@@ -35,13 +72,13 @@ class AskGoodPropertiesModalContainer extends React.Component {
                     <InputGoodProperties
                         goodPropertiesOutput={this.props.goodPropertiesOutput}
                         goodProperties={this.props.goodProperties}
-                        updateGoodPropertiesOutput={this.props.updateGoodPropertiesOutput}/>
+                        updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}/>
                 </Modal.Body>
                 <Modal.Footer>
                     {
                         this.props.isSaving ? <Loading/> : (
                             <div>
-                                <Button onClick={this.props.submitGoodProperties} className="btn btn-rose">Lưu</Button>
+                                <Button onClick={this.submitGoodProperties} className="btn btn-rose">Lưu</Button>
                                 <Button onClick={this.close}>Đóng</Button>
                             </div>
                         )
@@ -54,25 +91,26 @@ class AskGoodPropertiesModalContainer extends React.Component {
 
 AskGoodPropertiesModalContainer.propTypes = {
     goodActions: PropTypes.object.isRequired,
+    taskActions: PropTypes.object.isRequired,
     card: PropTypes.object.isRequired,
     goodProperties: PropTypes.array.isRequired,
-    showModal: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
-    closeModal: PropTypes.func.isRequired,
-    submitGoodProperties: PropTypes.func.isRequired,
-    goodPropertiesOutput: PropTypes.object.isRequired,
-    updateGoodPropertiesOutput: PropTypes.func.isRequired
+    goodPropertiesOutput: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        state: state
+        showModal: state.task.askGoodProperties.showModal,
+        goodPropertiesOutput: state.task.askGoodProperties.goodPropertiesOutput,
+        goodProperties: state.task.askGoodProperties.goodProperties,
+        card: state.task.cardDetail.card
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        goodActions: bindActionCreators(goodActions, dispatch)
+        goodActions: bindActionCreators(goodActions, dispatch),
+        taskActions: bindActionCreators(taskActions, dispatch)
     };
 }
 

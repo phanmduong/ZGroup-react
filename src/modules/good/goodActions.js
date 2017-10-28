@@ -325,10 +325,16 @@ export function resetGoodPropertyForm() {
 
 export function loadGoodPropertiesFilled(cardId, goodProperties) {
     return function (dispatch) {
-        goodApi.loadGoodPropertiesFilled(cardId, goodProperties);
         dispatch({
-            type: types.RESET_CREATE_GOOD_PROPERTY_FORM
+            type: types.BEGIN_LOAD_GOOD_PROPERTIES_FILLED
         });
+        goodApi.loadGoodPropertiesFilled(cardId, goodProperties)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_GOOD_PROPERTIES_FILLED_SUCCESS,
+                    goodProperties: res.data.data.good_properties
+                });
+            });
     };
 }
 

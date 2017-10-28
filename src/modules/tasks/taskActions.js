@@ -1179,3 +1179,30 @@ export function loadGoodPropertyItems(taskListId) {
             });
     };
 }
+
+export function openAskGoodPropertiesModal(goodPropertiesOutput, goodProperties) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_ASK_GOOD_PROPERTY_MODAL,
+            goodPropertiesOutput,
+            goodProperties
+        });
+    };
+}
+
+export function closeAskGoodPropertiesModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_ASK_GOOD_PROPERTY_MODAL
+        });
+    };
+}
+
+export function updateGoodPropertyOutput(goodPropertiesOutput) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_GOOD_PROPERTIES_OUTPUT,
+            goodPropertiesOutput
+        });
+    };
+}

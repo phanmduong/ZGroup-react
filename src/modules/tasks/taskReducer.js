@@ -6,7 +6,26 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
-
+        case types.CLOSE_ASK_GOOD_PROPERTY_MODAL:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    showModal: false,
+                    goodPropertiesOutput: {},
+                    goodProperties: []
+                }
+            };
+        case types.OPEN_ASK_GOOD_PROPERTY_MODAL:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    showModal: true,
+                    goodPropertiesOutput: action.goodPropertiesOutput,
+                    goodProperties: action.goodProperties
+                }
+            };
         case types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS:
             return {
                 ...state,

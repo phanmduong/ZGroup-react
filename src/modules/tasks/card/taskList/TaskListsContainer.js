@@ -37,15 +37,7 @@ class TaskListsContainer extends React.Component {
         goodPropertyItems.forEach((goodPropertyItem) => {
             goodPropertiesOutput[goodPropertyItem.name] = {};
         });
-        this.setState({
-            showAskGoodPropertiesModal: true,
-            goodProperties: goodPropertyItems,
-            goodPropertiesOutput
-        });
-    }
-
-    updateGoodPropertiesOutput(goodPropertiesOutput) {
-        this.setState(goodPropertiesOutput);
+        this.props.taskActions.openAskGoodPropertiesModal(goodPropertiesOutput, goodPropertyItems);
     }
 
     closeAskGoodPropertiesModal() {
@@ -54,34 +46,6 @@ class TaskListsContainer extends React.Component {
         });
     }
 
-    submitGoodProperties() {
-
-        const isValid = isNotEmptyGoodProperty(this.state.goodProperties, this.state.goodPropertiesOutput);
-
-        if (isValid) {
-            let goodProperties = [];
-            for (let key in this.state.goodPropertiesOutput) {
-                let property = this.state.goodPropertiesOutput[key];
-                let obj = {
-                    name: key,
-                    value: property.value + (property.unit ? " " + property.unit : "")
-                };
-                goodProperties.push(obj);
-            }
-            this.setState({isSaving: true});
-            saveGoodProperties(this.props.card.good_id, goodProperties)
-                .then(() => {
-                    this.closeAskGoodPropertiesModal();
-                    this.setState({isSaving: false});
-                    showNotification("Cập nhật thuộc tính sản phẩm thành công");
-                    this.props.taskActions.toggleTaskStatus(this.state.currentTask, this.state.currentCard);
-                    const sourceBoardId = this.state.currentTask.current_board_id;
-                    const targetBoardId = this.state.currentTask.target_board_id;
-                    this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.state.currentCard.id);
-                });
-        }
-
-    }
 
     addTask(taskListId) {
         return (event) => {
@@ -123,14 +87,7 @@ class TaskListsContainer extends React.Component {
         return (
             <div className="task-lists">
                 <AskGoodPropertiesModalContainer
-                    card={this.props.card}
-                    isSaving={this.state.isSaving}
-                    submitGoodProperties={this.submitGoodProperties}
-                    updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}
-                    goodPropertiesOutput={this.state.goodPropertiesOutput}
-                    showModal={this.state.showAskGoodPropertiesModal}
-                    closeModal={this.closeAskGoodPropertiesModal}
-                    goodProperties={this.state.goodProperties}/>
+                    isSaving={this.state.isSaving}/>
 
                 <AddMemberToTaskModalContainer/>
 
