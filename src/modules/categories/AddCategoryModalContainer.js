@@ -99,7 +99,7 @@ class AddCategoryModalContainer extends React.Component {
                             :
                             (
                                 <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
-                                        type="button" className="btn btn-success " data-dismiss="modal"
+                                        type="button" className="btn btn-round btn-success " data-dismiss="modal"
                                         onClick={(e) => {
                                             if (this.props.isEdit) {
                                                 this.editCategory();
@@ -118,7 +118,7 @@ class AddCategoryModalContainer extends React.Component {
                             )
                         }
                         <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
-                                type="button" className="btn btn-danger " data-dismiss="modal"
+                                type="button" className="btn btn-round btn-danger " data-dismiss="modal"
                                 onClick={() => this.close()}><i className="material-icons">close</i> Huỷ
                         </button>
                     </form>

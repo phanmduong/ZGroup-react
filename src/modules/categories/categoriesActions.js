@@ -4,7 +4,7 @@ import * as helper from '../../helpers/helper';
 
 export  function editCategory(id , name , close) {
     return function (dispatch) {
-        helper.showTypeNotification("Đang cập nhật" , "success");
+        helper.showTypeNotification("Đang cập nhật" , "info");
         dispatch({
             type : types.BEGIN_EDIT_CATEGORY,
         });
@@ -13,7 +13,7 @@ export  function editCategory(id , name , close) {
             close();
             if(res.data.status)
             {
-                helper.showTypeNotification('Cập nhật thành công ' + name ,'danger');
+                helper.showTypeNotification('Cập nhật thành công ' + name ,'success');
                 dispatch({
                     type : types.EDIT_CATEGORY_SUCCESS,
                     id : id,
@@ -36,14 +36,14 @@ export  function editCategory(id , name , close) {
 
 export function deleteCategory(id) {
     return function (dispatch) {
-        helper.showTypeNotification("Đang xóa ", "success");
+        helper.showTypeNotification("Đang xóa ", "info");
         dispatch({
             type: types.BEGIN_DELETE_CATEGORY,
         });
         categoriesAPI.deleteCategoryAPI(id)
             .then((res) => {
             if (res.data.status){
-                helper.showTypeNotification(" Đã xóa ", "danger");
+                helper.showTypeNotification(" Đã xóa ", "success");
                 dispatch({
                     type: types.DELETE_CATEGORY_SUCCESS,
                     id: id,
@@ -65,13 +65,13 @@ export function deleteCategory(id) {
 
 export function addCategory(name, parent_id, close) {
     return function (dispatch) {
-        helper.showTypeNotification("Đang thêm", "success");
+        helper.showTypeNotification("Đang thêm", "info");
         dispatch({type: types.BEGIN_ADD_CATEGORY});
         categoriesAPI.addCategoryAPI(name, parent_id)
             .then((res) => {
                 close();
                 if(res.data.status){
-                    helper.showTypeNotification('Đã thêm ' + name, 'danger');
+                    helper.showTypeNotification('Đã thêm ' + name, 'success');
                     dispatch({
                         type: types.ADD_CATEGORY_SUCCESS,
                         category: res.data.data.goodCategory

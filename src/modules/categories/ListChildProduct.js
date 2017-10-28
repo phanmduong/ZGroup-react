@@ -10,57 +10,57 @@ class ListChildProduct extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{paddingLeft: "20px"}}>
+
 
                 {/*     LIST CHILD GROUP    */}
                 {this.props.isLoading ? <Loading/> :
                     this.props.categoriesList.map((category) => {
                         if (category.parent_id === this.props.parent_id) {
                             return (
-                                <table key={category.id} className="col-md-15">
-                                    <tbody>
-                                    <tr className="panel-title">
-                                        <td className = "col-md-8">
-                                            <div style={{marginTop: "20px", marginBottom: '20px', marginLeft: "20px"}}>
-                                                <a style={{"cursor": "pointer"}}>{category.name}</a>
-                                            </div>
-                                        </td>
-                                        <td className="col-md-2"
-                                            style={{paddingTop: "10px", paddingBottom: '15px'}}>
-                                            <button rel="tooltip" data-placement="top"
-                                                    className="btn btn-sm btn-success"
-                                                    style={{
-                                                        "width": "20px",
-                                                        height: "20px",
-                                                        padding: "0px"
-                                                    }}
-                                                    onClick={() => {
-                                                        this.props.openAddCategoryModalContainer(category.id, category.parent_id , category.name, true);
-                                                    }}>
-                                                <i style={{"float": "none!important"}}
-                                                   className="material-icons">mode_edit</i>
-                                            </button>
+                                <div key={category.id} className="panel panel-default">
+                                    <div className="panel-heading" role="tab">
+                                        <table className="col-md-15">
+                                            <tbody>
+                                            <tr className="panel-title">
+                                                <td className="col-md-3"
+                                                    style={{paddingTop: "5px", paddingBottom: '5px'}}>
+                                                    <button rel="tooltip" data-placement="top"
+                                                            className="btn btn-round btn-sm btn-info"
+                                                            style={{
+                                                                "width": "20px",
+                                                                height: "20px",
+                                                                padding: "0px"
+                                                            }}
+                                                            onClick={() => {
+                                                                this.props.openAddCategoryModalContainer(category.id, category.parent_id, category.name, true);
+                                                            }}>
+                                                        <i style={{"float": "none!important"}}
+                                                           className="material-icons">mode_edit</i>
+                                                    </button>
+                                                    <button rel="tooltip" data-placement="top"
+                                                            className="btn btn-round btn-sm btn-danger"
+                                                            style={{
+                                                                width: "20px",
+                                                                height: "20px",
+                                                                padding: "0px"
+                                                            }}
+                                                            onClick={() => {
+                                                                this.props.deleteCategory(category.id);
+                                                            }}>
+                                                        <i style={{"float": "none!important"}}
+                                                           className="material-icons">close</i>
+                                                    </button>
+                                                    <span style={{paddingLeft: "10px"}}>
+                                                     {category.name}</span>
+                                                </td>
 
-                                        </td>
-                                        <td className="col-md-2"
-                                            style={{paddingTop: "10px", paddingBottom: '15px'}}>
-                                            <button rel="tooltip" data-placement="top"
-                                                    className="btn  btn-sm btn-danger"
-                                                    style={{
-                                                        "width": "20px",
-                                                        height: "20px",
-                                                        padding: "0px"
-                                                    }}
-                                                    onClick ={() => {
-                                                        this.props.deleteCategory(category.id);
-                                                    }}>
-                                                <i style={{"float": "none!important"}}
-                                                   className="material-icons">close</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             );
                         }
                     })
@@ -70,15 +70,21 @@ class ListChildProduct extends React.Component {
 
                 {/*     ADD CHILD GROUP     */}
 
-                <div style={{marginTop: "20px", marginBottom: '20px', marginLeft: "20px"}}>
+                <div>
                     <a onClick={() => {
-                        this.props.openAddCategoryModalContainer('',this.props.parent_id, '', false);
+                        this.props.openAddCategoryModalContainer('', this.props.parent_id, '', false);
                     }}>
-                        <button type="button" className="btn btn-rose btn-sm" data-toggle="modal"
-                                data-target="#addCategoryModal">
-                            <i className="material-icons">control_point</i>
+                        <button rel="tooltip" data-placement="top" title=""
+                                data-oriinal-title="Remove item"
+                                style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    padding: "0px"
+                                }}
+                                className="btn btn-round btn-sm btn-success">
+                            <i style={{"float ": " none!important"}} className="material-icons">add</i>
                         </button>
-                        <span>Thêm nhóm con</span>
+                        <span style={{paddingLeft: "10px"}}><strong>Thêm nhóm con</strong></span>
                     </a>
                 </div>
             </div>
@@ -88,11 +94,11 @@ class ListChildProduct extends React.Component {
 }
 
 ListChildProduct.propTypes = {
-    categoriesActions: PropTypes.object.isRequired,
-    categoriesList: PropTypes.array.isRequired,
-    parent_id: PropTypes.number.isRequired,
-    deleteCategory: PropTypes.func.isRequired,
-    openAddCategoryModalContainer: PropTypes.func.isRequired,
+    categoriesActions: PropTypes.object,
+    categoriesList: PropTypes.array,
+    parent_id: PropTypes.number,
+    deleteCategory: PropTypes.func,
+    openAddCategoryModalContainer: PropTypes.func,
     isLoading: PropTypes.bool,
 
 };
