@@ -26,7 +26,7 @@ class OrderController extends ManageApiController
         $totalOrders = Order::where('type', 'order')->get()->count();
         $totalMoney = 0;
         $totalPaidMoney = 0;
-        $allOrders = Order::get();
+        $allOrders = Order::where('type', 'order')->get();
         foreach ($allOrders as $order) {
             $goodOrders = $order->goodOrders()->get();
             foreach ($goodOrders as $goodOrder) {
