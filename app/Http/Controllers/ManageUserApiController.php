@@ -65,8 +65,29 @@ class ManageUserApiController extends ManageApiController
     {
         $user = $this->user;
 
+        $errors = [];
+        if (!$user) {
+            $errors['message'] = "Tài khoản chưa tồn tại";
+            return $this->respondErrorWithStatus($errors);
+        }
+
+        if (User::where('id', '<>', $user->id)->where('email', '=', $request->email)->first()) {
+            $errors['email'] = "Email đã tồn tại";
+
+        }
+
+        if (User::where('id', '<>', $user->id)->where('username', '=', $request->username)->first()) {
+            $errors['username'] = "Username đã tồn tại";
+
+        }
+
+        if (!empty($errors)) {
+            return $this->respondErrorWithStatus($errors);
+        }
+
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->username = $request->username;
         $user->marital = $request->marital;
         $user->phone = $request->phone;
         $user->age = $request->age;
