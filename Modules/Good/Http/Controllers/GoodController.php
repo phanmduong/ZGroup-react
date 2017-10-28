@@ -85,18 +85,9 @@ class GoodController extends ManageApiController
     public function saveGoodProperties($id, Request $request)
     {
         $goodProperties = collect(json_decode($request->good_properties));
-        $goodPropertyNames = $goodProperties->pluck("name")->toArray();
 
+        $this->goodRepository->saveGoodProperties($goodProperties, $id);
 
-        GoodProperty::where("good_id", $id)->whereIn("name", $goodPropertyNames)->delete();
-
-        foreach ($goodProperties as $property) {
-            $goodProperty = new GoodProperty();
-            $goodProperty->name = $property->name;
-            $goodProperty->value = $property->value;
-            $goodProperty->good_id = $id;
-            $goodProperty->save();
-        }
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
