@@ -43,8 +43,6 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
             return {
                 ...state,
                 ...{
-                    isLoading: false,
-                    error: false,
                     isUpdatingAvatar: false,
                     updateAvatarError: false,
                     data: action.data
@@ -56,6 +54,58 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
                 ...{
                     isUpdatingAvatar: false,
                     updateAvatarError: true,
+
+                }
+            };
+        case types.BEGIN_UPLOAD_LOGO_COURSE:
+            return {
+                ...state,
+                ...{
+                    isUpdatingLogo: true,
+                    updateLogoError: false,
+                }
+            };
+        case types.UPLOAD_LOGO_COURSE_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isUpdatingLogo: false,
+                    updateLogoError: false,
+                    data: action.data
+                }
+            };
+        case types.UPLOAD_LOGO_COURSE_FAILED:
+            return {
+                ...state,
+                ...{
+                    isUpdatingLogo: false,
+                    updateLogoError: true,
+
+                }
+            };
+        case types.BEGIN_UPLOAD_COVER_COURSE:
+            return {
+                ...state,
+                ...{
+                    isUpdatingCover: true,
+                    updateCoverError: false,
+                }
+            };
+        case types.UPLOAD_COVER_COURSE_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isUpdatingCover: false,
+                    updateCoverError: false,
+                    data: action.data
+                }
+            };
+        case types.UPLOAD_COVER_COURSE_FAILED:
+            return {
+                ...state,
+                ...{
+                    isUpdatingCover: false,
+                    updateCoverError: true,
 
                 }
             };

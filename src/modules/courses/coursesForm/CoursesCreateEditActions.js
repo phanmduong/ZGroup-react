@@ -38,31 +38,51 @@ export function uploadAvatar(file, course) {
             course.image_url = data.link;
             dispatch({
                 type: types.UPLOAD_AVATAR_COURSE_SUCCESS,
-                imageUrl: data.link,
                 data: course
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
-            dispatch(uploadAvatarCourseFailed());
+            dispatch({type: types.UPLOAD_AVATAR_COURSE_FAILED});
         });
     };
 }
 
-export function uploadAvatarCourseSuccess(imageUrl) {
-    return (
-        {
-            type: types.UPLOAD_AVATAR_COURSE_SUCCESS,
-            imageUrl: imageUrl
-        }
-    );
+export function uploadLogo(file, course) {
+    return function (dispatch) {
+        dispatch({ type: types.BEGIN_UPLOAD_LOGO_COURSE});
+        courseApi.uploadImage(file, function (event) {
+            helper.showNotification("Đăng ảnh thành công.");
+            let data = JSON.parse(event.currentTarget.response);
+            course.icon_url = data.link;
+            dispatch({
+                type: types.UPLOAD_LOGO_COURSE_SUCCESS,
+                data: course
+            });
+        }, () => {
+            helper.showErrorNotification("Đăng ảnh thất bại.");
+            dispatch({type: types.UPLOAD_LOGO_COURSE_FAILED});
+        });
+    };
 }
-export function uploadAvatarCourseFailed() {
-    return (
-        {
-            type: types.UPLOAD_AVATAR_COURSE_FAILED,
-        }
-    );
+
+export function uploadCover(file, course) {
+    return function (dispatch) {
+        dispatch({ type: types.BEGIN_UPLOAD_COVER_COURSE});
+        courseApi.uploadImage(file, function (event) {
+            helper.showNotification("Đăng ảnh thành công.");
+            let data = JSON.parse(event.currentTarget.response);
+            course.cover_url = data.link;
+            dispatch({
+                type: types.UPLOAD_COVER_COURSE_SUCCESS,
+                data: course
+            });
+        }, () => {
+            helper.showErrorNotification("Đăng ảnh thất bại.");
+            dispatch({type: types.UPLOAD_COVER_COURSE_FAILED});
+        });
+    };
 }
+
 
 
 const dataDefault = {

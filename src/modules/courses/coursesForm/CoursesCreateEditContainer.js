@@ -40,6 +40,8 @@ class CreateEditCoursesContainer extends React.Component {
         }
         this.updateFormData = this.updateFormData.bind(this);
         this.uploadAvatar = this.uploadAvatar.bind(this);
+        this.uploadLogo = this.uploadLogo.bind(this);
+        this.uploadCover = this.uploadCover.bind(this);
     }
 
 
@@ -72,6 +74,15 @@ class CreateEditCoursesContainer extends React.Component {
     uploadAvatar(event){
         let file = event.target.files[0];
         this.props.coursesCreateEditActions.uploadAvatar(file, this.state);
+    }
+    uploadLogo(event){
+        console.log('uploadLogo');
+        let file = event.target.files[0];
+        this.props.coursesCreateEditActions.uploadLogo(file, this.state);
+    }
+    uploadCover(event){
+        let file = event.target.files[0];
+        this.props.coursesCreateEditActions.uploadCover(file, this.state);
     }
 
     render() {
@@ -200,7 +211,7 @@ class CreateEditCoursesContainer extends React.Component {
 
 
                                         <img src = {helper.isEmptyInput(this.state.icon_url) ? NO_IMAGE : this.state.icon_url} />
-                                        { NO_IMAGE=='' ?
+                                        { this.props.isUpdatingLogo ?
                                             (
                                                 <button className="btn btn-rose btn-round disabled" type="button">
                                                     <i className="fa fa-spinner fa-spin"/> Đang tải lên
@@ -212,7 +223,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                     Chọn ảnh icon
                                                     <input type="file"
                                                            accept=".jpg,.png,.gif"
-                                                           onChange={this.props.handleFileUploadAvatar}
+                                                           onChange={this.uploadLogo}
                                                            style={{
                                                                cursor: 'pointer',
                                                                opacity: "0.0",
@@ -258,7 +269,7 @@ class CreateEditCoursesContainer extends React.Component {
                                             )
                                         }
                                         <img src = {helper.isEmptyInput(this.state.cover_url) ? NO_IMAGE : this.state.cover_url} />
-                                        { NO_IMAGE=='' ?
+                                        { this.props.isUpdatingCover ?
                                             (
                                                 <button className="btn btn-rose btn-round disabled" type="button">
                                                     <i className="fa fa-spinner fa-spin"/> Đang tải lên
@@ -270,7 +281,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                     Chọn cover
                                                     <input type="file"
                                                            accept=".jpg,.png,.gif"
-                                                           onChange={this.props.handleFileUploadAvatar}
+                                                           onChange={this.uploadCover}
                                                            style={{
                                                                cursor: 'pointer',
                                                                opacity: "0.0",
@@ -305,7 +316,11 @@ function mapStateToProps(state) {
         isLoading: state.coursesCreateEdit.isLoading,
         data: state.coursesCreateEdit.data,
         isUpdatingAvatar: state.coursesCreateEdit.isUpdatingAvatar,
-        updateAvatarError: state.coursesCreateEdit.updateAvatarError
+        updateAvatarError: state.coursesCreateEdit.updateAvatarError,
+        isUpdatingLogo: state.coursesCreateEdit.isUpdatingLogo,
+        updateLogoError: state.coursesCreateEdit.updateLogoError,
+        isUpdatingCover: state.coursesCreateEdit.isUpdatingCover,
+        updateCoverError: state.coursesCreateEdit.updateCoverError
     };
 }
 
