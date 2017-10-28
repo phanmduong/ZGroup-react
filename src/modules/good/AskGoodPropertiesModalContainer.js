@@ -101,6 +101,7 @@ AskGoodPropertiesModalContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         showModal: state.task.askGoodProperties.showModal,
+        isSaving: state.task.askGoodProperties.isSaving,
         goodPropertiesOutput: state.task.askGoodProperties.goodPropertiesOutput,
         goodProperties: state.task.askGoodProperties.goodProperties,
         card: state.task.cardDetail.card

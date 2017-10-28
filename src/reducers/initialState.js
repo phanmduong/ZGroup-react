@@ -287,6 +287,7 @@ export default {
         },
         askGoodProperties: {
             showModal: false,
+            isSaving: false,
             goodPropertiesOutput: {},
             goodProperties: []
         },

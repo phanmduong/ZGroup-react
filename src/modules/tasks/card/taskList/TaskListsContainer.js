@@ -8,10 +8,8 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
-import {confirm, showNotification} from "../../../../helpers/helper";
+import {confirm} from "../../../../helpers/helper";
 import AskGoodPropertiesModalContainer from "../../../good/AskGoodPropertiesModalContainer";
-import {saveGoodProperties} from '../../../good/goodApi';
-import {isNotEmptyGoodProperty} from "../../../../helpers/goodPropertyHelper";
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
@@ -22,14 +20,11 @@ class TaskListsContainer extends React.Component {
             showAskGoodPropertiesModal: false,
             goodProperties: [],
             goodPropertiesOutput: {},
-            isSaving: false,
             currentTask: {},
             currentCard: {}
         };
-        this.updateGoodPropertiesOutput = this.updateGoodPropertiesOutput.bind(this);
         this.openAskGoodPropertiesModal = this.openAskGoodPropertiesModal.bind(this);
         this.closeAskGoodPropertiesModal = this.closeAskGoodPropertiesModal.bind(this);
-        this.submitGoodProperties = this.submitGoodProperties.bind(this);
     }
 
     openAskGoodPropertiesModal(goodPropertyItems) {
@@ -86,8 +81,7 @@ class TaskListsContainer extends React.Component {
         const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
         return (
             <div className="task-lists">
-                <AskGoodPropertiesModalContainer
-                    isSaving={this.state.isSaving}/>
+                <AskGoodPropertiesModalContainer/>
 
                 <AddMemberToTaskModalContainer/>
 

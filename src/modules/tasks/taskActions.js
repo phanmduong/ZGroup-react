@@ -1198,11 +1198,17 @@ export function closeAskGoodPropertiesModal() {
     };
 }
 
-export function updateGoodPropertyOutput(goodPropertiesOutput) {
+export function updateGoodPropertiesOutput(goodPropertiesOutput) {
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_GOOD_PROPERTIES_OUTPUT,
             goodPropertiesOutput
         });
     };
+}
+
+export function submitGoodProperties() {
+    return function (dispatch) {
+
+    }
 }
