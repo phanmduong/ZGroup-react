@@ -117,7 +117,7 @@ export function deleteStaff(staff) {
         url += "?token=" + token;
     }
     return axios.post(url, {
-        username: staff.username
+        id: staff.id
     });
 }
 

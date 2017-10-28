@@ -31,6 +31,40 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                     error: true
                 }
             };
+        case types.BEGIN_LOAD_IMPORT_GOOD_ORDERS:
+            return {
+                ...state,
+                importGood: {
+                    ...state.importGood,
+                    ...{
+                        isLoading: true,
+                        error: false,
+                    }
+                }
+            };
+        case types.LOAD_IMPORT_GOOD_ORDERS_SUCCESS:
+            return {
+                ...state,
+                importGood: {
+                    ...state.importGood,
+                    ...{
+                        isLoading: false,
+                        error: false,
+                        importOrder: action.importOrder
+                    }
+                }
+            };
+        case types.LOAD_IMPORT_GOOD_ORDERS_ERROR:
+            return {
+                ...state,
+                importGood: {
+                    ...state.importGood,
+                    ...{
+                        isLoading: false,
+                        error: true
+                    }
+                }
+            };
         default:
             return state;
     }

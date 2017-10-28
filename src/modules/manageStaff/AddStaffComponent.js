@@ -71,7 +71,6 @@ class AddStaffComponent extends React.Component {
                                             required={true}
                                             type="text"
                                             updateFormData={this.props.updateFormData}
-                                            disabled={this.props.type === 'edit'}
                                         />
                                         <FormInputText
                                             label="Tuổi"

@@ -777,5 +777,6 @@ export function generateDatatableLanguage(item) {
             "next": "tiếp",
             "previous": "trước"
         },
+        "emptyTable": `Không có ${item} sản phẩm`,
     };
 }
