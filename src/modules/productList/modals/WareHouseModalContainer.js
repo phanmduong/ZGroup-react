@@ -13,7 +13,7 @@ class WareHouseModalContainer extends React.Component {
 
     showWareHouseModal(e) {
         e.preventDefault();
-        this.props.showWareHouseModal(this.props.productEditing);
+        this.props.showWareHouseModal(this.props.productEditing.productPresent);
     }
 
     render() {
@@ -38,7 +38,7 @@ class WareHouseModalContainer extends React.Component {
                             </thead>
                             <tbody>
                             {
-                                this.props.productEditing.warehouses.map((warehouse, id) => {
+                                this.props.productEditing.productPresent.warehouses && this.props.productEditing.productPresent.warehouses.map((warehouse, id) => {
                                     return (
                                         <tr key={warehouse.id}>
                                             <td>{id+1}</td>

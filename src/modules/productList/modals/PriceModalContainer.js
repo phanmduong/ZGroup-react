@@ -16,20 +16,19 @@ class PriceModalContainer extends React.Component {
     }
 
     updatePrice() {
-        console.log("batman");
-        this.props.productListAction.updatePrice(this.props.productEditing);
+        this.props.productListAction.updatePrice(this.props.productEditing.productPresent);
     }
 
     handleProduct(e) {
         const field = e.target.name;
         let productEditing = this.props.productEditing;
-        productEditing[field] = e.target.value;
-        this.props.modalProductAction.handleProduct(productEditing);
+        productEditing.productPresent[field] = e.target.value;
+        this.props.modalProductAction.handleProduct(productEditing.productPresent);
     }
 
-    showPriceModal(e){
+    showPriceModal(e) {
         e.preventDefault();
-        this.props.showPriceModal(this.props.productEditing);
+        this.props.showPriceModal(this.props.productEditing.productPresent);
     }
 
     render() {
@@ -45,14 +44,14 @@ class PriceModalContainer extends React.Component {
                         <input type="text"
                                name="price"
                                className="form-control datepicker"
-                               value={this.props.productEditing.price}
+                               value={this.props.productEditing.productPresent.price}
                                onChange={this.handleProduct}/>
                         <span className="material-input"></span>
                     </div>
 
-                    <div className="form-group label-floating is-empty">
+                    <div className="form-group">
                         <label className="control-label">Ghi chú</label>
-                        <input type="password" className="form-control"/>
+                        <input type="text" className="form-control"/>
                         <span className="material-input"></span>
                     </div>
                     {
@@ -85,7 +84,7 @@ PriceModalContainer.propTypes = {
     priceModal: PropTypes.bool.isRequired,
     productEditing: PropTypes.object.isRequired,
     isModalUpdating: PropTypes.bool.isRequired,
-    showPriceModal:PropTypes.func.isRequired
+    showPriceModal: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
