@@ -326,6 +326,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1
 
         let order = 0;
         let sourceBoardCards = [];
+
         sourceBoard.cards
             .filter(c => c.id !== card.id)
             .forEach((c) => {
@@ -361,6 +362,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1
 
             const part1 = cards.slice(0, index);
             const part2 = cards.slice(index);
+
             const temp = [...part1, card, ...part2];
             temp.forEach((c) => {
                 targetBoardCards = [...targetBoardCards, {...c, order}];
@@ -377,6 +379,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1
         // console.log(siblingOrder);
         // console.log(newSourceBoard);
         // console.log(newTargetBoard);
+
         taskApi.updateCards(newTargetBoard.cards, newTargetBoard.id)
             .then(() => {
             })
@@ -1220,7 +1223,7 @@ export function submitGoodProperties() {
 
         const state = getState();
 
-        const {goodProperties, task, goodPropertiesOutput} = state.task.askGoodProperties;
+        const {goodProperties, goodPropertiesOutput} = state.task.askGoodProperties;
         const {card} = state.task.cardDetail;
 
         const isValid = isNotEmptyGoodProperty(goodProperties, goodPropertiesOutput);
@@ -1242,17 +1245,18 @@ export function submitGoodProperties() {
                 type: types.BEGIN_SUBMIT_GOOD_PROPERTIES
             });
 
-            const sourceBoardId = task.current_board_id;
-            const targetBoardId = task.target_board_id;
 
-            goodApi.saveGoodProperties(card.good_id, goodPropertiesSubmit)
-                .then(() => {
-                    showNotification("Cập nhật thuộc tính sản phẩm thành công");
-                    dispatch({
-                        type: types.SUBMIT_GOOD_PROPERTIES_SUCCESS
+            return new Promise((resolve) => {
+                goodApi.saveGoodProperties(card.good_id, goodPropertiesSubmit)
+                    .then(() => {
+                        showNotification("Cập nhật thuộc tính sản phẩm thành công");
+                        dispatch({
+                            type: types.SUBMIT_GOOD_PROPERTIES_SUCCESS
+                        });
+                        resolve();
                     });
-                    moveCard(sourceBoardId, targetBoardId, task.id);
-                });
+            });
+
 
         }
 

@@ -16,21 +16,22 @@ class GoodPropertyItem extends React.Component {
 
     handleSelectUnitChange(unitOption) {
         this.props.setUnit(unitOption.name, unitOption.value);
-        this.setState({
-            unit: unitOption
-        });
+        // this.setState({
+        //     unit: unitOption
+        // });
     }
 
     handleSelectValueChange(valueOption) {
         this.props.setValue(valueOption.name, valueOption.value);
-        this.setState({
-            value: valueOption
-        });
+        // this.setState({
+        //     value: valueOption
+        // });
     }
 
     handleInputValueChange(event) {
         this.props.setValue(event.target.name, event.target.value);
     }
+
 
     render() {
         const {property} = this.props;
@@ -46,7 +47,7 @@ class GoodPropertyItem extends React.Component {
                         {
                             property.prevalue ? (
                                 <Select
-                                    value={this.state.value}
+                                    value={this.props.goodPropertyOutput ? this.props.goodPropertyOutput.value : ""}
                                     options={property.prevalue.split(",").map((value) => {
                                         return {
                                             name: property.name,
@@ -60,6 +61,7 @@ class GoodPropertyItem extends React.Component {
                                 <input
                                     name={property.name}
                                     className="form-control"
+                                    value={this.props.goodPropertyOutput ? this.props.goodPropertyOutput.value : ""}
                                     onChange={this.handleInputValueChange}
                                     type="text" autoComplete={false}/>
                             )
@@ -70,7 +72,7 @@ class GoodPropertyItem extends React.Component {
                         property.preunit && (
                             <div style={{flex: 1}}>
                                 <Select
-                                    value={this.state.unit}
+                                    value={this.props.goodPropertyOutput ? this.props.goodPropertyOutput.unit : ""}
                                     options={property.preunit.split(",").map((unit) => {
                                         return {
                                             name: property.name,
@@ -94,7 +96,8 @@ class GoodPropertyItem extends React.Component {
 GoodPropertyItem.propTypes = {
     property: PropTypes.object.isRequired,
     setUnit: PropTypes.func.isRequired,
-    setValue: PropTypes.func.isRequired
+    setValue: PropTypes.func.isRequired,
+    goodPropertyOutput: PropTypes.object
 };
 
 export default GoodPropertyItem;

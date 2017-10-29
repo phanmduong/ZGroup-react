@@ -290,7 +290,8 @@ export default {
             isSaving: false,
             goodPropertiesOutput: {},
             goodProperties: [],
-            task: {}
+            task: {},
+            isLoading: false
         },
         createCard: {
             card: {},

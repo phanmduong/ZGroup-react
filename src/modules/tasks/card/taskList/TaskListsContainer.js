@@ -56,7 +56,6 @@ class TaskListsContainer extends React.Component {
             if (!task.status) {
                 this.openAskGoodPropertiesModal(task);
             } else {
-                console.log("toggle");
                 this.props.taskActions.toggleTaskStatus(task, card);
             }
 
@@ -88,19 +87,24 @@ class TaskListsContainer extends React.Component {
                                     <h4>
                                         <strong>{taskList.title}</strong>
                                     </h4>
-                                    <button
-                                        onClick={() => {
-                                            confirm("warning", "Xoá danh sách việc",
-                                                "Toàn bộ công việc trong danh sách này sẽ bị xoá vĩnh viễn",
-                                                () => {
-                                                    this.props.taskActions.deleteTaskList(taskList);
-                                                }, null);
-                                        }}
-                                        type="button" className="close"
-                                        style={{color: '#5a5a5a'}}>
-                                        <span aria-hidden="true">×</span>
-                                        <span className="sr-only">Close</span>
-                                    </button>
+                                    {
+                                        !isProcess && (
+                                            <button
+                                                onClick={() => {
+                                                    confirm("warning", "Xoá danh sách việc",
+                                                        "Toàn bộ công việc trong danh sách này sẽ bị xoá vĩnh viễn",
+                                                        () => {
+                                                            this.props.taskActions.deleteTaskList(taskList);
+                                                        }, null);
+                                                }}
+                                                type="button" className="close"
+                                                style={{color: '#5a5a5a'}}>
+                                                <span aria-hidden="true">×</span>
+                                                <span className="sr-only">Close</span>
+                                            </button>
+                                        )
+                                    }
+
                                 </div>
                                 <small>
                                     {tasksComplete(taskList)}/{totalTasks(taskList)}

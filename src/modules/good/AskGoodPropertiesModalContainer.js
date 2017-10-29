@@ -23,7 +23,13 @@ class AskGoodPropertiesModalContainer extends React.Component {
     }
 
     submitGoodProperties() {
-        this.props.taskActions.submitGoodProperties();
+        this.props.taskActions.submitGoodProperties()
+            .then(() => {
+                const sourceBoardId = this.props.task.current_board_id;
+                const targetBoardId = this.props.task.target_board_id;
+                this.props.taskActions.toggleTaskStatus(this.props.task, this.props.card);
+                this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.props.card.id);
+            });
     }
 
     updateGoodPropertiesOutput(goodPropertiesOutput) {
@@ -41,16 +47,22 @@ class AskGoodPropertiesModalContainer extends React.Component {
                     <Modal.Title>Thuộc tính</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <InputGoodProperties
-                        goodPropertiesOutput={this.props.goodPropertiesOutput}
-                        goodProperties={this.props.goodProperties}
-                        updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}/>
+                    {
+                        this.props.isLoading ? <Loading/> : (
+                            <InputGoodProperties
+                                goodPropertiesOutput={this.props.goodPropertiesOutput}
+                                goodProperties={this.props.goodProperties}
+                                updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}/>
+                        )
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     {
                         this.props.isSaving ? <Loading/> : (
                             <div>
-                                <Button onClick={this.submitGoodProperties} className="btn btn-rose">Lưu</Button>
+                                <Button disabled={this.props.isLoading}
+                                        onClick={this.submitGoodProperties}
+                                        className="btn btn-rose">Lưu</Button>
                                 <Button onClick={this.close}>Đóng</Button>
                             </div>
                         )
@@ -65,18 +77,22 @@ AskGoodPropertiesModalContainer.propTypes = {
     goodActions: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
     card: PropTypes.object.isRequired,
+    task: PropTypes.object.isRequired,
     goodProperties: PropTypes.array.isRequired,
     isSaving: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     goodPropertiesOutput: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         showModal: state.task.askGoodProperties.showModal,
+        isLoading: state.task.askGoodProperties.isLoading,
         isSaving: state.task.askGoodProperties.isSaving,
         goodPropertiesOutput: state.task.askGoodProperties.goodPropertiesOutput,
         goodProperties: state.task.askGoodProperties.goodProperties,
-        card: state.task.cardDetail.card
+        card: state.task.cardDetail.card,
+        task: state.task.askGoodProperties.task
     };
 }
 

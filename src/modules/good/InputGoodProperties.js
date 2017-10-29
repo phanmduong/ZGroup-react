@@ -43,6 +43,7 @@ class InputGoodProperties extends React.Component {
                                 setValue={this.setValue}
                                 setUnit={this.setUnit}
                                 key={property.id}
+                                goodPropertyOutput={this.props.goodPropertiesOutput[property.name]}
                                 property={property}/>
                         );
                     })

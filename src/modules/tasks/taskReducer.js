@@ -6,7 +6,24 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
-
+        case types.BEGIN_LOAD_GOOD_PROPERTIES_FILLED:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_GOOD_PROPERTIES_FILLED_SUCCESS:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isLoading: false,
+                    goodProperties: action.goodProperties,
+                    goodPropertiesOutput: action.goodPropertiesOutput
+                }
+            };
         case types.SUBMIT_GOOD_PROPERTIES_SUCCESS:
             return {
                 ...state,
@@ -1310,8 +1327,7 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 createCard: {
                     ...state.createCard,
-                    isSaving: true,
-                    card: {}
+                    isSaving: true
                 }
             };
         case types.CREATE_CARD_SUCCESS:
@@ -1320,7 +1336,8 @@ export default function taskReducer(state = initialState.task, action) {
                 createCard: {
                     ...state.createCard,
                     isSaving: false,
-                    showModal: false
+                    showModal: false,
+                    card: {}
                 },
                 boardList: {
                     ...state.boardList,
