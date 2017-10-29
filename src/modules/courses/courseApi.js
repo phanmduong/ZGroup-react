@@ -10,7 +10,8 @@ export function loadCoursesData(page=1) {
     }
     return axios.get(url);
 }
-//http://manageapi.keetool.tk/v2/course/get-detailed/1?token=
+
+
 export function loadCourse(id) {
     let url = env.MANAGE_API_URL + "/v2/course/get-detailed/" + id;
     let token = localStorage.getItem('token');
@@ -18,6 +19,27 @@ export function loadCourse(id) {
         url += "?token=" +token;
     }
     return axios.get(url);
+    //http://manageapi.keetool.tk/v2/course/get-detailed/1?token=
+}
+
+export function createEditCourse(data) {
+    let url = env.MANAGE_API_URL + "/v2/course/create-edit";
+    let token = localStorage.getItem('token');
+    if(token){
+        url += "?token=" +token;
+    }
+    return axios.post(url,data);
+    //http://manageapi.keetool.tk/v2/course/create-edit?token=
+}
+
+export function deleteCourse(courseId) {
+    //http://manageapi.keetool.tk/v2/course/delete/{course_id}?token=
+    let url = env.MANAGE_API_URL + "/v2/course/delete/";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += + courseId + "?token=" + token ;
+    }
+    return axios.delete(url);
 }
 
 export function uploadImage(file, completeHandler, error) {

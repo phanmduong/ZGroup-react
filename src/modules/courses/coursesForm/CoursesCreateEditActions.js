@@ -2,14 +2,27 @@ import * as types from '../../../constants/actionTypes';
 import * as courseApi from '../courseApi'
 import * as helper from '../../../helpers/helper';
 
-
-export function updateCourses() {
-
+export function commitCourseData(data) {
     return function (dispatch) {
-        dispatch({type: types.UPDATE_COURSES_FORM});
-
+        dispatch({type: types.BEGIN_CREATE_EDIT_COURSES});
+        courseApi.createEditCourse(data)
+            .then(res=>{
+               console.log(res);
+               helper.showNotification("Lưu Thành Công!");
+               dispatch({
+                   type: types.CREATE_EDIT_COURSES_SUCCESS,
+                   data: res
+               });
+            })
+            .catch(()=>{
+                helper.showErrorNotification("Có lỗi xảy ra! ")
+                dispatch({type: types.CREATE_EDIT_COURSES_ERROR});
+            });
     };
 }
+
+
+
 
 export function loadCourses(id) {
     return function (dispatch) {
@@ -22,7 +35,8 @@ export function loadCourses(id) {
                     data: res.data.data.course
                 });
             })
-            .catch(()=>{
+            .catch((err)=>{
+                console.log(err);
                 dispatch({type: types.LOAD_COURSE_ERROR});
             });
     };
@@ -83,25 +97,20 @@ export function uploadCover(file, course) {
     };
 }
 
-
-
-const dataDefault = {
-        id: "",
-        name: "",
-        duration: "",
-        price: "",
-        description:"",
-        linkmac: "",
-        linkwindow: "",
-        num_classes: "",
-        mac_how_install: "",
-        window_how_install: "",
-        cover_url: "",
-        color: "",
-        image_url: "",
-        icon_url: "",
-        created_at: "",
-        detail: "",
-        lessons: [],
-        links: []
+export  function deleteCourse(courseId){
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_DELETE_COURSES});
+        courseApi.deleteCourse(courseId)
+            .then(res=>{
+                console.log(res);
+                helper.showNotification("Xoá Thành Công!");
+                dispatch({
+                    type: types.DELETE_COURSES_SUCCESS
+                });
+            })
+            .catch(()=>{
+                helper.showErrorNotification("Có lỗi xảy ra! ")
+                dispatch({type: types.DELETE_COURSES_ERROR});
+            });
+    };
 }

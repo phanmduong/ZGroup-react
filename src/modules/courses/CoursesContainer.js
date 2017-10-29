@@ -8,7 +8,7 @@ import {Link} from 'react-router';
 import Loading from "../../components/common/Loading";
 import Search from "../../components/common/Search";
 import _ from 'lodash';
-
+import * as helper from '../../helpers/helper';
 
 class CoursesContainer extends React.Component {
     constructor(props, context) {
@@ -16,9 +16,12 @@ class CoursesContainer extends React.Component {
         this.state = {
                 isLoading: false,
                 error: true,
+                searchCourse: ""
         };
         this.openAddCoursesModalContainer = this.openAddCoursesModalContainer.bind(this);
         this.loadCourses = this.loadCourses.bind(this);
+        this.deleteCourse = this.deleteCourse.bind(this);
+        this.searchCourse = this.searchCourse.bind(this);
 
     }
     componentWillMount(){
@@ -31,6 +34,19 @@ class CoursesContainer extends React.Component {
 
     loadCourses(page = 1){
         this.props.coursesActions.loadCourses(page);
+    }
+
+    deleteCourse(course){
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa môn học này không?", () => {
+            console.log(course);
+            this.props.coursesActions.deleteCourse(course);
+        });
+    }
+
+    searchCourse(e){
+        let newState = this.state;
+        newState.searchCourse = e;
+        this.setState(newState);
     }
 
     render() {
@@ -59,8 +75,8 @@ class CoursesContainer extends React.Component {
                                                 <td className="col-md-8">
                                                     <Search
                                                         placeholder="Tìm kiếm môn học"
-                                                        value=""
-                                                        onChange={()=>{}}
+                                                        value={this.state.searchCourse}
+                                                        onChange={this.searchCourse}
                                                         className=""
                                                     />
                                                 </td>
@@ -70,6 +86,8 @@ class CoursesContainer extends React.Component {
                                     {this.props.isLoading ? <Loading/> :
                                         <ListCourse
                                             courses={this.props.coursesList}
+                                            search={this.state.searchCourse}
+                                            deleteCourse={this.deleteCourse}
                                         />
                                     }
 

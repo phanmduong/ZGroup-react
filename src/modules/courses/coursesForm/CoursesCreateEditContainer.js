@@ -13,13 +13,14 @@ import TabCourse from "../TabCourse";
 import Loading from "../../../components/common/Loading";
 import * as helper from '../../../helpers/helper';
 import {linkUploadImageEditor} from '../../../constants/constants';
+import {CirclePicker} from 'react-color';
 
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        console.log('edit con',this.props);
+
         this.state = {
-            id: '',
+            id: null,
             name: '',
             duration: '',
             price: '',
@@ -42,12 +43,16 @@ class CreateEditCoursesContainer extends React.Component {
         this.uploadAvatar = this.uploadAvatar.bind(this);
         this.uploadLogo = this.uploadLogo.bind(this);
         this.uploadCover = this.uploadCover.bind(this);
+        this.changeColor = this.changeColor.bind(this);
+        this.commitCourseData = this.commitCourseData.bind(this);
+        this.updateEditor = this.updateEditor.bind(this);
     }
 
 
     componentWillMount() {
         console.log('course form container ',this.props);
-        this.props.coursesCreateEditActions.loadCourses(this.props.params.courseId);
+        let id = this.props.params.courseId;
+        this.props.coursesCreateEditActions.loadCourses(id);
 
     }
 
@@ -63,12 +68,16 @@ class CreateEditCoursesContainer extends React.Component {
     updateFormData(e){
         const feild = e.target.name;
         const value = e.target.value;
-        console.log(feild);
-        console.log(value);
         let data = this.state;
         data[feild] = value;
         this.setState(data);
-        console.log('state',this.state);
+
+    }
+
+    updateEditor(content){
+        let data = this.state;
+        data.detail = content;
+        this.setState(data);
     }
 
     uploadAvatar(event){
@@ -76,13 +85,22 @@ class CreateEditCoursesContainer extends React.Component {
         this.props.coursesCreateEditActions.uploadAvatar(file, this.state);
     }
     uploadLogo(event){
-        console.log('uploadLogo');
         let file = event.target.files[0];
         this.props.coursesCreateEditActions.uploadLogo(file, this.state);
     }
     uploadCover(event){
         let file = event.target.files[0];
         this.props.coursesCreateEditActions.uploadCover(file, this.state);
+    }
+
+    changeColor(color){
+        let data = this.state;
+        data.color = color.hex;
+        this.setState(data);
+    }
+
+    commitCourseData(){
+        this.props.coursesCreateEditActions.commitCourseData(this.state);
     }
 
     render() {
@@ -190,9 +208,9 @@ class CreateEditCoursesContainer extends React.Component {
                                                      urlPost={linkUploadImageEditor()}
                                                      fileField="image"
                                                      name="detail"
-                                                     updateEditor={()=>{}}
+                                                     updateEditor={this.updateEditor}
 
-                                                     value={this.state.detail}
+                                                     value={this.state.detail ? this.state.detail : ""}
                                                  />
                                              }
 
@@ -298,6 +316,21 @@ class CreateEditCoursesContainer extends React.Component {
                                             )
                                         }
 
+                                        <div className="card-content">
+                                            <h4 className="card-title">Chọn màu</h4>
+                                            <CirclePicker width="100%"
+                                                          color={this.state.color}
+                                                          onChangeComplete={this.changeColor}
+                                            />
+                                        </div>
+
+                                        <button
+                                            className="btn btn-fill btn-rose"
+                                            type="button"
+                                            onClick={this.commitCourseData}
+                                        > Lưu </button>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -309,6 +342,14 @@ class CreateEditCoursesContainer extends React.Component {
 }
 
 CreateEditCoursesContainer.propTypes = {
+    isLoading: PropTypes.bool,
+    data: PropTypes.object,
+    isUpdatingAvatar: PropTypes.bool,
+    updateAvatarError: PropTypes.bool,
+    isUpdatingLogo: PropTypes.bool,
+    updateLogoError: PropTypes.bool,
+    isUpdatingCover: PropTypes.bool,
+    updateCoverError: PropTypes.bool
 };
 
 function mapStateToProps(state) {

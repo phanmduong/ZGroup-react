@@ -2,7 +2,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-
+let data;
 export default function courseReducer(state = initialState.courses, action) {
     switch (action.type) {
         case types.BEGIN_LOAD_COURSES_DATA:
@@ -31,8 +31,36 @@ export default function courseReducer(state = initialState.courses, action) {
                     error: true,
                 }
             };
+        case types.BEGIN_DELETE_COURSES:
+            return {
+                ...state,
+            };
+
+        case types.DELETE_COURSES_SUCCESS:
+            data = deleteCourse(action.courseId,state.coursesList);
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    error: false,
+                    coursesList: data
+                }
+            };
+        case types.DELETE_COURSES_ERROR:
+            return {
+                ...state,
+                ...{
+
+                }
+            };
         default:
             return state;
     }
 }
 
+function deleteCourse(courseId, courseList) {
+    if (courseList) {
+        courseList = courseList.filter(course => course.id !== courseId);
+    }
+    return courseList;
+}

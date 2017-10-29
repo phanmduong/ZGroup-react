@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import * as helper from  "../../helpers/helper";
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import {connect} from 'react-redux';
-import  * as coursesFormActions from './coursesForm/CoursesCreateEditActions';
+import  * as CoursesCreateEditActions from './coursesForm/CoursesCreateEditActions';
 import {bindActionCreators} from 'redux';
-import {Redirect} from 'react-router';
 import initialState from '../../reducers/initialState';
 
 
@@ -17,13 +16,20 @@ class ListCourse extends React.Component {
 
         }
         this.editCourse = this.editCourse.bind(this);
+        this.deleteCourse = this.deleteCourse.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps){
+        console.log('componentWillReceiveProps',nextProps);
     }
 
     editCourse(course){
-        console.log(this.props);
-
-        this.props.coursesFormActions.loadCoursesForm(course);
+        this.props.CoursesCreateEditActions.loadCourses(course);
         initialState.coursesForm.data = course;
+    }
+
+    deleteCourse(courseId){
+        this.props.deleteCourse(courseId.id);
     }
 
     render(){
@@ -45,6 +51,9 @@ class ListCourse extends React.Component {
                 </thead>
                 <tbody>
                 {this.props.courses.map((course)=>{
+                    let search = this.props.search;
+                    let courseName = course.name;
+                    if(search.includes(courseName) || courseName.includes(search))
                     return (
                         <tr key={course.id}>
                             <td>
@@ -69,8 +78,8 @@ class ListCourse extends React.Component {
 
                                 editUrl={"/manage/courses/"+course.id+"/edit"}
 
-                                delete={()=>{/*delete course*/}}
-
+                                delete={this.deleteCourse}
+                                object={course}
 
                             />
                             </td>
@@ -87,19 +96,21 @@ class ListCourse extends React.Component {
 
 
 ListCourse.propTypes = {
-    courses: PropTypes.array.isRequired
+    courses: PropTypes.array.isRequired,
+    search: PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
-        data: state.coursesCreateEdit.data
+        data: state.coursesCreateEdit.data,
+
     };
 }
 
 
 function mapDispatchToProps(dispatch) {
     return {
-        coursesFormActions: bindActionCreators(coursesFormActions, dispatch)
+        CoursesCreateEditActions: bindActionCreators(CoursesCreateEditActions, dispatch)
     };
 }
 

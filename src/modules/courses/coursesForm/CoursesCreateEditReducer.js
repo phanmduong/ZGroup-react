@@ -6,6 +6,7 @@ import initialState from '../../../reducers/initialState';
 export default function courseReducer(state = initialState.coursesCreateEdit, action) {
     console.log(action.type);
     switch (action.type) {
+
         case types.BEGIN_LOAD_COURSE:
             return {
                 ...state,

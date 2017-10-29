@@ -657,7 +657,7 @@ export default {
       isUpdatingCover: false,
       updateCoverError: false,
       data:{
-          id: "",
+          id: null,
           name: "",
           duration: "",
           price: "",
