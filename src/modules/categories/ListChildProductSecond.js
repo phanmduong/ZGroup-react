@@ -34,7 +34,7 @@ class ListChildProductSecond extends React.Component {
 
 
                 {/*     LIST CHILD GROUP    */}
-                {this.props.isLoading || this.props.isSaving ?
+                {this.props.isLoading ?
                     <Loading/>
                     :
                     count !== 0 ?
@@ -112,6 +112,7 @@ class ListChildProductSecond extends React.Component {
                                                 parent_id={category.id}
                                                 categoriesList={this.props.categoriesList}
                                                 isLoading={this.props.isLoading}
+                                                name = {category.name}
                                             />
                                         </div>
                                     </div>
@@ -123,24 +124,27 @@ class ListChildProductSecond extends React.Component {
                 }
 
                 {/*     ADD CHILD GROUP     */}
+                {this.props.name ?
+                    <div>
+                        <a onClick={() => {
+                            this.openAddCategoryModalContainer('', this.props.parent_id, '', false);
+                        }}>
+                            <button rel="tooltip" data-placement="top" title=""
+                                    data-oriinal-title="Remove item"
+                                    style={{
+                                        width: "20px",
+                                        height: "20px",
+                                        padding: "0px"
+                                    }}
+                                    className="btn btn-round btn-sm btn-success">
+                                <i style={{"float ": " none!important"}} className="material-icons">add</i>
+                            </button>
+                            <span style={{paddingLeft: "10px"}}><strong>Thêm nhóm con {this.props.name} </strong></span>
+                        </a>
+                    </div>
+                    : null
 
-                <div>
-                    <a onClick={() => {
-                        this.openAddCategoryModalContainer('', this.props.parent_id, '', false);
-                    }}>
-                        <button rel="tooltip" data-placement="top" title=""
-                                data-oriinal-title="Remove item"
-                                style={{
-                                    width: "20px",
-                                    height: "20px",
-                                    padding: "0px"
-                                }}
-                                className="btn btn-round btn-sm btn-success">
-                            <i style={{"float ": " none!important"}} className="material-icons">add</i>
-                        </button>
-                        <span style={{paddingLeft: "10px"}}><strong>Thêm nhóm con</strong></span>
-                    </a>
-                </div>
+                }
             </div>
 
         );
@@ -154,6 +158,7 @@ ListChildProductSecond.propTypes = {
     isLoading: PropTypes.bool,
     isSaving : PropTypes.bool,
     count : PropTypes.number,
+    name : PropTypes.string,
 
 };
 
@@ -162,7 +167,6 @@ function mapStateToProps(state) {
         isLoading: state.categories.isLoading,
         categoriesList: state.categories.categoriesList,
         error: state.categories.error,
-        isSaving: state.categories.addCategoriesModal.isSaving,
     };
 }
 
