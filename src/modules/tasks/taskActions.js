@@ -3,8 +3,10 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as taskApi from "./taskApi";
+import * as goodApi from '../good/goodApi';
 import {showErrorNotification, showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
+import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
 
 /*eslint no-console: 0 */
 export function changeProjectStatus(project, status) {
@@ -1180,12 +1182,18 @@ export function loadGoodPropertyItems(taskListId) {
     };
 }
 
-export function openAskGoodPropertiesModal(goodPropertiesOutput, goodProperties) {
+export function openAskGoodPropertiesModal(task) {
     return function (dispatch) {
+        let goodPropertiesOutput = {};
+        let goodProperties = task.good_property_items;
+        goodProperties.forEach((goodPropertyItem) => {
+            goodPropertiesOutput[goodPropertyItem.name] = {};
+        });
         dispatch({
             type: types.OPEN_ASK_GOOD_PROPERTY_MODAL,
             goodPropertiesOutput,
-            goodProperties
+            goodProperties,
+            task
         });
     };
 }
@@ -1208,7 +1216,44 @@ export function updateGoodPropertiesOutput(goodPropertiesOutput) {
 }
 
 export function submitGoodProperties() {
-    return function (dispatch) {
+    return function (dispatch, getState) {
 
-    }
+        const state = getState();
+        const {card, goodProperties, task, goodPropertiesOutput} = state.task.askGoodProperties;
+
+        const isValid = isNotEmptyGoodProperty(goodProperties, goodPropertiesOutput);
+
+        if (isValid) {
+
+            let goodPropertiesSubmit = [];
+            for (let key in goodPropertiesOutput) {
+                let property = goodPropertiesOutput[key];
+                let obj = {
+                    name: key,
+                    value: property.value + (property.unit ? " " + property.unit : "")
+                };
+                goodPropertiesSubmit.push(obj);
+            }
+
+
+            dispatch({
+                type: types.BEGIN_SUBMIT_GOOD_PROPERTIES
+            });
+
+            const sourceBoardId = task.current_board_id;
+            const targetBoardId = task.target_board_id;
+
+            goodApi.saveGoodProperties(card.good_id, goodPropertiesSubmit)
+                .then(() => {
+                    showNotification("Cập nhật thuộc tính sản phẩm thành công");
+                    dispatch({
+                        type: types.SUBMIT_GOOD_PROPERTIES_SUCCESS
+                    });
+                    moveCard(sourceBoardId, targetBoardId, task.id);
+                });
+
+        }
+
+
+    };
 }

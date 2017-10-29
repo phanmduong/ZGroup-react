@@ -7,9 +7,6 @@ import PropTypes from 'prop-types';
 import {Button, Modal} from 'react-bootstrap';
 import Loading from "../../components/common/Loading";
 import InputGoodProperties from "./InputGoodProperties";
-import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
-import {saveGoodProperties} from "./goodApi";
-import {showNotification} from "../../helpers/helper";
 
 class AskGoodPropertiesModalContainer extends React.Component {
     constructor(props, context) {
@@ -26,32 +23,7 @@ class AskGoodPropertiesModalContainer extends React.Component {
     }
 
     submitGoodProperties() {
-
-        const isValid = isNotEmptyGoodProperty(this.state.goodProperties, this.state.goodPropertiesOutput);
-
-        if (isValid) {
-            let goodProperties = [];
-            for (let key in this.state.goodPropertiesOutput) {
-                let property = this.state.goodPropertiesOutput[key];
-                let obj = {
-                    name: key,
-                    value: property.value + (property.unit ? " " + property.unit : "")
-                };
-                goodProperties.push(obj);
-            }
-            this.setState({isSaving: true});
-            saveGoodProperties(this.props.card.good_id, goodProperties)
-                .then(() => {
-                    this.close();
-                    this.setState({isSaving: false});
-                    showNotification("Cập nhật thuộc tính sản phẩm thành công");
-                    this.props.taskActions.toggleTaskStatus(this.state.currentTask, this.state.currentCard);
-                    const sourceBoardId = this.state.currentTask.current_board_id;
-                    const targetBoardId = this.state.currentTask.target_board_id;
-                    this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.state.currentCard.id);
-                });
-        }
-
+        this.props.taskActions.submitGoodProperties();
     }
 
     updateGoodPropertiesOutput(goodPropertiesOutput) {

@@ -289,7 +289,8 @@ export default {
             showModal: false,
             isSaving: false,
             goodPropertiesOutput: {},
-            goodProperties: []
+            goodProperties: [],
+            task: {}
         },
         createCard: {
             card: {},

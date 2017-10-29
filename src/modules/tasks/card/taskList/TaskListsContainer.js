@@ -27,12 +27,8 @@ class TaskListsContainer extends React.Component {
         this.closeAskGoodPropertiesModal = this.closeAskGoodPropertiesModal.bind(this);
     }
 
-    openAskGoodPropertiesModal(goodPropertyItems) {
-        let goodPropertiesOutput = {};
-        goodPropertyItems.forEach((goodPropertyItem) => {
-            goodPropertiesOutput[goodPropertyItem.name] = {};
-        });
-        this.props.taskActions.openAskGoodPropertiesModal(goodPropertiesOutput, goodPropertyItems);
+    openAskGoodPropertiesModal(task) {
+        this.props.taskActions.openAskGoodPropertiesModal(task);
     }
 
     closeAskGoodPropertiesModal() {
@@ -56,19 +52,17 @@ class TaskListsContainer extends React.Component {
     }
 
     toggleTaskStatus(task, card) {
-        this.setState({
-            currentTask: task,
-            currentCard: card
-        });
+        console.log(task);
         if (task.good_property_items && task.good_property_items.length > 0) {
             if (!task.status) {
-                this.openAskGoodPropertiesModal(task.good_property_items);
+                this.openAskGoodPropertiesModal(task);
             } else {
-                this.props.taskActions.toggleTaskStatus(task, card);
+                console.log("toggle");
+                // this.props.taskActions.toggleTaskStatus(task, card);
             }
 
         } else {
-            this.props.taskActions.toggleTaskStatus(task, card);
+            // this.props.taskActions.toggleTaskStatus(task, card);
         }
 
     }
@@ -132,13 +126,19 @@ class TaskListsContainer extends React.Component {
                                 </div>
                                 <ListGroup>
                                     {
-                                        taskList.tasks.map((task) => {
+                                        taskList.tasks.sort((a, b) => a.order - b.order).map((task) => {
+
                                             let isEnable = true;
                                             if (isProcess) {
-                                                isEnable = !task.status &&
-                                                    (task.order == 0 || taskList.tasks.filter(t => !!t.status && t.order == Number(task.order) - 1).length > 0);
-                                            }
+                                                const previousTask = taskList.tasks.filter((t) => {
+                                                    const previousTaskOrder = Number(task.order) - 1;
+                                                    return t.order === previousTaskOrder;
+                                                })[0];
 
+
+                                                isEnable = !task.status &&
+                                                    (task.order === 0 || !!previousTask.status);
+                                            }
 
                                             return (<TaskItem
                                                 isEnable={isEnable}
@@ -181,6 +181,7 @@ class TaskListsContainer extends React.Component {
         );
     }
 }
+
 
 TaskListsContainer.propTypes = {
     card: PropTypes.object.isRequired,
