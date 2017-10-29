@@ -18,7 +18,7 @@ class PermissionTab
     public function handle($request, Closure $next, $tabId)
     {
         $tab = Tab::find($tabId);
-        if (Auth::user()->havePermissionTab($tab)) {
+        if (Auth::user()->havePermissionTab($tab) || Auth::user()->isAdmin()) {
             return $next($request);
         } else {
             return redirect('/access_forbidden');
