@@ -59,6 +59,7 @@ class Kernel extends HttpKernel
         'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
         'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
         'from_topcv' => \App\Http\Middleware\checkTopCVToken::class,
-        'is_keetool_server' => \App\Http\Middleware\IsKeetoolServer::class
+        'is_keetool_server' => \App\Http\Middleware\IsKeetoolServer::class,
+        'permission_tab' => \App\Http\Middleware\PermissionTab::class
     ];
 }
