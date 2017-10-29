@@ -17,11 +17,8 @@ class TabContainer extends React.Component {
             tabs: []
         };
 
-        // mảng lưu id các phần tử cha của id được họn
-        this.tabStack = [];
+        this.currentTab = [];
 
-        // kiểm tra xem đã tìm thấy tab con chưa
-        this.checkTabChild = false;
     }
 
     componentWillMount() {
@@ -34,53 +31,48 @@ class TabContainer extends React.Component {
             // tạo cây
             let tabs = helper.transformToTree(nextProps.tabsListData, "id", "parent_id");
             this.setState({tabs: tabs});
-            const tab = nextProps.tabsListData
-                .filter(t => t.url === this.props.pathname)[0];
-            if (tab) {
-                const parentTab = nextProps.tabsListData
-                    .filter(t => t.id === tab.parent_id)[0];
-
-                if (parentTab) {
-                    this.setState({
-                        parentTabId: parentTab.id
-                    });
-                }
-
-            }
+            // const tab = nextProps.tabsListData
+            //     .filter(t => t.url === this.props.pathname)[0];
+            // if (tab) {
+            //     const parentTab = nextProps.tabsListData
+            //         .filter(t => t.id === tab.parent_id)[0];
+            //
+            //     if (parentTab) {
+            //         this.setState({
+            //             parentTabId: parentTab.id
+            //         });
+            //     }
+            //
+            // }
 
         }
     }
 
     componentDidUpdate() {
+        console.log(this.currentTab);
+        this.currentTab.parent.forEach((tabParent) => {
+            if (!$("#tab" + tabParent.id).hasClass('collapse in')) {
+                $("#tab" + tabParent.id).collapse('toggle');
+            }
+        });
 
-        // truy vết tất cả thằng cha để mở collapse
-        if (this.tabStack.length > 0 && this.checkTabChild) {
-            this.tabStack.forEach((tabId) => {
-                if (!$("#tab" + tabId).hasClass('collapse in')) {
-                    $("#tab" + tabId).collapse('toggle');
-                }
-            });
-        }
     }
 
     renderTabChildren(tabChildren) {
-
-        // lưu cha lại để truy vết
-        if (!this.checkTabChild)
-            this.tabStack.push(tabChildren.id);
-
-        if (this.state.parentTabId === tabChildren.id) {
-            this.checkTabChild = true;
-        }
+        tabChildren.parent = tabChildren.parent ? tabChildren.parent : [];
 
         return (
             <ul className="nav">
                 {
                     tabChildren.children.map((tab, index) => {
+                        tab.parent = [...tabChildren.parent, tabChildren];
                         if (tab.children.length <= 0) {
+                            if (this.props.pathname === tab.url) {
+                                this.currentTab = tab;
+                            }
                             return (
                                 <li key={"keytabpar" + index}
-                                    className={this.props.pathname === tab.url ? "active" : ""} >
+                                    className={this.props.pathname === tab.url ? "active" : ""}>
                                     <Link to={tab.url} activeClassName="active"
                                           onClick={() => {
                                               helper.closeSidebar();
@@ -92,7 +84,7 @@ class TabContainer extends React.Component {
                             );
                         } else {
                             return (
-                                <li key={"keytabpar" + index} >
+                                <li key={"keytabpar" + index}>
                                     <a data-toggle="collapse"
                                        href={'#tab' + tab.id}>
                                         <p>{tab.name}
@@ -104,11 +96,6 @@ class TabContainer extends React.Component {
 
                                             this.renderTabChildren(tab)
                                         }
-                                        <div style={{display: 'none'}}>
-                                            {
-                                                (!this.checkTabChild) && this.tabStack.pop()
-                                            }
-                                        </div>
                                     </div>
                                 </li>
                             );
