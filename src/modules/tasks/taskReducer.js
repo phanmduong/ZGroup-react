@@ -13,6 +13,7 @@ export default function taskReducer(state = initialState.task, action) {
                 askGoodProperties: {
                     ...state.askGoodProperties,
                     isSaving: false,
+                    showModal: false,
                     goodPropertiesOutput: {},
                     goodProperties: []
                 }

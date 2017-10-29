@@ -1219,7 +1219,9 @@ export function submitGoodProperties() {
     return function (dispatch, getState) {
 
         const state = getState();
-        const {card, goodProperties, task, goodPropertiesOutput} = state.task.askGoodProperties;
+
+        const {goodProperties, task, goodPropertiesOutput} = state.task.askGoodProperties;
+        const {card} = state.task.cardDetail;
 
         const isValid = isNotEmptyGoodProperty(goodProperties, goodPropertiesOutput);
 

@@ -52,17 +52,16 @@ class TaskListsContainer extends React.Component {
     }
 
     toggleTaskStatus(task, card) {
-        console.log(task);
         if (task.good_property_items && task.good_property_items.length > 0) {
             if (!task.status) {
                 this.openAskGoodPropertiesModal(task);
             } else {
                 console.log("toggle");
-                // this.props.taskActions.toggleTaskStatus(task, card);
+                this.props.taskActions.toggleTaskStatus(task, card);
             }
 
         } else {
-            // this.props.taskActions.toggleTaskStatus(task, card);
+            this.props.taskActions.toggleTaskStatus(task, card);
         }
 
     }
