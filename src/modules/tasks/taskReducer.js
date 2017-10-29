@@ -20,8 +20,7 @@ export default function taskReducer(state = initialState.task, action) {
                 askGoodProperties: {
                     ...state.askGoodProperties,
                     isLoading: false,
-                    goodProperties: action.goodProperties,
-                    goodPropertiesOutput: action.goodPropertiesOutput
+                    goodProperties: action.goodProperties
                 }
             };
         case types.SUBMIT_GOOD_PROPERTIES_SUCCESS:
