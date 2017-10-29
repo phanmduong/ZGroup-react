@@ -31,20 +31,6 @@ class TabContainer extends React.Component {
             // tạo cây
             let tabs = helper.transformToTree(nextProps.tabsListData, "id", "parent_id");
             this.setState({tabs: tabs});
-            // const tab = nextProps.tabsListData
-            //     .filter(t => t.url === this.props.pathname)[0];
-            // if (tab) {
-            //     const parentTab = nextProps.tabsListData
-            //         .filter(t => t.id === tab.parent_id)[0];
-            //
-            //     if (parentTab) {
-            //         this.setState({
-            //             parentTabId: parentTab.id
-            //         });
-            //     }
-            //
-            // }
-
         }
     }
 
