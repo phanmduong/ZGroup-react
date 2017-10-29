@@ -51,33 +51,29 @@ class AddCategoryModalContainer extends React.Component {
                             <div>
                                 {this.props.isEdit ?
 
-                                    <div className="modal-body">
 
-                                        <div className="form-group label-floating is-empty">
-                                            <label>Sửa tên nhóm</label>
-                                            <input type="text" className="form-control"
-                                                   defaultValue={this.props.name}
-                                                   onChange={(e) => {
-                                                       this.setState({name: e.target.value});
-                                                       e.preventDefault();
-                                                   }}/>
-                                            <span className="material-input"/>
-                                            <span className="material-input"/>
-                                        </div>
+                                    <div className="form-group label-floating is-empty">
+                                        <label>Sửa tên nhóm</label>
+                                        <input type="text" className="form-control"
+                                               defaultValue={this.props.name}
+                                               onChange={(e) => {
+                                                   this.setState({name: e.target.value});
+                                                   e.preventDefault();
+                                               }}/>
+                                        <span className="material-input"/>
+                                        <span className="material-input"/>
                                     </div>
                                     :
-                                    <div className="modal-body">
 
-                                        <div className="form-group label-floating is-empty">
-                                            <label className="control-label">Tên nhóm</label>
-                                            <input type="text" className="form-control"
-                                                   onChange={(e) => {
-                                                       this.setState({name: e.target.value});
-                                                       e.preventDefault();
-                                                   }}/>
-                                            <span className="material-input"/>
-                                            <span className="material-input"/>
-                                        </div>
+                                    <div className="form-group label-floating is-empty">
+                                        <label className="control-label">Tên nhóm</label>
+                                        <input type="text" className="form-control"
+                                               onChange={(e) => {
+                                                   this.setState({name: e.target.value});
+                                                   e.preventDefault();
+                                               }}/>
+                                        <span className="material-input"/>
+                                        <span className="material-input"/>
                                     </div>
                                 }
                             </div>
@@ -133,8 +129,8 @@ AddCategoryModalContainer.propTypes = {
     isShowModal: PropTypes.bool,
     isSaving: PropTypes.bool,
     parent_id: PropTypes.number,
-    name : PropTypes.string,
-    id : PropTypes.number,
+    name: PropTypes.string,
+    id: PropTypes.number,
     isEdit: PropTypes.bool,
 };
 
@@ -145,7 +141,7 @@ function mapStateToProps(state) {
         parent_id: state.categories.addCategoriesModal.parent_id,
         name: state.categories.addCategoriesModal.name,
         isEdit: state.categories.addCategoriesModal.isEdit,
-        id : state.categories.addCategoriesModal.id,
+        id: state.categories.addCategoriesModal.id,
     };
 }
 

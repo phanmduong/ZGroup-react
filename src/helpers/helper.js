@@ -163,7 +163,7 @@ export function updateArrayElement(element, array) {
 }
 
 export function getShortName(name) {
-
+    if (isEmptyInput(name)) return null;
     let n = name.trim().split(" ");
     if (n.length > 1)
         return n[n.length - 2] + ' ' + n[n.length - 1];
@@ -760,4 +760,39 @@ function addZeroTime(time) {
 export function formatTime(time, formatBefore, formatAtfer) {
     let timeIsValid = moment(time, formatBefore).isValid();
     return timeIsValid ? moment(time, formatBefore).format(formatAtfer) : null;
+}
+
+export function generateDatatableLanguage(item) {
+    return {
+        "lengthMenu": `Hiển thị _MENU_ ${item} trên 1 trang`,
+        "zeroRecords": "Không có kết quả nào phù hợp",
+        "processing": "Đang xử lý...",
+        "info": "Hiển trị trang _PAGE_ trên tổng số _PAGES_ trang",
+        "infoEmpty": "Không có dữ liệu",
+        "infoFiltered": `(lọc từ _MAX_ ${item})`,
+        "search": "Tìm kiếm: ",
+        "paginate": {
+            "first": "đầu",
+            "last": "cuối",
+            "next": "tiếp",
+            "previous": "trước"
+        },
+        "emptyTable": `Không có ${item} sản phẩm`,
+    };
+}
+
+export function transformToTree(arr, nameParent, nameChildren){
+    let nodes = {};
+    arr = arr.map((item)=>{
+        return {...item};
+    });
+    return arr.filter(function(obj){
+        let id = obj[nameParent],
+            parentId = obj[nameChildren];
+
+        nodes[id] = _.defaults(obj, nodes[id], { children: [] });
+        parentId && (nodes[parentId] = (nodes[parentId] || { children: [] }))["children"].push(obj);
+
+        return !parentId;
+    });
 }

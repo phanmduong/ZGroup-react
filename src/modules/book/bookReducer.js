@@ -6,6 +6,26 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+        case types.SAVE_TASK_TITLE_SUCCESS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks && state.taskListDetail.taskList.tasks.map((task) => {
+                            if (task.id == action.task.id) {
+                                return {
+                                    ...task,
+                                    ...action.task
+                                };
+                            }
+                            return task;
+                        })
+                    },
+                    isSavingTask: false
+                }
+            };
 
         case types.CHANGE_TASK_ORDER:
             return {

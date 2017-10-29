@@ -33,6 +33,9 @@ import historyShiftRegistersReducer from "../modules/historyShiftRegisters/histo
 import shiftSessionsReducer from "../modules/shiftSessions/shiftSessionsReducer";
 import courseReducer from "../modules/courses/coursesReducer";
 import categoriesReducer from "../modules/categories/categoriesReducer";
+import goodOrdersReducer from "../modules/goodOrders/goodOrdersReducer";
+import productListReducer from "../modules/productList/productListReducer";
+import importGoodsReducer from "../modules/importGoods/importGoodsReducer";
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -68,6 +71,9 @@ const appReducer = combineReducers({
     shiftSessions: shiftSessionsReducer,
     courses: courseReducer,
     categories : categoriesReducer,
+    goodOrders: goodOrdersReducer,
+    productList: productListReducer,
+    importGoods: importGoodsReducer,
 });
 
 const rootReducer = (state, action) => {

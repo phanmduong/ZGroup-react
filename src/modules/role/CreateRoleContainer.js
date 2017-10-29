@@ -47,7 +47,6 @@ class CreateRoleContainer extends React.Component {
     render() {
         return (
             <CreateRoleComponent
-                tabsListData={this.props.tabsListData}
                 changeCheckTab={this.changeCheckTab}
                 createRole={this.createRole}
                 updateFormData={this.updateFormData}

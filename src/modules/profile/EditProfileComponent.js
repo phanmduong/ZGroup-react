@@ -60,11 +60,11 @@ class AddStaffComponent extends React.Component {
                                         />
                                         <FormInputText
                                             label="Tên đăng nhập"
+                                            updateFormData={this.props.updateFormData}
                                             name="username"
                                             value={username}
                                             required={true}
                                             type="text"
-                                            disabled
                                         />
                                         <FormInputText
                                             label="Tuổi"

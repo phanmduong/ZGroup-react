@@ -8,7 +8,7 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
-import {confirm, showNotification} from "../../../../helpers/helper";
+import {confirm, showErrorNotification, showNotification} from "../../../../helpers/helper";
 import AskGoodPropertiesModalContainer from "../../../good/AskGoodPropertiesModalContainer";
 import {saveGoodProperties} from '../../../good/goodApi';
 
@@ -54,26 +54,60 @@ class TaskListsContainer extends React.Component {
     }
 
     submitGoodProperties() {
-        let goodProperties = [];
-        for (let key in this.state.goodPropertiesOutput) {
-            let property = this.state.goodPropertiesOutput[key];
-            let obj = {
-                name: key,
-                value: property.value + (property.unit ? " " + property.unit : "")
-            };
-            goodProperties.push(obj);
+
+        let errorValue = "";
+        let errorUnit = "";
+
+        this.state.goodProperties.forEach((t) => {
+            let output = this.state.goodPropertiesOutput;
+
+            if (output[t.name].value == null || output[t.name].value == "") {
+                if (errorValue == "") {
+                    errorValue += t.name;
+                } else {
+                    errorValue += ", " + t.name;
+                }
+            }
+
+            if (t.preunit && (output[t.name].unit == null || output[t.name].unit == "")) {
+                if (errorUnit == "") {
+                    errorUnit += t.name;
+                } else {
+                    errorUnit += ", " + t.name;
+                }
+            }
+
+        });
+        if (errorValue !== "") {
+            showErrorNotification("Bạn nhập thiếu giá trị thuộc tính: " + errorValue);
         }
-        this.setState({isSaving: true});
-        saveGoodProperties(this.props.card.good_id, goodProperties)
-            .then(() => {
-                this.closeAskGoodPropertiesModal();
-                this.setState({isSaving: false});
-                showNotification("Cập nhật thuộc tính sản phẩm thành công");
-                this.props.taskActions.toggleTaskStatus(this.state.currentTask, this.state.currentCard);
-                const sourceBoardId = this.state.currentTask.current_board_id;
-                const targetBoardId = this.state.currentTask.target_board_id;
-                this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.state.currentCard.id);
-            });
+        if (errorUnit !== "") {
+            showErrorNotification("Bạn nhập thiếu đơn vị thuộc tính: " + errorUnit);
+        }
+
+        if (errorUnit === "" && errorValue === "") {
+            let goodProperties = [];
+            for (let key in this.state.goodPropertiesOutput) {
+                let property = this.state.goodPropertiesOutput[key];
+                let obj = {
+                    name: key,
+                    value: property.value + (property.unit ? " " + property.unit : "")
+                };
+                goodProperties.push(obj);
+            }
+            this.setState({isSaving: true});
+            saveGoodProperties(this.props.card.good_id, goodProperties)
+                .then(() => {
+                    this.closeAskGoodPropertiesModal();
+                    this.setState({isSaving: false});
+                    showNotification("Cập nhật thuộc tính sản phẩm thành công");
+                    this.props.taskActions.toggleTaskStatus(this.state.currentTask, this.state.currentCard);
+                    const sourceBoardId = this.state.currentTask.current_board_id;
+                    const targetBoardId = this.state.currentTask.target_board_id;
+                    this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.state.currentCard.id);
+                });
+        }
+
     }
 
     addTask(taskListId) {
@@ -109,6 +143,7 @@ class TaskListsContainer extends React.Component {
 
 
     render() {
+
         const tasksComplete = (taskList) => taskList.tasks.filter(t => t.status).length;
         const totalTasks = (taskList) => taskList.tasks.length;
         const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
@@ -177,6 +212,7 @@ class TaskListsContainer extends React.Component {
                                                 isEnable = !task.status &&
                                                     (task.order == 0 || taskList.tasks.filter(t => !!t.status && t.order == Number(task.order) - 1).length > 0);
                                             }
+
 
                                             return (<TaskItem
                                                 isEnable={isEnable}

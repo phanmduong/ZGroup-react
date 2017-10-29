@@ -1,16 +1,13 @@
 import React from 'react';
 import FormInputText from '../../components/common/FormInputText';
 import Loading from "../../components/common/Loading";
-import ItemTabParent from './ItemTabParent';
+import ListTab from './ListTab';
 import PropTypes from 'prop-types';
-
-let self;
 
 class CreateRoleComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.checkValidate = this.checkValidate.bind(this);
-        self = this;
     }
 
     checkValidate() {
@@ -19,9 +16,7 @@ class CreateRoleComponent extends React.Component {
         }
     }
 
-
     render() {
-        let {tabsListData} = this.props;
         let {role_title} = this.props.roleForm;
         return (
             <div>
@@ -46,18 +41,7 @@ class CreateRoleComponent extends React.Component {
                                             type="text"
                                         />
                                         <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                            {tabsListData.map((tab, index) => {
-                                                if (tab.id > 2 && tab.parent_id === 0) {
-                                                    return (
-                                                        <ItemTabParent
-                                                            tab={tab}
-                                                            key={index}
-                                                            tabsListData={tabsListData}
-                                                            changeCheckTab={self.props.changeCheckTab}
-                                                        />
-                                                    );
-                                                }
-                                            })}
+                                            <ListTab/>
                                         </div>
                                         {this.props.isLoadingCreateRole ?
                                             (

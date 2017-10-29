@@ -34,6 +34,7 @@ class EditRoleContainer extends React.Component {
         roleForm[field] = event.target.value;
         this.props.roleActions.updateRoleFormData(roleForm);
     }
+
     changeCheckTab(tab){
         this.props.roleActions.changeCheckTab(tab);
     }
@@ -45,7 +46,6 @@ class EditRoleContainer extends React.Component {
     render() {
         return (
             <EditRoleComponent
-                tabsListData={this.props.tabsListData}
                 changeCheckTab={this.changeCheckTab}
                 editRole={this.editRole}
                 updateFormData={this.updateFormData}

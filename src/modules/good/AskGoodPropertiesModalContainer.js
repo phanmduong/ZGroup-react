@@ -4,31 +4,17 @@ import {bindActionCreators} from 'redux';
 import * as goodActions from '../good/goodActions';
 import PropTypes from 'prop-types';
 import {Button, Modal} from 'react-bootstrap';
-import GoodPropertyItem from "./GoodPropertyItem";
 import Loading from "../../components/common/Loading";
+import InputGoodProperties from "./InputGoodProperties";
 
 class AskGoodPropertiesModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.close = this.close.bind(this);
-        this.setValue = this.setValue.bind(this);
-        this.setUnit = this.setUnit.bind(this);
     }
 
     close() {
         this.props.closeModal();
-    }
-
-    setUnit(name, unit) {
-        let goodPropertiesOutput = {...this.props.goodPropertiesOutput};
-        goodPropertiesOutput[name].unit = unit;
-        this.props.updateGoodPropertiesOutput(goodPropertiesOutput);
-    }
-
-    setValue(name, value) {
-        let goodPropertiesOutput = {...this.props.goodPropertiesOutput};
-        goodPropertiesOutput[name].value = value;
-        this.props.updateGoodPropertiesOutput(goodPropertiesOutput);
     }
 
     render() {
@@ -38,17 +24,10 @@ class AskGoodPropertiesModalContainer extends React.Component {
                     <Modal.Title>Thuộc tính</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {
-                        this.props.goodProperties.map((property) => {
-                            return (
-                                <GoodPropertyItem
-                                    setValue={this.setValue}
-                                    setUnit={this.setUnit}
-                                    key={property.id}
-                                    property={property}/>
-                            );
-                        })
-                    }
+                    <InputGoodProperties
+                        goodPropertiesOutput={this.props.goodPropertiesOutput}
+                        goodProperties={this.props.goodProperties}
+                        updateGoodPropertiesOutput={this.props.updateGoodPropertiesOutput}/>
                 </Modal.Body>
                 <Modal.Footer>
                     {

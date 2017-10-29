@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as helper from '../../helpers/helper';
 
 class FormInputText extends React.Component {
     constructor(props, context) {
@@ -10,10 +11,16 @@ class FormInputText extends React.Component {
         $.material.init();
     }
 
+    componentDidUpdate(){
+        if (!helper.isEmptyInput(this.props.value)) {
+            $(`#form-input-${this.props.name}`).removeClass('is-empty');
+        }
+    }
+
     render() {
         const className = this.props.isNotValid ? " has-error" : "";
         return (
-            <div className={"form-group label-floating" + className}>
+            <div id={`form-input-${this.props.name}`} className={"form-group label-floating" + className + " " + (this.props.className ? this.props.className : '')}>
                 <label className="control-label">
                     {this.props.label} {(this.props.required && !this.props.disabled && <star>*</star>)}
                 </label>
@@ -58,6 +65,7 @@ FormInputText.propTypes = {
     type: PropTypes.string,
     isNotValid: PropTypes.bool,
     errorMessage: PropTypes.string,
+    className: PropTypes.string,
     onKeyPress: PropTypes.func
 
 };

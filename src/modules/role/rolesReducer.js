@@ -178,7 +178,7 @@ export default function rolesReducer(state = initialState.roles, action) {
                 }
             };
         case types.CHANGE_CHECK_TAB:
-            tabListData = changeCheckTab(state.tabs.allTabs, action.tab);
+            tabListData = changeCheckTab(state.tabs.allTabs, action.tabId, action.checked);
             return {
                 ...state,
                 ...{
@@ -244,13 +244,13 @@ function removeDataRoles(roleListData, roleId) {
     return roleListData;
 }
 
-function changeCheckTab(tabListData, tab) {
+function changeCheckTab(tabListData, tabId, checked) {
     if (tabListData) {
         return tabListData.map((tabItem) => {
-            if (tabItem.id === tab.id) {
+            if (tabItem.id === tabId) {
                 return {
                     ...tabItem,
-                    ...tab
+                    checked: checked
                 };
             } else {
                 return tabItem;

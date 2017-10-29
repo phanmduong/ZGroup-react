@@ -59,6 +59,12 @@ import ShiftSessionsContainer from "./modules/shiftSessions/ShiftSessionsContain
 import CoursesContainer from './modules/courses/CoursesContainer';
 import CategoriesContainer from './modules/categories/CategoriesContainer';
 
+import OrdersContainer from './modules/goodOrders/OrdersContainer';
+import OrderContainer from './modules/goodOrders/order/OrderContainer';
+import ProductListContainer from './modules/productList/ProductListContainer';
+// import GoodDetailContainer from "./modules/good/GoodDetailContainer";
+import ImportGoodsContainer from './modules/importGoods/ImportGoodsContainer';
+import ImportContainer from './modules/importGoods/importGood/ImportContainer';
 
 export default (
     <Route>
@@ -201,8 +207,24 @@ export default (
                                                l
 
             {/*Begin categories routes */}
-            <Route path="/manage/categories" component={CategoriesContainer}/>
+            <Route path="/goods/categories" component={CategoriesContainer}/>
             {/*End categories routes */}
+
+
+
+            {/*Begin good order routes */}
+            <Route path="/goods/orders" component={OrdersContainer}/>
+            <Route path="/goods/order/:orderId" component={OrderContainer}/>
+            {/*End good order routes */}
+
+            {/*Begin product-list routes */}
+            <Route path="/goods/products" component={ProductListContainer}/>
+            {/*End product-list routes*/}
+
+            {/*Begin import goods routes */}
+            <Route path="/import-goods" component={ImportGoodsContainer}/>
+            <Route path="/import-good/:importGoodId" component={ImportContainer}/>
+            {/*End import goods routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

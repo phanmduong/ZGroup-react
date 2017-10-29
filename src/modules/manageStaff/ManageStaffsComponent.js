@@ -55,15 +55,12 @@ class ManageStaffsComponent extends React.Component {
                             <div className="tab-content">
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <div className="col-md-3">
                                             <Link
                                                 className="btn btn-rose"
                                                 to="add-staff"
                                             >
                                                 Tạo nhân viên
                                             </Link>
-                                        </div>
-                                        <div className="col-md-3">
                                             <button
                                                 type="button"
                                                 className="btn btn-rose"
@@ -71,7 +68,6 @@ class ManageStaffsComponent extends React.Component {
                                             >
                                                 Thêm từ người dùng
                                             </button>
-                                        </div>
 
                                     </div>
                                 </div>

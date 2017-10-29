@@ -1,4 +1,24 @@
 export default {
+    productList: {
+        products: [],
+        isLoading: false,
+        modalInProduct: {
+            priceModal: false,
+            wareHouseModal: false,
+            isModalUpdating: false,
+            modalUpdated: false
+        },
+        productEditing: {
+            id: '',
+            name: '',
+            code: '',
+            avatar_url: '',
+            price: '',
+            quantity: '',
+            warehouse: []
+        },
+    },
+
     good: {
         attachPropertyItem: {
             showModal: false,
@@ -174,6 +194,8 @@ export default {
             showModal: false,
             taskList: {},
             isSaving: false,
+            isSavingTask: false,
+            showEditTaskModal: false,
             isLoading: false
         },
         taskLists: {
@@ -190,6 +212,11 @@ export default {
     },
 
     task: {
+        archiveBoard: {
+            showModal: false,
+            boards: [],
+            isLoading: false
+        },
         personalSetting: {
             showModal: false,
             setting: {},
@@ -262,7 +289,11 @@ export default {
             card: {},
             isSaving: false,
             showModal: false,
-            board: {}
+            board: {},
+            isLoading: false,
+            isLoadingTaskListTemplate: false,
+            taskListTemplates: [],
+            goodPropertyItems: []
         },
 
         boardList: {
@@ -669,4 +700,41 @@ export default {
         error : false,
         categoriesList:[],
     },
+
+    goodOrders: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        orders: [],
+        totalOrder: 0,
+        totalMoney: 0,
+        totalPaidMoney: 0,
+        limit: 1,
+        totalCount: 1,
+        order: {
+            isLoading: false,
+            error: false,
+            infoOrder: {},
+            infoUser: {},
+            infoShip: {},
+            goodOrders: []
+        },
+        staffs: [],
+        isLoadingStaffs: false,
+        errorStaffs: false,
+    },
+
+    importGoods: {
+        isLoading: false,
+        error: false,
+        importOrders: [],
+        importGood: {
+            infoOrder: {},
+            infoPaid: {},
+            importOrder: {},
+            isLoading: true,
+            error: false,
+        }
+    }
 };

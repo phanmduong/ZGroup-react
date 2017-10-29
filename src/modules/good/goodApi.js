@@ -4,12 +4,9 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadGoods(page = 1, query = null, type = null) {
-    let url = env.MANAGE_API_URL + "/good/all?page=" + page;
+export function loadGoods(type = null) {
+    let url = env.MANAGE_API_URL + "/good/all/no-paging?type=" + type;
     let token = localStorage.getItem('token');
-    if (query) {
-        url += "&q=" + query;
-    }
     if (token) {
         url += "&token=" + token;
     }

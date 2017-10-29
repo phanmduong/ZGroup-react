@@ -104,7 +104,7 @@ export function changeRoleStaffSucessful(res) {
 }
 
 export function changeRoleStaffError() {
-    toastr.error('Thay đổi chức vụ thất bại');
+    helper.showErrorNotification('Thay đổi chức vụ thất bại');
     return ({
         type: types.CHANGE_ROLE_STAFF_ERROR,
         messageChangeRoleStaff: null,
@@ -158,17 +158,17 @@ export function addStaffDataSucessful(res) {
 export function addStaffDataError(data) {
     let isMessageError = false;
     if (data && data.email) {
-        toastr.error(data.email);
+        helper.showErrorNotification(data.email);
         isMessageError = true;
     }
 
     if (data && data.username) {
-        toastr.error(data.username);
+        helper.showErrorNotification(data.username);
         isMessageError = true;
     }
 
     if (!isMessageError) {
-        toastr.error('Tạo nhân viên thất bại. Thử lại');
+        helper.showErrorNotification('Tạo nhân viên thất bại. Thử lại');
     }
 
     return ({
@@ -213,7 +213,7 @@ export function changeBaseStaffSucessful(res) {
 }
 
 export function changeBaseStaffError() {
-    toastr.error('Thay đổi cơ sở thất bại');
+    helper.showErrorNotification('Thay đổi cơ sở thất bại');
     return ({
         type: types.CHANGE_BASE_STAFF_ERROR,
         messageChangeBaseStaff: null,
@@ -300,7 +300,17 @@ export function editStaffDataSucessful(res) {
 export function editStaffDataError(data) {
 
     if (data) {
-        helper.showTypeNotification(data, 'danger');
+        if (data.message) {
+            helper.showErrorNotification(data.message);
+        }
+
+        if (data.email) {
+            helper.showErrorNotification(data.email);
+        }
+
+        if (data.username) {
+            helper.showErrorNotification(data.username);
+        }
     } else {
         helper.showTypeNotification('Cập nhật nhân viên thất bại. Thử lại', 'danger');
     }
