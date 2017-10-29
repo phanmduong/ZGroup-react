@@ -13,8 +13,15 @@ class TabContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            parentTabId: null
+            parentTabId: null,
+            tabs: []
         };
+
+        // mảng lưu id các phần tử cha của id được họn
+        this.tabStack = [];
+
+        // kiểm tra xem đã tìm thấy tab con chưa
+        this.checkTabChild = false;
     }
 
     componentWillMount() {
@@ -24,6 +31,9 @@ class TabContainer extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.tabsListData.length > this.props.tabsListData.length) {
 
+            // tạo cây
+            let tabs = helper.transformToTree(nextProps.tabsListData, "id", "parent_id");
+            this.setState({tabs: tabs});
             const tab = nextProps.tabsListData
                 .filter(t => t.url === this.props.pathname)[0];
             if (tab) {
@@ -32,94 +42,132 @@ class TabContainer extends React.Component {
 
                 if (parentTab) {
                     this.setState({
-                        parentTabId: '#tab' + parentTab.id
+                        parentTabId: parentTab.id
                     });
                 }
+
             }
 
         }
     }
 
     componentDidUpdate() {
-        if (this.state.parentTabId && !$(this.state.parentTabId).hasClass('collapse in')) {
-            $(this.state.parentTabId).collapse('toggle');
+
+        // truy vết tất cả thằng cha để mở collapse
+        if (this.tabStack.length > 0 && this.checkTabChild) {
+            this.tabStack.forEach((tabId) => {
+                if (!$("#tab" + tabId).hasClass('collapse in')) {
+                    $("#tab" + tabId).collapse('toggle');
+                }
+            });
         }
     }
 
+    renderTabChildren(tabChildren) {
+
+        // lưu cha lại để truy vết
+        if (!this.checkTabChild)
+            this.tabStack.push(tabChildren.id);
+
+        if (this.state.parentTabId === tabChildren.id) {
+            this.checkTabChild = true;
+        }
+
+        return (
+            <ul className="nav">
+                {
+                    tabChildren.children.map((tab, index) => {
+                        if (tab.children.length <= 0) {
+                            return (
+                                <li key={"keytabpar" + index}
+                                    className={this.props.pathname === tab.url ? "active" : ""} >
+                                    <Link to={tab.url} activeClassName="active"
+                                          onClick={() => {
+                                              helper.closeSidebar();
+                                          }}
+                                    >
+                                        <p style={{paddingLeft: '10px'}}>{tab.name}</p>
+                                    </Link>
+                                </li>
+                            );
+                        } else {
+                            return (
+                                <li key={"keytabpar" + index} >
+                                    <a data-toggle="collapse"
+                                       href={'#tab' + tab.id}>
+                                        <p>{tab.name}
+                                            <b className="caret"/>
+                                        </p>
+                                    </a>
+                                    <div className="collapse" id={'tab' + tab.id} style={{paddingLeft: '10px'}}>
+                                        {
+
+                                            this.renderTabChildren(tab)
+                                        }
+                                        <div style={{display: 'none'}}>
+                                            {
+                                                (!this.checkTabChild) && this.tabStack.pop()
+                                            }
+                                        </div>
+                                    </div>
+                                </li>
+                            );
+                        }
+                    })
+                }
+            </ul>
+        );
+
+    }
 
     render() {
-
         if (this.props.isLoadingTab) {
             return <Loading/>;
         } else {
             return (
                 <ul className="nav">
-                    {this.props.tabsListData.map((tab, index) => {
-                        let checkDropdown = false;
-                        if (tab.parent_id === 0) {
-                            this.props.tabsListData.forEach((tabChild) => {
-                                if (tabChild.parent_id === tab.id && !checkDropdown) {
-                                    checkDropdown = true;
-                                }
-                            });
-                            if (checkDropdown) {
-                                return (
-                                    <li key={"keytabpar" + index}>
-                                        <a data-toggle="collapse"
-                                           href={'#tab' + tab.id}>
-                                            {//eslint-disable-next-line
-                                            }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
-                                            <p>{tab.name}
-                                                <b className="caret"/>
-                                            </p>
-                                        </a>
-                                        <div className="collapse" id={'tab' + tab.id}>
-                                            <ul className="nav">
-                                                {
-                                                    this.props.tabsListData.map((tabChild) => {
-                                                        if (tabChild.parent_id === tab.id) {
-
-                                                            return (
-                                                                <li className={this.props.pathname === tabChild.url ? "active" : ""}
-                                                                    key={"tabChild" + tabChild.id}>
-                                                                    <Link to={tabChild.url} activeClassName="active"
-                                                                          onClick={() => {
-                                                                              helper.closeSidebar();
-                                                                          }}>
-                                                                        {tabChild.name}
-                                                                    </Link>
-                                                                </li>
-                                                            );
-                                                        }
-                                                    })
-                                                }
-                                            </ul>
-                                        </div>
-                                    </li>
-                                );
-                            } else {
-                                return (
-                                    <li key={"keytabpar" + index}
-                                        className={this.props.pathname === tab.url ? "active" : ""}>
-                                        <Link to={tab.url} activeClassName="active"
-                                              onClick={() => {
-                                                  helper.closeSidebar();
-                                              }}
-                                        >
-                                            {//eslint-disable-next-line
-                                            }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
-                                            <p>{tab.name}</p>
-                                        </Link>
-                                    </li>
-                                );
-                            }
+                    {this.state.tabs.map((tab, index) => {
+                        if (tab.children.length <= 0) {
+                            return (
+                                <li key={"keytabpar" + index}
+                                    className={this.props.pathname === tab.url ? "active" : ""}>
+                                    <Link to={tab.url} activeClassName="active"
+                                          onClick={() => {
+                                              helper.closeSidebar();
+                                          }}
+                                    >
+                                        {//eslint-disable-next-line
+                                        }
+                                        <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                        <p>{tab.name}</p>
+                                    </Link>
+                                </li>
+                            );
+                        } else {
+                            return (
+                                <li key={"keytabpar" + index}>
+                                    <a data-toggle="collapse"
+                                       href={'#tab' + tab.id}>
+                                        {//eslint-disable-next-line
+                                        }
+                                        <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                        <p>{tab.name}
+                                            <b className="caret"/>
+                                        </p>
+                                    </a>
+                                    <div className="collapse" id={'tab' + tab.id}>
+                                        {
+                                            this.renderTabChildren(tab)
+                                        }
+                                    </div>
+                                </li>
+                            );
                         }
-                    })}
+                    })
+                    }
                 </ul>
             );
         }
-
-
     }
 }
 
