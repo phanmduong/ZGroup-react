@@ -10,6 +10,7 @@ import Loading from '../../../components/common/Loading';
 import PropTypes from 'prop-types';
 import * as importGoodActions from '../importGoodActions';
 import ListGood from './ListGood';
+import StoreGood from './StoreGood';
 import {Modal} from 'react-bootstrap';
 
 class StoreImportContainer extends React.Component {
@@ -149,6 +150,7 @@ class StoreImportContainer extends React.Component {
                         <Modal.Title>Thêm sản phẩm</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        <StoreGood/>
                     </Modal.Body>
                 </Modal>
             </div>
