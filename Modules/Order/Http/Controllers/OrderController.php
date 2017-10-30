@@ -5,6 +5,7 @@ namespace Modules\Order\Http\Controllers;
 use App\GoodCategory;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
+use App\OrderPaidMoney;
 use Illuminate\Http\Request;
 use App\Order;
 
@@ -244,6 +245,75 @@ class OrderController extends ManageApiController
         }
         return $this->respondSuccessWithStatus([
             'import_order' => $data,
+        ]);
+    }
+
+    public function addImportOrder(Request $request)
+    {
+        $importOrder = new Order;
+        if ($request->name == null || $request->warehouse_id == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu trường name hoặc warehouse_id'
+            ]);
+        $importOrder->name = $request->name;
+        $importOrder->note = $request->note;
+        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->staff_id = $this->user->id;
+        $importOrder->type = 'import';
+        $importOrder->save();
+        return $this->respondSuccessWithStatus([
+            'messgae' => 'SUCCESS'
+        ]);
+    }
+
+    public function addImportedGood(Request $request)
+    {
+        $importedGood = new ImportedGoods;
+        if ($request->order_import_id == null || Order::find($request->order_import_id) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại đơn nhập hàng'
+            ]);
+        if ($request->good_id == null || Good::find($request->good_id) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại sản phẩm'
+            ]);
+        if ($request->quantity == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu số lượng hàng'
+            ]);
+        if ($request->import_price == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu giá nhập hàng'
+            ]);
+        $importedGood->order_import_id = $request->order_import_id;
+        $importedGood->good_id = $request->good_id;
+        $importedGood->quantity = $request->quantity;
+        $importedGood->import_price = $request->import_price;
+        $importedGood->staff_id = Order::find($request->order_import_id)->staff->id;
+        $importedGood->warehouse_id = Order::find($request->order_import_id)->warehouse->id;
+        $importedGood->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function payOrder(Request $request)
+    {
+        if($request->order_id==null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu đơn hàng hoặc đơn hàng không tồn tại'
+            ]);
+        if($request->money==null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu tiền thanh toán'
+            ]);
+        $orderPaidMoney = new OrderPaidMoney;
+        $orderPaidMoney->order_id = $request->order_id;
+        $orderPaidMoney->money = $request->money;
+        $orderPaidMoney->staff_id = $this->user->id;
+        $orderPaidMoney->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
         ]);
     }
 }

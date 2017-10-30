@@ -293,7 +293,7 @@ class GoodController extends ManageApiController
         $good->avatar_url = $request->avatat_url;
         $good->price = $request->price;
         $good->manufacture_id = $request->manufacture_id;
-        $good->category_id = $request->category_id;
+        $good->good_category_id = $request->good_category_id;
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'

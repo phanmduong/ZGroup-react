@@ -216,4 +216,6 @@ class OrderController extends ManageController
 
         return redirect('/manage/warehouse/' . $goodWarehouse->warehouse->id);
     }
+
+
 }
