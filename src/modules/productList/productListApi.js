@@ -3,13 +3,13 @@ import * as env from '../../constants/env';
 
 export function getProductsApi() {
     let token = localStorage.getItem('token');
-    let url = "http://manageapi.graphics.vn/good/all?token=" + token;
+    let url = env.MANAGE_API_URL + "/good/all?token=" + token;
     return axios.get(url);
 }
 
 export function updatePriceApi(productPresent) {
     let token = localStorage.getItem('token');
-    let url = "http://manageapi.graphics.vn/good/" + productPresent.id + "/update-price?token=" + token;
+    let url = env.MANAGE_API_URL + "/good/" + productPresent.id + "/update-price?token=" + token;
     return axios.put(url, {
         price: productPresent.price
     });
@@ -39,7 +39,7 @@ export function getCategoriesApi() {
 
 export function uploadEditProductApi(productPresent) {
     let token = localStorage.getItem("token");
-    let url = "http://manageapi.graphics.vn/good/edit/" + productPresent.id + "?token=" + token;
+    let url = env.MANAGE_API_URL + "/good/edit/" + productPresent.id + "?token=" + token;
     return axios.put(url, {
         avatar_url: productPresent.avatar_url,
         price: productPresent.price,
@@ -51,7 +51,7 @@ export function uploadEditProductApi(productPresent) {
 
 export function getManufacturesApi() {
     let token = localStorage.getItem("token");
-    let url = "http://manageapi.graphics.vn/good/manufactures?token=" + token;
+    let url = env.MANAGE_API_URL + "/good/manufactures?token=" + token;
     return axios.get(url);
 }
 
