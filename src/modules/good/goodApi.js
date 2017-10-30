@@ -138,3 +138,12 @@ export function saveGoodProperties(goodId, goodProperties) {
     }
     return axios.post(url, {good_properties: JSON.stringify(goodProperties)});
 }
+
+export function loadGoodPropertiesFilled(cardId, goodProperties) {
+    let url = env.MANAGE_API_URL + `/card/${cardId}/properties-filled`;
+    const token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {good_properties: JSON.stringify(goodProperties)});
+}

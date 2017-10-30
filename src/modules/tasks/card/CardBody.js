@@ -100,7 +100,8 @@ const CardBody = ({
                     )
                 }
 
-                {card.id && <TaskListsContainer card={card}/>}
+                {card.id && <TaskListsContainer
+                    card={card}/>}
                 <CommentListContainer/>
                 <CommentInputContainer/>
             </div>

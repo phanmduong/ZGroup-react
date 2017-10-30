@@ -4,19 +4,30 @@ export default {
         isLoading: false,
         modalInProduct: {
             priceModal: false,
-            wareHouseModal: false,
+
+            wareHouseModal:false,
+            avatarModal:false,
             isModalUpdating: false,
             modalUpdated: false
         },
-        productEditing: {
-            id: '',
-            name: '',
-            code: '',
-            avatar_url: '',
-            price: '',
-            quantity: '',
-            warehouse: []
+
+        productEditing:{
+            productPresent:{
+                id:'',
+                name:'',
+                code:'',
+                avatar_url:'',
+                price:'',
+                category:'',
+                manufacture:'',
+                quantity:'',
+                warehouses:[]
+            },
+            isUploadingAvatar:false,
+            percent:0
         },
+        categories:[],
+        manufactures:[]
     },
 
     good: {
@@ -284,6 +295,14 @@ export default {
             card: {},
             showModal: false,
             isSavingCard: false
+        },
+        askGoodProperties: {
+            showModal: false,
+            isSaving: false,
+            goodPropertiesOutput: {},
+            goodProperties: [],
+            task: {},
+            isLoading: false
         },
         createCard: {
             card: {},
