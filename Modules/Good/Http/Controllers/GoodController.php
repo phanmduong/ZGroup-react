@@ -326,7 +326,7 @@ class GoodController extends ManageApiController
                 'message' => 'Thiếu trường'
             ]);
         $good->name = $request->name;
-        $good->avatar_url = $request->avatat_url;
+        $good->avatar_url = $request->avatar_url;
         $good->price = $request->price;
         $good->manufacture_id = $request->manufacture_id;
         $good->good_category_id = $request->good_category_id;
