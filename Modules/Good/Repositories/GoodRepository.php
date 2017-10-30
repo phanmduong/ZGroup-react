@@ -42,11 +42,10 @@ class GoodRepository
 
     public function saveGoodProperties($goodProperties, $goodId)
     {
-        $goodPropertyNames = $goodProperties->pluck("name")->toArray();
 
-        GoodProperty::where("good_id", $goodId)->whereIn("name", $goodPropertyNames)->delete();
 
         foreach ($goodProperties as $property) {
+            GoodProperty::where("good_id", $goodId)->where("name", $property->name)->delete();
             $goodProperty = new GoodProperty();
             $goodProperty->name = $property->name;
             $goodProperty->value = $property->value;
