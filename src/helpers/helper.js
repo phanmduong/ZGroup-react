@@ -780,3 +780,19 @@ export function generateDatatableLanguage(item) {
         "emptyTable": `Không có ${item} sản phẩm`,
     };
 }
+
+export function transformToTree(arr, nameParent, nameChildren){
+    let nodes = {};
+    arr = arr.map((item)=>{
+        return {...item};
+    });
+    return arr.filter(function(obj){
+        let id = obj[nameParent],
+            parentId = obj[nameChildren];
+
+        nodes[id] = _.defaults(obj, nodes[id], { children: [] });
+        parentId && (nodes[parentId] = (nodes[parentId] || { children: [] }))["children"].push(obj);
+
+        return !parentId;
+    });
+}

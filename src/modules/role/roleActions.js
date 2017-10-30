@@ -239,10 +239,11 @@ export function editRoleDataError() {
         });
 }
 
-export function changeCheckTab(tab) {
+export function changeCheckTab(tabId, checked) {
     return ({
             type: types.CHANGE_CHECK_TAB,
-            tab: tab
+            tabId: tabId,
+            checked: checked,
         }
     );
 }
