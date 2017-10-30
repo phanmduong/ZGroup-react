@@ -82,9 +82,9 @@ class PriceModalContainer extends React.Component {
 PriceModalContainer.propTypes = {
     modalProductAction: PropTypes.object.isRequired,
     productListAction: PropTypes.object.isRequired,
-    priceModal: PropTypes.bool.isRequired,
+    priceModal: PropTypes.bool,
     productEditing: PropTypes.object.isRequired,
-    isModalUpdating: PropTypes.bool.isRequired,
+    isModalUpdating: PropTypes.bool,
     showPriceModal: PropTypes.func.isRequired
 };
 

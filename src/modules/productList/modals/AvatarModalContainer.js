@@ -26,6 +26,14 @@ class AvatarModalContainer extends React.Component {
         this.props.productListAction.getCategoriesProductsList();
     }
 
+    changeSelectManufacture(value) {
+        this.props.modalProductAction.handleManufacture(value);
+    }
+
+    changeSelectCategory(value) {
+        this.props.modalProductAction.handleCategory(value);
+    }
+
     showAvatarModal(e) {
         e.preventDefault();
         this.props.showAvatarModal(this.props.productEditing.productPresent);
@@ -50,17 +58,10 @@ class AvatarModalContainer extends React.Component {
         this.props.modalProductAction.handleProduct(productEditing.productPresent);
     }
 
-    changeSelectManufacture(value) {
-        this.props.modalProductAction.handleManufacture(value);
-    }
-
-    changeSelectCategory(value) {
-        this.props.modalProductAction.handleCategory(value);
-    }
 
     uploadEditProduct(e) {
         e.preventDefault();
-        this.props.productListAction.uploadEditProduct(this.props.productEditing.productPresent, this.props.productEditing.manufacture, this.props.productEditing.category);
+        this.props.productListAction.uploadEditProduct(this.props.productEditing.productPresent, this.props.productEditing.manufacture.id, this.props.productEditing.category.id);
     }
 
     render() {
@@ -172,7 +173,7 @@ class AvatarModalContainer extends React.Component {
                                 <label className="control-label">Nhà sản xuất</label>
                                 <Select
                                     name="manufactures"
-                                    value={this.props.productEditing.manufacture.id || "Select..."}
+                                    value={this.props.productEditing.manufacture.id}
                                     options={this.props.manufactures.map((manufacture) => {
                                         return {
                                             ...manufacture,
@@ -187,7 +188,7 @@ class AvatarModalContainer extends React.Component {
                                 <label className="control-label">Chọn nhóm sản phẩm</label>
                                 <Select
                                     name="categories"
-                                    value={this.props.productEditing.category.id || "Select..."}
+                                    value={this.props.productEditing.category.id}
                                     options={this.props.categories.map((category) => {
                                         return {
                                             ...category,
@@ -228,7 +229,7 @@ class AvatarModalContainer extends React.Component {
 }
 
 AvatarModalContainer.propTypes = {
-    avatarModal: PropTypes.bool.isRequired,
+    avatarModal: PropTypes.bool,
     productEditing: PropTypes.object.isRequired,
     showAvatarModal: PropTypes.func.isRequired,
     modalProductAction: PropTypes.object.isRequired,
@@ -241,7 +242,7 @@ AvatarModalContainer.propTypes = {
     handleCategory: PropTypes.func.isRequired,
     getManufacturesProductsList: PropTypes.func.isRequired,
     getCategoriesProductsList: PropTypes.func.isRequired,
-    isModalUpdating: PropTypes.bool.isRequired
+    isModalUpdating: PropTypes.bool
 };
 
 function mapStateToProps(state) {

@@ -86,12 +86,12 @@ export function getCategoriesProductsList() {
         productListApi.getCategoriesApi()
             .then(function (response) {
                 dispatch({
-                    type: types.UPDATE_CATEGORIES_COMPLETE,
-                    categoriesUpdated: true
-                });
-                dispatch({
                     type: types.GET_CATEGORIES_PRODUCTS_LIST,
                     categories: response.data.data[0].good_categories
+                });
+                dispatch({
+                    type: types.UPDATE_CATEGORIES_COMPLETE,
+                    categoriesUpdated: true
                 });
             })
             .catch(function (error) {
@@ -100,10 +100,10 @@ export function getCategoriesProductsList() {
     };
 }
 
-export function uploadEditProduct(productPresent,manufacture, category) {
+export function uploadEditProduct(productPresent, manufacture, category) {
     return function (dispatch) {
         dispatch(updatingProductListModal(true));
-        productListApi.uploadEditProductApi(productPresent, manufacture,category)
+        productListApi.uploadEditProductApi(productPresent, manufacture, category)
             .then(function () {
                 dispatch(updatingProductListModal(false));
                 dispatch({
@@ -139,4 +139,53 @@ export function getManufacturesProductsList() {
     };
 }
 
+/*export function superSortCategories(categories) {
+    let n = categories.length;
+    let result = [];
+    let parent_id=[];
+    for(let j=0; j<1000; j++) parent_id.push(0);
+    categories.forEach(category=>{
+       parent_id[category.parent_id]++;
+    });
+    let inter = [];
+    for (let j = n - 1; j >= 0; j--) {
+        inter.push(
+            categories[j]
+        );
+    }
+    let i = 0, id = 0, gen = 0;
+    while (result.length < n){
+        if(parent_id[id] > 0){
+            let res = superFilter(i, id, inter, gen);
+            result.push(res);
+            parent_id[id]--;
+            i = res.index;
+            id = res.id;
+            gen++;
+        } else {
+            id = inter[i].parent_id;
+            inter[i].parent_id = null;
+            gen--;
+        }
+    }
+    return result;
+}
+
+export function superFilter(index ,id, inter, gen) {
+    let first = '';
+    for (let j = 0; j < gen; j++) first += '--';
+    let i = index+1;
+    let res={};
+    while (i < inter.length) {
+        if (inter[i].parent_id === id) {
+            res = {
+                ...inter[i],
+                index: i,
+                label: first + inter[i].name
+            };
+            i = inter.length;
+        } else i++;
+    }
+    return res;
+}*/
 

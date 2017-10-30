@@ -45,7 +45,7 @@ export function uploadEditProductApi(productPresent, manufacture, category) {
         price: productPresent.price,
         name: productPresent.name,
         manufacture_id: manufacture.id,
-        category_id: category.id
+        good_category_id: category.id
     });
 }
 

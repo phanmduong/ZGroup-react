@@ -84,7 +84,7 @@ class WareHouseModalContainer extends React.Component {
 }
 
 WareHouseModalContainer.propTypes = {
-    wareHouseModal: PropTypes.bool.isRequired,
+    wareHouseModal: PropTypes.bool,
     modalProductAction: PropTypes.object.isRequired,
     showWareHouseModal: PropTypes.func.isRequired,
     productEditing: PropTypes.object.isRequired

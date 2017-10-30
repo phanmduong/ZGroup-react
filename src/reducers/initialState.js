@@ -28,7 +28,6 @@ export default {
                 }
             },
             category: {
-
                 id: '',
                 name: ''
             },
