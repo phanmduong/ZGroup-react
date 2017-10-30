@@ -75,7 +75,13 @@ class ProductListComponent extends React.Component {
                                            rel="tooltip" title=""
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showWareHouseModal(product)}>
-                                            {product.warehouses.length}
+                                            {
+                                                !product.warehouses  ?(
+                                                    <p>0</p>
+                                                ):(
+                                                    <p>{product.warehouses.length}</p>
+                                                )
+                                            }
                                         </a>
                                     </td>
                                     <td style={{width: "100px"}}>

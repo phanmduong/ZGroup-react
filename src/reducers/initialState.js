@@ -10,14 +10,22 @@ export default {
             modalUpdated:false
         },
         productEditing:{
-            id:'',
-            name:'',
-            code:'',
-            avatar_url:'',
-            price:'',
-            quantity:'',
-            warehouses:[]
+            productPresent:{
+                id:'',
+                name:'',
+                code:'',
+                avatar_url:'',
+                price:'',
+                category:'',
+                manufacture:'',
+                quantity:'',
+                warehouses:[]
+            },
+            isUploadingAvatar:false,
+            percent:0
         },
+        categories:[],
+        manufactures:[]
     },
 
     good: {
