@@ -1117,3 +1117,67 @@ export function moveTaskDown(taskList, task) {
         });
     };
 }
+
+export function saveTaskTitle(task) {
+    return function (dispatch) {
+        dispatch({
+            type: types.SAVE_TASK_TITLE_SUCCESS,
+            task
+        });
+    };
+}
+
+export function autoAssignBoardToTask(taskListId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TASK_LIST_TEMPLATE
+        });
+        taskApi.autoAssignBoardToTask(taskListId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LIST_TEMPLATE_SUCCESS,
+                    taskList: res.data.data.tasklist
+                });
+
+            });
+    };
+}
+
+export function loadTaskListTemplates(projectId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_POLL_TASK_LIST_TEMPLATES,
+        });
+        taskApi.loadTaskListTemplates(projectId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_POLL_TASK_LIST_TEMPLATES_SUCCESS,
+                    taskListTemplates: res.data.data.task_template_templates.map((taskListTemplate) => {
+                        return {
+                            ...taskListTemplate,
+                            value: taskListTemplate.id,
+                            label: taskListTemplate.title
+                        };
+                    })
+                });
+            });
+    };
+
+}
+
+
+export function loadGoodPropertyItems(taskListId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS
+        });
+        taskApi.loadGoodPropertyItems(taskListId)
+            .then((res) => {
+                console.log(res.data.data.good_property_items);
+                dispatch({
+                    type: types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS,
+                    goodPropertyItems: res.data.data.good_property_items
+                });
+            });
+    };
+}

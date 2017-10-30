@@ -57,7 +57,12 @@ import TaskListTemplateContainer from "./modules/good/TaskListTemplateContainer"
 import HistoryShiftRegistersContainer from "./modules/historyShiftRegisters/HistoryShiftRegistersContainer";
 import ShiftSessionsContainer from "./modules/shiftSessions/ShiftSessionsContainer";
 import CoursesContainer from './modules/courses/CoursesContainer';
+import OrdersContainer from './modules/goodOrders/OrdersContainer';
+import OrderContainer from './modules/goodOrders/order/OrderContainer';
 import ProductListContainer from './modules/productList/ProductListContainer';
+import GoodDetailContainer from "./modules/good/GoodDetailContainer";
+import ImportGoodsContainer from './modules/importGoods/ImportGoodsContainer';
+import ImportContainer from './modules/importGoods/importGood/ImportContainer';
 
 export default (
     <Route>
@@ -163,6 +168,7 @@ export default (
             <Route path="/fashion-manufacture" component={FashionBoardListContainer}/>
             <Route path="/good/:type/all" component={GoodListContainer}/>
             <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
+            <Route path="/good/:goodId/detail" component={GoodDetailContainer}/>
             <Route path="good/:type/create" component={CreateGoodContainer} type="create"/>
             {/*End good routes*/}
 
@@ -198,9 +204,21 @@ export default (
             <Route path="/manage/courses" component={CoursesContainer}/>
             {/*End course routes */}
 
+
+            {/*Begin good order routes */}
+            <Route path="/goods/orders" component={OrdersContainer}/>
+            <Route path="/goods/order/:orderId" component={OrderContainer}/>
+            {/*End good order routes */}
+
             {/*Begin product-list routes */}
             <Route path="/goods/products" component={ProductListContainer}/>
             {/*End product-list routes*/}
+
+            {/*Begin import goods routes */}
+            <Route path="/import-goods" component={ImportGoodsContainer}/>
+            <Route path="/import-good/:importGoodId" component={ImportContainer}/>
+            {/*End import goods routes*/}
+
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

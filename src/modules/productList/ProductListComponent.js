@@ -15,14 +15,14 @@ class ProductListComponent extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr>
-                        <th></th>
+                        <th />
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
                         <th>Giá bán</th>
                         <th>Nhóm hàng</th>
                         <th>Kho</th>
-                        <th></th>
+                        <th />
                     </tr>
                     </thead>
                     <tbody>
@@ -61,7 +61,7 @@ class ProductListComponent extends React.Component {
                                                 className="btn btn-info btn-xs"
                                                 style={{width: "100%"}}
                                                 onClick={() => this.props.showPriceModal(product)}>{product.price}
-                                            <div className="ripple-container"></div>
+                                            <div className="ripple-container"/>
                                         </button>
                                     </td>
                                     <td>

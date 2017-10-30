@@ -4,28 +4,44 @@ export default {
         isLoading: false,
         modalInProduct: {
             priceModal: false,
-            wareHouseModal:false,
-            avatarModal:false,
+            wareHouseModal: false,
+            avatarModal: false,
             isModalUpdating: false,
-            modalUpdated:false
+            modalUpdated: false
         },
-        productEditing:{
-            productPresent:{
-                id:'',
-                name:'',
-                code:'',
-                avatar_url:'',
-                price:'',
-                category:'',
-                manufacture:'',
-                quantity:'',
-                warehouses:[]
+        productEditing: {
+            productPresent: {
+                id: '',
+                name: '',
+                code: '',
+                avatar_url: '',
+                price: '',
+                quantity: '',
+                warehouses: [],
+                category: {
+                    id:'',
+                    name:''
+                },
+                manufacture: {
+                    id:'',
+                    name:''
+                }
             },
-            isUploadingAvatar:false,
-            percent:0
+            category: {
+                id:'',
+                name:''
+            },
+            manufacture: {
+                id:'',
+                name:''
+            },
+            isUploadingAvatar: false,
+            percent: 0
         },
-        categories:[],
-        manufactures:[]
+        categories: [],
+        categoriesUpdated: false,
+        manufactures: [],
+        manufacturesUpdated: false
     },
 
     good: {
@@ -203,6 +219,8 @@ export default {
             showModal: false,
             taskList: {},
             isSaving: false,
+            isSavingTask: false,
+            showEditTaskModal: false,
             isLoading: false
         },
         taskLists: {
@@ -219,6 +237,11 @@ export default {
     },
 
     task: {
+        archiveBoard: {
+            showModal: false,
+            boards: [],
+            isLoading: false
+        },
         personalSetting: {
             showModal: false,
             setting: {},
@@ -291,7 +314,11 @@ export default {
             card: {},
             isSaving: false,
             showModal: false,
-            board: {}
+            board: {},
+            isLoading: false,
+            isLoadingTaskListTemplate: false,
+            taskListTemplates: [],
+            goodPropertyItems: []
         },
 
         boardList: {
@@ -682,6 +709,43 @@ export default {
         addCoursesModal: {
             isShowModal: false,
             isSaving: false
+        }
+    },
+
+    goodOrders: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        orders: [],
+        totalOrder: 0,
+        totalMoney: 0,
+        totalPaidMoney: 0,
+        limit: 1,
+        totalCount: 1,
+        order: {
+            isLoading: false,
+            error: false,
+            infoOrder: {},
+            infoUser: {},
+            infoShip: {},
+            goodOrders: []
+        },
+        staffs: [],
+        isLoadingStaffs: false,
+        errorStaffs: false,
+    },
+
+    importGoods: {
+        isLoading: false,
+        error: false,
+        importOrders: [],
+        importGood: {
+            infoOrder: {},
+            infoPaid: {},
+            importOrder: {},
+            isLoading: true,
+            error: false,
         }
     }
 };

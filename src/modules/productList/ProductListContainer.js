@@ -16,10 +16,6 @@ class ProductListContainer extends React.Component {
         this.showAvatarModal = this.showAvatarModal.bind(this);
     }
 
-    getProducts() {
-        this.props.productListAction.getProducts();
-    }
-
     componentWillMount() {
         this.getProducts();
     }
@@ -28,6 +24,10 @@ class ProductListContainer extends React.Component {
         if(nextProps.modalUpdated) {
             this.getProducts();
         }
+    }
+
+    getProducts() {
+        this.props.productListAction.getProducts();
     }
 
     showPriceModal(product) {
@@ -95,20 +95,20 @@ class ProductListContainer extends React.Component {
                                                             className="form-control"
                                                             placeholder="Nhập tên hoặc mã hàng hoá để tìm"
                                                             value=""/><span
-                                                            className="material-input"></span></div>
+                                                            className="material-input" /></div>
                                                     </div>
                                                     <div className=" col-md-3 form-group">
                                                         <label className="label-control">Từ ngày</label>
                                                         <input type="text"
                                                                className="form-control datetimepicker"
                                                                value="10/05/2016"/>
-                                                        <span className="material-input"></span></div>
+                                                        <span className="material-input" /></div>
                                                     <div className="col-md-3 form-group">
                                                         <label className="label-control">Đến ngày</label>
                                                         <input type="text"
                                                                className="form-control datetimepicker"
                                                                value="10/05/2016"/>
-                                                        <span className="material-input"></span></div>
+                                                        <span className="material-input" /></div>
 
                                                 </div>
                                                 <br/>
@@ -160,19 +160,19 @@ class ProductListContainer extends React.Component {
                                                             data-original-title="Remove item"
                                                             className="btn btn-info btn-simple"
                                                     >Tổng sản phẩm: 5
-                                                        <div className="ripple-container"></div>
+                                                        <div className="ripple-container" />
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             data-original-title="Remove item"
                                                             className="btn btn-danger btn-simple"
                                                     >Đang kinh doanh: 15
-                                                        <div className="ripple-container"></div>
+                                                        <div className="ripple-container" />
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             data-original-title="Remove item"
                                                             className="btn btn-success btn-simple"
                                                     >Tổng số lượng : 24
-                                                        <div className="ripple-container"></div>
+                                                        <div className="ripple-container" />
                                                     </button>
                                                 </div>
                                             </div>
@@ -223,9 +223,8 @@ ProductListContainer.PropTypes = {
     products: PropTypes.array.isRequired,
     isLoading:PropTypes.bool.isRequired,
     isModalUpdating: PropTypes.bool.isRequired,
-    modalUpdated:PropTypes.bool.isRequired
+    modalUpdated:PropTypes.bool
 };
-
 
 function mapStateToProps(state) {
     return {

@@ -37,15 +37,15 @@ export function getCategoriesApi() {
     return axios.get(url);
 }
 
-export function uploadEditProductApi(productPresent) {
+export function uploadEditProductApi(productPresent, manufacture, category) {
     let token = localStorage.getItem("token");
     let url = "http://manageapi.graphics.vn/good/edit/" + productPresent.id + "?token=" + token;
     return axios.put(url, {
         avatar_url: productPresent.avatar_url,
         price: productPresent.price,
         name: productPresent.name,
-        manufacture_id: productPresent.manufacture_id,
-        category_id: productPresent.category_id
+        manufacture_id: manufacture.id,
+        category_id: category.id
     });
 }
 

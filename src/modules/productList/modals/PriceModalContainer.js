@@ -46,13 +46,13 @@ class PriceModalContainer extends React.Component {
                                className="form-control datepicker"
                                value={this.props.productEditing.productPresent.price}
                                onChange={this.handleProduct}/>
-                        <span className="material-input"></span>
+                        <span className="material-input" />
                     </div>
 
                     <div className="form-group">
                         <label className="control-label">Ghi chú</label>
                         <input type="text" className="form-control"/>
-                        <span className="material-input"></span>
+                        <span className="material-input"/>
                     </div>
                     {
                         this.props.isModalUpdating ? <Loading/> : (

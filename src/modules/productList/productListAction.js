@@ -58,7 +58,6 @@ export function changeAvatar(file) {
         };
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            console.log(data);
             showNotification("Tải lên ảnh đại diện thành công");
             dispatch({
                 type: types.UPLOAD_PRODUCT_AVATAR_COMPLETE,
@@ -87,6 +86,10 @@ export function getCategoriesProductsList() {
         productListApi.getCategoriesApi()
             .then(function (response) {
                 dispatch({
+                    type: types.UPDATE_CATEGORIES_COMPLETE,
+                    categoriesUpdated: true
+                });
+                dispatch({
                     type: types.GET_CATEGORIES_PRODUCTS_LIST,
                     categories: response.data.data[0].good_categories
                 });
@@ -97,10 +100,10 @@ export function getCategoriesProductsList() {
     };
 }
 
-export function uploadEditProduct(productPresent) {
+export function uploadEditProduct(productPresent,manufacture, category) {
     return function (dispatch) {
         dispatch(updatingProductListModal(true));
-        productListApi.uploadEditProductApi(productPresent)
+        productListApi.uploadEditProductApi(productPresent, manufacture,category)
             .then(function () {
                 dispatch(updatingProductListModal(false));
                 dispatch({
@@ -122,8 +125,12 @@ export function getManufacturesProductsList() {
         productListApi.getManufacturesApi()
             .then(function (response) {
                 dispatch({
+                    type: types.UPDATE_MANUFACTURES_COMPLETE,
+                    manufacturesUpdated: true
+                });
+                dispatch({
                     type: types.GET_MANUFACTURES_PRODUCTS_LIST,
-                    manufactures: response.data.manufactures
+                    manufactures: response.data.data.manufactures
                 });
             })
             .catch(function (error) {

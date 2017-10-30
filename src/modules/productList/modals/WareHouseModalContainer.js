@@ -33,7 +33,7 @@ class WareHouseModalContainer extends React.Component {
                                 <th>Địa chỉ</th>
                                 <th>Cơ sở</th>
                                 <th>Số lượng</th>
-                                <th></th>
+                                <th/>
                             </tr>
                             </thead>
                             <tbody>
@@ -68,14 +68,12 @@ class WareHouseModalContainer extends React.Component {
                             }
 
                             <tr>
-                                <td></td>
+                                <td/>
                                 <td><b>Tổng</b></td>
-                                <td>
-                                </td>
-                                <td></td>
+                                <td/>
+                                <td/>
                                 <td><b>200</b></td>
-                                <td>
-                                </td>
+                                <td/>
                             </tr>
                             </tbody>
                         </table>

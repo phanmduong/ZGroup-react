@@ -13,6 +13,20 @@ export function handleProduct(product) {
     });
 }
 
+export function handleManufacture(manufacture) {
+    return ({
+        type: types.HANDLE_MANUFACTURE,
+        manufacture
+    });
+}
+
+export function handleCategory(category) {
+    return ({
+        type: types.HANDLE_CATEGORY,
+        category
+    });
+}
+
 export function showWareHouseModal() {
     return ({
         type: types.TOGGLE_WARE_HOUSE_MODAL
@@ -20,7 +34,17 @@ export function showWareHouseModal() {
 }
 
 export function showAvatarModal() {
-    return ({
-        type: types.TOGGLE_AVATAR_MODAL
-    });
+    return function (dispatch) {
+        dispatch({
+            type: types.TOGGLE_AVATAR_MODAL
+        });
+        dispatch({
+            type: types.UPDATE_CATEGORIES_COMPLETE,
+            categoriesUpdated: false
+        });
+        dispatch({
+            type: types.UPDATE_MANUFACTURES_COMPLETE,
+            manufacturesUpdated: false
+        });
+    };
 }

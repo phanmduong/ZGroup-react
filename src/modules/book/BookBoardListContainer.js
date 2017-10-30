@@ -10,6 +10,7 @@ import CardDetailModalContainer from "../tasks/card/CardDetailModalContainer";
 import Loading from "../../components/common/Loading";
 import * as taskActions from '../tasks/taskActions';
 import * as bookActions from './bookActions';
+import * as boardActions from './../tasks/board/boardActions';
 import {intersect} from "../../helpers/helper";
 import BookCardFilterContainer from "./BookCardFilterContainer";
 import BookBoardList from "./BookBoardList";
@@ -74,7 +75,7 @@ class BookBoardListContainer extends React.Component {
         return (
             <div>
                 <CreateBoardModalContainer projectId={this.props.projectId}/>
-                <BookCreateCardModalContainer/>
+                <BookCreateCardModalContainer projectId={this.props.projectId}/>
                 <CardDetailModalContainer isProcess={true}/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>
@@ -82,6 +83,7 @@ class BookBoardListContainer extends React.Component {
                             isAdmin={isAdmin}
                             projectId={Number(this.props.projectId)}/>
                         <BookBoardList
+                            archiveBoard={this.props.boardActions.archiveBoard}
                             display={this.props.setting.display || "full"}
                             isAdmin={isAdmin}
                             canDragBoard={isAdmin || this.props.canDragBoard}
@@ -108,6 +110,7 @@ BookBoardListContainer.propTypes = {
     bookActions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     members: PropTypes.array.isRequired,
+    boardActions: PropTypes.object.isRequired,
     boards: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     setting: PropTypes.object.isRequired,
@@ -177,7 +180,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         taskActions: bindActionCreators(taskActions, dispatch),
-        bookActions: bindActionCreators(bookActions, dispatch)
+        bookActions: bindActionCreators(bookActions, dispatch),
+        boardActions: bindActionCreators(boardActions, dispatch)
     };
 }
 

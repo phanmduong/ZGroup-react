@@ -80,7 +80,6 @@ ArchiveCardsModalContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isEmpty: PropTypes.bool.isRequired,
     showModal: PropTypes.bool.isRequired,
-    isAdmin: PropTypes.bool.isRequired,
     projectId: PropTypes.number.isRequired,
     cards: PropTypes.array.isRequired
 };
