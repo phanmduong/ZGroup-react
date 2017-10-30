@@ -11,13 +11,25 @@ class InputGoodProperties extends React.Component {
 
     setUnit(name, unit) {
         let goodPropertiesOutput = {...this.props.goodPropertiesOutput};
-        goodPropertiesOutput[name].unit = unit;
+        if (!goodPropertiesOutput[name]) {
+            goodPropertiesOutput[name] = {};
+        }
+        goodPropertiesOutput[name] = {
+            ...goodPropertiesOutput[name],
+            unit
+        };
         this.props.updateGoodPropertiesOutput(goodPropertiesOutput);
     }
 
     setValue(name, value) {
         let goodPropertiesOutput = {...this.props.goodPropertiesOutput};
-        goodPropertiesOutput[name].value = value;
+        if (!goodPropertiesOutput[name]) {
+            goodPropertiesOutput[name] = {};
+        }
+        goodPropertiesOutput[name] = {
+            ...goodPropertiesOutput[name],
+            value
+        };
         this.props.updateGoodPropertiesOutput(goodPropertiesOutput);
     }
 
@@ -31,6 +43,7 @@ class InputGoodProperties extends React.Component {
                                 setValue={this.setValue}
                                 setUnit={this.setUnit}
                                 key={property.id}
+                                goodPropertyOutput={this.props.goodPropertiesOutput[property.name]}
                                 property={property}/>
                         );
                     })

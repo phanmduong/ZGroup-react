@@ -53,6 +53,7 @@ class PriceModalContainer extends React.Component {
                         <label className="control-label">Ghi chú</label>
                         <input type="text" className="form-control"/>
                         <span className="material-input"/>
+
                     </div>
                     {
                         this.props.isModalUpdating ? <Loading/> : (

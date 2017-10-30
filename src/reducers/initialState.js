@@ -4,6 +4,7 @@ export default {
         isLoading: false,
         modalInProduct: {
             priceModal: false,
+<<<<<<< HEAD
             wareHouseModal: false,
             avatarModal: false,
             isModalUpdating: false,
@@ -28,15 +29,31 @@ export default {
                 }
             },
             category: {
+=======
+
+            wareHouseModal:false,
+            avatarModal:false,
+            isModalUpdating: false,
+            modalUpdated: false
+        },
+
+        productEditing:{
+            productPresent:{
+>>>>>>> 3516630c7252b9d333ca4dab27d069807d624142
                 id:'',
                 name:''
             },
+<<<<<<< HEAD
             manufacture: {
                 id:'',
                 name:''
             },
             isUploadingAvatar: false,
             percent: 0
+=======
+            isUploadingAvatar:false,
+            percent:0
+>>>>>>> 3516630c7252b9d333ca4dab27d069807d624142
         },
         categories: [],
         categoriesUpdated: false,
@@ -309,6 +326,14 @@ export default {
             card: {},
             showModal: false,
             isSavingCard: false
+        },
+        askGoodProperties: {
+            showModal: false,
+            isSaving: false,
+            goodPropertiesOutput: {},
+            goodProperties: [],
+            task: {},
+            isLoading: false
         },
         createCard: {
             card: {},

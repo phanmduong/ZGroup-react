@@ -41,7 +41,7 @@ class WareHouseModalContainer extends React.Component {
                                 this.props.productEditing.productPresent.warehouses && this.props.productEditing.productPresent.warehouses.map((warehouse, id) => {
                                     return (
                                         <tr key={warehouse.id}>
-                                            <td>{id+1}</td>
+                                            <td>{id + 1}</td>
                                             <td>{warehouse.name}</td>
                                             <td>{warehouse.address}</td>
                                             <td>Cơ sở 1</td>
@@ -66,7 +66,6 @@ class WareHouseModalContainer extends React.Component {
                                     );
                                 })
                             }
-
                             <tr>
                                 <td/>
                                 <td><b>Tổng</b></td>

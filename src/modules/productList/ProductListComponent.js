@@ -15,14 +15,14 @@ class ProductListComponent extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr>
-                        <th />
+                        <th/>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
                         <th>Giá bán</th>
                         <th>Nhóm hàng</th>
                         <th>Kho</th>
-                        <th />
+                        <th/>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,7 +48,7 @@ class ProductListComponent extends React.Component {
                                         <a className="text-name-student-register"
                                            rel="tooltip" title=""
                                            data-original-title="Remove item"
-                                           onClick={()=>this.props.showAvatarModal(product)}>{product.code}</a>
+                                           onClick={() => this.props.showAvatarModal(product)}>{product.code}</a>
                                     </td>
                                     <td>{product.name}</td>
                                     <td><a className="text-name-student-register"
@@ -76,9 +76,9 @@ class ProductListComponent extends React.Component {
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showWareHouseModal(product)}>
                                             {
-                                                !product.warehouses  ?(
+                                                !product.warehouses ? (
                                                     <p>0</p>
-                                                ):(
+                                                ) : (
                                                     <p>{product.warehouses.length}</p>
                                                 )
                                             }

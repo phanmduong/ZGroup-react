@@ -6,7 +6,71 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
-
+        case types.BEGIN_LOAD_GOOD_PROPERTIES_FILLED:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_GOOD_PROPERTIES_FILLED_SUCCESS:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isLoading: false,
+                    goodProperties: action.goodProperties
+                }
+            };
+        case types.SUBMIT_GOOD_PROPERTIES_SUCCESS:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isSaving: false,
+                    showModal: false,
+                    goodPropertiesOutput: {},
+                    goodProperties: []
+                }
+            };
+        case types.BEGIN_SUBMIT_GOOD_PROPERTIES:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isSaving: true
+                }
+            };
+        case types.UPDATE_GOOD_PROPERTIES_OUTPUT:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    goodPropertiesOutput: action.goodPropertiesOutput
+                }
+            };
+        case types.CLOSE_ASK_GOOD_PROPERTY_MODAL:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    showModal: false,
+                    goodPropertiesOutput: {},
+                    goodProperties: []
+                }
+            };
+        case types.OPEN_ASK_GOOD_PROPERTY_MODAL:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    showModal: true,
+                    goodPropertiesOutput: action.goodPropertiesOutput,
+                    goodProperties: action.goodProperties,
+                    task: action.task
+                }
+            };
         case types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS:
             return {
                 ...state,
@@ -1262,8 +1326,7 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 createCard: {
                     ...state.createCard,
-                    isSaving: true,
-                    card: {}
+                    isSaving: true
                 }
             };
         case types.CREATE_CARD_SUCCESS:
@@ -1272,7 +1335,8 @@ export default function taskReducer(state = initialState.task, action) {
                 createCard: {
                     ...state.createCard,
                     isSaving: false,
-                    showModal: false
+                    showModal: false,
+                    card: {}
                 },
                 boardList: {
                     ...state.boardList,
