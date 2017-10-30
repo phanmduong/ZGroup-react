@@ -12,6 +12,8 @@ class ProductListContainer extends React.Component {
         super(props, context);
         this.getProducts = this.getProducts.bind(this);
         this.showPriceModal = this.showPriceModal.bind(this);
+        this.showWareHouseModal = this.showWareHouseModal.bind(this);
+        this.showAvatarModal = this.showAvatarModal.bind(this);
     }
 
     getProducts() {
@@ -24,13 +26,22 @@ class ProductListContainer extends React.Component {
 
     componentWillReceiveProps(nextProps){
         if(nextProps.modalUpdated) {
-            console.log("nextProps");
             this.getProducts();
         }
     }
 
     showPriceModal(product) {
         this.props.modalProductAction.showPriceModal();
+        this.props.modalProductAction.handleProduct(product);
+    }
+
+    showWareHouseModal(product){
+        this.props.modalProductAction.showWareHouseModal();
+        this.props.modalProductAction.handleProduct(product);
+    }
+
+    showAvatarModal(product){
+        this.props.modalProductAction.showAvatarModal();
         this.props.modalProductAction.handleProduct(product);
     }
 
@@ -105,7 +116,9 @@ class ProductListContainer extends React.Component {
                                                     this.props.isLoading ? <Loading/> : (
                                                         <ProductListComponent
                                                             products={this.props.products}
-                                                            showPriceModal={this.showPriceModal}/>
+                                                            showPriceModal={this.showPriceModal}
+                                                            showWareHouseModal={this.showWareHouseModal}
+                                                            showAvatarModal={this.showAvatarModal}/>
                                                     )
                                                 }
 

@@ -4,19 +4,30 @@ export default {
         isLoading: false,
         modalInProduct: {
             priceModal: false,
-            wareHouseModal: false,
+
+            wareHouseModal:false,
+            avatarModal:false,
             isModalUpdating: false,
             modalUpdated: false
         },
-        productEditing: {
-            id: '',
-            name: '',
-            code: '',
-            avatar_url: '',
-            price: '',
-            quantity: '',
-            warehouse: []
+
+        productEditing:{
+            productPresent:{
+                id:'',
+                name:'',
+                code:'',
+                avatar_url:'',
+                price:'',
+                category:'',
+                manufacture:'',
+                quantity:'',
+                warehouses:[]
+            },
+            isUploadingAvatar:false,
+            percent:0
         },
+        categories:[],
+        manufactures:[]
     },
 
     good: {
