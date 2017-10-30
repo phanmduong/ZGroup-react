@@ -4,7 +4,6 @@ export default {
         isLoading: false,
         modalInProduct: {
             priceModal: false,
-<<<<<<< HEAD
             wareHouseModal: false,
             avatarModal: false,
             isModalUpdating: false,
@@ -20,40 +19,26 @@ export default {
                 quantity: '',
                 warehouses: [],
                 category: {
-                    id:'',
-                    name:''
+                    id: '',
+                    name: ''
                 },
                 manufacture: {
-                    id:'',
-                    name:''
+                    id: '',
+                    name: ''
                 }
             },
             category: {
-=======
 
-            wareHouseModal:false,
-            avatarModal:false,
-            isModalUpdating: false,
-            modalUpdated: false
-        },
-
-        productEditing:{
-            productPresent:{
->>>>>>> 3516630c7252b9d333ca4dab27d069807d624142
-                id:'',
-                name:''
+                id: '',
+                name: ''
             },
-<<<<<<< HEAD
             manufacture: {
-                id:'',
-                name:''
+                id: '',
+                name: ''
             },
             isUploadingAvatar: false,
             percent: 0
-=======
-            isUploadingAvatar:false,
-            percent:0
->>>>>>> 3516630c7252b9d333ca4dab27d069807d624142
+
         },
         categories: [],
         categoriesUpdated: false,
