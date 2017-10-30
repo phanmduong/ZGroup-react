@@ -76,6 +76,7 @@ class Good extends Model
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'updated_at' => format_vn_short_datetime(strtotime($this->updated_at)),
             'price' => $this->price,
+            'good_category_id' => $this->good_category_id,
             'description' => $this->description,
             'type' => $this->type,
             'avatar_url' => $this->avatar_url,
