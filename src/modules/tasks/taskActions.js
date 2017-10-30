@@ -1227,26 +1227,46 @@ export function submitGoodProperties() {
         const {card} = state.task.cardDetail;
 
         const isValid = isNotEmptyGoodProperty(goodProperties, goodPropertiesOutput);
+        return new Promise((resolve, reject) => {
+            if (isValid) {
 
-        if (isValid) {
+                let goodPropertyMap = {};
 
-            let goodPropertiesSubmit = [];
-            for (let key in goodPropertiesOutput) {
-                let property = goodPropertiesOutput[key];
-                let obj = {
-                    name: key,
-                    value: property.value + (property.unit ? " " + property.unit : "")
-                };
-                goodPropertiesSubmit.push(obj);
-            }
+                goodProperties.forEach((goodProperty) => {
+                    goodPropertyMap[goodProperty.name] = goodProperty.value;
+                });
 
 
-            dispatch({
-                type: types.BEGIN_SUBMIT_GOOD_PROPERTIES
-            });
+                let goodPropertiesSubmit = [];
+                for (let key in goodPropertiesOutput) {
+                    let property = goodPropertiesOutput[key];
+                    let obj = {
+                        name: key
+                    };
+
+                    if (property.value) {
+                        obj = {
+                            ...obj,
+                            value: property.value + (property.unit ? " " + property.unit : "")
+                        };
+                    } else {
+                        if (goodPropertyMap[key]) {
+                            obj = {
+                                ...obj,
+                                value: goodPropertyMap[key]
+                            };
+                        }
+                    }
+
+                    goodPropertiesSubmit.push(obj);
+                }
 
 
-            return new Promise((resolve) => {
+                dispatch({
+                    type: types.BEGIN_SUBMIT_GOOD_PROPERTIES
+                });
+
+
                 goodApi.saveGoodProperties(card.good_id, goodPropertiesSubmit)
                     .then(() => {
                         showNotification("Cập nhật thuộc tính sản phẩm thành công");
@@ -1255,11 +1275,12 @@ export function submitGoodProperties() {
                         });
                         resolve();
                     });
-            });
 
 
-        }
+            } else {
+                reject();
+            }
 
-
+        });
     };
 }
