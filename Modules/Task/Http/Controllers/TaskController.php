@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Redis;
+use Modules\Good\Repositories\GoodRepository;
 use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\ProjectUser;
 use Modules\Task\Entities\TaskList;
@@ -37,12 +38,14 @@ class TaskController extends ManageApiController
     protected $projectRepository;
     protected $taskRepository;
     protected $userCardRepository;
+    protected $goodRepository;
 
     public function __construct(
         UserRepository $userRepository,
         TaskTransformer $taskTransformer,
         MemberTransformer $memberTransformer,
         TaskRepository $taskRepository,
+        GoodRepository $goodRepository,
         BoardTransformer $boardTransformer,
         CardTransformer $cardTransformer,
         ProjectRepository $projectRepository,
@@ -56,6 +59,7 @@ class TaskController extends ManageApiController
         $this->memberTransformer = $memberTransformer;
         $this->userCardRepository = $userCardRepository;
         $this->projectRepository = $projectRepository;
+        $this->goodRepository = $goodRepository;
         $this->taskRepository = $taskRepository;
     }
 
@@ -315,6 +319,9 @@ class TaskController extends ManageApiController
         $card->save();
 
         $board = Board::find($request->board_id);
+
+        $good = null;
+
         if ($board) {
             $project = $board->project;
             switch ($project->status) {
@@ -335,6 +342,12 @@ class TaskController extends ManageApiController
                     $card->save();
                     break;
             }
+        }
+
+        if ($request->good_properties) {
+            $goodProperties = collect(json_decode($request->good_properties));
+            $this->goodRepository->saveGoodProperties($goodProperties, $good->id);
+            $this->taskRepository->createTaskListFromTemplate($request->task_list_id, $card->id, $this->user);
         }
 
         return $this->respond(["card" => $card->transform()]);
@@ -785,6 +798,32 @@ class TaskController extends ManageApiController
         $task->save();
 
         return $this->respondSuccessWithStatus(["task" => $task->transform()]);
+    }
+
+    public function loadAllTaskListTemplates($projectId)
+    {
+        $project = Project::find($projectId);
+        if ($project == null) {
+            return $this->respondErrorWithStatus("Dự án không tồn tại");
+        }
+
+        $taskListTemplates = TaskList::where("card_id", 0)->where("type", $project->status)->get()->map(function ($taskList) {
+            return $taskList->transformWithOrderedTasks();
+        });
+        return $this->respondSuccessWithStatus([
+            "task_template_templates" => $taskListTemplates
+        ]);
+    }
+
+    public function getTasklistPropertyItems($taskListId)
+    {
+        $taskList = TaskList::find($taskListId);
+        $task = $taskList->tasks()->orderBy("order")->first();
+        return $this->respondSuccessWithStatus([
+            "good_property_items" => $task->goodPropertyItems->map(function ($item) {
+                return $item->transform();
+            })
+        ]);
     }
 
 }

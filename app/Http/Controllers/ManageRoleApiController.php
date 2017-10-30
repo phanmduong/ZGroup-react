@@ -18,13 +18,13 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class ManageRoleApiController extends ApiController
+class ManageRoleApiController extends ManageApiController
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('is_admin');
+        $this->middleware('permission_tab:2');
     }
 
     public function store_role(Request $request)
@@ -70,7 +70,7 @@ class ManageRoleApiController extends ApiController
     {
         $role = Role::find($roleId);
         $role_tabs_id = $role->tabs()->pluck('tabs.id')->toArray();
-        $tabs = Tab::all();
+        $tabs = Tab::orderBy('order')->get();
         $tabs = $tabs->map(function ($tab) use ($role_tabs_id) {
             if (in_array($tab->id, $role_tabs_id)) {
                 $tab->checked = true;

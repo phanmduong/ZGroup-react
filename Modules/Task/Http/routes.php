@@ -47,6 +47,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::delete('/card-file/{fileId}', "FileController@deleteFile");
     Route::delete('/card-comment/{id}', "TaskController@deleteCardComment");
     Route::post('/card/{cardId}/comment', "CardController@commentCard");
+    Route::post('/card/{cardId}/properties-filled', "CardController@getGoodPropertiesFilled");
 
 
     // tasklist api
@@ -58,6 +59,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::get('/tasklists/{cardId}', "TaskController@taskLists");
     Route::put('/tasklist/update-tasks-order', "TaskController@putUpdateTaskOrder");
     Route::put('/tasklist/{id}/autoassign-board', "TaskController@autoAssignBoardToTask");
+    Route::put('/tasklist/{id}/first-task-property', "TaskController@taskListFirstProperty");
+    Route::put('/tasklist-template/{type}', "TaskController@tasklistTemplate");
+    Route::get('/tasklist-templates/{projectId}', "TaskController@loadAllTaskListTemplates");
+    Route::get('/tasklist-templates/{taskListId}/items', "TaskController@getTasklistPropertyItems");
 
     // task api
     Route::post('/task/create', "TaskController@createTask");

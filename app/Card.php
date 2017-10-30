@@ -61,6 +61,11 @@ class Card extends Model
         return $this->hasMany(CardComment::class, "card_id");
     }
 
+    public function good()
+    {
+        return $this->belongsTo(Good::class, "good_id");
+    }
+
     public function transform()
     {
         $this->memberTransformer = new MemberTransformer();

@@ -51,10 +51,10 @@ class SendEmail extends Job implements ShouldQueue
                     $email = new Email();
                     $email->id = $email_id;
                     $email->status = 0;
+                    $email->campaign_id = $this->email_campaign->id;
+                    $email->to = $subscriber->email;
+                    $email->save();
                 }
-                $email->campaign_id = $this->email_campaign->id;
-                $email->to = $subscriber->email;
-                $email->save();
             }
         }
     }
