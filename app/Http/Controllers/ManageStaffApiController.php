@@ -24,7 +24,7 @@ class ManageStaffApiController extends ManageApiController
     public function __construct()
     {
         parent::__construct();
-        $this->middleware('is_admin');
+        $this->middleware('permission_tab:2');
     }
 
     public function add_staff(Request $request)
@@ -75,6 +75,7 @@ class ManageStaffApiController extends ManageApiController
 
     public function get_staffs(Request $request)
     {
+
         $q = trim($request->search);
 
         $limit = 20;
