@@ -325,10 +325,48 @@ export function resetGoodPropertyForm() {
 
 export function loadGoodPropertiesFilled(cardId, goodProperties) {
     return function (dispatch) {
-        goodApi.loadGoodPropertiesFilled(cardId, goodProperties);
         dispatch({
-            type: types.RESET_CREATE_GOOD_PROPERTY_FORM
+            type: types.BEGIN_LOAD_GOOD_PROPERTIES_FILLED
         });
+        goodApi.loadGoodPropertiesFilled(cardId, goodProperties)
+            .then((res) => {
+                // const goodProperties = res.data.data.good_properties;
+
+                // let goodPropertiesOutput = {};
+                //
+                // goodProperties.forEach((goodProperty) => {
+                //     const {name, value} = goodProperty;
+                //     goodPropertiesOutput[name] = {};
+                //     if (goodProperty.preunit) {
+                //         const units = goodProperty.preunit.split(",");
+                //
+                //         var filteredUnits = units.filter(unit => value.lastIndexOf(unit) !== -1)
+                //
+                //         let unitValue = filteredUnits.map((unit) => {
+                //             return {
+                //                 ...unit,
+                //                 index: value.lastIndexOf(unit)
+                //             };
+                //         }).sort((a, b) => b.index - a.index)[0];
+                //
+                //         if (unitValue) {
+                //             const index = value.lastIndexOf(unitValue);
+                //             console.log("index", index);
+                //             goodPropertiesOutput[name].value = value.slice(0, index - 1);
+                //             goodPropertiesOutput[name].unit = value.slice(index);
+                //         }
+                //         console.log("goodPropertiesOutput", goodPropertiesOutput);
+                //
+                //     } else {
+                //         goodPropertiesOutput[name].value = goodProperty.value;
+                //     }
+                // });
+                // console.log(goodPropertiesOutput);
+                dispatch({
+                    type: types.LOAD_GOOD_PROPERTIES_FILLED_SUCCESS,
+                    goodProperties: res.data.data.good_properties
+                });
+            });
     };
 }
 

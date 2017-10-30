@@ -285,6 +285,14 @@ export default {
             showModal: false,
             isSavingCard: false
         },
+        askGoodProperties: {
+            showModal: false,
+            isSaving: false,
+            goodPropertiesOutput: {},
+            goodProperties: [],
+            task: {},
+            isLoading: false
+        },
         createCard: {
             card: {},
             isSaving: false,
