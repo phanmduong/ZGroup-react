@@ -170,6 +170,7 @@ export default (
             <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
             <Route path="/good/:goodId/detail" component={GoodDetailContainer}/>
             <Route path="good/:type/create" component={CreateGoodContainer} type="create"/>
+            <Route path="good/create" component={CreateGoodContainer} type="create"/>
             {/*End good routes*/}
 
             {/*Begin class routes*/}

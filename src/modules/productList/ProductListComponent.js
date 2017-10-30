@@ -3,6 +3,7 @@ import PriceModalContainer from "./modals/PriceModalContainer";
 import PropTypes from "prop-types";
 import WareHouseModalContainer from "./modals/WareHouseModalContainer";
 import AvatarModalContainer from "./modals/AvatarModalContainer";
+import {Link} from "react-router";
 
 class ProductListComponent extends React.Component {
     constructor(props, context) {
@@ -87,11 +88,12 @@ class ProductListComponent extends React.Component {
                                     </td>
                                     <td style={{width: "100px"}}>
                                         <div className="btn-group-action">
-                                            <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Sửa"><i
-                                                className="material-icons">edit</i></a>
+                                            <Link to={`/good/${product.id}/edit`}
+                                                  style={{color: "#878787"}}
+                                                  data-toggle="tooltip" title=""
+                                                  type="button" rel="tooltip"
+                                                  data-original-title="Sửa"><i
+                                                className="material-icons">edit</i></Link>
                                             <a style={{color: "#878787"}}
                                                data-toggle="tooltip" title=""
                                                type="button" rel="tooltip"
