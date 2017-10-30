@@ -25,6 +25,51 @@ class GoodController extends ManageApiController
         parent::__construct();
     }
 
+
+    public function getGoodsWithoutPagination(Request $request)
+    {
+        if ($request->type) {
+            $goods = Good::where("type", $request->type)->get()->map(function ($good) {
+                return $good->transform();
+            });
+        } else {
+            $goods = Good::all()->map(function ($good) {
+                return $good->transform();
+            });
+        }
+
+        return $this->respondSuccessWithStatus([
+            "goods" => $goods
+        ]);
+    }
+
+    public function getAll(Request $request)
+    {
+        $keyword = $request->search;
+        $type = $request->type;
+        if ($type) {
+            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+            });
+        } else {
+            $goods = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+            });
+        }
+
+        $goods = $goods->orderBy("created_at", "desc")->paginate(20);
+
+        return $this->respondWithPagination(
+            $goods,
+            [
+                "goods" => $goods->map(function ($good) {
+                    return $good->transform();
+                })
+            ]
+        );
+    }
+
+
     public function loadGoodTaskProperties($goodId, $taskId)
     {
         $task = Task::find($taskId);
@@ -43,18 +88,9 @@ class GoodController extends ManageApiController
     public function saveGoodProperties($id, Request $request)
     {
         $goodProperties = collect(json_decode($request->good_properties));
-        $goodPropertyNames = $goodProperties->pluck("name")->toArray();
 
+        $this->goodRepository->saveGoodProperties($goodProperties, $id);
 
-        GoodProperty::where("good_id", $id)->whereIn("name", $goodPropertyNames)->delete();
-
-        foreach ($goodProperties as $property) {
-            $goodProperty = new GoodProperty();
-            $goodProperty->name = $property->name;
-            $goodProperty->value = $property->value;
-            $goodProperty->good_id = $id;
-            $goodProperty->save();
-        }
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
