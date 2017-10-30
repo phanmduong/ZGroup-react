@@ -209,20 +209,18 @@ class CardController extends ManageApiController
 
         $properties = [];
 
-
         foreach ($card->good->properties as $property) {
             $properties[$property->name] = $property->value;
         }
 
         foreach ($goodProperties as &$goodProperty) {
             if (array_key_exists($goodProperty->name, $properties)) {
-                $goodProperty["value"] = $properties[$goodProperty->name];
+                $goodProperty->value = $properties[$goodProperty->name];
             }
         }
 
         return $this->respondSuccessWithStatus([
-            "good_properties" => $goodProperties,
-            "properties" => $properties
+            "good_properties" => $goodProperties
         ]);
     }
 
