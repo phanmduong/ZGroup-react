@@ -36,4 +36,11 @@ export function loadImportGoodsOrder(orderId) {
     };
 }
 
+export function initDataImport() {
+    return ({
+       type: types.INIT_DATA_IMPORT_GOOD_ORDERS
+    });
+
+}
+
 

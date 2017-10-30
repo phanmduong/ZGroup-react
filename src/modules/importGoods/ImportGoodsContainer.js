@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import ListImported from './ListImported';
 import * as importGoodActions from './importGoodActions';
 import Loading from "../../components/common/Loading";
+import {Link} from 'react-router';
 
 class ImportGoodsContainer extends React.Component {
     constructor(props, context) {
@@ -51,6 +52,16 @@ class ImportGoodsContainer extends React.Component {
     render() {
         return (
             <div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <Link
+                            className="btn btn-rose"
+                            to="import-good/create"
+                        >
+                            Tạo phiếu nhập
+                        </Link>
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card">

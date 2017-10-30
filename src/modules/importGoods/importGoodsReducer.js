@@ -65,6 +65,11 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                     }
                 }
             };
+        case types.INIT_DATA_IMPORT_GOOD_ORDERS:
+            return{
+                ...state,
+                importGood: initialState.importGoods.importGood
+            }
         default:
             return state;
     }

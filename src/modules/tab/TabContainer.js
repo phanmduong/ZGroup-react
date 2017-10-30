@@ -36,11 +36,13 @@ class TabContainer extends React.Component {
 
     componentDidUpdate() {
         console.log(this.currentTab);
-        this.currentTab.parent.forEach((tabParent) => {
-            if (!$("#tab" + tabParent.id).hasClass('collapse in')) {
-                $("#tab" + tabParent.id).collapse('toggle');
-            }
-        });
+        if (this.currentTab.parent) {
+            this.currentTab.parent.forEach((tabParent) => {
+                if (!$("#tab" + tabParent.id).hasClass('collapse in')) {
+                    $("#tab" + tabParent.id).collapse('toggle');
+                }
+            });
+        }
 
     }
 
