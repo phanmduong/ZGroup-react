@@ -12,5 +12,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/detailed-import-order/{importOrderId}', 'OrderController@detailedImportOrder');
     Route::post('/add-import-order', 'OrderController@addImportOrder');
     Route::post('/add-imported-good', 'OrderController@addImportOrder');
+    Route::post('/add-import-order-goods', 'OrderController@addImportOrderGoods');
 });
 
