@@ -43,21 +43,30 @@ class Task extends Model
         return $this->belongsTo(Board::class, "target_board_id");
     }
 
+    public function templateTask()
+    {
+        return $this->belongsTo(Task::class, "task_template_id");
+    }
+
     public function transform()
     {
         $data = [
-            "current_board_id" => $this->current_board_id,
-            "target_board_id" => $this->target_board_id,
             "title" => $this->title,
             "status" => $this->status,
             "id" => $this->id,
             "span" => $this->span,
-            "good_property_items" => $this->goodPropertyItems->map(function ($item) {
-                return $item->transform();
-            }),
-            "task_list_id" => $this->task_list_id,
-            "order" => $this->order,
+            "task_list_id" => $this->task_list_id
         ];
+
+        if ($this->templateTask) {
+            $templateTask = $this->templateTask;
+            $data['current_board_id'] = $templateTask->current_board_id;
+            $data['target_board_id'] = $templateTask->target_board_id;
+            $data['order'] = $templateTask->order;
+            $data['good_property_items'] = $templateTask->goodPropertyItems->map(function ($item) {
+                return $item->transform();
+            });
+        }
 
         if ($this->currentBoard) {
             $data["current_board"] = [
