@@ -178,14 +178,14 @@ class OrderController extends ManageApiController
                 'total_quantity' => $total_quantity,
                 'debt' => $debt,
             ];
-            if ($importOrder->staff()) {
+            if (isset($importOrder->staff)) {
                 $staff = [
                     'id' => $importOrder->staff->id,
                     'name' => $importOrder->staff->name,
                 ];
                 $importOrderData['staff'] = $staff;
             }
-            if ($importOrder->user()) {
+            if (isset($importOrder->user)) {
                 $user = [
                     'id' => $importOrder->user->id,
                     'name' => $importOrder->user->name,
@@ -237,7 +237,7 @@ class OrderController extends ManageApiController
                 'note' => $orderPaidMoney->note,
             ];
         });
-        if ($importOrder->user()) {
+        if (isset($importOrder->user)) {
             $user = [
                 'id' => $importOrder->user->id,
                 'name' => $importOrder->user->name,
@@ -321,18 +321,14 @@ class OrderController extends ManageApiController
     public function addImportOrderGoods(Request $request)
     {
         $importOrder = new Order;
-        if ($request->name == null || $request->warehouse_id == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu trường name hoặc warehouse_id'
-            ]);
         $current_time = format_vn_short_datetime(strtotime(Carbon::now()->toDateTimeString()));
-        if($request->code == null)
+        if ($request->code == null)
             $importOrder->code = $current_time;
         else
             $importOrder->code = $request->code;
-        $importOrder->name = $request->name;
+        $importOrder->name = 'test';
         $importOrder->note = $request->note;
-        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->warehouse_id = 1;
         $importOrder->staff_id = $this->user->id;
         $importOrder->type = 'import';
         $importOrder->save();
@@ -340,11 +336,11 @@ class OrderController extends ManageApiController
         foreach ($request->imported_goods as $imported_good) {
             $importedGood = new ImportedGoods;
             $importedGood->order_import_id = $orderImportId;
-            $importedGood->good_id = $imported_good->good_id;
-            $importedGood->quantity = $imported_good->quantity;
-            $importedGood->import_price = $imported_good->import_price;
+            $importedGood->good_id = $imported_good['good_id'];
+            $importedGood->quantity = $imported_good['quantity'];
+            $importedGood->import_price = $imported_good['import_price'];
             $importedGood->staff_id = $this->user->id;
-            $importedGood->warehouse_id = $request->warehouse_id;
+            $importedGood->warehouse_id = 1;
             $importedGood->save();
         }
         return $this->respondSuccessWithStatus([
