@@ -336,7 +336,7 @@ class OrderController extends ManageApiController
         $importOrder->staff_id = $this->user->id;
         $importOrder->type = 'import';
         $importOrder->save();
-        $orderImportId = Order::where('type', 'import')->max('id');
+        $orderImportId = $importOrder->id;
         foreach ($request->imported_goods as $imported_good) {
             $importedGood = new ImportedGoods;
             $importedGood->order_import_id = $orderImportId;
