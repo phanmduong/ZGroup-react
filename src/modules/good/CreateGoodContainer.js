@@ -28,6 +28,7 @@ class CreateGoodContainer extends React.Component {
         this.removeProperty = this.removeProperty.bind(this);
         this.addPropertyToGood = this.addPropertyToGood.bind(this);
         this.saveGood = this.saveGood.bind(this);
+        this.editProperty = this.editProperty.bind(this);
         this.showAddGoodPropertyModal = this.showAddGoodPropertyModal.bind(this);
     }
 
@@ -48,26 +49,38 @@ class CreateGoodContainer extends React.Component {
         this.props.goodActions.updateGoodFormData(good);
     }
 
-    addProperties(e) {
-        if (e.key === "Enter" && !e.shiftKey) {
-            if (!this.state.property.name || !this.state.property.value) {
-                showErrorNotification("Bạn cần nhập đủ cả Tên và Giá Trị thuộc tính");
-            } else {
-                this.addPropertyToGood();
-            }
+    addProperties() {
+        if (!this.state.property.name || !this.state.property.value) {
+            showErrorNotification("Bạn cần nhập đủ cả Tên và Giá Trị thuộc tính");
+        } else {
+            this.addPropertyToGood();
+            this.setState({
+                showAddGoodPropertyModal: false
+            });
         }
-
     }
 
     addPropertyToGood() {
-        const good = {
-            ...this.props.good,
-            properties: [...this.props.good.properties, this.state.property]
-        };
+        if (!isNaN(this.state.property.index)) {
+            let properties = this.props.good.properties;
+            const index = this.state.property.index;
+            properties = [...properties.slice(0, index), {...this.state.property}, ...properties.slice(index + 1)];
+            this.props.goodActions.updateGoodFormData({
+                ...this.props.good,
+                properties
+            });
+        } else {
+            const good = {
+                ...this.props.good,
+                properties: [...this.props.good.properties, this.state.property]
+            };
+            this.props.goodActions.updateGoodFormData(good);
+        }
+
         this.setState({
             property: {}
         });
-        this.props.goodActions.updateGoodFormData(good);
+
     }
 
     handleUpload(event) {
@@ -119,12 +132,23 @@ class CreateGoodContainer extends React.Component {
         });
     }
 
+    editProperty(property, index) {
+        this.setState({
+            showAddGoodPropertyModal: true,
+            property: {
+                ...property,
+                index
+            }
+        });
+    }
+
 
     render() {
         const good = this.props.good;
         return (
             <div id="page-wrapper">
                 <AddGoodPropertyModal
+                    addProperties={this.addProperties}
                     onChange={this.updateProperty}
                     property={this.state.property}
                     close={() => this.showAddGoodPropertyModal(false)}
@@ -185,11 +209,12 @@ class CreateGoodContainer extends React.Component {
                                                     <div className="form-group" key={index}>
                                                         <label className="control-label">
                                                             {property.name}
-                                                            <a style={{marginLeft: "5px"}}>
+                                                            <a onClick={() => this.editProperty(property, index)}
+                                                               style={{marginLeft: "5px"}}>
                                                                 <i style={{color: "#858585", fontSize: "16px"}}
                                                                    className="material-icons">mode_edit</i>
                                                             </a>
-                                                            <a>
+                                                            <a onClick={() => this.removeProperty(index)}>
                                                                 <i style={{color: "#858585", fontSize: "16px"}}
                                                                    className="material-icons">delete</i>
                                                             </a>
