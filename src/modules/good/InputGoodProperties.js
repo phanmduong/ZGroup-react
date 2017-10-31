@@ -7,6 +7,7 @@ class InputGoodProperties extends React.Component {
         super(props, context);
         this.setValue = this.setValue.bind(this);
         this.setUnit = this.setUnit.bind(this);
+        this.clearPropertyOutput = this.clearPropertyOutput.bind(this);
     }
 
     setUnit(name, unit) {
@@ -33,6 +34,12 @@ class InputGoodProperties extends React.Component {
         this.props.updateGoodPropertiesOutput(goodPropertiesOutput);
     }
 
+    clearPropertyOutput(name) {
+        let goodPropertiesOutput = {...this.props.goodPropertiesOutput};
+        goodPropertiesOutput[name] = {};
+        this.props.updateGoodPropertiesOutput(goodPropertiesOutput);
+    }
+
     render() {
         return (
             <div>
@@ -40,6 +47,7 @@ class InputGoodProperties extends React.Component {
                     this.props.goodProperties.map((property) => {
                         return (
                             <GoodPropertyItem
+                                clearPropertyOutput={this.clearPropertyOutput}
                                 setValue={this.setValue}
                                 setUnit={this.setUnit}
                                 key={property.id}

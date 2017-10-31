@@ -752,9 +752,18 @@ export default {
         importGood: {
             infoOrder: {},
             infoPaid: {},
-            importOrder: {},
-            isLoading: true,
+            importOrder: {
+                imported_goods: []
+            },
+            isLoading: false,
+            error: false,
+        },
+        formImportGood: {
+            importGoods: [],
+            scot: 0,
+            paid_money: 0,
+            isStoring: false,
             error: false,
         }
-    }
+    },
 };

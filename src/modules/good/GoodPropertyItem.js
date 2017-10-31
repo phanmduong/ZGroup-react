@@ -38,10 +38,14 @@ class GoodPropertyItem extends React.Component {
         this.setState({
             isEdit: !this.state.isEdit
         });
+        this.props.clearPropertyOutput(this.props.property.name);
+
+
     }
 
 
     render() {
+
         const {property} = this.props;
         return (
             <div className="form-group" style={{marginTop: 0}}>
@@ -131,6 +135,7 @@ class GoodPropertyItem extends React.Component {
 GoodPropertyItem.propTypes = {
     property: PropTypes.object.isRequired,
     setUnit: PropTypes.func.isRequired,
+    clearPropertyOutput: PropTypes.func.isRequired,
     setValue: PropTypes.func.isRequired,
     goodPropertyOutput: PropTypes.object
 };
