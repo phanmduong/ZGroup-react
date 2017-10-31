@@ -102,6 +102,7 @@ class TaskRepository
 
         foreach ($taskListTemplate->tasks as $item) {
             $task = $item->replicate();
+            $task->task_template_id = $item->id;
             $task->task_list_id = $taskList->id;
             if ($task->span > 0) {
                 $date = new \DateTime();
