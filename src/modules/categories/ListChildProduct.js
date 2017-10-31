@@ -11,9 +11,6 @@ import ListChildProductSecond from './ListChildProductSecond';
 class ListChildProduct extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-          count : 0,
-        };
         this.openAddCategoryModalContainer = this.openAddCategoryModalContainer.bind(this);
         this.deleteCategory = this.deleteCategory.bind(this);
     }
@@ -125,7 +122,7 @@ class ListChildProduct extends React.Component {
 
                 {/*     ADD CHILD GROUP     */}
                 {this.props.name ?
-                    <div>
+                    <div style={{ paddingTop : "15px" }} >
                         <a onClick={() => {
                             this.openAddCategoryModalContainer('', this.props.parent_id, '', false);
                         }}>

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as categoriesActions from './categoriesActions';
 import PropTypes from 'prop-types';
-import Loading from '../../components/common/Loading';
+
 
 class AddCategoryModalContainer extends React.Component {
     constructor(props, context) {
@@ -15,6 +15,9 @@ class AddCategoryModalContainer extends React.Component {
         this.close = this.close.bind(this);
         this.addCategory = this.addCategory.bind(this);
         this.editCategory = this.editCategory.bind(this);
+    }
+    componentDidMount(){
+
     }
 
     close() {
@@ -41,21 +44,22 @@ class AddCategoryModalContainer extends React.Component {
                         <Modal.Title>
                             <strong> Nhóm </strong>
                         </Modal.Title>
-
                     }
-
                 </Modal.Header>
+
+
                 <Modal.Body>
-                    {this.props.isSaving ? <Loading/> :
-                        (
                             <div>
                                 {this.props.isEdit ?
-
-
                                     <div className="form-group label-floating is-empty">
                                         <label>Sửa tên nhóm</label>
                                         <input type="text" className="form-control"
                                                defaultValue={this.props.name}
+                                               onSelect = {(e) => {
+                                                   this.setState({name: e.target.value});
+                                                   e.preventDefault();
+
+                                               }}
                                                onChange={(e) => {
                                                    this.setState({name: e.target.value});
                                                    e.preventDefault();
@@ -68,6 +72,12 @@ class AddCategoryModalContainer extends React.Component {
                                     <div className="form-group label-floating is-empty">
                                         <label className="control-label">Tên nhóm</label>
                                         <input type="text" className="form-control"
+                                               defaultValue=""
+                                               onSelect = {(e) => {
+                                                   this.setState({name: e.target.value});
+                                                   e.preventDefault();
+
+                                               }}
                                                onChange={(e) => {
                                                    this.setState({name: e.target.value});
                                                    e.preventDefault();
@@ -77,32 +87,31 @@ class AddCategoryModalContainer extends React.Component {
                                     </div>
                                 }
                             </div>
-                        )
-
-                    }
                 </Modal.Body>
+
+
                 <Modal.Footer>
-                    <form method="#" action="#">
+                    <form>
                         {this.props.isSaving ?
                             (
                                 <button
-                                    className="btn btn-fill btn-rose disabled"
+                                    className="btn btn-round btn-fill btn-success disabled"
                                 >
                                     <i className="fa fa-spinner fa-spin"/>
-                                    {this.props.isEdit ? ' Đang cập nhật' : ' Đang thêm'}
+                                    {! this.props.isEdit ? ' Đang thêm' : ' Đang cập nhật' }
                                 </button>
                             )
                             :
                             (
                                 <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
-                                        type="button" className="btn btn-round btn-success " data-dismiss="modal"
+                                        type="button" className="btn btn-round btn-success "
                                         onClick={(e) => {
-                                            if (this.props.isEdit) {
-                                                this.editCategory();
+                                            if ( ! this.props.isEdit) {
+                                                this.addCategory();
                                                 e.preventDefault();
                                             }
                                             else {
-                                                this.addCategory();
+                                                this.editCategory();
                                                 e.preventDefault();
                                             }
 

@@ -6,6 +6,37 @@ export default function categoriesReducer(state = initialState.categories, actio
 
     switch (action.type) {
 
+
+        /*          ADD            */
+
+
+        case types.ADD_CATEGORY_SUCCESS :
+            return {
+                ...state,
+                addCategoriesModal: {
+                    isSaving: false,
+                },
+                categoriesList: [action.category , ...state.categoriesList],
+
+            };
+        case types.ADD_CATEGORY_ERROR :
+            return {
+                ...state,
+                addCategoriesModal: {
+                    isSaving: false,
+                }
+            };
+        case types.BEGIN_ADD_CATEGORY :
+            return {
+                ...state,
+                addCategoriesModal: {
+                    isSaving: true,
+                }
+            };
+
+
+
+
         /*          EDIT            */
 
         case types.BEGIN_EDIT_CATEGORY:
@@ -57,33 +88,6 @@ export default function categoriesReducer(state = initialState.categories, actio
                 ...state,
                 addCategoriesModal : {
                     isSaving : false,
-                }
-            };
-
-
-        /*          ADD            */
-
-
-        case types.ADD_CATEGORY_SUCCESS :
-            return {
-                ...state,
-                categoriesList: [action.category , ...state.categoriesList],
-                addCategoriesModal: {
-                    isSaving: false,
-                }
-            };
-        case types.ADD_CATEGORY_ERROR :
-            return {
-                ...state,
-                addCategoriesModal: {
-                    isSaving: false,
-                }
-            };
-        case types.BEGIN_ADD_CATEGORY :
-            return {
-                ...state,
-                addCategoriesModal: {
-                    isSaving: true,
                 }
             };
 
