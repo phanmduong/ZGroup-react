@@ -721,6 +721,20 @@ export default {
         }
     },
 
+    categories: {
+        addCategoriesModal: {
+            isShowModal:false,
+            isSaving : false,
+            id :  '' ,
+            parent_id : '',
+            name : '',
+            isEdit : false ,
+        },
+        isLoading : true,
+        error : false,
+        categoriesList:[],
+    },
+
     goodOrders: {
         isLoading: false,
         error: false,

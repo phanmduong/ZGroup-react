@@ -56,10 +56,12 @@ import TaskListTemplateContainer from "./modules/good/TaskListTemplateContainer"
 import HistoryShiftRegistersContainer from "./modules/historyShiftRegisters/HistoryShiftRegistersContainer";
 import ShiftSessionsContainer from "./modules/shiftSessions/ShiftSessionsContainer";
 import CoursesContainer from './modules/courses/CoursesContainer';
+import CategoriesContainer from './modules/categories/CategoriesContainer';
+
 import OrdersContainer from './modules/goodOrders/OrdersContainer';
 import OrderContainer from './modules/goodOrders/order/OrderContainer';
 import ProductListContainer from './modules/productList/ProductListContainer';
-import GoodDetailContainer from "./modules/good/GoodDetailContainer";
+// import GoodDetailContainer from "./modules/good/GoodDetailContainer";
 import ImportGoodsContainer from './modules/importGoods/ImportGoodsContainer';
 import ImportContainer from './modules/importGoods/importGood/ImportContainer';
 import StoreImportContainer from './modules/importGoods/importGood/StoreImportContainer';
@@ -167,7 +169,6 @@ export default (
             <Route path="/:type/manufacture" component={BookBoardListContainer}/>
             <Route path="/good/:type/all" component={GoodListContainer}/>
             <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
-            <Route path="/good/:goodId/detail" component={GoodDetailContainer}/>
             <Route path="good/:type/create" component={CreateGoodContainer} type="create"/>
             <Route path="good/create" component={CreateGoodContainer} type="create"/>
             {/*End good routes*/}
@@ -203,6 +204,12 @@ export default (
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>
             {/*End course routes */}
+                                               l
+
+            {/*Begin categories routes */}
+            <Route path="/goods/categories" component={CategoriesContainer}/>
+            {/*End categories routes */}
+
 
 
             {/*Begin good order routes */}
