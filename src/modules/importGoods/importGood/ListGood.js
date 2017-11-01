@@ -95,7 +95,7 @@ class ListGood extends React.Component {
                     </thead>
                     <tfoot>
                     <tr className="text-rose">
-                        <th className="disabled-search"></th>
+                        <th className="disabled-search" />
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>

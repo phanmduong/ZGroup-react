@@ -47,7 +47,6 @@ import ProcessListContainer from "./modules/book/ProcessListContainer";
 import SubscribersContainer from "./modules/emailSubscribersList/SubscribersContainer";
 import BookBoardListContainer from "./modules/book/BookBoardListContainer";
 import EmailCampaignsContainer from "./modules/emailCampaigns/EmailCampaignsContainer";
-import FashionBoardListContainer from "./modules/book/FashionBoardListContainer";
 import GoodListContainer from "./modules/good/GoodListContainer";
 import CreateGoodContainer from "./modules/good/CreateGoodContainer";
 import PropertiesListContainer from "./modules/good/PropertiesListContainer";
@@ -160,13 +159,12 @@ export default (
             {/*Begin good routes*/}
             <Route path="/good/:type/process" component={ProcessListContainer}/>
             <Route path="/good/:type/properties" component={PropertiesListContainer}/>
-            <Route path="/book-property/create" component={CreateGoodPropertyContainer} type="book"/>
+            <Route path="/good/:type/property/create" component={CreateGoodPropertyContainer}/>
             <Route path="/property-item/:id/edit" component={CreateGoodPropertyContainer}/>
             <Route path="/tasklist-template/:id" component={TaskListTemplateContainer}/>
 
 
-            <Route path="/book-manufacture" component={BookBoardListContainer}/>
-            <Route path="/fashion-manufacture" component={FashionBoardListContainer}/>
+            <Route path="/:type/manufacture" component={BookBoardListContainer}/>
             <Route path="/good/:type/all" component={GoodListContainer}/>
             <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
             <Route path="/good/:goodId/detail" component={GoodDetailContainer}/>

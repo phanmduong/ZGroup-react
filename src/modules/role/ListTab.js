@@ -117,12 +117,12 @@ class ListTab extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                            )
+                            );
                         }
                     })
                 }
             </div>
-        )
+        );
 
     }
 
@@ -138,7 +138,7 @@ class ListTab extends React.Component {
 ListTab.propTypes = {
     roleActions: PropTypes.object.isRequired,
     tabs: PropTypes.array.isRequired,
-}
+};
 
 function mapStateToProps(state) {
     return {

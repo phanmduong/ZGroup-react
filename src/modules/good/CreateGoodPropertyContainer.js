@@ -24,7 +24,7 @@ class CreateGoodPropertyContainer extends React.Component {
             });
             this.props.goodActions.loadGoodPropertyItem(this.props.params.id);
         } else {
-            switch (this.props.route.type) {
+            switch (this.props.params.type) {
                 case "book":
                     this.setState({
                         header: "Thuộc tính sách"
@@ -56,7 +56,7 @@ class CreateGoodPropertyContainer extends React.Component {
     }
 
     onSave() {
-        const {property, route, goodActions} = this.props;
+        const {property, params, goodActions} = this.props;
         if (!property.name) {
             showErrorNotification("Bạn cần nhập tên thuộc tính");
         } else {
@@ -64,7 +64,7 @@ class CreateGoodPropertyContainer extends React.Component {
                 ...property,
                 prevalue: property.prevalue ? property.prevalue.map(v => v.value).join() : "",
                 preunit: property.preunit ? property.preunit.map(v => v.value).join() : "",
-                type: property.type || route.type
+                type: property.type || params.type
             };
             goodActions.saveGoodProperty(saveProperty, saveProperty.type);
         }
@@ -137,7 +137,6 @@ CreateGoodPropertyContainer.propTypes = {
     params: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
-    route: PropTypes.object.isRequired,
     property: PropTypes.object.isRequired
 };
 

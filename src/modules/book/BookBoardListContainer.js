@@ -27,7 +27,7 @@ class BookBoardListContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.bookActions.loadBoards();
+        this.props.bookActions.loadBoards(this.props.params.type);
     }
 
     componentWillReceiveProps(nextProps) {

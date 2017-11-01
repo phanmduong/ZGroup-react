@@ -55,13 +55,13 @@ class StoreGood extends React.Component {
         }
         this.setState({
             selectedGood: selectedGood
-        })
+        });
     }
 
     selectGood(value) {
         this.setState({
             selectedGood: value
-        })
+        });
     }
 
     storeGood() {
