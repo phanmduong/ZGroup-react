@@ -41,50 +41,36 @@
         <div class="row">
             @foreach($books as $book)
                 <div class="col-md-3">
-                    <div class="card card-profile" style="border-radius:0">
+                    <div class="card card-profile" style="border-radius:0;">
                         <div style="background-image: url({{$book['avatar']}});
-                                background-size:cover; padding-bottom: 110%; width: 100%;
+                                background-size:cover; padding-bottom: 120%; width: 100%;
                                 background-position: center center;">
 
                         </div>
-                        {{--<div class="flex flex-col flex-justify-content-space-between" style="height: 100%">--}}
-                            {{--<div class="container">--}}
-                                {{--<div class="row">--}}
-                                    {{--<div class="col-md-4">--}}
-                                        {{--<div class="card card-profile card-plain">--}}
-                                            {{--<img class="card-book-image" src="{{$book['avatar']}}">--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="col-md-8 text-left">--}}
-                                        {{--<br>--}}
-                                        {{--<h5 style="font-weight:600">{{$book['name']}}</h5>--}}
-                                        {{--<h6>{{$book['short_description']}}</h6><br>--}}
-                                        {{--<p>{{$book['description']}}</p>--}}
-                                        {{--<h5><b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b>--}}
-                                            {{--<i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price']*(1-$book['coupon_value']))}}</h5><br>--}}
-                                    {{--</div>--}}
+                        <div>
+                            <div class="container text-left">
+                                <br>
+                                <h5 style="font-weight:600">{{$book['name']}}</h5>
+{{--                                <h6>{{$book['short_description']}}</h6><br>--}}
+{{--                                <p>{{$book['description']}}</p>--}}
+                                <h6><b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b>
+                                    <i class="fa fa-angle-right"></i>{{currency_vnd_format($book['price']*(1-$book['coupon_value']))}}
+                                    <a href="#pablo" class="btn btn-danger" style="padding:3px;margin:3px;font-size:10px;">-{{$book['coupon_value']*100}}%</a>
+                                </h6><br>
+                            </div>
 
-                                {{--</div>--}}
-                            {{--</div>--}}
-
-                        {{--</div>--}}
-                        {{--<div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">--}}
-                            {{--<div style="display:flex;flex-direction:row-reverse;justify-content:space-between;">--}}
-                                {{--<div>--}}
-                                    {{--<a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">--}}
-                                        {{--Xem thêm--}}
-                                    {{--</a>--}}
-                                    {{--<button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"--}}
-                                            {{--class="btn btn-sm btn-success">--}}
-                                        {{--Đặt mua ngay <i class="fa fa-angle-right"></i>--}}
-                                    {{--</button>--}}
-
-                                {{--</div>--}}
-                                {{--<div>--}}
-                                    {{--<a href="#pablo" class="btn btn-sm btn-danger">-{{$book['coupon_value']*100}}%</a>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
+                        </div>
+                        <div class="card-footer" style="border-top: 1px solid #dcdbdb!important;">
+                            <div style="text-align:right">
+                                <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success"  style="padding:3px;margin:3px;font-size:10px;">
+                                    Xem thêm
+                                </a>
+                                <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
+                                        class="btn btn-success" style="padding:3px;margin:3px;font-size:10px;">
+                                    Đặt mua ngay <i class="fa fa-angle-right"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             @endforeach
