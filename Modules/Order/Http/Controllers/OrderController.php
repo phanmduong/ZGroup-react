@@ -372,7 +372,7 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function allSuppliers()
+    public function allSuppliers(Request $request)
     {
         $suppliers = User::where('type', 'supplier')->get();
         return $this->respondSuccessWithStatus([
