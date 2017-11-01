@@ -43,33 +43,6 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public function getAll(Request $request)
-    {
-        $keyword = $request->search;
-        $type = $request->type;
-        if ($type) {
-            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-            });
-        } else {
-            $goods = Good::where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-            });
-        }
-
-        $goods = $goods->orderBy("created_at", "desc")->paginate(20);
-
-        return $this->respondWithPagination(
-            $goods,
-            [
-                "goods" => $goods->map(function ($good) {
-                    return $good->transform();
-                })
-            ]
-        );
-    }
-
-
     public function loadGoodTaskProperties($goodId, $taskId)
     {
         $task = Task::find($taskId);
@@ -272,21 +245,34 @@ class GoodController extends ManageApiController
         $keyword = $request->search;
         $type = $request->type;
         if ($request->limit == -1) {
-            if ($type) {
-                $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
-                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-                });
+            if ($keyword) {
+                if ($type) {
+                    $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
+                        $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                    });
+                } else {
+                    $goods = Good::where(function ($query) use ($keyword) {
+                        $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                    });
+                }
+                $goods = $goods->orderBy("created_at", "desc")->limit(20)->get();
+                return $this->respondSuccessWithStatus([
+                    'goods' => $goods->map(function ($good) {
+                        return $good->transform();
+                    })
+                ]);
             } else {
-                $goods = Good::where(function ($query) use ($keyword) {
-                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-                });
+                if ($type) {
+                    $goods = Good::where('type', $type)->orderBy("created_at", "desc")->get();
+                } else {
+                    $goods = Good::orderBy("created_at", "desc")->get();
+                }
+                return $this->respondSuccessWithStatus([
+                    'goods' => $goods->map(function ($good) {
+                        return $good->transform();
+                    })
+                ]);
             }
-            $goods = $goods->orderBy("created_at", "desc")->get();
-            return $this->respondSuccessWithStatus([
-                'goods' => $goods->map(function ($good) {
-                    return $good->transform();
-                })
-            ]);
         }
         if ($request->limit)
             $limit = $request->limit;
