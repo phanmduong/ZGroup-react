@@ -107,6 +107,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     //Begin blog api
     Route::post('/create-category', 'ManageBlogController@create_category');
     Route::post('/save-post', 'ManageBlogController@save_post');
+    Route::get('/posts', 'ManageBlogController@get_posts');
+    Route::get('/post/{postId}', 'ManageBlogController@get_post');
+    Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
     //End blog api
 
     //Begin register students api
