@@ -350,6 +350,10 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   background-color: #f7765f !important;
 }
 
+.bg-dark {
+  background-color: #171717 !important;
+}
+
 .btn {
   box-sizing: border-box;
   border-width: 2px;

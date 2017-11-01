@@ -7,7 +7,7 @@
 
 
     <div class="container" id="bookinfo">
-        <br><br><br>
+        <br><br><br><br><br>
         <div class="row">
             <div class="col-md-12 shadow-banner">
                 <img src="https://vcdn.tikicdn.com/ts/banner/2c/a9/0b/0aafdcf86dc4a35b01e4ce4748b7db8a.jpg" width="100%"/>
@@ -29,7 +29,7 @@
                         </h1>
                         <br><a href="#pablo" class="btn btn-link btn-success"
                                style="padding:0!important; margin:0!important">Xem tất cả <i
-                                    class="fa fa-angle-right"></i></a><br><br>
+                                    class="fa fa-angle-right"></i></a>
                     </div>
                     <br>
                 </div>
@@ -46,7 +46,7 @@
                             <div style="background-image: url({{$book['avatar']}});
                                     background-size:cover; padding-bottom: 120%; width: 100%;
                                     background-position: center center;
-                                    box-shadow:0 6px 10px -4px rgba(0, 0, 0, 0.15)">
+                                    box-shadow:">
                             </div>
                         </div>
                         <div>
