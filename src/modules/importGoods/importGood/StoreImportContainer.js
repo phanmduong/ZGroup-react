@@ -13,6 +13,7 @@ import * as importGoodActions from '../importGoodActions';
 import ListGood from './ListGood';
 import StoreGood from './StoreGood';
 import {Modal} from 'react-bootstrap';
+import ReactSelect from 'react-select';
 
 class StoreImportContainer extends React.Component {
     constructor(props, context) {
@@ -22,7 +23,8 @@ class StoreImportContainer extends React.Component {
         this.state = {
             showModalStoreGood: false,
             search: '',
-            initTable: false
+            initTable: false,
+            optionsSelectWarehouses: []
         };
         this.closeModalStoreGood = this.closeModalStoreGood.bind(this);
         this.openModalStoreGood = this.openModalStoreGood.bind(this);
@@ -30,10 +32,30 @@ class StoreImportContainer extends React.Component {
         this.initTable = this.initTable.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.storeImportGood = this.storeImportGood.bind(this);
+        this.changeOptionWarehouse = this.changeOptionWarehouse.bind(this);
     }
 
     componentWillMount() {
         this.props.importGoodActions.initDataImport();
+        this.props.importGoodActions.getAllWarehouses();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isLoadingWarehouses !== this.props.isLoadingWarehouses && !nextProps.isLoadingWarehouses) {
+            let warehouses = nextProps.warehouses.map((warehouse) => {
+                return {
+                    ...warehouse,
+                    ...{
+                        value: warehouse.id,
+                        label: warehouse.name
+                    }
+                };
+            });
+
+            this.setState({
+                optionsSelectWarehouses: warehouses
+            });
+        }
     }
 
     setTable(table) {
@@ -46,6 +68,12 @@ class StoreImportContainer extends React.Component {
 
     openModalStoreGood() {
         this.setState({showModalStoreGood: true});
+    }
+
+    changeOptionWarehouse(value) {
+        let formImportGood = {...this.props.formImportGood};
+        formImportGood['warehouse_id'] = value && value.id ? value.id : null;
+        this.props.importGoodActions.updateFormImportGood(formImportGood);
     }
 
     storeGood(good) {
@@ -82,7 +110,11 @@ class StoreImportContainer extends React.Component {
     }
 
     storeImportGood() {
-        this.props.importGoodActions.storeImportGood(this.props.formImportGood);
+        if (this.props.formImportGood.warehouse_id) {
+            this.props.importGoodActions.storeImportGood(this.props.formImportGood);
+        } else {
+            helper.showWarningNotification("Vui lòng chọn kho hàng");
+        }
     }
 
     render() {
@@ -146,6 +178,13 @@ class StoreImportContainer extends React.Component {
                                                 value={this.props.formImportGood.code}
                                                 placeholder="Hệ thống tự sinh"
                                                 updateFormData={this.updateFormData}
+                                            />
+                                            <ReactSelect
+                                                name="form-field-name"
+                                                value={this.props.formImportGood.warehouse_id}
+                                                options={this.state.optionsSelectWarehouses}
+                                                onChange={this.changeOptionWarehouse}
+                                                placeholder="Chọn kho hàng"
                                             />
                                             <FormInputText
                                                 label="Ghi chú"
@@ -256,6 +295,8 @@ class StoreImportContainer extends React.Component {
 StoreImportContainer.propTypes = {
     importGoodActions: PropTypes.object.isRequired,
     formImportGood: PropTypes.object.isRequired,
+    warehouses: PropTypes.array.isRequired,
+    isLoadingWarehouses: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
     type: PropTypes.string
 };
@@ -264,6 +305,8 @@ function mapStateToProps(state) {
     return {
         formImportGood: state.importGoods.formImportGood,
         isStoring: state.importGoods.formImportGood.isStoring,
+        warehouses: state.importGoods.warehouses,
+        isLoadingWarehouses: state.importGoods.isLoadingWarehouses,
     };
 }
 

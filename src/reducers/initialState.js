@@ -764,6 +764,9 @@ export default {
             paid_money: 0,
             isStoring: false,
             error: false,
-        }
+        },
+        isLoadingWarehouses: false,
+        errorWarehouses: false,
+        warehouses: []
     },
 };

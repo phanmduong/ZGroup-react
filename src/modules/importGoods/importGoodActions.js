@@ -1,5 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as importGoodsApi from './importGoodsApi';
+import {browserHistory} from 'react-router';
 
 
 export function loadImportOrders(startTime, endTime) {
@@ -58,6 +59,7 @@ export function storeImportGood(formImportGood) {
         importGoodsApi.createImportGoods(formImportGood)
             .then((res) => {
                 if (res.data.status === 1) {
+                    browserHistory.push('/import-goods');
                     dispatch({
                         type: types.STORE_IMPORT_GOOD_SUCCESS
                     });
@@ -73,6 +75,26 @@ export function storeImportGood(formImportGood) {
                 });
             });
     };
+}
+
+export function getAllWarehouses() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_GET_ALL_WAREHOUSES_IMPORT_GOODS
+        });
+        importGoodsApi.allWarehouses()
+            .then(res => {
+
+                dispatch({
+                    type: types.GET_ALL_WAREHOUSES_IMPORT_GOODS_SUCCESS,
+                    warehouses: res.data.data.warehouses
+                });
+            })
+            .catch({
+                type: types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR
+            })
+
+    }
 }
 
 
