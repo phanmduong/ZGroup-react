@@ -263,9 +263,9 @@ class GoodController extends ManageApiController
                 ]);
             } else {
                 if ($type) {
-                    $goods = Good::where('type', $type)->orderBy("created_at", "desc")->get();
+                    $goods = Good::where('type', $type)->orderBy("created_at", "desc")->limit(20)->get();
                 } else {
-                    $goods = Good::orderBy("created_at", "desc")->get();
+                    $goods = Good::orderBy("created_at", "desc")->limit(20)->get();
                 }
                 return $this->respondSuccessWithStatus([
                     'goods' => $goods->map(function ($good) {
