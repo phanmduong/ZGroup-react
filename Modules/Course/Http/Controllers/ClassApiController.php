@@ -4,6 +4,7 @@ namespace Modules\Course\Http\Controllers;
 
 use App\Gen;
 use App\Http\Controllers\ApiController;
+use App\StudyClass;
 use Illuminate\Http\Request;
 
 class ClassApiController extends ApiController
@@ -50,9 +51,15 @@ class ClassApiController extends ApiController
             ]);
     }
 
-    public function classAttendance($classId)
+    public function classLessons($classId, Request $request)
     {
+        $limit = $request->limit ? $request->limit : 20;
+        $classLessons = StudyClass::find($classId)->classLessons()->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination(
+            $classLessons,
+            [
 
+            ]);
     }
 
 }
