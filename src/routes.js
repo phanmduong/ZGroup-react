@@ -18,7 +18,8 @@ import EmailTemplatesContainer from "./modules/emailTemplates/EmailTemplatesCont
 import EmailFormsContainer from "./modules/emailForms/EmailFormsContainer";
 import CreateEmailFormContainer from "./modules/emailForms/CreateEmailFormContainer";
 import CreateEmailTemplateContainer from "./modules/emailTemplates/CreateEmailTemplateContainer";
-import BlogContainer from "./modules/blog/BlogContainer";
+import StorePostContainer from "./modules/blog/StorePostContainer";
+import PostsContainer from "./modules/blog/PostsContainer";
 import ProfileContainer from "./modules/profile/ProfileContainer";
 import EditProfileContainer from "./modules/profile/EditProfileContainer";
 import StudySessionContainer from "./modules/studySession/StudySessionContainer";
@@ -109,7 +110,9 @@ export default (
             {/*End Email marketing routes*/}
 
             {/*Begin blog routes*/}
-            <Route path="/blog/new-post" component={BlogContainer} type="create"/>
+            <Route path="/blog/new-post" component={StorePostContainer} type="create"/>
+            <Route path="/blog/post/:postId/edit" component={StorePostContainer} type="edit"/>
+            <Route path="/blog/posts" component={PostsContainer} />
             {/*End blog routes*/}
 
             {/*Begin register student routes*/}

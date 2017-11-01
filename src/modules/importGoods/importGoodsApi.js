@@ -67,3 +67,13 @@ export function allWarehouses() {
 
     return axios.get(url);
 }
+
+export function loadSupplier(search) {
+    let url = env.MANAGE_API_URL + `/order/all-warehouses?search=` + search;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}

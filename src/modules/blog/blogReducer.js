@@ -230,6 +230,66 @@ export default function rolesReducer(state = initialState.blog, action) {
                     }
                 }
             };
+        case types.BEGIN_LOAD_POSTS_BLOG:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                    error: false,
+                }
+            };
+        case types.LOAD_POSTS_BLOG_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    error: false,
+                    posts: action.posts,
+                    currentPage: action.currentPage,
+                    totalPages: action.totalPages,
+                }
+            };
+        case types.LOAD_POSTS_BLOG_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    error: true,
+                }
+            };
+        case types.DELETE_POST_BLOG_SUCCESS:
+            return {
+                ...state,
+                posts: state.posts.filter((post) => post.id !== action.postId)
+            };
+        case types.BEGIN_LOAD_POST_BLOG:
+            return {
+                ...state,
+                ...{
+                    isLoadingPost: true,
+                    errorPost: false,
+                }
+            };
+        case types.LOAD_POST_BLOG_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingPost: false,
+                    errorPost: false,
+                    post: {
+                        ...state.post,
+                        ...action.post
+                    }
+                }
+            };
+        case types.LOAD_POST_BLOG_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingPost: false,
+                    errorPost: true,
+                }
+            };
         default:
             return state;
     }
