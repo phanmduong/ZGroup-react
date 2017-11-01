@@ -6,6 +6,7 @@ use App\GoodCategory;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\OrderPaidMoney;
+use App\Warehouse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
@@ -328,7 +329,7 @@ class OrderController extends ManageApiController
             $importOrder->code = $request->code;
         $importOrder->name = 'test';
         $importOrder->note = $request->note;
-        $importOrder->warehouse_id = 1;
+        $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
         $importOrder->type = 'import';
         $importOrder->save();
@@ -340,11 +341,28 @@ class OrderController extends ManageApiController
             $importedGood->quantity = $imported_good['quantity'];
             $importedGood->import_price = $imported_good['import_price'];
             $importedGood->staff_id = $this->user->id;
-            $importedGood->warehouse_id = 1;
+            $importedGood->warehouse_id = $request->warehouse_id;
             $importedGood->save();
         }
         return $this->respondSuccessWithStatus([
             'messgae' => 'SUCCESS'
         ]);
+    }
+
+    public function getWarehouses()
+    {
+        $warehouses = Warehouse::all();
+
+        $warehouses = $warehouses->map(function ($warehouse) {
+            return [
+                'id' => $warehouse->id,
+                'name' => $warehouse->name,
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            'warehouses' => $warehouses
+        ]);
+
     }
 }

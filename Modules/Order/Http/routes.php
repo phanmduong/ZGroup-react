@@ -13,5 +13,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::post('/add-import-order', 'OrderController@addImportOrder');
     Route::post('/add-imported-good', 'OrderController@addImportOrder');
     Route::post('/add-import-order-goods', 'OrderController@addImportOrderGoods');
+    Route::get('/all-warehouses', 'OrderController@getWarehouses');
 });
 
