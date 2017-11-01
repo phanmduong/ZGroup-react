@@ -471,7 +471,7 @@ class TaskController extends ManageApiController
         if (is_null($taskList)) {
             return $this->responseBadRequest("Quy trình không tồn tại");
         }
-        $project = Project::where("status", "book")->first();
+        $project = Project::where("status", $taskList->type)->first();
         if ($project == null) {
             return $this->respondErrorWithStatus("Dự án sách không tồn tại");
         }
@@ -479,6 +479,7 @@ class TaskController extends ManageApiController
         $numTasks = $tasks->count();
 
         $boards = Board::where('project_id', '=', $project->id)->where("status", "open")->orderBy('order')->get();
+
         $numBoards = $boards->count();
 
         $num = min($numTasks, $numBoards);
