@@ -6,6 +6,7 @@ use App\GoodCategory;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\OrderPaidMoney;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
@@ -252,9 +253,9 @@ class OrderController extends ManageApiController
     public function addImportOrder(Request $request)
     {
         $importOrder = new Order;
-        if ($request->name == null || $request->warehouse_id == null)
+        if ($request->warehouse_id == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu trường name hoặc warehouse_id'
+                'message' => 'Thiếu trường warehouse_id'
             ]);
         $importOrder->name = $request->name;
         $importOrder->note = $request->note;
@@ -345,6 +346,42 @@ class OrderController extends ManageApiController
         }
         return $this->respondSuccessWithStatus([
             'messgae' => 'SUCCESS'
+        ]);
+    }
+
+    public function addSupplier(Request $request)
+    {
+        $supplier = new User;
+        $user = User::where('email', $request->email)->first();
+        if ($user)
+            return $this->respondErrorWithStatus([
+                'message' => 'email đã có người sử dụng'
+            ]);
+        if ($request->name == null || $request->phone == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'thiếu trường tên hoặc số điện thoại'
+            ]);
+        $supplier->email = $request->email;
+        $supplier->name = $request->name;
+        $supplier->phone = $request->phone;
+        $supplier->type = 'supplier';
+        $supplier->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function allSuppliers()
+    {
+        $suppliers = User::where('type', 'supplier')->get();
+        return $this->respondSuccessWithStatus([
+            'suppliers' => $suppliers->map(function ($supplier){
+                return [
+                    'name' => $supplier->name,
+                    'email' => $supplier->email,
+                    'phone' => $supplier->phone,
+                ];
+            })
         ]);
     }
 }
