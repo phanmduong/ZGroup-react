@@ -53,6 +53,17 @@ export function createImportGoods(formImportGood) {
         code: formImportGood.code,
         note: formImportGood.note,
         paid_money: formImportGood.paid_money,
-        imported_goods: importGoods
+        imported_goods: importGoods,
+        warehouse_id: formImportGood.warehouse_id
     });
+}
+
+export function allWarehouses() {
+    let url = env.MANAGE_API_URL + `/order/all-warehouses`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
 }

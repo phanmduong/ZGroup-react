@@ -111,6 +111,31 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                 }
             }
         }
+        case types.BEGIN_GET_ALL_WAREHOUSES_IMPORT_GOODS:
+            return {
+                ...state,
+                ...{
+                    isLoadingWarehouses: true,
+                    errorWarehouses: false,
+                }
+            };
+        case types.GET_ALL_WAREHOUSES_IMPORT_GOODS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingWarehouses: false,
+                    errorWarehouses: false,
+                    warehouses: action.warehouses
+                }
+            };
+        case types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingWarehouses: false,
+                    errorWarehouses: true
+                }
+            };
         default:
             return state;
     }
