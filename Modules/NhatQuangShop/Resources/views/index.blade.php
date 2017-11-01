@@ -154,86 +154,14 @@
     </div>
 
 
-    <div class="subscribe-line subscribe-line-transparent"
-         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035613rkf2In1CptDJTfI.png')">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 offset-md-2 text-center">
-                    <h2 class="big-title description-light">Đội ngũ tác giả</h2><br><br>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 margin-bottom-30px">
-                    <div class="card card-profile ">
-                        <div class="card-block">
-                            <div class="card-avatar">
-                                <a href="#avatar">
-                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508218566sUKn92Nn2Gg06m7.jpg"
-                                         alt="...">
-                                    <h4 class="card-title">Hương Phan</h4>
-                                </a>
-                            </div>
-                            <p class="card-description text-center">
-                            <h4><b>Hương Phan</b></h4><br>
-                            Đừng chỉ thiết kế bằng đôi tay và đôi mắt. Hãy thiết kế bằng cả trái tim. Và cuộc sống bạn đang sống sẽ là bản thiết kế đẹp nhất trong đời bạn.
-                            </p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i class="fa fa-dribbble"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-instagram"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 margin-bottom-30px">
-                    <div class="card card-profile">
-                        <div class="card-block">
-                            <div class="card-avatar">
-                                <a href="#avatar">
-                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508218562TujLgiBeECfG2BC.png"
-                                         alt="...">
-                                    <h4 class="card-title">Hoàng Hiệp</h4>
-                                </a>
-                            </div>
-                            <p class="card-description text-center">
-                            <h4><b>Hoàng Hiệp</b></h4><br>
-                            Chỉ hy vọng Graphics có thể lấp được một lỗ hổng đã tồn tại rất lâu trong cộng đồng thiết kế tại Việt Nam mà thôi.
-                            </p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="#pablo" class="btn btn-just-icon btn-linkedin"><i class="fa fa-linkedin"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-dribbble"><i class="fa fa-dribbble"></i></a>
-                            <a href="#pablo" class="btn btbtn-pinterest"><i class="fa fa-pinterest"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 margin-bottom-30px">
-                    <div class="card card-profile">
-                        <div class="card-block">
-                            <div class="card-avatar">
-                                <a href="#avatar">
-                                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508218556VpNtgHY8rQ3F14o.png"
-                                         alt="...">
-                                    <h4 class="card-title">Huyền Thanh</h4>
-                                </a>
-                            </div>
-                            <p class="card-description text-center">
-                            <h4><b>Huyền Thanh</b></h4><br>
-                            Chứa trong hơn 100 trang giấy của Graphics là một phần không thể thay thế của mỗi chúng tôi.
-                            </p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="#pablo" class="btn btn-just-icon btn-youtube"><i class="fa fa-youtube"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-twitter"><i class="fa fa-twitter"></i></a>
-                            <a href="#pablo" class="btn btn-just-icon btn-instagram"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 shadow-banner">
+                <img src="https://vcdn.tikicdn.com/ts/banner/34/de/59/a730950871ac0a80d7fed3c9c6c57ce9.jpg" width="100%"/>
             </div>
         </div>
     </div>
+
 
     <div class="container" id="bookinfo2">
         <br><br>
