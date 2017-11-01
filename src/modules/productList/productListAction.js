@@ -100,11 +100,12 @@ export function getCategoriesProductsList() {
     };
 }
 
-export function uploadEditProduct(productPresent, manufacture, category) {
+export function uploadEditProduct(productPresent, manufacture_id, category_id) {
     return function (dispatch) {
         dispatch(updatingProductListModal(true));
-        productListApi.uploadEditProductApi(productPresent, manufacture, category)
-            .then(function () {
+        productListApi.uploadEditProductApi(productPresent, manufacture_id, category_id)
+            .then(function (response) {
+                console.log(response);
                 dispatch(updatingProductListModal(false));
                 dispatch({
                     type: types.TOGGLE_AVATAR_MODAL

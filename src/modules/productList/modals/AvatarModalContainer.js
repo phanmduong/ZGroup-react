@@ -61,7 +61,11 @@ class AvatarModalContainer extends React.Component {
 
     uploadEditProduct(e) {
         e.preventDefault();
-        this.props.productListAction.uploadEditProduct(this.props.productEditing.productPresent, this.props.productEditing.manufacture.id, this.props.productEditing.category.id);
+        this.props.productListAction.uploadEditProduct(
+            this.props.productEditing.productPresent,
+            this.props.productEditing.manufacture.id || this.props.productEditing.productPresent.manufacture_id,
+            this.props.productEditing.category.id || this.props.productEditing.productPresent.good_category_id
+        );
     }
 
     render() {
@@ -173,7 +177,7 @@ class AvatarModalContainer extends React.Component {
                                 <label className="control-label">Nhà sản xuất</label>
                                 <Select
                                     name="manufactures"
-                                    value={this.props.productEditing.manufacture.id}
+                                    value={this.props.productEditing.manufacture.id || this.props.productEditing.productPresent.manufacture_id}
                                     options={this.props.manufactures.map((manufacture) => {
                                         return {
                                             ...manufacture,
@@ -188,7 +192,7 @@ class AvatarModalContainer extends React.Component {
                                 <label className="control-label">Chọn nhóm sản phẩm</label>
                                 <Select
                                     name="categories"
-                                    value={this.props.productEditing.category.id}
+                                    value={this.props.productEditing.category.id || this.props.productEditing.productPresent.good_category_id}
                                     options={this.props.categories.map((category) => {
                                         return {
                                             ...category,
