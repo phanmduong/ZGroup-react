@@ -82,52 +82,10 @@
 
 
 
-    <div class="subscribe-line subscribe-line-transparent"
-         style="background-image: url('https://previews.123rf.com/images/lumppini/lumppini1504/lumppini150400116/39340287-golden-luxury-background-texture-with-a-relief-pattern-Stock-Photo.jpg')">
-
-        <div class="content-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card card-profile card-plain">
-                            <img class="card-img-top" src="https://pgdermatology.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/o/l/olay-regenerist.png">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>
-                            <div class="description-light">
-                                <h1 class="big-title">
-                                    Mỹ phẩm <br> OLAY<br>
-                                </h1>
-                                <br><h5>MÓN QUÀ TUYỆT VỜI CHO NGÀY 20/10</h5><br>
-
-                                <p>Đã rất lâu trước đó, chúng tôi từng hi vọng sẽ có một ai đó ở Việt Nam viết ra những
-                                    cuốn sách,
-                                    những cuốn tạp chí liên quan đến thiết kế đồ họa. Nó phải thật đẹp, có nhiều thông
-                                    tin hữu ích, để
-                                    chúng tôi có thêm cảm hứng, và có thứ để cầm, nắm.</p>
-                                <br>
-                                <p>Nhưng nhiều năm sau, chúng tôi vẫn không thấy họ xuất hiện. Vì vậy chúng tôi quyết
-                                    định sẽ không
-                                    chờ đợi nữa, mà sẽ bắt tay vào tự thực hiện chúng, thứ chúng tôi từng ao ước.</p>
-                                <br>
-                                <p>Hi vọng lớn nhất, từ chúng tôi, là bạn có được thật nhiều điều thú vị khi đọc cuốn
-                                    tạp chí này.
-                                    Mọi sự giúp đỡ, ủng hộ từ bạn, dù là nhỏ nhất, đều là động lực để chúng tôi cố gắng
-                                    làm tốt hơn
-                                    trong mỗi số của tạp chí.
-                                </p>
-                                <br>
-                                <button type="button" class="btn btn-outline-neutral btn-round">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    Đặt mua ngay
-                                </button>
-                            </div>
-                            <br>
-                        </div>
-
-                    </div>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 shadow-banner">
+                <img src="https://vcdn.tikicdn.com/ts/banner/34/57/e0/4cccc9504f0304db48f59e2a5d5578b9.jpg" width="100%"/>
             </div>
         </div>
     </div>
