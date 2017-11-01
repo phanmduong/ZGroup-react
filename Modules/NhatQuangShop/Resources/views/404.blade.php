@@ -1,4 +1,4 @@
-@extends('graphics::layouts.master')
+@extends('nhatquangshop::layouts.master')
 
 @section('content')
 <div class="page-header page-header-large" style="background-image: url('assets/img/cover1.');">

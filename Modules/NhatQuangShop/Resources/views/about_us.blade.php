@@ -1,4 +1,4 @@
-@extends('graphics::layouts.master')
+@extends('nhatquangshop::layouts.master')
 @section('content')
 
     <div class="page-header page-header-small" style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035903jSFNtNO4CXL5lfZ.png');">
