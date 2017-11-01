@@ -7,7 +7,7 @@
 
 
     <div class="container" id="bookinfo">
-        <br><br><br>
+        <br><br><br><br><br>
         <div class="row">
             <div class="col-md-12 shadow-banner">
                 <img src="https://vcdn.tikicdn.com/ts/banner/2c/a9/0b/0aafdcf86dc4a35b01e4ce4748b7db8a.jpg" width="100%"/>
