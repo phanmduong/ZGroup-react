@@ -43,9 +43,9 @@
                 <div class="col-md-3">
                     <div class="card card-profile" style="border-radius:0">
                         <div style="background-image: url({{$book['avatar']}});
-                                background-size:cover; height: 400px; width: 100%;
+                                background-size:cover; padding-bottom: 110%; width: 100%;
                                 background-position: center center;">
-                            
+
                         </div>
                         {{--<div class="flex flex-col flex-justify-content-space-between" style="height: 100%">--}}
                             {{--<div class="container">--}}
