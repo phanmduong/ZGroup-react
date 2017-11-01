@@ -29,7 +29,7 @@
                         </h1>
                         <br><a href="#pablo" class="btn btn-link btn-success"
                                style="padding:0!important; margin:0!important">Xem tất cả <i
-                                    class="fa fa-angle-right"></i></a><br><br>
+                                    class="fa fa-angle-right"></i></a>
                     </div>
                     <br>
                 </div>
