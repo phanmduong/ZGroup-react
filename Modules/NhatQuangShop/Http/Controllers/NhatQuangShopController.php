@@ -1,9 +1,8 @@
 <?php
 
-namespace Modules\Graphics\Http\Controllers;
+namespace Modules\NhatQuangShop\Http\Controllers;
 
 use App\Good;
-use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,7 +10,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 
-class GraphicsController extends Controller
+class NhatQuangShopController extends Controller
 {
     public function index($subfix)
     {
@@ -33,14 +32,14 @@ class GraphicsController extends Controller
             }
             $book_arr[] = $bookdata;
         }
-        return view('graphics::index', [
+        return view('nhatquangshop::index', [
             'books' => $book_arr,
         ]);
     }
 
     public function about_us($subfix)
     {
-        return view('graphics::about_us');
+        return view('nhatquangshop::about_us');
     }
 
     public function addGoodToCart($subfix, $goodId, Request $request)
@@ -149,14 +148,14 @@ class GraphicsController extends Controller
             "books" => $goods,
             "total_price" => $totalPrice
         ];
-        return view("graphics::goods_cart", $data);
+        return view("nhatquangshop::goods_cart", $data);
     }
 
     public function book($subfix, $good_id)
     {
         $book = Good::find($good_id);
         if ($book == null)
-            return view('graphics::404');
+            return view('nhatquangshop::404');
         $properties = GoodProperty::where('good_id', $good_id)->get();
 
         $data = [
@@ -171,14 +170,14 @@ class GraphicsController extends Controller
         foreach ($properties as $property) {
             $data[$property->name] = $property->value;
         }
-        return view('graphics::book', [
+        return view('nhatquangshop::book', [
             'properties' => $data,
         ]);
     }
 
     public function contact_us($subfix)
     {
-        return view('graphics::contact_us');
+        return view('nhatquangshop::contact_us');
     }
 
     public function contact_info($subfix, Request $request)
@@ -220,7 +219,7 @@ class GraphicsController extends Controller
             return $comment;
         });
 //        dd($post);
-        return view('graphics::post',
+        return view('nhatquangshop::post',
             [
                 'post' => $post,
                 'posts_related' => $posts_related
@@ -234,7 +233,7 @@ class GraphicsController extends Controller
         $display = "";
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($blogs->lastPage() == $request->page) $display = "display:none";
-        return view('graphics::blogs', [
+        return view('nhatquangshop::blogs', [
             'blogs' => $blogs,
             'page_id' => $page_id,
             'display' => $display,
@@ -281,7 +280,7 @@ class GraphicsController extends Controller
             }
             $subject = "Xác nhận đặt hàng thành công";
             $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods];
-            $emailcc = ["graphics@colorme.vn"];
+            $emailcc = ["nhatquangshop@colorme.vn"];
             Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
                 $m->from('no-reply@colorme.vn', 'Graphics');
                 $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);

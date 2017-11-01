@@ -1,4 +1,4 @@
-@extends('graphics::layouts.master')
+@extends('nhatquangshop::layouts.master')
 
 
 @section('content')
@@ -33,7 +33,7 @@
                     <div class="card card-plain card-blog">
                         <div class="card-image">
                             <a href="#pablo">
-                                <img class="img img-raised" src="{{generate_protocol_url($blog->url)}}">
+                                <img class="img img-raised" src="{{$blog->url}}">
                             </a>
                         </div>
                         <div class="card-block">

@@ -374,16 +374,40 @@ class OrderController extends ManageApiController
 
     public function allSuppliers(Request $request)
     {
-        $suppliers = User::where('type', 'supplier')->get();
-        return $this->respondSuccessWithStatus([
-            'suppliers' => $suppliers->map(function ($supplier) {
-                return [
-                    'name' => $supplier->name,
-                    'email' => $supplier->email,
-                    'phone' => $supplier->phone,
-                ];
-            })
-        ]);
+        $keyword = $request->search;
+        $limit = $request->limit;
+        if ($limit == -1) {
+            $suppliers = User::where('type', 'supplier')->where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("email", "like", "%$keyword%")->orWhere("phone", "like", "%$keyword%");
+            })->limit(20)->get();
+            return $this->respondSuccessWithStatus([
+                'suppliers' => $suppliers->map(function ($supplier) {
+                    return [
+                        'name' => $supplier->name,
+                        'email' => $supplier->email,
+                        'phone' => $supplier->phone,
+                    ];
+                })
+            ]);
+        }
+        if ($limit == null)
+            $limit = 20;
+
+        $suppliers = User::where('type', 'supplier')->where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("email", "like", "%$keyword%")->orWhere("phone", "like", "%$keyword%");
+        })->orderBy("created_at", "desc")->paginate($limit);
+        return $this->respondWithPagination(
+            $suppliers,
+            [
+                'suppliers' => $suppliers->map(function ($supplier) {
+                    return [
+                        'name' => $supplier->name,
+                        'email' => $supplier->email,
+                        'phone' => $supplier->phone,
+                    ];
+                })
+            ]
+        );
     }
 
     public function getWarehouses()
