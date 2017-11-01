@@ -245,34 +245,21 @@ class GoodController extends ManageApiController
         $keyword = $request->search;
         $type = $request->type;
         if ($request->limit == -1) {
-            if ($keyword) {
-                if ($type) {
-                    $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
-                        $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-                    });
-                } else {
-                    $goods = Good::where(function ($query) use ($keyword) {
-                        $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-                    });
-                }
-                $goods = $goods->orderBy("created_at", "desc")->limit(20)->get();
-                return $this->respondSuccessWithStatus([
-                    'goods' => $goods->map(function ($good) {
-                        return $good->transform();
-                    })
-                ]);
+            if ($type) {
+                $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
+                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                });
             } else {
-                if ($type) {
-                    $goods = Good::where('type', $type)->orderBy("created_at", "desc")->limit(20)->get();
-                } else {
-                    $goods = Good::orderBy("created_at", "desc")->limit(20)->get();
-                }
-                return $this->respondSuccessWithStatus([
-                    'goods' => $goods->map(function ($good) {
-                        return $good->transform();
-                    })
-                ]);
+                $goods = Good::where(function ($query) use ($keyword) {
+                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                });
             }
+            $goods = $goods->orderBy("created_at", "desc")->limit(20)->get();
+            return $this->respondSuccessWithStatus([
+                'goods' => $goods->map(function ($good) {
+                    return $good->transform();
+                })
+            ]);
         }
         if ($request->limit)
             $limit = $request->limit;
@@ -282,86 +269,90 @@ class GoodController extends ManageApiController
             $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
             });
-        } else {
-            $goods = Good::where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-            });
-        }
+} else {
+    $goods = Good::where(function ($query) use ($keyword) {
+        $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+    });
+}
 
-        $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
+$goods = $goods->orderBy("created_at", "desc")->paginate($limit);
 
-        return $this->respondWithPagination(
-            $goods,
-            [
-                "goods" => $goods->map(function ($good) {
-                    return $good->transform();
-                })
-            ]
-        );
-    }
+return $this->respondWithPagination(
+    $goods,
+    [
+        "goods" => $goods->map(function ($good) {
+            return $good->transform();
+        })
+    ]
+);
+}
 
-    public function editGood($goodId, Request $request)
-    {
-        $good = Good::find($goodId);
-        if ($good == null)
-            return $this->respondErrorWithData([
-                "message" => "Không tìm thấy sản phẩm"
-            ]);
-        if (!$request->price || !$request->name || !$request->manufacture_id || !$request->good_category_id)
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu trường'
-            ]);
-        $good->name = $request->name;
-        $good->avatar_url = $request->avatar_url;
-        $good->price = $request->price;
-        $good->manufacture_id = $request->manufacture_id;
-        $good->good_category_id = $request->good_category_id;
-        $good->save();
-        return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
-        ]);
-    }
-
-    public function deleteGood($good_id, Request $request)
-    {
-        $good = Good::find($good_id);
-        if ($good == null) return $this->respondErrorWithData([
+public
+function editGood($goodId, Request $request)
+{
+    $good = Good::find($goodId);
+    if ($good == null)
+        return $this->respondErrorWithData([
             "message" => "Không tìm thấy sản phẩm"
         ]);
-        $good->delete();
-        return $this->respondErrorWithData([
-            "message" => "Xóa sản phẩm thành công"
+    if (!$request->price || !$request->name || !$request->manufacture_id || !$request->good_category_id)
+        return $this->respondErrorWithStatus([
+            'message' => 'Thiếu trường'
         ]);
-    }
+    $good->name = $request->name;
+    $good->avatar_url = $request->avatar_url;
+    $good->price = $request->price;
+    $good->manufacture_id = $request->manufacture_id;
+    $good->good_category_id = $request->good_category_id;
+    $good->save();
+    return $this->respondSuccessWithStatus([
+        'message' => 'SUCCESS'
+    ]);
+}
 
-    public function updatePrice($goodId, Request $request)
-    {
-        $good = Good::find($goodId);
-        if (!$good)
-            return $this->respondErrorWithStatus([
-                'message' => 'khong co san pham'
-            ]);
-        if (!$request->price)
-            return $this->respondErrorWithStatus([
-                'message' => 'thieu gia'
-            ]);
-        $good->price = $request->price;
-        $good->save();
-        return $this->respondSuccessWithStatus([
-            'message' => 'ok',
-        ]);
-    }
+public
+function deleteGood($good_id, Request $request)
+{
+    $good = Good::find($good_id);
+    if ($good == null) return $this->respondErrorWithData([
+        "message" => "Không tìm thấy sản phẩm"
+    ]);
+    $good->delete();
+    return $this->respondErrorWithData([
+        "message" => "Xóa sản phẩm thành công"
+    ]);
+}
 
-    public function allManufactures()
-    {
-        $manufactures = Manufacture::orderBy("created_at", "desc")->get();
-        return $this->respondSuccessWithStatus([
-            'manufactures' => $manufactures->map(function ($manufacture) {
-                return [
-                    'id' => $manufacture->id,
-                    'name' => $manufacture->name,
-                ];
-            })
+public
+function updatePrice($goodId, Request $request)
+{
+    $good = Good::find($goodId);
+    if (!$good)
+        return $this->respondErrorWithStatus([
+            'message' => 'khong co san pham'
         ]);
-    }
+    if (!$request->price)
+        return $this->respondErrorWithStatus([
+            'message' => 'thieu gia'
+        ]);
+    $good->price = $request->price;
+    $good->save();
+    return $this->respondSuccessWithStatus([
+        'message' => 'ok',
+    ]);
+}
+
+public
+function allManufactures()
+{
+    $manufactures = Manufacture::orderBy("created_at", "desc")->get();
+    return $this->respondSuccessWithStatus([
+        'manufactures' => $manufactures->map(function ($manufacture) {
+            return [
+                'id' => $manufacture->id,
+                'name' => $manufacture->name,
+            ];
+        })
+    ]);
+}
 }
