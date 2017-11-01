@@ -58,7 +58,7 @@ class Project extends Model
             "canDragCard" => $this->can_drag_card,
             "canEditTask" => $this->can_edit_task,
             "color" => $this->color,
-            "boards" => $this->boards->map(function ($board) {
+            "boards" => $this->boards()->where("status", "open")->orderBy("order")->get()->map(function ($board) {
                 return $board->transform();
             }),
             'board_count' => $board_count,

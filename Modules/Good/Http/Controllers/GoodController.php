@@ -164,7 +164,7 @@ class GoodController extends ManageApiController
         if ($request->name == null)
             return $this->respondErrorWithStatus("Thiếu trường name");
 
-        $goodPropertyItem = GoodPropertyItem::where("name", $request->name)->first();
+        $goodPropertyItem = GoodPropertyItem::where("name", $request->name)->where("type", $request->type)->first();
         $user = $this->user;
         if ($request->id) {
             if ($goodPropertyItem != null && $goodPropertyItem->id != $request->id) {
@@ -283,9 +283,9 @@ class GoodController extends ManageApiController
             }
             $goods = $goods->orderBy("created_at", "desc")->get();
             return $this->respondSuccessWithStatus([
-                    'goods' => $goods->map(function ($good) {
-                        return $good->transform();
-                    })
+                'goods' => $goods->map(function ($good) {
+                    return $good->transform();
+                })
             ]);
         }
         if ($request->limit)
