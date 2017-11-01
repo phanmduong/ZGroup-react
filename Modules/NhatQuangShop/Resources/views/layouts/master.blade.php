@@ -28,7 +28,21 @@
     </script>
 </head>
 <body class="profile" style="background:#fafafa">
-<nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
+<nav class="navbar navbar-toggleable-md fixed-top bg-dark" style="height:35px; background:#272727!important">
+    <div class="container">
+        <div style="text-align:right; width:100%">
+            <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
+                    class="btn btn-danger" style="padding:3px 5px;margin:3px;font-size:10px;">
+                <i class="fa fa-google"></i> Google Login
+            </button>
+            <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
+                    class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
+                <i class="fa fa-facebook"></i> Facebook Login
+            </button>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light" style="margin-top:35px">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false"

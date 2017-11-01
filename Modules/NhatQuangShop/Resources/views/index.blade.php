@@ -46,7 +46,7 @@
                             <div style="background-image: url({{$book['avatar']}});
                                     background-size:cover; padding-bottom: 120%; width: 100%;
                                     background-position: center center;
-                                    box-shadow:0 6px 10px -4px rgba(0, 0, 0, 0.15)">
+                                    box-shadow:">
                             </div>
                         </div>
                         <div>
