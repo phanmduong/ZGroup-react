@@ -6,6 +6,8 @@ use App\GoodCategory;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\OrderPaidMoney;
+use App\User;
+use App\Warehouse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
@@ -252,9 +254,9 @@ class OrderController extends ManageApiController
     public function addImportOrder(Request $request)
     {
         $importOrder = new Order;
-        if ($request->name == null || $request->warehouse_id == null)
+        if ($request->warehouse_id == null)
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu trường name hoặc warehouse_id'
+                'message' => 'Thiếu trường warehouse_id'
             ]);
         $importOrder->name = $request->name;
         $importOrder->note = $request->note;
@@ -328,7 +330,7 @@ class OrderController extends ManageApiController
             $importOrder->code = $request->code;
         $importOrder->name = 'test';
         $importOrder->note = $request->note;
-        $importOrder->warehouse_id = 1;
+        $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
         $importOrder->type = 'import';
         $importOrder->save();
@@ -340,11 +342,63 @@ class OrderController extends ManageApiController
             $importedGood->quantity = $imported_good['quantity'];
             $importedGood->import_price = $imported_good['import_price'];
             $importedGood->staff_id = $this->user->id;
-            $importedGood->warehouse_id = 1;
+            $importedGood->warehouse_id = $request->warehouse_id;
             $importedGood->save();
         }
         return $this->respondSuccessWithStatus([
             'messgae' => 'SUCCESS'
+        ]);
+    }
+
+    public function addSupplier(Request $request)
+    {
+        $supplier = new User;
+        $user = User::where('email', $request->email)->first();
+        if ($user)
+            return $this->respondErrorWithStatus([
+                'message' => 'email đã có người sử dụng'
+            ]);
+        if ($request->name == null || $request->phone == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'thiếu trường tên hoặc số điện thoại'
+            ]);
+        $supplier->email = $request->email;
+        $supplier->name = $request->name;
+        $supplier->phone = $request->phone;
+        $supplier->type = 'supplier';
+        $supplier->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function allSuppliers()
+    {
+        $suppliers = User::where('type', 'supplier')->get();
+        return $this->respondSuccessWithStatus([
+            'suppliers' => $suppliers->map(function ($supplier) {
+                return [
+                    'name' => $supplier->name,
+                    'email' => $supplier->email,
+                    'phone' => $supplier->phone,
+                ];
+            })
+        ]);
+    }
+
+    public function getWarehouses()
+    {
+        $warehouses = Warehouse::all();
+
+        $warehouses = $warehouses->map(function ($warehouse) {
+            return [
+                'id' => $warehouse->id,
+                'name' => $warehouse->name,
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            'warehouses' => $warehouses
         ]);
     }
 }
