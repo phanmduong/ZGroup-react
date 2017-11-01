@@ -58,8 +58,9 @@ Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 //
 //});
 
-Route::group(['domain' => config('app.domain')], function () {
+Route::group(['domain' => "www.".config('app.domain')], function () {
 //    Route::get('/', 'PublicController@redirectManage');
+    Route::get('/', 'PublicController@redirect');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
@@ -78,6 +79,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     // End role api
 
     // Begin staff api
+    Route::get('/staff/get-all-user', "ManageStaffApiController@get_all_user_not_staff");
     Route::get('/staff/{staffId}', "ManageStaffApiController@get_staff");
     Route::post('/staff/{staffId}/edit', "ManageStaffApiController@edit_staff");
     Route::post('delete-staff', "ManageStaffApiController@delete_staff");
@@ -214,6 +216,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::get('product/{productId}/likers', 'ProductPublicApiController@likes');
 
     Route::post('product/{product_id}/feature', 'ProductApiController@feature');
+    Route::post('product/{product_id}/report', 'ProductApiController@report');
     Route::post('product/{productId}/comment', 'ProductApiController@comment');
     Route::post('product/{productId}/update', 'ProductApiController@update_product');
     Route::post('product/{productId}/unlike', 'ProductApiController@unlike');
@@ -332,7 +335,6 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('/roles', 'RoleController@roles');
         Route::get('/roles/{roleId}', 'RoleController@role');
 
-        Route::get('/search-user', 'RoleController@searchUser');
         Route::get('/tabs', 'RoleController@tabs');
         Route::post('/roles', 'RoleController@store_role');
         Route::post('/nhanviens/{staffId}/role', 'RoleController@change_role');

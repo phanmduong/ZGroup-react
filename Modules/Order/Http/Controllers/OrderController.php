@@ -1,0 +1,404 @@
+<?php
+
+namespace Modules\Order\Http\Controllers;
+
+use App\GoodCategory;
+use App\Http\Controllers\ManageApiController;
+use App\ImportedGoods;
+use App\OrderPaidMoney;
+use App\User;
+use App\Warehouse;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Order;
+
+
+class OrderController extends ManageApiController
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function allOrders(Request $request)
+    {
+        $limit = 3;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $status = $request->status;
+        $keyWord = $request->search;
+        $totalOrders = Order::where('type', 'order')->get()->count();
+        $totalMoney = 0;
+        $totalPaidMoney = 0;
+        $allOrders = Order::where('type', 'order')->get();
+        foreach ($allOrders as $order) {
+            $goodOrders = $order->goodOrders()->get();
+            foreach ($goodOrders as $goodOrder) {
+                $totalMoney += $goodOrder->quantity * $goodOrder->price;
+            }
+        }
+        foreach ($allOrders as $order) {
+            $orderPaidMoneys = $order->orderPaidMoneys();
+            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                $totalPaidMoney += $orderPaidMoney->money;
+            }
+        }
+        if ($startTime) {
+            if ($status)
+                $orders = Order::where('type', 'order')->where('status', $status)->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
+                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+                })->paginate($limit);
+            else
+                $orders = Order::where('type', 'order')->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
+                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+                })->paginate($limit);
+        } else {
+            if ($status)
+                $orders = Order::where('type', 'order')->where('status', $status)->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
+                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+                })->paginate($limit);
+            else
+                $orders = Order::where('type', 'order')->orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
+                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+                })->paginate($limit);
+        }
+        return $this->respondWithPagination(
+            $orders,
+            [
+                'total_order' => $totalOrders,
+                'total_money' => $totalMoney,
+                'total_paid_money' => $totalPaidMoney,
+                'orders' => $orders->map(function ($order) {
+                    return $order->transform();
+                })
+            ]
+        );
+    }
+
+    public function detailedOrder($order_id)
+    {
+        $order = Order::find($order_id);
+        return $this->respondSuccessWithStatus(
+            $order->detailedTransform()
+        );
+    }
+
+    public function editOrder($order_id, Request $request)
+    {
+        $order = Order::find($order_id);
+        if ($request->code == null || $request->staff_id)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu code || staff_id'
+            ]);
+        $order->note = $request->note;
+        $order->code = $request->code;
+        $order->staff_id = $request->staff_id;
+        $order->user_id = $request->user_id;
+        $order->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'ok'
+        ]);
+    }
+
+    public function allCategory()
+    {
+        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
+        return $this->respondSuccessWithStatus([
+            [
+                'good_categories' => $goodCategories->map(function ($goodCategory) {
+                    return $goodCategory->CategoryTransform();
+                })
+            ]
+
+        ]);
+    }
+
+    public function addCategory(Request $request)
+    {
+        if ($request->name == null) return $this->respondErrorWithStatus("Chưa có tên");
+        $goodCategory = new GoodCategory;
+        $goodCategory->name = $request->name;
+        if ($request->parent_id != null) $goodCategory->parent_id = $request->parent_id; else $goodCategory->parent_id = 0;
+        $goodCategory->save();
+        return $this->respondSuccessWithStatus([
+            "goodCategory" => $goodCategory->CategoryTransform()
+        ]);
+    }
+
+    public function editCategory(Request $request)
+    {
+        if ($request->id == null || $request->name == null)
+            return $this->respondErrorWithStatus("Chưa có id hoặc tên");
+        $goodCategory = GoodCategory::find($request->id);
+        if ($goodCategory == null) return $this->respondErrorWithStatus("Không tồn tại thể loại này");
+        $goodCategory->name = $request->name;
+        if ($request->parent_id != null) $goodCategory->parent_id = $request->parent_id;
+        $goodCategory->save();
+        return $this->respondSuccessWithStatus([
+            "goodCategory" => $goodCategory->CategoryTransform()
+        ]);
+    }
+
+    public function deleteCategory($category_id, Request $request)
+    {
+        $goodCategory = GoodCategory::find($category_id);
+        if ($goodCategory == null) return $this->respondErrorWithData([
+            "message" => "Danh mục không tồn tại"
+        ]);
+        $goodCategory->delete();
+        return $this->respondSuccessWithStatus([
+            "message" => "Xóa thành công"
+        ]);
+    }
+
+    public function importOrders(Request $request)
+    {
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        if ($startTime)
+            $importOrders = Order::where('type', 'import')->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->get();
+        else
+            $importOrders = Order::where('type', 'import')->orderBy("created_at", "desc")->get();
+        $data = $importOrders->map(function ($importOrder) {
+            $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity * $importedGood->import_price;
+            }, 0);
+            $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity;
+            }, 0);
+            $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
+                    return $total + $orderPaidMoney->money;
+                }, 0);
+            $importOrderData = [
+                'id' => $importOrder->id,
+                'code' => $importOrder->code,
+                'status' => $importOrder->status,
+                'created_at' => format_vn_short_datetime(strtotime($importOrder->created_at)),
+                'import_price' => $importOrder->import_price,
+                'warehouse_id' => $importOrder->warehouse_id,
+                'total_money' => $total_money,
+                'total_quantity' => $total_quantity,
+                'debt' => $debt,
+            ];
+            if (isset($importOrder->staff)) {
+                $staff = [
+                    'id' => $importOrder->staff->id,
+                    'name' => $importOrder->staff->name,
+                ];
+                $importOrderData['staff'] = $staff;
+            }
+            if (isset($importOrder->user)) {
+                $user = [
+                    'id' => $importOrder->user->id,
+                    'name' => $importOrder->user->name,
+                ];
+                $importOrderData['user'] = $user;
+            }
+            return $importOrderData;
+        });
+
+        return $this->respondSuccessWithStatus([
+            'import_orders' => $data
+        ]);
+    }
+
+    public function detailedImportOrder($importOrderId)
+    {
+        $importOrder = Order::find($importOrderId);
+        $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+            return $total + $importedGood->quantity * $importedGood->import_price;
+        }, 0);
+        $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+            return $total + $importedGood->quantity;
+        }, 0);
+        $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
+                return $total + $orderPaidMoney->money;
+            }, 0);
+        $data = [
+            'id' => $importOrder->id,
+            'name' => $importOrder->name,
+            'code' => $importOrder->code,
+            'created_at' => format_vn_short_datetime(strtotime($importOrder->created_at)),
+            'note' => $importOrder->note,
+            'total_money' => $total_money,
+            'total_quantity' => $total_quantity,
+            'debt' => $debt,
+        ];
+        $data['imported_goods'] = $importOrder->importedGoods->map(function ($importedGood) {
+            return [
+                'name' => $importedGood->good->name,
+                'code' => $importedGood->good->code,
+                'quantity' => $importedGood->quantity,
+                'import_price' => $importedGood->import_price
+            ];
+        });
+        $data['order_paid_money'] = $importOrder->orderPaidMoneys->map(function ($orderPaidMoney) {
+            return [
+                'id' => $orderPaidMoney->id,
+                'money' => $orderPaidMoney->money,
+                'note' => $orderPaidMoney->note,
+            ];
+        });
+        if (isset($importOrder->user)) {
+            $user = [
+                'id' => $importOrder->user->id,
+                'name' => $importOrder->user->name,
+            ];
+            $data['user'] = $user;
+        }
+        return $this->respondSuccessWithStatus([
+            'import_order' => $data,
+        ]);
+    }
+
+    public function addImportOrder(Request $request)
+    {
+        $importOrder = new Order;
+        if ($request->warehouse_id == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu trường warehouse_id'
+            ]);
+        $importOrder->name = $request->name;
+        $importOrder->note = $request->note;
+        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->staff_id = $this->user->id;
+        $importOrder->type = 'import';
+        $importOrder->save();
+        return $this->respondSuccessWithStatus([
+            'messgae' => 'SUCCESS'
+        ]);
+    }
+
+    public function addImportedGood(Request $request)
+    {
+        $importedGood = new ImportedGoods;
+        if ($request->order_import_id == null || Order::find($request->order_import_id) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại đơn nhập hàng'
+            ]);
+        if ($request->good_id == null || Good::find($request->good_id) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại sản phẩm'
+            ]);
+        if ($request->quantity == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu số lượng hàng'
+            ]);
+        if ($request->import_price == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu giá nhập hàng'
+            ]);
+        $importedGood->order_import_id = $request->order_import_id;
+        $importedGood->good_id = $request->good_id;
+        $importedGood->quantity = $request->quantity;
+        $importedGood->import_price = $request->import_price;
+        $importedGood->staff_id = Order::find($request->order_import_id)->staff->id;
+        $importedGood->warehouse_id = Order::find($request->order_import_id)->warehouse->id;
+        $importedGood->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function payOrder(Request $request)
+    {
+        if ($request->order_id == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu đơn hàng hoặc đơn hàng không tồn tại'
+            ]);
+        if ($request->money == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu tiền thanh toán'
+            ]);
+        $orderPaidMoney = new OrderPaidMoney;
+        $orderPaidMoney->order_id = $request->order_id;
+        $orderPaidMoney->money = $request->money;
+        $orderPaidMoney->staff_id = $this->user->id;
+        $orderPaidMoney->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function addImportOrderGoods(Request $request)
+    {
+        $importOrder = new Order;
+        $current_time = format_vn_short_datetime(strtotime(Carbon::now()->toDateTimeString()));
+        if ($request->code == null)
+            $importOrder->code = $current_time;
+        else
+            $importOrder->code = $request->code;
+        $importOrder->name = 'test';
+        $importOrder->note = $request->note;
+        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->staff_id = $this->user->id;
+        $importOrder->type = 'import';
+        $importOrder->save();
+        $orderImportId = $importOrder->id;
+        foreach ($request->imported_goods as $imported_good) {
+            $importedGood = new ImportedGoods;
+            $importedGood->order_import_id = $orderImportId;
+            $importedGood->good_id = $imported_good['good_id'];
+            $importedGood->quantity = $imported_good['quantity'];
+            $importedGood->import_price = $imported_good['import_price'];
+            $importedGood->staff_id = $this->user->id;
+            $importedGood->warehouse_id = $request->warehouse_id;
+            $importedGood->save();
+        }
+        return $this->respondSuccessWithStatus([
+            'messgae' => 'SUCCESS'
+        ]);
+    }
+
+    public function addSupplier(Request $request)
+    {
+        $supplier = new User;
+        $user = User::where('email', $request->email)->first();
+        if ($user)
+            return $this->respondErrorWithStatus([
+                'message' => 'email đã có người sử dụng'
+            ]);
+        if ($request->name == null || $request->phone == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'thiếu trường tên hoặc số điện thoại'
+            ]);
+        $supplier->email = $request->email;
+        $supplier->name = $request->name;
+        $supplier->phone = $request->phone;
+        $supplier->type = 'supplier';
+        $supplier->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function allSuppliers()
+    {
+        $suppliers = User::where('type', 'supplier')->get();
+        return $this->respondSuccessWithStatus([
+            'suppliers' => $suppliers->map(function ($supplier) {
+                return [
+                    'name' => $supplier->name,
+                    'email' => $supplier->email,
+                    'phone' => $supplier->phone,
+                ];
+            })
+        ]);
+    }
+
+    public function getWarehouses()
+    {
+        $warehouses = Warehouse::all();
+
+        $warehouses = $warehouses->map(function ($warehouse) {
+            return [
+                'id' => $warehouse->id,
+                'name' => $warehouse->name,
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            'warehouses' => $warehouses
+        ]);
+    }
+}

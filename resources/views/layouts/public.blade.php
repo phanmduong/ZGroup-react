@@ -415,7 +415,7 @@
             console.log(data);
             if (user_id && user_id == data.receiver_id) {
                 notinumber += 1;
-                Materialize.toast("<a style='color:white' href='" + data.link + "'>" + data.message + "</a>", 5000)
+                Materialize.toast("<a style='color:white' href='" + data.link + "'>" + data.message + "</a>", 5000);
                 displayNoti(notinumber);
             }
         });

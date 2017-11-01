@@ -7,6 +7,6 @@ var configFirebase = {
     projectId: "notificationkeetoolclient",
     storageBucket: "notificationkeetoolclient.appspot.com",
     essagingSenderId: "829044054793"
-}
+};
 
 module.exports = firebase.initializeApp(configFirebase);

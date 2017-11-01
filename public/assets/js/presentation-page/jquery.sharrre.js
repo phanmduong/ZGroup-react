@@ -356,10 +356,9 @@
     this._name = pluginName;
 
     this.init();
-  };
-
-  /* Initialization method
-  ================================================== */
+  }
+    /* Initialization method
+    ================================================== */
   Plugin.prototype.init = function () {
     var self = this;
     if(this.options.urlCurl !== ''){

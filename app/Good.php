@@ -9,12 +9,12 @@ use Modules\Good\Entities\GoodProperty;
 class Good extends Model
 {
     public static $GOOD_TYPE = [
-        "book" => "Sách",
-        "fashion" => "Thời trang",
-        "" => "Không xác định"
+        'book' => 'Sách',
+        'fashion' => 'Thời trang',
+        '' => 'Không xác định'
     ];
 
-    protected $table = "goods";
+    protected $table = 'goods';
 
     use SoftDeletes;
 
@@ -33,41 +33,116 @@ class Good extends Model
         return $this->hasMany('App\GoodWarehouse', 'good_id');
     }
 
+    public function warehouses()
+    {
+        return $this->belongsToMany(Warehouse::class, 'good_warehouse','good_id','warehouse_id');
+    }
+
     public function properties()
     {
-        return $this->hasMany(GoodProperty::class, "good_id");
+        return $this->hasMany(GoodProperty::class, 'good_id');
     }
 
     public function files()
     {
-        return $this->belongsToMany(File::class, "file_good", "good_id", "file_id");
+        return $this->belongsToMany(File::class, 'file_good', 'good_id', 'file_id');
     }
 
     public function coupons()
     {
-        return $this->belongsToMany(Coupon::class, 'coupon_good', 'good_id','coupon_id');
+        return $this->belongsToMany(Coupon::class, 'coupon_good', 'good_id', 'coupon_id');
+    }
+
+    public function goodCategories()
+    {
+        return $this->belongsToMany(GoodCategory::class,'good_good_category', 'good_id', 'good_category_id');
+    }
+
+    public function manufacture()
+    {
+        return $this->belongsTo(Manufacture::class, 'manufacture_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'category_id');
     }
 
     public function transform()
     {
         return [
-            "id" => $this->id,
-            "name" => $this->name,
-            "created_at" => format_vn_short_datetime(strtotime($this->created_at)),
-            "updated_at" => format_vn_short_datetime(strtotime($this->updated_at)),
-            "price" => $this->price,
-            "description" => $this->description,
+            'id' => $this->id,
+            'name' => $this->name,
+            'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
+            'updated_at' => format_vn_short_datetime(strtotime($this->updated_at)),
+            'price' => $this->price,
+            'good_category_id' => $this->good_category_id,
+            'manufacture_id' => $this->manufacture_id,
+            'description' => $this->description,
             'type' => $this->type,
-            "avatar_url" => $this->avatar_url,
-            "cover_url" => $this->cover_url,
-            "code" => $this->code,
-            "files" => $this->files->map(function ($file) {
+            'avatar_url' => $this->avatar_url,
+            'cover_url' => $this->cover_url,
+            'code' => $this->code,
+            'files' => $this->files->map(function ($file) {
                 return $file->transform();
             }),
-            "properties" => $this->properties->map(function ($property) {
+            'properties' => $this->properties->map(function ($property) {
                 return $property->transform();
             })
         ];
+    }
+
+    public function GoodTransform()
+    {
+        $data = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'code' => $this->code,
+            'avatar_url' => $this->avatar_url ? $this->avatar_url : 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1508648234aLyIi5Rfl4fVn6o.png',
+            'price' => $this->price,
+            'quantity' => $this->importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity;
+            }, 0),
+        ];
+        if ($this->warehouses)
+            $data['warehouses'] = $this->warehouses->map(function ($warehouse) {
+                return $warehouse->Transform();
+            });
+        if ($this->manufacture)
+            $data['manufacture'] = [
+                'id' => $this->manufacture->id,
+                'name' => $this->manufacture->name,
+            ];
+        if ($this->category)
+            $data['category'] = [
+                'id' => $this->category->id,
+                'name' => $this->category->name,
+            ];
+        return $data;
+    }
+
+    public function editTranform()
+    {
+        $data = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'code' => $this->code,
+            'price' => $this->price,
+            'quantity' => $this->importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity;
+            }, 0),
+        ];
+        if($this->manufacture)
+            $data['manufacture'] = [
+                'id' => $this->manufacture->id,
+                'name' => $this->manufacture->name,
+            ];
+        if($this->category)
+            $data['category'] = [
+                'id' => $this->category->id,
+                'name' => $this->category->name,
+            ];
+        return $data;
     }
 }
 

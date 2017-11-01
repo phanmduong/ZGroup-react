@@ -65,7 +65,7 @@ class UserCardRepository
         } else {
             $card->assignees()->attach($userId);
             $project = $card->board->project;
-            $temp = $project->members()->where("id", $userId)->first();
+            $temp = $project->members()->where("user_id", $userId)->first();
             if ($temp === null) {
                 $project->members()->attach($userId, [
                     "adder_id" => $currentUser->id,
@@ -150,11 +150,7 @@ class UserCardRepository
             return $file->transform();
         });
         $taskLists = $card->taskLists->map(function ($taskList) {
-            return [
-                'id' => $taskList->id,
-                'title' => $taskList->title,
-                'tasks' => $this->taskTransformer->transformCollection($taskList->tasks)
-            ];
+            return $taskList->transformWithOrderedTasks();
         });
         $members = $card->assignees->map(function ($member) use ($card) {
             $data = [

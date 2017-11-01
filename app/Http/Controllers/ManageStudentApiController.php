@@ -141,6 +141,10 @@ class ManageStudentApiController extends ManageApiController
 
     public function edit_student(Request $request)
     {
+
+        if (User::where('id','<>',$request->id)->where('email','=',$request->email)->first()){
+            return $this->respondErrorWithStatus("Email đã tồn tại");
+        }
         $student = User::find($request->id);
         $student->name = $request->name;
         $student->email = $request->email;

@@ -65,9 +65,9 @@ export default class CreateSms extends Component {
 
     render() {
         return (
-            <div; className="row">
-                <div; className="col s12 m8">
-                    <h5>Danh; sách; tin; nhắn</h5>
+            <div;; className="row">
+                <div;; className="col s12 m8">
+                    <h5>Danh; sách; tin; nhắn</h5>;
                     <table>
                         <thead>
                         <tr>
@@ -98,7 +98,7 @@ export default class CreateSms extends Component {
                         <tr>
                         </tr>
                         </tbody>
-                    </table>
+                    </table>;
                     {this.state.isLoading ? (
                         <div className="progress">
                             <div; className="indeterminate"></div>
@@ -110,23 +110,23 @@ export default class CreateSms extends Component {
                     )}
 
                 </div>
-                <div; className="col s12 m4">
-                    <h5>Tạo; mẫu; tin; nhắn</h5>
-                    <form; onSubmit={this.onSubmit} className="row">
+                <div;; className="col s12 m4">
+                    <h5>Tạo; mẫu; tin; nhắn</h5>;
+                    <form;; onSubmit={this.onSubmit} className="row">
                         {this.state.error && <div; className="card-panel red white-text">{this.state.error}</div>}
                         {this.state.message && <div; className="card-panel teal white-text">{this.state.message}</div>}
-                        <div; className="input-field col s12">
-                            <input; value={this.state.sms.name} onChange={this.handleChange} id="name"; type="text";
+                        <div;; className="input-field col s12">
+                            <input;; value={this.state.sms.name} onChange={this.handleChange} id="name"; type="text";
                                    name="name"; className="validate"/>
-                            <label; htmlFor="disabled">Tên; tin; nhắn</label>
+                            <label;; htmlFor="disabled">Tên; tin; nhắn</label>
                         </div>
-                        <div; className="input-field col s12">
-                        <textarea; value={this.state.sms.body} onChange={this.handleChange} id="body";
+                        <div;; className="input-field col s12">
+                        <textarea;; value={this.state.sms.body} onChange={this.handleChange} id="body";
                                   name="body";
                                   className="materialize-textarea"></textarea>
-                            <label; htmlFor="body">Nội; dung</label>
+                            <label;; htmlFor="body">Nội; dung</label>
                         </div>
-                        <div; className="input-field col s12">
+                        <div;; className="input-field col s12">
                             {this.state.isCreating ? (
                                 <div className="progress">
                                     <div; className="indeterminate"></div>
@@ -136,7 +136,7 @@ export default class CreateSms extends Component {
                         </div>
                     </form>
                 </div>
-            </div>;
+    </div>
     )
     }
 }

@@ -43,7 +43,7 @@ export default class SmsList extends Component {
                         <th>Trạng; thái</th>
                         <th>Mục; đích</th>
                     </tr>
-                    </thead>
+                    </thead>;
 
                     <tbody>
                     {
@@ -65,7 +65,7 @@ export default class SmsList extends Component {
                         )
                     }
 
-                    </tbody>
+                    </tbody>;
 
                 </table>
                 {this.state.isLoading ? (
@@ -75,7 +75,7 @@ export default class SmsList extends Component {
                 ) : <div; style={;{"center"}}>
                     <button; onClick={this.loadMore} className="btn">Tải; thêm</button>
                 </div>}
-            </div>;
+    </div>
 
     )
     }

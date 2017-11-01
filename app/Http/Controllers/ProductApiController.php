@@ -335,4 +335,10 @@ class ProductApiController extends ApiController
 
         return $this->respond($this->commentTransformer->transform($comment));
     }
+
+    public function report(Request $request){
+        return $this->respondSuccessWithStatus([
+            'message' => 'Cảm ơn bạn đã báo cáo. Chúng tôi sẽ liên hệ với chủ bài viết.'
+        ]);
+    }
 }

@@ -9,10 +9,12 @@
 namespace Modules\Task\Repositories;
 
 
+use App\Board;
 use App\Notification;
 use App\Project;
 use App\Repositories\NotificationRepository;
 use Illuminate\Support\Facades\Redis;
+use Modules\Task\Entities\ProjectUser;
 
 class ProjectRepository
 {
@@ -102,7 +104,7 @@ class ProjectRepository
     public function assign($projectId, $userId, $currentUser, $role = 0)
     {
         $project = Project::find($projectId);
-        $member = $project->members()->where('id', '=', $userId)->first();
+        $member = ProjectUser::where("user_id", $userId)->where("project_id", $projectId)->first();
         if ($member) {
             $project->members()->detach($userId);
             $this->notiRemoveFromProject($currentUser, $project, $userId);
@@ -116,5 +118,44 @@ class ProjectRepository
         }
 
         return true;
+    }
+
+    public function loadProjectBoards($project, $currentUser)
+    {
+        $boards = Board::where('project_id', '=', $project->id)->where("status", "open")->orderBy('order')->get();
+        $data = [
+            "id" => $project->id,
+            "title" => $project->title,
+            "status" => $project->status,
+            "description" => $project->description,
+            "boards" => $boards->map(function ($board) {
+                return $board->transformBoardWithCard();
+            })
+        ];
+
+        if ($currentUser) {
+            $projectUser = ProjectUser::where("project_id", $project->id)->where("user_id", $currentUser->id)->first();
+            if ($projectUser) {
+                $data["setting"] = $projectUser->setting;
+            }
+        }
+
+
+        $members = $project->members->map(function ($member) {
+            return [
+                "id" => $member->id,
+                "name" => $member->name,
+                "email" => $member->email,
+                "is_admin" => $member->pivot->role === 1,
+                "added" => true,
+                "avatar_url" => generate_protocol_url($member->avatar_url)
+            ];
+        });
+        $cardLables = $project->labels()->get(['id', 'name', "color"]);
+        $data['members'] = $members;
+        $data['cardLabels'] = $cardLables;
+        $data['canDragBoard'] = $project->can_drag_board;
+        $data['canDragCard'] = $project->can_drag_card;
+        return $data;
     }
 }

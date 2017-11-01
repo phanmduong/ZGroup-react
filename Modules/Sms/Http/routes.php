@@ -1,6 +1,5 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'sms', 'namespace' => 'Modules\Sms\Http\Controllers'], function()
-{
-    Route::get('/', 'SmsController@index');
+Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'sms', 'namespace' => 'Modules\Good\Http\Sms'], function () {
+    //Route::post('', );
 });

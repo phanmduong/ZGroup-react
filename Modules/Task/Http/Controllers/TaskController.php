@@ -19,7 +19,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Redis;
+use Modules\Good\Repositories\GoodRepository;
 use Modules\Task\Entities\CardLabel;
+use Modules\Task\Entities\ProjectUser;
 use Modules\Task\Entities\TaskList;
 use Modules\Task\Repositories\ProjectRepository;
 use Modules\Task\Repositories\TaskRepository;
@@ -36,12 +38,14 @@ class TaskController extends ManageApiController
     protected $projectRepository;
     protected $taskRepository;
     protected $userCardRepository;
+    protected $goodRepository;
 
     public function __construct(
         UserRepository $userRepository,
         TaskTransformer $taskTransformer,
         MemberTransformer $memberTransformer,
         TaskRepository $taskRepository,
+        GoodRepository $goodRepository,
         BoardTransformer $boardTransformer,
         CardTransformer $cardTransformer,
         ProjectRepository $projectRepository,
@@ -55,6 +59,7 @@ class TaskController extends ManageApiController
         $this->memberTransformer = $memberTransformer;
         $this->userCardRepository = $userCardRepository;
         $this->projectRepository = $projectRepository;
+        $this->goodRepository = $goodRepository;
         $this->taskRepository = $taskRepository;
     }
 
@@ -191,14 +196,16 @@ class TaskController extends ManageApiController
             }
         } else {
             $board = $project->boards()->where('is_start', 1)->first();
-            $board->is_start = 0;
-            $board->save();
+            if ($board) {
+                $board->is_start = 0;
+                $board->save();
+            }
         }
 
 
         $this->projectRepository->assign($project->id, $this->user->id, $this->user, Project::$ADMIN_ROLE);
 
-        return $this->respondSuccessWithStatus(["message" => $message]);
+        return $this->respondSuccessWithStatus(["project" => $project->transform()]);
     }
 
     public function deleteProject($projectId)
@@ -288,42 +295,6 @@ class TaskController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "Thay đổi trạng thái dự án thành công"]);
     }
 
-    public function getBoards($projectId, Request $request)
-    {
-
-        $boards = Board::where('project_id', '=', $projectId)->orderBy('order')->get();
-        $data = [
-            "boards" => $boards->map(function ($board) {
-                $cards = $board->cards()->where("status", "open")->orderBy('order')->get();
-                return [
-                    'id' => $board->id,
-                    'title' => $board->title,
-                    'order' => $board->order,
-                    'cards' => $cards->map(function ($card) {
-                        return $card->transform();
-                    })
-                ];
-            })
-        ];
-        $project = Project::find($projectId);
-        $members = $project->members->map(function ($member) {
-            return [
-                "id" => $member->id,
-                "name" => $member->name,
-                "email" => $member->email,
-                "is_admin" => $member->pivot->role === 1,
-                "added" => true,
-                "avatar_url" => generate_protocol_url($member->avatar_url)
-            ];
-        });
-        $cardLables = $project->labels()->get(['id', 'name', "color"]);
-
-        $data['members'] = $members;
-        $data['cardLabels'] = $cardLables;
-        $data['canDragBoard'] = $project->can_drag_board;
-        $data['canDragCard'] = $project->can_drag_card;
-        return $this->respond($data);
-    }
 
     public function createCard(Request $request)
     {
@@ -348,6 +319,9 @@ class TaskController extends ManageApiController
         $card->save();
 
         $board = Board::find($request->board_id);
+
+        $good = null;
+
         if ($board) {
             $project = $board->project;
             switch ($project->status) {
@@ -370,42 +344,15 @@ class TaskController extends ManageApiController
             }
         }
 
+        if ($request->good_properties) {
+            $goodProperties = collect(json_decode($request->good_properties));
+            $this->goodRepository->saveGoodProperties($goodProperties, $good->id);
+            $this->taskRepository->createTaskListFromTemplate($request->task_list_id, $card->id, $this->user);
+        }
+
         return $this->respond(["card" => $card->transform()]);
     }
 
-    public function createBoard(Request $request)
-    {
-        if (is_null($request->title) || is_null($request->project_id)) {
-            return $this->responseBadRequest("Thiếu params");
-        }
-        if ($request->id) {
-            $board = Board::find($request->id);
-            $message = "Sửa bảng thành công";
-        } else {
-            $board = new Board();
-            $message = "Tạo bảng thành công";
-            $temp = Board::where('project_id', '=', $request->project_id)
-                ->orderBy('order', 'desc')->first();
-
-            if ($temp) {
-                $order = $temp->order;
-            } else {
-                $order = 0;
-            }
-            $board->order = $order + 1;
-        }
-
-        $board->title = trim($request->title);
-        $board->project_id = trim($request->project_id);
-        $board->editor_id = $this->user->id;
-        $board->creator_id = $this->user->id;
-        $board->save();
-
-        return $this->respond([
-            "message" => $message,
-            "board" => $this->boardTransformer->transform($board)
-        ]);
-    }
 
     public function updateCards(Request $request)
     {
@@ -420,21 +367,6 @@ class TaskController extends ManageApiController
             $card->board_id = $board_id;
             $card->order = $c->order;
             $card->save();
-        }
-        return $this->respondSuccessWithStatus(["message" => "success"]);
-    }
-
-    public function updateBoards(Request $request)
-    {
-        if (is_null($request->boards)) {
-            return $this->responseBadRequest("Thiếu params");
-        }
-
-        $boards = json_decode($request->boards);
-        foreach ($boards as $b) {
-            $board = Board::find($b->id);
-            $board->order = $b->order;
-            $board->save();
         }
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
@@ -528,22 +460,53 @@ class TaskController extends ManageApiController
         if (is_null($taskList)) {
             return $this->responseBadRequest("Quy trình không tồn tại");
         }
-        $data = [
-            'id' => $taskList->id,
-            'title' => $taskList->title,
-            "num_tasks" => $taskList->tasks()->count(),
-            'tasks' => $taskList->tasks()->orderBy("order")->get()->map(function ($task, $key) {
-                if ($task->order == null) {
-                    $task->order = $key;
-                    $task->save();
-                }
-                return $task->transform();
-            }),
-            'type' => $taskList->type
-        ];
-
+        $data = $taskList->transformWithOrderedTasks();
 
         return $this->respondSuccessWithStatus($data);
+    }
+
+    public function autoAssignBoardToTask($id)
+    {
+        $taskList = TaskList::find($id);
+        if (is_null($taskList)) {
+            return $this->responseBadRequest("Quy trình không tồn tại");
+        }
+        $project = Project::where("status", $taskList->type)->first();
+        if ($project == null) {
+            return $this->respondErrorWithStatus("Dự án sách không tồn tại");
+        }
+        $tasks = $taskList->tasks()->orderBy("order")->get();
+        $numTasks = $tasks->count();
+
+        $boards = Board::where('project_id', '=', $project->id)->where("status", "open")->orderBy('order')->get();
+
+        $numBoards = $boards->count();
+
+        $num = min($numTasks, $numBoards);
+
+
+        for ($i = 0; $i < $num - 1; ++$i) {
+            $task = $tasks->get($i);
+            $board = $boards->get($i);
+            $nextBoard = $boards->get($i + 1);
+            $task->current_board_id = $board->id;
+            $task->target_board_id = $nextBoard->id;
+            $task->save();
+        }
+        $task = $tasks->get($num - 1);
+        $board = $boards->get($num - 1);
+        $nextBoard = $boards->get($num);
+        if ($numTasks < $numBoards) {
+            $task->current_board_id = $board->id;
+            $task->target_board_id = $nextBoard->id;
+        } else {
+            $task->current_board_id = $board->id;
+        }
+        $task->save();
+
+        return $this->respondSuccessWithStatus([
+            "tasklist" => $taskList->transformWithOrderedTasks()
+        ]);
     }
 
 
@@ -557,7 +520,9 @@ class TaskController extends ManageApiController
             return [
                 'id' => $taskList->id,
                 'title' => $taskList->title,
-                'tasks' => $this->taskTransformer->transformCollection($taskList->tasks)
+                'tasks' => $taskList->tasks->map(function ($task) {
+                    return $task->transform();
+                })
             ];
         });
         return $this->respond($taskLists);
@@ -570,11 +535,13 @@ class TaskController extends ManageApiController
         }
         $task = Task::where("task_list_id", $request->task_list_id)->orderBy("order", "desc")->first();
 
-        if ($task == null || $task->order == null) {
+
+        if ($task === null || $task->order === null) {
             $order = 0;
         } else {
             $order = $task->order + 1;
         }
+
 
         $task = new Task();
         $task->title = $request->title;
@@ -702,6 +669,47 @@ class TaskController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
+    public function changeProjectPersonalSetting($projectId, Request $request)
+    {
+        $projectUser = ProjectUser::where("project_id", $projectId)->where("user_id", $this->user->id)->first();
+        if ($projectUser == null) {
+            $projectUser = new ProjectUser();
+            $projectUser->project_id = $projectId;
+            $projectUser->user_id = $this->user->id;
+            if ($this->user->role == 2) {
+                $projectUser->role = 1;
+            }
+            $projectUser->save();
+        }
+        if ($request->setting == null) {
+            return $this->respondErrorWithStatus("setting param is required");
+        }
+        $projectUser->setting = $request->setting;
+        $projectUser->save();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function loadProjectPersonalSetting($projectId)
+    {
+        $projectUser = ProjectUser::where("project_id", $projectId)->where("user_id", $this->user->id)->first();
+        if ($projectUser == null) {
+            if ($this->user->role == 2) {
+                $projectUser = new ProjectUser();
+                $projectUser->user_id = $this->user->id;
+                $projectUser->project_id = $projectId;
+                $projectUser->role = 1;
+                $projectUser->save();
+            } else {
+                return $this->respondErrorWithStatus("You are not belonging to this project ");
+            }
+
+        }
+
+        return $this->respondSuccessWithStatus([
+            "setting" => $projectUser->setting
+        ]);
+    }
+
     public function taskAvailableMembers($taskId)
     {
         $task = Task::find($taskId);
@@ -743,7 +751,7 @@ class TaskController extends ManageApiController
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
         $task = $this->taskRepository->saveTaskDeadline($task, $request->deadline, $this->user);
-        return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
+        return $this->respondSuccessWithStatus(["task" => $task->transform()]);
     }
 
     public function saveTaskSpan($taskId, Request $request)
@@ -757,7 +765,7 @@ class TaskController extends ManageApiController
         $task->span = $span;
         $task->save();
 
-        return $this->respondSuccessWithStatus(["task" => $this->taskTransformer->transform($task)]);
+        return $this->respondSuccessWithStatus(["task" => $task->transform()]);
     }
 
     public function putStartBoard($projectId, $boardId)
@@ -778,6 +786,45 @@ class TaskController extends ManageApiController
         }
 
         return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
+    public function editTaskName($taskId, Request $request)
+    {
+        $task = Task::find($taskId);
+        if ($task == null) {
+            return $this->respondErrorWithStatus("Công việc không tồn tại");
+        }
+
+        $task->title = $request->title;
+        $task->save();
+
+        return $this->respondSuccessWithStatus(["task" => $task->transform()]);
+    }
+
+    public function loadAllTaskListTemplates($projectId)
+    {
+        $project = Project::find($projectId);
+        if ($project == null) {
+            return $this->respondErrorWithStatus("Dự án không tồn tại");
+        }
+
+        $taskListTemplates = TaskList::where("card_id", 0)->where("type", $project->status)->get()->map(function ($taskList) {
+            return $taskList->transformWithOrderedTasks();
+        });
+        return $this->respondSuccessWithStatus([
+            "task_template_templates" => $taskListTemplates
+        ]);
+    }
+
+    public function getTasklistPropertyItems($taskListId)
+    {
+        $taskList = TaskList::find($taskListId);
+        $task = $taskList->tasks()->orderBy("order")->first();
+        return $this->respondSuccessWithStatus([
+            "good_property_items" => $task->goodPropertyItems->map(function ($item) {
+                return $item->transform();
+            })
+        ]);
     }
 
 }

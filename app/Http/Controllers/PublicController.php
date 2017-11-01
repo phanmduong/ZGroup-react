@@ -34,6 +34,11 @@ class PublicController extends Controller
     private $user;
     private $data;
 
+    public function redirect()
+    {
+        return redirect(config('app.protocol') . config("app.domain"));
+    }
+
     public function elightMail(Request $request)
     {
         $email = $request->email;
@@ -840,7 +845,8 @@ class PublicController extends Controller
         return redirect($notification->url);
     }
 
-    public function send_noti_test(){
+    public function send_noti_test()
+    {
         return response()->json(send_notification_browser([], 123));
     }
 }
