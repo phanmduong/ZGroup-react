@@ -42,15 +42,17 @@
             @foreach($books as $book)
                 <div class="col-md-3">
                     <div class="card card-profile" style="border-radius:0;">
-                        <div style="background-image: url({{$book['avatar']}});
-                                background-size:cover; padding-bottom: 120%; width: 100%;
-                                background-position: center center;">
-
+                        <div style="padding:3%">
+                            <div style="background-image: url({{$book['avatar']}});
+                                    background-size:cover; padding-bottom: 120%; width: 100%;
+                                    background-position: center center;
+                                    box-shadow:0 6px 10px -4px rgba(0, 0, 0, 0.15)">
+                            </div>
                         </div>
                         <div>
-                            <div class="container text-left">
+                            <div class="container text-left" style="min-height:130px">
                                 <br>
-                                <h5 style="font-weight:600">{{$book['name']}}</h5>
+                                <p style="font-weight:600">{{$book['name']}}</p>
 {{--                                <h6>{{$book['short_description']}}</h6><br>--}}
 {{--                                <p>{{$book['description']}}</p>--}}
                                 <h6><b style="text-decoration: line-through;">{{currency_vnd_format($book['price'])}}</b>
