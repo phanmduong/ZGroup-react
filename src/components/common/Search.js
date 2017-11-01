@@ -24,7 +24,7 @@ class Search extends React.Component {
 
 Search.propTypes = {
     placeholder: PropTypes.string,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     className: PropTypes.string
 };

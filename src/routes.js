@@ -63,6 +63,7 @@ import ProductListContainer from './modules/productList/ProductListContainer';
 import GoodDetailContainer from "./modules/good/GoodDetailContainer";
 import ImportGoodsContainer from './modules/importGoods/ImportGoodsContainer';
 import ImportContainer from './modules/importGoods/importGood/ImportContainer';
+import StoreImportContainer from './modules/importGoods/importGood/StoreImportContainer';
 
 export default (
     <Route>
@@ -170,6 +171,7 @@ export default (
             <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
             <Route path="/good/:goodId/detail" component={GoodDetailContainer}/>
             <Route path="good/:type/create" component={CreateGoodContainer} type="create"/>
+            <Route path="good/create" component={CreateGoodContainer} type="create"/>
             {/*End good routes*/}
 
             {/*Begin class routes*/}
@@ -216,6 +218,7 @@ export default (
 
             {/*Begin import goods routes */}
             <Route path="/import-goods" component={ImportGoodsContainer}/>
+            <Route path="/import-good/create" component={StoreImportContainer} type="create"/>
             <Route path="/import-good/:importGoodId" component={ImportContainer}/>
             {/*End import goods routes*/}
 
