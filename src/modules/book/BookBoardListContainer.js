@@ -50,6 +50,10 @@ class BookBoardListContainer extends React.Component {
                 });
             }
         }
+
+        if (this.props.params.type !== nextProps.params.type) {
+            this.props.bookActions.loadBoards(nextProps.params.type);
+        }
     }
 
     moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
@@ -109,6 +113,7 @@ BookBoardListContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
     bookActions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     members: PropTypes.array.isRequired,
     boardActions: PropTypes.object.isRequired,
     boards: PropTypes.array.isRequired,
