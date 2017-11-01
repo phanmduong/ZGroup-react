@@ -83,23 +83,23 @@
 
 
     <div class="subscribe-line subscribe-line-transparent"
-         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035613rkf2In1CptDJTfI.png')">
+         style="background-image: url('https://previews.123rf.com/images/lumppini/lumppini1504/lumppini150400116/39340287-golden-luxury-background-texture-with-a-relief-pattern-Stock-Photo.jpg')">
 
         <div class="content-center">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card card-profile card-plain">
-                            <img class="card-img-top" src="/assets/img/mockup1.png">
+                            <img class="card-img-top" src="https://pgdermatology.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/o/l/olay-regenerist.png">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div>
                             <div class="description-light">
                                 <h1 class="big-title">
-                                    Tạp chí đồ hoạ <br> GRAPHICS<br>
+                                    Mỹ phẩm <br> OLAY<br>
                                 </h1>
-                                <br><h5>CHO NHỮNG NGƯỜI YÊU THÍCH THIẾT KẾ</h5><br>
+                                <br><h5>MÓN QUÀ TUYỆT VỜI CHO NGÀY 20/10</h5><br>
 
                                 <p>Đã rất lâu trước đó, chúng tôi từng hi vọng sẽ có một ai đó ở Việt Nam viết ra những
                                     cuốn sách,
