@@ -1,4 +1,4 @@
-@extends('graphics::layouts.master')
+@extends('nhatquangshop::layouts.master')
 
 
 @section('content')
