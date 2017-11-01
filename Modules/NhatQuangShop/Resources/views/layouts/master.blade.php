@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Tạp chí Graphics</title>
+    <title>Nhật Quang Shop</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
@@ -43,7 +43,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Mua sách</a>
+                    <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Đặt hàng</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
