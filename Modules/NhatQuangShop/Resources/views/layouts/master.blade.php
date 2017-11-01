@@ -227,7 +227,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2 col-sm-3 col-xs-12">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508044393LMpECneJ7n8qQTg.png" width="150px"/>
+                <img src="http://www.nhatquangshop.vn/themes/giaodienweb/images/lo-go.png" width="150px"/>
                 <div class="social-area">
                     <a class="btn btn-just-icon btn-round btn-facebook">
                         <i class="fa fa-facebook" aria-hidden="true"></i>
