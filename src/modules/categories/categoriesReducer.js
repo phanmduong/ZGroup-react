@@ -15,6 +15,7 @@ export default function categoriesReducer(state = initialState.categories, actio
                 ...state,
                 addCategoriesModal: {
                     isSaving: false,
+                    name : '',
                 },
                 categoriesList: [action.category , ...state.categoriesList],
 
@@ -24,6 +25,7 @@ export default function categoriesReducer(state = initialState.categories, actio
                 ...state,
                 addCategoriesModal: {
                     isSaving: false,
+                    name : '',
                 }
             };
         case types.BEGIN_ADD_CATEGORY :
@@ -44,6 +46,7 @@ export default function categoriesReducer(state = initialState.categories, actio
                 ...state,
                 addCategory: {
                     isSaving: true,
+
                 }
             };
         case types.EDIT_CATEGORY_SUCCESS:
@@ -53,6 +56,8 @@ export default function categoriesReducer(state = initialState.categories, actio
                 categoriesList: categoriesList,
                 addCategory: {
                     isSaving: false,
+                    name : '',
+
                 }
             };
         case types.EDIT_CATEGORY_ERROR:
@@ -60,6 +65,8 @@ export default function categoriesReducer(state = initialState.categories, actio
                 ...state,
                 addCategory: {
                     isSaving: false,
+                    name : '',
+
                 }
             };
 
@@ -117,6 +124,7 @@ export default function categoriesReducer(state = initialState.categories, actio
                     addCategoriesModal:
                         {
                             isShowModal: false,
+                            name : '',
                         }
                 }
             };

@@ -79,7 +79,6 @@ export function deleteCategory(id) {
                     helper.sweetAlertError(res.data.message);
 
                 }
-
             })
             .catch(() => {
                 helper.sweetAlertError('Xóa thất bại ');

@@ -9,15 +9,11 @@ import PropTypes from 'prop-types';
 class AddCategoryModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            name: '',
-        };
+        this.state = {name : props.name} ;
         this.close = this.close.bind(this);
         this.addCategory = this.addCategory.bind(this);
         this.editCategory = this.editCategory.bind(this);
-    }
-    componentDidMount(){
-
+        this.handleName = this.handleName.bind(this);
     }
 
     close() {
@@ -30,6 +26,10 @@ class AddCategoryModalContainer extends React.Component {
 
     editCategory() {
         this.props.categoriesActions.editCategory(this.props.id, this.state.name, this.close);
+    }
+    handleName(e){
+        this.setState({name: e.target.value});
+        e.preventDefault();
     }
 
     render() {
@@ -46,8 +46,6 @@ class AddCategoryModalContainer extends React.Component {
                         </Modal.Title>
                     }
                 </Modal.Header>
-
-
                 <Modal.Body>
                             <div>
                                 {this.props.isEdit ?
@@ -55,35 +53,14 @@ class AddCategoryModalContainer extends React.Component {
                                         <label>Sửa tên nhóm</label>
                                         <input type="text" className="form-control"
                                                defaultValue={this.props.name}
-                                               onSelect = {(e) => {
-                                                   this.setState({name: e.target.value});
-                                                   e.preventDefault();
-
-                                               }}
-                                               onChange={(e) => {
-                                                   this.setState({name: e.target.value});
-                                                   e.preventDefault();
-                                               }}/>
-                                        <span className="material-input"/>
-                                        <span className="material-input"/>
+                                               onChange={(e) => this.handleName(e)}/>
                                     </div>
                                     :
-
                                     <div className="form-group label-floating is-empty">
                                         <label className="control-label">Tên nhóm</label>
                                         <input type="text" className="form-control"
-                                               defaultValue=""
-                                               onSelect = {(e) => {
-                                                   this.setState({name: e.target.value});
-                                                   e.preventDefault();
-
-                                               }}
-                                               onChange={(e) => {
-                                                   this.setState({name: e.target.value});
-                                                   e.preventDefault();
-                                               }}/>
-                                        <span className="material-input"/>
-                                        <span className="material-input"/>
+                                               defaultValue= {this.props.name}
+                                               onChange={(e) => this.handleName(e)}/>
                                     </div>
                                 }
                             </div>

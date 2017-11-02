@@ -39,24 +39,17 @@ class ListChildProduct extends React.Component {
                                 <div key={category.id} className="panel panel-default" >
                                     <div className="panel-heading" role="tab" >
                                         <table className="col-md-15" width="100%">
-                                            <tbody >
-                                            <a role="button" data-toggle="collapse"
-                                               href={"#collapseOne" + category.id}
-                                               aria-controls={"collapseOne" + category.id}
-                                               className="collapsed"
-                                               style={{ position : 'relative' , display : 'block'}}
-                                            >
+                                            <tbody style={{ position : 'relative' , display : 'block'}} >
+
                                                 <tr className="panel-title" >
 
                                                     <td className="col-md-3">
-                                                        <button rel="tooltip"
-                                                                data-placement="top"
+                                                        <button rel="tooltip" data-placement="top" title=""
+                                                                data-oriinal-title="Remove item"
                                                                 style={{
-                                                                    width: "20px",
-                                                                    height: "20px",
-                                                                    padding: "0px"
+                                                                    padding: "0px",
                                                                 }}
-                                                                className="btn btn-round btn-sm btn-info"
+                                                                className="btn btn-round btn-info"
                                                                 onClick={(e) => {
                                                                     this.openAddCategoryModalContainer(category.id, category.parent_id, category.name, true);
                                                                     e.preventDefault();
@@ -65,14 +58,12 @@ class ListChildProduct extends React.Component {
                                                             <i style={{"float": "none!important"}}
                                                                className="material-icons">mode_edit</i>
                                                         </button>
-                                                        <button rel="tooltip"
-                                                                data-placement="top"
+                                                        <button rel="tooltip" data-placement="top" title=""
+                                                                data-oriinal-title="Remove item"
                                                                 style={{
-                                                                    width: "20px",
-                                                                    height: "20px",
-                                                                    padding: "0px"
+                                                                    padding: "0px" ,
                                                                 }}
-                                                                className="btn btn-round btn-sm btn-danger"
+                                                                className="btn btn-round btn-danger"
                                                                 onClick={() => {
                                                                     this.deleteCategory(category.id);
                                                                 }}
@@ -81,12 +72,19 @@ class ListChildProduct extends React.Component {
                                                                className="material-icons">close</i>
                                                         </button>
                                                     </td>
-
+                                                    <td className= "col-md-12">
+                                                    <a role="button" data-toggle="collapse"
+                                                       href={"#collapseOne" + category.id}
+                                                       aria-controls={"collapseOne" + category.id}
+                                                       className="collapsed"
+                                                       style={{ paddingTop : "10px"}}
+                                                    >
                                                     {category.name}
                                                     <i className="material-icons"
                                                        style={{position : 'absolute' , right  : '0'}}>keyboard_arrow_down</i>
+                                                    </a>
+                                                    </td>
                                                 </tr>
-                                            </a>
 
                                             </tbody>
                                         </table>
@@ -133,7 +131,7 @@ class ListChildProduct extends React.Component {
                                         height: "20px",
                                         padding: "0px"
                                     }}
-                                    className="btn btn-round btn-sm btn-success">
+                                    className="btn btn-round btn-success">
                                 <i style={{"float ": " none!important"}} className="material-icons">add</i>
                             </button>
                             <span style={{paddingLeft: "10px"}}><strong>Thêm nhóm con {this.props.name} </strong></span>
