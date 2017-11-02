@@ -2,6 +2,7 @@ import * as types from '../../constants/actionTypes';
 import * as blogApi from './blogApi';
 import * as helper from '../../helpers/helper';
 import {BASE_URL} from '../../constants/env';
+
 /*eslint no-console: 0 */
 export function uploadImage(file) {
     return function (dispatch) {
@@ -136,4 +137,79 @@ export function updateFormCategory(category) {
             category: category
         });
     };
+}
+
+export function getPosts(page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_POSTS_BLOG,
+        });
+        blogApi.getPosts(page, search)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_POSTS_BLOG_SUCCESS,
+                    posts: res.data.posts,
+                    currentPage: res.data.paginator.current_page,
+                    totalPages: res.data.paginator.total_pages
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOAD_POSTS_BLOG_ERROR
+                });
+            });
+    };
+}
+
+export function deletePost(postId) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang xóa bài viết", 'info');
+        blogApi.deletePost(postId)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification(res.data.data.message);
+                    dispatch({
+                        type: types.DELETE_POST_BLOG_SUCCESS,
+                        postId: postId
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra");
+            });
+    };
+}
+
+export function getPost(postId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_POST_BLOG
+        });
+        blogApi.getPost(postId)
+            .then(res => {
+                if (res.data.status === 1) {
+                    dispatch({
+                        type: types.LOAD_POST_BLOG_SUCCESS,
+                        post: {
+                            ...res.data.data.post,
+                            category: res.data.data.post.category_id,
+                            imageUrl: res.data.data.post.url
+                        }
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.LOAD_POST_BLOG_ERROR
+                    })
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra");
+                dispatch({
+                    type: types.LOAD_POST_BLOG_ERROR
+                })
+            })
+    }
 }

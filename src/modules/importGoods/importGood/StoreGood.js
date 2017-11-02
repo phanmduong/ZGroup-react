@@ -20,27 +20,23 @@ class StoreGood extends React.Component {
     }
 
     loadGoods(input, callback) {
-        if (input.trim().length >= 3) {
-            if (this.timeOut !== null) {
-                clearTimeout(this.timeOut);
-            }
-            this.timeOut = setTimeout(function () {
-                importGoodsApi.searchGoods(input).then(res => {
-                    let goods = res.data.data.goods.map((good) => {
-                        return {
-                            ...good,
-                            ...{
-                                value: good.id,
-                                label: `${good.name} (${good.code})`,
-                            }
-                        };
-                    });
-                    callback(null, {options: goods, complete: true});
-                });
-            }.bind(this), 500);
-        } else {
-            callback(null, {complete: true});
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
         }
+        this.timeOut = setTimeout(function () {
+            importGoodsApi.searchGoods(input).then(res => {
+                let goods = res.data.data.goods.map((good) => {
+                    return {
+                        ...good,
+                        ...{
+                            value: good.id,
+                            label: `${good.name} (${good.code})`,
+                        }
+                    };
+                });
+                callback(null, {options: goods, complete: true});
+            });
+        }.bind(this), 500);
     }
 
     updateFormData(event) {
@@ -74,7 +70,7 @@ class StoreGood extends React.Component {
                 <ReactSelect.Async
                     loadOptions={this.loadGoods}
                     loadingPlaceholder="Đang tải..."
-                    placeholder="Chọn sản phẩm (Gõ từ 3 kí tự trở lên)"
+                    placeholder="Chọn sản phẩm"
                     searchPromptText="Không có dữ liệu sản phẩm"
                     onChange={this.selectGood}
                     value={this.state.selectedGood}

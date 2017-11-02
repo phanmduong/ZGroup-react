@@ -14,6 +14,8 @@ import ListGood from './ListGood';
 import StoreGood from './StoreGood';
 import {Modal} from 'react-bootstrap';
 import ReactSelect from 'react-select';
+import TooltipButton from '../../../components/common/TooltipButton';
+import * as importGoodsApi from '../importGoodsApi';
 
 class StoreImportContainer extends React.Component {
     constructor(props, context) {
@@ -33,6 +35,8 @@ class StoreImportContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.storeImportGood = this.storeImportGood.bind(this);
         this.changeOptionWarehouse = this.changeOptionWarehouse.bind(this);
+        this.selectSupplier = this.selectSupplier.bind(this);
+        this.loadSuppliers = this.loadSuppliers.bind(this);
     }
 
     componentWillMount() {
@@ -117,6 +121,32 @@ class StoreImportContainer extends React.Component {
         }
     }
 
+    selectSupplier(value) {
+        let formImportGood = {...this.props.formImportGood};
+        formImportGood['supplier'] = value;
+        this.props.importGoodActions.updateFormImportGood(formImportGood);
+    }
+
+    loadSuppliers(input, callback) {
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            importGoodsApi.searchGoods(input).then(res => {
+                let goods = res.data.data.goods.map((good) => {
+                    return {
+                        ...good,
+                        ...{
+                            value: good.id,
+                            label: `${good.name} (${good.code})`,
+                        }
+                    };
+                });
+                callback(null, {options: goods, complete: true});
+            });
+        }.bind(this), 500);
+    }
+
     render() {
         let totalMoney = 0;
 
@@ -179,13 +209,42 @@ class StoreImportContainer extends React.Component {
                                                 placeholder="Hệ thống tự sinh"
                                                 updateFormData={this.updateFormData}
                                             />
-                                            <ReactSelect
-                                                name="form-field-name"
-                                                value={this.props.formImportGood.warehouse_id}
-                                                options={this.state.optionsSelectWarehouses}
-                                                onChange={this.changeOptionWarehouse}
-                                                placeholder="Chọn kho hàng"
-                                            />
+                                            <div>
+                                                <label className="control-label">Kho hàng</label>
+                                                <ReactSelect
+                                                    name="form-field-name"
+                                                    value={this.props.formImportGood.warehouse_id}
+                                                    options={this.state.optionsSelectWarehouses}
+                                                    onChange={this.changeOptionWarehouse}
+                                                    placeholder="Chọn kho hàng"
+                                                    searchPromptText="Không có tìm thấy"
+                                                    noResultsText="Không có dữ liệu"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="control-label">Nhà cung cấp
+                                                    <TooltipButton text="Thêm nhà cung cấp" placement="top">
+                                                        <button className="btn btn-round btn-sm btn-primary"
+                                                                style={{
+                                                                    width: '20px',
+                                                                    height: '20px',
+                                                                    padding: '0',
+                                                                    margin: '5px'
+                                                                }}>
+                                                            <i className="material-icons">add</i>
+                                                        </button>
+                                                    </TooltipButton>
+                                                </label>
+                                                <ReactSelect.Async
+                                                    loadOptions={this.loadSuppliers}
+                                                    loadingPlaceholder="Đang tải..."
+                                                    placeholder="Chọn nhà cung cấp"
+                                                    searchPromptText="Không có dữ liệu"
+                                                    onChange={this.selectSupplier}
+                                                    value={this.props.formImportGood.supplier}
+                                                />
+                                            </div>
+
                                             <FormInputText
                                                 label="Ghi chú"
                                                 name="note"

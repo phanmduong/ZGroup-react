@@ -453,7 +453,14 @@ export default {
             name: '',
             isCreating: false,
             error: false
-        }
+        },
+        isLoading: false,
+        error: false,
+        totalPages: 1,
+        currentPage: 1,
+        posts: [],
+        isLoadingPost: false,
+        errorPost: false,
     },
     registerStudents: {
         registers: [],
