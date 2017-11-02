@@ -332,6 +332,7 @@ class OrderController extends ManageApiController
         $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
+        $importOrder->user_id = $request->user_id;
         $importOrder->type = 'import';
         $importOrder->save();
         $orderImportId = $importOrder->id;
@@ -355,20 +356,18 @@ class OrderController extends ManageApiController
         $supplier = new User;
         $user = User::where('email', $request->email)->first();
         if ($user)
-            return $this->respondErrorWithStatus([
-                'message' => 'email đã có người sử dụng'
-            ]);
+            return $this->respondErrorWithStatus('Email đã có người sử dụng');
         if ($request->name == null || $request->phone == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'thiếu trường tên hoặc số điện thoại'
-            ]);
+            return $this->respondErrorWithStatus('Thiếu trường tên hoặc số điện thoại');
         $supplier->email = $request->email;
         $supplier->name = $request->name;
         $supplier->phone = $request->phone;
+        $supplier->address = $request->address;
+        $supplier->code = $request->code;
         $supplier->type = 'supplier';
         $supplier->save();
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'supplier' => $supplier
         ]);
     }
 
@@ -383,6 +382,7 @@ class OrderController extends ManageApiController
             return $this->respondSuccessWithStatus([
                 'suppliers' => $suppliers->map(function ($supplier) {
                     return [
+                        'id' => $supplier->id,
                         'name' => $supplier->name,
                         'email' => $supplier->email,
                         'phone' => $supplier->phone,
@@ -401,6 +401,7 @@ class OrderController extends ManageApiController
             [
                 'suppliers' => $suppliers->map(function ($supplier) {
                     return [
+                        'id' => $supplier->id,
                         'name' => $supplier->name,
                         'email' => $supplier->email,
                         'phone' => $supplier->phone,
