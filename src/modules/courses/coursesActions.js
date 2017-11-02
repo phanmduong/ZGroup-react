@@ -1,17 +1,17 @@
-import * as types from '../../constants/actionTypes';
-import * as courseApi from './courseApi';
-import * as helper from '../../helpers/helper';
+import * as types       from '../../constants/actionTypes';
+import * as courseApi   from './courseApi';
+import * as helper      from '../../helpers/helper';
 
 export function loadCourses(page = 1, query='') {
 
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_COURSES_DATA});
-        courseApi.loadCoursesData(page,query)
+        courseApi.loadCoursesData(page, query)
             .then(res => {
                 dispatch({
-                    type: types.LOADED_COURSES_DATA_SUCCESS,
-                    courses: res.data.courses,
-                    paginator : res.data.paginator
+                    type        : types.LOADED_COURSES_DATA_SUCCESS,
+                    courses     : res.data.courses,
+                    paginator   : res.data.paginator
                 });
             })
             .catch(() => {
@@ -40,7 +40,6 @@ export function deleteCourse(id) {
                 });
             });
     };
-
 }
 
 

@@ -1,63 +1,65 @@
 /**
  * Created by Nangbandem.
  */
-import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import ReactEditor from '../../../components/common/ReactEditor';
-import  * as coursesCreateEditActions from './CoursesCreateEditActions';
-import FormInputText from '../../../components/common/FormInputText';
-import {NO_IMAGE} from '../../../constants/env';
-import TabCourse from "../TabCourse";
-import Loading from "../../../components/common/Loading";
-import * as helper from '../../../helpers/helper';
-import {linkUploadImageEditor} from '../../../constants/constants';
-import {CirclePicker} from 'react-color';
-import {Link} from 'react-router';
+import React                            from 'react';
+import {connect}                        from 'react-redux';
+import PropTypes                        from 'prop-types';
+import {bindActionCreators}             from 'redux';
+import ReactEditor                      from '../../../components/common/ReactEditor';
+import  * as coursesCreateEditActions   from './CoursesCreateEditActions';
+import FormInputText                    from '../../../components/common/FormInputText';
+import {NO_IMAGE}                       from '../../../constants/env';
+import TabCourse                        from "../TabCourse";
+import Loading                          from "../../../components/common/Loading";
+import * as helper                      from '../../../helpers/helper';
+import {linkUploadImageEditor}          from '../../../constants/constants';
+import {CirclePicker}                   from 'react-color';
+import {Link}                           from 'react-router';
+
+
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {
-            id: null,
-            name: '',
-            duration: '',
-            price: '',
-            description: '',
-            linkmac: "",
-            linkwindow: "",
-            num_classes: '',
-            mac_how_install: '',
-            window_how_install: "",
-            cover_url: '',
-            color: "",
-            image_url: '',
-            icon_url: '',
-            created_at: "",
-            detail: "",
-            lessons: [],
-            links: []
+            id                  : null,
+            name                : '',
+            duration            : '',
+            price               : '',
+            description         : '',
+            linkmac             : "",
+            linkwindow          : "",
+            num_classes         : '',
+            mac_how_install     : '',
+            window_how_install  : "",
+            cover_url           : '',
+            color               : "",
+            image_url           : '',
+            icon_url            : '',
+            created_at          : "",
+            detail              : "",
+            lessons             : [],
+            links               : []
         }
-        this.updateFormData = this.updateFormData.bind(this);
-        this.uploadAvatar = this.uploadAvatar.bind(this);
-        this.uploadLogo = this.uploadLogo.bind(this);
-        this.uploadCover = this.uploadCover.bind(this);
-        this.changeColor = this.changeColor.bind(this);
-        this.commitCourseData = this.commitCourseData.bind(this);
-        this.updateEditor = this.updateEditor.bind(this);
+        this.updateFormData     = this.updateFormData.bind(this);
+        this.uploadAvatar       = this.uploadAvatar.bind(this);
+        this.uploadLogo         = this.uploadLogo.bind(this);
+        this.uploadCover        = this.uploadCover.bind(this);
+        this.changeColor        = this.changeColor.bind(this);
+        this.commitCourseData   = this.commitCourseData.bind(this);
+        this.updateEditor       = this.updateEditor.bind(this);
     }
 
 
     componentWillMount() {
-        console.log('course form container ',this.props);
+        //console.log('course form container ',this.props);
         let id = this.props.params.courseId;
         this.props.coursesCreateEditActions.loadCourses(id);
 
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('recieve props',nextProps);
+        //console.log('recieve props',nextProps);
         this.setState(nextProps.data);
     }
 
@@ -66,17 +68,17 @@ class CreateEditCoursesContainer extends React.Component {
     }
 
     updateFormData(e){
-        const feild = e.target.name;
-        const value = e.target.value;
-        let data = this.state;
-        data[feild] = value;
-        this.setState(data);
+        const   feild   = e.target.name;
+        const   value   = e.target.value;
+        let     data    = this.state;
+        data[feild]     = value;
 
+        this.setState(data);
     }
 
     updateEditor(content){
-        let data = this.state;
-        data.detail = content;
+        let data        = this.state;
+        data.detail     = content;
         this.setState(data);
     }
 
@@ -94,8 +96,8 @@ class CreateEditCoursesContainer extends React.Component {
     }
 
     changeColor(color){
-        let data = this.state;
-        data.color = color.hex;
+        let data    = this.state;
+        data.color  = color.hex;
         this.setState(data);
     }
 
@@ -355,28 +357,28 @@ class CreateEditCoursesContainer extends React.Component {
 }
 
 CreateEditCoursesContainer.propTypes = {
-    isLoading: PropTypes.bool,
-    data: PropTypes.object,
-    isUpdatingAvatar: PropTypes.bool,
-    updateAvatarError: PropTypes.bool,
-    isUpdatingLogo: PropTypes.bool,
-    updateLogoError: PropTypes.bool,
-    isUpdatingCover: PropTypes.bool,
-    updateCoverError: PropTypes.bool,
-    isCommitting: PropTypes.bool
+    isLoading           : PropTypes.bool,
+    data                : PropTypes.object,
+    isUpdatingAvatar    : PropTypes.bool,
+    updateAvatarError   : PropTypes.bool,
+    isUpdatingLogo      : PropTypes.bool,
+    updateLogoError     : PropTypes.bool,
+    isUpdatingCover     : PropTypes.bool,
+    updateCoverError    : PropTypes.bool,
+    isCommitting        : PropTypes.bool
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.coursesCreateEdit.isLoading,
-        data: state.coursesCreateEdit.data,
-        isUpdatingAvatar: state.coursesCreateEdit.isUpdatingAvatar,
-        updateAvatarError: state.coursesCreateEdit.updateAvatarError,
-        isUpdatingLogo: state.coursesCreateEdit.isUpdatingLogo,
-        updateLogoError: state.coursesCreateEdit.updateLogoError,
-        isUpdatingCover: state.coursesCreateEdit.isUpdatingCover,
-        updateCoverError: state.coursesCreateEdit.updateCoverError,
-        isCommitting: state.coursesCreateEdit.isCommitting
+        isLoading           : state.coursesCreateEdit.isLoading,
+        data                : state.coursesCreateEdit.data,
+        isUpdatingAvatar    : state.coursesCreateEdit.isUpdatingAvatar,
+        updateAvatarError   : state.coursesCreateEdit.updateAvatarError,
+        isUpdatingLogo      : state.coursesCreateEdit.isUpdatingLogo,
+        updateLogoError     : state.coursesCreateEdit.updateLogoError,
+        isUpdatingCover     : state.coursesCreateEdit.isUpdatingCover,
+        updateCoverError    : state.coursesCreateEdit.updateCoverError,
+        isCommitting        : state.coursesCreateEdit.isCommitting
     };
 }
 

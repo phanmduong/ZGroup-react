@@ -1,46 +1,45 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import ListCourse from './ListCourse';
-import * as coursesActions from './coursesActions';
-import {bindActionCreators} from 'redux';
-import {Link} from 'react-router';
-import Loading from "../../components/common/Loading";
-import Search from "../../components/common/Search";
-import _ from 'lodash';
-import * as helper from '../../helpers/helper';
+import React                    from 'react';
+import {connect}                from 'react-redux';
+import PropTypes                from 'prop-types';
+import ListCourse               from './ListCourse';
+import * as coursesActions      from './coursesActions';
+import {bindActionCreators}     from 'redux';
+import {Link}                   from 'react-router';
+import Loading                  from "../../components/common/Loading";
+import Search                   from "../../components/common/Search";
+import _                        from 'lodash';
+import * as helper              from '../../helpers/helper';
 
 class CoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-                isLoading: false,
-                error: true,
-                query: "",
-                page: 1
+            isLoading   : false,
+            error       : true,
+            query       : "",
+            page        : 1
         };
-        this.openAddCoursesModalContainer = this.openAddCoursesModalContainer.bind(this);
-        this.loadCourses = this.loadCourses.bind(this);
-        this.deleteCourse = this.deleteCourse.bind(this);
-        this.courseSearchChange = this.courseSearchChange.bind(this);
+        this.openAddCoursesModalContainer   = this.openAddCoursesModalContainer.bind(this);
+        this.loadCourses                    = this.loadCourses.bind(this);
+        this.deleteCourse                   = this.deleteCourse.bind(this);
+        this.courseSearchChange             = this.courseSearchChange.bind(this);
 
     }
-    componentWillMount(){
+
+    componentWillMount() {
         this.props.coursesActions.loadCourses();
     }
 
 
-
-
-    openAddCoursesModalContainer(){
+    openAddCoursesModalContainer() {
         this.props.coursesActions.openAddCoursesModalContainer();
     }
 
-    loadCourses(page = 1){
+    loadCourses(page = 1) {
         this.props.coursesActions.loadCourses(page);
     }
 
-    deleteCourse(course){
+    deleteCourse(course) {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa môn học này không?", () => {
             this.props.coursesActions.deleteCourse(course);
         });
@@ -49,8 +48,8 @@ class CoursesContainer extends React.Component {
 
     courseSearchChange(value) {
         this.setState({
-            page: 1,
-            query: value
+            page    : 1,
+            query   : value
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
@@ -71,32 +70,30 @@ class CoursesContainer extends React.Component {
                                     <i className="material-icons">assignment</i>
                                 </div>
                                 <div className="card-content">
-                                    <h4 className="card-title" >Quản lý môn học</h4>
+                                    <h4 className="card-title">Quản lý môn học</h4>
                                     <table className="col-md-12">
                                         <tbody>
-                                            <tr>
-                                                <td className="col-md-2">
+                                        <tr>
 
-                                                        <Link className="btn btn-rose" to="/manage/courses/create">
-                                                            Thêm Môn Học
-                                                        </Link>
+                                            <td className="col-md-2">
+                                                <Link className="btn btn-rose" to="/manage/courses/create">
+                                                    Thêm Môn Học
+                                                </Link>
+                                            </td>
 
-                                                </td>
-
-                                                <td className="col-md-8">
-                                                    <Search
-                                                        placeholder="Tìm kiếm môn học"
-                                                        value={this.state.query}
-                                                        onChange={this.courseSearchChange}
-                                                    />
-                                                </td>
-                                            </tr>
-                                            </tbody>
+                                            <td className="col-md-8">
+                                                <Search
+                                                    placeholder="Tìm kiếm môn học"
+                                                    value={this.state.query}
+                                                    onChange={this.courseSearchChange}
+                                                />
+                                            </td>
+                                        </tr>
+                                        </tbody>
                                     </table>
                                     {this.props.isLoading ? <Loading/> :
                                         <ListCourse
                                             courses={this.props.coursesList}
-
                                             deleteCourse={this.deleteCourse}
                                         />
                                     }
@@ -107,31 +104,28 @@ class CoursesContainer extends React.Component {
                                             if (Number(this.props.paginator.current_page) === page) {
                                                 return (
                                                     <li key={page} className="active">
-                                                        <a onClick={() => {this.loadCourses(page);}}>{page}</a>
+                                                        <a onClick={() => {
+                                                            this.loadCourses(page);
+                                                        }}>{page}</a>
                                                     </li>
                                                 );
                                             } else {
                                                 return (
                                                     <li key={page}>
-                                                        <a onClick={() => {this.loadCourses(page);}}>{page}</a>
+                                                        <a onClick={() => {
+                                                            this.loadCourses(page);
+                                                        }}>{page}</a>
                                                     </li>
                                                 );
                                             }
                                         })}
-
                                     </ul>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         );
     }
 }

@@ -1,5 +1,5 @@
 
-import * as types from '../../constants/actionTypes';
+import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 let data;
@@ -9,27 +9,26 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    isLoading: true,
-                    error: false,
+                    isLoading   : true,
+                    error       : false,
                 }
             };
         case types.LOADED_COURSES_DATA_SUCCESS:
-
             return {
                 ...state,
                 ...{
-                    isLoading: false,
-                    error: false,
-                    coursesList: action.courses,
-                    paginator: action.paginator
+                    isLoading       : false,
+                    error           : false,
+                    coursesList     : action.courses,
+                    paginator       : action.paginator
                 }
             };
         case types.LOADED_COURSES_DATA_ERROR:
             return {
                 ...state,
                 ...{
-                    isLoading: false,
-                    error: true,
+                    isLoading   : false,
+                    error       : true,
                 }
             };
         case types.BEGIN_DELETE_COURSES:
@@ -42,9 +41,9 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    isLoading: false,
-                    error: false,
-                    coursesList: data
+                    isLoading   : false,
+                    error       : false,
+                    coursesList : data
                 }
             };
         case types.DELETE_COURSES_ERROR:

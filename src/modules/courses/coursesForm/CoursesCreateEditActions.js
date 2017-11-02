@@ -1,20 +1,19 @@
-import * as types from '../../../constants/actionTypes';
-import * as courseApi from '../courseApi';
-import * as helper from '../../../helpers/helper';
+import * as types       from '../../../constants/actionTypes';
+import * as courseApi   from '../courseApi';
+import * as helper      from '../../../helpers/helper';
 
 export function commitCourseData(data) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_EDIT_COURSES});
         courseApi.createEditCourse(data)
-            .then(res=>{
-
-               helper.showNotification("Lưu Thành Công!");
-               dispatch({
-                   type: types.CREATE_EDIT_COURSES_SUCCESS,
-                   data: res
-               });
+            .then(res => {
+                helper.showNotification("Lưu Thành Công!");
+                dispatch({
+                    type: types.CREATE_EDIT_COURSES_SUCCESS,
+                    data: res
+                });
             })
-            .catch(()=>{
+            .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
                 dispatch({type: types.CREATE_EDIT_COURSES_ERROR});
             });
@@ -28,13 +27,13 @@ export function loadCourses(id) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_COURSE});
         courseApi.loadCourse(id)
-            .then((res)=>{
+            .then((res) => {
                 dispatch({
                     type: types.LOAD_COURSE_SUCCESS,
                     data: res.data.data.course
                 });
             })
-            .catch(()=>{
+            .catch(() => {
                 dispatch({type: types.LOAD_COURSE_ERROR});
             });
     };
@@ -43,7 +42,7 @@ export function loadCourses(id) {
 
 export function uploadAvatar(file, course) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_UPLOAD_AVATAR_COURSE});
+        dispatch({type: types.BEGIN_UPLOAD_AVATAR_COURSE});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
@@ -61,7 +60,7 @@ export function uploadAvatar(file, course) {
 
 export function uploadLogo(file, course) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_UPLOAD_LOGO_COURSE});
+        dispatch({type: types.BEGIN_UPLOAD_LOGO_COURSE});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
@@ -79,7 +78,7 @@ export function uploadLogo(file, course) {
 
 export function uploadCover(file, course) {
     return function (dispatch) {
-        dispatch({ type: types.BEGIN_UPLOAD_COVER_COURSE});
+        dispatch({type: types.BEGIN_UPLOAD_COVER_COURSE});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
@@ -95,17 +94,17 @@ export function uploadCover(file, course) {
     };
 }
 
-export  function deleteCourse(courseId){
+export  function deleteCourse(courseId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_DELETE_COURSES});
         courseApi.deleteCourse(courseId)
-            .then(()=>{
+            .then(() => {
                 helper.showNotification("Xoá Thành Công!");
                 dispatch({
                     type: types.DELETE_COURSES_SUCCESS
                 });
             })
-            .catch(()=>{
+            .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ")
                 dispatch({type: types.DELETE_COURSES_ERROR});
             });
