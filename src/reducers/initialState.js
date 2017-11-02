@@ -656,6 +656,7 @@ export default {
       updateLogoError: false,
       isUpdatingCover: false,
       updateCoverError: false,
+        isCommitting: false,
       data:{
           id: null,
           name: "",

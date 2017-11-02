@@ -16,17 +16,21 @@ class CoursesContainer extends React.Component {
         this.state = {
                 isLoading: false,
                 error: true,
-                searchCourse: ""
+                query: "",
+                page: 1
         };
         this.openAddCoursesModalContainer = this.openAddCoursesModalContainer.bind(this);
         this.loadCourses = this.loadCourses.bind(this);
         this.deleteCourse = this.deleteCourse.bind(this);
-        this.searchCourse = this.searchCourse.bind(this);
+        this.courseSearchChange = this.courseSearchChange.bind(this);
 
     }
     componentWillMount(){
         this.props.coursesActions.loadCourses();
     }
+
+
+
 
     openAddCoursesModalContainer(){
         this.props.coursesActions.openAddCoursesModalContainer();
@@ -38,15 +42,22 @@ class CoursesContainer extends React.Component {
 
     deleteCourse(course){
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa môn học này không?", () => {
-            console.log(course);
             this.props.coursesActions.deleteCourse(course);
         });
     }
 
-    searchCourse(e){
-        let newState = this.state;
-        newState.searchCourse = e;
-        this.setState(newState);
+
+    courseSearchChange(value) {
+        this.setState({
+            page: 1,
+            query: value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.coursesActions.loadCourses(1, value);
+        }.bind(this), 500);
     }
 
     render() {
@@ -75,9 +86,8 @@ class CoursesContainer extends React.Component {
                                                 <td className="col-md-8">
                                                     <Search
                                                         placeholder="Tìm kiếm môn học"
-                                                        value={this.state.searchCourse}
-                                                        onChange={this.searchCourse}
-                                                        className=""
+                                                        value={this.state.query}
+                                                        onChange={this.courseSearchChange}
                                                     />
                                                 </td>
                                             </tr>
@@ -86,7 +96,7 @@ class CoursesContainer extends React.Component {
                                     {this.props.isLoading ? <Loading/> :
                                         <ListCourse
                                             courses={this.props.coursesList}
-                                            search={this.state.searchCourse}
+
                                             deleteCourse={this.deleteCourse}
                                         />
                                     }
@@ -97,13 +107,13 @@ class CoursesContainer extends React.Component {
                                             if (Number(this.props.paginator.current_page) === page) {
                                                 return (
                                                     <li key={page} className="active">
-                                                        <a onClick={() => {this.loadCourses(page)}}>{page}</a>
+                                                        <a onClick={() => {this.loadCourses(page);}}>{page}</a>
                                                     </li>
                                                 );
                                             } else {
                                                 return (
                                                     <li key={page}>
-                                                        <a onClick={() => {this.loadCourses(page)}}>{page}</a>
+                                                        <a onClick={() => {this.loadCourses(page);}}>{page}</a>
                                                     </li>
                                                 );
                                             }

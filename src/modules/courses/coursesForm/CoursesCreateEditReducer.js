@@ -110,6 +110,29 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
 
                 }
             };
+        case types.BEGIN_CREATE_EDIT_COURSES:
+            return {
+                ...state,
+                ...{
+                    isCommitting: true
+                }
+            };
+        case types.CREATE_EDIT_COURSES_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isCommitting: false,
+                    data: action.data
+                }
+            };
+        case types.CREATE_EDIT_COURSES_ERROR:
+            return {
+                ...state,
+                ...{
+                    isCommitting: false,
+
+                }
+            };
         default:
             return state;
     }

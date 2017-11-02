@@ -11,16 +11,16 @@ import initialState from '../../reducers/initialState';
 class ListCourse extends React.Component {
     constructor(props, context) {
         super(props, context);
-        console.log('list course',this.props);
+
         this.state = {
 
-        }
+        };
         this.editCourse = this.editCourse.bind(this);
         this.deleteCourse = this.deleteCourse.bind(this);
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log('componentWillReceiveProps',nextProps);
+    componentWillReceiveProps(){
+
     }
 
     editCourse(course){
@@ -51,9 +51,6 @@ class ListCourse extends React.Component {
                 </thead>
                 <tbody>
                 {this.props.courses.map((course)=>{
-                    let search = this.props.search;
-                    let courseName = course.name;
-                    if(search.includes(courseName) || courseName.includes(search))
                     return (
                         <tr key={course.id}>
                             <td>
@@ -97,7 +94,7 @@ class ListCourse extends React.Component {
 
 ListCourse.propTypes = {
     courses: PropTypes.array.isRequired,
-    search: PropTypes.string
+
 };
 
 function mapStateToProps(state) {

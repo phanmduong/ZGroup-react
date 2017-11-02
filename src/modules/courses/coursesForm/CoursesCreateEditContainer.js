@@ -14,7 +14,7 @@ import Loading from "../../../components/common/Loading";
 import * as helper from '../../../helpers/helper';
 import {linkUploadImageEditor} from '../../../constants/constants';
 import {CirclePicker} from 'react-color';
-
+import {Link} from 'react-router';
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -191,10 +191,22 @@ class CreateEditCoursesContainer extends React.Component {
                                                     </div>
 
                                                 </div>
-
+                                                {this.props.isCommitting ?
+                                                    <button className="btn btn-rose btn-round disabled" type="button">
+                                                        <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                    </button>
+                                                    :
+                                                    <Link to="/manage/courses" >
+                                                    <button
+                                                        className="btn btn-fill btn-rose"
+                                                        type="button"
+                                                        onClick={this.commitCourseData}
+                                                    > Lưu </button></Link>
+                                                }
                                             </form>
                                         }
                                     </div>
+
                                 </div>
 
                                  <div className="col-md-12">
@@ -324,11 +336,12 @@ class CreateEditCoursesContainer extends React.Component {
                                             />
                                         </div>
 
+                                        <Link to="/manage/courses">
                                         <button
                                             className="btn btn-fill btn-rose"
                                             type="button"
                                             onClick={this.commitCourseData}
-                                        > Lưu </button>
+                                        > Lưu </button></Link>
 
 
                                     </div>
@@ -349,7 +362,8 @@ CreateEditCoursesContainer.propTypes = {
     isUpdatingLogo: PropTypes.bool,
     updateLogoError: PropTypes.bool,
     isUpdatingCover: PropTypes.bool,
-    updateCoverError: PropTypes.bool
+    updateCoverError: PropTypes.bool,
+    isCommitting: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -361,7 +375,8 @@ function mapStateToProps(state) {
         isUpdatingLogo: state.coursesCreateEdit.isUpdatingLogo,
         updateLogoError: state.coursesCreateEdit.updateLogoError,
         isUpdatingCover: state.coursesCreateEdit.isUpdatingCover,
-        updateCoverError: state.coursesCreateEdit.updateCoverError
+        updateCoverError: state.coursesCreateEdit.updateCoverError,
+        isCommitting: state.coursesCreateEdit.isCommitting
     };
 }
 

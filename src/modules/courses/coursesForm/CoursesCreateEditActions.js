@@ -1,5 +1,5 @@
 import * as types from '../../../constants/actionTypes';
-import * as courseApi from '../courseApi'
+import * as courseApi from '../courseApi';
 import * as helper from '../../../helpers/helper';
 
 export function commitCourseData(data) {
@@ -7,7 +7,7 @@ export function commitCourseData(data) {
         dispatch({type: types.BEGIN_CREATE_EDIT_COURSES});
         courseApi.createEditCourse(data)
             .then(res=>{
-               console.log(res);
+
                helper.showNotification("Lưu Thành Công!");
                dispatch({
                    type: types.CREATE_EDIT_COURSES_SUCCESS,
@@ -15,7 +15,7 @@ export function commitCourseData(data) {
                });
             })
             .catch(()=>{
-                helper.showErrorNotification("Có lỗi xảy ra! ")
+                helper.showErrorNotification("Có lỗi xảy ra! ");
                 dispatch({type: types.CREATE_EDIT_COURSES_ERROR});
             });
     };
@@ -29,14 +29,12 @@ export function loadCourses(id) {
         dispatch({type: types.BEGIN_LOAD_COURSE});
         courseApi.loadCourse(id)
             .then((res)=>{
-                console.log(res);
                 dispatch({
                     type: types.LOAD_COURSE_SUCCESS,
                     data: res.data.data.course
                 });
             })
-            .catch((err)=>{
-                console.log(err);
+            .catch(()=>{
                 dispatch({type: types.LOAD_COURSE_ERROR});
             });
     };
@@ -101,8 +99,7 @@ export  function deleteCourse(courseId){
     return function (dispatch) {
         dispatch({type: types.BEGIN_DELETE_COURSES});
         courseApi.deleteCourse(courseId)
-            .then(res=>{
-                console.log(res);
+            .then(()=>{
                 helper.showNotification("Xoá Thành Công!");
                 dispatch({
                     type: types.DELETE_COURSES_SUCCESS

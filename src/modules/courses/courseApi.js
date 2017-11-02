@@ -1,12 +1,12 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadCoursesData(page=1) {
+export function loadCoursesData(page=1,query='') {
 
     let url = env.MANAGE_API_URL + "/v2/course/get-all";
     let token = localStorage.getItem('token');
     if (token) {
-        url += "?token=" + token + "&page=" + page;
+        url += "?token=" + token + "&page=" + page + '&search=' + query +'&limit=5';
     }
     return axios.get(url);
 }
