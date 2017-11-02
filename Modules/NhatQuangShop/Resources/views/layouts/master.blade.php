@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>Tạp chí Graphics</title>
+    <title>Nhật Quang Shop</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
@@ -28,7 +28,21 @@
     </script>
 </head>
 <body class="profile" style="background:#fafafa">
-<nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
+<nav class="navbar navbar-toggleable-md fixed-top bg-dark" style="height:35px; background:#272727!important">
+    <div class="container">
+        <div style="text-align:right; width:100%">
+            <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
+                    class="btn btn-danger" style="padding:3px 5px;margin:3px;font-size:10px;">
+                <i class="fa fa-google"></i> Google Login
+            </button>
+            <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
+                    class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
+                <i class="fa fa-facebook"></i> Facebook Login
+            </button>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light" style="margin-top:35px">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false"
@@ -37,11 +51,13 @@
             <span class="navbar-toggler-bar"></span>
             <span class="navbar-toggler-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">Graphics</a>
+        <a class="navbar-brand" href="/">
+            <img src="http://www.nhatquangshop.vn/themes/giaodienweb/images/lo-go.png" height="40px">
+        </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Mua sách</a>
+                    <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Đặt hàng</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/blog" data-scroll="true" href="javascript:void(0)">Blogs</a>
@@ -211,7 +227,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2 col-sm-3 col-xs-12">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508044393LMpECneJ7n8qQTg.png" width="150px"/>
+                <img src="http://www.nhatquangshop.vn/themes/giaodienweb/images/lo-go.png" width="150px"/>
                 <div class="social-area">
                     <a class="btn btn-just-icon btn-round btn-facebook">
                         <i class="fa fa-facebook" aria-hidden="true"></i>

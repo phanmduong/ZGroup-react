@@ -350,6 +350,10 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
   background-color: #f7765f !important;
 }
 
+.bg-dark {
+  background-color: #171717 !important;
+}
+
 .btn {
   box-sizing: border-box;
   border-width: 2px;
@@ -8314,6 +8318,12 @@ a.pswp__share--download:hover {
 
 .shadow{
   box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+}
+
+.btn-xs{
+  padding:3px;
+  margin:3px;
+  font-size:10px;
 }
 
 .card {
