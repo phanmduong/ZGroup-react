@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import * as importGoodActions from '../importGoodActions';
 import ListGood from './ListGood';
 import StoreGood from './StoreGood';
+import StoreSupplier from './StoreSupplier';
 import {Modal} from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import TooltipButton from '../../../components/common/TooltipButton';
@@ -24,12 +25,15 @@ class StoreImportContainer extends React.Component {
         this.table = null;
         this.state = {
             showModalStoreGood: false,
+            showModalStoreSupplier: false,
             search: '',
             initTable: false,
             optionsSelectWarehouses: []
         };
         this.closeModalStoreGood = this.closeModalStoreGood.bind(this);
         this.openModalStoreGood = this.openModalStoreGood.bind(this);
+        this.closeModalStoreSupplier = this.closeModalStoreSupplier.bind(this);
+        this.openModalStoreSupplier = this.openModalStoreSupplier.bind(this);
         this.storeGood = this.storeGood.bind(this);
         this.initTable = this.initTable.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
@@ -72,6 +76,14 @@ class StoreImportContainer extends React.Component {
 
     openModalStoreGood() {
         this.setState({showModalStoreGood: true});
+    }
+
+    closeModalStoreSupplier() {
+        this.setState({showModalStoreSupplier: false});
+    }
+
+    openModalStoreSupplier() {
+        this.setState({showModalStoreSupplier: true});
     }
 
     changeOptionWarehouse(value) {
@@ -132,17 +144,17 @@ class StoreImportContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            importGoodsApi.searchGoods(input).then(res => {
-                let goods = res.data.data.goods.map((good) => {
+            importGoodsApi.loadSupplier(input).then(res => {
+                let suppliers = res.data.data.suppliers.map((supplier) => {
                     return {
-                        ...good,
+                        ...supplier,
                         ...{
-                            value: good.id,
-                            label: `${good.name} (${good.code})`,
+                            value: supplier.id,
+                            label: supplier.name + ` (${supplier.phone})`,
                         }
                     };
                 });
-                callback(null, {options: goods, complete: true});
+                callback(null, {options: suppliers, complete: true});
             });
         }.bind(this), 500);
     }
@@ -230,7 +242,9 @@ class StoreImportContainer extends React.Component {
                                                                     height: '20px',
                                                                     padding: '0',
                                                                     margin: '5px'
-                                                                }}>
+                                                                }}
+                                                                onClick={this.openModalStoreSupplier}
+                                                        >
                                                             <i className="material-icons">add</i>
                                                         </button>
                                                     </TooltipButton>
@@ -343,6 +357,16 @@ class StoreImportContainer extends React.Component {
                         <StoreGood
                             storeGood={this.storeGood}
                             closeModal={this.closeModalStoreGood}
+                        />
+                    </Modal.Body>
+                </Modal>
+                <Modal show={this.state.showModalStoreSupplier}>
+                    <Modal.Header closeButton onHide={this.closeModalStoreSupplier} closeLabel="Đóng">
+                        <Modal.Title>Thêm nhà cung cấp</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <StoreSupplier
+                            closeModal={this.closeModalStoreSupplier}
                         />
                     </Modal.Body>
                 </Modal>

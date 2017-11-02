@@ -1,6 +1,7 @@
 import React from 'react';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import {generateDatatableLanguage, dotNumber} from "../../../helpers/helper";
+import PropTypes from 'prop-types';
 
 class ListGood extends React.Component {
     constructor(props, context) {
@@ -33,6 +34,13 @@ class ListGood extends React.Component {
         });
         $.material.init();
         $("#goods-table .form-group").css("margin-top", "0px");
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.importGoods != this.props.importGoods) {
+            return true;
+        }
+        return false;
     }
 
     initTable(){
@@ -68,13 +76,6 @@ class ListGood extends React.Component {
             },
         });
         this.props.setTable(this.table);
-    }
-
-    shouldComponentUpdate(nextProps) {
-        if (nextProps.importGoods != this.props.importGoods) {
-            return true;
-        }
-        return false;
     }
 
     render() {
@@ -130,5 +131,9 @@ class ListGood extends React.Component {
     }
 }
 
+ListGood.propTypes = {
+    setTable: PropTypes.func.isRequired,
+    importGoods: PropTypes.array.isRequired,
+};
 
 export default ListGood;

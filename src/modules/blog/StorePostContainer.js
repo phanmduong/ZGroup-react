@@ -136,6 +136,8 @@ StorePostContainer.propTypes = {
     blogActions: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
     isLoadingPost: PropTypes.bool.isRequired,
+    params: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

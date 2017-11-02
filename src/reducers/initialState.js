@@ -788,6 +788,8 @@ export default {
         },
         isLoadingWarehouses: false,
         errorWarehouses: false,
-        warehouses: []
+        warehouses: [],
+        isStoringSupplier: false,
+        errorStoreSupplier: false,
     },
 };

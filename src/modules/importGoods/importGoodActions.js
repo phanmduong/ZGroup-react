@@ -1,5 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as importGoodsApi from './importGoodsApi';
+import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 
@@ -92,9 +93,45 @@ export function getAllWarehouses() {
             })
             .catch({
                 type: types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR
-            })
+            });
 
-    }
+    };
+}
+
+export function storeSupplier(supplier, closeModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_STORE_SUPPLIER_IMPORT_GOOD
+        });
+        importGoodsApi.storeSupplier(supplier)
+            .then(res => {
+                if (res.data.status === 1) {
+                    closeModal();
+                    let supplier = res.data.data.supplier;
+                    dispatch({
+                        type: types.STORE_SUPPLIER_IMPORT_GOOD_SUCCESS,
+                        supplier: {
+                            ...supplier,
+                            ...{
+                                label: `${supplier.name} (${supplier.phone})`,
+                                value: supplier.id
+                            }
+                        }
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.STORE_SUPPLIER_IMPORT_GOOD_ERROR
+                    });
+                }
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.STORE_SUPPLIER_IMPORT_GOOD_ERROR
+                });
+            });
+
+    };
 }
 
 
