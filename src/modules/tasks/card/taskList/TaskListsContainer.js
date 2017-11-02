@@ -144,7 +144,12 @@ class TaskListsContainer extends React.Component {
                                             }
 
                                             return (<TaskItem
+                                                isProcess={isProcess}
                                                 isEnable={isEnable}
+                                                openEditPropertiesModal={() => this.openAskGoodPropertiesModal({
+                                                    ...task,
+                                                    isEditProcess: true
+                                                })}
                                                 openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
