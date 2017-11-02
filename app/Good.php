@@ -35,7 +35,7 @@ class Good extends Model
 
     public function warehouses()
     {
-        return $this->belongsToMany(Warehouse::class, 'good_warehouse','good_id','warehouse_id');
+        return $this->belongsToMany(Warehouse::class, 'good_warehouse', 'good_id', 'warehouse_id');
     }
 
     public function properties()
@@ -55,7 +55,7 @@ class Good extends Model
 
     public function goodCategories()
     {
-        return $this->belongsToMany(GoodCategory::class,'good_good_category', 'good_id', 'good_category_id');
+        return $this->belongsToMany(GoodCategory::class, 'good_good_category', 'good_id', 'good_category_id');
     }
 
     public function manufacture()
@@ -65,10 +65,15 @@ class Good extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class,'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function transform()
+    public function cards()
+    {
+        return $this->hasMany(Card::class, "good_id");
+    }
+
+    public function getData()
     {
         return [
             'id' => $this->id,
@@ -82,14 +87,81 @@ class Good extends Model
             'type' => $this->type,
             'avatar_url' => $this->avatar_url,
             'cover_url' => $this->cover_url,
-            'code' => $this->code,
-            'files' => $this->files->map(function ($file) {
-                return $file->transform();
-            }),
-            'properties' => $this->properties->map(function ($property) {
-                return $property->transform();
-            })
+            'code' => $this->code
         ];
+    }
+
+    public function transform()
+    {
+        $data = $this->getData();
+        $data['files'] = $this->files->map(function ($file) {
+            return $file->transform();
+        });
+        $data['properties'] = $this->properties->map(function ($property) {
+            return $property->transform();
+        });
+        return $data;
+    }
+
+    public function goodProcessTransform()
+    {
+        $data = $this->getData();
+        $data['files'] = $this->files->map(function ($file) {
+            return $file->transform();
+        });
+
+
+        $goodProperties = [];
+        foreach ($this->properties as $property) {
+            $goodProperties[$property->name] = $property->value;
+        }
+
+        $cards = [];
+        foreach ($this->cards as $card) {
+            $cardData = [
+                "id" => $card->id,
+                "title" => $card->title
+            ];
+            $taskLists = $card->taskLists;
+            $taskListsData = [];
+            foreach ($taskLists as $taskList) {
+                if ($taskList) {
+                    $taskListData = [
+                        "id" => $taskList->id,
+                        "title" => $taskList->title
+                    ];
+                    $tasks = [];
+                    foreach ($taskList->tasks()->orderBy("order")->get() as $task) {
+                        $taskData = [
+                            "id" => $task->id,
+                            "title" => $task->title
+                        ];
+                        $properties = [];
+                        foreach ($task->goodPropertyItems as $property) {
+                            if (array_key_exists($property->name, $goodProperties)) {
+                                $properties[] = [
+                                    "name" => $property->name,
+                                    "value" => $goodProperties[$property->name]
+                                ];
+                            } else {
+                                $properties[] = [
+                                    "name" => $property->name,
+                                    "value" => ""
+                                ];
+                            }
+                        }
+                        $taskData["properties"] = $properties;
+                        $tasks[] = $taskData;
+                    }
+                    $taskListData["tasks"] = $tasks;
+                    $taskListsData[] = $taskListData;
+                }
+            }
+            $cardData["taskLists"] = $taskListsData;
+            $cards[] = $cardData;
+        }
+        $data["cards"] = $cards;
+        return $data;
     }
 
     public function GoodTransform()
@@ -132,12 +204,12 @@ class Good extends Model
                 return $total + $importedGood->quantity;
             }, 0),
         ];
-        if($this->manufacture)
+        if ($this->manufacture)
             $data['manufacture'] = [
                 'id' => $this->manufacture->id,
                 'name' => $this->manufacture->name,
             ];
-        if($this->category)
+        if ($this->category)
             $data['category'] = [
                 'id' => $this->category->id,
                 'name' => $this->category->name,
