@@ -96,8 +96,8 @@ class PropertiesListContainer extends React.Component {
                                         return (
                                             <tr key={item.id}>
                                                 <td>{item.name}</td>
-                                                <td>{item.prevalue}</td>
-                                                <td>{item.preunit}</td>
+                                                <td>{item.prevalue.split(",").join(", ")}</td>
+                                                <td>{item.preunit.split(",").join(", ")}</td>
                                                 <td>{item.creator.name}</td>
                                                 <td>
                                                     <ButtonGroupAction
