@@ -58,7 +58,17 @@ class ClassApiController extends ApiController
         return $this->respondWithPagination(
             $classLessons,
             [
-
+                'class_lessons' => $classLessons->map(function ($classLesson) {
+                    $attended_students = $classLesson->attendances()->where('status', 1)->count();
+                    $total_students = $classLesson->attendances()->count();
+                    return [
+                        'id' => $classLesson->id,
+                        'name' => $classLesson->name,
+                        'order' => $classLesson->lesson ? $classLesson->lesson->order : null,
+                        'total_students' => $total_students,
+                        'attended_students' => $attended_students,
+                    ];
+                })
             ]);
     }
 
