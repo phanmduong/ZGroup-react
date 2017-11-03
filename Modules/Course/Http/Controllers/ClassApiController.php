@@ -17,6 +17,10 @@ class ClassApiController extends ApiController
     public function genClasses($genId, Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
+        if(Gen::find($genId) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Khong ton tai khoa hoc'
+            ]);
         $classes = Gen::find($genId)->studyclasses()->orderBy('name', 'asc')->paginate($limit);
         return $this->respondWithPagination(
             $classes,
@@ -54,6 +58,10 @@ class ClassApiController extends ApiController
     public function classLessons($classId, Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
+        if(StudyClass::find($classId) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Khong ton tai lop hoc'
+            ]);
         $classLessons = StudyClass::find($classId)->classLessons()->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $classLessons,
