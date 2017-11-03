@@ -136,6 +136,34 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                     errorWarehouses: true
                 }
             };
+        case types.BEGIN_STORE_SUPPLIER_IMPORT_GOOD:
+            return {
+                ...state,
+                ...{
+                    isStoringSupplier: true,
+                    errorStoreSupplier: false,
+                }
+            };
+        case types.STORE_SUPPLIER_IMPORT_GOOD_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isStoringSupplier: false,
+                    errorStoreSupplier: false,
+                    formImportGood: {
+                        ...state.formImportGood,
+                        supplier: action.supplier
+                    }
+                }
+            };
+        case types.STORE_SUPPLIER_IMPORT_GOOD_ERROR:
+            return {
+                ...state,
+                ...{
+                    isStoringSupplier: false,
+                    errorStoreSupplier: true,
+                }
+            };
         default:
             return state;
     }
