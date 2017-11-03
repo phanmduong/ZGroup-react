@@ -61,9 +61,7 @@ export default {
         },
         propertyItem: {
             propertyItems: [],
-            isLoading: false,
-            currentPage: 1,
-            totalPages: 1
+            isLoading: false
         },
         goodList: {
             goods: [],
