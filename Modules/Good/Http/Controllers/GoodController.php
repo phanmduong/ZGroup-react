@@ -359,8 +359,7 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public
-    function allManufactures()
+    public function allManufactures()
     {
         $manufactures = Manufacture::orderBy("created_at", "desc")->get();
         return $this->respondSuccessWithStatus([
@@ -371,5 +370,12 @@ class GoodController extends ManageApiController
                 ];
             })
         ]);
+    }
+
+    public function createChildGood(Request $request){
+        $good = new Good();
+        if ($request->id == null || $request->boardId) {
+
+        }
     }
 }

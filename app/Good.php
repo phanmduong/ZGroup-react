@@ -73,6 +73,11 @@ class Good extends Model
         return $this->hasMany(Card::class, "good_id");
     }
 
+    public function parentGood()
+    {
+        return $this->belongsTo(Good::class, "parent_id");
+    }
+
     public function getData()
     {
         return [
