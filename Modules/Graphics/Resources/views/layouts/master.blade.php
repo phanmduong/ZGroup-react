@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    @yield('meta')
     <script src="/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
     <meta charset="utf-8"/>
     <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
@@ -26,6 +27,7 @@
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
     </script>
+
 </head>
 <body class="profile" style="background:#fafafa">
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
