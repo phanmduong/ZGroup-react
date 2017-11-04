@@ -1,8 +1,8 @@
 
 @extends('graphics::layouts.master')
 @section('meta')
-    {{--<meta property="og:{{$post->title}}" />--}}
-    <title> {{$post->title}} </title>
+    <meta property="og:title" content="{{$post->title}}" />
+
 @endsection
 
 @section('content')
