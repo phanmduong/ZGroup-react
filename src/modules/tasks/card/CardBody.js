@@ -14,10 +14,15 @@ import LabelOverlayContainer from "./label/CardLabelOverlayContainer";
 import DeadlineOverlayContainer from "./deadline/DeadlineOverlayContainer";
 import CommentInputContainer from "./comment/CommentInputContainer";
 import CommentListContainer from "./comment/CommentListContainer";
+import AddChildGoodContainer from "../../good/addChildGood/AddChildGoodContainer";
+
 
 const CardBody = ({
-                      card, isSavingCard, toggleEditCardDescription, deleteFile,
-                      isEditing, saveCard, cancelEdit, updateEditor, description, isProcess
+                      card, isSavingCard, toggleEditCardDescription,
+                      deleteFile,
+                      openAddChildGoodModal,
+                      isEditing, saveCard, cancelEdit,
+                      updateEditor, description, isProcess
                   }) => {
     const editTooltip = (
         <Tooltip id="tooltip">Chỉnh sửa mô tả công việc</Tooltip>
@@ -110,6 +115,17 @@ const CardBody = ({
                     <strong>Thêm</strong>
                 </h4>
                 <div className="card-detail-btn-group">
+                    {
+                        isProcess && (
+                            <div>
+                                <button className="btn btn-default card-detail-btn-action"
+                                        onClick={openAddChildGoodModal}>
+                                    <i className="material-icons">shopping_cart</i> Tạo sản phẩm con
+                                </button>
+                                <AddChildGoodContainer/>
+                            </div>
+                        )
+                    }
                     <AddTaskListOverlayContainer
                         isProcess={isProcess}
                         card={card}/>
@@ -135,6 +151,7 @@ CardBody.propTypes = {
     deleteFile: PropTypes.func.isRequired,
     toggleEditCardDescription: PropTypes.func.isRequired,
     saveCard: PropTypes.func.isRequired,
+    openAddChildGoodModal: PropTypes.func.isRequired,
     updateEditor: PropTypes.func.isRequired,
     isSavingCard: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,

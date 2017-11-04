@@ -367,4 +367,3 @@ export function loadGoodPropertiesFilled(cardId, goodProperties) {
             });
     };
 }
-

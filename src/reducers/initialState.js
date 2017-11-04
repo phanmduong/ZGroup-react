@@ -236,6 +236,11 @@ export default {
     },
 
     task: {
+        addChildGood: {
+            good: {},
+            boardId: 0,
+            showModal: false
+        },
         archiveBoard: {
             showModal: false,
             boards: [],
@@ -728,16 +733,16 @@ export default {
 
     categories: {
         addCategoriesModal: {
-            isShowModal:false,
-            isSaving : false,
-            id :  '' ,
-            parent_id : '',
-            name : '',
-            isEdit : false ,
+            isShowModal: false,
+            isSaving: false,
+            id: '',
+            parent_id: '',
+            name: '',
+            isEdit: false,
         },
-        isLoading : true,
-        error : false,
-        categoriesList:[],
+        isLoading: true,
+        error: false,
+        categoriesList: [],
     },
 
     goodOrders: {

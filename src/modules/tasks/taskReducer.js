@@ -6,6 +6,34 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.UPDATE_BOARD_ID_CHILD_MODAL:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    boardId: action.boardId
+                }
+            };
+
+        case types.UPDATE_ADD_CHILD_GOOD_FORM:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    good: action.good
+                }
+            };
+
+        case types.SHOW_ADD_CHILD_GOOD_MODAL:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    showModal: action.showModal,
+                    good: action.showModal ? action.good : {}
+                }
+            };
+
         case types.BEGIN_LOAD_GOOD_PROPERTIES_FILLED:
             return {
                 ...state,
