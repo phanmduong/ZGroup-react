@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 class AddCategoryModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {name : props.name} ;
+        this.state = {name :''};
         this.close = this.close.bind(this);
         this.addCategory = this.addCategory.bind(this);
         this.editCategory = this.editCategory.bind(this);
@@ -21,6 +21,7 @@ class AddCategoryModalContainer extends React.Component {
     }
 
     addCategory() {
+        this.setState({name : this.props.name});
         this.props.categoriesActions.addCategory(this.state.name, this.props.parent_id, this.close);
     }
 
@@ -28,7 +29,7 @@ class AddCategoryModalContainer extends React.Component {
         this.props.categoriesActions.editCategory(this.props.id, this.state.name, this.close);
     }
     handleName(e){
-        this.setState({name: e.target.value});
+        this.setState({ name : e.target.value});
         e.preventDefault();
     }
 
@@ -36,13 +37,9 @@ class AddCategoryModalContainer extends React.Component {
         return (
             <Modal show={this.props.isShowModal} onHide={this.close}>
                 <Modal.Header>
-                    {this.props.isEdit ?
+                    {
                         <Modal.Title>
-                            <strong>Edit Category</strong>
-                        </Modal.Title>
-                        :
-                        <Modal.Title>
-                            <strong> Nhóm </strong>
+                            <strong>{this.props.isEdit ? 'Chỉnh sửa' : 'Thêm'}</strong>
                         </Modal.Title>
                     }
                 </Modal.Header>
@@ -52,14 +49,14 @@ class AddCategoryModalContainer extends React.Component {
                                     <div className="form-group label-floating is-empty">
                                         <label>Sửa tên nhóm</label>
                                         <input type="text" className="form-control"
-                                               defaultValue={this.props.name}
+                                               defaultValue ={this.props.name}
                                                onChange={(e) => this.handleName(e)}/>
                                     </div>
                                     :
                                     <div className="form-group label-floating is-empty">
                                         <label className="control-label">Tên nhóm</label>
                                         <input type="text" className="form-control"
-                                               defaultValue= {this.props.name}
+                                               defaultValue = {this.props.name}
                                                onChange={(e) => this.handleName(e)}/>
                                     </div>
                                 }

@@ -14,25 +14,31 @@ export default function categoriesReducer(state = initialState.categories, actio
             return {
                 ...state,
                 addCategoriesModal: {
-                    isSaving: false,
-                    name : '',
+                    ...state.addCategoriesModal,
+                    ...{
+                        isSaving : false,
+                    },
                 },
                 categoriesList: [action.category , ...state.categoriesList],
-
             };
         case types.ADD_CATEGORY_ERROR :
             return {
                 ...state,
                 addCategoriesModal: {
-                    isSaving: false,
-                    name : '',
+                    ...state.addCategoriesModal,
+                    ...{
+                        isSaving : false,
+                    },
                 }
             };
         case types.BEGIN_ADD_CATEGORY :
             return {
                 ...state,
                 addCategoriesModal: {
-                    isSaving: true,
+                    ...state.addCategoriesModal,
+                    ...{
+                        isSaving : true,
+                    },
                 }
             };
 
@@ -41,12 +47,15 @@ export default function categoriesReducer(state = initialState.categories, actio
 
         /*          EDIT            */
 
+
         case types.BEGIN_EDIT_CATEGORY:
             return {
                 ...state,
-                addCategory: {
-                    isSaving: true,
-
+                addCategoriesModal: {
+                    ...state.addCategoriesModal,
+                    ...{
+                        isSaving : true,
+                    },
                 }
             };
         case types.EDIT_CATEGORY_SUCCESS:
@@ -54,20 +63,21 @@ export default function categoriesReducer(state = initialState.categories, actio
             return {
                 ...state,
                 categoriesList: categoriesList,
-                addCategory: {
-                    isSaving: false,
-                    name : '',
-
+                addCategoriesModal: {
+                    ...state.addCategoriesModal,
+                    ...{
+                        isSaving : false,
+                    },
                 }
             };
         case types.EDIT_CATEGORY_ERROR:
             return {
                 ...state,
-                addCategory: {
-                    isSaving: false,
-                    name : '',
-
-                }
+                addCategoriesModal: {
+                    ...state.addCategoriesModal,
+                    ...{
+                        isSaving : false,
+                    },                }
             };
 
 

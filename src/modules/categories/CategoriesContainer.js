@@ -38,12 +38,12 @@ class CategoriesContainer extends React.Component {
 
                             <div className="panel-group" role="tablist"
                                  aria-multiselectable="true">
+                             <div className ="row">
+
 
                                 {/*     ADD PARENT GROUP    */}
-                                <table className="col-md-12">
-                                    <tbody>
-                                    <tr>
-                                        <td>
+                                <div className="col-md-12" >
+
                                             <div className="panel-heading" role="tab" style={{
                                                 marginTop: "40px",
                                                 marginBottom: '20px',
@@ -66,18 +66,20 @@ class CategoriesContainer extends React.Component {
                                                         style={{paddingLeft: "10px"}}><strong>Thêm nhóm cha</strong></span>
                                                 </a>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                </div>
+                             </div>
+
+
 
                                 {/*     LIST PARENT GROUP   */}
+                                <div className= "row">
+                                <div style={{position: 'relative', display: 'block'}}>
                                     <ListChildProduct
                                         parent_id={0}
                                     />
-
+                                </div>
                                 <AddCategoryModalContainer/>
-
+                                </div>
                             </div>
                         </div>
                     </div>

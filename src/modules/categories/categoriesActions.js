@@ -18,6 +18,9 @@ export function addCategory(name, parent_id , close ) {
                 }
                 else {
                     helper.sweetAlertError(res.data.message);
+                    dispatch({
+                        type: types.ADD_CATEGORY_ERROR
+                    });
                 }
             })
             .catch(() => {
@@ -29,6 +32,7 @@ export function addCategory(name, parent_id , close ) {
             );
     };
 }
+
 
 export function editCategory(id, name, close) {
     return function (dispatch) {
@@ -49,6 +53,9 @@ export function editCategory(id, name, close) {
                 }
                 else {
                     helper.sweetAlertError(res.data.message);
+                    dispatch({
+                        type: types.EDIT_CATEGORY_ERROR,
+                    });
                 }
             })
             .catch(() => {
