@@ -230,10 +230,11 @@ class GraphicsController extends Controller
 
     public function blog($subfix, Request $request)
     {
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(9);
+        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
         $display = "";
+        //dd($blogs->lastPage());
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($blogs->lastPage() == $request->page) $display = "display:none";
+        if ($blogs->lastPage() == $page_id-1) $display = "display:none";
         return view('graphics::blogs', [
             'blogs' => $blogs,
             'page_id' => $page_id,
