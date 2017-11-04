@@ -16,15 +16,12 @@ class ClassApiController extends ApiController
 
     public function genClasses($genId, Request $request)
     {
-        $limit = $request->limit ? $request->limit : 20;
         if(Gen::find($genId) == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai khoa hoc'
             ]);
-        $classes = Gen::find($genId)->studyclasses()->orderBy('name', 'asc')->paginate($limit);
-        return $this->respondWithPagination(
-            $classes,
-            [
+        $classes = Gen::find($genId)->studyclasses()->orderBy('name', 'asc')->get();
+        return $this->respondSuccessWithStatus([
                 'classes' => $classes->map(function ($class) {
                     $data = [
                         'id' => $class->id,
@@ -51,21 +48,17 @@ class ClassApiController extends ApiController
                             'email' => $class->assist->email,
                         ];
                     return $data;
-                })
             ]);
     }
 
     public function classLessons($classId, Request $request)
     {
-        $limit = $request->limit ? $request->limit : 20;
         if(StudyClass::find($classId) == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai lop hoc'
             ]);
-        $classLessons = StudyClass::find($classId)->classLessons()->orderBy('created_at', 'desc')->paginate($limit);
-        return $this->respondWithPagination(
-            $classLessons,
-            [
+        $classLessons = StudyClass::find($classId)->classLessons()->orderBy('created_at', 'desc')->get();
+        return $this->respondSuccessWithStatus([
                 'class_lessons' => $classLessons->map(function ($classLesson) {
                     $attended_students = $classLesson->attendances()->where('status', 1)->count();
                     $total_students = $classLesson->attendances()->count();
@@ -76,7 +69,6 @@ class ClassApiController extends ApiController
                         'total_students' => $total_students,
                         'attended_students' => $attended_students,
                     ];
-                })
             ]);
     }
 
