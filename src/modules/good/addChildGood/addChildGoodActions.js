@@ -23,6 +23,7 @@ export function updateBoardId(boardId) {
 export function showAddChildGoodModal(showModal) {
     return function (dispatch, getState) {
         const good = getState().task.cardDetail.card.good;
+
         dispatch({
             type: types.SHOW_ADD_CHILD_GOOD_MODAL,
             showModal,

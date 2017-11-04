@@ -30,7 +30,7 @@ export default function taskReducer(state = initialState.task, action) {
                 addChildGood: {
                     ...state.addChildGood,
                     showModal: action.showModal,
-                    good: action.showModal ? action.good : {}
+                    good: (action.showModal && action.good) ? action.good : {}
                 }
             };
 
