@@ -191,7 +191,7 @@ class CheckInCheckOutController extends ManageApiController
         }
         if ($checkIn->status === 3) {
             return $this->respondErrorWithData([
-                    'message' => "Khoảng cách quá xa so với cơ sở gần nhất",
+                    'message' => "Khoảng cách quá xa so với cơ sở gần nhất (long: " . $long . ", lat: " . $lat . ",distance: " . $checkIn->distance . ")",
                     "check_in" => [
                         'time' => format_time(strtotime($checkIn->created_at)),
                         'base' => "Bạn ở quá xa"
@@ -282,7 +282,7 @@ class CheckInCheckOutController extends ManageApiController
         }
         if ($checkOut->status === 3) {
             return $this->respondErrorWithData([
-                    'message' => "Khoảng cách quá xa so với cơ sở gần nhất",
+                    'message' => "Khoảng cách quá xa so với cơ sở gần nhất (long: " . $long . ", lat: " . $lat . ",distance: " . $checkOut->distance . ")",
                     "check_in" => [
                         'time' => format_time(strtotime($checkOut->created_at)),
                         'base' => "Bạn ở quá xa"
