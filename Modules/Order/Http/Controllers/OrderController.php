@@ -158,7 +158,7 @@ class OrderController extends ManageApiController
         if ($goodCategory == null) return $this->respondErrorWithData([
             "message" => "Danh mục không tồn tại"
         ]);
-        $goodCategory->delete();
+        $this->deleteChildren($goodCategory->id);
         return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
         ]);
