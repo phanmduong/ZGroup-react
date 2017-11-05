@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import AddCategoryModalContainer from './AddCategoryModalContainer';
 import ListChildProduct from "./ListChildProduct";
+import Loading from "../../components/common/Loading";
 import * as categoriesActions from './categoriesActions';
 
 
@@ -25,7 +26,6 @@ class CategoriesContainer extends React.Component {
     render() {
         return (
             <div>
-
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-header card-header-icon"
@@ -35,19 +35,16 @@ class CategoriesContainer extends React.Component {
                         <div className="card-content">
                             <h4 className="card-title">Danh sách nhóm</h4>
 
+                            {this.props.isLoading ? <Loading/> :
+                                <div className="panel-group" role="tablist"
+                                     aria-multiselectable="true">
+                                    <div className="row">
 
-                            <div className="panel-group" role="tablist"
-                                 aria-multiselectable="true">
-                             <div className ="row">
 
+                                        {/*     ADD PARENT GROUP    */}
+                                        <div className="col-md-12">
 
-                                {/*     ADD PARENT GROUP    */}
-                                <div className="col-md-12" >
-
-                                            <div className="panel-heading" role="tab" style={{
-                                                marginTop: "40px",
-                                                marginBottom: '20px',
-                                            }}>
+                                            <div className="panel-heading" role="tab">
                                                 <a onClick={() => {
                                                     this.openAddCategoryModalContainer('', 0, '', false);
                                                 }}>
@@ -66,25 +63,26 @@ class CategoriesContainer extends React.Component {
                                                         style={{paddingLeft: "10px"}}><strong>Thêm nhóm cha</strong></span>
                                                 </a>
                                             </div>
-                                </div>
-                             </div>
+                                        </div>
+                                    </div>
 
 
-
-                                {/*     LIST PARENT GROUP   */}
-                                <div className= "row">
-                                <div style={{position: 'relative', display: 'block'}}>
-                                    <ListChildProduct
-                                        parent_id={0}
-                                    />
+                                    {/*     LIST PARENT GROUP   */}
+                                    <div className="row">
+                                        <div className="col-md-12" style={{position: 'relative', display: 'block'}}>
+                                            <ListChildProduct
+                                                parent_id={0}
+                                            />
+                                        </div>
+                                        <AddCategoryModalContainer/>
+                                    </div>
                                 </div>
-                                <AddCategoryModalContainer/>
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
             </div>
+
 
         );
     }
