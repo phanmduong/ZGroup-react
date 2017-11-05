@@ -2,6 +2,7 @@
 
 namespace Modules\Order\Http\Controllers;
 
+use App\Good;
 use App\GoodCategory;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
@@ -137,6 +138,18 @@ class OrderController extends ManageApiController
         return $this->respondSuccessWithStatus([
             "goodCategory" => $goodCategory->CategoryTransform()
         ]);
+    }
+
+    public function deleteChildren($category_id)
+    {
+        $good_category = GoodCategory::find($category_id);
+        $children = $good_category->children;
+        if ($children == null)
+            $good_category->delete();
+        else
+            foreach ($children as $child) {
+                $this->deleteChildren($child->id);
+            }
     }
 
     public function deleteCategory($category_id, Request $request)
