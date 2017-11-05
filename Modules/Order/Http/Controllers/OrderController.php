@@ -118,6 +118,7 @@ class OrderController extends ManageApiController
     public function gaugaugau()
     {
         $goodCategories = GoodCategory::where('parent_id', 0);
+        dd($goodCategories);
         foreach ($goodCategories as $goodCategory) {
             $this->sortCaregories($goodCategory->id, '');
         }
