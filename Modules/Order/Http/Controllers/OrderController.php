@@ -146,10 +146,12 @@ class OrderController extends ManageApiController
         $children = $goodCategory->children()->get();
         if ($children == null)
             $goodCategory->delete();
-        else
+        else {
             foreach ($children as $child) {
+                dd($child);
                 $this->deleteChildren($child->id);
             }
+        }
     }
 
     public function deleteCategory($category_id, Request $request)
