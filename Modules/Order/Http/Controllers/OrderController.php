@@ -144,7 +144,10 @@ class OrderController extends ManageApiController
     {
         $goodCategory = GoodCategory::find($category_id);
         $children = $goodCategory->children()->get();
-        dd($children);
+        $total = $children->reduce(function ($total, $child){
+            return $total+$child->name;
+        }, '');
+        dd($total);
         if ($children == null)
             $goodCategory->delete();
         else
