@@ -175,22 +175,26 @@ class UserCardRepository
             return $c->transform();
         });
 
+        $data = [
+            "description" => $card->description,
+            "members" => $members,
+            "taskLists" => $taskLists,
+            "cardLabels" => $cardLabels,
+            "files" => $files,
+            "comments" => $cardComments
+        ];
+
         if ($card->good) {
             $good = [
                 "id" => $card->good->id,
                 "code" => $card->good->code,
                 "name" => $card->good->name
             ];
+
         }
 
-        return [
-            "description" => $card->description,
-            "members" => $members,
-            "taskLists" => $taskLists,
-            "cardLabels" => $cardLabels,
-            "files" => $files,
-            "comments" => $cardComments,
-            "good" => $good
-        ];
+        $data["good"] = $good;
+
+        return $data;
     }
 }

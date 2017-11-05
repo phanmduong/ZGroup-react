@@ -2,6 +2,7 @@
 
 namespace Modules\Good\Http\Controllers;
 
+use App\Card;
 use App\Good;
 use App\Http\Controllers\ManageApiController;
 use App\Manufacture;
@@ -374,22 +375,65 @@ class GoodController extends ManageApiController
 
     public function createChildGood($goodId, Request $request)
     {
-        if ($request->id == null || $request->boardId == null) {
-            return $this->respondErrorWithStatus();
+        if ($request->code == null || $request->taskId == null) {
+            return $this->respondErrorWithStatus("Thiếu code hoặc taskId");
         }
-        $good = new Good();
-        $parentGood = Good::find($goodId);
-        $good->parent_id = $goodId;
-
-        $good->code = $request->code;
-        $good->name = $request->name;
-
         $currentGood = Good::where("code", $request->code)->first();
         if ($currentGood != null) {
             return $this->respondErrorWithStatus("Sản phẩm với mã này đã tồn tại");
         }
+
+        $parentGood = Good::find($goodId);
+
+        $good = $parentGood->replicate();
+        $good->parent_id = $goodId;
+        $good->code = $request->code;
+        $good->name = $request->name;
         $good->good_category_id = $parentGood->good_category_id;
         $good->save();
 
+
+        foreach ($parentGood->properties as $property) {
+            $childProperty = $property->replicate();
+            $childProperty->good_id = $good->id;
+            $childProperty->save();
+        }
+
+        $parentTask = Task::find($request->taskId);
+
+        $taskList = $parentTask->taskList;
+
+        $newTaskList = $taskList->replicate();
+        $newTaskList->save();
+
+        foreach ($taskList->tasks as $task) {
+            $newTask = $task->replicate();
+            $newTask->task_list_id = $newTaskList->id;
+            if ($task->order < $parentTask->order) {
+                $newTask->status = true;
+            } else {
+                $newTask->status = false;
+            }
+            $newTask->save();
+        }
+
+        $card = $parentGood->cards()->first();
+        if ($card == null) {
+            return $this->respondErrorWithStatus("Không tìm thấy thẻ của sản phẩm cha");
+        } else {
+            $card = $card->replicate();
+            $card->good_id = $good->id;
+            $card->board_id = $parentTask->current_board_id;
+            $card->title = $good->name;
+            $card->save();
+        }
+
+        $newTaskList->card_id = $card->id;
+        $newTaskList->save();
+
+
+        return $this->respondSuccessWithStatus([
+            "card" => $card->transform()
+        ]);
     }
 }
