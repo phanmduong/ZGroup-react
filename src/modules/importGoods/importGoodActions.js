@@ -92,9 +92,9 @@ export function getAllWarehouses() {
             })
             .catch({
                 type: types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR
-            })
+            });
 
-    }
+    };
 }
 
 
