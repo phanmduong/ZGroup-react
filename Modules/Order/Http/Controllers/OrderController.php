@@ -118,30 +118,21 @@ class OrderController extends ManageApiController
     public function gaugaugau()
     {
         $goodCategories = GoodCategory::where('parent_id', 0)->get();
-        dd($goodCategories);
         foreach ($goodCategories as $goodCategory) {
             $this->sortCaregories($goodCategory->id, '');
         }
         return $this->respondSuccessWithStatus([
             [
-                'good_categories' => $goodCategories->map(function ($goodCategory) {
-                    return $goodCategory->CategoryTransform();
+                'good_categories' => $this->allCategories->map(function ($category) {
+                    return [
+                        'id' => $category->id,
+                        'name' => $category->name,
+                        'parent_id' => $category->parent_id,
+                        'rank' => $category->rank
+                    ];
                 })
             ]
-
         ]);
-//        return $this->respondSuccessWithStatus([
-//            [
-//                'good_categories' => $this->allCategories->map(function ($category) {
-//                    return [
-//                        'id' => $category->id,
-//                        'name' => $category->name,
-//                        'parent_id' => $category->parent_id,
-//                        'rank' => $category->rank
-//                    ];
-//                })
-//            ]
-//        ]);
     }
 
     public function allCategory()
