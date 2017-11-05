@@ -16,6 +16,9 @@ use App\Order;
 
 class OrderController extends ManageApiController
 {
+
+    public $allCategories;
+
     public function __construct()
     {
         parent::__construct();
@@ -101,18 +104,48 @@ class OrderController extends ManageApiController
         ]);
     }
 
+    public function sortCaregories($category_id, $rank)
+    {
+        $category = GoodCategory::find($category_id);
+        $children = $category->children;
+        foreach ($children as $child)
+            $this->sortCaregories($child->id, $rank . '-');
+        $category->rank = $rank;
+        $this->allCategories->push($category);
+    }
+
     public function allCategory()
     {
-        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
+        $goodCategories = GoodCategory::where('parent_id', 0);
+        foreach ($goodCategories as $goodCategory) {
+            $this->sortCaregories($goodCategory->id, '');
+        }
         return $this->respondSuccessWithStatus([
             [
-                'good_categories' => $goodCategories->map(function ($goodCategory) {
-                    return $goodCategory->CategoryTransform();
+                'good_categories' => $this->allCategories->map(function ($category) {
+                    return [
+                        'id' => $category->id,
+                        'name' => $category->name,
+                        'parent_id' => $category->parent_id,
+                        'rank' => $category->rank
+                    ];
                 })
             ]
-
         ]);
     }
+
+//    public function allCategory()
+//    {
+//        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
+//        return $this->respondSuccessWithStatus([
+//            [
+//                'good_categories' => $goodCategories->map(function ($goodCategory) {
+//                    return $goodCategory->CategoryTransform();
+//                })
+//            ]
+//
+//        ]);
+//    }
 
     public function addCategory(Request $request)
     {
