@@ -142,6 +142,7 @@ class OrderController extends ManageApiController
 
     public function deleteChildren($category_id)
     {
+        var_dump($category_id);
         $goodCategory = GoodCategory::find($category_id);
         $children = $goodCategory->children()->get();
         if ($children == null)
