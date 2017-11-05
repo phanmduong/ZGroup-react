@@ -9,10 +9,16 @@ class FormInputText extends React.Component {
 
     componentDidMount() {
         $.material.init();
+        if (this.props.placeholder) {
+            $(`#form-input-${this.props.name}`).removeClass('is-empty');
+        }
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         if (!helper.isEmptyInput(this.props.value)) {
+            $(`#form-input-${this.props.name}`).removeClass('is-empty');
+        }
+        if (this.props.placeholder) {
             $(`#form-input-${this.props.name}`).removeClass('is-empty');
         }
     }
@@ -20,10 +26,15 @@ class FormInputText extends React.Component {
     render() {
         const className = this.props.isNotValid ? " has-error" : "";
         return (
-            <div id={`form-input-${this.props.name}`} className={"form-group label-floating" + className + " " + (this.props.className ? this.props.className : '')}>
-                <label className="control-label">
-                    {this.props.label} {(this.props.required && !this.props.disabled && <star>*</star>)}
-                </label>
+            <div id={`form-input-${this.props.name}`}
+                 className={"form-group label-floating" + className + " " + (this.props.className ? this.props.className : '')}>
+                {
+                    this.props.label &&
+                    <label className="control-label">
+                        {this.props.label} {(this.props.required && !this.props.disabled && <star>*</star>)}
+                    </label>
+                }
+
                 {(this.props.disabled) ?
                     (
                         <p className="form-control-static">{this.props.value}</p>
@@ -40,6 +51,7 @@ class FormInputText extends React.Component {
                             value={(this.props.value) ? this.props.value : ''}
                             disabled={this.props.disabled}
                             onKeyPress={this.props.onKeyPress}
+                            placeholder={this.props.placeholder}
                         />
                     )
 
@@ -66,6 +78,7 @@ FormInputText.propTypes = {
     isNotValid: PropTypes.bool,
     errorMessage: PropTypes.string,
     className: PropTypes.string,
+    placeholder: PropTypes.string,
     onKeyPress: PropTypes.func
 
 };

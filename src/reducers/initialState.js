@@ -5,18 +5,44 @@ export default {
         modalInProduct: {
             priceModal: false,
             wareHouseModal: false,
+            avatarModal: false,
             isModalUpdating: false,
             modalUpdated: false
         },
         productEditing: {
-            id: '',
-            name: '',
-            code: '',
-            avatar_url: '',
-            price: '',
-            quantity: '',
-            warehouse: []
+            productPresent: {
+                id: '',
+                name: '',
+                code: '',
+                avatar_url: '',
+                price: '',
+                quantity: '',
+                warehouses: [],
+                category: {
+                    id: '',
+                    name: ''
+                },
+                manufacture: {
+                    id: '',
+                    name: ''
+                }
+            },
+            category: {
+                id: '',
+                name: ''
+            },
+            manufacture: {
+                id: '',
+                name: ''
+            },
+            isUploadingAvatar: false,
+            percent: 0
+
         },
+        categories: [],
+        categoriesUpdated: false,
+        manufactures: [],
+        manufacturesUpdated: false
     },
 
     good: {
@@ -35,9 +61,7 @@ export default {
         },
         propertyItem: {
             propertyItems: [],
-            isLoading: false,
-            currentPage: 1,
-            totalPages: 1
+            isLoading: false
         },
         goodList: {
             goods: [],
@@ -212,6 +236,11 @@ export default {
     },
 
     task: {
+        addChildGood: {
+            good: {},
+            boardId: 0,
+            showModal: false
+        },
         archiveBoard: {
             showModal: false,
             boards: [],
@@ -284,6 +313,14 @@ export default {
             card: {},
             showModal: false,
             isSavingCard: false
+        },
+        askGoodProperties: {
+            showModal: false,
+            isSaving: false,
+            goodPropertiesOutput: {},
+            goodProperties: [],
+            task: {},
+            isLoading: false
         },
         createCard: {
             card: {},
@@ -419,7 +456,14 @@ export default {
             name: '',
             isCreating: false,
             error: false
-        }
+        },
+        isLoading: false,
+        error: false,
+        totalPages: 1,
+        currentPage: 1,
+        posts: [],
+        isLoadingPost: false,
+        errorPost: false,
     },
     registerStudents: {
         registers: [],
@@ -689,16 +733,16 @@ export default {
 
     categories: {
         addCategoriesModal: {
-            isShowModal:false,
-            isSaving : false,
-            id :  '' ,
-            parent_id : '',
-            name : '',
-            isEdit : false ,
+            isShowModal: false,
+            isSaving: false,
+            id: '',
+            parent_id: '',
+            name: '',
+            isEdit: false,
         },
-        isLoading : true,
-        error : false,
-        categoriesList:[],
+        isLoading: true,
+        error: false,
+        categoriesList: [],
     },
 
     goodOrders: {
@@ -732,9 +776,23 @@ export default {
         importGood: {
             infoOrder: {},
             infoPaid: {},
-            importOrder: {},
-            isLoading: true,
+            importOrder: {
+                imported_goods: []
+            },
+            isLoading: false,
             error: false,
-        }
-    }
+        },
+        formImportGood: {
+            importGoods: [],
+            scot: 0,
+            paid_money: 0,
+            isStoring: false,
+            error: false,
+        },
+        isLoadingWarehouses: false,
+        errorWarehouses: false,
+        warehouses: [],
+        isStoringSupplier: false,
+        errorStoreSupplier: false,
+    },
 };

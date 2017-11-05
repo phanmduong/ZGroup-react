@@ -93,7 +93,7 @@ class ListGood extends React.Component {
                         </thead>
                         <tfoot id="footer-search" className="text-rose">
                         <tr>
-                            <th className="disabled-search"></th>
+                            <th className="disabled-search" />
                             <th>Mã hàng</th>
                             <th>Tên hàng</th>
                             <th>Số lượng</th>

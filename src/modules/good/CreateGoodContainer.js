@@ -9,13 +9,16 @@ import UploadButton from "../../components/common/uploadButton/UploadButton";
 import {showErrorNotification} from "../../helpers/helper";
 import UploadFilesContainer from "./UploadFilesContainer";
 import FilesList from "./FilesList";
+import {Button} from "react-bootstrap";
+import AddGoodPropertyModal from "./AddGoodPropertyModal";
 
 class CreateGoodContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             header: "Thêm sản phẩm",
-            property: {}
+            property: {},
+            showAddGoodPropertyModal: false
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.handleUpload = this.handleUpload.bind(this);
@@ -25,6 +28,8 @@ class CreateGoodContainer extends React.Component {
         this.removeProperty = this.removeProperty.bind(this);
         this.addPropertyToGood = this.addPropertyToGood.bind(this);
         this.saveGood = this.saveGood.bind(this);
+        this.editProperty = this.editProperty.bind(this);
+        this.showAddGoodPropertyModal = this.showAddGoodPropertyModal.bind(this);
     }
 
     componentWillMount() {
@@ -44,26 +49,38 @@ class CreateGoodContainer extends React.Component {
         this.props.goodActions.updateGoodFormData(good);
     }
 
-    addProperties(e) {
-        if (e.key === "Enter" && !e.shiftKey) {
-            if (!this.state.property.name || !this.state.property.value) {
-                showErrorNotification("Bạn cần nhập đủ cả Tên và Giá Trị thuộc tính");
-            } else {
-                this.addPropertyToGood();
-            }
+    addProperties() {
+        if (!this.state.property.name || !this.state.property.value) {
+            showErrorNotification("Bạn cần nhập đủ cả Tên và Giá Trị thuộc tính");
+        } else {
+            this.addPropertyToGood();
+            this.setState({
+                showAddGoodPropertyModal: false
+            });
         }
-
     }
 
     addPropertyToGood() {
-        const good = {
-            ...this.props.good,
-            properties: [...this.props.good.properties, this.state.property]
-        };
+        if (!isNaN(this.state.property.index)) {
+            let properties = this.props.good.properties;
+            const index = this.state.property.index;
+            properties = [...properties.slice(0, index), {...this.state.property}, ...properties.slice(index + 1)];
+            this.props.goodActions.updateGoodFormData({
+                ...this.props.good,
+                properties
+            });
+        } else {
+            const good = {
+                ...this.props.good,
+                properties: [...this.props.good.properties, this.state.property]
+            };
+            this.props.goodActions.updateGoodFormData(good);
+        }
+
         this.setState({
             property: {}
         });
-        this.props.goodActions.updateGoodFormData(good);
+
     }
 
     handleUpload(event) {
@@ -109,10 +126,33 @@ class CreateGoodContainer extends React.Component {
         });
     }
 
+    showAddGoodPropertyModal(showAddGoodPropertyModal) {
+        this.setState({
+            showAddGoodPropertyModal
+        });
+    }
+
+    editProperty(property, index) {
+        this.setState({
+            showAddGoodPropertyModal: true,
+            property: {
+                ...property,
+                index
+            }
+        });
+    }
+
+
     render() {
         const good = this.props.good;
         return (
             <div id="page-wrapper">
+                <AddGoodPropertyModal
+                    addProperties={this.addProperties}
+                    onChange={this.updateProperty}
+                    property={this.state.property}
+                    close={() => this.showAddGoodPropertyModal(false)}
+                    showModal={this.state.showAddGoodPropertyModal}/>
                 <div className="container-fluid">
                     {this.props.isLoading ? <Loading/> : (
                         <div className="row">
@@ -163,71 +203,37 @@ class CreateGoodContainer extends React.Component {
                                     </div>
                                     <div className="card-content">
                                         <h4 className="card-title">Thuộc tính bổ sung</h4>
-                                        <div style={{
-                                            display: "flex"
-                                        }}>
-                                            <table className="table table-hover" style={{
-                                                width: "100%"
-                                            }}>
-                                                <thead>
-                                                <tr className="text-rose">
-                                                    <th/>
-                                                    <th>Tên thuộc tính</th>
-                                                    <th>Giá trị</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {
-                                                    good.properties && good.properties.map((property, index) => {
-                                                        return (
-                                                            <tr key={index}>
-                                                                <td>
-                                                                    <a style={{
-                                                                        color: "#c50000"
-                                                                    }}
-                                                                       onClick={() => this.removeProperty(index)}>&times;</a>
-                                                                </td>
-                                                                <td>
-                                                                    {property.name}
-                                                                </td>
-                                                                <td>
-                                                                    {property.value}
-                                                                </td>
-                                                            </tr>
-                                                        );
-                                                    })
-                                                }
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div style={{
-                                            display: "flex"
-                                        }}>
-                                            <div style={{flex: 1, padding: 5}}>
-                                                <FormInputText
-                                                    onKeyPress={this.addProperties}
-                                                    label="Nhập tên thuộc tính"
-                                                    value={this.state.property.name}
-                                                    updateFormData={this.updateProperty}
-                                                    name="name"/>
-                                            </div>
-                                            <div style={{flex: 1, padding: 5}}>
-                                                <FormInputText
-                                                    onKeyPress={this.addProperties}
-                                                    label="Nhập giá trị thuộc tính"
-                                                    updateFormData={this.updateProperty}
-                                                    value={this.state.property.value}
-                                                    name="value"/>
-                                            </div>
-                                            <button
-                                                style={{flex: 0}}
-                                                disabled={!this.state.property.name || !this.state.property.value}
-                                                onClick={this.addPropertyToGood} className="btn btn-simple btn-rose">
+                                        {
+                                            good.properties && good.properties.map((property, index) => {
+                                                return (
+                                                    <div className="form-group" key={index}>
+                                                        <label className="control-label">
+                                                            {property.name}
+                                                            <a onClick={() => this.editProperty(property, index)}
+                                                               style={{marginLeft: "5px"}}>
+                                                                <i style={{color: "#858585", fontSize: "16px"}}
+                                                                   className="material-icons">mode_edit</i>
+                                                            </a>
+                                                            <a onClick={() => this.removeProperty(index)}>
+                                                                <i style={{color: "#858585", fontSize: "16px"}}
+                                                                   className="material-icons">delete</i>
+                                                            </a>
+                                                        </label>
+                                                        <p className="form-control-static">
+                                                            {property.value}
+                                                        </p>
+                                                    </div>
+                                                );
+                                            })
+                                        }
+                                        <div>
+                                            <Button onClick={() => this.showAddGoodPropertyModal(true)}
+                                                    style={{width: "100%"}} className="btn btn-simple btn-rose">
                                                 <i className="material-icons">add</i> Thêm thuộc tính
-                                            </button>
+                                            </Button>
                                         </div>
-
                                     </div>
+
 
                                 </div>
                                 {

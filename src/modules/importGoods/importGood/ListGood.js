@@ -1,6 +1,7 @@
 import React from 'react';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
-import {generateDatatableLanguage,dotNumber} from "../../../helpers/helper";
+import {generateDatatableLanguage, dotNumber} from "../../../helpers/helper";
+import PropTypes from 'prop-types';
 
 class ListGood extends React.Component {
     constructor(props, context) {
@@ -17,7 +18,34 @@ class ListGood extends React.Component {
             }
         });
 
-        const table = $('#goods-table').DataTable({
+        this.initTable();
+
+        // Apply the search
+        this.table.columns().every(function () {
+            const that = this;
+
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+        $.material.init();
+        $("#goods-table .form-group").css("margin-top", "0px");
+    }
+
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.importGoods != this.props.importGoods) {
+            return true;
+        }
+        return false;
+    }
+
+    initTable(){
+        this.table = $('#goods-table').DataTable({
+            destroy: true,
             dom: '<l<t>ip>',
             pagingType: "full_numbers",
             lengthMenu: [
@@ -47,21 +75,7 @@ class ListGood extends React.Component {
                 $('.card .material-datatables label').addClass('form-group');
             },
         });
-        // Apply the search
-        table.columns().every(function () {
-            const that = this;
-
-            $('input', this.footer()).on('keyup change', function () {
-                if (that.search() !== this.value) {
-                    that
-                        .search(this.value)
-                        .draw();
-                }
-            });
-        });
-        this.props.setTable(table);
-        $.material.init();
-        $("#goods-table .form-group").css("margin-top", "0px");
+        this.props.setTable(this.table);
     }
 
     render() {
@@ -82,7 +96,7 @@ class ListGood extends React.Component {
                     </thead>
                     <tfoot>
                     <tr className="text-rose">
-                        <th className="disabled-search"></th>
+                        <th className="disabled-search" />
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
@@ -94,7 +108,7 @@ class ListGood extends React.Component {
                     </tfoot>
                     <tbody>
                     {
-                        this.props.importGoods && this.props.importGoods.map((good, index)=>{
+                        this.props.importGoods && this.props.importGoods.map((good, index) => {
                             return (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
@@ -102,7 +116,7 @@ class ListGood extends React.Component {
                                     <td>{good.name}</td>
                                     <td>{good.quantity}</td>
                                     <td>{dotNumber(good.import_price)}đ</td>
-                                    <td>{dotNumber(good.import_price*good.quantity)}đ</td>
+                                    <td>{dotNumber(good.import_price * good.quantity)}đ</td>
                                     <td>{dotNumber(good.price)}đ</td>
                                     <td><ButtonGroupAction/></td>
                                 </tr>
@@ -117,5 +131,9 @@ class ListGood extends React.Component {
     }
 }
 
+ListGood.propTypes = {
+    setTable: PropTypes.func.isRequired,
+    importGoods: PropTypes.array.isRequired,
+};
 
 export default ListGood;

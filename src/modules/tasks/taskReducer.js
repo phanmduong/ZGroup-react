@@ -6,7 +6,99 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.UPDATE_BOARD_ID_CHILD_MODAL:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    boardId: action.boardId
+                }
+            };
 
+        case types.UPDATE_ADD_CHILD_GOOD_FORM:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    good: action.good
+                }
+            };
+
+        case types.SHOW_ADD_CHILD_GOOD_MODAL:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    showModal: action.showModal,
+                    good: (action.showModal && action.good) ? action.good : {}
+                }
+            };
+
+        case types.BEGIN_LOAD_GOOD_PROPERTIES_FILLED:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_GOOD_PROPERTIES_FILLED_SUCCESS:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isLoading: false,
+                    goodProperties: action.goodProperties
+                }
+            };
+        case types.SUBMIT_GOOD_PROPERTIES_SUCCESS:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isSaving: false,
+                    showModal: false,
+                    goodPropertiesOutput: {},
+                    goodProperties: []
+                }
+            };
+        case types.BEGIN_SUBMIT_GOOD_PROPERTIES:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isSaving: true
+                }
+            };
+        case types.UPDATE_GOOD_PROPERTIES_OUTPUT:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    goodPropertiesOutput: action.goodPropertiesOutput
+                }
+            };
+        case types.CLOSE_ASK_GOOD_PROPERTY_MODAL:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    showModal: false,
+                    goodPropertiesOutput: {},
+                    goodProperties: []
+                }
+            };
+        case types.OPEN_ASK_GOOD_PROPERTY_MODAL:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    showModal: true,
+                    goodPropertiesOutput: action.goodPropertiesOutput,
+                    goodProperties: action.goodProperties,
+                    task: action.task
+                }
+            };
         case types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS:
             return {
                 ...state,
@@ -1262,8 +1354,7 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 createCard: {
                     ...state.createCard,
-                    isSaving: true,
-                    card: {}
+                    isSaving: true
                 }
             };
         case types.CREATE_CARD_SUCCESS:
@@ -1272,7 +1363,8 @@ export default function taskReducer(state = initialState.task, action) {
                 createCard: {
                     ...state.createCard,
                     isSaving: false,
-                    showModal: false
+                    showModal: false,
+                    card: {}
                 },
                 boardList: {
                     ...state.boardList,

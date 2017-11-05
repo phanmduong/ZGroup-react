@@ -138,9 +138,7 @@ export default function goodReducer(state = initialState.good, action) {
                 propertyItem: {
                     ...state.propertyItem,
                     isLoading: false,
-                    propertyItems: action.propertyItems,
-                    totalPages: action.totalPages,
-                    currentPage: action.currentPage
+                    propertyItems: action.propertyItems
                 }
             };
         case types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS:

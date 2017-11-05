@@ -49,7 +49,7 @@ class ItemRegister extends React.Component {
         } else {
             if (field == 'money') {
                 if (!isNaN(Number(event.target.value.toString().replace(/\./g, "")))) {
-                    register[field] = event.target.value;
+                    register[field] = Number(event.target.value.toString().replace(/\./g, ""));
                 }
             } else {
                 register[field] = event.target.value;

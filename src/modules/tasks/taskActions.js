@@ -3,8 +3,10 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as taskApi from "./taskApi";
+import * as goodApi from '../good/goodApi';
 import {showErrorNotification, showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
+import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
 
 /*eslint no-console: 0 */
 export function changeProjectStatus(project, status) {
@@ -236,7 +238,7 @@ export function createCard(card) {
         });
         taskApi.createCard(card)
             .then(res => {
-                showNotification("Tạo thẻ mới thành công");
+                showNotification("Tạo sản phẩm mới thành công");
                 dispatch({
                     type: types.CREATE_CARD_SUCCESS,
                     card: res.data.card
@@ -311,7 +313,6 @@ export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
 }
 
 export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1) {
-    console.log(siblingOrder);
     return function (dispatch, getState) {
         const state = getState();
         const boards = state.task.boardList.boards;
@@ -325,6 +326,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1
 
         let order = 0;
         let sourceBoardCards = [];
+
         sourceBoard.cards
             .filter(c => c.id !== card.id)
             .forEach((c) => {
@@ -360,6 +362,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1
 
             const part1 = cards.slice(0, index);
             const part2 = cards.slice(index);
+
             const temp = [...part1, card, ...part2];
             temp.forEach((c) => {
                 targetBoardCards = [...targetBoardCards, {...c, order}];
@@ -376,6 +379,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1
         // console.log(siblingOrder);
         // console.log(newSourceBoard);
         // console.log(newTargetBoard);
+
         taskApi.updateCards(newTargetBoard.cards, newTargetBoard.id)
             .then(() => {
             })
@@ -1173,11 +1177,110 @@ export function loadGoodPropertyItems(taskListId) {
         });
         taskApi.loadGoodPropertyItems(taskListId)
             .then((res) => {
-                console.log(res.data.data.good_property_items);
                 dispatch({
                     type: types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS,
                     goodPropertyItems: res.data.data.good_property_items
                 });
             });
+    };
+}
+
+export function openAskGoodPropertiesModal(task) {
+    return function (dispatch) {
+        let goodPropertiesOutput = {};
+        let goodProperties = task.good_property_items;
+        goodProperties.forEach((goodPropertyItem) => {
+            goodPropertiesOutput[goodPropertyItem.name] = {};
+        });
+        dispatch({
+            type: types.OPEN_ASK_GOOD_PROPERTY_MODAL,
+            goodPropertiesOutput,
+            goodProperties,
+            task
+        });
+    };
+}
+
+export function closeAskGoodPropertiesModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_ASK_GOOD_PROPERTY_MODAL
+        });
+    };
+}
+
+export function updateGoodPropertiesOutput(goodPropertiesOutput) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_GOOD_PROPERTIES_OUTPUT,
+            goodPropertiesOutput
+        });
+    };
+}
+
+export function submitGoodProperties() {
+    return function (dispatch, getState) {
+
+        const state = getState();
+
+        const {goodProperties, goodPropertiesOutput} = state.task.askGoodProperties;
+        const {card} = state.task.cardDetail;
+
+        const isValid = isNotEmptyGoodProperty(goodProperties, goodPropertiesOutput);
+        return new Promise((resolve, reject) => {
+            if (isValid) {
+
+                let goodPropertyMap = {};
+
+                goodProperties.forEach((goodProperty) => {
+                    goodPropertyMap[goodProperty.name] = goodProperty.value;
+                });
+
+
+                let goodPropertiesSubmit = [];
+                for (let key in goodPropertiesOutput) {
+                    let property = goodPropertiesOutput[key];
+                    let obj = {
+                        name: key
+                    };
+
+                    if (property.value) {
+                        obj = {
+                            ...obj,
+                            value: property.value + (property.unit ? " " + property.unit : "")
+                        };
+                    } else {
+                        if (goodPropertyMap[key]) {
+                            obj = {
+                                ...obj,
+                                value: goodPropertyMap[key]
+                            };
+                        }
+                    }
+
+                    goodPropertiesSubmit.push(obj);
+                }
+
+
+                dispatch({
+                    type: types.BEGIN_SUBMIT_GOOD_PROPERTIES
+                });
+
+
+                goodApi.saveGoodProperties(card.good_id, goodPropertiesSubmit)
+                    .then(() => {
+                        showNotification("Cập nhật thuộc tính sản phẩm thành công");
+                        dispatch({
+                            type: types.SUBMIT_GOOD_PROPERTIES_SUCCESS
+                        });
+                        resolve();
+                    });
+
+
+            } else {
+                reject();
+            }
+
+        });
     };
 }

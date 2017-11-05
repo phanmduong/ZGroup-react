@@ -180,12 +180,12 @@ export function updateTaskSpanForm(task) {
     };
 }
 
-export function loadBoards() {
+export function loadBoards(type = "book") {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_BOARDS
         });
-        bookApi.loadBoards()
+        bookApi.loadBoards(type)
             .then((res) => {
                 const project = res.data;
                 dispatch({

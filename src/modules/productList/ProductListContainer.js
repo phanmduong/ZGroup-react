@@ -6,31 +6,43 @@ import ProductListComponent from './ProductListComponent';
 import PropTypes from 'prop-types';
 import * as modalProductAction from './modals/modalProductAction';
 import Loading from "../../components/common/Loading";
+import {Link} from "react-router";
 
 class ProductListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.getProducts = this.getProducts.bind(this);
         this.showPriceModal = this.showPriceModal.bind(this);
-    }
-
-    getProducts() {
-        this.props.productListAction.getProducts();
+        this.showWareHouseModal = this.showWareHouseModal.bind(this);
+        this.showAvatarModal = this.showAvatarModal.bind(this);
     }
 
     componentWillMount() {
         this.getProducts();
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.modalUpdated) {
-            console.log("nextProps");
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.modalUpdated) {
             this.getProducts();
         }
     }
 
+    getProducts() {
+        this.props.productListAction.getProducts();
+    }
+
     showPriceModal(product) {
         this.props.modalProductAction.showPriceModal();
+        this.props.modalProductAction.handleProduct(product);
+    }
+
+    showWareHouseModal(product) {
+        this.props.modalProductAction.showWareHouseModal();
+        this.props.modalProductAction.handleProduct(product);
+    }
+
+    showAvatarModal(product) {
+        this.props.modalProductAction.showAvatarModal();
         this.props.modalProductAction.handleProduct(product);
     }
 
@@ -49,11 +61,13 @@ class ProductListContainer extends React.Component {
                                             justifyContent: "space-between"
                                         }}>
                                             <div>
-                                                <button rel="tooltip" data-placement="top" title=""
-                                                        data-original-title="Remove item" type="button"
-                                                        className="btn btn-rose">
+                                                <Link
+                                                    to="/good/create"
+                                                    rel="tooltip" data-placement="top" title=""
+                                                    data-original-title="Thêm sản phẩm" type="button"
+                                                    className="btn btn-rose">
                                                     Thêm sản phẩm
-                                                </button>
+                                                </Link>
                                             </div>
                                             <div>
                                                 <button rel="tooltip" data-placement="top" title=""
@@ -84,20 +98,20 @@ class ProductListContainer extends React.Component {
                                                             className="form-control"
                                                             placeholder="Nhập tên hoặc mã hàng hoá để tìm"
                                                             value=""/><span
-                                                            className="material-input" /></div>
+                                                            className="material-input"/></div>
                                                     </div>
                                                     <div className=" col-md-3 form-group">
                                                         <label className="label-control">Từ ngày</label>
                                                         <input type="text"
                                                                className="form-control datetimepicker"
                                                                value="10/05/2016"/>
-                                                        <span className="material-input" /></div>
+                                                        <span className="material-input"/></div>
                                                     <div className="col-md-3 form-group">
                                                         <label className="label-control">Đến ngày</label>
                                                         <input type="text"
                                                                className="form-control datetimepicker"
                                                                value="10/05/2016"/>
-                                                        <span className="material-input" /></div>
+                                                        <span className="material-input"/></div>
 
                                                 </div>
                                                 <br/>
@@ -105,7 +119,9 @@ class ProductListContainer extends React.Component {
                                                     this.props.isLoading ? <Loading/> : (
                                                         <ProductListComponent
                                                             products={this.props.products}
-                                                            showPriceModal={this.showPriceModal}/>
+                                                            showPriceModal={this.showPriceModal}
+                                                            showWareHouseModal={this.showWareHouseModal}
+                                                            showAvatarModal={this.showAvatarModal}/>
                                                     )
                                                 }
 
@@ -147,19 +163,19 @@ class ProductListContainer extends React.Component {
                                                             data-original-title="Remove item"
                                                             className="btn btn-info btn-simple"
                                                     >Tổng sản phẩm: 5
-                                                        <div className="ripple-container" />
+                                                        <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             data-original-title="Remove item"
                                                             className="btn btn-danger btn-simple"
                                                     >Đang kinh doanh: 15
-                                                        <div className="ripple-container" />
+                                                        <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             data-original-title="Remove item"
                                                             className="btn btn-success btn-simple"
                                                     >Tổng số lượng : 24
-                                                        <div className="ripple-container" />
+                                                        <div className="ripple-container"/>
                                                     </button>
                                                 </div>
                                             </div>
@@ -208,18 +224,17 @@ ProductListContainer.PropTypes = {
     productListAction: PropTypes.object.isRequired,
     modalProductAction: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,
-    isLoading:PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     isModalUpdating: PropTypes.bool.isRequired,
-    modalUpdated:PropTypes.bool.isRequired
+    modalUpdated:PropTypes.bool
 };
-
 
 function mapStateToProps(state) {
     return {
         products: state.productList.products,
-        isLoading:state.productList.isLoading,
+        isLoading: state.productList.isLoading,
         isModalUpdating: state.productList.modalInProduct.isModalUpdating,
-        modalUpdated:state.productList.modalInProduct.modalUpdated
+        modalUpdated: state.productList.modalInProduct.modalUpdated
     };
 }
 

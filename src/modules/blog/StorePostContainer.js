@@ -5,11 +5,11 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
-import BlogComponent from './BlogComponent';
+import StorePostComponent from './StorePostComponent';
 import * as blogActions from './blogActions';
 import * as helper from '../../helpers/helper';
 
-class BlogContainer extends React.Component {
+class StorePostContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.updateFormPostData = this.updateFormPostData.bind(this);
@@ -23,6 +23,9 @@ class BlogContainer extends React.Component {
     }
 
     componentWillMount() {
+        if (this.props.route.type == 'edit') {
+            this.props.blogActions.getPost(this.props.params.postId);
+        }
         this.loadCategories();
     }
 
@@ -59,7 +62,7 @@ class BlogContainer extends React.Component {
         this.props.blogActions.updateFormCategory(data);
     }
 
-    openModal(){
+    openModal() {
         let data = {...this.props.category};
         data.name = '';
         this.props.blogActions.updateFormCategory(data);
@@ -111,7 +114,7 @@ class BlogContainer extends React.Component {
     render() {
         let categories = (this.props.categories !== undefined) ? this.props.categories : [];
         return (
-            <BlogComponent
+            <StorePostComponent
                 {...this.props}
                 updateFormPostData={this.updateFormPostData}
                 updateFormCategory={this.updateFormCategory}
@@ -127,18 +130,22 @@ class BlogContainer extends React.Component {
     }
 }
 
-BlogContainer.propTypes = {
+StorePostContainer.propTypes = {
     post: PropTypes.object.isRequired,
     category: PropTypes.object.isRequired,
     blogActions: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
+    isLoadingPost: PropTypes.bool.isRequired,
+    params: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         post: state.blog.post,
         categories: state.blog.categories.categories,
-        category: state.blog.category
+        category: state.blog.category,
+        isLoadingPost: state.blog.isLoadingPost,
     };
 }
 
@@ -148,4 +155,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlogContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(StorePostContainer);
