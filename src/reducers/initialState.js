@@ -238,7 +238,8 @@ export default {
     task: {
         addChildGood: {
             good: {},
-            boardId: 0,
+            taskId: 0,
+            isSaving: false,
             showModal: false
         },
         archiveBoard: {

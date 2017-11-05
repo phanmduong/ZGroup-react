@@ -32,6 +32,15 @@ export function uploadAvatar(file, completeHandler, progressHandler, error) {
     ajax.send(formData);
 }
 
+export function saveChildGood(good) {
+    let url = env.MANAGE_API_URL + `/good/${good.id}/create-child-good`;
+    const token = localStorage.getItem("token");
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, good);
+}
+
 export function saveGood(good) {
     let url = env.MANAGE_API_URL + "/good/create";
     const token = localStorage.getItem("token");

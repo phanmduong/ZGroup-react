@@ -6,12 +6,14 @@ import {Button, Modal} from "react-bootstrap";
 import FormInputText from "../../../components/common/FormInputText";
 import Select from "react-select";
 import * as addChildGoodActions from './addChildGoodActions';
+import Loading from "../../../components/common/Loading";
+import {isEmptyInput, showErrorNotification, showNotification} from "../../../helpers/helper";
 
 class AddChildGoodContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.close = this.close.bind(this);
-        this.boardChange = this.boardChange.bind(this);
+        this.taskChange = this.taskChange.bind(this);
         this.inputChange = this.inputChange.bind(this);
         this.saveChildGood = this.saveChildGood.bind(this);
     }
@@ -21,8 +23,8 @@ class AddChildGoodContainer extends React.Component {
         this.props.addChildGoodActions.showAddChildGoodModal(false);
     }
 
-    boardChange(boardOption) {
-        this.props.addChildGoodActions.updateBoardId(boardOption.value);
+    taskChange(taskOption) {
+        this.props.addChildGoodActions.updateTaskId(taskOption.value);
     }
 
     inputChange(event) {
@@ -31,7 +33,16 @@ class AddChildGoodContainer extends React.Component {
         this.props.addChildGoodActions.updateChildGoodForm(good);
     }
 
-    saveChildGood(){
+    saveChildGood() {
+        const {good, taskId} = this.props;
+        if (isEmptyInput(good.name) || isEmptyInput(good.code) || isEmptyInput(taskId) || taskId === 0) {
+            showNotification("Bạn vui lòng nhập đủ tất cả các mục", "top", "right", "warning");
+        } else {
+            this.props.addChildGoodActions.saveChildGood({
+                ...good,
+                taskId: taskId
+            });
+        }
 
     }
 
@@ -61,25 +72,32 @@ class AddChildGoodContainer extends React.Component {
                         </label>
                         <Select
                             name="board-id"
-                            value={this.props.boardId}
-                            options={this.props.boards.map((board) => {
+                            value={this.props.taskId}
+                            options={this.props.tasks ? this.props.tasks.map((task) => {
                                 return {
-                                    ...board,
-                                    value: board.id,
-                                    label: board.title
+                                    ...task,
+                                    value: task.id,
+                                    label: task.title
                                 };
-                            })}
-                            onChange={this.boardChange}
+                            }) : []}
+                            onChange={this.taskChange}
                         />
                     </div>
+                    {
+                        this.props.isSaving ? <Loading/> : (
+                            <div>
+                                <Button
+                                    onClick={this.saveChildGood}
+                                    className="btn btn-rose">
+                                    Lưu
+                                </Button>
 
-                    <Button className="btn btn-rose">
-                        Lưu
-                    </Button>
-
-                    <Button onClick={this.close}>
-                        Đóng
-                    </Button>
+                                <Button onClick={this.close}>
+                                    Đóng
+                                </Button>
+                            </div>
+                        )
+                    }
 
                 </Modal.Body>
             </Modal>
@@ -88,19 +106,21 @@ class AddChildGoodContainer extends React.Component {
 }
 
 AddChildGoodContainer.propTypes = {
-    boards: PropTypes.array.isRequired,
+    tasks: PropTypes.array,
     good: PropTypes.object.isRequired,
     addChildGoodActions: PropTypes.object.isRequired,
     showModal: PropTypes.bool.isRequired,
-    boardId: PropTypes.number.isRequired
+    taskId: PropTypes.number.isRequired,
+    isSaving: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        boards: state.task.boardList.boards,
         good: state.task.addChildGood.good,
+        tasks: state.task.cardDetail.card.tasks,
         showModal: state.task.addChildGood.showModal,
-        boardId: state.task.addChildGood.boardId
+        taskId: state.task.addChildGood.taskId,
+        isSaving: state.task.addChildGood.isSaving
     };
 }
 
