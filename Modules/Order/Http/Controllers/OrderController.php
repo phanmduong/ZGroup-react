@@ -144,10 +144,9 @@ class OrderController extends ManageApiController
     {
         $goodCategory = GoodCategory::find($category_id);
         $children = $goodCategory->children()->get();
-        if ($children == null) {
-            dd($category_id);
+        if ($children == null)
             $goodCategory->delete();
-        } else {
+        else {
             foreach ($children as $child) {
                 $this->deleteChildren($child->id);
             }
@@ -441,4 +440,50 @@ class OrderController extends ManageApiController
             'warehouses' => $warehouses
         ]);
     }
+
+    public function addWarehouse(Request $request)
+    {
+        $warehouse = new Warehouse;
+        if ($request->name == null || $request->base_id == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'missing params'
+            ]);
+        $warehouse->name = $request->name;
+        $warehouse->location = $request->location;
+        $warehouse->base_id = $request->base_id;
+        $warehouse->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function editWarehouse($warehouseId, Request $request)
+    {
+        $warehouse = Warehouse::find($warehouseId);
+        if ($request->name == null || $request->base_id == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'missing params'
+            ]);
+        $warehouse->name = $request->name;
+        $warehouse->location = $request->location;
+        $warehouse->base_id = $request->base_id;
+        $warehouse->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function deleteWarehouse($warehouseId)
+    {
+        $warehouse = Warehouse::find($warehouseId);
+        if ($warehouse == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'null object'
+            ]);
+        $warehouse->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
 }
