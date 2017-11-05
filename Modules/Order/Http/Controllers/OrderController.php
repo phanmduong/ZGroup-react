@@ -444,7 +444,7 @@ class OrderController extends ManageApiController
     public function allWarehouses(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
-        $warehouses = Warehouse::all()->paginate($limit);
+        $warehouses = Warehouse::orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $warehouses,
             [
