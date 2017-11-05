@@ -264,11 +264,11 @@ class GoodController extends ManageApiController
         $status = $request->status;
         if ($request->limit == -1) {
             if ($type) {
-                $goods = Good::where('status', 'like', $status)->where('type', $type)->where(function ($query) use ($keyword) {
+                $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
                     $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
                 });
             } else {
-                $goods = Good::where('status', 'like', $status)->where(function ($query) use ($keyword) {
+                $goods = Good::where(function ($query) use ($keyword) {
                     $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
                 });
             }
@@ -284,14 +284,17 @@ class GoodController extends ManageApiController
         else
             $limit = 20;
         if ($type) {
-            $goods = Good::where('status', 'like', $status)->where("type", $type)->where(function ($query) use ($keyword) {
+            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
             });
         } else {
-            $goods = Good::where('status', 'like', $status)->where(function ($query) use ($keyword) {
+            $goods = Good::where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
             });
         }
+
+        if($status)
+            $goods = $goods->where('status', $status);
 
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
 
