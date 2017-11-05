@@ -111,7 +111,7 @@ class OrderController extends ManageApiController
         foreach ($children as $child)
             $this->sortCaregories($child->id, $rank . '-');
         $category = GoodCategory::find($category_id)->get();
-        dd($category_id);
+        dd($category);
         $category->rank = $rank;
         $this->allCategories->push($category);
     }
