@@ -145,13 +145,10 @@ class OrderController extends ManageApiController
         var_dump($category_id);
         $goodCategory = GoodCategory::find($category_id);
         $children = $goodCategory->children()->get();
-        if ($children == null)
-            $goodCategory->delete();
-        else {
-            foreach ($children as $child) {
-                $this->deleteChildren($child->id);
-            }
+        foreach ($children as $child) {
+            $this->deleteChildren($child->id);
         }
+        $goodCategory->delete();
     }
 
     public function deleteCategory($category_id, Request $request)
@@ -455,7 +452,7 @@ class OrderController extends ManageApiController
                         'name' => $warehouse->name,
                         'location' => $warehouse->location,
                     ];
-                    if($warehouse->base)
+                    if ($warehouse->base)
                         $warehouseData['base'] = [
                             'id' => $warehouse->base->id,
                             'name' => $warehouse->base->name,
