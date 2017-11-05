@@ -106,6 +106,7 @@ class OrderController extends ManageApiController
 
     public function sortCaregories($category_id, $rank)
     {
+        var_dump($category_id);
         $category = GoodCategory::find($category_id);
         $children = $category->children;
         foreach ($children as $child)
@@ -114,25 +115,25 @@ class OrderController extends ManageApiController
         $this->allCategories->push($category);
     }
 
-//    public function allCategory()
-//    {
-//        $goodCategories = GoodCategory::where('parent_id', 0);
-//        foreach ($goodCategories as $goodCategory) {
-//            $this->sortCaregories($goodCategory->id, '');
-//        }
-//        return $this->respondSuccessWithStatus([
-//            [
-//                'good_categories' => $this->allCategories->map(function ($category) {
-//                    return [
-//                        'id' => $category->id,
-//                        'name' => $category->name,
-//                        'parent_id' => $category->parent_id,
-//                        'rank' => $category->rank
-//                    ];
-//                })
-//            ]
-//        ]);
-//    }
+    public function gaugaugau()
+    {
+        $goodCategories = GoodCategory::where('parent_id', 0);
+        foreach ($goodCategories as $goodCategory) {
+            $this->sortCaregories($goodCategory->id, '');
+        }
+        return $this->respondSuccessWithStatus([
+            [
+                'good_categories' => $this->allCategories->map(function ($category) {
+                    return [
+                        'id' => $category->id,
+                        'name' => $category->name,
+                        'parent_id' => $category->parent_id,
+                        'rank' => $category->rank
+                    ];
+                })
+            ]
+        ]);
+    }
 
     public function allCategory()
     {
