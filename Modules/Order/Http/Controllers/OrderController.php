@@ -16,9 +16,6 @@ use App\Order;
 
 class OrderController extends ManageApiController
 {
-
-    public $allCategories;
-
     public function __construct()
     {
         parent::__construct();
@@ -101,38 +98,6 @@ class OrderController extends ManageApiController
         $order->save();
         return $this->respondSuccessWithStatus([
             'message' => 'ok'
-        ]);
-    }
-
-    public function sortCaregories($category_id, $rank)
-    {
-        $goodCategory = GoodCategory::find($category_id);
-        $children = $goodCategory->children()->get();
-        foreach ($children as $child)
-            $this->sortCaregories($child->id, $rank . '-');
-        $category = GoodCategory::find($category_id)->get();
-        dd($category);
-        $category->rank = $rank;
-        $this->allCategories->push($category);
-    }
-
-    public function gaugaugau()
-    {
-        $goodCategories = GoodCategory::where('parent_id', 0)->get();
-        foreach ($goodCategories as $goodCategory) {
-            $this->sortCaregories($goodCategory->id, '');
-        }
-        return $this->respondSuccessWithStatus([
-            [
-                'good_categories' => $this->allCategories->map(function ($category) {
-                    return [
-                        'id' => $category->id,
-                        'name' => $category->name,
-                        'parent_id' => $category->parent_id,
-                        'rank' => $category->rank
-                    ];
-                })
-            ]
         ]);
     }
 
