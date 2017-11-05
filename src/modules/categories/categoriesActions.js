@@ -2,6 +2,15 @@ import * as types from '../../constants/actionTypes';
 import * as categoriesAPI from './categoriesAPI';
 import * as helper from '../../helpers/helper';
 
+
+export function handleName(name){
+    return function (dispatch) {
+        dispatch({
+            type : types.HANDLE_CATEGORY_NAME,
+            name : name,
+        });
+    };
+}
 export function addCategory(name, parent_id , close ) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thêm", "info");
@@ -18,6 +27,9 @@ export function addCategory(name, parent_id , close ) {
                 }
                 else {
                     helper.sweetAlertError(res.data.message);
+                    dispatch({
+                        type: types.ADD_CATEGORY_ERROR
+                    });
                 }
             })
             .catch(() => {
@@ -29,6 +41,7 @@ export function addCategory(name, parent_id , close ) {
             );
     };
 }
+
 
 export function editCategory(id, name, close) {
     return function (dispatch) {
@@ -49,6 +62,9 @@ export function editCategory(id, name, close) {
                 }
                 else {
                     helper.sweetAlertError(res.data.message);
+                    dispatch({
+                        type: types.EDIT_CATEGORY_ERROR,
+                    });
                 }
             })
             .catch(() => {
@@ -79,7 +95,6 @@ export function deleteCategory(id) {
                     helper.sweetAlertError(res.data.message);
 
                 }
-
             })
             .catch(() => {
                 helper.sweetAlertError('Xóa thất bại ');
