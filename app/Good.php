@@ -20,7 +20,6 @@ class Good extends Model
 
     public function orders()
     {
-        $this->ta
         return $this->hasMany('App\Order', 'good_id');
     }
 
