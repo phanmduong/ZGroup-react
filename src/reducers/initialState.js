@@ -799,5 +799,6 @@ export default {
     wareHouses : {
         isLoading : true,
         wareHousesList : [],
+        totalPages : 1,
     }
 };
