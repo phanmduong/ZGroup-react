@@ -190,10 +190,10 @@ class UserCardRepository
                 "code" => $card->good->code,
                 "name" => $card->good->name
             ];
-
+            $data["good"] = $good;
         }
 
-        $data["good"] = $good;
+
 
         return $data;
     }
