@@ -796,4 +796,8 @@ export default {
         isStoringSupplier: false,
         errorStoreSupplier: false,
     },
+    wareHouses : {
+        isLoading : true,
+        wareHousesList : [],
+    }
 };
