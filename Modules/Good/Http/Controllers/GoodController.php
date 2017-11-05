@@ -293,7 +293,7 @@ class GoodController extends ManageApiController
             });
         }
 
-        if($status)
+        if ($status)
             $goods = $goods->where('status', $status);
 
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
@@ -325,6 +325,7 @@ class GoodController extends ManageApiController
         $good->price = $request->price;
         $good->manufacture_id = $request->manufacture_id;
         $good->good_category_id = $request->good_category_id;
+        $good->status = $request->status;
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
