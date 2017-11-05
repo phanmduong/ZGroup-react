@@ -61,9 +61,7 @@ export default {
         },
         propertyItem: {
             propertyItems: [],
-            isLoading: false,
-            currentPage: 1,
-            totalPages: 1
+            isLoading: false
         },
         goodList: {
             goods: [],
@@ -238,6 +236,11 @@ export default {
     },
 
     task: {
+        addChildGood: {
+            good: {},
+            boardId: 0,
+            showModal: false
+        },
         archiveBoard: {
             showModal: false,
             boards: [],
@@ -453,7 +456,14 @@ export default {
             name: '',
             isCreating: false,
             error: false
-        }
+        },
+        isLoading: false,
+        error: false,
+        totalPages: 1,
+        currentPage: 1,
+        posts: [],
+        isLoadingPost: false,
+        errorPost: false,
     },
     registerStudents: {
         registers: [],
@@ -723,16 +733,16 @@ export default {
 
     categories: {
         addCategoriesModal: {
-            isShowModal:false,
-            isSaving : false,
-            id :  '' ,
-            parent_id : '',
-            name : '',
-            isEdit : false ,
+            isShowModal: false,
+            isSaving: false,
+            id: '',
+            parent_id: '',
+            name: '',
+            isEdit: false,
         },
-        isLoading : true,
-        error : false,
-        categoriesList:[],
+        isLoading: true,
+        error: false,
+        categoriesList: [],
     },
 
     goodOrders: {
@@ -781,6 +791,8 @@ export default {
         },
         isLoadingWarehouses: false,
         errorWarehouses: false,
-        warehouses: []
+        warehouses: [],
+        isStoringSupplier: false,
+        errorStoreSupplier: false,
     },
 };

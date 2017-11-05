@@ -182,9 +182,7 @@ export function loadGoodPropertyItems(page = 1, query = "", type = "") {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS,
-                    propertyItems: res.data.good_property_items,
-                    totalPages: res.data.paginator.total_pages,
-                    currentPage: res.data.paginator.current_page
+                    propertyItems: res.data.good_property_items
                 });
             });
     };
@@ -369,4 +367,3 @@ export function loadGoodPropertiesFilled(cardId, goodProperties) {
             });
     };
 }
-

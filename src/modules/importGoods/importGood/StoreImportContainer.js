@@ -12,8 +12,11 @@ import PropTypes from 'prop-types';
 import * as importGoodActions from '../importGoodActions';
 import ListGood from './ListGood';
 import StoreGood from './StoreGood';
+import StoreSupplier from './StoreSupplier';
 import {Modal} from 'react-bootstrap';
 import ReactSelect from 'react-select';
+import TooltipButton from '../../../components/common/TooltipButton';
+import * as importGoodsApi from '../importGoodsApi';
 
 class StoreImportContainer extends React.Component {
     constructor(props, context) {
@@ -22,17 +25,22 @@ class StoreImportContainer extends React.Component {
         this.table = null;
         this.state = {
             showModalStoreGood: false,
+            showModalStoreSupplier: false,
             search: '',
             initTable: false,
             optionsSelectWarehouses: []
         };
         this.closeModalStoreGood = this.closeModalStoreGood.bind(this);
         this.openModalStoreGood = this.openModalStoreGood.bind(this);
+        this.closeModalStoreSupplier = this.closeModalStoreSupplier.bind(this);
+        this.openModalStoreSupplier = this.openModalStoreSupplier.bind(this);
         this.storeGood = this.storeGood.bind(this);
         this.initTable = this.initTable.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.storeImportGood = this.storeImportGood.bind(this);
         this.changeOptionWarehouse = this.changeOptionWarehouse.bind(this);
+        this.selectSupplier = this.selectSupplier.bind(this);
+        this.loadSuppliers = this.loadSuppliers.bind(this);
     }
 
     componentWillMount() {
@@ -68,6 +76,14 @@ class StoreImportContainer extends React.Component {
 
     openModalStoreGood() {
         this.setState({showModalStoreGood: true});
+    }
+
+    closeModalStoreSupplier() {
+        this.setState({showModalStoreSupplier: false});
+    }
+
+    openModalStoreSupplier() {
+        this.setState({showModalStoreSupplier: true});
     }
 
     changeOptionWarehouse(value) {
@@ -115,6 +131,32 @@ class StoreImportContainer extends React.Component {
         } else {
             helper.showWarningNotification("Vui lòng chọn kho hàng");
         }
+    }
+
+    selectSupplier(value) {
+        let formImportGood = {...this.props.formImportGood};
+        formImportGood['supplier'] = value;
+        this.props.importGoodActions.updateFormImportGood(formImportGood);
+    }
+
+    loadSuppliers(input, callback) {
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            importGoodsApi.loadSupplier(input).then(res => {
+                let suppliers = res.data.data.suppliers.map((supplier) => {
+                    return {
+                        ...supplier,
+                        ...{
+                            value: supplier.id,
+                            label: supplier.name + ` (${supplier.phone})`,
+                        }
+                    };
+                });
+                callback(null, {options: suppliers, complete: true});
+            });
+        }.bind(this), 500);
     }
 
     render() {
@@ -179,13 +221,44 @@ class StoreImportContainer extends React.Component {
                                                 placeholder="Hệ thống tự sinh"
                                                 updateFormData={this.updateFormData}
                                             />
-                                            <ReactSelect
-                                                name="form-field-name"
-                                                value={this.props.formImportGood.warehouse_id}
-                                                options={this.state.optionsSelectWarehouses}
-                                                onChange={this.changeOptionWarehouse}
-                                                placeholder="Chọn kho hàng"
-                                            />
+                                            <div>
+                                                <label className="control-label">Kho hàng</label>
+                                                <ReactSelect
+                                                    name="form-field-name"
+                                                    value={this.props.formImportGood.warehouse_id}
+                                                    options={this.state.optionsSelectWarehouses}
+                                                    onChange={this.changeOptionWarehouse}
+                                                    placeholder="Chọn kho hàng"
+                                                    searchPromptText="Không có tìm thấy"
+                                                    noResultsText="Không có dữ liệu"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="control-label">Nhà cung cấp
+                                                    <TooltipButton text="Thêm nhà cung cấp" placement="top">
+                                                        <button className="btn btn-round btn-sm btn-primary"
+                                                                style={{
+                                                                    width: '20px',
+                                                                    height: '20px',
+                                                                    padding: '0',
+                                                                    margin: '5px'
+                                                                }}
+                                                                onClick={this.openModalStoreSupplier}
+                                                        >
+                                                            <i className="material-icons">add</i>
+                                                        </button>
+                                                    </TooltipButton>
+                                                </label>
+                                                <ReactSelect.Async
+                                                    loadOptions={this.loadSuppliers}
+                                                    loadingPlaceholder="Đang tải..."
+                                                    placeholder="Chọn nhà cung cấp"
+                                                    searchPromptText="Không có dữ liệu"
+                                                    onChange={this.selectSupplier}
+                                                    value={this.props.formImportGood.supplier}
+                                                />
+                                            </div>
+
                                             <FormInputText
                                                 label="Ghi chú"
                                                 name="note"
@@ -284,6 +357,16 @@ class StoreImportContainer extends React.Component {
                         <StoreGood
                             storeGood={this.storeGood}
                             closeModal={this.closeModalStoreGood}
+                        />
+                    </Modal.Body>
+                </Modal>
+                <Modal show={this.state.showModalStoreSupplier}>
+                    <Modal.Header closeButton onHide={this.closeModalStoreSupplier} closeLabel="Đóng">
+                        <Modal.Title>Thêm nhà cung cấp</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <StoreSupplier
+                            closeModal={this.closeModalStoreSupplier}
                         />
                     </Modal.Body>
                 </Modal>

@@ -25,10 +25,12 @@ class AskGoodPropertiesModalContainer extends React.Component {
     submitGoodProperties() {
         this.props.taskActions.submitGoodProperties()
             .then(() => {
-                const sourceBoardId = this.props.task.current_board_id;
-                const targetBoardId = this.props.task.target_board_id;
-                this.props.taskActions.toggleTaskStatus(this.props.task, this.props.card);
-                this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.props.card.id);
+                if (!this.props.task.isEditProcess) {
+                    const sourceBoardId = this.props.task.current_board_id;
+                    const targetBoardId = this.props.task.target_board_id;
+                    this.props.taskActions.toggleTaskStatus(this.props.task, this.props.card);
+                    this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.props.card.id);
+                }
             });
     }
 
@@ -47,6 +49,7 @@ class AskGoodPropertiesModalContainer extends React.Component {
                     <Modal.Title>Thuộc tính</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+
                     {
                         this.props.isLoading ? <Loading/> : (
                             <InputGoodProperties
@@ -55,6 +58,7 @@ class AskGoodPropertiesModalContainer extends React.Component {
                                 updateGoodPropertiesOutput={this.updateGoodPropertiesOutput}/>
                         )
                     }
+
                 </Modal.Body>
                 <Modal.Footer>
                     {

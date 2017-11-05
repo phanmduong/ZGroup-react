@@ -24,6 +24,10 @@ class TaskItem extends React.Component {
         this.props.openTaskDeadlineModal(this.props.task);
     }
 
+    openEditPropertiesModal() {
+
+    }
+
     render() {
         const {task, card} = this.props;
         return (
@@ -64,6 +68,19 @@ class TaskItem extends React.Component {
                     <ul className="dropdown-menu dropdown-menu-left">
                         <EditTaskNameContainer
                             task={this.props.task}/>
+
+                        {
+                            (this.props.isProcess && !!this.props.task.status) && (
+                                <li className="more-dropdown-item">
+                                    <a onClick={this.props.openEditPropertiesModal}>
+                                        <i className="material-icons">details</i>
+                                        Sửa thuộc tính
+                                    </a>
+                                </li>
+                            )
+                        }
+
+
                         <li className="more-dropdown-item">
                             <a onClick={this.openAddMemberToTaskModal}>
                                 <i className="material-icons">person</i>
@@ -95,10 +112,12 @@ TaskItem.propTypes = {
     deleteTask: PropTypes.func.isRequired,
     openAddMemberToTaskModal: PropTypes.func.isRequired,
     openTaskDeadlineModal: PropTypes.func.isRequired,
+    openEditPropertiesModal: PropTypes.func.isRequired,
     toggleTaskStatus: PropTypes.func.isRequired,
     card: PropTypes.object.isRequired,
     task: PropTypes.object.isRequired,
-    isEnable: PropTypes.bool
+    isEnable: PropTypes.bool,
+    isProcess: PropTypes.bool
 };
 
 TaskItem.defaultProps = {

@@ -41,23 +41,32 @@ class InputGoodProperties extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                {
-                    this.props.goodProperties.map((property) => {
-                        return (
-                            <GoodPropertyItem
-                                clearPropertyOutput={this.clearPropertyOutput}
-                                setValue={this.setValue}
-                                setUnit={this.setUnit}
-                                key={property.id}
-                                goodPropertyOutput={this.props.goodPropertiesOutput[property.name]}
-                                property={property}/>
-                        );
-                    })
-                }
-            </div>
-        );
+        if (this.props.goodProperties && this.props.goodProperties.length > 0) {
+            return (
+                <div>
+                    {
+                        this.props.goodProperties.map((property) => {
+                            return (
+                                <GoodPropertyItem
+                                    clearPropertyOutput={this.clearPropertyOutput}
+                                    setValue={this.setValue}
+                                    setUnit={this.setUnit}
+                                    key={property.id}
+                                    goodPropertyOutput={this.props.goodPropertiesOutput[property.name]}
+                                    property={property}/>
+                            );
+                        })
+                    }
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    Quy trình này không có thuộc tính nào
+                </div>
+            );
+        }
+
     }
 }
 

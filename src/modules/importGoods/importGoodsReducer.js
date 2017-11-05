@@ -69,12 +69,12 @@ export default function importGoodsReducer(state = initialState.importGoods, act
             return {
                 ...state,
                 importGood: initialState.importGoods.importGood
-            }
+            };
         case types.UPDATE_FORM_IMPORT_GOOD:
             return {
                 ...state,
                 formImportGood: action.formImportGood
-            }
+            };
         case types.BEGIN_STORE_IMPORT_GOOD: {
             return {
                 ...state,
@@ -85,7 +85,7 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                         error: false,
                     }
                 }
-            }
+            };
         }
         case types.STORE_IMPORT_GOOD_SUCCESS: {
             return {
@@ -97,7 +97,7 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                         error: false,
                     }
                 }
-            }
+            };
         }
         case types.STORE_IMPORT_GOOD_ERROR: {
             return {
@@ -109,7 +109,7 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                         error: true,
                     }
                 }
-            }
+            };
         }
         case types.BEGIN_GET_ALL_WAREHOUSES_IMPORT_GOODS:
             return {
@@ -134,6 +134,34 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                 ...{
                     isLoadingWarehouses: false,
                     errorWarehouses: true
+                }
+            };
+        case types.BEGIN_STORE_SUPPLIER_IMPORT_GOOD:
+            return {
+                ...state,
+                ...{
+                    isStoringSupplier: true,
+                    errorStoreSupplier: false,
+                }
+            };
+        case types.STORE_SUPPLIER_IMPORT_GOOD_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isStoringSupplier: false,
+                    errorStoreSupplier: false,
+                    formImportGood: {
+                        ...state.formImportGood,
+                        supplier: action.supplier
+                    }
+                }
+            };
+        case types.STORE_SUPPLIER_IMPORT_GOOD_ERROR:
+            return {
+                ...state,
+                ...{
+                    isStoringSupplier: false,
+                    errorStoreSupplier: true,
                 }
             };
         default:

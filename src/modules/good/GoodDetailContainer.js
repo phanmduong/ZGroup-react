@@ -6,6 +6,7 @@ import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 import * as goodActions from "../good/goodActions";
 import FilesList from "./FilesList";
+import {ListGroup, ListGroupItem, Panel} from "react-bootstrap";
 
 class GoodDetailContainer extends React.Component {
     constructor(props, context) {
@@ -69,28 +70,71 @@ class GoodDetailContainer extends React.Component {
                                     </div>
                                 </div>
 
-                                <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">toc</i>
-                                    </div>
-                                    <div className="card-content">
-                                        <h4 className="card-title">Thuộc tính bổ sung</h4>
-                                        {
-                                            good.properties && good.properties.map((property, index) => {
-                                                return (
-                                                    <FormInputText
-                                                        key={index}
-                                                        label={property.name}
-                                                        name="price"
-                                                        disabled={true}
-                                                        type="number"
-                                                        value={property.value}/>
-                                                );
-                                            })
-                                        }
-                                    </div>
 
-                                </div>
+                                {
+                                    good.cards && good.cards.map((card, index) => {
+                                        return (
+                                            <div key={index}>
+                                                {
+                                                    card.taskLists && card.taskLists.map((taskList) => {
+                                                        return (
+                                                            <div className="card">
+                                                                <div className="card-header card-header-icon"
+                                                                     data-background-color="rose">
+                                                                    <i className="material-icons">toc</i>
+                                                                </div>
+                                                                <div className="card-content">
+                                                                    <h4 className="card-title">{taskList.title}</h4>
+                                                                    <div>
+                                                                        {
+                                                                            taskList.tasks && taskList.tasks.map((task, index) => {
+                                                                                const header = (
+                                                                                    <div className="good-detail-header" style={{
+                                                                                        width: "100%",
+                                                                                        height: "100%"
+                                                                                    }}>
+                                                                                        {task.title}
+                                                                                    </div>
+                                                                                );
+                                                                                return (
+                                                                                    <Panel collapsible
+                                                                                           key={index}
+                                                                                           header={header}>
+                                                                                        <ListGroup>
+                                                                                            {
+                                                                                                task.properties && task.properties.map((property, index) => {
+                                                                                                    return (
+                                                                                                        <ListGroupItem>
+                                                                                                            <FormInputText
+                                                                                                                key={index}
+                                                                                                                label={property.name}
+                                                                                                                name="price"
+                                                                                                                disabled={true}
+                                                                                                                type="number"
+                                                                                                                value={property.value}/>
+                                                                                                        </ListGroupItem>
+                                                                                                    );
+                                                                                                })
+                                                                                            }
+                                                                                        </ListGroup>
+                                                                                    </Panel>
+                                                                                );
+                                                                            })
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        );
+
+                                                    })
+                                                }
+
+                                            </div>
+
+                                        );
+                                    })
+                                }
+
 
                             </div>
                             <div className="col-sm-4">
