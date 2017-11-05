@@ -441,6 +441,33 @@ class OrderController extends ManageApiController
         ]);
     }
 
+    public function allWarehouses(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $warehouses = Warehouse::all()->paginate($limit);
+        return $this->respondWithPagination(
+            $warehouses,
+            [
+                'warehouses' => $warehouses->map(function ($warehouse) {
+                    $warehouseData = [
+                        'id' => $warehouse->id,
+                        'name' => $warehouse->name,
+                        'location' => $warehouse->location,
+                    ];
+                    if($warehouse->base)
+                        $warehouseData['base'] = [
+                            'id' => $warehouse->base->id,
+                            'name' => $warehouse->base->name,
+                            'address' => $warehouse->base->address,
+                        ];
+
+                    return $warehouseData;
+                })
+            ]
+
+        );
+    }
+
     public function addWarehouse(Request $request)
     {
         $warehouse = new Warehouse;
