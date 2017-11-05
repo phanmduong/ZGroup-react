@@ -24,4 +24,8 @@ GoodCategory extends Model
         return $this->belongsToMany(Good::class, 'good_good_category', 'good_category_id', 'good_id');
     }
 
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
 }
