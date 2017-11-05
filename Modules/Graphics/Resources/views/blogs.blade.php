@@ -33,7 +33,15 @@
                     <div class="card card-plain card-blog">
                         <div class="card-image">
                             <a href="{{'/blog/post/'.$blog->id}}">
-                                <img class="img img-raised" src="{{generate_protocol_url($blog->url)}}">
+                                <div
+                                        style="width: 100%;
+                                                border-radius: 15px;
+                                                background: url({{generate_protocol_url($blog->url)}});
+                                                background-size: cover;
+                                                background-position: center;
+                                                height: 250px;"
+
+                                ></div>
                             </a>
                         </div>
                         <div class="card-block">
