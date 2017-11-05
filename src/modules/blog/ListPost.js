@@ -27,7 +27,7 @@ class ListPost extends React.Component {
                             <tr key={post.id}>
                                 <td><Link to={"blog/post/" + post.id + "/edit"}>{post.title}</Link></td>
                                 <td>
-                                    {post.category.name}
+                                    {post.category ? post.category.name : 'Không có'}
                                 </td>
                                 <td>
                                     {

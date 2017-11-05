@@ -6,10 +6,10 @@ import * as categoriesActions from './categoriesActions';
 import PropTypes from 'prop-types';
 
 
+
 class AddCategoryModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {name : props.name};
         this.close = this.close.bind(this);
         this.addCategory = this.addCategory.bind(this);
         this.editCategory = this.editCategory.bind(this);
