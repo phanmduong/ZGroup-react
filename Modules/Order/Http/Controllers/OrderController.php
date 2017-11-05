@@ -107,7 +107,7 @@ class OrderController extends ManageApiController
     public function sortCaregories($category_id, $rank)
     {
         $category = GoodCategory::find($category_id)->get();
-        $children = $category->children;
+        $children = $category->children()->get();
         foreach ($children as $child)
             $this->sortCaregories($child->id, $rank . '-');
         $category->rank = $rank;
