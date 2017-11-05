@@ -118,7 +118,7 @@
                                                         background: url({{$post_related->url}});
                                                         background-size: cover;
                                                         background-position: center;
-                                                        padding-bottom: 60%;
+                                                        padding-bottom: 80%;
                                                         "
 
                                         ></div>

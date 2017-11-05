@@ -39,7 +39,7 @@
                                                 background: url({{generate_protocol_url($blog->url)}});
                                                 background-size: cover;
                                                 background-position: center;
-                                                padding-bottom: 60%;"
+                                                padding-bottom: 80%;"
 
                                 ></div>
                             </a>
