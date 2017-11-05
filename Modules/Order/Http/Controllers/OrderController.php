@@ -121,18 +121,18 @@ class OrderController extends ManageApiController
         foreach ($goodCategories as $goodCategory) {
             $this->sortCaregories($goodCategory->id, '');
         }
-        return $this->respondSuccessWithStatus([
-            [
-                'good_categories' => $this->allCategories->map(function ($category) {
-                    return [
-                        'id' => $category->id,
-                        'name' => $category->name,
-                        'parent_id' => $category->parent_id,
-                        'rank' => $category->rank
-                    ];
-                })
-            ]
-        ]);
+//        return $this->respondSuccessWithStatus([
+//            [
+//                'good_categories' => $this->allCategories->map(function ($category) {
+//                    return [
+//                        'id' => $category->id,
+//                        'name' => $category->name,
+//                        'parent_id' => $category->parent_id,
+//                        'rank' => $category->rank
+//                    ];
+//                })
+//            ]
+//        ]);
     }
 
     public function allCategory()
