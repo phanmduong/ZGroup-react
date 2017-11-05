@@ -9,83 +9,50 @@ import PropTypes from 'prop-types';
 class AddCategoryModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            name: '',
-        };
+        this.state = {name : props.name};
         this.close = this.close.bind(this);
         this.addCategory = this.addCategory.bind(this);
         this.editCategory = this.editCategory.bind(this);
+        this.handleName = this.handleName.bind(this);
     }
-    componentDidMount(){
 
-    }
 
     close() {
         this.props.categoriesActions.closeAddCategoryModalContainer();
     }
 
     addCategory() {
-        this.props.categoriesActions.addCategory(this.state.name, this.props.parent_id, this.close);
+        this.props.categoriesActions.addCategory(this.props.name, this.props.parent_id, this.close);
     }
 
     editCategory() {
-        this.props.categoriesActions.editCategory(this.props.id, this.state.name, this.close);
+        this.props.categoriesActions.editCategory(this.props.id, this.props.name, this.close);
+    }
+    handleName(e){
+        let name = e.target.value ;
+        e.preventDefault();
+        this.props.categoriesActions.handleName(name);
     }
 
     render() {
         return (
             <Modal show={this.props.isShowModal} onHide={this.close}>
                 <Modal.Header>
-                    {this.props.isEdit ?
+                    {
                         <Modal.Title>
-                            <strong>Edit Category</strong>
-                        </Modal.Title>
-                        :
-                        <Modal.Title>
-                            <strong> Nhóm </strong>
+                            <strong>{this.props.isEdit ? 'Chỉnh sửa' : 'Thêm'}</strong>
                         </Modal.Title>
                     }
                 </Modal.Header>
-
-
                 <Modal.Body>
                             <div>
-                                {this.props.isEdit ?
                                     <div className="form-group label-floating is-empty">
-                                        <label>Sửa tên nhóm</label>
-                                        <input type="text" className="form-control"
-                                               defaultValue={this.props.name}
-                                               onSelect = {(e) => {
-                                                   this.setState({name: e.target.value});
-                                                   e.preventDefault();
+                                        {this.props.isEdit ? <label>Sửa tên nhóm</label> : <label className="control-label">Tên nhóm</label> }
 
-                                               }}
-                                               onChange={(e) => {
-                                                   this.setState({name: e.target.value});
-                                                   e.preventDefault();
-                                               }}/>
-                                        <span className="material-input"/>
-                                        <span className="material-input"/>
+                                            <input type="text" className="form-control"
+                                               defaultValue ={this.props.name}
+                                               onChange={(e) => this.handleName(e)}/>
                                     </div>
-                                    :
-
-                                    <div className="form-group label-floating is-empty">
-                                        <label className="control-label">Tên nhóm</label>
-                                        <input type="text" className="form-control"
-                                               defaultValue=""
-                                               onSelect = {(e) => {
-                                                   this.setState({name: e.target.value});
-                                                   e.preventDefault();
-
-                                               }}
-                                               onChange={(e) => {
-                                                   this.setState({name: e.target.value});
-                                                   e.preventDefault();
-                                               }}/>
-                                        <span className="material-input"/>
-                                        <span className="material-input"/>
-                                    </div>
-                                }
                             </div>
                 </Modal.Body>
 
@@ -114,7 +81,6 @@ class AddCategoryModalContainer extends React.Component {
                                                 this.editCategory();
                                                 e.preventDefault();
                                             }
-
                                         }
                                         }
                                 ><i className="material-icons">check</i>
