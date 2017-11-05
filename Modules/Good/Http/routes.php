@@ -19,5 +19,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::put('/edit/{goodId}', 'GoodController@editGood');
     Route::get('/manufactures', 'GoodController@allManufactures');
     Route::get('/{id}', 'GoodController@good');
-    Route::post('/create-child-good', 'GoodController@createChildGood');
+    Route::post('/{goodId}/create-child-good', 'GoodController@createChildGood');
 });

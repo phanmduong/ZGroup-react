@@ -372,10 +372,24 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public function createChildGood(Request $request){
-        $good = new Good();
-        if ($request->id == null || $request->boardId) {
-
+    public function createChildGood($goodId, Request $request)
+    {
+        if ($request->id == null || $request->boardId == null) {
+            return $this->respondErrorWithStatus();
         }
+        $good = new Good();
+        $parentGood = Good::find($goodId);
+        $good->parent_id = $goodId;
+
+        $good->code = $request->code;
+        $good->name = $request->name;
+
+        $currentGood = Good::where("code", $request->code)->first();
+        if ($currentGood != null) {
+            return $this->respondErrorWithStatus("Sản phẩm với mã này đã tồn tại");
+        }
+        $good->good_category_id = $parentGood->good_category_id;
+        $good->save();
+
     }
 }
