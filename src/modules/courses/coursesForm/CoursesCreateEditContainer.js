@@ -48,16 +48,19 @@ class CreateEditCoursesContainer extends React.Component {
         this.changeColor        = this.changeColor.bind(this);
         this.commitCourseData   = this.commitCourseData.bind(this);
         this.updateEditor       = this.updateEditor.bind(this);
+        this.checkValidate      = this.checkValidate.bind(this);
     }
 
 
     componentWillMount() {
         //console.log('course form container ',this.props);
+        helper.setFormValidation('#form-course-create-edit');
         let id = this.props.params.courseId;
         this.props.coursesCreateEditActions.loadCourses(id);
-
     }
-
+    componentDidMount() {
+        helper.setFormValidation('#form-course-create-edit');
+    }
     componentWillReceiveProps(nextProps){
         //console.log('recieve props',nextProps);
         this.setState(nextProps.data);
@@ -102,12 +105,35 @@ class CreateEditCoursesContainer extends React.Component {
     }
 
     commitCourseData(){
+        if(this.checkValidate())
         this.props.coursesCreateEditActions.commitCourseData(this.state);
+    }
+
+    checkValidate() {
+
+        if ($('#form-course-create-edit').valid()) {
+
+            if (helper.isEmptyInput(this.state.icon_url)) {
+                helper.showTypeNotification('Vui lòng chọn ảnh icon', 'warning');
+                return false;
+            }
+            if (helper.isEmptyInput(this.state.image_url)) {
+                helper.showTypeNotification('Vui lòng chọn ảnh đại điện', 'warning');
+                return false;
+            }
+            if (helper.isEmptyInput(this.state.cover_url)) {
+                helper.showTypeNotification('Vui lòng chọn cover', 'warning');
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
     render() {
         return (
             <div className="row">
+                <form role="form" id="form-course-create-edit">
                 <div className="col-md-12">
                         <div className="row">
                              <div className="col-md-8">
@@ -118,8 +144,7 @@ class CreateEditCoursesContainer extends React.Component {
                                     <div className="card-content">
                                         <h4 className="card-title">Tạo Môn Học</h4>
                                         {this.props.isLoading ? <Loading/> :
-                                            <form role="form"
-                                                  id="form-course-form">
+                                            <div>
                                                 <div className="row">
 
                                                     <div className="col-md-12">
@@ -193,6 +218,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                     </div>
 
                                                 </div>
+
                                                 {this.props.isCommitting ?
                                                     <button className="btn btn-rose btn-round disabled" type="button">
                                                         <i className="fa fa-spinner fa-spin"/> Đang tải lên
@@ -205,7 +231,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                         onClick={this.commitCourseData}
                                                     > Lưu </button></Link>
                                                 }
-                                            </form>
+                                         </div>
                                         }
                                     </div>
 
@@ -338,12 +364,11 @@ class CreateEditCoursesContainer extends React.Component {
                                             />
                                         </div>
 
-                                        <Link to="/manage/courses">
                                         <button
                                             className="btn btn-fill btn-rose"
                                             type="button"
                                             onClick={this.commitCourseData}
-                                        > Lưu </button></Link>
+                                        > Lưu </button>
 
 
                                     </div>
@@ -351,6 +376,7 @@ class CreateEditCoursesContainer extends React.Component {
                             </div>
                         </div>
                 </div>
+                </form>
             </div>
         );
     }
