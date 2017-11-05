@@ -106,12 +106,12 @@ class OrderController extends ManageApiController
 
     public function sortCaregories($category_id, $rank)
     {
-        $category = GoodCategory::find($category_id)->get();
-        $children = $category->children()->get();
+        $goodCategory = GoodCategory::find($category_id);
+        $children = $goodCategory->children()->get();
         foreach ($children as $child)
             $this->sortCaregories($child->id, $rank . '-');
-        $category->rank = $rank;
-        $this->allCategories->push($category);
+        $goodCategory->rank = $rank;
+        $this->allCategories->push($goodCategory);
     }
 
     public function gaugaugau()
@@ -175,7 +175,6 @@ class OrderController extends ManageApiController
 
     public function deleteChildren($category_id)
     {
-        var_dump($category_id);
         $goodCategory = GoodCategory::find($category_id);
         $children = $goodCategory->children()->get();
         foreach ($children as $child) {

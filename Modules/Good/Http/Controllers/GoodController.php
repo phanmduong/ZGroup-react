@@ -308,7 +308,6 @@ class GoodController extends ManageApiController
         );
     }
 
-    public
     function editGood($goodId, Request $request)
     {
         $good = Good::find($goodId);
