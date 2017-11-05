@@ -11,9 +11,10 @@ export function handleName(name){
         });
     };
 }
+
 export function addCategory(name, parent_id , close ) {
     return function (dispatch) {
-        helper.showTypeNotification("Đang thêm", "info");
+        // helper.showTypeNotification("Đang thêm", "info");
         dispatch({type: types.BEGIN_ADD_CATEGORY});
         categoriesAPI.addCategoryAPI(name, parent_id)
             .then((res) => {
@@ -45,7 +46,7 @@ export function addCategory(name, parent_id , close ) {
 
 export function editCategory(id, name, close) {
     return function (dispatch) {
-        helper.showTypeNotification("Đang cập nhật", "info");
+        // helper.showTypeNotification("Đang cập nhật", "info");
         dispatch({
             type: types.BEGIN_EDIT_CATEGORY,
         });

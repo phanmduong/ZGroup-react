@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import AddCategoryModalContainer from './AddCategoryModalContainer';
 import ListChildProduct from "./ListChildProduct";
+import Loading from "../../components/common/Loading";
 import * as categoriesActions from './categoriesActions';
 
 
@@ -24,8 +25,8 @@ class CategoriesContainer extends React.Component {
 
     render() {
         return (
-            <div>
-
+            this.props.isLoading ? <Loading /> :
+                <div>
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-header card-header-icon"
@@ -38,53 +39,54 @@ class CategoriesContainer extends React.Component {
 
                             <div className="panel-group" role="tablist"
                                  aria-multiselectable="true">
-                             <div className ="row">
+                                <div className ="row">
 
 
-                                {/*     ADD PARENT GROUP    */}
-                                <div className="col-md-12" >
+                                    {/*     ADD PARENT GROUP    */}
+                                    <div className="col-md-12" >
 
-                                            <div className="panel-heading" role="tab" style={{
-                                                marginTop: "40px",
-                                                marginBottom: '20px',
+                                        <div className="panel-heading" role="tab" style={{
+                                            marginTop: "40px",
+                                            marginBottom: '20px',
+                                        }}>
+                                            <a onClick={() => {
+                                                this.openAddCategoryModalContainer('', 0, '', false);
                                             }}>
-                                                <a onClick={() => {
-                                                    this.openAddCategoryModalContainer('', 0, '', false);
-                                                }}>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            data-oriinal-title="Remove item"
-                                                            style={{
-                                                                width: "20px",
-                                                                height: "20px",
-                                                                padding: "0px"
-                                                            }}
-                                                            className="btn btn-round btn-sm btn-success">
-                                                        <i style={{"float ": " none!important"}}
-                                                           className="material-icons">add</i>
-                                                    </button>
-                                                    <span
-                                                        style={{paddingLeft: "10px"}}><strong>Thêm nhóm cha</strong></span>
-                                                </a>
-                                            </div>
+                                                <button rel="tooltip" data-placement="top" title=""
+                                                        data-oriinal-title="Remove item"
+                                                        style={{
+                                                            width: "20px",
+                                                            height: "20px",
+                                                            padding: "0px"
+                                                        }}
+                                                        className="btn btn-round btn-sm btn-success">
+                                                    <i style={{"float ": " none!important"}}
+                                                       className="material-icons">add</i>
+                                                </button>
+                                                <span
+                                                    style={{paddingLeft: "10px"}}><strong>Thêm nhóm cha</strong></span>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                             </div>
 
 
 
                                 {/*     LIST PARENT GROUP   */}
                                 <div className= "row">
-                                <div style={{position: 'relative', display: 'block'}}>
-                                    <ListChildProduct
-                                        parent_id={0}
-                                    />
-                                </div>
-                                <AddCategoryModalContainer/>
+                                    <div style={{position: 'relative', display: 'block'}}>
+                                        <ListChildProduct
+                                            parent_id={0}
+                                        />
+                                    </div>
+                                    <AddCategoryModalContainer/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
         );
     }
