@@ -144,6 +144,7 @@ class OrderController extends ManageApiController
     {
         $goodCategory = GoodCategory::find($category_id);
         $children = $goodCategory->children;
+        dd($children);
         if ($children == null)
             $goodCategory->delete();
         else
