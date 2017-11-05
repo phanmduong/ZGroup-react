@@ -144,10 +144,10 @@ class OrderController extends ManageApiController
     {
         $goodCategory = GoodCategory::find($category_id);
         $children = $goodCategory->children()->get();
-        echo "<script>console.log( 'Debug Objects: " . $category_id . "' );</script>";
-        if ($children == null)
+        if ($children == null) {
+            dd($category_id);
             $goodCategory->delete();
-        else {
+        } else {
             foreach ($children as $child) {
                 $this->deleteChildren($child->id);
             }
