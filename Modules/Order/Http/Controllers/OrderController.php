@@ -334,7 +334,7 @@ class OrderController extends ManageApiController
                 'money' => $debt,
             ]);
         $orderPaidMoney = new OrderPaidMoney;
-        $orderPaidMoney->order_id = $request->order_id;
+        $orderPaidMoney->order_id = $request->$orderId;
         $orderPaidMoney->money = $request->money;
         $orderPaidMoney->staff_id = $this->user->id;
         $orderPaidMoney->save();
