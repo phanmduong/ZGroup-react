@@ -99,6 +99,9 @@ class Good extends Model
     public function transform()
     {
         $data = $this->getData();
+        $data['quantity'] = $this->goodWarehouse->reduce(function ($total, $var) {
+            return $total + $var->quantity;
+        }, 0);
         $data['files'] = $this->files->map(function ($file) {
             return $file->transform();
         });

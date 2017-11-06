@@ -53,6 +53,7 @@ class ResourceApiController extends ApiController
                     "name" => $register->studyClass->course->name,
                     "linkId" => convert_vi_to_en($register->studyClass->course->name),
                     "icon_url" => $register->studyClass->course->icon_url,
+                    "duration" => $register->studyClass->course->duration,
                     "image_url" => $register->studyClass->course->image_url,
                     "lessons" => $register->studyClass->course->lessons()->orderBy('order')->get()->map(function ($lesson) {
                         return [
@@ -71,6 +72,7 @@ class ResourceApiController extends ApiController
                     "name" => $course->name,
                     "linkId" => convert_vi_to_en($course->name),
                     "icon_url" => $course->icon_url,
+                    "duration" => $register->studyClass->course->duration,
                     "image_url" => $course->image_url,
                     "lessons" => $course->lessons()->orderBy('order')->get()->map(function ($lesson) {
                         return [

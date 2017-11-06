@@ -262,6 +262,7 @@ class GoodController extends ManageApiController
     {
         $keyword = $request->search;
         $type = $request->type;
+        $status = $request->status;
         if ($request->limit == -1) {
             if ($type) {
                 $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
@@ -293,6 +294,9 @@ class GoodController extends ManageApiController
             });
         }
 
+        if ($status)
+            $goods = $goods->where('status', $status);
+
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
 
         return $this->respondWithPagination(
@@ -305,7 +309,6 @@ class GoodController extends ManageApiController
         );
     }
 
-    public
     function editGood($goodId, Request $request)
     {
         $good = Good::find($goodId);
@@ -322,6 +325,7 @@ class GoodController extends ManageApiController
         $good->price = $request->price;
         $good->manufacture_id = $request->manufacture_id;
         $good->good_category_id = $request->good_category_id;
+        $good->status = $request->status;
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'

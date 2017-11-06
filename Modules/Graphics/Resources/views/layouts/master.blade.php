@@ -2,13 +2,12 @@
 <html lang="en">
 
 <head>
-    <script src="/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
     <meta charset="utf-8"/>
     <link rel="icon" type="image/png" href="/assets/img/favicon.ico">
     <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <title>Tạp chí Graphics</title>
-
+    @yield('meta')
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
 
@@ -26,6 +25,7 @@
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
     </script>
+
 </head>
 <body class="profile" style="background:#fafafa">
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
@@ -336,7 +336,7 @@
 </body>
 
 <!-- Core JS Files -->
-
+<script src="/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
 <script src="/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>

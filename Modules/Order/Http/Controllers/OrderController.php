@@ -2,6 +2,7 @@
 
 namespace Modules\Order\Http\Controllers;
 
+use App\Good;
 use App\GoodCategory;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
@@ -139,13 +140,23 @@ class OrderController extends ManageApiController
         ]);
     }
 
+    public function deleteChildren($category_id)
+    {
+        $goodCategory = GoodCategory::find($category_id);
+        $children = $goodCategory->children()->get();
+        foreach ($children as $child) {
+            $this->deleteChildren($child->id);
+        }
+        $goodCategory->delete();
+    }
+
     public function deleteCategory($category_id, Request $request)
     {
         $goodCategory = GoodCategory::find($category_id);
         if ($goodCategory == null) return $this->respondErrorWithData([
             "message" => "Danh mục không tồn tại"
         ]);
-        $goodCategory->delete();
+        $this->deleteChildren($goodCategory->id);
         return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
         ]);
@@ -332,6 +343,7 @@ class OrderController extends ManageApiController
         $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
+        $importOrder->user_id = $request->user_id;
         $importOrder->type = 'import';
         $importOrder->save();
         $orderImportId = $importOrder->id;
@@ -355,20 +367,18 @@ class OrderController extends ManageApiController
         $supplier = new User;
         $user = User::where('email', $request->email)->first();
         if ($user)
-            return $this->respondErrorWithStatus([
-                'message' => 'email đã có người sử dụng'
-            ]);
+            return $this->respondErrorWithStatus('Email đã có người sử dụng');
         if ($request->name == null || $request->phone == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'thiếu trường tên hoặc số điện thoại'
-            ]);
+            return $this->respondErrorWithStatus('Thiếu trường tên hoặc số điện thoại');
         $supplier->email = $request->email;
         $supplier->name = $request->name;
         $supplier->phone = $request->phone;
+        $supplier->address = $request->address;
+        $supplier->code = $request->code;
         $supplier->type = 'supplier';
         $supplier->save();
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'supplier' => $supplier
         ]);
     }
 
@@ -383,6 +393,7 @@ class OrderController extends ManageApiController
             return $this->respondSuccessWithStatus([
                 'suppliers' => $suppliers->map(function ($supplier) {
                     return [
+                        'id' => $supplier->id,
                         'name' => $supplier->name,
                         'email' => $supplier->email,
                         'phone' => $supplier->phone,
@@ -401,6 +412,7 @@ class OrderController extends ManageApiController
             [
                 'suppliers' => $suppliers->map(function ($supplier) {
                     return [
+                        'id' => $supplier->id,
                         'name' => $supplier->name,
                         'email' => $supplier->email,
                         'phone' => $supplier->phone,
@@ -425,4 +437,77 @@ class OrderController extends ManageApiController
             'warehouses' => $warehouses
         ]);
     }
+
+    public function allWarehouses(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $warehouses = Warehouse::orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination(
+            $warehouses,
+            [
+                'warehouses' => $warehouses->map(function ($warehouse) {
+                    $warehouseData = [
+                        'id' => $warehouse->id,
+                        'name' => $warehouse->name,
+                        'location' => $warehouse->location,
+                    ];
+                    if ($warehouse->base)
+                        $warehouseData['base'] = [
+                            'id' => $warehouse->base->id,
+                            'name' => $warehouse->base->name,
+                            'address' => $warehouse->base->address,
+                        ];
+
+                    return $warehouseData;
+                })
+            ]
+
+        );
+    }
+
+    public function addWarehouse(Request $request)
+    {
+        $warehouse = new Warehouse;
+        if ($request->name == null || $request->location == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'missing params'
+            ]);
+        $warehouse->name = $request->name;
+        $warehouse->location = $request->location;
+        $warehouse->base_id = $request->base_id;
+        $warehouse->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function editWarehouse($warehouseId, Request $request)
+    {
+        $warehouse = Warehouse::find($warehouseId);
+        if ($request->name == null || $request->location == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'missing params'
+            ]);
+        $warehouse->name = $request->name;
+        $warehouse->location = $request->location;
+        $warehouse->base_id = $request->base_id;
+        $warehouse->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function deleteWarehouse($warehouseId)
+    {
+        $warehouse = Warehouse::find($warehouseId);
+        if ($warehouse == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'null object'
+            ]);
+        $warehouse->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
 }
