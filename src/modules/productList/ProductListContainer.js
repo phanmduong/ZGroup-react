@@ -135,6 +135,7 @@ class ProductListContainer extends React.Component {
                                                         />
                                                     </div>
 
+
                                                 </div>
                                                 <br/>
                                                 {
@@ -154,6 +155,7 @@ class ProductListContainer extends React.Component {
                                                             data-original-title="Remove item"
                                                             className="btn btn-info btn-simple"
                                                     >Tổng sản phẩm: {this.props.productsTotal}
+
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
@@ -166,6 +168,7 @@ class ProductListContainer extends React.Component {
                                                             data-original-title="Remove item"
                                                             className="btn btn-success btn-simple"
                                                     >Tổng số lượng : {this.props.productsQuantity}
+
                                                         <div className="ripple-container"/>
                                                     </button>
                                                 </div>

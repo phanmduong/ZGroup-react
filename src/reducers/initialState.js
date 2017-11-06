@@ -1,9 +1,9 @@
 export default {
     productList: {
         products: [],
-        productsTotal:'',
-        productsBusiness:'',
-        productsQuantity:'',
+        productsTotal: '',
+        productsBusiness: '',
+        productsQuantity: '',
         isLoading: false,
         modalInProduct: {
             priceModal: false,
