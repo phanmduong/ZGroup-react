@@ -311,15 +311,27 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function payOrder(Request $request)
+
+
+    public function payOrder($orderId, Request $request)
     {
-        if ($request->order_id == null)
+        if(Order::find($orderId)->get() == null )
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu đơn hàng hoặc đơn hàng không tồn tại'
+                'message' => 'non-exist order'
             ]);
         if ($request->money == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu tiền thanh toán'
+            ]);
+        $debt = Order::find($orderId)->goodOrders->reduce(function ($total, $goodOrder) {
+                return $total + $goodOrder->price * $goodOrder->quantity;
+            }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0);
+        if ($request->money > $debt)
+            return $this->respondErrorWithStatus([
+                'message' => 'over',
+                'money' => $debt,
             ]);
         $orderPaidMoney = new OrderPaidMoney;
         $orderPaidMoney->order_id = $request->order_id;
