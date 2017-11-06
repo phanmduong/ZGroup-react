@@ -13,7 +13,7 @@ class BlogApiController extends NoAuthApiController
 {
     public function getAllBlogs($subfix, Request $request)
     {
-        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(30);
+        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(10);
         return $this->respondWithPagination($blogs, ["blogs" => $blogs->map(function ($blog) {
             return $blog->blogTransform();
         })]);
