@@ -20,10 +20,15 @@ export function commitCourseData(data) {
     };
 }
 
+export function backToList() {
+    return function (dispatch) {
+        dispatch({type: types.BACK_TO_COURSE_LIST});
+
+    };
+}
 
 
-
-export function loadCourses(id) {
+export function loadOneCourse(id) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_COURSE});
         courseApi.loadCourse(id)

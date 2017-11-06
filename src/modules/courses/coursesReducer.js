@@ -4,6 +4,7 @@ import initialState from '../../reducers/initialState';
 
 let data;
 export default function courseReducer(state = initialState.courses, action) {
+    console.log(action.type);
     switch (action.type) {
         case types.BEGIN_LOAD_COURSES_DATA:
             return {

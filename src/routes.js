@@ -197,6 +197,7 @@ export default (
 
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>
+            <Route path="/manage/courses/edit-success" component={CoursesContainer} type="edit-success"/>
             <Route path="/manage/courses/create" component={CreateEditCoursesContainer}/>
             <Route path="/manage/courses/create/general" component={CreateEditCoursesContainer}/>
             <Route path="/manage/courses/:courseId/edit" component={CreateEditCoursesContainer} type="edit"/>

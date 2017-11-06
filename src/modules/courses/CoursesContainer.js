@@ -32,6 +32,11 @@ class CoursesContainer extends React.Component {
 
     componentWillReceiveProps(nextProps){
         console.log('CoursesContainer componentWillReceiveProps',nextProps);
+        if(nextProps.route.type == "edit-success"){
+            nextProps.route.type = '';
+            this.props=nextProps;
+            this.loadCourses();
+        }
 
     }
 
@@ -64,6 +69,7 @@ class CoursesContainer extends React.Component {
     }
 
     render() {
+
         return (
             <div className="content">
                 <div className="container-fluid">

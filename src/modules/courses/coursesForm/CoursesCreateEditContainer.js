@@ -50,23 +50,27 @@ class CreateEditCoursesContainer extends React.Component {
         this.commitCourseData   = this.commitCourseData.bind(this);
         this.updateEditor       = this.updateEditor.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
+        this.backToList         = this.backToList.bind(this);
     }
 
 
     componentWillMount() {
-        console.log('course form container componentWillMount',this.props);
+        //console.log('course form container componentWillMount',this.props);
         helper.setFormValidation('#form-course-create-edit');
         let id = this.props.params.courseId;
-        if(id) this.props.coursesCreateEditActions.loadCourses(id);
+        if(id) this.props.coursesCreateEditActions.loadOneCourse(id);
     }
     componentDidMount() {
         helper.setFormValidation('#form-course-create-edit');
     }
     componentWillReceiveProps(nextProps){
-        //console.log('recieve props',nextProps);
+        console.log(' CreateEditCoursesContainer recieve props',nextProps);
         this.setState(nextProps.data);
     }
 
+    backToList(){
+        this.props.coursesCreateEditActions.backToList();
+    }
 
     updateCourseDetail(detail){
         this.setState({detail:detail});
@@ -227,12 +231,21 @@ class CreateEditCoursesContainer extends React.Component {
                                                         <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                                     </button>
                                                     :
-                                                    <Link to="/manage/courses" >
-                                                    <button
-                                                        className="btn btn-fill btn-rose"
-                                                        type="button"
-                                                        onClick={this.commitCourseData}
-                                                    > Lưu </button></Link>
+                                                    ( this.props.commitSuccess ?
+                                                            <Link to="/manage/courses/edit-success" >
+                                                                <button
+                                                                    className="btn btn-fill btn-rose"
+                                                                    type="button"
+                                                                    onClick={this.backToList}
+                                                                > Trở lại danh sách môn học </button></Link>
+                                                        :
+
+                                                            <button
+                                                                className="btn btn-fill btn-rose"
+                                                                type="button"
+                                                                onClick={this.commitCourseData}
+                                                            > Lưu </button>
+                                                    )
                                                 }
                                          </div>
                                         }
@@ -394,7 +407,8 @@ CreateEditCoursesContainer.propTypes = {
     updateLogoError     : PropTypes.bool,
     isUpdatingCover     : PropTypes.bool,
     updateCoverError    : PropTypes.bool,
-    isCommitting        : PropTypes.bool
+    isCommitting        : PropTypes.bool,
+    commitSuccess        : PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -407,7 +421,8 @@ function mapStateToProps(state) {
         updateLogoError     : state.coursesCreateEdit.updateLogoError,
         isUpdatingCover     : state.coursesCreateEdit.isUpdatingCover,
         updateCoverError    : state.coursesCreateEdit.updateCoverError,
-        isCommitting        : state.coursesCreateEdit.isCommitting
+        isCommitting        : state.coursesCreateEdit.isCommitting,
+        commitSuccess       : state.coursesCreateEdit.commitSuccess
     };
 }
 

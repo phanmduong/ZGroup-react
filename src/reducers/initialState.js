@@ -657,6 +657,7 @@ export default {
       isUpdatingCover: false,
       updateCoverError: false,
         isCommitting: false,
+        commitSuccess: false,
       data:{
           id: null,
           name: "",

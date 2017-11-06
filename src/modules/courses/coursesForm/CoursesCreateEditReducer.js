@@ -113,7 +113,8 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
             return {
                 ...state,
                 ...{
-                    isCommitting: true
+                    isCommitting: true,
+                    commitSuccess: false
                 }
             };
         case types.CREATE_EDIT_COURSES_SUCCESS:{
@@ -122,7 +123,8 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
                 ...state,
                 ...{
                     isCommitting: false,
-                    data: action.data
+                    data: action.data,
+                    commitSuccess: true
                 }
             };
         }
@@ -131,7 +133,15 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
                 ...state,
                 ...{
                     isCommitting: false,
-
+                    commitSuccess: false
+                }
+            };
+        case types.BACK_TO_COURSE_LIST:
+            return {
+                ...state,
+                ...{
+                    isCommitting: false,
+                    commitSuccess: false
                 }
             };
         default:
