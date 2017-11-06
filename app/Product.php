@@ -63,4 +63,35 @@ class Product extends Model
     {
         return $this->hasOne(TopicAttendance::class, 'product_id', 'id');
     }
+
+    public function blogTransform()
+    {
+        return [
+            "id" => $this->id,
+            "url" => $this->url,
+            "share_url" => config('app.protocol') . config('app.domain') . '/blog/post/' . $this->id,
+            "description" => $this->description,
+            "title" => $this->title
+        ];
+    }
+
+    public function blogDetailTransform()
+    {
+        $data = $this->blogTransform();
+        $data["author"] = [
+            "id" => $this->author->id,
+            "email" => $this->author->email,
+            "name" => $this->author->name,
+            "avatar_url" => $this->author->avatar_url
+        ];
+        $data["category"] = $this->category->name;
+        $data["created_at"] = format_date($this->created_at);
+        $data["content"] = $this->content;
+        $data['tags'] = $this->tags;
+        $data["related_posts"] = $posts_related = Product::where('id', '<>', $this->id)->inRandomOrder()->limit(3)->get()->map(function ($post) {
+            return $post->blogTransform();
+        });
+        return $data;
+    }
+
 }
