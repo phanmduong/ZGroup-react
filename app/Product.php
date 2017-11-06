@@ -71,6 +71,10 @@ class Product extends Model
             "url" => $this->url,
             "share_url" => config('app.protocol') . config('app.domain') . '/blog/post/' . $this->id,
             "description" => $this->description,
+            "author" => [
+                "id" => $this->author->id,
+                "name" => $this->author->name
+            ],
             "title" => $this->title
         ];
     }
