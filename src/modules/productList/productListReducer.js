@@ -116,7 +116,7 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 productEditing:{
                     ...state.productEditing,
-                    category: action.category
+                    good_category_id: action.good_category_id
                 }
             };
         case types.HANDLE_MANUFACTURE:
@@ -124,7 +124,7 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 productEditing:{
                     ...state.productEditing,
-                    manufacture: action.manufacture
+                    manufacture_id: action.manufacture_id
                 }
             };
         default:

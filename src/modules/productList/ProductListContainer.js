@@ -54,6 +54,8 @@ class ProductListContainer extends React.Component {
     showAvatarModal(product) {
         this.props.modalProductAction.showAvatarModal();
         this.props.modalProductAction.handleProduct(product);
+        this.props.modalProductAction.handleManufacture(product.manufacture_id);
+        this.props.modalProductAction.handleCategory(product.good_category_id);
     }
 
     setTable(table) {

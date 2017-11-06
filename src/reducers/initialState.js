@@ -30,14 +30,8 @@ export default {
                     name: ''
                 }
             },
-            category: {
-                id: '',
-                name: ''
-            },
-            manufacture: {
-                id: '',
-                name: ''
-            },
+            good_category_id:'' ,
+            manufacture_id: '',
             isUploadingAvatar: false,
             percent: 0
 

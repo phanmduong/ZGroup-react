@@ -13,17 +13,17 @@ export function handleProduct(product) {
     });
 }
 
-export function handleManufacture(manufacture) {
+export function handleManufacture(manufacture_id) {
     return ({
         type: types.HANDLE_MANUFACTURE,
-        manufacture
+        manufacture_id
     });
 }
 
-export function handleCategory(category) {
+export function handleCategory(good_category_id) {
     return ({
         type: types.HANDLE_CATEGORY,
-        category
+        good_category_id
     });
 }
 

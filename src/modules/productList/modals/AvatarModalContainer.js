@@ -27,11 +27,11 @@ class AvatarModalContainer extends React.Component {
     }
 
     changeSelectManufacture(value) {
-        this.props.modalProductAction.handleManufacture(value);
+        this.props.modalProductAction.handleManufacture(value.id);
     }
 
     changeSelectCategory(value) {
-        this.props.modalProductAction.handleCategory(value);
+        this.props.modalProductAction.handleCategory(value.id);
     }
 
     showAvatarModal(e) {
@@ -63,8 +63,8 @@ class AvatarModalContainer extends React.Component {
         e.preventDefault();
         this.props.productListAction.uploadEditProduct(
             this.props.productEditing.productPresent,
-            this.props.productEditing.manufacture.id || this.props.productEditing.productPresent.manufacture_id,
-            this.props.productEditing.category.id || this.props.productEditing.productPresent.good_category_id
+            this.props.productEditing.manufacture_id,
+            this.props.productEditing.good_category_id
         );
     }
 
@@ -177,7 +177,7 @@ class AvatarModalContainer extends React.Component {
                                 <label className="control-label">Nhà sản xuất</label>
                                 <Select
                                     name="manufactures"
-                                    value={this.props.productEditing.manufacture.id || this.props.productEditing.productPresent.manufacture_id}
+                                    value={this.props.productEditing.manufacture_id}
                                     options={this.props.manufactures.map((manufacture) => {
                                         return {
                                             ...manufacture,
@@ -192,7 +192,7 @@ class AvatarModalContainer extends React.Component {
                                 <label className="control-label">Chọn nhóm sản phẩm</label>
                                 <Select
                                     name="categories"
-                                    value={this.props.productEditing.category.id || this.props.productEditing.productPresent.good_category_id}
+                                    value={this.props.productEditing.good_category_id}
                                     options={this.props.categories.map((category) => {
                                         return {
                                             ...category,
