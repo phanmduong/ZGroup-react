@@ -34,7 +34,7 @@ class FileController extends ManageApiController
         }
     }
 
-    public function addUrl( Request $request)
+    public function addUrl(Request $request)
     {
         $url = $request->url;
         if (is_null($url)) {
@@ -52,6 +52,17 @@ class FileController extends ManageApiController
         $file->save();
 
         return $this->respond($file);
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $file_name = uploadLargeFileToS3($request, 'file');
+
+        if ($file_name != null) {
+            return $this->respond(["url" => generate_protocol_url($this->s3_url . $file_name)]);
+        } else {
+            return $this->respondErrorWithStatus("Tải tệp lên không thành công");
+        }
     }
 
 }

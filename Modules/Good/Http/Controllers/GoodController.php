@@ -2,6 +2,7 @@
 
 namespace Modules\Good\Http\Controllers;
 
+use App\Card;
 use App\Good;
 use App\Http\Controllers\ManageApiController;
 use App\Manufacture;
@@ -127,8 +128,9 @@ class GoodController extends ManageApiController
     public function good($id)
     {
         $good = Good::find($id);
+
         return $this->respondSuccessWithStatus([
-            "good" => $good->transform()
+            "good" => $good->goodProcessTransform()
         ]);
     }
 
@@ -180,7 +182,11 @@ class GoodController extends ManageApiController
 
     public function allPropertyItems(Request $request)
     {
-        $limit = 20;
+        if ($request->limit) {
+            $limit = $request->limit;
+        } else {
+            $limit = 20;
+        }
         $keyword = $request->search;
         if ($request->type)
             $goodPropertyItems = GoodPropertyItem::where("type", $request->type)
@@ -189,19 +195,31 @@ class GoodController extends ManageApiController
                     $query->where("name", "like", "%$keyword%")
                         ->orWhere("prevalue", "like", "%$keyword%")
                         ->orWhere("preunit", "like", "%$keyword%");
-                })->orderBy("created_at", "desc")->paginate($limit);
+                })->orderBy("created_at", "desc");
         else
             $goodPropertyItems = GoodPropertyItem::where(function ($query) use ($keyword) {
                 $query->where("prevalue", "like", "%$keyword%")->orWhere("preunit", "like", "%$keyword%");
-            })->orderBy("created_at", "desc")->paginate($limit);
-        return $this->respondWithPagination(
-            $goodPropertyItems,
-            [
-                "good_property_items" => $goodPropertyItems->map(function ($goodPropertyItem) {
+            })->orderBy("created_at", "desc");
+
+        if ($limit > 0) {
+            $goodPropertyItems = $goodPropertyItems->paginate($limit);
+            return $this->respondWithPagination(
+                $goodPropertyItems,
+                [
+                    "good_property_items" => $goodPropertyItems->map(function ($goodPropertyItem) {
+                        return $goodPropertyItem->transform();
+                    })
+                ]
+            );
+        } else {
+            return $this->respondSuccessWithStatus([
+                "good_property_items" => $goodPropertyItems->get()->map(function ($goodPropertyItem) {
                     return $goodPropertyItem->transform();
                 })
-            ]
-        );
+            ]);
+        }
+
+
     }
 
     public function deletePropertyItem($property_item_id, Request $request)
@@ -244,6 +262,7 @@ class GoodController extends ManageApiController
     {
         $keyword = $request->search;
         $type = $request->type;
+        $status = $request->status;
         if ($request->limit == -1) {
             if ($type) {
                 $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
@@ -269,90 +288,156 @@ class GoodController extends ManageApiController
             $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
             });
-} else {
-    $goods = Good::where(function ($query) use ($keyword) {
-        $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
-    });
-}
+        } else {
+            $goods = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+            });
+        }
 
-$goods = $goods->orderBy("created_at", "desc")->paginate($limit);
+        if ($status)
+            $goods = $goods->where('status', $status);
 
-return $this->respondWithPagination(
-    $goods,
-    [
-        "goods" => $goods->map(function ($good) {
-            return $good->transform();
-        })
-    ]
-);
-}
+        $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
 
-public
-function editGood($goodId, Request $request)
-{
-    $good = Good::find($goodId);
-    if ($good == null)
-        return $this->respondErrorWithData([
+        return $this->respondWithPagination(
+            $goods,
+            [
+                "goods" => $goods->map(function ($good) {
+                    return $good->transform();
+                })
+            ]
+        );
+    }
+
+    function editGood($goodId, Request $request)
+    {
+        $good = Good::find($goodId);
+        if ($good == null)
+            return $this->respondErrorWithData([
+                "message" => "Không tìm thấy sản phẩm"
+            ]);
+        if (!$request->price || !$request->name || !$request->manufacture_id || !$request->good_category_id)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu trường'
+            ]);
+        $good->name = $request->name;
+        $good->avatar_url = $request->avatar_url;
+        $good->price = $request->price;
+        $good->manufacture_id = $request->manufacture_id;
+        $good->good_category_id = $request->good_category_id;
+        $good->status = $request->status;
+        $good->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public
+    function deleteGood($good_id, Request $request)
+    {
+        $good = Good::find($good_id);
+        if ($good == null) return $this->respondErrorWithData([
             "message" => "Không tìm thấy sản phẩm"
         ]);
-    if (!$request->price || !$request->name || !$request->manufacture_id || !$request->good_category_id)
-        return $this->respondErrorWithStatus([
-            'message' => 'Thiếu trường'
+        $good->delete();
+        return $this->respondErrorWithData([
+            "message" => "Xóa sản phẩm thành công"
         ]);
-    $good->name = $request->name;
-    $good->avatar_url = $request->avatar_url;
-    $good->price = $request->price;
-    $good->manufacture_id = $request->manufacture_id;
-    $good->good_category_id = $request->good_category_id;
-    $good->save();
-    return $this->respondSuccessWithStatus([
-        'message' => 'SUCCESS'
-    ]);
-}
+    }
 
-public
-function deleteGood($good_id, Request $request)
-{
-    $good = Good::find($good_id);
-    if ($good == null) return $this->respondErrorWithData([
-        "message" => "Không tìm thấy sản phẩm"
-    ]);
-    $good->delete();
-    return $this->respondErrorWithData([
-        "message" => "Xóa sản phẩm thành công"
-    ]);
-}
-
-public
-function updatePrice($goodId, Request $request)
-{
-    $good = Good::find($goodId);
-    if (!$good)
-        return $this->respondErrorWithStatus([
-            'message' => 'khong co san pham'
+    public
+    function updatePrice($goodId, Request $request)
+    {
+        $good = Good::find($goodId);
+        if (!$good)
+            return $this->respondErrorWithStatus([
+                'message' => 'khong co san pham'
+            ]);
+        if (!$request->price)
+            return $this->respondErrorWithStatus([
+                'message' => 'thieu gia'
+            ]);
+        $good->price = $request->price;
+        $good->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'ok',
         ]);
-    if (!$request->price)
-        return $this->respondErrorWithStatus([
-            'message' => 'thieu gia'
-        ]);
-    $good->price = $request->price;
-    $good->save();
-    return $this->respondSuccessWithStatus([
-        'message' => 'ok',
-    ]);
-}
+    }
 
-public
-function allManufactures()
-{
-    $manufactures = Manufacture::orderBy("created_at", "desc")->get();
-    return $this->respondSuccessWithStatus([
-        'manufactures' => $manufactures->map(function ($manufacture) {
-            return [
-                'id' => $manufacture->id,
-                'name' => $manufacture->name,
-            ];
-        })
-    ]);
-}
+    public function allManufactures()
+    {
+        $manufactures = Manufacture::orderBy("created_at", "desc")->get();
+        return $this->respondSuccessWithStatus([
+            'manufactures' => $manufactures->map(function ($manufacture) {
+                return [
+                    'id' => $manufacture->id,
+                    'name' => $manufacture->name,
+                ];
+            })
+        ]);
+    }
+
+    public function createChildGood($goodId, Request $request)
+    {
+        if ($request->code == null || $request->taskId == null) {
+            return $this->respondErrorWithStatus("Thiếu code hoặc taskId");
+        }
+        $currentGood = Good::where("code", $request->code)->first();
+        if ($currentGood != null) {
+            return $this->respondErrorWithStatus("Sản phẩm với mã này đã tồn tại");
+        }
+
+        $parentGood = Good::find($goodId);
+
+        $good = $parentGood->replicate();
+        $good->parent_id = $goodId;
+        $good->code = $request->code;
+        $good->name = $request->name;
+        $good->good_category_id = $parentGood->good_category_id;
+        $good->save();
+
+
+        foreach ($parentGood->properties as $property) {
+            $childProperty = $property->replicate();
+            $childProperty->good_id = $good->id;
+            $childProperty->save();
+        }
+
+        $parentTask = Task::find($request->taskId);
+
+        $taskList = $parentTask->taskList;
+
+        $newTaskList = $taskList->replicate();
+        $newTaskList->save();
+
+        foreach ($taskList->tasks as $task) {
+            $newTask = $task->replicate();
+            $newTask->task_list_id = $newTaskList->id;
+            if ($task->order < $parentTask->order) {
+                $newTask->status = true;
+            } else {
+                $newTask->status = false;
+            }
+            $newTask->save();
+        }
+
+        $card = $parentGood->cards()->first();
+        if ($card == null) {
+            return $this->respondErrorWithStatus("Không tìm thấy thẻ của sản phẩm cha");
+        } else {
+            $card = $card->replicate();
+            $card->good_id = $good->id;
+            $card->board_id = $parentTask->current_board_id;
+            $card->title = $good->name;
+            $card->save();
+        }
+
+        $newTaskList->card_id = $card->id;
+        $newTaskList->save();
+
+
+        return $this->respondSuccessWithStatus([
+            "card" => $card->transform()
+        ]);
+    }
 }
