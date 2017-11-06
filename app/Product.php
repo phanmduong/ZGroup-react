@@ -78,13 +78,19 @@ class Product extends Model
     public function blogDetailTransform()
     {
         $data = $this->blogTransform();
-        $data["author"] = [
-            "id" => $this->author->id,
-            "email" => $this->author->email,
-            "name" => $this->author->name,
-            "avatar_url" => $this->author->avatar_url
-        ];
-        $data["category"] = $this->category->name;
+        if ($this->author) {
+            $data["author"] = [
+                "id" => $this->author->id,
+                "email" => $this->author->email,
+                "name" => $this->author->name,
+                "avatar_url" => $this->author->avatar_url
+            ];
+        }
+
+        if ($this->category) {
+            $data["category"] = $this->category->category_name;
+        }
+
         $data["created_at"] = format_date($this->created_at);
         $data["content"] = $this->content;
         $data['tags'] = $this->tags;
