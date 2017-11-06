@@ -7,7 +7,7 @@ import FormInputText from "../../../components/common/FormInputText";
 import Select from "react-select";
 import * as addChildGoodActions from './addChildGoodActions';
 import Loading from "../../../components/common/Loading";
-import {isEmptyInput, showErrorNotification, showNotification} from "../../../helpers/helper";
+import {isEmptyInput, showNotification} from "../../../helpers/helper";
 
 class AddChildGoodContainer extends React.Component {
     constructor(props, context) {
