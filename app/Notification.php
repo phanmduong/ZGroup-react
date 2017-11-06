@@ -42,4 +42,19 @@ class Notification extends Model
     {
         return $this->belongsTo(Card::class, "card_id");
     }
+
+    public function transform(){
+        $data = [
+            'id' => $this->id,
+            'receiver_id' => $this->receiver_id,
+            "type" => $this->type,
+            'created_at' => time_elapsed_string(strtotime($this->created_at)),
+            'seen' => $this->seen,
+            "icon" => $this->icon,
+            "color" => $this->color,
+            "url" => $this->url,
+            "message" => $this->message
+        ];
+        return $data;
+    }
 }

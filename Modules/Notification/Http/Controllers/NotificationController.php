@@ -6,7 +6,6 @@ use App\Http\Controllers\ManageApiController;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Notification\Repositories\NotificationRepository;
 
 class NotificationController extends ManageApiController
