@@ -73,7 +73,8 @@ class Product extends Model
             "description" => $this->description,
             "author" => [
                 "id" => $this->author->id,
-                "name" => $this->author->name
+                "name" => $this->author->name,
+                "avatar_url" => $this->author->avatar_url
             ],
             "title" => $this->title
         ];
