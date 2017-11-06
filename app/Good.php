@@ -166,6 +166,9 @@ class Good extends Model
             $cards[] = $cardData;
         }
         $data["cards"] = $cards;
+        $data['properties'] = $this->properties->map(function ($property) {
+            return $property->transform();
+        });
         return $data;
     }
 
