@@ -9,6 +9,7 @@ use App\CV;
 use App\Group;
 use App\GroupMember;
 use App\Notification;
+use App\NotificationType;
 use App\Order;
 use App\Product;
 use App\Topic;
@@ -20,17 +21,9 @@ use Illuminate\Support\Facades\Redis;
 
 class UserApiController extends ApiController
 {
-    protected $notificationTransformer;
-    protected $oldNotificationTransformer;
-
-    public function __construct(
-        NotificationTransformer $notificationTransformer,
-        OldNotificationTransformer $oldNotificationTransformer
-    )
+    public function __construct()
     {
         parent::__construct();
-        $this->notificationTransformer = $notificationTransformer;
-        $this->oldNotificationTransformer = $oldNotificationTransformer;
     }
 
     public function join_topic(Request $request)
@@ -90,9 +83,17 @@ class UserApiController extends ApiController
         } else {
             $limit = 20;
         }
-        $notifications = $this->user->received_notifications()->where("type", "<", 7)->orderBy('created_at', 'desc')->paginate($limit);
+
+        $notificationTypeIds = NotificationType::where("type", "social")->pluck("id");
+
+        $notifications = $this->user->received_notifications()
+            ->whereIn("type", $notificationTypeIds)
+            ->orderBy('created_at', 'desc')->paginate($limit);
+
         return $this->respondWithPagination($notifications, [
-            'notifications' => $this->oldNotificationTransformer->transformCollection($notifications),
+            'notifications' => $notifications->map(function ($notification) {
+                return $notification->transform();
+            }),
             'unseen' => $this->user->received_notifications()->where('seen', 0)->count()
         ]);
     }

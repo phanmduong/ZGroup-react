@@ -11,6 +11,7 @@ use App\Gen;
 use App\Like;
 use App\Notification;
 use App\Product;
+use App\Repositories\NotificationRepository;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -20,14 +21,20 @@ use Illuminate\Support\Facades\Redis;
 class ProductApiController extends ApiController
 {
     protected $commentTransformer, $notificationTransformer, $productTransformer;
+    protected $notificationRepository;
 
-    public function __construct(CommentTransformer $commentTransformer, NotificationTransformer $notificationTransformer,
-                                ProductTransformer $productTransformer)
+    public function __construct(
+        NotificationRepository $notificationRepository,
+        CommentTransformer $commentTransformer,
+        NotificationTransformer $notificationTransformer,
+        ProductTransformer $productTransformer
+    )
     {
         parent::__construct();
         $this->commentTransformer = $commentTransformer;
         $this->notificationTransformer = $notificationTransformer;
         $this->productTransformer = $productTransformer;
+        $this->notificationRepository = $notificationRepository;
     }
 
     public function feature($product_id)
@@ -194,24 +201,11 @@ class ProductApiController extends ApiController
             $like->save();
 
             if ($this->user->id != $product->author->id) {
-                $notification = new Notification;
-                $notification->product_id = $productId;
-                $notification->actor_id = $this->user->id;
-                $notification->receiver_id = $product->author->id;
-                $notification->type = 0;
-                $notification->save();
-
-                $publish_data = array(
-                    "event" => "notification",
-                    "data" => [
-                        "notification" => $this->notificationTransformer->transform($notification),
-                    ]
+                $this->notificationRepository->sendLikeNotification(
+                    $this->user,
+                    $product->author->id,
+                    $product
                 );
-
-                $json_data = json_encode($publish_data);
-                Redis::publish('colorme-channel', $json_data);
-
-                send_push_notification($json_data);
             }
 
             return $this->respond([
@@ -336,7 +330,8 @@ class ProductApiController extends ApiController
         return $this->respond($this->commentTransformer->transform($comment));
     }
 
-    public function report(Request $request){
+    public function report(Request $request)
+    {
         return $this->respondSuccessWithStatus([
             'message' => 'Cảm ơn bạn đã báo cáo. Chúng tôi sẽ liên hệ với chủ bài viết.'
         ]);
