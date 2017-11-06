@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ChangeGoodsTable1 extends Migration
+class AddTypeToNotificationTypes extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,8 @@ class ChangeGoodsTable1 extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('goods', function (Blueprint $table){
-            $table->string('status')->nullable()->change();
+        Schema::table('notification_types', function (Blueprint $table) {
+            $table->string('type')->nullable();
         });
     }
 
