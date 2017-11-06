@@ -17,6 +17,7 @@ import {CirclePicker}                   from 'react-color';
 import {Link}                           from 'react-router';
 
 
+
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -53,10 +54,10 @@ class CreateEditCoursesContainer extends React.Component {
 
 
     componentWillMount() {
-        //console.log('course form container ',this.props);
+        console.log('course form container componentWillMount',this.props);
         helper.setFormValidation('#form-course-create-edit');
         let id = this.props.params.courseId;
-        this.props.coursesCreateEditActions.loadCourses(id);
+        if(id) this.props.coursesCreateEditActions.loadCourses(id);
     }
     componentDidMount() {
         helper.setFormValidation('#form-course-create-edit');
@@ -65,6 +66,7 @@ class CreateEditCoursesContainer extends React.Component {
         //console.log('recieve props',nextProps);
         this.setState(nextProps.data);
     }
+
 
     updateCourseDetail(detail){
         this.setState({detail:detail});
@@ -107,6 +109,7 @@ class CreateEditCoursesContainer extends React.Component {
     commitCourseData(){
         if(this.checkValidate())
         this.props.coursesCreateEditActions.commitCourseData(this.state);
+
     }
 
     checkValidate() {
@@ -167,7 +170,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                     <div className="col-md-6">
                                                         <FormInputText
                                                             label="Giá"
-                                                            required
+                                                            requirednp
                                                             name="price"
                                                             updateFormData={this.updateFormData}
                                                             value={this.state.price}

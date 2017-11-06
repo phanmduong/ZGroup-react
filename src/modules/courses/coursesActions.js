@@ -3,7 +3,6 @@ import * as courseApi   from './courseApi';
 import * as helper      from '../../helpers/helper';
 
 export function loadCourses(page = 1, query='') {
-
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_COURSES_DATA});
         courseApi.loadCoursesData(page, query)

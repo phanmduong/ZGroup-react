@@ -30,6 +30,10 @@ class CoursesContainer extends React.Component {
         this.props.coursesActions.loadCourses();
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log('CoursesContainer componentWillReceiveProps',nextProps);
+
+    }
 
     openAddCoursesModalContainer() {
         this.props.coursesActions.openAddCoursesModalContainer();

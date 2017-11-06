@@ -116,7 +116,8 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
                     isCommitting: true
                 }
             };
-        case types.CREATE_EDIT_COURSES_SUCCESS:
+        case types.CREATE_EDIT_COURSES_SUCCESS:{
+
             return {
                 ...state,
                 ...{
@@ -124,6 +125,7 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
                     data: action.data
                 }
             };
+        }
         case types.CREATE_EDIT_COURSES_ERROR:
             return {
                 ...state,
