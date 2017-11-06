@@ -7,14 +7,24 @@ import PropTypes from 'prop-types';
 import * as modalProductAction from './modals/modalProductAction';
 import Loading from "../../components/common/Loading";
 import {Link} from "react-router";
+import Search from "../../components/common/Search";
+import FormInputDate from "../../components/common/FormInputDate";
 
 class ProductListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            time: {
+                startTime: '',
+                endTime: ''
+            }
+        };
+        this.table = null;
         this.getProducts = this.getProducts.bind(this);
         this.showPriceModal = this.showPriceModal.bind(this);
         this.showWareHouseModal = this.showWareHouseModal.bind(this);
         this.showAvatarModal = this.showAvatarModal.bind(this);
+        this.setTable = this.setTable.bind(this);
     }
 
     componentWillMount() {
@@ -44,6 +54,10 @@ class ProductListContainer extends React.Component {
     showAvatarModal(product) {
         this.props.modalProductAction.showAvatarModal();
         this.props.modalProductAction.handleProduct(product);
+    }
+
+    setTable(table) {
+        this.table = table;
     }
 
     render() {
@@ -92,77 +106,54 @@ class ProductListContainer extends React.Component {
                                             <div className="card-content"><h4 className="card-title">Danh sách
                                                 sản phẩm</h4>
                                                 <div className="row">
-                                                    <div className="col-md-12">
-                                                        <div className="form-group is-empty"><input
-                                                            type="search"
-                                                            className="form-control"
-                                                            placeholder="Nhập tên hoặc mã hàng hoá để tìm"
-                                                            value=""/><span
-                                                            className="material-input"/></div>
+                                                    <Search
+                                                        onChange={(value) => {
+                                                            this.table ? this.table.search(value).draw() : null;
+                                                        }}
+                                                        placeholder="Nhập tên hoặc mã hàng hoá để tìm"
+                                                        className="col-md-12"
+                                                    />
+                                                    <div className="col-md-3">
+                                                        <FormInputDate
+                                                            label="Từ ngày"
+                                                            name="startTime"
+                                                            updateFormData={this.updateFormDate}
+                                                            id="form-start-time"
+                                                            value={this.state.time.startTime}
+                                                            maxDate={this.state.time.endTime}
+                                                        />
                                                     </div>
-                                                    <div className=" col-md-3 form-group">
-                                                        <label className="label-control">Từ ngày</label>
-                                                        <input type="text"
-                                                               className="form-control datetimepicker"
-                                                               value="10/05/2016"/>
-                                                        <span className="material-input"/></div>
-                                                    <div className="col-md-3 form-group">
-                                                        <label className="label-control">Đến ngày</label>
-                                                        <input type="text"
-                                                               className="form-control datetimepicker"
-                                                               value="10/05/2016"/>
-                                                        <span className="material-input"/></div>
+                                                    <div className="col-md-3">
+                                                        <FormInputDate
+                                                            label="Đến ngày"
+                                                            name="endTime"
+                                                            updateFormData={this.updateFormDate}
+                                                            id="form-end-time"
+                                                            value={this.state.time.endTime}
+                                                            minDate={this.state.time.startTime}
+
+                                                        />
+                                                    </div>
 
                                                 </div>
                                                 <br/>
                                                 {
                                                     this.props.isLoading ? <Loading/> : (
                                                         <ProductListComponent
+                                                            setTable={this.setTable}
                                                             products={this.props.products}
                                                             showPriceModal={this.showPriceModal}
                                                             showWareHouseModal={this.showWareHouseModal}
                                                             showAvatarModal={this.showAvatarModal}/>
                                                     )
                                                 }
-
-
-                                                <div className="row">
-                                                    <div className="col-md-12" style={{textAlign: "right"}}>
-                                                        <b style={{marginRight: "15px"}}>Hiển thị kêt quả từ
-                                                            10-20/1000</b>
-                                                        <br/>
-                                                        <ul className="pagination pagination-info">
-                                                            <li>
-                                                                <a href="#"> prev</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">1</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">2</a>
-                                                            </li>
-                                                            <li className="active">
-                                                                <a href="#">3</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">4</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">5</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">next </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div className="card-footer">
                                                 <div style={{float: "right"}}>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             data-original-title="Remove item"
                                                             className="btn btn-info btn-simple"
-                                                    >Tổng sản phẩm: 5
+                                                    >Tổng sản phẩm: {this.props.productsTotal}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
@@ -174,7 +165,7 @@ class ProductListContainer extends React.Component {
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             data-original-title="Remove item"
                                                             className="btn btn-success btn-simple"
-                                                    >Tổng số lượng : 24
+                                                    >Tổng số lượng : {this.props.productsQuantity}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                 </div>
@@ -226,15 +217,23 @@ ProductListContainer.PropTypes = {
     products: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isModalUpdating: PropTypes.bool.isRequired,
-    modalUpdated:PropTypes.bool
+    modalUpdated: PropTypes.bool.isRequired,
+    productsTotal: PropTypes.string.isRequired,
+    productsBusiness: PropTypes.string.isRequired,
+    productsQuantity: PropTypes.string.isRequired,
+    categories: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         products: state.productList.products,
+        productsTotal: state.productList.productsTotal,
+        productsBusiness: state.productList.productsBusiness,
+        productsQuantity: state.productList.productsQuantity,
         isLoading: state.productList.isLoading,
         isModalUpdating: state.productList.modalInProduct.isModalUpdating,
-        modalUpdated: state.productList.modalInProduct.modalUpdated
+        modalUpdated: state.productList.modalInProduct.modalUpdated,
+        categories: state.productList.categories
     };
 }
 

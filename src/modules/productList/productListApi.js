@@ -16,13 +16,13 @@ export function updatePriceApi(productPresent) {
 }
 
 export function changeAvatarApi(file, completeHandler, progressHandler, error) {
-    let url = env.API_URL + "/upload-image-froala";
+    let url = env.MANAGE_API_URL + '/file/upload';
     const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     let formData = new FormData();
-    formData.append('image', file);
+    formData.append('file', file);
     let ajax = new XMLHttpRequest();
     ajax.addEventListener("load", completeHandler, false);
     ajax.upload.onprogress = progressHandler;

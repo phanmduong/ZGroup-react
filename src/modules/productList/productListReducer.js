@@ -8,6 +8,9 @@ export default function productListReducer(state = initialState.productList, act
             return {
                 ...state,
                 products: action.products,
+                productsTotal:action.productsTotal,
+                productsBusiness:action.productsBusiness,
+                productsQuantity:action.productsQuantity,
                 isLoading: false
             };
         case types.TOGGLE_PRICE_MODAL:

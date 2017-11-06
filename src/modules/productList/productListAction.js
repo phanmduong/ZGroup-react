@@ -11,7 +11,10 @@ export function getProducts() {
             .then(function (response) {
                 dispatch({
                     type: types.LOAD_PRODUCTS_SUCCESS,
-                    products: response.data.goods
+                    products: response.data.goods,
+                    productsTotal: response.data.goods.length,
+                    productsBusiness: '',
+                    productsQuantity: response.data.goods.reduce((sum,product)=> sum + product.quantity,0)
                 });
                 dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
@@ -61,7 +64,7 @@ export function changeAvatar(file) {
             showNotification("Tải lên ảnh đại diện thành công");
             dispatch({
                 type: types.UPLOAD_PRODUCT_AVATAR_COMPLETE,
-                avatar_url: data.link
+                avatar_url: data.url
             });
         };
         const progressHandler = (event) => {
@@ -85,10 +88,8 @@ export function getCategoriesProductsList() {
     return function (dispatch) {
         productListApi.getCategoriesApi()
             .then(function (response) {
-                dispatch({
-                    type: types.GET_CATEGORIES_PRODUCTS_LIST,
-                    categories: response.data.data[0].good_categories
-                });
+                let a = superSortCategories(response.data.data[0].good_categories);
+                dispatch(saveCategoriesProductsList(a));
                 dispatch({
                     type: types.UPDATE_CATEGORIES_COMPLETE,
                     categoriesUpdated: true
@@ -100,12 +101,18 @@ export function getCategoriesProductsList() {
     };
 }
 
+export function saveCategoriesProductsList(categories) {
+    return ({
+        type: types.GET_CATEGORIES_PRODUCTS_LIST,
+        categories
+    });
+}
+
 export function uploadEditProduct(productPresent, manufacture_id, category_id) {
     return function (dispatch) {
         dispatch(updatingProductListModal(true));
         productListApi.uploadEditProductApi(productPresent, manufacture_id, category_id)
-            .then(function (response) {
-                console.log(response);
+            .then(function () {
                 dispatch(updatingProductListModal(false));
                 dispatch({
                     type: types.TOGGLE_AVATAR_MODAL
@@ -140,53 +147,38 @@ export function getManufacturesProductsList() {
     };
 }
 
-/*export function superSortCategories(categories) {
-    let n = categories.length;
+export function superSortCategories(categories) {
+    categories.reverse();
     let result = [];
-    let parent_id=[];
-    for(let j=0; j<1000; j++) parent_id.push(0);
-    categories.forEach(category=>{
-       parent_id[category.parent_id]++;
-    });
-    let inter = [];
-    for (let j = n - 1; j >= 0; j--) {
-        inter.push(
-            categories[j]
-        );
-    }
-    let i = 0, id = 0, gen = 0;
-    while (result.length < n){
-        if(parent_id[id] > 0){
-            let res = superFilter(i, id, inter, gen);
-            result.push(res);
-            parent_id[id]--;
-            i = res.index;
-            id = res.id;
-            gen++;
-        } else {
-            id = inter[i].parent_id;
-            inter[i].parent_id = null;
-            gen--;
+    let index = -1, id = 0, gen = 0;
+    let medium = superFilter(id, categories, gen);
+    result.splice(index + 1, 0, ...medium);
+    for (let j = 0; j < categories.length; j++) {
+        let tmp = medium[j];
+        if (tmp) {
+            index = result.indexOf(tmp);
+            gen = tmp.gen;
+            let a = superFilter(tmp.id, categories, gen);
+            result.splice(index + 1, 0, ...a);
+            medium = [...medium, ...a];
         }
     }
     return result;
 }
 
-export function superFilter(index ,id, inter, gen) {
+export function superFilter(id, inter, gen) {
     let first = '';
     for (let j = 0; j < gen; j++) first += '--';
-    let i = index+1;
-    let res={};
-    while (i < inter.length) {
-        if (inter[i].parent_id === id) {
-            res = {
-                ...inter[i],
-                index: i,
-                label: first + inter[i].name
-            };
-            i = inter.length;
-        } else i++;
-    }
-    return res;
-}*/
+    let res = inter.filter(children => children.parent_id === id);
+    const newArr = res.map((children) => {
+        return {
+            ...children,
+            ...{
+                gen: gen + 1,
+                name: first + children.name
+            }
+        };
+    });
+    return newArr;
+}
 
