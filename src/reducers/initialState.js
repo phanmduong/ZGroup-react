@@ -796,9 +796,25 @@ export default {
         isStoringSupplier: false,
         errorStoreSupplier: false,
     },
-    wareHouses : {
-        isLoading : true,
-        wareHousesList : [],
-        totalPages : 1,
+    wareHouses: {
+        isLoading: true,
+        wareHousesList: [],
+        totalPages: 1,
+        modal: {
+            wareHouse: {
+                id: '',
+                name: '',
+                location: '',
+                base: {
+                    id:'',
+                    name: '',
+                    address: '',
+
+                }
+            },
+            isShowModal : false,
+            isEdit : false,
+            isSaving : false,
+        }
     }
 };
