@@ -2,17 +2,14 @@
 
 namespace Modules\Good\Http\Controllers;
 
-use App\Card;
 use App\Good;
 use App\Http\Controllers\ManageApiController;
 use App\Manufacture;
-use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
-use Modules\Good\Entities\GoodPropertyItemTask;
 use Modules\Good\Repositories\GoodRepository;
 
 

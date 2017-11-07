@@ -480,6 +480,7 @@ class OrderController extends ManageApiController
     public function addWarehouse(Request $request)
     {
         $warehouse = new Warehouse;
+        dd($request->name . $request->location);
         if ($request->name == null || $request->location == null)
             return $this->respondErrorWithStatus([
                 'message' => 'missing params'
