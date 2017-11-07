@@ -276,16 +276,6 @@ class OrderController extends ManageApiController
         $importOrder->staff_id = $this->user->id;
         $importOrder->type = 'import';
         $importOrder->save();
-
-
-
-            $orderPaidMoney = new OrderPaidMoney;
-            $orderPaidMoney->order_id = $importOrder->id;
-            $orderPaidMoney->money = $request->paid_money;
-            $orderPaidMoney->staff_id = $this->user->id;
-            $orderPaidMoney->note = $request->note_paid_money;
-            $orderPaidMoney->save();
-
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
@@ -323,10 +313,9 @@ class OrderController extends ManageApiController
     }
 
 
-
     public function payOrder($orderId, Request $request)
     {
-        if(Order::find($orderId)->get() == null )
+        if (Order::find($orderId)->get() == null)
             return $this->respondErrorWithStatus([
                 'message' => 'non-exist order'
             ]);
@@ -368,6 +357,15 @@ class OrderController extends ManageApiController
         $importOrder->user_id = $request->user_id;
         $importOrder->type = 'import';
         $importOrder->save();
+        if ($request->paid_money) {
+            $orderPaidMoney = new OrderPaidMoney;
+            $orderPaidMoney->order_id = $importOrder->id;
+            $orderPaidMoney->money = $request->paid_money;
+            $orderPaidMoney->staff_id = $this->user->id;
+            $orderPaidMoney->note = $request->note_paid_money;
+            $orderPaidMoney->save();
+        }
+
         $orderImportId = $importOrder->id;
         foreach ($request->imported_goods as $imported_good) {
             $importedGood = new ImportedGoods;
@@ -385,7 +383,7 @@ class OrderController extends ManageApiController
             $goodWarehouse->save();
         }
         return $this->respondSuccessWithStatus([
-            'messgae' => 'SUCCESS'
+            'message' => 'SUCCESS'
         ]);
     }
 
@@ -465,13 +463,14 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function getOrderPaidMoney(){
-        $orderPMs= OrderPaidMoney::orderBy('created_at','desc')->get();
+    public function getOrderPaidMoney()
+    {
+        $orderPMs = OrderPaidMoney::orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
-            "order_paid_money"=>$orderPMs->map(function ($orderPM) {
+            "order_paid_money" => $orderPMs->map(function ($orderPM) {
                 return $orderPM->transform();
             })
-         ]);
+        ]);
     }
 
     public function allWarehouses(Request $request)
