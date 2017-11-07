@@ -51,8 +51,11 @@ class CreateEditCoursesContainer extends React.Component {
         this.updateEditor       = this.updateEditor.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
         this.backToList         = this.backToList.bind(this);
+        this.onBackButtonEvent         = this.onBackButtonEvent.bind(this);
     }
-
+    onBackButtonEvent(e){
+        console.log('onBackButtonEvent', e);
+    }
 
     componentWillMount() {
         //console.log('course form container componentWillMount',this.props);
@@ -232,19 +235,19 @@ class CreateEditCoursesContainer extends React.Component {
                                                     </button>
                                                     :
                                                     ( this.props.commitSuccess ?
-                                                            <Link to="/manage/courses/edit-success" >
+
                                                                 <button
                                                                     className="btn btn-fill btn-rose"
                                                                     type="button"
-                                                                    onClick={this.backToList}
-                                                                > Trở lại danh sách môn học </button></Link>
+                                                                    onClick={this.commitCourseData}
+                                                                > Lưu </button>
                                                         :
 
                                                             <button
                                                                 className="btn btn-fill btn-rose"
                                                                 type="button"
                                                                 onClick={this.commitCourseData}
-                                                            > Lưu </button>
+                                                            > Có lỗi xảy ra </button>
                                                     )
                                                 }
                                          </div>
@@ -380,12 +383,27 @@ class CreateEditCoursesContainer extends React.Component {
                                             />
                                         </div>
 
-                                        <button
-                                            className="btn btn-fill btn-rose"
-                                            type="button"
-                                            onClick={this.commitCourseData}
-                                        > Lưu </button>
+                                        {this.props.isCommitting ?
+                                            <button className="btn btn-rose btn-round disabled" type="button">
+                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                            </button>
+                                            :
+                                            ( this.props.commitSuccess ?
 
+                                                    <button
+                                                        className="btn btn-fill btn-rose"
+                                                        type="button"
+                                                        onClick={this.commitCourseData}
+                                                    > Lưu </button>
+                                                    :
+
+                                                    <button
+                                                        className="btn btn-fill btn-rose"
+                                                        type="button"
+                                                        onClick={this.commitCourseData}
+                                                    > Có lỗi xảy ra </button>
+                                            )
+                                        }
 
                                     </div>
                                 </div>

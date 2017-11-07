@@ -636,6 +636,7 @@ export default {
         isLoading: false,
         error: false,
         coursesList: [],
+        isDeleting : false,
         addCoursesModal:{
             isShowModal  : false,
             isSaving: false

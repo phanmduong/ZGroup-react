@@ -11,7 +11,8 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
                 ...state,
                 ...{
                     isLoading: true,
-                    error: false
+                    error: false,
+                    data: defaultData
                 }
             };
         case types.LOAD_COURSE_SUCCESS:
@@ -114,7 +115,8 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
                 ...state,
                 ...{
                     isCommitting: true,
-                    commitSuccess: false
+                    commitSuccess: false,
+                    data: action.data
                 }
             };
         case types.CREATE_EDIT_COURSES_SUCCESS:{
@@ -149,3 +151,23 @@ export default function courseReducer(state = initialState.coursesCreateEdit, ac
     }
 }
 
+const defaultData = {
+    id                  : null,
+    name                : '',
+    duration            : '',
+    price               : '',
+    description         : '',
+    linkmac             : "",
+    linkwindow          : "",
+    num_classes         : '',
+    mac_how_install     : '',
+    window_how_install  : "",
+    cover_url           : '',
+    color               : "",
+    image_url           : '',
+    icon_url            : '',
+    created_at          : "",
+    detail              : "",
+    lessons             : [],
+    links               : []
+}

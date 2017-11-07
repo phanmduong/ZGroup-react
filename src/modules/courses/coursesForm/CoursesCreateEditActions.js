@@ -4,7 +4,7 @@ import * as helper      from '../../../helpers/helper';
 
 export function commitCourseData(data) {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_CREATE_EDIT_COURSES});
+        dispatch({type: types.BEGIN_CREATE_EDIT_COURSES, data: data});
         courseApi.createEditCourse(data)
             .then(res => {
                 helper.showNotification("Lưu Thành Công!");

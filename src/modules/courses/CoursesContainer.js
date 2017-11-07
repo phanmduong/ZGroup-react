@@ -32,8 +32,14 @@ class CoursesContainer extends React.Component {
 
     componentWillReceiveProps(nextProps){
         console.log('CoursesContainer componentWillReceiveProps',nextProps);
+
         if(nextProps.route.type == "edit-success"){
+            let type = nextProps.route.type;
+            let path = nextProps.route.path;
             nextProps.route.type = '';
+            //nextProps.route.path = path.replace(type, '');
+            let s = '12345';
+            console.log('?????',s.replace('234','000'));
             this.props=nextProps;
             this.loadCourses();
         }
@@ -146,7 +152,7 @@ CoursesContainer.propTypes = {
     error: PropTypes.bool.isRequired,
     coursesList: PropTypes.array.isRequired,
     paginator: PropTypes.object.isRequired,
-
+    isDeleting: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -154,7 +160,8 @@ function mapStateToProps(state) {
         isLoading: state.courses.isLoading,
         error: state.courses.error,
         coursesList: state.courses.coursesList,
-        paginator : state.courses.paginator
+        paginator : state.courses.paginator,
+        isDeleting : state.courses.isDeleting
     };
 }
 

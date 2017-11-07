@@ -12,6 +12,7 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...{
                     isLoading   : true,
                     error       : false,
+                    paginator   : {current_page: action.page}
                 }
             };
         case types.LOADED_COURSES_DATA_SUCCESS:
