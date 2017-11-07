@@ -279,8 +279,8 @@ class OrderController extends ManageApiController
 
 
 
-        if ($request->paid_money != null){
-            $orderPaidMoney = new OrderPaidMoney();
+        if (isset($request->paid_money)){
+            $orderPaidMoney = new OrderPaidMoney;
             $orderPaidMoney->order_id = $importOrder->id;
             $orderPaidMoney->money = $request->paid_money;
             $orderPaidMoney->staff_id = $this->user->id;
@@ -289,7 +289,7 @@ class OrderController extends ManageApiController
 
         }
         return $this->respondSuccessWithStatus([
-            'messgae' => 'SUCCESS'
+            'message' => 'SUCCESS'
         ]);
     }
 
