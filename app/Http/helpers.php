@@ -1574,6 +1574,12 @@ function send_notification_browser($notification, $user_id)
     return $response;
 }
 
-function remove_tag($html){
+function remove_tag($html)
+{
     return preg_replace('#<[^>]+>#', '', $html);
+}
+
+function defaultAvatarUrl()
+{
+    return generate_protocol_url("d1j8r0kxyu9tj8.cloudfront.net/user.png");
 }

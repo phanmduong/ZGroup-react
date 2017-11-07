@@ -203,7 +203,6 @@ class ProductApiController extends ApiController
             if ($this->user->id != $product->author->id) {
                 $this->notificationRepository->sendLikeNotification(
                     $this->user,
-                    $product->author->id,
                     $product
                 );
             }
@@ -235,20 +234,7 @@ class ProductApiController extends ApiController
         $product = Product::find($productId);
         //send one notifcation to author
         if ($product->author->id != $this->user->id) {
-            $notification = new Notification;
-            $notification->product_id = $productId;
-            $notification->actor_id = $this->user->id;
-            $notification->receiver_id = Product::find($productId)->author->id;
-            $notification->type = 1;
-            $notification->save();
-            $publish_data = array(
-                "event" => "notification",
-                "data" => [
-                    "notification" => $this->notificationTransformer->transform($notification),
-                ]
-            );
-            Redis::publish('colorme-channel', json_encode($publish_data));
-            send_push_notification(json_encode($publish_data));
+            $this->notificationRepository->sendCommentNotification($this->user, $product);
         }
 
 
@@ -259,21 +245,7 @@ class ProductApiController extends ApiController
         foreach ($product->comments as $comment) {
             $commenter_id = $comment->commenter_id;
             if ($product->author->id != $commenter_id && $commenter_id != $this->user->id && !in_array($commenter_id, $already_sent_noti)) {
-                $notification = new Notification;
-                $notification->product_id = $productId;
-                $notification->actor_id = $this->user->id;
-                $notification->receiver_id = $commenter_id;
-                $notification->type = 2;
-                $notification->save();
-
-                $publish_data = array(
-                    "event" => "notification",
-                    "data" => [
-                        "notification" => $this->notificationTransformer->transform($notification),
-                    ]
-                );
-                Redis::publish('colorme-channel', json_encode($publish_data));
-                send_push_notification(json_encode($publish_data));
+                $this->notificationRepository->sendAlsoCommentNotification($product, $comment->commenter, $this->user);
                 $already_sent_noti[] = $commenter_id;
             }
         }
