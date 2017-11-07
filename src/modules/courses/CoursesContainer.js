@@ -31,18 +31,7 @@ class CoursesContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('CoursesContainer componentWillReceiveProps',nextProps);
-
-        if(nextProps.route.type == "edit-success"){
-            let type = nextProps.route.type;
-            let path = nextProps.route.path;
-            nextProps.route.type = '';
-            //nextProps.route.path = path.replace(type, '');
-            let s = '12345';
-            console.log('?????',s.replace('234','000'));
-            this.props=nextProps;
-            this.loadCourses();
-        }
+       // console.log('CoursesContainer componentWillReceiveProps',nextProps);
 
     }
 
@@ -85,35 +74,31 @@ class CoursesContainer extends React.Component {
                                 <div className="card-header card-header-icon" data-background-color="rose">
                                     <i className="material-icons">assignment</i>
                                 </div>
+
                                 <div className="card-content">
                                     <h4 className="card-title">Quản lý môn học</h4>
-                                    <table className="col-md-12">
-                                        <tbody>
-                                        <tr>
-
-                                            <td className="col-md-2">
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="col-md-3">
                                                 <Link className="btn btn-rose" to="/manage/courses/create">
                                                     Thêm Môn Học
                                                 </Link>
-                                            </td>
+                                            </div>
+                                            <Search
+                                                className="col-md-9"
+                                                placeholder="Tìm kiếm môn học"
+                                                value={this.state.query}
+                                                onChange={this.courseSearchChange}
+                                            />
+                                        </div>
+                                    </div>
 
-                                            <td className="col-md-8">
-                                                <Search
-                                                    placeholder="Tìm kiếm môn học"
-                                                    value={this.state.query}
-                                                    onChange={this.courseSearchChange}
-                                                />
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
                                     {this.props.isLoading ? <Loading/> :
                                         <ListCourse
                                             courses={this.props.coursesList}
                                             deleteCourse={this.deleteCourse}
                                         />
                                     }
-
                                     <ul className="pagination pagination-primary">
                                         {_.range(1, this.props.paginator.total_pages + 1).map(page => {
 
@@ -137,6 +122,8 @@ class CoursesContainer extends React.Component {
                                         })}
                                     </ul>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>

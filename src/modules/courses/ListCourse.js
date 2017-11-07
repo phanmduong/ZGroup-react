@@ -31,7 +31,7 @@ class ListCourse extends React.Component {
 
     render() {
         return (
-            <div className="material-datatables">
+            <div className="table-responsive">
 
                 <table id="datatables"
                        className="table table-striped table-no-bordered table-hover"

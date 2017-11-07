@@ -53,9 +53,7 @@ class CreateEditCoursesContainer extends React.Component {
         this.backToList         = this.backToList.bind(this);
         this.onBackButtonEvent         = this.onBackButtonEvent.bind(this);
     }
-    onBackButtonEvent(e){
-        console.log('onBackButtonEvent', e);
-    }
+
 
     componentWillMount() {
         //console.log('course form container componentWillMount',this.props);
@@ -67,7 +65,7 @@ class CreateEditCoursesContainer extends React.Component {
         helper.setFormValidation('#form-course-create-edit');
     }
     componentWillReceiveProps(nextProps){
-        console.log(' CreateEditCoursesContainer recieve props',nextProps);
+        ///console.log(' CreateEditCoursesContainer recieve props',nextProps);
         this.setState(nextProps.data);
     }
 
