@@ -133,11 +133,8 @@ class ProductListContainer extends React.Component {
                                                             id="form-end-time"
                                                             value={this.state.time.endTime}
                                                             minDate={this.state.time.startTime}
-
                                                         />
                                                     </div>
-
-
                                                 </div>
                                                 <br/>
                                                 {
@@ -145,6 +142,8 @@ class ProductListContainer extends React.Component {
                                                         <ProductListComponent
                                                             setTable={this.setTable}
                                                             products={this.props.products}
+                                                            manufactures={this.props.manufactures}
+                                                            categories={this.props.categories}
                                                             showPriceModal={this.showPriceModal}
                                                             showWareHouseModal={this.showWareHouseModal}
                                                             showAvatarModal={this.showAvatarModal}/>
@@ -226,7 +225,8 @@ ProductListContainer.PropTypes = {
     productsTotal: PropTypes.string.isRequired,
     productsBusiness: PropTypes.string.isRequired,
     productsQuantity: PropTypes.string.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    manufactures: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -238,7 +238,8 @@ function mapStateToProps(state) {
         isLoading: state.productList.isLoading,
         isModalUpdating: state.productList.modalInProduct.isModalUpdating,
         modalUpdated: state.productList.modalInProduct.modalUpdated,
-        categories: state.productList.categories
+        categories: state.productList.categories,
+        manufactures: state.productList.manufactures
     };
 }
 

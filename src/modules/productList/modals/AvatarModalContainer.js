@@ -197,7 +197,7 @@ class AvatarModalContainer extends React.Component {
                                         return {
                                             ...category,
                                             value: category.id,
-                                            label: category.name
+                                            label: category.label
                                         };
                                     })}
                                     onChange={this.changeSelectCategory}

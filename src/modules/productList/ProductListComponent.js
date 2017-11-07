@@ -36,6 +36,7 @@ class ProductListComponent extends React.Component {
                 {"name": "Số lượng", "orderable": true},
                 {"name": "Giá bán", "orderable": true},
                 {"name": "Nhóm hàng", "orderable": true},
+                {"name": "Nhà sản xuất", "orderable": true},
                 {"name": "Kho", "orderable": true},
                 {"name": "", "orderable": false}
             ],
@@ -53,18 +54,14 @@ class ProductListComponent extends React.Component {
         // Apply the search
         table.columns().every(function () {
             const that = this;
-
             $('input', this.footer()).on('keyup change', function () {
                 if (that.search() !== this.value) {
-                    that
-                        .search(this.value)
-                        .draw();
+                    that.search(this.value).draw();
                 }
             });
         });
         this.props.setTable(table);
         $.material.init();
-        $(".form-group").css("margin-top", "0px");
     }
 
     render() {
@@ -79,6 +76,7 @@ class ProductListComponent extends React.Component {
                         <th>Số lượng</th>
                         <th>Giá bán</th>
                         <th>Nhóm hàng</th>
+                        <th>Nhà sản xuất</th>
                         <th>Kho</th>
                         <th/>
                     </tr>
@@ -91,6 +89,7 @@ class ProductListComponent extends React.Component {
                         <th>Số lượng</th>
                         <th>Giá bán</th>
                         <th>Nhóm hàng</th>
+                        <th>Nhà sản xuất</th>
                         <th>Kho</th>
                         <th/>
                     </tr>
@@ -121,17 +120,29 @@ class ProductListComponent extends React.Component {
                                            onClick={() => this.props.showAvatarModal(product)}>{product.code}</a>
                                     </td>
                                     <td style={{width: "130px"}}>{product.name}</td>
-                                    <td>{product.quantity}</td>
+                                    <td style={{width: "95px"}}>{product.quantity}</td>
                                     <td>
                                         <a onClick={() => this.props.showPriceModal(product)}>
                                             {dotNumber(product.price)}đ
                                         </a>
                                     </td>
-                                    <td>
+                                    <td style={{width: "115px"}}>
                                         <a className="text-name-student-register"
                                            rel="tooltip" title=""
-                                           data-original-title="Remove item">Nike
-                                            Air</a>
+                                           data-original-title="Remove item">
+                                            {
+                                                this.props.categories.filter(category => category.id === product.good_category_id)[0].name || "Chưa có"
+                                            }
+                                        </a>
+                                    </td>
+                                    <td style={{width: "120px"}}>
+                                        <a className="text-name-student-register"
+                                           rel="tooltip" title=""
+                                           data-original-title="Remove item">
+                                            {
+                                                this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0].name || "Chưa có"
+                                            }
+                                        </a>
                                     </td>
                                     <td>
                                         <a className="text-name-student-register"
@@ -189,7 +200,9 @@ ProductListComponent.propTypes = {
     showPriceModal: PropTypes.func.isRequired,
     showWareHouseModal: PropTypes.func.isRequired,
     showAvatarModal: PropTypes.func.isRequired,
-    setTable: PropTypes.func.isRequired
+    setTable: PropTypes.func.isRequired,
+    manufactures: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired
 };
 
 export default ProductListComponent;

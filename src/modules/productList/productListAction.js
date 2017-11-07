@@ -14,7 +14,7 @@ export function getProducts() {
                     products: response.data.goods,
                     productsTotal: response.data.goods.length,
                     productsBusiness: '',
-                    productsQuantity: response.data.goods.reduce((sum,product)=> sum + product.quantity,0)
+                    productsQuantity: response.data.goods.reduce((sum, product) => sum + product.quantity, 0)
                 });
                 dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
@@ -175,7 +175,7 @@ export function superFilter(id, inter, gen) {
             ...children,
             ...{
                 gen: gen + 1,
-                name: first + children.name
+                label: first + children.name
             }
         };
     });
