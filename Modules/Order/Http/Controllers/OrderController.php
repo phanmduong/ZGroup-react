@@ -9,10 +9,11 @@ use App\ImportedGoods;
 use App\OrderPaidMoney;
 use App\User;
 use App\Warehouse;
+use App\GoodWarehouse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
-
+use App\Base;
 
 class OrderController extends ManageApiController
 {
@@ -346,9 +347,8 @@ class OrderController extends ManageApiController
     public function addImportOrderGoods(Request $request)
     {
         $importOrder = new Order;
-        $current_time = format_vn_short_datetime(strtotime(Carbon::now()->toDateTimeString()));
         if ($request->code == null)
-            $importOrder->code = $current_time;
+            $importOrder->code = rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         else
             $importOrder->code = $request->code;
         $importOrder->name = 'test';
@@ -368,6 +368,11 @@ class OrderController extends ManageApiController
             $importedGood->staff_id = $this->user->id;
             $importedGood->warehouse_id = $request->warehouse_id;
             $importedGood->save();
+            $goodWarehouse = new GoodWarehouse;
+            $goodWarehouse->good_id = $imported_good['good_id'];
+            $goodWarehouse->quantity = $imported_good['quantity'];
+            $goodWarehouse->warehouse_id = $request->warehouse_id;
+            $goodWarehouse->save();
         }
         return $this->respondSuccessWithStatus([
             'messgae' => 'SUCCESS'
@@ -522,4 +527,17 @@ class OrderController extends ManageApiController
         ]);
     }
 
+    public function allBases()
+    {
+        $bases = Base::orderBy('id', 'asc')->get();
+        return $this->respondSuccessWithStatus([
+            'bases' => $bases->map(function ($base) {
+                return [
+                    'id' => $base->id,
+                    'name' => $base->name,
+                    'address' => $base->address,
+                ];
+            })
+        ]);
+    }
 }

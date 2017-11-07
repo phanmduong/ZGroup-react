@@ -2,17 +2,14 @@
 
 namespace Modules\Good\Http\Controllers;
 
-use App\Card;
 use App\Good;
 use App\Http\Controllers\ManageApiController;
 use App\Manufacture;
-use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
-use Modules\Good\Entities\GoodPropertyItemTask;
 use Modules\Good\Repositories\GoodRepository;
 
 
@@ -332,15 +329,15 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public
-    function deleteGood($good_id, Request $request)
+    public function deleteGood($good_id, Request $request)
     {
         $good = Good::find($good_id);
-        if ($good == null) return $this->respondErrorWithData([
-            "message" => "Không tìm thấy sản phẩm"
-        ]);
+        if ($good == null)
+            return $this->respondSuccessWithStatus([
+                "message" => "Không tìm thấy sản phẩm"
+            ]);
         $good->delete();
-        return $this->respondErrorWithData([
+        return $this->respondSuccessWithStatus([
             "message" => "Xóa sản phẩm thành công"
         ]);
     }
