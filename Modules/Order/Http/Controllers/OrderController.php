@@ -496,6 +496,7 @@ class OrderController extends ManageApiController
     public function editWarehouse($warehouseId, Request $request)
     {
         $warehouse = Warehouse::find($warehouseId);
+        dd($request->name . $request->location);
         if ($request->name == null || $request->location == null)
             return $this->respondErrorWithStatus([
                 'message' => 'missing params'
