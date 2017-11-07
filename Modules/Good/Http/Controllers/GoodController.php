@@ -263,11 +263,11 @@ class GoodController extends ManageApiController
         if ($request->limit == -1) {
             if ($type) {
                 $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
-                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                    $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
                 });
             } else {
                 $goods = Good::where(function ($query) use ($keyword) {
-                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                    $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
                 });
             }
             $goods = $goods->orderBy("created_at", "desc")->limit(20)->get();
@@ -283,11 +283,11 @@ class GoodController extends ManageApiController
             $limit = 20;
         if ($type) {
             $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
         } else {
             $goods = Good::where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
         }
 
