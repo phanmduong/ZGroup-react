@@ -347,9 +347,8 @@ class OrderController extends ManageApiController
     public function addImportOrderGoods(Request $request)
     {
         $importOrder = new Order;
-        $current_time = format_vn_short_datetime(strtotime(Carbon::now()->toDateTimeString()));
         if ($request->code == null)
-            $importOrder->code = $current_time;
+            $importOrder->code = rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         else
             $importOrder->code = $request->code;
         $importOrder->name = 'test';
