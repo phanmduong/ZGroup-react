@@ -21,5 +21,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::post('/warehouse/add', 'OrderController@addWarehouse');
     Route::put('/warehouse/{warehouseId}/edit', 'OrderController@editWarehouse');
     Route::delete('/warehouse/{warehouseId}/delete', 'OrderController@deleteWarehouse');
+    Route::get('/bases/all', 'OrderController@allBases');
 });
 

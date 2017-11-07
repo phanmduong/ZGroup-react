@@ -528,4 +528,17 @@ class OrderController extends ManageApiController
         ]);
     }
 
+    public function allBases()
+    {
+        $bases = Base::orderBy('id', 'asc')->get();
+        return $this->respondSuccessWithStatus([
+            'bases' => $bases->map(function ($base) {
+                return [
+                    'id' => $base->id,
+                    'name' => $base->name,
+                    'address' => $base->address,
+                ];
+            })
+        ]);
+    }
 }
