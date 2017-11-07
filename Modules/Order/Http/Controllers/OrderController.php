@@ -279,7 +279,7 @@ class OrderController extends ManageApiController
 
 
 
-        if ($request->paid_money){
+        if ($request->paid_money != null){
             $orderPaidMoney = new OrderPaidMoney();
             $orderPaidMoney->order_id = $importOrder->id;
             $orderPaidMoney->money = $request->paid_money;
