@@ -313,6 +313,7 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithData([
                 "message" => "Không tìm thấy sản phẩm"
             ]);
+        dd($request->price);
         if (!$request->price || !$request->name || !$request->manufacture_id || !$request->good_category_id)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu trường'
@@ -329,15 +330,15 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public
-    function deleteGood($good_id, Request $request)
+    public function deleteGood($good_id, Request $request)
     {
         $good = Good::find($good_id);
-        if ($good == null) return $this->respondErrorWithData([
-            "message" => "Không tìm thấy sản phẩm"
-        ]);
+        if ($good == null)
+            return $this->respondSuccessWithStatus([
+                "message" => "Không tìm thấy sản phẩm"
+            ]);
         $good->delete();
-        return $this->respondErrorWithData([
+        return $this->respondSuccessWithStatus([
             "message" => "Xóa sản phẩm thành công"
         ]);
     }
