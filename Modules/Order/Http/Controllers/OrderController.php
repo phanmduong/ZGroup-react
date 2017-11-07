@@ -9,6 +9,7 @@ use App\ImportedGoods;
 use App\OrderPaidMoney;
 use App\User;
 use App\Warehouse;
+use App\GoodWarehouse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
@@ -368,6 +369,11 @@ class OrderController extends ManageApiController
             $importedGood->staff_id = $this->user->id;
             $importedGood->warehouse_id = $request->warehouse_id;
             $importedGood->save();
+            $goodWarehouse = new GoodWarehouse;
+            $goodWarehouse->good_id = $imported_good['good_id'];
+            $goodWarehouse->quantity = $imported_good['quantity'];
+            $goodWarehouse->warehouse_id = $request->warehouse_id;
+            $goodWarehouse->save();
         }
         return $this->respondSuccessWithStatus([
             'messgae' => 'SUCCESS'
