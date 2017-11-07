@@ -472,7 +472,8 @@ class OrderController extends ManageApiController
         return $this->respondSuccessWithStatus([
             "order_paid_money"=>$orderPMs->map(function ($orderPM) {
                 return $orderPM->transform();
-                }
+            })
+         ]);
     }
 
     public function allWarehouses(Request $request)
