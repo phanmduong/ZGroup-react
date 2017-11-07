@@ -18,7 +18,8 @@ class OrderPaidMoney extends Model
                 "id" => $user->id,
                 "name"=>$user->name
             ],
-            "order_id" =>$this->order_id
+            "order_id" =>$this->order_id,
+            "payment" => $this->payment
         ];
     }
 }
