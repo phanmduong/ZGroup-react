@@ -276,6 +276,18 @@ class OrderController extends ManageApiController
         $importOrder->staff_id = $this->user->id;
         $importOrder->type = 'import';
         $importOrder->save();
+
+
+
+        if ($request->paid_money){
+            $orderPaidMoney = new OrderPaidMoney();
+            $orderPaidMoney->order_id = $importOrder->id;
+            $orderPaidMoney->money = $request->paid_money;
+            $orderPaidMoney->staff_id = $this->user->id;
+            $orderPaidMoney->note = $request->note_paid_money;
+            $orderPaidMoney->save();
+
+        }
         return $this->respondSuccessWithStatus([
             'messgae' => 'SUCCESS'
         ]);
