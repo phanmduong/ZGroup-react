@@ -276,6 +276,18 @@ class OrderController extends ManageApiController
         $importOrder->staff_id = $this->user->id;
         $importOrder->type = 'import';
         $importOrder->save();
+
+
+
+        if ($request->paid_money){
+            $orderPaidMoney = new OrderPaidMoney();
+            $orderPaidMoney->order_id = $importOrder->id;
+            $orderPaidMoney->money = $request->paid_money;
+            $orderPaidMoney->staff_id = $this->user->id;
+            $orderPaidMoney->note = $request->note_paid_money;
+            $orderPaidMoney->save();
+
+        }
         return $this->respondSuccessWithStatus([
             'messgae' => 'SUCCESS'
         ]);
@@ -455,6 +467,15 @@ class OrderController extends ManageApiController
         ]);
     }
 
+    public function getOrderPaidMoney(){
+        $orderPMs= OrderPaidMoney::orderBy('created_at','desc')->get();
+        return $this->respondSuccessWithStatus([
+            "order_paid_money"=>$orderPMs->map(function ($orderPM) {
+                return $orderPM->transform();
+            })
+         ]);
+    }
+
     public function allWarehouses(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
@@ -537,6 +558,7 @@ class OrderController extends ManageApiController
                     'name' => $base->name,
                     'address' => $base->address,
                 ];
+
             })
         ]);
     }
