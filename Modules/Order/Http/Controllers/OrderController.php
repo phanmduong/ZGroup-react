@@ -13,7 +13,7 @@ use App\GoodWarehouse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
-
+use App\Base;
 
 class OrderController extends ManageApiController
 {
