@@ -16,5 +16,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::post('/add-supplier', 'OrderController@addSupplier');
     Route::get('/all-suppliers', 'OrderController@allSuppliers');
     Route::get('/all-warehouses', 'OrderController@getWarehouses');
+    Route::get('/all-order-paid-money','OrderController@getOrderPaidMoney');
 });
 

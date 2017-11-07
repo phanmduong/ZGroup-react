@@ -426,4 +426,12 @@ class OrderController extends ManageApiController
             'warehouses' => $warehouses
         ]);
     }
+    public function getOrderPaidMoney(){
+        $orderPMs= OrderPaidMoney::orderBy('created_at','desc')->get();
+        return $this->respondSuccessWithStatus([
+            "order_paid_money"=>$orderPMs->map(function ($orderPM) {
+                return $orderPM->transform();
+            })
+        ]);
+    }
 }
