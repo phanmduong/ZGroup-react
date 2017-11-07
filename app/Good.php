@@ -73,6 +73,11 @@ class Good extends Model
         return $this->hasMany(Card::class, "good_id");
     }
 
+    public function parentGood()
+    {
+        return $this->belongsTo(Good::class, "parent_id");
+    }
+
     public function getData()
     {
         return [
@@ -81,6 +86,7 @@ class Good extends Model
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'updated_at' => format_vn_short_datetime(strtotime($this->updated_at)),
             'price' => $this->price,
+            'status' => $this->status,
             'good_category_id' => $this->good_category_id,
             'manufacture_id' => $this->manufacture_id,
             'description' => $this->description,
@@ -94,6 +100,9 @@ class Good extends Model
     public function transform()
     {
         $data = $this->getData();
+        $data['quantity'] = $this->goodWarehouse->reduce(function ($total, $var) {
+            return $total + $var->quantity;
+        }, 0);
         $data['files'] = $this->files->map(function ($file) {
             return $file->transform();
         });
@@ -161,6 +170,9 @@ class Good extends Model
             $cards[] = $cardData;
         }
         $data["cards"] = $cards;
+        $data['properties'] = $this->properties->map(function ($property) {
+            return $property->transform();
+        });
         return $data;
     }
 

@@ -1,8 +1,12 @@
 
 @extends('graphics::layouts.master')
 @section('meta')
-    <meta property="og:title" content="{{$post->title}}" />
-
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}}"/>
+    <meta property="og:title" content="{{$post->title}}"/>
+    <meta property="og:description"
+          content="{{$post->description}}"/>
+    <meta property="og:image" content="{{$post->url}}"/>
 @endsection
 
 @section('content')
@@ -114,7 +118,8 @@
                                                         background: url({{$post_related->url}});
                                                         background-size: cover;
                                                         background-position: center;
-                                                        height: 250px;"
+                                                        padding-bottom: 70%;
+                                                        "
 
                                         ></div>
                                     </a>

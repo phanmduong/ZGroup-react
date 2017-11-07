@@ -5,13 +5,11 @@ namespace Modules\Good\Http\Controllers;
 use App\Good;
 use App\Http\Controllers\ManageApiController;
 use App\Manufacture;
-use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
-use Modules\Good\Entities\GoodPropertyItemTask;
 use Modules\Good\Repositories\GoodRepository;
 
 
@@ -261,14 +259,15 @@ class GoodController extends ManageApiController
     {
         $keyword = $request->search;
         $type = $request->type;
+        $status = $request->status;
         if ($request->limit == -1) {
             if ($type) {
                 $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
-                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                    $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
                 });
             } else {
                 $goods = Good::where(function ($query) use ($keyword) {
-                    $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                    $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
                 });
             }
             $goods = $goods->orderBy("created_at", "desc")->limit(20)->get();
@@ -284,13 +283,16 @@ class GoodController extends ManageApiController
             $limit = 20;
         if ($type) {
             $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
         } else {
             $goods = Good::where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("description", "like", "%$keyword%");
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
         }
+
+        if ($status)
+            $goods = $goods->where('status', $status);
 
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
 
@@ -304,7 +306,6 @@ class GoodController extends ManageApiController
         );
     }
 
-    public
     function editGood($goodId, Request $request)
     {
         $good = Good::find($goodId);
@@ -321,21 +322,22 @@ class GoodController extends ManageApiController
         $good->price = $request->price;
         $good->manufacture_id = $request->manufacture_id;
         $good->good_category_id = $request->good_category_id;
+        $good->status = $request->status;
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
     }
 
-    public
-    function deleteGood($good_id, Request $request)
+    public function deleteGood($good_id, Request $request)
     {
         $good = Good::find($good_id);
-        if ($good == null) return $this->respondErrorWithData([
-            "message" => "Không tìm thấy sản phẩm"
-        ]);
+        if ($good == null)
+            return $this->respondSuccessWithStatus([
+                "message" => "Không tìm thấy sản phẩm"
+            ]);
         $good->delete();
-        return $this->respondErrorWithData([
+        return $this->respondSuccessWithStatus([
             "message" => "Xóa sản phẩm thành công"
         ]);
     }
@@ -359,8 +361,7 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public
-    function allManufactures()
+    public function allManufactures()
     {
         $manufactures = Manufacture::orderBy("created_at", "desc")->get();
         return $this->respondSuccessWithStatus([
@@ -370,6 +371,70 @@ class GoodController extends ManageApiController
                     'name' => $manufacture->name,
                 ];
             })
+        ]);
+    }
+
+    public function createChildGood($goodId, Request $request)
+    {
+        if ($request->code == null || $request->taskId == null) {
+            return $this->respondErrorWithStatus("Thiếu code hoặc taskId");
+        }
+        $currentGood = Good::where("code", $request->code)->first();
+        if ($currentGood != null) {
+            return $this->respondErrorWithStatus("Sản phẩm với mã này đã tồn tại");
+        }
+
+        $parentGood = Good::find($goodId);
+
+        $good = $parentGood->replicate();
+        $good->parent_id = $goodId;
+        $good->code = $request->code;
+        $good->name = $request->name;
+        $good->good_category_id = $parentGood->good_category_id;
+        $good->save();
+
+
+        foreach ($parentGood->properties as $property) {
+            $childProperty = $property->replicate();
+            $childProperty->good_id = $good->id;
+            $childProperty->save();
+        }
+
+        $parentTask = Task::find($request->taskId);
+
+        $taskList = $parentTask->taskList;
+
+        $newTaskList = $taskList->replicate();
+        $newTaskList->save();
+
+        foreach ($taskList->tasks as $task) {
+            $newTask = $task->replicate();
+            $newTask->task_list_id = $newTaskList->id;
+            if ($task->order < $parentTask->order) {
+                $newTask->status = true;
+            } else {
+                $newTask->status = false;
+            }
+            $newTask->save();
+        }
+
+        $card = $parentGood->cards()->first();
+        if ($card == null) {
+            return $this->respondErrorWithStatus("Không tìm thấy thẻ của sản phẩm cha");
+        } else {
+            $card = $card->replicate();
+            $card->good_id = $good->id;
+            $card->board_id = $parentTask->current_board_id;
+            $card->title = $good->name;
+            $card->save();
+        }
+
+        $newTaskList->card_id = $card->id;
+        $newTaskList->save();
+
+
+        return $this->respondSuccessWithStatus([
+            "card" => $card->transform()
         ]);
     }
 }
