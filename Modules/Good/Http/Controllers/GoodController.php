@@ -313,7 +313,7 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithData([
                 "message" => "Không tìm thấy sản phẩm"
             ]);
-        dd($request->price);
+        dd($request->name . $request->avt_url);
         if (!$request->price || !$request->name || !$request->manufacture_id || !$request->good_category_id)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu trường'
