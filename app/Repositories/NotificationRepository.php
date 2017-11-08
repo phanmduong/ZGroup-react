@@ -189,7 +189,7 @@ class NotificationRepository
     {
 
         $register = $attendance->register;
-
+        $student = $register->user;
         if ($register) {
 
             $notification = new Notification;
@@ -207,7 +207,7 @@ class NotificationRepository
                     $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
                     $notification->message = $message;
                     $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
-                    $notification->url = "/profile/" . $actor->username . "/progress";
+                    $notification->url = "/profile/" . $student->username . "/progress";
 
                     $notification->save();
                     $this->sendNotification($notification);
