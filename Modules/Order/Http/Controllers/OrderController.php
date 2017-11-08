@@ -562,7 +562,7 @@ class OrderController extends ManageApiController
 
     public function warehouseGoods($warehouseId)
     {
-        if (Warehouse::find($warehouseId)->get() == null)
+        if (Warehouse::find($warehouseId) == null)
             return $this->respondErrorWithStatus([
                 'message' => 'non-existing warehouse'
             ]);
