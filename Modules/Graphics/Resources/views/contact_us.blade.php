@@ -1,5 +1,6 @@
 @extends('graphics::layouts.master')
 @section('content')
+
     <div class="cd-section section-white" id="contact-us">
         <div class="contactus-1 section-image" style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035903jSFNtNO4CXL5lfZ.png')">
             <div class="container">
@@ -98,15 +99,18 @@
             event.preventDefault();
             event.stopPropagation();
             console.log("submit-1");
-
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             var name1 = $('#e-name1').val();
             var email = $('#e-email').val();
             var name2 = $('#e-name2').val();
             var message1= $('#e-message').val();
+            var ok=0;
+            if(name1.trim()=="" || name2.trim()=="" || message1.trim()=="") ok=1;
 
-            if (!name1 || !email || !name2 ) {
-                alert("Bạn vui lòng nhập đủ thông tin");
-                $("#alert").html("<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin</div>");
+
+            if (!name1 || !email || !name2  || !re.test(email) || ok==1) {
+                alert("Bạn vui lòng nhập đủ thông tin hoặc email không hợp lệ");
+                $("#alert").html("<div class='alert alert-danger'>Bạn vui lòng nhập đủ thông tin và kiểm tra lại email</div>");
             } else {
                 var message = "Chúng tôi đã nhận được thông tin của bạn. Bạn vui lòng kiểm tra email";
                 alert(message);
