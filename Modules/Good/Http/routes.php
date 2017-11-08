@@ -3,6 +3,7 @@
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
 
     Route::get('/all', 'GoodController@getAllGoods');
+    Route::get('/get-by-status', 'GoodController@goodsByStatus');
     Route::get('/all/no-paging', 'GoodController@getGoodsWithoutPagination');
     Route::get('/task-setting', 'GoodController@getPropertyItems');
     Route::post('/create', 'GoodController@createGood');
