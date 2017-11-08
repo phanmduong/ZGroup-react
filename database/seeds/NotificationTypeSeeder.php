@@ -174,6 +174,13 @@ class NotificationTypeSeeder extends Seeder
                 "type" => "manage",
                 "template" => "Chiến dịch của bạn, [[NAME_CAMPAIGN]] đã bắt đầu được gửi",
                 "icon" => "<i style=\"color:#4CAF50\" class=\"material-icons\">mail</i>"
+            ], [
+                'name' => "confirm_student_attendance",
+                'color' => "#4CAF50",
+                'id' => 22,
+                "type" => "social",
+                "template" => "Bạn đã được điểm danh buổi [[LESSON_ORDER]] lớp [[CLASS_NAME]]",
+                "icon" => "<i class=\"material-icons\">playlist_add_check</i>"
             ]
 
         ]);

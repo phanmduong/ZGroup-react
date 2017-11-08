@@ -178,5 +178,38 @@ class NotificationRepository
         $this->sendNotification($notification);
     }
 
+    public function sendConfirmStudentAttendanceNotification($actor, $attendance)
+    {
+
+        $register = $attendance->register;
+
+        if ($register) {
+
+            $notification = new Notification;
+            $notification->actor_id = $actor->id;
+            $notification->receiver_id = $register->user_id;
+            $notification->type = 22;
+
+            $classLesson = $attendance->classLesson;
+            if ($classLesson) {
+                $class = $classLesson->studyClass;
+                $lesson = $classLesson->lesson;
+                if ($class && $lesson) {
+                    $message = $notification->notificationType->template;
+                    $message = str_replace('[[LESSON_ORDER]]', "<strong>" . $lesson->order . "</strong>", $message);
+                    $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
+                    $notification->message = $message;
+                    $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
+                    $notification->url = "/profile/" . $actor->username . "/progress";
+
+                    $notification->save();
+                    $this->sendNotification($notification);
+                }
+
+            }
+        }
+
+    }
+
 
 }
