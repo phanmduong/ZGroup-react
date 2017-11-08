@@ -47,9 +47,10 @@ class OrderController extends ManageApiController
                 $totalPaidMoney += $orderPaidMoney->money;
             }
         }
-        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
-            $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-        });
+        $orders = Order::where('type', 'order');
+//        ->where(function ($query) use ($keyWord) {
+//            $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+//        });
         if ($startTime)
             $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
         if ($status)
