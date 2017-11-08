@@ -281,15 +281,11 @@ class GoodController extends ManageApiController
                 })
             ]);
         }
-        if ($type) {
-            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            });
-        } else {
-            $goods = Good::where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            });
-        }
+        $goods = where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+        });
+        if ($type)
+            $goods = Good::where("type", $type);
         if ($manufacture_id)
             $goods = $goods->where('manufacture_id', $manufacture_id);
         if ($startTime)
