@@ -50,8 +50,8 @@ class OrderController extends ManageApiController
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
-//        if ($startTime)
-//            $orders = $orders->whereBetween('created_at', array($startTime, $endTime);
+        if ($startTime)
+            $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
         if ($status)
             $orders = $orders->where('status', $status);
         if($user_id)
