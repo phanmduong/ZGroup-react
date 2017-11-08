@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import * as env from '../constants/env';
 import _ from 'lodash';
 import moment from 'moment';
-
+import XLSX from 'xlsx';
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -781,18 +781,47 @@ export function generateDatatableLanguage(item) {
     };
 }
 
-export function transformToTree(arr, nameParent, nameChildren){
+export function transformToTree(arr, nameParent, nameChildren) {
     let nodes = {};
-    arr = arr.map((item)=>{
+    arr = arr.map((item) => {
         return {...item};
     });
-    return arr.filter(function(obj){
+    return arr.filter(function (obj) {
         let id = obj[nameParent],
             parentId = obj[nameChildren];
 
-        nodes[id] = _.defaults(obj, nodes[id], { children: [] });
-        parentId && (nodes[parentId] = (nodes[parentId] || { children: [] }))["children"].push(obj);
+        nodes[id] = _.defaults(obj, nodes[id], {children: []});
+        parentId && (nodes[parentId] = (nodes[parentId] || {children: []}))["children"].push(obj);
 
         return !parentId;
     });
+}
+
+export function readExcel(file, isSkipReadFile) {
+
+    let promise = new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            /* Parse data */
+            const bstr = e.target.result;
+            const wb = XLSX.read(bstr, {type: 'binary'});
+            /* Get first worksheet */
+            const wsname = wb.SheetNames[0];
+            const ws = wb.Sheets[wsname];
+
+            if (isSkipReadFile) {
+                let range = XLSX.utils.decode_range(ws['!ref']);
+                range.s.r = 1; // <-- zero-indexed, so setting to 1 will skip row 0
+                ws['!ref'] = XLSX.utils.encode_range(range);
+            }
+            /* Convert array of arrays */
+            const data = XLSX.utils.sheet_to_json(ws, {header: 1});
+            /* Update state */
+            resolve(data);
+        };
+        reader.readAsBinaryString(file);
+    });
+
+    return promise;
+
 }

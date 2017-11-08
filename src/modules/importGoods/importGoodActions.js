@@ -133,4 +133,26 @@ export function storeSupplier(supplier, closeModal) {
     };
 }
 
+export function beginCheckGoods() {
+    return {
+        type: types.BEGIN_CHECK_GOODS_IMPORT_GOODS
+    };
+}
 
+export function checkGoods(goods) {
+    return function (dispatch) {
+        importGoodsApi.checkGoods(goods)
+            .then(res=>{
+                dispatch({
+                    type: types.CHECK_GOODS_IMPORT_GOODS_SUCCESS,
+                    existsGoods: res.data.data.exists,
+                    notExistsGoods: res.data.data.not_exists,
+                })
+            })
+            .catch(()=>{
+                dispatch({
+                    type: types.CHECK_GOODS_IMPORT_GOODS_ERROR
+                })
+            });
+    }
+}

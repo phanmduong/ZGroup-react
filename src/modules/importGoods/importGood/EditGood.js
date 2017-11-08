@@ -1,45 +1,26 @@
 import React from 'react';
-import ReactSelect from 'react-select';
-import * as importGoodsApi from '../importGoodsApi';
 import * as helper from '../../../helpers/helper';
 import FormInputText from '../../../components/common/FormInputText';
 import PropTypes from 'prop-types';
 
-class StoreGood extends React.Component {
+class EditGood extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectedGood: null
+            selectedGood: {}
         };
-        this.loadGoods = this.loadGoods.bind(this);
-        this.selectGood = this.selectGood.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.storeGood = this.storeGood.bind(this);
-        this.timeOut = null;
-
-
     }
 
-    loadGoods(input, callback) {
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            importGoodsApi.searchGoods(input).then(res => {
-                let goods = res.data.data.goods.map((good) => {
-                    return {
-                        ...good,
-                        ...{
-                            value: good.id,
-                            label: `${good.name} (${good.code})`,
-                            quantity: 0,
-                            import_price: 0
-                        }
-                    };
-                });
-                callback(null, {options: goods, complete: true});
-            });
-        }.bind(this), 500);
+    componentWillMount(){
+        this.setState({
+            selectedGood: this.props.good
+        });
+    }
+
+    componentDidMount(){
+        helper.setFormValidation("#form-edit-import_good");
     }
 
     updateFormData(event) {
@@ -57,29 +38,18 @@ class StoreGood extends React.Component {
         });
     }
 
-    selectGood(value) {
-        this.setState({
-            selectedGood: value
-        });
-    }
-
     storeGood() {
-        this.props.storeGood(this.state.selectedGood);
+        if ($("#form-edit-import_good").valid()) {
+            this.props.editGood(this.state.selectedGood);
+        }
     }
 
     render() {
         return (
             <div>
-                <ReactSelect.Async
-                    loadOptions={this.loadGoods}
-                    loadingPlaceholder="Đang tải..."
-                    placeholder="Chọn sản phẩm"
-                    searchPromptText="Không có dữ liệu sản phẩm"
-                    onChange={this.selectGood}
-                    value={this.state.selectedGood}
-                />
-                {this.state.selectedGood &&
-                <div>
+                <form id="form-edit-import_good"onSubmit={(e) => {
+                    e.preventDefault();
+                }}>
                     <div className="row">
                         <div className="col-md-6">
                             <FormInputText
@@ -105,6 +75,8 @@ class StoreGood extends React.Component {
                                 value={this.state.selectedGood.quantity}
                                 updateFormData={this.updateFormData}
                                 name="quantity"
+                                type="number"
+                                required
                             />
                         </div>
                         <div className="col-md-6">
@@ -113,30 +85,30 @@ class StoreGood extends React.Component {
                                 value={helper.dotNumber(this.state.selectedGood.import_price)}
                                 updateFormData={this.updateFormData}
                                 name="import_price"
+                                required
                             />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-12">
                             <button className="btn btn-success" onClick={this.storeGood}>
-                                <i className="material-icons">save</i> Thêm
+                                <i className="material-icons">save</i> Sửa
                             </button>
                             <button className="btn btn-danger" onClick={this.props.closeModal}>
                                 <i className="material-icons">cancel</i> Huỷ
                             </button>
                         </div>
                     </div>
-                </div>
-                }
-
+                </form>
             </div>
         );
     }
 }
 
-StoreGood.propTypes = {
-    storeGood: PropTypes.func.isRequired,
+EditGood.propTypes = {
+    editGood: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
+    good: PropTypes.object.isRequired,
 };
 
-export default StoreGood;
+export default EditGood;

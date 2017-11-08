@@ -790,6 +790,12 @@ export default {
             isStoring: false,
             error: false,
         },
+        addGoodFile: {
+            isCheckingGoods: false,
+            errorCheckGoods: false,
+            existsGoods: [],
+            notExistsGoods: [],
+        },
         isLoadingWarehouses: false,
         errorWarehouses: false,
         warehouses: [],

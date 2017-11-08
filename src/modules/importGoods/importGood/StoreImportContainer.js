@@ -12,11 +12,14 @@ import PropTypes from 'prop-types';
 import * as importGoodActions from '../importGoodActions';
 import ListGood from './ListGood';
 import StoreGood from './StoreGood';
+import EditGood from './EditGood';
 import StoreSupplier from './StoreSupplier';
+import AddGoodFile from './AddGoodFile';
 import {Modal} from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import TooltipButton from '../../../components/common/TooltipButton';
 import * as importGoodsApi from '../importGoodsApi';
+
 
 class StoreImportContainer extends React.Component {
     constructor(props, context) {
@@ -25,15 +28,22 @@ class StoreImportContainer extends React.Component {
         this.table = null;
         this.state = {
             showModalStoreGood: false,
+            showModalEditGood: false,
             showModalStoreSupplier: false,
+            showModalAddGoodFile: false,
             search: '',
             initTable: false,
-            optionsSelectWarehouses: []
+            optionsSelectWarehouses: [],
+            selectedGood: {}
         };
         this.closeModalStoreGood = this.closeModalStoreGood.bind(this);
         this.openModalStoreGood = this.openModalStoreGood.bind(this);
+        this.closeModalEditGood = this.closeModalEditGood.bind(this);
+        this.openModalEditGood = this.openModalEditGood.bind(this);
         this.closeModalStoreSupplier = this.closeModalStoreSupplier.bind(this);
         this.openModalStoreSupplier = this.openModalStoreSupplier.bind(this);
+        this.closeModalAddGoodFile = this.closeModalAddGoodFile.bind(this);
+        this.openModalAddGoodFile = this.openModalAddGoodFile.bind(this);
         this.storeGood = this.storeGood.bind(this);
         this.initTable = this.initTable.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
@@ -41,6 +51,8 @@ class StoreImportContainer extends React.Component {
         this.changeOptionWarehouse = this.changeOptionWarehouse.bind(this);
         this.selectSupplier = this.selectSupplier.bind(this);
         this.loadSuppliers = this.loadSuppliers.bind(this);
+        this.deleteGood = this.deleteGood.bind(this);
+        this.editStore = this.editStore.bind(this);
     }
 
     componentWillMount() {
@@ -78,12 +90,31 @@ class StoreImportContainer extends React.Component {
         this.setState({showModalStoreGood: true});
     }
 
+    closeModalEditGood() {
+        this.setState({showModalEditGood: false});
+    }
+
+    openModalEditGood(good) {
+        this.setState({
+            showModalEditGood: true,
+            selectedGood: good
+        });
+    }
+
     closeModalStoreSupplier() {
         this.setState({showModalStoreSupplier: false});
     }
 
     openModalStoreSupplier() {
         this.setState({showModalStoreSupplier: true});
+    }
+
+    closeModalAddGoodFile() {
+        this.setState({showModalAddGoodFile: false});
+    }
+
+    openModalAddGoodFile() {
+        this.setState({showModalAddGoodFile: true});
     }
 
     changeOptionWarehouse(value) {
@@ -109,6 +140,42 @@ class StoreImportContainer extends React.Component {
 
         this.initTable();
         this.closeModalStoreGood();
+    }
+
+    deleteGood(good) {
+        helper.confirm('error', 'Xóa', "Bạn có muốn sản phẩm này không ?", () => {
+            let importGoods = this.props.formImportGood.importGoods.filter((importGood) => {
+                return importGood.id !== good.id;
+            });
+
+            this.props.importGoodActions.updateFormImportGood({
+                ...this.props.formImportGood,
+                importGoods: importGoods
+            });
+
+            this.initTable();
+        });
+
+    }
+
+    editStore(good) {
+
+        let importGoods = this.props.formImportGood.importGoods.map((importGood) => {
+            if (importGood.id === good.id) {
+                return {...good};
+            } else {
+                return {...importGood};
+            }
+        });
+
+        this.props.importGoodActions.updateFormImportGood({
+            ...this.props.formImportGood,
+            importGoods: importGoods
+        });
+
+        this.initTable();
+
+        this.closeModalEditGood();
     }
 
     initTable() {
@@ -174,7 +241,13 @@ class StoreImportContainer extends React.Component {
                             className="btn btn-rose"
                             onClick={this.openModalStoreGood}
                         >
-                            Thêm
+                            Thêm sản phẩm
+                        </button>
+                        <button
+                            className="btn btn-rose"
+                            onClick={this.openModalAddGoodFile}
+                        >
+                            Thêm từ excel
                         </button>
                     </div>
                 </div>
@@ -198,6 +271,8 @@ class StoreImportContainer extends React.Component {
                                     <ListGood
                                         importGoods={this.props.formImportGood.importGoods}
                                         setTable={this.setTable}
+                                        deleteGood={this.deleteGood}
+                                        openModalEditGood={this.openModalEditGood}
                                     />
                                 }
 
@@ -360,6 +435,18 @@ class StoreImportContainer extends React.Component {
                         />
                     </Modal.Body>
                 </Modal>
+                <Modal show={this.state.showModalEditGood}>
+                    <Modal.Header closeButton onHide={this.closeModalEditGood} closeLabel="Đóng">
+                        <Modal.Title>Sửa sản phẩm</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <EditGood
+                            good={this.state.selectedGood}
+                            editGood={this.editStore}
+                            closeModal={this.closeModalEditGood}
+                        />
+                    </Modal.Body>
+                </Modal>
                 <Modal show={this.state.showModalStoreSupplier}>
                     <Modal.Header closeButton onHide={this.closeModalStoreSupplier} closeLabel="Đóng">
                         <Modal.Title>Thêm nhà cung cấp</Modal.Title>
@@ -368,6 +455,22 @@ class StoreImportContainer extends React.Component {
                         <StoreSupplier
                             closeModal={this.closeModalStoreSupplier}
                         />
+                    </Modal.Body>
+                </Modal>
+                <Modal show={this.state.showModalAddGoodFile}>
+                    <Modal.Header closeButton onHide={this.closeModalAddGoodFile} closeLabel="Đóng">
+                        <Modal.Title>Nhập sản phẩm từ file</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {
+                            this.state.showModalAddGoodFile ?
+                                <AddGoodFile
+                                    closeModal={this.closeModalAddGoodFile}
+                                />
+                                :
+                                <div></div>
+                        }
+
                     </Modal.Body>
                 </Modal>
             </div>
