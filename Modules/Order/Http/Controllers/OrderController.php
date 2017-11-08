@@ -575,6 +575,7 @@ class OrderController extends ManageApiController
                     'name' => $good->name,
                     'code' => $good->code,
                     'price' => $good->price,
+                    'quantity' => $warehouseGood->quantity,
                     'type' => $good->type,
                     'avatar_url' => $good->avatar_url
                 ];
