@@ -810,7 +810,7 @@ class PublicController extends Controller
     public function public_test($start)
     {
 //        for ($i=0;$i < 30000; $i += 1000) {
-        $notifications = Notification::where("type", 0)->skip(0)->take($start + 1000)->get();
+        $notifications = Notification::where("type", 1)->skip(0)->take($start + 1000)->get();
         foreach ($notifications as $notification) {
             $type = $notification->notificationType;
             $notification->message = $type->template;
