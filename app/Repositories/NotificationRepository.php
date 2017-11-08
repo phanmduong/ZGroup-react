@@ -36,7 +36,16 @@ class NotificationRepository
 
         $jsonData = json_encode($publish_data);
 
-        Redis::publish(config("app.channel"), $jsonData);
+        switch ($notification->notificationType->type) {
+            case "manage":
+                Redis::publish(config("app.channel"), $jsonData);
+                break;
+            case "social":
+                Redis::publish(config("app.social_channel"), $jsonData);
+                break;
+        }
+
+
         send_push_notification($jsonData);
     }
 
