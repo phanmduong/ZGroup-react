@@ -54,9 +54,9 @@ class OrderController extends ManageApiController
             $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
         //if ($status)
         //    $orders = $orders->where('status', $status);
-        if($user_id)
+        if ($user_id)
             $orders = $orders->where('user_id', $user_id);
-        if($staff_id)
+        if ($staff_id)
             $orders = $orders->where('staff_id', $staff_id);
         $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
@@ -576,6 +576,36 @@ class OrderController extends ManageApiController
                 ];
             })
         ]);
+    }
+
+    public function checkGoods(Request $request)
+    {
+        $good_arr = $request->goods;
+
+        $goods = Good::whereIn('code', $good_arr)->get();
+
+        $goods = $goods->map(function ($good) {
+            return [
+                'id' => $good->id,
+                'code' => $good->code,
+                'name' => $good->name,
+                'price' => $good->price,
+            ];
+        });
+
+        $not_goods = array();
+
+        foreach ($good_arr as $good) {
+            if (!in_array($good, array_pluck($goods, 'code'))) {
+                array_push($not_goods, $good);
+            }
+        }
+
+        return $this->respondSuccessWithStatus([
+            'exists' => $goods,
+            'not_exists' => $not_goods
+        ]);
+
     }
 
 }
