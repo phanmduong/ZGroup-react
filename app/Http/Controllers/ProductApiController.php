@@ -58,6 +58,9 @@ class ProductApiController extends ApiController
                 $product->feature_time = format_time_to_mysql(time());
                 $product->rating += 500;
                 $product->save();
+
+                $this->notificationRepository->sendFeatureProductNotification($this->user, $product);
+
                 return $this->respondSuccessWithStatus(['feature' => [
                     "id" => $product->feature_id,
                     "name" => $this->user->name,

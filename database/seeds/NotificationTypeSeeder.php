@@ -67,7 +67,7 @@ class NotificationTypeSeeder extends Seeder
                 'color' => "#c50000",
                 'id' => 6,
                 "type" => "social",
-                "template" => "[[ACTOR]] đã đánh dấu nổi bật bài viết [[TARGET]]",
+                "template" => "Bài viết của bạn [[TARGET]] đã được [[ACTOR]] đánh dấu nổi bật",
                 "icon" => "<i style=\"color:#c50000\" class=\"material-icons\">thumb_up</i>"
             ], [
                 'name' => "assign_member_to_card",

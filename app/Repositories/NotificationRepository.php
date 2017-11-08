@@ -121,7 +121,7 @@ class NotificationRepository
 
         $notification->message = $message;
         $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
-        
+
         $group = $topic->group;
         if ($group) {
             $notification->url = "/group/" . $group->id . "/topic/" . $topic->id;
@@ -131,5 +131,27 @@ class NotificationRepository
         $notification->save();
         $this->sendNotification($notification);
     }
+
+    public function sendFeatureProductNotification($actor, $product)
+    {
+        $notification = new Notification;
+        $notification->actor_id = $actor->id;
+        $notification->receiver_id = $product->author->id;
+        $notification->type = 6;
+
+        $message = $notification->notificationType->template;
+
+        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
+        $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
+
+        $notification->message = $message;
+        $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
+
+        $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
+
+        $notification->save();
+        $this->sendNotification($notification);
+    }
+
 
 }
