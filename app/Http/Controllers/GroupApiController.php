@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Colorme\Transformers\GroupTransformer;
 use App\Colorme\Transformers\TopicTransformer;
 use App\Group;
+use App\Repositories\NotificationRepository;
 use App\Topic;
 use App\TopicAttendance;
 use Illuminate\Http\Request;
@@ -16,15 +17,19 @@ class GroupApiController extends ApiController
 {
 //    protected $groupTransformer;
     protected $topicTransformer;
+    protected $notificationRepository;
 
-    public function __construct(GroupTransformer $groupTransformer, TopicTransformer $topicTransformer)
+    public function __construct(
+        NotificationRepository $notificationRepository,
+        GroupTransformer $groupTransformer,
+        TopicTransformer $topicTransformer)
     {
         parent::__construct();
-//        $this->groupTransformer = $groupTransformer;
         $this->topicTransformer = $topicTransformer;
+        $this->notificationRepository = $notificationRepository;
     }
 
-    public function delete_topic( $topicId)
+    public function delete_topic($topicId)
     {
         if ($this->user->role >= 1) {
             $topic = Topic::find($topicId);
@@ -40,7 +45,7 @@ class GroupApiController extends ApiController
 
     }
 
-    public function save_topic( Request $request)
+    public function save_topic(Request $request)
     {
         $groupId = $request->group_id;
         $topic = Topic::find($request->id);
@@ -76,6 +81,7 @@ class GroupApiController extends ApiController
                 $topicAttendance->topic_id = $topic->id;
                 $topicAttendance->user_id = $member->id;
                 $topicAttendance->save();
+                $this->notificationRepository->sendCreateTopicNotification($this->user, $member, $topic);
             }
 
             return $this->respond(['message' => "Tạo topic thành công"]);

@@ -107,22 +107,26 @@ class NotificationRepository
         $this->sendNotification($notification);
     }
 
-    public function sendCreateTopicNotification()
+    public function sendCreateTopicNotification($actor, $receiver, $topic)
     {
         $notification = new Notification;
-        $notification->product_id = $product->id;
         $notification->actor_id = $actor->id;
-        $notification->receiver_id = $commenter->id;
-        $notification->type = 2;
+        $notification->receiver_id = $receiver->id;
+        $notification->type = 5;
 
         $message = $notification->notificationType->template;
 
         $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
-        $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
+        $message = str_replace('[[TARGET]]', "<strong>" . $topic->title . "</strong>", $message);
 
         $notification->message = $message;
         $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
-        $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
+        
+        $group = $topic->group;
+        if ($group) {
+            $notification->url = "/group/" . $group->id . "/topic/" . $topic->id;
+        }
+
 
         $notification->save();
         $this->sendNotification($notification);
