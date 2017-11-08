@@ -96,6 +96,7 @@ class OrderController extends ManageApiController
         $order->code = $request->code;
         $order->staff_id = $request->staff_id;
         $order->user_id = $request->user_id;
+        $order->status = $request->status;
         $order->save();
         return $this->respondSuccessWithStatus([
             'message' => 'ok'

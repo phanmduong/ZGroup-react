@@ -257,9 +257,14 @@ class GoodController extends ManageApiController
 
     public function getAllGoods(Request $request)
     {
+        $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
         $type = $request->type;
         $status = $request->status;
+        $manufacture_id = $request->manufacture_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+
         if ($request->limit == -1) {
             if ($type) {
                 $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
@@ -277,10 +282,6 @@ class GoodController extends ManageApiController
                 })
             ]);
         }
-        if ($request->limit)
-            $limit = $request->limit;
-        else
-            $limit = 20;
         if ($type) {
             $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
@@ -291,10 +292,16 @@ class GoodController extends ManageApiController
             });
         }
 
+
         if ($status)
             $goods = $goods->where('status', $status);
 
-        $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
+        if ($manufacture_id)
+            $goods = $goods->where('manufacture_id', $manufacture_id);
+        if ($startTime)
+
+
+            $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
 
         return $this->respondWithPagination(
             $goods,
