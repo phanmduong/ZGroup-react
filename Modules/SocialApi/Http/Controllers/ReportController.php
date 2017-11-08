@@ -11,6 +11,7 @@ namespace Modules\SocialApi\Http\Controllers;
 
 use App\Http\Controllers\NoAuthApiController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 
 class ReportController extends NoAuthApiController
@@ -26,6 +27,17 @@ class ReportController extends NoAuthApiController
         if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             return $this->respondErrorWithStatus("Email không hợp lệ");
         }
+        $data=[
+          "name" => $request->name,
+          "message_str" => $request->message,
+          "email" => $request->email
+        ];
+        //dd($data['email']);
+        Mail::send('socialapi::reportEmail', $data, function ($m) use ($data) {
+            $m->from('no-reply@colorme.vn', 'Kee Tool');
+            $subject= "Báo cáo lỗi app";
+            $m->to("keetool.feedback@gmail.com", $data['name'])->subject($subject);
+        });
         return $this->respondSuccessWithStatus([
            "message" => "Phản hồi thành công"
         ]);
