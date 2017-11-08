@@ -566,7 +566,7 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'non-exist warehouse'
             ]);
-        $warehouseGoods = GoodWarehouse::where('warehouse_id', $warehouseId);
+        $warehouseGoods = GoodWarehouse::where('warehouse_id', $warehouseId)->get();
         return $this->respondSuccessWithStatus([
             'goods' => $warehouseGoods->map(function ($warehouseGood) {
                 $good = $warehouseGood->good;
