@@ -560,4 +560,26 @@ class OrderController extends ManageApiController
             })
         ]);
     }
+
+    public function warehouseGoods($warehouseId)
+    {
+        if (Warehouse::find($warehouseId)->get() == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'non-exist warehouse'
+            ]);
+        $warehouseGoods = GoodWarehouse::where('warehouse_id', $warehouseId);
+        return $this->respondSuccessWithStatus([
+            'goods' => $warehouseGoods->map(function ($warehouseGood) {
+                $good = $warehouseGood->good;
+                return [
+                    'id' => $good->id,
+                    'name' => $good->name,
+                    'code' => $good->code,
+                    'price' => $good->price,
+                    'type' => $good->type,
+                    'avatar_url' => $good->avatar_url
+                ];
+            })
+        ]);
+    }
 }
