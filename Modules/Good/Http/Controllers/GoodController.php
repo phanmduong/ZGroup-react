@@ -342,8 +342,7 @@ class GoodController extends ManageApiController
         ]);
     }
 
-    public
-    function updatePrice($goodId, Request $request)
+    public function updatePrice($goodId, Request $request)
     {
         $good = Good::find($goodId);
         if (!$good)

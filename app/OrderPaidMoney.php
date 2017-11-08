@@ -8,18 +8,26 @@ class OrderPaidMoney extends Model
 {
     //
     protected $table = 'order_paid_money';
-    public function transform(){
-        $user= User::find($this->staff_id);
-        return[
-            "id"=>$this->id,
+
+    public function staff()
+    {
+        return $this->belongsTo('App\User', 'staff_id');
+    }
+
+    public function transform()
+    {
+        $data = [
+            "id" => $this->id,
             "money" => $this->money,
-            "note"=> $this->note,
-            "staff" =>[
-                "id" => $user->id,
-                "name"=>$user->name
-            ],
-            "order_id" =>$this->order_id,
+            "note" => $this->note,
+            "order_id" => $this->order_id,
             "payment" => $this->payment
         ];
+        if($this->staff)
+            $data['staff'] = [
+                'id' => $this->staff->id,
+                'name' => $this->staff->name,
+            ];
+        return $data;
     }
 }
