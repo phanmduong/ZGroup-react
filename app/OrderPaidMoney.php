@@ -16,6 +16,7 @@ class OrderPaidMoney extends Model
 
     public function transform()
     {
+
         $data = [
             "id" => $this->id,
             "money" => $this->money,
