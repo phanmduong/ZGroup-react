@@ -511,7 +511,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::post('manage/storetag', 'TagController@store_tag');
     Route::get('manage/deletetag/{id}', 'TagController@delete_tag');
 
-    Route::get('/test', 'PublicController@test');
+    Route::get('/test/{start}', 'PublicController@public_test');
     Route::get('/elight-mail', 'PublicController@elightMail');
 
     Route::post('storeemail', 'PublicController@store_email');
