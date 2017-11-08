@@ -55,7 +55,7 @@ class NotificationRepository
         $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
 
         $notification->message = $message;
-        $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
+        $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
         $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
 
         $notification->save();
@@ -78,7 +78,7 @@ class NotificationRepository
         $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
 
         $notification->message = $message;
-        $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
+        $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
         $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
 
         $notification->save();
@@ -100,7 +100,7 @@ class NotificationRepository
         $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
 
         $notification->message = $message;
-        $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
+        $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
         $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
 
         $notification->save();
@@ -120,7 +120,7 @@ class NotificationRepository
         $message = str_replace('[[TARGET]]', "<strong>" . $topic->title . "</strong>", $message);
 
         $notification->message = $message;
-        $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
+        $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
 
         $group = $topic->group;
         if ($group) {
@@ -145,7 +145,32 @@ class NotificationRepository
         $message = str_replace('[[TARGET]]', "<strong>" . $product->title . "</strong>", $message);
 
         $notification->message = $message;
-        $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
+        $notification->image_url = generate_protocol_url($actor->avatar_url) ? generate_protocol_url($actor->avatar_url) : defaultAvatarUrl();
+
+        $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
+
+        $notification->save();
+        $this->sendNotification($notification);
+    }
+
+    public function sendSubmitHomeworkNotification($student, $product, $topic, $teacher)
+    {
+        $notification = new Notification;
+        $notification->actor_id = $student->id;
+        $notification->receiver_id = $teacher->id;
+        $notification->type = 13;
+        $class = $topic->group->studyClass;
+
+        $message = $notification->notificationType->template;
+
+        $message = str_replace('[[TEACHER]]', "<strong>" . $teacher->name . "</strong>", $message);
+        $message = str_replace('[[STUDENT]]', "<strong>" . $student->name . "</strong>", $message);
+        $message = str_replace('[[PRODUCT]]', "<strong>" . $product->title . "</strong>", $message);
+        $message = str_replace('[[TOPIC]]', "<strong>" . $topic->title . "</strong>", $message);
+        $message = str_replace('[[CLASS]]', "<strong>" . $class->name . "</strong>", $message);
+
+        $notification->message = $message;
+        $notification->image_url = $student->avatar_url ? $student->avatar_url : defaultAvatarUrl();
 
         $notification->url = "/post/" . convert_vi_to_en($product->title) . "-" . $product->id;
 

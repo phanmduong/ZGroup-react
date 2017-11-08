@@ -116,7 +116,7 @@ class NotificationTypeSeeder extends Seeder
                 'color' => "#2196F3",
                 'id' => 13,
                 "type" => "social",
-                "template" => "[[TEACHER]] ơi! Học viên của bạn,[[STUDENT]] vừa nộp bài vào topic [[TOPIC]] của lớp [[CLASS]]. Bạn nhớ dành thời gian vào comment nhé!",
+                "template" => "[[TEACHER]] ơi! Học viên của bạn, [[STUDENT]] vừa nộp bài vào topic [[TOPIC]] của lớp [[CLASS]]. Bạn nhớ dành thời gian vào comment nhé!",
                 "icon" => "<i style=\"color:#2196F3\" class=\"material-icons\">bookmark</i>"
             ], [
                 'name' => "assign_to_project",
