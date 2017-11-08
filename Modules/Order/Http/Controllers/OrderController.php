@@ -351,7 +351,6 @@ class OrderController extends ManageApiController
             $importOrder->code = rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         else
             $importOrder->code = $request->code;
-        $importOrder->name = 'test';
         $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
