@@ -25,6 +25,8 @@ class OrderController extends ManageApiController
     public function allOrders(Request $request)
     {
         $limit = 3;
+        $user_id = $request->user_id;
+        $staff_id = $request->staff_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
@@ -41,30 +43,23 @@ class OrderController extends ManageApiController
             }
         }
         foreach ($allOrders as $order) {
-            $orderPaidMoneys = $order->orderPaidMoneys();
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
             foreach ($orderPaidMoneys as $orderPaidMoney) {
                 $totalPaidMoney += $orderPaidMoney->money;
             }
         }
-        if ($startTime) {
-            if ($status)
-                $orders = Order::where('type', 'order')->where('status', $status)->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-            else
-                $orders = Order::where('type', 'order')->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-        } else {
-            if ($status)
-                $orders = Order::where('type', 'order')->where('status', $status)->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-            else
-                $orders = Order::where('type', 'order')->orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-        }
+        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
+            $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+        });
+        if ($startTime)
+            $orders = $orders->whereBetween('created_at', array($startTime, $endTime);
+        if ($status)
+            $orders = $orders->where('status', $status);
+        if($user_id)
+            $orders = $orders->where('user_id', $user_id);
+        if($staff_id)
+            $orders = $orders->where('staff_id', $staff_id);
+        $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $orders,
             [
@@ -563,9 +558,9 @@ class OrderController extends ManageApiController
 
     public function warehouseGoods($warehouseId)
     {
-        if (Warehouse::find($warehouseId)->get() == null)
+        if (Warehouse::find($warehouseId) == null)
             return $this->respondErrorWithStatus([
-                'message' => 'non-exist warehouse'
+                'message' => 'non-existing warehouse'
             ]);
         $warehouseGoods = GoodWarehouse::where('warehouse_id', $warehouseId)->get();
         return $this->respondSuccessWithStatus([

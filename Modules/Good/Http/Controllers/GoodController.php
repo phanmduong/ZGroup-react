@@ -3,6 +3,7 @@
 namespace Modules\Good\Http\Controllers;
 
 use App\Good;
+use App\GoodWarehouse;
 use App\Http\Controllers\ManageApiController;
 use App\Manufacture;
 use App\Task;
@@ -281,15 +282,11 @@ class GoodController extends ManageApiController
                 })
             ]);
         }
-        if ($type) {
-            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            });
-        } else {
-            $goods = Good::where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            });
-        }
+        $goods = Good::where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+        });
+        if ($type)
+            $goods = $goods->where("type", $type);
         if ($manufacture_id)
             $goods = $goods->where('manufacture_id', $manufacture_id);
         if ($startTime)
