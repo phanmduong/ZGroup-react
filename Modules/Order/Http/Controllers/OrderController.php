@@ -54,10 +54,10 @@ class OrderController extends ManageApiController
             $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
         //if ($status)
           //  $orders = $orders->where('status', $status);
-        /*if($user_id)
+        if($user_id)
             $orders = $orders->where('user_id', $user_id);
         if($staff_id)
-            $orders = $orders->where('staff_id', $staff_id);*/
+            $orders = $orders->where('staff_id', $staff_id);
         $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $orders,
