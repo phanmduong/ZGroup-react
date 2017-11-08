@@ -44,8 +44,6 @@ class NotificationRepository
                 Redis::publish(config("app.social_channel"), $jsonData);
                 break;
         }
-
-
         send_push_notification($jsonData);
     }
 
