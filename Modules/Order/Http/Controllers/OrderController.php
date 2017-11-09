@@ -25,6 +25,8 @@ class OrderController extends ManageApiController
     public function allOrders(Request $request)
     {
         $limit = 3;
+        $user_id = $request->user_id;
+        $staff_id = $request->staff_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
@@ -40,30 +42,23 @@ class OrderController extends ManageApiController
             }
         }
         foreach ($allOrders as $order) {
-            $orderPaidMoneys = $order->orderPaidMoneys();
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
             foreach ($orderPaidMoneys as $orderPaidMoney) {
                 $totalPaidMoney += $orderPaidMoney->money;
             }
         }
-        if ($startTime) {
-            if ($status)
-                $orders = Order::where('type', 'order')->where('status', $status)->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-            else
-                $orders = Order::where('type', 'order')->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-        } else {
-            if ($status)
-                $orders = Order::where('type', 'order')->where('status', $status)->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-            else
-                $orders = Order::where('type', 'order')->orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-        }
+        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
+            $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+        });
+        if ($startTime)
+            $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
+        //if ($status)
+        //    $orders = $orders->where('status', $status);
+        if ($user_id)
+            $orders = $orders->where('user_id', $user_id);
+        if ($staff_id)
+            $orders = $orders->where('staff_id', $staff_id);
+        $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $orders,
             [
@@ -96,6 +91,7 @@ class OrderController extends ManageApiController
         $order->code = $request->code;
         $order->staff_id = $request->staff_id;
         $order->user_id = $request->user_id;
+        $order->status = $request->status;
         $order->save();
         return $this->respondSuccessWithStatus([
             'message' => 'ok'
@@ -350,7 +346,6 @@ class OrderController extends ManageApiController
             $importOrder->code = rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         else
             $importOrder->code = $request->code;
-        $importOrder->name = 'test';
         $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
@@ -559,4 +554,58 @@ class OrderController extends ManageApiController
             })
         ]);
     }
+
+    public function warehouseGoods($warehouseId)
+    {
+        if (Warehouse::find($warehouseId) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'non-existing warehouse'
+            ]);
+        $warehouseGoods = GoodWarehouse::where('warehouse_id', $warehouseId)->get();
+        return $this->respondSuccessWithStatus([
+            'goods' => $warehouseGoods->map(function ($warehouseGood) {
+                $good = $warehouseGood->good;
+                return [
+                    'id' => $good->id,
+                    'name' => $good->name,
+                    'code' => $good->code,
+                    'price' => $good->price,
+                    'quantity' => $warehouseGood->quantity,
+                    'type' => $good->type,
+                    'avatar_url' => $good->avatar_url
+                ];
+            })
+        ]);
+    }
+
+    public function checkGoods(Request $request)
+    {
+        $good_arr = $request->goods;
+
+        $goods = Good::whereIn('code', $good_arr)->get();
+
+        $goods = $goods->map(function ($good) {
+            return [
+                'id' => $good->id,
+                'code' => $good->code,
+                'name' => $good->name,
+                'price' => $good->price,
+            ];
+        });
+
+        $not_goods = array();
+
+        foreach ($good_arr as $good) {
+            if (!in_array(trim($good), array_pluck($goods, 'code'))) {
+                array_push($not_goods, $good);
+            }
+        }
+
+        return $this->respondSuccessWithStatus([
+            'exists' => $goods,
+            'not_exists' => $not_goods
+        ]);
+
+    }
+
 }

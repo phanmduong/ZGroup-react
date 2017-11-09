@@ -297,7 +297,5 @@ class GraphicsController extends Controller
                 "message" => "Bạn chưa đặt cuốn sách nào"
             ];
         }
-
-
     }
 }

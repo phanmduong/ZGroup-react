@@ -3,6 +3,7 @@
 namespace Modules\Good\Http\Controllers;
 
 use App\Good;
+use App\GoodWarehouse;
 use App\Http\Controllers\ManageApiController;
 use App\Manufacture;
 use App\Task;
@@ -257,9 +258,13 @@ class GoodController extends ManageApiController
 
     public function getAllGoods(Request $request)
     {
+        $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
         $type = $request->type;
-        $status = $request->status;
+        $manufacture_id = $request->manufacture_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+
         if ($request->limit == -1) {
             if ($type) {
                 $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
@@ -277,25 +282,38 @@ class GoodController extends ManageApiController
                 })
             ]);
         }
-        if ($request->limit)
-            $limit = $request->limit;
-        else
-            $limit = 20;
-        if ($type) {
-            $goods = Good::where("type", $type)->where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            });
-        } else {
-            $goods = Good::where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            });
-        }
-
-        if ($status)
-            $goods = $goods->where('status', $status);
-
+        $goods = Good::where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+        });
+        if ($type)
+            $goods = $goods->where("type", $type);
+        if ($manufacture_id)
+            $goods = $goods->where('manufacture_id', $manufacture_id);
+        if ($startTime)
+            $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
+        return $this->respondWithPagination(
+            $goods,
+            [
+                "goods" => $goods->map(function ($good) {
+                    return $good->transform();
+                })
+            ]
+        );
+    }
 
+    public function goodsByStatus(Request $request)
+    {
+        $status = $request->status;
+        $limit = $request->limit ? $request->limit : 20;
+        if($status == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'status null'
+            ]);
+        if($status == 'deleted')
+            $goods = DB::table('goods')->where('status', 'deleted')->paginate($limit);
+        else
+            $goods = Good::where('status', $status)->orderBy("created_at", "desc")->paginate($limit);
         return $this->respondWithPagination(
             $goods,
             [
@@ -336,14 +354,14 @@ class GoodController extends ManageApiController
             return $this->respondSuccessWithStatus([
                 "message" => "Không tìm thấy sản phẩm"
             ]);
+        $good->status = 'deleted';
         $good->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa sản phẩm thành công"
         ]);
     }
 
-    public
-    function updatePrice($goodId, Request $request)
+    public function updatePrice($goodId, Request $request)
     {
         $good = Good::find($goodId);
         if (!$good)
@@ -438,3 +456,7 @@ class GoodController extends ManageApiController
         ]);
     }
 }
+
+
+
+
