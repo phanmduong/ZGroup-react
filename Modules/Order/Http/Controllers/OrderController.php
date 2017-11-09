@@ -596,7 +596,7 @@ class OrderController extends ManageApiController
         $not_goods = array();
 
         foreach ($good_arr as $good) {
-            if (!in_array($good, array_pluck($goods, 'code'))) {
+            if (!in_array(trim($good), array_pluck($goods, 'code'))) {
                 array_push($not_goods, $good);
             }
         }
