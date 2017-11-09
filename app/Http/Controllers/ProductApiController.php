@@ -265,11 +265,13 @@ class ProductApiController extends ApiController
 
 
         $topicAttend = $product->topicAttendance;
+
         if ($topicAttend) {
             $group = $topicAttend->topic->group;
             if ($group) {
                 $class = $group->studyClass;
                 if ($class) {
+
                     $hours = computeTimeInterval($product->created_at, date("Y-m-d H:i:s", time()));
 //                    dd(date("Y-m-d h:i:s", time()));
                     if ($hours <= 26) {
