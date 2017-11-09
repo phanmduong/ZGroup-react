@@ -126,6 +126,7 @@ export function storeSupplier(supplier, closeModal) {
                 }
             })
             .catch(() => {
+            helper.showErrorNotification("Có lỗi xảy ra");
                 dispatch({
                     type: types.STORE_SUPPLIER_IMPORT_GOOD_ERROR
                 });
@@ -147,12 +148,12 @@ export function checkGoods(goods) {
                     type: types.CHECK_GOODS_IMPORT_GOODS_SUCCESS,
                     existsGoods: res.data.data.exists,
                     notExistsGoods: res.data.data.not_exists,
-                })
+                });
             })
             .catch(()=>{
                 dispatch({
                     type: types.CHECK_GOODS_IMPORT_GOODS_ERROR
-                })
+                });
             });
-    }
+    };
 }

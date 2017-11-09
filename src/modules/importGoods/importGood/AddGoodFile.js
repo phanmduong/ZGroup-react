@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as helper from '../../../helpers/helper';
 import Loading from '../../../components/common/Loading';
+import TooltipButton from '../../../components/common/TooltipButton';
 import * as importGoodActions from '../importGoodActions';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -13,25 +14,29 @@ import _ from 'lodash';
 class AddGoodFile extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.handleFile = this.handleFile.bind(this);
         this.state = {
             goods: []
-        }
+        };
+        this.handleFile = this.handleFile.bind(this);
+        this.refreshData = this.refreshData.bind(this);
+        this.storeGood = this.storeGood.bind(this);
+        this.notExistsGoods = [];
+        this.goods = [];
     }
 
     handleFile(event) {
         this.props.importGoodActions.beginCheckGoods();
         this.setState({
             fileName: event.target.files[0].name
-        })
+        });
         let goods = [];
         helper.readExcel(event.target.files[0], true).then((data) => {
             data.map((row) => {
                 goods.push({
-                    code: row[0],
-                    name: row[1],
-                    quantity: row[2],
-                    import_price: row[3],
+                    code: row[0].trim(),
+                    name: row[1].trim(),
+                    quantity: row[2].trim(),
+                    import_price: row[3].trim(),
                 });
             });
             this.setState({goods: goods});
@@ -40,19 +45,46 @@ class AddGoodFile extends React.Component {
 
     }
 
+    refreshData() {
+        this.props.importGoodActions.beginCheckGoods();
+        this.props.importGoodActions.checkGoods(_.map(this.state.goods, 'code'));
+    }
+
+    storeGood() {
+        if (this.notExistsGoods.length > 0) {
+            helper.confirm('warning', "Sản phẩm chưa tồn tại", "Sản phẩm chưa tồn tại sẽ không được thêm vào danh sách. Bạn có muốn tiếp tục ?",
+                () => {
+                    this.props.storeGoods(this.goods);
+                }
+            );
+        } else {
+            this.props.storeGoods(this.goods);
+        }
+    }
+
     render() {
-        let goods = [];
+        this.goods = [];
+        this.notExistsGoods = [];
         if (!this.props.isCheckingGoods && this.props.existsGoods && this.props.existsGoods.length > 0 && this.state.goods.length > 0) {
-            goods = this.props.existsGoods.map((good) => {
+            this.goods = this.props.existsGoods.map((good) => {
                 let goodDataFile = this.state.goods.filter((data) =>
                     data.code.trim().toLowerCase() == good.code.trim().toLowerCase())[0];
                 return {
                     ...goodDataFile,
                     ...good
-                }
+                };
             });
+
+
         }
 
+        if (!this.props.isCheckingGoods && this.props.notExistsGoods && this.props.notExistsGoods.length > 0 && this.state.goods.length > 0) {
+            this.notExistsGoods = this.props.notExistsGoods.map((good) => {
+                let goodDataFile = this.state.goods.filter((data) =>
+                    data.code.trim().toLowerCase() == good.trim().toLowerCase())[0];
+                return goodDataFile;
+            });
+        }
 
         return (
             <div>
@@ -97,8 +129,9 @@ class AddGoodFile extends React.Component {
                 </div>
 
                 {this.props.isCheckingGoods && <Loading/>}
-                {!this.props.isCheckingGoods && goods.length > 0 &&
+                {!this.props.isCheckingGoods && this.goods.length > 0 &&
                 <div>
+                    <h5><strong>Danh sách sản phẩm</strong></h5>
                     <div className="table-responsive">
                         <table className="table">
                             <thead className="text-rose">
@@ -114,7 +147,7 @@ class AddGoodFile extends React.Component {
                             </thead>
                             <tbody>
                             {
-                                goods.map((good, index) => {
+                                this.goods.map((good, index) => {
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
@@ -133,12 +166,72 @@ class AddGoodFile extends React.Component {
                     </div>
                 </div>
                 }
+                {!this.props.isCheckingGoods && this.notExistsGoods.length > 0 &&
+                <div>
+                    <h5><strong>Một số sản phẩm chưa tồn tại</strong>
+                        <TooltipButton text="Thêm Sản phẩm" placement="top">
+                            <a className="btn btn-round btn-sm btn-primary"
+                               style={{
+                                   width: '19px',
+                                   height: '19px',
+                                   padding: '1',
+                                   margin: '5px'
+                               }}
+                               href="/good/create"
+                               target="_blank"
+                            >
+                                <i className="material-icons">add</i>
+                            </a>
+                        </TooltipButton>
+                    </h5>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead className="text-rose">
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã sản phẩm</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Giá vốn</th>
+                                <th>Thành giá</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                this.notExistsGoods.map((good, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{good.code}</td>
+                                            <td>{good.name}</td>
+                                            <td>{good.quantity}</td>
+                                            <td>{helper.dotNumber(good.import_price)}đ</td>
+                                            <td>{helper.dotNumber(good.import_price * good.quantity)}đ</td>
+                                        </tr>
+                                    );
+                                })
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                }
 
                 <div className="row">
                     <div className="col-md-12">
+                        {this.notExistsGoods.length > 0 &&
+                        <TooltipButton text="Làm mới dữ liệu" placement="top">
+                            <button className="btn btn-info" onClick={this.refreshData}>
+                                <i className="material-icons">refresh</i> Làm mới
+                            </button>
+                        </TooltipButton>
+                        }
+                        {this.goods.length > 0 &&
                         <button className="btn btn-success" onClick={this.storeGood}>
                             <i className="material-icons">save</i> Thêm
                         </button>
+                        }
                         <button className="btn btn-danger" onClick={this.props.closeModal}>
                             <i className="material-icons">cancel</i> Huỷ
                         </button>
@@ -157,7 +250,7 @@ AddGoodFile.propTypes = {
     existsGoods: PropTypes.array.isRequired,
     notExistsGoods: PropTypes.array.isRequired,
     closeModal: PropTypes.func.isRequired,
-}
+};
 
 function mapStateToProps(state) {
     return {

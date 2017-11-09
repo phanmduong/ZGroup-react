@@ -53,6 +53,7 @@ class StoreImportContainer extends React.Component {
         this.loadSuppliers = this.loadSuppliers.bind(this);
         this.deleteGood = this.deleteGood.bind(this);
         this.editStore = this.editStore.bind(this);
+        this.storeGoods = this.storeGoods.bind(this);
     }
 
     componentWillMount() {
@@ -121,6 +122,16 @@ class StoreImportContainer extends React.Component {
         let formImportGood = {...this.props.formImportGood};
         formImportGood['warehouse_id'] = value && value.id ? value.id : null;
         this.props.importGoodActions.updateFormImportGood(formImportGood);
+    }
+
+    storeGoods(goods) {
+        this.props.importGoodActions.updateFormImportGood({
+            ...this.props.formImportGood,
+            importGoods: goods
+        });
+
+        this.initTable();
+        this.closeModalAddGoodFile();
     }
 
     storeGood(good) {
@@ -457,18 +468,17 @@ class StoreImportContainer extends React.Component {
                         />
                     </Modal.Body>
                 </Modal>
-                <Modal show={this.state.showModalAddGoodFile}>
+                <Modal show={this.state.showModalAddGoodFile} bsSize="lg">
                     <Modal.Header closeButton onHide={this.closeModalAddGoodFile} closeLabel="Đóng">
                         <Modal.Title>Nhập sản phẩm từ file</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {
-                            this.state.showModalAddGoodFile ?
-                                <AddGoodFile
-                                    closeModal={this.closeModalAddGoodFile}
-                                />
-                                :
-                                <div></div>
+                            this.state.showModalAddGoodFile &&
+                            <AddGoodFile
+                                closeModal={this.closeModalAddGoodFile}
+                                storeGoods={this.storeGoods}
+                            />
                         }
 
                     </Modal.Body>
