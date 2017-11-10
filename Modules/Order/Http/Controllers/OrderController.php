@@ -596,4 +596,34 @@ class OrderController extends ManageApiController
         ]);
     }
 
+    public function checkGoods(Request $request)
+    {
+        $good_arr = $request->goods;
+
+        $goods = Good::whereIn('code', $good_arr)->get();
+
+        $goods = $goods->map(function ($good) {
+            return [
+                'id' => $good->id,
+                'code' => $good->code,
+                'name' => $good->name,
+                'price' => $good->price,
+            ];
+        });
+
+        $not_goods = array();
+
+        foreach ($good_arr as $good) {
+            if (!in_array(trim($good), array_pluck($goods, 'code'))) {
+                array_push($not_goods, $good);
+            }
+        }
+
+        return $this->respondSuccessWithStatus([
+            'exists' => $goods,
+            'not_exists' => $not_goods
+        ]);
+
+    }
+
 }

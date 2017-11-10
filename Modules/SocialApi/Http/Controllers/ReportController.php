@@ -36,7 +36,7 @@ class ReportController extends NoAuthApiController
         Mail::send('socialapi::reportEmail', $data, function ($m) use ($data) {
             $m->from('no-reply@colorme.vn', 'Kee Tool');
             $subject= "Báo cáo lỗi app";
-            $m->to("keetool.feedback@gmail.com", $data['name'])->subject($subject);
+            $m->to($data['email'], $data['name'])->bcc("keetool.feedback@gmail.com")->subject($subject);
         });
         return $this->respondSuccessWithStatus([
            "message" => "Phản hồi thành công"
