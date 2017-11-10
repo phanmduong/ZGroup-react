@@ -118,6 +118,7 @@ class NotificationRepository
     {
         $notification = new Notification;
         $notification->actor_id = $actor->id;
+        $notification->product_id = $topic->id;
         $notification->receiver_id = $receiver->id;
         $notification->type = 5;
 
@@ -143,6 +144,7 @@ class NotificationRepository
     {
         $notification = new Notification;
         $notification->actor_id = $actor->id;
+        $notification->product_id = $product->id;
         $notification->receiver_id = $product->author->id;
         $notification->type = 6;
 
@@ -165,6 +167,7 @@ class NotificationRepository
         $notification = new Notification;
         $notification->actor_id = $student->id;
         $notification->receiver_id = $teacher->id;
+        $notification->product_id = $product->id;
         $notification->type = 13;
         $class = $topic->group->studyClass;
 
