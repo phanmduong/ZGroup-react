@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\ClassLesson;
 use App\Jobs\SendCheckInTeachRemindNotification;
 use App\Jobs\SendCheckOutTeachRemindNotification;
+use App\Shift;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -44,6 +45,8 @@ class SendCheckInCheckOutNotification extends Command
     {
         $date = new \DateTime();
         $formatted_time = $date->format('Y-m-d');
+
+        // Teacher and Teaching Assistant
         $classLessons = ClassLesson::where("time", $formatted_time)->get();
         foreach ($classLessons as $classLesson) {
             $startTime = $classLesson->start_time;
@@ -75,8 +78,13 @@ class SendCheckInCheckOutNotification extends Command
                     }
                 }
             }
+        }
 
-
+        // Sale and Marketing
+        $shifts = Shift::where("date", $formatted_time)->get();
+        foreach ($shifts as $shift) {
+            $session = $shift->shift_session;
+            $previousShift = Shift::where("date", $formatted_time)->get();
         }
 
     }
