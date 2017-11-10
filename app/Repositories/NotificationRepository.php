@@ -211,7 +211,7 @@ class NotificationRepository
                     $notification->message = $message;
                     $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
                     $notification->url = "/profile/" . $student->username . "/progress";
-
+                    $notification->product_id = $student->username;
                     $notification->save();
                     $this->sendNotification($notification);
                 }
