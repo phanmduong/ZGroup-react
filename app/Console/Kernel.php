@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('sms:birthday')->everyMinute();
         $schedule->command('emailsMarketing:send')->everyMinute();
         $schedule->command('activate:class')->dailyAt('12:00');
-        $schedule->command('notification:checkincheckout')->dailyAt('00:05');
+        $schedule->command('notification:checkincheckout')->dailyAt('00:10');
         $schedule->command('sms:send')->dailyAt('20:00');
 //        $schedule->command('mail:startlesson')->dailyAt('12:00');
         $schedule->command('survey:send')->dailyAt('01:00');
