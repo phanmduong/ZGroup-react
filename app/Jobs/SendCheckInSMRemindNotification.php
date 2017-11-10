@@ -35,5 +35,6 @@ class SendCheckInSMRemindNotification extends Job implements ShouldQueue
     public function handle()
     {
         $notificationRepository = new NotificationRepository();
+
     }
 }

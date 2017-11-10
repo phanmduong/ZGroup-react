@@ -6,6 +6,7 @@ use App\ClassLesson;
 use App\Jobs\SendCheckInTeachRemindNotification;
 use App\Jobs\SendCheckOutTeachRemindNotification;
 use App\Shift;
+use App\ShiftSession;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -84,7 +85,12 @@ class SendCheckInCheckOutNotification extends Command
         $shifts = Shift::where("date", $formatted_time)->get();
         foreach ($shifts as $shift) {
             $session = $shift->shift_session;
-            $previousShift = Shift::where("date", $formatted_time)->get();
+            $previousSession = ShiftSession::where("end_time", $session->start_time)->first();
+            $previousShift = $previousSession->shifts()->where("date", $formatted_time)->first();
+
+            if ($previousShift == null || $previousShift->user_id != $shift->user_id) {
+
+            }
         }
 
     }

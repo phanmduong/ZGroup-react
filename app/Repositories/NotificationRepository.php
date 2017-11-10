@@ -225,7 +225,7 @@ class NotificationRepository
         $notification = new Notification;
         $notification->actor_id = 0;
         $notification->receiver_id = $reciever->id;
-        $notification->product_id = 0;
+        $notification->product_id = 'checkin';
         $notification->type = 23;
 
         $message = $notification->notificationType->template;
@@ -236,7 +236,7 @@ class NotificationRepository
         $notification->message = $message;
         $notification->image_url = $reciever->avatar_url ? $reciever->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "/";
+        $notification->url = "#";
 
         $notification->save();
         $this->sendNotification($notification);
@@ -247,8 +247,35 @@ class NotificationRepository
         $notification = new Notification;
         $notification->actor_id = 0;
         $notification->receiver_id = $reciever->id;
-        $notification->product_id = 0;
+        $notification->product_id = 'checkout';
         $notification->type = 24;
+
+        $message = $notification->notificationType->template;
+
+        $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
+        $message = str_replace('[[TIME]]', "<strong>" . $time . "</strong>", $message);
+
+        $notification->message = $message;
+        $notification->image_url = $reciever->avatar_url ? $reciever->avatar_url : defaultAvatarUrl();
+
+        $notification->url = "#";
+
+        $notification->save();
+        $this->sendNotification($notification);
+    }
+
+
+    public function sendRemindCheckInSMNofication($shift)
+    {
+        if ($shift->user == null) {
+            return;
+        }
+        $user = $shift->user;
+        $notification = new Notification;
+        $notification->actor_id = 0;
+        $notification->receiver_id = $user->id;
+        $notification->product_id = 0;
+        $notification->type = 23;
 
         $message = $notification->notificationType->template;
 
