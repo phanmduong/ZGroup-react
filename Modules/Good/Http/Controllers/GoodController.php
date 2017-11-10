@@ -326,12 +326,14 @@ class GoodController extends ManageApiController
 
     public function statusCount()
     {
+        $total = Good::all()->count();
         $for_sale = Good::where('status', 'for_sale')->count();
         $not_for_sale = Good::where('status', 'not_for_sale')->count();
         $deleted = DB::table('goods')->where('status', 'deleted')->count();
         $show = Good::where('status', 'show')->count();
         $not_show = Good::where('status', 'not_show')->count();
         return $this->respondSuccessWithStatus([
+            'total' => $total,
             'for_sale' => $for_sale,
             'not_for_sale' => $not_for_sale,
             'deleted' => $deleted,
