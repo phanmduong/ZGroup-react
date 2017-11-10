@@ -190,7 +190,6 @@ class NotificationRepository
 
     public function sendConfirmStudentAttendanceNotification($actor, $attendance)
     {
-
         $register = $attendance->register;
         $student = $register->user;
         if ($register) {
@@ -219,6 +218,50 @@ class NotificationRepository
             }
         }
 
+    }
+
+    public function sendRemindCheckInTeachNofication($reciever, $class, $time)
+    {
+        $notification = new Notification;
+        $notification->actor_id = 0;
+        $notification->receiver_id = $reciever->id;
+        $notification->product_id = 0;
+        $notification->type = 23;
+
+        $message = $notification->notificationType->template;
+
+        $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
+        $message = str_replace('[[TIME]]', "<strong>" . $time . "</strong>", $message);
+
+        $notification->message = $message;
+        $notification->image_url = $reciever->avatar_url ? $reciever->avatar_url : defaultAvatarUrl();
+
+        $notification->url = "/";
+
+        $notification->save();
+        $this->sendNotification($notification);
+    }
+
+    public function sendRemindCheckOutTeachNofication($reciever, $class, $time)
+    {
+        $notification = new Notification;
+        $notification->actor_id = 0;
+        $notification->receiver_id = $reciever->id;
+        $notification->product_id = 0;
+        $notification->type = 24;
+
+        $message = $notification->notificationType->template;
+
+        $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
+        $message = str_replace('[[TIME]]', "<strong>" . $time . "</strong>", $message);
+
+        $notification->message = $message;
+        $notification->image_url = $reciever->avatar_url ? $reciever->avatar_url : defaultAvatarUrl();
+
+        $notification->url = "/";
+
+        $notification->save();
+        $this->sendNotification($notification);
     }
 
 

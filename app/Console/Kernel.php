@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\RemindCalendarEvent;
+use App\Console\Commands\SendCheckInCheckOutNotification;
 use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -22,7 +23,8 @@ class Kernel extends ConsoleKernel
         Commands\CreateShifts::class,
         Commands\SendEmailsMarketing::class,
         Commands\SendRemindSms::class,
-        RemindCalendarEvent::class
+        RemindCalendarEvent::class,
+        SendCheckInCheckOutNotification::class
     ];
 
     /**
@@ -36,6 +38,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('sms:birthday')->everyMinute();
         $schedule->command('emailsMarketing:send')->everyMinute();
         $schedule->command('activate:class')->dailyAt('12:00');
+        $schedule->command('notification:checkincheckout')->dailyAt('00:05');
         $schedule->command('sms:send')->dailyAt('20:00');
 //        $schedule->command('mail:startlesson')->dailyAt('12:00');
         $schedule->command('survey:send')->dailyAt('01:00');

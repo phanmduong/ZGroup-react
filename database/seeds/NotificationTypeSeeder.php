@@ -181,6 +181,38 @@ class NotificationTypeSeeder extends Seeder
                 "type" => "social",
                 "template" => "Bạn đã được điểm danh buổi [[LESSON_ORDER]] lớp [[CLASS_NAME]]",
                 "icon" => "<i class=\"material-icons\">playlist_add_check</i>"
+            ],
+            [
+                'name' => "remind_check_in_teach",
+                'color' => "#4CAF50",
+                'id' => 23,
+                "type" => "social",
+                "template" => "Bạn nhớ check in lớp [[CLASS_NAME]] lúc [[TIME]] nhé",
+                "icon" => "<i class=\"material-icons\">radio_button_checked</i>"
+            ],
+            [
+                'name' => "remind_check_out_teach",
+                'color' => "#4CAF50",
+                'id' => 24,
+                "type" => "social",
+                "template" => "Bạn nhớ check out lớp [[CLASS_NAME]] lúc [[TIME]] nhé",
+                "icon" => "<i class=\"material-icons\">radio_button_unchecked</i>"
+            ],
+            [
+                'name' => "remind_check_in_sm",
+                'color' => "#4CAF50",
+                'id' => 25,
+                "type" => "social",
+                "template" => "Bạn nhớ check in ca [[SHIFT]] lúc [[TIME]] nhé",
+                "icon" => "<i class=\"material-icons\">radio_button_checked</i>"
+            ],
+            [
+                'name' => "remind_check_out_sm",
+                'color' => "#4CAF50",
+                'id' => 26,
+                "type" => "social",
+                "template" => "Bạn nhớ check out ca [[SHIFT]] lúc [[TIME]] nhé",
+                "icon" => "<i class=\"material-icons\">radio_button_unchecked</i>"
             ]
 
         ]);

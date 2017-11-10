@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendCheckInCheckOutRemindNotifications extends Job implements ShouldQueue
+class SendCheckInSMRemindNotification extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

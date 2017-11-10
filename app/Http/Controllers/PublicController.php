@@ -807,31 +807,10 @@ class PublicController extends Controller
         return view('ajax.load_more_product_profile', $this->data);
     }
 
-    public function public_test($start)
+    public function public_test()
     {
-//        for ($i=0;$i < 30000; $i += 1000) {
-        $notifications = Notification::where("type", 3)->skip(0)->take(1000)->get();
-        foreach ($notifications as $notification) {
-            $type = $notification->notificationType;
-            $notification->message = $type->template;
-            $message = $notification->notificationType->template;
-
-
-            if ($notification->topic && $notification->actor) {
-                $topic = $notification->topic;
-                $message = str_replace('[[ACTOR]]', "<strong>" . $notification->actor->name . "</strong>", $message);
-                $message = str_replace('[[TARGET]]', "<strong>" . $topic->title . "</strong>", $message);
-
-                $notification->message = $message;
-                $notification->image_url = generate_protocol_url($notification->actor->avatar_url) ? generate_protocol_url($notification->actor->avatar_url) : defaultAvatarUrl();
-                $notification->url = "/group/" . $topic->group->id . "/topic/" . $topic->id;
-
-                $notification->save();
-            }
-        }
-//        }
-
-        return "done";
+        $time = strtotime("19:00:00") - strtotime('00:05');
+        return $time;
     }
 
     public function beta()
