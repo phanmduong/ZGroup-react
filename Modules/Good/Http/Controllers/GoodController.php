@@ -262,6 +262,7 @@ class GoodController extends ManageApiController
         $keyword = $request->search;
         $type = $request->type;
         $manufacture_id = $request->manufacture_id;
+        $good_category_id= $request->good_category_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
 
@@ -289,6 +290,8 @@ class GoodController extends ManageApiController
             $goods = $goods->where("type", $type);
         if ($manufacture_id)
             $goods = $goods->where('manufacture_id', $manufacture_id);
+        if($good_category_id)
+            $goods= $goods->where('good_category_id',$good_category_id);
         if ($startTime)
             $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
