@@ -306,11 +306,11 @@ class GoodController extends ManageApiController
     {
         $status = $request->status;
         $limit = $request->limit ? $request->limit : 20;
-        if($status == null)
+        if ($status == null)
             return $this->respondErrorWithStatus([
                 'message' => 'status null'
             ]);
-        if($status == 'deleted')
+        if ($status == 'deleted')
             $goods = DB::table('goods')->where('status', 'deleted')->paginate($limit);
         else
             $goods = Good::where('status', $status)->orderBy("created_at", "desc")->paginate($limit);
@@ -322,6 +322,22 @@ class GoodController extends ManageApiController
                 })
             ]
         );
+    }
+
+    public function statusCount()
+    {
+        $for_sale = Good::where('status', 'for_sale')->count();
+        $not_for_sale = Good::where('status', 'not_for_sale')->count();
+        $deleted = DB::table('goods')->where('status', 'deleted')->count();
+        $show = Good::where('status', 'show')->count();
+        $not_show = Good::where('status', 'not_show')->count();
+        return $this->respondSuccessWithStatus([
+            'for_sale' => $for_sale,
+            'not_for_sale' => $not_for_sale,
+            'deleted' => $deleted,
+            'show' => $show,
+            'not_show' => $not_show,
+        ]);
     }
 
     function editGood($goodId, Request $request)
