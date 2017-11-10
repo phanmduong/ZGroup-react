@@ -54,9 +54,9 @@ class OrderController extends ManageApiController
             $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
         //if ($status)
         //    $orders = $orders->where('status', $status);
-        if($user_id)
+        if ($user_id)
             $orders = $orders->where('user_id', $user_id);
-        if($staff_id)
+        if ($staff_id)
             $orders = $orders->where('staff_id', $staff_id);
         $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
@@ -507,7 +507,16 @@ class OrderController extends ManageApiController
         $warehouse->base_id = $request->base_id;
         $warehouse->save();
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'warehouse' => [
+                'id' => $warehouse->id,
+                'name' => $warehouse->name,
+                'location' => $warehouse->location,
+                'base' => [
+                    'id' => $warehouse->base ? $warehouse->base->id : null,
+                    'name' => $warehouse->base ? $warehouse->base->name : null,
+                    'address' => $warehouse->base ? $warehouse->base->address : null,
+                ]
+            ]
         ]);
     }
 
@@ -523,7 +532,16 @@ class OrderController extends ManageApiController
         $warehouse->base_id = $request->base_id;
         $warehouse->save();
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'warehouse' => [
+                'id' => $warehouse->id,
+                'name' => $warehouse->name,
+                'location' => $warehouse->location,
+                'base' => [
+                    'id' => $warehouse->base ? $warehouse->base->id : null,
+                    'name' => $warehouse->base ? $warehouse->base->name : null,
+                    'address' => $warehouse->base ? $warehouse->base->address : null,
+                ]
+            ]
         ]);
     }
 
