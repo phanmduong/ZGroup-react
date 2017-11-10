@@ -48,9 +48,9 @@ class SendCheckInCheckOutNotification extends Command
         foreach ($classLessons as $classLesson) {
             $startTime = $classLesson->start_time;
             $endTime = $classLesson->end_time;
-            $delayedStartTime = strtotime($startTime) - time();
-            $delayedEndTime = strtotime($endTime) - time();
-            $this->info($delayedStartTime);
+            $delayedStartTime = strtotime($startTime) - time() - 30 * 60;
+            $delayedEndTime = strtotime($endTime) - time() - 30 * 60;
+//            $this->info($delayedStartTime);
 
             $class = $classLesson->studyClass;
             if ($class) {
@@ -63,7 +63,6 @@ class SendCheckInCheckOutNotification extends Command
                         $sendCheckOutTeachJob = (new SendCheckOutTeachRemindNotification($class->teach, $class, $endTime))->delay($delayedEndTime);
                         $this->dispatch($sendCheckOutTeachJob);
                     }
-
                 }
                 if ($class->assist) {
                     if ($delayedStartTime > 0) {
