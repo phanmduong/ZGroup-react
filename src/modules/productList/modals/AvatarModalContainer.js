@@ -18,12 +18,12 @@ class AvatarModalContainer extends React.Component {
         this.handleProduct = this.handleProduct.bind(this);
         this.changeSelectManufacture = this.changeSelectManufacture.bind(this);
         this.changeSelectCategory = this.changeSelectCategory.bind(this);
+        this.changeSelectStatus = this.changeSelectStatus.bind(this);
         this.uploadEditProduct = this.uploadEditProduct.bind(this);
     }
 
     componentWillMount() {
         this.props.productListAction.getManufacturesProductsList();
-        this.props.productListAction.getCategoriesProductsList();
     }
 
     changeSelectManufacture(value) {
@@ -32,6 +32,10 @@ class AvatarModalContainer extends React.Component {
 
     changeSelectCategory(value) {
         this.props.modalProductAction.handleCategory(value.id);
+    }
+
+    changeSelectStatus(status){
+        this.props.modalProductAction.handleStatus(status.value);
     }
 
     showAvatarModal(e) {
@@ -64,7 +68,8 @@ class AvatarModalContainer extends React.Component {
         this.props.productListAction.uploadEditProduct(
             this.props.productEditing.productPresent,
             this.props.productEditing.manufacture_id,
-            this.props.productEditing.good_category_id
+            this.props.productEditing.good_category_id,
+            this.props.productEditing.status
         );
     }
 
@@ -146,7 +151,6 @@ class AvatarModalContainer extends React.Component {
                                                         className="fa fa-times"/>
                                                         Remove
                                                     </button>
-
                                                 </div>
                                             )
                                         }
@@ -172,6 +176,19 @@ class AvatarModalContainer extends React.Component {
                                        value={this.props.productEditing.productPresent.price}
                                        onChange={this.handleProduct}/>
                                 <span className="material-input"/>
+                            </div>
+                            <div className="form-group">
+                                <label className="control-label">Trạng thái</label>
+                                <Select
+                                    name="status"
+                                    value={this.props.productEditing.status}
+                                    options={this.props.statuses.map((status) => {
+                                        return {
+                                            ...status
+                                        };
+                                    })}
+                                    onChange={this.changeSelectStatus}
+                                />
                             </div>
                             <div className="form-group">
                                 <label className="control-label">Nhà sản xuất</label>
@@ -240,12 +257,9 @@ AvatarModalContainer.propTypes = {
     productListAction: PropTypes.object.isRequired,
     manufactures: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
+    statuses:PropTypes.array.isRequired,
     manufacturesUpdated: PropTypes.bool.isRequired,
     categoriesUpdated: PropTypes.bool.isRequired,
-    handleManufacture: PropTypes.func.isRequired,
-    handleCategory: PropTypes.func.isRequired,
-    getManufacturesProductsList: PropTypes.func.isRequired,
-    getCategoriesProductsList: PropTypes.func.isRequired,
     isModalUpdating: PropTypes.bool
 };
 
@@ -257,7 +271,8 @@ function mapStateToProps(state) {
         manufactures: state.productList.manufactures,
         categoriesUpdated: state.productList.categoriesUpdated,
         manufacturesUpdated: state.productList.manufacturesUpdated,
-        isModalUpdating: state.productList.modalInProduct.isModalUpdating
+        isModalUpdating: state.productList.modalInProduct.isModalUpdating,
+        statuses:state.productList.statuses
     };
 }
 

@@ -1,9 +1,33 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function getProductsApi() {
+export function getInformationProductsApi() {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/good/status/count?token=" + token;
+    return axios.get(url);
+}
+
+export function getProductsApi(search, start_time, end_time, manufacture_id, good_category_id) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + "/good/all?token=" + token;
+    if(search){
+        url += "&search=" + search;
+    }
+    if(start_time && end_time){
+        url += "&start_time=" + start_time + "&end_time=" + end_time;
+    }
+    if(manufacture_id){
+        url += "&manufacture_id=" + manufacture_id;
+    }
+    if(good_category_id){
+        url += "&good_category_id=" + good_category_id;
+    }
+    return axios.get(url);
+}
+
+export function getProductsStatusApi(status) {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/good/get-by-status?token=" + token + "&status=" + status;
     return axios.get(url);
 }
 
@@ -37,15 +61,16 @@ export function getCategoriesApi() {
     return axios.get(url);
 }
 
-export function uploadEditProductApi(productPresent, manufacture_id, category_id) {
+export function uploadEditProductApi(productPresent, manufacture_id, category_id, status) {
     let token = localStorage.getItem("token");
-    let url = env.MANAGE_API_URL + "/good/edit/" + productPresent.id + "?token=" + token;
+    let url = env.MANAGE_API_URL + "/good/edit/" + productPresent.id + "?token=" + token ;
     return axios.put(url, {
         avatar_url: productPresent.avatar_url,
         price: productPresent.price,
         name: productPresent.name,
         manufacture_id: manufacture_id,
-        good_category_id: category_id
+        good_category_id: category_id,
+        status: status
     });
 }
 
@@ -54,4 +79,5 @@ export function getManufacturesApi() {
     let url = env.MANAGE_API_URL + "/good/manufactures?token=" + token;
     return axios.get(url);
 }
+
 

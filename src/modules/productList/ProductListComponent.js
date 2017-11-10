@@ -3,65 +3,12 @@ import PropTypes from "prop-types";
 import WareHouseModalContainer from "./modals/WareHouseModalContainer";
 import AvatarModalContainer from "./modals/AvatarModalContainer";
 import PriceModalContainer from "./modals/PriceModalContainer";
-import {generateDatatableLanguage, dotNumber} from "../../helpers/helper";
+import {dotNumber} from "../../helpers/helper";
 import {Link} from "react-router";
 
 class ProductListComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
-    }
-
-    componentDidMount() {
-        // Setup - add a text input to each footer cell
-        $('#imported-goods-table tfoot th').each(function () {
-            let title = $(this).text();
-            if (title !== "") {
-                $(this).html('<input class="form-control width-100" type="text" placeholder="Tìm ' + title.toLowerCase() + '" />');
-            }
-        });
-
-        const table = $('#imported-goods-table').DataTable({
-            dom: '<l<t>ip>',
-            pagingType: "full_numbers",
-            lengthMenu: [
-                [-1, 10, 25, 50],
-                ["Tất cả", 10, 25, 50]
-            ],
-            iDisplayLength: 10,
-            responsive: true,
-            columns: [
-                {"name": "", "orderable": false},
-                {"name": "Mã sản phẩm", "orderable": true},
-                {"name": "Tên sản phẩm", "orderable": true},
-                {"name": "Số lượng", "orderable": true},
-                {"name": "Giá bán", "orderable": true},
-                {"name": "Nhóm hàng", "orderable": true},
-                {"name": "Nhà sản xuất", "orderable": true},
-                {"name": "Kho", "orderable": true},
-                {"name": "", "orderable": false}
-            ],
-            "language": generateDatatableLanguage("hóa đơn"),
-            initComplete: function () {
-                let r = $('#imported-goods-table tfoot tr');
-                r.find('th').each(function () {
-                    $(this).css('padding', 8);
-                });
-                $('#imported-goods-table thead').append(r);
-                $('#search_0').css('text-align', 'center');
-                $('.card .material-datatables label').addClass('form-group');
-            },
-        });
-        // Apply the search
-        table.columns().every(function () {
-            const that = this;
-            $('input', this.footer()).on('keyup change', function () {
-                if (that.search() !== this.value) {
-                    that.search(this.value).draw();
-                }
-            });
-        });
-        this.props.setTable(table);
-        $.material.init();
     }
 
     render() {
@@ -81,19 +28,6 @@ class ProductListComponent extends React.Component {
                         <th/>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <tr className="text-rose">
-                        <th className="disabled-sorting"/>
-                        <th>Mã sản phẩm</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Số lượng</th>
-                        <th>Giá bán</th>
-                        <th>Nhóm hàng</th>
-                        <th>Nhà sản xuất</th>
-                        <th>Kho</th>
-                        <th/>
-                    </tr>
-                    </tfoot>
                     <tbody>
                     {
                         this.props.products.map((product) => {
@@ -127,22 +61,14 @@ class ProductListComponent extends React.Component {
                                         </a>
                                     </td>
                                     <td style={{width: "115px"}}>
-                                        <a className="text-name-student-register"
-                                           rel="tooltip" title=""
-                                           data-original-title="Remove item">
-                                            {
-                                                this.props.categories.filter(category => category.id === product.good_category_id)[0].name || "Chưa có"
-                                            }
-                                        </a>
+                                        {product.good_category_id ?
+                                            this.props.categories.filter(category => category.id === product.good_category_id)[0].name : "Chưa có"
+                                        }
                                     </td>
                                     <td style={{width: "120px"}}>
-                                        <a className="text-name-student-register"
-                                           rel="tooltip" title=""
-                                           data-original-title="Remove item">
-                                            {
-                                                this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0].name || "Chưa có"
-                                            }
-                                        </a>
+                                        {product.manufacture_id ?
+                                            this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0].name : "Chưa có"
+                                        }
                                     </td>
                                     <td>
                                         <a className="text-name-student-register"

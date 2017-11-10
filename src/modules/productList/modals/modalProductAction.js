@@ -27,6 +27,13 @@ export function handleCategory(good_category_id) {
     });
 }
 
+export function handleStatus(status) {
+    return ({
+        type: types.HANDLE_STATUS,
+        status
+    });
+}
+
 export function showWareHouseModal() {
     return ({
         type: types.TOGGLE_WARE_HOUSE_MODAL

@@ -3,6 +3,10 @@ export default {
         products: [],
         productsTotal: '',
         productsBusiness: '',
+        productsNotBusiness:'',
+        productsDisplay:'',
+        productsNotDisplay:'',
+        productsDeleted:'',
         productsQuantity: '',
         isLoading: false,
         modalInProduct: {
@@ -32,14 +36,36 @@ export default {
             },
             good_category_id: '',
             manufacture_id: '',
+            status:'',
             isUploadingAvatar: false,
             percent: 0
-
         },
         categories: [],
         categoriesUpdated: false,
         manufactures: [],
-        manufacturesUpdated: false
+        manufacturesUpdated: false,
+        statuses:[
+            {
+                value:"for_sale",
+                label:"ĐANG KINH DOANH"
+            },
+            {
+                value:"not_for_sale",
+                label:"NGỪNG KINH DOANH"
+            },
+            {
+                value:"show",
+                label:"HIỂN THỊ RA WEB"
+            },
+            {
+                value:"not_show",
+                label:"KHÔNG HIỂN THỊ RA WEB"
+            },
+            {
+                value:"deleted",
+                label:"ĐÃ XÓA"
+            }
+        ]
     },
 
     good: {

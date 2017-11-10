@@ -2,20 +2,34 @@ import * as productListApi from './productListApi';
 import * as types from '../../constants/actionTypes';
 import {showErrorNotification, showNotification} from "../../helpers/helper";
 
-export function getProducts() {
+export function getProducts(search, start_time, end_time, manufacture_id, good_category_id) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_PRODUCTS
         });
-        productListApi.getProductsApi()
+        productListApi.getInformationProductsApi()
+            .then(function (response) {
+                dispatch({
+                    type: types.DISPLAY_INFORMATION_PRODUCTS_LIST,
+                    productsTotal: response.data.data.total,
+                    productsBusiness: response.data.data.for_sale,
+                    productsNotBusiness:response.data.data.not_for_sale,
+                    productsDisplay:response.data.data.show,
+                    productsNotDisplay:response.data.data.not_show,
+                    productsDeleted:response.data.data.deleted,
+                    productsQuantity: 69
+                });
+            })
+            .catch(function (error) {
+                throw(error);
+            });
+        productListApi.getProductsApi(search, start_time, end_time, manufacture_id, good_category_id)
             .then(function (response) {
                 dispatch({
                     type: types.LOAD_PRODUCTS_SUCCESS,
-                    products: response.data.goods,
-                    productsTotal: response.data.goods.length,
-                    productsBusiness: '',
-                    productsQuantity: response.data.goods.reduce((sum, product) => sum + product.quantity, 0)
+                    products: response.data.goods
                 });
+
                 dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
                     updated: false
@@ -23,6 +37,28 @@ export function getProducts() {
             })
             .catch(function (error) {
                 throw(error);
+            });
+    };
+}
+
+export function getProductsStatus(status) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_PRODUCTS
+        });
+        productListApi.getProductsStatusApi(status)
+            .then(function (response) {
+                dispatch({
+                    type: types.LOAD_PRODUCTS_SUCCESS,
+                    products: response.data.goods
+                });
+                dispatch({
+                    type: types.UPDATED_PRODUCT_LIST_MODAL,
+                    updated: false
+                });
+            })
+            .catch(function (error) {
+                throw (error);
             });
     };
 }
@@ -84,22 +120,7 @@ export function changeAvatar(file) {
     };
 }
 
-export function getCategoriesProductsList() {
-    return function (dispatch) {
-        productListApi.getCategoriesApi()
-            .then(function (response) {
-                let a = superSortCategories(response.data.data[0].good_categories);
-                dispatch(saveCategoriesProductsList(a));
-                dispatch({
-                    type: types.UPDATE_CATEGORIES_COMPLETE,
-                    categoriesUpdated: true
-                });
-            })
-            .catch(function (error) {
-                throw(error);
-            });
-    };
-}
+
 
 export function saveCategoriesProductsList(categories) {
     return ({
@@ -108,10 +129,10 @@ export function saveCategoriesProductsList(categories) {
     });
 }
 
-export function uploadEditProduct(productPresent, manufacture_id, category_id) {
+export function uploadEditProduct(productPresent, manufacture_id, category_id, status) {
     return function (dispatch) {
         dispatch(updatingProductListModal(true));
-        productListApi.uploadEditProductApi(productPresent, manufacture_id, category_id)
+        productListApi.uploadEditProductApi(productPresent, manufacture_id, category_id, status)
             .then(function () {
                 dispatch(updatingProductListModal(false));
                 dispatch({
@@ -139,6 +160,22 @@ export function getManufacturesProductsList() {
                 dispatch({
                     type: types.GET_MANUFACTURES_PRODUCTS_LIST,
                     manufactures: response.data.data.manufactures
+                });
+            })
+            .catch(function (error) {
+                throw(error);
+            });
+    };
+}
+
+export function getCategoriesProductsList() {
+    return function (dispatch) {
+        productListApi.getCategoriesApi()
+            .then(function (response) {
+                dispatch(saveCategoriesProductsList(superSortCategories(response.data.data[0].good_categories)));
+                dispatch({
+                    type: types.UPDATE_CATEGORIES_COMPLETE,
+                    categoriesUpdated: true
                 });
             })
             .catch(function (error) {
