@@ -54,6 +54,7 @@ class Notification extends Model
             "icon" => $this->notificationType->icon,
             "color" => $this->notificationType->color,
             "url" => $this->url,
+            "object_id" => $this->product_id,
             'image_url' => $this->image_url,
             "message" => $this->message
         ];
