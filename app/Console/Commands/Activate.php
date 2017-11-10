@@ -40,7 +40,7 @@ class Activate extends Command
     public function handle()
     {
         $date = new \DateTime();
-        $date->modify('+2 days');
+        $date->modify('+1 days');
         $formatted_date = $date->format('Y-m-d');
         $classes = StudyClass::whereDate('datestart', '=', $formatted_date)
             ->where('name', 'like', '%.%')->get();
