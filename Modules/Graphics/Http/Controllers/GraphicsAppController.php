@@ -39,4 +39,7 @@ class GraphicsAppController extends NoAuthApiController
            "books" => $book_arr
         ]);
     }
+    public function detailBook()
+    {
+    }
 }
