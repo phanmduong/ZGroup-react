@@ -298,27 +298,43 @@ class ProductListContainer extends React.Component {
                                                         trang {this.props.currentPage} trên tổng
                                                         số {this.props.totalPages} trang</b><br/>
                                                     <ul className="pagination pagination-primary">
-                                                        <li>
-                                                            <a>previous</a>
-                                                        </li>
+                                                        {
+                                                            this.props.currentPage === 1 ? (
+                                                                <li className="disabled">
+                                                                    <a>previous</a>
+                                                                </li>
+                                                            ) : (
+                                                                <li>
+                                                                    <a onClick={this.productsPageChange(this.props.currentPage-1)}>previous</a>
+                                                                </li>
+                                                            )
+                                                        }
                                                         {_.range(1, this.props.totalPages + 1).map(page => {
                                                             if (Number(this.props.currentPage) === page) {
                                                                 return (
-                                                                    <li key={page} className="active">
-                                                                        <a onClick={() => this.productsPageChange(page)}>{page}</a>
+                                                                    <li key={page} className="active disabled">
+                                                                        <a>{page}</a>
                                                                     </li>
                                                                 );
                                                             } else {
                                                                 return (
                                                                     <li key={page}>
-                                                                        <a onClick={() => this.productsPageChange(page)}>{page}</a>
+                                                                        <a onClick={this.productsPageChange(page)}>{page}</a>
                                                                     </li>
                                                                 );
                                                             }
                                                         })}
-                                                        <li>
-                                                            <a>next </a>
-                                                        </li>
+                                                        {
+                                                            this.props.currentPage === this.props.totalPages ? (
+                                                                <li className="disabled">
+                                                                    <a>previous</a>
+                                                                </li>
+                                                            ) : (
+                                                                <li>
+                                                                    <a onClick={this.productsPageChange(this.props.currentPage+1)}>previous</a>
+                                                                </li>
+                                                            )
+                                                        }
                                                     </ul>
                                                 </div>
                                             </div>
@@ -361,12 +377,11 @@ class ProductListContainer extends React.Component {
 
                                                         <div className="ripple-container"/>
                                                     </button>
-                                                    <p rel="tooltip" data-placement="top" title=""
-                                                       className="btn btn-success btn-simple"
+                                                    <button rel="tooltip" data-placement="top" title=""
+                                                            className="btn btn-success btn-simple disabled"
                                                     >Tổng số lượng : {this.props.productsQuantity}
-
                                                         <div className="ripple-container"/>
-                                                    </p>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
