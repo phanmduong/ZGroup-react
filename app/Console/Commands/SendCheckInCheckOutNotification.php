@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\ClassLesson;
+use App\Jobs\SendCheckInSMRemindNotification;
 use App\Jobs\SendCheckInTeachRemindNotification;
 use App\Jobs\SendCheckOutTeachRemindNotification;
 use App\Shift;
@@ -10,6 +11,11 @@ use App\ShiftSession;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
+/**
+ * Class SendCheckInCheckOutNotification
+ * Send SendCheckInCheckOUt notification for Teacher and Teaching Assistant
+ * @package App\Console\Commands
+ */
 class SendCheckInCheckOutNotification extends Command
 {
     use DispatchesJobs;
@@ -81,17 +87,7 @@ class SendCheckInCheckOutNotification extends Command
             }
         }
 
-        // Sale and Marketing
-        $shifts = Shift::where("date", $formatted_time)->get();
-        foreach ($shifts as $shift) {
-            $session = $shift->shift_session;
-            $previousSession = ShiftSession::where("end_time", $session->start_time)->first();
-            $previousShift = $previousSession->shifts()->where("date", $formatted_time)->first();
 
-            if ($previousShift == null || $previousShift->user_id != $shift->user_id) {
-
-            }
-        }
 
     }
 }

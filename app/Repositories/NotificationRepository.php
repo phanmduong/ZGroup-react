@@ -270,20 +270,56 @@ class NotificationRepository
         if ($shift->user == null) {
             return;
         }
+        if ($shift->shift_session == null) {
+            return;
+        }
         $user = $shift->user;
-        $notification = new Notification;
+        $notification = new Notification();
         $notification->actor_id = 0;
         $notification->receiver_id = $user->id;
-        $notification->product_id = 0;
-        $notification->type = 23;
+        $notification->product_id = "checkin";
+        $notification->type = 25;
 
         $message = $notification->notificationType->template;
 
-        $message = str_replace('[[CLASS_NAME]]', "<strong>" . $class->name . "</strong>", $message);
-        $message = str_replace('[[TIME]]', "<strong>" . $time . "</strong>", $message);
+        $session = $shift->shift_session;
+
+        $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+        $message = str_replace('[[TIME]]', "<strong>" . $session->start_time . "</strong>", $message);
 
         $notification->message = $message;
-        $notification->image_url = $reciever->avatar_url ? $reciever->avatar_url : defaultAvatarUrl();
+        $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
+
+        $notification->url = "/";
+
+        $notification->save();
+        $this->sendNotification($notification);
+    }
+
+    public function sendRemindCheckOutSMNofication($shift)
+    {
+        if ($shift->user == null) {
+            return;
+        }
+        if ($shift->shift_session == null) {
+            return;
+        }
+        $user = $shift->user;
+        $notification = new Notification();
+        $notification->actor_id = 0;
+        $notification->receiver_id = $user->id;
+        $notification->product_id = "checkout";
+        $notification->type = 26;
+
+        $message = $notification->notificationType->template;
+
+        $session = $shift->shift_session;
+
+        $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+        $message = str_replace('[[TIME]]', "<strong>" . $session->end_time . "</strong>", $message);
+
+        $notification->message = $message;
+        $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
 
         $notification->url = "/";
 

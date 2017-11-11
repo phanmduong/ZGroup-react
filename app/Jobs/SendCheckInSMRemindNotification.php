@@ -11,20 +11,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SendCheckInSMRemindNotification extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
-    protected $user;
     protected $shift;
-    protected $time;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user, $shift, $time)
+    public function __construct($shift)
     {
         $this->shift = $shift;
-        $this->user = $user;
-        $this->time = $time;
     }
 
     /**
@@ -35,6 +31,7 @@ class SendCheckInSMRemindNotification extends Job implements ShouldQueue
     public function handle()
     {
         $notificationRepository = new NotificationRepository();
+        $notificationRepository->sendRemindCheckInSMNofication($this->shift);
 
     }
 }

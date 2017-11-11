@@ -203,7 +203,7 @@ class NotificationTypeSeeder extends Seeder
                 'color' => "#4CAF50",
                 'id' => 25,
                 "type" => "social",
-                "template" => "Bạn nhớ check in ca [[SHIFT]] lúc [[TIME]] nhé",
+                "template" => "Bạn nhớ check in [[SHIFT]] lúc [[TIME]] nhé",
                 "icon" => "<i class=\"material-icons\">radio_button_checked</i>"
             ],
             [
@@ -211,7 +211,7 @@ class NotificationTypeSeeder extends Seeder
                 'color' => "#4CAF50",
                 'id' => 26,
                 "type" => "social",
-                "template" => "Bạn nhớ check out ca [[SHIFT]] lúc [[TIME]] nhé",
+                "template" => "Bạn nhớ check out [[SHIFT]] lúc [[TIME]] nhé",
                 "icon" => "<i class=\"material-icons\">radio_button_unchecked</i>"
             ]
 
