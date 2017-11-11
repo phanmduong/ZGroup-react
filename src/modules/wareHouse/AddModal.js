@@ -11,22 +11,40 @@ class AddModal extends React.Component {
         super(props, context);
         this.closeModal = this.closeModal.bind(this);
         this.handleNameLocation = this.handleNameLocation.bind(this);
-        this.addWareHouse = this.addWareHouse.bind(this);
+        this.handleBase = this.handleBase.bind(this);
+        this.activeModal = this.activeModal.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.wareHouseActions.loadBases();
     }
 
     closeModal() {
         this.props.wareHouseActions.closeModal();
     }
 
-    addWareHouse() {
-        this.props.wareHouseActions.addWareHouse(this.props.wareHouse, this.closeModal);
+    activeModal(e){
+        this.props.isEdit ?
+            this.props.wareHouseActions.editWareHouse(this.props.wareHouse, this.closeModal, this.props.loadWareHouses):
+            this.props.wareHouseActions.addWareHouse(this.props.wareHouse, this.closeModal, this.props.loadWareHouses);
+        e.preventDefault();
     }
 
     handleNameLocation(e) {
         let field = e.target.name;
         let wareHouse = this.props.wareHouse;
         wareHouse[field] = e.target.value;
-        this.props.wareHouseActions.handleNameLocation(wareHouse);
+        this.props.wareHouseActions.handleNameLocationBase(wareHouse);
+    }
+
+    handleBase(e) {
+        let wareHouse = this.props.wareHouse;
+        wareHouse.base ? wareHouse.base['id'] = e.target.value
+            :
+            (
+                wareHouse = {...wareHouse, base: {...wareHouse.base, id: e.target.value}}
+            );
+        this.props.wareHouseActions.handleNameLocationBase(wareHouse);
     }
 
     render() {
@@ -41,14 +59,14 @@ class AddModal extends React.Component {
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose"><i
                             className="material-icons">assignment</i></div>
-                        <div className="card-content"><h4 className="card-title">Danh sách người dùng</h4>
+                        <div className="card-content"><h4 className="card-title">Nhà kho</h4>
                             <div className="table-responsive">
                                 <table className="table">
                                     <thead className="text-rose">
                                     <tr>
                                         <th>Tên kho</th>
                                         <th>Địa chỉ kho</th>
-                                        <th>Kho</th>
+                                        <th>Cơ sở</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -60,9 +78,9 @@ class AddModal extends React.Component {
                                                 <input type="text" className="form-control"
                                                        name="name" defaultValue={this.props.wareHouse.name}
                                                        onChange={(e) => this.handleNameLocation(e)}/>
-
                                             </div>
                                         </td>
+
                                         <td>
                                             <div className="form-group label-floating is-empty">
                                                 {this.props.isEdit ? <label>Sửa địa chỉ kho</label> :
@@ -72,16 +90,39 @@ class AddModal extends React.Component {
                                                        onChange={(e) => this.handleNameLocation(e)}/>
                                             </div>
                                         </td>
-                                        <td><select className="form-control">
-                                            <option value={0}/>
-                                            <option value={3}>Cơ sở 1: 175 Chùa Láng - Đống Đa - Hà Nội</option>
-                                            <option value={4}>Cơ sở 2: Số 162, Ngõ 83 Trường Chinh - Thanh Xuân - Hà
-                                                Nội
-                                            </option>
-                                            <option value={6}>Cơ sở 3: Tầng 4, số 835/14 Trần Hưng Đạo, Quận 5, Sài
-                                                Gòn
-                                            </option>
-                                        </select></td>
+
+                                        <td>
+                                            <div className="form-group label-floating is-empty">
+                                                {this.props.isEdit ? <label>Chọn cơ sở</label> :
+                                                    <label className="control-label">Cơ sở</label>}
+                                                <select className="form-control" name="id"
+                                                        onChange={(e) => this.handleBase(e)}
+                                                >
+                                                    {this.props.wareHouse.base ? <option value={null}/> :
+                                                        <option value={null} selected/>}
+
+                                                    {this.props.bases.map((base) => {
+                                                            if (this.props.wareHouse.base && base.id === this.props.wareHouse.base.id) {
+                                                                return (
+                                                                    <option key={base.id}
+                                                                            value={base.id}
+                                                                            selected>
+                                                                        {base.name}: {base.address}
+                                                                    </option>
+                                                                );
+                                                            }
+                                                            else return (
+                                                                <option key={base.id}
+                                                                        value={base.id}>
+                                                                    {base.name}: {base.address}
+                                                                </option>
+                                                            );
+                                                        }
+                                                    )}
+                                                </select>
+                                            </div>
+                                        </td>
+
                                     </tr>
                                     </tbody>
                                 </table>
@@ -106,15 +147,7 @@ class AddModal extends React.Component {
                             (
                                 <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
                                         type="button" className="btn btn-round btn-success "
-                                        onClick={() => {
-                                            if (!this.props.isEdit) {
-                                                this.addWareHouse();
-                                            }
-                                            else {
-                                                this.editCategory();
-                                            }
-                                        }
-                                        }
+                                        onClick={(e) => {this.activeModal(e);}}
                                 ><i className="material-icons">check</i>
                                     {this.props.isEdit ? 'Cập nhật' : 'Thêm'}
                                 </button>
@@ -137,6 +170,8 @@ AddModal.propTypes = {
     isEdit: PropTypes.bool,
     isSaving: PropTypes.bool,
     wareHouse: PropTypes.object,
+    bases: PropTypes.array,
+    loadWareHouses: PropTypes.func,
 };
 
 
@@ -146,6 +181,7 @@ function mapStateToProps(state) {
         isEdit: state.wareHouses.modal.isEdit,
         isSaving: state.wareHouses.modal.isSaving,
         wareHouse: state.wareHouses.modal.wareHouse,
+        bases: state.wareHouses.bases,
     };
 }
 

@@ -799,6 +799,7 @@ export default {
     wareHouses: {
         isLoading: true,
         wareHousesList: [],
+        bases: [],
         totalPages: 1,
         modal: {
             wareHouse: {
@@ -806,15 +807,15 @@ export default {
                 name: '',
                 location: '',
                 base: {
-                    id:'',
+                    id: '',
                     name: '',
                     address: '',
 
                 }
             },
-            isShowModal : false,
-            isEdit : false,
-            isSaving : false,
+            isShowModal: false,
+            isEdit: false,
+            isSaving: false,
         }
     }
 };
