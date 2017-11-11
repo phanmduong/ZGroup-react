@@ -12,10 +12,15 @@ namespace Modules\Graphics\Http\Controllers;
 use App\Good;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NoAuthApiController;
+
+use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
 
 class GraphicsAppController extends NoAuthApiController
 {
+    public function __construct()
+    {
+    }
 
     public function index(){
         $books = Good::where('type', 'book')->get();
@@ -39,7 +44,32 @@ class GraphicsAppController extends NoAuthApiController
            "books" => $book_arr
         ]);
     }
-    public function detailBook()
-    {
+
+    public function detailedBook($book_id,Request $request){
+
+        $book = Good::find($book_id);
+        if($book ==null || $book->type != "book")
+            return $this->respondErrorWithStatus("Không tồn tại sách");
+        $book_data = [];
+         $properties = GoodProperty::where('good_id', $book->id)->get();
+            $bookdata = [
+                'id' => $book->id,
+                'cover' => $book->cover_url,
+                'avatar' => $book->avatar_url,
+                'name' => $book->name,
+                'price' => $book->price
+            ];
+            foreach ($properties as $property) {
+                $bookdata[$property->name] = $property->value;
+            }
+            $book_data[] = $bookdata;
+
+
+        return $this->respondSuccessWithStatus([
+            "book" => $book_data
+        ]);
+
+
     }
+
 }

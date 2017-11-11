@@ -24,6 +24,6 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
 
 Route::group(['domain' => 'api.' . config('app.domain'),'prefix' => 'apiv3', 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
    Route::get('/books','GraphicsAppController@index');
-   //Route::get('/detail-book','GraphicsAppController@detailBook');
+   Route::post('/detail-book/{book_id}','GraphicsAppController@detailedBook');
 });
 
