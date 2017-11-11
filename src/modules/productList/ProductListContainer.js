@@ -11,6 +11,7 @@ import Search from "../../components/common/Search";
 import FormInputDate from "../../components/common/FormInputDate";
 import * as helper from '../../helpers/helper';
 import Select from 'react-select';
+import _ from 'lodash';
 
 class ProductListContainer extends React.Component {
     constructor(props, context) {
@@ -22,11 +23,11 @@ class ProductListContainer extends React.Component {
             },
             query: '',
             manufacture: '',
-            category: ''
+            category: '',
+            page:''
         };
         this.timeOut = null;
         this.table = null;
-        this.getProducts = this.getProducts.bind(this);
         this.showPriceModal = this.showPriceModal.bind(this);
         this.showWareHouseModal = this.showWareHouseModal.bind(this);
         this.showAvatarModal = this.showAvatarModal.bind(this);
@@ -35,21 +36,18 @@ class ProductListContainer extends React.Component {
         this.productsSearchChange = this.productsSearchChange.bind(this);
         this.manufacturesSearchChange = this.manufacturesSearchChange.bind(this);
         this.categoriesSearchChange = this.categoriesSearchChange.bind(this);
+        this.productsPageChange = this.productsPageChange.bind(this);
     }
 
     componentWillMount() {
         this.props.productListAction.getCategoriesProductsList();
-        this.getProducts();
+        this.props.productListAction.getProducts();
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.modalUpdated) {
             this.getProducts();
         }
-    }
-
-    getProducts() {
-        this.props.productListAction.getProducts();
     }
 
     updateFormDate(event) {
@@ -59,6 +57,7 @@ class ProductListContainer extends React.Component {
 
         if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
             this.props.productListAction.getProducts(
+                this.state.page,
                 this.state.query,
                 time.startTime,
                 time.endTime,
@@ -80,6 +79,7 @@ class ProductListContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.productListAction.getProducts(
+                this.state.page,
                 value,
                 this.state.time.startTime,
                 this.state.time.endTime,
@@ -98,6 +98,7 @@ class ProductListContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.productListAction.getProducts(
+                this.state.page,
                 this.state.query,
                 this.state.time.startTime,
                 this.state.time.endTime,
@@ -116,6 +117,7 @@ class ProductListContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.productListAction.getProducts(
+                this.state.page,
                 this.state.query,
                 this.state.time.startTime,
                 this.state.time.endTime,
@@ -123,6 +125,18 @@ class ProductListContainer extends React.Component {
                 value.id
             );
         }.bind(this), 500);
+    }
+
+    productsPageChange(value){
+        this.setState({page:value});
+        this.props.productListAction.getProducts(
+          value,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.manufacture,
+            this.state.category
+        );
     }
 
     showPriceModal(product) {
@@ -264,36 +278,24 @@ class ProductListContainer extends React.Component {
                                                     )
                                                 }
                                             </div>
-                                            <div className="dataTables_paginate paging_full_numbers"
-                                                 id="imported-goods-table_paginate">
-                                                <ul className="pagination">
-                                                    <li className="paginate_button first disabled"
-                                                        id="imported-goods-table_first"><a href="#"
-                                                                                           aria-controls="imported-goods-table"
-                                                                                           data-dt-idx="0" tabindex="0">đầu</a>
-                                                    </li>
-                                                    <li className="paginate_button previous disabled"
-                                                        id="imported-goods-table_previous"><a href="#"
-                                                                                              aria-controls="imported-goods-table"
-                                                                                              data-dt-idx="1"
-                                                                                              tabindex="0">trước</a>
-                                                    </li>
-                                                    <li className="paginate_button active"><a href="#"
-                                                                                          aria-controls="imported-goods-table"
-                                                                                          data-dt-idx="2"
-                                                                                          tabindex="0">1</a></li>
-                                                    <li className="paginate_button next disabled"
-                                                        id="imported-goods-table_next"><a href="#"
-                                                                                          aria-controls="imported-goods-table"
-                                                                                          data-dt-idx="3" tabindex="0">tiếp</a>
-                                                    </li>
-                                                    <li className="paginate_button last disabled"
-                                                        id="imported-goods-table_last"><a href="#"
-                                                                                          aria-controls="imported-goods-table"
-                                                                                          data-dt-idx="4" tabindex="0">cuối</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            <ul className="pagination pagination-primary">
+                                                {_.range(1, this.props.totalPages + 1).map(page => {
+                                                    if (Number(this.props.currentPage) === page) {
+                                                        return (
+                                                            <li key={page} className="active">
+                                                                <a onClick={() => this.productsPageChange(page)}>{page}</a>
+                                                            </li>
+                                                        );
+                                                    } else {
+                                                        return (
+                                                            <li key={page}>
+                                                                <a onClick={() => this.productsPageChange(page)}>{page}</a>
+                                                            </li>
+                                                        );
+                                                    }
+
+                                                })}
+                                            </ul>
                                             <div className="card-footer">
                                                 <div style={{float: "right"}}>
                                                     <button rel="tooltip" data-placement="top" title=""
@@ -397,7 +399,9 @@ ProductListContainer.PropTypes = {
     productsDeleted: PropTypes.string.isRequired,
     productsQuantity: PropTypes.string.isRequired,
     categories: PropTypes.array.isRequired,
-    manufactures: PropTypes.array.isRequired
+    manufactures: PropTypes.array.isRequired,
+    totalPages:PropTypes.number.isRequired,
+    currentPage:PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
@@ -414,7 +418,9 @@ function mapStateToProps(state) {
         isModalUpdating: state.productList.modalInProduct.isModalUpdating,
         modalUpdated: state.productList.modalInProduct.modalUpdated,
         categories: state.productList.categories,
-        manufactures: state.productList.manufactures
+        manufactures: state.productList.manufactures,
+        totalPages: state.productList.totalPages,
+        currentPage: state.productList.currentPage
     };
 }
 

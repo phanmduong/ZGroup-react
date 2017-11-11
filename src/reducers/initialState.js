@@ -8,6 +8,8 @@ export default {
         productsNotDisplay:'',
         productsDeleted:'',
         productsQuantity: '',
+        totalPages:'',
+        currentPage:'',
         isLoading: false,
         modalInProduct: {
             priceModal: false,

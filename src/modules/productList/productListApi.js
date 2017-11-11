@@ -7,9 +7,12 @@ export function getInformationProductsApi() {
     return axios.get(url);
 }
 
-export function getProductsApi(search, start_time, end_time, manufacture_id, good_category_id) {
+export function getProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + "/good/all?token=" + token;
+    if(page){
+        url += "&page=" + page;
+    }
     if(search){
         url += "&search=" + search;
     }

@@ -8,6 +8,8 @@ export default function productListReducer(state = initialState.productList, act
             return {
                 ...state,
                 products: action.products,
+                totalPages: action.totalPages,
+                currentPage: action.currentPage,
                 isLoading: false
             };
         case types.DISPLAY_INFORMATION_PRODUCTS_LIST:
@@ -15,10 +17,10 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 productsTotal: action.productsTotal,
                 productsBusiness: action.productsBusiness,
-                productsNotBusiness:action.productsNotBusiness,
-                productsDisplay:action.productsDisplay,
-                productsNotDisplay:action.productsNotDisplay,
-                productsDeleted:action.productsDeleted,
+                productsNotBusiness: action.productsNotBusiness,
+                productsDisplay: action.productsDisplay,
+                productsNotDisplay: action.productsNotDisplay,
+                productsDeleted: action.productsDeleted,
                 productsQuantity: action.productsQuantity
             };
         case types.TOGGLE_PRICE_MODAL:
