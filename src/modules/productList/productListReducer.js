@@ -10,6 +10,7 @@ export default function productListReducer(state = initialState.productList, act
                 products: action.products,
                 totalPages: action.totalPages,
                 currentPage: action.currentPage,
+                limit: action.limit,
                 isLoading: false
             };
         case types.DISPLAY_INFORMATION_PRODUCTS_LIST:

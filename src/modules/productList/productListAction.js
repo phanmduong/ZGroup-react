@@ -29,7 +29,8 @@ export function getProducts(page, search, start_time, end_time, manufacture_id, 
                     type: types.LOAD_PRODUCTS_SUCCESS,
                     products: response.data.goods,
                     totalPages:response.data.paginator.total_pages,
-                    currentPage:response.data.paginator.current_page
+                    currentPage:response.data.paginator.current_page,
+                    limit:response.data.paginator.limit
                 });
                 dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,

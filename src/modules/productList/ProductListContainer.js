@@ -24,7 +24,7 @@ class ProductListContainer extends React.Component {
             query: '',
             manufacture: '',
             category: '',
-            page:''
+            page: ''
         };
         this.timeOut = null;
         this.table = null;
@@ -46,7 +46,7 @@ class ProductListContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.modalUpdated) {
-            this.getProducts();
+            this.props.productListAction.getProducts();
         }
     }
 
@@ -127,10 +127,10 @@ class ProductListContainer extends React.Component {
         }.bind(this), 500);
     }
 
-    productsPageChange(value){
-        this.setState({page:value});
+    productsPageChange(value) {
+        this.setState({page: value});
         this.props.productListAction.getProducts(
-          value,
+            value,
             this.state.query,
             this.state.time.startTime,
             this.state.time.endTime,
@@ -263,6 +263,20 @@ class ProductListContainer extends React.Component {
                                                             minDate={this.state.time.startTime}
                                                         />
                                                     </div>
+                                                    <br/>
+                                                    <div className="col-md-12">
+                                                        <label className="form-group form-group-sm"
+                                                               style={{marginTop: "0px"}}>Hiển thị
+                                                            <select value={this.props.limit}
+                                                                    aria-controls="imported-goods-table"
+                                                                    className="form-control">
+                                                                <option value="10">10</option>
+                                                                <option value="25">15</option>
+                                                                <option value="50">20</option>
+                                                            </select> hóa đơn trên 1 trang
+                                                            <span className="material-input"/>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                                 <br/>
                                                 {
@@ -278,24 +292,36 @@ class ProductListContainer extends React.Component {
                                                     )
                                                 }
                                             </div>
-                                            <ul className="pagination pagination-primary">
-                                                {_.range(1, this.props.totalPages + 1).map(page => {
-                                                    if (Number(this.props.currentPage) === page) {
-                                                        return (
-                                                            <li key={page} className="active">
-                                                                <a onClick={() => this.productsPageChange(page)}>{page}</a>
-                                                            </li>
-                                                        );
-                                                    } else {
-                                                        return (
-                                                            <li key={page}>
-                                                                <a onClick={() => this.productsPageChange(page)}>{page}</a>
-                                                            </li>
-                                                        );
-                                                    }
-
-                                                })}
-                                            </ul>
+                                            <div className="row" style={{float: "right"}}>
+                                                <div className="col-md-12" style={{textAlign: "right"}}>
+                                                    <b style={{marginRight: "15px"}}>Hiển thị
+                                                        trang {this.props.currentPage} trên tổng
+                                                        số {this.props.totalPages} trang</b><br/>
+                                                    <ul className="pagination pagination-primary">
+                                                        <li>
+                                                            <a>previous</a>
+                                                        </li>
+                                                        {_.range(1, this.props.totalPages + 1).map(page => {
+                                                            if (Number(this.props.currentPage) === page) {
+                                                                return (
+                                                                    <li key={page} className="active">
+                                                                        <a onClick={() => this.productsPageChange(page)}>{page}</a>
+                                                                    </li>
+                                                                );
+                                                            } else {
+                                                                return (
+                                                                    <li key={page}>
+                                                                        <a onClick={() => this.productsPageChange(page)}>{page}</a>
+                                                                    </li>
+                                                                );
+                                                            }
+                                                        })}
+                                                        <li>
+                                                            <a>next </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
                                             <div className="card-footer">
                                                 <div style={{float: "right"}}>
                                                     <button rel="tooltip" data-placement="top" title=""
@@ -376,7 +402,6 @@ class ProductListContainer extends React.Component {
                                 </li>
                             </ul>
                         </nav>
-
                     </div>
                 </footer>
             </div>
@@ -400,8 +425,9 @@ ProductListContainer.PropTypes = {
     productsQuantity: PropTypes.string.isRequired,
     categories: PropTypes.array.isRequired,
     manufactures: PropTypes.array.isRequired,
-    totalPages:PropTypes.number.isRequired,
-    currentPage:PropTypes.number.isRequired
+    totalPages: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
@@ -420,7 +446,8 @@ function mapStateToProps(state) {
         categories: state.productList.categories,
         manufactures: state.productList.manufactures,
         totalPages: state.productList.totalPages,
-        currentPage: state.productList.currentPage
+        currentPage: state.productList.currentPage,
+        limit: state.productList.limit
     };
 }
 

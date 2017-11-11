@@ -3,13 +3,14 @@ export default {
         products: [],
         productsTotal: '',
         productsBusiness: '',
-        productsNotBusiness:'',
-        productsDisplay:'',
-        productsNotDisplay:'',
-        productsDeleted:'',
+        productsNotBusiness: '',
+        productsDisplay: '',
+        productsNotDisplay: '',
+        productsDeleted: '',
         productsQuantity: '',
-        totalPages:'',
-        currentPage:'',
+        totalPages: '',
+        currentPage: '',
+        limit: '',
         isLoading: false,
         modalInProduct: {
             priceModal: false,
@@ -38,7 +39,7 @@ export default {
             },
             good_category_id: '',
             manufacture_id: '',
-            status:'',
+            status: '',
             isUploadingAvatar: false,
             percent: 0
         },
@@ -46,26 +47,26 @@ export default {
         categoriesUpdated: false,
         manufactures: [],
         manufacturesUpdated: false,
-        statuses:[
+        statuses: [
             {
-                value:"for_sale",
-                label:"ĐANG KINH DOANH"
+                value: "for_sale",
+                label: "ĐANG KINH DOANH"
             },
             {
-                value:"not_for_sale",
-                label:"NGỪNG KINH DOANH"
+                value: "not_for_sale",
+                label: "NGỪNG KINH DOANH"
             },
             {
-                value:"show",
-                label:"HIỂN THỊ RA WEB"
+                value: "show",
+                label: "HIỂN THỊ RA WEB"
             },
             {
-                value:"not_show",
-                label:"KHÔNG HIỂN THỊ RA WEB"
+                value: "not_show",
+                label: "KHÔNG HIỂN THỊ RA WEB"
             },
             {
-                value:"deleted",
-                label:"ĐÃ XÓA"
+                value: "deleted",
+                label: "ĐÃ XÓA"
             }
         ]
     },
