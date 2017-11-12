@@ -23,10 +23,12 @@ class AddModal extends React.Component {
         this.props.wareHouseActions.closeModal();
     }
 
-    activeModal(e){
-        this.props.isEdit ?
-            this.props.wareHouseActions.editWareHouse(this.props.wareHouse, this.closeModal, this.props.loadWareHouses):
-            this.props.wareHouseActions.addWareHouse(this.props.wareHouse, this.closeModal, this.props.loadWareHouses);
+    activeModal(e) {
+        if (this.props.isEdit)
+            this.props.wareHouseActions.editWareHouse(this.props.wareHouse, this.closeModal);
+        else {
+            this.props.wareHouseActions.addWareHouse(this.props.wareHouse, this.props.currentPage, this.props.limit, this.closeModal, this.props.wareHouseActions.loadWareHouses);
+        }
         e.preventDefault();
     }
 
@@ -39,11 +41,16 @@ class AddModal extends React.Component {
 
     handleBase(e) {
         let wareHouse = this.props.wareHouse;
-        wareHouse.base ? wareHouse.base['id'] = e.target.value
-            :
-            (
-                wareHouse = {...wareHouse, base: {...wareHouse.base, id: e.target.value}}
-            );
+        if (wareHouse.base) wareHouse.base['id'] = e.target.value;
+        else {
+            wareHouse = {
+                ...wareHouse,
+                base: {
+                    ...wareHouse.base,
+                    id: e.target.value
+                }
+            };
+        }
         this.props.wareHouseActions.handleNameLocationBase(wareHouse);
     }
 
@@ -147,7 +154,9 @@ class AddModal extends React.Component {
                             (
                                 <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
                                         type="button" className="btn btn-round btn-success "
-                                        onClick={(e) => {this.activeModal(e);}}
+                                        onClick={(e) => {
+                                            this.activeModal(e);
+                                        }}
                                 ><i className="material-icons">check</i>
                                     {this.props.isEdit ? 'Cập nhật' : 'Thêm'}
                                 </button>
@@ -171,7 +180,8 @@ AddModal.propTypes = {
     isSaving: PropTypes.bool,
     wareHouse: PropTypes.object,
     bases: PropTypes.array,
-    loadWareHouses: PropTypes.func,
+    currentPage: PropTypes.number,
+    limit: PropTypes.number,
 };
 
 
