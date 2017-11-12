@@ -75,7 +75,7 @@ class CustomerController extends ManageApiController
     {
         $users = User::where("type", "customer")->get();
         $TM = 0;
-        $TPM = 0;
+        $TDEBT = 0;
         if ($users) {
             foreach ($users as $user) {
                 $orders = Order::where("user_id", $user->id)->get();
@@ -97,12 +97,12 @@ class CustomerController extends ManageApiController
                     }
                 }
                 $TM += $totalMoney;
-                $TPM += $totalPaidMoney;
+                $TDEBT += $totalMoney-$totalPaidMoney;
             }
         }
         return $this->respondSuccessWithStatus([
             "total_moneys" => $TM,
-            "total_paid_moneys" => $TPM
+            "total_debt_moneys" => $TDEBT
         ]);
     }
 
