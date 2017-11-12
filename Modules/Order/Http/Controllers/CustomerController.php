@@ -108,13 +108,13 @@ class CustomerController extends ManageApiController
 
     public function addCustomer(Request $request)
     {
-        if (!$request->name || !$request->phone || !$request->address || !$request->email || !$request->dob || !$request->gender || trim($request->name) == "" || trim($request->phone) == "" || trim($request->address) == "" || trim($request->email) == "" || trim($request->dob) == "" )
+        if (!$request->name || !$request->phone || !$request->address || !$request->email || !$request->dob || !$request->gender || trim($request->name) == "" || trim($request->phone) == "" || trim($request->address) == "" || trim($request->email) == "" || trim($request->dob) == "")
             return $this->respondErrorWithStatus("Thiếu thông tin");
 
         if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) return $this->respondErrorWithStatus("Email không hợp lệ");
 
         $user = User::where("email", $request->email)->get();
-        if (count($user)>0) return $this->respondErrorWithStatus("Đã tồn tại khách hàng"); else {
+        if (count($user) > 0) return $this->respondErrorWithStatus("Đã tồn tại khách hàng"); else {
             $user = new User;
             $user->name = $request->name;
             $user->phone = $request->phone;
@@ -125,8 +125,17 @@ class CustomerController extends ManageApiController
             $user->save();
         }
         return $this->respondSuccessWithStatus([
-            "message"=> "Thêm thành công"
+            "message" => "Thêm thành công"
         ]);
     }
 
+    public function deleteCustomer(Request $request)
+    {
+        $user = User::find($request->id);
+        if (!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
+        $user->delete();
+        return $this->respondSuccessWithStatus([
+            "message" => "Xóa thành công"
+        ]);
+    }
 }
