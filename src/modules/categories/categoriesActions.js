@@ -94,7 +94,6 @@ export function deleteCategory(id) {
                 }
                 else {
                     helper.sweetAlertError(res.data.message);
-
                 }
             })
             .catch(() => {

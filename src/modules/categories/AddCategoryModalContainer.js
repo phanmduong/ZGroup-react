@@ -11,8 +11,7 @@ class AddCategoryModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.close = this.close.bind(this);
-        this.addCategory = this.addCategory.bind(this);
-        this.editCategory = this.editCategory.bind(this);
+        this.activeModal = this.activeModal.bind(this);
         this.handleName = this.handleName.bind(this);
     }
 
@@ -21,12 +20,13 @@ class AddCategoryModalContainer extends React.Component {
         this.props.categoriesActions.closeAddCategoryModalContainer();
     }
 
-    addCategory() {
-        this.props.categoriesActions.addCategory(this.props.name, this.props.parent_id, this.close);
-    }
 
-    editCategory() {
-        this.props.categoriesActions.editCategory(this.props.id, this.props.name, this.close);
+
+    activeModal(e){
+        this.props.isEdit ?
+            this.props.categoriesActions.editCategory(this.props.id, this.props.name, this.close) :
+            this.props.categoriesActions.addCategory(this.props.name, this.props.parent_id, this.close);
+        e.preventDefault();
     }
     handleName(e){
         let name = e.target.value ;
@@ -58,7 +58,7 @@ class AddCategoryModalContainer extends React.Component {
 
 
                 <Modal.Footer>
-                    <form>
+                    <form onSubmit={(e) => {this.activeModal(e);}}>
                         {this.props.isSaving ?
                             (
                                 <button
@@ -72,17 +72,7 @@ class AddCategoryModalContainer extends React.Component {
                             (
                                 <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
                                         type="button" className="btn btn-round btn-success "
-                                        onClick={(e) => {
-                                            if ( ! this.props.isEdit) {
-                                                this.addCategory();
-                                                e.preventDefault();
-                                            }
-                                            else {
-                                                this.editCategory();
-                                                e.preventDefault();
-                                            }
-                                        }
-                                        }
+                                        onClick = {(e) => {this.activeModal(e);}}
                                 ><i className="material-icons">check</i>
                                     {this.props.isEdit ? 'Cập nhật' : 'Thêm'}
                                 </button>
