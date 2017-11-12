@@ -262,6 +262,7 @@ class GoodController extends ManageApiController
         $keyword = $request->search;
         $type = $request->type;
         $manufacture_id = $request->manufacture_id;
+        $good_category_id= $request->good_category_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
@@ -299,6 +300,8 @@ class GoodController extends ManageApiController
             $goods = $goods->where("type", $type);
         if ($manufacture_id)
             $goods = $goods->where('manufacture_id', $manufacture_id);
+        if($good_category_id)
+            $goods= $goods->where('good_category_id',$good_category_id);
         if ($startTime)
             $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
@@ -342,6 +345,18 @@ class GoodController extends ManageApiController
         $deleted = DB::table('goods')->where('status', 'deleted')->count();
         $show = Good::where('status', 'show')->count();
         $not_show = Good::where('status', 'not_show')->count();
+        $goods= Good::all()->get();
+        $total_quantity=0;
+        foreach($goods as $good){
+            $goodWareHouses= $good->goodWarehouse()->get();
+            $pre_total=0;
+            foreach($goodWareHouses as $goodWareHouse){
+                $pre_total+=$goodWareHouse->quantity;
+            }
+            $total_quantity+=$pre_total;
+        }
+
+
         return $this->respondSuccessWithStatus([
             'total' => $total,
             'for_sale' => $for_sale,
@@ -349,6 +364,7 @@ class GoodController extends ManageApiController
             'deleted' => $deleted,
             'show' => $show,
             'not_show' => $not_show,
+            'total_quantity'=>$total_quantity
         ]);
     }
 

@@ -24,12 +24,15 @@ class ReportController extends NoAuthApiController
             return $this->respondErrorWithStatus("Thiếu tên");
         if($request->message==null || trim($request->message)=="")
             return $this->respondErrorWithStatus("Thiếu lời nhắn");
+        if($request->title==null || trim($request->title)=="")
+            return $this->respondErrorWithStatus("Thiếu tiêu đề");
         if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
             return $this->respondErrorWithStatus("Email không hợp lệ");
         }
         $data=[
           "name" => $request->name,
           "message_str" => $request->message,
+          "title"=>$request->title,
           "email" => $request->email
         ];
         //dd($data['email']);

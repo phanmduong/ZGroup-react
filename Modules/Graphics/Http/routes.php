@@ -17,12 +17,13 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
     Route::get('/blog', 'GraphicsController@blog');
     Route::get('/blog/post/{post_id}', 'GraphicsController@post');
     Route::post('/save-order', "GraphicsController@saveOrder");
-
-
     Route::get('/api/blogs', 'BlogApiController@getAllBlogs');
     Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
 
 });
 
-
+Route::group(['domain' => 'api.' . config('app.domain'),'prefix' => 'apiv3', 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+   Route::get('/books','GraphicsAppController@index');
+   Route::post('/detail-book/{book_id}','GraphicsAppController@detailedBook');
+});
 
