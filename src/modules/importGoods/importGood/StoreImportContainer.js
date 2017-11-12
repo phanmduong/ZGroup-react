@@ -494,6 +494,8 @@ StoreImportContainer.propTypes = {
     warehouses: PropTypes.array.isRequired,
     isLoadingWarehouses: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isStoring: PropTypes.bool.isRequired,
     type: PropTypes.string
 };
 

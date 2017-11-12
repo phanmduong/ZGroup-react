@@ -5,6 +5,7 @@ import * as helper from '../../../helpers/helper';
 import FormInputText from '../../../components/common/FormInputText';
 import PropTypes from 'prop-types';
 
+
 class StoreGood extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -136,7 +137,7 @@ class StoreGood extends React.Component {
 
 StoreGood.propTypes = {
     storeGood: PropTypes.func.isRequired,
-    closeModal: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired
 };
 
 export default StoreGood;

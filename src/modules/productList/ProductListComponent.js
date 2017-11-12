@@ -1,8 +1,9 @@
 import React from 'react';
-import PriceModalContainer from "./modals/PriceModalContainer";
 import PropTypes from "prop-types";
 import WareHouseModalContainer from "./modals/WareHouseModalContainer";
 import AvatarModalContainer from "./modals/AvatarModalContainer";
+import PriceModalContainer from "./modals/PriceModalContainer";
+import {dotNumber} from "../../helpers/helper";
 import {Link} from "react-router";
 
 class ProductListComponent extends React.Component {
@@ -12,16 +13,17 @@ class ProductListComponent extends React.Component {
 
     render() {
         return (
-            <div className="table-responsive">
-                <table className="table">
-                    <thead className="text-rose">
-                    <tr>
+            <div className="material-datatables">
+                <table id="imported-goods-table" className="table" width="100%">
+                    <thead>
+                    <tr className="text-rose">
                         <th/>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
                         <th>Giá bán</th>
                         <th>Nhóm hàng</th>
+                        <th>Nhà sản xuất</th>
                         <th>Kho</th>
                         <th/>
                     </tr>
@@ -43,33 +45,30 @@ class ProductListComponent extends React.Component {
                                             marginLeft: "3px"
                                         }} data-toggle="tooltip" title="" type="button"
                                              rel="tooltip"
-                                             data-original-title="Yến Nhi"/>
+                                             data-original-title=""/>
                                     </td>
-                                    <td>
+                                    <td style={{width: "130px"}}>
                                         <a className="text-name-student-register"
                                            rel="tooltip" title=""
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showAvatarModal(product)}>{product.code}</a>
                                     </td>
-                                    <td>{product.name}</td>
-                                    <td><a className="text-name-student-register"
-                                           rel="tooltip" title=""
-                                           data-original-title="Remove item">{product.quantity}</a></td>
+                                    <td style={{width: "130px"}}>{product.name}</td>
+                                    <td style={{width: "95px"}}>{product.quantity}</td>
                                     <td>
-                                        <button rel="tooltip" data-placement="top"
-                                                title=""
-                                                data-original-title="Remove item"
-                                                className="btn btn-info btn-xs"
-                                                style={{width: "100%"}}
-                                                onClick={() => this.props.showPriceModal(product)}>{product.price}
-                                            <div className="ripple-container"/>
-                                        </button>
+                                        <a onClick={() => this.props.showPriceModal(product)}>
+                                            {dotNumber(product.price)}đ
+                                        </a>
                                     </td>
-                                    <td>
-                                        <a className="text-name-student-register"
-                                           rel="tooltip" title=""
-                                           data-original-title="Remove item">Nike
-                                            Air</a>
+                                    <td style={{width: "115px"}}>
+                                        {product.good_category_id ?
+                                            this.props.categories.filter(category => category.id === product.good_category_id)[0].name : "Chưa có"
+                                        }
+                                    </td>
+                                    <td style={{width: "120px"}}>
+                                        {product.manufacture_id ?
+                                            this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0].name : "Chưa có"
+                                        }
                                     </td>
                                     <td>
                                         <a className="text-name-student-register"
@@ -78,14 +77,14 @@ class ProductListComponent extends React.Component {
                                            onClick={() => this.props.showWareHouseModal(product)}>
                                             {
                                                 !product.warehouses ? (
-                                                    <p>0</p>
+                                                    <p>Chưa có</p>
                                                 ) : (
                                                     <p>{product.warehouses.length}</p>
                                                 )
                                             }
                                         </a>
                                     </td>
-                                    <td style={{width: "100px"}}>
+                                    <td>
                                         <div className="btn-group-action">
                                             <Link to={`/good/${product.id}/edit`}
                                                   style={{color: "#878787"}}
@@ -127,6 +126,9 @@ ProductListComponent.propTypes = {
     showPriceModal: PropTypes.func.isRequired,
     showWareHouseModal: PropTypes.func.isRequired,
     showAvatarModal: PropTypes.func.isRequired,
+    setTable: PropTypes.func.isRequired,
+    manufactures: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired
 };
 
 export default ProductListComponent;

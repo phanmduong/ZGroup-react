@@ -75,6 +75,7 @@ export function storeImportGood(formImportGood) {
                     type: types.STORE_IMPORT_GOOD_ERROR
                 });
             });
+
     };
 }
 
@@ -94,7 +95,6 @@ export function getAllWarehouses() {
             .catch({
                 type: types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR
             });
-
     };
 }
 

@@ -155,6 +155,7 @@ class BookCreateCardModalContainer extends React.Component {
 
 BookCreateCardModalContainer.propTypes = {
     showModal: PropTypes.bool.isRequired,
+    isLoadingTaskListTemplate: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired,
     projectId: PropTypes.number,
     card: PropTypes.object.isRequired,
