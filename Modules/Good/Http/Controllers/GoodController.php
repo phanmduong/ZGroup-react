@@ -284,7 +284,6 @@ class GoodController extends ManageApiController
                 })
             ]);
         }
-        dd($status);
         if ($status) {
             if ($status == 'deleted')
                 $goods = DB::table('goods')->where('status', 'deleted');
