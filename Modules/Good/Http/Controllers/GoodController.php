@@ -304,21 +304,21 @@ class GoodController extends ManageApiController
             return $this->respondWithPagination(
                 $goods,
                 [
-                    "goods" => $goods->map(function ($good) {
+                    'goods' => $goods->map(function ($good) {
                         $data = [
-                            'id' => $this->id,
-                            'name' => $this->name,
-                            'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
-                            'updated_at' => format_vn_short_datetime(strtotime($this->updated_at)),
-                            'price' => $this->price,
-                            'status' => $this->status,
-                            'good_category_id' => $this->good_category_id,
-                            'manufacture_id' => $this->manufacture_id,
-                            'description' => $this->description,
-                            'type' => $this->type,
-                            'avatar_url' => $this->avatar_url,
-                            'cover_url' => $this->cover_url,
-                            'code' => $this->code,
+                            'id' => $good->id,
+                            'name' => $good->name,
+                            'created_at' => format_vn_short_datetime(strtotime($good->created_at)),
+                            'updated_at' => format_vn_short_datetime(strtotime($good->updated_at)),
+                            'price' => $good->price,
+                            'status' => $good->status,
+                            'good_category_id' => $good->good_category_id,
+                            'manufacture_id' => $good->manufacture_id,
+                            'description' => $good->description,
+                            'type' => $good->type,
+                            'avatar_url' => $good->avatar_url,
+                            'cover_url' => $good->cover_url,
+                            'code' => $good->code,
                         ];
                         $data['files'] = $this->files->map(function ($file) {
                             return [
