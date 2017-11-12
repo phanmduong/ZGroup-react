@@ -289,13 +289,15 @@ class GoodController extends ManageApiController
                 $goods = DB::table('goods')->where('status', 'deleted');
             else
                 $goods = Good::where('status', $status);
+            $goods = $goods->where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+            });
         }
         else
-            $goods = Good::get();
+            $goods = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+            });
 
-        $goods = $goods->where(function ($query) use ($keyword) {
-            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-        });
         if ($type)
             $goods = $goods->where("type", $type);
         if ($manufacture_id)
