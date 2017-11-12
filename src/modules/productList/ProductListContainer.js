@@ -24,7 +24,8 @@ class ProductListContainer extends React.Component {
             query: '',
             manufacture: '',
             category: '',
-            page: ''
+            page: '',
+            status: ''
         };
         this.timeOut = null;
         this.table = null;
@@ -37,10 +38,10 @@ class ProductListContainer extends React.Component {
         this.manufacturesSearchChange = this.manufacturesSearchChange.bind(this);
         this.categoriesSearchChange = this.categoriesSearchChange.bind(this);
         this.productsPageChange = this.productsPageChange.bind(this);
+        this.getProductsStatus = this.getProductsStatus.bind(this);
     }
 
     componentWillMount() {
-        this.props.productListAction.getCategoriesProductsList();
         this.props.productListAction.getProducts();
     }
 
@@ -62,7 +63,8 @@ class ProductListContainer extends React.Component {
                 time.startTime,
                 time.endTime,
                 this.state.manufacture,
-                this.state.category
+                this.state.category,
+                this.state.status
             );
             this.setState({time: time});
         } else {
@@ -84,7 +86,8 @@ class ProductListContainer extends React.Component {
                 this.state.time.startTime,
                 this.state.time.endTime,
                 this.state.manufacture,
-                this.state.category
+                this.state.category,
+                this.state.status
             );
         }.bind(this), 500);
     }
@@ -103,7 +106,8 @@ class ProductListContainer extends React.Component {
                 this.state.time.startTime,
                 this.state.time.endTime,
                 value.id,
-                this.state.category
+                this.state.category,
+                this.state.status
             );
         }.bind(this), 500);
     }
@@ -122,7 +126,8 @@ class ProductListContainer extends React.Component {
                 this.state.time.startTime,
                 this.state.time.endTime,
                 this.state.manufacture,
-                value.id
+                value.id,
+                this.state.status
             );
         }.bind(this), 500);
     }
@@ -135,7 +140,21 @@ class ProductListContainer extends React.Component {
             this.state.time.startTime,
             this.state.time.endTime,
             this.state.manufacture,
-            this.state.category
+            this.state.category,
+            this.state.status
+        );
+    }
+
+    getProductsStatus(status) {
+        this.setState({status: status});
+        this.props.productListAction.getProducts(
+            this.state.page,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.manufacture,
+            this.state.category,
+            status
         );
     }
 
@@ -264,19 +283,6 @@ class ProductListContainer extends React.Component {
                                                         />
                                                     </div>
                                                     <br/>
-                                                    <div className="col-md-12">
-                                                        <label className="form-group form-group-sm"
-                                                               style={{marginTop: "0px"}}>Hiển thị
-                                                            <select value={this.props.limit}
-                                                                    aria-controls="imported-goods-table"
-                                                                    className="form-control">
-                                                                <option value="10">10</option>
-                                                                <option value="25">15</option>
-                                                                <option value="50">20</option>
-                                                            </select> hóa đơn trên 1 trang
-                                                            <span className="material-input"/>
-                                                        </label>
-                                                    </div>
                                                 </div>
                                                 <br/>
                                                 {
@@ -294,9 +300,17 @@ class ProductListContainer extends React.Component {
                                             </div>
                                             <div className="row" style={{float: "right"}}>
                                                 <div className="col-md-12" style={{textAlign: "right"}}>
-                                                    <b style={{marginRight: "15px"}}>Hiển thị
-                                                        trang {this.props.currentPage} trên tổng
-                                                        số {this.props.totalPages} trang</b><br/>
+                                                    {
+                                                        this.props.totalPages === 0 ? (
+                                                            <b style={{marginRight: "15px"}}>
+                                                                Không có sản phẩm nào</b>
+                                                        ) : (
+                                                            <b style={{marginRight: "15px"}}>
+                                                                Hiển thị trang {this.props.currentPage} trên tổng
+                                                                số {this.props.totalPages} trang</b>
+                                                        )
+                                                    }
+                                                    <br/>
                                                     <ul className="pagination pagination-primary">
                                                         {
                                                             this.props.currentPage === 1 ? (
@@ -305,7 +319,7 @@ class ProductListContainer extends React.Component {
                                                                 </li>
                                                             ) : (
                                                                 <li>
-                                                                    <a onClick={this.productsPageChange(this.props.currentPage-1)}>previous</a>
+                                                                    <a onClick={() => this.productsPageChange(this.props.currentPage - 1)}>previous</a>
                                                                 </li>
                                                             )
                                                         }
@@ -319,7 +333,7 @@ class ProductListContainer extends React.Component {
                                                             } else {
                                                                 return (
                                                                     <li key={page}>
-                                                                        <a onClick={this.productsPageChange(page)}>{page}</a>
+                                                                        <a onClick={() => this.productsPageChange(page)}>{page}</a>
                                                                     </li>
                                                                 );
                                                             }
@@ -327,11 +341,11 @@ class ProductListContainer extends React.Component {
                                                         {
                                                             this.props.currentPage === this.props.totalPages ? (
                                                                 <li className="disabled">
-                                                                    <a>previous</a>
+                                                                    <a>next</a>
                                                                 </li>
                                                             ) : (
                                                                 <li>
-                                                                    <a onClick={this.productsPageChange(this.props.currentPage+1)}>previous</a>
+                                                                    <a onClick={() => this.productsPageChange(this.props.currentPage + 1)}>next</a>
                                                                 </li>
                                                             )
                                                         }
@@ -342,37 +356,46 @@ class ProductListContainer extends React.Component {
                                                 <div style={{float: "right"}}>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             className="btn btn-danger btn-simple"
-                                                            onClick={() => this.props.productListAction.getProductsStatus("for_sale")}
+                                                            onClick={() => this.getProductsStatus("for_sale")}
                                                     >Đang kinh doanh: {this.props.productsBusiness}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             className="btn btn-danger btn-simple"
-                                                            onClick={() => this.props.productListAction.getProductsStatus("not_for_sale")}
+                                                            onClick={() => this.getProductsStatus("not_for_sale")}
                                                     >Ngừng kinh doanh: {this.props.productsNotBusiness}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             className="btn btn-danger btn-simple"
-                                                            onClick={() => this.props.productListAction.getProductsStatus("show")}
+                                                            onClick={() => this.getProductsStatus("show")}
                                                     >Hiển thị ra web: {this.props.productsDisplay}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             className="btn btn-danger btn-simple"
-                                                            onClick={() => this.props.productListAction.getProductsStatus("not_show")}
+                                                            onClick={() => this.getProductsStatus("not_show")}
                                                     >Không hiển thị ra web: {this.props.productsNotDisplay}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             className="btn btn-danger btn-simple"
-                                                            onClick={() => this.props.productListAction.getProductsStatus("deleted")}
+                                                            onClick={() => this.getProductsStatus("deleted")}
                                                     >Đã xóa: {this.props.productsDeleted}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             className="btn btn-info btn-simple"
-                                                            onClick={() => this.props.productListAction.getProducts()}
+                                                            onClick={() => {
+                                                                this.setState({
+                                                                    query: '',
+                                                                    manufacture: '',
+                                                                    category: '',
+                                                                    page: '',
+                                                                    status: ''
+                                                                });
+                                                                this.props.productListAction.getProducts();
+                                                            }}
                                                     >Tổng sản phẩm: {this.props.productsTotal}
 
                                                         <div className="ripple-container"/>

@@ -7,23 +7,26 @@ export function getInformationProductsApi() {
     return axios.get(url);
 }
 
-export function getProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id) {
+export function getProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + "/good/all?token=" + token;
-    if(page){
+    if (page) {
         url += "&page=" + page;
     }
-    if(search){
+    if (search) {
         url += "&search=" + search;
     }
-    if(start_time && end_time){
+    if (start_time && end_time) {
         url += "&start_time=" + start_time + "&end_time=" + end_time;
     }
-    if(manufacture_id){
+    if (manufacture_id) {
         url += "&manufacture_id=" + manufacture_id;
     }
-    if(good_category_id){
+    if (good_category_id) {
         url += "&good_category_id=" + good_category_id;
+    }
+    if (status) {
+        url += "&status=" + status;
     }
     return axios.get(url);
 }
@@ -66,7 +69,7 @@ export function getCategoriesApi() {
 
 export function uploadEditProductApi(productPresent, manufacture_id, category_id, status) {
     let token = localStorage.getItem("token");
-    let url = env.MANAGE_API_URL + "/good/edit/" + productPresent.id + "?token=" + token ;
+    let url = env.MANAGE_API_URL + "/good/edit/" + productPresent.id + "?token=" + token;
     return axios.put(url, {
         avatar_url: productPresent.avatar_url,
         price: productPresent.price,

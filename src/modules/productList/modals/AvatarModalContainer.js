@@ -24,6 +24,7 @@ class AvatarModalContainer extends React.Component {
 
     componentWillMount() {
         this.props.productListAction.getManufacturesProductsList();
+        this.props.productListAction.getCategoriesProductsList();
     }
 
     changeSelectManufacture(value) {

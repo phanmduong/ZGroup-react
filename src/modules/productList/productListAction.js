@@ -2,7 +2,7 @@ import * as productListApi from './productListApi';
 import * as types from '../../constants/actionTypes';
 import {showErrorNotification, showNotification} from "../../helpers/helper";
 
-export function getProducts(page, search, start_time, end_time, manufacture_id, good_category_id) {
+export function getProducts(page, search, start_time, end_time, manufacture_id, good_category_id, status) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_PRODUCTS
@@ -13,24 +13,24 @@ export function getProducts(page, search, start_time, end_time, manufacture_id, 
                     type: types.DISPLAY_INFORMATION_PRODUCTS_LIST,
                     productsTotal: response.data.data.total,
                     productsBusiness: response.data.data.for_sale,
-                    productsNotBusiness:response.data.data.not_for_sale,
-                    productsDisplay:response.data.data.show,
-                    productsNotDisplay:response.data.data.not_show,
-                    productsDeleted:response.data.data.deleted,
-                    productsQuantity: 69
+                    productsNotBusiness: response.data.data.not_for_sale,
+                    productsDisplay: response.data.data.show,
+                    productsNotDisplay: response.data.data.not_show,
+                    productsDeleted: response.data.data.deleted,
+                    productsQuantity: response.data.data.total_quantity
                 });
             })
             .catch(function (error) {
                 throw(error);
             });
-        productListApi.getProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id)
+        productListApi.getProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status)
             .then(function (response) {
                 dispatch({
                     type: types.LOAD_PRODUCTS_SUCCESS,
                     products: response.data.goods,
-                    totalPages:response.data.paginator.total_pages,
-                    currentPage:response.data.paginator.current_page,
-                    limit:response.data.paginator.limit
+                    totalPages: response.data.paginator.total_pages,
+                    currentPage: response.data.paginator.current_page,
+                    limit: response.data.paginator.limit
                 });
                 dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
@@ -121,7 +121,6 @@ export function changeAvatar(file) {
             completeHandler, progressHandler, error);
     };
 }
-
 
 
 export function saveCategoriesProductsList(categories) {
