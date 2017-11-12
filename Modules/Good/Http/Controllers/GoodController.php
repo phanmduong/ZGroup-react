@@ -369,10 +369,11 @@ class GoodController extends ManageApiController
         $deleted = DB::table('goods')->where('status', 'deleted')->count();
         $show = Good::where('status', 'show')->count();
         $not_show = Good::where('status', 'not_show')->count();
+
         $goods = Good::orderBy('created_at', 'desc')->get();
 
         $total_quantity = $goods->reduce(function($total_q, $good){
-            return $good->goodWarehouse->reduce(function ($tota_good_q, $goodWarehouse){
+            return $total_q + $good->goodWarehouse->reduce(function ($tota_good_q, $goodWarehouse){
                 return $tota_good_q + $goodWarehouse->quantity;
             },0);
         },0);
