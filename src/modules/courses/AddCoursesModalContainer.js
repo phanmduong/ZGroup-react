@@ -15,8 +15,6 @@ class AddCoursesModalContainer extends React.Component {
             error: true,
             courses: [],
             isShowModal : true,
-            isUpdatingLogo: false,
-            logoUrl: ''
         };
         this.close = this.close.bind(this);
     }

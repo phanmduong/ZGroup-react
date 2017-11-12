@@ -69,12 +69,12 @@ export default function importGoodsReducer(state = initialState.importGoods, act
             return {
                 ...state,
                 importGood: initialState.importGoods.importGood
-            }
+            };
         case types.UPDATE_FORM_IMPORT_GOOD:
             return {
                 ...state,
                 formImportGood: action.formImportGood
-            }
+            };
         case types.BEGIN_STORE_IMPORT_GOOD: {
             return {
                 ...state,
@@ -85,7 +85,7 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                         error: false,
                     }
                 }
-            }
+            };
         }
         case types.STORE_IMPORT_GOOD_SUCCESS: {
             return {
@@ -97,7 +97,7 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                         error: false,
                     }
                 }
-            }
+            };
         }
         case types.STORE_IMPORT_GOOD_ERROR: {
             return {
@@ -109,8 +109,91 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                         error: true,
                     }
                 }
-            }
+            };
         }
+        case types.BEGIN_GET_ALL_WAREHOUSES_IMPORT_GOODS:
+            return {
+                ...state,
+                ...{
+                    isLoadingWarehouses: true,
+                    errorWarehouses: false,
+                }
+            };
+        case types.GET_ALL_WAREHOUSES_IMPORT_GOODS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingWarehouses: false,
+                    errorWarehouses: false,
+                    warehouses: action.warehouses
+                }
+            };
+        case types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingWarehouses: false,
+                    errorWarehouses: true
+                }
+            };
+        case types.BEGIN_STORE_SUPPLIER_IMPORT_GOOD:
+            return {
+                ...state,
+                ...{
+                    isStoringSupplier: true,
+                    errorStoreSupplier: false,
+                }
+            };
+        case types.STORE_SUPPLIER_IMPORT_GOOD_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isStoringSupplier: false,
+                    errorStoreSupplier: false,
+                    formImportGood: {
+                        ...state.formImportGood,
+                        supplier: action.supplier
+                    }
+                }
+            };
+        case types.STORE_SUPPLIER_IMPORT_GOOD_ERROR:
+            return {
+                ...state,
+                ...{
+                    isStoringSupplier: false,
+                    errorStoreSupplier: true,
+                }
+            };
+        case types.BEGIN_CHECK_GOODS_IMPORT_GOODS:
+            return {
+                ...state,
+                addGoodFile: {
+                    isCheckingGoods: true,
+                    errorCheckGoods: false,
+                    existsGoods: [],
+                    notExistsGoods: [],
+                }
+            };
+        case types.CHECK_GOODS_IMPORT_GOODS_SUCCESS:
+            return {
+                ...state,
+                addGoodFile:{
+                    ...state.addGoodFile,
+                    isCheckingGoods: false,
+                    errorCheckGoods: false,
+                    existsGoods: action.existsGoods,
+                    notExistsGoods: action.notExistsGoods,
+                }
+            };
+        case types.CHECK_GOODS_IMPORT_GOODS_ERROR:
+            return {
+                ...state,
+                addGoodFile:{
+                    ...state.addGoodFile,
+                    isCheckingGoods: false,
+                    errorCheckGoods: true,
+                }
+            };
         default:
             return state;
     }

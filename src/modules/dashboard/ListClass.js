@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-bootstrap-switch';
+import _ from 'lodash';
 
 class ListClass extends React.Component {
     constructor(props, context) {
@@ -8,6 +9,16 @@ class ListClass extends React.Component {
     }
 
     render() {
+        let classes = this.props.classes;
+        classes  = _.orderBy(classes, item=> {
+                if (item.room) {
+                    return item.room.base_id;
+                } else {
+                    return 0;
+                }
+            }
+        , ['asc']);
+
         return (
             <div className="table-responsive">
                 <table className="table">
@@ -15,6 +26,7 @@ class ListClass extends React.Component {
                     <tr>
                         <th/>
                         <th>Tên</th>
+                        <th>Cơ sở</th>
                         <th>Học viên đã nộp tiền</th>
                         <th>Học viên đã đăng kí</th>
                         <th>Thời gian học</th>
@@ -24,7 +36,7 @@ class ListClass extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.classes.map((classItem) => {
+                        classes.map((classItem) => {
                             return (
                                 <tr key={classItem.id}>
                                     <td>
@@ -37,6 +49,11 @@ class ListClass extends React.Component {
                                     </td>
                                     <td>
                                         <a className="color-text-main" onClick={() => this.props.openModalClass(classItem)}>{classItem.name}</a>
+                                    </td>
+                                    <td>
+                                        {
+                                            classItem.room && <div style={{minWidth: '50px'}}>{classItem.room.base}</div>
+                                        }
                                     </td>
                                     <td>
                                         <h6>{classItem.total_paid + "/" + classItem.target}</h6>

@@ -27,7 +27,7 @@ class BookBoardListContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.props.bookActions.loadBoards();
+        this.props.bookActions.loadBoards(this.props.params.type);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -49,6 +49,10 @@ class BookBoardListContainer extends React.Component {
                     board
                 });
             }
+        }
+
+        if (this.props.params.type !== nextProps.params.type) {
+            this.props.bookActions.loadBoards(nextProps.params.type);
         }
     }
 
@@ -109,6 +113,7 @@ BookBoardListContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
     bookActions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     members: PropTypes.array.isRequired,
     boardActions: PropTypes.object.isRequired,
     boards: PropTypes.array.isRequired,

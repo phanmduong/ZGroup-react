@@ -53,6 +53,57 @@ export function createImportGoods(formImportGood) {
         code: formImportGood.code,
         note: formImportGood.note,
         paid_money: formImportGood.paid_money,
-        imported_goods: importGoods
+        imported_goods: importGoods,
+        warehouse_id: formImportGood.warehouse_id,
+        user_id: formImportGood.supplier ? formImportGood.supplier.id : ''
     });
+}
+
+export function allWarehouses() {
+    let url = env.MANAGE_API_URL + `/order/all-warehouses`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadSupplier(search) {
+    let url = env.MANAGE_API_URL + `/order/all-suppliers?limit=-1&search=` + search;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function storeSupplier(supplier) {
+    let url = env.MANAGE_API_URL + `/order/add-supplier`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        name: supplier.name,
+        phone: supplier.phone,
+        email: supplier.email,
+        address: supplier.address,
+        code: supplier.code,
+    });
+}
+
+export function checkGoods(goods) {
+    let url = env.MANAGE_API_URL + '/order/check-goods';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        goods: goods
+    });
+
 }

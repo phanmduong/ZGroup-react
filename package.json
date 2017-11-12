@@ -59,7 +59,8 @@
     "redux": "3.6.0",
     "redux-thunk": "2.1.0",
     "socket.io-client": "^2.0.3",
-    "toastr": "2.1.2"
+    "toastr": "2.1.2",
+    "xlsx": "^0.11.8"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",

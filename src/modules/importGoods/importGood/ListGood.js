@@ -1,6 +1,7 @@
 import React from 'react';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import {generateDatatableLanguage, dotNumber} from "../../../helpers/helper";
+import PropTypes from 'prop-types';
 
 class ListGood extends React.Component {
     constructor(props, context) {
@@ -35,7 +36,14 @@ class ListGood extends React.Component {
         $("#goods-table .form-group").css("margin-top", "0px");
     }
 
-    initTable(){
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.importGoods != this.props.importGoods) {
+            return true;
+        }
+        return false;
+    }
+
+    initTable() {
         this.table = $('#goods-table').DataTable({
             destroy: true,
             dom: '<l<t>ip>',
@@ -70,13 +78,6 @@ class ListGood extends React.Component {
         this.props.setTable(this.table);
     }
 
-    shouldComponentUpdate(nextProps) {
-        if (nextProps.importGoods != this.props.importGoods) {
-            return true;
-        }
-        return false;
-    }
-
     render() {
         return (
             <div className="material-datatables">
@@ -95,7 +96,7 @@ class ListGood extends React.Component {
                     </thead>
                     <tfoot>
                     <tr className="text-rose">
-                        <th className="disabled-search"></th>
+                        <th className="disabled-search"/>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
@@ -117,7 +118,12 @@ class ListGood extends React.Component {
                                     <td>{dotNumber(good.import_price)}đ</td>
                                     <td>{dotNumber(good.import_price * good.quantity)}đ</td>
                                     <td>{dotNumber(good.price)}đ</td>
-                                    <td><ButtonGroupAction/></td>
+                                    <td><ButtonGroupAction
+                                        object={good}
+                                        delete={this.props.deleteGood}
+                                        edit={() => this.props.openModalEditGood(good)}
+
+                                    /></td>
                                 </tr>
                             );
                         })
@@ -130,5 +136,11 @@ class ListGood extends React.Component {
     }
 }
 
+ListGood.propTypes = {
+    setTable: PropTypes.func.isRequired,
+    deleteGood: PropTypes.func.isRequired,
+    openModalEditGood: PropTypes.func.isRequired,
+    importGoods: PropTypes.array.isRequired,
+};
 
 export default ListGood;

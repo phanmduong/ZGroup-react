@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import * as goodActions from './goodActions';
 import FormInputText from "../../components/common/FormInputText";
 import Creatable from "../../components/common/Creatable";
-import {showErrorNotification} from "../../helpers/helper";
+import {confirm, showErrorNotification} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 
 class CreateGoodPropertyContainer extends React.Component {
@@ -24,7 +24,7 @@ class CreateGoodPropertyContainer extends React.Component {
             });
             this.props.goodActions.loadGoodPropertyItem(this.props.params.id);
         } else {
-            switch (this.props.route.type) {
+            switch (this.props.params.type) {
                 case "book":
                     this.setState({
                         header: "Thuộc tính sách"
@@ -50,13 +50,35 @@ class CreateGoodPropertyContainer extends React.Component {
     handleCreatableChange(field) {
         return function (value) {
             let property = {...this.props.property};
-            property[field] = value;
-            this.props.goodActions.updateGoodPropertyFormData(property);
+            if (value.length < property[field].length) {
+                const diff = property[field].filter((option) => {
+                    return value.filter(otherOption => otherOption.value === option.value).length == 0;
+                });
+
+                if (diff.length > 0) {
+                    const option = diff[0];
+                    confirm(
+                        "warning",
+                        `Xoá ${field === "prevalue" ? "giá trị" : "đơn vị"} thuộc tính`,
+                        `Bạn có chắc chắn muốn xoá ${field === "prevalue" ? "giá trị" : "đơn vị"} <strong>${option.label}</strong>`,
+                        () => {
+                            property[field] = value;
+                            this.props.goodActions.updateGoodPropertyFormData(property);
+                        }
+                    );
+                } else {
+                    property[field] = value;
+                    this.props.goodActions.updateGoodPropertyFormData(property);
+                }
+            } else {
+                property[field] = value;
+                this.props.goodActions.updateGoodPropertyFormData(property);
+            }
         }.bind(this);
     }
 
     onSave() {
-        const {property, route, goodActions} = this.props;
+        const {property, params, goodActions} = this.props;
         if (!property.name) {
             showErrorNotification("Bạn cần nhập tên thuộc tính");
         } else {
@@ -64,7 +86,7 @@ class CreateGoodPropertyContainer extends React.Component {
                 ...property,
                 prevalue: property.prevalue ? property.prevalue.map(v => v.value).join() : "",
                 preunit: property.preunit ? property.preunit.map(v => v.value).join() : "",
-                type: property.type || route.type
+                type: property.type || params.type
             };
             goodActions.saveGoodProperty(saveProperty, saveProperty.type);
         }
@@ -137,7 +159,6 @@ CreateGoodPropertyContainer.propTypes = {
     params: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
-    route: PropTypes.object.isRequired,
     property: PropTypes.object.isRequired
 };
 

@@ -42,11 +42,10 @@ export function uploadAvatar(file) {
         };
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            console.log(data);
             showNotification("Tải lên ảnh đại diện thành công");
             dispatch({
                 type: types.UPLOAD_GOOD_AVATAR_COMPLETE,
-                avatar_url: data.link
+                avatar_url: data.url
             });
         };
         const progressHandler = (event) => {
@@ -73,11 +72,10 @@ export function uploadCover(file) {
         };
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            console.log(data);
             showNotification("Tải lên ảnh nền thành công");
             dispatch({
                 type: types.UPLOAD_COVER_SUCCESS,
-                coverUrl: data.link
+                coverUrl: data.url
             });
         };
         const progressHandler = (event) => {
@@ -182,9 +180,7 @@ export function loadGoodPropertyItems(page = 1, query = "", type = "") {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS,
-                    propertyItems: res.data.good_property_items,
-                    totalPages: res.data.paginator.total_pages,
-                    currentPage: res.data.paginator.current_page
+                    propertyItems: res.data.good_property_items
                 });
             });
     };
@@ -369,4 +365,3 @@ export function loadGoodPropertiesFilled(cardId, goodProperties) {
             });
     };
 }
-
