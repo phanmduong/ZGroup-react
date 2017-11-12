@@ -292,8 +292,56 @@ class GoodController extends ManageApiController
             $goods = $goods->where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
-        }
-        else
+            if ($type)
+                $goods = $goods->where("type", $type);
+            if ($manufacture_id)
+                $goods = $goods->where('manufacture_id', $manufacture_id);
+            if ($good_category_id)
+                $goods = $goods->where('good_category_id', $good_category_id);
+            if ($startTime)
+                $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
+            $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
+            return $this->respondWithPagination(
+                $goods,
+                [
+                    "goods" => $goods->map(function ($good) {
+                        $data = [
+                            'id' => $this->id,
+                            'name' => $this->name,
+                            'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
+                            'updated_at' => format_vn_short_datetime(strtotime($this->updated_at)),
+                            'price' => $this->price,
+                            'status' => $this->status,
+                            'good_category_id' => $this->good_category_id,
+                            'manufacture_id' => $this->manufacture_id,
+                            'description' => $this->description,
+                            'type' => $this->type,
+                            'avatar_url' => $this->avatar_url,
+                            'cover_url' => $this->cover_url,
+                            'code' => $this->code,
+                        ];
+                        $data['files'] = $this->files->map(function ($file) {
+                            return [
+                                'id' => $file->id,
+                                'name' => $file->name,
+                                'url' => generate_protocol_url($file->url),
+                                'ext' => $file->ext,
+                                'size' => $file->size,
+                                'file_key' => $file->file_key,
+                                'created_at' => format_time_main(strtotime($file->created_at))
+                            ];
+                        });
+                        $data['properties'] = $this->properties->map(function ($property) {
+                            return [
+                                'name' => $property->name,
+                                'value' => $property->value,
+                            ];
+                        });
+                        return $data;
+                    }),
+                ]
+            );
+        } else
             $goods = Good::where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
