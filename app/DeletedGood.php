@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Good\Entities\GoodProperty;
 
-class Good extends Model
+class DeletedGood extends Model
 {
     public static $GOOD_TYPE = [
         'book' => 'Sách',

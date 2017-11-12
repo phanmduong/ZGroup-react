@@ -505,17 +505,19 @@ class OrderController extends ManageApiController
         $warehouse->location = $request->location;
         $warehouse->base_id = $request->base_id;
         $warehouse->save();
+        $data = [
+            'id' => $warehouse->id,
+            'name' => $warehouse->name,
+            'location' => $warehouse->location,
+        ];
+        if($warehouse->base)
+            $data['base'] = [
+                'id' => $warehouse->base->id,
+                'name' => $warehouse->base->name,
+                'address' => $warehouse->base->address,
+            ];
         return $this->respondSuccessWithStatus([
-            'warehouse' => [
-                'id' => $warehouse->id,
-                'name' => $warehouse->name,
-                'location' => $warehouse->location,
-                'base' => [
-                    'id' => $warehouse->base ? $warehouse->base->id : null,
-                    'name' => $warehouse->base ? $warehouse->base->name : null,
-                    'address' => $warehouse->base ? $warehouse->base->address : null,
-                ]
-            ]
+            'warehouse' => $data
         ]);
     }
 
@@ -530,17 +532,19 @@ class OrderController extends ManageApiController
         $warehouse->location = $request->location;
         $warehouse->base_id = $request->base_id;
         $warehouse->save();
+        $data = [
+            'id' => $warehouse->id,
+            'name' => $warehouse->name,
+            'location' => $warehouse->location,
+        ];
+        if($warehouse->base)
+            $data['base'] = [
+                'id' => $warehouse->base->id,
+                'name' => $warehouse->base->name,
+                'address' => $warehouse->base->address,
+            ];
         return $this->respondSuccessWithStatus([
-            'warehouse' => [
-                'id' => $warehouse->id,
-                'name' => $warehouse->name,
-                'location' => $warehouse->location,
-                'base' => [
-                    'id' => $warehouse->base ? $warehouse->base->id : null,
-                    'name' => $warehouse->base ? $warehouse->base->name : null,
-                    'address' => $warehouse->base ? $warehouse->base->address : null,
-                ]
-            ]
+            'warehouse' => $data
         ]);
     }
 
