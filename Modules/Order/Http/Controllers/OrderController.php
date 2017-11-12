@@ -329,6 +329,10 @@ class OrderController extends ManageApiController
                 'message' => 'over',
                 'money' => $debt,
             ]);
+        if($debt == 0) {
+            $order = Order::find($orderId)->get();
+            $order->status_paid = 1;
+        }
         $orderPaidMoney = new OrderPaidMoney;
         $orderPaidMoney->order_id = $orderId;
         $orderPaidMoney->money = $request->money;
@@ -367,16 +371,11 @@ class OrderController extends ManageApiController
             $importedGood->order_import_id = $orderImportId;
             $importedGood->good_id = $imported_good['good_id'];
             $importedGood->quantity = $imported_good['quantity'];
+            $importedGood->import_quantity = $imported_good['quantity'];
             $importedGood->import_price = $imported_good['import_price'];
             $importedGood->staff_id = $this->user->id;
             $importedGood->warehouse_id = $request->warehouse_id;
             $importedGood->save();
-            $goodWarehouse = new GoodWarehouse;
-            $goodWarehouse->good_id = $imported_good['good_id'];
-            $goodWarehouse->quantity = $imported_good['quantity'];
-            $goodWarehouse->import_price = $imported_good['import_price'];
-            $goodWarehouse->warehouse_id = $request->warehouse_id;
-            $goodWarehouse->save();
         }
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
@@ -584,16 +583,16 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'non-existing warehouse'
             ]);
-        $warehouseGoods = GoodWarehouse::where('warehouse_id', $warehouseId)->get();
+        $importedGoods = GoodWarehouse::where('warehouse_id', $warehouseId)->get();
         return $this->respondSuccessWithStatus([
-            'goods' => $warehouseGoods->map(function ($warehouseGood) {
-                $good = $warehouseGood->good;
+            'goods' => $importedGoods->map(function ($importedGood) {
+                $good = $importedGood->good;
                 return [
                     'id' => $good->id,
                     'name' => $good->name,
                     'code' => $good->code,
                     'price' => $good->price,
-                    'quantity' => $warehouseGood->quantity,
+                    'quantity' => $importedGood->quantity,
                     'type' => $good->type,
                     'avatar_url' => $good->avatar_url
                 ];
