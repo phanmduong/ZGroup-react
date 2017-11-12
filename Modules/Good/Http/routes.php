@@ -3,9 +3,11 @@
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good', 'namespace' => 'Modules\Good\Http\Controllers'], function () {
 
     Route::get('/all', 'GoodController@getAllGoods');
+    Route::get('/get-by-status', 'GoodController@goodsByStatus');
     Route::get('/all/no-paging', 'GoodController@getGoodsWithoutPagination');
     Route::get('/task-setting', 'GoodController@getPropertyItems');
     Route::post('/create', 'GoodController@createGood');
+    Route::delete('/{goodId}/delete', 'GoodController@deleteGood');
     Route::get('/all-property-items', 'GoodController@allPropertyItems');
     Route::delete('/delete-property-item/{property_item_id}', 'GoodController@deletePropertyItem');
     Route::post('/create-property-item', 'GoodController@createGoodPropertyItem');
@@ -20,4 +22,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/manufactures', 'GoodController@allManufactures');
     Route::get('/{id}', 'GoodController@good');
     Route::post('/{goodId}/create-child-good', 'GoodController@createChildGood');
+    Route::get('/status/count', 'GoodController@statusCount');
 });

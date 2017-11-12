@@ -5,5 +5,7 @@ Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'n
     Route::post('/register', 'RegisterController@register');
     Route::post('/login', 'LoginController@login');
     Route::get('/product','ProductApiController@products');
+    Route::post('/report-by-email','ReportController@reportByEmail');
+
 });
 

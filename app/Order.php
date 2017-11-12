@@ -54,7 +54,7 @@ class Order extends Model
     public function transform()
     {
         $data = [
-            'id' =>$this->id,
+            'id' => $this->id,
             'code' => $this->code,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'user' => [
@@ -64,6 +64,9 @@ class Order extends Model
             'status' => $this->status,
             'total' => $this->goodOrders->reduce(function ($total, $goodOrder) {
                 return $total + $goodOrder->price * $goodOrder->quantity;
+            }, 0),
+            'paid' => $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
             }, 0),
             'debt' => $this->goodOrders->reduce(function ($total, $goodOrder) {
                     return $total + $goodOrder->price * $goodOrder->quantity;
@@ -96,13 +99,24 @@ class Order extends Model
                 'name' => $goodOrder->good->name,
                 'code' => $goodOrder->good->code,
             ];
-            if($goodOrder->discount_money)
+            if ($goodOrder->discount_money)
                 $goodOrderData['discount_money'] = $goodOrder->discount_money;
-            if($goodOrder->discount_percent)
+            if ($goodOrder->discount_percent)
                 $goodOrderData['discount_percent'] = $goodOrder->discount_percent;
             return $goodOrderData;
         });
         $data = [
+            'total' => $this->goodOrders->reduce(function ($total, $goodOrder) {
+                return $total + $goodOrder->price * $goodOrder->quantity;
+            }, 0),
+            'paid' => $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0),
+            'debt' => $this->goodOrders->reduce(function ($total, $goodOrder) {
+                    return $total + $goodOrder->price * $goodOrder->quantity;
+                }, 0) - $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                    return $paid + $orderPaidMoney->money;
+                }, 0),
             'info_order' => [
                 'code' => $this->code,
                 'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
