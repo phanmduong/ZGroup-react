@@ -284,7 +284,7 @@ class GoodController extends ManageApiController
                 })
             ]);
         }
-        if($status == null && trim($status) == null)
+        if($status == null)
             $goods = Good::all();
         else {
             if ($status == 'deleted')
