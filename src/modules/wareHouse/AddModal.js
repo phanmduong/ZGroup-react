@@ -47,7 +47,7 @@ class AddModal extends React.Component {
                 ...wareHouse,
                 base: {
                     ...wareHouse.base,
-                    id: e.target.value
+                    id: e.target.value,
                 }
             };
         }
