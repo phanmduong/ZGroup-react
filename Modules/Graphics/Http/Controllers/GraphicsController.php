@@ -235,7 +235,7 @@ class GraphicsController extends Controller
         $display = "";
         //dd($blogs->lastPage());
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
-        if ($blogs->lastPage() == $page_id-1) $display = "display:none";
+        if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
         return view('graphics::blogs', [
             'blogs' => $blogs,
             'page_id' => $page_id,
@@ -251,16 +251,25 @@ class GraphicsController extends Controller
         $address = $request->address;
         $payment = $request->payment;
         $goods_str = $request->session()->get('goods');
-        //dd($goods_str);
         $goods_arr = json_decode($goods_str);
         if (count($goods_arr) > 0) {
+            $user = User::where("email", $email)->orWhere("phone", $phone)->first();
+            if ($user == null) {
+                $user = new User();
+                $user->name = $name;
+                $user->email = $email;
+                $user->phone = $phone;
+                $user->address = $address;
+                $user->type = "customer";
+                $user->save();
+            }
+
             $order = new Order();
-            $order->name = $name;
-            $order->email = $email;
-            $order->phone = $phone;
-            $order->address = $address;
+            $order->user_id = $user->id;
             $order->payment = $payment;
             $order->save();
+
+
             if ($goods_arr) {
                 foreach ($goods_arr as $item) {
                     $good = Good::find($item->id);
@@ -280,9 +289,9 @@ class GraphicsController extends Controller
             $subject = "Xác nhận đặt hàng thành công";
             $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods];
             $emailcc = ["graphics@colorme.vn"];
-            Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
+            Mail::send('emails.confirm_buy_book', $data, function ($m) use ($user, $subject, $emailcc) {
                 $m->from('no-reply@colorme.vn', 'Graphics');
-                $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
+                $m->to($user->email, $user->name)->bcc($emailcc)->subject($subject);
             });
             $request->session()->flush();
             return [
