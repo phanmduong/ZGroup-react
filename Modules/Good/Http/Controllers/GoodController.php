@@ -264,6 +264,7 @@ class GoodController extends ManageApiController
         $manufacture_id = $request->manufacture_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
+        $status = $request->status;
 
         if ($request->limit == -1) {
             if ($type) {
@@ -282,7 +283,16 @@ class GoodController extends ManageApiController
                 })
             ]);
         }
-        $goods = Good::where(function ($query) use ($keyword) {
+        if($status == null && trim($status) == null)
+            $goods = Good::all();
+        else {
+            if ($status == 'deleted')
+                $goods = DB::table('goods')->where('status', 'deleted');
+            else
+                $goods = Good::where('status', $status);
+        }
+
+        $goods = $goods->where(function ($query) use ($keyword) {
             $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
         });
         if ($type)
