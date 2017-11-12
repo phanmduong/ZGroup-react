@@ -202,7 +202,7 @@ class NotificationTypeSeeder extends Seeder
                 'name' => "remind_check_in_sm",
                 'color' => "#4CAF50",
                 'id' => 25,
-                "type" => "social",
+                "type" => "manage",
                 "template" => "Bạn nhớ check in [[SHIFT]] lúc [[TIME]] nhé",
                 "icon" => "<i class=\"material-icons\">radio_button_checked</i>"
             ],
@@ -210,8 +210,36 @@ class NotificationTypeSeeder extends Seeder
                 'name' => "remind_check_out_sm",
                 'color' => "#4CAF50",
                 'id' => 26,
-                "type" => "social",
+                "type" => "manage",
                 "template" => "Bạn nhớ check out [[SHIFT]] lúc [[TIME]] nhé",
+                "icon" => "<i class=\"material-icons\">radio_button_unchecked</i>"
+            ], [
+                'name' => "check_in_teach_success",
+                'color' => "#4CAF50",
+                'id' => 27,
+                "type" => "social",
+                "template" => "Bạn đã check in lớp [[CLASS_NAME]] thành công",
+                "icon" => "<i class=\"material-icons\">radio_button_checked</i>"
+            ], [
+                'name' => "check_out_teach_success",
+                'color' => "#4CAF50",
+                'id' => 28,
+                "type" => "social",
+                "template" => "Bạn đã check out lớp [[CLASS_NAME]] thành công",
+                "icon" => "<i class=\"material-icons\">radio_button_unchecked</i>"
+            ], [
+                'name' => "check_in_sm_success",
+                'color' => "#4CAF50",
+                'id' => 29,
+                "type" => "manage",
+                "template" => "Bạn đã check in [[SHIFT]] thành công",
+                "icon" => "<i class=\"material-icons\">radio_button_checked</i>"
+            ], [
+                'name' => "check_out_sm_success",
+                'color' => "#4CAF50",
+                'id' => 30,
+                "type" => "manage",
+                "template" => "Bạn đã check out [[SHIFT]] thành công",
                 "icon" => "<i class=\"material-icons\">radio_button_unchecked</i>"
             ]
 
