@@ -251,6 +251,7 @@ class GraphicsController extends Controller
         $address = $request->address;
         $payment = $request->payment;
         $goods_str = $request->session()->get('goods');
+        //dd($goods_str);
         $goods_arr = json_decode($goods_str);
         if (count($goods_arr) > 0) {
             $order = new Order();

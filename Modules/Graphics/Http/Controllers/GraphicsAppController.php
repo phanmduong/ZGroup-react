@@ -13,8 +13,10 @@ use App\Good;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NoAuthApiController;
 
+use App\Order;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 
 class GraphicsAppController extends NoAuthApiController
@@ -104,7 +106,7 @@ class GraphicsAppController extends NoAuthApiController
             $user->save();
         }
 
-        $goods_str = $request->session()->get('goods');
+        $goods_str = $request->books;
         $goods_arr = json_decode($goods_str);
 
         if (count($goods_arr) > 0) {
@@ -141,7 +143,7 @@ class GraphicsAppController extends NoAuthApiController
                 $m->from('no-reply@colorme.vn', 'Graphics');
                 $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
             });
-            $request->session()->flush();
+
             return $this->respondSuccessWithStatus([
                "message" => "Đặt hàng thành công"
             ]);
