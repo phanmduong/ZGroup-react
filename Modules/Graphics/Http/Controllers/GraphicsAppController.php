@@ -91,12 +91,16 @@ class GraphicsAppController extends NoAuthApiController
             $query->where("email", $request->email)->orWhere("phone",$request->phone);
         }) ->get();
 
-        if($user) return $this->respondErrorWithStatus("Đã tồn tại email hoặc số điện thoại"); else{
+        if($user){
+
+        }
+        else{
             $user= new User;
             $user->name=$request->name;
             $user->email=$request->email;
             $user->phone=$request->phone;
             $user->address=$request->address;
+            $user->save();
         }
 
         $goods_str = $request->session()->get('goods');
@@ -104,11 +108,9 @@ class GraphicsAppController extends NoAuthApiController
 
         if (count($goods_arr) > 0) {
             $order = new Order();
-            $order->name = $name;
-            $order->email = $email;
-            $order->phone = $phone;
-            $order->address = $address;
+            $order->user_id= $user->id;
             $order->payment = $payment;
+            $order->status= "PLACE_ORDER";
             $order->save();
 
 
