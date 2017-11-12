@@ -487,7 +487,6 @@ class OrderController extends ManageApiController
                             'name' => $warehouse->base->name,
                             'address' => $warehouse->base->address,
                         ];
-
                     return $warehouseData;
                 })
             ]

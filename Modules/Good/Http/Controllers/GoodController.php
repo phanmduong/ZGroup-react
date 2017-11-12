@@ -267,7 +267,7 @@ class GoodController extends ManageApiController
         $endTime = $request->end_time;
         $status = $request->status;
 
-        if ($request->limit == -1) {
+        if ($limit == -1) {
             if ($type) {
                 $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
                     $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
@@ -284,6 +284,7 @@ class GoodController extends ManageApiController
                 })
             ]);
         }
+        dd($status);
         if ($status) {
             if ($status == 'deleted')
                 $goods = DB::table('goods')->where('status', 'deleted');
