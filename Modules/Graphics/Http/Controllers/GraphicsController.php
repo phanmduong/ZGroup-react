@@ -261,7 +261,7 @@ class GraphicsController extends Controller
 
         $user = User::where(function ($query) use ($request) {
             $query->where("email", $request->email)->orWhere("phone",$request->phone);
-        }) ->get();
+        }) ->first();
 
         if($user){
 
