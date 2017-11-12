@@ -90,7 +90,7 @@ class GraphicsAppController extends NoAuthApiController
 
         $user = User::where(function ($query) use ($request) {
             $query->where("email", $request->email)->orWhere("phone",$request->phone);
-        }) ->get();
+        }) ->first();
 
         if($user){
 
@@ -110,6 +110,7 @@ class GraphicsAppController extends NoAuthApiController
         if (count($goods_arr) > 0) {
             $order = new Order();
             $order->user_id= $user->id;
+            $order->email=$user->email;
             $order->payment = $payment;
             $order->status= "PLACE_ORDER";
             $order->save();
@@ -125,6 +126,7 @@ class GraphicsAppController extends NoAuthApiController
 
                 }
             }
+
             $total_price = 0;
             $goods = $order->goods;
             foreach ($goods as &$good) {
@@ -140,16 +142,12 @@ class GraphicsAppController extends NoAuthApiController
                 $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
             });
             $request->session()->flush();
-            return [
-                "status" => 1
-            ];
+            return $this->respondSuccessWithStatus([
+               "message" => "Đặt hàng thành công"
+            ]);
         } else {
-            return [
-                "status" => 0,
-                "message" => "Bạn chưa đặt cuốn sách nào"
-            ];
+            return $this->respondErrorWithStatus("Bạn chưa đặt cuốn sách nào");
         }
     }
-
 
 }

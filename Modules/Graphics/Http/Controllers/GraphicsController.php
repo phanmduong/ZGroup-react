@@ -243,50 +243,23 @@ class GraphicsController extends Controller
         ]);
     }
 
-    public function saveOrder($subfix,Request $request)
+    public function saveOrder($subfix, Request $request)
     {
         $email = $request->email;
         $name = $request->name;
         $phone = $request->phone;
         $address = $request->address;
         $payment = $request->payment;
-
-        if(!$name) return $this->respondErrorWithStatus("Thiếu tên");
-        if(!$phone) return $this->respondErrorWithStatus("Thiếu số điện thoại");
-        if(!$address) return $this->respondErrorWithStatus("Thiếu địa chỉ");
-        if(!$payment) return $this->respondErrorWithStatus("Thiếu phương thức thanh toán");
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return $this->respondErrorWithStatus("Email không hợp lệ");
-        }
-
-        $user = User::where(function ($query) use ($request) {
-            $query->where("email", $request->email)->orWhere("phone",$request->phone);
-        }) ->first();
-
-        if($user){
-
-        }
-        else{
-            $user= new User;
-            $user->name=$request->name;
-            $user->email=$request->email;
-            $user->phone=$request->phone;
-            $user->address=$request->address;
-            $user->save();
-        }
-
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
-
         if (count($goods_arr) > 0) {
             $order = new Order();
-            $order->user_id= $user->id;
-            $order->email=$user->email;
+            $order->name = $name;
+            $order->email = $email;
+            $order->phone = $phone;
+            $order->address = $address;
             $order->payment = $payment;
-            $order->status= "PLACE_ORDER";
             $order->save();
-
-
             if ($goods_arr) {
                 foreach ($goods_arr as $item) {
                     $good = Good::find($item->id);
@@ -294,10 +267,8 @@ class GraphicsController extends Controller
                         "quantity" => $item->number,
                         "price" => $good->price,
                     ]);
-
                 }
             }
-
             $total_price = 0;
             $goods = $order->goods;
             foreach ($goods as &$good) {
