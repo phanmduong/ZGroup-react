@@ -250,6 +250,8 @@ class GraphicsController extends Controller
         $address = $request->address;
         $payment = $request->payment;
 
+
+
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
 
