@@ -26,16 +26,19 @@ class CustomerController extends ManageApiController
 
         $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
+        $status = $request->status;
         $users = User::where("type", "customer")->where(function ($query) use ($keyword) {
             $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
         })->paginate($limit);
 
 
+
         return $this->respondWithPagination(
             $users,
             [
-                'customers' => $users->map(function ($user) {
+                'customers' => $users->map(function ($user) use( $status) {
                     $orders = Order::where("user_id", $user->id)->get();
+                    if($status) $orders= $orders->where("status_paid",$status);
                     $totalMoney = 0;
                     $totalPaidMoney = 0;
                     $lastOrder = 0;
@@ -52,6 +55,7 @@ class CustomerController extends ManageApiController
                             $totalPaidMoney += $orderPaidMoney->money;
                         }
                     }
+                    if(count($orders)>0)
                     return [
                         'id' => $user->id,
                         'name' => $user->name,
@@ -74,8 +78,8 @@ class CustomerController extends ManageApiController
     public function countMoney()
     {
         $users = User::where("type", "customer")->get();
-        $TM = 0;
-        $TDEBT = 0;
+        $TM = 0; // Tong tien
+        $TDEBT = 0; //Tong no
         if ($users) {
             foreach ($users as $user) {
                 $orders = Order::where("user_id", $user->id)->get();
@@ -97,7 +101,7 @@ class CustomerController extends ManageApiController
                     }
                 }
                 $TM += $totalMoney;
-                $TDEBT += $totalMoney-$totalPaidMoney;
+                $TDEBT += $totalMoney - $totalPaidMoney;
             }
         }
         return $this->respondSuccessWithStatus([
