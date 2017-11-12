@@ -281,6 +281,7 @@ class GraphicsController extends Controller
         if (count($goods_arr) > 0) {
             $order = new Order();
             $order->user_id= $user->id;
+            $order->email=$user->email;
             $order->payment = $payment;
             $order->status= "PLACE_ORDER";
             $order->save();
@@ -296,6 +297,7 @@ class GraphicsController extends Controller
 
                 }
             }
+
             $total_price = 0;
             $goods = $order->goods;
             foreach ($goods as &$good) {
