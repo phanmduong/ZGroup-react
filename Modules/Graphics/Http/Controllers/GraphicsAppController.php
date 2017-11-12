@@ -114,7 +114,7 @@ class GraphicsAppController extends NoAuthApiController
             $order->user_id= $user->id;
             $order->email=$user->email;
             $order->payment = $payment;
-            $order->status= "PLACE_ORDER";
+            $order->status= "place_order";
             $order->save();
 
 
