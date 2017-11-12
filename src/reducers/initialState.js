@@ -11,6 +11,7 @@ export default {
         totalPages: '',
         currentPage: '',
         limit: '',
+        totalCount:'',
         isLoading: false,
         modalInProduct: {
             priceModal: false,

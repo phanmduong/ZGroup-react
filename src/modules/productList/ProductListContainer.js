@@ -11,7 +11,7 @@ import Search from "../../components/common/Search";
 import FormInputDate from "../../components/common/FormInputDate";
 import * as helper from '../../helpers/helper';
 import Select from 'react-select';
-import _ from 'lodash';
+import Pagination from "../../components/common/Pagination";
 
 class ProductListContainer extends React.Component {
     constructor(props, context) {
@@ -38,7 +38,8 @@ class ProductListContainer extends React.Component {
         this.manufacturesSearchChange = this.manufacturesSearchChange.bind(this);
         this.categoriesSearchChange = this.categoriesSearchChange.bind(this);
         this.productsPageChange = this.productsPageChange.bind(this);
-        this.getProductsStatus = this.getProductsStatus.bind(this);
+        this.loadOrders = this.loadOrders.bind(this);
+        this.statusesSearchChange = this.statusesSearchChange.bind(this);
     }
 
     componentWillMount() {
@@ -55,10 +56,9 @@ class ProductListContainer extends React.Component {
         const field = event.target.name;
         let time = {...this.state.time};
         time[field] = event.target.value;
-
         if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
             this.props.productListAction.getProducts(
-                this.state.page,
+                1,
                 this.state.query,
                 time.startTime,
                 time.endTime,
@@ -81,7 +81,7 @@ class ProductListContainer extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             this.props.productListAction.getProducts(
-                this.state.page,
+                1,
                 value,
                 this.state.time.startTime,
                 this.state.time.endTime,
@@ -96,40 +96,45 @@ class ProductListContainer extends React.Component {
         this.setState({
             manufacture: value.id
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.productListAction.getProducts(
-                this.state.page,
-                this.state.query,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                value.id,
-                this.state.category,
-                this.state.status
-            );
-        }.bind(this), 500);
+        this.props.productListAction.getProducts(
+            1,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            value.id,
+            this.state.category,
+            this.state.status
+        );
     }
 
     categoriesSearchChange(value) {
         this.setState({
             category: value.id
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.productListAction.getProducts(
-                this.state.page,
-                this.state.query,
-                this.state.time.startTime,
-                this.state.time.endTime,
-                this.state.manufacture,
-                value.id,
-                this.state.status
-            );
-        }.bind(this), 500);
+        this.props.productListAction.getProducts(
+            1,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.manufacture,
+            value.id,
+            this.state.status
+        );
+    }
+
+    statusesSearchChange(value) {
+        this.setState({
+            status: value.value
+        });
+        this.props.productListAction.getProducts(
+            1,
+            this.state.query,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.state.manufacture,
+            this.state.category,
+            value.value
+        );
     }
 
     productsPageChange(value) {
@@ -145,16 +150,16 @@ class ProductListContainer extends React.Component {
         );
     }
 
-    getProductsStatus(status) {
-        this.setState({status: status});
+    loadOrders(page = 1) {
+        this.setState({page: page});
         this.props.productListAction.getProducts(
-            this.state.page,
+            page,
             this.state.query,
             this.state.time.startTime,
             this.state.time.endTime,
             this.state.manufacture,
             this.state.category,
-            status
+            this.state.status
         );
     }
 
@@ -181,6 +186,9 @@ class ProductListContainer extends React.Component {
     }
 
     render() {
+        let first = (this.props.currentPage - 1) * this.props.limit + 1;
+        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
+
         return (
             <div className="wrapper">
                 <div className="content">
@@ -232,7 +240,7 @@ class ProductListContainer extends React.Component {
                                                         placeholder="Nhập tên hoặc mã hàng hoá để tìm"
                                                         className="col-md-12"
                                                     />
-                                                    <div className="form-group col-md-6">
+                                                    <div className="form-group col-md-4">
                                                         <label className="control-label">Tìm theo nhà sản xuất</label>
                                                         <Select
                                                             name="manufactures"
@@ -247,7 +255,7 @@ class ProductListContainer extends React.Component {
                                                             onChange={this.manufacturesSearchChange}
                                                         />
                                                     </div>
-                                                    <div className="form-group col-md-6">
+                                                    <div className="form-group col-md-4">
                                                         <label className="control-label">Tìm theo nhóm hàng hóa</label>
                                                         <Select
                                                             name="categories"
@@ -260,6 +268,19 @@ class ProductListContainer extends React.Component {
                                                                 };
                                                             })}
                                                             onChange={this.categoriesSearchChange}
+                                                        />
+                                                    </div>
+                                                    <div className="form-group col-md-4">
+                                                        <label className="control-label">Tìm theo trạng thái</label>
+                                                        <Select
+                                                            name="status"
+                                                            value={this.state.status}
+                                                            options={this.props.statuses.map((status) => {
+                                                                return {
+                                                                    ...status
+                                                                };
+                                                            })}
+                                                            onChange={this.statusesSearchChange}
                                                         />
                                                     </div>
                                                     <div className="col-md-3">
@@ -298,89 +319,42 @@ class ProductListContainer extends React.Component {
                                                     )
                                                 }
                                             </div>
-                                            <div className="row" style={{float: "right"}}>
-                                                <div className="col-md-12" style={{textAlign: "right"}}>
-                                                    {
-                                                        this.props.totalPages === 0 ? (
-                                                            <b style={{marginRight: "15px"}}>
-                                                                Không có sản phẩm nào</b>
-                                                        ) : (
-                                                            <b style={{marginRight: "15px"}}>
-                                                                Hiển thị trang {this.props.currentPage} trên tổng
-                                                                số {this.props.totalPages} trang</b>
-                                                        )
-                                                    }
-                                                    <br/>
-                                                    <ul className="pagination pagination-primary">
-                                                        {
-                                                            this.props.currentPage === 1 ? (
-                                                                <li className="disabled">
-                                                                    <a>previous</a>
-                                                                </li>
-                                                            ) : (
-                                                                <li>
-                                                                    <a onClick={() => this.productsPageChange(this.props.currentPage - 1)}>previous</a>
-                                                                </li>
-                                                            )
-                                                        }
-                                                        {_.range(1, this.props.totalPages + 1).map(page => {
-                                                            if (Number(this.props.currentPage) === page) {
-                                                                return (
-                                                                    <li key={page} className="active disabled">
-                                                                        <a>{page}</a>
-                                                                    </li>
-                                                                );
-                                                            } else {
-                                                                return (
-                                                                    <li key={page}>
-                                                                        <a onClick={() => this.productsPageChange(page)}>{page}</a>
-                                                                    </li>
-                                                                );
-                                                            }
-                                                        })}
-                                                        {
-                                                            this.props.currentPage === this.props.totalPages ? (
-                                                                <li className="disabled">
-                                                                    <a>next</a>
-                                                                </li>
-                                                            ) : (
-                                                                <li>
-                                                                    <a onClick={() => this.productsPageChange(this.props.currentPage + 1)}>next</a>
-                                                                </li>
-                                                            )
-                                                        }
-                                                    </ul>
+                                            <div className="row float-right">
+                                                <div className="col-md-12" style={{textAlign: 'right'}}>
+                                                    <b style={{marginRight: '15px'}}>
+                                                        Hiển thị kêt quả từ {first}
+                                                        - {end}/{this.props.totalCount}</b><br/>
+                                                    <Pagination
+                                                        totalPages={this.props.totalPages}
+                                                        currentPage={this.props.currentPage}
+                                                        loadDataPage={this.loadOrders}
+                                                    />
                                                 </div>
                                             </div>
                                             <div className="card-footer">
                                                 <div style={{float: "right"}}>
                                                     <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple"
-                                                            onClick={() => this.getProductsStatus("for_sale")}
+                                                            className="btn btn-danger btn-simple disabled"
                                                     >Đang kinh doanh: {this.props.productsBusiness}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple"
-                                                            onClick={() => this.getProductsStatus("not_for_sale")}
+                                                            className="btn btn-danger btn-simple disabled"
                                                     >Ngừng kinh doanh: {this.props.productsNotBusiness}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple"
-                                                            onClick={() => this.getProductsStatus("show")}
+                                                            className="btn btn-danger btn-simple disabled"
                                                     >Hiển thị ra web: {this.props.productsDisplay}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple"
-                                                            onClick={() => this.getProductsStatus("not_show")}
+                                                            className="btn btn-danger btn-simple disabled"
                                                     >Không hiển thị ra web: {this.props.productsNotDisplay}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                     <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple"
-                                                            onClick={() => this.getProductsStatus("deleted")}
+                                                            className="btn btn-danger btn-simple disabled"
                                                     >Đã xóa: {this.props.productsDeleted}
                                                         <div className="ripple-container"/>
                                                     </button>
@@ -465,7 +439,9 @@ ProductListContainer.PropTypes = {
     manufactures: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
-    limit: PropTypes.number.isRequired
+    limit: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
+    statuses: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -485,7 +461,9 @@ function mapStateToProps(state) {
         manufactures: state.productList.manufactures,
         totalPages: state.productList.totalPages,
         currentPage: state.productList.currentPage,
-        limit: state.productList.limit
+        limit: state.productList.limit,
+        totalCount: state.productList.totalCount,
+        statuses: state.productList.statuses
     };
 }
 

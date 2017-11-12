@@ -30,7 +30,8 @@ export function getProducts(page, search, start_time, end_time, manufacture_id, 
                     products: response.data.goods,
                     totalPages: response.data.paginator.total_pages,
                     currentPage: response.data.paginator.current_page,
-                    limit: response.data.paginator.limit
+                    limit: response.data.paginator.limit,
+                    totalCount: response.data.paginator.total_count
                 });
                 dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,

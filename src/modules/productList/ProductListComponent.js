@@ -45,7 +45,7 @@ class ProductListComponent extends React.Component {
                                             marginLeft: "3px"
                                         }} data-toggle="tooltip" title="" type="button"
                                              rel="tooltip"
-                                             data-original-title="Batman"/>
+                                             data-original-title=""/>
                                     </td>
                                     <td style={{width: "130px"}}>
                                         <a className="text-name-student-register"
