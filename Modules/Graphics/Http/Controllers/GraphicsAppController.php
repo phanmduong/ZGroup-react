@@ -13,7 +13,10 @@ use App\Good;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NoAuthApiController;
 
+use App\Order;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 
 class GraphicsAppController extends NoAuthApiController
@@ -89,26 +92,29 @@ class GraphicsAppController extends NoAuthApiController
 
         $user = User::where(function ($query) use ($request) {
             $query->where("email", $request->email)->orWhere("phone",$request->phone);
-        }) ->get();
+        }) ->first();
 
-        if($user) return $this->respondErrorWithStatus("Đã tồn tại email hoặc số điện thoại"); else{
+        if($user){
+
+        }
+        else{
             $user= new User;
             $user->name=$request->name;
             $user->email=$request->email;
             $user->phone=$request->phone;
             $user->address=$request->address;
+            $user->save();
         }
 
-        $goods_str = $request->session()->get('goods');
+        $goods_str = $request->books;
         $goods_arr = json_decode($goods_str);
 
         if (count($goods_arr) > 0) {
             $order = new Order();
-            $order->name = $name;
-            $order->email = $email;
-            $order->phone = $phone;
-            $order->address = $address;
+            $order->user_id= $user->id;
+            $order->email=$user->email;
             $order->payment = $payment;
+            $order->status= "PLACE_ORDER";
             $order->save();
 
 
@@ -122,6 +128,7 @@ class GraphicsAppController extends NoAuthApiController
 
                 }
             }
+
             $total_price = 0;
             $goods = $order->goods;
             foreach ($goods as &$good) {
@@ -136,17 +143,13 @@ class GraphicsAppController extends NoAuthApiController
                 $m->from('no-reply@colorme.vn', 'Graphics');
                 $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
             });
-            $request->session()->flush();
-            return [
-                "status" => 1
-            ];
+
+            return $this->respondSuccessWithStatus([
+               "message" => "Đặt hàng thành công"
+            ]);
         } else {
-            return [
-                "status" => 0,
-                "message" => "Bạn chưa đặt cuốn sách nào"
-            ];
+            return $this->respondErrorWithStatus("Bạn chưa đặt cuốn sách nào");
         }
     }
-
 
 }

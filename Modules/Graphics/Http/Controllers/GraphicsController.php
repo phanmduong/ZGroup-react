@@ -5,6 +5,7 @@ namespace Modules\Graphics\Http\Controllers;
 use App\Good;
 use App\Order;
 use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -249,12 +250,9 @@ class GraphicsController extends Controller
         $phone = $request->phone;
         $address = $request->address;
         $payment = $request->payment;
-
-
-
         $goods_str = $request->session()->get('goods');
+        //dd($goods_str);
         $goods_arr = json_decode($goods_str);
-
         if (count($goods_arr) > 0) {
             $order = new Order();
             $order->name = $name;
@@ -263,8 +261,6 @@ class GraphicsController extends Controller
             $order->address = $address;
             $order->payment = $payment;
             $order->save();
-
-
             if ($goods_arr) {
                 foreach ($goods_arr as $item) {
                     $good = Good::find($item->id);
@@ -272,7 +268,6 @@ class GraphicsController extends Controller
                         "quantity" => $item->number,
                         "price" => $good->price,
                     ]);
-
                 }
             }
             $total_price = 0;

@@ -160,8 +160,9 @@ function submitOrder() {
         _token: window.token
     };
 
-    if (!data.name || !data.phone || !data.email || !data.address || !data.payment) {
-        alert("Bạn vui lòng nhập đủ thông tin");
+
+    if (!data.name || !data.phone || !data.email || !data.address || !data.payment ) {
+        alert("Bạn vui lòng nhập đủ thông tin và kiểm tra lại email");
         $("#purchase-error").css("display", "block");
         $("#purchase-loading-text").css("display", "none");
         $("#btn-purchase-group").css("display", "block");
