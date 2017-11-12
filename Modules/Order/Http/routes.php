@@ -26,5 +26,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/warehouse/goods/{warehouseId}', 'OrderController@warehouseGoods');
     Route::post('/check-goods', 'OrderController@checkGoods');
     Route::get('/all-customers','CustomerController@allCustomers');
+    Route::get('total-and-debt-money','CustomerController@countMoney');
+    Route::post('add-customer','CustomerController@addCustomer');
 });
 
