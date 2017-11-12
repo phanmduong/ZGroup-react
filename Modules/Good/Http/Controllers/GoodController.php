@@ -285,63 +285,37 @@ class GoodController extends ManageApiController
             ]);
         }
         if ($status) {
-            if ($status == 'deleted')
-                $goods = DB::table('goods')->where('status', 'deleted');
+            if ($status == 'deleted') {
+                $goods = DeletedGood::where('status', 'deleted');
+                $goods->where(function ($query) use ($keyword) {
+                    $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+                });
+                if ($type)
+                    $goods = $goods->where("type", $type);
+                if ($manufacture_id)
+                    $goods = $goods->where('manufacture_id', $manufacture_id);
+                if ($good_category_id)
+                    $goods = $goods->where('good_category_id', $good_category_id);
+                if ($startTime)
+                    $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
+                $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
+                return $this->respondWithPagination(
+                    $goods,
+                    [
+                        "goods" => $goods->map(function ($good) {
+                            return $good->transform();
+                        })
+                    ]
+                );
+            }
             else
                 $goods = Good::where('status', $status);
+
             $goods = $goods->where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
-            if ($type)
-                $goods = $goods->where("type", $type);
-            if ($manufacture_id)
-                $goods = $goods->where('manufacture_id', $manufacture_id);
-            if ($good_category_id)
-                $goods = $goods->where('good_category_id', $good_category_id);
-            if ($startTime)
-                $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
-            $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
-            return $this->respondWithPagination(
-                $goods,
-                [
-                    'goods' => $goods->map(function ($good) {
-                        $data = [
-                            'id' => $good->id,
-                            'name' => $good->name,
-                            'created_at' => format_vn_short_datetime(strtotime($good->created_at)),
-                            'updated_at' => format_vn_short_datetime(strtotime($good->updated_at)),
-                            'price' => $good->price,
-                            'status' => $good->status,
-                            'good_category_id' => $good->good_category_id,
-                            'manufacture_id' => $good->manufacture_id,
-                            'description' => $good->description,
-                            'type' => $good->type,
-                            'avatar_url' => $good->avatar_url,
-                            'cover_url' => $good->cover_url,
-                            'code' => $good->code,
-                        ];
-                        $data['files'] = $this->files->map(function ($file) {
-                            return [
-                                'id' => $file->id,
-                                'name' => $file->name,
-                                'url' => generate_protocol_url($file->url),
-                                'ext' => $file->ext,
-                                'size' => $file->size,
-                                'file_key' => $file->file_key,
-                                'created_at' => format_time_main(strtotime($file->created_at))
-                            ];
-                        });
-                        $data['properties'] = $this->properties->map(function ($property) {
-                            return [
-                                'name' => $property->name,
-                                'value' => $property->value,
-                            ];
-                        });
-                        return $data;
-                    }),
-                ]
-            );
-        } else
+        }
+        else
             $goods = Good::where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
