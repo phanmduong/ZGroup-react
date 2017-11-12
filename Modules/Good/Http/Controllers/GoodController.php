@@ -3,7 +3,7 @@
 namespace Modules\Good\Http\Controllers;
 
 use App\Good;
-use App\GoodWarehouse;
+use App\DeletedGood;
 use App\Http\Controllers\ManageApiController;
 use App\Manufacture;
 use App\Task;
