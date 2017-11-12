@@ -32,44 +32,45 @@ class CustomerController extends ManageApiController
         })->paginate($limit);
 
 
-
         return $this->respondWithPagination(
             $users,
             [
-                'customers' => $users->map(function ($user) use( $status) {
+                'customers' => $users->map(function ($user) use ($status) {
                     $orders = Order::where("user_id", $user->id)->get();
-                    if($status) $orders= $orders->where("status_paid",$status);
-                    $totalMoney = 0;
-                    $totalPaidMoney = 0;
-                    $lastOrder = 0;
-                    foreach ($orders as $order) {
-                        $goodOrders = $order->goodOrders()->get();
-                        foreach ($goodOrders as $goodOrder) {
-                            $totalMoney += $goodOrder->quantity * $goodOrder->price;
+                    if ($status) $orders = $orders->where("status_paid", $status);
+                    if (count($orders) > 0) {
+                        $totalMoney = 0;
+                        $totalPaidMoney = 0;
+                        $lastOrder = 0;
+                        foreach ($orders as $order) {
+                            $goodOrders = $order->goodOrders()->get();
+                            foreach ($goodOrders as $goodOrder) {
+                                $totalMoney += $goodOrder->quantity * $goodOrder->price;
+                            }
+                            $lastOrder = $order->created_at;
                         }
-                        $lastOrder = $order->created_at;
-                    }
-                    foreach ($orders as $order) {
-                        $orderPaidMoneys = $order->orderPaidMoneys()->get();
-                        foreach ($orderPaidMoneys as $orderPaidMoney) {
-                            $totalPaidMoney += $orderPaidMoney->money;
+                        foreach ($orders as $order) {
+                            $orderPaidMoneys = $order->orderPaidMoneys()->get();
+                            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                                $totalPaidMoney += $orderPaidMoney->money;
+                            }
                         }
-                    }
-                    if(count($orders)>0)
-                    return [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'phone' => $user->phone,
-                        'email' => $user->email,
-                        'address' => $user->address,
-                        'birthday' => $user->dob,
-                        'gender' => $user->gender,
-                        'last_order' => format_vn_short_datetime(strtotime($lastOrder)),
-                        'total_money' => $totalMoney,
-                        'total_paid_money' => $totalPaidMoney,
-                        'debt' => $totalMoney - $totalPaidMoney,
 
-                    ];
+                        return [
+                            'id' => $user->id,
+                            'name' => $user->name,
+                            'phone' => $user->phone,
+                            'email' => $user->email,
+                            'address' => $user->address,
+                            'birthday' => $user->dob,
+                            'gender' => $user->gender,
+                            'last_order' => format_vn_short_datetime(strtotime($lastOrder)),
+                            'total_money' => $totalMoney,
+                            'total_paid_money' => $totalPaidMoney,
+                            'debt' => $totalMoney - $totalPaidMoney,
+
+                        ];
+                    }
                 }),
             ]
         );
