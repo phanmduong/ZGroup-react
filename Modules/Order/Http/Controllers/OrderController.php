@@ -374,6 +374,7 @@ class OrderController extends ManageApiController
             $goodWarehouse = new GoodWarehouse;
             $goodWarehouse->good_id = $imported_good['good_id'];
             $goodWarehouse->quantity = $imported_good['quantity'];
+            $goodWarehouse->import_price = $imported_good['import_price'];
             $goodWarehouse->warehouse_id = $request->warehouse_id;
             $goodWarehouse->save();
         }
@@ -629,5 +630,6 @@ class OrderController extends ManageApiController
         ]);
 
     }
+
 
 }
