@@ -5,6 +5,7 @@ namespace Modules\Good\Http\Controllers;
 use App\Good;
 use App\DeletedGood;
 use App\Http\Controllers\ManageApiController;
+use App\ImportedGoods;
 use App\Manufacture;
 use App\Task;
 use Illuminate\Http\Request;
@@ -307,15 +308,13 @@ class GoodController extends ManageApiController
                         })
                     ]
                 );
-            }
-            else
+            } else
                 $goods = Good::where('status', $status);
 
             $goods = $goods->where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
-        }
-        else
+        } else
             $goods = Good::where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
@@ -372,11 +371,11 @@ class GoodController extends ManageApiController
 
         $goods = Good::orderBy('created_at', 'desc')->get();
 
-        $total_quantity = $goods->reduce(function($total_q, $good){
-            return $total_q + $good->goodWarehouse->reduce(function ($tota_good_q, $goodWarehouse){
-                return $tota_good_q + $goodWarehouse->quantity;
-            },0);
-        },0);
+        $total_quantity = $goods->reduce(function ($total_q, $good) {
+            return $total_q + $good->importedGoods->reduce(function ($tota_good_q, $importedGood) {
+                    return $tota_good_q + $importedGood->quantity;
+                }, 0);
+        }, 0);
 
         return $this->respondSuccessWithStatus([
             'total' => $total,
@@ -519,6 +518,47 @@ class GoodController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             "card" => $card->transform()
+        ]);
+    }
+
+    public function allInventories(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $inventories = ImportedGoods::where('quantity', '<>', 0)->paginate($limit);
+        return $this->respondWithPagination(
+            $inventories,
+            [
+                'inventories' => $inventories->map(function ($inventory) {
+                    $data = [
+                        'id' => $inventory->id,
+                        'code' => $inventory->good->code,
+                        'name' => $inventory->good->name,
+                        'quantity' => $inventory->quantity,
+                        'price' => $inventory->good->price,
+                        'import_price' => $inventory->price,
+                    ];
+                    return $data;
+                })
+            ]
+        );
+    }
+
+    public function inventoriesInfo(Request $request)
+    {
+        $inventories = ImportedGoods::where('quantity', '<>', 0)->get();
+        $count = $inventories->reduce(function ($total, $inventory) {
+            return $total + $inventory->quantity;
+        }, 0);
+        $total_import_money = $inventories->reduce(function ($total, $inventory) {
+            return $total + $inventory->quantity * $inventory->import_price;
+        }, 0);
+        $total_money = $inventories->reduce(function ($total, $inventory) {
+            return $total + $inventory->quantity * $inventory->good->price;
+        }, 0);
+        return $this->respondSuccessWithStatus([
+            'count' => $count,
+            'total_import_money' => $total_import_money,
+            'total_money' => $total_money,
         ]);
     }
 }
