@@ -5,6 +5,7 @@ namespace Modules\Graphics\Http\Controllers;
 use App\Good;
 use App\Order;
 use App\Product;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;

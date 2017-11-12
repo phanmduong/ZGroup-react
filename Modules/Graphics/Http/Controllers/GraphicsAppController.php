@@ -13,6 +13,7 @@ use App\Good;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\NoAuthApiController;
 
+use App\User;
 use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
 
