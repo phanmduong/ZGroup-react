@@ -129,7 +129,7 @@ ImportContainer.propTypes = {
     importOrder: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
-}
+};
 
 function mapStateToProps(state) {
     return {

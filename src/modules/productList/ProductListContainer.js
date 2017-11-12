@@ -421,7 +421,7 @@ class ProductListContainer extends React.Component {
     }
 }
 
-ProductListContainer.PropTypes = {
+ProductListContainer.propTypes = {
     productListAction: PropTypes.object.isRequired,
     modalProductAction: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,

@@ -90,7 +90,7 @@ class StoreImportContainer extends React.Component {
 
         this.props.formImportGood.importGoods.map((good) => {
             totalMoney += good.quantity * good.import_price;
-        })
+        });
 
         return (
             <div>
@@ -115,7 +115,7 @@ class StoreImportContainer extends React.Component {
                                 <Search
                                     onChange={(value) => {
                                         this.table ? this.table.search(value).draw() : null;
-                                        this.setState({search: value})
+                                        this.setState({search: value});
                                     }}
                                     value={this.state.search}
                                     placeholder="Nhập mã hoặc tên sản phẩm"
@@ -257,8 +257,10 @@ StoreImportContainer.propTypes = {
     importGoodActions: PropTypes.object.isRequired,
     formImportGood: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    isStoring: PropTypes.bool.isRequired,
     type: PropTypes.string
-}
+};
 
 function mapStateToProps(state) {
     return {

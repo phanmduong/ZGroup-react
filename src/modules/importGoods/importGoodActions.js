@@ -47,7 +47,7 @@ export function updateFormImportGood(formImportGood) {
     return ({
         type: types.UPDATE_FORM_IMPORT_GOOD,
         formImportGood
-    })
+    });
 }
 
 export function storeImportGood(formImportGood) {
@@ -60,18 +60,18 @@ export function storeImportGood(formImportGood) {
                 if (res.data.status === 1) {
                     dispatch({
                         type: types.STORE_IMPORT_GOOD_SUCCESS
-                    })
+                    });
                 } else {
                     dispatch({
                         type: types.STORE_IMPORT_GOOD_ERROR
-                    })
+                    });
                 }
             })
             .catch(() => {
                 dispatch({
                     type: types.STORE_IMPORT_GOOD_ERROR
-                })
-            })
+                });
+            });
     };
 }
 

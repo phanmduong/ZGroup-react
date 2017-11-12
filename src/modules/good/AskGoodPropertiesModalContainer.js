@@ -81,7 +81,8 @@ AskGoodPropertiesModalContainer.propTypes = {
     goodProperties: PropTypes.array.isRequired,
     isSaving: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    goodPropertiesOutput: PropTypes.object.isRequired
+    goodPropertiesOutput: PropTypes.object.isRequired,
+    showModal: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {

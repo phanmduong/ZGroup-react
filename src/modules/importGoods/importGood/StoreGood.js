@@ -3,6 +3,7 @@ import ReactSelect from 'react-select';
 import * as importGoodsApi from '../importGoodsApi';
 import * as helper from '../../../helpers/helper';
 import FormInputText from '../../../components/common/FormInputText';
+import PropTypes from "prop-types";
 
 class StoreGood extends React.Component {
     constructor(props, context) {
@@ -55,13 +56,13 @@ class StoreGood extends React.Component {
         }
         this.setState({
             selectedGood: selectedGood
-        })
+        });
     }
 
     selectGood(value) {
         this.setState({
             selectedGood: value
-        })
+        });
     }
 
     storeGood() {
@@ -135,5 +136,9 @@ class StoreGood extends React.Component {
     }
 }
 
+StoreGood.propTypes = {
+    storeGood: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired
+};
 
 export default StoreGood;
