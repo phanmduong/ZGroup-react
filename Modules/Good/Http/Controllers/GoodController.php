@@ -525,7 +525,7 @@ class GoodController extends ManageApiController
     public function allInventories(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
-        $warehouse_id = $request->warehouse_id;
+        $good_category_id = $request->good_category_id;
         $manufacture_id = $request->manufacture_id;
         $keyword = $request->search;
 
@@ -540,8 +540,8 @@ class GoodController extends ManageApiController
             $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
             $inventories = $inventories->whereIn('good_id', $goodIds);
         }
-        if ($warehouse_id)
-            $inventories = $inventories->where('warehouse_id', $warehouse_id);
+        if ($good_category_id)
+            $inventories = $inventories->where('warehouse_id', $good_category_id);
 
         $inventories = $inventories->paginate($limit);
         return $this->respondWithPagination(
@@ -553,7 +553,7 @@ class GoodController extends ManageApiController
                         'code' => $inventory->good->code,
                         'name' => $inventory->good->name,
                         'quantity' => $inventory->quantity,
-                        'import_price' => $inventory->price,
+                        'import_price' => $inventory->import_price,
                         'import_money' => $inventory->import_price * $inventory->quantity,
                         'price' => $inventory->good->price,
                         'money' => $inventory->good->price * $inventory->quantity
