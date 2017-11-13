@@ -18,6 +18,7 @@ class AvatarModalContainer extends React.Component {
         this.handleProduct = this.handleProduct.bind(this);
         this.changeSelectManufacture = this.changeSelectManufacture.bind(this);
         this.changeSelectCategory = this.changeSelectCategory.bind(this);
+        this.changeSelectStatus = this.changeSelectStatus.bind(this);
         this.uploadEditProduct = this.uploadEditProduct.bind(this);
     }
 
@@ -27,11 +28,15 @@ class AvatarModalContainer extends React.Component {
     }
 
     changeSelectManufacture(value) {
-        this.props.modalProductAction.handleManufacture(value);
+        this.props.modalProductAction.handleManufacture(value.id);
     }
 
     changeSelectCategory(value) {
-        this.props.modalProductAction.handleCategory(value);
+        this.props.modalProductAction.handleCategory(value.id);
+    }
+
+    changeSelectStatus(status){
+        this.props.modalProductAction.handleStatus(status.value);
     }
 
     showAvatarModal(e) {
@@ -61,7 +66,12 @@ class AvatarModalContainer extends React.Component {
 
     uploadEditProduct(e) {
         e.preventDefault();
-        this.props.productListAction.uploadEditProduct(this.props.productEditing.productPresent, this.props.productEditing.manufacture.id, this.props.productEditing.category.id);
+        this.props.productListAction.uploadEditProduct(
+            this.props.productEditing.productPresent,
+            this.props.productEditing.manufacture_id,
+            this.props.productEditing.good_category_id,
+            this.props.productEditing.status
+        );
     }
 
     render() {
@@ -142,7 +152,6 @@ class AvatarModalContainer extends React.Component {
                                                         className="fa fa-times"/>
                                                         Remove
                                                     </button>
-
                                                 </div>
                                             )
                                         }
@@ -170,10 +179,23 @@ class AvatarModalContainer extends React.Component {
                                 <span className="material-input"/>
                             </div>
                             <div className="form-group">
+                                <label className="control-label">Trạng thái</label>
+                                <Select
+                                    name="status"
+                                    value={this.props.productEditing.status}
+                                    options={this.props.statuses.map((status) => {
+                                        return {
+                                            ...status
+                                        };
+                                    })}
+                                    onChange={this.changeSelectStatus}
+                                />
+                            </div>
+                            <div className="form-group">
                                 <label className="control-label">Nhà sản xuất</label>
                                 <Select
                                     name="manufactures"
-                                    value={this.props.productEditing.manufacture.id}
+                                    value={this.props.productEditing.manufacture_id}
                                     options={this.props.manufactures.map((manufacture) => {
                                         return {
                                             ...manufacture,
@@ -188,12 +210,12 @@ class AvatarModalContainer extends React.Component {
                                 <label className="control-label">Chọn nhóm sản phẩm</label>
                                 <Select
                                     name="categories"
-                                    value={this.props.productEditing.category.id}
+                                    value={this.props.productEditing.good_category_id}
                                     options={this.props.categories.map((category) => {
                                         return {
                                             ...category,
                                             value: category.id,
-                                            label: category.name
+                                            label: category.label
                                         };
                                     })}
                                     onChange={this.changeSelectCategory}
@@ -236,12 +258,9 @@ AvatarModalContainer.propTypes = {
     productListAction: PropTypes.object.isRequired,
     manufactures: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
+    statuses:PropTypes.array.isRequired,
     manufacturesUpdated: PropTypes.bool.isRequired,
     categoriesUpdated: PropTypes.bool.isRequired,
-    handleManufacture: PropTypes.func.isRequired,
-    handleCategory: PropTypes.func.isRequired,
-    getManufacturesProductsList: PropTypes.func.isRequired,
-    getCategoriesProductsList: PropTypes.func.isRequired,
     isModalUpdating: PropTypes.bool
 };
 
@@ -253,7 +272,8 @@ function mapStateToProps(state) {
         manufactures: state.productList.manufactures,
         categoriesUpdated: state.productList.categoriesUpdated,
         manufacturesUpdated: state.productList.manufacturesUpdated,
-        isModalUpdating: state.productList.modalInProduct.isModalUpdating
+        isModalUpdating: state.productList.modalInProduct.isModalUpdating,
+        statuses:state.productList.statuses
     };
 }
 

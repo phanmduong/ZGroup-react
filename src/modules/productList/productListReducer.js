@@ -8,7 +8,22 @@ export default function productListReducer(state = initialState.productList, act
             return {
                 ...state,
                 products: action.products,
+                totalPages: action.totalPages,
+                currentPage: action.currentPage,
+                limit: action.limit,
+                totalCount: action.totalCount,
                 isLoading: false
+            };
+        case types.DISPLAY_INFORMATION_PRODUCTS_LIST:
+            return {
+                ...state,
+                productsTotal: action.productsTotal,
+                productsBusiness: action.productsBusiness,
+                productsNotBusiness: action.productsNotBusiness,
+                productsDisplay: action.productsDisplay,
+                productsNotDisplay: action.productsNotDisplay,
+                productsDeleted: action.productsDeleted,
+                productsQuantity: action.productsQuantity
             };
         case types.TOGGLE_PRICE_MODAL:
             return {
@@ -111,17 +126,25 @@ export default function productListReducer(state = initialState.productList, act
         case types.HANDLE_CATEGORY:
             return {
                 ...state,
-                productEditing:{
+                productEditing: {
                     ...state.productEditing,
-                    category: action.category
+                    good_category_id: action.good_category_id
                 }
             };
         case types.HANDLE_MANUFACTURE:
             return {
                 ...state,
-                productEditing:{
+                productEditing: {
                     ...state.productEditing,
-                    manufacture: action.manufacture
+                    manufacture_id: action.manufacture_id
+                }
+            };
+        case types.HANDLE_STATUS:
+            return {
+                ...state,
+                productEditing: {
+                    ...state.productEditing,
+                    status: action.status
                 }
             };
         default:

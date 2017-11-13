@@ -94,3 +94,16 @@ export function storeSupplier(supplier) {
         code: supplier.code,
     });
 }
+
+export function checkGoods(goods) {
+    let url = env.MANAGE_API_URL + '/order/check-goods';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        goods: goods
+    });
+
+}

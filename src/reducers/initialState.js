@@ -1,6 +1,17 @@
 export default {
     productList: {
         products: [],
+        productsTotal: '',
+        productsBusiness: '',
+        productsNotBusiness: '',
+        productsDisplay: '',
+        productsNotDisplay: '',
+        productsDeleted: '',
+        productsQuantity: '',
+        totalPages: '',
+        currentPage: '',
+        limit: '',
+        totalCount:'',
         isLoading: false,
         modalInProduct: {
             priceModal: false,
@@ -27,22 +38,38 @@ export default {
                     name: ''
                 }
             },
-            category: {
-                id: '',
-                name: ''
-            },
-            manufacture: {
-                id: '',
-                name: ''
-            },
+            good_category_id: '',
+            manufacture_id: '',
+            status: '',
             isUploadingAvatar: false,
             percent: 0
-
         },
         categories: [],
         categoriesUpdated: false,
         manufactures: [],
-        manufacturesUpdated: false
+        manufacturesUpdated: false,
+        statuses: [
+            {
+                value: "for_sale",
+                label: "ĐANG KINH DOANH"
+            },
+            {
+                value: "not_for_sale",
+                label: "NGỪNG KINH DOANH"
+            },
+            {
+                value: "show",
+                label: "HIỂN THỊ RA WEB"
+            },
+            {
+                value: "not_show",
+                label: "KHÔNG HIỂN THỊ RA WEB"
+            },
+            {
+                value: "deleted",
+                label: "ĐÃ XÓA"
+            }
+        ]
     },
 
     good: {
@@ -789,6 +816,12 @@ export default {
             paid_money: 0,
             isStoring: false,
             error: false,
+        },
+        addGoodFile: {
+            isCheckingGoods: false,
+            errorCheckGoods: false,
+            existsGoods: [],
+            notExistsGoods: [],
         },
         isLoadingWarehouses: false,
         errorWarehouses: false,

@@ -164,6 +164,36 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                     errorStoreSupplier: true,
                 }
             };
+        case types.BEGIN_CHECK_GOODS_IMPORT_GOODS:
+            return {
+                ...state,
+                addGoodFile: {
+                    isCheckingGoods: true,
+                    errorCheckGoods: false,
+                    existsGoods: [],
+                    notExistsGoods: [],
+                }
+            };
+        case types.CHECK_GOODS_IMPORT_GOODS_SUCCESS:
+            return {
+                ...state,
+                addGoodFile:{
+                    ...state.addGoodFile,
+                    isCheckingGoods: false,
+                    errorCheckGoods: false,
+                    existsGoods: action.existsGoods,
+                    notExistsGoods: action.notExistsGoods,
+                }
+            };
+        case types.CHECK_GOODS_IMPORT_GOODS_ERROR:
+            return {
+                ...state,
+                addGoodFile:{
+                    ...state.addGoodFile,
+                    isCheckingGoods: false,
+                    errorCheckGoods: true,
+                }
+            };
         default:
             return state;
     }

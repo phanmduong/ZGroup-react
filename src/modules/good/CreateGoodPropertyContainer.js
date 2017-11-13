@@ -50,7 +50,8 @@ class CreateGoodPropertyContainer extends React.Component {
     handleCreatableChange(field) {
         return function (value) {
             let property = {...this.props.property};
-            if (value.length < property[field].length) {
+            if (property[field] && value.length < property[field].length) {
+
                 const diff = property[field].filter((option) => {
                     return value.filter(otherOption => otherOption.value === option.value).length == 0;
                 });
@@ -70,6 +71,7 @@ class CreateGoodPropertyContainer extends React.Component {
                     property[field] = value;
                     this.props.goodActions.updateGoodPropertyFormData(property);
                 }
+
             } else {
                 property[field] = value;
                 this.props.goodActions.updateGoodPropertyFormData(property);
@@ -78,18 +80,21 @@ class CreateGoodPropertyContainer extends React.Component {
     }
 
     onSave() {
-        const {property, params, goodActions} = this.props;
-        if (!property.name) {
-            showErrorNotification("Bạn cần nhập tên thuộc tính");
-        } else {
-            const saveProperty = {
-                ...property,
-                prevalue: property.prevalue ? property.prevalue.map(v => v.value).join() : "",
-                preunit: property.preunit ? property.preunit.map(v => v.value).join() : "",
-                type: property.type || params.type
-            };
-            goodActions.saveGoodProperty(saveProperty, saveProperty.type);
-        }
+        confirm("warning", "Xác nhận lưu", "Bạn có chắc chắn muốn lưu?", () => {
+            const {property, params, goodActions} = this.props;
+            if (!property.name) {
+                showErrorNotification("Bạn cần nhập tên thuộc tính");
+            } else {
+                const saveProperty = {
+                    ...property,
+                    prevalue: property.prevalue ? property.prevalue.map(v => v.value).join() : "",
+                    preunit: property.preunit ? property.preunit.map(v => v.value).join() : "",
+                    type: property.type || params.type
+                };
+                goodActions.saveGoodProperty(saveProperty, saveProperty.type);
+            }
+        }, () => {
+        });
 
     }
 
