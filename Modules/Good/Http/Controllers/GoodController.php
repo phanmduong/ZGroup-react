@@ -84,7 +84,7 @@ class GoodController extends ManageApiController
         if ($id) {
             $good = Good::find($id);
         } else {
-            $good = new Good;
+            $good = new Good();
         }
         $good->name = $name;
         $good->code = $code;
