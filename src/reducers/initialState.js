@@ -825,5 +825,16 @@ export default {
         totalPages : 10,
         totalMoneys : 10,
         totalDebtMoneys : 10,
+        modal : {
+            isSaving : false,
+            customer : {
+                name : '',
+                phone : '',
+                email : '',
+                address : '',
+                gender : '',
+                dob : '',
+            }
+        }
     },
 };

@@ -29,7 +29,7 @@ export function loadTotalAndDebtMoney() {
         dispatch({
             type: types.BEGIN_LOAD_TOTAL_AND_DEBT_MONEY
         });
-        customerApis.loadCustomersApi()
+        customerApis.loadTotalAndDebtMoneyApi()
             .then( (res) =>  {
                 dispatch({
                     type : types.LOADED_TOTAL_AND_DEBT_MONEY_SUCCESS,
@@ -40,6 +40,75 @@ export function loadTotalAndDebtMoney() {
             .catch(() => {
                 dispatch ({
                     type : types.LOADED_TOTAL_AND_DEBT_MONEY_ERROR,
+                });
+            });
+    };
+}
+export function updateAddCustomerFormData(customer){
+    return function (dispatch) {
+        dispatch({
+            type : types.UPDATE_ADD_CUSTOMER_FORM_DATA,
+            customer : customer,
+        });
+    };
+}
+
+export function addCustomer(customer ,  closeAddModal  ) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_ADD_CUSTOMER});
+        customerApis.addCustomerApi(customer)
+            .then((res) => {
+                if (res.data.status) {
+                    closeAddModal();
+                    helper.showTypeNotification('Đã thêm ' + customer.name, 'success');
+                    dispatch({
+                        type: types.ADD_CUSTOMER_SUCCESS,
+                        customer: customer,
+                    });
+                }
+                else {
+                    helper.sweetAlertError("Thiếu thông tin");
+                    dispatch({
+                        type: types.ADD_CUSTOMER_ERROR,
+                        message : res.data.message,
+                    });
+                }
+            })
+            .catch(() => {
+                    helper.sweetAlertError('Thêm thất bại ');
+                    dispatch({
+                        type: types.ADD_CUSTOMER_ERROR
+                    });
+                }
+            );
+    };
+}
+
+export function deleteCustomer(id ) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang xóa ", "info");
+        dispatch({
+            type : types.BEGIN_DELETE_CUSTOMER
+        });
+        customerApis.deleteCustomerApi(id)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showTypeNotification(" Đã xóa ", "success");
+                    dispatch({
+                        type: types.DELETE_CUSTOMER_SUCCESS,
+                        id: id,
+                    });
+                }
+                else {
+                    helper.sweetAlertError(res.data.message);
+                    dispatch({
+                        type: types.DELETE_CUSTOMER_ERROR
+                    });
+                }
+            })
+            .catch(()=>{
+                dispatch({
+                    type : types.DELETE_CUSTOMER_ERROR,
                 });
             });
     };

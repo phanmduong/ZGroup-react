@@ -60,6 +60,16 @@ export const DAY_OF_WEEK = [
         key: 'Chủ nhật',
     },
 ];
+export const GENDER = [
+    {
+        name : 'Nam',
+        id : '1',
+    },
+    {
+        name : 'Nữ',
+        id : '2',
+    }
+];
 
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
 export const DATE = 60 * 60 * 24;

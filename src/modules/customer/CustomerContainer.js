@@ -7,6 +7,10 @@ import _ from 'lodash';
 import * as customerActions from './customerActions';
 import Loading from "../../components/common/Loading";
 import Search from '../../components/common/Search';
+import {Modal} from 'react-bootstrap';
+import AddCustomerModal from './AddCustomerModal';
+import * as helper from '../../helpers/helper';
+
 
 
 class CustomerContainer extends React.Component {
@@ -16,9 +20,15 @@ class CustomerContainer extends React.Component {
             page: 1,
             limit: 10,
             query: '',
+            isShowModal: false,
         };
         this.loadCustomers = this.loadCustomers.bind(this);
         this.customersSearchChange = this.customersSearchChange.bind(this);
+        this.openAddModal = this.openAddModal.bind(this);
+        this.closeAddModal = this.closeAddModal.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
+        this.addCustomer = this.addCustomer.bind(this);
+        this.deleteCustomer = this.deleteCustomer.bind(this);
     }
 
     componentWillMount() {
@@ -31,19 +41,44 @@ class CustomerContainer extends React.Component {
         this.props.customerActions.loadCustomers(page, limit);
     }
 
+    openAddModal() {
+        this.setState({isShowModal: true});
+    }
+
+    closeAddModal() {
+        this.setState({isShowModal: false});
+    }
+
     customersSearchChange(value) {
         this.setState({
             page: 1,
-            query: value
+            query: value,
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.customerActions.loadCustomers(this.state.page,10, this.state.query);
+            this.props.customerActions.loadCustomers(this.state.page, 10, this.state.query);
         }.bind(this), 500);
     }
 
+    updateFormData(event) {
+        const field = event.target.name;
+        let customer = {...this.props.customer};
+        customer[field] = event.target.value;
+        this.props.customerActions.updateAddCustomerFormData(customer);
+    }
+
+    addCustomer(e){
+        this.props.customerActions.addCustomer(this.props.customer , this.closeAddModal );
+        e.preventDefault();
+    }
+    deleteCustomer(id , name){
+        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + name,
+            function () {
+                this.props.customerActions.deleteCustomer(id);
+            }.bind(this));
+    }
     render() {
         let currentPage = this.state.page;
         let limit = this.state.limit;
@@ -53,7 +88,7 @@ class CustomerContainer extends React.Component {
                     <div id="page-wrapper">
                         <div className="container-fluid">
                             <div style={{marginTop: 15}}>
-                                <a className="btn btn-rose" href="">Thêm khách hàng</a>
+                                <a className="btn btn-rose" onClick={() => this.openAddModal()}>Thêm khách hàng</a>
                             </div>
                             {this.props.isLoading ? <Loading/> :
                                 <div className="card">
@@ -93,6 +128,7 @@ class CustomerContainer extends React.Component {
                                                 </div>
                                                 <ListChildCustomer
                                                     customersList={this.props.customersList}
+                                                    deleteCustomer = {this.deleteCustomer}
                                                 />
                                                 <div className="row">
                                                     <div className="col-sm-5">
@@ -145,6 +181,47 @@ class CustomerContainer extends React.Component {
                             }
                         </div>
                     </div>
+                    <Modal show={this.state.isShowModal} bsSize="large" bsStyle="primary" onHide={this.closeAddModal}>
+                        <Modal.Header>
+                            <Modal.Title>
+                                <strong>Thêm khách hàng</strong>
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <AddCustomerModal
+                                updateFormData={this.updateFormData}
+                                customer = {this.props.customer}
+                            />
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <form>
+                                {this.props.isSaving ?
+                                    (
+                                        <button
+                                            className="btn btn-round btn-fill btn-success disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/>
+                                            Đang thêm
+                                        </button>
+                                    )
+                                    :
+                                    (
+                                        <button rel="tooltip" data-placement="top" title=""
+                                                data-original-title="Remove item"
+                                                type="button" className="btn btn-round btn-success "
+                                                onClick={(e) =>this.addCustomer(e)}
+                                        ><i className="material-icons">check</i>
+                                            Thêm
+                                        </button>
+                                    )
+                                }
+                                <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
+                                        type="button" className="btn btn-round btn-danger " data-dismiss="modal"
+                                        onClick={this.closeAddModal}><i className="material-icons">close</i> Huỷ
+                                </button>
+                            </form>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
             </div>
         );
@@ -158,6 +235,8 @@ CustomerContainer.propTypes = {
     totalPages: PropTypes.number,
     totalDebtMoneys: PropTypes.number,
     totalMoneys: PropTypes.number,
+    isSaving: PropTypes.bool,
+    customer: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -167,6 +246,8 @@ function mapStateToProps(state) {
         totalPages: state.customers.totalPages,
         totalDebtMoneys: state.customers.totalDebtMoneys,
         totalMoneys: state.customers.totalMoneys,
+        isSaving: state.customers.modal.isSaving,
+        customer: state.customers.modal.customer,
     };
 }
 

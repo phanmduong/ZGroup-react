@@ -60,14 +60,14 @@ class ListChildCustomer extends React.Component {
                             {this.props.customersList && this.props.customersList.map(
                                 (customer => {
                                     return (
-                                        <tr role="row" className="even">
-                                            <td className="sorting_1">Tác giả</td>
-                                            <td>Hùng, Quân, Gào, Thét</td>
-                                            <td>VND, USD</td>
-                                            <td>Nguyễn Việt Hùng</td>
-                                            <td/>
-                                            <td/>
-                                            <td/>
+                                        <tr role="row" className="even" key={customer.id}>
+                                            <td className="sorting_1">{customer.name}</td>
+                                            <td>{customer.phone}</td>
+                                            <td>{customer.address}</td>
+                                            <td>{customer.last_order}</td>
+                                            <td>{customer.total_money}</td>
+                                            <td>{customer.total_paid_money}</td>
+                                            <td>{customer.id}</td>
                                             <td>
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
@@ -79,7 +79,7 @@ class ListChildCustomer extends React.Component {
                                                     </div>
                                                     <a data-toggle="tooltip" title type="button"
                                                        rel="tooltip" data-original-title="Xoá">
-                                                        <i className="material-icons">delete</i>
+                                                        <i className="material-icons" onClick={()=> {this.props.deleteCustomer(customer.id, customer.name);}}>delete</i>
                                                     </a>
                                                 </div>
                                             </td>
@@ -99,6 +99,7 @@ class ListChildCustomer extends React.Component {
 
 ListChildCustomer.propTypes = {
     customersList: PropTypes.array,
+    deleteCustomer : PropTypes.func,
 };
 
 
