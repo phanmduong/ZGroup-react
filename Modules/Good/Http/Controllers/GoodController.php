@@ -526,9 +526,15 @@ class GoodController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $warehouse_id = $request->warehouse_id;
         $manufacture_id = $request->manufacture_id;
+        $keyword = $request->search;
 
         $inventories = ImportedGoods::where('quantity', '<>', 0);
-
+        if($keyword) {
+            $goodIds = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+            })->select('id')->get();
+            $inventories = $inventories->whereIn('good_id', $goodIds);
+        }
         if ($manufacture_id) {
             $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
             $inventories = $inventories->whereIn('good_id', $goodIds);
