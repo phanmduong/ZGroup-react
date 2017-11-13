@@ -18,53 +18,29 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
+use Modules\Graphics\Repositories\BookRepository;
 
 class GraphicsAppController extends NoAuthApiController
 {
-    public function __construct()
+    private $bookRepository;
+
+    public function __construct(BookRepository $bookRepository)
     {
+        $this->bookRepository = $bookRepository;
     }
 
     public function index($subfix)
     {
-        $books = Good::where('type', 'book')->get();
-        $book_arr = [];
-        foreach ($books as $book) {
-            $properties = GoodProperty::where('good_id', $book->id)->get();
-            $bookdata = [
-                'id' => $book->id,
-                'cover' => $book->cover_url,
-                'avatar' => $book->avatar_url,
-                'name' => $book->name,
-                'price' => $book->price
-            ];
-            foreach ($properties as $property) {
-                if ($property->name == "short_description") $bookdata[$property->name] = $property->value;
-            }
-            $book_arr[] = $bookdata;
-        }
+        $bookArr = $this->bookRepository->getAllBooks();
 
         return $this->respondSuccessWithStatus([
-            "books" => $book_arr
+            "books" => $bookArr
         ]);
     }
 
     public function detailedBook($subfix, $book_id, Request $request)
     {
-        $book = Good::find($book_id);
-        if ($book == null || $book->type != "book")
-            return $this->respondErrorWithStatus("Không tồn tại sách");
-        $properties = GoodProperty::where('good_id', $book->id)->get();
-        $bookData = [
-            'id' => $book->id,
-            'cover' => $book->cover_url,
-            'avatar' => $book->avatar_url,
-            'name' => $book->name,
-            'price' => $book->price
-        ];
-        foreach ($properties as $property) {
-            $bookData[$property->name] = $property->value;
-        }
+        $bookData = $this->bookRepository->getBookDetail($book_id);
 
         return $this->respondSuccessWithStatus([
             "book" => $bookData
@@ -87,60 +63,10 @@ class GraphicsAppController extends NoAuthApiController
             return $this->respondErrorWithStatus("Email không hợp lệ");
         }
 
-        $user = User::where(function ($query) use ($request) {
-            $query->where("email", $request->email)->orWhere("phone", $request->phone);
-        })->first();
-
-        if ($user) {
-
-        } else {
-            $user = new User;
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->phone = $request->phone;
-            $user->address = $request->address;
-            $user->save();
-        }
-
         $goods_str = $request->books;
         $goods_arr = json_decode($goods_str);
-
         if (count($goods_arr) > 0) {
-            $order = new Order();
-            $order->user_id = $user->id;
-            $order->email = $user->email;
-            $order->payment = $payment;
-            $order->status= "place_order";
-            $order->status_paid = 0;
-            $order->save();
-
-
-            if ($goods_arr) {
-                foreach ($goods_arr as $item) {
-                    $good = Good::find($item->id);
-                    $order->goods()->attach($item->id, [
-                        "quantity" => $item->number,
-                        "price" => $good->price,
-                    ]);
-
-                }
-            }
-
-            $total_price = 0;
-            $goods = $order->goods;
-            foreach ($goods as &$good) {
-                $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
-                $good->coupon_value = $coupon;
-                $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
-            }
-            $subject = "Xác nhận đặt hàng thành công";
-            $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods];
-            $emailcc = ["graphics@colorme.vn"];
-            Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
-                $m->from('no-reply@colorme.vn', 'Graphics');
-                $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
-            });
-
+            $this->bookRepository->saveOrder($email, $phone, $name, $address, $payment, $goods_arr);
             return $this->respondSuccessWithStatus([
                 "message" => "Đặt hàng thành công"
             ]);
