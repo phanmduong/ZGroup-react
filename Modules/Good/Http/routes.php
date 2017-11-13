@@ -20,9 +20,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::put('/{goodId}/update-price', 'GoodController@updatePrice');
     Route::put('/edit/{goodId}', 'GoodController@editGood');
     Route::get('/manufactures', 'GoodController@allManufactures');
-    Route::get('/{goodId}', 'GoodController@good');
     Route::post('/{goodId}/create-child-good', 'GoodController@createChildGood');
     Route::get('/status/count', 'GoodController@statusCount');
     Route::get('/inventories/all', 'GoodController@allInventories');
     Route::get('/inventories-info', 'GoodController@inventoriesInfo');
+    Route::get('/{goodId}', 'GoodController@good');
 });
