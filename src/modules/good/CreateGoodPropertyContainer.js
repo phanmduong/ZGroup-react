@@ -50,7 +50,8 @@ class CreateGoodPropertyContainer extends React.Component {
     handleCreatableChange(field) {
         return function (value) {
             let property = {...this.props.property};
-            if (value.length < property[field].length) {
+            if (property[field] && value.length < property[field].length) {
+
                 const diff = property[field].filter((option) => {
                     return value.filter(otherOption => otherOption.value === option.value).length == 0;
                 });
@@ -70,6 +71,7 @@ class CreateGoodPropertyContainer extends React.Component {
                     property[field] = value;
                     this.props.goodActions.updateGoodPropertyFormData(property);
                 }
+
             } else {
                 property[field] = value;
                 this.props.goodActions.updateGoodPropertyFormData(property);
