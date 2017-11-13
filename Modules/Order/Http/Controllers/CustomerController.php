@@ -36,9 +36,19 @@ class CustomerController extends ManageApiController
             $users,
             [
                 'customers' => $users->map(function ($user) use ($status) {
+
                     $orders = Order::where("user_id", $user->id)->get();
-                    if ($status) $orders = $orders->where("status_paid", $status);
-                    if (count($orders) > 0) {
+                    $orders_stt = $orders;
+                    if ($status) {
+                        if ($status == "1") $stt = 1; else $stt = 0;
+                        $orders_stt = $orders_stt->where("status_paid", $stt);
+                    }
+
+                    $ok = 1;
+
+                    if (count($orders_stt) == 0 && $status == "1") $ok = 0;
+                    if (count($orders_stt) == 0 && $status == "0") $ok = 0;
+                    if ($ok == 1) {
                         $totalMoney = 0;
                         $totalPaidMoney = 0;
                         $lastOrder = 0;
@@ -86,14 +96,12 @@ class CustomerController extends ManageApiController
                 $orders = Order::where("user_id", $user->id)->get();
                 $totalMoney = 0;
                 $totalPaidMoney = 0;
-                $lastOrder = 0;
                 foreach ($orders as $order) {
                     $goodOrders = $order->goodOrders()->get();
                     foreach ($goodOrders as $goodOrder) {
                         $totalMoney += $goodOrder->quantity * $goodOrder->price;
                     }
 
-                    $lastOrder = $order->created_at;
                 }
                 foreach ($orders as $order) {
                     $orderPaidMoneys = $order->orderPaidMoneys()->get();
@@ -127,6 +135,7 @@ class CustomerController extends ManageApiController
             $user->email = $request->email;
             $user->dob = $request->dob;
             $user->gender = $request->gender;
+            $user->type = "customer";
             $user->save();
         }
         return $this->respondSuccessWithStatus([
