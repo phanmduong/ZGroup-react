@@ -22,9 +22,9 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
 
 });
 
-Route::group(['domain' => 'api.' . config('app.domain'),'prefix' => 'apiv3', 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
-   Route::get('/books','GraphicsAppController@index');
-   Route::get('/detail-book/{book_id}','GraphicsAppController@detailedBook');
-   Route::post('/save-order','GraphicsAppController@saveOrder');
+Route::group(['domain' => "api.graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+    Route::get('/books', 'GraphicsAppController@index');
+    Route::get('/detail-book/{book_id}', 'GraphicsAppController@detailedBook');
+    Route::post('/save-order', 'GraphicsAppController@saveOrder');
 });
 
