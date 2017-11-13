@@ -1,4 +1,18 @@
 export default {
+    inventoryGood: {
+        isLoading: false,
+        inventories: [],
+        categories: [],
+        manufactures: [],
+        totalPages:'',
+        currentPage: '',
+        limit: '',
+        totalCount: '',
+        inventoryChecking:{
+            histories:[]
+        },
+        historyModal:false
+    },
     productList: {
         products: [],
         productsTotal: '',
@@ -11,7 +25,7 @@ export default {
         totalPages: '',
         currentPage: '',
         limit: '',
-        totalCount:'',
+        totalCount: '',
         isLoading: false,
         modalInProduct: {
             priceModal: false,
@@ -45,9 +59,7 @@ export default {
             percent: 0
         },
         categories: [],
-        categoriesUpdated: false,
         manufactures: [],
-        manufacturesUpdated: false,
         statuses: [
             {
                 value: "for_sale",

@@ -156,10 +156,6 @@ export function getManufacturesProductsList() {
         productListApi.getManufacturesApi()
             .then(function (response) {
                 dispatch({
-                    type: types.UPDATE_MANUFACTURES_COMPLETE,
-                    manufacturesUpdated: true
-                });
-                dispatch({
                     type: types.GET_MANUFACTURES_PRODUCTS_LIST,
                     manufactures: response.data.data.manufactures
                 });
@@ -175,10 +171,6 @@ export function getCategoriesProductsList() {
         productListApi.getCategoriesApi()
             .then(function (response) {
                 dispatch(saveCategoriesProductsList(superSortCategories(response.data.data[0].good_categories)));
-                dispatch({
-                    type: types.UPDATE_CATEGORIES_COMPLETE,
-                    categoriesUpdated: true
-                });
             })
             .catch(function (error) {
                 throw(error);

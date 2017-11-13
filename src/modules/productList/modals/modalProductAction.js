@@ -45,13 +45,6 @@ export function showAvatarModal() {
         dispatch({
             type: types.TOGGLE_AVATAR_MODAL
         });
-        dispatch({
-            type: types.UPDATE_CATEGORIES_COMPLETE,
-            categoriesUpdated: false
-        });
-        dispatch({
-            type: types.UPDATE_MANUFACTURES_COMPLETE,
-            manufacturesUpdated: false
-        });
+
     };
 }

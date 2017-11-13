@@ -259,8 +259,6 @@ AvatarModalContainer.propTypes = {
     manufactures: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
     statuses:PropTypes.array.isRequired,
-    manufacturesUpdated: PropTypes.bool.isRequired,
-    categoriesUpdated: PropTypes.bool.isRequired,
     isModalUpdating: PropTypes.bool
 };
 
@@ -270,8 +268,6 @@ function mapStateToProps(state) {
         avatarModal: state.productList.modalInProduct.avatarModal,
         categories: state.productList.categories,
         manufactures: state.productList.manufactures,
-        categoriesUpdated: state.productList.categoriesUpdated,
-        manufacturesUpdated: state.productList.manufacturesUpdated,
         isModalUpdating: state.productList.modalInProduct.isModalUpdating,
         statuses:state.productList.statuses
     };

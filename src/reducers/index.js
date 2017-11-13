@@ -36,6 +36,7 @@ import categoriesReducer from "../modules/categories/categoriesReducer";
 import goodOrdersReducer from "../modules/goodOrders/goodOrdersReducer";
 import productListReducer from "../modules/productList/productListReducer";
 import importGoodsReducer from "../modules/importGoods/importGoodsReducer";
+import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer";
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -74,6 +75,7 @@ const appReducer = combineReducers({
     goodOrders: goodOrdersReducer,
     productList: productListReducer,
     importGoods: importGoodsReducer,
+    inventoryGood: inventoryGoodReducer
 });
 
 const rootReducer = (state, action) => {
