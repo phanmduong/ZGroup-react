@@ -124,6 +124,15 @@ class GoodController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
+    public function good($id)
+    {
+        $good = Good::find($id);
+
+        return $this->respondSuccessWithStatus([
+            "good" => $good->goodProcessTransform()
+        ]);
+    }
+
     public function createGoodPropertyItem(Request $request)
     {
         if ($request->name == null)
@@ -532,6 +541,18 @@ class GoodController extends ManageApiController
                 })
             ]
         );
+    }
+
+    public function good($goodId)
+    {
+        $good = Good::find($goodId)->get();
+        if($good)
+            return $this->respondSuccessWithStatus([
+                'good' => $good->goodProcessTransform()
+            ]);
+        $this->respondErrorWithStatus([
+            'message' => 'non-existing good'
+        ]);
     }
 
     public function inventoriesInfo(Request $request)
