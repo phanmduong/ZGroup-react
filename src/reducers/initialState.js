@@ -817,5 +817,13 @@ export default {
             isEdit: false,
             isSaving: false,
         }
-    }
+    },
+
+    customers: {
+        customersList : [],
+        isLoading : true,
+        totalPages : 10,
+        totalMoneys : 10,
+        totalDebtMoneys : 10,
+    },
 };

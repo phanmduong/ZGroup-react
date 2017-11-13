@@ -80,7 +80,6 @@ class ManageStaffsContainer extends React.Component {
                 search={this.state.query}
             />
         );
-
     }
 }
 

@@ -55,7 +55,7 @@ class WareHouseContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.wareHouseActions.loadWareHouses(this.state.page,this.state.limit,this.state.query);
+            this.props.wareHouseActions.loadWareHouses(this.state.page, 10,this.state.query);
         }.bind(this), 500);
     }
 
@@ -111,7 +111,7 @@ class WareHouseContainer extends React.Component {
                                                             <Search
                                                                 onChange={this.wareHousesSearchChange}
                                                                 value={this.state.query}
-                                                                placeholder="Tìm kiếm nhà kho"
+                                                                placeholder="Tìm kiếm nhân viên"
                                                                 className="col-md-12"
                                                             />
                                                         </div>
@@ -136,10 +136,11 @@ class WareHouseContainer extends React.Component {
                                                                 if (Number(currentPage) === page) {
                                                                     return (
                                                                         <li key={page} className="active">
-                                                                            <a onClick={() => this.loadWareHouses(page, limit)}>{page}</a>
+                                                                            <a onClick={()=> this.loadWareHouses(page, limit)}>{page}</a>
                                                                         </li>
                                                                     );
-                                                                } else {
+                                                                }
+                                                                else {
                                                                     return (
                                                                         <li key={page}>
                                                                             <a onClick={() => this.loadWareHouses(page, limit)}>{page}</a>
