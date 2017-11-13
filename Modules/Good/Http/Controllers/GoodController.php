@@ -543,18 +543,6 @@ class GoodController extends ManageApiController
         );
     }
 
-    public function good($goodId)
-    {
-        $good = Good::find($goodId)->get();
-        if($good)
-            return $this->respondSuccessWithStatus([
-                'good' => $good->goodProcessTransform()
-            ]);
-        $this->respondErrorWithStatus([
-            'message' => 'non-existing good'
-        ]);
-    }
-
     public function inventoriesInfo(Request $request)
     {
         $inventories = ImportedGoods::where('quantity', '<>', 0)->get();
