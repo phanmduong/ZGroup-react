@@ -124,15 +124,6 @@ class GoodController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
-    public function good($id)
-    {
-        $good = Good::find($id);
-
-        return $this->respondSuccessWithStatus([
-            "good" => $good->goodProcessTransform()
-        ]);
-    }
-
     public function createGoodPropertyItem(Request $request)
     {
         if ($request->name == null)
