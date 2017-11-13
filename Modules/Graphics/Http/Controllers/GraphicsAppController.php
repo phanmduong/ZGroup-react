@@ -25,7 +25,8 @@ class GraphicsAppController extends NoAuthApiController
     {
     }
 
-    public function index(){
+    public function index($subfix)
+    {
         $books = Good::where('type', 'book')->get();
         $book_arr = [];
         foreach ($books as $book) {
@@ -38,43 +39,39 @@ class GraphicsAppController extends NoAuthApiController
                 'price' => $book->price
             ];
             foreach ($properties as $property) {
-               if($property->name=="short_description") $bookdata[$property->name] = $property->value;
+                if ($property->name == "short_description") $bookdata[$property->name] = $property->value;
             }
             $book_arr[] = $bookdata;
         }
 
         return $this->respondSuccessWithStatus([
-           "books" => $book_arr
+            "books" => $book_arr
         ]);
     }
 
-    public function detailedBook($book_id,Request $request){
-
+    public function detailedBook($subfix, $book_id, Request $request)
+    {
         $book = Good::find($book_id);
-        if($book ==null || $book->type != "book")
+        if ($book == null || $book->type != "book")
             return $this->respondErrorWithStatus("Không tồn tại sách");
-        $book_data = [];
-         $properties = GoodProperty::where('good_id', $book->id)->get();
-            $bookdata = [
-                'id' => $book->id,
-                'cover' => $book->cover_url,
-                'avatar' => $book->avatar_url,
-                'name' => $book->name,
-                'price' => $book->price
-            ];
-            foreach ($properties as $property) {
-                $bookdata[$property->name] = $property->value;
-            }
-            $book_data[] = $bookdata;
-
+        $properties = GoodProperty::where('good_id', $book->id)->get();
+        $bookData = [
+            'id' => $book->id,
+            'cover' => $book->cover_url,
+            'avatar' => $book->avatar_url,
+            'name' => $book->name,
+            'price' => $book->price
+        ];
+        foreach ($properties as $property) {
+            $bookData[$property->name] = $property->value;
+        }
 
         return $this->respondSuccessWithStatus([
-            "book" => $book_data
+            "book" => $bookData
         ]);
-
-
     }
-    public function saveOrder(Request $request)
+
+    public function saveOrder($subfix, Request $request)
     {
         $email = $request->email;
         $name = $request->name;
@@ -82,27 +79,26 @@ class GraphicsAppController extends NoAuthApiController
         $address = $request->address;
         $payment = $request->payment;
 
-        if(!$name) return $this->respondErrorWithStatus("Thiếu tên");
-        if(!$phone) return $this->respondErrorWithStatus("Thiếu số điện thoại");
-        if(!$address) return $this->respondErrorWithStatus("Thiếu địa chỉ");
-        if(!$payment) return $this->respondErrorWithStatus("Thiếu phương thức thanh toán");
+        if (!$name) return $this->respondErrorWithStatus("Thiếu tên");
+        if (!$phone) return $this->respondErrorWithStatus("Thiếu số điện thoại");
+        if (!$address) return $this->respondErrorWithStatus("Thiếu địa chỉ");
+        if (!$payment) return $this->respondErrorWithStatus("Thiếu phương thức thanh toán");
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $this->respondErrorWithStatus("Email không hợp lệ");
         }
 
         $user = User::where(function ($query) use ($request) {
-            $query->where("email", $request->email)->orWhere("phone",$request->phone);
-        }) ->first();
+            $query->where("email", $request->email)->orWhere("phone", $request->phone);
+        })->first();
 
-        if($user){
+        if ($user) {
 
-        }
-        else{
-            $user= new User;
-            $user->name=$request->name;
-            $user->email=$request->email;
-            $user->phone=$request->phone;
-            $user->address=$request->address;
+        } else {
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
             $user->save();
         }
 
@@ -111,10 +107,10 @@ class GraphicsAppController extends NoAuthApiController
 
         if (count($goods_arr) > 0) {
             $order = new Order();
-            $order->user_id= $user->id;
-            $order->email=$user->email;
+            $order->user_id = $user->id;
+            $order->email = $user->email;
             $order->payment = $payment;
-            $order->status= "PLACE_ORDER";
+            $order->status = "PLACE_ORDER";
             $order->save();
 
 
@@ -145,7 +141,7 @@ class GraphicsAppController extends NoAuthApiController
             });
 
             return $this->respondSuccessWithStatus([
-               "message" => "Đặt hàng thành công"
+                "message" => "Đặt hàng thành công"
             ]);
         } else {
             return $this->respondErrorWithStatus("Bạn chưa đặt cuốn sách nào");
