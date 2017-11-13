@@ -540,8 +540,10 @@ class GoodController extends ManageApiController
             $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
             $inventories = $inventories->whereIn('good_id', $goodIds);
         }
-        if ($good_category_id)
-            $inventories = $inventories->where('warehouse_id', $good_category_id);
+        if ($good_category_id) {
+            $goodIds = Good::where('good_category_id', $good_category_id)->select('id')->get();
+            $inventories = $inventories->whereIn('good_id', $goodIds);
+        }
 
         $inventories = $inventories->paginate($limit);
         return $this->respondWithPagination(
