@@ -536,10 +536,12 @@ class GoodController extends ManageApiController
             })->select('id')->get();
             $inventories = $inventories->whereIn('good_id', $goodIds);
         }
+
         if ($manufacture_id) {
             $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
             $inventories = $inventories->whereIn('good_id', $goodIds);
         }
+        dd($good_category_id);
         if ($good_category_id) {
             $goodIds = Good::where('good_category_id', $good_category_id)->select('id')->get();
             $inventories = $inventories->whereIn('good_id', $goodIds);
