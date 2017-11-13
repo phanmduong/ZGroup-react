@@ -807,10 +807,10 @@ class PublicController extends Controller
         return view('ajax.load_more_product_profile', $this->data);
     }
 
-    public function test()
+    public function public_test()
     {
-
-        return "done";
+        $time = strtotime("19:00:00") - strtotime('00:05');
+        return $time;
     }
 
     public function beta()
