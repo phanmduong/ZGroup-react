@@ -525,7 +525,7 @@ class GoodController extends ManageApiController
     public function allInventories(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
-        $good_category_id = $request->good_category_id;
+        $good_category_id = $request->category_id;
         $manufacture_id = $request->manufacture_id;
         $keyword = $request->search;
 
