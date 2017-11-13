@@ -58,7 +58,7 @@ class ListChildCustomer extends React.Component {
                             </thead>
                             <tbody>
                             {this.props.customersList && this.props.customersList.map(
-                                (customer => {
+                                () => {
                                     return (
                                         <tr role="row" className="even">
                                             <td className="sorting_1">Tác giả</td>
@@ -86,8 +86,7 @@ class ListChildCustomer extends React.Component {
                                         </tr>
 
                                     );
-                                })
-                            )}
+                                })}
                             </tbody>
                         </table>
                     </div>

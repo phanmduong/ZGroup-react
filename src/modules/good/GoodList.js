@@ -96,6 +96,7 @@ class GoodList extends React.Component {
                     </tbody>
                 </table>
             </div>
+
         );
     }
 }
