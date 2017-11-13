@@ -107,7 +107,6 @@ class GraphicsController extends Controller
             }
         }
 
-
         $goods_str = json_encode($new_goods);
         $request->session()->put('goods', $goods_str);
         return ["status" => 1];

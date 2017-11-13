@@ -9,8 +9,10 @@ use App\CV;
 use App\Group;
 use App\GroupMember;
 use App\Notification;
+use App\NotificationType;
 use App\Order;
 use App\Product;
+use App\Repositories\NotificationRepository;
 use App\Topic;
 use App\TopicAction;
 use App\TopicAttendance;
@@ -20,17 +22,12 @@ use Illuminate\Support\Facades\Redis;
 
 class UserApiController extends ApiController
 {
-    protected $notificationTransformer;
-    protected $oldNotificationTransformer;
+    protected $notificationRepository;
 
-    public function __construct(
-        NotificationTransformer $notificationTransformer,
-        OldNotificationTransformer $oldNotificationTransformer
-    )
+    public function __construct(NotificationRepository $notificationRepository)
     {
         parent::__construct();
-        $this->notificationTransformer = $notificationTransformer;
-        $this->oldNotificationTransformer = $oldNotificationTransformer;
+        $this->notificationRepository = $notificationRepository;
     }
 
     public function join_topic(Request $request)
@@ -90,9 +87,17 @@ class UserApiController extends ApiController
         } else {
             $limit = 20;
         }
-        $notifications = $this->user->received_notifications()->where("type", "<", 7)->orderBy('created_at', 'desc')->paginate($limit);
+
+        $notificationTypeIds = NotificationType::where("type", "social")->pluck("id");
+
+        $notifications = $this->user->received_notifications()
+            ->whereIn("type", $notificationTypeIds)
+            ->orderBy('created_at', 'desc')->paginate($limit);
+
         return $this->respondWithPagination($notifications, [
-            'notifications' => $this->oldNotificationTransformer->transformCollection($notifications),
+            'notifications' => $notifications->map(function ($notification) {
+                return $notification->transform();
+            }),
             'unseen' => $this->user->received_notifications()->where('seen', 0)->count()
         ]);
     }
@@ -117,14 +122,14 @@ class UserApiController extends ApiController
         $data = ["type" => "image"];
         $image_name = uploadFileToS3($request, 'image', $size, $old_name);
         if ($image_name != null) {
-            $data["image_url"] = $this->s3_url . $image_name;
+            $data["image_url"] = generate_protocol_url($this->s3_url . $image_name);
             $data["image_name"] = $image_name;
         }
         if ($thumb_size) {
             $thumb_name = uploadThunbImageToS3($request, 'image', $thumb_size, $old_thumb_name);
             if ($thumb_name != null) {
                 $data["thumb_name"] = $thumb_name;
-                $data["thumb_url"] = $this->s3_url . $thumb_name;
+                $data["thumb_url"] = generate_protocol_url($this->s3_url . $thumb_name);
             }
         }
 
@@ -194,49 +199,6 @@ class UserApiController extends ApiController
         return $this->respond(['message' => "Xoá file thành công"]);
     }
 
-    private function send_save_product_topic_noti($receivers, $currentUser, $topic, $class, $product)
-    {
-        foreach ($receivers as $user) {
-            if ($currentUser && $currentUser->id != $user->id) {
-
-                $notification = new Notification;
-                $notification->actor_id = $currentUser->id;
-                $notification->receiver_id = $user->id;
-                $notification->type = 13;
-                $message = $notification->notificationType->template;
-
-                $message = str_replace('[[TEACHER]]', "<strong>" . $user->name . "</strong>", $message);
-                $message = str_replace('[[STUDENT]]', "<strong>" . $currentUser->name . "</strong>", $message);
-                $message = str_replace('[[TOPIC]]', "<strong>" . $topic->title . "</strong>", $message);
-                $message = str_replace('[[CLASS]]', "<strong>" . $class->name . "</strong>", $message);
-                $notification->message = $message;
-
-                $notification->color = $notification->notificationType->color;
-                $notification->icon = $notification->notificationType->icon;
-                $notification->url = config("app.protocol") . config("app.domain") . "/post/bai-tap-colorme-" . $product->id;
-
-                $notification->save();
-
-                $data = array(
-                    "message" => $message,
-                    "link" => $notification->url,
-                    'created_at' => format_time_to_mysql(strtotime($notification->created_at)),
-                    "receiver_id" => $notification->receiver_id,
-                    "actor_id" => $notification->actor_id,
-                    "icon" => $notification->icon,
-                    "color" => $notification->color
-                );
-
-                $publish_data = array(
-                    "event" => "notification",
-                    "data" => $data
-                );
-
-                Redis::publish(config("app.channel"), json_encode($publish_data));
-            }
-        }
-    }
-
     public function save_product(Request $request)
     {
         if ($request->id) {
@@ -273,6 +235,7 @@ class UserApiController extends ApiController
             if ($topicAttendance) {
                 $topicAttendance->product_id = $product->id;
                 $topicAttendance->save();
+
                 $topicAction = new TopicAction();
                 $topicAction->topic_id = $request->topicId;
                 $topicAction->user_id = $this->user->id;
@@ -283,14 +246,16 @@ class UserApiController extends ApiController
             $group = $topic->group;
             if ($group) {
                 $class = $group->studyClass;
+
                 if ($class) {
                     if ($class->teach) {
                         $receivers[] = $class->teach;
+                        $this->notificationRepository->sendSubmitHomeworkNotification($this->user, $product, $topic, $class->teach);
                     }
                     if ($class->assist) {
                         $receivers[] = $class->assist;
+                        $this->notificationRepository->sendSubmitHomeworkNotification($this->user, $product, $topic, $class->assist);
                     }
-                    $this->send_save_product_topic_noti($receivers, $this->user, $topic, $class, $product);
                 }
             }
 
