@@ -553,7 +553,7 @@ class GoodController extends ManageApiController
                         'code' => $inventory->good->code,
                         'name' => $inventory->good->name,
                         'quantity' => $inventory->quantity,
-                        'import_price' => $inventory->price,
+                        'import_price' => $inventory->import_price,
                         'import_money' => $inventory->import_price * $inventory->quantity,
                         'price' => $inventory->good->price,
                         'money' => $inventory->good->price * $inventory->quantity
