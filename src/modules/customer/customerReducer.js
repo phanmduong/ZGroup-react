@@ -1,6 +1,5 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
-import {deleteCustomer} from "./customerActions";
 
 let customerList;
 export default function customerReducer(state = initialState.customers, action) {

@@ -855,6 +855,7 @@ export default {
     customers: {
         customersList : [],
         isLoading : true,
+        totalCount: 10,
         totalPages : 10,
         totalMoneys : 10,
         totalDebtMoneys : 10,

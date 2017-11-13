@@ -100,11 +100,11 @@ class CustomerContainer extends React.Component {
                                         <div className="table-responsive">
                                             <div id="property-table_wrapper"
                                                  className="dataTables_wrapper form-inline dt-bootstrap">
-                                                <div className="row" style={{marginTop: 50}}>
-                                                    <div className="col-md-6">
-                                                        <div id="property-table_length">
+                                                <div className="row" style={{marginTop: 40 , marginBottom : 30}}>
+                                                    <div className="col-md-8">
+                                                        <div id="property-table_length" style={{marginTop: 18}}>
                                                             <label>Phân loại:
-                                                                <div className="form-group form-group-sm"
+                                                                <div className="form-group form-group-md"
                                                                      style={{marginTop: 0, marginLeft: 20}}>
                                                                     <select name="property-table_length"
                                                                             aria-controls="property-table"
@@ -117,7 +117,7 @@ class CustomerContainer extends React.Component {
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div className="col-md-6">
+                                                    <div className="col-md-4" style={{marginRight : 0}}>
                                                         <Search
                                                             onChange={this.customersSearchChange}
                                                             value={this.state.query}
@@ -167,7 +167,7 @@ class CustomerContainer extends React.Component {
                                     <div className="card-footer">
                                         <div className="float-right">
                                             <div className="btn btn-info btn-simple"> Tổng khách
-                                                hàng: {}
+                                                hàng: {this.props.totalCount}
                                             </div>
                                             <div className="btn btn-danger btn-simple"> Tổng
                                                 tiền: {this.props.totalMoneys}
@@ -233,6 +233,7 @@ CustomerContainer.propTypes = {
     customersList: PropTypes.array,
     isLoading: PropTypes.bool,
     totalPages: PropTypes.number,
+    totalCount : PropTypes.number,
     totalDebtMoneys: PropTypes.number,
     totalMoneys: PropTypes.number,
     isSaving: PropTypes.bool,
@@ -244,6 +245,7 @@ function mapStateToProps(state) {
         customersList: state.customers.customersList,
         isLoading: state.customers.isLoading,
         totalPages: state.customers.totalPages,
+        totalCount : state.customers.totalCount,
         totalDebtMoneys: state.customers.totalDebtMoneys,
         totalMoneys: state.customers.totalMoneys,
         isSaving: state.customers.modal.isSaving,

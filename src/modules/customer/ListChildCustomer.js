@@ -67,7 +67,7 @@ class ListChildCustomer extends React.Component {
                                             <td>{customer.last_order}</td>
                                             <td>{customer.total_money}</td>
                                             <td>{customer.total_paid_money}</td>
-                                            <td>{customer.id}</td>
+                                            <td>{customer.debt}</td>
                                             <td>
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
