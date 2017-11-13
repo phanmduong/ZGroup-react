@@ -4,6 +4,7 @@ namespace Modules\Good\Http\Controllers;
 
 use App\Good;
 use App\DeletedGood;
+use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\Manufacture;
@@ -529,7 +530,7 @@ class GoodController extends ManageApiController
         $keyword = $request->search;
 
         $inventories = ImportedGoods::where('quantity', '<>', 0);
-        if($keyword) {
+        if ($keyword) {
             $goodIds = Good::where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             })->select('id')->get();
@@ -579,6 +580,28 @@ class GoodController extends ManageApiController
             'count' => $count,
             'total_import_money' => $total_import_money,
             'total_money' => $total_money,
+        ]);
+    }
+
+    public function historyGoods($importedGoodId, Request $request)
+    {
+        if (ImportedGoods::find($importedGoodId) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'non-existing good'
+            ]);
+        $history = HistoryGood::where('imported_good_id', $importedGoodId)->orderBy('created_at', 'desc')->get();
+        return $this->respondSuccessWithStatus([
+            'history' => $history->map(function ($singular_history) {
+                return [
+                    'code' => $singular_history->good->code,
+                    'note' => $singular_history->note,
+                    'type' => $singular_history->type,
+                    'created_at' => format_vn_short_datetime(strtotime($singular_history->created_at)),
+                    'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
+                    'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
+                    'remain' => $singular_history->remain,
+                ];
+            })
         ]);
     }
 }

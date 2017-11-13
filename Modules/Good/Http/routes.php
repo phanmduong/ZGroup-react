@@ -25,4 +25,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/inventories/all', 'GoodController@allInventories');
     Route::get('/inventories-info', 'GoodController@inventoriesInfo');
     Route::get('/{goodId}', 'GoodController@good');
+    Route::get('/history/{importedGoodId}', 'GoodController@historyGoods');
 });
