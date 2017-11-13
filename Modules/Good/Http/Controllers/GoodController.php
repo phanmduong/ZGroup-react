@@ -534,7 +534,7 @@ class GoodController extends ManageApiController
                 $query->where('manufacture_id', $manufacture_id);
             });
         if($warehouse_id)
-            $inventories = $inventories->join('goods', 'imported_goods.good_id', 'goods.id')->where('goods.manufacture_id', $manufacture_id);
+            $inventories = $inventories->join('goods', 'imported_goods.good_id', '=', 'goods.id')->where('goods.manufacture_id', $manufacture_id);
 
         $inventories = $inventories->paginate($limit);
         return $this->respondWithPagination(
