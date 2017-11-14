@@ -14,7 +14,7 @@ class ChangeGoodsTable1 extends Migration
     {
         //
         Schema::table('goods', function (Blueprint $table){
-            $table->string('status')->nullable()->change();
+            $table->string('status')->nullable();
         });
     }
 
