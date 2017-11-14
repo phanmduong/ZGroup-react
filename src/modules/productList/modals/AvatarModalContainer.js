@@ -35,7 +35,7 @@ class AvatarModalContainer extends React.Component {
         this.props.modalProductAction.handleCategory(value.id);
     }
 
-    changeSelectStatus(status){
+    changeSelectStatus(status) {
         this.props.modalProductAction.handleStatus(status.value);
     }
 
@@ -258,9 +258,7 @@ AvatarModalContainer.propTypes = {
     productListAction: PropTypes.object.isRequired,
     manufactures: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
-    statuses:PropTypes.array.isRequired,
-    manufacturesUpdated: PropTypes.bool.isRequired,
-    categoriesUpdated: PropTypes.bool.isRequired,
+    statuses: PropTypes.array.isRequired,
     isModalUpdating: PropTypes.bool
 };
 
@@ -270,10 +268,8 @@ function mapStateToProps(state) {
         avatarModal: state.productList.modalInProduct.avatarModal,
         categories: state.productList.categories,
         manufactures: state.productList.manufactures,
-        categoriesUpdated: state.productList.categoriesUpdated,
-        manufacturesUpdated: state.productList.manufacturesUpdated,
         isModalUpdating: state.productList.modalInProduct.isModalUpdating,
-        statuses:state.productList.statuses
+        statuses: state.productList.statuses
     };
 }
 

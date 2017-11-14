@@ -113,16 +113,6 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 manufactures: action.manufactures
             };
-        case types.UPDATE_MANUFACTURES_COMPLETE:
-            return {
-                ...state,
-                manufacturesUpdated: action.manufacturesUpdated
-            };
-        case types.UPDATE_CATEGORIES_COMPLETE:
-            return {
-                ...state,
-                categoriesUpdated: action.categoriesUpdated
-            };
         case types.HANDLE_CATEGORY:
             return {
                 ...state,

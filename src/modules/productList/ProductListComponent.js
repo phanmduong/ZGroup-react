@@ -13,14 +13,14 @@ class ProductListComponent extends React.Component {
 
     render() {
         return (
-            <div className="material-datatables">
-                <table id="imported-goods-table" className="table" width="100%">
-                    <thead>
+            <div className="table-responsive">
+                <table className="table">
+                    <thead className="text-rose">
                     <tr className="text-rose">
                         <th/>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
-                        <th>Số lượng</th>
+                        <th>SL</th>
                         <th>Giá bán</th>
                         <th>Nhóm hàng</th>
                         <th>Nhà sản xuất</th>
@@ -53,8 +53,8 @@ class ProductListComponent extends React.Component {
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showAvatarModal(product)}>{product.code}</a>
                                     </td>
-                                    <td style={{width: "130px"}}>{product.name}</td>
-                                    <td style={{width: "95px"}}>{product.quantity}</td>
+                                    <td style={{width: "200px"}}>{product.name}</td>
+                                    <td style={{width: "50px"}}>{product.quantity}</td>
                                     <td>
                                         <a onClick={() => this.props.showPriceModal(product)}>
                                             {dotNumber(product.price)}đ

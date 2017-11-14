@@ -1,17 +1,35 @@
 export default {
+    inventoryGood: {
+        isLoading: false,
+        inventories: [],
+        categories: [],
+        manufactures: [],
+        totalPages:1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
+        inventoryChecking:{
+            histories:[],
+            inventoryInfo:{}
+        },
+        historyModal:false,
+        count:0,
+        totalImportMoney:0,
+        totalMoney:0
+    },
     productList: {
         products: [],
-        productsTotal: '',
-        productsBusiness: '',
-        productsNotBusiness: '',
-        productsDisplay: '',
-        productsNotDisplay: '',
-        productsDeleted: '',
-        productsQuantity: '',
-        totalPages: '',
-        currentPage: '',
-        limit: '',
-        totalCount:'',
+        productsTotal: 0,
+        productsBusiness: 0,
+        productsNotBusiness: 0,
+        productsDisplay: 0,
+        productsNotDisplay: 0,
+        productsDeleted: 0,
+        productsQuantity: 0,
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
         isLoading: false,
         modalInProduct: {
             priceModal: false,
@@ -45,9 +63,7 @@ export default {
             percent: 0
         },
         categories: [],
-        categoriesUpdated: false,
         manufactures: [],
-        manufacturesUpdated: false,
         statuses: [
             {
                 value: "for_sale",
