@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
 import * as inventoryGoodAction from './inventoryGoodAction';
 
-
 class HistoryModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -16,7 +15,7 @@ class HistoryModalContainer extends React.Component {
             <Modal show={this.props.historyModal}
                    onHide={this.props.inventoryGoodAction.showHistoryModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title className="modal-title">Danh sách sản phẩm của nhóm hàng</Modal.Title>
+                    <Modal.Title className="modal-title">Thẻ kho ({this.props.inventoryInfo.name})</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="table-responsive">
@@ -76,15 +75,17 @@ class HistoryModalContainer extends React.Component {
 }
 
 HistoryModalContainer.propTypes = {
-    histories:PropTypes.array.isRequired,
-    historyModal:PropTypes.bool.isRequired,
-    inventoryGoodAction:PropTypes.object.isRequired
+    histories: PropTypes.array.isRequired,
+    historyModal: PropTypes.bool.isRequired,
+    inventoryGoodAction: PropTypes.object.isRequired,
+    inventoryInfo: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         histories: state.inventoryGood.inventoryChecking.histories,
-        historyModal:state.inventoryGood.historyModal
+        historyModal: state.inventoryGood.historyModal,
+        inventoryInfo: state.inventoryGood.inventoryChecking.inventoryInfo
     };
 }
 

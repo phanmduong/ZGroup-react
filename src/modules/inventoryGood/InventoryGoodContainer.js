@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 import * as inventoryGoodAction from './inventoryGoodAction';
 import {dotNumber} from "../../helpers/helper";
 
-class InventoryGoodContainer extends React.Component{
-    constructor(props,context){
-        super(props,context);
+class InventoryGoodContainer extends React.Component {
+    constructor(props, context) {
+        super(props, context);
         this.state = {
             time: {
                 startTime: '',
@@ -32,7 +32,7 @@ class InventoryGoodContainer extends React.Component{
         this.categoriesSearchChange = this.categoriesSearchChange.bind(this);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.inventoryGoodAction.getInventories();
         this.props.inventoryGoodAction.getManufacturesInventoryGood();
         this.props.inventoryGoodAction.getCategoriesInventoryGood();
@@ -90,14 +90,14 @@ class InventoryGoodContainer extends React.Component{
         );
     }
 
-    getHistoryInventories(id){
+    getHistoryInventories(id) {
         this.props.inventoryGoodAction.getHistoryInventories(id);
     }
 
-    render(){
+    render() {
         let first = (this.props.currentPage - 1) * this.props.limit + 1;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
-        return(
+        return (
             <div className="wrapper">
                 <div className="content">
                     <div className="content">
@@ -254,33 +254,33 @@ class InventoryGoodContainer extends React.Component{
 }
 
 InventoryGoodContainer.propTypes = {
-    isLoading:PropTypes.bool.isRequired,
-    inventories:PropTypes.array.isRequired,
-    inventoryGoodAction:PropTypes.object.isRequired,
-    manufactures:PropTypes.array.isRequired,
-    categories:PropTypes.array.isRequired,
-    totalPages:PropTypes.number.isRequired,
-    currentPage:PropTypes.number.isRequired,
-    totalCount:PropTypes.number.isRequired,
-    limit:PropTypes.number.isRequired,
-    count:PropTypes.number.isRequired,
-    totalImportMoney:PropTypes.number.isRequired,
-    totalMoney:PropTypes.number.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    inventories: PropTypes.array.isRequired,
+    inventoryGoodAction: PropTypes.object.isRequired,
+    manufactures: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired,
+    count: PropTypes.number.isRequired,
+    totalImportMoney: PropTypes.number.isRequired,
+    totalMoney: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading:state.inventoryGood.isLoading,
-        inventories:state.inventoryGood.inventories,
-        manufactures:state.inventoryGood.manufactures,
-        categories:state.inventoryGood.categories,
-        totalPages:state.inventoryGood.totalPages,
-        currentPage:state.inventoryGood.currentPage,
-        totalCount:state.inventoryGood.totalCount,
-        limit:state.inventoryGood.limit,
-        count:state.inventoryGood.count,
-        totalImportMoney:state.inventoryGood.totalImportMoney,
-        totalMoney:state.inventoryGood.totalMoney
+        isLoading: state.inventoryGood.isLoading,
+        inventories: state.inventoryGood.inventories,
+        manufactures: state.inventoryGood.manufactures,
+        categories: state.inventoryGood.categories,
+        totalPages: state.inventoryGood.totalPages,
+        currentPage: state.inventoryGood.currentPage,
+        totalCount: state.inventoryGood.totalCount,
+        limit: state.inventoryGood.limit,
+        count: state.inventoryGood.count,
+        totalImportMoney: state.inventoryGood.totalImportMoney,
+        totalMoney: state.inventoryGood.totalMoney
     };
 }
 

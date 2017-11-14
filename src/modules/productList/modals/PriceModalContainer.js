@@ -46,7 +46,7 @@ class PriceModalContainer extends React.Component {
                                className="form-control datepicker"
                                value={this.props.productEditing.productPresent.price}
                                onChange={this.handleProduct}/>
-                        <span className="material-input" />
+                        <span className="material-input"/>
                     </div>
 
                     <div className="form-group">

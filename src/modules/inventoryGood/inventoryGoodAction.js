@@ -57,13 +57,14 @@ export function saveCategoriesInventoryGood(categories) {
     });
 }
 
-export function getHistoryInventories(id) {
+export function getHistoryInventories(inventory) {
     return function (dispatch) {
-        inventoryGoodApi.getHistoryInventoriesApi(id)
+        inventoryGoodApi.getHistoryInventoriesApi(inventory.id)
             .then(function (response) {
                 dispatch({
                     type: types.SAVE_HISTORY_INVENTORY_GOOD,
-                    histories: response.data.data.histories
+                    histories: response.data.data.histories,
+                    inventoryInfo: inventory
                 });
                 dispatch(showHistoryModal());
             })
@@ -75,18 +76,18 @@ export function getHistoryInventories(id) {
 
 export function getInfoInventories() {
     return function (dispatch) {
-      inventoryGoodApi.getInfoInventoriesApi()
-          .then(function (response) {
-              dispatch({
-                 type:types.GET_INFO_INVENTORY_GOOD,
-                  count:response.data.data.count,
-                  totalImportMoney:response.data.data.total_import_money,
-                  totalMoney:response.data.data.total_money
-              });
-          })
-          .catch(function () {
+        inventoryGoodApi.getInfoInventoriesApi()
+            .then(function (response) {
+                dispatch({
+                    type: types.GET_INFO_INVENTORY_GOOD,
+                    count: response.data.data.count,
+                    totalImportMoney: response.data.data.total_import_money,
+                    totalMoney: response.data.data.total_money
+                });
+            })
+            .catch(function () {
 
-          });
+            });
     };
 }
 

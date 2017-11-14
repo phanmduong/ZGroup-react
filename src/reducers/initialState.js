@@ -9,7 +9,8 @@ export default {
         limit: 20,
         totalCount: 1,
         inventoryChecking:{
-            histories:[]
+            histories:[],
+            inventoryInfo:{}
         },
         historyModal:false,
         count:0,

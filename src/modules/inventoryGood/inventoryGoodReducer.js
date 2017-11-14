@@ -33,7 +33,8 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
                 ...state,
                 inventoryChecking: {
                     ...state.inventoryChecking,
-                    histories: action.histories
+                    histories: action.histories,
+                    inventoryInfo: action.inventoryInfo
                 }
             };
         case types.TOGGLE_HISTORY_MODAL_INVENTORY_GOOD:
@@ -42,11 +43,11 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
                 historyModal: !state.historyModal
             };
         case types.GET_INFO_INVENTORY_GOOD:
-            return{
+            return {
                 ...state,
-                count:action.count,
-                totalImportMoney:action.totalImportMoney,
-                totalMoney:action.totalMoney
+                count: action.count,
+                totalImportMoney: action.totalImportMoney,
+                totalMoney: action.totalMoney
             };
         default:
             return state;

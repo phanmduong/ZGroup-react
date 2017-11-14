@@ -30,11 +30,11 @@ class InventoryGoodComponent extends React.Component {
                                         <a className="text-name-student-register"
                                            rel="tooltip" title=""
                                            data-original-title="Remove item"
-                                            onClick={()=>this.props.getHistoryInventories(inventory.id)}>
+                                           onClick={() => this.props.getHistoryInventories(inventory)}>
                                             {inventory.code}
                                         </a>
                                     </td>
-                                    <td>{inventory.name}</td>
+                                    <td style={{width: "200px"}}>{inventory.name}</td>
                                     <td>{inventory.quantity}</td>
                                     <td>{dotNumber(inventory.import_money)}đ</td>
                                     <td>{dotNumber(inventory.money)}đ</td>
@@ -51,8 +51,8 @@ class InventoryGoodComponent extends React.Component {
 }
 
 InventoryGoodComponent.propTypes = {
-    inventories:PropTypes.array.isRequired,
-    getHistoryInventories:PropTypes.func.isRequired
+    inventories: PropTypes.array.isRequired,
+    getHistoryInventories: PropTypes.func.isRequired
 };
 
 export default InventoryGoodComponent;
