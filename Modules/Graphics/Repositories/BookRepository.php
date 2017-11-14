@@ -82,6 +82,7 @@ class BookRepository
         $order->payment = $payment;
         $order->status = "place_order";
         $order->status_paid = 0;
+        $order->type = "order";
         $order->save();
 
 
