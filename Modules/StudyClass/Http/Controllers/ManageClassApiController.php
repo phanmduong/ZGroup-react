@@ -124,6 +124,10 @@ class ManageClassApiController extends ManageApiController
             }
 
             $class->delete();
+            $group = $class->group;
+            if ($group) {
+                $group->delete();
+            }
 
             return $this->respondSuccessWithStatus([
                 'message' => "Xóa lớp thành công"

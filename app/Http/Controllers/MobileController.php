@@ -12,6 +12,7 @@ use App\Gen;
 use App\Lesson;
 use App\Order;
 use App\Register;
+use App\Repositories\NotificationRepository;
 use App\StudyClass;
 use App\User;
 use Illuminate\Http\Request;
@@ -26,14 +27,21 @@ class MobileController extends ApiController
     protected $classTransformer;
     protected $genTransformer;
     protected $attendanceTransformer;
+    protected $notificationRepository;
 
 
-    public function __construct(ClassTransformer $classTransfomer, GenTransformer $genTransformer, AttendanceTransformer $attendanceTransformer)
+    public function __construct(
+        ClassTransformer $classTransfomer,
+        NotificationRepository $notificationRepository,
+        GenTransformer $genTransformer,
+        AttendanceTransformer $attendanceTransformer)
     {
         parent::__construct();
+
         $this->classTransformer = $classTransfomer;
         $this->genTransformer = $genTransformer;
         $this->attendanceTransformer = $attendanceTransformer;
+        $this->notificationRepository = $notificationRepository;
     }
 
     public function refreshToken()
@@ -178,10 +186,11 @@ class MobileController extends ApiController
             $attendance->device = "Điện thoại";
             $attendance->save();
 
+            $this->notificationRepository->sendConfirmStudentAttendanceNotification($this->user, $attendance);
 
             return response()->json([
                 'message' => 'success',
-                'attendance' => $attendance,
+                'attendance' => $attendance->transform(),
             ]);
         } else {
             return response()->json([

@@ -17,12 +17,14 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
     Route::get('/blog', 'GraphicsController@blog');
     Route::get('/blog/post/{post_id}', 'GraphicsController@post');
     Route::post('/save-order', "GraphicsController@saveOrder");
-
-
     Route::get('/api/blogs', 'BlogApiController@getAllBlogs');
     Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
 
 });
 
-
+Route::group(['domain' => "api.graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+    Route::get('/books', 'GraphicsAppController@index');
+    Route::get('/detail-book/{book_id}', 'GraphicsAppController@detailedBook');
+    Route::post('/save-order', 'GraphicsAppController@saveOrder');
+});
 

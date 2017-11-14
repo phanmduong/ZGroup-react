@@ -9,26 +9,23 @@
 namespace Modules\Notification\Repositories;
 
 
+use App\NotificationType;
 use App\User;
 use Modules\Notification\Transformer\NotificationTransformer;
 
 class NotificationRepository
 {
 
-    protected $notificationTransformer;
-
-    public function __construct(NotificationTransformer $notificationTransformer)
-    {
-        $this->notificationTransformer = $notificationTransformer;
-    }
-
     public function getUserReceivedNotifications($userId, $skip = 0, $limit = 10)
     {
         $user = User::find($userId);
-        $notifications = $this->notificationTransformer
-            ->transformCollection($user->received_notifications()
-                ->orderBy("created_at", "desc")
-                ->take($limit)->skip($skip * $limit)->get());
+        $notificationTypeIds = NotificationType::where("type", "manage")->pluck("id");
+        $notifications = $user->received_notifications()
+            ->whereIn("type", $notificationTypeIds)
+            ->orderBy("created_at", "desc")
+            ->take($limit)->skip($skip * $limit)->get()->map(function ($notification) {
+                return $notification->transform();
+            });
         return $notifications;
     }
 

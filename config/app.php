@@ -3,6 +3,7 @@
 return [
     "domain" => env('DOMAIN', ''),
     "channel" => env("CHANNEL", ""),
+    "social_channel" => env("SOCIAL_CHANNEL", ""),
     "protocol" => env('PROTOCOL', ''),
     "keetool_secret" => env('SECRET', ''),
     "favicon" => env('FAVICON', ''),

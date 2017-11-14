@@ -221,12 +221,13 @@
                                                     <a href="emailto:keetool.feedback@gmail.com">keetool.feedback@gmail.com</a></p>
                                                 <p>
                                                     Tên: <b>{{$name}}</b><br/>
+                                                    Tiêu đề: <b> {{$title}} </b> <br/>
                                                     Lời nhắn: <b>{{$message_str}}</b><br/>
 
                                                 </p>
 
                                                 <p>
-                                                    Rất cám ơn sự ủng hộ của bạn đối với Kee Tool. Chúc bạn một ngày tốt
+                                                    Rất cám ơn sự ủng hộ của bạn đối với Color Me. Chúc bạn một ngày tốt
                                                     lành!
                                                 </p>
                                             </td>
@@ -242,7 +243,27 @@
                             </tbody>
                         </table>
                         <!-- BLOCK - Footer -->
+                        <table class="container" align="center" width="600" border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                            <tr>
+                                <td style="padding-top: 20px; padding-bottom: 30px; padding-right: 20px; padding-left: 20px;">
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0"
+                                           style="max-width: 560px;">
+                                        <tbody>
+                                        <tr>
+                                            <td style="padding-top: 0px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:12px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:22px">
+                                                <p> Mọi thông tin chi tiết vui lòng liên hệ <br>
+                                                <b>Hotline: </b> 0903400807 (Công)<br>
+                                                <b>Địa chỉ: </b> 175 Chùa Láng, Đống Đa, Hà Nội </p>
+                                            </td>
+                                        </tr>
 
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                         <!-- end BLOCK - Footer -->
                     </td>
                 </tr>

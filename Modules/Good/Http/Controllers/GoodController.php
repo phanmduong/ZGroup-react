@@ -3,8 +3,10 @@
 namespace Modules\Good\Http\Controllers;
 
 use App\Good;
-use App\GoodWarehouse;
+use App\DeletedGood;
+use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
+use App\ImportedGoods;
 use App\Manufacture;
 use App\Task;
 use Illuminate\Http\Request;
@@ -123,9 +125,9 @@ class GoodController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
-    public function good($id)
+    public function good($goodId)
     {
-        $good = Good::find($id);
+        $good = Good::find($goodId);
 
         return $this->respondSuccessWithStatus([
             "good" => $good->goodProcessTransform()
@@ -262,10 +264,12 @@ class GoodController extends ManageApiController
         $keyword = $request->search;
         $type = $request->type;
         $manufacture_id = $request->manufacture_id;
+        $good_category_id = $request->good_category_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
+        $status = $request->status;
 
-        if ($request->limit == -1) {
+        if ($limit == -1) {
             if ($type) {
                 $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
                     $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
@@ -282,13 +286,46 @@ class GoodController extends ManageApiController
                 })
             ]);
         }
-        $goods = Good::where(function ($query) use ($keyword) {
-            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-        });
+        if ($status) {
+            if ($status == 'deleted') {
+                $goods = DeletedGood::where('status', 'deleted');
+                $goods->where(function ($query) use ($keyword) {
+                    $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+                });
+                if ($type)
+                    $goods = $goods->where("type", $type);
+                if ($manufacture_id)
+                    $goods = $goods->where('manufacture_id', $manufacture_id);
+                if ($good_category_id)
+                    $goods = $goods->where('good_category_id', $good_category_id);
+                if ($startTime)
+                    $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
+                $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
+                return $this->respondWithPagination(
+                    $goods,
+                    [
+                        "goods" => $goods->map(function ($good) {
+                            return $good->transform();
+                        })
+                    ]
+                );
+            } else
+                $goods = Good::where('status', $status);
+
+            $goods = $goods->where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+            });
+        } else
+            $goods = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+            });
+
         if ($type)
             $goods = $goods->where("type", $type);
         if ($manufacture_id)
             $goods = $goods->where('manufacture_id', $manufacture_id);
+        if ($good_category_id)
+            $goods = $goods->where('good_category_id', $good_category_id);
         if ($startTime)
             $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
@@ -306,11 +343,11 @@ class GoodController extends ManageApiController
     {
         $status = $request->status;
         $limit = $request->limit ? $request->limit : 20;
-        if($status == null)
+        if ($status == null)
             return $this->respondErrorWithStatus([
                 'message' => 'status null'
             ]);
-        if($status == 'deleted')
+        if ($status == 'deleted')
             $goods = DB::table('goods')->where('status', 'deleted')->paginate($limit);
         else
             $goods = Good::where('status', $status)->orderBy("created_at", "desc")->paginate($limit);
@@ -322,6 +359,35 @@ class GoodController extends ManageApiController
                 })
             ]
         );
+    }
+
+    public function statusCount()
+    {
+        $total = Good::all()->count();
+        $for_sale = Good::where('status', 'for_sale')->count();
+        $not_for_sale = Good::where('status', 'not_for_sale')->count();
+        $deleted = DB::table('goods')->where('status', 'deleted')->count();
+        $show = Good::where('status', 'show')->count();
+        $not_show = Good::where('status', 'not_show')->count();
+
+        $goods = Good::orderBy('created_at', 'desc')->get();
+
+        $total_quantity = $goods->reduce(function ($total_q, $good) {
+            return $total_q + $good->importedGoods->reduce(function ($tota_good_q, $importedGood) {
+                    return $tota_good_q + $importedGood->quantity;
+                }, 0);
+        }, 0);
+
+        return $this->respondSuccessWithStatus([
+            'total' => $total,
+            'total_quantity' => $total_quantity,
+            'for_sale' => $for_sale,
+            'not_for_sale' => $not_for_sale,
+            'deleted' => $deleted,
+            'show' => $show,
+            'not_show' => $not_show,
+
+        ]);
     }
 
     function editGood($goodId, Request $request)
@@ -453,6 +519,93 @@ class GoodController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             "card" => $card->transform()
+        ]);
+    }
+
+    public function allInventories(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $good_category_id = $request->good_category_id;
+        $manufacture_id = $request->manufacture_id;
+        $keyword = $request->search;
+
+        $inventories = ImportedGoods::where('quantity', '<>', 0);
+        if ($keyword) {
+            $goodIds = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+            })->select('id')->get();
+            $inventories = $inventories->whereIn('good_id', $goodIds);
+        }
+
+        if ($manufacture_id) {
+            $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
+            $inventories = $inventories->whereIn('good_id', $goodIds);
+        }
+
+        if ($good_category_id) {
+            $goodIds = Good::where('good_category_id', $good_category_id)->select('id')->get();
+            $inventories = $inventories->whereIn('good_id', $goodIds);
+        }
+
+        $inventories = $inventories->paginate($limit);
+        return $this->respondWithPagination(
+            $inventories,
+            [
+                'inventories' => $inventories->map(function ($inventory) {
+                    $data = [
+                        'id' => $inventory->id,
+                        'code' => $inventory->good->code,
+                        'name' => $inventory->good->name,
+                        'quantity' => $inventory->quantity,
+                        'import_price' => $inventory->import_price,
+                        'import_money' => $inventory->import_price * $inventory->quantity,
+                        'price' => $inventory->good->price,
+                        'money' => $inventory->good->price * $inventory->quantity
+                    ];
+                    return $data;
+                })
+            ]
+        );
+    }
+
+    public function inventoriesInfo(Request $request)
+    {
+        $inventories = ImportedGoods::where('quantity', '<>', 0)->get();
+        $count = $inventories->reduce(function ($total, $inventory) {
+            return $total + $inventory->quantity;
+        }, 0);
+        $total_import_money = $inventories->reduce(function ($total, $inventory) {
+            return $total + $inventory->quantity * $inventory->import_price;
+        }, 0);
+        $total_money = $inventories->reduce(function ($total, $inventory) {
+            return $total + $inventory->quantity * $inventory->good->price;
+        }, 0);
+        return $this->respondSuccessWithStatus([
+            'count' => $count,
+            'total_import_money' => $total_import_money,
+            'total_money' => $total_money,
+        ]);
+    }
+
+    public function historyGoods($importedGoodId, Request $request)
+    {
+        if (ImportedGoods::find($importedGoodId) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'non-existing good'
+            ]);
+        $history = HistoryGood::where('imported_good_id', $importedGoodId)->orderBy('created_at', 'desc')->get();
+        return $this->respondSuccessWithStatus([
+            'history' => $history->map(function ($singular_history) {
+                return [
+                    'code' => $singular_history->good->code,
+                    'note' => $singular_history->note,
+                    'type' => $singular_history->type,
+                    'created_at' => format_vn_short_datetime(strtotime($singular_history->created_at)),
+                    'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
+                    'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
+                    'remain' => $singular_history->remain,
+                ];
+            })
         ]);
     }
 }

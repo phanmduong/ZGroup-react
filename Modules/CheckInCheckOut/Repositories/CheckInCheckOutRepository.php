@@ -13,6 +13,7 @@ use App\Base;
 use App\ClassLesson;
 use App\Shift;
 use App\ShiftSession;
+use App\StudyClass;
 use App\TeachingLesson;
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -173,33 +174,40 @@ class CheckInCheckOutRepository
             $classLesson = $teachingLesson->classLesson;
             $start_time = $today . " " . $classLesson->start_time;
             $end_time = $today . " " . $classLesson->end_time;
+
             $class = $classLesson->studyClass;
-            $lesson = $classLesson->lesson;
-            if ($checkInCheckOut->kind == 1) {
-                $minutesInterval = $this->timeIntervalInMinutes($start_time, date("H:i:s"));
-                if ($minutesInterval < $timespan) {
-                    $timespan = $minutesInterval;
-                    $checkInCheckOut->teacher_teaching_lesson_id = 0;
-                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = $teachingLesson->id;
-                    $checkInCheckOut->shift_id = 0;
-                    if ($teachingLesson->ta_checkin_id == 0 || $teachingLesson->ta_checkin_id == null) {
-                        $teachingLesson->ta_checkin_id = $checkInCheckOut->id;
-                        $teachingLesson->save();
-                        $checkInCheckOut->message = "Bạn vừa check in thành công vào lớp " . $class->name . " với vai trò là trợ giảng buổi " . $lesson->order;
-                    } else {
-                        $checkInCheckOut->message = "Bạn đã check in vào lớp " . $class->name . " với vai trò là trợ giảng buổi " . $lesson->order . " trước đó rồi";
+
+            if ($class) {
+
+                $className = $class->name;
+                $lesson = $classLesson->lesson;
+                if ($checkInCheckOut->kind == 1) {
+                    $minutesInterval = $this->timeIntervalInMinutes($start_time, date("H:i:s"));
+                    if ($minutesInterval < $timespan) {
+                        $timespan = $minutesInterval;
+                        $checkInCheckOut->teacher_teaching_lesson_id = 0;
+                        $checkInCheckOut->teaching_assistant_teaching_lesson_id = $teachingLesson->id;
+                        $checkInCheckOut->shift_id = 0;
+                        if ($teachingLesson->ta_checkin_id == 0 || $teachingLesson->ta_checkin_id == null) {
+                            $teachingLesson->ta_checkin_id = $checkInCheckOut->id;
+                            $teachingLesson->save();
+                            $checkInCheckOut->message = "Bạn vừa check in thành công vào lớp " . $className . " với vai trò là trợ giảng buổi " . $lesson->order;
+                        } else {
+                            $checkInCheckOut->message = "Bạn đã check in vào lớp " . $className . " với vai trò là trợ giảng buổi " . $lesson->order . " trước đó rồi";
+                        }
                     }
-                }
-            } else if ($checkInCheckOut->kind == 2) {
-                $minutesInterval = $this->timeIntervalInMinutes($end_time, date("H:i:s"));
-                if ($minutesInterval < $timespan) {
-                    $timespan = $minutesInterval;
-                    $checkInCheckOut->teacher_teaching_lesson_id = 0;
-                    $checkInCheckOut->teaching_assistant_teaching_lesson_id = $teachingLesson->id;
-                    $checkInCheckOut->shift_id = 0;
-                    $teachingLesson->ta_checkout_id = $checkInCheckOut->id;
-                    $teachingLesson->save();
-                    $checkInCheckOut->message = "Bạn vừa check out thành công vào lớp " . $class->name . " với vai trò là trợ giảng buổi " . $lesson->order;
+                } else if ($checkInCheckOut->kind == 2) {
+                    $minutesInterval = $this->timeIntervalInMinutes($end_time, date("H:i:s"));
+                    if ($minutesInterval < $timespan) {
+
+                        $checkInCheckOut->message = "Bạn vừa check out thành công vào lớp " . $className . " với vai trò là trợ giảng buổi " . $lesson->order;
+                        $timespan = $minutesInterval;
+                        $checkInCheckOut->teacher_teaching_lesson_id = 0;
+                        $checkInCheckOut->teaching_assistant_teaching_lesson_id = $teachingLesson->id;
+                        $checkInCheckOut->shift_id = 0;
+                        $teachingLesson->ta_checkout_id = $checkInCheckOut->id;
+                        $teachingLesson->save();
+                    }
                 }
             }
         }
