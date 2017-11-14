@@ -440,7 +440,7 @@ ProductListContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
-    statuses: PropTypes.array.isRequired
+    statuses: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -73,6 +73,23 @@ export function getHistoryInventories(id) {
     };
 }
 
+export function getInfoInventories() {
+    return function (dispatch) {
+      inventoryGoodApi.getInfoInventoriesApi()
+          .then(function (response) {
+              dispatch({
+                 type:types.GET_INFO_INVENTORY_GOOD,
+                  count:response.data.data.count,
+                  totalImportMoney:response.data.data.total_import_money,
+                  totalMoney:response.data.data.total_money
+              });
+          })
+          .catch(function () {
+
+          });
+    };
+}
+
 export function showHistoryModal() {
     return ({
         type: types.TOGGLE_HISTORY_MODAL_INVENTORY_GOOD

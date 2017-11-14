@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {dotNumber} from "../../helpers/helper";
-import {Link} from "react-router";
 import HistoryModalContainer from "./HistoryModalContainer";
 
 class InventoryGoodComponent extends React.Component {
@@ -11,9 +10,9 @@ class InventoryGoodComponent extends React.Component {
 
     render() {
         return (
-            <div className="material-datatables">
-                <table id="imported-goods-table" className="table" width="100%">
-                    <thead>
+            <div className="table-responsive">
+                <table className="table">
+                    <thead className="text-rose">
                     <tr className="text-rose">
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
@@ -39,26 +38,6 @@ class InventoryGoodComponent extends React.Component {
                                     <td>{inventory.quantity}</td>
                                     <td>{dotNumber(inventory.import_money)}đ</td>
                                     <td>{dotNumber(inventory.money)}đ</td>
-                                    <td>
-                                        <div className="btn-group-action">
-                                            <Link to={`/good/${inventory.id}/edit`}
-                                                  style={{color: "#878787"}}
-                                                  data-toggle="tooltip" title=""
-                                                  type="button" rel="tooltip"
-                                                  data-original-title="Sửa"><i
-                                                className="material-icons">edit</i></Link>
-                                            <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Xoá"><i
-                                                className="material-icons">delete</i></a>
-                                            <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Ngừng kinh doanh">
-                                                <i className="material-icons">pause</i></a>
-                                        </div>
-                                    </td>
                                 </tr>
                             );
                         })

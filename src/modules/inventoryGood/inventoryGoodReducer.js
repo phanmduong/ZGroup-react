@@ -41,6 +41,13 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
                 ...state,
                 historyModal: !state.historyModal
             };
+        case types.GET_INFO_INVENTORY_GOOD:
+            return{
+                ...state,
+                count:action.count,
+                totalImportMoney:action.totalImportMoney,
+                totalMoney:action.totalMoney
+            };
         default:
             return state;
     }

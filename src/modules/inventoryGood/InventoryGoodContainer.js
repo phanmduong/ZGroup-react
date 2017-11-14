@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import * as inventoryGoodAction from './inventoryGoodAction';
+import {dotNumber} from "../../helpers/helper";
 
 class InventoryGoodContainer extends React.Component{
     constructor(props,context){
@@ -35,6 +36,7 @@ class InventoryGoodContainer extends React.Component{
         this.props.inventoryGoodAction.getInventories();
         this.props.inventoryGoodAction.getManufacturesInventoryGood();
         this.props.inventoryGoodAction.getCategoriesInventoryGood();
+        this.props.inventoryGoodAction.getInfoInventories();
     }
 
     loadOrders(page = 1) {
@@ -190,6 +192,26 @@ class InventoryGoodContainer extends React.Component{
                                                     />
                                                 </div>
                                             </div>
+                                            <div className="card-footer">
+                                                <div style={{float: "right"}}>
+                                                    <button rel="tooltip" data-placement="top" title=""
+                                                            className="btn btn-success btn-simple disabled"
+                                                    >Tổng số lượng: {dotNumber(this.props.count)}
+                                                        <div className="ripple-container"/>
+                                                    </button>
+                                                    <button rel="tooltip" data-placement="top" title=""
+                                                            className="btn btn-info btn-simple disabled"
+                                                    >Tổng vốn tồn kho: {dotNumber(this.props.totalImportMoney)}đ
+                                                        {dotNumber(this.props.totalImportMoney)}đ
+                                                        <div className="ripple-container"/>
+                                                    </button>
+                                                    <button rel="tooltip" data-placement="top" title=""
+                                                            className="btn btn-danger btn-simple disabled"
+                                                    >Tổng giá trị tồn kho: {dotNumber(this.props.totalMoney)}đ
+                                                        <div className="ripple-container"/>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -240,7 +262,10 @@ InventoryGoodContainer.propTypes = {
     totalPages:PropTypes.number.isRequired,
     currentPage:PropTypes.number.isRequired,
     totalCount:PropTypes.number.isRequired,
-    limit:PropTypes.number.isRequired
+    limit:PropTypes.number.isRequired,
+    count:PropTypes.number.isRequired,
+    totalImportMoney:PropTypes.number.isRequired,
+    totalMoney:PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
@@ -252,7 +277,10 @@ function mapStateToProps(state) {
         totalPages:state.inventoryGood.totalPages,
         currentPage:state.inventoryGood.currentPage,
         totalCount:state.inventoryGood.totalCount,
-        limit:state.inventoryGood.limit
+        limit:state.inventoryGood.limit,
+        count:state.inventoryGood.count,
+        totalImportMoney:state.inventoryGood.totalImportMoney,
+        totalMoney:state.inventoryGood.totalMoney
     };
 }
 

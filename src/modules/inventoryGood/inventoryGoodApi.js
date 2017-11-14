@@ -36,3 +36,9 @@ export function getHistoryInventoriesApi(id) {
     let url = "http://manageapi.graphics.vn/good/history/" + id + "?token=" + token;
     return axios.get(url);
 }
+
+export function getInfoInventoriesApi() {
+    let token = localStorage.getItem("token");
+    let url = "http://manageapi.graphics.vn/good/inventories-info?token=" + token;
+    return axios.get(url);
+}
