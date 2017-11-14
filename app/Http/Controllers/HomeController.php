@@ -19,6 +19,7 @@ use App\Order;
 use App\Product;
 use App\Register;
 use App\Repositories\ClassRepository;
+use App\Repositories\NotificationRepository;
 use App\Room;
 use App\Schedule;
 use App\StudyClass;
@@ -43,14 +44,17 @@ class HomeController extends ManageController
 {
     protected $notificationTransformer;
     protected $classRepository;
+    protected $notificationRepository;
 
     public function __construct(
         NotificationTransformer $notificationTransformer,
-        ClassRepository $classRepository
+        ClassRepository $classRepository,
+        NotificationRepository $notificationRepository
     )
     {
         parent::__construct();
         $this->classRepository = $classRepository;
+        $this->notificationRepository = $notificationRepository;
         $this->notificationTransformer = $notificationTransformer;
     }
 
@@ -1512,42 +1516,17 @@ class HomeController extends ManageController
     {
         $this->user->status = 2;
         $this->user->save();
+        $receiver = User::find($request->receiver_id);
+
         $transaction = new Transaction;
         $transaction->status = 0;
         $transaction->sender_id = $this->user->id;
         $transaction->receiver_id = $request->receiver_id;
-        $transaction->receiver_money = User::find($request->receiver_id)->money;
+        $transaction->receiver_money = $receiver->money;
         $transaction->money = $this->user->money;
         $transaction->save();
 
-        $notification = new Notification;
-        $notification->product_id = $transaction->id;
-        $notification->actor_id = $this->user->id;
-        $notification->receiver_id = $request->receiver_id;
-        $notification->type = 3;
-        $notification->save();
-
-        $data = array(
-            "message" => $notification->actor->name . " vừa chuyển tiền cho bạn và đang chờ bạn xác nhận",
-            "link" => "",
-            'created_at' => format_date_full_option($notification->created_at),
-            "receiver_id" => $notification->receiver_id
-        );
-
-        $publish_data = array(
-            "event" => "notification",
-            "data" => $data
-        );
-        Redis::publish('colorme-channel', json_encode($publish_data));
-
-        $publish_data = array(
-            "event" => "notification",
-            "data" => [
-                "notification" => $this->notificationTransformer->transform($notification)
-            ]
-        );
-        Redis::publish('colorme-channel', json_encode($publish_data));
-
+        $this->notificationRepository->sendMoneyTransferingNotification($transaction);
         return redirect('manage/sendmoney');
     }
 
@@ -1641,43 +1620,8 @@ class HomeController extends ManageController
             $transaction->sender->save();
             $transaction->receiver->save();
         });
-        $notification = new Notification;
-        $notification->product_id = $transaction->id;
-        $notification->actor_id = $transaction->receiver->id;
-        $notification->receiver_id = $transaction->sender->id;
-        $notification->type = 4;
 
-        $notification->save();
-
-
-        $data = array(
-            "message" => "Bạn chuyển tiền cho " . $transaction->receiver->name . " " . transaction_status_raw($transaction->status),
-            "link" => "",
-
-            'transaction' => [
-                'id' => $transaction->id,
-                'sender' => $transaction->sender->name,
-                'receiver' => $transaction->receiver->name,
-                'status' => transaction_status_raw($transaction->status),
-                'money' => $transaction->money
-            ],
-            'created_at' => format_date_full_option($notification->created_at),
-            "receiver_id" => $notification->receiver_id
-        );
-
-        $publish_data = array(
-            "event" => "notification",
-            "data" => $data
-        );
-        Redis::publish('colorme-channel', json_encode($publish_data));
-
-        $publish_data = array(
-            "event" => "notification",
-            "data" => [
-                "notification" => $this->notificationTransformer->transform($notification)
-            ]
-        );
-        Redis::publish('colorme-channel', json_encode($publish_data));
+        $this->notificationRepository->sendMoneyTransferredNotification($transaction);
 
         $return_data = array(
             'status' => transaction_status($transaction->status),

@@ -431,4 +431,60 @@ class NotificationRepository
         $this->sendNotification($notification);
     }
 
+    public function sendMoneyTransferingNotification($transaction)
+    {
+        $actor = $transaction->sender;
+        $receiver = $transaction->receiver;
+        if ($receiver == null || $actor == null) {
+            return;
+        }
+        $notification = new Notification();
+        $notification->actor_id = $actor->id;
+        $notification->receiver_id = $receiver->id;
+        $notification->product_id = $transaction->id;
+        $notification->type = 3;
+
+        $message = $notification->notificationType->template;
+
+        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
+        $message = str_replace('[[AMOUNT]]', "<strong>" . $transaction->money . "</strong>", $message);
+        $message = str_replace('[[TARGET]]', "<strong>" . $receiver->name . "</strong>", $message);
+
+        $notification->message = $message;
+        $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
+
+        $notification->url = "/manage/sendmoney";
+
+        $notification->save();
+        $this->sendNotification($notification);
+    }
+
+    public function sendMoneyTransferredNotification($transaction)
+    {
+        $actor = $transaction->sender;
+        $receiver = $transaction->receiver;
+        if ($receiver == null || $actor == null) {
+            return;
+        }
+        $notification = new Notification();
+        $notification->actor_id = $actor->id;
+        $notification->receiver_id = $receiver->id;
+        $notification->product_id = $transaction->id;
+        $notification->type = 4;
+
+        $message = $notification->notificationType->template;
+
+        $message = str_replace('[[ACTOR]]', "<strong>" . $actor->name . "</strong>", $message);
+        $message = str_replace('[[AMOUNT]]', "<strong>" . $transaction->money . "</strong>", $message);
+        $message = str_replace('[[TARGET]]', "<strong>" . $receiver->name . "</strong>", $message);
+
+        $notification->message = $message;
+        $notification->image_url = $actor->avatar_url ? $actor->avatar_url : defaultAvatarUrl();
+
+        $notification->url = "/manage/sendmoney";
+
+        $notification->save();
+        $this->sendNotification($notification);
+    }
+
 }
