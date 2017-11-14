@@ -143,16 +143,15 @@ class CustomerController extends ManageApiController
         ]);
     }
 
-    public
-    function deleteCustomer(Request $request)
-    {
-        $user = User::find($request->id);
-        if (!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
-        $orders = Order::where("user_id", $user->id)->get();
-        if (count($orders) > 0 || $user->type != "customer") return $this->respondErrorWithStatus("Không được xóa");
-        $user->delete();
-        return $this->respondSuccessWithStatus([
-            "message" => "Xóa thành công"
-        ]);
-    }
+//    public function deleteCustomer(Request $request)
+//    {
+//        $user = User::find($request->id);
+//        if (!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
+//        $orders = Order::where("user_id", $user->id)->get();
+//        if (count($orders) > 0 || $user->type != "customer") return $this->respondErrorWithStatus("Không được xóa");
+//        $user->delete();
+//        return $this->respondSuccessWithStatus([
+//            "message" => "Xóa thành công"
+//        ]);
+//    }
 }
