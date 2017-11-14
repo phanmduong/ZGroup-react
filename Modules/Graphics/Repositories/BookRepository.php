@@ -22,7 +22,7 @@ class BookRepository
         $books = Good::where('type', 'book')->get();
         $book_arr = [];
         foreach ($books as $book) {
-            $properties =  GoodProperty::where('good_id', $book->id)->get();
+            $properties = GoodProperty::where('good_id', $book->id)->get();
             $bookData = [
                 'id' => $book->id,
                 'cover' => $book->cover_url,
@@ -73,6 +73,7 @@ class BookRepository
         $user->email = $email;
         $user->phone = $phone;
         $user->address = $address;
+        $user->type = "customer";
         $user->save();
 
         $order = new Order();
@@ -81,6 +82,7 @@ class BookRepository
         $order->payment = $payment;
         $order->status = "place_order";
         $order->status_paid = 0;
+        $order->type = "order";
         $order->save();
 
 
