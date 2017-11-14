@@ -38,6 +38,7 @@ class CustomerController extends ManageApiController
                 'customers' => $users->map(function ($user) use ($status) {
 
                     $orders = Order::where("user_id", $user->id)->get();
+                    if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
                     $orders_stt = $orders;
                     if ($status) {
                         if ($status == "1") $stt = 1; else $stt = 0;
@@ -78,7 +79,7 @@ class CustomerController extends ManageApiController
                             'total_money' => $totalMoney,
                             'total_paid_money' => $totalPaidMoney,
                             'debt' => $totalMoney - $totalPaidMoney,
-
+                            'can_delete' => $canDelete
                         ];
                     }
                 }),
@@ -147,7 +148,9 @@ class CustomerController extends ManageApiController
     {
         $user = User::find($request->id);
         if (!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
-        $user->delete();
+        $orders = Order::where("user_id", $user->id)->get();
+        if (count($orders) > 0) return $this->respondErrorWithStatus("Không được xóa");
+            $user->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
         ]);
