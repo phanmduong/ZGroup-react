@@ -27,9 +27,16 @@ class CustomerController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
         $status = $request->status;
-        $users = User::where("type", "customer")->where(function ($query) use ($keyword) {
-            $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
-        })->paginate($limit);
+        if ($status == "1" || $status == "0") {
+            $customerIds = Order::where('status_paid', $status)->select('user_id')->get();
+            $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
+                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
+            })->paginate($limit);
+        } else {
+            $users = User::where('type', 'customer')->where(function ($query) use ($keyword) {
+                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
+            })->paginate($limit);
+        }
 
 
         return $this->respondWithPagination(
@@ -39,55 +46,45 @@ class CustomerController extends ManageApiController
 
                     $orders = Order::where("user_id", $user->id)->get();
                     if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
-                    $orders_stt = $orders;
-                    if ($status) {
-                        if ($status == "1") $stt = 1; else $stt = 0;
-                        $orders_stt = $orders_stt->where("status_paid", $stt);
+                    $totalMoney = 0;
+                    $totalPaidMoney = 0;
+                    $lastOrder = 0;
+                    foreach ($orders as $order) {
+                        $goodOrders = $order->goodOrders()->get();
+                        foreach ($goodOrders as $goodOrder) {
+                            $totalMoney += $goodOrder->quantity * $goodOrder->price;
+                        }
+                        $lastOrder = $order->created_at;
+                    }
+                    foreach ($orders as $order) {
+                        $orderPaidMoneys = $order->orderPaidMoneys()->get();
+                        foreach ($orderPaidMoneys as $orderPaidMoney) {
+                            $totalPaidMoney += $orderPaidMoney->money;
+                        }
                     }
 
-                    $ok = 1;
+                    return [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'phone' => $user->phone,
+                        'email' => $user->email,
+                        'address' => $user->address,
+                        'birthday' => $user->dob,
+                        'gender' => $user->gender,
+                        'last_order' => format_vn_short_datetime(strtotime($lastOrder)),
+                        'total_money' => $totalMoney,
+                        'total_paid_money' => $totalPaidMoney,
+                        'debt' => $totalMoney - $totalPaidMoney,
+                        'can_delete' => $canDelete
+                    ];
 
-                    if (count($orders_stt) == 0 && $status == "1") $ok = 0;
-                    if (count($orders_stt) == 0 && $status == "0") $ok = 0;
-                    if ($ok == 1) {
-                        $totalMoney = 0;
-                        $totalPaidMoney = 0;
-                        $lastOrder = 0;
-                        foreach ($orders as $order) {
-                            $goodOrders = $order->goodOrders()->get();
-                            foreach ($goodOrders as $goodOrder) {
-                                $totalMoney += $goodOrder->quantity * $goodOrder->price;
-                            }
-                            $lastOrder = $order->created_at;
-                        }
-                        foreach ($orders as $order) {
-                            $orderPaidMoneys = $order->orderPaidMoneys()->get();
-                            foreach ($orderPaidMoneys as $orderPaidMoney) {
-                                $totalPaidMoney += $orderPaidMoney->money;
-                            }
-                        }
-
-                        return [
-                            'id' => $user->id,
-                            'name' => $user->name,
-                            'phone' => $user->phone,
-                            'email' => $user->email,
-                            'address' => $user->address,
-                            'birthday' => $user->dob,
-                            'gender' => $user->gender,
-                            'last_order' => format_vn_short_datetime(strtotime($lastOrder)),
-                            'total_money' => $totalMoney,
-                            'total_paid_money' => $totalPaidMoney,
-                            'debt' => $totalMoney - $totalPaidMoney,
-                            'can_delete' => $canDelete
-                        ];
-                    }
                 }),
             ]
         );
     }
 
-    public function countMoney()
+    public
+    function countMoney()
     {
         $users = User::where("type", "customer")->get();
         $TM = 0; // Tong tien
@@ -120,7 +117,8 @@ class CustomerController extends ManageApiController
         ]);
     }
 
-    public function addCustomer(Request $request)
+    public
+    function addCustomer(Request $request)
     {
         if (!$request->name || !$request->phone || !$request->address || !$request->email || !$request->dob || !$request->gender || trim($request->name) == "" || trim($request->phone) == "" || trim($request->address) == "" || trim($request->email) == "" || trim($request->dob) == "")
             return $this->respondErrorWithStatus("Thiếu thông tin");
@@ -144,13 +142,14 @@ class CustomerController extends ManageApiController
         ]);
     }
 
-    public function deleteCustomer(Request $request)
+    public
+    function deleteCustomer(Request $request)
     {
         $user = User::find($request->id);
         if (!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
         $orders = Order::where("user_id", $user->id)->get();
         if (count($orders) > 0) return $this->respondErrorWithStatus("Không được xóa");
-            $user->delete();
+        $user->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
         ]);
