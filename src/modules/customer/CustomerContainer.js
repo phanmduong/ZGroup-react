@@ -9,11 +9,9 @@ import Loading from "../../components/common/Loading";
 import Search from '../../components/common/Search';
 import {Modal} from 'react-bootstrap';
 import AddCustomerModal from './AddCustomerModal';
-import * as helper from '../../helpers/helper';
 import FormInputSelect from '../../components/common/FormInputSelect';
 import {CUSTOMTYPE} from '../../constants/constants';
-
-
+import * as helper from '../../helpers/helper';
 
 
 
@@ -33,7 +31,6 @@ class CustomerContainer extends React.Component {
         this.closeAddModal = this.closeAddModal.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.addCustomer = this.addCustomer.bind(this);
-        this.deleteCustomer = this.deleteCustomer.bind(this);
         this.loadByStatus = this.loadByStatus.bind(this);
     }
 
@@ -42,25 +39,23 @@ class CustomerContainer extends React.Component {
         this.props.customerActions.loadTotalAndDebtMoney();
     }
 
-    loadCustomers(page, limit) {
-        this.setState({page: page});
-        this.props.customerActions.loadCustomers(page, limit);
+    componentDidUpdate() {
+        this.initForm();
     }
-    loadByStatus(e){
-        this.setState({status: e.target.value});
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query,this.state.status);
-        }.bind(this), 500);
-    }
-
     openAddModal() {
         this.setState({isShowModal: true});
     }
 
     closeAddModal() {
+        let customer = {
+            name : '',
+            phone : '',
+            email : '',
+            address : '',
+            gender : '',
+            dob : '',
+        };
+        this.props.customerActions.updateAddCustomerFormData(customer);
         this.setState({isShowModal: false});
     }
 
@@ -85,15 +80,38 @@ class CustomerContainer extends React.Component {
     }
 
     addCustomer(e){
-        this.props.customerActions.addCustomer(this.props.customer , this.closeAddModal );
+        if ($('#form-add-customer').valid()) {
+            if (this.props.customer.dob === null || this.props.customer.dob === undefined || this.props.customer.dob === '') {
+                helper.showTypeNotification("Vui lòng chọn sinh nhật", 'warning');
+                return;
+            }
+            if (this.props.customer.gender === null || this.props.customer.gender === undefined || this.props.customer.gender === '' ) {
+                helper.showTypeNotification("Vui lòng chọn giới tính", 'warning');
+            }
+            else {
+                this.props.customerActions.addCustomer(this.props.customer, this.closeAddModal);
+            }
+        }
         e.preventDefault();
     }
-    deleteCustomer(id , name){
-        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + name,
-            function () {
-                this.props.customerActions.deleteCustomer(id);
-            }.bind(this));
+
+    loadCustomers(page, limit) {
+        this.setState({page: page});
+            this.props.customerActions.loadCustomers(page,limit);
     }
+    loadByStatus(e){
+        this.setState({status: e.target.value});
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query,this.state.status);
+        }.bind(this), 500);
+    }
+    initForm() {
+        helper.setFormValidation('#form-add-customer');
+    }
+
     render() {
         let currentPage = this.state.page;
         let limit = this.state.limit;
@@ -122,13 +140,6 @@ class CustomerContainer extends React.Component {
                                                             <label>Phân loại:
                                                                 <div className="form-group form-group-md"
                                                                      style={{marginTop: 0, marginLeft: 20}}>
-                                                                    {/*<select name="property-table_length"*/}
-                                                                            {/*aria-controls="property-table"*/}
-                                                                            {/*className="form-control">*/}
-                                                                        {/*<option value={10}>Tất cả</option>*/}
-                                                                        {/*<option value={25}>Khách hàng từng mua</option>*/}
-                                                                        {/*<option value={50}>Khách hàng còn nợ</option>*/}
-                                                                    {/*</select>*/}
                                                                     <FormInputSelect
                                                                         updateFormData={this.loadByStatus}
                                                                         name="status"
@@ -150,7 +161,6 @@ class CustomerContainer extends React.Component {
                                                 </div>
                                                 <ListChildCustomer
                                                     customersList={this.props.customersList}
-                                                    deleteCustomer = {this.deleteCustomer}
                                                 />
                                                 <div className="row">
                                                     <div className="col-sm-5">
@@ -210,39 +220,47 @@ class CustomerContainer extends React.Component {
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
+                            <div className="card">
+                                <form id="form-add-customer" onSubmit={(e) => {
+                                    e.preventDefault();
+                                }}>
                             <AddCustomerModal
                                 updateFormData={this.updateFormData}
                                 customer = {this.props.customer}
                             />
+                                    {this.props.isSaving ?
+                                        (
+                                            <button
+                                                className="btn btn-round btn-fill btn-success disabled"
+                                            >
+                                                <i className="fa fa-spinner fa-spin"/>
+                                                Đang thêm
+                                            </button>
+                                        )
+                                        :
+                                        (
+                                            <button rel="tooltip" data-placement="top" title=""
+                                                    data-original-title="Remove item"
+                                                    type="button" className="btn btn-round btn-success "
+                                                    onClick={(e) =>this.addCustomer(e)}
+                                            ><i className="material-icons">check</i>
+                                                Thêm
+                                            </button>
+                                        )
+                                    }
+                                    <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
+                                            type="button" className="btn btn-round btn-danger " data-dismiss="modal"
+                                            onClick={this.closeAddModal}><i className="material-icons">close</i> Huỷ
+                                    </button>
+                                </form>
+                            </div>
                         </Modal.Body>
-                        <Modal.Footer>
-                            <form>
-                                {this.props.isSaving ?
-                                    (
-                                        <button
-                                            className="btn btn-round btn-fill btn-success disabled"
-                                        >
-                                            <i className="fa fa-spinner fa-spin"/>
-                                            Đang thêm
-                                        </button>
-                                    )
-                                    :
-                                    (
-                                        <button rel="tooltip" data-placement="top" title=""
-                                                data-original-title="Remove item"
-                                                type="button" className="btn btn-round btn-success "
-                                                onClick={(e) =>this.addCustomer(e)}
-                                        ><i className="material-icons">check</i>
-                                            Thêm
-                                        </button>
-                                    )
-                                }
-                                <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
-                                        type="button" className="btn btn-round btn-danger " data-dismiss="modal"
-                                        onClick={this.closeAddModal}><i className="material-icons">close</i> Huỷ
-                                </button>
-                            </form>
-                        </Modal.Footer>
+                        {/*<Modal.Footer>*/}
+                            {/*<form>*/}
+                                {/**/}
+                               {/**/}
+                            {/*</form>*/}
+                        {/*</Modal.Footer>*/}
                     </Modal>
                 </div>
             </div>

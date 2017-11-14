@@ -101,41 +101,8 @@ export default function customerReducer(state = initialState.customers, action) 
                     },
                 }
             };
-        case types.BEGIN_DELETE_CUSTOMER :
-            return {
-                ...state,
-                modal: {
-                    ...state.modal,
-                    ...{isSaving: true,}
-                },
-            };
-        case types.DELETE_CUSTOMER_SUCCESS:
 
-            customerList = deleteCustomerReducer(action.id, state.customersList);
-            return {
-                ...state,
-                customersList: customerList,
-                modal: {
-                    ...state.modal,
-                    ...{isSaving: false,}
-                }
-            };
-        case types.DELETE_CUSTOMER_ERROR:
-            return {
-                ...state,
-                modal: {
-                    ...state.modal,
-                    ...{isSaving: false,}
-                }
-            };
         default :
             return state;
     }
-}
-
-function deleteCustomerReducer(id, customersList) {
-    if (customersList) {
-        customersList = customersList.filter((customer) => customer.id !== id);
-    }
-    return customersList;
 }

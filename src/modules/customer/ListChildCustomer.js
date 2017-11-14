@@ -77,10 +77,6 @@ class ListChildCustomer extends React.Component {
                                                             <i className="material-icons">edit</i>
                                                         </a>
                                                     </div>
-                                                    <a data-toggle="tooltip" title type="button"
-                                                       rel="tooltip" data-original-title="Xoá">
-                                                        <i className="material-icons" onClick={()=> {this.props.deleteCustomer(customer.id, customer.name);}}>delete</i>
-                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>

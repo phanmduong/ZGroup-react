@@ -15,30 +15,19 @@ class AddCustomerModal extends React.Component {
     }
 
 
-    componentDidUpdate() {
-        this.initForm();
-    }
-    initForm() {
-        helper.setFormValidation('#form-add-staff');
-    }
+
 
     render() {
         let {name, email, address, phone, dob , gender} = this.props.customer;
 
         return (
             <div>
-
-
-                <div className="card">
-                    <form id="form-add-staff" onSubmit={(e) => {
-                        e.preventDefault();
-                    }}>
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">contacts</i>
                         </div>
                         <div className="card-content">
                             <h4 className="card-title">
-                                Thêm nhân viên
+                                Thông tin khách hàng
                             </h4>
 
                             <FormInputText
@@ -93,10 +82,8 @@ class AddCustomerModal extends React.Component {
                             />
 
                         </div>
-                    </form>
                 </div>
 
-            </div>
         );
     }
 }

@@ -45,14 +45,5 @@ export function addCustomerApi(customer) {
     });
 }
 
-export function deleteCustomerApi(id) {
-    let token = localStorage.getItem("token");
-    let url = env.MANAGE_API_URL + '/order/delete-customer?';
-    if (token){
-        url += 'token=' + token;
-    }
-    return axios.delete(url, {
-        id : id,
-    });
-}
+
 

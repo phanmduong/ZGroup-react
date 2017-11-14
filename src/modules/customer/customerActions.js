@@ -66,6 +66,7 @@ export function addCustomer(customer ,  closeAddModal  ) {
                         type: types.ADD_CUSTOMER_SUCCESS,
                         customer: customer,
                     });
+                    loadCustomers();
                 }
                 else {
                     helper.sweetAlertError("Thiếu thông tin");
@@ -85,32 +86,3 @@ export function addCustomer(customer ,  closeAddModal  ) {
     };
 }
 
-export function deleteCustomer(id ) {
-    return function (dispatch) {
-        helper.showTypeNotification("Đang xóa ", "info");
-        dispatch({
-            type : types.BEGIN_DELETE_CUSTOMER
-        });
-        customerApis.deleteCustomerApi(id)
-            .then((res) => {
-                if (res.data.status) {
-                    helper.showTypeNotification(" Đã xóa ", "success");
-                    dispatch({
-                        type: types.DELETE_CUSTOMER_SUCCESS,
-                        id: id,
-                    });
-                }
-                else {
-                    helper.sweetAlertError(res.data.message);
-                    dispatch({
-                        type: types.DELETE_CUSTOMER_ERROR
-                    });
-                }
-            })
-            .catch(()=>{
-                dispatch({
-                    type : types.DELETE_CUSTOMER_ERROR,
-                });
-            });
-    };
-}
