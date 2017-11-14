@@ -61,12 +61,12 @@ class ProductListComponent extends React.Component {
                                         </a>
                                     </td>
                                     <td style={{width: "115px"}}>
-                                        {product.good_category_id ?
+                                        {(product.good_category_id && this.props.categories.filter(category => category.id === product.good_category_id)[0]) ?
                                             this.props.categories.filter(category => category.id === product.good_category_id)[0].name : "Chưa có"
                                         }
                                     </td>
                                     <td style={{width: "120px"}}>
-                                        {product.manufacture_id ?
+                                        {(product.manufacture_id && this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0]) ?
                                             this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0].name : "Chưa có"
                                         }
                                     </td>
