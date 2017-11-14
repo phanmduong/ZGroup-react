@@ -201,7 +201,8 @@ class GoodController extends ManageApiController
                 $query->where("prevalue", "like", "%$keyword%")->orWhere("preunit", "like", "%$keyword%");
             })->orderBy("created_at", "desc");
 
-        if ($limit > 0) {
+
+        if ($limit > 0 && $request->page > 0) {
             $goodPropertyItems = $goodPropertyItems->paginate($limit);
             return $this->respondWithPagination(
                 $goodPropertyItems,
@@ -212,7 +213,7 @@ class GoodController extends ManageApiController
                 ]
             );
         } else {
-            return $this->respondSuccessWithStatus([
+            return $this->respond([
                 "good_property_items" => $goodPropertyItems->get()->map(function ($goodPropertyItem) {
                     return $goodPropertyItem->transform();
                 })
