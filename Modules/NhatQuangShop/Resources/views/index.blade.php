@@ -125,7 +125,7 @@
                                     <div class="col-md-8 text-left">
                                         <br>
                                         <h5 style="font-weight:600">{{$book['name']}}</h5>
-                                        <h6>{{$book['short_description']}}</h6><br>
+{{--                                        <h6>{{$book['short_description']}}</h6><br>--}}
                                         <p>{{$book['description']}}</p>
                                         <h5>{{currency_vnd_format($book['price'])}}</h5><br>
                                     </div>
