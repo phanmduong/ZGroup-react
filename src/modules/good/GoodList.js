@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import {generateDatatableLanguage} from "../../helpers/helper";
+import {Link} from "react-router";
 
 class GoodList extends React.Component {
     constructor(props, context) {
@@ -25,8 +25,7 @@ class GoodList extends React.Component {
                 {"name": "Mã sản phẩm", "orderable": true},
                 {"name": "Mô tả", "orderable": true},
                 {"name": "Thêm vào lúc", "orderable": true},
-                {"name": "Sửa gần nhất", "orderable": true},
-                {"name": "", "orderable": false}
+                {"name": "Sửa gần nhất", "orderable": true}
             ],
             "language": generateDatatableLanguage("sản phẩm"),
             initComplete: function () {
@@ -65,7 +64,6 @@ class GoodList extends React.Component {
                         <th>Mô tả</th>
                         <th>Thêm vào lúc</th>
                         <th>Sửa gần nhất</th>
-                        <th/>
                     </tr>
                     </thead>
                     <tfoot>
@@ -75,7 +73,6 @@ class GoodList extends React.Component {
                         <th>Mô tả</th>
                         <th>Thêm vào lúc</th>
                         <th>Sửa gần nhất</th>
-                        <th/>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -83,18 +80,15 @@ class GoodList extends React.Component {
                         this.props.goods.map((good) => {
                             return (
                                 <tr key={good.id}>
-                                    <td>{good.name}</td>
+                                    <td>
+                                        <Link className="text-rose" to={"good/" + good.id + "/detail"}>
+                                            {good.name}
+                                        </Link>
+                                    </td>
                                     <td>{good.code}</td>
                                     <td>{good.description}</td>
                                     <td>{good.created_at}</td>
                                     <td>{good.updated_at}</td>
-                                    <td>
-                                        <ButtonGroupAction
-                                            disabledEdit={true}
-                                            disabledDelete={true}
-                                            detailUrl={"good/" + good.id + "/detail"}
-                                        />
-                                    </td>
                                 </tr>
                             );
                         })
@@ -102,6 +96,7 @@ class GoodList extends React.Component {
                     </tbody>
                 </table>
             </div>
+
         );
     }
 }

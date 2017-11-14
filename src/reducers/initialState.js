@@ -845,4 +845,34 @@ export default {
         isStoringSupplier: false,
         errorStoreSupplier: false,
     },
+    wareHouses: {
+        isLoading: true,
+        wareHousesList: [],
+        bases: [],
+        totalPages: 1,
+        modal: {
+            wareHouse: {
+                id: '',
+                name: '',
+                location: '',
+                base: {
+                    id: '',
+                    name: '',
+                    address: '',
+
+                }
+            },
+            isShowModal: false,
+            isEdit: false,
+            isSaving: false,
+        }
+    },
+
+    customers: {
+        customersList : [],
+        isLoading : true,
+        totalPages : 10,
+        totalMoneys : 10,
+        totalDebtMoneys : 10,
+    },
 };
