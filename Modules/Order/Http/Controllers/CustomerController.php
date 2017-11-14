@@ -126,7 +126,8 @@ class CustomerController extends ManageApiController
         if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) return $this->respondErrorWithStatus("Email không hợp lệ");
 
         $user = User::where("email", $request->email)->get();
-        if (count($user) > 0) return $this->respondErrorWithStatus("Đã tồn tại khách hàng"); else {
+        if (count($user) > 0) return $this->respondErrorWithStatus("Đã tồn tại khách hàng");
+        else {
             $user = new User;
             $user->name = $request->name;
             $user->phone = $request->phone;
@@ -148,7 +149,7 @@ class CustomerController extends ManageApiController
         $user = User::find($request->id);
         if (!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
         $orders = Order::where("user_id", $user->id)->get();
-        if (count($orders) > 0) return $this->respondErrorWithStatus("Không được xóa");
+        if (count($orders) > 0 || $user->type != "customer") return $this->respondErrorWithStatus("Không được xóa");
         $user->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa thành công"
