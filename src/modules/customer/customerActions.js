@@ -2,12 +2,13 @@ import * as types from '../../constants/actionTypes';
 import * as customerApis from './customerApis';
 import * as helper from '../../helpers/helper';
 
-export function loadCustomers( page , limit, query) {
+export function loadCustomers( page , limit, query,status) {
     return function (dispatch) {
+        console.log('LOAD_BY_STATUS',status);
         dispatch({
             type: types.BEGIN_LOAD_CUSTOMER
         });
-        customerApis.loadCustomersApi(limit, page ,query)
+        customerApis.loadCustomersApi(limit, page ,query , status)
             .then( (res) =>  {
                 dispatch({
                     type : types.LOADED_CUSTOMER_SUCCESS,

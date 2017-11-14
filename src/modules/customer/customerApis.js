@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadCustomersApi(limit , page , query) {
+export function loadCustomersApi(limit , page , query ,status) {
     let url = env.MANAGE_API_URL + "/order/all-customers?";
     let token = localStorage.getItem('token');
     if (limit){
@@ -12,6 +12,9 @@ export function loadCustomersApi(limit , page , query) {
     }
     if (query) {
         url += "&search=" + query;
+    }
+    if (status){
+        url += "&status=" + status;
     }
     if (token) {
         url += "&token=" + token;
@@ -48,9 +51,8 @@ export function deleteCustomerApi(id) {
     if (token){
         url += 'token=' + token;
     }
-    console.log('API',id);
     return axios.delete(url, {
-        'id' : id,
+        id : id,
     });
 }
 

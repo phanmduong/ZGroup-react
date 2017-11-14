@@ -9,8 +9,6 @@ import FormInputDate from '../../components/common/FormInputDate';
 import * as helper from '../../helpers/helper';
 import {GENDER} from '../../constants/constants';
 
-
-
 class AddCustomerModal extends React.Component {
     constructor(props, context) {
         super(props, context);

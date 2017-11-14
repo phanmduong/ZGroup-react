@@ -70,6 +70,20 @@ export const GENDER = [
         id : '2',
     }
 ];
+export const CUSTOMTYPE = [
+    {
+        name : 'Tất cả',
+        id : 2,
+    },
+    {
+        name : 'Khách hàng còn nợ',
+        id : '0',
+    },
+    {
+        name : 'Khách hàng đã mua',
+        id : '1',
+    }
+];
 
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
 export const DATE = 60 * 60 * 24;

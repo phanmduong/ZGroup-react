@@ -10,6 +10,10 @@ import Search from '../../components/common/Search';
 import {Modal} from 'react-bootstrap';
 import AddCustomerModal from './AddCustomerModal';
 import * as helper from '../../helpers/helper';
+import FormInputSelect from '../../components/common/FormInputSelect';
+import {CUSTOMTYPE} from '../../constants/constants';
+
+
 
 
 
@@ -21,6 +25,7 @@ class CustomerContainer extends React.Component {
             limit: 10,
             query: '',
             isShowModal: false,
+            status : '',
         };
         this.loadCustomers = this.loadCustomers.bind(this);
         this.customersSearchChange = this.customersSearchChange.bind(this);
@@ -29,6 +34,7 @@ class CustomerContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.addCustomer = this.addCustomer.bind(this);
         this.deleteCustomer = this.deleteCustomer.bind(this);
+        this.loadByStatus = this.loadByStatus.bind(this);
     }
 
     componentWillMount() {
@@ -39,6 +45,15 @@ class CustomerContainer extends React.Component {
     loadCustomers(page, limit) {
         this.setState({page: page});
         this.props.customerActions.loadCustomers(page, limit);
+    }
+    loadByStatus(e){
+        this.setState({status: e.target.value});
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query,this.state.status);
+        }.bind(this), 500);
     }
 
     openAddModal() {
@@ -58,7 +73,7 @@ class CustomerContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.customerActions.loadCustomers(this.state.page, 10, this.state.query);
+            this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query,this.state.status);
         }.bind(this), 500);
     }
 
@@ -82,6 +97,7 @@ class CustomerContainer extends React.Component {
     render() {
         let currentPage = this.state.page;
         let limit = this.state.limit;
+        let status = this.state.status;
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -102,17 +118,23 @@ class CustomerContainer extends React.Component {
                                                  className="dataTables_wrapper form-inline dt-bootstrap">
                                                 <div className="row" style={{marginTop: 40 , marginBottom : 30}}>
                                                     <div className="col-md-8">
-                                                        <div id="property-table_length" style={{marginTop: 18}}>
+                                                        <div id="property-table_length">
                                                             <label>Phân loại:
                                                                 <div className="form-group form-group-md"
                                                                      style={{marginTop: 0, marginLeft: 20}}>
-                                                                    <select name="property-table_length"
-                                                                            aria-controls="property-table"
-                                                                            className="form-control">
-                                                                        <option value={10}>Tất cả</option>
-                                                                        <option value={25}>Khách hàng từng mua</option>
-                                                                        <option value={50}>Khách hàng còn nợ</option>
-                                                                    </select>
+                                                                    {/*<select name="property-table_length"*/}
+                                                                            {/*aria-controls="property-table"*/}
+                                                                            {/*className="form-control">*/}
+                                                                        {/*<option value={10}>Tất cả</option>*/}
+                                                                        {/*<option value={25}>Khách hàng từng mua</option>*/}
+                                                                        {/*<option value={50}>Khách hàng còn nợ</option>*/}
+                                                                    {/*</select>*/}
+                                                                    <FormInputSelect
+                                                                        updateFormData={this.loadByStatus}
+                                                                        name="status"
+                                                                        data = {CUSTOMTYPE}
+                                                                        value={status}
+                                                                    />
                                                                     <span className="material-input"/></div>
                                                             </label>
                                                         </div>
