@@ -63,7 +63,7 @@ export function getHistoryInventories(inventory) {
             .then(function (response) {
                 dispatch({
                     type: types.SAVE_HISTORY_INVENTORY_GOOD,
-                    histories: response.data.data.histories,
+                    histories: response.data.data.history,
                     inventoryInfo: inventory
                 });
                 dispatch(showHistoryModal());

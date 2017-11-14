@@ -67,27 +67,51 @@ class InventoryGoodContainer extends React.Component {
     }
 
     manufacturesSearchChange(value) {
-        this.setState({
-            manufacture: value.id
-        });
-        this.props.inventoryGoodAction.getInventories(
-            1,
-            this.state.query,
-            value.id,
-            this.state.category
-        );
+        if (value) {
+            this.setState({
+                manufacture: value.id
+            });
+            this.props.inventoryGoodAction.getInventories(
+                1,
+                this.state.query,
+                value.id,
+                this.state.category
+            );
+        } else {
+            this.setState({
+                manufacture: null
+            });
+            this.props.inventoryGoodAction.getInventories(
+                1,
+                this.state.query,
+                null,
+                this.state.category
+            );
+        }
     }
 
     categoriesSearchChange(value) {
-        this.setState({
-            category: value.id
-        });
-        this.props.inventoryGoodAction.getInventories(
-            1,
-            this.state.query,
-            this.state.manufacture,
-            value.id
-        );
+        if (value) {
+            this.setState({
+                category: value.id
+            });
+            this.props.inventoryGoodAction.getInventories(
+                1,
+                this.state.query,
+                this.state.manufacture,
+                value.id
+            );
+        } else {
+            this.setState({
+                category: null
+            });
+            this.props.inventoryGoodAction.getInventories(
+                1,
+                this.state.query,
+                this.state.manufacture,
+                null
+            );
+        }
     }
 
     getHistoryInventories(id) {

@@ -40,16 +40,28 @@ class ProductListContainer extends React.Component {
         this.productsPageChange = this.productsPageChange.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
+        this.getProducts = this.getProducts.bind(this);
     }
 
     componentWillMount() {
-        this.props.productListAction.getProducts();
+        this.getProducts();
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.modalUpdated) {
-            this.props.productListAction.getProducts();
+            this.getProducts();
         }
+    }
+
+    getProducts() {
+        this.setState({
+            query: '',
+            manufacture: '',
+            category: '',
+            page: '',
+            status: ''
+        });
+        this.props.productListAction.getProducts();
     }
 
     updateFormDate(event) {
@@ -93,48 +105,93 @@ class ProductListContainer extends React.Component {
     }
 
     manufacturesSearchChange(value) {
-        this.setState({
-            manufacture: value.id
-        });
-        this.props.productListAction.getProducts(
-            1,
-            this.state.query,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            value.id,
-            this.state.category,
-            this.state.status
-        );
+        if (value) {
+            this.setState({
+                manufacture: value.id
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                value.id,
+                this.state.category,
+                this.state.status
+            );
+        } else {
+            this.setState({
+                manufacture: null
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                null,
+                this.state.category,
+                this.state.status
+            );
+        }
     }
 
     categoriesSearchChange(value) {
-        this.setState({
-            category: value.id
-        });
-        this.props.productListAction.getProducts(
-            1,
-            this.state.query,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.manufacture,
-            value.id,
-            this.state.status
-        );
+        if (value) {
+            this.setState({
+                category: value.id
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                value.id,
+                this.state.status
+            );
+        } else {
+            this.setState({
+                category: null
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                null,
+                this.state.status
+            );
+        }
     }
 
     statusesSearchChange(value) {
-        this.setState({
-            status: value.value
-        });
-        this.props.productListAction.getProducts(
-            1,
-            this.state.query,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.manufacture,
-            this.state.category,
-            value.value
-        );
+        if (value) {
+            this.setState({
+                status: value.value
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                value.value
+            );
+        } else {
+            this.setState({
+                status: null
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                null
+            );
+        }
     }
 
     productsPageChange(value) {
@@ -361,14 +418,7 @@ class ProductListContainer extends React.Component {
                                                     <button rel="tooltip" data-placement="top" title=""
                                                             className="btn btn-info btn-simple"
                                                             onClick={() => {
-                                                                this.setState({
-                                                                    query: '',
-                                                                    manufacture: '',
-                                                                    category: '',
-                                                                    page: '',
-                                                                    status: ''
-                                                                });
-                                                                this.props.productListAction.getProducts();
+                                                                this.getProducts();
                                                             }}
                                                     >Tổng sản phẩm: {this.props.productsTotal}
 

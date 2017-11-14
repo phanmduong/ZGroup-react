@@ -29,14 +29,13 @@ class HistoryModalContainer extends React.Component {
                                 <th>Nhập</th>
                                 <th>Xuất</th>
                                 <th>Tồn</th>
-                                <th/>
                             </tr>
                             </thead>
                             <tbody>
                             {
                                 this.props.histories && this.props.histories.map((history, id) => {
                                     return (
-                                        <tr key={history.code}>
+                                        <tr key={history.id}>
                                             <td>{id + 1}</td>
                                             <td>{history.code}</td>
                                             <td>{history.created_at}</td>
@@ -44,22 +43,6 @@ class HistoryModalContainer extends React.Component {
                                             <td>{history.import_quantity}</td>
                                             <td>{history.export_quantity}</td>
                                             <td>{history.remain}</td>
-                                            <td>
-                                                <div className="btn-group-action">
-                                                    <a data-toggle="tooltip" title="" type="button"
-                                                       rel="tooltip" href="good/11/edit"
-                                                       data-original-title="Sửa"><i className="material-icons">edit</i></a>
-                                                    <a
-                                                        data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                                        data-original-title="Không thể xoá"><i
-                                                        className="material-icons">delete_forever</i></a>
-                                                    <a
-                                                        data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                                        data-original-title="Chuyển kho"><i
-                                                        className="material-icons">swap_horiz</i></a>
-
-                                                </div>
-                                            </td>
                                         </tr>
                                     );
                                 })
