@@ -31,11 +31,11 @@
 <nav class="navbar navbar-toggleable-md fixed-top bg-dark" style="height:35px; background:#272727!important">
     <div class="container">
         <div style="text-align:right; width:100%">
-            <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
+            <button
                     class="btn btn-danger" style="padding:3px 5px;margin:3px;font-size:10px;">
                 <i class="fa fa-google"></i> Google Login
             </button>
-            <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
+            <button
                     class="btn btn-success" style="padding:3px 5px;margin:3px;font-size:10px;">
                 <i class="fa fa-facebook"></i> Facebook Login
             </button>
