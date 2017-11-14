@@ -14,24 +14,19 @@ class PropertiesListContainer extends React.Component {
         this.state = {
             query: ""
         };
-        this.loadPropertyItems = this.loadPropertyItems.bind(this);
     }
 
     componentWillMount() {
-        this.props.goodActions.loadGoodPropertyItems(1, this.state.query, this.props.params.type);
+        this.props.goodActions.loadGoodPropertyItems(-1, this.state.query, this.props.params.type);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.params.type !== this.props.params.type) {
-            this.props.goodActions.loadGoodPropertyItems(1, this.state.query, nextProps.params.type);
+            this.props.goodActions.loadGoodPropertyItems(-1, this.state.query, nextProps.params.type);
         }
 
     }
 
-    loadPropertyItems(page = 1) {
-        this.setState({page});
-        this.props.goodActions.loadGoodPropertyItems(page, this.state.query, this.props.params.type);
-    }
 
     render() {
         return (

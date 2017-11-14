@@ -63,7 +63,7 @@ export function changeAvatarApi(file, completeHandler, progressHandler, error) {
 
 export function getCategoriesApi() {
     let token = localStorage.getItem("token");
-    let url = "http://manageapi.graphics.vn/order/category/all?token=" + token;
+    let url = env.MANAGE_API_URL + "/order/category/all?token=" + token;
     return axios.get(url);
 }
 
