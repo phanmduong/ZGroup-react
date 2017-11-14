@@ -3,15 +3,24 @@
 namespace Modules\NhatQuangShop\Http\Controllers;
 
 use App\Good;
+use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
+use Modules\Graphics\Repositories\BookRepository;
 
 class NhatQuangShopController extends Controller
 {
+    private $bookRepository;
+
+    public function __construct(BookRepository $bookRepository)
+    {
+        $this->bookRepository = $bookRepository;
+    }
+
     public function index($subfix)
     {
         $books = Good::where('status', 'for_sale')->get();
@@ -252,39 +261,7 @@ class NhatQuangShopController extends Controller
         $goods_arr = json_decode($goods_str);
 
         if (count($goods_arr) > 0) {
-            $order = new Order();
-            $order->name = $name;
-            $order->email = $email;
-            $order->phone = $phone;
-            $order->address = $address;
-            $order->payment = $payment;
-            $order->save();
-
-
-            if ($goods_arr) {
-                foreach ($goods_arr as $item) {
-                    $good = Good::find($item->id);
-                    $order->goods()->attach($item->id, [
-                        "quantity" => $item->number,
-                        "price" => $good->price,
-                    ]);
-
-                }
-            }
-            $total_price = 0;
-            $goods = $order->goods;
-            foreach ($goods as &$good) {
-                $coupon = $good->properties()->where("name", "coupon_value")->first()->value;
-                $good->coupon_value = $coupon;
-                $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
-            }
-            $subject = "Xác nhận đặt hàng thành công";
-            $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods];
-            $emailcc = ["nhatquangshop@colorme.vn"];
-            Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
-                $m->from('no-reply@colorme.vn', 'Graphics');
-                $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
-            });
+            $this->bookRepository->saveOrder($email, $phone, $name, $address, $payment, $goods_arr);
             $request->session()->flush();
             return [
                 "status" => 1
