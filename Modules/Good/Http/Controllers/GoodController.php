@@ -362,7 +362,12 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithData([
                 "message" => "Không tìm thấy sản phẩm"
             ]);
-        if (!$request->price || !$request->name || !$request->manufacture_id || !$request->good_category_id)
+
+
+
+
+        if ($request->price ==null || $request->name== null  || $request->manufacture_id== null  || $request->good_category_id== null
+            || $request->avatar_url==null || $request->sale_status == null || $request->display_status == null || $request->highlight_status == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu trường'
             ]);
@@ -371,7 +376,9 @@ class GoodController extends ManageApiController
         $good->price = $request->price;
         $good->manufacture_id = $request->manufacture_id;
         $good->good_category_id = $request->good_category_id;
-        $good->status = $request->status;
+        $good->sale_status = $request->sale_status;
+        $good->display_status = $request->display_status;
+        $good->highlight_status = $request->highlight_status;
         $good->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
