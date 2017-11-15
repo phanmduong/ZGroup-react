@@ -363,9 +363,15 @@ class GoodController extends ManageApiController
                 "message" => "Không tìm thấy sản phẩm"
             ]);
 
+         if($request->price ==null ) dd(1);
+        if($request->name ==null ) dd(2);
+        if($request->manufacture_id ==null ) dd(3);
+        if($request->good_category_id ==null ) dd(4);
+        if($request->avatar_url ==null ) dd(5);
+        if($request->sale_status ==null ) dd(6);
+        if($request->display_status ==null ) dd(7);
+        if($request->highlight_status ==null ) dd(8);
 
-
-        dd($request->sale_status);
         if ($request->price ==null || $request->name== null  || $request->manufacture_id== null
             || $request->good_category_id== null
             || $request->avatar_url==null || $request->sale_status == null
