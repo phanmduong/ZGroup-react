@@ -275,11 +275,11 @@ class GoodController extends ManageApiController
         $goods = Good::where(function ($query) use ($keyword) {
             $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
         });
-        if ($sale_status)
+        if ($sale_status != null)
             $goods = $goods->where('sale_status', $sale_status);
-        if ($display_status)
+        if ($display_status != null)
             $goods = $goods->where('display_status', $display_status);
-        if ($highlight_status)
+        if ($highlight_status != null)
             $goods = $goods->where('highlight_status', $highlight_status);
         if ($type)
             $goods = $goods->where("type", $type);
