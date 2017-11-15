@@ -25,7 +25,11 @@ class ProductListContainer extends React.Component {
             manufacture: '',
             category: '',
             page: '',
-            status: ''
+            status: {
+                sale: '',
+                display: '',
+                highlight: ''
+            }
         };
         this.timeOut = null;
         this.table = null;
@@ -39,29 +43,19 @@ class ProductListContainer extends React.Component {
         this.categoriesSearchChange = this.categoriesSearchChange.bind(this);
         this.productsPageChange = this.productsPageChange.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
-        this.statusesSearchChange = this.statusesSearchChange.bind(this);
-        this.getProducts = this.getProducts.bind(this);
+        this.saleStatusChange = this.saleStatusChange.bind(this);
+        this.displayStatusChange = this.displayStatusChange.bind(this);
+        this.highlightStatusChange = this.highlightStatusChange.bind(this);
     }
 
     componentWillMount() {
-        this.getProducts();
+        this.props.productListAction.getProducts();
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.modalUpdated) {
-            this.getProducts();
+            this.props.productListAction.getProducts();
         }
-    }
-
-    getProducts() {
-        this.setState({
-            query: '',
-            manufacture: '',
-            category: '',
-            page: '',
-            status: ''
-        });
-        this.props.productListAction.getProducts();
     }
 
     updateFormDate(event) {
@@ -164,10 +158,12 @@ class ProductListContainer extends React.Component {
         }
     }
 
-    statusesSearchChange(value) {
+    saleStatusChange(value) {
+        let status = {...this.state.status};
         if (value) {
+            status.sale = value.value;
             this.setState({
-                status: value.value
+                status:status
             });
             this.props.productListAction.getProducts(
                 1,
@@ -176,11 +172,12 @@ class ProductListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.manufacture,
                 this.state.category,
-                value.value
+                status
             );
         } else {
+            status.sale = null;
             this.setState({
-                status: null
+                status: status
             });
             this.props.productListAction.getProducts(
                 1,
@@ -189,10 +186,77 @@ class ProductListContainer extends React.Component {
                 this.state.time.endTime,
                 this.state.manufacture,
                 this.state.category,
-                null
+                status
             );
         }
     }
+
+    displayStatusChange(value) {
+        let status = {...this.state.status};
+        if (value) {
+            status.display = value.value;
+            this.setState({
+                status:status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        } else {
+            status.display = null;
+            this.setState({
+                status: status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        }
+    }
+
+    highlightStatusChange(value) {
+        let status = {...this.state.status};
+        if (value) {
+            status.highlight = value.value;
+            this.setState({
+                status:status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        } else {
+            status.highlight = null;
+            this.setState({
+                status: status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        }
+    }
+
 
     productsPageChange(value) {
         this.setState({page: value});
@@ -327,17 +391,60 @@ class ProductListContainer extends React.Component {
                                                             onChange={this.categoriesSearchChange}
                                                         />
                                                     </div>
+                                                </div>
+                                                <div className="row">
                                                     <div className="form-group col-md-4">
-                                                        <label className="control-label">Tìm theo trạng thái</label>
+                                                        <label className="control-label">Tìm theo trạng thái kinh
+                                                            doanh</label>
                                                         <Select
-                                                            name="status"
-                                                            value={this.state.status}
-                                                            options={this.props.statuses.map((status) => {
-                                                                return {
-                                                                    ...status
-                                                                };
-                                                            })}
-                                                            onChange={this.statusesSearchChange}
+                                                            value={this.state.status.sale}
+                                                            options={[
+                                                                {
+                                                                    value: 1,
+                                                                    label: "ĐANG KINH DOANH"
+                                                                },
+                                                                {
+                                                                    value: "0",
+                                                                    label: "NGỪNG KINH DOANH"
+                                                                }
+                                                            ]}
+                                                            onChange={this.saleStatusChange}
+                                                        />
+                                                    </div>
+                                                    <div className="form-group col-md-4">
+                                                        <label className="control-label">Tìm theo trạng thái hiển
+                                                            thị</label>
+                                                        <Select
+                                                            value={this.state.status.display}
+                                                            options={[
+                                                                {
+                                                                    value: 1,
+                                                                    label: "HIỂN THỊ RA WEB"
+                                                                },
+                                                                {
+                                                                    value: "0",
+                                                                    label: "KHÔNG HIỂN THỊ RA WEB"
+                                                                }
+                                                            ]}
+                                                            onChange={this.displayStatusChange}
+                                                        />
+                                                    </div>
+                                                    <div className="form-group col-md-4">
+                                                        <label className="control-label">Tìm theo trạng thái nổi
+                                                            bật</label>
+                                                        <Select
+                                                            value={this.state.status.highlight}
+                                                            options={[
+                                                                {
+                                                                    value: 1,
+                                                                    label: "NỔI BẬT"
+                                                                },
+                                                                {
+                                                                    value: "0",
+                                                                    label: "KHÔNG NỔI BẬT"
+                                                                }
+                                                            ]}
+                                                            onChange={this.highlightStatusChange}
                                                         />
                                                     </div>
                                                     <div className="col-md-3">
@@ -390,45 +497,42 @@ class ProductListContainer extends React.Component {
                                             </div>
                                             <div className="card-footer">
                                                 <div style={{float: "right"}}>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
                                                     >Đang kinh doanh: {this.props.productsBusiness}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
                                                     >Ngừng kinh doanh: {this.props.productsNotBusiness}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
                                                     >Hiển thị ra web: {this.props.productsDisplay}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
                                                     >Không hiển thị ra web: {this.props.productsNotDisplay}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
                                                     >Đã xóa: {this.props.productsDeleted}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-info btn-simple"
-                                                            onClick={() => {
-                                                                this.getProducts();
-                                                            }}
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-info btn-simple"
                                                     >Tổng sản phẩm: {this.props.productsTotal}
 
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-success btn-simple disabled"
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-success btn-simple"
                                                     >Tổng số lượng : {this.props.productsQuantity}
                                                         <div className="ripple-container"/>
-                                                    </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -489,8 +593,7 @@ ProductListContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,
-    totalCount: PropTypes.number.isRequired,
-    statuses: PropTypes.array.isRequired,
+    totalCount: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
@@ -511,7 +614,6 @@ function mapStateToProps(state) {
         currentPage: state.productList.currentPage,
         limit: state.productList.limit,
         totalCount: state.productList.totalCount,
-        statuses: state.productList.statuses
     };
 }
 

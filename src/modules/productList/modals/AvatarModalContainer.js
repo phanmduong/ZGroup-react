@@ -18,8 +18,8 @@ class AvatarModalContainer extends React.Component {
         this.handleProduct = this.handleProduct.bind(this);
         this.changeSelectManufacture = this.changeSelectManufacture.bind(this);
         this.changeSelectCategory = this.changeSelectCategory.bind(this);
-        this.changeSelectStatus = this.changeSelectStatus.bind(this);
         this.uploadEditProduct = this.uploadEditProduct.bind(this);
+        this.selectStatusProduct = this.selectStatusProduct.bind(this);
     }
 
     componentWillMount() {
@@ -33,10 +33,6 @@ class AvatarModalContainer extends React.Component {
 
     changeSelectCategory(value) {
         this.props.modalProductAction.handleCategory(value.id);
-    }
-
-    changeSelectStatus(status) {
-        this.props.modalProductAction.handleStatus(status.value);
     }
 
     showAvatarModal(e) {
@@ -56,22 +52,31 @@ class AvatarModalContainer extends React.Component {
         this.props.productListAction.changeAvatar(file);
     }
 
-    handleProduct(e) {
-        const field = e.target.name;
-        let productEditing = this.props.productEditing;
-        productEditing.productPresent[field] = e.target.value;
-        this.props.modalProductAction.handleProduct(productEditing.productPresent);
-    }
-
-
     uploadEditProduct(e) {
         e.preventDefault();
         this.props.productListAction.uploadEditProduct(
             this.props.productEditing.productPresent,
             this.props.productEditing.manufacture_id,
-            this.props.productEditing.good_category_id,
-            this.props.productEditing.status
+            this.props.productEditing.good_category_id
         );
+    }
+
+    handleProduct(e) {
+        const field = e.target.name;
+        let productPresent = {...this.props.productEditing.productPresent};
+        productPresent[field] = e.target.value;
+        this.props.modalProductAction.handleProduct(productPresent);
+    }
+
+    selectStatusProduct(e) {
+        const field = e.target.name;
+        let productPresent = {...this.props.productEditing.productPresent};
+        e.target.checked ? (
+            productPresent[field] = 1
+        ) : (
+            productPresent[field] = 0
+        );
+        this.props.modalProductAction.handleProduct(productPresent);
     }
 
     render() {
@@ -178,18 +183,63 @@ class AvatarModalContainer extends React.Component {
                                        onChange={this.handleProduct}/>
                                 <span className="material-input"/>
                             </div>
-                            <div className="form-group">
-                                <label className="control-label">Trạng thái</label>
-                                <Select
-                                    name="status"
-                                    value={this.props.productEditing.status}
-                                    options={this.props.statuses.map((status) => {
-                                        return {
-                                            ...status
-                                        };
-                                    })}
-                                    onChange={this.changeSelectStatus}
-                                />
+                            <div className="panel panel-default">
+                                <div className="panel-body">
+                                    <div className="panel panel-default">
+                                        <div className="panel-heading" role="tab"><a>
+                                            <h4 className="panel-title">
+                                                <div className="checkbox none-margin">
+                                                    <label>
+                                                        <input type="checkbox"
+                                                               name="sale_status"
+                                                               checked={this.props.productEditing.productPresent.sale_status}
+                                                               onChange={this.selectStatusProduct}/>
+                                                        <span className="checkbox-material">
+                                                                <span className="check"/>
+                                                                </span> Đang kinh doanh
+                                                    </label>
+                                                </div>
+                                            </h4>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <div className="panel panel-default">
+                                        <div className="panel-heading" role="tab"><a>
+                                            <h4 className="panel-title">
+                                                <div className="checkbox none-margin">
+                                                    <label>
+                                                        <input type="checkbox"
+                                                               name="display_status"
+                                                               checked={this.props.productEditing.productPresent.display_status}
+                                                               onChange={this.selectStatusProduct}/>
+                                                        <span className="checkbox-material">
+                                                                <span className="check"/>
+                                                                </span> Hiển thị ra website
+                                                    </label>
+                                                </div>
+                                            </h4>
+                                        </a>
+                                        </div>
+                                    </div>
+                                    <div className="panel panel-default">
+                                        <div className="panel-heading" role="tab"><a>
+                                            <h4 className="panel-title">
+                                                <div className="checkbox none-margin">
+                                                    <label>
+                                                        <input type="checkbox"
+                                                               name="highlight_status"
+                                                               checked={this.props.productEditing.productPresent.highlight_status}
+                                                               onChange={this.selectStatusProduct}/>
+                                                        <span className="checkbox-material">
+                                                                <span className="check"/>
+                                                                </span>Nổi bật
+                                                    </label>
+                                                </div>
+                                            </h4>
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div className="form-group">
                                 <label className="control-label">Nhà sản xuất</label>
@@ -258,7 +308,6 @@ AvatarModalContainer.propTypes = {
     productListAction: PropTypes.object.isRequired,
     manufactures: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
-    statuses: PropTypes.array.isRequired,
     isModalUpdating: PropTypes.bool
 };
 
@@ -269,7 +318,6 @@ function mapStateToProps(state) {
         categories: state.productList.categories,
         manufactures: state.productList.manufactures,
         isModalUpdating: state.productList.modalInProduct.isModalUpdating,
-        statuses: state.productList.statuses
     };
 }
 

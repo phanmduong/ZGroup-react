@@ -63,29 +63,7 @@ export default {
             percent: 0
         },
         categories: [],
-        manufactures: [],
-        statuses: [
-            {
-                value: "for_sale",
-                label: "ĐANG KINH DOANH"
-            },
-            {
-                value: "not_for_sale",
-                label: "NGỪNG KINH DOANH"
-            },
-            {
-                value: "show",
-                label: "HIỂN THỊ RA WEB"
-            },
-            {
-                value: "not_show",
-                label: "KHÔNG HIỂN THỊ RA WEB"
-            },
-            {
-                value: "deleted",
-                label: "ĐÃ XÓA"
-            }
-        ]
+        manufactures: []
     },
 
     good: {

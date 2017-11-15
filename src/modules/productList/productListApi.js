@@ -25,9 +25,18 @@ export function getProductsApi(page, search, start_time, end_time, manufacture_i
     if (good_category_id) {
         url += "&good_category_id=" + good_category_id;
     }
-    if (status) {
-        url += "&status=" + status;
+    if(status){
+        if (status.sale) {
+            url += "&sale_status=" + status.sale;
+        }
+        if (status.display) {
+            url += "&display_status=" + status.display;
+        }
+        if (status.highlight) {
+            url += "&highlight_status=" + status.highlight;
+        }
     }
+
     return axios.get(url);
 }
 
@@ -63,11 +72,11 @@ export function changeAvatarApi(file, completeHandler, progressHandler, error) {
 
 export function getCategoriesApi() {
     let token = localStorage.getItem("token");
-    let url = "http://manageapi.graphics.vn/order/category/all?token=" + token;
+    let url = env.MANAGE_API_URL + "/order/category/all?token=" + token;
     return axios.get(url);
 }
 
-export function uploadEditProductApi(productPresent, manufacture_id, category_id, status) {
+export function uploadEditProductApi(productPresent, manufacture_id, category_id) {
     let token = localStorage.getItem("token");
     let url = env.MANAGE_API_URL + "/good/edit/" + productPresent.id + "?token=" + token;
     return axios.put(url, {
@@ -76,7 +85,9 @@ export function uploadEditProductApi(productPresent, manufacture_id, category_id
         name: productPresent.name,
         manufacture_id: manufacture_id,
         good_category_id: category_id,
-        status: status
+        sale_status: productPresent.sale_status,
+        display_status: productPresent.display_status,
+        highlight_status: productPresent.highlight_status
     });
 }
 

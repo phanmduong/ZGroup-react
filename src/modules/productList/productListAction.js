@@ -131,10 +131,10 @@ export function saveCategoriesProductsList(categories) {
     });
 }
 
-export function uploadEditProduct(productPresent, manufacture_id, category_id, status) {
+export function uploadEditProduct(productPresent, manufacture_id, category_id) {
     return function (dispatch) {
         dispatch(updatingProductListModal(true));
-        productListApi.uploadEditProductApi(productPresent, manufacture_id, category_id, status)
+        productListApi.uploadEditProductApi(productPresent, manufacture_id, category_id)
             .then(function () {
                 dispatch(updatingProductListModal(false));
                 dispatch({
