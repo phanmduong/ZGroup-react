@@ -365,12 +365,15 @@ class GoodController extends ManageApiController
 
 
 
-
-        if ($request->price ==null || $request->name== null  || $request->manufacture_id== null  || $request->good_category_id== null
-            || $request->avatar_url==null || $request->sale_status == null || $request->display_status == null || $request->highlight_status == null)
+        dd($request->sale_status);
+        if ($request->price ==null || $request->name== null  || $request->manufacture_id== null
+            || $request->good_category_id== null
+            || $request->avatar_url==null || $request->sale_status == null
+            || $request->display_status == null || $request->highlight_status == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu trường'
             ]);
+
         $good->name = $request->name;
         $good->avatar_url = $request->avatar_url;
         $good->price = $request->price;
