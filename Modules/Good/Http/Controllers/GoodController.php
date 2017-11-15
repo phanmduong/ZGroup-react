@@ -272,16 +272,15 @@ class GoodController extends ManageApiController
         $display_status = $request->display_status;
         $highlight_status = $request->highlight_status;
 
-        $goods = Good::query();
-        if ($sale_status) {
+        $goods = Good::where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+        });
+        if ($sale_status)
             $goods = $goods->where('sale_status', $sale_status);
-        }
-        if ($display_status) {
+        if ($display_status)
             $goods = $goods->where('display_status', $display_status);
-        }
-        if ($highlight_status) {
+        if ($highlight_status)
             $goods = $goods->where('highlight_status', $highlight_status);
-        }
         if ($type)
             $goods = $goods->where("type", $type);
         if ($manufacture_id)
@@ -290,9 +289,7 @@ class GoodController extends ManageApiController
             $goods = $goods->where('good_category_id', $good_category_id);
         if ($startTime)
             $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
-        $goods = $goods->where(function ($query) use ($keyword) {
-            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-        });
+
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
         return $this->respondWithPagination(
             $goods,
