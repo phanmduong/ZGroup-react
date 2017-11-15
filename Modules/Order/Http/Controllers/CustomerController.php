@@ -31,11 +31,11 @@ class CustomerController extends ManageApiController
             $customerIds = Order::where('status_paid', $status)->select('user_id')->get();
             $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
                 $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
-            })->orderBy("created_at","desc")->paginate($limit);
+            })->orderBy("created_at", "desc")->paginate($limit);
         } else {
             $users = User::where('type', 'customer')->where(function ($query) use ($keyword) {
                 $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('id', $keyword);
-            })->orderBy("created_at","desc")->paginate($limit);
+            })->orderBy("created_at", "desc")->paginate($limit);
         }
 
 
