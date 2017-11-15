@@ -4,6 +4,7 @@ namespace Modules\Good\Http\Controllers;
 
 use App\Good;
 use App\DeletedGood;
+use App\GoodCategory;
 use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
@@ -267,59 +268,20 @@ class GoodController extends ManageApiController
         $good_category_id = $request->good_category_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
-        $status = $request->status;
+        $sale_status = $request->sale_status;
+        $display_status = $request->display_status;
+        $highlight_status = $request->highlight_status;
 
-        if ($limit == -1) {
-            if ($type) {
-                $goods = Good::where('type', $type)->where(function ($query) use ($keyword) {
-                    $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-                });
-            } else {
-                $goods = Good::where(function ($query) use ($keyword) {
-                    $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-                });
-            }
-            $goods = $goods->orderBy("created_at", "desc")->limit(20)->get();
-            return $this->respondSuccessWithStatus([
-                'goods' => $goods->map(function ($good) {
-                    return $good->transform();
-                })
-            ]);
+        $goods = Good::query();
+        if ($sale_status) {
+            $goods = $goods->where('sale_status', $sale_status);
         }
-        if ($status) {
-            if ($status == 'deleted') {
-                $goods = DeletedGood::where('status', 'deleted');
-                $goods->where(function ($query) use ($keyword) {
-                    $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-                });
-                if ($type)
-                    $goods = $goods->where("type", $type);
-                if ($manufacture_id)
-                    $goods = $goods->where('manufacture_id', $manufacture_id);
-                if ($good_category_id)
-                    $goods = $goods->where('good_category_id', $good_category_id);
-                if ($startTime)
-                    $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
-                $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
-                return $this->respondWithPagination(
-                    $goods,
-                    [
-                        "goods" => $goods->map(function ($good) {
-                            return $good->transform();
-                        })
-                    ]
-                );
-            } else
-                $goods = Good::where('status', $status);
-
-            $goods = $goods->where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            });
-        } else
-            $goods = Good::where(function ($query) use ($keyword) {
-                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            });
-
+        if ($display_status) {
+            $goods = $goods->where('display_status', $display_status);
+        }
+        if ($highlight_status) {
+            $goods = $goods->where('highlight_status', $highlight_status);
+        }
         if ($type)
             $goods = $goods->where("type", $type);
         if ($manufacture_id)
@@ -328,6 +290,9 @@ class GoodController extends ManageApiController
             $goods = $goods->where('good_category_id', $good_category_id);
         if ($startTime)
             $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
+        $goods = $goods->where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+        });
         $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
         return $this->respondWithPagination(
             $goods,
