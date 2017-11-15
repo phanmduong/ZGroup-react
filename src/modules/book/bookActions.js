@@ -276,3 +276,36 @@ export function loadTaskListTemplate(taskListId) {
             });
     };
 }
+
+export function showTaskListTemplateSettingModal(showModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.SHOW_TASK_LIST_TEMPLATE_SETTING_MODAL,
+            showModal
+        });
+    };
+}
+
+export function loadTaskListTemplateSetting(taskListTemplateId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TASK_LIST_TEMPLATE_SETTING
+        });
+        bookApi.loadTaskListTemplateSetting(taskListTemplateId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LIST_TEMPLATE_SETTING_SUCCESS,
+                    boards: res.data.data.boards
+                });
+            });
+    };
+}
+
+export function handleChangeBoxTaskListTemplateSetting(board) {
+    return function (dispatch) {
+        dispatch({
+            type: types.HANDLE_TASK_LIST_TEMPLATE_SETTING_CHECKBOX_CHANGE,
+            board
+        });
+    };
+}

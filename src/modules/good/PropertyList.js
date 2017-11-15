@@ -111,7 +111,8 @@ class PropertyList extends React.Component {
 }
 
 PropertyList.propTypes = {
-    propertyItems: PropTypes.array.isRequired
+    propertyItems: PropTypes.array.isRequired,
+    goodActions: PropTypes.object.isRequired
 };
 
 export default PropertyList;

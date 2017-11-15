@@ -8,28 +8,29 @@ import * as goodActions from "../good/goodActions";
 import AddMemberToTaskModalContainer from "../tasks/card/taskList/AddMemberToTaskModalContainer";
 import TaskSpanModalContainer from "../book/TaskSpanModalContainer";
 import Loading from "../../components/common/Loading";
-import {ListGroup, ListGroupItem} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 import TaskTemplateItem from "../book/TaskTemplateItem";
 import {Link} from "react-router";
 import AddPropertyItemsToTaskModalContainer from "./AddPropertyItemsToTaskModalContainer";
 import {updateTasksOrder} from '../tasks/taskApi';
+import TaskListTemplateSettingModalContainer from "../book/TaskListTemplateSettingModalContainer";
 
 
 class TaskListTemplateContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.addTask = this.addTask.bind(this);
+
         this.state = {
             isEditTitle: false,
             title: ""
         };
-        this.autoAssignBoardToTask = this.autoAssignBoardToTask.bind(this);
         this.toggleEditTitle = this.toggleEditTitle.bind(this);
         this.saveTitle = this.saveTitle.bind(this);
         this.onEnterKeyPress = this.onEnterKeyPress.bind(this);
         this.moveTaskDown = this.moveTaskDown.bind(this);
         this.moveTaskUp = this.moveTaskUp.bind(this);
         this.updateTasksOrder = this.updateTasksOrder.bind(this);
+        this.openSettingModal = this.openSettingModal.bind(this);
     }
 
     componentWillMount() {
@@ -61,18 +62,6 @@ class TaskListTemplateContainer extends React.Component {
         });
     }
 
-    addTask(taskList) {
-        return (event) => {
-            if (event.key === 'Enter') {
-                if (event.target.value !== "") {
-                    this.props.bookActions.createTask({
-                        title: event.target.value,
-                        task_list_id: taskList.id
-                    });
-                }
-            }
-        };
-    }
 
     onEnterKeyPress(e) {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -99,8 +88,8 @@ class TaskListTemplateContainer extends React.Component {
         this.updateTasksOrder();
     }
 
-    autoAssignBoardToTask() {
-        this.props.taskActions.autoAssignBoardToTask(this.props.taskList.id);
+    openSettingModal() {
+        this.props.bookActions.showTaskListTemplateSettingModal(true);
     }
 
     render() {
@@ -144,14 +133,16 @@ class TaskListTemplateContainer extends React.Component {
                             )}
                                 {
                                     !this.props.isLoading && (
-                                        <a onClick={this.autoAssignBoardToTask}
+                                        <a onClick={this.openSettingModal}
                                            style={{position: "absolute", right: 0, top: 0}}>
-                                            <i className="material-icons">autorenew</i>
+                                            <i className="material-icons">settings</i>
                                         </a>
                                     )
                                 }
 
                             </h4>
+
+                            <TaskListTemplateSettingModalContainer/>
 
                             {this.props.isLoading ? <Loading/> : (
                                 <div>
@@ -184,21 +175,6 @@ class TaskListTemplateContainer extends React.Component {
                                                                 task={task}
                                                                 deleteTaskTemplate={this.props.bookActions.deleteTaskTemplate}/>))
                                                 }
-                                                <ListGroupItem>
-                                                    {
-                                                        isSaving ? <Loading/> :
-                                                            (
-                                                                <div className="form-group" style={{marginTop: 0}}>
-                                                                    <input
-                                                                        placeholder="Thêm mục"
-                                                                        type="text"
-                                                                        className="form-control"
-                                                                        onKeyDown={this.addTask(taskList)}/>
-                                                                </div>
-                                                            )
-                                                    }
-
-                                                </ListGroupItem>
                                             </ListGroup>
                                         </div>
 

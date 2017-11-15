@@ -1131,22 +1131,6 @@ export function saveTaskTitle(task) {
     };
 }
 
-export function autoAssignBoardToTask(taskListId) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_LOAD_TASK_LIST_TEMPLATE
-        });
-        taskApi.autoAssignBoardToTask(taskListId)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_TASK_LIST_TEMPLATE_SUCCESS,
-                    taskList: res.data.data.tasklist
-                });
-
-            });
-    };
-}
-
 export function loadTaskListTemplates(projectId) {
     return function (dispatch) {
         dispatch({

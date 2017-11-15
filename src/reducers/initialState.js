@@ -4,18 +4,18 @@ export default {
         inventories: [],
         categories: [],
         manufactures: [],
-        totalPages:1,
+        totalPages: 1,
         currentPage: 1,
         limit: 20,
         totalCount: 1,
-        inventoryChecking:{
-            histories:[],
-            inventoryInfo:{}
+        inventoryChecking: {
+            histories: [],
+            inventoryInfo: {}
         },
-        historyModal:false,
-        count:0,
-        totalImportMoney:0,
-        totalMoney:0
+        historyModal: false,
+        count: 0,
+        totalImportMoney: 0,
+        totalMoney: 0
     },
     productList: {
         products: [],
@@ -249,6 +249,11 @@ export default {
     },
 
     book: {
+        taskListTemplateModal: {
+            showModal: false,
+            boards: [],
+            isLoading: false
+        },
         taskSpan: {
             showModal: false,
             hours: 0,
@@ -869,10 +874,10 @@ export default {
     },
 
     customers: {
-        customersList : [],
-        isLoading : true,
-        totalPages : 10,
-        totalMoneys : 10,
-        totalDebtMoneys : 10,
+        customersList: [],
+        isLoading: true,
+        totalPages: 10,
+        totalMoneys: 10,
+        totalDebtMoneys: 10,
     },
 };
