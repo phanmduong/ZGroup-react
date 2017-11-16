@@ -86,7 +86,6 @@ class Good extends Model
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'updated_at' => format_vn_short_datetime(strtotime($this->updated_at)),
             'price' => $this->price,
-            //'status' => $this->status,
             'sale_status' => $this->sale_status,
             'display_status' => $this->display_status,
             'highlight_status' => $this->highlight_status,
@@ -111,6 +110,14 @@ class Good extends Model
         });
         $data['properties'] = $this->properties->map(function ($property) {
             return $property->transform();
+        });
+        $data['good_warehouses'] = $this->goodWarehouse->map(function ($goodwarehouse) {
+
+            return [
+                'warehouse' => $goodwarehouse->warehouse->Transform(),
+                'base' => $goodwarehouse->warehouse->base->Transform(),
+                'quantity' => $goodwarehouse->quantity
+            ];
         });
         return $data;
     }
