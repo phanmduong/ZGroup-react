@@ -51,7 +51,8 @@ class SendSurvey extends Command
         foreach ($classLessons as $classLesson) {
             $lesson = $classLesson->lesson;
             $class = $classLesson->studyClass;
-            if ($class->schedule) {
+            $schedule = $class->schedule;
+            if ($schedule && $schedule->studySessions) {
 
                 $session = $class->schedule->studySessions->filter(function ($s) use ($date) {
                     $weekdayNumber = $date->format('N');
