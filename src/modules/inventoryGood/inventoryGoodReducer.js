@@ -31,10 +31,11 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
         case types.SAVE_HISTORY_INVENTORY_GOOD:
             return {
                 ...state,
+                isLoadingHistoryModal: false,
                 inventoryChecking: {
                     ...state.inventoryChecking,
                     histories: action.histories,
-                    inventoryInfo: action.inventoryInfo
+                    inventoryInfo: action.inventoryInfo,
                 }
             };
         case types.TOGGLE_HISTORY_MODAL_INVENTORY_GOOD:
@@ -48,6 +49,11 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
                 count: action.count,
                 totalImportMoney: action.totalImportMoney,
                 totalMoney: action.totalMoney
+            };
+        case types.BEGIN_LOAD_HISTORY_INVENTORY_GOOD:
+            return {
+                ...state,
+                isLoadingHistoryModal: true
             };
         default:
             return state;

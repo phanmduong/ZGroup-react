@@ -76,10 +76,10 @@ class ProductListComponent extends React.Component {
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showWareHouseModal(product)}>
                                             {
-                                                !product.warehouses ? (
+                                                product.good_warehouses.length === 0 ? (
                                                     <p>Chưa có</p>
                                                 ) : (
-                                                    <p>{product.warehouses.length}</p>
+                                                    <p>{product.good_warehouses.length} kho</p>
                                                 )
                                             }
                                         </a>

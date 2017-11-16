@@ -59,6 +59,9 @@ export function saveCategoriesInventoryGood(categories) {
 
 export function getHistoryInventories(inventory) {
     return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_HISTORY_INVENTORY_GOOD
+        });
         inventoryGoodApi.getHistoryInventoriesApi(inventory.id)
             .then(function (response) {
                 dispatch({
@@ -66,7 +69,6 @@ export function getHistoryInventories(inventory) {
                     histories: response.data.data.history,
                     inventoryInfo: inventory
                 });
-                dispatch(showHistoryModal());
             })
             .catch(function (error) {
                 throw(error);

@@ -12,6 +12,7 @@ import FormInputDate from "../../components/common/FormInputDate";
 import * as helper from '../../helpers/helper';
 import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
+import * as inventoryGoodAction from '../inventoryGood/inventoryGoodAction';
 
 class ProductListContainer extends React.Component {
     constructor(props, context) {
@@ -54,7 +55,15 @@ class ProductListContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.modalUpdated) {
-            this.props.productListAction.getProducts();
+            this.props.productListAction.getProducts(
+                this.state.page,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                this.state.status
+            );
         }
     }
 
@@ -163,7 +172,7 @@ class ProductListContainer extends React.Component {
         if (value) {
             status.sale = value.value;
             this.setState({
-                status:status
+                status: status
             });
             this.props.productListAction.getProducts(
                 1,
@@ -196,7 +205,7 @@ class ProductListContainer extends React.Component {
         if (value) {
             status.display = value.value;
             this.setState({
-                status:status
+                status: status
             });
             this.props.productListAction.getProducts(
                 1,
@@ -229,7 +238,7 @@ class ProductListContainer extends React.Component {
         if (value) {
             status.highlight = value.value;
             this.setState({
-                status:status
+                status: status
             });
             this.props.productListAction.getProducts(
                 1,
@@ -291,7 +300,9 @@ class ProductListContainer extends React.Component {
 
     showWareHouseModal(product) {
         this.props.modalProductAction.showWareHouseModal();
+        this.props.modalProductAction.openWareHouseTab();
         this.props.modalProductAction.handleProduct(product);
+        this.props.inventoryGoodAction.getHistoryInventories(product);
     }
 
     showAvatarModal(product) {
@@ -419,11 +430,11 @@ class ProductListContainer extends React.Component {
                                                             options={[
                                                                 {
                                                                     value: 1,
-                                                                    label: "HIỂN THỊ RA WEB"
+                                                                    label: "HIỂN THỊ RA WEBSITE"
                                                                 },
                                                                 {
                                                                     value: "0",
-                                                                    label: "KHÔNG HIỂN THỊ RA WEB"
+                                                                    label: "KHÔNG HIỂN THỊ RA WEBSITE"
                                                                 }
                                                             ]}
                                                             onChange={this.displayStatusChange}
@@ -509,17 +520,22 @@ class ProductListContainer extends React.Component {
                                                     </div>
                                                     <div rel="tooltip" data-placement="top" title=""
                                                          className="btn btn-danger btn-simple"
-                                                    >Hiển thị ra web: {this.props.productsDisplay}
+                                                    >Hiển thị ra website: {this.props.productsDisplay}
                                                         <div className="ripple-container"/>
                                                     </div>
                                                     <div rel="tooltip" data-placement="top" title=""
                                                          className="btn btn-danger btn-simple"
-                                                    >Không hiển thị ra web: {this.props.productsNotDisplay}
+                                                    >Không hiển thị ra website: {this.props.productsNotDisplay}
                                                         <div className="ripple-container"/>
                                                     </div>
                                                     <div rel="tooltip" data-placement="top" title=""
                                                          className="btn btn-danger btn-simple"
-                                                    >Đã xóa: {this.props.productsDeleted}
+                                                    >Nổi bật: {this.props.productsHighlight}
+                                                        <div className="ripple-container"/>
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
+                                                    >Không nổi bật: {this.props.productsNotHighlight}
                                                         <div className="ripple-container"/>
                                                     </div>
                                                     <div rel="tooltip" data-placement="top" title=""
@@ -586,14 +602,16 @@ ProductListContainer.propTypes = {
     productsNotBusiness: PropTypes.number.isRequired,
     productsDisplay: PropTypes.number.isRequired,
     productsNotDisplay: PropTypes.number.isRequired,
-    productsDeleted: PropTypes.number.isRequired,
     productsQuantity: PropTypes.number.isRequired,
     categories: PropTypes.array.isRequired,
     manufactures: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,
-    totalCount: PropTypes.number.isRequired
+    totalCount: PropTypes.number.isRequired,
+    productsHighlight: PropTypes.number.isRequired,
+    productsNotHighlight: PropTypes.number.isRequired,
+    inventoryGoodAction: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -604,8 +622,9 @@ function mapStateToProps(state) {
         productsNotBusiness: state.productList.productsNotBusiness,
         productsDisplay: state.productList.productsDisplay,
         productsNotDisplay: state.productList.productsNotDisplay,
-        productsDeleted: state.productList.productsDeleted,
         productsQuantity: state.productList.productsQuantity,
+        productsHighlight: state.productList.productsHighlight,
+        productsNotHighlight: state.productList.productsNotHighlight,
         isLoading: state.productList.isLoading,
         modalUpdated: state.productList.modalInProduct.modalUpdated,
         categories: state.productList.categories,
@@ -613,14 +632,15 @@ function mapStateToProps(state) {
         totalPages: state.productList.totalPages,
         currentPage: state.productList.currentPage,
         limit: state.productList.limit,
-        totalCount: state.productList.totalCount,
+        totalCount: state.productList.totalCount
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         productListAction: bindActionCreators(productListAction, dispatch),
-        modalProductAction: bindActionCreators(modalProductAction, dispatch)
+        modalProductAction: bindActionCreators(modalProductAction, dispatch),
+        inventoryGoodAction: bindActionCreators(inventoryGoodAction, dispatch)
     };
 }
 

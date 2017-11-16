@@ -114,8 +114,9 @@ class InventoryGoodContainer extends React.Component {
         }
     }
 
-    getHistoryInventories(id) {
-        this.props.inventoryGoodAction.getHistoryInventories(id);
+    getHistoryInventories(inventory) {
+        this.props.inventoryGoodAction.showHistoryModal();
+        this.props.inventoryGoodAction.getHistoryInventories(inventory);
     }
 
     render() {
@@ -218,22 +219,22 @@ class InventoryGoodContainer extends React.Component {
                                             </div>
                                             <div className="card-footer">
                                                 <div style={{float: "right"}}>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-success btn-simple disabled"
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-success btn-simple"
                                                     >Tổng số lượng: {dotNumber(this.props.count)}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-info btn-simple disabled"
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-info btn-simple"
                                                     >Tổng vốn tồn kho: {dotNumber(this.props.totalImportMoney)}đ
                                                         {dotNumber(this.props.totalImportMoney)}đ
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
                                                     >Tổng giá trị tồn kho: {dotNumber(this.props.totalMoney)}đ
                                                         <div className="ripple-container"/>
-                                                    </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

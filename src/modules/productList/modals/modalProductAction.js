@@ -48,3 +48,20 @@ export function showAvatarModal() {
 
     };
 }
+
+export function openWareHouseTab() {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_WAREHOUSE_TAB_PRODUCT_LIST
+        });
+    };
+}
+
+export function openHistoryTab() {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_HISTORY_TAB_PRODUCT_LIST
+        });
+    };
+}
+

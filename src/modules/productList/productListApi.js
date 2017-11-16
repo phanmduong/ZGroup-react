@@ -25,7 +25,7 @@ export function getProductsApi(page, search, start_time, end_time, manufacture_i
     if (good_category_id) {
         url += "&good_category_id=" + good_category_id;
     }
-    if(status){
+    if (status) {
         if (status.sale) {
             url += "&sale_status=" + status.sale;
         }

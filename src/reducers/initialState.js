@@ -1,22 +1,24 @@
 export default {
     inventoryGood: {
         isLoading: false,
+        isLoadingHistoryModal:false,
         inventories: [],
         categories: [],
         manufactures: [],
-        totalPages:1,
+        totalPages: 1,
         currentPage: 1,
         limit: 20,
         totalCount: 1,
-        inventoryChecking:{
-            histories:[],
-            inventoryInfo:{}
+        inventoryChecking: {
+            histories: [],
+            inventoryInfo: {}
         },
-        historyModal:false,
-        count:0,
-        totalImportMoney:0,
-        totalMoney:0
+        historyModal: false,
+        count: 0,
+        totalImportMoney: 0,
+        totalMoney: 0
     },
+
     productList: {
         products: [],
         productsTotal: 0,
@@ -26,11 +28,14 @@ export default {
         productsNotDisplay: 0,
         productsDeleted: 0,
         productsQuantity: 0,
+        productsHighlight: 0,
+        productsNotHighlight: 0,
         totalPages: 1,
         currentPage: 1,
         limit: 20,
         totalCount: 1,
         isLoading: false,
+        showWareHouse: true,
         modalInProduct: {
             priceModal: false,
             wareHouseModal: false,
@@ -847,10 +852,10 @@ export default {
     },
 
     customers: {
-        customersList : [],
-        isLoading : true,
-        totalPages : 10,
-        totalMoneys : 10,
-        totalDebtMoneys : 10,
+        customersList: [],
+        isLoading: true,
+        totalPages: 10,
+        totalMoneys: 10,
+        totalDebtMoneys: 10,
     },
 };

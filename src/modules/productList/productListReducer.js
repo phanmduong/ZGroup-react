@@ -23,7 +23,9 @@ export default function productListReducer(state = initialState.productList, act
                 productsDisplay: action.productsDisplay,
                 productsNotDisplay: action.productsNotDisplay,
                 productsDeleted: action.productsDeleted,
-                productsQuantity: action.productsQuantity
+                productsQuantity: action.productsQuantity,
+                productsHighlight: action.productsHighlight,
+                productsNotHighlight: action.productsNotHighlight
             };
         case types.TOGGLE_PRICE_MODAL:
             return {
@@ -136,6 +138,16 @@ export default function productListReducer(state = initialState.productList, act
                     ...state.productEditing,
                     status: action.status
                 }
+            };
+        case types.OPEN_WAREHOUSE_TAB_PRODUCT_LIST:
+            return {
+                ...state,
+                showWareHouse: true
+            };
+        case types.OPEN_HISTORY_TAB_PRODUCT_LIST:
+            return {
+                ...state,
+                showWareHouse: false
             };
         default:
             return state;

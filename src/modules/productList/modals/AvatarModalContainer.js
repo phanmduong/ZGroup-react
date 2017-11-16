@@ -12,7 +12,6 @@ import Loading from "../../../components/common/Loading";
 class AvatarModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.showAvatarModal = this.showAvatarModal.bind(this);
         this.removeImageChange = this.removeImageChange.bind(this);
         this.changeAvatar = this.changeAvatar.bind(this);
         this.handleProduct = this.handleProduct.bind(this);
@@ -33,11 +32,6 @@ class AvatarModalContainer extends React.Component {
 
     changeSelectCategory(value) {
         this.props.modalProductAction.handleCategory(value.id);
-    }
-
-    showAvatarModal(e) {
-        e.preventDefault();
-        this.props.showAvatarModal(this.props.productEditing.productPresent);
     }
 
     removeImageChange(e) {
@@ -82,7 +76,9 @@ class AvatarModalContainer extends React.Component {
     render() {
         return (
             <Modal show={this.props.avatarModal}
-                   onHide={this.showAvatarModal}>
+                   onHide={() => this.props.showAvatarModal(this.props.productEditing.productPresent)}>
+                <a onClick={() => this.props.showAvatarModal(this.props.productEditing.productPresent)}
+                   id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title className="modal-title">Thông tin sản phẩm</Modal.Title>
                 </Modal.Header>
@@ -286,7 +282,7 @@ class AvatarModalContainer extends React.Component {
                                         <button rel="tooltip" data-placement="top" title=""
                                                 data-original-title="Remove item" type="button"
                                                 className="btn btn-danger btn-round" data-dismiss="modal"
-                                                onClick={this.showAvatarModal}>
+                                                onClick={() => this.props.showAvatarModal(this.props.productEditing.productPresent)}>
                                             <i className="material-icons">close</i> Huỷ
                                         </button>
                                     </div>

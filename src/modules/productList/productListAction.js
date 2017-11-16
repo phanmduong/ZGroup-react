@@ -14,10 +14,12 @@ export function getProducts(page, search, start_time, end_time, manufacture_id, 
                     productsTotal: response.data.data.total,
                     productsBusiness: response.data.data.for_sale,
                     productsNotBusiness: response.data.data.not_for_sale,
-                    productsDisplay: response.data.data.show,
-                    productsNotDisplay: response.data.data.not_show,
+                    productsDisplay: response.data.data.display_on,
+                    productsNotDisplay: response.data.data.display_off,
                     productsDeleted: response.data.data.deleted,
-                    productsQuantity: response.data.data.total_quantity
+                    productsQuantity: response.data.data.total_quantity,
+                    productsHighlight: response.data.data.highlight_on,
+                    productsNotHighlight: response.data.data.highlight_off
                 });
             })
             .catch(function (error) {
@@ -135,7 +137,12 @@ export function uploadEditProduct(productPresent, manufacture_id, category_id) {
     return function (dispatch) {
         dispatch(updatingProductListModal(true));
         productListApi.uploadEditProductApi(productPresent, manufacture_id, category_id)
-            .then(function () {
+            .then(function (response) {
+                if (response.data.status) {
+                    showNotification("Cập nhật sản phẩm thành công");
+                } else {
+                    showErrorNotification("Bạn cần nhập đầy đủ thông tin");
+                }
                 dispatch(updatingProductListModal(false));
                 dispatch({
                     type: types.TOGGLE_AVATAR_MODAL
