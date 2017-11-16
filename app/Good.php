@@ -80,10 +80,7 @@ class Good extends Model
 
     public function getData()
     {
-        $total = $this->goodWarehouse->reduce(function ($total, $var) {
-            return $total + $var->quantity;
-        });
-        if ($total === null) $total = 0;
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -100,7 +97,7 @@ class Good extends Model
             'avatar_url' => $this->avatar_url,
             'cover_url' => $this->cover_url,
             'code' => $this->code,
-            'total_quantity_in_warehouses' => $total
+
         ];
     }
 
