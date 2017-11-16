@@ -93,7 +93,7 @@ class TaskListTemplateContainer extends React.Component {
     }
 
     render() {
-        const {taskList, isSaving} = this.props;
+        const {taskList} = this.props;
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
@@ -199,7 +199,6 @@ class TaskListTemplateContainer extends React.Component {
 }
 
 TaskListTemplateContainer.propTypes = {
-    isSaving: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     bookActions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -210,7 +209,6 @@ TaskListTemplateContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isSaving: state.book.taskListDetail.isSaving,
         isLoading: state.book.taskListDetail.isLoading,
         taskList: state.book.taskListDetail.taskList
     };

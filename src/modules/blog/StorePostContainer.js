@@ -141,6 +141,7 @@ class StorePostContainer extends React.Component {
 
 StorePostContainer.propTypes = {
     post: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     category: PropTypes.object.isRequired,
     blogActions: PropTypes.object.isRequired,
     categories: PropTypes.array.isRequired,
