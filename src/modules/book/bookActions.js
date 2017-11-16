@@ -127,16 +127,6 @@ export function closeTaskListDetailModal() {
     };
 }
 
-export function deleteTaskTemplate(task) {
-    return function (dispatch) {
-        dispatch({
-            type: types.DELETE_TASK_TEMPLATE,
-            task
-        });
-        taskApi.deleteTask(task);
-    };
-}
-
 export function createTask(task) {
     return function (dispatch) {
         dispatch({

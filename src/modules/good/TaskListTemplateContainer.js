@@ -8,7 +8,6 @@ import * as goodActions from "../good/goodActions";
 import AddMemberToTaskModalContainer from "../tasks/card/taskList/AddMemberToTaskModalContainer";
 import TaskSpanModalContainer from "../book/TaskSpanModalContainer";
 import Loading from "../../components/common/Loading";
-import {ListGroup} from "react-bootstrap";
 import TaskTemplateItem from "../book/TaskTemplateItem";
 import {Link} from "react-router";
 import AddPropertyItemsToTaskModalContainer from "./AddPropertyItemsToTaskModalContainer";
@@ -27,8 +26,6 @@ class TaskListTemplateContainer extends React.Component {
         this.toggleEditTitle = this.toggleEditTitle.bind(this);
         this.saveTitle = this.saveTitle.bind(this);
         this.onEnterKeyPress = this.onEnterKeyPress.bind(this);
-        this.moveTaskDown = this.moveTaskDown.bind(this);
-        this.moveTaskUp = this.moveTaskUp.bind(this);
         this.updateTasksOrder = this.updateTasksOrder.bind(this);
         this.openSettingModal = this.openSettingModal.bind(this);
     }
@@ -76,16 +73,6 @@ class TaskListTemplateContainer extends React.Component {
         this.timeout = setTimeout(() => {
             updateTasksOrder(this.props.taskList.tasks);
         }, 500);
-    }
-
-    moveTaskUp(task) {
-        this.props.taskActions.moveTaskUp(this.props.taskList, task);
-        this.updateTasksOrder();
-    }
-
-    moveTaskDown(task) {
-        this.props.taskActions.moveTaskDown(this.props.taskList, task);
-        this.updateTasksOrder();
     }
 
     openSettingModal() {
@@ -156,26 +143,23 @@ class TaskListTemplateContainer extends React.Component {
                                         <TaskSpanModalContainer/>
 
                                         <div key={taskList.id}>
-                                            <ListGroup>
+                                            <ul className="timeline timeline-simple">
                                                 {
                                                     taskList.tasks && taskList.tasks
                                                         .sort((a, b) => a.order - b.order)
-                                                        .map((task) =>
+                                                        .map((task, index) =>
                                                             (<TaskTemplateItem
-                                                                canMoveUp={task.order !== 0}
-                                                                canMoveDown={task.order !== taskList.tasks.length - 1}
+                                                                index={index}
                                                                 isTemplate={true}
-                                                                moveTaskUp={this.moveTaskUp}
-                                                                moveTaskDown={this.moveTaskDown}
                                                                 type={taskList.type}
                                                                 openAddPropertyItemToTaskModal={this.props.goodActions.openAddPropertyItemModal}
                                                                 openTaskSpanModal={this.props.bookActions.openTaskSpanModal}
                                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                                 key={task.id}
-                                                                task={task}
-                                                                deleteTaskTemplate={this.props.bookActions.deleteTaskTemplate}/>))
+                                                                task={task}/>))
                                                 }
-                                            </ListGroup>
+                                            </ul>
+
                                         </div>
 
                                     </div>
