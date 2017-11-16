@@ -1,8 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {bindActionCreators} from 'redux';
-import * as customerActions from './customerActions';
 import FormInputText from '../../components/common/FormInputText';
 import FormInputSelect from '../../components/common/FormInputSelect';
 import FormInputDate from '../../components/common/FormInputDate';
@@ -91,16 +88,5 @@ AddCustomerModal.propTypes = {
 };
 
 
-function mapStateToProps(state) {
-    return {
-        isShowModal: state.wareHouses.modal.isShowModal,
-    };
-}
 
-function mapDispatchToProps(dispatch) {
-    return {
-        customerActions: bindActionCreators(customerActions, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddCustomerModal);
+export default AddCustomerModal;
