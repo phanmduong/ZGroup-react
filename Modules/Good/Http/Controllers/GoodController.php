@@ -327,11 +327,14 @@ class GoodController extends ManageApiController
     public function statusCount()
     {
         $total = Good::all()->count();
-        $for_sale = Good::where('status', 'for_sale')->count();
-        $not_for_sale = Good::where('status', 'not_for_sale')->count();
-        $deleted = DB::table('goods')->where('status', 'deleted')->count();
-        $show = Good::where('status', 'show')->count();
-        $not_show = Good::where('status', 'not_show')->count();
+        $for_sale = Good::where('sale_status', 1)->count();
+        $not_for_sale = Good::where('sale_status', 0)->count();
+        $display_on = Good::where('display_status', 1)->count();
+        $display_off = Good::where('display_status', 0)->count();
+
+        $highlight_on = Good::where('highlight_status', 1)->count();
+        $highlight_off = Good::where('highlight_status', 0)->count();
+
 
         $goods = Good::orderBy('created_at', 'desc')->get();
 
@@ -346,9 +349,10 @@ class GoodController extends ManageApiController
             'total_quantity' => $total_quantity,
             'for_sale' => $for_sale,
             'not_for_sale' => $not_for_sale,
-            'deleted' => $deleted,
-            'show' => $show,
-            'not_show' => $not_show,
+            'display_on' => $display_on,
+            'display_off' => $display_off,
+            'highlight_on' => $highlight_on,
+            'highlight_off' => $highlight_off
 
         ]);
     }
