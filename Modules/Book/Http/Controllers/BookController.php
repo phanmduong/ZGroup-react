@@ -72,7 +72,9 @@ class BookController extends ManageApiController
 
     public function storeTaskListTasks($taskListTemplateId, Request $request)
     {
-        $boards = collect(json_decode($request->boards));
+        $boards = collect(json_decode($request->boards))->filter(function ($board) {
+            return $board->checked;
+        });
         $boardIds = $boards->map(function ($board) {
             return $board->id;
         })->toArray();
@@ -86,24 +88,27 @@ class BookController extends ManageApiController
         $currentBoardIds = $tasks->pluck("current_board_id")->toArray();
 
         foreach ($boards as $board) {
-            if (!in_array($board->id, $currentBoardIds)) {
+            if (!in_array($board->id, $currentBoardIds) && in_array($board->id, $boardIds)) {
                 $task = new Task();
                 $task->title = $board->title;
                 $task->task_list_id = $taskListTemplateId;
                 $task->status = 0;
                 $task->current_board_id = $board->id;
                 $task->order = $board->order;
+                $task->creator_id = $this->user->id;
+                $task->editor_id = $this->user->id;
                 $task->task_template_id = 0;
                 $task->save();
             }
         }
 
-        $count = $taskListTemplate->tasks()->count();
-
-        $tasks = $tasks->toArray();
+        $tasks = $taskListTemplate->tasks()->orderBy("order")->get();
+        $count = count($tasks);
         for ($i = 0; $i < $count - 1; $i += 1) {
-            $tasks[$i]->target_board_id = $tasks[$i + 1]->current_board_id;
-            $tasks[$i]->save();
+            $task = $tasks->get($i);
+            $nextTask = $tasks->get($i + 1);
+            $task->target_board_id = $nextTask->current_board_id;
+            $task->save();
         }
 
 //        $boards =
