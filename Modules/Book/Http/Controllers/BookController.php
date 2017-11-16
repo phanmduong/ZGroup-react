@@ -5,6 +5,7 @@ namespace Modules\Book\Http\Controllers;
 use App\Board;
 use App\Http\Controllers\ManageApiController;
 use App\Project;
+use App\Task;
 use Illuminate\Http\Request;
 use Modules\Task\Entities\TaskList;
 use Modules\Task\Repositories\ProjectRepository;
@@ -33,6 +34,24 @@ class BookController extends ManageApiController
             })]);
     }
 
+    public function getTaskListTemplateSetting($taskListTemplateId)
+    {
+        $taskListTemplate = TaskList::find($taskListTemplateId);
+        $type = $taskListTemplate->type;
+        $project = Project::where("status", $type)->first();
+        if ($project == null) {
+            return $this->respondErrorWithStatus("Không tìm thấy dự án sản xuất");
+        }
+        $boards = $project->boards()
+            ->where("status", "open")
+            ->orderBy("order")->get()->map(function ($board) use ($taskListTemplate) {
+                return $board->transformWithTaskList($taskListTemplate);
+            });
+        return $this->respondSuccessWithStatus([
+            "boards" => $boards
+        ]);
+    }
+
     public function getAllTaskListTemplates()
     {
         $taskListTemplates = TaskList::where("card_id", 0)->orderBy("title")->get();
@@ -49,6 +68,49 @@ class BookController extends ManageApiController
                 })
             ]
         );
+    }
+
+    public function storeTaskListTasks($taskListTemplateId, Request $request)
+    {
+        $boards = collect(json_decode($request->boards));
+        $boardIds = $boards->map(function ($board) {
+            return $board->id;
+        })->toArray();
+
+        $taskListTemplate = TaskList::find($taskListTemplateId);
+
+        $taskListTemplate->tasks()->whereNotIn('current_board_id', $boardIds)->delete();
+
+        $tasks = $taskListTemplate->tasks()->orderBy("order")->get();
+
+        $currentBoardIds = $tasks->pluck("current_board_id")->toArray();
+
+        foreach ($boards as $board) {
+            if (!in_array($board->id, $currentBoardIds)) {
+                $task = new Task();
+                $task->title = $board->title;
+                $task->task_list_id = $taskListTemplateId;
+                $task->status = 0;
+                $task->current_board_id = $board->id;
+                $task->order = $board->order;
+                $task->task_template_id = 0;
+                $task->save();
+            }
+        }
+
+        $count = $taskListTemplate->tasks()->count();
+
+        $tasks = $tasks->toArray();
+        for ($i = 0; $i < $count - 1; $i += 1) {
+            $tasks[$i]->target_board_id = $tasks[$i + 1]->current_board_id;
+            $tasks[$i]->save();
+        }
+
+//        $boards =
+//            transformWithOrderedTasks
+        return $this->respondSuccessWithStatus([
+            "task_list_template" => $taskListTemplate->transformWithOrderedTasks()
+        ]);
     }
 
     public function storeTaskList(Request $request)
