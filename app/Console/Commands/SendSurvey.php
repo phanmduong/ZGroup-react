@@ -67,7 +67,7 @@ class SendSurvey extends Command
                             $time_display = $lessonSurvey->time_display;
                             $start_time = date("H:i", strtotime($session->start_time) + ($start_time_display * 60));
 
-                            $start_time_delay = strtotime($start_time) - strtotime('01:00');
+                            $start_time_delay = strtotime($start_time) - time();
 
                             $create_survey_job = (new CreateSurvey($class, $survey))->delay($start_time_delay);
                             $this->dispatch($create_survey_job);
