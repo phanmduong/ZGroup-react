@@ -819,34 +819,37 @@ class PublicController extends Controller
         foreach ($classLessons as $classLesson) {
             $lesson = $classLesson->lesson;
             $class = $classLesson->studyClass;
-            $session = $class->schedule->studySessions->filter(function ($s) use ($date) {
-                $weekdayNumber = $date->format('N');
-                return $weekdayNumber == weekdayViToNumber($s->weekday);
-            })->last();
+            if ($class->schedule) {
+                $session = $class->schedule->studySessions->filter(function ($s) use ($date) {
+                    $weekdayNumber = $date->format('N');
+                    return $weekdayNumber == weekdayViToNumber($s->weekday);
+                })->last();
 
 
-            $surveys = $lesson->surveys;
-            if ($session) {
-                foreach ($surveys as $survey) {
-                    if ($survey->active) {
-                        $lessonSurvey = LessonSurvey::where('lesson_id', $lesson->id)->where('survey_id', $survey->id)->first();
-                        if ($lessonSurvey) {
-                            $start_time_display = $lessonSurvey->start_time_display;
-                            $time_display = $lessonSurvey->time_display;
-                            $start_time = date("H:i", strtotime($session->start_time) + ($start_time_display * 60));
+                $surveys = $lesson->surveys;
+                if ($session) {
+                    foreach ($surveys as $survey) {
+                        if ($survey->active) {
+                            $lessonSurvey = LessonSurvey::where('lesson_id', $lesson->id)->where('survey_id', $survey->id)->first();
+                            if ($lessonSurvey) {
+                                $start_time_display = $lessonSurvey->start_time_display;
+                                $time_display = $lessonSurvey->time_display;
+                                $start_time = date("H:i", strtotime($session->start_time) + ($start_time_display * 60));
 
-                            $start_time_delay = strtotime($start_time) - time();
+                                $start_time_delay = strtotime($start_time) - time();
 
-                            $create_survey_job = (new CreateSurvey($class, $survey))->delay($start_time_delay);
+                                $create_survey_job = (new CreateSurvey($class, $survey))->delay($start_time_delay);
 //                            $this->dispatch($create_survey_job);
 
-                            $end_time_delay = $start_time_delay + $time_display * 60;
-                            $close_survey_job = (new CloseSurvey($class, $survey))->delay($end_time_delay);
+                                $end_time_delay = $start_time_delay + $time_display * 60;
+                                $close_survey_job = (new CloseSurvey($class, $survey))->delay($end_time_delay);
 //                            $this->dispatch($close_survey_job);
+                            }
                         }
                     }
                 }
             }
+
         }
         return "done";
     }
