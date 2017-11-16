@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
-import {generateDatatableLanguage} from "../../helpers/helper";
+import {confirm, generateDatatableLanguage} from "../../helpers/helper";
 
 class PropertyList extends React.Component {
     constructor(props, context) {
@@ -50,6 +50,7 @@ class PropertyList extends React.Component {
         });
         $.material.init();
         $(".form-group").css("margin-top", "0px");
+        this.table = table;
     }
 
     render() {
@@ -81,7 +82,7 @@ class PropertyList extends React.Component {
                     {
                         this.props.propertyItems && this.props.propertyItems.map((item) => {
                             return (
-                                <tr key={item.id}>
+                                <tr key={item.id} id={`tr${item.id}`}>
                                     <td>{item.name}</td>
                                     <td>{item.prevalue.split(",").join(", ")}</td>
                                     <td>{item.preunit.split(",").join(", ")}</td>
@@ -92,7 +93,11 @@ class PropertyList extends React.Component {
                                             delete={() => {
                                                 if (confirm("warning", "Xác nhận xoá", "Bạn có chắc chắc muốn xoá thuộc tính này?",
                                                         () => {
-                                                            this.props.goodActions.deletePropertyItem(item.id);
+                                                            this.props.deletePropertyItem(item.id);
+                                                            this.table
+                                                                .row($(`#tr${item.id}`))
+                                                                .remove()
+                                                                .draw();
                                                         })) ;
 
                                             }}
@@ -112,7 +117,7 @@ class PropertyList extends React.Component {
 
 PropertyList.propTypes = {
     propertyItems: PropTypes.array.isRequired,
-    goodActions: PropTypes.object.isRequired
+    deletePropertyItem: PropTypes.func.isRequired
 };
 
 export default PropertyList;

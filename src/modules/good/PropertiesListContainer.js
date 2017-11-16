@@ -6,6 +6,7 @@ import {Link} from "react-router";
 import * as goodActions from './goodActions';
 import Loading from "../../components/common/Loading";
 import PropertyList from "./PropertyList";
+import {deletePropertyItem} from "./goodApi";
 
 
 class PropertiesListContainer extends React.Component {
@@ -54,7 +55,9 @@ class PropertiesListContainer extends React.Component {
 
                             {
                                 this.props.isLoading ? <Loading/> :
-                                    <PropertyList propertyItems={this.props.propertyItems}/>
+                                    <PropertyList
+                                        deletePropertyItem={(id) => deletePropertyItem(id)}
+                                        propertyItems={this.props.propertyItems}/>
                             }
 
 
