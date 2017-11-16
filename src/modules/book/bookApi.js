@@ -90,6 +90,14 @@ export function loadFashionBoards() {
     return axios.get(url);
 }
 
+export function storeTaskListTemplateSetting(taskListTemplateId, boards) {
+    let url = env.MANAGE_API_URL + `/book/task-list-template/${taskListTemplateId}/tasks`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {boards: JSON.stringify(boards)});
+}
 
 
 

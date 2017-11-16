@@ -12,6 +12,7 @@ class TaskListTemplateSettingModalContainer extends React.Component {
         super(props, context);
         this.close = this.close.bind(this);
         this.handleCheckBoxChange = this.handleCheckBoxChange.bind(this);
+        this.save = this.save.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -32,6 +33,10 @@ class TaskListTemplateSettingModalContainer extends React.Component {
 
     close() {
         this.props.bookActions.showTaskListTemplateSettingModal(false);
+    }
+
+    save() {
+        this.props.bookActions.saveTaskListTemplateSetting(this.props.taskListTemplate.id, this.props.boards);
     }
 
     render() {
@@ -64,6 +69,7 @@ class TaskListTemplateSettingModalContainer extends React.Component {
 
                 </Modal.Body>
                 <Modal.Footer>
+                    <Button className="btn btn-rose" onClick={this.save}>Lưu</Button>
                     <Button onClick={this.close}>Close</Button>
                 </Modal.Footer>
             </Modal>

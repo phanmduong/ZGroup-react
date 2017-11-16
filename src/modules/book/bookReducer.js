@@ -6,6 +6,19 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+        case types.BEGIN_SAVE_TASK_LIST_TEMPLATE_SETTING:
+            return {
+                ...state,
+                taskListTemplateModal: {
+                    ...state.taskListTemplateModal,
+                    showModal: false
+                },
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isLoading: true
+                }
+            };
+
         case types.HANDLE_TASK_LIST_TEMPLATE_SETTING_CHECKBOX_CHANGE:
             return {
                 ...state,

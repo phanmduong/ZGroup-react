@@ -309,3 +309,21 @@ export function handleChangeBoxTaskListTemplateSetting(board) {
         });
     };
 }
+
+export function saveTaskListTemplateSetting(taskListTemplateId, boards) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_TASK_LIST_TEMPLATE_SETTING,
+        });
+
+        bookApi.storeTaskListTemplateSetting(taskListTemplateId, boards)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LIST_TEMPLATE_SUCCESS,
+                    taskList: res.data.data.task_list_template
+                });
+            });
+
+
+    };
+}
