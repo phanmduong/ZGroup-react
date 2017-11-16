@@ -35,7 +35,7 @@ class CustomerContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.loadCustomers(this.state.page, this.state.limit);
+        this.loadCustomers(1, this.state.limit);
         this.props.customerActions.loadTotalAndDebtMoney();
     }
 
@@ -255,12 +255,6 @@ class CustomerContainer extends React.Component {
                                 </form>
                             </div>
                         </Modal.Body>
-                        {/*<Modal.Footer>*/}
-                            {/*<form>*/}
-                                {/**/}
-                               {/**/}
-                            {/*</form>*/}
-                        {/*</Modal.Footer>*/}
                     </Modal>
                 </div>
             </div>

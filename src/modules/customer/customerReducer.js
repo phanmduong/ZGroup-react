@@ -62,6 +62,7 @@ export default function customerReducer(state = initialState.customers, action) 
                 }
             };
 
+        //          ADD
         case types.UPDATE_ADD_CUSTOMER_FORM_DATA:
             return {
                 ...state,

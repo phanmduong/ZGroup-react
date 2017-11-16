@@ -16,44 +16,14 @@ class ListChildCustomer extends React.Component {
                                aria-describedby="property-table_info">
                             <thead>
                             <tr className="text-rose" role="row">
-                                <th className="sorting" tabIndex="0"
-                                    aria-controls="property-table" rowSpan="1" colSpan="1"
-                                    aria-sort="ascending"
-                                    aria-label="Tên thuộc tính: activate to sort column descending"
-                                >Tên khách hàng
-                                </th>
-                                <th className="sorting" tabIndex="0"
-                                    aria-controls="property-table" rowSpan="1" colSpan="1"
-                                    aria-label="Giá trị khả dụng: activate to sort column ascending"
-                                >Số điện thoại
-                                </th>
-                                <th className="sorting" tabIndex="0"
-                                    aria-controls="property-table" rowSpan="1" colSpan="1"
-                                    aria-label="Đơn vị khả dụng: activate to sort column ascending"
-                                >Địa chỉ
-                                </th>
-                                <th className="sorting" tabIndex="0"
-                                    aria-controls="property-table" rowSpan="1" colSpan="1"
-                                    aria-label="Người tạo: activate to sort column ascending"
-                                > Ngày mua cuối
-                                </th>
-                                <th className="sorting" tabIndex="0"
-                                    aria-controls="property-table" rowSpan="1" colSpan="1"
-                                    aria-label="Người tạo: activate to sort column ascending"
-                                >Tổng tiền hàng
-                                </th>
-                                <th className="sorting" tabIndex="0"
-                                    aria-controls="property-table" rowSpan="1" colSpan="1"
-                                    aria-label="Người tạo: activate to sort column ascending"
-                                > Tiền trả hàng
-                                </th>
-                                <th className="sorting" tabIndex="0"
-                                    aria-controls="property-table" rowSpan="1" colSpan="1"
-                                    aria-label="Người tạo: activate to sort column ascending"
-                                > Tiền nợ
-                                </th>
-                                <th className="sorting_disabled" rowSpan="1" colSpan="1"
-                                    aria-label style={{width: 52}}/>
+                                <th>Tên khách hàng</th>
+                                <th>Số điện thoại</th>
+                                <th>Địa chỉ</th>
+                                <th> Ngày mua cuối</th>
+                                <th>Tổng tiền hàng</th>
+                                <th> Tiền trả hàng</th>
+                                <th> Tiền nợ</th>
+                                <th/>
                             </tr>
                             </thead>
                             <tbody>

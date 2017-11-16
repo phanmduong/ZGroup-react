@@ -4,7 +4,6 @@ import * as helper from '../../helpers/helper';
 
 export function loadCustomers( page , limit, query,status) {
     return function (dispatch) {
-        console.log('LOAD_BY_STATUS',status);
         dispatch({
             type: types.BEGIN_LOAD_CUSTOMER
         });
