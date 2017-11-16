@@ -100,7 +100,7 @@ class Good extends Model
             'avatar_url' => $this->avatar_url,
             'cover_url' => $this->cover_url,
             'code' => $this->code,
-            'total_quantity' => $total
+            'total_quantity_in_warehouses' => $total
         ];
     }
 
