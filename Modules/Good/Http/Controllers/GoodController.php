@@ -541,7 +541,6 @@ class GoodController extends ManageApiController
     }
 
     public function inventoriesInfo(Request $request)
-    {
         $inventories = ImportedGoods::where('quantity', '<>', 0)->get();
         $count = $inventories->reduce(function ($total, $inventory) {
             return $total + $inventory->quantity;
