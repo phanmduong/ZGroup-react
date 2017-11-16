@@ -871,4 +871,18 @@ export default {
             }
         }
     },
+    suppliers: {
+        suppliersList : [],
+        isLoading : true,
+        totalCount: 10,
+        totalPages : 10,
+        modal : {
+            isSaving : false,
+            supplier : {
+                name : '',
+                phone : '',
+                email : '',
+            }
+        }
+    },
 };

@@ -38,6 +38,7 @@ import productListReducer from "../modules/productList/productListReducer";
 import importGoodsReducer from "../modules/importGoods/importGoodsReducer";
 import wareHouseReducer from "../modules/wareHouse/wareHouseReducer";
 import customerReducer from "../modules/customer/customerReducer";
+import supplierReducer from "../modules/supplier/supplierReducer";
 
 const appReducer = combineReducers({
     login: loginReducer,
@@ -78,6 +79,8 @@ const appReducer = combineReducers({
     importGoods: importGoodsReducer,
     wareHouses : wareHouseReducer ,
     customers : customerReducer,
+    suppliers :supplierReducer,
+
 });
 
 const rootReducer = (state, action) => {

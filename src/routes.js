@@ -69,6 +69,7 @@ import StoreImportContainer from './modules/importGoods/importGood/StoreImportCo
 import GoodDetailContainer from "./modules/good/GoodDetailContainer";
 import WareHouseContainer from "./modules/wareHouse/WareHouseContainer";
 import CustomerContainer from "./modules/customer/CustomerContainer";
+import SupplierContainer from "./modules/supplier/SupplierContainer";
 
 export default (
     <Route>
@@ -241,6 +242,10 @@ export default (
             {/*Begin customer routes */}
             <Route path="/goods/customer" component={CustomerContainer}/>
             {/*End customer routes*/}
+
+            {/*Begin supplier routes */}
+            <Route path="/goods/supplier" component={SupplierContainer}/>
+            {/*End supplier routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

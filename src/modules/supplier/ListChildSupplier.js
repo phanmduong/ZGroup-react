@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-class ListChildCustomer extends React.Component {
+class ListChildSupplier extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -16,28 +16,20 @@ class ListChildCustomer extends React.Component {
                                aria-describedby="property-table_info">
                             <thead>
                             <tr className="text-rose" role="row">
-                                <th>Tên khách hàng</th>
+                                <th>Tên nhà cung cấp</th>
                                 <th>Số điện thoại</th>
-                                <th>Địa chỉ</th>
-                                <th> Ngày mua cuối</th>
-                                <th>Tổng tiền hàng</th>
-                                <th> Tiền trả hàng</th>
-                                <th> Tiền nợ</th>
+                                <th>Email</th>
                                 <th/>
                             </tr>
                             </thead>
                             <tbody>
-                            {this.props.customersList && this.props.customersList.map(
-                                (customer => {
+                            {this.props.suppliersList && this.props.suppliersList.map(
+                                (supplier => {
                                     return (
-                                        <tr role="row" className="even" key={customer.id}>
-                                            <td className="sorting_1">{customer.name}</td>
-                                            <td>{customer.phone}</td>
-                                            <td>{customer.address}</td>
-                                            <td>{customer.last_order}</td>
-                                            <td>{customer.total_money}</td>
-                                            <td>{customer.total_paid_money}</td>
-                                            <td>{customer.debt}</td>
+                                        <tr role="row" className="even" key={supplier.id}>
+                                            <td className="sorting_1">{supplier.name}</td>
+                                            <td>{supplier.phone}</td>
+                                            <td>{supplier.email}</td>
                                             <td>
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
@@ -63,9 +55,10 @@ class ListChildCustomer extends React.Component {
     }
 }
 
-ListChildCustomer.propTypes = {
-    customersList: PropTypes.array,
+ListChildSupplier.propTypes = {
+    suppliersList: PropTypes.array,
+    deleteSupplier : PropTypes.func,
 };
 
 
-export default ListChildCustomer;
+export default ListChildSupplier;
