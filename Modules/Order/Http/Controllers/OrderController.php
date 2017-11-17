@@ -93,11 +93,9 @@ class OrderController extends ManageApiController
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
-        if($order->type == 'import' && $order->status == 'completed')
-        {
+        if ($order->type == 'import' && $order->status == 'completed') {
             $importedGoods = $order->importedGoods;
-            foreach ($importedGoods as $importedGood)
-            {
+            foreach ($importedGoods as $importedGood) {
                 $importedGood->status = 'completed';
                 $importedGood->save();
             }
@@ -174,10 +172,22 @@ class OrderController extends ManageApiController
         $endTime = $request->end_time;
         $status = $request->status;
         $importOrders = Order::where('type', 'import');
+        $keyword = $request->search;
+        $staff_id = $request->staff_id;
 
+        if($keyword) {
+            $userIds = User::where('type', 'supplier')->where(function ($query) use ($keyword){
+                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "$keyword")->orWhere('email', 'like', "$keyword");
+            })->select('id')->get();
+            $importOrders = $importOrders->whereIn('user_id', $userIds);
+            $importOrders = $importOrders->where('code', 'like', "%$keyword%");
+        }
+
+        if($staff_id)
+            $importOrders = $importOrders->where('staff_id', $staff_id);
         if ($startTime)
             $importOrders = $importOrders->whereBetween('created_at', array($startTime, $endTime));
-        if($status)
+        if ($status)
             $importOrders = $importOrders->where('status', $status);
         $importOrders = $importOrders->orderBy('created_at', 'desc');
 
@@ -343,7 +353,7 @@ class OrderController extends ManageApiController
                 'message' => 'over',
                 'money' => $debt,
             ]);
-        if($debt == 0) {
+        if ($debt == 0) {
             $order = Order::find($orderId)->get();
             $order->status_paid = 1;
         }
@@ -384,10 +394,9 @@ class OrderController extends ManageApiController
         $orderImportId = $importOrder->id;
         foreach ($request->imported_goods as $imported_good) {
             $importedGood = new ImportedGoods;
-            if($imported_good['price'])
-            {
+            if ($imported_good['price']) {
                 $good = Good::find($imported_good['good_id']);
-                if($good == null)
+                if ($good == null)
                     return $this->respondErrorWithStatus([
                         'message' => 'Không tồn tại sản phẩm'
                     ]);
@@ -540,7 +549,7 @@ class OrderController extends ManageApiController
             'name' => $warehouse->name,
             'location' => $warehouse->location,
         ];
-        if($warehouse->base)
+        if ($warehouse->base)
             $data['base'] = [
                 'id' => $warehouse->base->id,
                 'name' => $warehouse->base->name,
@@ -567,7 +576,7 @@ class OrderController extends ManageApiController
             'name' => $warehouse->name,
             'location' => $warehouse->location,
         ];
-        if($warehouse->base)
+        if ($warehouse->base)
             $data['base'] = [
                 'id' => $warehouse->base->id,
                 'name' => $warehouse->base->name,
@@ -656,4 +665,6 @@ class OrderController extends ManageApiController
             'not_exists' => $not_goods
         ]);
     }
+
+
 }

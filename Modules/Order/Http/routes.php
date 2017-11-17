@@ -4,10 +4,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/all-orders', 'OrderController@allOrders');
     Route::put('/{order_id}/edit', 'OrderController@editOrder');
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
-    Route::get('/category/all','OrderController@allCategory');
-    Route::post('/category/add','OrderController@addCategory');
-    Route::put('/category/edit-category','OrderController@editCategory');
-    Route::delete('category/{category_id}/delete','OrderController@deleteCategory');
+    Route::get('/category/all', 'OrderController@allCategory');
+    Route::post('/category/add', 'OrderController@addCategory');
+    Route::put('/category/edit-category', 'OrderController@editCategory');
+    Route::delete('category/{category_id}/delete', 'OrderController@deleteCategory');
     Route::get('/import-orders', 'OrderController@allImportOrders');
     Route::get('/detailed-import-order/{importOrderId}', 'OrderController@detailedImportOrder');
     Route::post('/add-import-order', 'OrderController@addImportOrder');
@@ -22,12 +22,13 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::put('/warehouse/{warehouseId}/edit', 'OrderController@editWarehouse');
     Route::delete('/warehouse/{warehouseId}/delete', 'OrderController@deleteWarehouse');
     Route::get('/bases/all', 'OrderController@allBases');
-    Route::get('/all-order-paid-money','OrderController@getOrderPaidMoney');
+    Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::get('/warehouse/goods/{warehouseId}', 'OrderController@warehouseGoods');
     Route::post('/check-goods', 'OrderController@checkGoods');
-    Route::get('/all-customers','CustomerController@allCustomers');
-    Route::get('total-and-debt-money','CustomerController@countMoney');
-    Route::post('add-customer','CustomerController@addCustomer');
+    Route::get('/all-customers', 'CustomerController@allCustomers');
+    Route::get('total-and-debt-money', 'CustomerController@countMoney');
+    Route::post('add-customer', 'CustomerController@addCustomer');
     //Route::delete('delete-customer','CustomerController@deleteCustomer');
+    Route::get('/staffs', 'StaffController@getStaffs');
 });
 
