@@ -383,6 +383,12 @@ class OrderController extends ManageApiController
         $orderImportId = $importOrder->id;
         foreach ($request->imported_goods as $imported_good) {
             $importedGood = new ImportedGoods;
+            if($imported_good->price)
+            {
+                $good = Good::find($imported_good->good_id);
+                $good->price = $imported_good->price;
+                $good->save();
+            }
             $importedGood->order_import_id = $orderImportId;
             $importedGood->good_id = $imported_good['good_id'];
             $importedGood->quantity = $imported_good['quantity'];
