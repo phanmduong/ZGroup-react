@@ -1,4 +1,7 @@
 export default {
+    globalLoading: {
+        isLoading: false
+    },
     inventoryGood: {
         isLoading: false,
         inventories: [],
