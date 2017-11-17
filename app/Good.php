@@ -124,13 +124,6 @@ class Good extends Model
         $data['properties'] = $this->properties->map(function ($property) {
             return $property->transform();
         });
-        $data['good_warehouses'] = $this->goodWarehouse->map(function ($goodwarehouse) {
-            return [
-                'warehouse' => $goodwarehouse->warehouse->Transform(),
-                'base' => $goodwarehouse->warehouse->base->Transform(),
-                'quantity' => $goodwarehouse->quantity
-            ];
-        });
         return $data;
     }
 
