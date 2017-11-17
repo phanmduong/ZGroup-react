@@ -84,7 +84,7 @@ class ListCourse extends React.Component {
                                     />
                                 </td>
                             </tr>
-                        );//return of map
+                        );
                     })}
                     </tbody>
                 </table>

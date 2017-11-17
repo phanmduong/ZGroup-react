@@ -148,7 +148,6 @@ class CreateEditCoursesContainer extends React.Component {
                                         <TabCourse url="/manage/courses/create/general"/>
 
                                     <div className="card-content">
-                                        <h4 className="card-title">Tạo Môn Học</h4>
                                         {this.props.isLoading ? <Loading/> :
                                             <div>
                                                 <div className="row">
