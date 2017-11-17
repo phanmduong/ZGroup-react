@@ -86,25 +86,40 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                                         value={value}
                                     />
                                 </div>
-
-                                <div className="form-group">
-                                    <label>Bảng hiện tại</label>
-                                    <Select
-                                        onChange={this.handleSelectCurrentBoard}
-                                        options={this.props.boards}
-                                        placeholder="Lựa chọn bảng hiện tại"
-                                        value={currentBoard}
-                                    />
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <label>Bảng hiện tại mặc định</label>
+                                        <p>{currentBoard.title}</p>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <label>Bảng đích mặc định</label>
+                                        <p>{targetBoard.title}</p>
+                                    </div>
                                 </div>
 
-                                <div className="form-group">
-                                    <label>Bảng đích</label>
-                                    <Select
-                                        onChange={this.handleSelectTargetBoard}
-                                        options={this.props.boards}
-                                        placeholder="Lựa chọn bảngs đích"
-                                        value={targetBoard}
-                                    />
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <div className="form-group">
+                                            <label>Bảng hiện tại </label>
+                                            <Select
+                                                onChange={this.handleSelectCurrentBoard}
+                                                options={this.props.boards}
+                                                placeholder="Lựa chọn bảng hiện tại"
+                                                value={currentBoard}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <div className="form-group">
+                                            <label>Bảng đích</label>
+                                            <Select
+                                                onChange={this.handleSelectTargetBoard}
+                                                options={this.props.boards}
+                                                placeholder="Lựa chọn bảng đích"
+                                                value={targetBoard}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         )
