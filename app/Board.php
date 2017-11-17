@@ -51,6 +51,16 @@ class Board extends Model
         ];
     }
 
+    public function transformWithTaskList($taskList)
+    {
+        $boardIds = $taskList->tasks->map(function ($task) {
+            return $task->current_board_id;
+        })->toArray();
+        $data = $this->transform();
+        $data["checked"] = in_array($this->id, $boardIds);
+        return $data;
+    }
+
     public function transformBoardWithCard()
     {
         $cards = $this->cards()->where("status", "open")->orderBy('order')->get();

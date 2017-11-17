@@ -80,21 +80,36 @@ class Good extends Model
 
     public function getData()
     {
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'updated_at' => format_vn_short_datetime(strtotime($this->updated_at)),
             'price' => $this->price,
-            'status' => $this->status,
+            'sale_status' => $this->sale_status,
+            'display_status' => $this->display_status,
+            'highlight_status' => $this->highlight_status,
             'good_category_id' => $this->good_category_id,
             'manufacture_id' => $this->manufacture_id,
             'description' => $this->description,
             'type' => $this->type,
             'avatar_url' => $this->avatar_url,
             'cover_url' => $this->cover_url,
-            'code' => $this->code
+            'code' => $this->code,
         ];
+
+        if($this->good_category_id)
+            $data['category'] = [
+                'id' => $this->goodCategories->id,
+                'name' => $this->goodCategories->name,
+            ];
+        if($this->manufacture_id)
+            $data['manufacture'] = [
+                'id' => $this->manufacture->id,
+                'name' => $this->manufacture->name,
+            ];
+
+        return $data;
     }
 
     public function transform()

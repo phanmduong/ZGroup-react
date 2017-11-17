@@ -8,7 +8,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::post('/category/add','OrderController@addCategory');
     Route::put('/category/edit-category','OrderController@editCategory');
     Route::delete('category/{category_id}/delete','OrderController@deleteCategory');
-    Route::get('/import-orders', 'OrderController@importOrders');
+    Route::get('/import-orders', 'OrderController@allImportOrders');
     Route::get('/detailed-import-order/{importOrderId}', 'OrderController@detailedImportOrder');
     Route::post('/add-import-order', 'OrderController@addImportOrder');
     Route::post('/add-imported-good', 'OrderController@addImportOrder');
@@ -28,6 +28,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/all-customers','CustomerController@allCustomers');
     Route::get('total-and-debt-money','CustomerController@countMoney');
     Route::post('add-customer','CustomerController@addCustomer');
-    Route::delete('delete-customer','CustomerController@deleteCustomer');
+    //Route::delete('delete-customer','CustomerController@deleteCustomer');
 });
 
