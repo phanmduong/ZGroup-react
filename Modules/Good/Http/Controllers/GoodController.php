@@ -262,7 +262,7 @@ class GoodController extends ManageApiController
 
     public function getAllGoods(Request $request)
     {
-        $limit = $request->limit ? $request->limit : 20;
+        $limit = $request->limit && $request->limit != -1 ? $request->limit : 20;
         $keyword = $request->search;
         $type = $request->type;
         $manufacture_id = $request->manufacture_id;
@@ -274,7 +274,7 @@ class GoodController extends ManageApiController
         $highlight_status = $request->highlight_status;
 
         $goods = Good::where(function ($query) use ($keyword) {
-            $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+            $query->where("name", "like", "%" . $keyword . "%")->orWhere("code", "like", "%" . $keyword . "%");
         });
         if ($sale_status != null)
             $goods = $goods->where('sale_status', $sale_status);

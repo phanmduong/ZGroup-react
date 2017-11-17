@@ -118,7 +118,7 @@ class Good extends Model
             return [
                 'warehouse' => $goodwarehouse->warehouse->Transform(),
                 'base' => $goodwarehouse->warehouse->base->Transform(),
-                'quantity' => $goodwarehouse->quantity
+                'quantity' => $goodwarehouse->quantity,
             ];
         });
         return $data;
