@@ -184,14 +184,7 @@ export default function courseReducer(state = initialState.courses, action) {
                     commitSuccess: false
                 }
             };
-        case types.BACK_TO_COURSE_LIST:
-            return {
-                ...state,
-                ...{
-                    isCommitting: false,
-                    commitSuccess: false
-                }
-            };
+
         default:
             return state;
     }
@@ -224,4 +217,4 @@ const defaultData = {
     detail              : "",
     lessons             : [],
     links               : []
-}
+};

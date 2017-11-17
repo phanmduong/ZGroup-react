@@ -17,6 +17,7 @@ import {CirclePicker}                   from 'react-color';
 
 
 
+
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -40,7 +41,7 @@ class CreateEditCoursesContainer extends React.Component {
             detail              : "",
             lessons             : [],
             links               : []
-        }
+        };
         this.updateFormData     = this.updateFormData.bind(this);
         this.uploadAvatar       = this.uploadAvatar.bind(this);
         this.uploadLogo         = this.uploadLogo.bind(this);
@@ -71,9 +72,7 @@ class CreateEditCoursesContainer extends React.Component {
         this.props.coursesActions.backToList();
     }
 
-    updateCourseDetail(detail){
-        this.setState({detail:detail});
-    }
+
 
     updateFormData(e){
         const   feild   = e.target.name;
@@ -113,6 +112,7 @@ class CreateEditCoursesContainer extends React.Component {
         if(this.checkValidate())
         this.props.coursesActions.commitCourseData(this.state);
 
+
     }
 
     checkValidate() {
@@ -142,13 +142,15 @@ class CreateEditCoursesContainer extends React.Component {
                 <form role="form" id="form-course-create-edit">
                 <div className="col-md-12">
                         <div className="row">
-                             <div className="col-md-8">
+                            {this.props.isLoading ? <Loading/> :
+                            <div name="content">
+                                <div className="col-md-8">
                                 <div className="card">
 
                                         <TabCourse url="/manage/courses/create/general"/>
 
                                     <div className="card-content">
-                                        {this.props.isLoading ? <Loading/> :
+                                        {
                                             <div>
                                                 <div className="row">
 
@@ -251,7 +253,7 @@ class CreateEditCoursesContainer extends React.Component {
 
                                 </div>
 
-                                 <div className="col-md-12">
+                                 <div className="">
                                      <div className="card">
                                          <div className="card-header card-header-icon" data-background-color="rose"><i
                                              className="material-icons">bookmark</i></div>
@@ -273,136 +275,131 @@ class CreateEditCoursesContainer extends React.Component {
                                      </div>
                                  </div>
                              </div>
-
-                            <div className="col-md-4">
+                                <div className="col-md-4">
                                 <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">announcement</i>
-                                    </div>
-                                    <div className="card-content"><h4 className="card-title">Thông tin về form </h4>
+                                <div className="card-header card-header-icon" data-background-color="rose">
+                                <i className="material-icons">announcement</i>
+                                </div>
+                                <div className="card-content"><h4 className="card-title">Thông tin về form </h4>
 
 
-                                        <img src = {helper.isEmptyInput(this.state.icon_url) ? NO_IMAGE : this.state.icon_url} />
-                                        { this.props.isUpdatingLogo ?
-                                            (
-                                                <button className="btn btn-rose btn-round disabled" type="button">
-                                                    <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button className="btn btn-fill btn-rose" type="button">
-                                                    Chọn ảnh icon
-                                                    <input type="file"
-                                                           accept=".jpg,.png,.gif"
-                                                           onChange={this.uploadLogo}
-                                                           style={{
-                                                               cursor: 'pointer',
-                                                               opacity: "0.0",
-                                                               position: "absolute",
-                                                               top: 0,
-                                                               left: 0,
-                                                               bottom: 0,
-                                                               right: 0,
-                                                               width: "100%",
-                                                               height: "100%"
-                                                           }}
-                                                    />
-                                                </button>
-                                            )
-                                        }
-                                        <img src = {helper.isEmptyInput(this.state.image_url) ? NO_IMAGE : this.state.image_url} />
-                                        { this.props.isUpdatingAvatar ?
-                                            (
-                                                <button className="btn btn-rose btn-round disabled" type="button">
-                                                    <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button className="btn btn-fill btn-rose" type="button">
-                                                    Chọn ảnh đại diện
-                                                    <input type="file"
-                                                           accept=".jpg,.png,.gif"
-                                                           onChange={this.uploadAvatar}
-                                                           style={{
-                                                               cursor: 'pointer',
-                                                               opacity: "0.0",
-                                                               position: "absolute",
-                                                               top: 0,
-                                                               left: 0,
-                                                               bottom: 0,
-                                                               right: 0,
-                                                               width: "100%",
-                                                               height: "100%"
-                                                           }}
-                                                    />
-                                                </button>
-                                            )
-                                        }
-                                        <img src = {helper.isEmptyInput(this.state.cover_url) ? NO_IMAGE : this.state.cover_url} />
-                                        { this.props.isUpdatingCover ?
-                                            (
-                                                <button className="btn btn-rose btn-round disabled" type="button">
-                                                    <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button className="btn btn-fill btn-rose" type="button">
-                                                    Chọn cover
-                                                    <input type="file"
-                                                           accept=".jpg,.png,.gif"
-                                                           onChange={this.uploadCover}
-                                                           style={{
-                                                               cursor: 'pointer',
-                                                               opacity: "0.0",
-                                                               position: "absolute",
-                                                               top: 0,
-                                                               left: 0,
-                                                               bottom: 0,
-                                                               right: 0,
-                                                               width: "100%",
-                                                               height: "100%"
-                                                           }}
-                                                    />
-                                                </button>
-                                            )
-                                        }
+                                <img src = {helper.isEmptyInput(this.state.icon_url) ? NO_IMAGE : this.state.icon_url} />
+                            { this.props.isUpdatingLogo ?
+                                (
+                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                </button>
+                                )
+                                :
+                                (
+                                <button className="btn btn-fill btn-rose" type="button">
+                                Chọn ảnh icon
+                                <input type="file"
+                                accept=".jpg,.png,.gif"
+                                onChange={this.uploadLogo}
+                                style={{
+                                cursor: 'pointer',
+                                opacity: "0.0",
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                bottom: 0,
+                                right: 0,
+                                width: "100%",
+                                height: "100%"
+                            }}
+                                />
+                                </button>
+                                )
+                            }
+                                <img src = {helper.isEmptyInput(this.state.image_url) ? NO_IMAGE : this.state.image_url} />
+                            { this.props.isUpdatingAvatar ?
+                                (
+                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                </button>
+                                )
+                                :
+                                (
+                                <button className="btn btn-fill btn-rose" type="button">
+                                Chọn ảnh đại diện
+                                <input type="file"
+                                accept=".jpg,.png,.gif"
+                                onChange={this.uploadAvatar}
+                                style={{
+                                cursor: 'pointer',
+                                opacity: "0.0",
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                bottom: 0,
+                                right: 0,
+                                width: "100%",
+                                height: "100%"
+                            }}
+                                />
+                                </button>
+                                )
+                            }
+                                <img src = {helper.isEmptyInput(this.state.cover_url) ? NO_IMAGE : this.state.cover_url} />
+                            { this.props.isUpdatingCover ?
+                                (
+                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                </button>
+                                )
+                                :
+                                (
+                                <button className="btn btn-fill btn-rose" type="button">
+                                Chọn cover
+                                <input type="file"
+                                accept=".jpg,.png,.gif"
+                                onChange={this.uploadCover}
+                                style={{
+                                cursor: 'pointer',
+                                opacity: "0.0",
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                bottom: 0,
+                                right: 0,
+                                width: "100%",
+                                height: "100%"
+                            }}
+                                />
+                                </button>
+                                )
+                            }
 
-                                        <div className="card-content">
-                                            <h4 className="card-title">Chọn màu</h4>
-                                            <CirclePicker width="100%"
-                                                          color={this.state.color}
-                                                          onChangeComplete={this.changeColor}
-                                            />
-                                        </div>
+                                <div className="card-content">
+                                <h4 className="card-title">Chọn màu</h4>
+                                <CirclePicker width="100%"
+                                color={this.state.color}
+                                onChangeComplete={this.changeColor}
+                                />
+                                </div>
 
-                                        {this.props.isCommitting ?
-                                            <button className="btn btn-rose btn-round disabled" type="button">
-                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                            </button>
-                                            :
-                                            ( this.props.commitSuccess ?
+                            {this.props.isCommitting ?
+                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                </button>
+                                :
 
-                                                    <button
-                                                        className="btn btn-fill btn-rose"
-                                                        type="button"
-                                                        onClick={this.commitCourseData}
-                                                    > Lưu </button>
-                                                    :
 
-                                                    <button
-                                                        className="btn btn-fill btn-rose"
-                                                        type="button"
-                                                        onClick={this.commitCourseData}
-                                                    > Có lỗi xảy ra </button>
-                                            )
-                                        }
+                                <button
+                                className="btn btn-fill btn-rose"
+                                type="button"
+                                onClick={this.commitCourseData}
+                                > Lưu </button>
 
-                                    </div>
+                            }
+
+                                </div>
+                                </div>
                                 </div>
                             </div>
+                            }
+
                         </div>
                 </div>
                 </form>
@@ -412,7 +409,7 @@ class CreateEditCoursesContainer extends React.Component {
 }
 
 CreateEditCoursesContainer.propTypes = {
-    isLoading           : PropTypes.bool,
+    isLoading           : PropTypes.bool.isRequired,
     data                : PropTypes.object,
     isUpdatingAvatar    : PropTypes.bool,
     updateAvatarError   : PropTypes.bool,
@@ -421,21 +418,23 @@ CreateEditCoursesContainer.propTypes = {
     isUpdatingCover     : PropTypes.bool,
     updateCoverError    : PropTypes.bool,
     isCommitting        : PropTypes.bool,
-    commitSuccess        : PropTypes.bool,
+    commitSuccess       : PropTypes.bool,
+    params              : PropTypes.object,
+    coursesActions      : PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading           : state.coursesCreateEdit.isLoading,
-        data                : state.coursesCreateEdit.data,
-        isUpdatingAvatar    : state.coursesCreateEdit.isUpdatingAvatar,
-        updateAvatarError   : state.coursesCreateEdit.updateAvatarError,
-        isUpdatingLogo      : state.coursesCreateEdit.isUpdatingLogo,
-        updateLogoError     : state.coursesCreateEdit.updateLogoError,
-        isUpdatingCover     : state.coursesCreateEdit.isUpdatingCover,
-        updateCoverError    : state.coursesCreateEdit.updateCoverError,
-        isCommitting        : state.coursesCreateEdit.isCommitting,
-        commitSuccess       : state.coursesCreateEdit.commitSuccess
+        isLoading           : state.courses.isLoading,
+        data                : state.courses.data,
+        isUpdatingAvatar    : state.courses.isUpdatingAvatar,
+        updateAvatarError   : state.courses.updateAvatarError,
+        isUpdatingLogo      : state.courses.isUpdatingLogo,
+        updateLogoError     : state.courses.updateLogoError,
+        isUpdatingCover     : state.courses.isUpdatingCover,
+        updateCoverError    : state.courses.updateCoverError,
+        isCommitting        : state.courses.isCommitting,
+        commitSuccess       : state.courses.commitSuccess
     };
 }
 

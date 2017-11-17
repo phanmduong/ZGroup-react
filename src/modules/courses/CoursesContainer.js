@@ -42,6 +42,7 @@ class CoursesContainer extends React.Component {
     }
 
     loadCourses(page = 1) {
+        this.setState({page});
         this.props.coursesActions.loadCourses(page);
 
     }
@@ -103,9 +104,9 @@ class CoursesContainer extends React.Component {
                                         />
                                     }
                                     <ul className="pagination pagination-primary">
-                                        {_.range(1, this.state.paginator.total_pages + 1).map(page => {
+                                        {_.range(1, this.props.paginator.total_pages + 1).map(page => {
 
-                                            if (Number(this.state.paginator.current_page) === page) {
+                                            if (Number(this.state.page) === page) {
                                                 return (
                                                     <li key={page} className="active">
                                                         <a onClick={() => {
@@ -142,7 +143,8 @@ CoursesContainer.propTypes = {
     error: PropTypes.bool.isRequired,
     coursesList: PropTypes.array.isRequired,
     paginator: PropTypes.object.isRequired,
-    isDeleting: PropTypes.bool
+    isDeleting: PropTypes.bool,
+
 };
 
 function mapStateToProps(state) {

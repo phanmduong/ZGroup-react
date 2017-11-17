@@ -1,6 +1,7 @@
 import * as types       from '../../constants/actionTypes';
 import * as courseApi   from './courseApi';
 import * as helper      from '../../helpers/helper';
+import {browserHistory}                 from 'react-router';
 
 export function loadCourses(page = 1, query='') {
     return function (dispatch) {
@@ -12,6 +13,7 @@ export function loadCourses(page = 1, query='') {
                     courses     : res.data.courses,
                     paginator   : res.data.paginator
                 });
+                browserHistory.push('/manage/courses');
             })
             .catch(() => {
                 dispatch({type: types.LOADED_COURSES_DATA_ERROR});

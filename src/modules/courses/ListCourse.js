@@ -96,7 +96,8 @@ class ListCourse extends React.Component {
 
 ListCourse.propTypes = {
     courses: PropTypes.array.isRequired,
-
+    coursesActions : PropTypes.object.isRequired,
+    deleteCourse : PropTypes.func
 };
 
 function mapStateToProps(state) {
