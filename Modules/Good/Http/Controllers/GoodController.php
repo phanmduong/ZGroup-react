@@ -338,17 +338,12 @@ class GoodController extends ManageApiController
 
         $goods = Good::orderBy('created_at', 'desc')->get();
 
-//        $total_quantity = $goods->reduce(function ($total_q, $good) {
-//            return $total_q + $good->importedGoods->reduce(function ($tota_good_q, $importedGood) {
-//                    return $tota_good_q + $importedGood->quantity;
-//                }, 0);
-//        }, 0);
-
         $total_quantity = $goods->reduce(function ($total_q, $good) {
-            return $total_q + $good->goodWarehouse->reduce(function ($tota_good_q, $goodWarehouse) {
-                    return $tota_good_q + $goodWarehouse->quantity;
+            return $total_q + $good->importedGoods->reduce(function ($tota_good_q, $importedGood) {
+                    return $tota_good_q + $importedGood->quantity;
                 }, 0);
         }, 0);
+
         return $this->respondSuccessWithStatus([
             'total' => $total,
             'total_quantity' => $total_quantity,
