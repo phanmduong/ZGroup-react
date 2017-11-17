@@ -394,7 +394,7 @@ class OrderController extends ManageApiController
         $supplier->name = $request->name;
         $supplier->phone = $request->phone;
         $supplier->address = $request->address;
-        $supplier->code = $request->code;
+        //$supplier->code = $request->code;
         $supplier->type = 'supplier';
         $supplier->save();
         return $this->respondSuccessWithStatus([
@@ -622,13 +622,9 @@ class OrderController extends ManageApiController
                 array_push($not_goods, $good);
             }
         }
-
         return $this->respondSuccessWithStatus([
             'exists' => $goods,
             'not_exists' => $not_goods
         ]);
-
     }
-
-
 }

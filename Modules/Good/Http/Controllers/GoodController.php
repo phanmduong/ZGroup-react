@@ -327,14 +327,15 @@ class GoodController extends ManageApiController
     public function statusCount()
     {
         $total = Good::all()->count();
+
         $for_sale = Good::where('sale_status', 1)->count();
         $not_for_sale = Good::where('sale_status', 0)->count();
+
         $display_on = Good::where('display_status', 1)->count();
         $display_off = Good::where('display_status', 0)->count();
 
         $highlight_on = Good::where('highlight_status', 1)->count();
         $highlight_off = Good::where('highlight_status', 0)->count();
-
 
         $goods = Good::orderBy('created_at', 'desc')->get();
 
