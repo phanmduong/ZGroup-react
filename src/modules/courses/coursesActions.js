@@ -4,7 +4,7 @@ import * as helper      from '../../helpers/helper';
 
 export function loadCourses(page = 1, query='') {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_LOAD_COURSES_DATA, page : page});
+        dispatch({type: types.BEGIN_LOAD_COURSES_DATA});
         courseApi.loadCoursesData(page, query)
             .then(res => {
                 dispatch({
@@ -21,7 +21,7 @@ export function loadCourses(page = 1, query='') {
 
 export function deleteCourse(id) {
     return function (dispatch) {
-        helper.showNotification('Đang xoá môn học');
+        helper.showWarningNotification('Đang xoá môn học');
         dispatch({
             type: types.BEGIN_DELETE_COURSES,
 
@@ -35,7 +35,7 @@ export function deleteCourse(id) {
                 });
             })
             .catch(() => {
-                helper.showNotification('Xóa môn học thất bại');
+                helper.showErrorNotification('Xóa môn học thất bại');
                 dispatch({
                     type: types.DELETE_COURSES_ERROR,
                 });

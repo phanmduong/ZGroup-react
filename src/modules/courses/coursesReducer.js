@@ -4,15 +4,14 @@ import initialState from '../../reducers/initialState';
 
 let data;
 export default function courseReducer(state = initialState.courses, action) {
-    //console.log(action.type);
+
     switch (action.type) {
         case types.BEGIN_LOAD_COURSES_DATA:
             return {
                 ...state,
                 ...{
                     isLoading   : true,
-                    error       : false,
-                    paginator   : {current_page: action.page}
+                    error       : false
                 }
             };
         case types.LOADED_COURSES_DATA_SUCCESS:

@@ -17,9 +17,15 @@ class CoursesContainer extends React.Component {
             isLoading   : false,
             error       : true,
             query       : "",
-            page        : 1
+            page        : 1,
+            paginator   :{
+                current_page : 1,
+                limit: 5,
+                total_pages: 1,
+                total_count: 1
+            }
         };
-        this.openAddCoursesModalContainer   = this.openAddCoursesModalContainer.bind(this);
+
         this.loadCourses                    = this.loadCourses.bind(this);
         this.deleteCourse                   = this.deleteCourse.bind(this);
         this.courseSearchChange             = this.courseSearchChange.bind(this);
@@ -30,13 +36,14 @@ class CoursesContainer extends React.Component {
         this.props.coursesActions.loadCourses();
     }
 
+    componentWillReceiveProps(nextProps){
+        this.setState({paginator: nextProps.paginator});
 
-    openAddCoursesModalContainer() {
-        this.props.coursesActions.openAddCoursesModalContainer();
     }
 
     loadCourses(page = 1) {
         this.props.coursesActions.loadCourses(page);
+
     }
 
     deleteCourse(course) {
@@ -96,9 +103,9 @@ class CoursesContainer extends React.Component {
                                         />
                                     }
                                     <ul className="pagination pagination-primary">
-                                        {_.range(1, this.props.paginator.total_pages + 1).map(page => {
+                                        {_.range(1, this.state.paginator.total_pages + 1).map(page => {
 
-                                            if (Number(this.props.paginator.current_page) === page) {
+                                            if (Number(this.state.paginator.current_page) === page) {
                                                 return (
                                                     <li key={page} className="active">
                                                         <a onClick={() => {

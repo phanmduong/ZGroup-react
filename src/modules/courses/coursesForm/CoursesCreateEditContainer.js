@@ -225,7 +225,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                 </div>
 
                                                 {this.props.isCommitting ?
-                                                    <button className="btn btn-rose btn-round disabled" type="button">
+                                                    <button className="btn btn-rose btn-fill disabled" type="button">
                                                         <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                                     </button>
                                                     :
