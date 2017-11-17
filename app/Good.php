@@ -80,8 +80,7 @@ class Good extends Model
 
     public function getData()
     {
-
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
@@ -97,8 +96,20 @@ class Good extends Model
             'avatar_url' => $this->avatar_url,
             'cover_url' => $this->cover_url,
             'code' => $this->code,
-
         ];
+
+        if($this->good_category_id)
+            $data['category'] = [
+                'id' => $this->goodCategories->id,
+                'name' => $this->goodCategories->name,
+            ];
+        if($this->manufacture_id)
+            $data['manufacture'] = [
+                'id' => $this->manufacture->id,
+                'name' => $this->manufacture->name,
+            ];
+
+        return $data;
     }
 
     public function transform()
@@ -114,7 +125,6 @@ class Good extends Model
             return $property->transform();
         });
         $data['good_warehouses'] = $this->goodWarehouse->map(function ($goodwarehouse) {
-
             return [
                 'warehouse' => $goodwarehouse->warehouse->Transform(),
                 'base' => $goodwarehouse->warehouse->base->Transform(),

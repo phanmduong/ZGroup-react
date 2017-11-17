@@ -93,6 +93,15 @@ class OrderController extends ManageApiController
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
+        if($order->type == 'import' && $order->status == 'completed')
+        {
+            $importedGoods = $order->importedGoods;
+            foreach ($importedGoods as $importedGood)
+            {
+                $importedGood->status = 'completed';
+                $importedGood->save();
+            }
+        }
         return $this->respondSuccessWithStatus([
             'message' => 'ok'
         ]);
@@ -159,14 +168,19 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function importOrders(Request $request)
+    public function allImportOrders(Request $request)
     {
         $startTime = $request->start_time;
         $endTime = $request->end_time;
+        $status = $request->status;
+        $importOrders = Order::where('type', 'import');
+
         if ($startTime)
-            $importOrders = Order::where('type', 'import')->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->get();
-        else
-            $importOrders = Order::where('type', 'import')->orderBy("created_at", "desc")->get();
+            $importOrders = $importOrders->whereBetween('created_at', array($startTime, $endTime));
+        if($status)
+            $importOrders = $importOrders->where('status', $status);
+        $importOrders = $importOrders->orderBy('created_at', 'desc');
+
         $data = $importOrders->map(function ($importOrder) {
             $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
                 return $total + $importedGood->quantity * $importedGood->import_price;
@@ -355,6 +369,7 @@ class OrderController extends ManageApiController
         $importOrder->staff_id = $this->user->id;
         $importOrder->user_id = $request->user_id;
         $importOrder->type = 'import';
+        $importOrder->status = 'uncompleted';
         $importOrder->save();
         if ($request->paid_money) {
             $orderPaidMoney = new OrderPaidMoney;
@@ -373,6 +388,7 @@ class OrderController extends ManageApiController
             $importedGood->quantity = $imported_good['quantity'];
             $importedGood->import_quantity = $imported_good['quantity'];
             $importedGood->import_price = $imported_good['import_price'];
+            $importedGood->status = 'uncompleted';
             $importedGood->staff_id = $this->user->id;
             $importedGood->warehouse_id = $request->warehouse_id;
             $importedGood->save();
