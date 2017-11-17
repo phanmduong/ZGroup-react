@@ -19,6 +19,7 @@ class ListChildSupplier extends React.Component {
                                 <th>Tên nhà cung cấp</th>
                                 <th>Số điện thoại</th>
                                 <th>Email</th>
+                                <th>Địa chỉ</th>
                                 <th/>
                             </tr>
                             </thead>
@@ -30,6 +31,7 @@ class ListChildSupplier extends React.Component {
                                             <td className="sorting_1">{supplier.name}</td>
                                             <td>{supplier.phone}</td>
                                             <td>{supplier.email}</td>
+                                            <td>{supplier.address}</td>
                                             <td>
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>

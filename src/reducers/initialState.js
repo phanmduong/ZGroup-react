@@ -882,6 +882,7 @@ export default {
                 name : '',
                 phone : '',
                 email : '',
+                address : '',
             }
         }
     },

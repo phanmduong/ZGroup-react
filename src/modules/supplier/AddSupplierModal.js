@@ -9,7 +9,7 @@ class AddSupplierModal extends React.Component {
 
 
     render() {
-        let {name, email, phone} = this.props.supplier;
+        let {name, email, phone , address} = this.props.supplier;
         return (
             <div>
                 <div className="card-header card-header-icon" data-background-color="rose">
@@ -44,6 +44,14 @@ class AddSupplierModal extends React.Component {
                         type="tel"
                         value={phone}
                         required={true}
+                    />
+
+                    <FormInputText
+                        label="Địa chỉ"
+                        name="address"
+                        updateFormData={this.props.updateFormData}
+                        type="text"
+                        value={address}
                     />
                     
                     

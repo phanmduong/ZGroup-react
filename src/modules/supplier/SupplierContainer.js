@@ -147,7 +147,7 @@ class SupplierContainer extends React.Component {
                                                             {_.range(1, this.props.totalPages + 1).map(page => {
                                                                 if (Number(currentPage) === page) {
                                                                     return (
-                                                                        <li key={page} className="active">
+                                                                        <li key={page} className="active disabled">
                                                                             <a onClick={() => this.loadSuppliers(page, limit)}>{page}</a>
                                                                         </li>
                                                                     );

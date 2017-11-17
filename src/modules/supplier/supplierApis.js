@@ -28,6 +28,7 @@ export function addSupplierApi(supplier) {
         'name' :  supplier.name,
         'email' : supplier.email,
         'phone' : supplier.phone,
+        'address' : supplier.address,
     });
 }
 

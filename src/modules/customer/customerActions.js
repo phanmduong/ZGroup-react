@@ -63,15 +63,13 @@ export function addCustomer(customer ,  closeAddModal  ) {
                     helper.showTypeNotification('Đã thêm ' + customer.name, 'success');
                     dispatch({
                         type: types.ADD_CUSTOMER_SUCCESS,
-                        customer: customer,
+                        customer: res.data.data.user,
                     });
-                    loadCustomers();
                 }
                 else {
-                    helper.sweetAlertError("Thiếu thông tin");
+                    helper.sweetAlertError(res.data.data.message);
                     dispatch({
                         type: types.ADD_CUSTOMER_ERROR,
-                        message : res.data.message,
                     });
                 }
             })

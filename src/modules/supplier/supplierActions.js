@@ -47,7 +47,7 @@ export function addSupplier(supplier ,  closeAddModal  ) {
                     });
                 }
                 else {
-                    helper.sweetAlertError("Thiếu thông tin");
+                    helper.sweetAlertError(res.data.message);
                     dispatch({
                         type: types.ADD_SUPPLIER_ERROR,
                         message : res.data.message,
