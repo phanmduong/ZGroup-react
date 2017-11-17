@@ -180,46 +180,45 @@ class OrderController extends ManageApiController
         if($status)
             $importOrders = $importOrders->where('status', $status);
         $importOrders = $importOrders->orderBy('created_at', 'desc');
-        if($importOrders)
-            $data = $importOrders->map(function ($importOrder) {
-                $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
-                    return $total + $importedGood->quantity * $importedGood->import_price;
+
+        $data = $importOrders->map(function ($importOrder) {
+            $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity * $importedGood->import_price;
+            }, 0);
+            $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity;
+            }, 0);
+            $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
+                    return $total + $orderPaidMoney->money;
                 }, 0);
-                $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
-                    return $total + $importedGood->quantity;
-                }, 0);
-                $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
-                        return $total + $orderPaidMoney->money;
-                    }, 0);
-                $importOrderData = [
-                    'id' => $importOrder->id,
-                    'code' => $importOrder->code,
-                    'status' => $importOrder->status,
-                    'created_at' => format_vn_short_datetime(strtotime($importOrder->created_at)),
-                    'import_price' => $importOrder->import_price,
-                    'warehouse_id' => $importOrder->warehouse_id,
-                    'total_money' => $total_money,
-                    'total_quantity' => $total_quantity,
-                    'debt' => $debt,
+            $importOrderData = [
+                'id' => $importOrder->id,
+                'code' => $importOrder->code,
+                'status' => $importOrder->status,
+                'created_at' => format_vn_short_datetime(strtotime($importOrder->created_at)),
+                'import_price' => $importOrder->import_price,
+                'warehouse_id' => $importOrder->warehouse_id,
+                'total_money' => $total_money,
+                'total_quantity' => $total_quantity,
+                'debt' => $debt,
+            ];
+            if (isset($importOrder->staff)) {
+                $staff = [
+                    'id' => $importOrder->staff->id,
+                    'name' => $importOrder->staff->name,
                 ];
-                if (isset($importOrder->staff)) {
-                    $staff = [
-                        'id' => $importOrder->staff->id,
-                        'name' => $importOrder->staff->name,
-                    ];
-                    $importOrderData['staff'] = $staff;
-                }
-                if (isset($importOrder->user)) {
-                    $user = [
-                        'id' => $importOrder->user->id,
-                        'name' => $importOrder->user->name,
-                    ];
-                    $importOrderData['user'] = $user;
-                }
-                return $importOrderData;
-            });
-        else
-            $data = [];
+                $importOrderData['staff'] = $staff;
+            }
+            if (isset($importOrder->user)) {
+                $user = [
+                    'id' => $importOrder->user->id,
+                    'name' => $importOrder->user->name,
+                ];
+                $importOrderData['user'] = $user;
+            }
+            return $importOrderData;
+        });
+
         return $this->respondSuccessWithStatus([
             'import_orders' => $data
         ]);
