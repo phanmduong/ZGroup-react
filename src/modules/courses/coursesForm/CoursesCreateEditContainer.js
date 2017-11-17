@@ -6,7 +6,7 @@ import {connect}                        from 'react-redux';
 import PropTypes                        from 'prop-types';
 import {bindActionCreators}             from 'redux';
 import ReactEditor                      from '../../../components/common/ReactEditor';
-import  * as coursesCreateEditActions   from './CoursesCreateEditActions';
+import  * as coursesActions             from '../coursesActions';
 import FormInputText                    from '../../../components/common/FormInputText';
 import {NO_IMAGE}                       from '../../../constants/env';
 import TabCourse                        from "../TabCourse";
@@ -14,7 +14,6 @@ import Loading                          from "../../../components/common/Loading
 import * as helper                      from '../../../helpers/helper';
 import {linkUploadImageEditor}          from '../../../constants/constants';
 import {CirclePicker}                   from 'react-color';
-import {Link}                           from 'react-router';
 
 
 
@@ -51,26 +50,25 @@ class CreateEditCoursesContainer extends React.Component {
         this.updateEditor       = this.updateEditor.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
         this.backToList         = this.backToList.bind(this);
-        this.onBackButtonEvent         = this.onBackButtonEvent.bind(this);
     }
 
 
     componentWillMount() {
-        //console.log('course form container componentWillMount',this.props);
+
         helper.setFormValidation('#form-course-create-edit');
         let id = this.props.params.courseId;
-        if(id) this.props.coursesCreateEditActions.loadOneCourse(id);
+        if(id) this.props.coursesActions.loadOneCourse(id);
     }
     componentDidMount() {
         helper.setFormValidation('#form-course-create-edit');
     }
     componentWillReceiveProps(nextProps){
-        ///console.log(' CreateEditCoursesContainer recieve props',nextProps);
+
         this.setState(nextProps.data);
     }
 
     backToList(){
-        this.props.coursesCreateEditActions.backToList();
+        this.props.coursesActions.backToList();
     }
 
     updateCourseDetail(detail){
@@ -94,15 +92,15 @@ class CreateEditCoursesContainer extends React.Component {
 
     uploadAvatar(event){
         let file = event.target.files[0];
-        this.props.coursesCreateEditActions.uploadAvatar(file, this.state);
+        this.props.coursesActions.uploadAvatar(file, this.state);
     }
     uploadLogo(event){
         let file = event.target.files[0];
-        this.props.coursesCreateEditActions.uploadLogo(file, this.state);
+        this.props.coursesActions.uploadLogo(file, this.state);
     }
     uploadCover(event){
         let file = event.target.files[0];
-        this.props.coursesCreateEditActions.uploadCover(file, this.state);
+        this.props.coursesActions.uploadCover(file, this.state);
     }
 
     changeColor(color){
@@ -113,7 +111,7 @@ class CreateEditCoursesContainer extends React.Component {
 
     commitCourseData(){
         if(this.checkValidate())
-        this.props.coursesCreateEditActions.commitCourseData(this.state);
+        this.props.coursesActions.commitCourseData(this.state);
 
     }
 
@@ -245,7 +243,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                                 className="btn btn-fill btn-rose"
                                                                 type="button"
                                                                 onClick={this.commitCourseData}
-                                                            > Có lỗi xảy ra </button>
+                                                            > Lưu </button>
                                                     )
                                                 }
                                          </div>
@@ -444,7 +442,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        coursesCreateEditActions: bindActionCreators(coursesCreateEditActions, dispatch)
+        coursesActions: bindActionCreators(coursesActions, dispatch)
     };
 }
 

@@ -72,7 +72,7 @@ class TabCourse extends React.Component {
 
 TabCourse.propTypes = {
     url     : PropTypes.string.isRequired,
-    inputUrl: PropTypes.string.isRequired
+    inputUrl: PropTypes.string
 };
 
 export default TabCourse;

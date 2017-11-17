@@ -3,7 +3,7 @@ import PropTypes                        from 'prop-types';
 import * as helper                      from  "../../helpers/helper";
 import ButtonGroupAction                from "../../components/common/ButtonGroupAction";
 import {connect}                        from 'react-redux';
-import  * as CoursesCreateEditActions   from './coursesForm/CoursesCreateEditActions';
+import  * as coursesActions   from './coursesActions';
 import {bindActionCreators}             from 'redux';
 import initialState                     from '../../reducers/initialState';
 
@@ -21,7 +21,7 @@ class ListCourse extends React.Component {
     }
 
     editCourse(course) {
-        this.props.CoursesCreateEditActions.loadCourses(course);
+        this.props.coursesActions.loadCourses(course);
         initialState.coursesForm.data = course;
     }
 
@@ -109,7 +109,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        CoursesCreateEditActions: bindActionCreators(CoursesCreateEditActions, dispatch)
+        coursesActions: bindActionCreators(coursesActions, dispatch)
     };
 }
 
