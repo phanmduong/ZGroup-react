@@ -299,9 +299,9 @@ class StoreImportContainer extends React.Component {
                                 {this.props.isLoading ? <Loading/> :
                                     <div>
                                         <div>
-                                            <h4><strong>Thông tin đơn hàng</strong></h4>
+                                            <h4><strong>Thông tin phiếu nhập</strong></h4>
                                             <FormInputText
-                                                label="Mã đơn hàng"
+                                                label="Mã phiếu nhập"
                                                 name="code"
                                                 value={this.props.formImportGood.code}
                                                 placeholder="Hệ thống tự sinh"
