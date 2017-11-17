@@ -53,9 +53,9 @@ class Good extends Model
         return $this->belongsToMany(Coupon::class, 'coupon_good', 'good_id', 'coupon_id');
     }
 
-    public function goodCategories()
+    public function goodCategory()
     {
-        return $this->belongsToMany(GoodCategory::class, 'good_good_category', 'good_id', 'good_category_id');
+        return $this->belongsTo(GoodCategory::class, 'good_category_id');
     }
 
     public function manufacture()
@@ -100,8 +100,8 @@ class Good extends Model
 
         if($this->good_category_id)
             $data['category'] = [
-                'id' => $this->goodCategories->id,
-                'name' => $this->goodCategories->name,
+                'id' => $this->goodCategory->id,
+                'name' => $this->goodCategory->name,
             ];
         if($this->manufacture_id)
             $data['manufacture'] = [

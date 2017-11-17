@@ -369,7 +369,8 @@ class OrderController extends ManageApiController
         $importOrder->staff_id = $this->user->id;
         $importOrder->user_id = $request->user_id;
         $importOrder->type = 'import';
-        $importOrder->status = 'uncompleted';
+
+        $importOrder->status = $request->status ? $request->status : 'uncompleted';
         $importOrder->save();
         if ($request->paid_money) {
             $orderPaidMoney = new OrderPaidMoney;
@@ -383,6 +384,16 @@ class OrderController extends ManageApiController
         $orderImportId = $importOrder->id;
         foreach ($request->imported_goods as $imported_good) {
             $importedGood = new ImportedGoods;
+            if($imported_good['price'])
+            {
+                $good = Good::find($imported_good['good_id']);
+                if($good == null)
+                    return $this->respondErrorWithStatus([
+                        'message' => 'Không tồn tại sản phẩm'
+                    ]);
+                $good->price = $imported_good['price'];
+                $good->save();
+            }
             $importedGood->order_import_id = $orderImportId;
             $importedGood->good_id = $imported_good['good_id'];
             $importedGood->quantity = $imported_good['quantity'];
@@ -433,6 +444,7 @@ class OrderController extends ManageApiController
                         'name' => $supplier->name,
                         'email' => $supplier->email,
                         'phone' => $supplier->phone,
+                        'address' => $supplier->address,
                     ];
                 })
             ]);
@@ -452,6 +464,7 @@ class OrderController extends ManageApiController
                         'name' => $supplier->name,
                         'email' => $supplier->email,
                         'phone' => $supplier->phone,
+                        'address' => $supplier->address,
                     ];
                 })
             ]
