@@ -71,7 +71,7 @@ class CustomerController extends ManageApiController
                         'address' => $user->address,
                         'birthday' => $user->dob,
                         'gender' => $user->gender,
-                        'last_order' => format_vn_short_datetime(strtotime($lastOrder)),
+                        'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",
                         'total_money' => $totalMoney,
                         'total_paid_money' => $totalPaidMoney,
                         'debt' => $totalMoney - $totalPaidMoney,
