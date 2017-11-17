@@ -369,7 +369,8 @@ class OrderController extends ManageApiController
         $importOrder->staff_id = $this->user->id;
         $importOrder->user_id = $request->user_id;
         $importOrder->type = 'import';
-        $importOrder->status = 'uncompleted';
+
+        $importOrder->status = $request->status ? $request->status : 'uncompleted';
         $importOrder->save();
         if ($request->paid_money) {
             $orderPaidMoney = new OrderPaidMoney;
@@ -443,6 +444,7 @@ class OrderController extends ManageApiController
                         'name' => $supplier->name,
                         'email' => $supplier->email,
                         'phone' => $supplier->phone,
+                        'address' => $supplier->address,
                     ];
                 })
             ]);
@@ -462,6 +464,7 @@ class OrderController extends ManageApiController
                         'name' => $supplier->name,
                         'email' => $supplier->email,
                         'phone' => $supplier->phone,
+                        'address' => $supplier->address,
                     ];
                 })
             ]
