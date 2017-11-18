@@ -33,7 +33,7 @@
             </button>
             <div class="navbar-header" style="padding:0">
                 <a class="navbar-brand" href="/" style="margin:0px;padding:0px">
-                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991021AnoNpvBdwNcVpBA.png" height="60px"/>
+                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1510998622Dy77sLcyBFqLnnp.png" height="60px"/>
                 </a>
             </div>
         </div>
