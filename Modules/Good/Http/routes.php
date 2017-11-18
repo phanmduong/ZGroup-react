@@ -8,22 +8,24 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/task-setting', 'GoodController@getPropertyItems');
     Route::post('/create', 'GoodController@createGood');
     Route::delete('/{goodId}/delete', 'GoodController@deleteGood');
-    Route::get('/all-property-items', 'GoodController@allPropertyItems');
-    Route::delete('/delete-property-item/{property_item_id}', 'GoodController@deletePropertyItem');
-    Route::post('/create-property-item', 'GoodController@createGoodPropertyItem');
-    Route::post('/add-property-item-task/{task_id}', 'GoodController@addPropertyItemsTask');
-    Route::get('/property-item/{property_item_id}', 'GoodController@getGoodPropertyItem');
-    Route::get('/get-property/{good_id}', 'GoodController@propertiesOfGood');
-    Route::post('/{id}/save-good-properties', 'GoodController@saveGoodProperties');
-    Route::get('/{goodId}/task/{taskId}/good-properties', 'GoodController@loadGoodTaskProperties');
-    Route::get('/good-all','GoodController@getAllGoods');
     Route::put('/{goodId}/update-price', 'GoodController@updatePrice');
     Route::put('/edit/{goodId}', 'GoodController@editGood');
-    Route::get('/manufactures', 'GoodController@allManufactures');
     Route::post('/{goodId}/create-child-good', 'GoodController@createChildGood');
-    Route::get('/status/count', 'GoodController@statusCount');
-    Route::get('/inventories/all', 'GoodController@allInventories');
-    Route::get('/inventories-info', 'GoodController@inventoriesInfo');
     Route::get('/{goodId}', 'GoodController@good');
-    Route::get('/history/{importedGoodId}', 'GoodController@historyGoods');
+
+
+    Route::get('/all-property-items', 'GoodPropertyApiController@allPropertyItems');
+    Route::delete('/delete-property-item/{property_item_id}', 'GoodPropertyApiController@deletePropertyItem');
+    Route::post('/create-property-item', 'GoodPropertyApiController@createGoodPropertyItem');
+    Route::post('/add-property-item-task/{task_id}', 'GoodPropertyApiController@addPropertyItemsTask');
+    Route::get('/property-item/{property_item_id}', 'GoodPropertyApiController@getGoodPropertyItem');
+    Route::get('/get-property/{good_id}', 'GoodPropertyApiController@propertiesOfGood');
+    Route::post('/{id}/save-good-properties', 'GoodPropertyApiController@saveGoodProperties');
+    Route::get('/{goodId}/task/{taskId}/good-properties', 'GoodPropertyApiController@loadGoodTaskProperties');
+
+    Route::get('/manufactures', 'InventoryApiController@allManufactures');
+    Route::get('/status/count', 'InventoryApiController@statusCount');
+    Route::get('/inventories/all', 'InventoryApiController@allInventories');
+    Route::get('/inventories-info', 'InventoryApiController@inventoriesInfo');
+    Route::get('/history/{importedGoodId}', 'InventoryApiController@historyGoods');
 });
