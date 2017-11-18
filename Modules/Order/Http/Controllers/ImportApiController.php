@@ -21,11 +21,12 @@ class ImportApiController extends ManageApiController
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
-        $importOrders = Order::where('type', 'import');
         $keyword = $request->search;
         $staff_id = $request->staff_id;
 
+        $importOrders = Order::where('type', 'import');
         if($keyword) {
+            dd($keyword);
             $userIds = User::where(function ($query) use ($keyword){
                 $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('email', 'like', "%$keyword%");
             })->select('id')->get();
