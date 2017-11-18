@@ -39,7 +39,7 @@ class ImportApiController extends ManageApiController
             $importOrders = $importOrders->whereBetween('created_at', array($startTime, $endTime));
         if ($status)
             $importOrders = $importOrders->where('status', $status);
-        $importOrders = $importOrders->orderBy('created_at', 'desc');
+        $importOrders = $importOrders->orderBy('created_at', 'desc')->get();
 
         $data = $importOrders->map(function ($importOrder) {
             $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
