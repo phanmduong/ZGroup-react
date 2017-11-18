@@ -25,6 +25,8 @@ class ImportApiController extends ManageApiController
         $keyword = $request->search;
         $staff_id = $request->staff_id;
 
+        dd($keyword);
+
         if($keyword) {
             $userIds = User::where(function ($query) use ($keyword){
                 $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('email', 'like', "%$keyword%");
