@@ -176,8 +176,8 @@ class OrderController extends ManageApiController
         $staff_id = $request->staff_id;
 
         if($keyword) {
-            $userIds = User::where('type', 'supplier')->where(function ($query) use ($keyword){
-                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "$keyword")->orWhere('email', 'like', "$keyword");
+            $userIds = User::where(function ($query) use ($keyword){
+                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('email', 'like', "%$keyword%");
             })->select('id')->get();
             $importOrders = $importOrders->whereIn('user_id', $userIds);
             $importOrders = $importOrders->where('code', 'like', "%$keyword%");
