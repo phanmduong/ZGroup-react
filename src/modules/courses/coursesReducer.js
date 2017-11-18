@@ -80,6 +80,7 @@ export default function courseReducer(state = initialState.courses, action) {
                     error: true,
                 }
             };
+
         case types.BEGIN_UPLOAD_AVATAR_COURSE:
             return {
                 ...state,
@@ -209,9 +210,6 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.DELETE_DATA_COURSES: {
-            //console.log('DELETE_DATA_COURSES test',state);
-            //console.log('DELETE_DATA_COURSES test2',defaultData);
-
             return {
                 ...state,
                 ...{

@@ -33,7 +33,6 @@ export function loadCourses(page = 1, query='') {
                     courses     : res.data.courses,
                     paginator   : res.data.paginator
                 });
-                browserHistory.push('/manage/courses');
             })
             .catch(() => {
                 dispatch({type: types.LOADED_COURSES_DATA_ERROR});
@@ -108,6 +107,8 @@ export function loadOneCourse(id) {
             });
     };
 }
+
+
 
 
 export function uploadAvatar(file) {

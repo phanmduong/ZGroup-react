@@ -58,6 +58,11 @@ import HistoryShiftRegistersContainer from "./modules/historyShiftRegisters/Hist
 import ShiftSessionsContainer from "./modules/shiftSessions/ShiftSessionsContainer";
 import CoursesContainer from './modules/courses/CoursesContainer';
 import CreateEditCoursesContainer from "./modules/courses/coursesForm/CoursesCreateEditContainer";
+import coursesCreateEditGeneral from "./modules/courses/coursesForm/coursesCreateEditGeneral";
+import coursesCreateEditCurriculum from "./modules/courses/coursesForm/coursesCreateEditCurriculum";
+import coursesCreateEditDocuments from "./modules/courses/coursesForm/coursesCreateEditDocuments";
+import coursesCreateEditStudying from "./modules/courses/coursesForm/coursesCreateEditStudying";
+import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCreateEditInterested";
 
 export default (
     <Route>
@@ -197,11 +202,20 @@ export default (
 
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>
-            <Route path="/manage/courses/edit-success" component={CoursesContainer} type="edit-success"/>
-            <Route path="/manage/courses/create" component={CreateEditCoursesContainer}/>
-            <Route path="/manage/courses/create/general" component={CreateEditCoursesContainer}/>
-            <Route path="/manage/courses/:courseId/edit" component={CreateEditCoursesContainer} type="edit"/>
-            <Route path="/manage/courses/create" component={CreateEditCoursesContainer} type="create"/>
+            <Route path="/manage/courses/edit/:courseId" component={CreateEditCoursesContainer} type="edit">
+                <IndexRoute component={coursesCreateEditGeneral}/>
+                <Route path="curriculum" component={coursesCreateEditCurriculum}/>
+                <Route path="documents" component={coursesCreateEditDocuments}/>
+                <Route path="studying" component={coursesCreateEditStudying}/>
+                <Route path="interested" component={coursesCreateEditInterested}/>
+            </Route>
+            <Route path="/manage/courses/create" component={CreateEditCoursesContainer} type="create">
+                <IndexRoute component={coursesCreateEditGeneral}/>
+                <Route path="curriculum" component={coursesCreateEditCurriculum}/>
+                <Route path="documents" component={coursesCreateEditDocuments}/>
+                <Route path="studying" component={coursesCreateEditStudying}/>
+                <Route path="interested" component={coursesCreateEditInterested}/>
+            </Route>
             {/*End course routes */}
         </Route>
         <Route path="login" component={LoginContainer}/>

@@ -14,12 +14,13 @@ import Loading                          from "../../../components/common/Loading
 import * as helper                      from '../../../helpers/helper';
 import {linkUploadImageEditor}          from '../../../constants/constants';
 import {CirclePicker}                   from 'react-color';
-
+import {Link, IndexLink} from 'react-router';
 
 
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.urlType = "/create";
         this.updateFormData     = this.updateFormData.bind(this);
         this.uploadAvatar       = this.uploadAvatar.bind(this);
         this.uploadLogo         = this.uploadLogo.bind(this);
@@ -34,9 +35,9 @@ class CreateEditCoursesContainer extends React.Component {
 
     componentWillMount() {
         helper.setFormValidation('#form-course-create-edit');
-        //this.props.coursesActions.deleteData();
         console.log('will mount',this.props);
         let id = this.props.params.courseId;
+        this.urlType ="/manage/courses/" + (id ? "edit/" + id : "create");
         if(id) this.props.coursesActions.loadOneCourse(id);
         else this.props.coursesActions.deleteData();
     }
@@ -46,8 +47,6 @@ class CreateEditCoursesContainer extends React.Component {
 
     componentWillReceiveProps(nextProps){
         console.log('next props', nextProps);
-        //if(!nextProps.data) nextProps = this.state;
-        //this.setState(nextProps.data);
     }
 
 
@@ -60,10 +59,6 @@ class CreateEditCoursesContainer extends React.Component {
         const   feild   = e.target.name;
         const   value   = e.target.value;
         this.props.coursesActions.updateData(feild,value);
-        //let     data    = this.state;
-        //data[feild]     = value;
-        //this.setState(data);
-
     }
 
     updateEditor(content){
@@ -129,109 +124,47 @@ class CreateEditCoursesContainer extends React.Component {
                                 <div className="col-md-8">
                                 <div className="card">
 
-                                        <TabCourse url="/manage/courses/create/general"/>
+                                    <div className="card-header card-header-tabs" data-background-color="rose">
+                                        <div className="nav-tabs-navigation">
+                                            <div className="nav-tabs-wrapper">
+                                                <ul className="nav nav-tabs" data-tabs="tabs">
+                                                    <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
+                                                        <IndexLink to={`${this.urlType}`}>
+                                                            <i className="material-icons">account_circle</i> TỔNG QUAN
 
-                                    <div className="card-content">
-                                        {
-                                            <div>
-                                                <div className="row">
-
-                                                    <div className="col-md-12">
-                                                        <FormInputText
-                                                            label="Tên môn học"
-                                                            required
-                                                            name="name"
-                                                            updateFormData={this.updateFormData}
-                                                            value={this.props.data.name}
-                                                        /></div>
-
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                        label="Thời lượng"
-                                                        required
-                                                        name="duration"
-                                                        updateFormData={this.updateFormData}
-                                                        value={this.props.data.duration}
-                                                        /></div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                            label="Giá"
-                                                            required
-                                                            name="price"
-                                                            updateFormData={this.updateFormData}
-                                                            value={this.props.data.price}
-                                                        />
-                                                    </div>
-
-                                                    <div className="col-md-12">
-                                                        <FormInputText
-                                                            label="Mô tả ngắn"
-                                                            required
-                                                            name="description"
-                                                            updateFormData={this.updateFormData}
-                                                            value={this.props.data.description}
-                                                        /></div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                        label="Link tải phần mềm trên Windows"
-                                                        required
-                                                        name="linkwindow"
-                                                        updateFormData={this.updateFormData}
-                                                        value={this.props.data.linkwindow}
-                                                        /></div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                            label="Link hướng dẫn trên Windows"
-                                                            required
-                                                            name="window_how_install"
-                                                            updateFormData={this.updateFormData}
-                                                            value={this.props.data.window_how_install}
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                        label="Link tải phần mềm trên Mac"
-                                                        required
-                                                        name="linkmac"
-                                                        updateFormData={this.updateFormData}
-                                                        value={this.props.data.linkmac}
-                                                        /></div>
-                                                    <div className="col-md-6">
-                                                        <FormInputText
-                                                            label="Link hướng dẫn trên Mac"
-                                                            required
-                                                            name="mac_how_install"
-                                                            updateFormData={this.updateFormData}
-                                                            value={this.props.data.mac_how_install}
-                                                        />
-                                                    </div>
-
-                                                </div>
-
-                                                {this.props.isCommitting ?
-                                                    <button className="btn btn-rose btn-fill disabled" type="button">
-                                                        <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                                    </button>
-                                                    :
-                                                    ( this.props.commitSuccess ?
-
-                                                                <button
-                                                                    className="btn btn-fill btn-rose"
-                                                                    type="button"
-                                                                    onClick={this.commitCourseData}
-                                                                > Lưu </button>
-                                                        :
-
-                                                            <button
-                                                                className="btn btn-fill btn-rose"
-                                                                type="button"
-                                                                onClick={this.commitCourseData}
-                                                            > Lưu </button>
-                                                    )
-                                                }
-                                         </div>
-                                        }
+                                                            <div className="ripple-container" />
+                                                        </IndexLink>
+                                                    </li>
+                                                    <li className={this.props.location.pathname === `${this.urlType}/curriculum` ? 'active' : ''}>
+                                                        <Link to={`${this.urlType}/curriculum`}>
+                                                            <i className="material-icons">smartphone</i> GIÁO TRÌNH
+                                                            <div className="ripple-container" />
+                                                        </Link>
+                                                    </li>
+                                                    <li className={this.props.location.pathname === `${this.urlType}/documents` ? 'active' : ''}>
+                                                        <Link to={`${this.urlType}/documents`}>
+                                                            <i className="material-icons">add_box</i> TÀI LIỆU NGOÀI
+                                                            <div className="ripple-container" />
+                                                        </Link>
+                                                    </li>
+                                                    <li className={this.props.location.pathname === `${this.urlType}/studying` ? 'active' : ''}>
+                                                        <Link to={`${this.urlType}/studying`}>
+                                                            <i className="material-icons">create</i> HỌC TẬP
+                                                            <div className="ripple-container" />
+                                                        </Link>
+                                                    </li>
+                                                    <li className={this.props.location.pathname === `${this.urlType}/interested` ? 'active' : ''}>
+                                                        <Link to={`${this.urlType}/interested`}>
+                                                            <i className="material-icons">flag</i> QUAN TÂM
+                                                            <div className="ripple-container" />
+                                                        </Link>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <div>{this.props.children}</div>
 
                                 </div>
 
