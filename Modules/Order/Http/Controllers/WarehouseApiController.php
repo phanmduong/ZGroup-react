@@ -37,17 +37,48 @@ class WarehouseApiController extends ManageApiController
         $user = User::where('email', $request->email)->first();
         if ($user)
             return $this->respondErrorWithStatus('Email đã có người sử dụng');
-        if ($request->name == null || $request->phone == null)
-            return $this->respondErrorWithStatus('Thiếu trường tên hoặc số điện thoại');
+        if ($request->name == null || $request->phone == null || $request->email == null)
+            return $this->respondErrorWithStatus('Thiếu trường tên || sđt || email');
         $supplier->email = $request->email;
         $supplier->name = $request->name;
         $supplier->phone = $request->phone;
         $supplier->address = $request->address;
-        //$supplier->code = $request->code;
         $supplier->type = 'supplier';
         $supplier->save();
         return $this->respondSuccessWithStatus([
             'supplier' => $supplier
+        ]);
+    }
+
+    public function editSupplier($supplier_id, Request $request)
+    {
+        $supplier = User::find($supplier_id);
+        if ($supplier == null || $supplier->type != 'supplier')
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại nhà cung cấp'
+            ]);
+        if ($request->name == null || $request->phone == null || $request->email == null)
+            return $this->respondErrorWithStatus('Thiếu trường tên || sđt || email');
+        $supplier->email = $request->email;
+        $supplier->name = $request->name;
+        $supplier->phone = $request->phone;
+        $supplier->address = $request->address;
+        $supplier->save();
+        return $this->$this->respondSuccessWithStatus([
+            'supplier' => $supplier
+        ]);
+    }
+
+    public function deleteSupplier($supplier_id)
+    {
+        $supplier = User::find($supplier_id);
+        if ($supplier == null || $supplier->type != 'supplier')
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại nhà cung cấp'
+            ]);
+        $supplier->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
         ]);
     }
 

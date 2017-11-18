@@ -18,6 +18,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::post('/add-import-order-goods', 'ImportApiController@addImportOrderGoods');
 
     Route::post('/add-supplier', 'WarehouseApiController@addSupplier');
+    Route::put('/supplier/{supplier_id}/edit', 'WarehouseApiController@editSupplier');
+    Route::delete('/supplier/{supplier_id}/delete', 'WarehouseApiController@deleteSupplier');
     Route::get('/all-suppliers', 'WarehouseApiController@allSuppliers');
     Route::get('/all-warehouses', 'WarehouseApiController@getWarehouses');
     Route::get('/warehouses/all', 'WarehouseApiController@allWarehouses');
