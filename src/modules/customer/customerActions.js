@@ -21,6 +21,7 @@ export function loadCustomers( page , limit, query,status) {
                     type : types.LOADED_CUSTOMER_ERROR,
                 });
             });
+        dispatch(loadTotalAndDebtMoney());
 
     };
 }

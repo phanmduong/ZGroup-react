@@ -36,7 +36,6 @@ class CustomerContainer extends React.Component {
 
     componentWillMount() {
         this.loadCustomers(1, this.state.limit);
-        this.props.customerActions.loadTotalAndDebtMoney();
     }
 
     componentDidUpdate() {

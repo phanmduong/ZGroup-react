@@ -1,7 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-let customerList;
 export default function customerReducer(state = initialState.customers, action) {
     switch (action.type) {
 
@@ -47,7 +46,6 @@ export default function customerReducer(state = initialState.customers, action) 
             return {
                 ...state,
                 ...{
-                    customersList: action.customersList,
                     totalMoneys: action.total_moneys,
                     totalDebtMoneys: action.total_debt_moneys,
                     isLoading: false,
