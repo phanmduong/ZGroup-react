@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <title>Alibaba</title>
+    @yield('meta')
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
@@ -21,8 +22,8 @@
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
 
 </head>
-<body class="presentation-page">
-<nav class="navbar navbar-toggleable-md fixed-top nav-down">
+<body class="profile" style="background:#fafafa">
+<nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
     <div class="container">
         <div class="navbar-translate">
             <button class="navbar-toggler navbar-toggler-right navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -131,7 +132,7 @@
                     </div>
                     <div class="col-md-3 col-xs-6">
                         <div class="social-area">
-                            <a class="btn btn-just-icon btn-round btn-default" href="https://www.facebook.com/Alibaba">
+                            <a class="btn btn-just-icon btn-round btn-default" href="https://www.facebook.com/AlibabaEnglishClub/">
                                 <i class="fa fa-facebook" aria-hidden="true"></i>
                             </a>
                             <a class="btn btn-just-icon btn-round btn-default">

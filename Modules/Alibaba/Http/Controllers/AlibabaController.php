@@ -56,7 +56,7 @@ class AlibabaController extends Controller
 
             return $comment;
         });
-        return view('graphics::post',
+        return view('alibaba::post',
             [
                 'post' => $post,
                 'posts_related' => $posts_related
