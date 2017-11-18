@@ -18,6 +18,7 @@ class ImportApiController extends ManageApiController
 
     public function allImportOrders(Request $request)
     {
+        $limit = $request->limit ? $request->limit : 20;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
@@ -25,63 +26,64 @@ class ImportApiController extends ManageApiController
         $staff_id = $request->staff_id;
 
         $importOrders = Order::where('type', 'import');
-        if($keyword) {
-            $userIds = User::where(function ($query) use ($keyword){
-                $query->where('name', 'like', "%" . $keyword ."%")->orWhere('phone', 'like', "%" . $keyword ."%")->orWhere('email', 'like', "%" . $keyword ."%");
+        if ($keyword) {
+            $userIds = User::where(function ($query) use ($keyword) {
+                $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('email', 'like', "%$keyword%");
             })->select('id')->get();
             $importOrders = $importOrders->whereIn('user_id', $userIds);
         }
 
-        $importOrders = $importOrders->where('code', 'like', "%" . $keyword ."%");
-        if($staff_id)
+        $importOrders = $importOrders->where('code', 'like', "%$keyword%");
+        if ($staff_id)
             $importOrders = $importOrders->where('staff_id', $staff_id);
         if ($startTime)
             $importOrders = $importOrders->whereBetween('created_at', array($startTime, $endTime));
         if ($status)
             $importOrders = $importOrders->where('status', $status);
-        $importOrders = $importOrders->orderBy('created_at', 'desc')->get();
+        $importOrders = $importOrders->orderBy('created_at', 'desc')->paginate($limit);
 
-        $data = $importOrders->map(function ($importOrder) {
-            $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
-                return $total + $importedGood->quantity * $importedGood->import_price;
-            }, 0);
-            $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
-                return $total + $importedGood->quantity;
-            }, 0);
-            $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
-                    return $total + $orderPaidMoney->money;
-                }, 0);
-            $importOrderData = [
-                'id' => $importOrder->id,
-                'code' => $importOrder->code,
-                'status' => $importOrder->status,
-                'created_at' => format_vn_short_datetime(strtotime($importOrder->created_at)),
-                'import_price' => $importOrder->import_price,
-                'warehouse_id' => $importOrder->warehouse_id,
-                'total_money' => $total_money,
-                'total_quantity' => $total_quantity,
-                'debt' => $debt,
-            ];
-            if (isset($importOrder->staff)) {
-                $staff = [
-                    'id' => $importOrder->staff->id,
-                    'name' => $importOrder->staff->name,
-                ];
-                $importOrderData['staff'] = $staff;
-            }
-            if (isset($importOrder->user)) {
-                $user = [
-                    'id' => $importOrder->user->id,
-                    'name' => $importOrder->user->name,
-                ];
-                $importOrderData['user'] = $user;
-            }
-            return $importOrderData;
-        });
-
-        return $this->respondSuccessWithStatus([
-            'import_orders' => $data
-        ]);
+        return $this->respondWithPagination(
+            $importOrders,
+            [
+                'import_orders' => $importOrders->map(function ($importOrder) {
+                    $total_money = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+                        return $total + $importedGood->quantity * $importedGood->import_price;
+                    }, 0);
+                    $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
+                        return $total + $importedGood->quantity;
+                    }, 0);
+                    $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
+                            return $total + $orderPaidMoney->money;
+                        }, 0);
+                    $importOrderData = [
+                        'id' => $importOrder->id,
+                        'code' => $importOrder->code,
+                        'status' => $importOrder->status,
+                        'created_at' => format_vn_short_datetime(strtotime($importOrder->created_at)),
+                        'import_price' => $importOrder->import_price,
+                        'warehouse_id' => $importOrder->warehouse_id,
+                        'total_money' => $total_money,
+                        'total_quantity' => $total_quantity,
+                        'debt' => $debt,
+                    ];
+                    if (isset($importOrder->staff)) {
+                        $staff = [
+                            'id' => $importOrder->staff->id,
+                            'name' => $importOrder->staff->name,
+                        ];
+                        $importOrderData['staff'] = $staff;
+                    }
+                    if (isset($importOrder->user)) {
+                        $user = [
+                            'id' => $importOrder->user->id,
+                            'name' => $importOrder->user->name,
+                        ];
+                        $importOrderData['user'] = $user;
+                    }
+                    return $importOrderData;
+                })
+            ]
+        );
     }
 
     public function detailedImportOrder($importOrderId)
