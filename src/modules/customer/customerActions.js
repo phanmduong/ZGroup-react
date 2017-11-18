@@ -68,7 +68,7 @@ export function addCustomer(customer ,  closeAddModal  ) {
                     });
                 }
                 else {
-                    helper.sweetAlertError(res.data.data.message);
+                    helper.sweetAlertError(res.data.message);
                     dispatch({
                         type: types.ADD_CUSTOMER_ERROR,
                     });

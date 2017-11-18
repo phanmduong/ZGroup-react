@@ -1,10 +1,10 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadSuppliersApi(limit , page , query ) {
+export function loadSuppliersApi(limit, page, query) {
     let url = env.MANAGE_API_URL + "/order/all-suppliers?";
     let token = localStorage.getItem('token');
-    if (limit){
+    if (limit) {
         url += "&limit=" + limit;
     }
     if (page) {
@@ -18,18 +18,28 @@ export function loadSuppliersApi(limit , page , query ) {
     }
     return axios.get(url);
 }
+
 export function addSupplierApi(supplier) {
     let url = env.MANAGE_API_URL + "/order/add-supplier?";
     let token = localStorage.getItem('token');
     if (token) {
         url += "token=" + token;
     }
-    return axios.post(url,{
-        'name' :  supplier.name,
-        'email' : supplier.email,
-        'phone' : supplier.phone,
-        'address' : supplier.address,
+    return axios.post(url, {
+        'name': supplier.name,
+        'email': supplier.email,
+        'phone': supplier.phone,
+        'address': supplier.address,
     });
+}
+
+export function deleteSupplierApi(id) {
+    let token = localStorage.getItem("token");
+    let url = env.MANAGE_API_URL + '/order/supplier/'+ id + '/delete?';
+    if (token) {
+        url += 'token=' + token;
+    }
+    return axios.delete(url);
 }
 
 

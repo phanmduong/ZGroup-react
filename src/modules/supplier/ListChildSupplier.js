@@ -40,6 +40,14 @@ class ListChildSupplier extends React.Component {
                                                            data-original-title="Sửa">
                                                             <i className="material-icons">edit</i>
                                                         </a>
+                                                        <a data-toggle="tooltip" title type="button"
+                                                           rel="tooltip"
+                                                           data-original-title="Xóa"
+                                                        onClick={() => this.props.deleteSupplier(supplier.id,supplier.name)}
+                                                        >
+                                                            <i className="material-icons">delete</i>
+                                                        </a>
+
                                                     </div>
                                                 </div>
                                             </td>

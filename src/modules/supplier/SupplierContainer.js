@@ -12,8 +12,6 @@ import * as helper from '../../helpers/helper';
 import Pagination from '../../components/common/Pagination';
 
 
-
-
 class SupplierContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -29,24 +27,24 @@ class SupplierContainer extends React.Component {
         this.closeAddModal = this.closeAddModal.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.addSupplier = this.addSupplier.bind(this);
+        this.deleteSupplier = this.deleteSupplier.bind(this);
     }
 
     componentWillMount() {
         this.loadSuppliers(1, this.state.limit);
     }
 
-    componentDidUpdate() {
-        this.initForm();
-    }
+
     openAddModal() {
         this.setState({isShowModal: true});
     }
 
     closeAddModal() {
         let supplier = {
-            name : '',
-            phone : '',
-            email : '',
+            name: '',
+            phone: '',
+            email: '',
+            address:'',
         };
         this.props.supplierActions.updateAddSupplierFormData(supplier);
         this.setState({isShowModal: false});
@@ -61,7 +59,7 @@ class SupplierContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.supplierActions.loadSuppliers(this.state.page, this.state.limit, this.state.query,this.state.status);
+            this.props.supplierActions.loadSuppliers(this.state.page, this.state.limit, this.state.query, this.state.status);
         }.bind(this), 500);
     }
 
@@ -72,17 +70,17 @@ class SupplierContainer extends React.Component {
         this.props.supplierActions.updateAddSupplierFormData(supplier);
     }
 
-    addSupplier(e){
+    addSupplier(e) {
         if ($('#form-add-supplier').valid()) {
             if (this.props.supplier.name === null || this.props.supplier.name === undefined || this.props.supplier.name === '') {
                 helper.showTypeNotification("Vui lòng nhập tên", 'warning');
                 return;
             }
-            if (this.props.supplier.email === null || this.props.supplier.email === undefined || this.props.supplier.email === '' ) {
+            if (this.props.supplier.email === null || this.props.supplier.email === undefined || this.props.supplier.email === '') {
                 helper.showTypeNotification("Vui lòng nhập email", 'warning');
                 return;
             }
-            if (this.props.supplier.phone === null || this.props.supplier.phone === undefined || this.props.supplier.phone === '' ) {
+            if (this.props.supplier.phone === null || this.props.supplier.phone === undefined || this.props.supplier.phone === '') {
                 helper.showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
             }
             else {
@@ -92,14 +90,20 @@ class SupplierContainer extends React.Component {
         e.preventDefault();
     }
 
-    loadSuppliers(page, limit) {
+    loadSuppliers(page) {
         this.setState({page: page});
-        this.props.supplierActions.loadSuppliers(page,limit);
+        this.props.supplierActions.loadSuppliers(page, this.state.limit);
+    }
+
+    deleteSupplier(id, name) {
+        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa nhà cung cấp " + name,
+            function () {
+                this.props.supplierActions.deleteSupplier(id);
+            }.bind(this));
     }
 
     render() {
         let currentPage = this.state.page;
-        let limit = this.state.limit;
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -118,7 +122,7 @@ class SupplierContainer extends React.Component {
                                         <div className="table-responsive">
                                             <div id="property-table_wrapper"
                                                  className="dataTables_wrapper dt-bootstrap">
-                                                <div className="row" >
+                                                <div className="row">
                                                     <div className="col-md-6">
                                                         <Search
                                                             onChange={this.suppliersSearchChange}
@@ -130,6 +134,7 @@ class SupplierContainer extends React.Component {
                                                 </div>
                                                 <ListChildSupplier
                                                     suppliersList={this.props.suppliersList}
+                                                    deleteSupplier = {this.deleteSupplier}
                                                 />
 
                                                 <div className="row">
@@ -169,7 +174,7 @@ class SupplierContainer extends React.Component {
                                 }}>
                                     <AddSupplierModal
                                         updateFormData={this.updateFormData}
-                                        supplier = {this.props.supplier}
+                                        supplier={this.props.supplier}
                                     />
                                     {this.props.isSaving ?
                                         (
@@ -185,13 +190,14 @@ class SupplierContainer extends React.Component {
                                             <button rel="tooltip" data-placement="top" title=""
                                                     data-original-title="Remove item"
                                                     type="button" className="btn btn-round btn-success "
-                                                    onClick={(e) =>this.addSupplier(e)}
+                                                    onClick={(e) => this.addSupplier(e)}
                                             ><i className="material-icons">check</i>
                                                 Thêm
                                             </button>
                                         )
                                     }
-                                    <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
+                                    <button rel="tooltip" data-placement="top" title=""
+                                            data-original-title="Remove item"
                                             type="button" className="btn btn-round btn-danger " data-dismiss="modal"
                                             onClick={this.closeAddModal}><i className="material-icons">close</i> Huỷ
                                     </button>
@@ -210,7 +216,7 @@ SupplierContainer.propTypes = {
     suppliersList: PropTypes.array,
     isLoading: PropTypes.bool,
     totalPages: PropTypes.number,
-    totalCount : PropTypes.number,
+    totalCount: PropTypes.number,
     isSaving: PropTypes.bool,
     supplier: PropTypes.object,
 };
@@ -220,7 +226,7 @@ function mapStateToProps(state) {
         suppliersList: state.suppliers.suppliersList,
         isLoading: state.suppliers.isLoading,
         totalPages: state.suppliers.totalPages,
-        totalCount : state.suppliers.totalCount,
+        totalCount: state.suppliers.totalCount,
         isSaving: state.suppliers.modal.isSaving,
         supplier: state.suppliers.modal.supplier,
     };

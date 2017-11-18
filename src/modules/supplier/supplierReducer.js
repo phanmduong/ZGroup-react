@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let suppliersList;
 export default function supplierReducer(state = initialState.suppliers, action) {
     switch (action.type) {
 
@@ -75,8 +76,22 @@ export default function supplierReducer(state = initialState.suppliers, action) 
                     },
                 }
             };
+        case types.DELETE_SUPPLIER_SUCCESS:
+
+            suppliersList = deleteSupplierReducer(action.id , state.suppliersList);
+            return {
+                ...state,
+                suppliersList : suppliersList,
+            };
 
         default :
             return state;
     }
+}
+
+function deleteSupplierReducer(id, suppliersList) {
+    if (suppliersList){
+        suppliersList = suppliersList.filter((supplier) => supplier.id !== id);
+    }
+    return suppliersList;
 }
