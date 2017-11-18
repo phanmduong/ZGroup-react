@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import ListChildCustomer from "./ListChildCustomer";
-import _ from 'lodash';
+import Pagination from '../../components/common/Pagination';
 import * as customerActions from './customerActions';
 import Loading from "../../components/common/Loading";
 import Search from '../../components/common/Search';
@@ -170,25 +170,11 @@ class CustomerContainer extends React.Component {
                                                         </div>
                                                     </div>
                                                     <div className="col-sm-7" style={{textAlign: 'right'}}>
-                                                        <ul className="pagination pagination-primary">
-
-
-                                                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                                                if (Number(currentPage) === page) {
-                                                                    return (
-                                                                        <li key={page} className="active">
-                                                                            <a onClick={() => this.loadCustomers(page, limit)}>{page}</a>
-                                                                        </li>
-                                                                    );
-                                                                } else {
-                                                                    return (
-                                                                        <li key={page}>
-                                                                            <a onClick={() => this.loadCustomers(page, limit)}>{page}</a>
-                                                                        </li>
-                                                                    );
-                                                                }
-                                                            })}
-                                                        </ul>
+                                                        <Pagination
+                                                            totalPages={this.props.totalPages}
+                                                            currentPage={currentPage}
+                                                            loadDataPage={this.loadCustomers}
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>

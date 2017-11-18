@@ -3,13 +3,14 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import ListChildSupplier from "./ListChildSupplier";
-import _ from 'lodash';
 import * as supplierActions from './supplierActions';
 import Loading from "../../components/common/Loading";
 import Search from '../../components/common/Search';
 import {Modal} from 'react-bootstrap';
 import AddSupplierModal from './AddSupplierModal';
 import * as helper from '../../helpers/helper';
+import Pagination from '../../components/common/Pagination';
+
 
 
 
@@ -140,25 +141,12 @@ class SupplierContainer extends React.Component {
                                                         </div>
                                                     </div>
                                                     <div className="col-sm-7" style={{textAlign: 'right'}}>
-                                                        <ul className="pagination pagination-primary">
+                                                        <Pagination
+                                                            totalPages={this.props.totalPages}
+                                                            currentPage={currentPage}
+                                                            loadDataPage={this.loadSuppliers}
+                                                        />
 
-
-                                                            {_.range(1, this.props.totalPages + 1).map(page => {
-                                                                if (Number(currentPage) === page) {
-                                                                    return (
-                                                                        <li key={page} className="active disabled">
-                                                                            <a onClick={() => this.loadSuppliers(page, limit)}>{page}</a>
-                                                                        </li>
-                                                                    );
-                                                                } else {
-                                                                    return (
-                                                                        <li key={page}>
-                                                                            <a onClick={() => this.loadSuppliers(page, limit)}>{page}</a>
-                                                                        </li>
-                                                                    );
-                                                                }
-                                                            })}
-                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
