@@ -17,31 +17,9 @@ import {CirclePicker}                   from 'react-color';
 
 
 
-
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-
-        this.state = {
-            id                  : null,
-            name                : '',
-            duration            : '',
-            price               : '',
-            description         : '',
-            linkmac             : "",
-            linkwindow          : "",
-            num_classes         : '',
-            mac_how_install     : '',
-            window_how_install  : "",
-            cover_url           : '',
-            color               : "",
-            image_url           : '',
-            icon_url            : '',
-            created_at          : "",
-            detail              : "",
-            lessons             : [],
-            links               : []
-        };
         this.updateFormData     = this.updateFormData.bind(this);
         this.uploadAvatar       = this.uploadAvatar.bind(this);
         this.uploadLogo         = this.uploadLogo.bind(this);
@@ -55,63 +33,67 @@ class CreateEditCoursesContainer extends React.Component {
 
 
     componentWillMount() {
-
         helper.setFormValidation('#form-course-create-edit');
+        //this.props.coursesActions.deleteData();
+        console.log('will mount',this.props);
         let id = this.props.params.courseId;
         if(id) this.props.coursesActions.loadOneCourse(id);
+        else this.props.coursesActions.deleteData();
     }
     componentDidMount() {
         helper.setFormValidation('#form-course-create-edit');
     }
-    componentWillReceiveProps(nextProps){
 
-        this.setState(nextProps.data);
+    componentWillReceiveProps(nextProps){
+        console.log('next props', nextProps);
+        //if(!nextProps.data) nextProps = this.state;
+        //this.setState(nextProps.data);
     }
+
 
     backToList(){
         this.props.coursesActions.backToList();
     }
 
 
-
     updateFormData(e){
         const   feild   = e.target.name;
         const   value   = e.target.value;
-        let     data    = this.state;
-        data[feild]     = value;
+        this.props.coursesActions.updateData(feild,value);
+        //let     data    = this.state;
+        //data[feild]     = value;
+        //this.setState(data);
 
-        this.setState(data);
     }
 
     updateEditor(content){
-        let data        = this.state;
-        data.detail     = content;
-        this.setState(data);
+        this.props.coursesActions.updateData('detail', content);
     }
 
     uploadAvatar(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadAvatar(file, this.state);
+        this.props.coursesActions.uploadAvatar(file);
     }
     uploadLogo(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadLogo(file, this.state);
+        this.props.coursesActions.uploadLogo(file);
+
     }
     uploadCover(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadCover(file, this.state);
+        this.props.coursesActions.uploadCover(file);
     }
 
     changeColor(color){
         let data    = this.state;
         data.color  = color.hex;
-        this.setState(data);
+        //this.setState(data);
+        this.props.coursesActions.updateData('color', color.hex);
     }
 
     commitCourseData(){
         if(this.checkValidate())
-        this.props.coursesActions.commitCourseData(this.state);
-
+        this.props.coursesActions.commitCourseData(this.props.data);
 
     }
 
@@ -119,15 +101,15 @@ class CreateEditCoursesContainer extends React.Component {
 
         if ($('#form-course-create-edit').valid()) {
 
-            if (helper.isEmptyInput(this.state.icon_url)) {
+            if (helper.isEmptyInput(this.props.data.icon_url)) {
                 helper.showTypeNotification('Vui lòng chọn ảnh icon', 'warning');
                 return false;
             }
-            if (helper.isEmptyInput(this.state.image_url)) {
+            if (helper.isEmptyInput(this.props.data.image_url)) {
                 helper.showTypeNotification('Vui lòng chọn ảnh đại điện', 'warning');
                 return false;
             }
-            if (helper.isEmptyInput(this.state.cover_url)) {
+            if (helper.isEmptyInput(this.props.data.cover_url)) {
                 helper.showTypeNotification('Vui lòng chọn cover', 'warning');
                 return false;
             }
@@ -143,7 +125,7 @@ class CreateEditCoursesContainer extends React.Component {
                 <div className="col-md-12">
                         <div className="row">
                             {this.props.isLoading ? <Loading/> :
-                            <div name="content">
+                            <div name='content'>
                                 <div className="col-md-8">
                                 <div className="card">
 
@@ -160,7 +142,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                             required
                                                             name="name"
                                                             updateFormData={this.updateFormData}
-                                                            value={this.state.name}
+                                                            value={this.props.data.name}
                                                         /></div>
 
                                                     <div className="col-md-6">
@@ -169,15 +151,15 @@ class CreateEditCoursesContainer extends React.Component {
                                                         required
                                                         name="duration"
                                                         updateFormData={this.updateFormData}
-                                                        value={this.state.duration}
+                                                        value={this.props.data.duration}
                                                         /></div>
                                                     <div className="col-md-6">
                                                         <FormInputText
                                                             label="Giá"
-                                                            requirednp
+                                                            required
                                                             name="price"
                                                             updateFormData={this.updateFormData}
-                                                            value={this.state.price}
+                                                            value={this.props.data.price}
                                                         />
                                                     </div>
 
@@ -187,7 +169,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                             required
                                                             name="description"
                                                             updateFormData={this.updateFormData}
-                                                            value={this.state.description}
+                                                            value={this.props.data.description}
                                                         /></div>
                                                     <div className="col-md-6">
                                                         <FormInputText
@@ -195,7 +177,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                         required
                                                         name="linkwindow"
                                                         updateFormData={this.updateFormData}
-                                                        value={this.state.linkwindow}
+                                                        value={this.props.data.linkwindow}
                                                         /></div>
                                                     <div className="col-md-6">
                                                         <FormInputText
@@ -203,7 +185,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                             required
                                                             name="window_how_install"
                                                             updateFormData={this.updateFormData}
-                                                            value={this.state.window_how_install}
+                                                            value={this.props.data.window_how_install}
                                                         />
                                                     </div>
                                                     <div className="col-md-6">
@@ -212,7 +194,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                         required
                                                         name="linkmac"
                                                         updateFormData={this.updateFormData}
-                                                        value={this.state.linkmac}
+                                                        value={this.props.data.linkmac}
                                                         /></div>
                                                     <div className="col-md-6">
                                                         <FormInputText
@@ -220,7 +202,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                             required
                                                             name="mac_how_install"
                                                             updateFormData={this.updateFormData}
-                                                            value={this.state.mac_how_install}
+                                                            value={this.props.data.mac_how_install}
                                                         />
                                                     </div>
 
@@ -266,7 +248,7 @@ class CreateEditCoursesContainer extends React.Component {
                                                      name="detail"
                                                      updateEditor={this.updateEditor}
 
-                                                     value={this.state.detail ? this.state.detail : ""}
+                                                     value={this.props.data.detail ? this.props.data.detail : ""}
                                                  />
                                              }
 
@@ -283,7 +265,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 <div className="card-content"><h4 className="card-title">Thông tin về form </h4>
 
 
-                                <img src = {helper.isEmptyInput(this.state.icon_url) ? NO_IMAGE : this.state.icon_url} />
+                                <img src = {helper.isEmptyInput(this.props.data.icon_url) ? NO_IMAGE : this.props.data.icon_url} />
                             { this.props.isUpdatingLogo ?
                                 (
                                 <button className="btn btn-rose btn-round disabled" type="button">
@@ -312,7 +294,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 </button>
                                 )
                             }
-                                <img src = {helper.isEmptyInput(this.state.image_url) ? NO_IMAGE : this.state.image_url} />
+                                <img src = {helper.isEmptyInput(this.props.data.image_url) ? NO_IMAGE : this.props.data.image_url} />
                             { this.props.isUpdatingAvatar ?
                                 (
                                 <button className="btn btn-rose btn-round disabled" type="button">
@@ -341,7 +323,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 </button>
                                 )
                             }
-                                <img src = {helper.isEmptyInput(this.state.cover_url) ? NO_IMAGE : this.state.cover_url} />
+                                <img src = {helper.isEmptyInput(this.props.data.cover_url) ? NO_IMAGE : this.props.data.cover_url} />
                             { this.props.isUpdatingCover ?
                                 (
                                 <button className="btn btn-rose btn-round disabled" type="button">
@@ -374,7 +356,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 <div className="card-content">
                                 <h4 className="card-title">Chọn màu</h4>
                                 <CirclePicker width="100%"
-                                color={this.state.color}
+                                color={this.props.data.color}
                                 onChangeComplete={this.changeColor}
                                 />
                                 </div>
@@ -419,8 +401,7 @@ CreateEditCoursesContainer.propTypes = {
     updateCoverError    : PropTypes.bool,
     isCommitting        : PropTypes.bool,
     commitSuccess       : PropTypes.bool,
-    params              : PropTypes.object,
-    coursesActions      : PropTypes.object.isRequired,
+    coursesActions      : PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

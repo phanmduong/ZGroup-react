@@ -3,6 +3,26 @@ import * as courseApi   from './courseApi';
 import * as helper      from '../../helpers/helper';
 import {browserHistory}                 from 'react-router';
 
+export function updateData(feild, value) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_DATA_COURSES,
+            feild: feild,
+            value: value
+        });
+
+    };
+}
+
+export function deleteData() {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_DATA_COURSES
+        });
+
+    };
+}
+
 export function loadCourses(page = 1, query='') {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_COURSES_DATA});
@@ -90,16 +110,15 @@ export function loadOneCourse(id) {
 }
 
 
-export function uploadAvatar(file, course) {
+export function uploadAvatar(file) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_UPLOAD_AVATAR_COURSE});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
-            course.image_url = data.link;
             dispatch({
                 type: types.UPLOAD_AVATAR_COURSE_SUCCESS,
-                data: course
+                link: data.link
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
@@ -108,16 +127,15 @@ export function uploadAvatar(file, course) {
     };
 }
 
-export function uploadLogo(file, course) {
+export function uploadLogo(file) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_UPLOAD_LOGO_COURSE});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
-            course.icon_url = data.link;
             dispatch({
                 type: types.UPLOAD_LOGO_COURSE_SUCCESS,
-                data: course
+                link: data.link
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
@@ -126,16 +144,15 @@ export function uploadLogo(file, course) {
     };
 }
 
-export function uploadCover(file, course) {
+export function uploadCover(file) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_UPLOAD_COVER_COURSE});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
-            course.cover_url = data.link;
             dispatch({
                 type: types.UPLOAD_COVER_COURSE_SUCCESS,
-                data: course
+                link: data.link
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
