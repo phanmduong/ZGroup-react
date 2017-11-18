@@ -19,10 +19,10 @@ class ImportApiController extends ManageApiController
     public function allImportOrders(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
+        $keyword = $request->search;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
-        $keyword = $request->search;
         $staff_id = $request->staff_id;
 
         $importOrders = Order::where('type', 'import');
@@ -33,7 +33,7 @@ class ImportApiController extends ManageApiController
             $importOrders = $importOrders->whereIn('user_id', $userIds);
         }
 
-        $importOrders = $importOrders->where('code', 'like', "%$keyword%");
+        $importOrders = $importOrders->where('code', 'like', "%20:23%");
         if ($staff_id)
             $importOrders = $importOrders->where('staff_id', $staff_id);
         if ($startTime)
