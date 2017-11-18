@@ -29,12 +29,10 @@ class ImportApiController extends ManageApiController
         if ($keyword) {
             $userIds = User::where(function ($query) use ($keyword) {
                 $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('email', 'like', "%$keyword%");
-            })->select('id')->first();
-            dd(\GuzzleHttp\json_encode($userIds));
-            $importOrders = $importOrders->where('user_id', $userIds);
+            })->pluck('id')->toArray();
+            $importOrders = $importOrders->whereIn('user_id', $userIds)->orWhere('code', 'like', "%$keyword%");
         }
 
-        //$importOrders = $importOrders->where('code', 'like', "%$keyword%");
         if ($staff_id)
             $importOrders = $importOrders->where('staff_id', $staff_id);
         if ($startTime)
