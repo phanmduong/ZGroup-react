@@ -21,7 +21,7 @@ class ImportApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $keyword = trim($request->search);
         $startTime = $request->start_time;
-        $endTime = $request->end_time;
+        $endTime = date("Y-m-d" ,strtotime("+1 day", strtotime($request->end_time)));
         $status = $request->status;
         $staff_id = $request->staff_id;
 
