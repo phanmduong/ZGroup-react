@@ -70,7 +70,6 @@
 </nav>
 
 @yield('content')
-
 <div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
 
