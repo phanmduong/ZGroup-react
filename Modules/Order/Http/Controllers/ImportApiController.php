@@ -19,7 +19,7 @@ class ImportApiController extends ManageApiController
     public function allImportOrders(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
-        $keyword = "ABC";
+        $keyword = trim($request->search);
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
