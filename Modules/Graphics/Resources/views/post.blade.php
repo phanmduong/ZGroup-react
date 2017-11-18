@@ -1,16 +1,13 @@
 
-@extends('graphics::layouts.master')
-@section('meta')
+@extends('alibaba::layouts.master')
+
+@section('content')
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="{{config('app.protocol').config('app.domain').'/blog/post/'.$post->id}}"/>
     <meta property="og:title" content="{{$post->title}}"/>
     <meta property="og:description"
           content="{{$post->description}}"/>
     <meta property="og:image" content="{{$post->url}}"/>
-@endsection
-
-@section('content')
-
     <div class="wrapper">
         <div class="main">
             <div class="section section-white">

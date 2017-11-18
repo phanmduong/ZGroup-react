@@ -2,22 +2,30 @@
 
 namespace Modules\Alibaba\Http\Controllers;
 
+use App\Product;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 class AlibabaController extends Controller
 {
     public function index()
     {
-        return view('alibaba::index');
+        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->limit(3)->get();
+        return view('alibaba::index', [
+            'blogs' => $blogs
+        ]);
+    }
+
+    public function aboutUs()
+    {
+        return view('alibaba::about_us');
     }
 
     public function blog($subfix, Request $request)
     {
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
         $display = "";
-        //dd($blogs->lastPage());
+
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
         return view('alibaba::blogs', [
@@ -48,7 +56,6 @@ class AlibabaController extends Controller
 
             return $comment;
         });
-//        dd($post);
         return view('graphics::post',
             [
                 'post' => $post,

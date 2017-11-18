@@ -156,80 +156,34 @@
     </div>
     <br><br>
     <div class="row">
-
-        <div class="col-md-4">
-            <div class="card card-plain card-blog">
-                <div class="card-image">
-                    <a href="/blog/post/14676">
-                        <div style="width: 100%;
-                                                border-radius: 15px;
-                                                background: url('../assets/img/news3.jpg');
-                                                background-size: cover;
-                                                background-position: center;
-                                                padding-bottom: 70%;"></div>
-                    </a>
-                </div>
-                <div class="card-block">
-                    <h3 class="card-title">
-                        <a href="/blog/post/14676">BÍ KÍP THIẾT KẾ SỬ DỤNG MÀU MONOCHROME</a>
-                    </h3>
-                    <p class="card-description">
-                        Hương Phan
-                    </p>
-                    <br>
-                    <a href="/blog/post/14676" style="color:#ff752f!important"><b>Xem thêm</b></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-plain card-blog">
-                <div class="card-image">
-                    <a href="/blog/post/14674">
-                        <div style="width: 100%;
-                                                border-radius: 15px;
-                                                background: url('../assets/img/news2.jpg');
-                                                background-size: cover;
-                                                background-position: center;
-                                                padding-bottom: 70%;"></div>
-                    </a>
-                </div>
-                <div class="card-block">
-                    <h3 class="card-title">
-                        <a href="/blog/post/14674">5 CÁCH ĐỂ GIỮ LỬA TINH THẦN SÁNG TẠO</a>
-                    </h3>
-                    <p class="card-description">
-                        Minh Triều
-                    </p>
-                    <br>
-                    <a href="/blog/post/14674" style="color:#ff752f!important"><b>Xem thêm</b></a>
+        @foreach($blogs as $blog)
+            <div class="col-md-4">
+                <div class="card card-plain card-blog">
+                    <div class="card-image">
+                        <a href="{{'/blog/post/'.$blog->id}}">
+                            <div
+                                    style="width: 100%;
+                                            border-radius: 15px;
+                                            background: url({{generate_protocol_url($blog->url)}});
+                                            background-size: cover;
+                                            background-position: center;
+                                            padding-bottom: 70%;"
+                            ></div>
+                        </a>
+                    </div>
+                    <div class="card-block">
+                        <h3 class="card-title">
+                            <a href="{{'/blog/post/'.$blog->id}}">{{$blog->title}}</a>
+                        </h3>
+                        <p class="card-description">
+                            {{$blog->description}}
+                        </p>
+                        <br>
+                        <a href="{{'/blog/post/'.$blog->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-plain card-blog">
-                <div class="card-image">
-                    <a href="/blog/post/14672">
-                        <div style="width: 100%;
-                                                border-radius: 15px;
-                                                background: url('../assets/img/news1.jpg');
-                                                background-size: cover;
-                                                background-position: center;
-                                                padding-bottom: 70%;"></div>
-                    </a>
-                </div>
-                <div class="card-block">
-                    <h3 class="card-title">
-                        <a href="/blog/post/14672">Nguyên tắc cơ bản trong thiết kế</a>
-                    </h3>
-                    <p class="card-description">
-                        Hiền Linh
-                    </p>
-                    <br>
-                    <a href="/blog/post/14672" style="color:#ff752f!important"><b>Xem thêm</b></a>
-                </div>
-            </div>
-        </div>
-
+        @endforeach
     </div>
 </div>
 

@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <title>Alibaba</title>
-
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
@@ -43,7 +42,7 @@
                     <a class="nav-link" href="index.html" data-scroll="true">Giới thiệu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about-us.html" data-scroll="true">Về chúng tôi</a>
+                    <a class="nav-link" href="/about-us" data-scroll="true">Về chúng tôi</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/blog" data-scroll="true">Blogs</a>
@@ -71,7 +70,7 @@
                         <div class="links">
                             <ul class="uppercase-links stacked-links">
                                 <li>
-                                    <a href="index.html">
+                                    <a href="/">
                                         Trang chủ
                                     </a>
                                 </li>
@@ -102,7 +101,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="about-us.html">
+                                    <a href="/about-us">
                                         Về chúng tôi
                                     </a>
                                 </li>
