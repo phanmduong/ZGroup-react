@@ -74,13 +74,15 @@ class SupplierContainer extends React.Component {
     addSupplier(e){
         if ($('#form-add-supplier').valid()) {
             if (this.props.supplier.name === null || this.props.supplier.name === undefined || this.props.supplier.name === '') {
-                this.initForm();
+                helper.showTypeNotification("Vui lòng nhập tên", 'warning');
+                return;
             }
             if (this.props.supplier.email === null || this.props.supplier.email === undefined || this.props.supplier.email === '' ) {
-                this.initForm();
+                helper.showTypeNotification("Vui lòng nhập email", 'warning');
+                return;
             }
             if (this.props.supplier.phone === null || this.props.supplier.phone === undefined || this.props.supplier.phone === '' ) {
-                this.initForm();
+                helper.showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
             }
             else {
                 this.props.supplierActions.addSupplier(this.props.supplier, this.closeAddModal);
@@ -92,9 +94,6 @@ class SupplierContainer extends React.Component {
     loadSuppliers(page, limit) {
         this.setState({page: page});
         this.props.supplierActions.loadSuppliers(page,limit);
-    }
-    initForm() {
-        helper.setFormValidation('#form-add-supplier');
     }
 
     render() {
@@ -117,9 +116,9 @@ class SupplierContainer extends React.Component {
                                         <h4 className="card-title">Danh sách nhà cung cấp</h4>
                                         <div className="table-responsive">
                                             <div id="property-table_wrapper"
-                                                 className="dataTables_wrapper form-inline dt-bootstrap">
+                                                 className="dataTables_wrapper dt-bootstrap">
                                                 <div className="row" >
-                                                    <div className="col-md-12" cols={12}>
+                                                    <div className="col-md-6">
                                                         <Search
                                                             onChange={this.suppliersSearchChange}
                                                             value={this.state.query}
