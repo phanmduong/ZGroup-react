@@ -15,13 +15,18 @@ class StaffController extends ManageApiController
 
     public function getStaffs(Request $request)
     {
-        $keyword = $request->search;
+        $q = trim($request->search);
 
-        $staffs = User::where('role', '<>', 0)->where(function ($query) use ($keyword){
-            $query->where('name', 'like', "%$keyword%")->orWhere('email', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%");
-        });
+        $limit = 20;
 
-        $staffs->limit(20)->get();
+        $staffs = User::where('role', ">", 0)
+            ->where(function ($query) use ($q) {
+                $query->where('email', 'like', '%' . $q . '%')
+                    ->orWhere('name', 'like', '%' . $q . '%')
+                    ->orWhere('phone', 'like', '%' . $q . '%');
+            })
+            ->orderBy('created_at')->limit($limit)->get();
+
         return $this->respondSuccessWithStatus([
             'staffs' => $staffs->map(function ($staff) {
                 return [

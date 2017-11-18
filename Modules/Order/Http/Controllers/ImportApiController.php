@@ -30,7 +30,9 @@ class ImportApiController extends ManageApiController
             $userIds = User::where(function ($query) use ($keyword) {
                 $query->where('name', 'like', "%$keyword%")->orWhere('phone', 'like', "%$keyword%")->orWhere('email', 'like', "%$keyword%");
             })->pluck('id')->toArray();
-            $importOrders = $importOrders->whereIn('user_id', $userIds)->orWhere('code', 'like', "%$keyword%");
+            $importOrders = $importOrders->where(function ($query) use ($keyword, $userIds) {
+                $query->whereIn('user_id', $userIds)->orWhere('code', 'like', "%$keyword%");
+            });
         }
 
         if ($staff_id)
