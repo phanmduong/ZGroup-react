@@ -6,6 +6,7 @@ import {Link} from "react-router";
 import * as goodActions from './goodActions';
 import Loading from "../../components/common/Loading";
 import PropertyList from "./PropertyList";
+import {deletePropertyItem} from "./goodApi";
 
 
 class PropertiesListContainer extends React.Component {
@@ -14,24 +15,19 @@ class PropertiesListContainer extends React.Component {
         this.state = {
             query: ""
         };
-        this.loadPropertyItems = this.loadPropertyItems.bind(this);
     }
 
     componentWillMount() {
-        this.props.goodActions.loadGoodPropertyItems(1, this.state.query, this.props.params.type);
+        this.props.goodActions.loadGoodPropertyItems(-1, this.state.query, this.props.params.type);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.params.type !== this.props.params.type) {
-            this.props.goodActions.loadGoodPropertyItems(1, this.state.query, nextProps.params.type);
+            this.props.goodActions.loadGoodPropertyItems(-1, this.state.query, nextProps.params.type);
         }
 
     }
 
-    loadPropertyItems(page = 1) {
-        this.setState({page});
-        this.props.goodActions.loadGoodPropertyItems(page, this.state.query, this.props.params.type);
-    }
 
     render() {
         return (
@@ -59,7 +55,9 @@ class PropertiesListContainer extends React.Component {
 
                             {
                                 this.props.isLoading ? <Loading/> :
-                                    <PropertyList propertyItems={this.props.propertyItems}/>
+                                    <PropertyList
+                                        deletePropertyItem={(id) => deletePropertyItem(id)}
+                                        propertyItems={this.props.propertyItems}/>
                             }
 
 

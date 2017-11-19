@@ -1,4 +1,7 @@
 export default {
+    globalLoading: {
+        isLoading: false
+    },
     inventoryGood: {
         isLoading: false,
         isLoadingHistoryModal:false,
@@ -232,6 +235,11 @@ export default {
     },
 
     book: {
+        taskListTemplateModal: {
+            showModal: false,
+            boards: [],
+            isLoading: false
+        },
         taskSpan: {
             showModal: false,
             hours: 0,

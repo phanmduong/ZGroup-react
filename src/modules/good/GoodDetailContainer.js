@@ -78,7 +78,7 @@ class GoodDetailContainer extends React.Component {
                                                 {
                                                     card.taskLists && card.taskLists.map((taskList) => {
                                                         return (
-                                                            <div className="card">
+                                                            <div key={taskList.id} className="card">
                                                                 <div className="card-header card-header-icon"
                                                                      data-background-color="rose">
                                                                     <i className="material-icons">toc</i>
@@ -89,10 +89,11 @@ class GoodDetailContainer extends React.Component {
                                                                         {
                                                                             taskList.tasks && taskList.tasks.map((task, index) => {
                                                                                 const header = (
-                                                                                    <div className="good-detail-header" style={{
-                                                                                        width: "100%",
-                                                                                        height: "100%"
-                                                                                    }}>
+                                                                                    <div className="good-detail-header"
+                                                                                         style={{
+                                                                                             width: "100%",
+                                                                                             height: "100%"
+                                                                                         }}>
                                                                                         {task.title}
                                                                                     </div>
                                                                                 );
@@ -104,9 +105,8 @@ class GoodDetailContainer extends React.Component {
                                                                                             {
                                                                                                 task.properties && task.properties.map((property, index) => {
                                                                                                     return (
-                                                                                                        <ListGroupItem>
+                                                                                                        <ListGroupItem key={index}>
                                                                                                             <FormInputText
-                                                                                                                key={index}
                                                                                                                 label={property.name}
                                                                                                                 name="price"
                                                                                                                 disabled={true}

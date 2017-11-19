@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ListGroupItem} from "react-bootstrap";
 import Avatar from "../../components/common/Avatar";
-import {confirm} from "../../helpers/helper";
-import EditTaskNameContainer from "../tasks/EditTaskNameContainer";
 
 class TaskTemplateItem extends React.Component {
     constructor(props, context) {
@@ -11,8 +8,6 @@ class TaskTemplateItem extends React.Component {
         this.openAddMemberToTaskModal = this.openAddMemberToTaskModal.bind(this);
         this.openTaskSpanModal = this.openTaskSpanModal.bind(this);
         this.openAddPropertyItemToTaskModal = this.openAddPropertyItemToTaskModal.bind(this);
-        this.moveTaskDown = this.moveTaskDown.bind(this);
-        this.moveTaskUp = this.moveTaskUp.bind(this);
     }
 
     openAddMemberToTaskModal() {
@@ -27,78 +22,14 @@ class TaskTemplateItem extends React.Component {
         this.props.openAddPropertyItemToTaskModal(this.props.task);
     }
 
-    moveTaskUp() {
-        this.props.moveTaskUp(this.props.task);
-    }
-
-    moveTaskDown() {
-        this.props.moveTaskDown(this.props.task);
-    }
-
     render() {
         const {task} = this.props;
         return (
-            <ListGroupItem
-                key={task.id}>
-                <div style={{display: "flex", justifyContent: "space-between", position: "relative"}}>
-                    {
-                        this.props.isTemplate && (
-                            <div style={{
-                                flex: 0,
-                                flexBasis: "20px",
-                                display: "flex",
-                                flexDirection: "column",
-                                fontSize: "20px"
-                            }}>
-                                {
-                                    this.props.canMoveUp ? (
-                                        <a onClick={this.moveTaskUp} className="text-rose">
-                                            <i className="fa fa-caret-up"
-                                               aria-hidden="true"/>
-                                        </a>
-                                    ) : (
-                                        <span style={{color: "#b2b2b2"}}>
-                                            <i className="fa fa-caret-up"
-                                               aria-hidden="true"/>
-                                        </span>
-                                    )
-                                }
-                                {
-                                    this.props.canMoveDown ? (
-                                        <a onClick={this.moveTaskDown} className="text-rose">
-                                            <i className="fa fa-caret-down"
-                                               aria-hidden="true"/>
-                                        </a>
-                                    ) : (
-                                        <span style={{color: "#b2b2b2"}}>
-                                            <i className="fa fa-caret-down"
-                                               aria-hidden="true"/>
-                                        </span>
-                                    )
-                                }
-
-                            </div>
-                        )
-                    }
-
-                    <div className="checkbox" id={"task" + task.id} style={{flex: 1}}>
-                        <label style={{fontWeight: 700, color: "#858585"}}>
-                            <div style={{display: "inline-block", position: "relative", top: 4}}>
-                                {
-                                    task.member && (
-                                        <Avatar url={task.member.avatar_url} size={20}/>
-                                    )
-                                }
-                            </div>
-                            {task.title}
-                            {
-                                !!task.span && (
-                                    <small className="keetool-card"
-                                           style={{fontWeight: 400}}> - trong {task.span} giờ</small>
-                                )
-                            }
-                        </label>
-                    </div>
+            <li className="timeline-inverted">
+                <div className="timeline-badge success">
+                    {this.props.index + 1}
+                </div>
+                <div className="timeline-panel" style={{position: "relative"}}>
                     <div className="dropdown" style={{
                         position: "absolute",
                         top: "5px",
@@ -109,9 +40,6 @@ class TaskTemplateItem extends React.Component {
                             <i className="material-icons">more_horiz</i>
                         </a>
                         <ul className="dropdown-menu dropdown-menu-right">
-
-                            <EditTaskNameContainer
-                                task={this.props.task}/>
 
                             <li className="more-dropdown-item">
                                 <a onClick={this.openAddMemberToTaskModal}>
@@ -135,55 +63,66 @@ class TaskTemplateItem extends React.Component {
                                     </li>
                                 )
                             }
-
-                            <li className="more-dropdown-item">
-                                <a onClick={() => {
-                                    confirm("warning", "Xoá", "Bạn có chắc chắn muốn xoá công việc này", () => {
-                                        this.props.deleteTaskTemplate(task);
-                                    });
-                                }}>
-                                    <i className="material-icons">delete</i>
-                                    Xoá công việc
-                                </a>
-                            </li>
                         </ul>
                     </div>
+                    <div className="timeline-heading">
+                        {
+                            task.member && (
+                                <Avatar url={task.member.avatar_url} size={20}/>
+                            )
+                        }
+                        <span className="label label-success">
+                             {task.title}
+                        </span>
+                    </div>
+                    <div className="timeline-body">
+                        <p>
+                            {
+                                task.good_property_items && task.good_property_items.length > 0 && (
+                                    <div>
+                                        Thuộc tính cần nhập:
+                                        <ul>
+                                            {
+                                                task.good_property_items.map((item) => {
+                                                    return (
+                                                        <li key={item.id}>{item.name}: {item.prevalue} {item.preunit}</li>
+                                                    );
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
+                                )
+                            }
+                        </p>
+                        <p>
+                            {
+                                task.current_board && (
+                                    <div>
+                                        Bảng hiện tại: {task.current_board.title}
+                                    </div>
+                                )
+                            }
+                        </p>
+                        <p>
+                            {
+                                task.target_board && (
+                                    <div>
+                                        Bảng đích: {task.target_board.title}
+                                    </div>
+                                )
+                            }
+                        </p>
+                        {
+                            !!task.span && (
+                                <h6>
+                                    <i className="ti-time"></i> trong {task.span} giờ
+                                </h6>
+                            )
+                        }
+
+                    </div>
                 </div>
-
-
-                {
-                    task.good_property_items && task.good_property_items.length > 0 && (
-                        <div>
-                            Thuộc tính cần nhập:
-                            <ul>
-                                {
-                                    task.good_property_items.map((item) => {
-                                        return (
-                                            <li key={item.id}>{item.name}: {item.prevalue} {item.preunit}</li>
-                                        );
-                                    })
-                                }
-                            </ul>
-                        </div>
-                    )
-                }
-                {
-                    task.current_board && (
-                        <div>
-                            Bảng hiện tại: {task.current_board.title}
-                        </div>
-                    )
-                }
-                {
-                    task.target_board && (
-                        <div>
-                            Bảng đích: {task.target_board.title}
-                        </div>
-                    )
-                }
-
-
-            </ListGroupItem>
+            </li>
         );
 
     }
@@ -192,16 +131,12 @@ class TaskTemplateItem extends React.Component {
 
 TaskTemplateItem.propTypes = {
     type: PropTypes.string,
-    deleteTaskTemplate: PropTypes.func.isRequired,
     openAddPropertyItemToTaskModal: PropTypes.func.isRequired,
     openAddMemberToTaskModal: PropTypes.func.isRequired,
     openTaskSpanModal: PropTypes.func.isRequired,
     task: PropTypes.object.isRequired,
-    moveTaskUp: PropTypes.func,
-    moveTaskDown: PropTypes.func,
-    isTemplate: PropTypes.bool,
-    canMoveUp: PropTypes.bool,
-    canMoveDown: PropTypes.bool
+    index: PropTypes.number.isRequired,
+    isTemplate: PropTypes.bool
 };
 
 TaskTemplateItem.defaultProps = {};

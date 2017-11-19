@@ -8,28 +8,26 @@ import * as goodActions from "../good/goodActions";
 import AddMemberToTaskModalContainer from "../tasks/card/taskList/AddMemberToTaskModalContainer";
 import TaskSpanModalContainer from "../book/TaskSpanModalContainer";
 import Loading from "../../components/common/Loading";
-import {ListGroup, ListGroupItem} from "react-bootstrap";
 import TaskTemplateItem from "../book/TaskTemplateItem";
 import {Link} from "react-router";
 import AddPropertyItemsToTaskModalContainer from "./AddPropertyItemsToTaskModalContainer";
 import {updateTasksOrder} from '../tasks/taskApi';
+import TaskListTemplateSettingModalContainer from "../book/TaskListTemplateSettingModalContainer";
 
 
 class TaskListTemplateContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.addTask = this.addTask.bind(this);
+
         this.state = {
             isEditTitle: false,
             title: ""
         };
-        this.autoAssignBoardToTask = this.autoAssignBoardToTask.bind(this);
         this.toggleEditTitle = this.toggleEditTitle.bind(this);
         this.saveTitle = this.saveTitle.bind(this);
         this.onEnterKeyPress = this.onEnterKeyPress.bind(this);
-        this.moveTaskDown = this.moveTaskDown.bind(this);
-        this.moveTaskUp = this.moveTaskUp.bind(this);
         this.updateTasksOrder = this.updateTasksOrder.bind(this);
+        this.openSettingModal = this.openSettingModal.bind(this);
     }
 
     componentWillMount() {
@@ -61,18 +59,6 @@ class TaskListTemplateContainer extends React.Component {
         });
     }
 
-    addTask(taskList) {
-        return (event) => {
-            if (event.key === 'Enter') {
-                if (event.target.value !== "") {
-                    this.props.bookActions.createTask({
-                        title: event.target.value,
-                        task_list_id: taskList.id
-                    });
-                }
-            }
-        };
-    }
 
     onEnterKeyPress(e) {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -89,22 +75,12 @@ class TaskListTemplateContainer extends React.Component {
         }, 500);
     }
 
-    moveTaskUp(task) {
-        this.props.taskActions.moveTaskUp(this.props.taskList, task);
-        this.updateTasksOrder();
-    }
-
-    moveTaskDown(task) {
-        this.props.taskActions.moveTaskDown(this.props.taskList, task);
-        this.updateTasksOrder();
-    }
-
-    autoAssignBoardToTask() {
-        this.props.taskActions.autoAssignBoardToTask(this.props.taskList.id);
+    openSettingModal() {
+        this.props.bookActions.showTaskListTemplateSettingModal(true);
     }
 
     render() {
-        const {taskList, isSaving} = this.props;
+        const {taskList} = this.props;
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
@@ -144,14 +120,16 @@ class TaskListTemplateContainer extends React.Component {
                             )}
                                 {
                                     !this.props.isLoading && (
-                                        <a onClick={this.autoAssignBoardToTask}
+                                        <a onClick={this.openSettingModal}
                                            style={{position: "absolute", right: 0, top: 0}}>
-                                            <i className="material-icons">autorenew</i>
+                                            <i className="material-icons">settings</i>
                                         </a>
                                     )
                                 }
 
                             </h4>
+
+                            <TaskListTemplateSettingModalContainer/>
 
                             {this.props.isLoading ? <Loading/> : (
                                 <div>
@@ -165,41 +143,23 @@ class TaskListTemplateContainer extends React.Component {
                                         <TaskSpanModalContainer/>
 
                                         <div key={taskList.id}>
-                                            <ListGroup>
+                                            <ul className="timeline timeline-simple">
                                                 {
                                                     taskList.tasks && taskList.tasks
                                                         .sort((a, b) => a.order - b.order)
-                                                        .map((task) =>
+                                                        .map((task, index) =>
                                                             (<TaskTemplateItem
-                                                                canMoveUp={task.order !== 0}
-                                                                canMoveDown={task.order !== taskList.tasks.length - 1}
+                                                                index={index}
                                                                 isTemplate={true}
-                                                                moveTaskUp={this.moveTaskUp}
-                                                                moveTaskDown={this.moveTaskDown}
                                                                 type={taskList.type}
                                                                 openAddPropertyItemToTaskModal={this.props.goodActions.openAddPropertyItemModal}
                                                                 openTaskSpanModal={this.props.bookActions.openTaskSpanModal}
                                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                                 key={task.id}
-                                                                task={task}
-                                                                deleteTaskTemplate={this.props.bookActions.deleteTaskTemplate}/>))
+                                                                task={task}/>))
                                                 }
-                                                <ListGroupItem>
-                                                    {
-                                                        isSaving ? <Loading/> :
-                                                            (
-                                                                <div className="form-group" style={{marginTop: 0}}>
-                                                                    <input
-                                                                        placeholder="Thêm mục"
-                                                                        type="text"
-                                                                        className="form-control"
-                                                                        onKeyDown={this.addTask(taskList)}/>
-                                                                </div>
-                                                            )
-                                                    }
+                                            </ul>
 
-                                                </ListGroupItem>
-                                            </ListGroup>
                                         </div>
 
                                     </div>
@@ -223,7 +183,6 @@ class TaskListTemplateContainer extends React.Component {
 }
 
 TaskListTemplateContainer.propTypes = {
-    isSaving: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     bookActions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -234,7 +193,6 @@ TaskListTemplateContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isSaving: state.book.taskListDetail.isSaving,
         isLoading: state.book.taskListDetail.isLoading,
         taskList: state.book.taskListDetail.taskList
     };
