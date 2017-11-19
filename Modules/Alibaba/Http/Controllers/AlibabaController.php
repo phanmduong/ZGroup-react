@@ -35,6 +35,11 @@ class AlibabaController extends Controller
         ]);
     }
 
+    public function register($subfix)
+    {
+        return view('alibaba::register');
+    }
+
     public function post($subfix, $post_id)
     {
         $post = Product::find($post_id);

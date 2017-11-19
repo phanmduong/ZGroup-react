@@ -69,38 +69,6 @@ class InventoryApiController extends ManageApiController
         $good_category_id = $request->good_category_id;
         $manufacture_id = $request->manufacture_id;
         $keyword = $request->search;
-        $warehouse_id = $request->warehouse_id;
-
-//        if ($warehouse_id == null) {
-//            $goods = Good::where(function ($query) use ($keyword) {
-//                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-//            });
-//            if ($good_category_id)
-//                $goods = $goods->where('good_category_id', $good_category_id);
-//            if ($manufacture_id)
-//                $goods = $goods->where('manufacture_id', $manufacture_id);
-//            $goods = $goods->paginate($limit);
-//            return $this->respondWithPagination(
-//                $goods,
-//                [
-//                    'inventories' => $goods->map(function ($goods){
-//                        $quantity = $goods->importedGoods->reduce(function ($total, $importedGood){
-//                            return $total + $importedGood->quantity;
-//                        }, 0);
-//                        $data = [
-//                            'code' => $goods->code,
-//                            'name' => $goods->name,
-//                            'quantity' => $quantity,
-//                            'import_price' => $inventory->import_price,
-//                            'import_money' => $inventory->import_price * $inventory->quantity,
-//                            'price' => $goods->price,
-//                            'money' => $goods->price * $inventory->quantity
-//                        ];
-//                        return $data;
-//                    })
-//                ]
-//            );
-//        }
 
         $inventories = ImportedGoods::where('quantity', '<>', 0);
         if ($keyword) {
@@ -123,6 +91,7 @@ class InventoryApiController extends ManageApiController
             [
                 'inventories' => $inventories->map(function ($inventory) {
                     $data = [
+                        'id' => $inventory->id,
                         'code' => $inventory->good->code,
                         'name' => $inventory->good->name,
                         'quantity' => $inventory->quantity,
