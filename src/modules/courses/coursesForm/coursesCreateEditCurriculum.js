@@ -10,7 +10,7 @@ class coursesCreateEditCurriculum extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {}
+        this.state = {};
     }
     componentWillMount() {
 
@@ -21,8 +21,8 @@ class coursesCreateEditCurriculum extends React.Component {
         return (
             <div className="card-content">
 
-                    <Link className="btn btn-rose" to="/manage/courses">
-                        Thêm Môn Học
+                    <Link className="btn btn-rose" to="/manage/courses/lessons/create">
+                        Thêm Buổi Học
                     </Link>
 
                 <div className="table-responsive">
@@ -44,9 +44,9 @@ class coursesCreateEditCurriculum extends React.Component {
                                           <tr key={lesson.id}>
                                               <td>{lesson.order}</td>
                                               <td>{lesson.description}</td>
-                                              <td>{lesson.updated_at}</td>
+                                              <td>{lesson['updated_at']}</td>
                                               <td><ButtonGroupAction
-                                                  editUrl={""}
+                                                  editUrl={"/manage/courses/lessons/edit/" + lesson.id}
                                                   delete={()=>{}}
                                                   object={lesson}
                                               />

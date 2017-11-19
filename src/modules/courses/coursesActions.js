@@ -76,6 +76,7 @@ export function commitCourseData(data) {
                     type: types.CREATE_EDIT_COURSES_SUCCESS,
                     data: res
                 });
+                browserHistory.push("/manage/courses");
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
@@ -84,12 +85,6 @@ export function commitCourseData(data) {
     };
 }
 
-export function backToList() {
-    return function (dispatch) {
-        dispatch({type: types.BACK_TO_COURSE_LIST});
-
-    };
-}
 
 
 export function loadOneCourse(id) {

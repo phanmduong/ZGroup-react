@@ -6,11 +6,6 @@ import {connect}                        from 'react-redux';
 import  * as coursesActions             from '../coursesActions';
 import ButtonGroupAction                from "../../../components/common/ButtonGroupAction";
 
-
-const contentStyle = {
-    wordWrap: 'break-word'
-};
-
 class coursesCreateEditDocuments extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -35,7 +30,7 @@ class coursesCreateEditDocuments extends React.Component {
                            cellSpacing="0" width="100%" style={{width: "100%"}}>
                         <thead className="text-rose">
                         <tr>
-                            <th></th>
+                            <th/>
                             <th>Tên Link</th>
                             <th>Link</th>
                             <th>Mô tả</th>
@@ -59,8 +54,14 @@ class coursesCreateEditDocuments extends React.Component {
                                     </td>
                                     <td >{link.link_name}</td>
                                     <td>
-<a>
-    <p style={{maxWidth: "100px", wordWrap: 'break-word', whiteSpace: 'initial'}}>{link.link_url}</p></a>
+                                            <a href={link.link_url} target="_blank">
+                                                <p style={{
+                                                    maxWidth: "100px",
+                                                    wordWrap: 'break-word',
+                                                    whiteSpace: 'initial'}}>
+                                                    {link.link_url}
+                                                </p>
+                                            </a>
                                     </td>
                                     <td>{link.link_description}</td>
                                     <td>

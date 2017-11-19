@@ -7,9 +7,7 @@ import PropTypes                        from 'prop-types';
 import {bindActionCreators}             from 'redux';
 import ReactEditor                      from '../../../components/common/ReactEditor';
 import  * as coursesActions             from '../coursesActions';
-import FormInputText                    from '../../../components/common/FormInputText';
 import {NO_IMAGE}                       from '../../../constants/env';
-import TabCourse                        from "../TabCourse";
 import Loading                          from "../../../components/common/Loading";
 import * as helper                      from '../../../helpers/helper';
 import {linkUploadImageEditor}          from '../../../constants/constants';
@@ -308,6 +306,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 > Lưu </button>
 
                             }
+
 
                                 </div>
                                 </div>

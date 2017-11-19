@@ -677,36 +677,20 @@ export default {
             links: []
         }
     },
-    coursesCreateEdit:{
+    lessons:{
       isLoading: false,
-      isEditing: false,
-      isUpdatingAvatar: false,
-      updateAvatarError: false,
-      isUpdatingLogo: false,
-      updateLogoError: false,
-      isUpdatingCover: false,
-      updateCoverError: false,
-        isCommitting: false,
-        commitSuccess: false,
-      data:{
+      isCommitting: false,
+      commitSuccess: false,
+      data: {
           id: null,
+          course_id: null,
           name: "",
-          duration: "",
-          price: "",
           description: "",
-          linkmac: "",
-          linkwindow: "",
-          num_classes: "",
-          mac_how_install: "",
-          window_how_install: "",
-          cover_url: "",
-          color: "",
-          image_url: "",
-          icon_url: "",
-          created_at: "",
           detail: "",
-          lessons: [],
-          links: []
+          order: "",
+          detail_content: "",
+          detail_teacher: "",
+          created_at: "2016-07-12 18:00:16"
       }
     }
 };

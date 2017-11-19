@@ -141,21 +141,11 @@ class coursesCreateEditGeneral extends React.Component {
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                             </button>
                             :
-                            ( this.props.commitSuccess ?
-
                                     <button
                                         className="btn btn-fill btn-rose"
                                         type="button"
                                         onClick={this.commitCourseData}
                                     > Lưu </button>
-                                    :
-
-                                    <button
-                                        className="btn btn-fill btn-rose"
-                                        type="button"
-                                        onClick={this.commitCourseData}
-                                    > Lưu </button>
-                            )
                         }
                     </div>
                 }

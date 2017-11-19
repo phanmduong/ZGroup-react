@@ -63,6 +63,7 @@ import coursesCreateEditCurriculum from "./modules/courses/coursesForm/coursesCr
 import coursesCreateEditDocuments from "./modules/courses/coursesForm/coursesCreateEditDocuments";
 import coursesCreateEditStudying from "./modules/courses/coursesForm/coursesCreateEditStudying";
 import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCreateEditInterested";
+import LessonsContainer from "./modules/lessons/LessonsContainer";
 
 export default (
     <Route>
@@ -202,6 +203,7 @@ export default (
 
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>
+
             <Route path="/manage/courses/edit/:courseId" component={CreateEditCoursesContainer} type="edit">
                 <IndexRoute component={coursesCreateEditGeneral}/>
                 <Route path="curriculum" component={coursesCreateEditCurriculum}/>
@@ -217,6 +219,12 @@ export default (
                 <Route path="interested" component={coursesCreateEditInterested}/>
             </Route>
             {/*End course routes */}
+
+            {/*End lessons routes */}
+            <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
+            <Route path="/manage/courses/lessons/create" component={LessonsContainer}/>
+            {/*End lessons routes */}
+
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>
