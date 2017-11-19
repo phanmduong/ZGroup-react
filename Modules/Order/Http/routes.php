@@ -28,6 +28,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/all-customers','CustomerController@allCustomers');
     Route::get('total-and-debt-money','CustomerController@countMoney');
     Route::post('add-customer','CustomerController@addCustomer');
-    //Route::delete('delete-customer','CustomerController@deleteCustomer');
+    Route::put('edit-customer','CustomerController@editCustomer');
 });
 
