@@ -127,6 +127,10 @@ class InventoryApiController extends ManageApiController
 
     public function historyGoods($goodId, Request $request)
     {
+        if(Good::find($goodId) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'non-existing good'
+            ]);
         $warehouses = Warehouse::orderBy('created_at', 'desc')->get();
         $inventories = ImportedGoods::where('good_id', $goodId)->get();
         $total_quantity = $inventories->reduce(function ($total, $inventory) {

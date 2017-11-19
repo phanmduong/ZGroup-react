@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="page-header page-header-small"
-         style="background-image: url('../assets/img/subject.jpg'); box-shadow: 0 3px 10px -4px rgba(0, 0, 0, 0.15);">
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991179Dz6rALtf43ja91K.jpg'); box-shadow: 0 3px 10px -4px rgba(0, 0, 0, 0.15);">
         <div class="container">
             <br><br>
             <div class="row">
@@ -12,7 +12,7 @@
                         LỚN NHẤT HÀ THÀNH</h5>
                     <br>
                     <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                       href="order.html"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                       href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                 </div>
 
             </div>
@@ -43,7 +43,7 @@
                         </p>
                         <br>
                         <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                           href="order.html"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                           href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                     </div>
                     <br>
                 </div>
@@ -51,7 +51,7 @@
 
             <div class="col-md-3">
                 <a class="btn btn-danger" style="width:100%;background-color:#FF6D00;border-color:#FF6D00; padding:40px"
-                   href="order.html"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                   href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
 
             </div>
         </div>
@@ -84,7 +84,7 @@
                                 <br><br>
                             </p>
                             <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                               href="order.html"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                               href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                         </div>
                     </div>
 
@@ -113,7 +113,7 @@
                                 <br><br>
                             </p>
                             <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                               href="order.html"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                               href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                         </div>
                     </div>
 
@@ -142,7 +142,7 @@
                                 <br><br>
                             </p>
                             <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                               href="order.html"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                               href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                         </div>
                     </div>
 
@@ -171,7 +171,7 @@
                                 <br><br>
                             </p>
                             <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                               href="order.html"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                               href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                         </div>
                     </div>
                 </div>

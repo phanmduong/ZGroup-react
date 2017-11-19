@@ -68,4 +68,9 @@ class AlibabaController extends Controller
             ]
         );
     }
+
+    public function order()
+    {
+        return view('alibaba::order');
+    }
 }
