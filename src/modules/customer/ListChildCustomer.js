@@ -43,7 +43,9 @@ class ListChildCustomer extends React.Component {
                                                     <div style={{display: 'inline-block'}}>
                                                         <a data-toggle="tooltip" title type="button"
                                                            rel="tooltip"
-                                                           data-original-title="Sửa">
+                                                           data-original-title="Sửa"
+                                                        onClick={() => this.props.openFormDataInEdit(customer )}
+                                                        >
                                                             <i className="material-icons">edit</i>
                                                         </a>
                                                     </div>
@@ -65,6 +67,7 @@ class ListChildCustomer extends React.Component {
 
 ListChildCustomer.propTypes = {
     customersList: PropTypes.array,
+    openFormDataInEdit : PropTypes.func,
 };
 
 

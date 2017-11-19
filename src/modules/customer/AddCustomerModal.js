@@ -38,6 +38,7 @@ class AddCustomerModal extends React.Component {
                         required={true}
                         type="email"
                         value={email}
+                        placeholder = "Nhập email (ví dụ : hung@gmail.com)"
                     />
 
                     <FormInputText
@@ -55,6 +56,7 @@ class AddCustomerModal extends React.Component {
                         type="tel"
                         value={phone}
                         required={true}
+                        placeholder = "+84..."
                     />
                     <FormInputSelect
                         label="Giới tính"
@@ -72,6 +74,7 @@ class AddCustomerModal extends React.Component {
                         id="form-date-of-birth"
                         value={dob}
                         required={true}
+                        placeholder = "dd/mm/yyyy"
                     />
 
                 </div>

@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let customersList ;
 export default function customerReducer(state = initialState.customers, action) {
     switch (action.type) {
 
@@ -101,7 +102,55 @@ export default function customerReducer(state = initialState.customers, action) 
                 }
             };
 
+
+        case types.BEGIN_EDIT_CUSTOMER:
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    ...{
+                        isSaving: true,
+                    }
+                }
+            };
+        case types.EDIT_CUSTOMER_ERROR:
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    ...{
+                        isSaving: false,
+                    }
+                }
+            };
+        case types.EDIT_CUSTOMER_SUCCESS:
+            customersList = changeCustomer(action.customer, state.customersList);
+            return {
+                ...state,
+                customersList: customersList,
+                modal: {
+                    ...state.modal,
+                    ...{
+                        isSaving: false,
+                    }
+                }
+            };
+
         default :
             return state;
     }
+}
+
+function changeCustomer(actionCustomer, customersList) {
+    if (customersList) {
+        customersList = customersList.map(function (customer) {
+            if (customer.id === actionCustomer.id) {
+                return {
+                    ...actionCustomer
+                };
+            }
+            else return customer;
+        });
+    }
+    return customersList;
 }

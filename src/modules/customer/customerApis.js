@@ -45,5 +45,22 @@ export function addCustomerApi(customer) {
     });
 }
 
+export function editCustomerApi(customer ) {
+    let url = env.MANAGE_API_URL + "/order/edit-customer/" + customer.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        'name': customer.name,
+        'email': customer.email,
+        'phone': customer.phone,
+        'address': customer.address,
+        'gender' : customer.gender,
+        'dob' : customer.dob,
+    });
+}
+
+
 
 

@@ -26,14 +26,16 @@ class CustomerContainer extends React.Component {
             query: '',
             isShowModal: false,
             status : '',
+            isEdit : false,
         };
         this.loadCustomers = this.loadCustomers.bind(this);
         this.customersSearchChange = this.customersSearchChange.bind(this);
         this.openAddModal = this.openAddModal.bind(this);
         this.closeAddModal = this.closeAddModal.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
-        this.addCustomer = this.addCustomer.bind(this);
+        this.activeModal = this.activeModal.bind(this);
         this.loadByStatus = this.loadByStatus.bind(this);
+        this.openFormDataInEdit = this.openFormDataInEdit.bind(this);
     }
 
     componentWillMount() {
@@ -43,8 +45,13 @@ class CustomerContainer extends React.Component {
     componentDidUpdate() {
         this.initForm();
     }
-    openAddModal() {
-        this.setState({isShowModal: true});
+    openAddModal(isEdit) {
+        this.setState({isShowModal: true , isEdit : isEdit});
+    }
+
+    openFormDataInEdit(customer ){
+        this.props.customerActions.updateAddCustomerFormData(customer);
+        this.openAddModal(true);
     }
 
     closeAddModal() {
@@ -80,7 +87,7 @@ class CustomerContainer extends React.Component {
         this.props.customerActions.updateAddCustomerFormData(customer);
     }
 
-    addCustomer(e){
+    activeModal(e){
         if ($('#form-add-customer').valid()) {
             if (this.props.customer.dob === null || this.props.customer.dob === undefined || this.props.customer.dob === '') {
                 helper.showTypeNotification("Vui lòng chọn sinh nhật", 'warning');
@@ -90,7 +97,13 @@ class CustomerContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng chọn giới tính", 'warning');
             }
             else {
-                this.props.customerActions.addCustomer(this.props.customer, this.closeAddModal);
+                if (this.state.isEdit)
+                {
+                    this.props.customerActions.editCustomer(this.props.customer, this.closeAddModal);
+                }
+                else {
+                    this.props.customerActions.addCustomer(this.props.customer, this.closeAddModal);
+                }
             }
         }
         e.preventDefault();
@@ -146,7 +159,7 @@ class CustomerContainer extends React.Component {
                             {this.props.isLoading ? <Loading/> :
                                 <div>
                                     <div style={{marginTop: 30 ,  marginLeft: 30 }}>
-                                        <a className="btn btn-rose" onClick={() => this.openAddModal()}>Thêm khách hàng</a>
+                                        <a className="btn btn-rose" onClick={() => this.openAddModal(false)}>Thêm khách hàng</a>
                                     </div>
 
 
@@ -185,6 +198,7 @@ class CustomerContainer extends React.Component {
                                                 <h4 className="card-title">Danh sách khách hàng</h4>
                                                 <ListChildCustomer
                                                     customersList={this.props.customersList}
+                                                    openFormDataInEdit = {this.openFormDataInEdit}
                                                 />
                                                 <div className="row">
                                                     <div className="col-sm-5">
@@ -245,7 +259,7 @@ class CustomerContainer extends React.Component {
                                                 className="btn btn-round btn-fill btn-success disabled"
                                             >
                                                 <i className="fa fa-spinner fa-spin"/>
-                                                Đang thêm
+                                                {! this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật' }
                                             </button>
                                         )
                                         :
@@ -253,9 +267,9 @@ class CustomerContainer extends React.Component {
                                             <button rel="tooltip" data-placement="top" title=""
                                                     data-original-title="Remove item"
                                                     type="button" className="btn btn-round btn-success "
-                                                    onClick={(e) =>this.addCustomer(e)}
+                                                    onClick={(e) =>this.activeModal(e)}
                                             ><i className="material-icons">check</i>
-                                                Thêm
+                                                {this.state.isEdit ? 'Cập nhật' : 'Thêm'}
                                             </button>
                                         )
                                     }
@@ -266,12 +280,6 @@ class CustomerContainer extends React.Component {
                                 </form>
                             </div>
                         </Modal.Body>
-                        {/*<Modal.Footer>*/}
-                            {/*<form>*/}
-                                {/**/}
-                               {/**/}
-                            {/*</form>*/}
-                        {/*</Modal.Footer>*/}
                     </Modal>
                 </div>
             </div>

@@ -84,3 +84,33 @@ export function addCustomer(customer ,  closeAddModal  ) {
     };
 }
 
+export function editCustomer(customer , closeAddModal) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_CUSTOMER});
+        customerApis.editCustomerApi(customer)
+            .then((res) => {
+                if (res.data.status) {
+                    closeAddModal();
+                    helper.showTypeNotification('Đã chỉnh sửa '+ customer.name, 'success');
+                    dispatch({
+                        type: types.EDIT_CUSTOMER_SUCCESS,
+                        customer: res.data.data.user,
+                    });
+                }
+                else {
+                    helper.sweetAlertError(res.data.message);
+                    dispatch({
+                        type: types.EDIT_CUSTOMER_ERROR,
+                        message: res.data.message,
+                    });
+                }
+            })
+            .catch(() => {
+                    dispatch({
+                        type: types.EDIT_CUSTOMER_ERROR
+                    });
+                }
+            );
+    };
+}
+
