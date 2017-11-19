@@ -5,8 +5,6 @@ namespace Modules\Lesson\Http\Controllers;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 
 class LessonController extends ManageApiController
 {
@@ -14,6 +12,7 @@ class LessonController extends ManageApiController
     {
        parent::__construct()  ;
     }
+
     public function getdetailLesson($lesson_id,Request $request){
         $lesson= Lesson::find($lesson_id);
         if($lesson == null)
@@ -23,7 +22,8 @@ class LessonController extends ManageApiController
         ]);
 
     }
-    public function createLesson(Request $request){
+
+    public function createLesson($couseId, Request $request){
         if($request->name == null) return $this->respondErrorWithStatus([
             "message"=> "Thieu name"
         ]);
@@ -33,8 +33,8 @@ class LessonController extends ManageApiController
         if($request->order == null) return $this->respondErrorWithStatus([
             'message'=>'Thieu order'
         ]);
-        $lesson =new Lesson;
-        $lesson->name= $request->name;
+        $lesson = new Lesson;
+        $lesson->name = $request->name;
         $lesson->description = $request->description;
         $lesson->course_id= $request->course_id;
         $lesson->detail= $request->detail;
@@ -46,6 +46,7 @@ class LessonController extends ManageApiController
             'message'=> "Tao buoi hoc thanh cong"
         ]);
     }
+
     public function editLesson($lesson_id,Request $request){
         $lesson= Lesson::find($lesson_id);
         if($lesson == null)
@@ -71,6 +72,7 @@ class LessonController extends ManageApiController
             'message'=> "Sua buoi hoc thanh cong"
         ]);
     }
+
     public function deleteLesson($lesson_id,Request $request){
         $lesson= Lesson::find($lesson_id);
         if($lesson == null)

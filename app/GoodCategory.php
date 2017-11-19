@@ -21,7 +21,7 @@ GoodCategory extends Model
 
     public function goods()
     {
-        return $this->belongsToMany(Good::class, 'good_good_category', 'good_category_id', 'good_id');
+        return $this->hasMany(Good::class, 'good_category_id');
     }
 
     public function children()

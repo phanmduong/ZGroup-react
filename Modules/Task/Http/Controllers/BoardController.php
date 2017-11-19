@@ -22,7 +22,8 @@ class BoardController extends ManageApiController
 
     public function getArchiveBoards($projectId)
     {
-        $boards = Board::where("project_id",$projectId)->where("status", "close")->orderBy("updated_at", "desc")->get();
+        $boards = Board::where("project_id", $projectId)
+            ->where("status", "close")->orderBy("updated_at", "desc")->get();
         return $this->respondSuccessWithStatus([
             "boards" => $boards->map(function ($board) {
                 return $board->transformBoardWithCard();
@@ -36,7 +37,10 @@ class BoardController extends ManageApiController
         if ($board == null) {
             return $this->respondErrorWithStatus("Bảng không tồn tại");
         }
-
+        if ($board->currentTasks()->count() > 0) {
+            $taskList = $board->currentTasks()->first()->taskList;
+            return $this->respondErrorWithStatus("Bảng này không thể xoá do đã được gắn vào quy trình<br/><strong>" . $taskList->title . "</strong>");
+        }
         $board->status = "close";
         $board->save();
         return $this->respondSuccessWithStatus(["message" => "ok"]);
@@ -63,7 +67,21 @@ class BoardController extends ManageApiController
         $boards = json_decode($request->boards);
         foreach ($boards as $b) {
             $board = Board::find($b->id);
-            $board->order = $b->order;
+            if ($board->order != $b->order) {
+                $board->order = $b->order;
+                if ($board->currentTasks) {
+                    foreach ($board->currentTasks as $task) {
+                        $nextBoard = collect($boards)->filter(function ($item) use ($b) {
+                            return $item->order == $b->order;
+                        })->first();
+                        if ($nextBoard) {
+                            $task->target_board_id = $nextBoard->id;
+                        }
+                        $task->order = $b->order;
+                        $task->save();
+                    }
+                }
+            }
             $board->save();
         }
         return $this->respondSuccessWithStatus(["message" => "success"]);
