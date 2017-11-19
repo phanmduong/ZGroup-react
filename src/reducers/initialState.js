@@ -81,7 +81,9 @@ export default {
             goodPropertyItems: [],
             task: {},
             isSaving: false,
-            boards: []
+            boards: [],
+            optionalBoards: [],
+            processes: []
         },
         createProperty: {
             property: {},
