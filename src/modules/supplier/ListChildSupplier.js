@@ -37,7 +37,9 @@ class ListChildSupplier extends React.Component {
                                                     <div style={{display: 'inline-block'}}>
                                                         <a data-toggle="tooltip" title type="button"
                                                            rel="tooltip"
-                                                           data-original-title="Sửa">
+                                                           data-original-title="Sửa"
+                                                        onClick={()=>{this.props.openFormDataInEdit(supplier , supplier.id);}}
+                                                        >
                                                             <i className="material-icons">edit</i>
                                                         </a>
                                                         <a data-toggle="tooltip" title type="button"
@@ -68,6 +70,7 @@ class ListChildSupplier extends React.Component {
 ListChildSupplier.propTypes = {
     suppliersList: PropTypes.array,
     deleteSupplier : PropTypes.func,
+    openFormDataInEdit : PropTypes.func,
 };
 
 

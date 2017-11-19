@@ -11,14 +11,13 @@ import * as helper from '../../helpers/helper';
 import Search from '../../components/common/Search';
 
 
-
 class WareHouseContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             page: 1,
             limit: 10,
-            query : '',
+            query: '',
         };
         this.loadWareHouses = this.loadWareHouses.bind(this);
         this.openModal = this.openModal.bind(this);
@@ -40,12 +39,13 @@ class WareHouseContainer extends React.Component {
         this.props.wareHouseActions.openModal(wareHouse, isEdit);
     }
 
-    deleteWareHouse(id,name) {
+    deleteWareHouse(id, name) {
         helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + name,
             function () {
                 this.props.wareHouseActions.deleteWareHouse(id, this.state.currentPage, this.state.limit, this.props.wareHouseActions.loadWareHouses);
             }.bind(this));
     }
+
     wareHousesSearchChange(value) {
         this.setState({
             page: 1,
@@ -55,7 +55,7 @@ class WareHouseContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.wareHouseActions.loadWareHouses(this.state.page, 10,this.state.query);
+            this.props.wareHouseActions.loadWareHouses(this.state.page, 10, this.state.query);
         }.bind(this), 500);
     }
 
@@ -102,7 +102,8 @@ class WareHouseContainer extends React.Component {
                                                                     onClick={() => {
                                                                         this.openModal(wareHouse, false);
                                                                     }}
-                                                            >Thêm nhà kho
+                                                            >
+                                                                Thêm nhà kho
                                                             </button>
                                                         </div>
                                                     </div>
@@ -136,7 +137,7 @@ class WareHouseContainer extends React.Component {
                                                                 if (Number(currentPage) === page) {
                                                                     return (
                                                                         <li key={page} className="active">
-                                                                            <a onClick={()=> this.loadWareHouses(page, limit)}>{page}</a>
+                                                                            <a onClick={() => this.loadWareHouses(page, limit)}>{page}</a>
                                                                         </li>
                                                                     );
                                                                 }
@@ -160,9 +161,9 @@ class WareHouseContainer extends React.Component {
                     </div>
                 </div>
                 <AddModal
-                    currentPage = {currentPage}
-                    limit = {limit}
-            />
+                    currentPage={currentPage}
+                    limit={limit}
+                />
             </div>
         );
     }

@@ -32,6 +32,19 @@ export function addSupplierApi(supplier) {
         'address': supplier.address,
     });
 }
+export function editSupplierApi(supplier ) {
+    let url = env.MANAGE_API_URL + "/order/supplier/" + supplier.id + "/edit?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "token=" + token;
+    }
+    return axios.put(url, {
+        'name': supplier.name,
+        'email': supplier.email,
+        'phone': supplier.phone,
+        'address': supplier.address,
+    });
+}
 
 export function deleteSupplierApi(id) {
     let token = localStorage.getItem("token");

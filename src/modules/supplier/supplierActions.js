@@ -64,6 +64,36 @@ export function addSupplier(supplier, closeAddModal) {
     };
 }
 
+export function editSupplier(supplier , closeAddModal) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_SUPPLIER});
+        supplierApis.editSupplierApi(supplier)
+            .then((res) => {
+                if (res.data.status) {
+                    closeAddModal();
+                    helper.showTypeNotification('Đã chỉnh sửa '+ supplier.name, 'success');
+                    dispatch({
+                        type: types.EDIT_SUPPLIER_SUCCESS,
+                        supplier: supplier,
+                    });
+                }
+                else {
+                    helper.sweetAlertError(res.data.message);
+                    dispatch({
+                        type: types.EDIT_SUPPLIER_ERROR,
+                        message: res.data.message,
+                    });
+                }
+            })
+            .catch(() => {
+                    dispatch({
+                        type: types.EDIT_SUPPLIER_ERROR
+                    });
+                }
+            );
+    };
+}
+
 export function deleteSupplier(id) {
     return function (dispatch) {
         helper.showTypeNotification("Đang xóa ", "info");

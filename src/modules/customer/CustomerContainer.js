@@ -12,6 +12,8 @@ import AddCustomerModal from './AddCustomerModal';
 import FormInputSelect from '../../components/common/FormInputSelect';
 import {CUSTOMTYPE} from '../../constants/constants';
 import * as helper from '../../helpers/helper';
+import {Link} from 'react-router';
+
 
 
 
@@ -94,9 +96,9 @@ class CustomerContainer extends React.Component {
         e.preventDefault();
     }
 
-    loadCustomers(page, limit) {
+    loadCustomers(page) {
         this.setState({page: page});
-            this.props.customerActions.loadCustomers(page,limit);
+            this.props.customerActions.loadCustomers(page,this.state.limit);
     }
     loadByStatus(e){
         this.setState({status: e.target.value});
@@ -113,27 +115,46 @@ class CustomerContainer extends React.Component {
 
     render() {
         let currentPage = this.state.page;
-        let limit = this.state.limit;
         let status = this.state.status;
         return (
             <div className="content">
                 <div className="container-fluid">
                     <div id="page-wrapper">
                         <div className="container-fluid">
-                            <div style={{marginTop: 15}}>
-                                <a className="btn btn-rose" onClick={() => this.openAddModal()}>Thêm khách hàng</a>
-                            </div>
-                            {this.props.isLoading ? <Loading/> :
-                                <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">assignment</i>
+                            <div className="card">
+                                <div className="card-header card-header-tabs" data-background-color="rose">
+                                    <div className="nav-tabs-navigation">
+                                        <div className="nav-tabs-wrapper">
+                                            <ul className="nav nav-tabs" data-tabs="tabs">
+                                                <li className="active">
+                                                    <Link to="goods/customer">
+                                                        Khách hàng
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                </li>
+                                                <li className="">
+                                                    <Link to="goods/supplier">
+                                                        Nhà cung cấp
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
+                                </div>
+
+                            {this.props.isLoading ? <Loading/> :
+                                <div>
+                                    <div style={{marginTop: 30 ,  marginLeft: 30 }}>
+                                        <a className="btn btn-rose" onClick={() => this.openAddModal()}>Thêm khách hàng</a>
+                                    </div>
+
+
                                     <div className="card-content">
-                                        <h4 className="card-title">Danh sách khách hàng</h4>
                                         <div className="table-responsive">
                                             <div id="property-table_wrapper"
                                                  className="dataTables_wrapper form-inline dt-bootstrap">
-                                                <div className="row" style={{marginTop: 40 , marginBottom : 30}}>
+                                                <div className="row" style={{marginTop: 30 , marginBottom : 30}}>
                                                     <div className="col-md-8">
                                                         <div id="property-table_length">
                                                             <label>Phân loại:
@@ -158,6 +179,10 @@ class CustomerContainer extends React.Component {
                                                         />
                                                     </div>
                                                 </div>
+                                                <div className="card-header card-header-icon" data-background-color="rose">
+                                                    <i className="material-icons">assignment</i>
+                                                </div>
+                                                <h4 className="card-title">Danh sách khách hàng</h4>
                                                 <ListChildCustomer
                                                     customersList={this.props.customersList}
                                                 />
@@ -196,6 +221,7 @@ class CustomerContainer extends React.Component {
                                     </div>
                                 </div>
                             }
+                        </div>
                         </div>
                     </div>
                     <Modal show={this.state.isShowModal} bsSize="large" bsStyle="primary" onHide={this.closeAddModal}>

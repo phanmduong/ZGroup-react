@@ -10,6 +10,8 @@ import {Modal} from 'react-bootstrap';
 import AddSupplierModal from './AddSupplierModal';
 import * as helper from '../../helpers/helper';
 import Pagination from '../../components/common/Pagination';
+import {Link} from 'react-router';
+
 
 
 class SupplierContainer extends React.Component {
@@ -20,14 +22,16 @@ class SupplierContainer extends React.Component {
             limit: 10,
             query: '',
             isShowModal: false,
+            isEdit:false,
         };
         this.loadSuppliers = this.loadSuppliers.bind(this);
         this.suppliersSearchChange = this.suppliersSearchChange.bind(this);
         this.openAddModal = this.openAddModal.bind(this);
         this.closeAddModal = this.closeAddModal.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
-        this.addSupplier = this.addSupplier.bind(this);
+        this.activeModal = this.activeModal.bind(this);
         this.deleteSupplier = this.deleteSupplier.bind(this);
+        this.openFormDataInEdit = this.openFormDataInEdit.bind(this);
     }
 
     componentWillMount() {
@@ -35,8 +39,8 @@ class SupplierContainer extends React.Component {
     }
 
 
-    openAddModal() {
-        this.setState({isShowModal: true});
+    openAddModal(isEdit) {
+        this.setState({isShowModal: true , isEdit : isEdit });
     }
 
     closeAddModal() {
@@ -70,7 +74,12 @@ class SupplierContainer extends React.Component {
         this.props.supplierActions.updateAddSupplierFormData(supplier);
     }
 
-    addSupplier(e) {
+    openFormDataInEdit(supplier ){
+        this.props.supplierActions.updateAddSupplierFormData(supplier);
+        this.openAddModal(true);
+    }
+
+    activeModal(e) {
         if ($('#form-add-supplier').valid()) {
             if (this.props.supplier.name === null || this.props.supplier.name === undefined || this.props.supplier.name === '') {
                 helper.showTypeNotification("Vui lòng nhập tên", 'warning');
@@ -84,6 +93,11 @@ class SupplierContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
             }
             else {
+                if(this.state.isEdit)
+                {
+                    this.props.supplierActions.editSupplier(this.props.supplier, this.closeAddModal);
+                }
+                else
                 this.props.supplierActions.addSupplier(this.props.supplier, this.closeAddModal);
             }
         }
@@ -109,21 +123,38 @@ class SupplierContainer extends React.Component {
                 <div className="container-fluid">
                     <div id="page-wrapper">
                         <div className="container-fluid">
-                            <div style={{marginTop: 15}}>
-                                <a className="btn btn-rose" onClick={() => this.openAddModal()}>Thêm nhà cung cấp</a>
-                            </div>
+                            <div className="card">
+                                <div className="card-header card-header-tabs" data-background-color="rose">
+                                    <div className="nav-tabs-navigation">
+                                        <div className="nav-tabs-wrapper">
+                                            <ul className="nav nav-tabs" data-tabs="tabs">
+                                                <li className="">
+                                                    <Link to="goods/customer">
+                                                        Khách hàng
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                </li>
+                                                <li className="active">
+                                                    <Link to="goods/supplier">
+                                                        Nhà cung cấp
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             {this.props.isLoading ? <Loading/> :
-                                <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">assignment</i>
+                                <div>
+                                    <div style={{marginTop: 30 , marginLeft: 30 ,marginBottom: 20}}>
+                                        <a className="btn btn-rose" onClick={() => this.openAddModal(false)}>Thêm nhà cung cấp</a>
                                     </div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Danh sách nhà cung cấp</h4>
-                                        <div className="table-responsive">
+                                        <div>
                                             <div id="property-table_wrapper"
                                                  className="dataTables_wrapper dt-bootstrap">
                                                 <div className="row">
-                                                    <div className="col-md-6">
+                                                    <div className="col-md-6" style={{marginBottom : 40}}>
                                                         <Search
                                                             onChange={this.suppliersSearchChange}
                                                             value={this.state.query}
@@ -132,9 +163,14 @@ class SupplierContainer extends React.Component {
                                                         />
                                                     </div>
                                                 </div>
+                                                <div className="card-header card-header-icon" data-background-color="rose">
+                                                    <i className="material-icons">assignment</i>
+                                                </div>
+                                                <h4 className="card-title">Danh sách nhà cung cấp</h4>
                                                 <ListChildSupplier
                                                     suppliersList={this.props.suppliersList}
                                                     deleteSupplier = {this.deleteSupplier}
+                                                    openFormDataInEdit = {this.openFormDataInEdit}
                                                 />
 
                                                 <div className="row">
@@ -160,6 +196,7 @@ class SupplierContainer extends React.Component {
                                 </div>
                             }
                         </div>
+                        </div>
                     </div>
                     <Modal show={this.state.isShowModal} bsSize="large" bsStyle="primary" onHide={this.closeAddModal}>
                         <Modal.Header>
@@ -182,7 +219,7 @@ class SupplierContainer extends React.Component {
                                                 className="btn btn-round btn-fill btn-success disabled"
                                             >
                                                 <i className="fa fa-spinner fa-spin"/>
-                                                Đang thêm
+                                                {! this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật' }
                                             </button>
                                         )
                                         :
@@ -190,9 +227,9 @@ class SupplierContainer extends React.Component {
                                             <button rel="tooltip" data-placement="top" title=""
                                                     data-original-title="Remove item"
                                                     type="button" className="btn btn-round btn-success "
-                                                    onClick={(e) => this.addSupplier(e)}
+                                                    onClick={(e) => this.activeModal(e)}
                                             ><i className="material-icons">check</i>
-                                                Thêm
+                                                {this.state.isEdit ? 'Cập nhật' : 'Thêm'}
                                             </button>
                                         )
                                     }

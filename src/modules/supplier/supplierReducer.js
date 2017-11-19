@@ -84,6 +84,39 @@ export default function supplierReducer(state = initialState.suppliers, action) 
                 suppliersList : suppliersList,
             };
 
+        case types.BEGIN_EDIT_SUPPLIER:
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    ...{
+                        isSaving: true,
+                    }
+                }
+            };
+        case types.EDIT_SUPPLIER_ERROR:
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    ...{
+                        isSaving: false,
+                    }
+                }
+            };
+        case types.EDIT_SUPPLIER_SUCCESS:
+            suppliersList = changeSupplier(action.supplier, state.suppliersList);
+            return {
+                ...state,
+                suppliersList: suppliersList,
+                modal: {
+                    ...state.modal,
+                    ...{
+                        isSaving: false,
+                    }
+                }
+            };
+
         default :
             return state;
     }
@@ -92,6 +125,20 @@ export default function supplierReducer(state = initialState.suppliers, action) 
 function deleteSupplierReducer(id, suppliersList) {
     if (suppliersList){
         suppliersList = suppliersList.filter((supplier) => supplier.id !== id);
+    }
+    return suppliersList;
+}
+
+function changeSupplier(actionSupplier, suppliersList) {
+    if (suppliersList) {
+        suppliersList = suppliersList.map(function (supplier) {
+            if (supplier.id === actionSupplier.id) {
+                return {
+                    ...actionSupplier
+                };
+            }
+            else return supplier;
+        });
     }
     return suppliersList;
 }
