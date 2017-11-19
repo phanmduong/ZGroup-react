@@ -146,13 +146,13 @@ class CreateEditCoursesContainer extends React.Component {
                                                         </Link>
                                                     </li>
                                                     <li className={this.props.location.pathname === `${this.urlType}/studying` ? 'active' : ''}>
-                                                        <Link to={`${this.urlType}/studying`}>
+                                                        <Link>
                                                             <i className="material-icons">create</i> HỌC TẬP
                                                             <div className="ripple-container" />
                                                         </Link>
                                                     </li>
                                                     <li className={this.props.location.pathname === `${this.urlType}/interested` ? 'active' : ''}>
-                                                        <Link to={`${this.urlType}/interested`}>
+                                                        <Link>
                                                             <i className="material-icons">flag</i> QUAN TÂM
                                                             <div className="ripple-container" />
                                                         </Link>
