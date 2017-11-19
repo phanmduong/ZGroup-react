@@ -6,6 +6,7 @@ import {Button, Modal} from "react-bootstrap";
 import * as goodActions from '../good/goodActions';
 import Loading from "../../components/common/Loading";
 import Select from "react-select";
+import OptionalBoardInput from "./OptionalBoardInput";
 
 class AddPropertyItemsToTaskModalContainer extends React.Component {
     constructor(props, context) {
@@ -20,6 +21,9 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         this.save = this.save.bind(this);
         this.handleSelectCurrentBoard = this.handleSelectCurrentBoard.bind(this);
         this.handleSelectTargetBoard = this.handleSelectTargetBoard.bind(this);
+        this.addBoardInput = this.addBoardInput.bind(this);
+        this.handleSelectBoard = this.handleSelectBoard.bind(this);
+        this.handleSelectProcess = this.handleSelectProcess.bind();
     }
 
 
@@ -63,6 +67,18 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
             this.state.currentBoard, this.state.targetBoard);
     }
 
+    handleSelectProcess() {
+
+    }
+
+    handleSelectBoard() {
+
+    }
+
+    addBoardInput() {
+        this.props.goodActions.addOptionalBoard();
+    }
+
     render() {
         const {showModal} = this.props;
         const {value, currentBoard, targetBoard} = this.state;
@@ -97,30 +113,28 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                                     </div>
                                 </div>
 
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <div className="form-group">
-                                            <label>Bảng hiện tại </label>
-                                            <Select
-                                                onChange={this.handleSelectCurrentBoard}
-                                                options={this.props.boards}
-                                                placeholder="Lựa chọn bảng hiện tại"
-                                                value={currentBoard}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <div className="form-group">
-                                            <label>Bảng đích</label>
-                                            <Select
-                                                onChange={this.handleSelectTargetBoard}
-                                                options={this.props.boards}
-                                                placeholder="Lựa chọn bảng đích"
-                                                value={targetBoard}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
+                                {
+                                    this.props.optionalBoards && this.props.optionalBoards.map((board, index) => {
+                                        return (
+                                            <OptionalBoardInput
+                                                key={index}
+                                                index={index}
+                                                process={board.process}
+                                                board={board.board}
+                                                handleSelectProcess={this.handleSelectProcess}
+                                                handleSelectBoard={this.handleSelectBoard}
+                                                processes={this.props.processes}
+                                                boards={this.props.boards}/>
+                                        );
+                                    })
+                                }
+
+                                <Button
+                                    onClick={this.addBoardInput}
+                                    className="btn btn-simple">
+                                    + Thêm bảng đích
+                                </Button>
+
                             </div>
                         )
                     }
@@ -150,6 +164,8 @@ AddPropertyItemsToTaskModalContainer.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     task: PropTypes.object.isRequired,
     goodPropertyItems: PropTypes.array.isRequired,
+    optionalBoards: PropTypes.array.isRequired,
+    processes: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired,
     goodActions: PropTypes.object.isRequired
 };
@@ -158,9 +174,11 @@ function mapStateToProps(state) {
     return {
         showModal: state.good.attachPropertyItem.showModal,
         task: state.good.attachPropertyItem.task,
-        boards: state.good.attachPropertyItem.boards,
+        optionalBoards: state.good.attachPropertyItem.optionalBoards,
+        processes: state.good.attachPropertyItem.processes,
         isLoading: state.good.attachPropertyItem.isLoading,
         isSaving: state.good.attachPropertyItem.isSaving,
+        boards: state.good.attachPropertyItem.boards,
         goodPropertyItems: state.good.attachPropertyItem.goodPropertyItems
     };
 }

@@ -365,3 +365,12 @@ export function loadGoodPropertiesFilled(cardId, goodProperties) {
             });
     };
 }
+
+
+export function addOptionalBoard() {
+    return function (dispatch) {
+        dispatch({
+            type: types.ADD_OPTIONAL_BOARD
+        });
+    };
+}

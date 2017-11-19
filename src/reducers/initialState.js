@@ -4,7 +4,7 @@ export default {
     },
     inventoryGood: {
         isLoading: false,
-        isLoadingHistoryModal:false,
+        isLoadingHistoryModal: false,
         inventories: [],
         categories: [],
         manufactures: [],
@@ -81,7 +81,9 @@ export default {
             goodPropertyItems: [],
             task: {},
             isSaving: false,
-            boards: []
+            boards: [],
+            optionalBoards: [],
+            processes: []
         },
         createProperty: {
             property: {},
