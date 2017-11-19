@@ -58,124 +58,38 @@
     </div>
     <br><br>
     <div class="container">
-        <h3>Cơ sở 1: 175 Chùa Láng</h3><br>
-
         <div class="row">
-            <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
-                <div>
-                    <div style="display:flex;flex-direction:row">
-                        <div style="margin-right:20px; border-radius:25px">
-                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
-                                 style="border-radius:50%; height:100px;width:100px"/>
+            @foreach($classes as $class)
+                <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
+                    <div>
+                        <div style="display:flex;flex-direction:row">
+                            <div style="margin-right:20px; border-radius:25px">
+                                <img src="{{$class['icon_url']}}"
+                                     style="border-radius:50%; height:100px;width:100px"/>
+                            </div>
+                            <div>
+                                <h4 style="font-weight:600; margin-top:10px"></h4>
+                                {{$class['description']}}<br><br>
+                                <p>
+                                    <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> {{$class['datestart']}}
+
+                                    <br>
+
+                                    <i class="fa fa-calendar"></i> <b>Lịch học:</b> {{$class['study_time']}}
+
+                                    <br>
+
+                                    <i class="fa fa-map-marker"></i> <b>Địa điểm:</b> {{$class['address']}}
+                                    <br><br>
+                                </p>
+                                <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
+                                   href="/order/{{$class['id']}}"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                            </div>
                         </div>
-                        <div>
-                            <h4 style="font-weight:600; margin-top:10px"></h4>
-                            LỚP TIẾNG ANH GIAO TIẾP 12.2<br><br>
-                            <p>
-                                <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> 07 Tháng 4 năm 1995
 
-                                <br>
-
-                                <i class="fa fa-calendar"></i> <b>Lịch học:</b> Tối thứ 3 & Tối thứ 5 (19h-21h)
-
-                                <br>
-
-                                <i class="fa fa-map-marker"></i> <b>Địa điểm:</b> 175 Chùa Láng, Đống Đa, Hà Nội
-                                <br><br>
-                            </p>
-                            <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                               href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
-                <div>
-                    <div style="display:flex;flex-direction:row">
-                        <div style="margin-right:20px; border-radius:25px">
-                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
-                                 style="border-radius:50%; height:100px;width:100px"/>
-                        </div>
-                        <div>
-                            <h4 style="font-weight:600; margin-top:10px"></h4>
-                            LỚP TIẾNG ANH GIAO TIẾP 12.2<br><br>
-                            <p>
-                                <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> 07 Tháng 4 năm 1995
-
-                                <br>
-
-                                <i class="fa fa-calendar"></i> <b>Lịch học:</b> Tối thứ 3 & Tối thứ 5 (19h-21h)
-
-                                <br>
-
-                                <i class="fa fa-map-marker"></i> <b>Địa điểm:</b> 175 Chùa Láng, Đống Đa, Hà Nội
-                                <br><br>
-                            </p>
-                            <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                               href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
-                <div>
-                    <div style="display:flex;flex-direction:row">
-                        <div style="margin-right:20px; border-radius:25px">
-                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
-                                 style="border-radius:50%; height:100px;width:100px"/>
-                        </div>
-                        <div>
-                            <h4 style="font-weight:600; margin-top:10px"></h4>
-                            LỚP TIẾNG ANH GIAO TIẾP 12.2<br><br>
-                            <p>
-                                <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> 07 Tháng 4 năm 1995
-
-                                <br>
-
-                                <i class="fa fa-calendar"></i> <b>Lịch học:</b> Tối thứ 3 & Tối thứ 5 (19h-21h)
-
-                                <br>
-
-                                <i class="fa fa-map-marker"></i> <b>Địa điểm:</b> 175 Chùa Láng, Đống Đa, Hà Nội
-                                <br><br>
-                            </p>
-                            <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                               href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
-                <div>
-                    <div style="display:flex;flex-direction:row">
-                        <div style="margin-right:20px; border-radius:25px">
-                            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
-                                 style="border-radius:50%; height:100px;width:100px"/>
-                        </div>
-                        <div>
-                            <h4 style="font-weight:600; margin-top:10px"></h4>
-                            LỚP TIẾNG ANH GIAO TIẾP 12.2<br><br>
-                            <p>
-                                <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> 07 Tháng 4 năm 1995
-
-                                <br>
-
-                                <i class="fa fa-calendar"></i> <b>Lịch học:</b> Tối thứ 3 & Tối thứ 5 (19h-21h)
-
-                                <br>
-
-                                <i class="fa fa-map-marker"></i> <b>Địa điểm:</b> 175 Chùa Láng, Đống Đa, Hà Nội
-                                <br><br>
-                            </p>
-                            <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                               href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
-                        </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 

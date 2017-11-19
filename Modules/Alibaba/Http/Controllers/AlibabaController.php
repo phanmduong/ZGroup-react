@@ -3,6 +3,7 @@
 namespace Modules\Alibaba\Http\Controllers;
 
 use App\Product;
+use App\StudyClass;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -37,7 +38,22 @@ class AlibabaController extends Controller
 
     public function register($subfix)
     {
-        return view('alibaba::register');
+        $classes = StudyClass::all();
+
+        $data = $classes->map(function ($class){
+            return [
+                'id' => $class->id,
+                'description' => $class->description,
+                'icon_url' => $class->course ? $class->course->icon_url : null,
+                'datestart' => $class->datestart,
+                'study_time' => $class->study_time,
+                'address' => $class->base ? $class->base->address : null,
+            ];
+        });
+        //dd(\GuzzleHttp\json_encode($data));
+        return view('alibaba::register', [
+            'classes' => $data
+        ]);
     }
 
     public function post($subfix, $post_id)
