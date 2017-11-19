@@ -64,7 +64,7 @@ class WarehouseApiController extends ManageApiController
         $supplier->phone = $request->phone;
         $supplier->address = $request->address;
         $supplier->save();
-        return $this->$this->respondSuccessWithStatus([
+        return $this->respondSuccessWithStatus([
             'supplier' => $supplier
         ]);
     }
