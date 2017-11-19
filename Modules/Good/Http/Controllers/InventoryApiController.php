@@ -69,38 +69,6 @@ class InventoryApiController extends ManageApiController
         $good_category_id = $request->good_category_id;
         $manufacture_id = $request->manufacture_id;
         $keyword = $request->search;
-        $warehouse_id = $request->warehouse_id;
-
-//        if ($warehouse_id == null) {
-//            $goods = Good::where(function ($query) use ($keyword) {
-//                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-//            });
-//            if ($good_category_id)
-//                $goods = $goods->where('good_category_id', $good_category_id);
-//            if ($manufacture_id)
-//                $goods = $goods->where('manufacture_id', $manufacture_id);
-//            $goods = $goods->paginate($limit);
-//            return $this->respondWithPagination(
-//                $goods,
-//                [
-//                    'inventories' => $goods->map(function ($goods){
-//                        $quantity = $goods->importedGoods->reduce(function ($total, $importedGood){
-//                            return $total + $importedGood->quantity;
-//                        }, 0);
-//                        $data = [
-//                            'code' => $goods->code,
-//                            'name' => $goods->name,
-//                            'quantity' => $quantity,
-//                            'import_price' => $inventory->import_price,
-//                            'import_money' => $inventory->import_price * $inventory->quantity,
-//                            'price' => $goods->price,
-//                            'money' => $goods->price * $inventory->quantity
-//                        ];
-//                        return $data;
-//                    })
-//                ]
-//            );
-//        }
 
         $inventories = ImportedGoods::where('quantity', '<>', 0);
         if ($keyword) {
@@ -123,6 +91,7 @@ class InventoryApiController extends ManageApiController
             [
                 'inventories' => $inventories->map(function ($inventory) {
                     $data = [
+                        'id' => $inventory->id,
                         'code' => $inventory->good->code,
                         'name' => $inventory->good->name,
                         'quantity' => $inventory->quantity,
@@ -158,6 +127,10 @@ class InventoryApiController extends ManageApiController
 
     public function historyGoods($goodId, Request $request)
     {
+        if(Good::find($goodId) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'non-existing good'
+            ]);
         $warehouses = Warehouse::orderBy('created_at', 'desc')->get();
         $inventories = ImportedGoods::where('good_id', $goodId)->get();
         $total_quantity = $inventories->reduce(function ($total, $inventory) {
@@ -167,21 +140,19 @@ class InventoryApiController extends ManageApiController
             return $total + $inventory->quantity * $inventory->import_price;
         }, 0);
         $total_money = $total_quantity * Good::find($goodId)->price;
-//        $warehouses = $warehouses->filter(function ($warehouse, $goodId){
-//            $importedGoods = ImportedGoods::where('good_id', $goodId)
-//                ->where('warehouse_id', $warehouse->id)->get();
-//            $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
-//                return $total + $inventory->quantity;
-//            }, 0);
-//            dd(\GuzzleHttp\json_encode($importedGoods));
-//            return $warehouse_quantity > 0;
-//        });
+        $warehouses = $warehouses->filter(function ($warehouse) use($goodId){
+            $importedGoods = ImportedGoods::where('good_id', $goodId)
+                ->where('warehouse_id', $warehouse->id)->get();
+            $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
+                return $total + $inventory->quantity;
+            }, 0);
+            return $warehouse_quantity > 0;
+        })->values();
         return $this->respondSuccessWithStatus([
             'total_quantity' => $total_quantity,
             'total_import_money' => $total_import_money,
             'total_money' => $total_money,
             'warehouses' => $warehouses->map(function ($warehouse) use ($goodId) {
-
                 $importedGoods = ImportedGoods::where('good_id', $goodId)
                     ->where('warehouse_id', $warehouse->id)->get();
                 $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
@@ -194,12 +165,6 @@ class InventoryApiController extends ManageApiController
                 $data = [
                     'id' => $warehouse->id,
                     'name' => $warehouse->name,
-                    'gaugau' => ImportedGoods::where('good_id', $goodId)->where('warehouse_id', $warehouse->id)->get()->map(function ($gau) {
-                        return [
-                            'id' => $gau->id,
-                            'quantity' => $gau->quantity,
-                        ] ;
-                    }),
                     'warehouse_quantity' => $warehouse_quantity,
                     'warehouse_import_money' => $warehouse_import_money,
                     'warehouse_money' => $warehouse_money,
