@@ -98,12 +98,12 @@ class Good extends Model
             'code' => $this->code,
         ];
 
-        if($this->good_category_id)
+        if($this->goodCategory)
             $data['category'] = [
                 'id' => $this->goodCategory->id,
                 'name' => $this->goodCategory->name,
             ];
-        if($this->manufacture_id)
+        if($this->manufacture)
             $data['manufacture'] = [
                 'id' => $this->manufacture->id,
                 'name' => $this->manufacture->name,

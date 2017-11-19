@@ -159,7 +159,7 @@ class InventoryApiController extends ManageApiController
     {
         if (ImportedGoods::find($importedGoodId) == null)
             return $this->respondErrorWithStatus([
-                'message' => 'non-existing good'
+                'history' => ''
             ]);
         $history = HistoryGood::where('imported_good_id', $importedGoodId)->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
