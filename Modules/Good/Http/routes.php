@@ -8,6 +8,15 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/inventories-info', 'InventoryApiController@inventoriesInfo');
     Route::get('/history/{importedGoodId}', 'InventoryApiController@historyGoods');
 
+    Route::get('/all-property-items', 'GoodPropertyApiController@allPropertyItems');
+    Route::delete('/delete-property-item/{property_item_id}', 'GoodPropertyApiController@deletePropertyItem');
+    Route::post('/create-property-item', 'GoodPropertyApiController@createGoodPropertyItem');
+    Route::post('/add-property-item-task/{task_id}', 'GoodPropertyApiController@addPropertyItemsTask');
+    Route::get('/property-item/{property_item_id}', 'GoodPropertyApiController@getGoodPropertyItem');
+    Route::get('/get-property/{good_id}', 'GoodPropertyApiController@propertiesOfGood');
+    Route::post('/{id}/save-good-properties', 'GoodPropertyApiController@saveGoodProperties');
+    Route::get('/{goodId}/task/{taskId}/good-properties', 'GoodPropertyApiController@loadGoodTaskProperties');
+
     Route::get('/all', 'GoodController@getAllGoods');
     Route::get('/get-by-status', 'GoodController@goodsByStatus');
     Route::get('/all/no-paging', 'GoodController@getGoodsWithoutPagination');
@@ -19,14 +28,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::post('/{goodId}/create-child-good', 'GoodController@createChildGood');
     Route::get('/{goodId}', 'GoodController@good');
 
-    Route::get('/all-property-items', 'GoodPropertyApiController@allPropertyItems');
-    Route::delete('/delete-property-item/{property_item_id}', 'GoodPropertyApiController@deletePropertyItem');
-    Route::post('/create-property-item', 'GoodPropertyApiController@createGoodPropertyItem');
-    Route::post('/add-property-item-task/{task_id}', 'GoodPropertyApiController@addPropertyItemsTask');
-    Route::get('/property-item/{property_item_id}', 'GoodPropertyApiController@getGoodPropertyItem');
-    Route::get('/get-property/{good_id}', 'GoodPropertyApiController@propertiesOfGood');
-    Route::post('/{id}/save-good-properties', 'GoodPropertyApiController@saveGoodProperties');
-    Route::get('/{goodId}/task/{taskId}/good-properties', 'GoodPropertyApiController@loadGoodTaskProperties');
+
 
 
 });
