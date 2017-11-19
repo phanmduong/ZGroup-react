@@ -78,13 +78,13 @@ class ListCourse extends React.Component {
                                 </td>
                                 <td>
                                     <ButtonGroupAction
-                                        editUrl={"/manage/courses/" + course.id + "/edit"}
+                                        editUrl={"/manage/courses/edit/" + course.id + ""}
                                         delete={this.deleteCourse}
                                         object={course}
                                     />
                                 </td>
                             </tr>
-                        );//return of map
+                        );
                     })}
                     </tbody>
                 </table>
@@ -96,7 +96,8 @@ class ListCourse extends React.Component {
 
 ListCourse.propTypes = {
     courses: PropTypes.array.isRequired,
-
+    coursesActions : PropTypes.object.isRequired,
+    deleteCourse : PropTypes.func
 };
 
 function mapStateToProps(state) {

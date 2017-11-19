@@ -1,10 +1,31 @@
 import * as types       from '../../constants/actionTypes';
 import * as courseApi   from './courseApi';
 import * as helper      from '../../helpers/helper';
+import {browserHistory}                 from 'react-router';
+
+export function updateData(feild, value) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_DATA_COURSES,
+            feild: feild,
+            value: value
+        });
+
+    };
+}
+
+export function deleteData() {
+    return function (dispatch) {
+        dispatch({
+            type: types.DELETE_DATA_COURSES
+        });
+
+    };
+}
 
 export function loadCourses(page = 1, query='') {
     return function (dispatch) {
-        dispatch({type: types.BEGIN_LOAD_COURSES_DATA, page : page});
+        dispatch({type: types.BEGIN_LOAD_COURSES_DATA});
         courseApi.loadCoursesData(page, query)
             .then(res => {
                 dispatch({
@@ -21,7 +42,7 @@ export function loadCourses(page = 1, query='') {
 
 export function deleteCourse(id) {
     return function (dispatch) {
-        helper.showNotification('Đang xoá môn học');
+        helper.showWarningNotification('Đang xoá môn học');
         dispatch({
             type: types.BEGIN_DELETE_COURSES,
 
@@ -35,7 +56,7 @@ export function deleteCourse(id) {
                 });
             })
             .catch(() => {
-                helper.showNotification('Xóa môn học thất bại');
+                helper.showErrorNotification('Xóa môn học thất bại');
                 dispatch({
                     type: types.DELETE_COURSES_ERROR,
                 });
@@ -55,6 +76,7 @@ export function commitCourseData(data) {
                     type: types.CREATE_EDIT_COURSES_SUCCESS,
                     data: res
                 });
+                browserHistory.push("/manage/courses");
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
@@ -63,12 +85,6 @@ export function commitCourseData(data) {
     };
 }
 
-export function backToList() {
-    return function (dispatch) {
-        dispatch({type: types.BACK_TO_COURSE_LIST});
-
-    };
-}
 
 
 export function loadOneCourse(id) {
@@ -88,16 +104,17 @@ export function loadOneCourse(id) {
 }
 
 
-export function uploadAvatar(file, course) {
+
+
+export function uploadAvatar(file) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_UPLOAD_AVATAR_COURSE});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
-            course.image_url = data.link;
             dispatch({
                 type: types.UPLOAD_AVATAR_COURSE_SUCCESS,
-                data: course
+                link: data.link
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
@@ -106,16 +123,15 @@ export function uploadAvatar(file, course) {
     };
 }
 
-export function uploadLogo(file, course) {
+export function uploadLogo(file) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_UPLOAD_LOGO_COURSE});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
-            course.icon_url = data.link;
             dispatch({
                 type: types.UPLOAD_LOGO_COURSE_SUCCESS,
-                data: course
+                link: data.link
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
@@ -124,16 +140,15 @@ export function uploadLogo(file, course) {
     };
 }
 
-export function uploadCover(file, course) {
+export function uploadCover(file) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_UPLOAD_COVER_COURSE});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
-            course.cover_url = data.link;
             dispatch({
                 type: types.UPLOAD_COVER_COURSE_SUCCESS,
-                data: course
+                link: data.link
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");

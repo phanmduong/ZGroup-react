@@ -937,6 +937,22 @@ export default {
                 lessons: [],
                 links: []
             }
-        },
-    }
+        }
+    },
+    lessons: {
+        isLoading: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            course_id: null,
+            name: "",
+            description: "",
+            detail: "",
+            order: "",
+            detail_content: "",
+            detail_teacher: "",
+            created_at: "2016-07-12 18:00:16"
+        }
+    },
 };

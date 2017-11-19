@@ -4,33 +4,31 @@ import initialState from '../../reducers/initialState';
 
 let data;
 export default function courseReducer(state = initialState.courses, action) {
-    //console.log(action.type);
     switch (action.type) {
         case types.BEGIN_LOAD_COURSES_DATA:
             return {
                 ...state,
                 ...{
-                    isLoading   : true,
-                    error       : false,
-                    paginator   : {current_page: action.page}
+                    isLoading: true,
+                    error: false
                 }
             };
         case types.LOADED_COURSES_DATA_SUCCESS:
             return {
                 ...state,
                 ...{
-                    isLoading       : false,
-                    error           : false,
-                    coursesList     : action.courses,
-                    paginator       : action.paginator
+                    isLoading: false,
+                    error: false,
+                    coursesList: action.courses,
+                    paginator: action.paginator
                 }
             };
         case types.LOADED_COURSES_DATA_ERROR:
             return {
                 ...state,
                 ...{
-                    isLoading   : false,
-                    error       : true,
+                    isLoading: false,
+                    error: true,
                 }
             };
         case types.BEGIN_DELETE_COURSES:
@@ -39,13 +37,13 @@ export default function courseReducer(state = initialState.courses, action) {
             };
 
         case types.DELETE_COURSES_SUCCESS:
-            data = deleteCourse(action.courseId,state.coursesList);
+            data = deleteCourse(action.courseId, state.coursesList);
             return {
                 ...state,
                 ...{
-                    isLoading   : false,
-                    error       : false,
-                    coursesList : data
+                    isLoading: false,
+                    error: false,
+                    coursesList: data
                 }
             };
         case types.DELETE_COURSES_ERROR:
@@ -79,6 +77,7 @@ export default function courseReducer(state = initialState.courses, action) {
                     error: true,
                 }
             };
+
         case types.BEGIN_UPLOAD_AVATAR_COURSE:
             return {
                 ...state,
@@ -87,15 +86,17 @@ export default function courseReducer(state = initialState.courses, action) {
                     updateAvatarError: false,
                 }
             };
-        case types.UPLOAD_AVATAR_COURSE_SUCCESS:
+        case types.UPLOAD_AVATAR_COURSE_SUCCESS: {
+            state.data['image_url'] = action.link;
             return {
                 ...state,
                 ...{
                     isUpdatingAvatar: false,
                     updateAvatarError: false,
-                    data: action.data
+                    data: state.data
                 }
             };
+        }
         case types.UPLOAD_AVATAR_COURSE_FAILED:
             return {
                 ...state,
@@ -105,23 +106,28 @@ export default function courseReducer(state = initialState.courses, action) {
 
                 }
             };
-        case types.BEGIN_UPLOAD_LOGO_COURSE:
+        case types.BEGIN_UPLOAD_LOGO_COURSE:{
+
             return {
                 ...state,
                 ...{
                     isUpdatingLogo: true,
                     updateLogoError: false,
+
                 }
             };
-        case types.UPLOAD_LOGO_COURSE_SUCCESS:
+        }
+        case types.UPLOAD_LOGO_COURSE_SUCCESS: {
+            state.data['icon_url'] = action.link;
             return {
                 ...state,
                 ...{
                     isUpdatingLogo: false,
                     updateLogoError: false,
-                    data: action.data
+                    data: state.data
                 }
             };
+        }
         case types.UPLOAD_LOGO_COURSE_FAILED:
             return {
                 ...state,
@@ -139,15 +145,17 @@ export default function courseReducer(state = initialState.courses, action) {
                     updateCoverError: false,
                 }
             };
-        case types.UPLOAD_COVER_COURSE_SUCCESS:
+        case types.UPLOAD_COVER_COURSE_SUCCESS: {
+            state.data['cover_url'] = action.link;
             return {
                 ...state,
                 ...{
                     isUpdatingCover: false,
                     updateCoverError: false,
-                    data: action.data
+                    data: state.data
                 }
             };
+        }
         case types.UPLOAD_COVER_COURSE_FAILED:
             return {
                 ...state,
@@ -185,14 +193,46 @@ export default function courseReducer(state = initialState.courses, action) {
                     commitSuccess: false
                 }
             };
-        case types.BACK_TO_COURSE_LIST:
+
+        case types.UPDATE_DATA_COURSES: {
+            let feild = action.feild;
+            let value = action.value;
+            state.data[feild] = value;
+
             return {
                 ...state,
                 ...{
-                    isCommitting: false,
-                    commitSuccess: false
+                    data: state.data
                 }
             };
+        }
+        case types.DELETE_DATA_COURSES: {
+            return {
+                ...state,
+                ...{
+                    data: {
+                        id: null,
+                        name: "",
+                        duration: "",
+                        price: "",
+                        description: "",
+                        linkmac: "",
+                        linkwindow: "",
+                        num_classes: "",
+                        mac_how_install: "",
+                        window_how_install: "",
+                        cover_url: "",
+                        color: "",
+                        image_url: "",
+                        icon_url: "",
+                        created_at: "",
+                        detail: "",
+                        lessons: [],
+                        links: []
+                    }
+                }
+            };
+        }
         default:
             return state;
     }
@@ -207,22 +247,22 @@ function deleteCourse(courseId, courseList) {
 
 
 const defaultData = {
-    id                  : null,
-    name                : '',
-    duration            : '',
-    price               : '',
-    description         : '',
-    linkmac             : "",
-    linkwindow          : "",
-    num_classes         : '',
-    mac_how_install     : '',
-    window_how_install  : "",
-    cover_url           : '',
-    color               : "",
-    image_url           : '',
-    icon_url            : '',
-    created_at          : "",
-    detail              : "",
-    lessons             : [],
-    links               : []
-}
+        id: null,
+        name: "",
+        duration: "",
+        price: "",
+        description: "",
+        linkmac: "",
+        linkwindow: "",
+        num_classes: "",
+        mac_how_install: "",
+        window_how_install: "",
+        cover_url: "",
+        color: "",
+        image_url: "",
+        icon_url: "",
+        created_at: "",
+        detail: "",
+        lessons: [],
+        links: []
+};
