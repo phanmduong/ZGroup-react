@@ -683,7 +683,7 @@ export default {
       commitSuccess: false,
       data: {
           id: null,
-          course_id: null,
+          course_id: 1,
           name: "",
           description: "",
           detail: "",

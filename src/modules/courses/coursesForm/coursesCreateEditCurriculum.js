@@ -14,7 +14,7 @@ class coursesCreateEditCurriculum extends React.Component {
     }
     componentWillMount() {
 
-        console.log('child Curriculum will mount',this.props);
+       // console.log('child Curriculum will mount',this.props);
     }
 
     render(){

@@ -22,7 +22,7 @@ class LessonsContainer extends React.Component {
     }
 
     componentWillMount() {
-        console.log('lesson container will mount',this.props);
+        //console.log('lesson container will mount',this.props);
         let id = this.props.params.lessonId;
         if(id) this.props.lessonsActions.loadLessonData(id);
     }
@@ -166,7 +166,7 @@ class LessonsContainer extends React.Component {
                                         type="button"
                                         onClick={this.commitData}
                                         > Lưu </button>
-                                        <Link className="btn btn-rose" to="/manage/courses">
+                                        <Link className="btn btn-rose" to={`/manage/courses/edit/${this.props.data.course_id}/curriculum`}>
                                         Huỷ
                                         </Link>
                                     </div>
@@ -187,7 +187,7 @@ LessonsContainer.propTypes = {
     isLoading           : PropTypes.bool.isRequired,
     isCommitting        : PropTypes.bool,
     data                : PropTypes.object,
-    coursesActions      : PropTypes.object.isRequired
+    lessonsActions      : PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

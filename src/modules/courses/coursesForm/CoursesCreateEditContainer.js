@@ -33,7 +33,7 @@ class CreateEditCoursesContainer extends React.Component {
 
     componentWillMount() {
         helper.setFormValidation('#form-course-create-edit');
-        console.log('will mount',this.props);
+        //console.log('will mount',this.props);
         let id = this.props.params.courseId;
         this.urlType ="/manage/courses/" + (id ? "edit/" + id : "create");
         if(id) this.props.coursesActions.loadOneCourse(id);
