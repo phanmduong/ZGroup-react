@@ -174,7 +174,7 @@ class InventoryApiController extends ManageApiController
                 return $total + $inventory->quantity;
             }, 0);
             return $warehouse_quantity > 0;
-        })->toArray();
+        })->values();
         return $this->respondSuccessWithStatus([
             'total_quantity' => $total_quantity,
             'total_import_money' => $total_import_money,
