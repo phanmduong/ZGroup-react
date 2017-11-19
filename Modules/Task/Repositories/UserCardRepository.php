@@ -150,7 +150,7 @@ class UserCardRepository
             return $file->transform();
         });
         $taskLists = $card->taskLists->map(function ($taskList) {
-            return $taskList->transform();
+            return $taskList->transformWithOrderedTasks();
         });
         $members = $card->assignees->map(function ($member) use ($card) {
             $data = [
@@ -175,7 +175,7 @@ class UserCardRepository
             return $c->transform();
         });
 
-        return [
+        $data = [
             "description" => $card->description,
             "members" => $members,
             "taskLists" => $taskLists,
@@ -183,5 +183,18 @@ class UserCardRepository
             "files" => $files,
             "comments" => $cardComments
         ];
+
+        if ($card->good) {
+            $good = [
+                "id" => $card->good->id,
+                "code" => $card->good->code,
+                "name" => $card->good->name
+            ];
+            $data["good"] = $good;
+        }
+
+
+
+        return $data;
     }
 }

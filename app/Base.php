@@ -32,4 +32,13 @@ class Base extends Model
     public function checkInCheckOuts(){
         return $this->hasMany(CheckInCheckOut::class, "base_id");
     }
+
+    public function Transform(){
+        return [
+            "id" => $this->id,
+            "name" => $this->name,
+            "address" => $this->address
+        ];
+    }
+
 }

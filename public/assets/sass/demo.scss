@@ -1666,6 +1666,9 @@
 
 
 }
+.shadow-x{
+  box-shadow:0 6px 10px -4px rgba(0, 0, 0, 0.15);
+}
 @media only screen and (min-width: 768px) {
   .demo-icons ul li {
     width: 20%;

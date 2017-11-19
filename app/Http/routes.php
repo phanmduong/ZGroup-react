@@ -107,6 +107,9 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     //Begin blog api
     Route::post('/create-category', 'ManageBlogController@create_category');
     Route::post('/save-post', 'ManageBlogController@save_post');
+    Route::get('/posts', 'ManageBlogController@get_posts');
+    Route::get('/post/{postId}', 'ManageBlogController@get_post');
+    Route::delete('/post/{postId}/delete', 'ManageBlogController@delete_post');
     //End blog api
 
     //Begin register students api
@@ -508,7 +511,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::post('manage/storetag', 'TagController@store_tag');
     Route::get('manage/deletetag/{id}', 'TagController@delete_tag');
 
-    Route::get('/test', 'PublicController@test');
+    Route::get('/test', 'PublicController@public_test');
     Route::get('/elight-mail', 'PublicController@elightMail');
 
     Route::post('storeemail', 'PublicController@store_email');

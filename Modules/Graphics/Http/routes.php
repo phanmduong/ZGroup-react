@@ -1,6 +1,7 @@
 <?php
 
-Route::group(['middleware' => 'web', 'domain' => config("app.domain_commerce"), 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+//Route::group(['middleware' => 'web', 'domain' => config("app.domain_commerce"), 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
     Route::get('/', 'GraphicsController@index');
     Route::get('/contact-us', 'GraphicsController@contact_us');
     Route::get('/about-us', 'GraphicsController@aboutUs');
@@ -15,9 +16,15 @@ Route::group(['middleware' => 'web', 'domain' => config("app.domain_commerce"), 
     Route::get('/book/{good_id}', 'GraphicsController@book');
     Route::get('/blog', 'GraphicsController@blog');
     Route::get('/blog/post/{post_id}', 'GraphicsController@post');
-    Route::post('/save-order',"GraphicsController@saveOrder");
+    Route::post('/save-order', "GraphicsController@saveOrder");
+    Route::get('/api/blogs', 'BlogApiController@getAllBlogs');
+    Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
 
 });
 
-
+Route::group(['domain' => "api.graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+    Route::get('/books', 'GraphicsAppController@index');
+    Route::get('/detail-book/{book_id}', 'GraphicsAppController@detailedBook');
+    Route::post('/save-order', 'GraphicsAppController@saveOrder');
+});
 

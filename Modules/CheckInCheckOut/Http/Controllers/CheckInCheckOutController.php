@@ -4,6 +4,7 @@ namespace Modules\CheckInCheckOut\Http\Controllers;
 
 use App\Base;
 use App\Http\Controllers\ManageApiController;
+use App\Repositories\NotificationRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,10 +15,14 @@ class CheckInCheckOutController extends ManageApiController
 {
 
     protected $checkInCheckOutRepository;
+    protected $notificationRepository;
 
-    public function __construct(CheckInCheckOutRepository $checkInCheckOutRepository)
+    public function __construct(
+        NotificationRepository $notificationRepository,
+        CheckInCheckOutRepository $checkInCheckOutRepository)
     {
         parent::__construct();
+        $this->notificationRepository = $notificationRepository;
         $this->checkInCheckOutRepository = $checkInCheckOutRepository;
     }
 
@@ -126,6 +131,16 @@ class CheckInCheckOutController extends ManageApiController
         return $this->respondWithPagination($checkInCheckouts, ["data" => $items]);
     }
 
+    private function sendCheckInCheckOutNotification($checkInCheckOut)
+    {
+        if ($checkInCheckOut->shift_id != null && $checkInCheckOut->shift_id > 0) {
+            if ($checkInCheckOut->kind == 1) {
+//                $this->notificationRepository->sendConfirm();
+            }
+
+        }
+    }
+
 
     public function checkIn(Request $request)
     {
@@ -160,6 +175,8 @@ class CheckInCheckOutController extends ManageApiController
         $checkIn = $this->checkInCheckOutRepository->addCheckInCheckOut(1, $long, $lat, $this->user->id, $device_id, $mac, $wifiName);
 
         if ($checkIn->status === 1) {
+
+//            $this->notificationRepository->sendConfirmCheckInTeachNotification();
             return $this->respondSuccessWithStatus([
                 "check_in" => [
                     'time' => format_time(strtotime($checkIn->created_at)),
@@ -191,7 +208,7 @@ class CheckInCheckOutController extends ManageApiController
         }
         if ($checkIn->status === 3) {
             return $this->respondErrorWithData([
-                    'message' => "Khoảng cách quá xa so với cơ sở gần nhất",
+                    'message' => "Khoảng cách quá xa so với cơ sở gần nhất (long: " . $long . ", lat: " . $lat . ",distance: " . $checkIn->distance . ")",
                     "check_in" => [
                         'time' => format_time(strtotime($checkIn->created_at)),
                         'base' => "Bạn ở quá xa"
@@ -282,7 +299,7 @@ class CheckInCheckOutController extends ManageApiController
         }
         if ($checkOut->status === 3) {
             return $this->respondErrorWithData([
-                    'message' => "Khoảng cách quá xa so với cơ sở gần nhất",
+                    'message' => "Khoảng cách quá xa so với cơ sở gần nhất (long: " . $long . ", lat: " . $lat . ",distance: " . $checkOut->distance . ")",
                     "check_in" => [
                         'time' => format_time(strtotime($checkOut->created_at)),
                         'base' => "Bạn ở quá xa"

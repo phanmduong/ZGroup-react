@@ -2,11 +2,13 @@
 
 namespace Modules\Order\Http\Controllers;
 
-use App\GoodCategory;
+use App\Good;
 use App\Http\Controllers\ManageApiController;
+use App\ImportedGoods;
+use App\OrderPaidMoney;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Order;
-
 
 class OrderController extends ManageApiController
 {
@@ -18,14 +20,16 @@ class OrderController extends ManageApiController
     public function allOrders(Request $request)
     {
         $limit = 3;
+        $user_id = $request->user_id;
+        $staff_id = $request->staff_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
         $keyWord = $request->search;
-        $totalOrders = Order::get()->count();
+        $totalOrders = Order::where('type', 'order')->get()->count();
         $totalMoney = 0;
         $totalPaidMoney = 0;
-        $allOrders = Order::get();
+        $allOrders = Order::where('type', 'order')->get();
         foreach ($allOrders as $order) {
             $goodOrders = $order->goodOrders()->get();
             foreach ($goodOrders as $goodOrder) {
@@ -33,30 +37,23 @@ class OrderController extends ManageApiController
             }
         }
         foreach ($allOrders as $order) {
-            $orderPaidMoneys = $order->orderPaidMoneys();
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
             foreach ($orderPaidMoneys as $orderPaidMoney) {
                 $totalPaidMoney += $orderPaidMoney->money;
             }
         }
-        if ($startTime) {
-            if ($status)
-                $orders = Order::where('status', $status)->whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-            else
-                $orders = Order::whereBetween('created_at', array($startTime, $endTime))->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-        } else {
-            if ($status)
-                $orders = Order::where('status', $status)->orderBy("created_at", "desc")->where("name", "like", "%$keyWord%")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-            else
-                $orders = Order::orderBy("created_at", "desc")->where(function ($query) use ($keyWord) {
-                    $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
-                })->paginate($limit);
-        }
+        $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
+            $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+        });
+        if ($startTime)
+            $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
+        //if ($status)
+        //    $orders = $orders->where('status', $status);
+        if ($user_id)
+            $orders = $orders->where('user_id', $user_id);
+        if ($staff_id)
+            $orders = $orders->where('staff_id', $staff_id);
+        $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $orders,
             [
@@ -73,9 +70,9 @@ class OrderController extends ManageApiController
     public function detailedOrder($order_id)
     {
         $order = Order::find($order_id);
-        return $this->respondSuccessWithStatus([
+        return $this->respondSuccessWithStatus(
             $order->detailedTransform()
-        ]);
+        );
     }
 
     public function editOrder($order_id, Request $request)
@@ -89,60 +86,143 @@ class OrderController extends ManageApiController
         $order->code = $request->code;
         $order->staff_id = $request->staff_id;
         $order->user_id = $request->user_id;
+        $order->status = $request->status;
         $order->save();
+        if ($order->type == 'import' && $order->status == 'completed') {
+            $importedGoods = $order->importedGoods;
+            foreach ($importedGoods as $importedGood) {
+                $importedGood->status = 'completed';
+                $importedGood->save();
+            }
+        }
         return $this->respondSuccessWithStatus([
             'message' => 'ok'
         ]);
     }
 
-    public function allCategory()
-    {
-        $goodCategories = GoodCategory::orderBy("created_at", "desc")->get();
-        return $this->respondSuccessWithStatus([
-            [
-                'good_categories' => $goodCategories->map(function ($goodCategory) {
-                    return $goodCategory->CategoryTransform();
-                })
-            ]
 
+    public function payOrder($orderId, Request $request)
+    {
+        if (Order::find($orderId)->get() == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'non-exist order'
+            ]);
+        if ($request->money == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thiếu tiền thanh toán'
+            ]);
+        $debt = Order::find($orderId)->goodOrders->reduce(function ($total, $goodOrder) {
+                return $total + $goodOrder->price * $goodOrder->quantity;
+            }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0);
+        if ($request->money > $debt)
+            return $this->respondErrorWithStatus([
+                'message' => 'over',
+                'money' => $debt,
+            ]);
+        if ($debt == 0) {
+            $order = Order::find($orderId)->get();
+            $order->status_paid = 1;
+        }
+        $orderPaidMoney = new OrderPaidMoney;
+        $orderPaidMoney->order_id = $orderId;
+        $orderPaidMoney->money = $request->money;
+        $orderPaidMoney->staff_id = $this->user->id;
+        $orderPaidMoney->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
         ]);
     }
 
-    public function addCategory(Request $request)
+    public function addImportOrderGoods(Request $request)
     {
-        if ($request->name == null) return $this->respondErrorWithStatus("Chưa có tên");
-        $goodCategory = new GoodCategory;
-        $goodCategory->name = $request->name;
-        $goodCategory->parent_id = $request->parent_id;
-        $goodCategory->save();
+        $importOrder = new Order;
+        if ($request->code == null)
+            $importOrder->code = rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        else
+            $importOrder->code = $request->code;
+        $importOrder->note = $request->note;
+        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->staff_id = $this->user->id;
+        $importOrder->user_id = $request->user_id;
+        $importOrder->type = 'import';
+
+        $importOrder->status = $request->status ? $request->status : 'uncompleted';
+        $importOrder->save();
+        if ($request->paid_money) {
+            $orderPaidMoney = new OrderPaidMoney;
+            $orderPaidMoney->order_id = $importOrder->id;
+            $orderPaidMoney->money = $request->paid_money;
+            $orderPaidMoney->staff_id = $this->user->id;
+            $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
+            $orderPaidMoney->save();
+        }
+
+        $orderImportId = $importOrder->id;
+        foreach ($request->imported_goods as $imported_good) {
+            $importedGood = new ImportedGoods;
+            if ($imported_good['price']) {
+                $good = Good::find($imported_good['good_id']);
+                if ($good == null)
+                    return $this->respondErrorWithStatus([
+                        'message' => 'Không tồn tại sản phẩm'
+                    ]);
+                $good->price = $imported_good['price'];
+                $good->save();
+            }
+            $importedGood->order_import_id = $orderImportId;
+            $importedGood->good_id = $imported_good['good_id'];
+            $importedGood->quantity = $imported_good['quantity'];
+            $importedGood->import_quantity = $imported_good['quantity'];
+            $importedGood->import_price = $imported_good['import_price'];
+            $importedGood->status = 'uncompleted';
+            $importedGood->staff_id = $this->user->id;
+            $importedGood->warehouse_id = $request->warehouse_id;
+            $importedGood->save();
+        }
         return $this->respondSuccessWithStatus([
-            "goodCategory" => $goodCategory->CategoryTransform()
+            'message' => 'SUCCESS'
         ]);
     }
 
-    public function editCategory(Request $request)
+
+    public function getOrderPaidMoney()
     {
-        if ($request->id == null || $request->name == null)
-            return $this->respondErrorWithStatus("Chưa có id hoặc tên");
-        $goodCategory = GoodCategory::find($request->id);
-        if ($goodCategory == null) return $this->respondErrorWithStatus("Không tồn tại thể lại này");
-        $goodCategory->name = $request->name;
-        if ($request->parent_id != null) $goodCategory->parent_id = $request->parent_id;
-        $goodCategory->save();
+        $orderPMs = OrderPaidMoney::orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
-            "goodCategory" => $goodCategory->CategoryTransform()
+            "order_paid_money" => $orderPMs->map(function ($orderPM) {
+                return $orderPM->transform();
+            })
         ]);
     }
 
-    public function deleteCategory($category_id, Request $request)
+
+    public function checkGoods(Request $request)
     {
-        $goodCategory = GoodCategory::find($category_id);
-        if ($goodCategory == null) return $this->respondErrorWithData([
-            "message" => "Danh mục không tồn tại"
-        ]);
-        $goodCategory->delete();
-        return $this->respondErrorWithData([
-            "message" => "Xóa thành công"
+        $good_arr = $request->goods;
+
+        $goods = Good::whereIn('code', $good_arr)->get();
+
+        $goods = $goods->map(function ($good) {
+            return [
+                'id' => $good->id,
+                'code' => $good->code,
+                'name' => $good->name,
+                'price' => $good->price,
+            ];
+        });
+
+        $not_goods = array();
+
+        foreach ($good_arr as $good) {
+            if (!in_array(trim($good), array_pluck($goods, 'code'))) {
+                array_push($not_goods, $good);
+            }
+        }
+        return $this->respondSuccessWithStatus([
+            'exists' => $goods,
+            'not_exists' => $not_goods
         ]);
     }
 }

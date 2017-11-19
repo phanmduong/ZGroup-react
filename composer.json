@@ -22,7 +22,8 @@
     "jenssegers/agent": "^2.3",
     "tymon/jwt-auth": "0.5.*",
     "jaybizzle/laravel-crawler-detect": "1.*",
-    "nwidart/laravel-modules": "^1.27"
+    "nwidart/laravel-modules": "^1.27",
+    "google/recaptcha": "~1.1"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
