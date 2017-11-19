@@ -1,36 +1,68 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import ListCourse from './ListCourse';
-import * as coursesActions from './coursesActions';
-import {bindActionCreators} from 'redux';
-import Loading from "../../components/common/Loading";
-import Search from "../../components/common/Search";
-import _ from 'lodash';
-import  AddCoursesModalContainer from './AddCoursesModalContainer';
+import React                    from 'react';
+import {connect}                from 'react-redux';
+import PropTypes                from 'prop-types';
+import ListCourse               from './ListCourse';
+import * as coursesActions      from './coursesActions';
+import {bindActionCreators}     from 'redux';
+import {Link}                   from 'react-router';
+import Loading                  from "../../components/common/Loading";
+import Search                   from "../../components/common/Search";
+import _                        from 'lodash';
+import * as helper              from '../../helpers/helper';
 
 class CoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-                isLoading: false,
-                error: true,
+            isLoading   : false,
+            error       : true,
+            query       : "",
+            page        : 1
         };
-        this.openAddCoursesModalContainer = this.openAddCoursesModalContainer.bind(this);
+        this.openAddCoursesModalContainer   = this.openAddCoursesModalContainer.bind(this);
+        this.loadCourses                    = this.loadCourses.bind(this);
+        this.deleteCourse                   = this.deleteCourse.bind(this);
+        this.courseSearchChange             = this.courseSearchChange.bind(this);
 
     }
-    componentWillMount(){
+
+    componentWillMount() {
         this.props.coursesActions.loadCourses();
     }
 
-    openAddCoursesModalContainer(){
+
+    openAddCoursesModalContainer() {
         this.props.coursesActions.openAddCoursesModalContainer();
     }
 
+    loadCourses(page = 1) {
+        this.props.coursesActions.loadCourses(page);
+    }
+
+    deleteCourse(course) {
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa môn học này không?", () => {
+            this.props.coursesActions.deleteCourse(course);
+        });
+    }
+
+
+    courseSearchChange(value) {
+        this.setState({
+            page    : 1,
+            query   : value
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.coursesActions.loadCourses(1, value);
+        }.bind(this), 500);
+    }
+
     render() {
+
         return (
             <div className="content">
-                <AddCoursesModalContainer/>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
@@ -38,41 +70,39 @@ class CoursesContainer extends React.Component {
                                 <div className="card-header card-header-icon" data-background-color="rose">
                                     <i className="material-icons">assignment</i>
                                 </div>
-                                <div className="card-content">
-                                    <h4 className="card-title">Quản lý khóa học</h4>
-                                    <table className="col-md-12">
-                                        <tbody>
-                                            <tr>
-                                                <td className="col-md-2">
-                                                    <a onClick={this.openAddCoursesModalContainer} className="btn btn-rose">
-                                                        Thêm khoá học
-                                                    </a>
-                                                </td>
 
-                                                <td className="col-md-8">
-                                                    <Search
-                                                        placeholder="Tìm kiếm khóa học"
-                                                        value=""
-                                                        onChange={()=>{}}
-                                                        className=""
-                                                    />
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                    </table>
+                                <div className="card-content">
+                                    <h4 className="card-title">Quản lý môn học</h4>
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <div className="col-md-3">
+                                                <Link className="btn btn-rose" to="/manage/courses/create">
+                                                    Thêm Môn Học
+                                                </Link>
+                                            </div>
+                                            <Search
+                                                className="col-md-9"
+                                                placeholder="Tìm kiếm môn học"
+                                                value={this.state.query}
+                                                onChange={this.courseSearchChange}
+                                            />
+                                        </div>
+                                    </div>
+
                                     {this.props.isLoading ? <Loading/> :
                                         <ListCourse
                                             courses={this.props.coursesList}
+                                            deleteCourse={this.deleteCourse}
                                         />
                                     }
-
                                     <ul className="pagination pagination-primary">
-                                        {_.range(1, 20 + 1).map(page => {
+                                        {_.range(1, this.props.paginator.total_pages + 1).map(page => {
 
-                                            if (1 === page) {
+                                            if (Number(this.props.paginator.current_page) === page) {
                                                 return (
                                                     <li key={page} className="active">
                                                         <a onClick={() => {
+                                                            this.loadCourses(page);
                                                         }}>{page}</a>
                                                     </li>
                                                 );
@@ -80,25 +110,21 @@ class CoursesContainer extends React.Component {
                                                 return (
                                                     <li key={page}>
                                                         <a onClick={() => {
+                                                            this.loadCourses(page);
                                                         }}>{page}</a>
                                                     </li>
                                                 );
                                             }
                                         })}
-
                                     </ul>
                                 </div>
 
+
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         );
     }
 }
@@ -108,7 +134,8 @@ CoursesContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
     coursesList: PropTypes.array.isRequired,
-
+    paginator: PropTypes.object.isRequired,
+    isDeleting: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -116,6 +143,8 @@ function mapStateToProps(state) {
         isLoading: state.courses.isLoading,
         error: state.courses.error,
         coursesList: state.courses.coursesList,
+        paginator : state.courses.paginator,
+        isDeleting : state.courses.isDeleting
     };
 }
 

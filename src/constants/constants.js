@@ -30,6 +30,17 @@ export const LITERACY = [
     }
 ];
 
+export const STATUS_IMPORT_GOODS = [
+    {
+        label: "Lưu tạm",
+        value: "uncompleted"
+    },
+    {
+        label: "Hoàn thành",
+        value: "completed"
+    }
+];
+
 export const DAY_OF_WEEK = [
     {
         value: 'Thứ hai',
