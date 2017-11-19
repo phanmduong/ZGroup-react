@@ -173,6 +173,7 @@ class InventoryApiController extends ManageApiController
             $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
                 return $total + $inventory->quantity;
             }, 0);
+            dd(\GuzzleHttp\json_encode($importedGoods));
             return $warehouse_quantity > 0;
         });
         return $this->respondSuccessWithStatus([
