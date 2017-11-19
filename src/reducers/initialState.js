@@ -808,6 +808,8 @@ export default {
         isLoading: false,
         error: false,
         importOrders: [],
+        currentPage: 1,
+        totalPages: 1,
         importGood: {
             infoOrder: {},
             infoPaid: {},

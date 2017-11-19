@@ -20,7 +20,9 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                 ...{
                     isLoading: false,
                     error: false,
-                    importOrders: action.importOrders
+                    importOrders: action.importOrders,
+                    currentPage: action.currentPage,
+                    totalPages: action.totalPages
                 }
             };
         case types.LOAD_IMPORT_ORDERS_ERROR:
