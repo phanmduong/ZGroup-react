@@ -7,6 +7,7 @@ use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\Manufacture;
+use App\Warehouse;
 use Illuminate\Http\Request;
 
 class InventoryApiController extends ManageApiController
@@ -155,21 +156,65 @@ class InventoryApiController extends ManageApiController
         ]);
     }
 
-    public function historyGoods($importedGoodId, Request $request)
+    public function historyGoods($goodId, Request $request)
     {
-        $history = HistoryGood::where('imported_good_id', $importedGoodId)->orderBy('created_at', 'desc')->get();
+        $warehouses = Warehouse::query();
+        $warehouses = Warehouse::orderBy('created_at', 'desc')->get();
+        $inventories = ImportedGoods::where('good_id', $goodId)->get();
+        $total_quantity = $inventories->reduce(function ($total, $inventory) {
+            return $total + $inventory->quantity;
+        }, 0);
+        $total_import_money = $inventories->reduce(function ($total, $inventory) {
+            return $total + $inventory->quantity * $inventory->import_price;
+        }, 0);
+        $total_money = $total_quantity * Good::find($goodId)->price;
         return $this->respondSuccessWithStatus([
-            'history' => $history->map(function ($singular_history) {
-                return [
-                    'code' => $singular_history->good->code,
-                    'note' => $singular_history->note,
-                    'type' => $singular_history->type,
-                    'created_at' => format_vn_short_datetime(strtotime($singular_history->created_at)),
-                    'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
-                    'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
-                    'remain' => $singular_history->remain,
+            'total_quantity' => $total_quantity,
+            'total_import_money' => $total_import_money,
+            'total_money' => $total_money,
+            'warehouses' => $warehouses->map(function ($warehouse) use ($goodId) {
+                $importedGoods = ImportedGoods::where('good_id', $goodId)
+                    ->where('warehouse_id', $warehouse->id)->get();
+                $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
+                    return $total + $inventory->quantity;
+                }, 0);
+                $warehouse_import_money = $importedGoods->reduce(function ($total, $inventory) {
+                    return $total + $inventory->quantity * $inventory->import_price;
+                }, 0);
+                $warehouse_money = $warehouse_quantity * Good::find($goodId)->price;
+                $data = [
+                    'warehouse_quantity' => $warehouse_quantity,
+                    'warehouse_import_money' => $warehouse_import_money,
+                    'warehouse_money' => $warehouse_money,
                 ];
+                $history = HistoryGood::where('good_id', $goodId)->where('warehouse_id', $warehouse->id)->get();
+                $data['history'] = $history->map(function ($singular_history) {
+                    return [
+                        'code' => $singular_history->good->code,
+                        'note' => $singular_history->note,
+                        'type' => $singular_history->type,
+                        'created_at' => format_vn_short_datetime(strtotime($singular_history->created_at)),
+                        'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
+                        'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
+                        'remain' => $singular_history->remain,
+                    ];
+                });
             })
         ]);
+
+//        $history = HistoryGood::where('imported_good_id', $importedGoodId)->orderBy('created_at', 'desc')->get();
+//        return $this->respondSuccessWithStatus([
+//            'history' => $history->map(function ($singular_history) {
+//                return [
+//                    'code' => $singular_history->good->code,
+//                    'note' => $singular_history->note,
+//                    'type' => $singular_history->type,
+//                    'created_at' => format_vn_short_datetime(strtotime($singular_history->created_at)),
+//                    'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
+//                    'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
+//                    'remain' => $singular_history->remain,
+//                ];
+//            })
+//        ]);
     }
 }
