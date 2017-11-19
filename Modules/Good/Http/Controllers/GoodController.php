@@ -70,8 +70,6 @@ class GoodController extends ManageApiController
         }
         $good->save();
 
-//        $properties = json_decode($request->properties);
-
         $properties = json_decode($request->properties);
 
         DB::table('good_properties')->where('good_id', '=', $good->id)->delete();
