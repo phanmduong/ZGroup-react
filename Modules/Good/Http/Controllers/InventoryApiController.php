@@ -167,14 +167,15 @@ class InventoryApiController extends ManageApiController
             return $total + $inventory->quantity * $inventory->import_price;
         }, 0);
         $total_money = $total_quantity * Good::find($goodId)->price;
-//        $warehouses = $warehouses->filter(function ($warehouse, $goodId){
-//            $importedGoods = ImportedGoods::where('good_id', $goodId)
-//                ->where('warehouse_id', $warehouse->id)->get();
-//            $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
-//                return $total + $inventory->quantity;
-//            }, 0);
-//            return $warehouse_quantity > 0;
-//        });
+        $warehouses = $warehouses->filter(function ($warehouse, $goodId){
+            $importedGoods = ImportedGoods::where('good_id', $goodId)
+                ->where('warehouse_id', $warehouse->id)->get();
+            $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
+                return $total + $inventory->quantity;
+            }, 0);
+            dd($goodId);
+            return $warehouse_quantity > 0;
+        });
         return $this->respondSuccessWithStatus([
             'total_quantity' => $total_quantity,
             'total_import_money' => $total_import_money,
