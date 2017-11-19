@@ -23,7 +23,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::post('/{id}/save-good-properties', 'GoodPropertyApiController@saveGoodProperties');
     Route::get('/{goodId}/task/{taskId}/good-properties', 'GoodPropertyApiController@loadGoodTaskProperties');
 
-    Route::get('/manufactures', 'InventoryApiController@allManufactures');
+//    Route::get('/manufactures', 'InventoryApiController@allManufactures');
     Route::get('/status/count', 'InventoryApiController@statusCount');
     Route::get('/inventories/all', 'InventoryApiController@allInventories');
     Route::get('/inventories-info', 'InventoryApiController@inventoriesInfo');
