@@ -176,17 +176,17 @@ class CustomerController extends ManageApiController
         ]);
     }
 
-    public function editCustomer(Request $request)
+    public function editCustomer($customerId,Request $request)
     {
-        if($request->id ===null || $request->name ===null || $request->phone ===null ||
+        if($request->name ===null || $request->phone ===null ||
             $request->address === null || $request->email ===null || $request->gender === null || $request->dob === null)
          return $this->respondErrorWithStatus("Thiếu trường");
 
-        $user = User::find($request->id);
+        $user = User::find($customerId);
         if (!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
 
         $userr = User::where("email",$request->email)->first();
-        if(count($userr)>0 && $userr->id != $request->id) return $this->respondErrorWithStatus("Đã tồn tại email");
+        if(count($userr)>0 && $userr->id != $customerId) return $this->respondErrorWithStatus("Đã tồn tại email");
 
         $user->name=$request->name;
         $user->phone=$request->phone;
