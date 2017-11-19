@@ -13,7 +13,6 @@ import Pagination from '../../components/common/Pagination';
 import {Link} from 'react-router';
 
 
-
 class SupplierContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -22,7 +21,7 @@ class SupplierContainer extends React.Component {
             limit: 10,
             query: '',
             isShowModal: false,
-            isEdit:false,
+            isEdit: false,
         };
         this.loadSuppliers = this.loadSuppliers.bind(this);
         this.suppliersSearchChange = this.suppliersSearchChange.bind(this);
@@ -40,7 +39,7 @@ class SupplierContainer extends React.Component {
 
 
     openAddModal(isEdit) {
-        this.setState({isShowModal: true , isEdit : isEdit });
+        this.setState({isShowModal: true, isEdit: isEdit});
     }
 
     closeAddModal() {
@@ -48,7 +47,7 @@ class SupplierContainer extends React.Component {
             name: '',
             phone: '',
             email: '',
-            address:'',
+            address: '',
         };
         this.props.supplierActions.updateAddSupplierFormData(supplier);
         this.setState({isShowModal: false});
@@ -74,7 +73,7 @@ class SupplierContainer extends React.Component {
         this.props.supplierActions.updateAddSupplierFormData(supplier);
     }
 
-    openFormDataInEdit(supplier ){
+    openFormDataInEdit(supplier) {
         this.props.supplierActions.updateAddSupplierFormData(supplier);
         this.openAddModal(true);
     }
@@ -93,12 +92,11 @@ class SupplierContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
             }
             else {
-                if(this.state.isEdit)
-                {
+                if (this.state.isEdit) {
                     this.props.supplierActions.editSupplier(this.props.supplier, this.closeAddModal);
                 }
                 else
-                this.props.supplierActions.addSupplier(this.props.supplier, this.closeAddModal);
+                    this.props.supplierActions.addSupplier(this.props.supplier, this.closeAddModal);
             }
         }
         e.preventDefault();
@@ -144,58 +142,61 @@ class SupplierContainer extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                            {this.props.isLoading ? <Loading/> :
-                                <div>
-                                    <div style={{marginTop: 30 , marginLeft: 30 ,marginBottom: 20}}>
-                                        <a className="btn btn-rose" onClick={() => this.openAddModal(false)}>Thêm nhà cung cấp</a>
-                                    </div>
-                                    <div className="card-content">
-                                        <div>
-                                            <div id="property-table_wrapper"
-                                                 className="dataTables_wrapper dt-bootstrap">
-                                                <div className="row">
-                                                    <div className="col-md-6" style={{marginBottom : 40}}>
-                                                        <Search
-                                                            onChange={this.suppliersSearchChange}
-                                                            value={this.state.query}
-                                                            placeholder="Tìm kiếm theo mã hàng, tên hàng hóa"
-                                                            className="col-md-12"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="card-header card-header-icon" data-background-color="rose">
-                                                    <i className="material-icons">assignment</i>
-                                                </div>
-                                                <h4 className="card-title">Danh sách nhà cung cấp</h4>
-                                                <ListChildSupplier
-                                                    suppliersList={this.props.suppliersList}
-                                                    deleteSupplier = {this.deleteSupplier}
-                                                    openFormDataInEdit = {this.openFormDataInEdit}
-                                                />
+                                {this.props.isLoading ? <Loading/> :
+                                    <div>
+                                        <div className="card-content">
+                                            <div>
+                                                <div id="property-table_wrapper"
+                                                     className="dataTables_wrapper dt-bootstrap">
+                                                    <div className="row" style= {{marginTop: "70px" , marginBottom: "30px" }}>
 
-                                                <div className="row">
-                                                    <div className="col-sm-5">
-                                                        <div className="dataTables_info" id="property-table_info"
-                                                             role="status" aria-live="polite">Hiển trị
-                                                            trang {currentPage} trên tổng số
-                                                            {' ' + this.props.totalPages} trang
+                                                        <div className="col-md-4">
+                                                            <a className="btn btn-rose" onClick={() => this.openAddModal(false)}>Thêm
+                                                                nhà cung cấp</a>
+                                                        </div>
+                                                        <div className="col-md-8" style={{marginBottom: 40}}>
+                                                            <Search
+                                                                onChange={this.suppliersSearchChange}
+                                                                value={this.state.query}
+                                                                placeholder="Tìm kiếm theo mã hàng, tên hàng hóa"
+                                                                className="col-md-12"
+                                                            />
                                                         </div>
                                                     </div>
-                                                    <div className="col-sm-7" style={{textAlign: 'right'}}>
-                                                        <Pagination
-                                                            totalPages={this.props.totalPages}
-                                                            currentPage={currentPage}
-                                                            loadDataPage={this.loadSuppliers}
-                                                        />
+                                                    <div className="card-header card-header-icon"
+                                                         data-background-color="rose">
+                                                        <i className="material-icons">assignment</i>
+                                                    </div>
+                                                    <h4 className="card-title">Danh sách nhà cung cấp</h4>
+                                                    <ListChildSupplier
+                                                        suppliersList={this.props.suppliersList}
+                                                        deleteSupplier={this.deleteSupplier}
+                                                        openFormDataInEdit={this.openFormDataInEdit}
+                                                    />
 
+                                                    <div className="row">
+                                                        <div className="col-sm-5">
+                                                            <div className="dataTables_info" id="property-table_info"
+                                                                 role="status" aria-live="polite">Hiển trị
+                                                                trang {currentPage} trên tổng số
+                                                                {' ' + this.props.totalPages} trang
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-sm-7" style={{textAlign: 'right'}}>
+                                                            <Pagination
+                                                                totalPages={this.props.totalPages}
+                                                                currentPage={currentPage}
+                                                                loadDataPage={this.loadSuppliers}
+                                                            />
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                        </div>
+                                }
+                            </div>
                         </div>
                     </div>
                     <Modal show={this.state.isShowModal} bsSize="large" bsStyle="primary" onHide={this.closeAddModal}>
@@ -219,7 +220,7 @@ class SupplierContainer extends React.Component {
                                                 className="btn btn-round btn-fill btn-success disabled"
                                             >
                                                 <i className="fa fa-spinner fa-spin"/>
-                                                {! this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật' }
+                                                {!this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật'}
                                             </button>
                                         )
                                         :

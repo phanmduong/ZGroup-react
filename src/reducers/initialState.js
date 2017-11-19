@@ -886,4 +886,8 @@ export default {
             }
         }
     },
+
+    discount :{
+
+    },
 };
