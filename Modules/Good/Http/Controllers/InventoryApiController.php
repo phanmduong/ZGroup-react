@@ -158,7 +158,6 @@ class InventoryApiController extends ManageApiController
 
     public function historyGoods($goodId, Request $request)
     {
-        $warehouses = Warehouse::query();
         $warehouses = Warehouse::orderBy('created_at', 'desc')->get();
         $inventories = ImportedGoods::where('good_id', $goodId)->get();
         $total_quantity = $inventories->reduce(function ($total, $inventory) {
