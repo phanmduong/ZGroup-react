@@ -2,6 +2,7 @@
 
 namespace Modules\Lesson\Http\Controllers;
 
+use App\Course;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
 use Illuminate\Http\Request;
@@ -53,10 +54,10 @@ class LessonController extends ManageApiController
         $lesson= Lesson::find($lessonId);
         if($lesson == null)
             return $this->respondErrorWithStatus(["message"=>"Buổi học không tồn tại"]);
-        if($request->name == null) return $this->respondErrorWithStatus([
+        if(trim($request->name) == null) return $this->respondErrorWithStatus([
             "message"=> "Thieu name"
         ]);
-        if($request->course_id==null) return $this->respondErrorWithStatus([
+        if($request->course_id == null) return $this->respondErrorWithStatus([
             'message'=>"Thieu courseId"
         ]);
         if($request->order == null) return $this->respondErrorWithStatus([
