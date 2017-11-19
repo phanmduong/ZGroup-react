@@ -28,7 +28,4 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::post('/{goodId}/create-child-good', 'GoodController@createChildGood');
     Route::get('/{goodId}', 'GoodController@good');
 
-
-
-
 });
