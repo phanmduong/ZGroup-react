@@ -3,8 +3,6 @@ import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function lessonsReducer(state = initialState.lessons, action) {
-    console.log(action.type);
-
     switch (action.type) {
         case types.UPDATE_DATA_LESSON: {
             let feild = action.feild;
