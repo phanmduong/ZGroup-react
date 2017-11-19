@@ -167,20 +167,21 @@ class InventoryApiController extends ManageApiController
             return $total + $inventory->quantity * $inventory->import_price;
         }, 0);
         $total_money = $total_quantity * Good::find($goodId)->price;
-        $warehouses = $warehouses->filter(function ($warehouse, $goodId){
-            $importedGoods = ImportedGoods::where('good_id', $goodId)
-                ->where('warehouse_id', $warehouse->id)->get();
-            $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
-                return $total + $inventory->quantity;
-            }, 0);
-            dd(\GuzzleHttp\json_encode($importedGoods));
-            return $warehouse_quantity > 0;
-        });
+//        $warehouses = $warehouses->filter(function ($warehouse, $goodId){
+//            $importedGoods = ImportedGoods::where('good_id', $goodId)
+//                ->where('warehouse_id', $warehouse->id)->get();
+//            $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
+//                return $total + $inventory->quantity;
+//            }, 0);
+//            dd(\GuzzleHttp\json_encode($importedGoods));
+//            return $warehouse_quantity > 0;
+//        });
         return $this->respondSuccessWithStatus([
             'total_quantity' => $total_quantity,
             'total_import_money' => $total_import_money,
             'total_money' => $total_money,
             'warehouses' => $warehouses->map(function ($warehouse) use ($goodId) {
+
                 $importedGoods = ImportedGoods::where('good_id', $goodId)
                     ->where('warehouse_id', $warehouse->id)->get();
                 $warehouse_quantity = $importedGoods->reduce(function ($total, $inventory) {
@@ -193,6 +194,12 @@ class InventoryApiController extends ManageApiController
                 $data = [
                     'id' => $warehouse->id,
                     'name' => $warehouse->name,
+                    'gaugau' => ImportedGoods::where('good_id', $goodId)->where('warehouse_id', $warehouse->id)->get()->map(function ($gau) {
+                        return [
+                            'id' => $gau->id,
+                            'quantity' => $gau->quantity,
+                        ] ;
+                    }),
                     'warehouse_quantity' => $warehouse_quantity,
                     'warehouse_import_money' => $warehouse_import_money,
                     'warehouse_money' => $warehouse_money,
