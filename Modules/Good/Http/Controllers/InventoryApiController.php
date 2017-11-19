@@ -157,10 +157,6 @@ class InventoryApiController extends ManageApiController
 
     public function historyGoods($importedGoodId, Request $request)
     {
-        if (ImportedGoods::find($importedGoodId) == null)
-            return $this->respondErrorWithStatus([
-                'history' => ''
-            ]);
         $history = HistoryGood::where('imported_good_id', $importedGoodId)->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
             'history' => $history->map(function ($singular_history) {
