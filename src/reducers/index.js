@@ -41,6 +41,7 @@ import customerReducer from "../modules/customer/customerReducer";
 import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer";
 import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer";
 
+
 const appReducer = combineReducers({
     globalLoading: globalLoadingReducer,
     login: loginReducer,
@@ -75,13 +76,14 @@ const appReducer = combineReducers({
     historyShiftRegisters: historyShiftRegistersReducer,
     shiftSessions: shiftSessionsReducer,
     courses: courseReducer,
-    categories: categoriesReducer,
+    coursesCreateEdit: courseReducer,
     goodOrders: goodOrdersReducer,
     productList: productListReducer,
     importGoods: importGoodsReducer,
     wareHouses: wareHouseReducer,
     customers: customerReducer,
-    inventoryGood: inventoryGoodReducer
+    inventoryGood: inventoryGoodReducer,
+    categories: categoriesReducer,
 });
 
 const rootReducer = (state, action) => {

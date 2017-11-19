@@ -4,7 +4,7 @@ export default {
     },
     inventoryGood: {
         isLoading: false,
-        isLoadingHistoryModal:false,
+        isLoadingHistoryModal: false,
         inventories: [],
         categories: [],
         manufactures: [],
@@ -756,15 +756,6 @@ export default {
         error: false
     },
 
-    courses: {
-        isLoading: false,
-        error: false,
-        coursesList: [],
-        addCoursesModal: {
-            isShowModal: false,
-            isSaving: false
-        }
-    },
 
     categories: {
         addCategoriesModal: {
@@ -868,4 +859,84 @@ export default {
         totalMoneys: 10,
         totalDebtMoneys: 10,
     },
+    coursesCreateEdit: {
+        isLoading: false,
+        isEditing: false,
+        isUpdatingAvatar: false,
+        updateAvatarError: false,
+        isUpdatingLogo: false,
+        updateLogoError: false,
+        isUpdatingCover: false,
+        updateCoverError: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            name: "",
+            duration: "",
+            price: "",
+            description: "",
+            linkmac: "",
+            linkwindow: "",
+            num_classes: "",
+            mac_how_install: "",
+            window_how_install: "",
+            cover_url: "",
+            color: "",
+            image_url: "",
+            icon_url: "",
+            created_at: "",
+            detail: "",
+            lessons: [],
+            links: []
+        }
+    },
+    courses: {
+        isLoading: false,
+        error: false,
+        coursesList: [],
+        addCoursesModal: {
+            isShowModal: false,
+            isDeleting: false,
+            addCoursesModal: {
+                isShowModal: false,
+                isSaving: false
+            },
+            paginator: {
+                total_count: 1,
+                total_pages: 1,
+                current_page: 1,
+                limit: 1
+            },
+            isEditing: false,
+            isUpdatingAvatar: false,
+            updateAvatarError: false,
+            isUpdatingLogo: false,
+            updateLogoError: false,
+            isUpdatingCover: false,
+            updateCoverError: false,
+            isCommitting: false,
+            commitSuccess: false,
+            data: {
+                id: null,
+                name: "",
+                duration: "",
+                price: "",
+                description: "",
+                linkmac: "",
+                linkwindow: "",
+                num_classes: "",
+                mac_how_install: "",
+                window_how_install: "",
+                cover_url: "",
+                color: "",
+                image_url: "",
+                icon_url: "",
+                created_at: "",
+                detail: "",
+                lessons: [],
+                links: []
+            }
+        },
+    }
 };

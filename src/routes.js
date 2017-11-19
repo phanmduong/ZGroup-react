@@ -70,6 +70,7 @@ import GoodDetailContainer from "./modules/good/GoodDetailContainer";
 import WareHouseContainer from "./modules/wareHouse/WareHouseContainer";
 import CustomerContainer from "./modules/customer/CustomerContainer";
 import InventoryGoodContainer from "./modules/inventoryGood/InventoryGoodContainer";
+import CreateEditCoursesContainer from "./modules/courses/coursesForm/CoursesCreateEditContainer";
 
 export default (
     <Route>
@@ -211,6 +212,11 @@ export default (
 
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>
+            <Route path="/manage/courses/edit-success" component={CoursesContainer} type="edit-success"/>
+            <Route path="/manage/courses/create" component={CreateEditCoursesContainer}/>
+            <Route path="/manage/courses/create/general" component={CreateEditCoursesContainer}/>
+            <Route path="/manage/courses/:courseId/edit" component={CreateEditCoursesContainer} type="edit"/>
+            <Route path="/manage/courses/create" component={CreateEditCoursesContainer} type="create"/>
             {/*End course routes */}
                                                l
 
