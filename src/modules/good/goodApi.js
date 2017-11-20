@@ -106,13 +106,16 @@ export function saveGoodProperty(property) {
     return axios.post(url, property);
 }
 
-export function addPropertyItemsToTask(goodPropertyItems, taskId, currentBoard, targetBoard) {
+export function addPropertyItemsToTask(optionalBoards,
+                                       goodPropertyItems, taskId,
+                                       currentBoard, targetBoard) {
     let url = env.MANAGE_API_URL + `/good/add-property-item-task/${taskId}`;
     const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
     return axios.post(url, {
+        optional_boards: JSON.stringify(optionalBoards),
         good_property_items: JSON.stringify(goodPropertyItems),
         current_board_id: currentBoard ? currentBoard.id : 0,
         target_board_id: targetBoard ? targetBoard.id : 0
@@ -130,8 +133,8 @@ export function loadGoodPropertyItem(id) {
 }
 
 
-export function loadAllGoodPropertyItems(type) {
-    let url = env.MANAGE_API_URL + `/good/task-setting?type=${type}`;
+export function loadAllGoodPropertyItems(type, taskId) {
+    let url = env.MANAGE_API_URL + `/good/task-setting/${taskId}?type=${type}`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

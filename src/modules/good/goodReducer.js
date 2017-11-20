@@ -6,17 +6,6 @@ import initialState from '../../reducers/initialState';
 
 export default function goodReducer(state = initialState.good, action) {
     switch (action.type) {
-        case types.ADD_OPTIONAL_BOARD:
-            return {
-                ...state,
-                attachPropertyItem: {
-                    ...state.attachPropertyItem,
-                    optionalBoards: [
-                        ...state.attachPropertyItem.optionalBoards,
-                        {}
-                    ]
-                }
-            };
         case types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK:
             return {
                 ...state,
@@ -50,7 +39,9 @@ export default function goodReducer(state = initialState.good, action) {
                     ...state.attachPropertyItem,
                     isLoading: false,
                     goodPropertyItems: action.good_property_items,
-                    boards: action.boards
+                    boards: action.boards,
+                    processes: action.processes,
+                    optionalBoards: action.optionalBoards
                 }
             };
         case types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL:

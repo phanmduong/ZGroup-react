@@ -27,7 +27,7 @@ class TaskTemplateItem extends React.Component {
         return (
             <li className="timeline-inverted">
                 <div className="timeline-badge success">
-                    {this.props.index + 1}
+                    {this.props.task.order + 1}
                 </div>
                 <div className="timeline-panel" style={{position: "relative"}}>
                     <div className="dropdown" style={{
