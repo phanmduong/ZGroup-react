@@ -19,7 +19,7 @@ class MarketingCampaignController extends ManageApiController
     {
 
         if (!$request->limit)
-            $limit = 2;
+            $limit = 20;
         else
             $limit = $request->limit;
 
