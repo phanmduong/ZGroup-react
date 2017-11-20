@@ -5,10 +5,10 @@
     <meta property="article:author" content="https://www.facebook.com/ColorME.Hanoi/"/>
     <meta name="google-site-verification" content="xtTa2p_KrROT2c7_IyShaw1KDt3iIvZ9c_bufAvYhvs"/>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" name="viewport">
-    
+
     {{--Facebook share info--}}
     @yield('fb-info')
-    
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
     {{--<link rel="stylesheet" href="{{ URL::asset('css/materialize.min.css') }}"/>--}}
@@ -23,12 +23,12 @@
     <link rel="stylesheet" type="text/css"
           href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
     <link href="{{url("css/jquery.tagit.css")}}" rel="stylesheet" type="text/css">
-    
+
     <script src="{{URL::asset('js/jquery-1.12.0.min.js')}}"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script src="{{URL::asset('js/loading/modernizr.custom.js')}}"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
-    
+
     {{--<script src="//fast.eager.io/II2OmwIcNV.js"></script>--}}
     <style>
         #profile-cover-content {
@@ -39,7 +39,7 @@
             left: 14.40%;
             margin-bottom: 5px;
         }
-        
+
         #profile-cover {
             margin: 0 auto;
             top: -20px;
@@ -98,20 +98,21 @@
 
 <script type="text/javascript">
     var preloader =
-            '<div style="width:100%;text-align:center;padding-top:15px">' +
-            '<div class="preloader-wrapper active">' +
-            '<div class="spinner-layer spinner-red-only">' +
-            '<div class="circle-clipper left">' +
-            '<div class="circle"></div>' +
-            '</div><div class="gap-patch">' +
-            '<div class="circle"></div>' +
-            '</div><div class="circle-clipper right">' +
-            '<div class="circle"></div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>';
+        '<div style="width:100%;text-align:center;padding-top:15px">' +
+        '<div class="preloader-wrapper active">' +
+        '<div class="spinner-layer spinner-red-only">' +
+        '<div class="circle-clipper left">' +
+        '<div class="circle"></div>' +
+        '</div><div class="gap-patch">' +
+        '<div class="circle"></div>' +
+        '</div><div class="circle-clipper right">' +
+        '<div class="circle"></div>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
     var isLoading = false;
+
     function load_notifications(page) {
         if (!isLoading) {
             isLoading = true;
@@ -125,26 +126,27 @@
             });
         }
     }
+
     $(document).ready(function () {
         $('#notificationsBody').on('mousewheel', function (e) {
             var event = e.originalEvent,
-                    d = event.wheelDelta || -event.detail;
-            
+                d = event.wheelDelta || -event.detail;
+
             this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
             e.preventDefault();
         });
-        
+
         var notificationsPage = 1;
         var isLoading = false;
         $('#notificationsBody').on('scroll', function () {
             if ($(this).scrollTop() + $(this).innerHeight() >= ($(this)[0].scrollHeight - 200)) {
                 console.log('end reached');
                 // $("#notificationsPreloader").html(preloader);
-                
+
                 load_notifications(notificationsPage);
-                
+
                 notificationsPage += 1;
-                
+
             }
         });
         $("#notificationsPreloader").html(preloader);
@@ -160,20 +162,20 @@
             // $("#notification_count").fadeOut("slow");
             return false;
         });
-        
+
         //Document Click hiding the popup 
         $(document).click(function () {
             $("#notificationContainer").hide();
             $("#notificationsPreloader").html(preloader);
             $('#notificationsBody').html("");
         });
-        
+
         //Popup on click
         $("#notificationContainer").click(function (event) {
             console.log("hi");
             event.stopPropagation();
         });
-        
+
     });
 </script>
 
@@ -185,7 +187,7 @@
             version: 'v2.6'
         });
     };
-    
+
     (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {
@@ -198,96 +200,99 @@
     }(document, 'script', 'facebook-jssdk'));
 </script>
 <script>
-    
-    
+
+
     function submitRating(register_id) {
-        
+
         $('#btn_send_rating_container' + register_id).html('<strong class="blue-text">Đang gửi đánh giá....</strong>');
         $.post(
-                '{{url('ajax/storerating')}}',
-                {
-                    _token: '{{csrf_token()}}',
-                    rating_teacher: $('#rating_teacher_input' + register_id).val(),
-                    rating_ta: $('#rating_ta_input' + register_id).val(),
-                    comment_teacher: $('#comment_teacher' + register_id).val(),
-                    comment_ta: $('#comment_ta' + register_id).val(),
-                    register_id: register_id
-                },
-                function (data, status) {
-                    $('#rating-container' + register_id).html(data);
-                }
+            '{{url('ajax/storerating')}}',
+            {
+                _token: '{{csrf_token()}}',
+                rating_teacher: $('#rating_teacher_input' + register_id).val(),
+                rating_ta: $('#rating_ta_input' + register_id).val(),
+                comment_teacher: $('#comment_teacher' + register_id).val(),
+                comment_ta: $('#comment_ta' + register_id).val(),
+                register_id: register_id
+            },
+            function (data, status) {
+                $('#rating-container' + register_id).html(data);
+            }
         )
     }
+
     function toggle_like(product_id) {
-        
+
         var total_likes = parseInt($('#total_likes' + product_id).html());
         $('#btn-like-' + product_id).toggleClass('liked');
         if ($('#btn-like-' + product_id).hasClass('liked')) {
             $('#total_likes' + product_id).html(total_likes + 1);
-            
+
         } else {
             $('#total_likes' + product_id).html(total_likes - 1);
-            
+
         }
-        
+
         $('#btn-full-image-like').toggleClass('liked');
         if ($('#btn-full-image-like').hasClass('liked')) {
             $('#full-image-total-like').html(total_likes + 1);
         } else {
             $('#full-image-total-like').html(total_likes - 1);
         }
-        
-        
+
+
         $.post(
-                '{{url('storelike')}}',
-                {
-                    product_id: product_id,
-                    _token: '{{csrf_token()}}',
-                }
-                ,
-                function (data, status) {
+            '{{url('storelike')}}',
+            {
+                product_id: product_id,
+                _token: '{{csrf_token()}}',
+            }
+            ,
+            function (data, status) {
 //                        $('#total_likes'+product_id).html(data);
-                    var return_data = JSON.parse(data);
-                    var total_likes = return_data.total_likes;
-                    like_id = return_data.like_id;
-                    $('#total_likes' + product_id).html(total_likes);
-                    $('#full-image-total-like').html(total_likes);
-                }
+                var return_data = JSON.parse(data);
+                var total_likes = return_data.total_likes;
+                like_id = return_data.like_id;
+                $('#total_likes' + product_id).html(total_likes);
+                $('#full-image-total-like').html(total_likes);
+            }
         )
         ;
     }
-    
-    
+
+
     function displayNoti(data) {
         $('.noti').css('display', 'inline');
         $('.noti-icon').removeClass("no-noti");
         $('.noti').text(data);
     }
+
     var notinumber = 0;
+
     function getNotifications() {
         $.post(
-                '{{url('notifications/count')}}',
-                {
-                    _token: '{{csrf_token()}}'
-                },
-                function (data, status) {
-                    if (data > 0) {
-                        displayNoti(data);
-                        notinumber = data;
-                    }
+            '{{url('notifications/count')}}',
+            {
+                _token: '{{csrf_token()}}'
+            },
+            function (data, status) {
+                if (data > 0) {
+                    displayNoti(data);
+                    notinumber = data;
                 }
+            }
         );
     }
-    
+
     $(document).ready(function () {
-        
+
         getNotifications();
 //        setInterval(function () {
 //            getNotifications();
 //        }, 3000);
-        
+
     });
-    
+
     //Detect Navbar
     $(document).ready(function () {
         var scrWidth = window.innerWidth;
@@ -306,7 +311,7 @@
             $('#new-nav').css('display', 'initial');
         }
     });
-    
+
     //Trigger dropdown
     $(".dropdown-button-new").click(function () {
         if ($("#new-nav").is(':visible')) {
@@ -317,13 +322,14 @@
     });
     $("body").click(function (e) {
 //        alert(e.target + e.target.id + e.target.className);
-                if (e.target.className !== "fa fa-sort-down" && e.target.className !== "dropdown-item") {
-                    $("#dropdown2").hide(200);
-                    $("#dropdown3").hide(200);
-                }
+            if (e.target.className !== "fa fa-sort-down" && e.target.className !== "dropdown-item") {
+                $("#dropdown2").hide(200);
+                $("#dropdown3").hide(200);
             }
+        }
     );
     var masonry;
+
     function initGallery() {
         if ($('.product-item').length) {
             masonry = new Masonry('.product-list', {
@@ -332,12 +338,12 @@
             });
         }
     }
-    
+
     //FAB Toggle function
     $(document).ready(function () {
         setFABtoggle();
     });
-    
+
     $(window).resize(function () {
         if (window.innerWidth < 993) {
             $('.fixed-action-btn').addClass('click-to-toggle');
@@ -345,7 +351,7 @@
             $('.fixed-action-btn').removeClass('click-to-toggle');
         }
     });
-    
+
     var setFABtoggle = function () {
         if (window.innerWidth < 993) {
             $('.fixed-action-btn').addClass('click-to-toggle');
@@ -353,7 +359,7 @@
             $('.fixed-action-btn').removeClass('click-to-toggle');
         }
     };
-    
+
     //Remove FAQ-section when mobile
     function set_faq() {
         if (window.innerWidth < 600) {
@@ -363,27 +369,27 @@
         }
         console.log;
     }
-    
+
     $(window).resize(function () {
         set_faq();
     });
-    
+
     $(document).ready(function () {
         set_faq();
     });
-    
-    
+
+
     //Fixed Navigation trang giao trinh
     function fixNavigation() {
         var top = $(window).scrollTop();
         $('#navigation').css('margin-top', top);
 //        console.log(top);
     }
-    
+
     function removeFixNavigation() {
         $('#navigation').css('margin-top', 0);
     }
-    
+
     $(document).ready(function () {
         if ($(window).innerWidth() > 600) {
             $(window).bind("scroll", function () {
@@ -391,7 +397,7 @@
             });
         }
     });
-    
+
     $(window).bind("resize", function () {
         if ($(window).innerWidth() < 600) {
             $(window).unbind("scroll");
@@ -425,18 +431,46 @@
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
         a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
+            m = s.getElementsByTagName(o)[0];
         a.async = 1;
         a.src = g;
         m.parentNode.insertBefore(a, m)
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-    
+
     ga('create', 'UA-74966893-1', 'auto');
     ga('send', 'pageview');
 
+
 </script>
+<!-- Facebook Pixel Code -->
+<script>
+    !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '283991422112480');
+    fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+               src="https://www.facebook.com/tr?id=283991422112480&ev=PageView&noscript=1"
+    /></noscript>
+<!-- End Facebook Pixel Code -->
 </body>
 </html>
