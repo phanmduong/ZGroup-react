@@ -77,6 +77,7 @@ import coursesCreateEditDocuments from "./modules/courses/coursesForm/coursesCre
 import coursesCreateEditStudying from "./modules/courses/coursesForm/coursesCreateEditStudying";
 import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCreateEditInterested";
 import LessonsContainer from "./modules/lessons/LessonsContainer";
+import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCampaignContainer";
 
 export default (
     <Route>
@@ -274,6 +275,10 @@ export default (
             {/*Begin customer routes */}
             <Route path="/goods/customer" component={CustomerContainer}/>
             {/*End customer routes*/}
+
+            {/*Begin marketing campaigns routes */}
+            <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
+            {/*End marketing campaigns routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

@@ -897,6 +897,13 @@ export default {
         isLoading: false,
         error: false,
         coursesList: [],
+        paginator: {
+            total_count: 1,
+            total_pages: 1,
+            current_page: 1,
+            limit: 1
+        },
+        data: {},
         addCoursesModal: {
             isShowModal: false,
             isDeleting: false,
@@ -957,4 +964,15 @@ export default {
             created_at: "2016-07-12 18:00:16"
         }
     },
+
+    marketingCampaigns: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        marketingCampaigns: [],
+        courses: [],
+        isLoadingCourses: false,
+        errorCourses: false,
+    }
 };
