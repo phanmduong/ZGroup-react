@@ -1,8 +1,8 @@
 @extends('alibaba::layouts.master')
 
 @section('content')
-    <div class="cd-section section-white" id="contact-us">
-        <div class="contactus-1 section-image"
+    <div class="cd-section section-white page-header page-header-small" id="contact-us">
+        <div class="contactus-1 section-image page-header page-header-small"
              style="background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?dpr=1&amp;auto=format&amp;fit=crop&amp;w=1500&amp;h=996&amp;q=80&amp;cs=tinysrgb&amp;crop=')">
             <div class="container">
                 <div class="row">
