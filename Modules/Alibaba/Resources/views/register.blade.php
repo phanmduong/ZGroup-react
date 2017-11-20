@@ -83,7 +83,7 @@
                                     <br><br>
                                 </p>
                                 <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                                   href="/order/{{$class['id']}}"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                                   href="/register-class/{{$class['id']}}"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                             </div>
                         </div>
 
