@@ -11,7 +11,7 @@
                     <h1 class="title" style="font-weight:600"><b>ANH NGỮ ALIBABA</b></h1>
                     <h5 class="description" style="font-weight:100">TRUNG TÂM ANH NGỮ GIAO TIẾP LỚN NHẤT HÀ THÀNH</h5>
                     <br>
-                    <button type="button" class="btn btn-outline-neutral btn-round" onclick="window.location.href='/courses'">
+                    <button type="button" class="btn btn-outline-neutral btn-round" onclick="window.location.href='/register/6'">
                         <i class="fa fa-plus"></i>
                         Tìm hiểu thêm
                     </button>
@@ -44,7 +44,7 @@
                         TẶNG Vé tham gia club tối chủ nhật 600.000đ/1 năm.
                     </p>
                     <br>
-                    <a class="btn btn-round btn-danger" style="color:white;background-color:#FF6D00;border-color:#FF6D00" onclick="window.location.href='/courses'"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                    <a class="btn btn-round btn-danger" style="color:white;background-color:#FF6D00;border-color:#FF6D00" onclick="window.location.href='/register/6'"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                 </div>
                 <br>
             </div>
@@ -87,7 +87,7 @@
                                 định sẽ không
                                 chờ đợi nữa, mà sẽ bắt tay vào tự thực hiện chúng, thứ chúng tôi từng ao ước.</p>
                             <br>
-                            <button type="button" class="btn btn-outline-neutral btn-round" onclick="window.location.href='/courses'">
+                            <button type="button" class="btn btn-outline-neutral btn-round" onclick="window.location.href='/register/6'">
                                 <i class="fa fa-plus"></i>
                                 Tìm hiểu thêm
                             </button>
