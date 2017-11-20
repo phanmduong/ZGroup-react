@@ -48,13 +48,13 @@
 
             <div class="col-md-3">
                 <a class="btn btn-danger" style="width:100%;background-color:#FF6D00;border-color:#FF6D00; padding:40px"
-                   href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                   href="#class-list"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
 
             </div>
         </div>
     </div>
     <br><br>
-    <div class="container">
+    <div class="container" id="class-list">
         <div class="row">
             @foreach($classes as $class)
                 <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
@@ -80,7 +80,7 @@
                                     <br><br>
                                 </p>
                                 <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                                   href="/register-class/{{$class['id']}}"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                                   href="/register-class/{{$class['id']}}"><i class="fa fa-plus"></i> Đăng ký </a>
                             </div>
                         </div>
 

@@ -22,7 +22,7 @@
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
 
 </head>
-<body class="profile" style="background:#fafafa">
+<body class="profile" style="background:#f1f1f1">
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
     <div class="container">
         <div class="navbar-translate">
@@ -40,7 +40,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html" data-scroll="true">Giới thiệu</a>
+                    <a class="nav-link" href="/" data-scroll="true">Giới thiệu</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about-us" data-scroll="true">Về chúng tôi</a>

@@ -41,7 +41,7 @@ class AlibabaController extends Controller
     {
 
         $course = Course::find($courseId);
-        $classes = StudyClass::where('course_id', $courseId)->get();
+        $classes = StudyClass::where('course_id', $courseId)->orderBy('base_id', 'asc')->get();
 
         $data = $classes->map(function ($class) {
             return [

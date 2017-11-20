@@ -44,7 +44,7 @@
                         TẶNG Vé tham gia club tối chủ nhật 600.000đ/1 năm.
                     </p>
                     <br>
-                    <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00" onclick="window.location.href='/courses'"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                    <a class="btn btn-round btn-danger" style="color:white;background-color:#FF6D00;border-color:#FF6D00" onclick="window.location.href='/courses'"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                 </div>
                 <br>
             </div>
