@@ -14,3 +14,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::put('/lesson/edit/{lessonId}', 'CourseController@editLesson');
 });
 
+Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
+    Route::get('/gens/{genId}/classes', 'ClassApiController@genClasses');
+    Route::get('/class/{classId}/attendance/lessons', 'ClassApiController@classLessons');
+});

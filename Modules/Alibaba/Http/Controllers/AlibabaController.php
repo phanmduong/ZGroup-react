@@ -2,6 +2,7 @@
 
 namespace Modules\Alibaba\Http\Controllers;
 
+use App\Course;
 use App\Product;
 use App\StudyClass;
 use Illuminate\Http\Request;
@@ -36,14 +37,17 @@ class AlibabaController extends Controller
         ]);
     }
 
-    public function register($subfix)
+    public function register($subfix, $courseId)
     {
-        $classes = StudyClass::all();
 
-        $data = $classes->map(function ($class){
+        $course = Course::find($courseId);
+        $classes = StudyClass::where('course_id', $courseId)->get();
+
+        $data = $classes->map(function ($class) {
             return [
                 'id' => $class->id,
                 'description' => $class->description,
+                'name' => $class->name,
                 'icon_url' => $class->course ? $class->course->icon_url : null,
                 'datestart' => $class->datestart,
                 'study_time' => $class->study_time,
@@ -52,6 +56,7 @@ class AlibabaController extends Controller
         });
         //dd(\GuzzleHttp\json_encode($data));
         return view('alibaba::register', [
+            'course' => $course,
             'classes' => $data
         ]);
     }
@@ -81,6 +86,16 @@ class AlibabaController extends Controller
             [
                 'post' => $post,
                 'posts_related' => $posts_related
+            ]
+        );
+    }
+
+    public function courses($subfix)
+    {
+        $courses = Course::all();
+        return view('alibaba::course',
+            [
+                'courses' => $courses
             ]
         );
     }
