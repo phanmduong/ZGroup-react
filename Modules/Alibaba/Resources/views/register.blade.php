@@ -7,8 +7,8 @@
             <br><br>
             <div class="row">
                 <div class="col-md-8" style="margin-top:10%">
-                    <h2 style="font-weight:600; color:#1C484D!important"><b>{{$course['name']}}</b></h2><br>
-                    <h5 class="description" style="font-weight:100; color:#1C484D!important">{{$course['description']}}</h5>
+                    <h2 style="font-weight:600; color:#ffffff!important"><b>{{$course['name']}}</b></h2><br>
+                    <h5 class="description" style="font-weight:100; color:#ffffff!important">Đăng ký khóa học {{$course['name']}}</h5>
                     <br>
                 </div>
             </div>
