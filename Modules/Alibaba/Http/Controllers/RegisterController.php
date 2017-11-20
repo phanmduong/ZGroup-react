@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Validator;
 class RegisterController extends Controller
 {
 
-    public function getRegisterClass($subfix, $classId, $salerId, $campaignId)
+    public function getRegisterClass($subfix, $classId = '', $salerId = '', $campaignId = '')
     {
 
         $class = StudyClass::find($classId);
