@@ -44,6 +44,7 @@ class AlibabaController extends Controller
             return [
                 'id' => $class->id,
                 'description' => $class->description,
+                'name' => $class->name,
                 'icon_url' => $class->course ? $class->course->icon_url : null,
                 'datestart' => $class->datestart,
                 'study_time' => $class->study_time,

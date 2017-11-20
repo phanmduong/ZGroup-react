@@ -68,8 +68,8 @@
                                      style="border-radius:50%; height:100px;width:100px"/>
                             </div>
                             <div>
-                                <h4 style="font-weight:600; margin-top:10px"></h4>
-                                {{$class['description']}}<br><br>
+                                <h4 style="font-weight:600; margin-top:10px">{{$class['name']}}</h4>
+                                <br><br>
                                 <p>
                                     <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> {{$class['datestart']}}
 
