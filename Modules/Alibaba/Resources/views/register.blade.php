@@ -1,15 +1,14 @@
 @extends('alibaba::layouts.master')
 
 @section('content')
-    <div class="page-header page-header-small"
+    <div class="page-header page-header-xs"
          style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991179Dz6rALtf43ja91K.jpg'); box-shadow: 0 3px 10px -4px rgba(0, 0, 0, 0.15);">
         <div class="container">
             <br><br>
             <div class="row">
                 <div class="col-md-8" style="margin-top:10%">
-                    <h2 style="font-weight:600; color:#1C484D!important"><b>ANH NGỮ ALIBABA</b></h2><br>
-                    <h5 class="description" style="font-weight:100; color:#1C484D!important">TRUNG TÂM ANH NGỮ GIAO TIẾP
-                        LỚN NHẤT HÀ THÀNH</h5>
+                    <h2 style="font-weight:600; color:#1C484D!important"><b>{{$course['name']}}</b></h2><br>
+                    <h5 class="description" style="font-weight:100; color:#1C484D!important">{{$course['description']}}</h5>
                     <br>
                 </div>
             </div>
@@ -22,10 +21,7 @@
                  style="margin-top:-100px; z-index:99; background:white; border-radius:20px; padding:3%">
                 <div>
                     <div>
-                        <h4 style="font-weight:600; color:#FF6D00">
-                            KHOÁ HỌC <br>{{$course['name']}}<br>
-                        </h4>
-                        <br><h5>CHO NGƯỜI MỚI BẮT ĐẦU</h5><br>
+                        <img style="width:100%" src="{{$course['cover_url']}}">
                         <p>
                             {{$course['description']}}
                         </p>
