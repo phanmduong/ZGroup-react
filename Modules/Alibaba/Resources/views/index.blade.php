@@ -87,7 +87,7 @@
                                 định sẽ không
                                 chờ đợi nữa, mà sẽ bắt tay vào tự thực hiện chúng, thứ chúng tôi từng ao ước.</p>
                             <br>
-                            <button type="button" class="btn btn-outline-neutral btn-round" href="/courses">
+                            <button type="button" class="btn btn-outline-neutral btn-round" onclick="window.location.href='/courses'">
                                 <i class="fa fa-plus"></i>
                                 Tìm hiểu thêm
                             </button>
