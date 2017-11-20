@@ -159,13 +159,14 @@
         s.parentNode.insertBefore(t, s)
     }(window, document, 'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '283991422112480');
+    fbq('init', '296964117457250');
     fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
-               src="https://www.facebook.com/tr?id=283991422112480&ev=PageView&noscript=1"
+               src="https://www.facebook.com/tr?id=296964117457250&ev=PageView&noscript=1"
     /></noscript>
 <!-- End Facebook Pixel Code -->
+
 {{--<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/Vibrant.min.js"></script>--}}
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/color-thief.min.js"></script>
 <script src="{{url('/js/emojione.js')}}"></script>
