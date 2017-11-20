@@ -71,6 +71,13 @@ import WareHouseContainer from "./modules/wareHouse/WareHouseContainer";
 import CustomerContainer from "./modules/customer/CustomerContainer";
 import InventoryGoodContainer from "./modules/inventoryGood/InventoryGoodContainer";
 import CreateEditCoursesContainer from "./modules/courses/coursesForm/CoursesCreateEditContainer";
+import coursesCreateEditGeneral from "./modules/courses/coursesForm/coursesCreateEditGeneral";
+import coursesCreateEditCurriculum from "./modules/courses/coursesForm/coursesCreateEditCurriculum";
+import coursesCreateEditDocuments from "./modules/courses/coursesForm/coursesCreateEditDocuments";
+import coursesCreateEditStudying from "./modules/courses/coursesForm/coursesCreateEditStudying";
+import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCreateEditInterested";
+import LessonsContainer from "./modules/lessons/LessonsContainer";
+import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCampaignContainer";
 
 export default (
     <Route>
@@ -212,12 +219,28 @@ export default (
 
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>
-            <Route path="/manage/courses/edit-success" component={CoursesContainer} type="edit-success"/>
-            <Route path="/manage/courses/create" component={CreateEditCoursesContainer}/>
-            <Route path="/manage/courses/create/general" component={CreateEditCoursesContainer}/>
-            <Route path="/manage/courses/:courseId/edit" component={CreateEditCoursesContainer} type="edit"/>
-            <Route path="/manage/courses/create" component={CreateEditCoursesContainer} type="create"/>
+
+            <Route path="/manage/courses/edit/:courseId" component={CreateEditCoursesContainer} type="edit">
+                <IndexRoute component={coursesCreateEditGeneral}/>
+                <Route path="curriculum" component={coursesCreateEditCurriculum}/>
+                <Route path="documents" component={coursesCreateEditDocuments}/>
+                <Route path="studying" component={coursesCreateEditStudying}/>
+                <Route path="interested" component={coursesCreateEditInterested}/>
+            </Route>
+            <Route path="/manage/courses/create" component={CreateEditCoursesContainer} type="create">
+                <IndexRoute component={coursesCreateEditGeneral}/>
+                <Route path="curriculum" component={coursesCreateEditCurriculum}/>
+                <Route path="documents" component={coursesCreateEditDocuments}/>
+                <Route path="studying" component={coursesCreateEditStudying}/>
+                <Route path="interested" component={coursesCreateEditInterested}/>
+            </Route>
             {/*End course routes */}
+
+            {/*End lessons routes */}
+            <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
+            <Route path="/manage/courses/lessons/create" component={LessonsContainer}/>
+            {/*End lessons routes */}
+
                                                l
 
             {/*Begin categories routes */}
@@ -252,6 +275,10 @@ export default (
             {/*Begin customer routes */}
             <Route path="/goods/customer" component={CustomerContainer}/>
             {/*End customer routes*/}
+
+            {/*Begin marketing campaigns routes */}
+            <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
+            {/*End marketing campaigns routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

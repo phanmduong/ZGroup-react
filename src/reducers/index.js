@@ -40,6 +40,8 @@ import wareHouseReducer from "../modules/wareHouse/wareHouseReducer";
 import customerReducer from "../modules/customer/customerReducer";
 import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer";
 import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer";
+import lessonsReducer from "../modules/lessons/lessonsReducer";
+import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
 
 
 const appReducer = combineReducers({
@@ -77,6 +79,7 @@ const appReducer = combineReducers({
     shiftSessions: shiftSessionsReducer,
     courses: courseReducer,
     coursesCreateEdit: courseReducer,
+    lessons: lessonsReducer,
     goodOrders: goodOrdersReducer,
     productList: productListReducer,
     importGoods: importGoodsReducer,
@@ -84,6 +87,7 @@ const appReducer = combineReducers({
     customers: customerReducer,
     inventoryGood: inventoryGoodReducer,
     categories: categoriesReducer,
+    marketingCampaigns: marketingCampaignsReducer,
 });
 
 const rootReducer = (state, action) => {
