@@ -1,13 +1,13 @@
 @extends('alibaba::layouts.master')
 
 @section('content')
-    <div class="page-header page-header-small"
-         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1511151527RpFU3Lgs0D7bpQg.jpg'); box-shadow: 0 3px 10px -4px rgba(0, 0, 0, 0.15);">
+    <div class="page-header page-header-xs"
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1511177729S6qy0r1iJPE2Dpg.jpg%20(2)'); box-shadow: 0 3px 10px -4px rgba(0, 0, 0, 0.15);">
         <div class="container">
             <br><br>
             <div class="row">
                 <div class="col-md-8" style="margin-top:10%">
-                    <h2 style="font-weight:600; color:#1C484D!important"><b>ĐĂNG KÍ <br>KHOÁ HỌC</b></h2><br>
+                    <h2 style="font-weight:600; color:#1C484D!important"><b>ĐĂNG KÍ KHOÁ HỌC</b></h2><br>
                     <h5 class="description" style="font-weight:100; color:#1C484D!important">LỰA CHỌN KHOÁ HỌC PHÙ HỢP
                         VỚI BẠN</h5>
                 </div>
