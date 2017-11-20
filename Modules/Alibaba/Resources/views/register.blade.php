@@ -38,7 +38,8 @@
             <div class="col-md-3">
                 <img src="{{$course->image_url}}" style="width: 100%;">
                 <div>
-                    <a class="btn btn-danger" style="width:100%;background-color:#FF6D00;border-color:#FF6D00; padding:40px"
+                    <a class="btn btn-danger"
+                       style="margin-top:10px;width:100%;background-color:#FF6D00;border-color:#FF6D00; padding:40px"
                        href="#class-list"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                 </div>
 
@@ -48,7 +49,8 @@
     <br><br>
     <div class="container" id="class-list">
         @foreach($bases as $base)
-            {{$base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->count() == 0}}<h3>{{$base->name}} : {{$base->address}}</h3><br>
+            {{$base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->count() == 0}}
+            <h3>{{$base->name}} : {{$base->address}}</h3><br>
             <div class="row">
                 @foreach($base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('name','desc')->get() as $class)
                     <div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">
@@ -70,12 +72,14 @@
 
                                         <br>
 
-                                        <i class="fa fa-map-marker"></i> <b>Địa điểm:</b> {{$class->base->name}} : {{$class->base->address}}
+                                        <i class="fa fa-map-marker"></i> <b>Địa điểm:</b> {{$class->base->name}}
+                                        : {{$class->base->address}}
                                         <br><br>
                                     </p>
                                     <a class="btn btn-round btn-danger"
                                        style="background-color:#FF6D00;border-color:#FF6D00"
-                                       href="/register-class/{{$class->id}}/{{$campaign_id}}/{{$saler_id}}"><i class="fa fa-plus"></i> Đăng ký </a>
+                                       href="/register-class/{{$class->id}}/{{$campaign_id}}/{{$saler_id}}"><i
+                                                class="fa fa-plus"></i> Đăng ký </a>
                                 </div>
                             </div>
 
