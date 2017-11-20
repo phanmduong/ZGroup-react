@@ -43,6 +43,8 @@
                                               action="{{url('/store-register')}}">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                             <input type="hidden" name="class_id" value={{$class->id}}>
+                                            <input type="hidden" name="saler_id" value={{$saler_id}}>
+                                            <input type="hidden" name="campaign_id" value={{$campaign_id}}>
                                             <div class="card-block">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Họ và tên</label>
