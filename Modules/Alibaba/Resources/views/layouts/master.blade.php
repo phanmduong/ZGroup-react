@@ -50,7 +50,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00" href="/register"><i class="fa fa-shopping-cart"></i> Đăng kí </a>
+                    <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00" href="/courses"><i class="fa fa-shopping-cart"></i> Đăng kí </a>
                 </li>
             </ul>
         </div>

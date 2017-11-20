@@ -11,10 +11,7 @@
                     <h5 class="description" style="font-weight:100; color:#1C484D!important">TRUNG TÂM ANH NGỮ GIAO TIẾP
                         LỚN NHẤT HÀ THÀNH</h5>
                     <br>
-                    <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
-                       href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                 </div>
-
             </div>
         </div>
     </div>
@@ -26,22 +23,22 @@
                 <div>
                     <div>
                         <h4 style="font-weight:600; color:#FF6D00">
-                            KHOÁ HỌC <br> TIẾNG ANH GIAO TIẾP<br>
+                            KHOÁ HỌC <br>{{$course['name']}}<br>
                         </h4>
                         <br><h5>CHO NGƯỜI MỚI BẮT ĐẦU</h5><br>
                         <p>
-                            HỌC PHÍ CỰC RẺ nhằm hỗ trợ cho tất cả các bạn sinh viên và người mới ra trường bắt đầu đi
-                            làm chỉ 899.000đ cho 40 buổi học
+                            {{$course['description']}}
                         </p>
-                        <br>
-                        <p>
-                            TẶNG bí kíp sách nghe (Chỉ DUY NHẤT Alibaba mới có ^^) với 24 chủ đề THÔNG DỤNG NHẤT.
-                        </p>
-                        <br>
-                        <p>
-                            TẶNG Vé tham gia club tối chủ nhật 600.000đ/1 năm.
-                        </p>
-                        <br>
+
+                        {{--<br>--}}
+                        {{--<p>--}}
+                            {{--TẶNG bí kíp sách nghe (Chỉ DUY NHẤT Alibaba mới có ^^) với 24 chủ đề THÔNG DỤNG NHẤT.--}}
+                        {{--</p>--}}
+                        {{--<br>--}}
+                        {{--<p>--}}
+                            {{--TẶNG Vé tham gia club tối chủ nhật 600.000đ/1 năm.--}}
+                        {{--</p>--}}
+                        {{--<br>--}}
                         <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"
                            href="/order"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                     </div>
