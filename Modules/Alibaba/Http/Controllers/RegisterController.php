@@ -20,12 +20,14 @@ use Illuminate\Support\Facades\Validator;
 class RegisterController extends Controller
 {
 
-    public function getRegisterClass($subfix, $class_id)
+    public function getRegisterClass($subfix, $classId, $salerId, $campaignId)
     {
 
-        $class = StudyClass::find($class_id);
+        $class = StudyClass::find($classId);
         return view('alibaba::register_class', [
-            'class' => $class
+            'class' => $class,
+            'saler_id' => $salerId,
+            'campaign_id' => $campaignId,
         ]);
     }
 
@@ -46,7 +48,6 @@ class RegisterController extends Controller
 
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
-
         if ($user == null) {
             $user = new User;
             $user->name = $request->name;
@@ -59,7 +60,6 @@ class RegisterController extends Controller
         } else {
             $user->phone = $phone;
         }
-
         $user->save();
 
         $register = new Register;
@@ -67,6 +67,8 @@ class RegisterController extends Controller
         $register->gen_id = Gen::getCurrentGen()->id;
         $register->class_id = $request->class_id;
         $register->status = 0;
+        $register->saler_id = $request->saler_id;
+        $register->campaign_id = $request->campaign_id;
         $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
 
         $register->save();
