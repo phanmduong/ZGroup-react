@@ -2,6 +2,7 @@
 
 namespace Modules\Lesson\Http\Controllers;
 
+use App\Course;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
 use Illuminate\Http\Request;
@@ -13,8 +14,8 @@ class LessonController extends ManageApiController
        parent::__construct()  ;
     }
 
-    public function getdetailLesson($lesson_id,Request $request){
-        $lesson= Lesson::find($lesson_id);
+    public function getdetailLesson($lessonId,Request $request){
+        $lesson= Lesson::find($lessonId);
         if($lesson == null)
             return $this->respondErrorWithStatus(["message"=>"Buổi học không tồn tại"]);
         return $this->respondSuccessWithStatus([
@@ -24,15 +25,17 @@ class LessonController extends ManageApiController
     }
 
     public function createLesson($couseId, Request $request){
-        if($request->name == null) return $this->respondErrorWithStatus([
+        if(Course::find($couseId) == null)
+             return $this->respondErrorWithStatus([
+                 'message' => 'non-existing course'
+             ]);
+        if($request->name === null) return $this->respondErrorWithStatus([
             "message"=> "Thieu name"
         ]);
-        if($request->course_id==null) return $this->respondErrorWithStatus([
-            'message'=>"Thieu courseId"
-        ]);
-        if($request->order == null) return $this->respondErrorWithStatus([
+        if($request->order === null) return $this->respondErrorWithStatus([
             'message'=>'Thieu order'
         ]);
+
         $lesson = new Lesson;
         $lesson->name = $request->name;
         $lesson->description = $request->description;
@@ -47,17 +50,17 @@ class LessonController extends ManageApiController
         ]);
     }
 
-    public function editLesson($lesson_id,Request $request){
-        $lesson= Lesson::find($lesson_id);
+    public function editLesson($lessonId,Request $request){
+        $lesson= Lesson::find($lessonId);
         if($lesson == null)
             return $this->respondErrorWithStatus(["message"=>"Buổi học không tồn tại"]);
-        if($request->name == null) return $this->respondErrorWithStatus([
+        if(trim($request->name) == null) return $this->respondErrorWithStatus([
             "message"=> "Thieu name"
         ]);
-        if($request->course_id==null) return $this->respondErrorWithStatus([
+        if($request->course_id === null) return $this->respondErrorWithStatus([
             'message'=>"Thieu courseId"
         ]);
-        if($request->order == null) return $this->respondErrorWithStatus([
+        if($request->order === null) return $this->respondErrorWithStatus([
             'message'=>'Thieu order'
         ]);
         $lesson->name= $request->name;
@@ -82,5 +85,4 @@ class LessonController extends ManageApiController
             'message'=> "Xoa thanh cong"
         ]);
     }
-
 }

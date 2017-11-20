@@ -7,6 +7,7 @@ use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\Manufacture;
+use App\Warehouse;
 use Illuminate\Http\Request;
 
 class InventoryApiController extends ManageApiController
@@ -68,38 +69,6 @@ class InventoryApiController extends ManageApiController
         $good_category_id = $request->good_category_id;
         $manufacture_id = $request->manufacture_id;
         $keyword = $request->search;
-        $warehouse_id = $request->warehouse_id;
-
-//        if ($warehouse_id == null) {
-//            $goods = Good::where(function ($query) use ($keyword) {
-//                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-//            });
-//            if ($good_category_id)
-//                $goods = $goods->where('good_category_id', $good_category_id);
-//            if ($manufacture_id)
-//                $goods = $goods->where('manufacture_id', $manufacture_id);
-//            $goods = $goods->paginate($limit);
-//            return $this->respondWithPagination(
-//                $goods,
-//                [
-//                    'inventories' => $goods->map(function ($goods){
-//                        $quantity = $goods->importedGoods->reduce(function ($total, $importedGood){
-//                            return $total + $importedGood->quantity;
-//                        }, 0);
-//                        $data = [
-//                            'code' => $goods->code,
-//                            'name' => $goods->name,
-//                            'quantity' => $quantity,
-//                            'import_price' => $inventory->import_price,
-//                            'import_money' => $inventory->import_price * $inventory->quantity,
-//                            'price' => $goods->price,
-//                            'money' => $goods->price * $inventory->quantity
-//                        ];
-//                        return $data;
-//                    })
-//                ]
-//            );
-//        }
 
         $inventories = ImportedGoods::where('quantity', '<>', 0);
         if ($keyword) {
@@ -122,6 +91,7 @@ class InventoryApiController extends ManageApiController
             [
                 'inventories' => $inventories->map(function ($inventory) {
                     $data = [
+                        'id' => $inventory->id,
                         'code' => $inventory->good->code,
                         'name' => $inventory->good->name,
                         'quantity' => $inventory->quantity,
@@ -155,9 +125,21 @@ class InventoryApiController extends ManageApiController
         ]);
     }
 
-    public function historyGoods($importedGoodId, Request $request)
+    public function historyGoods($goodId, Request $request)
     {
-        $history = HistoryGood::where('imported_good_id', $importedGoodId)->orderBy('created_at', 'desc')->get();
+        if(Good::find($goodId) == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Khong ton tai san pham'
+            ]);
+
+        $warehouse_id = $request->warehouse_id;
+
+        $history = HistoryGood::where('good_id', $goodId);
+
+        if($warehouse_id)
+            $history = $history->where('warehouse_id', $warehouse_id);
+
+        $history =  $history->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
             'history' => $history->map(function ($singular_history) {
                 return [
@@ -168,8 +150,14 @@ class InventoryApiController extends ManageApiController
                     'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
                     'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
                     'remain' => $singular_history->remain,
+                    'warehouse' => [
+                        'id' => $singular_history->warehouse->id,
+                        'name' => $singular_history->warehouse->name,
+                    ]
                 ];
             })
         ]);
+
+
     }
 }

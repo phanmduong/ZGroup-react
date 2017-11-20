@@ -23,4 +23,9 @@ class HistoryGood extends Model
     {
         return $this->belongsTo(Order::class, 'order_id');
     }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class,'warehouse_id');
+    }
 }

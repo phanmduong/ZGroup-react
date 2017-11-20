@@ -79,6 +79,17 @@ class CourseController extends ManageApiController
         );
     }
 
+    public function getAll()
+    {
+        $courses = Course::all();
+
+        return $this->respondSuccessWithStatus([
+            "courses" => $courses->map(function ($course) {
+                return $course->transform();
+            })
+        ]);
+    }
+
 
     public function deleteCourse($course_id, Request $request)
     {

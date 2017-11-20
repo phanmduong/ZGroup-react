@@ -1,0 +1,16 @@
+{
+    "name": "MarketingCampaign",
+    "alias": "marketingcampaign",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\MarketingCampaign\\Providers\\MarketingCampaignServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
