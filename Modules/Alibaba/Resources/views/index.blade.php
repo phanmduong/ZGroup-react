@@ -66,7 +66,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card card-profile card-plain">
-                        <img class="card-img-top" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991593DuzuaRljeSXIEoP.jpg">
+                        <img class="card-img-top" style="background-color: none" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991593DuzuaRljeSXIEoP.jpg">
                     </div>
                 </div>
                 <div class="col-md-6">
