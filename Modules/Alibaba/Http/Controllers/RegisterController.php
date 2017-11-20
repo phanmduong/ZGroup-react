@@ -87,6 +87,4 @@ class RegisterController extends Controller
             'class' => $class
         ]);
     }
-
-
 }
