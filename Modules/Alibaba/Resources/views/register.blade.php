@@ -21,6 +21,7 @@
                  style="margin-top:-100px; z-index:99; background:white; border-radius:20px; padding:3%">
                 <div>
                     <div>
+                        <br>
                         <img style="width:100%" src="{{$course['cover_url']}}">
                         <p>
                             {{$course['description']}}
