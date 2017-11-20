@@ -23,6 +23,7 @@
                     <div>
                         <br>
                         <img style="width:100%" src="{{$course['cover_url']}}">
+                        <br>
                         <p>
                             {{$course['description']}}
                         </p>
