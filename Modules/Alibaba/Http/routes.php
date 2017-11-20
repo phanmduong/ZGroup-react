@@ -7,4 +7,5 @@ Route::group(['middleware' => 'web', 'domain' => "alibabaenglish.edu.{subfix}", 
     Route::get('/blog/post/{post_id}', 'AlibabaController@post');
     Route::get('/register', 'AlibabaController@register');
     Route::get('/order/{classId}', 'AlibabaController@order');
+    Route::get('/order', 'AlibabaController@order');
 });

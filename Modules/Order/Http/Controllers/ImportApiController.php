@@ -3,6 +3,7 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Good;
+use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\User;
@@ -136,32 +137,65 @@ class ImportApiController extends ManageApiController
         ]);
     }
 
-    public function addImportedGood(Request $request)
+    public function addImportOrderGoods(Request $request)
     {
-        $importedGood = new ImportedGoods;
-        if ($request->order_import_id == null || Order::find($request->order_import_id) == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại đơn nhập hàng'
-            ]);
-        if ($request->good_id == null || Good::find($request->good_id) == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Không tồn tại sản phẩm'
-            ]);
-        if ($request->quantity == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu số lượng hàng'
-            ]);
-        if ($request->import_price == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu giá nhập hàng'
-            ]);
-        $importedGood->order_import_id = $request->order_import_id;
-        $importedGood->good_id = $request->good_id;
-        $importedGood->quantity = $request->quantity;
-        $importedGood->import_price = $request->import_price;
-        $importedGood->staff_id = Order::find($request->order_import_id)->staff->id;
-        $importedGood->warehouse_id = Order::find($request->order_import_id)->warehouse->id;
-        $importedGood->save();
+        $importOrder = new Order;
+        if ($request->code == null)
+            $importOrder->code = rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        else
+            $importOrder->code = $request->code;
+        $importOrder->note = $request->note;
+        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->staff_id = $this->user->id;
+        $importOrder->user_id = $request->user_id;
+        $importOrder->type = 'import';
+
+        $importOrder->status = $request->status ? $request->status : 'uncompleted';
+        $importOrder->save();
+        if ($request->paid_money) {
+            $orderPaidMoney = new OrderPaidMoney;
+            $orderPaidMoney->order_id = $importOrder->id;
+            $orderPaidMoney->money = $request->paid_money;
+            $orderPaidMoney->staff_id = $this->user->id;
+            $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
+            $orderPaidMoney->save();
+        }
+
+        $orderImportId = $importOrder->id;
+        foreach ($request->imported_goods as $imported_good) {
+            $importedGood = new ImportedGoods;
+            if ($imported_good['price']) {
+                $good = Good::find($imported_good['good_id']);
+                if ($good == null)
+                    return $this->respondErrorWithStatus([
+                        'message' => 'Không tồn tại sản phẩm'
+                    ]);
+                $good->price = $imported_good['price'];
+                $good->save();
+            }
+            $importedGood->order_import_id = $orderImportId;
+            $importedGood->good_id = $imported_good['good_id'];
+            $importedGood->quantity = $imported_good['quantity'];
+            $importedGood->import_quantity = $imported_good['quantity'];
+            $importedGood->import_price = $imported_good['import_price'];
+            $importedGood->status = $request->status ? $request->status : 'uncompleted';
+            $importedGood->staff_id = $this->user->id;
+            $importedGood->warehouse_id = $request->warehouse_id;
+            $importedGood->save();
+//            if($request->status == 'completed')
+//            {
+//                $history = new HistoryGood;
+//                $lastest_good_history = HistoryGood::where('good_id', $imported_good['good_id'])->orderBy('created_at', 'desc')->limit(1)->get();
+//                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
+//                $history->quantity = $imported_good['quantity'];
+//                $history->remain = $remain + $imported_good['quantity'];
+//                $history->warehouse_id = $request->warehouse_id;
+//                $history->type = 'import';
+//                $history->order_id = $importOrder->id;
+//                $history->imported_good_id = $importedGood->id;
+//                $history->save();
+//            }
+        }
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
