@@ -2,7 +2,9 @@
 
 namespace Modules\Alibaba\Http\Controllers;
 
+use App\Base;
 use App\Course;
+use App\Gen;
 use App\Product;
 use App\StudyClass;
 use Illuminate\Http\Request;
@@ -37,28 +39,29 @@ class AlibabaController extends Controller
         ]);
     }
 
-    public function register($subfix, $courseId)
+    public function register($subfix, $courseId = null, $campaignId = null, $salerId = null)
     {
 
         $course = Course::find($courseId);
-        $classes = StudyClass::where('course_id', $courseId)->orderBy('base_id', 'asc')->get();
+        $courses = Course::all();
+        $current_gen = Gen::getCurrentGen();
 
-        $data = $classes->map(function ($class) {
-            return [
-                'id' => $class->id,
-                'description' => $class->description,
-                'name' => $class->name,
-                'icon_url' => $class->course ? $class->course->icon_url : null,
-                'datestart' => $class->datestart,
-                'study_time' => $class->study_time,
-                'address' => $class->base ? $class->base->address : null,
-            ];
+        $date_start = $course->classes->sortbyDesc('datestart')->first();
+        if ($date_start) {
+            $this->data['date_start'] = $date_start->datestart;
+        }
+
+        $this->data['current_gen_id'] = $current_gen->id;
+        $this->data['course_id'] = $courseId;
+        $this->data['course'] = $course;
+        $this->data['bases'] = Base::all()->filter(function($base) use ($courseId, $current_gen) {
+            return $base->classes()->where('course_id',$courseId)->where('gen_id',$current_gen->id)->count() > 0;
         });
-        //dd(\GuzzleHttp\json_encode($data));
-        return view('alibaba::register', [
-            'course' => $course,
-            'classes' => $data
-        ]);
+        $this->data['courses'] = $courses;
+
+        $this->data['saler_id'] = $salerId;
+        $this->data['campaign_id'] = $campaignId;
+        return view('alibaba::register', $this->data);
     }
 
     public function post($subfix, $post_id)
