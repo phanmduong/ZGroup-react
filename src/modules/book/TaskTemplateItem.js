@@ -68,14 +68,28 @@ class TaskTemplateItem extends React.Component {
                         </ul>
                     </div>
                     <div className="timeline-heading">
-                        {
-                            task.member && (
-                                <Avatar url={task.member.avatar_url} size={20}/>
-                            )
-                        }
                         <span className="label label-success">
                              {task.title}
                         </span>
+                        {
+                            !!task.span && (
+                                <span style={{marginLeft: "4px"}} className="label label-default">
+                                    <i className="ti-time"></i> trong {task.span} giờ
+                                </span>
+                            )
+                        }
+                        {
+                            task.member && (
+                                <Avatar style={{
+                                    display: "inline-block",
+                                    position: "relative",
+                                    top: "7px",
+                                    marginLeft: "4px"
+                                }}
+                                        url={task.member.avatar_url} size={20}/>
+                            )
+                        }
+
                     </div>
                     <div className="timeline-body">
                         <KeetoolPanel
@@ -131,14 +145,6 @@ class TaskTemplateItem extends React.Component {
                                 }
                             </div>
                         </KeetoolPanel>
-
-                        {
-                            !!task.span && (
-                                <h6>
-                                    <i className="ti-time"></i> trong {task.span} giờ
-                                </h6>
-                            )
-                        }
 
 
                     </div>
