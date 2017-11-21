@@ -212,7 +212,7 @@ class ImportApiController extends ManageApiController
         {
             $importedGood->delete();
         }
-        $importOrder->deleted();
+        $importOrder->delete();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
