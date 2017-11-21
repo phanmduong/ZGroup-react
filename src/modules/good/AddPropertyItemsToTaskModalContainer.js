@@ -41,7 +41,12 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
             });
         }
         if (!this.props.showModal && nextProps.showModal && nextProps.task) {
-            this.props.goodActions.loadAllGoodPropertyItems(nextProps.type, nextProps.task.id);
+            this.props.goodActions.loadAllGoodPropertyItems(nextProps.type, nextProps.task.id)
+                .then((optionalBoards) => {
+                    this.setState({
+                        optionalBoards
+                    });
+                });
         }
     }
 

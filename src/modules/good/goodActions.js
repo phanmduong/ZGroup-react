@@ -282,16 +282,22 @@ export function loadAllGoodPropertyItems(type, taskId) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_GOOD_PROPERTY_ITEMS
         });
-        goodApi.loadAllGoodPropertyItems(type, taskId)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
-                    good_property_items: res.data.data.good_property_items,
-                    processes: res.data.data.processes,
-                    boards: res.data.data.boards,
-                    optionalBoards: res.data.data.optional_boards
+        return new Promise((resolve) => {
+
+            goodApi.loadAllGoodPropertyItems(type, taskId)
+                .then((res) => {
+                    resolve(res.data.data.optional_boards);
+                    dispatch({
+                        type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
+                        good_property_items: res.data.data.good_property_items,
+                        processes: res.data.data.processes,
+                        boards: res.data.data.boards,
+                        optionalBoards: res.data.data.optional_boards
+                    });
                 });
-            });
+
+        });
+
     };
 }
 
