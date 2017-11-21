@@ -4,78 +4,55 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
 import * as modalProductAction from './modalProductAction';
+import WareHouseTab from './WareHouseTab';
+import HistoryTab from "../../inventoryGood/HistoryTab";
+import Loading from "../../../components/common/Loading";
 
 class WareHouseModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.showWareHouseModal = this.showWareHouseModal.bind(this);
-    }
-
-    showWareHouseModal(e) {
-        e.preventDefault();
-        this.props.showWareHouseModal(this.props.productEditing.productPresent);
     }
 
     render() {
         return (
             <Modal show={this.props.wareHouseModal}
-                   onHide={this.showWareHouseModal}>
+                   onHide={() => this.props.showWareHouseModal(this.props.productEditing.productPresent)}>
+                <a onClick={() => this.props.showWareHouseModal(this.props.productEditing.productPresent)}
+                   id="btn-close-modal"/>
                 <Modal.Header closeButton>
-                    <Modal.Title className="modal-title">Danh sách sản phẩm của nhóm hàng</Modal.Title>
+                    <Modal.Title className="modal-title">Danh sách kho chứa sản phẩm</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="table-responsive">
-                        <table className="table">
-                            <thead>
-                            <tr className="text-rose">
-                                <th>STT</th>
-                                <th>Tên kho</th>
-                                <th>Địa chỉ</th>
-                                <th>Cơ sở</th>
-                                <th>Số lượng</th>
-                                <th/>
-                            </tr>
-                            </thead>
-                            <tbody>
+                    <div className="container" style={{width: '100%'}}>
+                        <div className="row">
+                            <div className="col-sm-12 nav-tabs-wrapper">
+                                <ul className="nav nav-tabs">
+                                    <li className={this.props.showWareHouse && "active"}><a
+                                        onClick={this.props.modalProductAction.openWareHouseTab}>Danh sách kho hàng</a>
+                                    </li>
+                                    <li className={!this.props.showWareHouse && "active"}><a
+                                        onClick={this.props.modalProductAction.openHistoryTab}>Lịch sử xuất nhập</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="row">
                             {
-                                this.props.productEditing.productPresent.warehouses && this.props.productEditing.productPresent.warehouses.map((warehouse, id) => {
-                                    return (
-                                        <tr key={warehouse.id}>
-                                            <td>{id + 1}</td>
-                                            <td>{warehouse.name}</td>
-                                            <td>{warehouse.address}</td>
-                                            <td>Cơ sở 1</td>
-                                            <td>10</td>
-                                            <td>
-                                                <div className="btn-group-action">
-                                                    <a data-toggle="tooltip" title="" type="button"
-                                                       rel="tooltip" href="good/11/edit"
-                                                       data-original-title="Sửa"><i className="material-icons">edit</i></a>
-                                                    <a
-                                                        data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                                        data-original-title="Không thể xoá"><i
-                                                        className="material-icons">delete_forever</i></a>
-                                                    <a
-                                                        data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                                        data-original-title="Chuyển kho"><i
-                                                        className="material-icons">swap_horiz</i></a>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                })
+                                this.props.isLoadingHistoryModal ? <Loading/> : (
+                                    <div className="col-sm-12">
+                                        {
+                                            this.props.showWareHouse ?
+                                                <WareHouseTab
+                                                    productPresent={this.props.productEditing.productPresent}/> :
+                                                <HistoryTab
+                                                    histories={this.props.histories}
+                                                    inventoryInfo={this.props.inventoryInfo}/>
+                                        }
+                                    </div>
+                                )
                             }
-                            <tr>
-                                <td/>
-                                <td><b>Tổng</b></td>
-                                <td/>
-                                <td/>
-                                <td><b>200</b></td>
-                                <td/>
-                            </tr>
-                            </tbody>
-                        </table>
+                            <div className="col-sm-4"/>
+                        </div>
                     </div>
                 </Modal.Body>
             </Modal>
@@ -84,16 +61,24 @@ class WareHouseModalContainer extends React.Component {
 }
 
 WareHouseModalContainer.propTypes = {
+    histories: PropTypes.array.isRequired,
     wareHouseModal: PropTypes.bool,
+    inventoryInfo: PropTypes.object.isRequired,
     modalProductAction: PropTypes.object.isRequired,
     showWareHouseModal: PropTypes.func.isRequired,
-    productEditing: PropTypes.object.isRequired
+    productEditing: PropTypes.object.isRequired,
+    showWareHouse: PropTypes.bool,
+    isLoadingHistoryModal: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
+        inventoryInfo: state.inventoryGood.inventoryChecking.inventoryInfo,
+        histories: state.inventoryGood.inventoryChecking.histories,
         wareHouseModal: state.productList.modalInProduct.wareHouseModal,
-        productEditing: state.productList.productEditing
+        productEditing: state.productList.productEditing,
+        showWareHouse: state.productList.showWareHouse,
+        isLoadingHistoryModal: state.inventoryGood.isLoadingHistoryModal
     };
 }
 

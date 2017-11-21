@@ -12,6 +12,7 @@ import FormInputDate from "../../components/common/FormInputDate";
 import * as helper from '../../helpers/helper';
 import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
+import * as inventoryGoodAction from '../inventoryGood/inventoryGoodAction';
 
 class ProductListContainer extends React.Component {
     constructor(props, context) {
@@ -25,7 +26,11 @@ class ProductListContainer extends React.Component {
             manufacture: '',
             category: '',
             page: '',
-            status: ''
+            status: {
+                sale: '',
+                display: '',
+                highlight: ''
+            }
         };
         this.timeOut = null;
         this.table = null;
@@ -39,7 +44,9 @@ class ProductListContainer extends React.Component {
         this.categoriesSearchChange = this.categoriesSearchChange.bind(this);
         this.productsPageChange = this.productsPageChange.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
-        this.statusesSearchChange = this.statusesSearchChange.bind(this);
+        this.saleStatusChange = this.saleStatusChange.bind(this);
+        this.displayStatusChange = this.displayStatusChange.bind(this);
+        this.highlightStatusChange = this.highlightStatusChange.bind(this);
     }
 
     componentWillMount() {
@@ -48,7 +55,15 @@ class ProductListContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.modalUpdated) {
-            this.props.productListAction.getProducts();
+            this.props.productListAction.getProducts(
+                this.state.page,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                this.state.status
+            );
         }
     }
 
@@ -93,49 +108,164 @@ class ProductListContainer extends React.Component {
     }
 
     manufacturesSearchChange(value) {
-        this.setState({
-            manufacture: value.id
-        });
-        this.props.productListAction.getProducts(
-            1,
-            this.state.query,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            value.id,
-            this.state.category,
-            this.state.status
-        );
+        if (value) {
+            this.setState({
+                manufacture: value.id
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                value.id,
+                this.state.category,
+                this.state.status
+            );
+        } else {
+            this.setState({
+                manufacture: null
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                null,
+                this.state.category,
+                this.state.status
+            );
+        }
     }
 
     categoriesSearchChange(value) {
-        this.setState({
-            category: value.id
-        });
-        this.props.productListAction.getProducts(
-            1,
-            this.state.query,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.manufacture,
-            value.id,
-            this.state.status
-        );
+        if (value) {
+            this.setState({
+                category: value.id
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                value.id,
+                this.state.status
+            );
+        } else {
+            this.setState({
+                category: null
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                null,
+                this.state.status
+            );
+        }
     }
 
-    statusesSearchChange(value) {
-        this.setState({
-            status: value.value
-        });
-        this.props.productListAction.getProducts(
-            1,
-            this.state.query,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.manufacture,
-            this.state.category,
-            value.value
-        );
+    saleStatusChange(value) {
+        let status = {...this.state.status};
+        if (value) {
+            status.sale = value.value;
+            this.setState({
+                status: status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        } else {
+            status.sale = null;
+            this.setState({
+                status: status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        }
     }
+
+    displayStatusChange(value) {
+        let status = {...this.state.status};
+        if (value) {
+            status.display = value.value;
+            this.setState({
+                status: status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        } else {
+            status.display = null;
+            this.setState({
+                status: status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        }
+    }
+
+    highlightStatusChange(value) {
+        let status = {...this.state.status};
+        if (value) {
+            status.highlight = value.value;
+            this.setState({
+                status: status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        } else {
+            status.highlight = null;
+            this.setState({
+                status: status
+            });
+            this.props.productListAction.getProducts(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.manufacture,
+                this.state.category,
+                status
+            );
+        }
+    }
+
 
     productsPageChange(value) {
         this.setState({page: value});
@@ -170,7 +300,9 @@ class ProductListContainer extends React.Component {
 
     showWareHouseModal(product) {
         this.props.modalProductAction.showWareHouseModal();
+        this.props.modalProductAction.openWareHouseTab();
         this.props.modalProductAction.handleProduct(product);
+        this.props.inventoryGoodAction.getHistoryInventories(product);
     }
 
     showAvatarModal(product) {
@@ -270,17 +402,60 @@ class ProductListContainer extends React.Component {
                                                             onChange={this.categoriesSearchChange}
                                                         />
                                                     </div>
+                                                </div>
+                                                <div className="row">
                                                     <div className="form-group col-md-4">
-                                                        <label className="control-label">Tìm theo trạng thái</label>
+                                                        <label className="control-label">Tìm theo trạng thái kinh
+                                                            doanh</label>
                                                         <Select
-                                                            name="status"
-                                                            value={this.state.status}
-                                                            options={this.props.statuses.map((status) => {
-                                                                return {
-                                                                    ...status
-                                                                };
-                                                            })}
-                                                            onChange={this.statusesSearchChange}
+                                                            value={this.state.status.sale}
+                                                            options={[
+                                                                {
+                                                                    value: 1,
+                                                                    label: "ĐANG KINH DOANH"
+                                                                },
+                                                                {
+                                                                    value: "0",
+                                                                    label: "NGỪNG KINH DOANH"
+                                                                }
+                                                            ]}
+                                                            onChange={this.saleStatusChange}
+                                                        />
+                                                    </div>
+                                                    <div className="form-group col-md-4">
+                                                        <label className="control-label">Tìm theo trạng thái hiển
+                                                            thị</label>
+                                                        <Select
+                                                            value={this.state.status.display}
+                                                            options={[
+                                                                {
+                                                                    value: 1,
+                                                                    label: "HIỂN THỊ RA WEBSITE"
+                                                                },
+                                                                {
+                                                                    value: "0",
+                                                                    label: "KHÔNG HIỂN THỊ RA WEBSITE"
+                                                                }
+                                                            ]}
+                                                            onChange={this.displayStatusChange}
+                                                        />
+                                                    </div>
+                                                    <div className="form-group col-md-4">
+                                                        <label className="control-label">Tìm theo trạng thái nổi
+                                                            bật</label>
+                                                        <Select
+                                                            value={this.state.status.highlight}
+                                                            options={[
+                                                                {
+                                                                    value: 1,
+                                                                    label: "NỔI BẬT"
+                                                                },
+                                                                {
+                                                                    value: "0",
+                                                                    label: "KHÔNG NỔI BẬT"
+                                                                }
+                                                            ]}
+                                                            onChange={this.highlightStatusChange}
                                                         />
                                                     </div>
                                                     <div className="col-md-3">
@@ -333,52 +508,47 @@ class ProductListContainer extends React.Component {
                                             </div>
                                             <div className="card-footer">
                                                 <div style={{float: "right"}}>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
                                                     >Đang kinh doanh: {this.props.productsBusiness}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
                                                     >Ngừng kinh doanh: {this.props.productsNotBusiness}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
-                                                    >Hiển thị ra web: {this.props.productsDisplay}
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
+                                                    >Hiển thị ra website: {this.props.productsDisplay}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
-                                                    >Không hiển thị ra web: {this.props.productsNotDisplay}
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
+                                                    >Không hiển thị ra website: {this.props.productsNotDisplay}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-danger btn-simple disabled"
-                                                    >Đã xóa: {this.props.productsDeleted}
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
+                                                    >Nổi bật: {this.props.productsHighlight}
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-info btn-simple"
-                                                            onClick={() => {
-                                                                this.setState({
-                                                                    query: '',
-                                                                    manufacture: '',
-                                                                    category: '',
-                                                                    page: '',
-                                                                    status: ''
-                                                                });
-                                                                this.props.productListAction.getProducts();
-                                                            }}
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-danger btn-simple"
+                                                    >Không nổi bật: {this.props.productsNotHighlight}
+                                                        <div className="ripple-container"/>
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-info btn-simple"
                                                     >Tổng sản phẩm: {this.props.productsTotal}
 
                                                         <div className="ripple-container"/>
-                                                    </button>
-                                                    <button rel="tooltip" data-placement="top" title=""
-                                                            className="btn btn-success btn-simple disabled"
+                                                    </div>
+                                                    <div rel="tooltip" data-placement="top" title=""
+                                                         className="btn btn-success btn-simple"
                                                     >Tổng số lượng : {this.props.productsQuantity}
                                                         <div className="ripple-container"/>
-                                                    </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -426,22 +596,22 @@ ProductListContainer.propTypes = {
     modalProductAction: PropTypes.object.isRequired,
     products: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    isModalUpdating: PropTypes.bool.isRequired,
     modalUpdated: PropTypes.bool.isRequired,
-    productsTotal: PropTypes.string.isRequired,
-    productsBusiness: PropTypes.string.isRequired,
-    productsNotBusiness: PropTypes.string.isRequired,
-    productsDisplay: PropTypes.string.isRequired,
-    productsNotDisplay: PropTypes.string.isRequired,
-    productsDeleted: PropTypes.string.isRequired,
-    productsQuantity: PropTypes.string.isRequired,
+    productsTotal: PropTypes.number.isRequired,
+    productsBusiness: PropTypes.number.isRequired,
+    productsNotBusiness: PropTypes.number.isRequired,
+    productsDisplay: PropTypes.number.isRequired,
+    productsNotDisplay: PropTypes.number.isRequired,
+    productsQuantity: PropTypes.number.isRequired,
     categories: PropTypes.array.isRequired,
     manufactures: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
-    statuses: PropTypes.array.isRequired
+    productsHighlight: PropTypes.number.isRequired,
+    productsNotHighlight: PropTypes.number.isRequired,
+    inventoryGoodAction: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -452,25 +622,25 @@ function mapStateToProps(state) {
         productsNotBusiness: state.productList.productsNotBusiness,
         productsDisplay: state.productList.productsDisplay,
         productsNotDisplay: state.productList.productsNotDisplay,
-        productsDeleted: state.productList.productsDeleted,
         productsQuantity: state.productList.productsQuantity,
+        productsHighlight: state.productList.productsHighlight,
+        productsNotHighlight: state.productList.productsNotHighlight,
         isLoading: state.productList.isLoading,
-        isModalUpdating: state.productList.modalInProduct.isModalUpdating,
         modalUpdated: state.productList.modalInProduct.modalUpdated,
         categories: state.productList.categories,
         manufactures: state.productList.manufactures,
         totalPages: state.productList.totalPages,
         currentPage: state.productList.currentPage,
         limit: state.productList.limit,
-        totalCount: state.productList.totalCount,
-        statuses: state.productList.statuses
+        totalCount: state.productList.totalCount
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         productListAction: bindActionCreators(productListAction, dispatch),
-        modalProductAction: bindActionCreators(modalProductAction, dispatch)
+        modalProductAction: bindActionCreators(modalProductAction, dispatch),
+        inventoryGoodAction: bindActionCreators(inventoryGoodAction, dispatch)
     };
 }
 

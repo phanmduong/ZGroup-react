@@ -112,7 +112,7 @@ class WareHouseContainer extends React.Component {
                                                             <Search
                                                                 onChange={this.wareHousesSearchChange}
                                                                 value={this.state.query}
-                                                                placeholder="Tìm kiếm nhà kho"
+                                                                placeholder="Tìm kiếm kho"
                                                                 className="col-md-12"
                                                             />
                                                         </div>

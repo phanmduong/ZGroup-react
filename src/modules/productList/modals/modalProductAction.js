@@ -45,13 +45,23 @@ export function showAvatarModal() {
         dispatch({
             type: types.TOGGLE_AVATAR_MODAL
         });
+
+    };
+}
+
+export function openWareHouseTab() {
+    return function (dispatch) {
         dispatch({
-            type: types.UPDATE_CATEGORIES_COMPLETE,
-            categoriesUpdated: false
-        });
-        dispatch({
-            type: types.UPDATE_MANUFACTURES_COMPLETE,
-            manufacturesUpdated: false
+            type: types.OPEN_WAREHOUSE_TAB_PRODUCT_LIST
         });
     };
 }
+
+export function openHistoryTab() {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_HISTORY_TAB_PRODUCT_LIST
+        });
+    };
+}
+

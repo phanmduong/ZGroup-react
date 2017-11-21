@@ -27,7 +27,7 @@ class StoreGood extends React.Component {
         }
         this.timeOut = setTimeout(function () {
             importGoodsApi.searchGoods(input).then(res => {
-                let goods = res.data.data.goods.map((good) => {
+                let goods = res.data.goods.map((good) => {
                     return {
                         ...good,
                         ...{
@@ -100,7 +100,7 @@ class StoreGood extends React.Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <FormInputText
                                 label="Số lượng"
                                 value={this.state.selectedGood.quantity}
@@ -108,12 +108,20 @@ class StoreGood extends React.Component {
                                 name="quantity"
                             />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <FormInputText
                                 label="Giá vốn"
                                 value={helper.dotNumber(this.state.selectedGood.import_price)}
                                 updateFormData={this.updateFormData}
                                 name="import_price"
+                            />
+                        </div>
+                        <div className="col-md-4">
+                            <FormInputText
+                                label="Giá bán"
+                                value={helper.dotNumber(this.state.selectedGood.price)}
+                                updateFormData={this.updateFormData}
+                                name="price"
                             />
                         </div>
                     </div>

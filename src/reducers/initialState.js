@@ -1,18 +1,44 @@
 export default {
+    globalLoading: {
+        isLoading: false
+    },
+    inventoryGood: {
+        isLoading: false,
+        isLoadingHistoryModal: false,
+        inventories: [],
+        categories: [],
+        manufactures: [],
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
+        inventoryChecking: {
+            histories: [],
+            inventoryInfo: {}
+        },
+        historyModal: false,
+        count: 0,
+        totalImportMoney: 0,
+        totalMoney: 0
+    },
+
     productList: {
         products: [],
-        productsTotal: '',
-        productsBusiness: '',
-        productsNotBusiness: '',
-        productsDisplay: '',
-        productsNotDisplay: '',
-        productsDeleted: '',
-        productsQuantity: '',
-        totalPages: '',
-        currentPage: '',
-        limit: '',
-        totalCount:'',
+        productsTotal: 0,
+        productsBusiness: 0,
+        productsNotBusiness: 0,
+        productsDisplay: 0,
+        productsNotDisplay: 0,
+        productsDeleted: 0,
+        productsQuantity: 0,
+        productsHighlight: 0,
+        productsNotHighlight: 0,
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
         isLoading: false,
+        showWareHouse: true,
         modalInProduct: {
             priceModal: false,
             wareHouseModal: false,
@@ -45,31 +71,7 @@ export default {
             percent: 0
         },
         categories: [],
-        categoriesUpdated: false,
-        manufactures: [],
-        manufacturesUpdated: false,
-        statuses: [
-            {
-                value: "for_sale",
-                label: "ĐANG KINH DOANH"
-            },
-            {
-                value: "not_for_sale",
-                label: "NGỪNG KINH DOANH"
-            },
-            {
-                value: "show",
-                label: "HIỂN THỊ RA WEB"
-            },
-            {
-                value: "not_show",
-                label: "KHÔNG HIỂN THỊ RA WEB"
-            },
-            {
-                value: "deleted",
-                label: "ĐÃ XÓA"
-            }
-        ]
+        manufactures: []
     },
 
     good: {
@@ -79,7 +81,9 @@ export default {
             goodPropertyItems: [],
             task: {},
             isSaving: false,
-            boards: []
+            boards: [],
+            optionalBoards: [],
+            processes: []
         },
         createProperty: {
             property: {},
@@ -233,6 +237,11 @@ export default {
     },
 
     book: {
+        taskListTemplateModal: {
+            showModal: false,
+            boards: [],
+            isLoading: false
+        },
         taskSpan: {
             showModal: false,
             hours: 0,
@@ -749,15 +758,6 @@ export default {
         error: false
     },
 
-    courses: {
-        isLoading: false,
-        error: false,
-        coursesList: [],
-        addCoursesModal: {
-            isShowModal: false,
-            isSaving: false
-        }
-    },
 
     categories: {
         addCategoriesModal: {
@@ -801,6 +801,8 @@ export default {
         isLoading: false,
         error: false,
         importOrders: [],
+        currentPage: 1,
+        totalPages: 1,
         importGood: {
             infoOrder: {},
             infoPaid: {},
@@ -853,12 +855,12 @@ export default {
     },
 
     customers: {
-        customersList : [],
-        isLoading : true,
+        customersList: [],
+        isLoading: true,
+        totalPages: 10,
+        totalMoneys: 10,
+        totalDebtMoneys: 10,
         totalCount: 10,
-        totalPages : 10,
-        totalMoneys : 10,
-        totalDebtMoneys : 10,
         modal : {
             isSaving : false,
             customer : {
@@ -890,4 +892,118 @@ export default {
     discount :{
 
     },
+    coursesCreateEdit: {
+        isLoading: false,
+        isEditing: false,
+        isUpdatingAvatar: false,
+        updateAvatarError: false,
+        isUpdatingLogo: false,
+        updateLogoError: false,
+        isUpdatingCover: false,
+        updateCoverError: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            name: "",
+            duration: "",
+            price: "",
+            description: "",
+            linkmac: "",
+            linkwindow: "",
+            num_classes: "",
+            mac_how_install: "",
+            window_how_install: "",
+            cover_url: "",
+            color: "",
+            image_url: "",
+            icon_url: "",
+            created_at: "",
+            detail: "",
+            lessons: [],
+            links: []
+        }
+    },
+    courses: {
+        isLoading: false,
+        error: false,
+        coursesList: [],
+        paginator: {
+            total_count: 1,
+            total_pages: 1,
+            current_page: 1,
+            limit: 1
+        },
+        data: {},
+        addCoursesModal: {
+            isShowModal: false,
+            isDeleting: false,
+            addCoursesModal: {
+                isShowModal: false,
+                isSaving: false
+            },
+            paginator: {
+                total_count: 1,
+                total_pages: 1,
+                current_page: 1,
+                limit: 1
+            },
+            isEditing: false,
+            isUpdatingAvatar: false,
+            updateAvatarError: false,
+            isUpdatingLogo: false,
+            updateLogoError: false,
+            isUpdatingCover: false,
+            updateCoverError: false,
+            isCommitting: false,
+            commitSuccess: false,
+            data: {
+                id: null,
+                name: "",
+                duration: "",
+                price: "",
+                description: "",
+                linkmac: "",
+                linkwindow: "",
+                num_classes: "",
+                mac_how_install: "",
+                window_how_install: "",
+                cover_url: "",
+                color: "",
+                image_url: "",
+                icon_url: "",
+                created_at: "",
+                detail: "",
+                lessons: [],
+                links: []
+            }
+        }
+    },
+    lessons: {
+        isLoading: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            course_id: null,
+            name: "",
+            description: "",
+            detail: "",
+            order: "",
+            detail_content: "",
+            detail_teacher: "",
+            created_at: "2016-07-12 18:00:16"
+        }
+    },
+
+    marketingCampaigns: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        marketingCampaigns: [],
+        courses: [],
+        isLoadingCourses: false,
+        errorCourses: false,
+    }
 };

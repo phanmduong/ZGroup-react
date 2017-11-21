@@ -37,6 +37,7 @@ class AddGoodFile extends React.Component {
                     name: row[1].trim(),
                     quantity: row[2].trim(),
                     import_price: row[3].trim(),
+                    price: row[4] ? row[4].trim() : undefined,
                 });
             });
             this.setState({goods: goods});
@@ -71,11 +72,10 @@ class AddGoodFile extends React.Component {
                     data.code.trim().toLowerCase() == good.code.trim().toLowerCase())[0];
                 return {
                     ...goodDataFile,
-                    ...good
+                    ...good,
+                    price: goodDataFile.price ? goodDataFile.price : good.price
                 };
             });
-
-
         }
 
         if (!this.props.isCheckingGoods && this.props.notExistsGoods && this.props.notExistsGoods.length > 0 && this.state.goods.length > 0) {
@@ -250,6 +250,7 @@ AddGoodFile.propTypes = {
     existsGoods: PropTypes.array.isRequired,
     notExistsGoods: PropTypes.array.isRequired,
     closeModal: PropTypes.func.isRequired,
+    storeGoods: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {

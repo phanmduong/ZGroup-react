@@ -28,7 +28,7 @@ class ListChildCustomer extends React.Component {
                             </thead>
                             <tbody>
                             {this.props.customersList && this.props.customersList.map(
-                                (customer => {
+                                (customer) => {
                                     return (
                                         <tr role="row" className="even" key={customer.id}>
                                             <td className="sorting_1">{customer.name}</td>
@@ -44,7 +44,7 @@ class ListChildCustomer extends React.Component {
                                                         <a data-toggle="tooltip" title type="button"
                                                            rel="tooltip"
                                                            data-original-title="Sửa"
-                                                        onClick={() => this.props.openFormDataInEdit(customer )}
+                                                           onClick={() => this.props.openFormDataInEdit(customer)}
                                                         >
                                                             <i className="material-icons">edit</i>
                                                         </a>
@@ -54,8 +54,7 @@ class ListChildCustomer extends React.Component {
                                         </tr>
 
                                     );
-                                })
-                            )}
+                                })}
                             </tbody>
                         </table>
                     </div>
@@ -67,7 +66,7 @@ class ListChildCustomer extends React.Component {
 
 ListChildCustomer.propTypes = {
     customersList: PropTypes.array,
-    openFormDataInEdit : PropTypes.func,
+    openFormDataInEdit: PropTypes.func,
 };
 
 

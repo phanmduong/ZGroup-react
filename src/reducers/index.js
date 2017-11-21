@@ -39,8 +39,14 @@ import importGoodsReducer from "../modules/importGoods/importGoodsReducer";
 import wareHouseReducer from "../modules/wareHouse/wareHouseReducer";
 import customerReducer from "../modules/customer/customerReducer";
 import supplierReducer from "../modules/supplier/supplierReducer";
+import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer";
+import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer";
+import lessonsReducer from "../modules/lessons/lessonsReducer";
+import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
+
 
 const appReducer = combineReducers({
+    globalLoading: globalLoadingReducer,
     login: loginReducer,
     tabs: tabsReducer,
     staffs: staffsReducer,
@@ -73,12 +79,16 @@ const appReducer = combineReducers({
     historyShiftRegisters: historyShiftRegistersReducer,
     shiftSessions: shiftSessionsReducer,
     courses: courseReducer,
-    categories : categoriesReducer,
+    coursesCreateEdit: courseReducer,
+    lessons: lessonsReducer,
     goodOrders: goodOrdersReducer,
     productList: productListReducer,
     importGoods: importGoodsReducer,
-    wareHouses : wareHouseReducer ,
-    customers : customerReducer,
+    wareHouses: wareHouseReducer,
+    customers: customerReducer,
+    inventoryGood: inventoryGoodReducer,
+    categories: categoriesReducer,
+    marketingCampaigns: marketingCampaignsReducer,
     suppliers :supplierReducer,
 
 });

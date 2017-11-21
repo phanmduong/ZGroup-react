@@ -21,8 +21,8 @@ export default function customerReducer(state = initialState.customers, action) 
                 ...state,
                 ...{
                     customersList: action.customersList,
-                    totalPages: action.total_pages,
-                    totalCount: action.total_count,
+                    totalPages : action.total_pages,
+                    totalCount : action.total_count,
                     isLoading: false,
                 }
             };

@@ -51,6 +51,26 @@ export function confirm(type, title, html, success, cancel) {
     });
 }
 
+export function showErrorMessage(title, html) {
+    //  warning, error, success, info and question
+    swal({
+        title,
+        error: "warning",
+        html,
+        showCloseButton: true,
+        // showCancelButton: true,
+        confirmButtonColor: "#c50000",
+        cancelButtonText:
+            'Huỷ'
+    }).then(function () {
+        // success();
+    }.bind(this), function () {
+        // if (cancel) {
+        // cancel(dismiss);
+        // }
+    });
+}
+
 export function showErrorNotification(message) {
     showNotification(message, "top", "right", "danger");
 }

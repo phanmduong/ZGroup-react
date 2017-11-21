@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as customerApis from './customerApis';
-import * as helper from '../../helpers/helper';
+// import * as helper from '../../helpers/helper';
 
 export function loadCustomers( page , limit, query,status) {
     return function (dispatch) {

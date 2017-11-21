@@ -13,14 +13,14 @@ class ProductListComponent extends React.Component {
 
     render() {
         return (
-            <div className="material-datatables">
-                <table id="imported-goods-table" className="table" width="100%">
-                    <thead>
+            <div className="table-responsive">
+                <table className="table">
+                    <thead className="text-rose">
                     <tr className="text-rose">
                         <th/>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
-                        <th>Số lượng</th>
+                        <th>SL</th>
                         <th>Giá bán</th>
                         <th>Nhóm hàng</th>
                         <th>Nhà sản xuất</th>
@@ -53,20 +53,20 @@ class ProductListComponent extends React.Component {
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showAvatarModal(product)}>{product.code}</a>
                                     </td>
-                                    <td style={{width: "130px"}}>{product.name}</td>
-                                    <td style={{width: "95px"}}>{product.quantity}</td>
+                                    <td style={{width: "200px"}}>{product.name}</td>
+                                    <td style={{width: "50px"}}>{product.quantity}</td>
                                     <td>
                                         <a onClick={() => this.props.showPriceModal(product)}>
                                             {dotNumber(product.price)}đ
                                         </a>
                                     </td>
                                     <td style={{width: "115px"}}>
-                                        {product.good_category_id ?
+                                        {(product.good_category_id && this.props.categories.filter(category => category.id === product.good_category_id)[0]) ?
                                             this.props.categories.filter(category => category.id === product.good_category_id)[0].name : "Chưa có"
                                         }
                                     </td>
                                     <td style={{width: "120px"}}>
-                                        {product.manufacture_id ?
+                                        {(product.manufacture_id && this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0]) ?
                                             this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0].name : "Chưa có"
                                         }
                                     </td>
@@ -76,10 +76,10 @@ class ProductListComponent extends React.Component {
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showWareHouseModal(product)}>
                                             {
-                                                !product.warehouses ? (
+                                                product.good_warehouses.length === 0 ? (
                                                     <p>Chưa có</p>
                                                 ) : (
-                                                    <p>{product.warehouses.length}</p>
+                                                    <p>{product.good_warehouses.length} kho</p>
                                                 )
                                             }
                                         </a>

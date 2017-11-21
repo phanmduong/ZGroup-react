@@ -2,10 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Button, Modal} from "react-bootstrap";
+import {Button, ListGroup, Modal} from "react-bootstrap";
 import * as goodActions from '../good/goodActions';
 import Loading from "../../components/common/Loading";
 import Select from "react-select";
+import OptionalBoardInput from "./OptionalBoardInput";
+import {showErrorMessage} from "../../helpers/helper";
 
 class AddPropertyItemsToTaskModalContainer extends React.Component {
     constructor(props, context) {
@@ -14,12 +16,13 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         this.state = {
             value: [],
             currentBoard: {},
-            targetBoard: {}
+            targetBoard: {},
+            optionalBoards: []
         };
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.save = this.save.bind(this);
-        this.handleSelectCurrentBoard = this.handleSelectCurrentBoard.bind(this);
-        this.handleSelectTargetBoard = this.handleSelectTargetBoard.bind(this);
+        this.addBoardInput = this.addBoardInput.bind(this);
+        this.removeBoardInput = this.removeBoardInput.bind(this);
     }
 
 
@@ -37,8 +40,8 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                 targetBoard: nextProps.task.target_board
             });
         }
-        if (!this.props.showModal && nextProps.showModal) {
-            this.props.goodActions.loadAllGoodPropertyItems(nextProps.type);
+        if (!this.props.showModal && nextProps.showModal && nextProps.task) {
+            this.props.goodActions.loadAllGoodPropertyItems(nextProps.type, nextProps.task.id);
         }
     }
 
@@ -50,17 +53,52 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         this.setState({value});
     }
 
-    handleSelectCurrentBoard(currentBoard) {
-        this.setState({currentBoard});
-    }
-
-    handleSelectTargetBoard(targetBoard) {
-        this.setState({targetBoard});
-    }
-
     save() {
-        this.props.goodActions.addPropertyItemsToTask(this.state.value, this.props.task,
-            this.state.currentBoard, this.state.targetBoard);
+        let isValid = true;
+        this.state.optionalBoards.forEach((optionalBoard) => {
+            if (!optionalBoard.board || !optionalBoard.process) {
+                isValid = false;
+            }
+        });
+
+        if (isValid) {
+            this.state.optionalBoards.forEach((optionalBoard) => {
+                const count = this.state.optionalBoards.filter((item) => {
+                    return item.board.id === optionalBoard.board.id && item.process.id === optionalBoard.process.id;
+                }).length;
+                if (count > 1) {
+                    isValid = false;
+                    showErrorMessage("Lỗi", "Bạn không thể thêm 2 bảng đích và quy trình trùng nhau");
+                }
+
+            });
+
+            if (isValid) {
+                this.props.goodActions.addPropertyItemsToTask(
+                    this.state.optionalBoards,
+                    this.state.value, this.props.task,
+                    this.state.currentBoard, this.state.targetBoard);
+            }
+
+        } else {
+            showErrorMessage("Lỗi", "Bạn cần thêm đủ bảng và quy trình vào những bảng đích đã thêm");
+        }
+
+    }
+
+    addBoardInput() {
+        this.setState({
+            optionalBoards: [
+                ...this.state.optionalBoards,
+                {}
+            ]
+        });
+    }
+
+    removeBoardInput(index) {
+        this.setState({
+            optionalBoards: [...this.state.optionalBoards.slice(0, index), ...this.state.optionalBoards.slice(index + 1)]
+        });
     }
 
     render() {
@@ -86,26 +124,37 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                                         value={value}
                                     />
                                 </div>
-
-                                <div className="form-group">
-                                    <label>Bảng hiện tại</label>
-                                    <Select
-                                        onChange={this.handleSelectCurrentBoard}
-                                        options={this.props.boards}
-                                        placeholder="Lựa chọn bảng hiện tại"
-                                        value={currentBoard}
-                                    />
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <label>Bảng hiện tại mặc định</label>
+                                        <p>{currentBoard.title}</p>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <label>Bảng đích mặc định</label>
+                                        <p>{targetBoard.title}</p>
+                                    </div>
                                 </div>
+                                <ListGroup>
+                                    {
+                                        this.state.optionalBoards && this.state.optionalBoards.map((optionalBoard, index) => {
+                                            return (
+                                                <OptionalBoardInput
+                                                    key={index}
+                                                    remove={() => this.removeBoardInput(index)}
+                                                    optionalBoard={optionalBoard}
+                                                    processes={this.props.processes}
+                                                    boards={this.props.boards}/>
+                                            );
+                                        })
+                                    }
+                                </ListGroup>
 
-                                <div className="form-group">
-                                    <label>Bảng đích</label>
-                                    <Select
-                                        onChange={this.handleSelectTargetBoard}
-                                        options={this.props.boards}
-                                        placeholder="Lựa chọn bảngs đích"
-                                        value={targetBoard}
-                                    />
-                                </div>
+                                <Button
+                                    onClick={this.addBoardInput}
+                                    className="btn btn-simple">
+                                    + Thêm bảng đích
+                                </Button>
+
                             </div>
                         )
                     }
@@ -135,6 +184,8 @@ AddPropertyItemsToTaskModalContainer.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     task: PropTypes.object.isRequired,
     goodPropertyItems: PropTypes.array.isRequired,
+    optionalBoards: PropTypes.array.isRequired,
+    processes: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired,
     goodActions: PropTypes.object.isRequired
 };
@@ -143,9 +194,17 @@ function mapStateToProps(state) {
     return {
         showModal: state.good.attachPropertyItem.showModal,
         task: state.good.attachPropertyItem.task,
-        boards: state.good.attachPropertyItem.boards,
+        optionalBoards: state.good.attachPropertyItem.optionalBoards,
+        processes: state.good.attachPropertyItem.processes.map((process) => {
+            return {
+                ...process,
+                value: process.title,
+                label: process.title
+            };
+        }),
         isLoading: state.good.attachPropertyItem.isLoading,
         isSaving: state.good.attachPropertyItem.isSaving,
+        boards: state.good.attachPropertyItem.boards,
         goodPropertyItems: state.good.attachPropertyItem.goodPropertyItems
     };
 }

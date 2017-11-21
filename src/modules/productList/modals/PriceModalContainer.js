@@ -12,7 +12,6 @@ class PriceModalContainer extends React.Component {
         super(props, context);
         this.updatePrice = this.updatePrice.bind(this);
         this.handleProduct = this.handleProduct.bind(this);
-        this.showPriceModal = this.showPriceModal.bind(this);
     }
 
     updatePrice() {
@@ -26,15 +25,12 @@ class PriceModalContainer extends React.Component {
         this.props.modalProductAction.handleProduct(productEditing.productPresent);
     }
 
-    showPriceModal(e) {
-        e.preventDefault();
-        this.props.showPriceModal(this.props.productEditing.productPresent);
-    }
-
     render() {
         return (
             <Modal show={this.props.priceModal}
-                   onHide={this.showPriceModal}>
+                   onHide={() => this.props.showPriceModal(this.props.productEditing.productPresent)}>
+                <a onClick={() => this.props.showPriceModal(this.props.productEditing.productPresent)}
+                   id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title">Giá bán</Modal.Title>
                 </Modal.Header>
@@ -46,7 +42,7 @@ class PriceModalContainer extends React.Component {
                                className="form-control datepicker"
                                value={this.props.productEditing.productPresent.price}
                                onChange={this.handleProduct}/>
-                        <span className="material-input" />
+                        <span className="material-input"/>
                     </div>
 
                     <div className="form-group">
@@ -67,8 +63,9 @@ class PriceModalContainer extends React.Component {
                                 <button rel="tooltip" data-placement="top" title=""
                                         data-original-title="Remove item" type="button"
                                         className="btn btn-danger btn-round" data-dismiss="modal"
-                                        onClick={this.showPriceModal}><i
-                                    className="material-icons">close</i> Huỷ
+                                        onClick={() => this.props.showPriceModal(this.props.productEditing.productPresent)}>
+                                    <i
+                                        className="material-icons">close</i> Huỷ
                                 </button>
                             </div>
                         )

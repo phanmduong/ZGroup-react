@@ -13,10 +13,10 @@ class ListChildWareHouse extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr>
-                        <th>Tên cơ sở</th>
                         <th>Tên kho</th>
-                        <th>Địa chỉ cơ sở</th>
                         <th>Địa chỉ kho</th>
+                        <th>Tên cơ sở</th>
+                        <th>Địa chỉ cơ sở</th>
                         <th/>
                     </tr>
                     </thead>
@@ -25,10 +25,10 @@ class ListChildWareHouse extends React.Component {
                     {this.props.wareHousesList.map((wareHouse) => {
                         return(
                                 <tr key = {wareHouse.id} >
-                                    <td>{wareHouse.base ? wareHouse.base.name : 'Chưa có '}</td>
                                     <td>{wareHouse.name}</td>
-                                    <td>{wareHouse.base ? wareHouse.base.address : 'Chưa có'}</td>
                                     <td>{wareHouse.location}</td>
+                                    <td>{wareHouse.base ? wareHouse.base.name : 'Chưa có '}</td>
+                                    <td>{wareHouse.base ? wareHouse.base.address : 'Chưa có'}</td>
                                     <td style={{width: 70}}>
                                         <div className="btn-group-action">
                                             <a style={{color: '#878787'}} data-toggle="tooltip"

@@ -69,6 +69,15 @@ import StoreImportContainer from './modules/importGoods/importGood/StoreImportCo
 import GoodDetailContainer from "./modules/good/GoodDetailContainer";
 import WareHouseContainer from "./modules/wareHouse/WareHouseContainer";
 import CustomerContainer from "./modules/customer/CustomerContainer";
+import InventoryGoodContainer from "./modules/inventoryGood/InventoryGoodContainer";
+import CreateEditCoursesContainer from "./modules/courses/coursesForm/CoursesCreateEditContainer";
+import coursesCreateEditGeneral from "./modules/courses/coursesForm/coursesCreateEditGeneral";
+import coursesCreateEditCurriculum from "./modules/courses/coursesForm/coursesCreateEditCurriculum";
+import coursesCreateEditDocuments from "./modules/courses/coursesForm/coursesCreateEditDocuments";
+import coursesCreateEditStudying from "./modules/courses/coursesForm/coursesCreateEditStudying";
+import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCreateEditInterested";
+import LessonsContainer from "./modules/lessons/LessonsContainer";
+import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCampaignContainer";
 import SupplierContainer from "./modules/supplier/SupplierContainer";
 import DiscountContainer from "./modules/discount/DiscountContainer";
 
@@ -212,7 +221,28 @@ export default (
 
             {/*Begin course routes */}
             <Route path="/manage/courses" component={CoursesContainer}/>
+
+            <Route path="/manage/courses/edit/:courseId" component={CreateEditCoursesContainer} type="edit">
+                <IndexRoute component={coursesCreateEditGeneral}/>
+                <Route path="curriculum" component={coursesCreateEditCurriculum}/>
+                <Route path="documents" component={coursesCreateEditDocuments}/>
+                <Route path="studying" component={coursesCreateEditStudying}/>
+                <Route path="interested" component={coursesCreateEditInterested}/>
+            </Route>
+            <Route path="/manage/courses/create" component={CreateEditCoursesContainer} type="create">
+                <IndexRoute component={coursesCreateEditGeneral}/>
+                <Route path="curriculum" component={coursesCreateEditCurriculum}/>
+                <Route path="documents" component={coursesCreateEditDocuments}/>
+                <Route path="studying" component={coursesCreateEditStudying}/>
+                <Route path="interested" component={coursesCreateEditInterested}/>
+            </Route>
             {/*End course routes */}
+
+            {/*End lessons routes */}
+            <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
+            <Route path="/manage/courses/lessons/create" component={LessonsContainer}/>
+            {/*End lessons routes */}
+
                                                l
 
             {/*Begin categories routes */}
@@ -230,6 +260,10 @@ export default (
             <Route path="/goods/products" component={ProductListContainer}/>
             {/*End product-list routes*/}
 
+            {/*Begin inventory-good routes*/}
+            <Route path="/goods/inventories" components={InventoryGoodContainer}/>
+            {/*End inventory-good routes*/}
+
             {/*Begin import goods routes */}
             <Route path="/import-goods" component={ImportGoodsContainer}/>
             <Route path="/import-good/create" component={StoreImportContainer} type="create"/>
@@ -243,6 +277,10 @@ export default (
             {/*Begin customer routes */}
             <Route path="/goods/customer" component={CustomerContainer}/>
             {/*End customer routes*/}
+
+            {/*Begin marketing campaigns routes */}
+            <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
+            {/*End marketing campaigns routes*/}
 
             {/*Begin supplier routes */}
             <Route path="/goods/supplier" component={SupplierContainer}/>
