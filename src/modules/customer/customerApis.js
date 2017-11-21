@@ -41,7 +41,7 @@ export function addCustomerApi(customer) {
         'address' : customer.address,
         'email' : customer.email,
         'phone' : customer.phone,
-        'dob' : customer.dob,
+        'dob' : customer.birthday,
     });
 }
 
@@ -57,7 +57,7 @@ export function editCustomerApi(customer ) {
         'phone': customer.phone,
         'address': customer.address,
         'gender' : customer.gender,
-        'dob' : customer.dob,
+        'dob' : customer.birthday,
     });
 }
 

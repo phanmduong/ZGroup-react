@@ -13,6 +13,8 @@ import {CUSTOMTYPE} from '../../constants/constants';
 import * as helper from '../../helpers/helper';
 import {Link} from 'react-router';
 import ReactSelect from 'react-select';
+import {browserHistory} from 'react-router';
+
 
 
 class CustomerContainer extends React.Component {
@@ -34,6 +36,7 @@ class CustomerContainer extends React.Component {
         this.activeModal = this.activeModal.bind(this);
         this.loadByStatus = this.loadByStatus.bind(this);
         this.openFormDataInEdit = this.openFormDataInEdit.bind(this);
+        this.openInfoCustomer = this.openInfoCustomer.bind(this);
     }
 
     componentWillMount() {
@@ -50,6 +53,12 @@ class CustomerContainer extends React.Component {
         this.openAddModal(true);
     }
 
+    openInfoCustomer(customer){
+        this.props.customerActions.updateAddCustomerFormData(customer);
+        browserHistory.push('/goods/customer/info-customer');
+
+    }
+
     closeAddModal() {
         let customer = {
             name: '',
@@ -57,7 +66,7 @@ class CustomerContainer extends React.Component {
             email: '',
             address: '',
             gender: '',
-            dob: '',
+            birthday: '',
         };
         this.props.customerActions.updateAddCustomerFormData(customer);
         this.setState({isShowModal: false});
@@ -87,6 +96,7 @@ class CustomerContainer extends React.Component {
         }.bind(this), 500);
     }
 
+
     updateFormData(event) {
         const field = event.target.name;
         let customer = {...this.props.customer};
@@ -96,7 +106,7 @@ class CustomerContainer extends React.Component {
 
     activeModal(e) {
         if ($('#form-add-customer').valid()) {
-            if (this.props.customer.dob === null || this.props.customer.dob === undefined || this.props.customer.dob === '') {
+            if (this.props.customer.birthday === null || this.props.customer.birthday === undefined || this.props.customer.birthday === '') {
                 helper.showTypeNotification("Vui lòng chọn sinh nhật", 'warning');
                 return;
             }
@@ -200,6 +210,7 @@ class CustomerContainer extends React.Component {
                                             <ListChildCustomer
                                                 customersList={this.props.customersList}
                                                 openFormDataInEdit={this.openFormDataInEdit}
+                                                openInfoCustomer = {this.openInfoCustomer}
                                             />
                                             <div className="row">
                                                 <div className="col-sm-5">

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
+
+
 class ListChildCustomer extends React.Component {
     constructor(props) {
         super(props);
@@ -12,7 +14,7 @@ class ListChildCustomer extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <table id="property-table" className="table dataTable" role="grid"
+                        <table id="property-table" className="table table-hover" role="grid"
                                aria-describedby="property-table_info">
                             <thead>
                             <tr className="text-rose" role="row">
@@ -31,7 +33,9 @@ class ListChildCustomer extends React.Component {
                                 (customer) => {
                                     return (
                                         <tr role="row" className="even" key={customer.id}>
-                                            <td className="sorting_1">{customer.name}</td>
+                                            <td className="sorting_1">
+                                                <a onClick={() => {this.props.openInfoCustomer(customer);}}>{customer.name}</a>
+                                            </td>
                                             <td>{customer.phone}</td>
                                             <td>{customer.address}</td>
                                             <td>{customer.last_order}</td>
@@ -67,6 +71,7 @@ class ListChildCustomer extends React.Component {
 ListChildCustomer.propTypes = {
     customersList: PropTypes.array,
     openFormDataInEdit: PropTypes.func,
+    openInfoCustomer : PropTypes.func,
 };
 
 

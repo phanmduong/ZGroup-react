@@ -5,6 +5,7 @@ import FormInputSelect from '../../components/common/FormInputSelect';
 import FormInputDate from '../../components/common/FormInputDate';
 import {GENDER} from '../../constants/constants';
 
+
 class AddCustomerModal extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -12,7 +13,7 @@ class AddCustomerModal extends React.Component {
 
 
     render() {
-        let {name, email, address, phone, dob, gender} = this.props.customer;
+        let {name, email, address, phone, birthday, gender} = this.props.customer;
         return (
             <div>
                 <div className="card-header card-header-icon" data-background-color="rose">
@@ -69,10 +70,10 @@ class AddCustomerModal extends React.Component {
 
                     <FormInputDate
                         label="Sinh nhật"
-                        name="dob"
+                        name="birthday"
                         updateFormData={this.props.updateFormData}
                         id="form-date-of-birth"
-                        value={dob}
+                        value={birthday}
                         required={true}
                         placeholder = "dd/mm/yyyy"
                     />

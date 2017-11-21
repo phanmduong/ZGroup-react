@@ -80,6 +80,7 @@ import LessonsContainer from "./modules/lessons/LessonsContainer";
 import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCampaignContainer";
 import SupplierContainer from "./modules/supplier/SupplierContainer";
 import DiscountContainer from "./modules/discount/DiscountContainer";
+import InfoCustomerContainer from "./modules/customer/InfoCustomerContainer" ;
 
 export default (
     <Route>
@@ -276,6 +277,7 @@ export default (
 
             {/*Begin customer routes */}
             <Route path="/goods/customer" component={CustomerContainer}/>
+            <Route path="/goods/customer/info-customer" component={InfoCustomerContainer}/>
             {/*End customer routes*/}
 
             {/*Begin marketing campaigns routes */}

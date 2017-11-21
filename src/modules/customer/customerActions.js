@@ -90,12 +90,12 @@ export function editCustomer(customer , closeAddModal) {
         customerApis.editCustomerApi(customer)
             .then((res) => {
                 if (res.data.status) {
-                    closeAddModal();
                     helper.showTypeNotification('Đã chỉnh sửa '+ customer.name, 'success');
                     dispatch({
                         type: types.EDIT_CUSTOMER_SUCCESS,
                         customer: res.data.data.user,
                     });
+                    closeAddModal();
                 }
                 else {
                     helper.sweetAlertError(res.data.message);
