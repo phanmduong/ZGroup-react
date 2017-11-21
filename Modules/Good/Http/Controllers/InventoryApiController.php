@@ -131,7 +131,7 @@ class InventoryApiController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai san pham'
             ]);
-
+        $warehouses = Warehouse::all();
         $warehouse_id = $request->warehouse_id;
 
         $history = HistoryGood::where('good_id', $goodId);
@@ -155,6 +155,29 @@ class InventoryApiController extends ManageApiController
                         'name' => $singular_history->warehouse->name,
                     ]
                 ];
+            }),
+            'warehouses' => $warehouses->map(function($warehouse) use ($goodId){
+                $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
+                $quantity = $importedGoods->reduce(function($total, $importedGood){
+                    return $total + $importedGood->quantity;
+                }, 0);
+                $import_money = $importedGoods->reduce(function($total, $importedGood){
+                    return $total + $importedGood->quantity * $importedGood->import_price;
+                }, 0);
+                $data = [
+                    'id' => $warehouse->id,
+                    'name' => $warehouse->name,
+                    'location' => $warehouse->location,
+                    'quantity' => $quantity,
+                    'import_money' => $import_money,
+                ];
+                if($warehouse->base)
+                    $data['base'] = [
+                        'id' => $warehouse->base_id,
+                        'name' => $warehouse->base->name,
+                        'address' => $warehouse->base->address,
+                    ];
+                return $data;
             })
         ]);
 
