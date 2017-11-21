@@ -127,18 +127,18 @@ class InventoryApiController extends ManageApiController
 
     public function historyGoods($goodId, Request $request)
     {
+        $warehouse_id = $request->warehouse_id;
         if(Good::find($goodId) == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai san pham'
             ]);
         $warehouses = Warehouse::all();
-        $warehouse_id = $request->warehouse_id;
-
+//        $warehouses = $warehouses->filter(function($warehouse) use ($goodId){
+//
+//        });
         $history = HistoryGood::where('good_id', $goodId);
-
         if($warehouse_id)
             $history = $history->where('warehouse_id', $warehouse_id);
-
         $history =  $history->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
             'history' => $history->map(function ($singular_history) {
