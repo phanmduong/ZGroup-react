@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from "../../components/common/Avatar";
 import KeetoolPanel from "../../components/common/KeetoolPanel";
+import PropertyItemsList from "./PropertyItemsList";
 
 class TaskTemplateItem extends React.Component {
     constructor(props, context) {
@@ -94,21 +95,9 @@ class TaskTemplateItem extends React.Component {
                     <div className="timeline-body">
                         <KeetoolPanel
                             title="Thuộc tính cần nhập">
-                            <div>
-                                {
-                                    task.good_property_items && task.good_property_items.length > 0 && (
-                                        <ul>
-                                            {
-                                                task.good_property_items.map((item) => {
-                                                    return (
-                                                        <li key={item.id}>{item.name}: {item.prevalue} {item.preunit}</li>
-                                                    );
-                                                })
-                                            }
-                                        </ul>
-                                    )
-                                }
-                            </div>
+                            <PropertyItemsList
+                                task={task}
+                            />
                         </KeetoolPanel>
                         <KeetoolPanel
                             title="Bảng cố định">
@@ -129,9 +118,9 @@ class TaskTemplateItem extends React.Component {
                             title="Bảng tuỳ chọn">
                             <div>
                                 {
-                                    task.optional_boards && task.optional_boards.map((optionalBoard) => {
+                                    task.optional_boards && task.optional_boards.map((optionalBoard, index) => {
                                             return (
-                                                <div>
+                                                <div key={index}>
                                                     <div>Bảng
                                                         đích: {optionalBoard.board ? optionalBoard.board.title : ""}</div>
                                                     <div>
