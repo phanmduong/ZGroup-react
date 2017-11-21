@@ -121,7 +121,10 @@ class GoodPropertyApiController extends ManageApiController
         $task->current_board_id = $request->current_board_id;
         $task->target_board_id = $request->target_board_id;
         $task->goodPropertyItems()->detach();
-        $task->goodPropertyItems()->attach(collect($goodPropertyItems)->pluck("id")->toArray());
+        foreach ($goodPropertyItems as $item) {
+            $task->goodPropertyItems()->attach($item->id, ['order' => $item->order]);
+        }
+
         $task->save();
 
         if ($task == null) {
