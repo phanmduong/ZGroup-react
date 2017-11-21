@@ -12,11 +12,12 @@ class BoardTaskTaskList extends Model
 
     public function board()
     {
-        return $this->belongsToMany(Board::class);
+        return $this->belongsTo(Board::class, "board_id");
     }
 
     public function taskList()
     {
-        return $this->belongsToMany(TaskList::class);
+        return $this->belongsTo(TaskList::class, "task_list_id");
     }
+
 }
