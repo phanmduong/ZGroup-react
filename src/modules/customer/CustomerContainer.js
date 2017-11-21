@@ -9,12 +9,10 @@ import Loading from "../../components/common/Loading";
 import Search from '../../components/common/Search';
 import {Modal} from 'react-bootstrap';
 import AddCustomerModal from './AddCustomerModal';
-import FormInputSelect from '../../components/common/FormInputSelect';
 import {CUSTOMTYPE} from '../../constants/constants';
 import * as helper from '../../helpers/helper';
 import {Link} from 'react-router';
-
-
+import ReactSelect from 'react-select';
 
 
 class CustomerContainer extends React.Component {
@@ -25,8 +23,8 @@ class CustomerContainer extends React.Component {
             limit: 10,
             query: '',
             isShowModal: false,
-            status : '',
-            isEdit : false,
+            status: '',
+            isEdit: false,
         };
         this.loadCustomers = this.loadCustomers.bind(this);
         this.customersSearchChange = this.customersSearchChange.bind(this);
@@ -42,26 +40,24 @@ class CustomerContainer extends React.Component {
         this.loadCustomers(1, this.state.limit);
     }
 
-    componentDidUpdate() {
-        this.initForm();
-    }
+
     openAddModal(isEdit) {
-        this.setState({isShowModal: true , isEdit : isEdit});
+        this.setState({isShowModal: true, isEdit: isEdit});
     }
 
-    openFormDataInEdit(customer ){
+    openFormDataInEdit(customer) {
         this.props.customerActions.updateAddCustomerFormData(customer);
         this.openAddModal(true);
     }
 
     closeAddModal() {
         let customer = {
-            name : '',
-            phone : '',
-            email : '',
-            address : '',
-            gender : '',
-            dob : '',
+            name: '',
+            phone: '',
+            email: '',
+            address: '',
+            gender: '',
+            dob: '',
         };
         this.props.customerActions.updateAddCustomerFormData(customer);
         this.setState({isShowModal: false});
@@ -76,7 +72,18 @@ class CustomerContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query,this.state.status);
+            this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query, this.state.status);
+        }.bind(this), 500);
+    }
+
+    loadByStatus(value) {
+        let status = value && value.value ? value.value : "";
+        this.setState({status: status, page: 1});
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query, this.state.status);
         }.bind(this), 500);
     }
 
@@ -87,18 +94,17 @@ class CustomerContainer extends React.Component {
         this.props.customerActions.updateAddCustomerFormData(customer);
     }
 
-    activeModal(e){
+    activeModal(e) {
         if ($('#form-add-customer').valid()) {
             if (this.props.customer.dob === null || this.props.customer.dob === undefined || this.props.customer.dob === '') {
                 helper.showTypeNotification("Vui lòng chọn sinh nhật", 'warning');
                 return;
             }
-            if (this.props.customer.gender === null || this.props.customer.gender === undefined || this.props.customer.gender === '' ) {
+            if (this.props.customer.gender === null || this.props.customer.gender === undefined || this.props.customer.gender === '') {
                 helper.showTypeNotification("Vui lòng chọn giới tính", 'warning');
             }
             else {
-                if (this.state.isEdit)
-                {
+                if (this.state.isEdit) {
                     this.props.customerActions.editCustomer(this.props.customer, this.closeAddModal);
                 }
                 else {
@@ -111,20 +117,10 @@ class CustomerContainer extends React.Component {
 
     loadCustomers(page) {
         this.setState({page: page});
-            this.props.customerActions.loadCustomers(page,this.state.limit);
+        this.props.customerActions.loadCustomers(page, this.state.limit, this.state.query, this.state.status);
     }
-    loadByStatus(e){
-        this.setState({status: e.target.value});
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query,this.state.status);
-        }.bind(this), 500);
-    }
-    initForm() {
-        helper.setFormValidation('#form-add-customer');
-    }
+
+
 
     render() {
         let currentPage = this.state.page;
@@ -156,86 +152,90 @@ class CustomerContainer extends React.Component {
                                     </div>
                                 </div>
 
-                            {this.props.isLoading ? <Loading/> :
-                                <div>
-                                    <div style={{marginTop: 30 ,  marginLeft: 30 }}>
-                                        <a className="btn btn-rose" onClick={() => this.openAddModal(false)}>Thêm khách hàng</a>
-                                    </div>
-
-
+                                {this.props.isLoading ? <Loading/> :
                                     <div className="card-content">
-                                        <div className="table-responsive">
-                                            <div id="property-table_wrapper"
-                                                 className="dataTables_wrapper form-inline dt-bootstrap">
-                                                <div className="row" style={{marginTop: 30 , marginBottom : 30}}>
-                                                    <div className="col-md-8">
-                                                        <div id="property-table_length">
-                                                            <label>Phân loại:
-                                                                <div className="form-group form-group-md"
-                                                                     style={{marginTop: 0, marginLeft: 20}}>
-                                                                    <FormInputSelect
-                                                                        updateFormData={this.loadByStatus}
-                                                                        name="status"
-                                                                        data = {CUSTOMTYPE}
-                                                                        value={status}
-                                                                    />
-                                                                    <span className="material-input"/></div>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-md-4" style={{marginRight : 0}}>
-                                                        <Search
-                                                            onChange={this.customersSearchChange}
-                                                            value={this.state.query}
-                                                            placeholder="Tìm kiếm khách hàng"
-                                                            className="col-md-6"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="card-header card-header-icon" data-background-color="rose">
-                                                    <i className="material-icons">assignment</i>
-                                                </div>
-                                                <h4 className="card-title">Danh sách khách hàng</h4>
-                                                <ListChildCustomer
-                                                    customersList={this.props.customersList}
-                                                    openFormDataInEdit = {this.openFormDataInEdit}
-                                                />
-                                                <div className="row">
-                                                    <div className="col-sm-5">
-                                                        <div className="dataTables_info" id="property-table_info"
-                                                             role="status" aria-live="polite">Hiển trị
-                                                            trang {currentPage} trên tổng số
-                                                            {' ' + this.props.totalPages} trang
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-sm-7" style={{textAlign: 'right'}}>
-                                                        <Pagination
-                                                            totalPages={this.props.totalPages}
-                                                            currentPage={currentPage}
-                                                            loadDataPage={this.loadCustomers}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        <div id="property-table_wrapper"
+                                             className="dataTables_wrapper form-inline dt-bootstrap">
 
-                                    <div className="card-footer">
-                                        <div className="float-right">
-                                            <div className="btn btn-info btn-simple"> Tổng khách
-                                                hàng: {this.props.totalCount}
+
+                                            <div className="row" style={{marginTop: "20px", marginBottom: "20px"}}>
+                                                <div className="col-md-4">
+                                                    <a className="btn btn-rose"
+                                                       onClick={() => this.openAddModal(false)}>
+                                                        Thêm khách hàng</a>
+                                                </div>
+                                                <div className="col-md-8" style={{marginBottom: 40}}>
+                                                    <Search
+                                                        onChange={this.customersSearchChange}
+                                                        value={this.state.query}
+                                                        placeholder="Tìm kiếm khách hàng          "
+                                                        className="col-md-8"
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className="btn btn-danger btn-simple"> Tổng
-                                                tiền: {this.props.totalMoneys}
+
+
+                                            <div className="card-header card-header-icon"
+                                                 data-background-color="rose">
+                                                <i className="material-icons">assignment</i>
                                             </div>
-                                            <div className="btn btn-success btn-simple"> Tổng
-                                                nợ: {this.props.totalDebtMoneys}
+                                            <h4 className="card-title">Danh sách khách hàng</h4>
+
+
+                                            <div className="row" style={{marginBottom: "30px"}}>
+                                                <div className="col-md-6"></div>
+                                                <div className="form-group col-md-4">
+                                                    <label className="label-control">Phân loại: </label>
+                                                    <ReactSelect
+                                                        name="status"
+                                                        value={status}
+                                                        options={CUSTOMTYPE}
+                                                        onChange={this.loadByStatus}
+                                                        placeholder="Chọn tình trạng khách hàng"
+                                                    />
+                                                </div>
+                                            </div>
+
+
+                                            <ListChildCustomer
+                                                customersList={this.props.customersList}
+                                                openFormDataInEdit={this.openFormDataInEdit}
+                                            />
+                                            <div className="row">
+                                                <div className="col-sm-5">
+                                                    <div className="dataTables_info" id="property-table_info"
+                                                         role="status" aria-live="polite">Hiển trị
+                                                        trang {currentPage} trên tổng số
+                                                        {' ' + this.props.totalPages} trang
+                                                    </div>
+                                                </div>
+                                                <div className="col-sm-7" style={{textAlign: 'right'}}>
+                                                    <Pagination
+                                                        totalPages={this.props.totalPages}
+                                                        currentPage={currentPage}
+                                                        loadDataPage={this.loadCustomers}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div className="card-footer">
+                                            <div className="float-right">
+                                                <div className="btn btn-info btn-simple"> Tổng khách
+                                                    hàng: {this.props.totalCount}
+                                                </div>
+                                                <div className="btn btn-danger btn-simple"> Tổng
+                                                    tiền: {this.props.totalMoneys}
+                                                </div>
+                                                <div className="btn btn-success btn-simple"> Tổng
+                                                    nợ: {this.props.totalDebtMoneys}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                        </div>
+                                }
+                            </div>
                         </div>
                     </div>
                     <Modal show={this.state.isShowModal} bsSize="large" bsStyle="primary" onHide={this.closeAddModal}>
@@ -249,17 +249,17 @@ class CustomerContainer extends React.Component {
                                 <form id="form-add-customer" onSubmit={(e) => {
                                     e.preventDefault();
                                 }}>
-                            <AddCustomerModal
-                                updateFormData={this.updateFormData}
-                                customer = {this.props.customer}
-                            />
+                                    <AddCustomerModal
+                                        updateFormData={this.updateFormData}
+                                        customer={this.props.customer}
+                                    />
                                     {this.props.isSaving ?
                                         (
                                             <button
                                                 className="btn btn-round btn-fill btn-success disabled"
                                             >
                                                 <i className="fa fa-spinner fa-spin"/>
-                                                {! this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật' }
+                                                {!this.state.isEdit ? ' Đang thêm' : ' Đang cập nhật'}
                                             </button>
                                         )
                                         :
@@ -267,13 +267,14 @@ class CustomerContainer extends React.Component {
                                             <button rel="tooltip" data-placement="top" title=""
                                                     data-original-title="Remove item"
                                                     type="button" className="btn btn-round btn-success "
-                                                    onClick={(e) =>this.activeModal(e)}
+                                                    onClick={(e) => this.activeModal(e)}
                                             ><i className="material-icons">check</i>
                                                 {this.state.isEdit ? 'Cập nhật' : 'Thêm'}
                                             </button>
                                         )
                                     }
-                                    <button rel="tooltip" data-placement="top" title="" data-original-title="Remove item"
+                                    <button rel="tooltip" data-placement="top" title=""
+                                            data-original-title="Remove item"
                                             type="button" className="btn btn-round btn-danger " data-dismiss="modal"
                                             onClick={this.closeAddModal}><i className="material-icons">close</i> Huỷ
                                     </button>
@@ -292,7 +293,7 @@ CustomerContainer.propTypes = {
     customersList: PropTypes.array,
     isLoading: PropTypes.bool,
     totalPages: PropTypes.number,
-    totalCount : PropTypes.number,
+    totalCount: PropTypes.number,
     totalDebtMoneys: PropTypes.number,
     totalMoneys: PropTypes.number,
     isSaving: PropTypes.bool,
@@ -304,7 +305,7 @@ function mapStateToProps(state) {
         customersList: state.customers.customersList,
         isLoading: state.customers.isLoading,
         totalPages: state.customers.totalPages,
-        totalCount : state.customers.totalCount,
+        totalCount: state.customers.totalCount,
         totalDebtMoneys: state.customers.totalDebtMoneys,
         totalMoneys: state.customers.totalMoneys,
         isSaving: state.customers.modal.isSaving,

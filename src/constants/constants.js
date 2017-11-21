@@ -86,17 +86,18 @@ export const GENDER = [
     }
 ];
 export const CUSTOMTYPE = [
+
     {
-        name : 'Tất cả',
-        id : 2,
+        label : 'Tất cả',
+        value : 2,
     },
     {
-        name : 'Khách hàng còn nợ',
-        id : '0',
+        label : 'Khách hàng còn nợ',
+        value : '0',
     },
     {
-        name : 'Khách hàng đã mua',
-        id : '1',
+        label : 'Khách hàng đã mua',
+        value : 1,
     }
 ];
 

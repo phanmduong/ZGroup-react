@@ -148,10 +148,12 @@ class SupplierContainer extends React.Component {
                                             <div>
                                                 <div id="property-table_wrapper"
                                                      className="dataTables_wrapper dt-bootstrap">
-                                                    <div className="row" style= {{marginTop: "70px" , marginBottom: "30px" }}>
 
-                                                        <div className="col-md-4">
-                                                            <a className="btn btn-rose" onClick={() => this.openAddModal(false)}>Thêm
+
+                                                    <div className="row" style= {{marginTop: "20px" , marginBottom: "20px" }}>
+                                                        <div className="col-md-4" >
+                                                            <a className="btn btn-rose"
+                                                               onClick={() => this.openAddModal(false)}>Thêm
                                                                 nhà cung cấp</a>
                                                         </div>
                                                         <div className="col-md-8" style={{marginBottom: 40}}>
@@ -159,10 +161,14 @@ class SupplierContainer extends React.Component {
                                                                 onChange={this.suppliersSearchChange}
                                                                 value={this.state.query}
                                                                 placeholder="Tìm kiếm theo mã hàng, tên hàng hóa"
-                                                                className="col-md-12"
+                                                                className="col-md-8"
                                                             />
                                                         </div>
                                                     </div>
+
+
+
+
                                                     <div className="card-header card-header-icon"
                                                          data-background-color="rose">
                                                         <i className="material-icons">assignment</i>
