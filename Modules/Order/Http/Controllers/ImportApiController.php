@@ -22,7 +22,7 @@ class ImportApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $keyword = trim($request->search);
         $startTime = $request->start_time;
-        $endTime = date("Y-m-d" ,strtotime("+1 day", strtotime($request->end_time)));
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         $status = $request->status;
         $staff_id = $request->staff_id;
 
@@ -182,20 +182,37 @@ class ImportApiController extends ManageApiController
             $importedGood->staff_id = $this->user->id;
             $importedGood->warehouse_id = $request->warehouse_id;
             $importedGood->save();
-//            if($request->status == 'completed')
-//            {
-//                $history = new HistoryGood;
-//                $lastest_good_history = HistoryGood::where('good_id', $imported_good['good_id'])->orderBy('created_at', 'desc')->limit(1)->get();
-//                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
-//                $history->quantity = $imported_good['quantity'];
-//                $history->remain = $remain + $imported_good['quantity'];
-//                $history->warehouse_id = $request->warehouse_id;
-//                $history->type = 'import';
-//                $history->order_id = $importOrder->id;
-//                $history->imported_good_id = $importedGood->id;
-//                $history->save();
-//            }
+            if($request->status == 'completed')
+            {
+                $history = new HistoryGood;
+                $lastest_good_history = HistoryGood::where('good_id', $imported_good['good_id'])->orderBy('created_at', 'desc')->limit(1)->get();
+                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
+                $history->quantity = $imported_good['quantity'];
+                $history->remain = $remain + $imported_good['quantity'];
+                $history->warehouse_id = $request->warehouse_id;
+                $history->type = 'import';
+                $history->order_id = $importOrder->id;
+                $history->imported_good_id = $importedGood->id;
+                $history->save();
+            }
         }
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function deleteImportOrder($importOrderId, Request $request)
+    {
+        $importOrder = Order::find($importOrderId);
+        if($importOrder->status == 'completed')
+            return $this->respondErrorWithStatus([
+                'message' => 'Cant deleted completed import order'
+            ]);
+        foreach ($importOrder->importedGoods as $importedGood)
+        {
+            $importedGood->delete();
+        }
+        $importOrder->deleted();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
