@@ -6,6 +6,7 @@ class PropertyItemsList extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.isInited = false;
+        this.updatePropertyItemsOrder = this.updatePropertyItemsOrder.bind(this);
     }
 
     componentDidUpdate() {
@@ -18,15 +19,32 @@ class PropertyItemsList extends React.Component {
             this.boardDrake.on('drop', function (el, target, source, sibling) {
                 // this.boardDrake.cancel();
 
-                // let siblingOrder = -1;
-                // if (sibling) {
-                //     siblingOrder = Number(sibling.dataset.order);
-                // }
+                let siblingOrder = -1;
+                if (sibling) {
+                    siblingOrder = Number(sibling.dataset.order);
+                }
+                let elOrder = -1;
+                if (el) {
+                    elOrder = Number(el.dataset.order);
+                }
                 console.log(sibling);
-                // this.props.movePropertyItem(Number(source.id), Number(target.id), Number(el.id), siblingOrder);
+                console.log(el);
+                this.updatePropertyItemsOrder(siblingOrder, elOrder);
                 return true;
             }.bind(this));
         }
+
+    }
+
+    updatePropertyItemsOrder(siblingOrder, elOrder) {
+        let goodPropertyItems = this.props.task.good_property_items;
+        console.log(siblingOrder);
+        console.log(elOrder);
+        // goodPropertyItems = goodPropertyItems.filter((item) => {
+        //     return item.order !== siblingOrder;
+        // });
+        // console.log(goodPropertyItems);
+
 
     }
 
@@ -41,6 +59,7 @@ class PropertyItemsList extends React.Component {
                                 task.good_property_items.map((item) => {
                                     return (
                                         <div
+                                            data-order={item.order}
                                             key={item.id}>{item.name}: {item.prevalue} {item.preunit}
                                         </div>
                                     );
