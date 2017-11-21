@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodPropertyItem;
 use Modules\Task\Entities\TaskList;
 
@@ -48,6 +49,11 @@ class Task extends Model
         return $this->belongsTo(Task::class, "task_template_id");
     }
 
+    public function boardTasks()
+    {
+        return $this->hasMany(BoardTaskTaskList::class, "task_id");
+    }
+
     public function transform()
     {
         $data = [
@@ -77,6 +83,12 @@ class Task extends Model
                 "label" => $this->currentBoard->title,
                 "title" => $this->currentBoard->title
             ];
+        }
+
+        if ($this->boardTasks) {
+            $data["optional_boards"] = $this->boardTasks->map(function ($boardTask) {
+                return $boardTask->transform();
+            });
         }
 
         if ($this->targetBoard) {
