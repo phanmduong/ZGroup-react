@@ -1,6 +1,5 @@
 import * as types from '../../constants/actionTypes';
 import * as marketingCampaignApi from './marketingCampaignApi';
-import * as helper from '../../helpers/helper';
 
 
 

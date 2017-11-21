@@ -37,6 +37,7 @@ class ListCampaign extends React.Component {
                                 campaign={campaign}
                                 user={this.props.user}
                                 key={campaign.id}
+                                openModalStoreCampaign={this.props.openModalStoreCampaign}
                             />
                         );
                     })}

@@ -8,14 +8,40 @@ import Pagination from "../../components/common/Pagination";
 import Loading from "../../components/common/Loading";
 import ListCampaign from "./ListCampaign";
 import * as marketingCampaignActions from "./marketingCampaignActions";
+import {Modal} from "react-bootstrap";
+import StoreCampaign from "./StoreCampaign";
 
 class MarketingCampaignContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            page: 1
+            page: 1,
+            showModalStoreCampaign: false,
         };
         this.loadMarketingCampaigns = this.loadMarketingCampaigns.bind(this);
+        this.closeModalStoreCampaign = this.closeModalStoreCampaign.bind(this);
+        this.openModalStoreCampaign = this.openModalStoreCampaign.bind(this);
+    }
+
+    closeModalStoreCampaign() {
+        this.setState({showModalStoreCampaign: false});
+    }
+
+    openModalStoreCampaign(campaign) {
+        if (campaign) {
+            this.setState({
+                showModalStoreCampaign: true,
+                campaign: campaign,
+                edit: true
+            });
+        } else {
+            this.setState({
+                showModalStoreCampaign: true,
+                campaign: {},
+                edit: false
+            });
+        }
+
     }
 
     componentWillMount() {
@@ -44,20 +70,19 @@ class MarketingCampaignContainer extends React.Component {
                             <h4 className="card-title">Chiến dịch marketing</h4>
 
                             <div style={{marginTop: "15px"}}>
-                                <button className="btn btn-rose">
+                                <button className="btn btn-rose" onClick={()=>this.openModalStoreCampaign()}>
                                     Thêm chiến dịch
                                 </button>
                             </div>
-
                             {
                                 this.props.isLoading ? <Loading/> :
                                     <ListCampaign
                                         campaigns={this.props.marketingCampaigns}
                                         courses={this.props.courses}
                                         user={this.props.user}
+                                        openModalStoreCampaign={this.openModalStoreCampaign}
                                     />
                             }
-
                             <Pagination
                                 currentPage={this.state.page}
                                 loadDataPage={this.loadMarketingCampaigns}
@@ -65,9 +90,18 @@ class MarketingCampaignContainer extends React.Component {
                             />
                         </div>
                     </div>
-
-
                 </div>
+                <Modal show={this.state.showModalStoreCampaign} bsSize="lg">
+                    <Modal.Header closeButton onHide={this.closeModalStoreCampaign} closeLabel="Đóng">
+                        <Modal.Title>{this.state.edit ? "Sửa chiến dịch" : "Thêm chiến dịch"}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <StoreCampaign
+                            campaign={this.state.campaign}
+                            closeModal={this.closeModalStoreCampaign}
+                        />
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
