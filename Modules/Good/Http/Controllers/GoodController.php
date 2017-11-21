@@ -7,6 +7,7 @@ use App\Http\Controllers\ManageApiController;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Book\Repositories\TaskListTemplateRepository;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Repositories\GoodRepository;
 
@@ -110,10 +111,12 @@ class GoodController extends ManageApiController
         $type = $request->type;
         $propertyItems = $this->goodRepository->getPropertyItems($type);
         $boards = $this->goodRepository->getProjectBoards($type);
+        $processes = $this->goodRepository->getProcesses($type);
 
         return $this->respondSuccessWithStatus([
             "good_property_items" => $propertyItems,
-            "boards" => $boards
+            "boards" => $boards,
+            "processes" => $processes,
         ]);
     }
 

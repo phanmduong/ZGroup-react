@@ -67,18 +67,6 @@
 
                 <h5>Giới thiệu</h5>
                 <p>{!!  $course->detail!!}</p>
-                {{--<h5>Chương trình học</h5>--}}
-                {{--<ul class="collapsible" data-collapsible="accordion">--}}
-                    {{--@foreach($course->lessons as $lesson)--}}
-                        {{--<li>--}}
-                            {{--<div class="collapsible-header"><img class="material-icons" src="{{$course->icon_url}}"--}}
-                                                                 {{--style="display: inline-block;width: 40px; height:40px; border-radius: 50%; position: relative; top: 8px; margin-right: 10px;"><span--}}
-                                        {{--style="display: inline-block; line-height: 20px; position: relative; top: -6px;">Buổi {{$lesson->order}}--}}
-                                    {{--: {{$lesson->name}}</span></div>--}}
-                            {{--<div class="collapsible-body detail" style="padding:20px">{!! $lesson->detail !!}</div>--}}
-                        {{--</li>--}}
-                    {{--@endforeach--}}
-                {{--</ul>--}}
                 <h4 id="class-list" style="margin-top: 50px;">Danh sách lớp học</h4>
                 @foreach($bases as $base)
                     <h5 style="padding-top:40px"><strong>{{$base->name}}</strong>: {{$base->address}}</h5>
@@ -98,14 +86,6 @@
                                     <i class="tiny material-icons">place</i> {{$class->base->name}}
                                     : {{$class->base->address}}
                                 </div>
-                                {{--<p>--}}
-                                {{--<i class="tiny material-icons">perm_identity</i>Giảng viên--}}
-                                {{--<strong>{{$class->teach['name']}}</strong>--}}
-                                {{--</p>--}}
-                                {{--<p>--}}
-                                {{--<i class="tiny material-icons">supervisor_account</i>Trợ giảng--}}
-                                {{--<strong>{{$class->assist['name']}}</strong>--}}
-                                {{--</p>--}}
                                 @if($class->status == 1)
                                     <a class="register-btn waves-effect waves-light btn secondary-content  red darken-4"
                                        href="{{url('/classes/register/'.$class->id."/".$saler_id."/".$campaign_id)}}"><i
