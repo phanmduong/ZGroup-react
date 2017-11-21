@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from "../../components/common/Avatar";
+import KeetoolPanel from "../../components/common/KeetoolPanel";
 
 class TaskTemplateItem extends React.Component {
     constructor(props, context) {
@@ -23,6 +24,7 @@ class TaskTemplateItem extends React.Component {
     }
 
     render() {
+
         const {task} = this.props;
         return (
             <li className="timeline-inverted">
@@ -76,11 +78,11 @@ class TaskTemplateItem extends React.Component {
                         </span>
                     </div>
                     <div className="timeline-body">
-                        <p>
-                            {
-                                task.good_property_items && task.good_property_items.length > 0 && (
-                                    <div>
-                                        Thuộc tính cần nhập:
+                        <KeetoolPanel
+                            title="Thuộc tính cần nhập">
+                            <div>
+                                {
+                                    task.good_property_items && task.good_property_items.length > 0 && (
                                         <ul>
                                             {
                                                 task.good_property_items.map((item) => {
@@ -90,28 +92,46 @@ class TaskTemplateItem extends React.Component {
                                                 })
                                             }
                                         </ul>
-                                    </div>
-                                )
-                            }
-                        </p>
-                        <p>
-                            {
-                                task.current_board && (
-                                    <div>
-                                        Bảng hiện tại: {task.current_board.title}
-                                    </div>
-                                )
-                            }
-                        </p>
-                        <p>
-                            {
-                                task.target_board && (
-                                    <div>
-                                        Bảng đích: {task.target_board.title}
-                                    </div>
-                                )
-                            }
-                        </p>
+                                    )
+                                }
+                            </div>
+                        </KeetoolPanel>
+                        <KeetoolPanel
+                            title="Bảng cố định">
+                            <div>
+                                {
+                                    task.current_board && (
+                                        <div>Bảng hiện tại: {task.current_board.title}</div>
+                                    )
+                                }
+                                {
+                                    task.target_board && (
+                                        <div>Bảng đích: {task.target_board.title}</div>
+                                    )
+                                }
+                            </div>
+                        </KeetoolPanel>
+                        <KeetoolPanel
+                            title="Bảng tuỳ chọn">
+                            <div>
+                                {
+                                    task.optional_boards && task.optional_boards.map((optionalBoard) => {
+                                            return (
+                                                <div>
+                                                    <div>Bảng
+                                                        đích: {optionalBoard.board ? optionalBoard.board.title : ""}</div>
+                                                    <div>
+                                                        Quy trình: {optionalBoard.process ?
+                                                        optionalBoard.process.title : ""}
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+                                    )
+                                }
+                            </div>
+                        </KeetoolPanel>
+
                         {
                             !!task.span && (
                                 <h6>
@@ -119,6 +139,7 @@ class TaskTemplateItem extends React.Component {
                                 </h6>
                             )
                         }
+
 
                     </div>
                 </div>
