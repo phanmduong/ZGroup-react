@@ -300,12 +300,12 @@ export function loadAllGoodPropertyItems(type, taskId) {
     };
 }
 
-export function addPropertyItemsToTask(optionalBoards, goodPropertyItems, task, currentBoard, targetBoard) {
+export function addPropertyItemsToTask(selectedProcesses, goodPropertyItems, task, currentBoard, targetBoard) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK
         });
-        goodApi.addPropertyItemsToTask(optionalBoards, goodPropertyItems, task.id, currentBoard, targetBoard)
+        goodApi.addPropertyItemsToTask(selectedProcesses, goodPropertyItems, task.id, currentBoard, targetBoard)
             .then((res) => {
                 dispatch({
                     type: types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS,

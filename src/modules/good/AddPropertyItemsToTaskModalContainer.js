@@ -79,11 +79,10 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
             });
 
             if (isValid) {
-                console.log("valid");
-                // this.props.goodActions.addPropertyItemsToTask(
-                //     this.state.selectedProcesses,
-                //     this.state.value, this.props.task,
-                //     this.state.currentBoard, this.state.targetBoard);
+                this.props.goodActions.addPropertyItemsToTask(
+                    this.state.selectedProcesses,
+                    this.state.value, this.props.task,
+                    this.state.currentBoard, this.state.targetBoard);
             }
 
         } else {
@@ -194,6 +193,7 @@ AddPropertyItemsToTaskModalContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
+
     return {
         showModal: state.good.attachPropertyItem.showModal,
         task: state.good.attachPropertyItem.task,
