@@ -236,5 +236,42 @@ class CustomerController extends ManageApiController
 
 
     }
+    public function getInfoCustomer($customerId,Request $request){
+        $user=User::find($customerId);
+        if(!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
+        $orders = Order::where("user_id", $user->id)->get();
+        if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
+        $totalMoney = 0;
+        $totalPaidMoney = 0;
+        $lastOrder = 0;
+        foreach ($orders as $order) {
+            $goodOrders = $order->goodOrders()->get();
+            foreach ($goodOrders as $goodOrder) {
+                $totalMoney += $goodOrder->quantity * $goodOrder->price;
+            }
+            $lastOrder = $order->created_at;
+        }
+        foreach ($orders as $order) {
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
+            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                $totalPaidMoney += $orderPaidMoney->money;
+            }
+        }
+        $data["id"] = $user->id;
+        $data["name"] = $user->name;
+        $data["phone"] = $user->phone;
+        $data["email"] = $user->email;
+        $data["address"] = $user->address;
+        $data["dob"] = $user->dob;
+        $data["gender"] = $user->gender;
+        $data["last_order"] = $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có";
+        $data["total_money"] = $totalMoney;
+        $data["total_paid_money"] = $totalPaidMoney;
+        $data["debt"] = $totalMoney - $totalPaidMoney;
+        $data["can_delete"] = $canDelete;
+        return $this->respondSuccessWithStatus([
+            'user' =>$data
+        ]);
+    }
 
 }
