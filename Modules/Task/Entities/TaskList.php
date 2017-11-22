@@ -59,6 +59,7 @@ class TaskList extends Model
             }
             return $task->transform();
         });
+
         return $data;
     }
 }

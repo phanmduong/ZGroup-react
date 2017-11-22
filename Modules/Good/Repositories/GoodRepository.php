@@ -26,11 +26,14 @@ class GoodRepository
 
     public function getPropertyItems($type)
     {
-        $goodPropertyItems = GoodPropertyItem::where("type", $type)->orderBy("name")->get()->map(function ($item) {
+        $order = 0;
+        $goodPropertyItems = GoodPropertyItem::where("type", $type)
+            ->orderBy("name")->get()->map(function ($item) use ($order) {
             return [
                 "label" => $item->name,
                 "value" => $item->name,
-                "id" => $item->id
+                "id" => $item->id,
+                "order" => 0
             ];
         });
         return $goodPropertyItems;
