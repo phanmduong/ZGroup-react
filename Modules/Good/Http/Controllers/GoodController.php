@@ -99,6 +99,7 @@ class GoodController extends ManageApiController
 
     public function createGood(Request $request)
     {
+        dd('ga');
         $name = $request->name;
         $code = $request->code;
         $description = $request->description;
