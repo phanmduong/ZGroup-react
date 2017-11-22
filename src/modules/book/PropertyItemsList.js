@@ -37,7 +37,7 @@ class PropertyItemsList extends React.Component {
     }
 
     updatePropertyItemsOrder(siblingOrder, elOrder) {
-        let goodPropertyItems = this.props.task.good_property_items;
+        // let goodPropertyItems = this.props.task.good_property_items;
         console.log(siblingOrder);
         console.log(elOrder);
         // goodPropertyItems = goodPropertyItems.filter((item) => {

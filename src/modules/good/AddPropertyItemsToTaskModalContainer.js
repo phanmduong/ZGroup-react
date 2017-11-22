@@ -6,7 +6,7 @@ import {Button, ListGroup, Modal} from "react-bootstrap";
 import * as goodActions from '../good/goodActions';
 import Loading from "../../components/common/Loading";
 import Select from "react-select";
-import OptionalBoardInput from "./OptionalBoardInput";
+import OptionalProcessInput from "./OptionalProcessInput";
 import {showErrorMessage} from "../../helpers/helper";
 
 class AddPropertyItemsToTaskModalContainer extends React.Component {
@@ -143,7 +143,7 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                                     {
                                         this.state.optionalBoards && this.state.optionalBoards.map((optionalBoard, index) => {
                                             return (
-                                                <OptionalBoardInput
+                                                <OptionalProcessInput
                                                     key={index}
                                                     remove={() => this.removeBoardInput(index)}
                                                     optionalBoard={optionalBoard}
@@ -157,7 +157,7 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                                 <Button
                                     onClick={this.addBoardInput}
                                     className="btn btn-simple">
-                                    + Thêm bảng đích
+                                    + Thêm quy trình tuỳ chọn
                                 </Button>
 
                             </div>

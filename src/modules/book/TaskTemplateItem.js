@@ -100,22 +100,7 @@ class TaskTemplateItem extends React.Component {
                             />
                         </KeetoolPanel>
                         <KeetoolPanel
-                            title="Bảng cố định">
-                            <div>
-                                {
-                                    task.current_board && (
-                                        <div>Bảng hiện tại: {task.current_board.title}</div>
-                                    )
-                                }
-                                {
-                                    task.target_board && (
-                                        <div>Bảng đích: {task.target_board.title}</div>
-                                    )
-                                }
-                            </div>
-                        </KeetoolPanel>
-                        <KeetoolPanel
-                            title="Bảng tuỳ chọn">
+                            title="Quy trình tuỳ chọn">
                             <div>
                                 {
                                     task.optional_boards && task.optional_boards.map((optionalBoard, index) => {
@@ -134,8 +119,6 @@ class TaskTemplateItem extends React.Component {
                                 }
                             </div>
                         </KeetoolPanel>
-
-
                     </div>
                 </div>
             </li>

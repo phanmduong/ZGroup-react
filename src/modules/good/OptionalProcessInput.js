@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Select from "react-select";
 import {Button, ListGroupItem} from "react-bootstrap";
 
-class OptionalBoardInput extends React.Component {
+class OptionalProcessInput extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.handleSelectBoard = this.handleSelectBoard.bind(this);
@@ -59,11 +59,11 @@ class OptionalBoardInput extends React.Component {
     }
 }
 
-OptionalBoardInput.propTypes = {
+OptionalProcessInput.propTypes = {
     optionalBoard: PropTypes.object,
     remove: PropTypes.func.isRequired,
     processes: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired
 };
 
-export default OptionalBoardInput;
+export default OptionalProcessInput;
