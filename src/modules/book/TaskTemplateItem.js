@@ -95,9 +95,16 @@ class TaskTemplateItem extends React.Component {
                     <div className="timeline-body">
                         <KeetoolPanel
                             title="Thuộc tính cần nhập">
-                            <PropertyItemsList
-                                task={task}
-                            />
+                            {
+                                task.good_property_items.sort((a, b) => a.order - b.order).map((item) => {
+                                    return (
+                                        <div
+                                            data-order={item.order}
+                                            key={item.id}>{item.name}: {item.prevalue} {item.preunit}
+                                        </div>
+                                    );
+                                })
+                            }
                         </KeetoolPanel>
                         <KeetoolPanel
                             title="Quy trình tuỳ chọn">
@@ -106,12 +113,8 @@ class TaskTemplateItem extends React.Component {
                                     task.optional_boards && task.optional_boards.map((optionalBoard, index) => {
                                             return (
                                                 <div key={index}>
-                                                    <div>Bảng
-                                                        đích: {optionalBoard.board ? optionalBoard.board.title : ""}</div>
-                                                    <div>
-                                                        Quy trình: {optionalBoard.process ?
-                                                        optionalBoard.process.title : ""}
-                                                    </div>
+                                                    Quy trình: {optionalBoard.process ?
+                                                    optionalBoard.process.title + ` - ${optionalBoard.board.title}` : ""}
                                                 </div>
                                             );
                                         }
