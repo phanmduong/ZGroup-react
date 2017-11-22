@@ -69,41 +69,67 @@ class InventoryApiController extends ManageApiController
         $good_category_id = $request->good_category_id;
         $manufacture_id = $request->manufacture_id;
         $keyword = $request->search;
+        $warehouse_id = $request->warehouse_id;
 
-        $inventories = ImportedGoods::where('quantity', '<>', 0);
-        if ($keyword) {
-            $goodIds = Good::where(function ($query) use ($keyword) {
+        $goods = Good::query();
+        if($keyword)
+            $goods = $goods->where(function($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            })->select('id')->get();
-            $inventories = $inventories->whereIn('good_id', $goodIds);
-        }
-        if ($manufacture_id) {
-            $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
-            $inventories = $inventories->whereIn('good_id', $goodIds);
-        }
-        if ($good_category_id) {
-            $goodIds = Good::where('good_category_id', $good_category_id)->select('id')->get();
-            $inventories = $inventories->whereIn('good_id', $goodIds);
-        }
-        $inventories = $inventories->paginate($limit);
+            });
+        if($manufacture_id)
+            $goods = $goods->where('manufacture_id', $manufacture_id);
+        if($good_category_id)
+            $goods = $goods->where('good_category_id', $good_category_id);
+        $goods = $goods->orderBy('created_at', 'desc')->paginate($limit);
+        $goods = $goods->filter(function ($good) use ($warehouse_id){
+            $importedGoods = ImportedGoods::where('good_id', $good->id);
+            if($warehouse_id)
+                $importedGoods = $importedGoods->where('warehouse_id', $warehouse_id);
+            $importedGoods = $importedGoods->get();
+            return $importedGoods->reduce(function ($total, $importedGood){
+                return $total + $importedGood->quantity;
+            }, 0) > 0;
+        });
         return $this->respondWithPagination(
-            $inventories,
+            $goods,
             [
-                'inventories' => $inventories->map(function ($inventory) {
-                    $data = [
-                        'id' => $inventory->id,
-                        'code' => $inventory->good->code,
-                        'name' => $inventory->good->name,
-                        'quantity' => $inventory->quantity,
-                        'import_price' => $inventory->import_price,
-                        'import_money' => $inventory->import_price * $inventory->quantity,
-                        'price' => $inventory->good->price,
-                        'money' => $inventory->good->price * $inventory->quantity
-                    ];
-                    return $data;
-                })
+                'inventories'
             ]
         );
+        //        $inventories = ImportedGoods::where('quantity', '<>', 0);
+//        if ($keyword) {
+//            $goodIds = Good::where(function ($query) use ($keyword) {
+//                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+//            })->select('id')->get();
+//            $inventories = $inventories->whereIn('good_id', $goodIds);
+//        }
+//        if ($manufacture_id) {
+//            $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
+//            $inventories = $inventories->whereIn('good_id', $goodIds);
+//        }
+//        if ($good_category_id) {
+//            $goodIds = Good::where('good_category_id', $good_category_id)->select('id')->get();
+//            $inventories = $inventories->whereIn('good_id', $goodIds);
+//        }
+//        $inventories = $inventories->paginate($limit);
+//        return $this->respondWithPagination(
+//            $inventories,
+//            [
+//                'inventories' => $inventories->map(function ($inventory) {
+//                    $data = [
+//                        'id' => $inventory->id,
+//                        'code' => $inventory->good->code,
+//                        'name' => $inventory->good->name,
+//                        'quantity' => $inventory->quantity,
+//                        'import_price' => $inventory->import_price,
+//                        'import_money' => $inventory->import_price * $inventory->quantity,
+//                        'price' => $inventory->good->price,
+//                        'money' => $inventory->good->price * $inventory->quantity
+//                    ];
+//                    return $data;
+//                })
+//            ]
+//        );
     }
 
     public function inventoriesInfo(Request $request)

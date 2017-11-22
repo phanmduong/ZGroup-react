@@ -41,7 +41,7 @@ class GoodController extends ManageApiController
     }
 
 
-    public function createGood(Request $request)
+    public function createGoodBeta(Request $request)
     {
         $name = $request->name;
         $code = $request->code;
@@ -95,6 +95,23 @@ class GoodController extends ManageApiController
 
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
+
+//    public function createGood(Request $request)
+//    {
+//        $name = $request->name;
+//        $code = $request->code;
+//        $description = $request->description;
+//        $price = $request->price;
+//        $avatarUrl = $request->avatar_url;
+//        $coverUrl = $request->cover_url;
+//        $sale_status = $request->sale_status;
+//        $highlight_status = $request->highlight_status;
+//        $display_status = $request->display_status;
+//
+//        if (is_null("name") && is_null("code")) {
+//            return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
+//        }
+//    }
 
     public function good($goodId)
     {
