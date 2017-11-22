@@ -6,9 +6,12 @@ use App\Base;
 use App\Course;
 use App\Gen;
 use App\Product;
+use App\Register;
 use App\StudyClass;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class AlibabaController extends Controller
 {
@@ -54,8 +57,8 @@ class AlibabaController extends Controller
         $this->data['current_gen_id'] = $current_gen->id;
         $this->data['course_id'] = $courseId;
         $this->data['course'] = $course;
-        $this->data['bases'] = Base::all()->filter(function($base) use ($courseId, $current_gen) {
-            return $base->classes()->where('course_id',$courseId)->where('gen_id',$current_gen->id)->count() > 0;
+        $this->data['bases'] = Base::all()->filter(function ($base) use ($courseId, $current_gen) {
+            return $base->classes()->where('course_id', $courseId)->where('gen_id', $current_gen->id)->count() > 0;
         });
         $this->data['courses'] = $courses;
 
@@ -101,5 +104,22 @@ class AlibabaController extends Controller
                 'courses' => $courses
             ]
         );
+    }
+
+    public function codeForm($subfix)
+    {
+        return view('alibaba::code_form');
+    }
+
+    public function check($subfix, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => 'required'
+        ]);
+        if($validator->fails()) {
+            return redirect('/code-form')
+                ->withErrors($validator)
+                ->withInput();
+        }
     }
 }
