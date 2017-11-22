@@ -97,22 +97,49 @@ class GoodController extends ManageApiController
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
-//    public function createGood(Request $request)
-//    {
-//        $name = $request->name;
-//        $code = $request->code;
-//        $description = $request->description;
-//        $price = $request->price;
-//        $avatarUrl = $request->avatar_url;
-//        $coverUrl = $request->cover_url;
-//        $sale_status = $request->sale_status;
-//        $highlight_status = $request->highlight_status;
-//        $display_status = $request->display_status;
-//
-//        if (is_null("name") && is_null("code")) {
-//            return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
-//        }
-//    }
+    public function createGood(Request $request)
+    {
+        $name = trim($request->name);
+        $code = trim($request->code);
+        $description = $request->description;
+        $price = $request->price;
+        $avatarUrl = $request->avatar_url;
+        $coverUrl = $request->cover_url;
+        $sale_status = $request->sale_status;
+        $highlight_status = $request->highlight_status;
+        $display_status = $request->display_status;
+        $manufacture_id = $request->manufacture_id;
+        $good_category_id = $request->good_category_id;
+        //propterties
+        $images_url = json_encode($request->images_url);
+
+        if ($name == null || $code == null){
+            return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
+        }
+        $good = new Good;
+        $good->name = $name;
+        $good->code = $code;
+        $good->description = $description;
+        $good->price = $price;
+        $good->avatar_url = $avatarUrl;
+        $good->cover_url = $coverUrl;
+        $good->sale_status = $sale_status;
+        $good->highlight_status = $highlight_status;
+        $good->display_status = $display_status;
+        $good->manufacture_id = $manufacture_id;
+        $good->good_category_id = $good_category_id;
+        $good->save();
+
+        $property = new GoodProperty;
+        $property->name = 'images_url';
+        $property->value = $images_url;
+        $property->creator_id = $this->user->id;
+        $property->editor_id = $this->user->id;
+        $property->good_id = $good->id;
+        $property->save();
+
+        return $this->respondSuccessWithStatus(["message" => "SUCCESS"]);
+    }
 
     public function good($goodId)
     {
