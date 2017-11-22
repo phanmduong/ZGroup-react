@@ -161,7 +161,7 @@ class CustomerController extends ManageApiController
         $data["phone"] = $user->phone;
         $data["email"] = $user->email;
         $data["address"] = $user->address;
-        $data["dob"] = $user->dob;
+        $data["birthday"] = $user->dob;
         $data["gender"] = $user->gender;
         $data["last_order"] = $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có";
         $data["total_money"] = $totalMoney;
@@ -219,7 +219,7 @@ class CustomerController extends ManageApiController
         $data["phone"] = $user->phone;
         $data["email"] = $user->email;
         $data["address"] = $user->address;
-        $data["dob"] = $user->dob;
+        $data["birthday"] = $user->dob;
         $data["gender"] = $user->gender;
         $data["last_order"] = $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có";
         $data["total_money"] = $totalMoney;
@@ -262,7 +262,7 @@ class CustomerController extends ManageApiController
         $data["phone"] = $user->phone;
         $data["email"] = $user->email;
         $data["address"] = $user->address;
-        $data["dob"] = $user->dob;
+        $data["birthday"] = $user->dob;
         $data["gender"] = $user->gender;
         $data["last_order"] = $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có";
         $data["total_money"] = $totalMoney;
