@@ -286,13 +286,12 @@ export function loadAllGoodPropertyItems(type, taskId) {
 
             goodApi.loadAllGoodPropertyItems(type, taskId)
                 .then((res) => {
-                    resolve(res.data.data.optional_boards);
+                    resolve(res.data.data.selected_processes);
                     dispatch({
                         type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
                         good_property_items: res.data.data.good_property_items,
                         processes: res.data.data.processes,
-                        boards: res.data.data.boards,
-                        optionalBoards: res.data.data.optional_boards
+                        selectedProcesses: res.data.data.selected_processes
                     });
                 });
 

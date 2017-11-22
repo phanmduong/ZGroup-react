@@ -6,36 +6,19 @@ import {Button, ListGroupItem} from "react-bootstrap";
 class OptionalProcessInput extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.handleSelectBoard = this.handleSelectBoard.bind(this);
         this.handleSelectProcess = this.handleSelectProcess.bind(this);
     }
 
-    handleSelectBoard(value) {
-        this.props.optionalBoard.board = value;
-        this.forceUpdate();
-    }
 
     handleSelectProcess(value) {
-        this.props.optionalBoard.process = value;
-        this.forceUpdate();
+        this.props.selectProcess(value);
     }
 
     render() {
-        const {optionalBoard, processes, boards} = this.props;
+        const {process, processes} = this.props;
         return (
             <ListGroupItem>
                 <div className="row">
-                    <div className="col-sm-12">
-                        <div className="form-group">
-                            <label>Bảng đích</label>
-                            <Select
-                                onChange={this.handleSelectBoard}
-                                options={boards}
-                                placeholder="Lựa chọn bảng đích"
-                                value={optionalBoard.board}
-                            />
-                        </div>
-                    </div>
                     <div className="col-sm-12">
                         <div className="form-group">
                             <label>Quy trình</label>
@@ -43,11 +26,11 @@ class OptionalProcessInput extends React.Component {
                                 onChange={this.handleSelectProcess}
                                 options={processes}
                                 placeholder="Lựa chọn quy trình"
-                                value={optionalBoard.process}
+                                value={process}
                             />
                         </div>
                     </div>
-                    <div className="col-sm-12">
+                    <div className="col-sm-12" style={{display: "flex", flexDirection: "row-reverse"}}>
                         <Button onClick={this.props.remove} className="btn btn-danger">
                             <i className="material-icons">delete</i>
                             Xoá
@@ -60,10 +43,10 @@ class OptionalProcessInput extends React.Component {
 }
 
 OptionalProcessInput.propTypes = {
-    optionalBoard: PropTypes.object,
+    process: PropTypes.object,
     remove: PropTypes.func.isRequired,
-    processes: PropTypes.array.isRequired,
-    boards: PropTypes.array.isRequired
+    selectProcess: PropTypes.func.isRequired,
+    processes: PropTypes.array.isRequired
 };
 
 export default OptionalProcessInput;

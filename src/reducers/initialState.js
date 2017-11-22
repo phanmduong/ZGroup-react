@@ -82,7 +82,6 @@ export default {
             task: {},
             isSaving: false,
             boards: [],
-            optionalBoards: [],
             processes: []
         },
         createProperty: {

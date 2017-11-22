@@ -17,12 +17,13 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
             value: [],
             currentBoard: {},
             targetBoard: {},
-            optionalBoards: []
+            selectedProcesses: []
         };
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.save = this.save.bind(this);
-        this.addBoardInput = this.addBoardInput.bind(this);
-        this.removeBoardInput = this.removeBoardInput.bind(this);
+        this.addProcessInput = this.addProcessInput.bind(this);
+        this.removeProcessInput = this.removeProcessInput.bind(this);
+        this.handleSelectProcess = this.handleSelectProcess.bind(this);
     }
 
 
@@ -42,9 +43,9 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         }
         if (!this.props.showModal && nextProps.showModal && nextProps.task) {
             this.props.goodActions.loadAllGoodPropertyItems(nextProps.type, nextProps.task.id)
-                .then((optionalBoards) => {
+                .then((selectedProcesses) => {
                     this.setState({
-                        optionalBoards
+                        selectedProcesses
                     });
                 });
         }
@@ -60,55 +61,63 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
 
     save() {
         let isValid = true;
-        this.state.optionalBoards.forEach((optionalBoard) => {
-            if (!optionalBoard.board || !optionalBoard.process) {
+        this.state.selectedProcesses.forEach((process) => {
+            if (!process.value) {
                 isValid = false;
             }
         });
 
         if (isValid) {
-            this.state.optionalBoards.forEach((optionalBoard) => {
-                const count = this.state.optionalBoards.filter((item) => {
-                    return item.board.id === optionalBoard.board.id && item.process.id === optionalBoard.process.id;
+            this.state.selectedProcesses.forEach((process) => {
+                const count = this.state.selectedProcesses.filter((item) => {
+                    return item.id === process.id && item.id === process.id;
                 }).length;
                 if (count > 1) {
                     isValid = false;
-                    showErrorMessage("Lỗi", "Bạn không thể thêm 2 bảng đích và quy trình trùng nhau");
+                    showErrorMessage("Lỗi", "Bạn không thể thêm 2 quy trình trùng nhau");
                 }
-
             });
 
             if (isValid) {
-                this.props.goodActions.addPropertyItemsToTask(
-                    this.state.optionalBoards,
-                    this.state.value, this.props.task,
-                    this.state.currentBoard, this.state.targetBoard);
+                console.log("valid");
+                // this.props.goodActions.addPropertyItemsToTask(
+                //     this.state.selectedProcesses,
+                //     this.state.value, this.props.task,
+                //     this.state.currentBoard, this.state.targetBoard);
             }
 
         } else {
-            showErrorMessage("Lỗi", "Bạn cần thêm đủ bảng và quy trình vào những bảng đích đã thêm");
+            showErrorMessage("Lỗi", "Bạn cần lựa chọn quy trình cho những ô quy trình tuỳ chọn đã thêm");
         }
 
     }
 
-    addBoardInput() {
+    addProcessInput() {
         this.setState({
-            optionalBoards: [
-                ...this.state.optionalBoards,
+            selectedProcesses: [
+                ...this.state.selectedProcesses,
                 {}
             ]
         });
     }
 
-    removeBoardInput(index) {
+    removeProcessInput(index) {
         this.setState({
-            optionalBoards: [...this.state.optionalBoards.slice(0, index), ...this.state.optionalBoards.slice(index + 1)]
+            selectedProcesses: [...this.state.selectedProcesses.slice(0, index), ...this.state.selectedProcesses.slice(index + 1)]
         });
+    }
+
+    handleSelectProcess(index) {
+        return function (process) {
+            this.setState({
+                selectedProcesses: [...this.state.selectedProcesses.slice(0, index), {...process}, ...this.state.selectedProcesses.slice(index + 1)]
+            });
+        }.bind(this);
     }
 
     render() {
         const {showModal} = this.props;
-        const {value, currentBoard, targetBoard} = this.state;
+        const {value} = this.state;
         return (
             <Modal show={showModal} onHide={this.close}>
                 <Modal.Header closeButton>
@@ -129,33 +138,23 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                                         value={value}
                                     />
                                 </div>
-                                <div className="row">
-                                    <div className="col-sm-6">
-                                        <label>Bảng hiện tại mặc định</label>
-                                        <p>{currentBoard.title}</p>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <label>Bảng đích mặc định</label>
-                                        <p>{targetBoard.title}</p>
-                                    </div>
-                                </div>
                                 <ListGroup>
                                     {
-                                        this.state.optionalBoards && this.state.optionalBoards.map((optionalBoard, index) => {
+                                        this.state.selectedProcesses && this.state.selectedProcesses.map((process, index) => {
                                             return (
                                                 <OptionalProcessInput
                                                     key={index}
-                                                    remove={() => this.removeBoardInput(index)}
-                                                    optionalBoard={optionalBoard}
-                                                    processes={this.props.processes}
-                                                    boards={this.props.boards}/>
+                                                    process={process}
+                                                    selectProcess={this.handleSelectProcess(index)}
+                                                    remove={() => this.removeProcessInput(index)}
+                                                    processes={this.props.processes}/>
                                             );
                                         })
                                     }
                                 </ListGroup>
 
                                 <Button
-                                    onClick={this.addBoardInput}
+                                    onClick={this.addProcessInput}
                                     className="btn btn-simple">
                                     + Thêm quy trình tuỳ chọn
                                 </Button>
@@ -189,7 +188,6 @@ AddPropertyItemsToTaskModalContainer.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     task: PropTypes.object.isRequired,
     goodPropertyItems: PropTypes.array.isRequired,
-    optionalBoards: PropTypes.array.isRequired,
     processes: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired,
     goodActions: PropTypes.object.isRequired
@@ -199,11 +197,10 @@ function mapStateToProps(state) {
     return {
         showModal: state.good.attachPropertyItem.showModal,
         task: state.good.attachPropertyItem.task,
-        optionalBoards: state.good.attachPropertyItem.optionalBoards,
         processes: state.good.attachPropertyItem.processes.map((process) => {
             return {
                 ...process,
-                value: process.title,
+                value: process.id,
                 label: process.title
             };
         }),
