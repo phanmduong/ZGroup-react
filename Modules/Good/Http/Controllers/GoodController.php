@@ -111,28 +111,18 @@ class GoodController extends ManageApiController
     {
         $type = $request->type;
         $propertyItems = $this->goodRepository->getPropertyItems($type);
-        $boards = $this->goodRepository->getProjectBoards($type);
         $processes = $this->goodRepository->getProcesses($type);
         $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
 
         return $this->respondSuccessWithStatus([
             "good_property_items" => $propertyItems,
-            "boards" => $boards,
             "processes" => $processes,
-            "optional_boards" => $optionalBoards->map(function ($optionalBoard) {
+            "selected_processes" => $optionalBoards->map(function ($optionalBoard) {
                 return [
-                    "board" => [
-                        "id" => $optionalBoard->board->id,
-                        "title" => $optionalBoard->board->title,
-                        "value" => $optionalBoard->board->id,
-                        "label" => $optionalBoard->board->title,
-                    ],
-                    "process" => [
-                        "id" => $optionalBoard->taskList->id,
-                        "title" => $optionalBoard->taskList->title,
-                        "value" => $optionalBoard->taskList->id,
-                        "label" => $optionalBoard->taskList->title,
-                    ]
+                    "id" => $optionalBoard->taskList->id,
+                    "title" => $optionalBoard->taskList->title,
+                    "value" => $optionalBoard->taskList->id,
+                    "label" => $optionalBoard->taskList->title,
                 ];
             })
         ]);
