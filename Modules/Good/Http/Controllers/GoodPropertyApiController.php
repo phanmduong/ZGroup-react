@@ -138,10 +138,13 @@ class GoodPropertyApiController extends ManageApiController
             $boardTaskTaskList = new BoardTaskTaskList();
             $taskList = TaskList::find($selectedProcess->id);
             $task = $taskList->tasks()->first();
-            $boardTaskTaskList->board_id =
-            $boardTaskTaskList->task_list_id = $selectedProcess->id;
-            $boardTaskTaskList->task_id = $task_id;
-            $boardTaskTaskList->save();
+            if ($task) {
+                $boardTaskTaskList->board_id = $task->current_board_id;
+                $boardTaskTaskList->task_list_id = $selectedProcess->id;
+                $boardTaskTaskList->task_id = $task_id;
+                $boardTaskTaskList->save();
+            }
+
         }
 
         return $this->respondSuccessWithStatus([

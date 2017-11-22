@@ -113,10 +113,16 @@ class GoodController extends ManageApiController
         $propertyItems = $this->goodRepository->getPropertyItems($type);
         $processes = $this->goodRepository->getProcesses($type);
         $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
-
+        $task = Task::find($taskId);
+        if ($task == null) {
+            return $this->respondErrorWithStatus("Công việc không tồn tại");
+        }
+        
         return $this->respondSuccessWithStatus([
             "good_property_items" => $propertyItems,
-            "processes" => $processes,
+            "processes" => $processes->filter(function ($process) use ($task) {
+                return $process["id"] !== $task->task_list_id;
+            }),
             "selected_processes" => $optionalBoards->map(function ($optionalBoard) {
                 return [
                     "id" => $optionalBoard->taskList->id,
