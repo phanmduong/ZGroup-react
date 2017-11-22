@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="page-header page-header-small"
-         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991179Dz6rALtf43ja91K.jpg'); box-shadow: 0 3px 10px -4px rgba(0, 0, 0, 0.15);">
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1511151527RpFU3Lgs0D7bpQg.jpg'); box-shadow: 0 3px 10px -4px rgba(0, 0, 0, 0.15);">
         <div class="container">
             <br><br>
             <div class="row">
@@ -29,14 +29,14 @@
                             <div class="card-body">
                                 <a href="http://www.creative-tim.com/product/paper-kit" target="_blank"><h4
                                             class="card-title">{{$course['name']}}</h4></a>
-                                <h6 class="card-category text-muted">{{$course['duration']}}</h6>
+                                <h6 class="card-category text-muted">{{$course['duration']}} buổi</h6>
                                 <p class="card-description">
                                     {{$course['description']}}
                                 </p>
                                 <br>
                                 <a class="btn btn-round btn-danger"
                                    style="background-color:#FF6D00;border-color:#FF6D00"
-                                   href="/register/{{$course['id']}}"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                                   href="/register/{{$course['id']}}"><i class="fa fa-plus"></i> Đăng ký ngay </a>
                             </div>
                         </div>
                     </div>

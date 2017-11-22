@@ -3,7 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodPropertyItem;
+use Modules\Good\Entities\GoodPropertyItemTask;
 use Modules\Task\Entities\TaskList;
 
 class Task extends Model
@@ -48,6 +50,16 @@ class Task extends Model
         return $this->belongsTo(Task::class, "task_template_id");
     }
 
+    public function boardTasks()
+    {
+        return $this->hasMany(BoardTaskTaskList::class, "task_id");
+    }
+
+    public function goodPropertyItemTasks()
+    {
+        return $this->hasMany(GoodPropertyItemTask::class, "task_id");
+    }
+
     public function transform()
     {
         $data = [
@@ -63,9 +75,12 @@ class Task extends Model
         $data['target_board_id'] = $this->target_board_id;
         $data['order'] = $this->order;
 
-        if ($this->goodPropertyItems) {
-            $data['good_property_items'] = $this->goodPropertyItems->map(function ($item) {
-                return $item->transform();
+        if ($this->goodPropertyItemTasks) {
+            $data['good_property_items'] = $this->goodPropertyItemTasks()->orderBy("order")->get()->map(function ($item) {
+                $goodPropertyItem = GoodPropertyItem::find($item->good_property_item_id);
+                $data = $goodPropertyItem->transform();
+                $data['order'] = $item->order;
+                return $data;
             });
         }
 
@@ -77,6 +92,12 @@ class Task extends Model
                 "label" => $this->currentBoard->title,
                 "title" => $this->currentBoard->title
             ];
+        }
+
+        if ($this->boardTasks) {
+            $data["optional_boards"] = $this->boardTasks->map(function ($boardTask) {
+                return $boardTask->transform();
+            });
         }
 
         if ($this->targetBoard) {

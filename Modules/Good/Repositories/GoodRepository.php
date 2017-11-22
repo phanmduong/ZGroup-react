@@ -12,16 +12,28 @@ namespace Modules\Good\Repositories;
 use App\Project;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
+use Modules\Task\Entities\TaskList;
 
 class GoodRepository
 {
+    public function getProcesses($type)
+    {
+        $taskListTemplates = TaskList::where("card_id", 0)->where("type", $type)->orderBy("title")->get();
+        return $taskListTemplates->map(function ($item) {
+            return $item->transform();
+        });
+    }
+
     public function getPropertyItems($type)
     {
-        $goodPropertyItems = GoodPropertyItem::where("type", $type)->orderBy("name")->get()->map(function ($item) {
+        $order = 0;
+        $goodPropertyItems = GoodPropertyItem::where("type", $type)
+            ->orderBy("name")->get()->map(function ($item) use ($order) {
             return [
                 "label" => $item->name,
                 "value" => $item->name,
-                "id" => $item->id
+                "id" => $item->id,
+                "order" => 0
             ];
         });
         return $goodPropertyItems;
