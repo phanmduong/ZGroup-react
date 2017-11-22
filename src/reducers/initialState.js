@@ -1,7 +1,17 @@
 export default {
+    createProduct:{
+        categories: [],
+        manufactures: [],
+        isUploadingAvatar: false,
+        percent: 0,
+        avatar_url:'',
+        images:[],
+        isUploadingImage:false
+    },
+
     inventoryGood: {
         isLoading: false,
-        isLoadingHistoryModal:false,
+        isLoadingHistoryModal: false,
         inventories: [],
         categories: [],
         manufactures: [],
