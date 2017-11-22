@@ -493,15 +493,6 @@ export function saveTaskTitle(taskId, title) {
     return axios.put(url, {title});
 }
 
-export function autoAssignBoardToTask(taskListId) {
-    let url = env.MANAGE_API_URL + `/tasklist/${taskListId}/autoassign-board`;
-    const token = localStorage.getItem('token');
-    if (token) {
-        url += "?token=" + token;
-    }
-    return axios.put(url);
-}
-
 export function loadGoodPropertyItems(taskListId) {
     let url = env.MANAGE_API_URL + `/tasklist-templates/${taskListId}/items`;
     const token = localStorage.getItem('token');

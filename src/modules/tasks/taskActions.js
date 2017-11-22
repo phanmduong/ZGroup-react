@@ -1076,74 +1076,12 @@ export function loadCardLabelsSuccess(cardLabels) {
     };
 }
 
-export function moveTaskUp(taskList, task) {
-    return function (dispatch) {
-        const tasks = taskList.tasks;
-        const upperTasks = tasks.slice(0, task.order - 1);
-        const lowerTasks = tasks.slice(task.order + 1);
-        dispatch({
-            type: types.CHANGE_TASK_ORDER,
-            tasks: [
-                ...upperTasks,
-                {
-                    ...task,
-                    order: task.order - 1
-                },
-                {
-                    ...tasks[task.order - 1],
-                    order: task.order
-                },
-                ...lowerTasks
-            ]
-        });
-    };
-}
-
-export function moveTaskDown(taskList, task) {
-    return function (dispatch) {
-        const tasks = taskList.tasks;
-        const upperTasks = tasks.slice(0, task.order);
-        const lowerTasks = tasks.slice(task.order + 2);
-        dispatch({
-            type: types.CHANGE_TASK_ORDER,
-            tasks: [
-                ...upperTasks,
-                {
-                    ...tasks[task.order + 1],
-                    order: task.order
-                },
-                {
-                    ...task,
-                    order: task.order + 1
-                },
-                ...lowerTasks
-            ]
-        });
-    };
-}
-
 export function saveTaskTitle(task) {
     return function (dispatch) {
         dispatch({
             type: types.SAVE_TASK_TITLE_SUCCESS,
             task
         });
-    };
-}
-
-export function autoAssignBoardToTask(taskListId) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_LOAD_TASK_LIST_TEMPLATE
-        });
-        taskApi.autoAssignBoardToTask(taskListId)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_TASK_LIST_TEMPLATE_SUCCESS,
-                    taskList: res.data.data.tasklist
-                });
-
-            });
     };
 }
 

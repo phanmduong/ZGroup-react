@@ -1,4 +1,5 @@
 export default {
+
     createProduct:{
         categories: [],
         manufactures: [],
@@ -7,6 +8,11 @@ export default {
         avatar_url:'',
         images:[],
         isUploadingImage:false
+    },
+
+
+    globalLoading: {
+        isLoading: false
     },
 
     inventoryGood: {
@@ -242,6 +248,11 @@ export default {
     },
 
     book: {
+        taskListTemplateModal: {
+            showModal: false,
+            boards: [],
+            isLoading: false
+        },
         taskSpan: {
             showModal: false,
             hours: 0,

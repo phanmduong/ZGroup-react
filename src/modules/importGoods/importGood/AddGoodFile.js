@@ -250,6 +250,7 @@ AddGoodFile.propTypes = {
     existsGoods: PropTypes.array.isRequired,
     notExistsGoods: PropTypes.array.isRequired,
     closeModal: PropTypes.func.isRequired,
+    storeGoods: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {

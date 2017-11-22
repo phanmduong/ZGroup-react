@@ -1,7 +1,5 @@
 import * as types from '../../../constants/actionTypes';
-
 import * as goodApi from '../goodApi';
-import {BEGIN_SAVE_CHILD_GOOD} from "../../../constants/actionTypes";
 import {showErrorNotification} from "../../../helpers/helper";
 
 export function updateChildGoodForm(good) {
@@ -37,7 +35,7 @@ export function showAddChildGoodModal(showModal) {
 export function saveChildGood(good) {
     return function (dispatch) {
         dispatch({
-            type: BEGIN_SAVE_CHILD_GOOD
+            type: types.BEGIN_SAVE_CHILD_GOOD
         });
         goodApi.saveChildGood(good)
             .then((res) => {

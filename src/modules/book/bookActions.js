@@ -127,16 +127,6 @@ export function closeTaskListDetailModal() {
     };
 }
 
-export function deleteTaskTemplate(task) {
-    return function (dispatch) {
-        dispatch({
-            type: types.DELETE_TASK_TEMPLATE,
-            task
-        });
-        taskApi.deleteTask(task);
-    };
-}
-
 export function createTask(task) {
     return function (dispatch) {
         dispatch({
@@ -274,5 +264,56 @@ export function loadTaskListTemplate(taskListId) {
                     taskList: res.data.data
                 });
             });
+    };
+}
+
+export function showTaskListTemplateSettingModal(showModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.SHOW_TASK_LIST_TEMPLATE_SETTING_MODAL,
+            showModal
+        });
+    };
+}
+
+export function loadTaskListTemplateSetting(taskListTemplateId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TASK_LIST_TEMPLATE_SETTING
+        });
+        bookApi.loadTaskListTemplateSetting(taskListTemplateId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LIST_TEMPLATE_SETTING_SUCCESS,
+                    boards: res.data.data.boards
+                });
+            });
+    };
+}
+
+export function handleChangeBoxTaskListTemplateSetting(board) {
+    return function (dispatch) {
+        dispatch({
+            type: types.HANDLE_TASK_LIST_TEMPLATE_SETTING_CHECKBOX_CHANGE,
+            board
+        });
+    };
+}
+
+export function saveTaskListTemplateSetting(taskListTemplateId, boards) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_TASK_LIST_TEMPLATE_SETTING,
+        });
+
+        bookApi.storeTaskListTemplateSetting(taskListTemplateId, boards)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LIST_TEMPLATE_SUCCESS,
+                    taskList: res.data.data.task_list_template
+                });
+            });
+
+
     };
 }

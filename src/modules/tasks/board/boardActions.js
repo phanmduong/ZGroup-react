@@ -3,14 +3,29 @@
  */
 import * as types from '../../../constants/actionTypes';
 import * as boardApi from './boardApi';
+import {showErrorMessage} from "../../../helpers/helper";
 
 export function archiveBoard(board) {
     return function (dispatch) {
+
         dispatch({
-            type: types.ARCHIVE_BOARD_SUCCESS,
-            board
+            type: types.DISPLAY_GLOBAL_LOADING
         });
-        boardApi.archiveBoard(board.id);
+        boardApi.archiveBoard(board.id)
+            .then((res) => {
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
+                if (res.data.status === 0) {
+                    showErrorMessage("Không thể xoá", res.data.message);
+                } else {
+                    dispatch({
+                        type: types.ARCHIVE_BOARD_SUCCESS,
+                        board
+                    });
+                }
+
+            });
     };
 }
 
