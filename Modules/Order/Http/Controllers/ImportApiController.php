@@ -114,6 +114,7 @@ class ImportApiController extends ManageApiController
             return [
                 'name' => $importedGood->good->name,
                 'code' => $importedGood->good->code,
+                'price' => $importedGood->good->price,
                 'quantity' => $importedGood->quantity,
                 'import_price' => $importedGood->import_price
             ];
