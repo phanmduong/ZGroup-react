@@ -103,7 +103,7 @@ class InventoryApiController extends ManageApiController
                         return $total + $importedGood->quantity;
                     }, 0);
                     $import_money = $importedGoods->reduce(function ($total, $importedGood) {
-                        return $total + $importedGood->quantity * $importedGood->price;
+                        return $total + $importedGood->quantity * $importedGood->import_price;
                     }, 0);
                     return [
                         'id' => $good->id,
