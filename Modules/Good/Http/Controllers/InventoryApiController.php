@@ -72,28 +72,49 @@ class InventoryApiController extends ManageApiController
         $warehouse_id = $request->warehouse_id;
 
         $goods = Good::query();
-        if($keyword)
-            $goods = $goods->where(function($query) use ($keyword) {
+        if ($keyword)
+            $goods = $goods->where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
             });
-        if($manufacture_id)
+        if ($manufacture_id)
             $goods = $goods->where('manufacture_id', $manufacture_id);
-        if($good_category_id)
+        if ($good_category_id)
             $goods = $goods->where('good_category_id', $good_category_id);
         $goods = $goods->orderBy('created_at', 'desc')->paginate($limit);
-        $goods = $goods->filter(function ($good) use ($warehouse_id){
+        $goods = $goods->filter(function ($good) use ($warehouse_id) {
             $importedGoods = ImportedGoods::where('good_id', $good->id);
-            if($warehouse_id)
+            if ($warehouse_id)
                 $importedGoods = $importedGoods->where('warehouse_id', $warehouse_id);
             $importedGoods = $importedGoods->get();
-            return $importedGoods->reduce(function ($total, $importedGood){
-                return $total + $importedGood->quantity;
-            }, 0) > 0;
+            return $importedGoods->reduce(function ($total, $importedGood) {
+                    return $total + $importedGood->quantity;
+                }, 0) > 0;
         });
         return $this->respondWithPagination(
             $goods,
             [
-                'inventories'
+                'inventories' => $goods->map(function ($good) use ($warehouse_id) {
+                    $importedGoods = ImportedGoods::where('good_id', $good->id);
+                    if ($warehouse_id)
+                        $importedGoods = $importedGoods->where('warehouse_id', $warehouse_id);
+                    $importedGoods = $importedGoods->get();
+                    $quantity = $importedGoods->reduce(function ($total, $importedGood) {
+                        return $total + $importedGood->quantity;
+                    }, 0);
+                    $import_money = $importedGoods->reduce(function ($total, $importedGood) {
+                        return $total + $importedGood->quantity * $importedGood->price;
+                    }, 0);
+                    return [
+                        'id' => $good->id,
+                        'code' => $good->code,
+                        'name' => $good->name,
+                        'quantity' => $quantity,
+                        'import_price' => 'Nhieu gia',
+                        'import_money' => $import_money,
+                        'price' => $good->price,
+                        'money' => $good->price * $quantity,
+                    ];
+                })
             ]
         );
         //        $inventories = ImportedGoods::where('quantity', '<>', 0);

@@ -8,6 +8,7 @@ use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Book\Repositories\TaskListTemplateRepository;
+use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Repositories\GoodRepository;
 
@@ -123,17 +124,34 @@ class GoodController extends ManageApiController
     }
 
 
-    public function getPropertyItems(Request $request)
+    public function getPropertyItems($taskId, Request $request)
     {
         $type = $request->type;
         $propertyItems = $this->goodRepository->getPropertyItems($type);
         $boards = $this->goodRepository->getProjectBoards($type);
         $processes = $this->goodRepository->getProcesses($type);
+        $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
 
         return $this->respondSuccessWithStatus([
             "good_property_items" => $propertyItems,
             "boards" => $boards,
             "processes" => $processes,
+            "optional_boards" => $optionalBoards->map(function ($optionalBoard) {
+                return [
+                    "board" => [
+                        "id" => $optionalBoard->board->id,
+                        "title" => $optionalBoard->board->title,
+                        "value" => $optionalBoard->board->id,
+                        "label" => $optionalBoard->board->title,
+                    ],
+                    "process" => [
+                        "id" => $optionalBoard->taskList->id,
+                        "title" => $optionalBoard->taskList->title,
+                        "value" => $optionalBoard->taskList->id,
+                        "label" => $optionalBoard->taskList->title,
+                    ]
+                ];
+            })
         ]);
     }
 

@@ -20,7 +20,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/all', 'GoodController@getAllGoods');
     Route::get('/get-by-status', 'GoodController@goodsByStatus');
     Route::get('/all/no-paging', 'GoodController@getGoodsWithoutPagination');
-    Route::get('/task-setting', 'GoodController@getPropertyItems');
+    Route::get('/task-setting/{taskId}', 'GoodController@getPropertyItems');
     Route::post('/create', 'GoodController@createGoodBeta');
     Route::post('/create-good', 'GoodController@createGood');
     Route::delete('/{goodId}/delete', 'GoodController@deleteGood');
