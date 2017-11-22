@@ -128,18 +128,22 @@ class InventoryApiController extends ManageApiController
     public function historyGoods($goodId, Request $request)
     {
         $warehouse_id = $request->warehouse_id;
-        if(Good::find($goodId) == null)
+        if (Good::find($goodId) == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai san pham'
             ]);
         $warehouses = Warehouse::all();
-//        $warehouses = $warehouses->filter(function($warehouse) use ($goodId){
-//
-//        });
+        $warehouses = $warehouses->filter(function ($warehouse) use ($goodId) {
+            $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
+            $quantity = $importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity;
+            }, 0);
+            return $quantity > 0;
+        });
         $history = HistoryGood::where('good_id', $goodId);
-        if($warehouse_id)
+        if ($warehouse_id)
             $history = $history->where('warehouse_id', $warehouse_id);
-        $history =  $history->orderBy('created_at', 'desc')->get();
+        $history = $history->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
             'history' => $history->map(function ($singular_history) {
                 return [
@@ -156,12 +160,12 @@ class InventoryApiController extends ManageApiController
                     ]
                 ];
             }),
-            'warehouses' => $warehouses->map(function($warehouse) use ($goodId){
+            'warehouses' => $warehouses->map(function ($warehouse) use ($goodId) {
                 $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
-                $quantity = $importedGoods->reduce(function($total, $importedGood){
+                $quantity = $importedGoods->reduce(function ($total, $importedGood) {
                     return $total + $importedGood->quantity;
                 }, 0);
-                $import_money = $importedGoods->reduce(function($total, $importedGood){
+                $import_money = $importedGoods->reduce(function ($total, $importedGood) {
                     return $total + $importedGood->quantity * $importedGood->import_price;
                 }, 0);
                 $data = [
@@ -171,7 +175,7 @@ class InventoryApiController extends ManageApiController
                     'quantity' => $quantity,
                     'import_money' => $import_money,
                 ];
-                if($warehouse->base)
+                if ($warehouse->base)
                     $data['base'] = [
                         'id' => $warehouse->base_id,
                         'name' => $warehouse->base->name,
