@@ -40,26 +40,12 @@ class CustomerContainer extends React.Component {
     }
 
     componentWillMount() {
-        this.loadCustomers(1, this.state.limit);
+        this.loadCustomers( 1, this.state.limit );
     }
 
 
-    openAddModal(isEdit) {
-        this.setState({isShowModal: true, isEdit: isEdit});
-    }
-
-    openFormDataInEdit(customer) {
-        this.props.customerActions.updateAddCustomerFormData(customer);
-        this.openAddModal(true);
-    }
-
-    openInfoCustomer(customer){
-        this.props.customerActions.updateAddCustomerFormData(customer);
-        browserHistory.push('/goods/customer/info-customer');
-
-    }
-
-    closeAddModal() {
+    openAddModal() {
+        //      set dữ liệu về rỗng trước khi mở modal add
         let customer = {
             name: '',
             phone: '',
@@ -69,6 +55,27 @@ class CustomerContainer extends React.Component {
             birthday: '',
         };
         this.props.customerActions.updateAddCustomerFormData(customer);
+        this.setState({isShowModal: true, isEdit: true});
+    }
+
+
+    // openFormDataInEdit để mở Modal khi click vào icon chỉnh sửa
+    openFormDataInEdit(customer) {
+        this.props.customerActions.updateAddCustomerFormData(customer);
+        this.setState({isShowModal: true, isEdit: true});
+    }
+
+    // openInfoCustomer để route đến /goods/customer/info-customer/ khi click vào tên customer
+    // Có thể thay thế cho willMount trong InfoCustomerContainer
+
+    openInfoCustomer(customer){
+        this.props.customerActions.updateAddCustomerFormData(customer);     //      Gán customer vào để show ra trong InfoCustomerContainer
+        browserHistory.push('/goods/customer/info-customer/'+customer.id);
+    }
+
+    closeAddModal() {
+
+        // gán các giá trị trong biến tạm customer về rỗng khi đóng modal => để sử dụng mở add
         this.setState({isShowModal: false});
     }
 
@@ -94,15 +101,18 @@ class CustomerContainer extends React.Component {
         this.timeOut = setTimeout(function () {
             this.props.customerActions.loadCustomers(this.state.page, this.state.limit, this.state.query, this.state.status);
         }.bind(this), 500);
+        // Để làm chậm pha do bất đồng bộ khi ta get giá trị của customersList về rồi gán vào mảng trên state
     }
 
 
+    //     updateFormData sử dụng để update giá trị trong form lên biến tạm customer ở state
     updateFormData(event) {
         const field = event.target.name;
         let customer = {...this.props.customer};
         customer[field] = event.target.value;
         this.props.customerActions.updateAddCustomerFormData(customer);
     }
+
 
     activeModal(e) {
         if ($('#form-add-customer').valid()) {
@@ -331,3 +341,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerContainer);
+
+
+
+
+// Ngày sinh lấy về là birthday nhưng khi edit và add lại là dob -_-

@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-let customersList ;
+let customersList;
 export default function customerReducer(state = initialState.customers, action) {
     switch (action.type) {
 
@@ -21,13 +21,13 @@ export default function customerReducer(state = initialState.customers, action) 
                 ...state,
                 ...{
                     customersList: action.customersList,
-                    totalPages : action.total_pages,
-                    totalCount : action.total_count,
+                    totalPages: action.total_pages,
+                    totalCount: action.total_count,
                     isLoading: false,
                 }
             };
 
-        case types.LOADED_CUSTOMER_ERROR:
+        case types.LOADED_INFO_CUSTOMER_ERROR:
             return {
                 ...state,
                 ...{
@@ -35,7 +35,65 @@ export default function customerReducer(state = initialState.customers, action) 
                 }
             };
 
+
+        case types.BEGIN_LOAD_INFO_CUSTOMER :
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.LOADED_INFO_CUSTOMER_SUCCESS:
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    customers: action.customer
+                },
+                isLoading: true
+            };
+
+        case types.LOADED_CUSTOMER_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+
+            };
+
+
+
+        //              LOAD ORDER CUSTOMER
+
+
+        case types.BEGIN_LOAD_ORDERS_CUSTOMER :
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        case types.LOADED_ORDERS_CUSTOMER_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    totalOrderPages: action.total_pages,
+                    ordersList: action.ordersList,
+                    isLoading: false,
+                }
+            };
+
+        case types.LOADED_ORDERS_CUSTOMER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+
+
+
+
         //      LOAD MONEY
+
+
         case types.BEGIN_LOAD_TOTAL_AND_DEBT_MONEY :
             return {
                 ...state,
@@ -61,7 +119,11 @@ export default function customerReducer(state = initialState.customers, action) 
                 }
             };
 
+
+
         //          ADD
+
+
         case types.UPDATE_ADD_CUSTOMER_FORM_DATA:
             return {
                 ...state,
@@ -103,6 +165,10 @@ export default function customerReducer(state = initialState.customers, action) 
             };
 
 
+
+        //          EDIT
+
+
         case types.BEGIN_EDIT_CUSTOMER:
             return {
                 ...state,
@@ -140,6 +206,10 @@ export default function customerReducer(state = initialState.customers, action) 
             return state;
     }
 }
+
+
+// SUPPORT
+
 
 function changeCustomer(actionCustomer, customersList) {
     if (customersList) {

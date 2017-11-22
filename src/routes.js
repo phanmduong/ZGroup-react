@@ -277,7 +277,7 @@ export default (
 
             {/*Begin customer routes */}
             <Route path="/goods/customer" component={CustomerContainer}/>
-            <Route path="/goods/customer/info-customer" component={InfoCustomerContainer}/>
+            <Route path="/goods/customer/info-customer/:customerId" component={InfoCustomerContainer}/>
             {/*End customer routes*/}
 
             {/*Begin marketing campaigns routes */}

@@ -21,8 +21,47 @@ export function loadCustomers( page , limit, query,status) {
                     type : types.LOADED_CUSTOMER_ERROR,
                 });
             });
-        dispatch(loadTotalAndDebtMoney());
+        dispatch(loadTotalAndDebtMoney()); // Tại sao phải cần API để load riêng tổng ??
 
+    };
+}
+
+export function loadInfoCustomer(id) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_INFO_CUSTOMER});
+        customerApis.loadInfoCustomersApi(id)
+            .then( (res) =>  {
+                dispatch({
+                    type : types.LOADED_INFO_CUSTOMER_SUCCESS,
+                    customer : res.data.data.user,
+                });
+            })
+            .catch(() => {
+                dispatch ({type : types.LOADED_INFO_CUSTOMER_ERROR,});
+            });
+    };
+}
+
+
+
+export function loadOrdersCustomer( id , page , limit) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ORDERS_CUSTOMER
+        });
+        customerApis.loadOrdersCustomerApi(id , page, limit)
+            .then( (res) =>  {
+                dispatch({
+                    type : types.LOADED_ORDERS_CUSTOMER_SUCCESS,
+                    ordersList : res.data.orders,
+                    total_pages : res.data.paginator.total_pages,
+                });
+            })
+            .catch(() => {
+                dispatch ({
+                    type : types.LOADED_ORDERS_CUSTOMER_ERROR,
+                });
+            });
     };
 }
 export function loadTotalAndDebtMoney() {

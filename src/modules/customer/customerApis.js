@@ -21,11 +21,39 @@ export function loadCustomersApi(limit , page , query ,status) {
     }
     return axios.get(url);
 }
+export function loadOrdersCustomerApi(id , page , limit ) {
+    let url = env.MANAGE_API_URL + "/order/all-orders?";
+    let token = localStorage.getItem('token');
+    if (limit){
+        url += "&limit=" + limit;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (id){
+        url += "&user_id=" + id;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
 export function loadTotalAndDebtMoneyApi() {
     let url = env.MANAGE_API_URL + "/order/total-and-debt-money?";
     let token = localStorage.getItem('token');
     if (token) {
         url += "token=" + token;
+    }
+    return axios.get(url);
+}
+export function loadInfoCustomersApi(id) {
+    let url = env.MANAGE_API_URL + "/order/info-customer/";
+    let token = localStorage.getItem('token');
+    if (id){
+        url += id;
+    }
+    if (token) {
+        url += "?token=" + token;
     }
     return axios.get(url);
 }

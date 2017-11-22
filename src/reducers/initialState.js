@@ -856,7 +856,9 @@ export default {
 
     customers: {
         customersList: [],
+        ordersList : [],
         isLoading: true,
+        totalOrderPages : 10,
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
@@ -871,11 +873,11 @@ export default {
                 gender : '',
                 dob : '',
             }
-        }
+        },
     },
     suppliers: {
         suppliersList : [],
-        isLoading : true,
+        isLoading : false,
         totalCount: 10,
         totalPages : 10,
         modal : {
