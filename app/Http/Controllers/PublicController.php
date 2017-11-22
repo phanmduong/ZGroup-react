@@ -175,6 +175,15 @@ class PublicController extends Controller
         return view('public.classes_list', $this->data);
     }
 
+    public function classes1($course_id = null, $saler_id = null, $campaign_id = null){
+           $courses=Course::all();
+           $bases=Base::all();
+           return view('public.classes_list1',[
+               "courses" => $courses,
+               "base" => $bases
+           ]);
+    }
+
     public function register_class($class_id = null, $saler_id = null, $campaign_id = null)
     {
 
