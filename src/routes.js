@@ -70,7 +70,7 @@ import GoodDetailContainer from "./modules/good/GoodDetailContainer";
 import WareHouseContainer from "./modules/wareHouse/WareHouseContainer";
 import CustomerContainer from "./modules/customer/CustomerContainer";
 import InventoryGoodContainer from "./modules/inventoryGood/InventoryGoodContainer";
-<<<<<<< HEAD
+
 import CreateEditCoursesContainer from "./modules/courses/coursesForm/CoursesCreateEditContainer";
 import coursesCreateEditGeneral from "./modules/courses/coursesForm/coursesCreateEditGeneral";
 import coursesCreateEditCurriculum from "./modules/courses/coursesForm/coursesCreateEditCurriculum";
