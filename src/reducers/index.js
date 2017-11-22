@@ -39,9 +39,11 @@ import importGoodsReducer from "../modules/importGoods/importGoodsReducer";
 import wareHouseReducer from "../modules/wareHouse/wareHouseReducer";
 import customerReducer from "../modules/customer/customerReducer";
 import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer";
+import createProductReducer from "../modules/createProduct/createProductReducer";
 import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer";
 import lessonsReducer from "../modules/lessons/lessonsReducer";
 import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
+
 
 
 const appReducer = combineReducers({
@@ -88,6 +90,8 @@ const appReducer = combineReducers({
     inventoryGood: inventoryGoodReducer,
     categories: categoriesReducer,
     marketingCampaigns: marketingCampaignsReducer,
+    createProduct: createProductReducer,
+
 });
 
 const rootReducer = (state, action) => {
