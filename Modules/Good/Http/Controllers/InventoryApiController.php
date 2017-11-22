@@ -81,15 +81,16 @@ class InventoryApiController extends ManageApiController
         if ($good_category_id)
             $goods = $goods->where('good_category_id', $good_category_id);
         $goods = $goods->orderBy('created_at', 'desc')->paginate($limit);
-        $goods = $goods->filter(function ($good) use ($warehouse_id) {
-            $importedGoods = ImportedGoods::where('good_id', $good->id);
-            if ($warehouse_id)
-                $importedGoods = $importedGoods->where('warehouse_id', $warehouse_id);
-            $importedGoods = $importedGoods->get();
-            return $importedGoods->reduce(function ($total, $importedGood) {
-                    return $total + $importedGood->quantity;
-                }, 0) > 0;
-        });
+        //filter giống dưới này nè......
+//        $goods = $goods->filter(function ($good) use ($warehouse_id) {
+//            $importedGoods = ImportedGoods::where('good_id', $good->id);
+//            if ($warehouse_id)
+//                $importedGoods = $importedGoods->where('warehouse_id', $warehouse_id);
+//            $importedGoods = $importedGoods->get();
+//            return $importedGoods->reduce(function ($total, $importedGood) {
+//                    return $total + $importedGood->quantity;
+//                }, 0) > 0;
+//        });
         return $this->respondWithPagination(
             $goods,
             [
