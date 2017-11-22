@@ -117,12 +117,12 @@ class GoodController extends ManageApiController
         if ($task == null) {
             return $this->respondErrorWithStatus("Công việc không tồn tại");
         }
-        
+
         return $this->respondSuccessWithStatus([
             "good_property_items" => $propertyItems,
             "processes" => $processes->filter(function ($process) use ($task) {
                 return $process["id"] !== $task->task_list_id;
-            }),
+            })->values(),
             "selected_processes" => $optionalBoards->map(function ($optionalBoard) {
                 return [
                     "id" => $optionalBoard->taskList->id,
