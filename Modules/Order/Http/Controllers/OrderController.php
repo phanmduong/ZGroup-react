@@ -153,9 +153,12 @@ class OrderController extends ManageApiController
     }
 
 
-    public function getOrderPaidMoney()
+    public function getOrderPaidMoney(Request $request)
     {
-        $orderPMs = OrderPaidMoney::orderBy('created_at', 'desc')->get();
+        $orderPMs = OrderPaidMoney::query();
+        if($request->order_id)
+            $orderPMs = $orderPMs->where('order_id', $request->order_id);
+        $orderPMs = $orderPMs->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
             "order_paid_money" => $orderPMs->map(function ($orderPM) {
                 return $orderPM->transform();

@@ -12,6 +12,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('total-and-debt-money','CustomerController@countMoney');
     Route::post('add-customer','CustomerController@addCustomer');
     Route::put('edit-customer/{customerId}','CustomerController@editCustomer');
+    Route::get('/info-customer/{customerId}','CustomerController@getInfoCustomer');
 
     Route::get('/category/all', 'CategoryApiController@allCategory');
     Route::post('/category/add', 'CategoryApiController@addCategory');

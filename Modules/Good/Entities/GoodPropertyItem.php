@@ -19,7 +19,10 @@ class GoodPropertyItem extends Model
 
     public function tasks()
     {
-        return $this->belongsToMany(Task::class, 'good_property_item_task', 'good_property_item_id','task_id');
+        return $this
+            ->belongsToMany(Task::class,
+                'good_property_item_task', 'good_property_item_id', 'task_id')
+            ->withPivot("order");
     }
 
     public function transform()
