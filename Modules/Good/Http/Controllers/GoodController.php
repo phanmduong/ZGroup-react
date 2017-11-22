@@ -99,9 +99,8 @@ class GoodController extends ManageApiController
 
     public function createGood(Request $request)
     {
-        dd('ga');
-        $name = $request->name;
-        $code = $request->code;
+        $name = trim($request->name);
+        $code = trim($request->code);
         $description = $request->description;
         $price = $request->price;
         $avatarUrl = $request->avatar_url;
@@ -114,7 +113,7 @@ class GoodController extends ManageApiController
         //propterties
         $images_url = json_encode($request->images_url);
 
-        if (is_null("name") && is_null("code")) {
+        if ($name == null || $code == null){
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
         $good = new Good;
