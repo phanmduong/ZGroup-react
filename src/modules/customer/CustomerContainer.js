@@ -65,9 +65,11 @@ class CustomerContainer extends React.Component {
         this.setState({isShowModal: true, isEdit: true});
     }
 
+
+
+
     // openInfoCustomer để route đến /goods/customer/info-customer/ khi click vào tên customer
     // Có thể thay thế cho willMount trong InfoCustomerContainer
-
     openInfoCustomer(customer){
         this.props.customerActions.updateAddCustomerFormData(customer);     //      Gán customer vào để show ra trong InfoCustomerContainer
         browserHistory.push('/goods/customer/info-customer/'+customer.id);

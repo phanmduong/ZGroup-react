@@ -46,7 +46,7 @@ export default function customerReducer(state = initialState.customers, action) 
                 ...state,
                 modal: {
                     ...state.modal,
-                    customers: action.customer
+                    customer: action.customer
                 },
                 isLoading: true
             };

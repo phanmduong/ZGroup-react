@@ -22,14 +22,19 @@ class InfoCustomerContainer extends React.Component {
         this.loadOrdersCustomer = this.loadOrdersCustomer.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
         this.editCustomer = this.editCustomer.bind(this);
+        this.loadInfoCustomer = this.loadInfoCustomer.bind(this);
     }
 
 
 
 
     componentWillMount() {
-        this.props.customerActions.loadInfoCustomer(this.state.id);
+        this.loadInfoCustomer();
         this.loadOrdersCustomer(1);
+    }
+
+    loadInfoCustomer(){
+        this.props.customerActions.loadInfoCustomer(this.state.id);
     }
 
     loadOrdersCustomer(page) {
