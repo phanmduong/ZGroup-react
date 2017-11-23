@@ -312,8 +312,6 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 
 Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], function () {
 
-    Route::get('/code-form', 'PublicController@codeForm');
-    Route::post('/check', 'PublicController@check');
 
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
         Route::get('/', 'PublicController@beta');
@@ -388,6 +386,9 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('sms-classes', 'ManageSmsController@smsClasses');
 
     });
+
+    Route::get('/code-form', 'PublicController@codeForm');
+    Route::post('/check', 'PublicController@check');
 
     Route::get('/mua-sach', 'PublicCrawlController@buy_book');
     Route::get('/group/{group_id}', 'PublicController@beta');
