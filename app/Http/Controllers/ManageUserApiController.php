@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ManageUserApiController extends ManageApiController
 {
@@ -103,5 +104,27 @@ class ManageUserApiController extends ManageApiController
         return $this->respondSuccessWithStatus([
             "user" => $user
         ]);
+    }
+
+    public function change_password(Request $request)
+    {
+        if (!isset($request->old_password)) {
+            return $this->respondErrorWithStatus("Vui lòng nhập mật khẩu cũ");
+        }
+
+        if (!isset($request->new_password)) {
+            return $this->respondErrorWithStatus("Vui lòng nhập mật khẩu mới");
+        }
+
+        if (Hash::check($request->old_password, $this->user->password)) {
+            $this->user->fill([
+                'password' => Hash::make($request->new_password)
+            ])->save();
+            return $this->respondSuccessWithStatus([
+                'message' => "Thay đổi mật khẩu thành công"
+            ]);
+        } else {
+            return $this->respondErrorWithStatus("Mật khẩu cũ sai.");
+        }
     }
 }
