@@ -1,4 +1,4 @@
-@extends('alibaba::layouts.master')
+@extends('layouts.public')
 
 @section('content')
     <div class="cd-section section-white" id="contact-us">
