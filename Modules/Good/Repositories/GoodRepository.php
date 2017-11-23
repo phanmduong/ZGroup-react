@@ -12,6 +12,7 @@ namespace Modules\Good\Repositories;
 use App\Project;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
+use Modules\Good\Entities\GoodPropertyItemTask;
 use Modules\Task\Entities\TaskList;
 
 class GoodRepository
@@ -24,16 +25,18 @@ class GoodRepository
         });
     }
 
-    public function getPropertyItems($type)
+    public function getPropertyItems($type, $taskId)
     {
-        $order = 0;
         $goodPropertyItems = GoodPropertyItem::where("type", $type)
-            ->orderBy("name")->get()->map(function ($item) use ($order) {
+            ->orderBy("name")->get()->map(function ($item) use ($taskId) {
+                $goodPropertyItemTask = GoodPropertyItemTask::where("good_property_item_id", $item->id)
+                    ->where("task_id", $taskId)->first();
                 return [
+                    "name" => $item->name,
                     "label" => $item->name,
-                    "value" => $item->name,
+                    "value" => $item->id,
                     "id" => $item->id,
-                    "order" => 0
+                    "order" => $goodPropertyItemTask ? $goodPropertyItemTask->order : 0
                 ];
             });
         return $goodPropertyItems;
