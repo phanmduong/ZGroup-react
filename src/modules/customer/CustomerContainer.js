@@ -176,10 +176,7 @@ class CustomerContainer extends React.Component {
 
                                 {this.props.isLoading ? <Loading/> :
                                     <div className="card-content">
-                                        <div id="property-table_wrapper"
-                                             className="dataTables_wrapper form-inline dt-bootstrap">
-
-
+                                        <div id="property-table_wrapper" className="dataTables_wrapper dt-bootstrap">
                                             <div className="row" style={{marginTop: "20px", marginBottom: "20px"}}>
                                                 <div className="col-md-4">
                                                     <a className="btn btn-rose"
