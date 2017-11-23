@@ -116,11 +116,10 @@ class GoodPropertyApiController extends ManageApiController
     public function addPropertyItemsTask($task_id, Request $request)
     {
         $goodPropertyItems = json_decode($request->good_property_items);
-        $selectedProcesses = json_decode($request->selected_processes);
+        $selectedBoards = json_decode($request->selected_boards);
 
         $task = Task::find($task_id);
         $task->current_board_id = $request->current_board_id;
-        $task->target_board_id = $request->target_board_id;
         $task->goodPropertyItems()->detach();
         foreach ($goodPropertyItems as $item) {
             $task->goodPropertyItems()->attach($item->id, ['order' => $item->order]);
@@ -134,17 +133,11 @@ class GoodPropertyApiController extends ManageApiController
 
         BoardTaskTaskList::where("task_id", $task_id)->delete();
 
-        foreach ($selectedProcesses as $selectedProcess) {
+        foreach ($selectedBoards as $selectedBoard) {
             $boardTaskTaskList = new BoardTaskTaskList();
-            $taskList = TaskList::find($selectedProcess->id);
-            $task = $taskList->tasks()->first();
-            if ($task) {
-                $boardTaskTaskList->board_id = $task->current_board_id;
-                $boardTaskTaskList->task_list_id = $selectedProcess->id;
-                $boardTaskTaskList->task_id = $task_id;
-                $boardTaskTaskList->save();
-            }
-
+            $boardTaskTaskList->board_id = $selectedBoard->id;
+            $boardTaskTaskList->task_id = $task_id;
+            $boardTaskTaskList->save();
         }
 
         return $this->respondSuccessWithStatus([

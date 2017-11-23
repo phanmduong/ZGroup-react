@@ -109,26 +109,26 @@ class GoodController extends ManageApiController
 
     public function getPropertyItems($taskId, Request $request)
     {
-        $type = $request->type;
-        $propertyItems = $this->goodRepository->getPropertyItems($type);
-        $processes = $this->goodRepository->getProcesses($type);
-        $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
         $task = Task::find($taskId);
         if ($task == null) {
             return $this->respondErrorWithStatus("Công việc không tồn tại");
         }
 
+        $type = $request->type;
+        $propertyItems = $this->goodRepository->getPropertyItems($type);
+        $boards = $this->goodRepository->getProjectBoards($type, $task);
+        $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
+
+
         return $this->respondSuccessWithStatus([
             "good_property_items" => $propertyItems,
-            "processes" => $processes->filter(function ($process) use ($task) {
-                return $process["id"] !== $task->task_list_id;
-            })->values(),
-            "selected_processes" => $optionalBoards->map(function ($optionalBoard) {
+            "boards" => $boards,
+            "selected_boards" => $optionalBoards->map(function ($optionalBoard) {
                 return [
-                    "id" => $optionalBoard->taskList->id,
-                    "title" => $optionalBoard->taskList->title,
-                    "value" => $optionalBoard->taskList->id,
-                    "label" => $optionalBoard->taskList->title,
+                    "id" => $optionalBoard->board->id,
+                    "title" => $optionalBoard->board->title,
+                    "value" => $optionalBoard->board->id,
+                    "label" => $optionalBoard->board->title,
                 ];
             })
         ]);
