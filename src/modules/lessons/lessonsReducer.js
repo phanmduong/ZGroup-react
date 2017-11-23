@@ -3,6 +3,7 @@ import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function lessonsReducer(state = initialState.lessons, action) {
+    console.log(action.type, initialState.lessons);
     switch (action.type) {
         case types.UPDATE_DATA_LESSON: {
             let feild = action.feild;
@@ -67,6 +68,16 @@ export default function lessonsReducer(state = initialState.lessons, action) {
                 ...{
                     isLoading: false,
                     isCommitting: false
+                }
+            };
+        }
+        case types.CLEAR_DATA_LESSON: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isCommitting: false,
+                    data: action.data
                 }
             };
         }

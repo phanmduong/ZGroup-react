@@ -8,23 +8,31 @@ import ReactEditor                      from '../../components/common/ReactEdito
 import FormInputText                    from '../../components/common/FormInputText';
 import {Link}                           from 'react-router';
 import Loading                          from "../../components/common/Loading";
+import * as helper                      from '../../helpers/helper';
 
 class LessonsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {};
+        this.urlType = "create";
         this.updateFormData = this.updateFormData.bind(this);
         this.updateDetail       = this.updateDetail.bind(this);
         this.updateDetailContent       = this.updateDetailContent.bind(this);
         this.updateDetailTeacher       = this.updateDetailTeacher.bind(this);
         this.commitData       = this.commitData.bind(this);
+        this.checkValidate      = this.checkValidate.bind(this);
     }
 
     componentWillMount() {
         //console.log('lesson container will mount',this.props);
+        helper.setFormValidation('#form-lesson-create-edit');
         let id = this.props.params.lessonId;
-        if(id) this.props.lessonsActions.loadLessonData(id);
+        if(id) {
+            this.props.lessonsActions.loadLessonData(id);
+            this.urlType = "edit";
+
+        } else this.props.lessonsActions.clearData();
     }
 
     updateDetail(content){
@@ -40,17 +48,25 @@ class LessonsContainer extends React.Component {
     updateFormData(e){
         const   feild   = e.target.name;
         const   value   = e.target.value;
-        //this.props.coursesActions.updateData(feild,value);
         this.props.lessonsActions.updateData(feild,value);
     }
     commitData(){
-        this.props.lessonsActions.commitData(this.props.data);
+        if(this.checkValidate())
+        if(this.urlType=="create") this.props.lessonsActions.createLesson(this.props.data);
+        else this.props.lessonsActions.editLesson(this.props.data);
+    }
+
+    checkValidate() {
+        if ($('#form-lesson-create-edit').valid()) {
+            return true;
+        }
+        return false;
     }
 
     render(){
         return (
             <div className="row">
-                <form role="form" id="form-course-create-edit">
+                <form role="form" id="form-lesson-create-edit">
 
                     <div className="col-md-8">
 
@@ -120,8 +136,6 @@ class LessonsContainer extends React.Component {
                             </div>
                             <div className="card-content">
                                 <h4 className="card-title">Thông tin về form </h4>
-                                {
-                                    this.props.data.course_id ?
                                     <FormInputText
                                         label="ID Môn học"
                                         required
@@ -129,9 +143,6 @@ class LessonsContainer extends React.Component {
                                         updateFormData={this.updateFormData}
                                         value={this.props.data.course_id}
                                     />
-                                        :
-                                    <div></div>
-                                }
                                 <FormInputText
                                     label="Tên buổi học"
                                     required
@@ -178,6 +189,7 @@ class LessonsContainer extends React.Component {
                     </div>
                 </form>
             </div>
+
         );
     }
 }

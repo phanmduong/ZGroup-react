@@ -690,7 +690,7 @@ export default {
           order: "",
           detail_content: "",
           detail_teacher: "",
-          created_at: "2016-07-12 18:00:16"
+          created_at: ""
       }
     }
 };

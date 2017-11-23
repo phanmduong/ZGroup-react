@@ -198,7 +198,6 @@ export default function courseReducer(state = initialState.courses, action) {
             let feild = action.feild;
             let value = action.value;
             state.data[feild] = value;
-
             return {
                 ...state,
                 ...{
