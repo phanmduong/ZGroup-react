@@ -46,7 +46,7 @@ class GoodRepository
         if ($taskList == null) {
             return [];
         }
-        $boardIds = $taskList->tasks()->pluck('current_board_id');
+        $boardIds = $taskList->tasks()->where("id", "!=", $task->id)->pluck('current_board_id');
         return $project->boards()
             ->where("status", "open")
             ->whereIn("id", $boardIds)
