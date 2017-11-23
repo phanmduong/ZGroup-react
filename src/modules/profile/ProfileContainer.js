@@ -271,7 +271,7 @@ class ProfileContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Modal show={this.state.showModalChangePassword} bsSize="lg">
+                <Modal show={this.state.showModalChangePassword}>
                     <Modal.Header closeButton onHide={this.closeModalChangePassword} closeLabel="Đóng">
                         <Modal.Title>Thay đổi mật khẩu</Modal.Title>
                     </Modal.Header>
