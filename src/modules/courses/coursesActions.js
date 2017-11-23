@@ -3,6 +3,16 @@ import * as courseApi   from './courseApi';
 import * as helper      from '../../helpers/helper';
 import {browserHistory}                 from 'react-router';
 
+
+
+export function beginLoadLink() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_LINK
+        });
+    };
+}
+
 export function updateData(feild, value) {
     return function (dispatch) {
         dispatch({
@@ -105,6 +115,24 @@ export function loadOneCourse(id) {
 
 
 
+
+export function uploadLinkIcon(currentLink ,file) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_UPLOAD_ICON_LINK});
+        courseApi.uploadImage(file, function (event) {
+            helper.showNotification("Đăng ảnh thành công.");
+            let data = JSON.parse(event.currentTarget.response);
+            dispatch({
+                type: types.UPLOAD_ICON_LINK_SUCCESS,
+                link: data.link,
+                currentLink: currentLink
+            });
+        }, () => {
+            helper.showErrorNotification("Đăng ảnh thất bại.");
+            dispatch({type: types.UPLOAD_ICON_LINK_FAILED});
+        });
+    };
+}
 
 export function uploadAvatar(file) {
     return function (dispatch) {

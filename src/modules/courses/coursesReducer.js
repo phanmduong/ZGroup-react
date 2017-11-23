@@ -4,7 +4,17 @@ import initialState from '../../reducers/initialState';
 
 let data;
 export default function courseReducer(state = initialState.courses, action) {
+    //console.log(action.type, initialState.courses);
     switch (action.type) {
+        case types.BEGIN_LOAD_LINK:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                    link: state.link,
+                    data: state.data
+                }
+            };
         case types.BEGIN_LOAD_COURSES_DATA:
             return {
                 ...state,
@@ -57,7 +67,8 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...{
                     isLoading: true,
                     error: false,
-                    data: defaultData
+                    data: defaultData,
+                    link: state.link,
                 }
             };
         case types.LOAD_COURSE_SUCCESS:
@@ -66,7 +77,8 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...{
                     isLoading: false,
                     error: false,
-                    data: action.data
+                    data: action.data,
+                    link: state.link,
                 }
             };
         case types.LOAD_COURSE_ERROR:
@@ -162,6 +174,34 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...{
                     isUpdatingCover: false,
                     updateCoverError: true,
+
+                }
+            };
+        case types.BEGIN_UPLOAD_ICON_LINK:
+            return {
+                ...state,
+                ...{
+                    isUploadingLinkIcon: true,
+                }
+            };
+        case types.UPLOAD_ICON_LINK_SUCCESS: {
+            let link = action.link;
+            let currentLink = action.currentLink;
+            //state.data.links[currentLink].link_icon_url = link;
+            //console.log("respone link",link);
+            return {
+                ...state,
+                ...{
+                    isUploadingLinkIcon: false,
+                    data: state.data,
+                }
+            };
+        }
+        case types.UPLOAD_ICON_LINK_FAILED:
+            return {
+                ...state,
+                ...{
+                    isUploadingLinkIcon: false,
 
                 }
             };

@@ -634,13 +634,10 @@ export default {
 
     courses: {
         isLoading: false,
+        isUploadingLinkIcon: false,
         error: false,
         coursesList: [],
         isDeleting : false,
-        addCoursesModal:{
-            isShowModal  : false,
-            isSaving: false
-        },
         paginator: {
             total_count: 1,
             total_pages: 1,
@@ -674,7 +671,15 @@ export default {
             created_at: "",
             detail: "",
             lessons: [],
-            links: []
+            links: [],
+        },
+        link: {
+            id: null,
+            course_id: "",
+            link_name: "",
+            link_url: "",
+            link_description: "",
+            link_icon: "",
         }
     },
     lessons:{
@@ -690,7 +695,7 @@ export default {
           order: "",
           detail_content: "",
           detail_teacher: "",
-          created_at: ""
+          created_at: "",
       }
-    }
+    },
 };
