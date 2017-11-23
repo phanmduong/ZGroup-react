@@ -248,6 +248,45 @@ export default function staffsReducer(state = initialState.staffs, action) {
                     }
                 }
             };
+        case types.BEGIN_RESET_PASSWORD_STAFF:
+            return {
+                ...state,
+                ...{
+                    addStaff: {
+                        ...state.addStaff,
+                        ...{
+                            isResettingPassword: true,
+                            errorResetPassword: false,
+                        }
+                    }
+                }
+            };
+        case types.RESET_PASSWORD_STAFF_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    addStaff: {
+                        ...state.addStaff,
+                        ...{
+                            isResettingPassword: false,
+                            errorResetPassword: false,
+                        }
+                    }
+                }
+            };
+        case types.RESET_PASSWORD_STAFF_ERROR:
+            return {
+                ...state,
+                ...{
+                    addStaff: {
+                        ...state.addStaff,
+                        ...{
+                            isResettingPassword: false,
+                            errorResetPassword: true,
+                        }
+                    }
+                }
+            };
         case types.BEGIN_CHANGE_AVATAR_STAFF:
             return {
                 ...state,

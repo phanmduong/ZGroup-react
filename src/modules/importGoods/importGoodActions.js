@@ -94,8 +94,29 @@ export function getAllWarehouses() {
                     warehouses: res.data.data.warehouses
                 });
             })
+            .catch(() => {
+                dispatch({
+                    type: types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR
+                });
+            });
+    };
+}
+
+export function getHistoryPaid(orderId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_HISTORY_PAID_MONEY_IMPORT_ORDER
+        });
+        importGoodsApi.loadHistoryPaid(orderId)
+            .then(res => {
+
+                dispatch({
+                    type: types.LOAD_HISTORY_PAID_MONEY_IMPORT_ORDER_SUCCESS,
+                    historyPaidMoney: res.data.data.order_paid_money
+                });
+            })
             .catch({
-                type: types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR
+                type: types.LOAD_HISTORY_PAID_MONEY_IMPORT_ORDER_ERROR
             });
     };
 }

@@ -130,7 +130,7 @@ class LessonsContainer extends React.Component {
                                         value={this.props.data.course_id}
                                     />
                                         :
-                                    <div></div>
+                                    <div />
                                 }
                                 <FormInputText
                                     label="Tên buổi học"

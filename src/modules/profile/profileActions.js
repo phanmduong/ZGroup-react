@@ -85,5 +85,27 @@ export function editProfile(profile) {
     };
 }
 
+export function changePassword(oldPassword, newPassword, closeModal) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CHANGE_PASSWORD_PROFILE});
+        profileApi.changePassword(oldPassword, newPassword)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    helper.showNotification(res.data.data.message);
+                    closeModal();
+                    dispatch({type: types.CHANGE_PASSWORD_PROFILE_SUCCESS});
+
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({type: types.CHANGE_PASSWORD_PROFILE_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Cập nhật thất bại");
+                dispatch({type: types.CHANGE_PASSWORD_PROFILE_ERROR});
+            });
+    };
+}
+
 
 

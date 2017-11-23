@@ -10,7 +10,7 @@ class coursesCreateEditGeneral extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {}
+        this.state = {};
 
         this.updateFormData     = this.updateFormData.bind(this);
         this.commitCourseData   = this.commitCourseData.bind(this);

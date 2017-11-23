@@ -172,6 +172,8 @@ export default {
             error: false,
             isLoadingStaff: false,
             errorStaff: false,
+            isResettingPassword: false,
+            errorResetPassword: false,
         },
         editStaff: {
             isLoadingStaff: false,
@@ -549,7 +551,9 @@ export default {
         error: false,
         isChangingAvatar: false,
         isSaving: false,
-        savingError: false
+        savingError: false,
+        isChangingPassword: false,
+        errorChangePassword: false
     },
 
     studySession: {
@@ -824,6 +828,9 @@ export default {
             },
             isLoading: false,
             error: false,
+            isLoadingHistoryPaid: false,
+            errorHistoryPaid: false,
+            historyPaidMoney: []
         },
         formImportGood: {
             importGoods: [],
