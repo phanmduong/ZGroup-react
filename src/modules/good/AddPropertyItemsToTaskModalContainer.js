@@ -6,8 +6,8 @@ import {Button, ListGroup, Modal} from "react-bootstrap";
 import * as goodActions from '../good/goodActions';
 import Loading from "../../components/common/Loading";
 import Select from "react-select";
-import OptionalProcessInput from "./OptionalProcessInput";
 import {showErrorMessage} from "../../helpers/helper";
+import OptionalBoardInput from "./OptionalBoardInput";
 
 class AddPropertyItemsToTaskModalContainer extends React.Component {
     constructor(props, context) {
@@ -17,13 +17,13 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
             value: [],
             currentBoard: {},
             targetBoard: {},
-            selectedProcesses: []
+            selectedBoards: [{}, {}]
         };
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.save = this.save.bind(this);
-        this.addProcessInput = this.addProcessInput.bind(this);
-        this.removeProcessInput = this.removeProcessInput.bind(this);
-        this.handleSelectProcess = this.handleSelectProcess.bind(this);
+        this.addBoardInput = this.addBoardInput.bind(this);
+        this.removeBoardInput = this.removeBoardInput.bind(this);
+        this.handleSelectBoard = this.handleSelectBoard.bind(this);
     }
 
 
@@ -43,9 +43,9 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         }
         if (!this.props.showModal && nextProps.showModal && nextProps.task) {
             this.props.goodActions.loadAllGoodPropertyItems(nextProps.type, nextProps.task.id)
-                .then((selectedProcesses) => {
+                .then((selectedBoards) => {
                     this.setState({
-                        selectedProcesses
+                        selectedBoards
                     });
                 });
         }
@@ -61,15 +61,15 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
 
     save() {
         let isValid = true;
-        this.state.selectedProcesses.forEach((process) => {
+        this.state.selectedBoards.forEach((process) => {
             if (!process.value) {
                 isValid = false;
             }
         });
 
         if (isValid) {
-            this.state.selectedProcesses.forEach((process) => {
-                const count = this.state.selectedProcesses.filter((item) => {
+            this.state.selectedBoards.forEach((process) => {
+                const count = this.state.selectedBoards.filter((item) => {
                     return item.id === process.id && item.id === process.id;
                 }).length;
                 if (count > 1) {
@@ -80,7 +80,7 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
 
             if (isValid) {
                 this.props.goodActions.addPropertyItemsToTask(
-                    this.state.selectedProcesses,
+                    this.state.selectedBoards,
                     this.state.value, this.props.task,
                     this.state.currentBoard, this.state.targetBoard);
             }
@@ -91,25 +91,25 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
 
     }
 
-    addProcessInput() {
+    addBoardInput() {
         this.setState({
-            selectedProcesses: [
-                ...this.state.selectedProcesses,
+            selectedBoards: [
+                ...this.state.selectedBoards,
                 {}
             ]
         });
     }
 
-    removeProcessInput(index) {
+    removeBoardInput(index) {
         this.setState({
-            selectedProcesses: [...this.state.selectedProcesses.slice(0, index), ...this.state.selectedProcesses.slice(index + 1)]
+            selectedBoards: [...this.state.selectedBoards.slice(0, index), ...this.state.selectedBoards.slice(index + 1)]
         });
     }
 
-    handleSelectProcess(index) {
+    handleSelectBoard(index) {
         return function (process) {
             this.setState({
-                selectedProcesses: [...this.state.selectedProcesses.slice(0, index), {...process}, ...this.state.selectedProcesses.slice(index + 1)]
+                selectedBoards: [...this.state.selectedBoards.slice(0, index), {...process}, ...this.state.selectedBoards.slice(index + 1)]
             });
         }.bind(this);
     }
@@ -139,23 +139,23 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                                 </div>
                                 <ListGroup>
                                     {
-                                        this.state.selectedProcesses && this.state.selectedProcesses.map((process, index) => {
+                                        this.state.selectedBoards && this.state.selectedBoards.map((board, index) => {
                                             return (
-                                                <OptionalProcessInput
+                                                <OptionalBoardInput
+                                                    selectBoard={this.handleSelectBoard(index)}
                                                     key={index}
-                                                    process={process}
-                                                    selectProcess={this.handleSelectProcess(index)}
-                                                    remove={() => this.removeProcessInput(index)}
-                                                    processes={this.props.processes}/>
+                                                    board={board}
+                                                    remove={() => this.removeBoardInput(index)}
+                                                    boards={this.props.boards}/>
                                             );
                                         })
                                     }
                                 </ListGroup>
 
                                 <Button
-                                    onClick={this.addProcessInput}
+                                    onClick={this.addBoardInput}
                                     className="btn btn-simple">
-                                    + Thêm quy trình tuỳ chọn
+                                    + Thêm bảng đích
                                 </Button>
 
                             </div>
@@ -187,7 +187,6 @@ AddPropertyItemsToTaskModalContainer.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     task: PropTypes.object.isRequired,
     goodPropertyItems: PropTypes.array.isRequired,
-    processes: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired,
     goodActions: PropTypes.object.isRequired
 };
@@ -197,13 +196,7 @@ function mapStateToProps(state) {
     return {
         showModal: state.good.attachPropertyItem.showModal,
         task: state.good.attachPropertyItem.task,
-        processes: state.good.attachPropertyItem.processes.map((process) => {
-            return {
-                ...process,
-                value: process.id,
-                label: process.title
-            };
-        }),
+        selectedBoards: state.good.attachPropertyItem.selectedBoards,
         isLoading: state.good.attachPropertyItem.isLoading,
         isSaving: state.good.attachPropertyItem.isSaving,
         boards: state.good.attachPropertyItem.boards,

@@ -286,12 +286,12 @@ export function loadAllGoodPropertyItems(type, taskId) {
 
             goodApi.loadAllGoodPropertyItems(type, taskId)
                 .then((res) => {
-                    resolve(res.data.data.selected_processes);
+                    resolve(res.data.data.selected_boards);
                     dispatch({
                         type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
                         good_property_items: res.data.data.good_property_items,
-                        processes: res.data.data.processes,
-                        selectedProcesses: res.data.data.selected_processes
+                        boards: res.data.data.boards,
+                        selectedBoards: res.data.data.selected_boards
                     });
                 });
 
@@ -300,12 +300,12 @@ export function loadAllGoodPropertyItems(type, taskId) {
     };
 }
 
-export function addPropertyItemsToTask(selectedProcesses, goodPropertyItems, task, currentBoard, targetBoard) {
+export function addPropertyItemsToTask(selectedBoards, goodPropertyItems, task, currentBoard, targetBoard) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK
         });
-        goodApi.addPropertyItemsToTask(selectedProcesses, goodPropertyItems, task.id, currentBoard, targetBoard)
+        goodApi.addPropertyItemsToTask(selectedBoards, goodPropertyItems, task.id, currentBoard, targetBoard)
             .then((res) => {
                 dispatch({
                     type: types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS,

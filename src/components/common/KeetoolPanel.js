@@ -20,7 +20,9 @@ class KeetoolPanel extends React.Component {
         return (
             <Panel collapsible
                    header={PropertyItemsHeader}>
-                {this.props.children}
+                <div>
+                    {this.props.children}
+                </div>
             </Panel>
         );
     }

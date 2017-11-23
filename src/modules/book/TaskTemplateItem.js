@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from "../../components/common/Avatar";
 import KeetoolPanel from "../../components/common/KeetoolPanel";
-import PropertyItemsList from "./PropertyItemsList";
 
 class TaskTemplateItem extends React.Component {
     constructor(props, context) {
@@ -95,16 +94,18 @@ class TaskTemplateItem extends React.Component {
                     <div className="timeline-body">
                         <KeetoolPanel
                             title="Thuộc tính cần nhập">
-                            {
-                                task.good_property_items.sort((a, b) => a.order - b.order).map((item) => {
-                                    return (
-                                        <div
-                                            data-order={item.order}
-                                            key={item.id}>{item.name}: {item.prevalue} {item.preunit}
-                                        </div>
-                                    );
-                                })
-                            }
+                            <div>
+                                {
+                                    task.good_property_items.sort((a, b) => a.order - b.order).map((item) => {
+                                        return (
+                                            <div
+                                                data-order={item.order}
+                                                key={item.id}>{item.name}: {item.prevalue} {item.preunit}
+                                            </div>
+                                        );
+                                    })
+                                }
+                            </div>
                         </KeetoolPanel>
                         <KeetoolPanel
                             title="Quy trình tuỳ chọn">

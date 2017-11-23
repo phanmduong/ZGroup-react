@@ -3,30 +3,30 @@ import PropTypes from 'prop-types';
 import Select from "react-select";
 import {Button, ListGroupItem} from "react-bootstrap";
 
-class OptionalProcessInput extends React.Component {
+class OptionalBoardInput extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.handleSelectProcess = this.handleSelectProcess.bind(this);
+        this.handleSelectBoard = this.handleSelectBoard.bind(this);
     }
 
 
-    handleSelectProcess(value) {
-        this.props.selectProcess(value);
+    handleSelectBoard(value) {
+        this.props.selectBoard(value);
     }
 
     render() {
-        const {process, processes} = this.props;
+        const {board, boards} = this.props;
         return (
             <ListGroupItem>
                 <div className="row">
                     <div className="col-sm-12">
                         <div className="form-group">
-                            <label>Quy trình</label>
+                            <label>Bảng đích</label>
                             <Select
-                                onChange={this.handleSelectProcess}
-                                options={processes}
-                                placeholder="Lựa chọn quy trình"
-                                value={process}
+                                onChange={this.handleSelectBoard}
+                                options={boards}
+                                placeholder="Lựa chọn bảng đích"
+                                value={board}
                             />
                         </div>
                     </div>
@@ -42,11 +42,12 @@ class OptionalProcessInput extends React.Component {
     }
 }
 
-OptionalProcessInput.propTypes = {
-    process: PropTypes.object,
+OptionalBoardInput.propTypes = {
+    board: PropTypes.object,
     remove: PropTypes.func.isRequired,
-    selectProcess: PropTypes.func.isRequired,
-    processes: PropTypes.array.isRequired
+    selectBoard: PropTypes.func.isRequired,
+    boards: PropTypes.array.isRequired
 };
 
-export default OptionalProcessInput;
+
+export default OptionalBoardInput;
