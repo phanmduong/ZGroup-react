@@ -140,6 +140,32 @@ class CourseController extends ManageApiController
         ]);
     }
 
+    public function editLink($linkId, Request $request)
+    {
+        $link = Link::find($linkId);
+        if (!$link) return $this->respondErrorWithStatus("không tồn tại link");
+        if ($request->link_url == null || $request->link_name == null || $request->course_id == null)
+            return $this->respondErrorWithStatus(["message" => "Thiếu course_id or link_url or link_name"]);
+        $link->link_name = $request->link_name;
+        $link->link_url = $request->link_url;
+        $link->link_description = $request->link_description;
+        $link->course_id = $request->course_id;
+        if ($request->link_icon != null) {
+
+            $link_icon = uploadFileToS3($request, 'link_icon', 200, $link->link_icon);
+            $link->link_icon = $link_icon;
+            $link->link_icon_url = $this->s3_url . $link_icon;
+        } else {
+            if ($link->link_icon_url == null) {
+                $link->link_icon_url = 'https://placehold.it/800x600';
+            }
+        }
+        $link->save();
+        return $this->respondSuccessWithStatus([
+            'link' => $link
+        ]);
+    }
+
     public function deleteLink($link_id, Request $request)
     {
         $link = Link::find($link_id);
