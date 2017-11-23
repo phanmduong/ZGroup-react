@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Dragula from 'react-dragula';
+import {ListGroup, ListGroupItem} from "react-bootstrap";
 
 class PropertyItemsList extends React.Component {
     constructor(props, context) {
@@ -10,7 +11,7 @@ class PropertyItemsList extends React.Component {
     }
 
     componentDidUpdate() {
-        const containers = Array.prototype.slice.call(document.querySelectorAll(`.property-items-container-${this.props.task.id}`));
+        const containers = Array.prototype.slice.call(document.querySelectorAll(".property-items-container"));
 
         if (!this.isInited) {
             this.isInited = true;
@@ -49,32 +50,35 @@ class PropertyItemsList extends React.Component {
     }
 
     render() {
-        const {task} = this.props;
+        const {selectedGoodPropertyItems} = this.props;
         return (
-            <div>
+            <ListGroup className="property-items-container">
                 {
-                    task.good_property_items && task.good_property_items.length > 0 && (
-                        <div className={`property-items-container-${task.id}`}>
-                            {
-                                task.good_property_items.map((item) => {
-                                    return (
-                                        <div
-                                            data-order={item.order}
-                                            key={item.id}>{item.name}: {item.prevalue} {item.preunit}
-                                        </div>
-                                    );
-                                })
-                            }
-                        </div>
-                    )
+                    selectedGoodPropertyItems &&
+                    selectedGoodPropertyItems.map((goodPropertyItem, index) => (
+                        <ListGroupItem
+                            data-order={goodPropertyItem.order}
+                            key={index}>
+                            <div style={{position: "relative"}}>
+                                {goodPropertyItem.name}
+                                <a style={{position: "absolute", right: 10}}
+                                   className="text-rose"
+                                   onClick={() => this.props.removeProperty(goodPropertyItem)}>
+                                    &times;
+                                </a>
+                            </div>
+                        </ListGroupItem>
+                    ))
                 }
-            </div>
+
+            </ListGroup>
         );
     }
 }
 
 PropertyItemsList.propTypes = {
-    task: PropTypes.object.isRequired
+    selectedGoodPropertyItems: PropTypes.array.isRequired,
+    removeProperty: PropTypes.func.isRequired
 };
 
 export default PropertyItemsList;

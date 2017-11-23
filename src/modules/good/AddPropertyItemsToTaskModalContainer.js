@@ -8,13 +8,14 @@ import Loading from "../../components/common/Loading";
 import Select from "react-select";
 import {showErrorMessage} from "../../helpers/helper";
 import OptionalBoardInput from "./OptionalBoardInput";
+import PropertyItemsList from "../book/PropertyItemsList";
 
 class AddPropertyItemsToTaskModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.close = this.close.bind(this);
         this.state = {
-            value: [],
+            selectedGoodPropertyItems: [],
             currentBoard: {},
             targetBoard: {},
             selectedBoards: [],
@@ -25,19 +26,14 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         this.removeBoard = this.removeBoard.bind(this);
         this.handleSelectBoard = this.handleSelectBoard.bind(this);
         this.handleSelectNav = this.handleSelectNav.bind(this);
+        this.removeProperty = this.removeProperty.bind(this);
     }
 
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.task.id && nextProps.task.id != this.props.task.id) {
             this.setState({
-                value: nextProps.task.good_property_items ? nextProps.task.good_property_items.map((item) => {
-                    return {
-                        ...item,
-                        label: item.name,
-                        value: item.id
-                    };
-                }) : [],
+                selectedGoodPropertyItems: nextProps.task.good_property_items.sort((a, b) => a.order - b.order),
                 currentBoard: nextProps.task.current_board,
                 targetBoard: nextProps.task.target_board
             });
@@ -57,7 +53,12 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
     }
 
     handleSelectChange(value) {
-        this.setState({value});
+        this.setState({
+            selectedGoodPropertyItems: [
+                ...this.state.selectedGoodPropertyItems,
+                value
+            ]
+        });
     }
 
     save() {
@@ -82,7 +83,7 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
             if (isValid) {
                 this.props.goodActions.addPropertyItemsToTask(
                     this.state.selectedBoards,
-                    this.state.value, this.props.task,
+                    this.state.selectedGoodPropertyItems, this.props.task,
                     this.state.currentBoard, this.state.targetBoard);
             }
 
@@ -90,6 +91,12 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
             showErrorMessage("Lỗi", "Bạn cần lựa chọn quy trình cho những ô quy trình tuỳ chọn đã thêm");
         }
 
+    }
+
+    removeProperty(goodPropertyItem) {
+        this.setState({
+            selectedGoodPropertyItems: this.state.selectedGoodPropertyItems.filter((s) => s.id !== goodPropertyItem.id)
+        });
     }
 
     removeBoard(index) {
@@ -118,7 +125,6 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
 
     render() {
         const {showModal} = this.props;
-        const {value} = this.state;
         return (
             <Modal show={showModal} onHide={this.close}>
                 <Modal.Header closeButton>
@@ -136,15 +142,24 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                                 {
                                     this.state.tab === "property" && (
                                         <div>
-                                            <div className="form-group">
-                                                <label>Thuộc tính cần nhập</label>
+                                            <div style={{marginTop: 20}}>
+                                                <PropertyItemsList
+                                                    removeProperty={this.removeProperty}
+                                                    selectedGoodPropertyItems={this.state.selectedGoodPropertyItems.map((item, index) => {
+                                                        return {
+                                                            ...item,
+                                                            order: index
+                                                        };
+                                                    })}/>
                                                 <Select
-                                                    closeOnSelect={false}
-                                                    multi={true}
                                                     onChange={this.handleSelectChange}
-                                                    options={this.props.goodPropertyItems}
+                                                    options={this.props.goodPropertyItems.filter((goodPropertyItem) => {
+                                                        const count = this.state.selectedGoodPropertyItems.filter((s) => {
+                                                            return goodPropertyItem.id === s.id;
+                                                        }).length;
+                                                        return count === 0;
+                                                    })}
                                                     placeholder="Lựa chọn thuộc tính"
-                                                    value={value}
                                                 />
                                             </div>
                                         </div>
