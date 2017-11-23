@@ -88,6 +88,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('add-staff', "ManageStaffApiController@add_staff");
     Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
     Route::post('/create-avatar', 'ManageStaffApiController@create_avatar');
+    Route::post('/reset-password', 'ManageStaffApiController@reset_password');
     // End staff api
 
     // Begin Base api
@@ -124,6 +125,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::get('/profile', 'ManageUserApiController@get_profile');
     Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
     Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
+    Route::post('/change-password', 'ManageUserApiController@change_password');
     //End user api
 
     //Begin study session api
