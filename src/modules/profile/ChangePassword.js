@@ -7,6 +7,7 @@ import {bindActionCreators} from 'redux';
 import FormInputText from "../../components/common/FormInputText";
 import * as profileActions from './profileActions';
 import * as helper from '../../helpers/helper';
+import PropTypes from 'prop-types';
 
 class ChangePassword extends React.Component {
     constructor(props, context) {
@@ -100,6 +101,13 @@ class ChangePassword extends React.Component {
             </form>
         );
     }
+}
+
+ChangePassword.propTypes = {
+    profile: PropTypes.object.isRequired,
+    isChangingPassword: PropTypes.bool.isRequired,
+    profileActions: PropTypes.object.isRequired,
+    closeModal: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {
