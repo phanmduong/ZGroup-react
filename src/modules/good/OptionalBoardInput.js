@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from "react-select";
-import {Button, ListGroupItem} from "react-bootstrap";
+import {ListGroupItem} from "react-bootstrap";
 
 class OptionalBoardInput extends React.Component {
     constructor(props, context) {
@@ -15,10 +15,16 @@ class OptionalBoardInput extends React.Component {
     }
 
     render() {
-        const {board, boards} = this.props;
+        const {boards} = this.props;
         return (
             <ListGroupItem>
-                <div className="row">
+                <div className="row" style={{position: "relative"}}>
+                    <button type="button" style={{position: "absolute", top: 0, right: 5}}
+                            className="close">
+                        <span
+                            aria-hidden="true">x</span><span className="sr-only">Close</span>
+                    </button>
+
                     <div className="col-sm-12">
                         <div className="form-group">
                             <label>Bảng đích</label>
@@ -26,16 +32,10 @@ class OptionalBoardInput extends React.Component {
                                 onChange={this.handleSelectBoard}
                                 options={boards}
                                 placeholder="Lựa chọn bảng đích"
-                                value={board}
                             />
                         </div>
                     </div>
-                    <div className="col-sm-12" style={{display: "flex", flexDirection: "row-reverse"}}>
-                        <Button onClick={this.props.remove} className="btn btn-danger">
-                            <i className="material-icons">delete</i>
-                            Xoá
-                        </Button>
-                    </div>
+
                 </div>
             </ListGroupItem>
         );
@@ -43,8 +43,6 @@ class OptionalBoardInput extends React.Component {
 }
 
 OptionalBoardInput.propTypes = {
-    board: PropTypes.object,
-    remove: PropTypes.func.isRequired,
     selectBoard: PropTypes.func.isRequired,
     boards: PropTypes.array.isRequired
 };

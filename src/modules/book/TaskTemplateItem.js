@@ -108,14 +108,16 @@ class TaskTemplateItem extends React.Component {
                             </div>
                         </KeetoolPanel>
                         <KeetoolPanel
-                            title="Quy trình tuỳ chọn">
+                            title="Bảng đích">
                             <div>
                                 {
                                     task.optional_boards && task.optional_boards.map((optionalBoard, index) => {
                                             return (
                                                 <div key={index}>
-                                                    Quy trình: {optionalBoard.process ?
-                                                    optionalBoard.process.title + ` - ${optionalBoard.board.title}` : ""}
+                                                    {optionalBoard.board && (
+                                                        <div>{optionalBoard.board ?
+                                                            optionalBoard.board.title : ""}</div>
+                                                    )}
                                                 </div>
                                             );
                                         }

@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Button, ListGroup, Modal} from "react-bootstrap";
+import {Button, ListGroup, ListGroupItem, Modal, Nav, NavItem} from "react-bootstrap";
 import * as goodActions from '../good/goodActions';
 import Loading from "../../components/common/Loading";
 import Select from "react-select";
@@ -17,13 +17,14 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
             value: [],
             currentBoard: {},
             targetBoard: {},
-            selectedBoards: [{}, {}]
+            selectedBoards: [],
+            tab: "property"
         };
         this.handleSelectChange = this.handleSelectChange.bind(this);
         this.save = this.save.bind(this);
-        this.addBoardInput = this.addBoardInput.bind(this);
-        this.removeBoardInput = this.removeBoardInput.bind(this);
+        this.removeBoard = this.removeBoard.bind(this);
         this.handleSelectBoard = this.handleSelectBoard.bind(this);
+        this.handleSelectNav = this.handleSelectNav.bind(this);
     }
 
 
@@ -91,27 +92,28 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
 
     }
 
-    addBoardInput() {
-        this.setState({
-            selectedBoards: [
-                ...this.state.selectedBoards,
-                {}
-            ]
-        });
-    }
-
-    removeBoardInput(index) {
+    removeBoard(index) {
         this.setState({
             selectedBoards: [...this.state.selectedBoards.slice(0, index), ...this.state.selectedBoards.slice(index + 1)]
         });
     }
 
-    handleSelectBoard(index) {
-        return function (process) {
-            this.setState({
-                selectedBoards: [...this.state.selectedBoards.slice(0, index), {...process}, ...this.state.selectedBoards.slice(index + 1)]
-            });
-        }.bind(this);
+    handleSelectBoard(value) {
+        this.setState({
+            selectedBoards: [
+                ...this.state.selectedBoards,
+                value
+            ]
+        });
+    }
+
+    handleSelectNav(eventKey) {
+        event.preventDefault();
+
+        // alert(`selected ${eventKey}`);
+        this.setState({
+            tab: eventKey
+        });
     }
 
     render() {
@@ -120,44 +122,66 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         return (
             <Modal show={showModal} onHide={this.close}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Thuộc tính cần nhập</Modal.Title>
+                    <Modal.Title>Cài đặt</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {
                         this.props.isLoading ? <Loading/> : (
                             <div>
-                                <div className="form-group">
-                                    <label>Thuộc tính cần nhập</label>
-                                    <Select
-                                        closeOnSelect={false}
-                                        multi={true}
-                                        onChange={this.handleSelectChange}
-                                        options={this.props.goodPropertyItems}
-                                        placeholder="Lựa chọn thuộc tính"
-                                        value={value}
-                                    />
-                                </div>
-                                <ListGroup>
-                                    {
-                                        this.state.selectedBoards && this.state.selectedBoards.map((board, index) => {
-                                            return (
+                                <Nav bsStyle="pills" activeKey={this.state.tab} onSelect={this.handleSelectNav}>
+                                    <NavItem eventKey="property" href="/home">Thuộc tính</NavItem>
+                                    <NavItem eventKey="boards" href="/home">Bảng đích</NavItem>
+                                </Nav>
+
+                                {
+                                    this.state.tab === "property" && (
+                                        <div>
+                                            <div className="form-group">
+                                                <label>Thuộc tính cần nhập</label>
+                                                <Select
+                                                    closeOnSelect={false}
+                                                    multi={true}
+                                                    onChange={this.handleSelectChange}
+                                                    options={this.props.goodPropertyItems}
+                                                    placeholder="Lựa chọn thuộc tính"
+                                                    value={value}
+                                                />
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    this.state.tab === "boards" && (
+                                        <div style={{marginTop: 20}}>
+                                            <ListGroup>
+                                                {
+                                                    this.state.selectedBoards && this.state.selectedBoards.map((board, index) => {
+                                                        return (
+                                                            <ListGroupItem key={index}>
+                                                                <div style={{position: "relative"}}>
+                                                                    {board.title}
+                                                                    <a style={{position: "absolute", right: 5}}
+                                                                       className="text-rose"
+                                                                       onClick={() => this.removeBoard(index)}>
+                                                                        &times;
+                                                                    </a>
+                                                                </div>
+                                                            </ListGroupItem>
+                                                        );
+                                                    })
+                                                }
                                                 <OptionalBoardInput
-                                                    selectBoard={this.handleSelectBoard(index)}
-                                                    key={index}
-                                                    board={board}
-                                                    remove={() => this.removeBoardInput(index)}
-                                                    boards={this.props.boards}/>
-                                            );
-                                        })
-                                    }
-                                </ListGroup>
-
-                                <Button
-                                    onClick={this.addBoardInput}
-                                    className="btn btn-simple">
-                                    + Thêm bảng đích
-                                </Button>
-
+                                                    selectBoard={this.handleSelectBoard}
+                                                    boards={this.props.boards.filter((board) => {
+                                                        const count = this.state.selectedBoards.filter((b) => {
+                                                            return b.id === board.id;
+                                                        }).length;
+                                                        return count === 0;
+                                                    })}/>
+                                            </ListGroup>
+                                        </div>
+                                    )
+                                }
                             </div>
                         )
                     }
