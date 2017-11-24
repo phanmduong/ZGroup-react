@@ -9,6 +9,7 @@ use App\ImportedGoods;
 use App\Manufacture;
 use App\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InventoryApiController extends ManageApiController
 {
@@ -80,17 +81,10 @@ class InventoryApiController extends ManageApiController
             $goods = $goods->where('manufacture_id', $manufacture_id);
         if ($good_category_id)
             $goods = $goods->where('good_category_id', $good_category_id);
-        $goods = $goods->orderBy('created_at', 'desc')->paginate($limit);
-        //filter giống dưới này nè......
-//        $goods = $goods->filter(function ($good) use ($warehouse_id) {
-//            $importedGoods = ImportedGoods::where('good_id', $good->id);
-//            if ($warehouse_id)
-//                $importedGoods = $importedGoods->where('warehouse_id', $warehouse_id);
-//            $importedGoods = $importedGoods->get();
-//            return $importedGoods->reduce(function ($total, $importedGood) {
-//                    return $total + $importedGood->quantity;
-//                }, 0) > 0;
-//        });
+        $goods = $goods->join('imported_goods', 'goods.id', '=', 'imported_goods.good_id')
+            ->select('goods.*', DB::raw('SUM(imported_goods.quantity) as quantity'))
+            ->groupBy('good_id')->having(DB::raw('SUM(quantity)'), '>', 0);
+        $goods = $goods->orderBy('goods.created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $goods,
             [
@@ -118,40 +112,6 @@ class InventoryApiController extends ManageApiController
                 })
             ]
         );
-        //        $inventories = ImportedGoods::where('quantity', '<>', 0);
-//        if ($keyword) {
-//            $goodIds = Good::where(function ($query) use ($keyword) {
-//                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-//            })->select('id')->get();
-//            $inventories = $inventories->whereIn('good_id', $goodIds);
-//        }
-//        if ($manufacture_id) {
-//            $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
-//            $inventories = $inventories->whereIn('good_id', $goodIds);
-//        }
-//        if ($good_category_id) {
-//            $goodIds = Good::where('good_category_id', $good_category_id)->select('id')->get();
-//            $inventories = $inventories->whereIn('good_id', $goodIds);
-//        }
-//        $inventories = $inventories->paginate($limit);
-//        return $this->respondWithPagination(
-//            $inventories,
-//            [
-//                'inventories' => $inventories->map(function ($inventory) {
-//                    $data = [
-//                        'id' => $inventory->id,
-//                        'code' => $inventory->good->code,
-//                        'name' => $inventory->good->name,
-//                        'quantity' => $inventory->quantity,
-//                        'import_price' => $inventory->import_price,
-//                        'import_money' => $inventory->import_price * $inventory->quantity,
-//                        'price' => $inventory->good->price,
-//                        'money' => $inventory->good->price * $inventory->quantity
-//                    ];
-//                    return $data;
-//                })
-//            ]
-//        );
     }
 
     public function inventoriesInfo(Request $request)
