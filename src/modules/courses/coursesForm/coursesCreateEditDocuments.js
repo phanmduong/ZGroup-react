@@ -19,21 +19,26 @@ class coursesCreateEditDocuments extends React.Component {
             openModal: false,
             currentLink: 0,
             link :{
-                link_icon_url: NO_IMAGE,
+                id: "",
+                course_id:"",
+                link_icon_url: "",
                 link_name: "",
                 link_description: "",
-                link_url: NO_IMAGE,
+                link_url: "1",
             },
         };
-        this.openModal      = this.openModal.bind(this);
-        this.closeModal     = this.closeModal.bind(this);
-        this.updateLinkData = this.updateLinkData.bind(this);
-        this.uploadLinkIcon = this.uploadLinkIcon.bind(this);
-        this.editLink       = this.editLink.bind(this);
+        this.isCreate   = true;
+        this.openModal          = this.openModal.bind(this);
+        this.closeModal         = this.closeModal.bind(this);
+        this.updateLinkData     = this.updateLinkData.bind(this);
+        this.uploadLinkIcon     = this.uploadLinkIcon.bind(this);
+        this.editLink           = this.editLink.bind(this);
+        this.commitLink         = this.commitLink.bind(this);
+        this.checkValidate      = this.checkValidate.bind(this);
     }
 
     componentWillMount(){
-        //this.props.coursesActions.beginLoadLink();
+        helper.setFormValidation('#form-edit-link');
     }
 
     componentWillReceiveProps(nextProps){
@@ -43,6 +48,13 @@ class coursesCreateEditDocuments extends React.Component {
 
     openModal(){
         this.setState({openModal: true});
+        let  link = {
+                link_icon_url: "",
+                link_name: "",
+                link_description: "",
+                link_url: "",
+        };
+        this.props.coursesActions.editLink(link);
     }
     closeModal(){
         this.setState({openModal: false});
@@ -53,8 +65,9 @@ class coursesCreateEditDocuments extends React.Component {
         this.props.coursesActions.uploadLinkIcon(this.props.link, file);
     }
 
-    editLink(link){
-
+    editLink(link, index){
+        this.setState({openModal: true});
+        this.props.coursesActions.editLink(link);
 
     }
 
@@ -62,10 +75,35 @@ class coursesCreateEditDocuments extends React.Component {
         const   feild   = e.target.name;
         const   value   = e.target.value;
         let link = {...this.props.link};
+        link.course_id = this.props.data.id;
         link[feild] = value;
         this.props.coursesActions.updateLinkData(link);
     }
 
+    commitLink(){
+        if(this.checkValidate())
+        if(this.isCreate)
+        {
+            this.props.coursesActions.createLink(this.props.link);
+        }
+
+
+
+
+    }
+    checkValidate() {
+
+        if ($('#form-edit-link').valid()) {
+
+            if (helper.isEmptyInput(this.props.link.link_icon_url)) {
+                helper.showTypeNotification('Vui lòng chọn ảnh icon', 'warning');
+                return false;
+            }
+
+            return true;
+        }
+        return false;
+    }
     render(){
 
         return (
@@ -92,7 +130,7 @@ class coursesCreateEditDocuments extends React.Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {this.props.data.links.map((link)=>{
+                            {this.props.data.links.map((link, index)=>{
                                 return (
                                     <tr key={link.id}>
                                         <td>
@@ -120,7 +158,7 @@ class coursesCreateEditDocuments extends React.Component {
                                         <td>{link.link_description}</td>
                                         <td>
                                         <ButtonGroupAction
-                                            edit={this.editLink(link)}
+                                            edit={()=>{return this.editLink(link, index);}}
                                             delete={()=>{}}
                                             object={link}
                                         />
@@ -185,6 +223,7 @@ class coursesCreateEditDocuments extends React.Component {
                                     <FormInputText
                                         label="Tên link"
                                         name="link_name"
+                                        required
                                         updateFormData={this.updateLinkData}
                                         value={this.props.link.link_name}
                                         type="text"
@@ -194,6 +233,7 @@ class coursesCreateEditDocuments extends React.Component {
                                     <FormInputText
                                         label="Mô tả"
                                         name="link_description"
+                                        required
                                         updateFormData={this.updateLinkData}
                                         value={this.props.link.link_description}
                                         type="text"
@@ -203,13 +243,14 @@ class coursesCreateEditDocuments extends React.Component {
                                     <FormInputText
                                         label="Đường dẫn url"
                                         name="link_url"
+                                        required
                                         updateFormData={this.updateLinkData}
                                         value={this.props.link.link_url}
                                         type="text"
                                     />
                                 </div>
                             </div>
-                            {this.props.isEditingStudent ?
+                            {this.props.isUploadingLink ?
                                 (
                                     <button
                                         className="btn btn-fill btn-rose disabled"
@@ -220,7 +261,7 @@ class coursesCreateEditDocuments extends React.Component {
                                 :
                                 <div>
                                     <button className="btn btn-rose"
-                                            onClick={this.editInfoStudent}
+                                            onClick={this.commitLink}
                                     > Cập nhật
                                     </button>
                                     <button className="btn btn-rose"
@@ -241,7 +282,8 @@ class coursesCreateEditDocuments extends React.Component {
 
 coursesCreateEditDocuments.propTypes = {
     isLoading           : PropTypes.bool.isRequired,
-    isUploadingLinkIcon           : PropTypes.bool.isRequired,
+    isUploadingLinkIcon : PropTypes.bool.isRequired,
+    isUploadingLink     : PropTypes.bool.isRequired,
     data                : PropTypes.object,
     link                : PropTypes.object,
     coursesActions      : PropTypes.object.isRequired
@@ -250,6 +292,7 @@ coursesCreateEditDocuments.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoading           : state.courses.isLoading,
+        isUploadingLink     : state.courses.isUploadingLink,
         isUploadingLinkIcon : state.courses.isUploadingLinkIcon,
         data                : state.courses.data,
         link                : state.courses.link,

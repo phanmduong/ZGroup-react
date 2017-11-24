@@ -185,7 +185,6 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.UPLOAD_ICON_LINK_SUCCESS: {
-            console.log("test link", action.link);
             return {
                 ...state,
                 ...{
@@ -203,6 +202,15 @@ export default function courseReducer(state = initialState.courses, action) {
 
                 }
             };
+        case types.OPEN_MODAL_EDIT_LINK: {
+            return {
+                ...state,
+                ...{
+                    data: state.data,
+                    link: action.link,
+                }
+            };
+        }
         case types.BEGIN_CREATE_EDIT_COURSES:
             return {
                 ...state,
@@ -229,6 +237,33 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...{
                     isCommitting: false,
                     commitSuccess: false
+                }
+            };
+        case types.BEGIN_CREATE_LINK:
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: true,
+                    data: state.data,
+                    link: state.link,
+                }
+            };
+        case types.CREATE_LINK_SUCCESS:{
+
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: false,
+                    data: state.data,
+                    link: action.link,
+                }
+            };
+        }
+        case types.CREATE_LINK_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: false,
                 }
             };
 

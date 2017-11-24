@@ -635,6 +635,7 @@ export default {
     courses: {
         isLoading: false,
         isUploadingLinkIcon: false,
+        isUploadingLink: false,
         error: false,
         coursesList: [],
         isDeleting : false,

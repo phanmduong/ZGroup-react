@@ -25,6 +25,15 @@ export function loadCourse(id) {
     //http://manageapi.keetool.tk/v2/course/get-detailed/1?token=
 }
 
+export function createLink(data) {
+    let url = env.MANAGE_API_URL + "/v2/course/create-link";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, data);
+    //http://manageapi.keetool.tk/v2/course/create-link?token=
+}
 export function createEditCourse(data) {
     let url = env.MANAGE_API_URL + "/v2/course/create-edit";
     let token = localStorage.getItem('token');
