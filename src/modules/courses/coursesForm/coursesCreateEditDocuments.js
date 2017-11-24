@@ -32,8 +32,9 @@ class coursesCreateEditDocuments extends React.Component {
         this.closeModal         = this.closeModal.bind(this);
         this.updateLinkData     = this.updateLinkData.bind(this);
         this.uploadLinkIcon     = this.uploadLinkIcon.bind(this);
-        this.editLink           = this.editLink.bind(this);
+        this.openModalEditLink  = this.openModalEditLink.bind(this);
         this.commitLink         = this.commitLink.bind(this);
+        this.deleteLink         = this.deleteLink.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
     }
 
@@ -41,12 +42,13 @@ class coursesCreateEditDocuments extends React.Component {
         helper.setFormValidation('#form-edit-link');
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log('coursesCreateEditDocuments', nextProps);
+    componentWillReceiveProps(){
+        //console.log('coursesCreateEditDocuments', nextProps);
 
     }
 
     openModal(){
+        this.isCreate = true;
         this.setState({openModal: true});
         let  link = {
                 link_icon_url: "",
@@ -58,6 +60,7 @@ class coursesCreateEditDocuments extends React.Component {
     }
     closeModal(){
         this.setState({openModal: false});
+        this.props.coursesActions.loadOneCourse(this.props.data.id);
     }
 
     uploadLinkIcon(event){
@@ -65,11 +68,18 @@ class coursesCreateEditDocuments extends React.Component {
         this.props.coursesActions.uploadLinkIcon(this.props.link, file);
     }
 
-    editLink(link, index){
+    openModalEditLink(link){
+        this.isCreate = false;
         this.setState({openModal: true});
         this.props.coursesActions.editLink(link);
-
     }
+
+    deleteLink(id){
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa link này không?", () => {
+            this.props.coursesActions.deleteLink(id);
+        });
+    }
+
 
     updateLinkData(e){
         const   feild   = e.target.name;
@@ -85,9 +95,9 @@ class coursesCreateEditDocuments extends React.Component {
         if(this.isCreate)
         {
             this.props.coursesActions.createLink(this.props.link);
+        }else {
+            this.props.coursesActions.commitEditLink(this.props.link);
         }
-
-
 
 
     }
@@ -130,7 +140,7 @@ class coursesCreateEditDocuments extends React.Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {this.props.data.links.map((link, index)=>{
+                            {this.props.data.links.map((link)=>{
                                 return (
                                     <tr key={link.id}>
                                         <td>
@@ -158,8 +168,8 @@ class coursesCreateEditDocuments extends React.Component {
                                         <td>{link.link_description}</td>
                                         <td>
                                         <ButtonGroupAction
-                                            edit={()=>{return this.editLink(link, index);}}
-                                            delete={()=>{}}
+                                            edit={()=>{return this.openModalEditLink(link);}}
+                                            delete={()=>{return this.deleteLink(link.id);}}
                                             object={link}
                                         />
                                         </td>
@@ -182,11 +192,11 @@ class coursesCreateEditDocuments extends React.Component {
                                     <img
                                         width={"100%"}
                                         src = {
-                                            helper.isEmptyInput(this.props.link.link_icon_url)
+                                            helper.isEmptyInput(this.props.link.link_icon)
                                             ?
                                                 NO_IMAGE
                                                 :
-                                                this.props.link.link_icon_url}
+                                                this.props.link.link_icon}
                                     />
                                 </div>
                                 <div className="col-md-12">

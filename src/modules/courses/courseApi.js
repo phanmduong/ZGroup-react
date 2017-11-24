@@ -34,6 +34,26 @@ export function createLink(data) {
     return axios.post(url, data);
     //http://manageapi.keetool.tk/v2/course/create-link?token=
 }
+export function editLink(data) {
+    let url = env.MANAGE_API_URL + "/v2/course/edit-link/" + data.id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, data);
+    //http://manageapi.keetool.tk/v2/course/create-link?token=
+}
+
+export function deleteLink(id) {
+    let url = env.MANAGE_API_URL + "/v2/course/delete-link/";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += id+"?token=" + token;
+    }
+    return axios.delete(url);
+    //http://manageapi.keetool.tk/v2/course/delete-link/{link_id}?token=
+}
+
 export function createEditCourse(data) {
     let url = env.MANAGE_API_URL + "/v2/course/create-edit";
     let token = localStorage.getItem('token');

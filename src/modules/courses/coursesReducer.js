@@ -4,7 +4,7 @@ import initialState from '../../reducers/initialState';
 
 let data;
 export default function courseReducer(state = initialState.courses, action) {
-    //console.log(action.type, initialState.courses);
+    console.log(action.type);
     switch (action.type) {
         case types.BEGIN_LOAD_LINK:
             return {
@@ -57,6 +57,25 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.DELETE_COURSES_ERROR:
+            return {
+                ...state,
+
+            };
+        case types.BEGIN_DELETE_LINK:
+            return {
+                ...state,
+            };
+
+        case types.DELETE_LINK_SUCCESS:
+            data = deleteLink(action.linkId, {...state.data});
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    data: data,
+                }
+            };
+        case types.DELETE_LINK_ERROR:
             return {
                 ...state,
 
@@ -249,7 +268,6 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.CREATE_LINK_SUCCESS:{
-
             return {
                 ...state,
                 ...{
@@ -260,6 +278,32 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.CREATE_LINK_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: false,
+                }
+            };
+        case types.BEGIN_EDIT_LINK:
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: true,
+                    data: state.data,
+                    link: state.link,
+                }
+            };
+        case types.EDIT_LINK_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: false,
+                    data: state.data,
+                    link: state.link,
+                }
+            };
+        }
+        case types.EDIT_LINK_ERROR:
             return {
                 ...state,
                 ...{
@@ -321,6 +365,13 @@ function deleteCourse(courseId, courseList) {
         courseList = courseList.filter(course => course.id !== courseId);
     }
     return courseList;
+}
+
+function deleteLink(linkId, linkList) {
+    if (linkList) {
+        linkList.links = linkList.links.filter(link => link.id !== linkId);
+    }
+    return linkList;
 }
 
 

@@ -6,6 +6,7 @@ import {browserHistory}                 from 'react-router';
 export function createLink(link) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_LINK});
+        link.link_url = link.link_icon_url;
         courseApi.createLink(link)
             .then(res => {
                 helper.showNotification("Lưu Thành Công!");
@@ -22,6 +23,46 @@ export function createLink(link) {
     };
 }
 
+export function commitEditLink(link) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_LINK});
+
+        let newlink = {...link};
+        newlink.link_url = newlink.link_icon_url;
+        courseApi.editLink(newlink)
+            .then(() => {
+                helper.showNotification("Sửa Thành Công!");
+                dispatch({
+                    type: types.EDIT_LINK_SUCCESS
+                });
+
+            })
+            .catch((err) => {
+                helper.showErrorNotification("Có lỗi xảy ra! " + err);
+                dispatch({type: types.EDIT_LINK_ERROR});
+            });
+    };
+}
+
+export function deleteLink(id) {
+    return function (dispatch) {
+        dispatch  ({type: types.BEGIN_DELETE_LINK});
+        helper.showWarningNotification("Đang xoá Link!");
+        courseApi.deleteLink(id)
+            .then(() => {
+                helper.showNotification("Xoá Thành Công!");
+                dispatch({
+                    type: types.DELETE_LINK_SUCCESS,
+                    linkId: id,
+                });
+
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! ");
+                dispatch({type: types.DELETE_LINK_ERROR});
+            });
+    };
+}
 
 
 export function loadOneCourse(id) {
@@ -79,6 +120,7 @@ export function uploadLinkIcon(link ,file) {
             let data = JSON.parse(event.currentTarget.response);
             let newdata = {...link};
             newdata.link_icon_url = data.link;
+            newdata.link_icon     = data.link;
             dispatch({
                 type: types.UPLOAD_ICON_LINK_SUCCESS,
                 link: newdata
