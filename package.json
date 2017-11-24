@@ -32,7 +32,7 @@
   "dependencies": {
     "async": "git+https://github.com/caolan/async.git",
     "axios": "0.15.3",
-    "chart.js": "1.1.1",
+    "chart.js": "^2.7.1",
     "draft-js": "^0.10.1",
     "draftjs-to-html": "^0.7.5",
     "firebase": "^4.5.0",
@@ -46,7 +46,7 @@
     "react": "15.5.4",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-switch": "15.0.3",
-    "react-chartjs": "0.8.0",
+    "react-chartjs-2": "^2.6.4",
     "react-color": "^2.13.4",
     "react-dom": "15.5.4",
     "react-draft-wysiwyg": "^1.10.8",

@@ -82,6 +82,7 @@ import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCam
 import CreateProductContainer from "./modules/createProduct/CreateProductContainer";
 import ProductSystemContainer from "./modules/createProduct/ProductSystemContainer";
 import ProductWebsiteContainer from "./modules/createProduct/ProductWebsiteContainer";
+import SummaryMarketingCampaignContainer from "./modules/summaryMarketingCampaign/SummaryMarketingCampaignContainer";
 
 export default (
     <Route>
@@ -128,11 +129,12 @@ export default (
             {/*Begin blog routes*/}
             <Route path="/blog/new-post" component={StorePostContainer} type="create"/>
             <Route path="/blog/post/:postId/edit" component={StorePostContainer} type="edit"/>
-            <Route path="/blog/posts" component={PostsContainer} />
+            <Route path="/blog/posts" component={PostsContainer}/>
             {/*End blog routes*/}
 
             {/*Begin register student routes*/}
             <Route path="/manage/registerlist(/:salerId)" component={RegisterListContainer}/>
+            <Route path="/registerlist/:campaignId/:genId" component={RegisterListContainer}/>
             {/*End register student routes*/}
 
             {/*Begin register student routes*/}
@@ -245,12 +247,11 @@ export default (
             <Route path="/manage/courses/lessons/create" component={LessonsContainer}/>
             {/*End lessons routes */}
 
-                                               l
+            l
 
             {/*Begin categories routes */}
             <Route path="/goods/categories" component={CategoriesContainer}/>
             {/*End categories routes */}
-
 
 
             {/*Begin good order routes */}
@@ -283,6 +284,7 @@ export default (
 
             {/*Begin marketing campaigns routes */}
             <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
+            <Route path="/marketing-campaign/summary" component={SummaryMarketingCampaignContainer}/>
             {/*End marketing campaigns routes*/}
 
             {/*Begin customer routes */}

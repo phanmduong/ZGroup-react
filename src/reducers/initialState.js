@@ -1,13 +1,13 @@
 export default {
 
-    createProduct:{
+    createProduct: {
         categories: [],
         manufactures: [],
         isUploadingAvatar: false,
         percent: 0,
-        avatar_url:'',
-        images:[],
-        isUploadingImage:false
+        avatar_url: '',
+        images: [],
+        isUploadingImage: false
     },
 
 
@@ -630,7 +630,7 @@ export default {
 
     dashboard: {
         gens: [],
-        isLoadingGens: false,
+        isLoadingGens: true,
         errorGens: false,
         currentGen: {},
         bases: [],
@@ -993,5 +993,18 @@ export default {
         courses: [],
         isLoadingCourses: false,
         errorCourses: false,
+    },
+
+    summaryMarketingCampaign: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
     }
 };
