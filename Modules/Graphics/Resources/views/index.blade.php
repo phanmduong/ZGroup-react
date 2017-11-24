@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <div class="page-header page-header-xs">
+    <div class="page-header page-header-xs"
          style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035547Sn5EuAfrqhekuNS.png');">
         <div class="filter"></div>
         <div class="content-center">
