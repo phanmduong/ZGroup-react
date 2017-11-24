@@ -22,7 +22,8 @@ class OrderPaidMoney extends Model
             "money" => $this->money,
             "note" => $this->note,
             "order_id" => $this->order_id,
-            "payment" => $this->payment
+            "payment" => $this->payment,
+            "created_at" => format_full_time_date($this->created_at),
         ];
         if($this->staff)
             $data['staff'] = [

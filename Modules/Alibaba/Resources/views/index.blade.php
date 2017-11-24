@@ -11,7 +11,7 @@
                     <h1 class="title" style="font-weight:600"><b>ANH NGỮ ALIBABA</b></h1>
                     <h5 class="description" style="font-weight:100">TRUNG TÂM ANH NGỮ GIAO TIẾP LỚN NHẤT HÀ THÀNH</h5>
                     <br>
-                    <button type="button" class="btn btn-outline-neutral btn-round" onclick="window.location.href='/register/6'">
+                    <button type="button" class="btn btn-outline-neutral btn-round" onclick="window.location.href='/courses'">
                         <i class="fa fa-plus"></i>
                         Tìm hiểu thêm
                     </button>
@@ -44,7 +44,7 @@
                         TẶNG Vé tham gia club tối chủ nhật 600.000đ/1 năm.
                     </p>
                     <br>
-                    <a class="btn btn-round btn-danger" style="color:white;background-color:#FF6D00;border-color:#FF6D00" onclick="window.location.href='/register/6'"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
+                    <a class="btn btn-round btn-danger" style="color:white;background-color:#FF6D00;border-color:#FF6D00" onclick="window.location.href='/courses'"><i class="fa fa-plus"></i> Tìm hiểu thêm </a>
                 </div>
                 <br>
             </div>
@@ -66,7 +66,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="card card-profile card-plain">
-                        <img class="card-img-top" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991593DuzuaRljeSXIEoP.jpg">
+                        <img class="card-img-top" style="background-color: none" src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991593DuzuaRljeSXIEoP.jpg">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -87,7 +87,7 @@
                                 định sẽ không
                                 chờ đợi nữa, mà sẽ bắt tay vào tự thực hiện chúng, thứ chúng tôi từng ao ước.</p>
                             <br>
-                            <button type="button" class="btn btn-outline-neutral btn-round" onclick="window.location.href='/register/6'">
+                            <button type="button" class="btn btn-outline-neutral btn-round" onclick="window.location.href='/courses'">
                                 <i class="fa fa-plus"></i>
                                 Tìm hiểu thêm
                             </button>

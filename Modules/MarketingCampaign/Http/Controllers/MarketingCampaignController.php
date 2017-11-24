@@ -29,6 +29,7 @@ class MarketingCampaignController extends ManageApiController
             return [
                 'id' => $marketingCampaign->id,
                 'name' => $marketingCampaign->name,
+                'color' => $marketingCampaign->color,
             ];
         });
 

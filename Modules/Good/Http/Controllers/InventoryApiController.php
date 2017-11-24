@@ -69,41 +69,89 @@ class InventoryApiController extends ManageApiController
         $good_category_id = $request->good_category_id;
         $manufacture_id = $request->manufacture_id;
         $keyword = $request->search;
+        $warehouse_id = $request->warehouse_id;
 
-        $inventories = ImportedGoods::where('quantity', '<>', 0);
-        if ($keyword) {
-            $goodIds = Good::where(function ($query) use ($keyword) {
+        $goods = Good::query();
+        if ($keyword)
+            $goods = $goods->where(function ($query) use ($keyword) {
                 $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
-            })->select('id')->get();
-            $inventories = $inventories->whereIn('good_id', $goodIds);
-        }
-        if ($manufacture_id) {
-            $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
-            $inventories = $inventories->whereIn('good_id', $goodIds);
-        }
-        if ($good_category_id) {
-            $goodIds = Good::where('good_category_id', $good_category_id)->select('id')->get();
-            $inventories = $inventories->whereIn('good_id', $goodIds);
-        }
-        $inventories = $inventories->paginate($limit);
+            });
+        if ($manufacture_id)
+            $goods = $goods->where('manufacture_id', $manufacture_id);
+        if ($good_category_id)
+            $goods = $goods->where('good_category_id', $good_category_id);
+        $goods = $goods->orderBy('created_at', 'desc')->paginate($limit);
+        //filter giống dưới này nè......
+//        $goods = $goods->filter(function ($good) use ($warehouse_id) {
+//            $importedGoods = ImportedGoods::where('good_id', $good->id);
+//            if ($warehouse_id)
+//                $importedGoods = $importedGoods->where('warehouse_id', $warehouse_id);
+//            $importedGoods = $importedGoods->get();
+//            return $importedGoods->reduce(function ($total, $importedGood) {
+//                    return $total + $importedGood->quantity;
+//                }, 0) > 0;
+//        });
         return $this->respondWithPagination(
-            $inventories,
+            $goods,
             [
-                'inventories' => $inventories->map(function ($inventory) {
-                    $data = [
-                        'id' => $inventory->id,
-                        'code' => $inventory->good->code,
-                        'name' => $inventory->good->name,
-                        'quantity' => $inventory->quantity,
-                        'import_price' => $inventory->import_price,
-                        'import_money' => $inventory->import_price * $inventory->quantity,
-                        'price' => $inventory->good->price,
-                        'money' => $inventory->good->price * $inventory->quantity
+                'inventories' => $goods->map(function ($good) use ($warehouse_id) {
+                    $importedGoods = ImportedGoods::where('good_id', $good->id);
+                    if ($warehouse_id)
+                        $importedGoods = $importedGoods->where('warehouse_id', $warehouse_id);
+                    $importedGoods = $importedGoods->get();
+                    $quantity = $importedGoods->reduce(function ($total, $importedGood) {
+                        return $total + $importedGood->quantity;
+                    }, 0);
+                    $import_money = $importedGoods->reduce(function ($total, $importedGood) {
+                        return $total + $importedGood->quantity * $importedGood->import_price;
+                    }, 0);
+                    return [
+                        'id' => $good->id,
+                        'code' => $good->code,
+                        'name' => $good->name,
+                        'quantity' => $quantity,
+                        'import_price' => 'Nhieu gia',
+                        'import_money' => $import_money,
+                        'price' => $good->price,
+                        'money' => $good->price * $quantity,
                     ];
-                    return $data;
                 })
             ]
         );
+        //        $inventories = ImportedGoods::where('quantity', '<>', 0);
+//        if ($keyword) {
+//            $goodIds = Good::where(function ($query) use ($keyword) {
+//                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+//            })->select('id')->get();
+//            $inventories = $inventories->whereIn('good_id', $goodIds);
+//        }
+//        if ($manufacture_id) {
+//            $goodIds = Good::where('manufacture_id', $manufacture_id)->select('id')->get();
+//            $inventories = $inventories->whereIn('good_id', $goodIds);
+//        }
+//        if ($good_category_id) {
+//            $goodIds = Good::where('good_category_id', $good_category_id)->select('id')->get();
+//            $inventories = $inventories->whereIn('good_id', $goodIds);
+//        }
+//        $inventories = $inventories->paginate($limit);
+//        return $this->respondWithPagination(
+//            $inventories,
+//            [
+//                'inventories' => $inventories->map(function ($inventory) {
+//                    $data = [
+//                        'id' => $inventory->id,
+//                        'code' => $inventory->good->code,
+//                        'name' => $inventory->good->name,
+//                        'quantity' => $inventory->quantity,
+//                        'import_price' => $inventory->import_price,
+//                        'import_money' => $inventory->import_price * $inventory->quantity,
+//                        'price' => $inventory->good->price,
+//                        'money' => $inventory->good->price * $inventory->quantity
+//                    ];
+//                    return $data;
+//                })
+//            ]
+//        );
     }
 
     public function inventoriesInfo(Request $request)
@@ -127,19 +175,23 @@ class InventoryApiController extends ManageApiController
 
     public function historyGoods($goodId, Request $request)
     {
-        if(Good::find($goodId) == null)
+        $warehouse_id = $request->warehouse_id;
+        if (Good::find($goodId) == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai san pham'
             ]);
-
-        $warehouse_id = $request->warehouse_id;
-
+        $warehouses = Warehouse::all();
+        $warehouses = $warehouses->filter(function ($warehouse) use ($goodId) {
+            $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
+            $quantity = $importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity;
+            }, 0);
+            return $quantity > 0;
+        });
         $history = HistoryGood::where('good_id', $goodId);
-
-        if($warehouse_id)
+        if ($warehouse_id)
             $history = $history->where('warehouse_id', $warehouse_id);
-
-        $history =  $history->orderBy('created_at', 'desc')->get();
+        $history = $history->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
             'history' => $history->map(function ($singular_history) {
                 return [
@@ -155,6 +207,29 @@ class InventoryApiController extends ManageApiController
                         'name' => $singular_history->warehouse->name,
                     ]
                 ];
+            }),
+            'warehouses' => $warehouses->map(function ($warehouse) use ($goodId) {
+                $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
+                $quantity = $importedGoods->reduce(function ($total, $importedGood) {
+                    return $total + $importedGood->quantity;
+                }, 0);
+                $import_money = $importedGoods->reduce(function ($total, $importedGood) {
+                    return $total + $importedGood->quantity * $importedGood->import_price;
+                }, 0);
+                $data = [
+                    'id' => $warehouse->id,
+                    'name' => $warehouse->name,
+                    'location' => $warehouse->location,
+                    'quantity' => $quantity,
+                    'import_money' => $import_money,
+                ];
+                if ($warehouse->base)
+                    $data['base'] = [
+                        'id' => $warehouse->base_id,
+                        'name' => $warehouse->base->name,
+                        'address' => $warehouse->base->address,
+                    ];
+                return $data;
             })
         ]);
 

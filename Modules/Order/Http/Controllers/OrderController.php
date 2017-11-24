@@ -83,6 +83,10 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code || staff_id'
             ]);
+        if($order->type == 'import' && $order->status == 'completed' && $request->status != 'completed')
+            return $this->respondErrorWithStatus([
+                'message' => 'Cant change status of completed import order'
+            ]);
         $order->note = $request->note;
         $order->code = $request->code;
         $order->staff_id = $request->staff_id;
@@ -149,9 +153,12 @@ class OrderController extends ManageApiController
     }
 
 
-    public function getOrderPaidMoney()
+    public function getOrderPaidMoney(Request $request)
     {
-        $orderPMs = OrderPaidMoney::orderBy('created_at', 'desc')->get();
+        $orderPMs = OrderPaidMoney::query();
+        if($request->order_id)
+            $orderPMs = $orderPMs->where('order_id', $request->order_id);
+        $orderPMs = $orderPMs->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
             "order_paid_money" => $orderPMs->map(function ($orderPM) {
                 return $orderPM->transform();

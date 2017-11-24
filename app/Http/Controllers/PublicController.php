@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
 
 
 class PublicController extends Controller
@@ -893,5 +894,35 @@ class PublicController extends Controller
     public function send_noti_test()
     {
         return response()->json(send_notification_browser([], 123));
+    }
+
+    public function codeForm()
+    {
+        $test = 0;
+        return view('public.code_form');
+    }
+
+    public function check(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect('/code-form')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $register_count = Register::where('code', $request->code)->count();
+        if ($register_count == 0)
+            return redirect('/code-form')
+                ->withErrors([
+                    'register' => 'not found'
+                ])->withInput();
+        $register = Register::where('code', $request->code)->first();
+        $this->data['register'] = $register;
+        $this->data['user'] = $register->user;
+        $this->data['studyClass'] = $register->studyClass;
+        $this->data['course'] = $register->studyClass->course;
+        return view('public.info', $this->data);
     }
 }
