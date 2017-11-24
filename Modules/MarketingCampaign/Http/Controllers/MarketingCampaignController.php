@@ -53,7 +53,6 @@ class MarketingCampaignController extends ManageApiController
 
         if ($request->base_id && $request->base_id != 0) {
             $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
-//            dd($class_id);
             $summary->whereIn('class_id', $class_ids);
         }
 
