@@ -33,7 +33,9 @@ class coursesCreateEditGeneral extends React.Component {
     updateFormData(e){
         const   feild   = e.target.name;
         const   value   = e.target.value;
-        this.props.coursesActions.updateData(feild,value);
+        let data = {...this.props.data};
+        data[feild] = value;
+        this.props.coursesActions.updateData(data);
     }
 
     checkValidate() {

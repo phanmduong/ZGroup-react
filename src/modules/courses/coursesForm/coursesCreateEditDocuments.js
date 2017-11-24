@@ -29,6 +29,7 @@ class coursesCreateEditDocuments extends React.Component {
         this.closeModal     = this.closeModal.bind(this);
         this.updateLinkData = this.updateLinkData.bind(this);
         this.uploadLinkIcon = this.uploadLinkIcon.bind(this);
+        this.editLink       = this.editLink.bind(this);
     }
 
     componentWillMount(){
@@ -49,16 +50,20 @@ class coursesCreateEditDocuments extends React.Component {
 
     uploadLinkIcon(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadLinkIcon(this.state.currentLink,file);
+        this.props.coursesActions.uploadLinkIcon(this.props.link, file);
     }
 
     editLink(link){
-        //this.setState({            currentLink: link.index,            openModal: true,            link: link,        });
+
 
     }
 
-    updateLinkData(){
-
+    updateLinkData(e){
+        const   feild   = e.target.name;
+        const   value   = e.target.value;
+        let link = {...this.props.link};
+        link[feild] = value;
+        this.props.coursesActions.updateLinkData(link);
     }
 
     render(){
@@ -136,7 +141,15 @@ class coursesCreateEditDocuments extends React.Component {
                         <form id="form-edit-link" onSubmit={(e) => {e.preventDefault();}}>
                             <div className="row">
                                 <div className="col-md-12">
-                                    <img width={"100%"}  src = {helper.isEmptyInput(this.props.link.link_icon_url) ? NO_IMAGE : this.state.link.link_icon_url} />
+                                    <img
+                                        width={"100%"}
+                                        src = {
+                                            helper.isEmptyInput(this.props.link.link_icon_url)
+                                            ?
+                                                NO_IMAGE
+                                                :
+                                                this.props.link.link_icon_url}
+                                    />
                                 </div>
                                 <div className="col-md-12">
                                     { this.props.isUploadingLinkIcon ?
@@ -171,27 +184,27 @@ class coursesCreateEditDocuments extends React.Component {
                                 <div className="col-md-12">
                                     <FormInputText
                                         label="Tên link"
-                                        name="name"
+                                        name="link_name"
                                         updateFormData={this.updateLinkData}
-                                        value={this.state.link.link_name}
+                                        value={this.props.link.link_name}
                                         type="text"
                                     />
                                 </div>
                                 <div className="col-md-12">
                                     <FormInputText
                                         label="Mô tả"
-                                        name="name"
+                                        name="link_description"
                                         updateFormData={this.updateLinkData}
-                                        value={this.state.link.link_description}
+                                        value={this.props.link.link_description}
                                         type="text"
                                     />
                                 </div>
                                 <div className="col-md-12">
                                     <FormInputText
                                         label="Đường dẫn url"
-                                        name="name"
+                                        name="link_url"
                                         updateFormData={this.updateLinkData}
-                                        value={this.state.link.link_url}
+                                        value={this.props.link.link_url}
                                         type="text"
                                     />
                                 </div>
@@ -230,6 +243,7 @@ coursesCreateEditDocuments.propTypes = {
     isLoading           : PropTypes.bool.isRequired,
     isUploadingLinkIcon           : PropTypes.bool.isRequired,
     data                : PropTypes.object,
+    link                : PropTypes.object,
     coursesActions      : PropTypes.object.isRequired
 };
 

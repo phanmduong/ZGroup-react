@@ -185,15 +185,13 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.UPLOAD_ICON_LINK_SUCCESS: {
-            let link = action.link;
-            let currentLink = action.currentLink;
-            //state.data.links[currentLink].link_icon_url = link;
-            //console.log("respone link",link);
+            console.log("test link", action.link);
             return {
                 ...state,
                 ...{
                     isUploadingLinkIcon: false,
                     data: state.data,
+                    link: action.link,
                 }
             };
         }
@@ -234,14 +232,20 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
 
-        case types.UPDATE_DATA_COURSES: {
-            let feild = action.feild;
-            let value = action.value;
-            state.data[feild] = value;
+        case types.UPDATE_DATA_LINK: {
+
             return {
                 ...state,
                 ...{
-                    data: state.data
+                    link: action.link
+                }
+            };
+        }
+        case types.UPDATE_DATA_COURSES: {
+            return {
+                ...state,
+                ...{
+                    data: action.course
                 }
             };
         }

@@ -13,16 +13,28 @@ export function beginLoadLink() {
     };
 }
 
-export function updateData(feild, value) {
+export function updateLinkData(link) {
     return function (dispatch) {
         dispatch({
-            type: types.UPDATE_DATA_COURSES,
-            feild: feild,
-            value: value
+            type: types.UPDATE_DATA_LINK,
+            link: link
         });
 
     };
 }
+
+
+export function updateData(data) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_DATA_COURSES,
+            course: data
+        });
+
+    };
+}
+
+
 
 export function deleteData() {
     return function (dispatch) {
@@ -116,16 +128,17 @@ export function loadOneCourse(id) {
 
 
 
-export function uploadLinkIcon(currentLink ,file) {
+export function uploadLinkIcon(link ,file) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_UPLOAD_ICON_LINK});
         courseApi.uploadImage(file, function (event) {
             helper.showNotification("Đăng ảnh thành công.");
             let data = JSON.parse(event.currentTarget.response);
+            let newdata = {...link};
+            newdata.link_icon_url = data.link;
             dispatch({
                 type: types.UPLOAD_ICON_LINK_SUCCESS,
-                link: data.link,
-                currentLink: currentLink
+                link: newdata
             });
         }, () => {
             helper.showErrorNotification("Đăng ảnh thất bại.");
