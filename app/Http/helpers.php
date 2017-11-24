@@ -342,10 +342,10 @@ function send_mail_confirm_registration($user, $class_id, $emailcc)
     $data['course'] = $course;
     $data['user'] = $user;
 
-    $subject = "[Alibaba English Club] Xác nhận đăng kí khoá học " . $course->name;
+    $subject = "[colorME] Xác nhận đăng kí khoá học " . $course->name;
 
     Mail::queue('emails.confirm_registration_2', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English Club');
+        $m->from('no-reply@colorme.vn', 'colorME');
 
         $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
     });
