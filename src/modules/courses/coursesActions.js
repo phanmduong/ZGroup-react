@@ -37,8 +37,8 @@ export function commitEditLink(link) {
                 });
 
             })
-            .catch((err) => {
-                helper.showErrorNotification("Có lỗi xảy ra! " + err);
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra! " );
                 dispatch({type: types.EDIT_LINK_ERROR});
             });
     };
