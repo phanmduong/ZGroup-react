@@ -77,7 +77,31 @@ export default function staffsReducer(state = initialState.profile, action) {
                 ...state,
                 ...{
                     isSaving: false,
-                    savingError: false
+                    savingError: true
+                }
+            };
+        case types.BEGIN_CHANGE_PASSWORD_PROFILE:
+            return {
+                ...state,
+                ...{
+                    isChangingPassword: true,
+                    errorChangePassword: false
+                }
+            };
+        case types.CHANGE_PASSWORD_PROFILE_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isChangingPassword: false,
+                    errorChangePassword: false
+                }
+            };
+        case types.CHANGE_PASSWORD_PROFILE_ERROR:
+            return {
+                ...state,
+                ...{
+                    isChangingPassword: false,
+                    errorChangePassword: true,
                 }
             };
         default:

@@ -64,6 +64,7 @@ export function getHistoryInventories(inventory) {
         });
         inventoryGoodApi.getHistoryInventoriesApi(inventory.id)
             .then(function (response) {
+                console.log("response",response);
                 dispatch({
                     type: types.SAVE_HISTORY_INVENTORY_GOOD,
                     histories: response.data.data.history,

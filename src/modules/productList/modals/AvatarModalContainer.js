@@ -182,21 +182,22 @@ class AvatarModalContainer extends React.Component {
                             <div className="panel panel-default">
                                 <div className="panel-body">
                                     <div className="panel panel-default">
-                                        <div className="panel-heading" role="tab"><a>
-                                            <h4 className="panel-title">
-                                                <div className="checkbox none-margin">
-                                                    <label>
-                                                        <input type="checkbox"
-                                                               name="sale_status"
-                                                               checked={this.props.productEditing.productPresent.sale_status}
-                                                               onChange={this.selectStatusProduct}/>
-                                                        <span className="checkbox-material">
+                                        <div className="panel-heading" role="tab">
+                                            <a>
+                                                <h4 className="panel-title">
+                                                    <div className="checkbox none-margin">
+                                                        <label>
+                                                            <input type="checkbox"
+                                                                   name="sale_status"
+                                                                   checked={this.props.productEditing.productPresent.sale_status}
+                                                                   onChange={this.selectStatusProduct}/>
+                                                            <span className="checkbox-material">
                                                                 <span className="check"/>
                                                                 </span> Đang kinh doanh
-                                                    </label>
-                                                </div>
-                                            </h4>
-                                        </a>
+                                                        </label>
+                                                    </div>
+                                                </h4>
+                                            </a>
                                         </div>
                                     </div>
                                     <div className="panel panel-default">

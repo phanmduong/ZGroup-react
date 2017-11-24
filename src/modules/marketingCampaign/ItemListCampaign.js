@@ -18,7 +18,7 @@ class ItemListCampaign extends React.Component {
         let course = value && value.id ? value.id : "";
         this.setState({
             selectedCourse: course
-        })
+        });
     }
 
     openLink() {

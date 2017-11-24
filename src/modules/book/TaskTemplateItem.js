@@ -74,7 +74,7 @@ class TaskTemplateItem extends React.Component {
                         {
                             !!task.span && (
                                 <span style={{marginLeft: "4px"}} className="label label-default">
-                                    <i className="ti-time"></i> trong {task.span} giờ
+                                    <i className="ti-time" /> trong {task.span} giờ
                                 </span>
                             )
                         }

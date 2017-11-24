@@ -13,15 +13,20 @@ import {MARITAL, LITERACY} from '../../constants/constants';
 import {NO_AVATAR} from '../../constants/env';
 import * as helper from '../../helpers/helper';
 import {Link} from 'react-router';
+import {Modal} from "react-bootstrap";
+import ChangePassword from "./ChangePassword";
 
 class ProfileContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            color: '',
+            showModalChangePassword: false,
+        };
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.changeColor = this.changeColor.bind(this);
-        this.state = {
-            color: ''
-        };
+        this.closeModalChangePassword = this.closeModalChangePassword.bind(this);
+        this.openModalChangePassword = this.openModalChangePassword.bind(this);
     }
 
     componentWillMount() {
@@ -43,13 +48,21 @@ class ProfileContainer extends React.Component {
         this.setState({color: this.props.profile.color});
     }
 
+    closeModalChangePassword() {
+        this.setState({showModalChangePassword: false});
+    }
+
+    openModalChangePassword() {
+        this.setState({showModalChangePassword: true});
+    }
+
 
     render() {
         let {name, email, phone, username, address, age, current_role, avatar_url, color, homeland, marital, literacy, start_company_vi} = this.props.profile;
         let avatar = helper.avatarEmpty(avatar_url) ?
             NO_AVATAR : avatar_url;
-        let literacyName =  LITERACY.filter(item => item.id === literacy)[0];
-        let maritalName =  MARITAL.filter(item => item.id === marital)[0];
+        let literacyName = LITERACY.filter(item => item.id === literacy)[0];
+        let maritalName = MARITAL.filter(item => item.id === marital)[0];
         return (
             <div>
                 <div className="col-lg-12">
@@ -73,7 +86,9 @@ class ProfileContainer extends React.Component {
                                                         <div className="card-content">
                                                             <h4 className="card-title">Thông tin cá nhân
                                                             </h4>
-                                                            <form>
+                                                            <form onSubmit={(e) => {
+                                                                e.preventDefault();
+                                                            }}>
                                                                 <div className="row">
                                                                     <div className="col-md-6">
                                                                         <div className="form-group">
@@ -160,9 +175,19 @@ class ProfileContainer extends React.Component {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <Link to="/edit-profile"
-                                                                      className="btn btn-rose pull-right">Chỉnh sửa
-                                                                </Link>
+                                                                <div className="row">
+                                                                    <div className="col-md-12">
+                                                                        <Link to="/edit-profile"
+                                                                              className="btn btn-rose">Chỉnh sửa
+                                                                        </Link>
+                                                                        <button
+                                                                            className="btn btn-rose"
+                                                                            onClick={this.openModalChangePassword}>
+                                                                            Thay đổi mật khẩu
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
                                                             </form>
                                                         </div>
                                                     </div>
@@ -246,6 +271,16 @@ class ProfileContainer extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.showModalChangePassword}>
+                    <Modal.Header closeButton onHide={this.closeModalChangePassword} closeLabel="Đóng">
+                        <Modal.Title>Thay đổi mật khẩu</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ChangePassword
+                            closeModal={this.closeModalChangePassword}
+                        />
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }

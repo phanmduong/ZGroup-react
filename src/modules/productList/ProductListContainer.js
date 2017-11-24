@@ -25,7 +25,7 @@ class ProductListContainer extends React.Component {
             query: '',
             manufacture: '',
             category: '',
-            page: '',
+            page: 1,
             status: {
                 sale: '',
                 display: '',
@@ -81,15 +81,22 @@ class ProductListContainer extends React.Component {
                 this.state.category,
                 this.state.status
             );
-            this.setState({time: time});
+            this.setState({
+                time: time,
+                page: 1
+            });
         } else {
-            this.setState({time: time});
+            this.setState({
+                time: time,
+                page: 1
+            });
         }
     }
 
     productsSearchChange(value) {
         this.setState({
-            query: value
+            query: value,
+            page: 1
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
@@ -110,7 +117,8 @@ class ProductListContainer extends React.Component {
     manufacturesSearchChange(value) {
         if (value) {
             this.setState({
-                manufacture: value.id
+                manufacture: value.id,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -123,7 +131,8 @@ class ProductListContainer extends React.Component {
             );
         } else {
             this.setState({
-                manufacture: null
+                manufacture: null,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -140,7 +149,8 @@ class ProductListContainer extends React.Component {
     categoriesSearchChange(value) {
         if (value) {
             this.setState({
-                category: value.id
+                category: value.id,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -172,7 +182,8 @@ class ProductListContainer extends React.Component {
         if (value) {
             status.sale = value.value;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -186,7 +197,8 @@ class ProductListContainer extends React.Component {
         } else {
             status.sale = null;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -205,7 +217,8 @@ class ProductListContainer extends React.Component {
         if (value) {
             status.display = value.value;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -219,7 +232,8 @@ class ProductListContainer extends React.Component {
         } else {
             status.display = null;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -238,7 +252,8 @@ class ProductListContainer extends React.Component {
         if (value) {
             status.highlight = value.value;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -252,7 +267,8 @@ class ProductListContainer extends React.Component {
         } else {
             status.highlight = null;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,

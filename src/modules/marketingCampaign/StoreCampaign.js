@@ -13,7 +13,7 @@ class StoreCampaign extends React.Component {
         this.state = {
             name: '',
             color: ''
-        }
+        };
         this.changeColor = this.changeColor.bind(this);
     }
 
