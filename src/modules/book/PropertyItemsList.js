@@ -10,7 +10,7 @@ class PropertyItemsList extends React.Component {
         this.updatePropertyItemsOrder = this.updatePropertyItemsOrder.bind(this);
     }
 
-    componentDidUpdate() {
+    componentDidMount() {
         const containers = Array.prototype.slice.call(document.querySelectorAll(".property-items-container"));
 
         if (!this.isInited) {
