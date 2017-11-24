@@ -10,6 +10,8 @@ namespace Modules\Good\Repositories;
 
 
 use App\Project;
+use App\Task;
+use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
 use Modules\Good\Entities\GoodPropertyItemTask;
@@ -25,12 +27,16 @@ class GoodRepository
         });
     }
 
-    public function getPropertyItems($type, $taskId)
+    public function getPropertyItems($type, $task)
     {
+        $goodPropertyItemIds = GoodPropertyItemTask::select("good_property_item_task.*")->join('tasks', 'tasks.id', '=', 'good_property_item_task.task_id')
+            ->where("tasks.task_list_id", $task->task_list_id)->pluck("good_property_item_id");
+
         $goodPropertyItems = GoodPropertyItem::where("type", $type)
-            ->orderBy("name")->get()->map(function ($item) use ($taskId) {
+            ->whereNotIn("id", $goodPropertyItemIds)
+            ->orderBy("name")->get()->map(function ($item) use ($task) {
                 $goodPropertyItemTask = GoodPropertyItemTask::where("good_property_item_id", $item->id)
-                    ->where("task_id", $taskId)->first();
+                    ->where("task_id", $task->id)->first();
                 return [
                     "name" => $item->name,
                     "label" => $item->name,
@@ -49,7 +55,13 @@ class GoodRepository
         if ($taskList == null) {
             return [];
         }
-        $boardIds = $taskList->tasks()->where("id", "!=", $task->id)->pluck('current_board_id');
+        $taskIds = $taskList->tasks()->pluck("id");
+        $notIncludedBoardIds = BoardTaskTaskList::whereIn("task_id", $taskIds)->pluck("board_id");
+
+        $boardIds = $taskList->tasks()->where("id", "!=", $task->id)
+            ->whereNotIn("current_board_id", $notIncludedBoardIds)
+            ->pluck('current_board_id');
+
         return $project->boards()
             ->where("status", "open")
             ->whereIn("id", $boardIds)

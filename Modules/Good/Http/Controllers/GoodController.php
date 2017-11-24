@@ -159,7 +159,7 @@ class GoodController extends ManageApiController
         }
 
         $type = $request->type;
-        $propertyItems = $this->goodRepository->getPropertyItems($type, $taskId);
+        $propertyItems = $this->goodRepository->getPropertyItems($type, $task);
         $boards = $this->goodRepository->getProjectBoards($type, $task);
         $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
 
