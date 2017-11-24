@@ -898,6 +898,7 @@ class PublicController extends Controller
 
     public function codeForm()
     {
+        $test = 0;
         return view('public.code_form');
     }
 
