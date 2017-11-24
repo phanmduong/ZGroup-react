@@ -27,6 +27,7 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         this.handleSelectBoard = this.handleSelectBoard.bind(this);
         this.handleSelectNav = this.handleSelectNav.bind(this);
         this.removeProperty = this.removeProperty.bind(this);
+        this.updateGoodPropertyItemsOrder = this.updateGoodPropertyItemsOrder.bind(this);
     }
 
 
@@ -56,7 +57,10 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         this.setState({
             selectedGoodPropertyItems: [
                 ...this.state.selectedGoodPropertyItems,
-                value
+                {
+                    ...value,
+                    order: this.state.selectedGoodPropertyItems.length
+                }
             ]
         });
     }
@@ -94,8 +98,14 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
     }
 
     removeProperty(goodPropertyItem) {
+        const newGoodPropertyItems = this.state.selectedGoodPropertyItems.filter((s) => s.id !== goodPropertyItem.id);
         this.setState({
-            selectedGoodPropertyItems: this.state.selectedGoodPropertyItems.filter((s) => s.id !== goodPropertyItem.id)
+            selectedGoodPropertyItems: newGoodPropertyItems.map((item, index) => {
+                return {
+                    ...item,
+                    order: index
+                };
+            })
         });
     }
 
@@ -123,6 +133,13 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
         });
     }
 
+
+    updateGoodPropertyItemsOrder(selectedGoodPropertyItems) {
+        this.setState({
+            selectedGoodPropertyItems
+        });
+    }
+
     render() {
         const {showModal} = this.props;
         return (
@@ -143,7 +160,10 @@ class AddPropertyItemsToTaskModalContainer extends React.Component {
                                     this.state.tab === "property" && (
                                         <div>
                                             <div style={{marginTop: 20}}>
+                                                <i style={{color: "#858585"}}>Kéo thả để thay đổi thứ tự của thuộc
+                                                    tính</i>
                                                 <PropertyItemsList
+                                                    updateGoodPropertyItemsOrder={this.updateGoodPropertyItemsOrder}
                                                     removeProperty={this.removeProperty}
                                                     selectedGoodPropertyItems={this.state.selectedGoodPropertyItems.map((item, index) => {
                                                         return {

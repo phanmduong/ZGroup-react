@@ -16,9 +16,9 @@ class PropertyItemsList extends React.Component {
         if (!this.isInited) {
             this.isInited = true;
 
-            this.boardDrake = Dragula(containers);
+            this.boardDrake = Dragula(containers, {revertOnSpill: true});
             this.boardDrake.on('drop', function (el, target, source, sibling) {
-                // this.boardDrake.cancel();
+                this.boardDrake.cancel();
 
                 let siblingOrder = -1;
                 if (sibling) {
@@ -28,8 +28,6 @@ class PropertyItemsList extends React.Component {
                 if (el) {
                     elOrder = Number(el.dataset.order);
                 }
-                console.log(sibling);
-                console.log(el);
                 this.updatePropertyItemsOrder(siblingOrder, elOrder);
                 return true;
             }.bind(this));
@@ -38,15 +36,32 @@ class PropertyItemsList extends React.Component {
     }
 
     updatePropertyItemsOrder(siblingOrder, elOrder) {
-        // let goodPropertyItems = this.props.task.good_property_items;
-        console.log(siblingOrder);
-        console.log(elOrder);
-        // goodPropertyItems = goodPropertyItems.filter((item) => {
-        //     return item.order !== siblingOrder;
-        // });
-        // console.log(goodPropertyItems);
+        let goodPropertyItems = this.props.selectedGoodPropertyItems;
 
+        let element;
 
+        goodPropertyItems = goodPropertyItems.filter((item) => {
+            if (item.order === elOrder) {
+                element = item;
+            }
+            return item.order !== elOrder;
+        });
+
+        if (siblingOrder === -1) {
+            goodPropertyItems = [...goodPropertyItems, element];
+        } else {
+            const index = goodPropertyItems.findIndex((x) => x.order === siblingOrder);
+            goodPropertyItems = [...goodPropertyItems.slice(0, index), element, ...goodPropertyItems.slice(index)];
+        }
+
+        goodPropertyItems = goodPropertyItems.map((item, index) => {
+            return {
+                ...item,
+                order: index
+            };
+        });
+
+        this.props.updateGoodPropertyItemsOrder(goodPropertyItems);
     }
 
     render() {
@@ -70,7 +85,6 @@ class PropertyItemsList extends React.Component {
                         </ListGroupItem>
                     ))
                 }
-
             </ListGroup>
         );
     }
@@ -78,7 +92,8 @@ class PropertyItemsList extends React.Component {
 
 PropertyItemsList.propTypes = {
     selectedGoodPropertyItems: PropTypes.array.isRequired,
-    removeProperty: PropTypes.func.isRequired
+    removeProperty: PropTypes.func.isRequired,
+    updateGoodPropertyItemsOrder: PropTypes.func.isRequired
 };
 
 export default PropertyItemsList;
