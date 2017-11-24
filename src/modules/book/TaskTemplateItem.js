@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from "../../components/common/Avatar";
 import KeetoolPanel from "../../components/common/KeetoolPanel";
+import {splitComma} from "../../helpers/helper";
 
 class TaskTemplateItem extends React.Component {
     constructor(props, context) {
@@ -74,7 +75,7 @@ class TaskTemplateItem extends React.Component {
                         {
                             !!task.span && (
                                 <span style={{marginLeft: "4px"}} className="label label-default">
-                                    <i className="ti-time" /> trong {task.span} giờ
+                                    <i className="ti-time"/> trong {task.span} giờ
                                 </span>
                             )
                         }
@@ -93,14 +94,14 @@ class TaskTemplateItem extends React.Component {
                     </div>
                     <div className="timeline-body">
                         <KeetoolPanel
-                            title="Thuộc tính cần nhập">
+                            title={`Thuộc tính cần nhập (${task.good_property_items ? task.good_property_items.length : 0} thuộc tính)`}>
                             <div>
                                 {
-                                    task.good_property_items.sort((a, b) => a.order - b.order).map((item) => {
+                                    task.good_property_items.sort((a, b) => a.order - b.order).map((item, index) => {
                                         return (
                                             <div
                                                 data-order={item.order}
-                                                key={item.id}>{item.name}: {item.prevalue} {item.preunit}
+                                                key={item.id}>{index + 1}. {item.name}: {splitComma(item.prevalue)} {splitComma(item.preunit)}
                                             </div>
                                         );
                                     })
@@ -108,7 +109,7 @@ class TaskTemplateItem extends React.Component {
                             </div>
                         </KeetoolPanel>
                         <KeetoolPanel
-                            title="Bảng đích">
+                            title={`Bảng đích (${task.optional_boards ? task.optional_boards.length : 0} bảng)`}>
                             <div>
                                 {
                                     task.optional_boards && task.optional_boards.map((optionalBoard, index) => {

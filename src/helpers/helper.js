@@ -845,3 +845,8 @@ export function readExcel(file, isSkipReadFile) {
     return promise;
 
 }
+
+
+export function splitComma(value) {
+    return value.split(",").join(", ");
+}
