@@ -44,7 +44,7 @@ class MarketingCampaignController extends ManageApiController
     public function summaryMarketingCampaign(Request $request)
     {
         $summary = Register::select(DB::raw('count(*) as total_registers, campaign_id, saler_id'))
-            ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('money', '>', 0)
+            ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)
             ->groupBy('campaign_id', 'saler_id');
 
         if ($request->gen_id && $request->gen_id != 0) {
