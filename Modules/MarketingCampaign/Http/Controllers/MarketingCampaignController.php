@@ -5,6 +5,7 @@ namespace Modules\MarketingCampaign\Http\Controllers;
 use App\Http\Controllers\ManageApiController;
 use App\MarketingCampaign;
 use App\Register;
+use App\StudyClass;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -43,7 +44,7 @@ class MarketingCampaignController extends ManageApiController
     public function summaryMarketingCampaign(Request $request)
     {
         $summary = Register::select(DB::raw('count(*) as total_registers, campaign_id, saler_id'))
-            ->whereNotNull('campaign_id')->whereNotNull('saler_id')
+            ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)
             ->groupBy('campaign_id', 'saler_id');
 
         if ($request->gen_id && $request->gen_id != 0) {
@@ -51,7 +52,8 @@ class MarketingCampaignController extends ManageApiController
         }
 
         if ($request->base_id && $request->base_id != 0) {
-            $summary->where('base_id', $request->base_id);
+            $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
+            $summary->whereIn('class_id', $class_ids);
         }
 
         $summary = $summary->get()->map(function ($item) {
