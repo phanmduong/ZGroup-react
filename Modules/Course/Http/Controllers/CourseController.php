@@ -130,7 +130,7 @@ class CourseController extends ManageApiController
             $link->link_icon = $link_icon;
             $link->link_icon_url = $this->s3_url . $link_icon;
         } else {
-            $link->link_icon_url = $request->link_icon_url ? $request->link_icon_url : 'https://placehold.it/800x600';
+            $link->link_icon_url = trim($request->link_icon_url) ? trim($request->link_icon_url) : 'https://placehold.it/800x600';
         }
         $link->save();
         return $this->respondSuccessWithStatus([
