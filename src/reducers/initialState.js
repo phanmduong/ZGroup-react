@@ -1006,5 +1006,17 @@ export default {
         isLoading: false,
         error: false,
         summary: [],
-    }
+    },
+    summarySales: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
 };

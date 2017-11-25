@@ -31,7 +31,14 @@ class ItemListCampaign extends React.Component {
         let url = `${BASE_URL}/register/${this.state.selectedCourse}/${this.props.user.id}/${this.props.campaign.id}`;
         return (
             <tr>
-                <td>{this.props.campaign.name}</td>
+                <td>
+                    <div className="max-width-130-px">
+                        <button className="btn btn-sm btn-main"
+                                style={{backgroundColor: "#" + this.props.campaign.color}}>
+                            {this.props.campaign.name}
+                        </button>
+                    </div>
+                </td>
                 <td>
                     <div>
                         <ReactSelect

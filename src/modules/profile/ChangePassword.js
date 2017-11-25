@@ -108,7 +108,7 @@ ChangePassword.propTypes = {
     isChangingPassword: PropTypes.bool.isRequired,
     profileActions: PropTypes.object.isRequired,
     closeModal: PropTypes.func.isRequired,
-}
+};
 
 function mapStateToProps(state) {
     return {

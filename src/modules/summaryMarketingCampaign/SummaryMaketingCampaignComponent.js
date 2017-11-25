@@ -42,7 +42,7 @@ class SummaryMaketingCampaignComponent extends React.Component {
                                                         campaign={item}
                                                         genId={this.props.genId}
                                                     />
-                                                )
+                                                );
                                             })
                                         }
                                     </div>

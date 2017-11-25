@@ -44,7 +44,7 @@ import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer"
 import lessonsReducer from "../modules/lessons/lessonsReducer";
 import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
 import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
-
+import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 
 
 const appReducer = combineReducers({
@@ -93,6 +93,7 @@ const appReducer = combineReducers({
     marketingCampaigns: marketingCampaignsReducer,
     createProduct: createProductReducer,
     summaryMarketingCampaign: summaryMarketingCampaignReducer,
+    summarySales: summarySalesReducer,
 
 });
 

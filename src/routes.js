@@ -83,6 +83,9 @@ import CreateProductContainer from "./modules/createProduct/CreateProductContain
 import ProductSystemContainer from "./modules/createProduct/ProductSystemContainer";
 import ProductWebsiteContainer from "./modules/createProduct/ProductWebsiteContainer";
 import SummaryMarketingCampaignContainer from "./modules/summaryMarketingCampaign/SummaryMarketingCampaignContainer";
+import SummarySalesContainer from "./modules/summarySales/SummarySalesContainer";
+import OverviewSales from "./modules/summarySales/OverviewSales";
+import StatisticSales from "./modules/summarySales/StatisticSales";
 
 export default (
     <Route>
@@ -286,6 +289,13 @@ export default (
             <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
             <Route path="/marketing-campaign/summary" component={SummaryMarketingCampaignContainer}/>
             {/*End marketing campaigns routes*/}
+
+            {/*Begin sales routes */}
+            <Route path="/manage/sales" component={SummarySalesContainer}>
+                <IndexRoute component={OverviewSales}/>
+                <Route path="statistic" component={StatisticSales}/>
+            </Route>
+            {/*End sales routes*/}
 
             {/*Begin customer routes */}
             <Route path="/create-product" component={CreateProductContainer}>

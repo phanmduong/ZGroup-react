@@ -2,9 +2,9 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-export default function summaryMarketingCampaignReducer(state = initialState.summaryMarketingCampaign, action) {
+export default function summarySalesReducer(state = initialState.summarySales, action) {
     switch (action.type) {
-        case types.BEGIN_LOAD_GENS_DATA_SUMMARY_MARKETING_CAMPAIGN:
+        case types.BEGIN_LOAD_GENS_DATA_SUMMARY_SALES:
             return {
                 ...state,
                 ...{
@@ -12,7 +12,7 @@ export default function summaryMarketingCampaignReducer(state = initialState.sum
                     errorGens: false
                 }
             };
-        case types.LOAD_GENS_SUMMARY_MARKETING_CAMPAIGN_SUCCESS:
+        case types.LOAD_GENS_SUMMARY_SALES_SUCCESS:
             return {
                 ...state,
                 ...{
@@ -22,7 +22,7 @@ export default function summaryMarketingCampaignReducer(state = initialState.sum
                     currentGen: action.currentGen,
                 }
             };
-        case types.LOAD_GENS_SUMMARY_MARKETING_CAMPAIGN_ERROR:
+        case types.LOAD_GENS_SUMMARY_SALES_ERROR:
             return {
                 ...state,
                 ...{
@@ -30,7 +30,7 @@ export default function summaryMarketingCampaignReducer(state = initialState.sum
                     errorGens: true
                 }
             };
-        case types.BEGIN_LOAD_BASES_DATA_SUMMARY_MARKETING_CAMPAIGN:
+        case types.BEGIN_LOAD_BASES_DATA_SUMMARY_SALES:
             return {
                 ...state,
                 ...{
@@ -39,7 +39,7 @@ export default function summaryMarketingCampaignReducer(state = initialState.sum
 
                 }
             };
-        case types.LOAD_BASES_SUMMARY_MARKETING_CAMPAIGN_SUCCESS:
+        case types.LOAD_BASES_SUMMARY_SALES_SUCCESS:
             return {
                 ...state,
                 ...{
@@ -48,7 +48,7 @@ export default function summaryMarketingCampaignReducer(state = initialState.sum
                     bases: action.bases,
                 }
             };
-        case types.LOAD_BASES_SUMMARY_MARKETING_CAMPAIGN_ERROR:
+        case types.LOAD_BASES_SUMMARY_SALES_ERROR:
             return {
                 ...state,
                 ...{
@@ -56,7 +56,7 @@ export default function summaryMarketingCampaignReducer(state = initialState.sum
                     errorBases: true
                 }
             };
-            case types.BEGIN_LOAD_SUMMARY_MARKETING_CAMPAIGN:
+        case types.BEGIN_LOAD_SUMMARY_SALES:
             return {
                 ...state,
                 ...{
@@ -65,7 +65,7 @@ export default function summaryMarketingCampaignReducer(state = initialState.sum
 
                 }
             };
-        case types.LOAD_SUMMARY_MARKETING_CAMPAIGN_SUCCESS:
+        case types.LOAD_SUMMARY_SALES_SUCCESS:
             return {
                 ...state,
                 ...{
@@ -74,7 +74,7 @@ export default function summaryMarketingCampaignReducer(state = initialState.sum
                     summary: action.summary,
                 }
             };
-        case types.LOAD_SUMMARY_MARKETING_CAMPAIGN_ERROR:
+        case types.LOAD_SUMMARY_SALES_ERROR:
             return {
                 ...state,
                 ...{
