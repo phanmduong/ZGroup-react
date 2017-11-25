@@ -145,8 +145,8 @@ class GoodController extends ManageApiController
     {
         $good = Good::find($goodId);
         $data = $good->goodProcessTransform();
-        $images_url = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->get() ?
-            json_decode(GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->get()->value) : null;
+        $goodProperty = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->get();
+        $images_url = $goodProperty == null ? null : $goodProperty->value;
         $data['images_url'] = $images_url;
         return $this->respondSuccessWithStatus([
             "good" => $data
