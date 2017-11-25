@@ -124,6 +124,7 @@ class Good extends Model
         $data['properties'] = $this->properties->map(function ($property) {
             return $property->transform();
         });
+        $data['images_url'] = $this->properties()->where('name', 'images_url')->get() ? json_decode($this->properties()->where('name', 'images_url')->get()->value) : null;
         return $data;
     }
 
