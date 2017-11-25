@@ -47,7 +47,7 @@ export default function courseReducer(state = initialState.courses, action) {
             };
 
         case types.DELETE_COURSES_SUCCESS:
-            data = deleteCourse(action.courseId, state.coursesList);
+            data = deleteCourse(action.courseId, {...state.coursesList});
             return {
                 ...state,
                 ...{
@@ -57,6 +57,25 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.DELETE_COURSES_ERROR:
+            return {
+                ...state,
+
+            };
+        case types.BEGIN_DELETE_LESSON:
+            return {
+                ...state,
+            };
+
+        case types.DELETE_LESSON_SUCCESS:
+            data = deleteLesson(action.lessonId, {...state.data});
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    data: data
+                }
+            };
+        case types.DELETE_LESSON_ERROR:
             return {
                 ...state,
 
@@ -372,6 +391,13 @@ function deleteLink(linkId, linkList) {
         linkList.links = linkList.links.filter(link => link.id !== linkId);
     }
     return linkList;
+}
+
+function deleteLesson(lessonId, lessonList) {
+    if (lessonList) {
+        lessonList.lessons = lessonList.lessons.filter(lesson => lesson.id !== lessonId);
+    }
+    return lessonList;
 }
 
 

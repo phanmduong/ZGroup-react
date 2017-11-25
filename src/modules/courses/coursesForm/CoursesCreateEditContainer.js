@@ -80,10 +80,9 @@ class CreateEditCoursesContainer extends React.Component {
     }
 
     changeColor(color){
-        let data    = this.state;
+        let data    = {...this.props.data};
         data.color  = color.hex;
-        //this.setState(data);
-        this.props.coursesActions.updateData('color', color.hex);
+        this.props.coursesActions.updateData(data);
     }
 
     commitCourseData(){

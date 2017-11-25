@@ -36,6 +36,7 @@ class coursesCreateEditDocuments extends React.Component {
         this.commitLink         = this.commitLink.bind(this);
         this.deleteLink         = this.deleteLink.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
+        this.validateLink       = this.validateLink.bind(this);
     }
 
     componentWillMount(){
@@ -114,6 +115,15 @@ class coursesCreateEditDocuments extends React.Component {
         }
         return false;
     }
+
+    validateLink(link){
+        if(helper.isEmptyInput(link)) return NO_IMAGE;
+        if(link.substring(0,4) == 'http'){
+            return link;
+        }
+        return 'http://' + link;
+    }
+
     render(){
 
         return (
@@ -151,7 +161,7 @@ class coursesCreateEditDocuments extends React.Component {
                                                     rel         ="tooltip"
                                                     data-placement      ="right"
                                                     data-original-title ={link.link_name}>
-                                                <img src={link.link_icon_url} alt=""/>
+                                                <img src={this.validateLink(link.link_icon_url)} alt=""/>
                                             </button>
                                         </td>
                                         <td >{link.link_name}</td>

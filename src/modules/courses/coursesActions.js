@@ -63,11 +63,12 @@ export function deleteLesson(id) {
     return function (dispatch) {
         dispatch  ({type: types.BEGIN_DELETE_LESSON});
         helper.showWarningNotification("Đang xoá buổi học!");
-        courseApi.deleteLink(id)
+        courseApi.deleteLesson(id)
             .then(() => {
                 helper.sweetAlertSuccess("Xoá Thành Công!");
                 dispatch({
-                    type: types.DELETE_LESSON_SUCCESS
+                    type: types.DELETE_LESSON_SUCCESS,
+                    lessonId: id,
                 });
 
             })
