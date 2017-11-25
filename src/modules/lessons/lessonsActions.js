@@ -56,10 +56,10 @@ export function clearData(course_id) {
 export function createLesson(data) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_LESSON, data: data});
-        helper.showNotification("Đang sửa...");
+        helper.showNotification("Đang tạo...");
         lessonsApi.createLesson(data)
             .then(res => {
-                helper.sweetAlertSuccess("Lưu Thành Công!");
+                helper.sweetAlertSuccess("Tạo Thành Công!");
                 dispatch({
                     type: types.CREATE_LESSON_SUCCESS,
                     data: res

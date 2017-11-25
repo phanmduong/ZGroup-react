@@ -43,10 +43,18 @@ class coursesCreateEditDocuments extends React.Component {
         helper.setFormValidation('#form-edit-link');
     }
 
+    componentDidMount(){
+        helper.setFormValidation('#form-edit-link');
+    }
+    componentDidUpdate(){
+        helper.setFormValidation('#form-edit-link');
+    }
+
     componentWillReceiveProps(){
         //console.log('coursesCreateEditDocuments', nextProps);
-
+        helper.setFormValidation('#form-edit-link');
     }
+
 
     openModal(){
         this.isCreate = true;
