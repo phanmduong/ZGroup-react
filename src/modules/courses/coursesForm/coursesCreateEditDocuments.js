@@ -192,11 +192,11 @@ class coursesCreateEditDocuments extends React.Component {
                                     <img
                                         width={"100%"}
                                         src = {
-                                            helper.isEmptyInput(this.props.link.link_icon)
+                                            helper.isEmptyInput(this.props.link.link_icon_url)
                                             ?
                                                 NO_IMAGE
                                                 :
-                                                this.props.link.link_icon}
+                                                this.props.link.link_icon_url}
                                     />
                                 </div>
                                 <div className="col-md-12">

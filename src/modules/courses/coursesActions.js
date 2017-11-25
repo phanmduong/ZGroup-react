@@ -6,7 +6,6 @@ import {browserHistory}                 from 'react-router';
 export function createLink(link) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_LINK});
-        link.link_url = link.link_icon_url;
         courseApi.createLink(link)
             .then(res => {
                 helper.showNotification("Lưu Thành Công!");
@@ -26,19 +25,16 @@ export function createLink(link) {
 export function commitEditLink(link) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_LINK});
-
-        let newlink = {...link};
-        newlink.link_url = newlink.link_icon_url;
-        courseApi.editLink(newlink)
+        courseApi.editLink(link)
             .then(() => {
-                helper.showNotification("Sửa Thành Công!");
+                helper.sweetAlertSuccess("Sửa Thành Công!");
                 dispatch({
                     type: types.EDIT_LINK_SUCCESS
                 });
 
             })
             .catch(() => {
-                helper.showErrorNotification("Có lỗi xảy ra! " );
+                helper.sweetAlertError("Có lỗi xảy ra! " );
                 dispatch({type: types.EDIT_LINK_ERROR});
             });
     };
@@ -60,6 +56,24 @@ export function deleteLink(id) {
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
                 dispatch({type: types.DELETE_LINK_ERROR});
+            });
+    };
+}
+export function deleteLesson(id) {
+    return function (dispatch) {
+        dispatch  ({type: types.BEGIN_DELETE_LESSON});
+        helper.showWarningNotification("Đang xoá buổi học!");
+        courseApi.deleteLink(id)
+            .then(() => {
+                helper.sweetAlertSuccess("Xoá Thành Công!");
+                dispatch({
+                    type: types.DELETE_LESSON_SUCCESS
+                });
+
+            })
+            .catch(() => {
+                helper.sweetAlertError("Có lỗi xảy ra! ");
+                dispatch({type: types.DELETE_LESSON_ERROR});
             });
     };
 }
@@ -120,7 +134,6 @@ export function uploadLinkIcon(link ,file) {
             let data = JSON.parse(event.currentTarget.response);
             let newdata = {...link};
             newdata.link_icon_url = data.link;
-            newdata.link_icon     = data.link;
             dispatch({
                 type: types.UPLOAD_ICON_LINK_SUCCESS,
                 link: newdata

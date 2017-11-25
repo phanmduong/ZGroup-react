@@ -9,7 +9,7 @@ import FormInputText                    from '../../components/common/FormInputT
 import {Link}                           from 'react-router';
 import Loading                          from "../../components/common/Loading";
 import * as helper                      from '../../helpers/helper';
-let courseid;
+//let courseid;
 class LessonsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -28,15 +28,13 @@ class LessonsContainer extends React.Component {
         //console.log('lesson container will mount',this.props);
         helper.setFormValidation('#form-lesson-create-edit');
         let id = this.props.params.lessonId;
-        courseid = this.props.params.courseId;
-        console.log('course id',courseid);
-        console.log('props',this.props);
-
+        //courseid = this.props.params.courseId;
+        //console.log('props',this.props);
         if(id) {
             this.props.lessonsActions.loadLessonData(id);
             this.urlType = "edit";
 
-        } else this.props.lessonsActions.clearData();
+        } else this.props.lessonsActions.clearData(this.props.data.course_id);
     }
 
     updateDetail(content){
@@ -55,6 +53,7 @@ class LessonsContainer extends React.Component {
         this.props.lessonsActions.updateData(feild,value);
     }
     commitData(){
+        //console.log('props',this.props);
         if(this.checkValidate())
         if(this.urlType=="create") this.props.lessonsActions.createLesson(this.props.data);
         else this.props.lessonsActions.editLesson(this.props.data);
@@ -140,13 +139,6 @@ class LessonsContainer extends React.Component {
                             </div>
                             <div className="card-content">
                                 <h4 className="card-title">Thông tin về form </h4>
-                                    <FormInputText
-                                        label="ID Môn học"
-                                        required
-                                        name="course_id"
-                                        updateFormData={this.updateFormData}
-                                        value={this.props.data.course_id  ? this.props.data.course_id  : courseid}
-                                    />
                                 <FormInputText
                                     label="Tên buổi học"
                                     required

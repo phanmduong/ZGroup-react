@@ -40,10 +40,19 @@ export function editLink(data) {
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url, data);
+    return axios.put(url, data);
     //http://manageapi.keetool.tk/v2/course/create-link?token=
 }
 
+export function deleteLesson(id) {
+    let url = env.MANAGE_API_URL + "/v2/course/delete-link/";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += id+"?token=" + token;
+    }
+    return axios.delete(url);
+    //http://manageapi.keetool.tk/v2/course/delete-link/{link_id}?token=
+}
 export function deleteLink(id) {
     let url = env.MANAGE_API_URL + "/v2/course/delete-link/";
     let token = localStorage.getItem('token');
