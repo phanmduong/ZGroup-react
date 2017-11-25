@@ -3,6 +3,7 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Good;
+use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\OrderPaidMoney;
@@ -82,6 +83,10 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code || staff_id'
             ]);
+        if($order->type == 'import' && $order->status == 'completed' && trim($request->status) != 'completed')
+            return $this->respondErrorWithStatus([
+                'message' => 'Cant change status of completed import order'
+            ]);
         $order->note = $request->note;
         $order->code = $request->code;
         $order->staff_id = $request->staff_id;
@@ -93,8 +98,20 @@ class OrderController extends ManageApiController
             foreach ($importedGoods as $importedGood) {
                 $importedGood->status = 'completed';
                 $importedGood->save();
+                $history = new HistoryGood;
+                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->limit(1)->get();
+                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
+                $history->good_id = $importedGood->id;
+                $history->quantity = $importedGood->id;
+                $history->remain = $remain + $importedGood->quantity;
+                $history->warehouse_id = $importedGood->warehouse_id;
+                $history->type = 'import';
+                $history->order_id = $importedGood->order_id;
+                $history->imported_good_id = $importedGood->id;
+                $history->save();
             }
         }
+        //thieu confirm order thi them history_goods && tru quantity imported_goods
         return $this->respondSuccessWithStatus([
             'message' => 'ok'
         ]);
@@ -135,61 +152,13 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function addImportOrderGoods(Request $request)
+
+    public function getOrderPaidMoney(Request $request)
     {
-        $importOrder = new Order;
-        if ($request->code == null)
-            $importOrder->code = rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
-        else
-            $importOrder->code = $request->code;
-        $importOrder->note = $request->note;
-        $importOrder->warehouse_id = $request->warehouse_id;
-        $importOrder->staff_id = $this->user->id;
-        $importOrder->user_id = $request->user_id;
-        $importOrder->type = 'import';
-
-        $importOrder->status = $request->status ? $request->status : 'uncompleted';
-        $importOrder->save();
-        if ($request->paid_money) {
-            $orderPaidMoney = new OrderPaidMoney;
-            $orderPaidMoney->order_id = $importOrder->id;
-            $orderPaidMoney->money = $request->paid_money;
-            $orderPaidMoney->staff_id = $this->user->id;
-            $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
-            $orderPaidMoney->save();
-        }
-
-        $orderImportId = $importOrder->id;
-        foreach ($request->imported_goods as $imported_good) {
-            $importedGood = new ImportedGoods;
-            if ($imported_good['price']) {
-                $good = Good::find($imported_good['good_id']);
-                if ($good == null)
-                    return $this->respondErrorWithStatus([
-                        'message' => 'Không tồn tại sản phẩm'
-                    ]);
-                $good->price = $imported_good['price'];
-                $good->save();
-            }
-            $importedGood->order_import_id = $orderImportId;
-            $importedGood->good_id = $imported_good['good_id'];
-            $importedGood->quantity = $imported_good['quantity'];
-            $importedGood->import_quantity = $imported_good['quantity'];
-            $importedGood->import_price = $imported_good['import_price'];
-            $importedGood->status = 'uncompleted';
-            $importedGood->staff_id = $this->user->id;
-            $importedGood->warehouse_id = $request->warehouse_id;
-            $importedGood->save();
-        }
-        return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
-        ]);
-    }
-
-
-    public function getOrderPaidMoney()
-    {
-        $orderPMs = OrderPaidMoney::orderBy('created_at', 'desc')->get();
+        $orderPMs = OrderPaidMoney::query();
+        if($request->order_id)
+            $orderPMs = $orderPMs->where('order_id', $request->order_id);
+        $orderPMs = $orderPMs->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([
             "order_paid_money" => $orderPMs->map(function ($orderPM) {
                 return $orderPM->transform();

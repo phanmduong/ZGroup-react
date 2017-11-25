@@ -9,4 +9,6 @@ class GoodPropertyItemTask extends Model
 {
     use SoftDeletes;
     protected $table = "good_property_item_task";
+
+
 }

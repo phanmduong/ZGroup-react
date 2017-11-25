@@ -29,10 +29,10 @@ class LessonController extends ManageApiController
              return $this->respondErrorWithStatus([
                  'message' => 'non-existing course'
              ]);
-        if($request->name == null) return $this->respondErrorWithStatus([
+        if($request->name === null) return $this->respondErrorWithStatus([
             "message"=> "Thieu name"
         ]);
-        if($request->order == null) return $this->respondErrorWithStatus([
+        if($request->order === null) return $this->respondErrorWithStatus([
             'message'=>'Thieu order'
         ]);
 
@@ -57,10 +57,10 @@ class LessonController extends ManageApiController
         if(trim($request->name) == null) return $this->respondErrorWithStatus([
             "message"=> "Thieu name"
         ]);
-        if($request->course_id == null) return $this->respondErrorWithStatus([
+        if($request->course_id === null) return $this->respondErrorWithStatus([
             'message'=>"Thieu courseId"
         ]);
-        if($request->order == null) return $this->respondErrorWithStatus([
+        if($request->order === null) return $this->respondErrorWithStatus([
             'message'=>'Thieu order'
         ]);
         $lesson->name= $request->name;

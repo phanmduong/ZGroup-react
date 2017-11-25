@@ -2,9 +2,16 @@
 
 namespace Modules\Alibaba\Http\Controllers;
 
+use App\Base;
+use App\Course;
+use App\Gen;
 use App\Product;
+use App\Register;
+use App\StudyClass;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class AlibabaController extends Controller
 {
@@ -25,7 +32,6 @@ class AlibabaController extends Controller
     {
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
         $display = "";
-
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
         return view('alibaba::blogs', [
@@ -33,6 +39,31 @@ class AlibabaController extends Controller
             'page_id' => $page_id,
             'display' => $display,
         ]);
+    }
+
+    public function register($subfix, $courseId = null, $campaignId = null, $salerId = null)
+    {
+
+        $course = Course::find($courseId);
+        $courses = Course::all();
+        $current_gen = Gen::getCurrentGen();
+
+        $date_start = $course->classes->sortbyDesc('datestart')->first();
+        if ($date_start) {
+            $this->data['date_start'] = $date_start->datestart;
+        }
+
+        $this->data['current_gen_id'] = $current_gen->id;
+        $this->data['course_id'] = $courseId;
+        $this->data['course'] = $course;
+        $this->data['bases'] = Base::all()->filter(function ($base) use ($courseId, $current_gen) {
+            return $base->classes()->where('course_id', $courseId)->where('gen_id', $current_gen->id)->count() > 0;
+        });
+        $this->data['courses'] = $courses;
+
+        $this->data['saler_id'] = $salerId;
+        $this->data['campaign_id'] = $campaignId;
+        return view('alibaba::register', $this->data);
     }
 
     public function post($subfix, $post_id)
@@ -62,5 +93,44 @@ class AlibabaController extends Controller
                 'posts_related' => $posts_related
             ]
         );
+    }
+
+    public function courses($subfix)
+    {
+        $courses = Course::all();
+        return view('alibaba::course',
+            [
+                'courses' => $courses
+            ]
+        );
+    }
+
+    public function codeForm($subfix)
+    {
+        return view('alibaba::code_form');
+    }
+
+    public function check($subfix, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect('/code-form')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $register_count = Register::where('code', $request->code)->count();
+        if ($register_count == 0)
+            return redirect('/code-form')
+                ->withErrors([
+                    'register' => 'not found'
+                ])->withInput();
+        $register = Register::where('code', $request->code)->first();
+        $this->data['register'] = $register;
+        $this->data['user'] = $register->user;
+        $this->data['studyClass'] = $register->studyClass;
+        $this->data['course'] = $register->studyClass->course;
+        return view('alibaba::info', $this->data);
     }
 }

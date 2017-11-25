@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" type="image/png" href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991021AnoNpvBdwNcVpBA.png" cph-ssorder="0">
+    <link rel="shortcut icon" type="image/png" href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1511179246c69k0Hp02GbKewW.png" cph-ssorder="0">
     <link rel="icon" type="image/png" href="assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -22,7 +22,7 @@
     <link href="https://d255zuevr6tr8p.cloudfront.net/landingpage/assets/css/nucleo-icons.css" rel="stylesheet">
 
 </head>
-<body class="profile" style="background:#fafafa">
+<body class="profile" style="background:#f1f1f1">
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
     <div class="container">
         <div class="navbar-translate">
@@ -40,7 +40,7 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html" data-scroll="true">Giới thiệu</a>
+                    <a class="nav-link" href="/" data-scroll="true">Giới thiệu</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about-us" data-scroll="true">Về chúng tôi</a>
@@ -50,7 +50,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00" href="order.html"><i class="fa fa-shopping-cart"></i> Đăng kí </a>
+                    <a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00" href="/courses"><i class="fa fa-shopping-cart"></i> Đăng kí </a>
                 </li>
             </ul>
         </div>

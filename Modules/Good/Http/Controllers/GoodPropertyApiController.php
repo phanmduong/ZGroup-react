@@ -5,8 +5,10 @@ namespace Modules\Good\Http\Controllers;
 use App\Http\Controllers\ManageApiController;
 use App\Task;
 use Illuminate\Http\Request;
+use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
+use Modules\Task\Entities\TaskList;
 
 class GoodPropertyApiController extends ManageApiController
 {
@@ -114,12 +116,29 @@ class GoodPropertyApiController extends ManageApiController
     public function addPropertyItemsTask($task_id, Request $request)
     {
         $goodPropertyItems = json_decode($request->good_property_items);
+        $selectedBoards = json_decode($request->selected_boards);
+
         $task = Task::find($task_id);
         $task->current_board_id = $request->current_board_id;
-        $task->target_board_id = $request->target_board_id;
         $task->goodPropertyItems()->detach();
-        $task->goodPropertyItems()->attach(collect($goodPropertyItems)->pluck("id")->toArray());
+        foreach ($goodPropertyItems as $item) {
+            $task->goodPropertyItems()->attach($item->id, ['order' => $item->order]);
+        }
+
         $task->save();
+
+        if ($task == null) {
+            return $this->respondErrorWithStatus("Công việc không tồn tại");
+        }
+
+        BoardTaskTaskList::where("task_id", $task_id)->delete();
+
+        foreach ($selectedBoards as $selectedBoard) {
+            $boardTaskTaskList = new BoardTaskTaskList();
+            $boardTaskTaskList->board_id = $selectedBoard->id;
+            $boardTaskTaskList->task_id = $task_id;
+            $boardTaskTaskList->save();
+        }
 
         return $this->respondSuccessWithStatus([
             'task' => $task->transform()
