@@ -9,8 +9,18 @@ class Coupon extends Model
     //
     protected $table = 'coupons';
 
-    public function goods()
+    public function good()
     {
-        return $this->belongsToMany(Good::class, 'coupon_good', 'coupon_id','good_id');
+        return $this->belongsTo(Good::class, 'good_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function goodCategory()
+    {
+        return $this->belongsTo(GoodCategory::class, 'category_id');
     }
 }

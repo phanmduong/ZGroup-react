@@ -83,7 +83,7 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code || staff_id'
             ]);
-        if($order->type == 'import' && $order->status == 'completed' && $request->status != 'completed')
+        if($order->type == 'import' && $order->status == 'completed' && trim($request->status) != 'completed')
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change status of completed import order'
             ]);
@@ -98,17 +98,17 @@ class OrderController extends ManageApiController
             foreach ($importedGoods as $importedGood) {
                 $importedGood->status = 'completed';
                 $importedGood->save();
-//                $history = new HistoryGood;
-//                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->limit(1)->get();
-//                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
-//                $history->good_id = $importedGood->id;
-//                $history->quantity = $importedGood->id;
-//                $history->remain = $remain + $importedGood->quantity;
-//                $history->warehouse_id = $importedGood->warehouse_id;
-//                $history->type = 'import';
-//                $history->order_id = $importedGood->order_id;
-//                $history->imported_good_id = $importedGood->id;
-//                $history->save();
+                $history = new HistoryGood;
+                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->limit(1)->get();
+                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
+                $history->good_id = $importedGood->id;
+                $history->quantity = $importedGood->id;
+                $history->remain = $remain + $importedGood->quantity;
+                $history->warehouse_id = $importedGood->warehouse_id;
+                $history->type = 'import';
+                $history->order_id = $importedGood->order_id;
+                $history->imported_good_id = $importedGood->id;
+                $history->save();
             }
         }
         //thieu confirm order thi them history_goods && tru quantity imported_goods

@@ -113,7 +113,7 @@ class GoodController extends ManageApiController
         //propterties
         $images_url = json_encode($request->images_url);
 
-        if ($name == null || $code == null){
+        if ($name == null || $code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
         $good = new Good;
@@ -144,39 +144,38 @@ class GoodController extends ManageApiController
     public function good($goodId)
     {
         $good = Good::find($goodId);
-
+        $data = $good->goodProcessTransform();
+        $images_url = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->get() ?
+            json_decode(GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->get()->value) : null;
+        $data['images_url'] = $images_url;
         return $this->respondSuccessWithStatus([
-            "good" => $good->goodProcessTransform()
+            "good" => $data
         ]);
     }
 
 
     public function getPropertyItems($taskId, Request $request)
     {
+        $task = Task::find($taskId);
+        if ($task == null) {
+            return $this->respondErrorWithStatus("Công việc không tồn tại");
+        }
+
         $type = $request->type;
         $propertyItems = $this->goodRepository->getPropertyItems($type);
-        $boards = $this->goodRepository->getProjectBoards($type);
-        $processes = $this->goodRepository->getProcesses($type);
+        $boards = $this->goodRepository->getProjectBoards($type, $task);
         $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
+
 
         return $this->respondSuccessWithStatus([
             "good_property_items" => $propertyItems,
             "boards" => $boards,
-            "processes" => $processes,
-            "optional_boards" => $optionalBoards->map(function ($optionalBoard) {
+            "selected_boards" => $optionalBoards->map(function ($optionalBoard) {
                 return [
-                    "board" => [
-                        "id" => $optionalBoard->board->id,
-                        "title" => $optionalBoard->board->title,
-                        "value" => $optionalBoard->board->id,
-                        "label" => $optionalBoard->board->title,
-                    ],
-                    "process" => [
-                        "id" => $optionalBoard->taskList->id,
-                        "title" => $optionalBoard->taskList->title,
-                        "value" => $optionalBoard->taskList->id,
-                        "label" => $optionalBoard->taskList->title,
-                    ]
+                    "id" => $optionalBoard->board->id,
+                    "title" => $optionalBoard->board->title,
+                    "value" => $optionalBoard->board->id,
+                    "label" => $optionalBoard->board->title,
                 ];
             })
         ]);
@@ -247,7 +246,7 @@ class GoodController extends ManageApiController
     }
 
 
-    function editGood($goodId, Request $request)
+    function editGoodBeta($goodId, Request $request)
     {
         $good = Good::find($goodId);
         if ($good == null)
@@ -275,6 +274,54 @@ class GoodController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
+    }
+
+    public function editGood($goodId, Request $request)
+    {
+        $name = trim($request->name);
+        $code = trim($request->code);
+        $description = $request->description;
+        $price = $request->price;
+        $avatarUrl = $request->avatar_url;
+        $coverUrl = $request->cover_url;
+        $sale_status = $request->sale_status;
+        $highlight_status = $request->highlight_status;
+        $display_status = $request->display_status;
+        $manufacture_id = $request->manufacture_id;
+        $good_category_id = $request->good_category_id;
+        //propterties
+        $images_url = json_encode($request->images_url);
+
+        if ($name == null || $code == null) {
+            return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
+        }
+        $good = Good::find($goodId);
+        if ($good == null)
+            return $this->respondErrorWithStatus([
+                'messgae' => 'non-existing good'
+            ]);
+
+        $good->name = $name;
+        $good->code = $code;
+        $good->description = $description;
+        $good->price = $price;
+        $good->avatar_url = $avatarUrl;
+        $good->cover_url = $coverUrl;
+        $good->sale_status = $sale_status;
+        $good->highlight_status = $highlight_status;
+        $good->display_status = $display_status;
+        $good->manufacture_id = $manufacture_id;
+        $good->good_category_id = $good_category_id;
+        $good->save();
+
+        $property = GoodProperty::where('good_id', $good->id)->where('name', 'images_url')->first();
+        $property->value = $images_url;
+        $property->creator_id = $this->user->id;
+        $property->editor_id = $this->user->id;
+        $property->good_id = $good->id;
+        $property->save();
+
+        return $this->respondSuccessWithStatus(["message" => "SUCCESS"]);
     }
 
     public function deleteGood($good_id, Request $request)

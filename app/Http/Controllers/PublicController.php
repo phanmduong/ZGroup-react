@@ -894,4 +894,33 @@ class PublicController extends Controller
     {
         return response()->json(send_notification_browser([], 123));
     }
+
+    public function codeForm($subfix)
+    {
+        return view('code_form');
+    }
+
+    public function check($subfix, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect('/code-form')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $register_count = Register::where('code', $request->code)->count();
+        if ($register_count == 0)
+            return redirect('/code-form')
+                ->withErrors([
+                    'register' => 'not found'
+                ])->withInput();
+        $register = Register::where('code', $request->code)->first();
+        $this->data['register'] = $register;
+        $this->data['user'] = $register->user;
+        $this->data['studyClass'] = $register->studyClass;
+        $this->data['course'] = $register->studyClass->course;
+        return view('info', $this->data);
+    }
 }
