@@ -4,7 +4,17 @@ import initialState from '../../reducers/initialState';
 
 let data;
 export default function courseReducer(state = initialState.courses, action) {
+    //console.log(action.type);
     switch (action.type) {
+        case types.BEGIN_LOAD_LINK:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                    link: state.link,
+                    data: state.data
+                }
+            };
         case types.BEGIN_LOAD_COURSES_DATA:
             return {
                 ...state,
@@ -51,13 +61,33 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...state,
 
             };
+        case types.BEGIN_DELETE_LINK:
+            return {
+                ...state,
+            };
+
+        case types.DELETE_LINK_SUCCESS:
+            data = deleteLink(action.linkId, {...state.data});
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    data: data,
+                }
+            };
+        case types.DELETE_LINK_ERROR:
+            return {
+                ...state,
+
+            };
         case types.BEGIN_LOAD_COURSE:
             return {
                 ...state,
                 ...{
                     isLoading: true,
                     error: false,
-                    data: defaultData
+                    data: defaultData,
+                    link: state.link,
                 }
             };
         case types.LOAD_COURSE_SUCCESS:
@@ -66,7 +96,8 @@ export default function courseReducer(state = initialState.courses, action) {
                 ...{
                     isLoading: false,
                     error: false,
-                    data: action.data
+                    data: action.data,
+                    link: state.link,
                 }
             };
         case types.LOAD_COURSE_ERROR:
@@ -165,6 +196,40 @@ export default function courseReducer(state = initialState.courses, action) {
 
                 }
             };
+        case types.BEGIN_UPLOAD_ICON_LINK:
+            return {
+                ...state,
+                ...{
+                    isUploadingLinkIcon: true,
+                }
+            };
+        case types.UPLOAD_ICON_LINK_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isUploadingLinkIcon: false,
+                    data: state.data,
+                    link: action.link,
+                }
+            };
+        }
+        case types.UPLOAD_ICON_LINK_FAILED:
+            return {
+                ...state,
+                ...{
+                    isUploadingLinkIcon: false,
+
+                }
+            };
+        case types.OPEN_MODAL_EDIT_LINK: {
+            return {
+                ...state,
+                ...{
+                    data: state.data,
+                    link: action.link,
+                }
+            };
+        }
         case types.BEGIN_CREATE_EDIT_COURSES:
             return {
                 ...state,
@@ -193,16 +258,73 @@ export default function courseReducer(state = initialState.courses, action) {
                     commitSuccess: false
                 }
             };
+        case types.BEGIN_CREATE_LINK:
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: true,
+                    data: state.data,
+                    link: state.link,
+                }
+            };
+        case types.CREATE_LINK_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: false,
+                    data: state.data,
+                    link: action.link,
+                }
+            };
+        }
+        case types.CREATE_LINK_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: false,
+                }
+            };
+        case types.BEGIN_EDIT_LINK:
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: true,
+                    data: state.data,
+                    link: state.link,
+                }
+            };
+        case types.EDIT_LINK_SUCCESS:{
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: false,
+                    data: state.data,
+                    link: state.link,
+                }
+            };
+        }
+        case types.EDIT_LINK_ERROR:
+            return {
+                ...state,
+                ...{
+                    isUploadingLink: false,
+                }
+            };
 
-        case types.UPDATE_DATA_COURSES: {
-            let feild = action.feild;
-            let value = action.value;
-            state.data[feild] = value;
+        case types.UPDATE_DATA_LINK: {
 
             return {
                 ...state,
                 ...{
-                    data: state.data
+                    link: action.link
+                }
+            };
+        }
+        case types.UPDATE_DATA_COURSES: {
+            return {
+                ...state,
+                ...{
+                    data: action.course
                 }
             };
         }
@@ -243,6 +365,13 @@ function deleteCourse(courseId, courseList) {
         courseList = courseList.filter(course => course.id !== courseId);
     }
     return courseList;
+}
+
+function deleteLink(linkId, linkList) {
+    if (linkList) {
+        linkList.links = linkList.links.filter(link => link.id !== linkId);
+    }
+    return linkList;
 }
 
 

@@ -5,19 +5,17 @@ import * as helper      from '../../helpers/helper';
 
 
 export function loadLessonData(id) {
+
     return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_LOAD_DATA_LESSON
-        });
+        dispatch({type: types.BEGIN_LOAD_DATA_LESSON});
         lessonsApi.loadLessonDetail(id)
-            .then(res => {
+            .then((res) => {
                 dispatch({
                     type: types.LOAD_DATA_LESSON_SUCCESS,
                     data: res.data.data.lesson
                 });
             })
             .catch(() => {
-                helper.showErrorNotification("Có lỗi xảy ra! ");
                 dispatch({type: types.LOAD_DATA_LESSON_ERROR});
             });
     };
@@ -35,12 +33,33 @@ export function updateData(feild, value) {
     };
 }
 
-export function commitData(data) {
+export function clearData(course_id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLEAR_DATA_LESSON,
+            data: {
+                id: null,
+                course_id: course_id,
+                name: "",
+                description: "",
+                detail: "",
+                order: "",
+                detail_content: "",
+                detail_teacher: "",
+                created_at: ""
+            }
+        });
+
+    };
+}
+
+export function createLesson(data) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_LESSON, data: data});
-        lessonsApi.commitLesson(data)
+        helper.showNotification("Đang sửa...");
+        lessonsApi.createLesson(data)
             .then(res => {
-                helper.showNotification("Lưu Thành Công!");
+                helper.sweetAlertSuccess("Lưu Thành Công!");
                 dispatch({
                     type: types.CREATE_LESSON_SUCCESS,
                     data: res
@@ -48,8 +67,27 @@ export function commitData(data) {
                 //browserHistory.push("/manage/courses");
             })
             .catch(() => {
-                helper.showErrorNotification("Có lỗi xảy ra! ");
+                helper.sweetAlertError("Có lỗi xảy ra! ");
                 dispatch({type: types.CREATE_LESSON_ERROR});
+            });
+    };
+}
+export function editLesson(data) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_LESSON, data: data});
+        helper.showNotification("Đang sửa...");
+        lessonsApi.editLesson(data)
+            .then(res => {
+                helper.sweetAlertSuccess("Sửa Thành Công!");
+                dispatch({
+                    type: types.EDIT_LESSON_SUCCESS,
+                    data: res
+                });
+                //browserHistory.push("/manage/courses");
+            })
+            .catch((err) => {
+                helper.sweetAlertError("Có lỗi xảy ra! " + err);
+                dispatch({type: types.EDIT_LESSON_ERROR});
             });
     };
 }

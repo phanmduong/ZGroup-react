@@ -914,74 +914,70 @@ export default {
     },
     courses: {
         isLoading: false,
+        isUploadingLinkIcon: false,
+        isUploadingLink: false,
         error: false,
         coursesList: [],
+        isDeleting : false,
         paginator: {
             total_count: 1,
             total_pages: 1,
             current_page: 1,
             limit: 1
         },
-        data: {},
-        addCoursesModal: {
-            isShowModal: false,
-            isDeleting: false,
-            addCoursesModal: {
-                isShowModal: false,
-                isSaving: false
-            },
-            paginator: {
-                total_count: 1,
-                total_pages: 1,
-                current_page: 1,
-                limit: 1
-            },
-            isEditing: false,
-            isUpdatingAvatar: false,
-            updateAvatarError: false,
-            isUpdatingLogo: false,
-            updateLogoError: false,
-            isUpdatingCover: false,
-            updateCoverError: false,
-            isCommitting: false,
-            commitSuccess: false,
-            data: {
-                id: null,
-                name: "",
-                duration: "",
-                price: "",
-                description: "",
-                linkmac: "",
-                linkwindow: "",
-                num_classes: "",
-                mac_how_install: "",
-                window_how_install: "",
-                cover_url: "",
-                color: "",
-                image_url: "",
-                icon_url: "",
-                created_at: "",
-                detail: "",
-                lessons: [],
-                links: []
-            }
-        }
-    },
-    lessons: {
-        isLoading: false,
+        isEditing: false,
+        isUpdatingAvatar: false,
+        updateAvatarError: false,
+        isUpdatingLogo: false,
+        updateLogoError: false,
+        isUpdatingCover: false,
+        updateCoverError: false,
         isCommitting: false,
         commitSuccess: false,
-        data: {
+        data:{
             id: null,
-            course_id: null,
             name: "",
+            duration: "",
+            price: "",
             description: "",
+            linkmac: "",
+            linkwindow: "",
+            num_classes: "",
+            mac_how_install: "",
+            window_how_install: "",
+            cover_url: "",
+            color: "",
+            image_url: "",
+            icon_url: "",
+            created_at: "",
             detail: "",
-            order: "",
-            detail_content: "",
-            detail_teacher: "",
-            created_at: "2016-07-12 18:00:16"
+            lessons: [],
+            links: [],
+        },
+        link: {
+            id: null,
+            course_id: "",
+            link_name: "",
+            link_url: "",
+            link_description: "",
+            link_icon: "",
         }
+    },
+    lessons:{
+      isLoading: false,
+      isCommitting: false,
+      commitSuccess: false,
+      data: {
+          id: null,
+          course_id: 1,
+          name: "",
+          description: "",
+          detail: "",
+          order: "",
+          detail_content: "",
+          detail_teacher: "",
+          created_at: "",
+      }
     },
 
     marketingCampaigns: {

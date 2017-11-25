@@ -12,13 +12,14 @@ import Loading                          from "../../../components/common/Loading
 import * as helper                      from '../../../helpers/helper';
 import {linkUploadImageEditor}          from '../../../constants/constants';
 import {CirclePicker}                   from 'react-color';
-import {Link, IndexLink} from 'react-router';
-
-
+import {Link, IndexLink}                from 'react-router';
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.urlType = "/create";
+        this.state ={
+            openModal : false
+        };
         this.updateFormData     = this.updateFormData.bind(this);
         this.uploadAvatar       = this.uploadAvatar.bind(this);
         this.uploadLogo         = this.uploadLogo.bind(this);
@@ -28,12 +29,13 @@ class CreateEditCoursesContainer extends React.Component {
         this.updateEditor       = this.updateEditor.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
         this.backToList         = this.backToList.bind(this);
+
     }
 
 
     componentWillMount() {
         helper.setFormValidation('#form-course-create-edit');
-        console.log('will mount',this.props);
+        //console.log('will mount',this.props);
         let id = this.props.params.courseId;
         this.urlType ="/manage/courses/" + (id ? "edit/" + id : "create");
         if(id) this.props.coursesActions.loadOneCourse(id);
@@ -113,6 +115,7 @@ class CreateEditCoursesContainer extends React.Component {
 
     render() {
         return (
+            <div>
             <div className="row">
                 <form role="form" id="form-course-create-edit">
                 <div className="col-md-12">
@@ -220,7 +223,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 right: 0,
                                 width: "100%",
                                 height: "100%"
-                            }}
+                                }}
                                 />
                                 </button>
                                 )
@@ -318,6 +321,8 @@ class CreateEditCoursesContainer extends React.Component {
                 </div>
                 </form>
             </div>
+
+            </div>
         );
     }
 }
@@ -325,6 +330,7 @@ class CreateEditCoursesContainer extends React.Component {
 CreateEditCoursesContainer.propTypes = {
     isLoading           : PropTypes.bool.isRequired,
     data                : PropTypes.object,
+    link                : PropTypes.object,
     isUpdatingAvatar    : PropTypes.bool,
     updateAvatarError   : PropTypes.bool,
     isUpdatingLogo      : PropTypes.bool,
@@ -347,7 +353,9 @@ function mapStateToProps(state) {
         isUpdatingCover     : state.courses.isUpdatingCover,
         updateCoverError    : state.courses.updateCoverError,
         isCommitting        : state.courses.isCommitting,
-        commitSuccess       : state.courses.commitSuccess
+        commitSuccess       : state.courses.commitSuccess,
+        link                : state.courses.link,
+
     };
 }
 
