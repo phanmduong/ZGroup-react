@@ -222,7 +222,7 @@ export default (
 
             {/*End lessons routes */}
             <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
-            <Route path="/manage/courses/lessons/create" component={LessonsContainer}/>
+            <Route path="/manage/courses/lessons/create/:courseId" component={LessonsContainer}/>
             {/*End lessons routes */}
 
         </Route>

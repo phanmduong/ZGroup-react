@@ -7,11 +7,12 @@ export default function lessonsReducer(state = initialState.lessons, action) {
         case types.UPDATE_DATA_LESSON: {
             let feild = action.feild;
             let value = action.value;
-            state.data[feild] = value;
+            let data = {...state.data};
+            data[feild] = value;
             return {
                 ...state,
                 ...{
-                    data: state.data
+                    data: data
                 }
             };
         }

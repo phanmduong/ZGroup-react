@@ -6,6 +6,7 @@ import  * as coursesActions             from '../coursesActions';
 import ButtonGroupAction                from "../../../components/common/ButtonGroupAction";
 import {Link}                   from 'react-router';
 
+let id;
 class coursesCreateEditCurriculum extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -13,15 +14,14 @@ class coursesCreateEditCurriculum extends React.Component {
         this.state = {};
     }
     componentWillMount() {
-
-       // console.log('child Curriculum will mount',this.props);
+        id = this.props.params.courseId;
     }
 
     render(){
         return (
             <div className="card-content">
 
-                    <Link className="btn btn-rose" to="/manage/courses/lessons/create">
+                    <Link className="btn btn-rose" to={`/manage/courses/lessons/create/` + id}>
                         Thêm Buổi Học
                     </Link>
 

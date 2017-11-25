@@ -104,7 +104,6 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="col-md-6">
                                 <FormInputText
                                     label="Link tải phần mềm trên Windows"
-                                    required
                                     name="linkwindow"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.linkwindow}
@@ -112,7 +111,6 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="col-md-6">
                                 <FormInputText
                                     label="Link hướng dẫn trên Windows"
-                                    required
                                     name="window_how_install"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.window_how_install}
@@ -121,7 +119,6 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="col-md-6">
                                 <FormInputText
                                     label="Link tải phần mềm trên Mac"
-                                    required
                                     name="linkmac"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.linkmac}
@@ -129,7 +126,6 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="col-md-6">
                                 <FormInputText
                                     label="Link hướng dẫn trên Mac"
-                                    required
                                     name="mac_how_install"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.mac_how_install}

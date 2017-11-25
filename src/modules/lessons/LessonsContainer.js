@@ -9,7 +9,7 @@ import FormInputText                    from '../../components/common/FormInputT
 import {Link}                           from 'react-router';
 import Loading                          from "../../components/common/Loading";
 import * as helper                      from '../../helpers/helper';
-
+let courseid;
 class LessonsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -28,6 +28,10 @@ class LessonsContainer extends React.Component {
         //console.log('lesson container will mount',this.props);
         helper.setFormValidation('#form-lesson-create-edit');
         let id = this.props.params.lessonId;
+        courseid = this.props.params.courseId;
+        console.log('course id',courseid);
+        console.log('props',this.props);
+
         if(id) {
             this.props.lessonsActions.loadLessonData(id);
             this.urlType = "edit";
@@ -141,7 +145,7 @@ class LessonsContainer extends React.Component {
                                         required
                                         name="course_id"
                                         updateFormData={this.updateFormData}
-                                        value={this.props.data.course_id}
+                                        value={this.props.data.course_id  ? this.props.data.course_id  : courseid}
                                     />
                                 <FormInputText
                                     label="Tên buổi học"
