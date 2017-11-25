@@ -105,9 +105,9 @@ class GoodController extends ManageApiController
         $price = $request->price;
         $avatarUrl = $request->avatar_url;
         $coverUrl = $request->cover_url;
-        $sale_status = $request->sale_status;
-        $highlight_status = $request->highlight_status;
-        $display_status = $request->display_status;
+        $sale_status = $request->sale_status ? $request->sale_status : 0;
+        $highlight_status = $request->highlight_status ? $request->highlight_status : 0;
+        $display_status = $request->display_status ? $request->display_status : 0;
         $manufacture_id = $request->manufacture_id;
         $good_category_id = $request->good_category_id;
         //propterties
@@ -145,13 +145,15 @@ class GoodController extends ManageApiController
     {
         $good = Good::find($goodId);
         $data = $good->goodProcessTransform();
-        $goodProperty = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->get();
-        dd(json_encode($goodProperty));
-        /*$images_url = $goodProperty != null ? json_decode($goodProperty->value) : null;
+        $goodProperty = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
+        if($goodProperty == null)
+            $images_url = null;
+        else
+            $images_url = json_decode($goodProperty->value);
         $data['images_url'] = $images_url;
         return $this->respondSuccessWithStatus([
             "good" => $data
-        ]);*/
+        ]);
     }
 
 
