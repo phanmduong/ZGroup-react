@@ -279,7 +279,7 @@ function send_mail($user, $view, $subject)
 {
 
     Mail::send($view, ['user' => $user], function ($m) use ($user, $subject) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to($user['email'], $user['name'])->subject($subject);
     });
@@ -288,7 +288,7 @@ function send_mail($user, $view, $subject)
 function send_mail_query($user, $view, $data, $subject)
 {
     Mail::queue($view, $data, function ($m) use ($user, $subject) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to($user['email'], $user['name'])->subject($subject);
     });
@@ -297,7 +297,7 @@ function send_mail_query($user, $view, $data, $subject)
 function send_mail_not_queue($user, $view, $data, $subject)
 {
     Mail::send($view, $data, function ($m) use ($user, $subject) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to($user['email'], $user['name'])->subject($subject);
     });
@@ -307,7 +307,7 @@ function send_marketing_mail($email, $view, $subject)
 {
 
     Mail::send($view, ['email' => $email], function ($m) use ($email, $subject) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to($email, $email)->subject($subject);
     });
@@ -325,7 +325,7 @@ function send_mail_confirm_order($order, $emailcc)
     $subject = "Xác nhận đơn đặt hàng mua sách";
 
     Mail::queue('emails.confirm_order', $data, function ($m) use ($order, $subject, $emailcc) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to($order['email'], $order['name'])->bcc($emailcc)->subject($subject);
     });
@@ -345,7 +345,7 @@ function send_mail_confirm_registration($user, $class_id, $emailcc)
     $subject = "[Alibaba English Club] Xác nhận đăng kí khoá học " . $course->name;
 
     Mail::queue('emails.confirm_registration_2', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English Club');
+        $m->from('no-reply@colorme.vn', 'Alibaba English Club');
 
         $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
     });
@@ -365,7 +365,7 @@ function send_mail_confirm_receive_studeny_money($register, $emailcc)
     $subject = "[Alibaba English] Xác nhận thanh toán thành công khoá học " . $data['course']->name;
 
     Mail::queue('emails.confirm_money_email_2', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
     });
@@ -382,7 +382,7 @@ function send_mail_goodbye($register, $emailcc)
     $subject = "[Alibaba English] Lời chào tạm biệt từ Alibaba English";
 
     Mail::queue('emails.email_goodbye', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
     });
@@ -418,7 +418,7 @@ function send_mail_delete_register($register, $staff)
     $subject = "Xoá Register";
 
     Mail::send('emails.email_delete_register', $data, function ($m) use ($subject) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to("thanghungkhi@gmail.com", "Nguyễn Việt Hùng")->bcc("aquancva@gmail.com")->subject($subject);
     });
@@ -436,7 +436,7 @@ function send_mail_activate_class($register, $emailcc)
     $subject = "[Alibaba English] Thông báo khai giảng khoá học " . $data['course']->name;
 
     Mail::queue('emails.activate_class_2', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to($user['email'], $user['name'])->subject($subject);
     });
@@ -453,7 +453,7 @@ function send_mail_lesson($user, $lesson, $class, $study_date, $emailcc)
     $subject = "Lịch trình và Giáo trình Buổi " . $lesson->order . " Lớp " . $class->name;
     $data['subject'] = $subject;
     Mail::queue('emails.send_lesson', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
 
         $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
     });
@@ -470,7 +470,7 @@ function send_mail_regis_shift($user, $week, $gen, $emailcc)
     $subject = "Đăng ký trực tuần " . $week . " Khoá " . $gen->name;
     $data['subject'] = $subject;
     Mail::queue('emails.mail_regis_shift', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@Alibaba English.vn', 'Alibaba English');
+        $m->from('no-reply@colorme.vn', 'Alibaba English');
         $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
     });
 }
