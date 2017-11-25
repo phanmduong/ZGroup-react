@@ -8,7 +8,8 @@
             <div class="row">
                 <div class="col-md-8" style="margin-top:10%">
                     <h2 style="font-weight:600; color:#ffffff!important"><b>{{$course['name']}}</b></h2><br>
-                    <h5 class="description" style="font-weight:100; color:#ffffff!important">Đăng ký khóa học {{$course['name']}}</h5>
+                    <h5 class="description" style="font-weight:100; color:#ffffff!important">Đăng ký khóa
+                        học {{$course['name']}}</h5>
                     <br>
                 </div>
             </div>
@@ -74,10 +75,16 @@
                                         : {{$class->base->address}}
                                         <br><br>
                                     </p>
-                                    <a class="btn btn-round btn-danger"
-                                       style="background-color:#FF6D00;border-color:#FF6D00"
-                                       href="/register-class/{{$class->id}}/{{$campaign_id}}/{{$saler_id}}"><i
-                                                class="fa fa-plus"></i> Đăng ký </a>
+                                    @if($class->status == 1)
+                                        <a class="btn btn-round btn-danger"
+                                           style="background-color:#FF6D00;border-color:#FF6D00"
+                                           href="/register-class/{{$class->id}}/{{$campaign_id}}/{{$saler_id}}"><i
+                                                    class="fa fa-plus"></i> Đăng ký </a>
+                                        @else
+                                        <a class="btn btn-round"
+                                           href="#" onClick="return false;"><i
+                                                    class="fa fa-plus"></i> Hết chỗ </a>
+                                    @endif
                                 </div>
                             </div>
 
