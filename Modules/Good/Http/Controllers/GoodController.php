@@ -7,7 +7,6 @@ use App\Http\Controllers\ManageApiController;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Modules\Book\Repositories\TaskListTemplateRepository;
 use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Repositories\GoodRepository;
@@ -292,7 +291,7 @@ class GoodController extends ManageApiController
         $manufacture_id = $request->manufacture_id;
         $good_category_id = $request->good_category_id;
         //propterties
-        $images_url = json_encode($request->images_url);
+        $images_url = $request->images_url;
 
         if ($name == null || $code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
@@ -334,6 +333,10 @@ class GoodController extends ManageApiController
                 "message" => "Không tìm thấy sản phẩm"
             ]);
         $good->status = 'deleted';
+        foreach ($good->properties as $property)
+        {
+            $property->delete();
+        }
         $good->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa sản phẩm thành công"
