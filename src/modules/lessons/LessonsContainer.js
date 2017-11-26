@@ -29,7 +29,6 @@ class LessonsContainer extends React.Component {
         helper.setFormValidation('#form-lesson-create-edit');
         let id = this.props.params.lessonId;
         courseid = this.props.params.courseId;
-        console.log('props',this.props);
         if(id) {
             this.props.lessonsActions.loadLessonData(id);
             this.urlType = "edit";
@@ -57,9 +56,9 @@ class LessonsContainer extends React.Component {
         this.props.lessonsActions.updateData(feild,value);
     }
     commitData(){
-        console.log('props before commit',this.props);
+        //console.log('props before commit',this.props);
         if(this.checkValidate())
-        if(this.urlType=="create") this.props.lessonsActions.createLesson(this.props.data);
+        if(this.urlType=="create") this.props.lessonsActions.createLesson(this.props.data, courseid);
         else this.props.lessonsActions.editLesson(this.props.data);
     }
 

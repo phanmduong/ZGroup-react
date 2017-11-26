@@ -1,7 +1,7 @@
 import * as types       from '../../constants/actionTypes';
 import * as courseApi   from './courseApi';
 import * as helper      from '../../helpers/helper';
-import {browserHistory}                 from 'react-router';
+import {browserHistory} from 'react-router';
 
 export function createLink(link) {
     return function (dispatch) {

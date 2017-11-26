@@ -45,8 +45,8 @@ class CreateEditCoursesContainer extends React.Component {
         helper.setFormValidation('#form-course-create-edit');
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log('next props', nextProps);
+    componentWillReceiveProps(){
+        //console.log('next props', nextProps);
     }
 
 
@@ -62,7 +62,9 @@ class CreateEditCoursesContainer extends React.Component {
     }
 
     updateEditor(content){
-        this.props.coursesActions.updateData('detail', content);
+        let data    = {...this.props.data};
+        data.detail = content;
+        this.props.coursesActions.updateData(data);
     }
 
     uploadAvatar(event){
