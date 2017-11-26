@@ -141,7 +141,6 @@ TaskTemplateItem.propTypes = {
     openAddMemberToTaskModal: PropTypes.func.isRequired,
     openTaskSpanModal: PropTypes.func.isRequired,
     task: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
     isTemplate: PropTypes.bool
 };
 

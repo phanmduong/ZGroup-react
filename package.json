@@ -32,7 +32,6 @@
   "dependencies": {
     "async": "git+https://github.com/caolan/async.git",
     "axios": "0.15.3",
-    "chart.js": "^2.7.1",
     "draft-js": "^0.10.1",
     "draftjs-to-html": "^0.7.5",
     "firebase": "^4.5.0",

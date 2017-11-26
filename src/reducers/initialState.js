@@ -314,7 +314,7 @@ export default {
             members: [],
             task: {},
             isSaving: false,
-            selectedMember: null
+            selectedMember: []
         },
         commentCard: {
             value: "",
