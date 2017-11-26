@@ -71,6 +71,9 @@ export const DAY_OF_WEEK = [
         key: 'Chủ nhật',
     },
 ];
+
+// Cặp (name ; id) dùng cho FormInputSelect
+
 export const GENDER = [
     {
         name : '',
@@ -85,6 +88,8 @@ export const GENDER = [
         id : '2',
     }
 ];
+
+// Cặp (label ; value) dùng cho ReactSelect
 export const CUSTOMTYPE = [
 
     {
@@ -100,6 +105,7 @@ export const CUSTOMTYPE = [
         value : 1,
     }
 ];
+
 
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
 export const DATE = 60 * 60 * 24;

@@ -43,6 +43,7 @@ import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer"
 import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer";
 import lessonsReducer from "../modules/lessons/lessonsReducer";
 import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
+import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
 
 
 const appReducer = combineReducers({
@@ -90,6 +91,7 @@ const appReducer = combineReducers({
     categories: categoriesReducer,
     marketingCampaigns: marketingCampaignsReducer,
     suppliers :supplierReducer,
+    addDiscount : addDiscountReducer,
 
 });
 

@@ -79,7 +79,7 @@ import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCr
 import LessonsContainer from "./modules/lessons/LessonsContainer";
 import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCampaignContainer";
 import SupplierContainer from "./modules/supplier/SupplierContainer";
-import DiscountContainer from "./modules/discount/DiscountContainer";
+import AddDiscountContainer from "./modules/addDiscount/AddDiscountContainer";
 import InfoCustomerContainer from "./modules/customer/InfoCustomerContainer" ;
 
 export default (
@@ -289,7 +289,7 @@ export default (
             {/*End supplier routes*/}
 
             {/*Begin discount routes */}
-            <Route path="/goods/discount" component={DiscountContainer}/>
+            <Route path="/goods/discount/add" component={AddDiscountContainer}/>
             {/*End supplier routes*/}
 
         </Route>

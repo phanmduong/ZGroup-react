@@ -891,7 +891,19 @@ export default {
         }
     },
 
-    discount :{
+    addDiscount :{
+        isSaving : false,
+        isLoading: true,
+        discount :{
+            name: '',
+            description: '',
+            discount_type : '',
+            discount_value : '',
+            type : '',
+            used_for : '',
+            start_time : '',
+            end_time : '',
+        },
 
     },
     coursesCreateEdit: {
