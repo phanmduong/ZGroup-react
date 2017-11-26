@@ -94,6 +94,7 @@ class OrderController extends ManageApiController
         $order->status = $request->status;
         $order->save();
         if ($order->type == 'import' && $request->status == 'completed') {
+            dd('what the heck');
             $importedGoods = $order->importedGoods;
             foreach ($importedGoods as $importedGood) {
                 $importedGood->status = 'completed';
