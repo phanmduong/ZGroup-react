@@ -137,13 +137,14 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.UPLOAD_AVATAR_COURSE_SUCCESS: {
-            state.data['image_url'] = action.link;
+            let newdata = {...state.data};
+            newdata.image_url = action.link;
             return {
                 ...state,
                 ...{
                     isUpdatingAvatar: false,
                     updateAvatarError: false,
-                    data: state.data
+                    data: newdata
                 }
             };
         }
@@ -168,13 +169,14 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.UPLOAD_LOGO_COURSE_SUCCESS: {
-            state.data['icon_url'] = action.link;
+            let newdata = {...state.data};
+            newdata.icon_url = action.link;
             return {
                 ...state,
                 ...{
                     isUpdatingLogo: false,
                     updateLogoError: false,
-                    data: state.data
+                    data: newdata
                 }
             };
         }
@@ -196,13 +198,14 @@ export default function courseReducer(state = initialState.courses, action) {
                 }
             };
         case types.UPLOAD_COVER_COURSE_SUCCESS: {
-            state.data['cover_url'] = action.link;
+            let newdata = {...state.data};
+            newdata.cover_url = action.link;
             return {
                 ...state,
                 ...{
                     isUpdatingCover: false,
                     updateCoverError: false,
-                    data: state.data
+                    data: newdata
                 }
             };
         }

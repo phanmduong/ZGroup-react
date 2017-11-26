@@ -69,16 +69,20 @@ class CreateEditCoursesContainer extends React.Component {
 
     uploadAvatar(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadAvatar(file);
+        //console.log('size',event.target.files[0].size);
+        if(helper.checkFileSize(file, 2))
+            this.props.coursesActions.uploadAvatar(file);
     }
     uploadLogo(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadLogo(file);
+        if(helper.checkFileSize(file, 2))
+            this.props.coursesActions.uploadLogo(file);
 
     }
     uploadCover(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadCover(file);
+        if(helper.checkFileSize(file, 2))
+            this.props.coursesActions.uploadCover(file);
     }
 
     changeColor(color){

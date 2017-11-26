@@ -213,10 +213,10 @@ export default (
             </Route>
             <Route path="/manage/courses/create" component={CreateEditCoursesContainer} type="create">
                 <IndexRoute component={coursesCreateEditGeneral}/>
-                <Route path="curriculum" component={coursesCreateEditCurriculum}/>
-                <Route path="documents" component={coursesCreateEditDocuments}/>
-                <Route path="studying" component={coursesCreateEditStudying}/>
-                <Route path="interested" component={coursesCreateEditInterested}/>
+                <Route path="curriculum" component={coursesCreateEditGeneral}/>
+                <Route path="documents" component={coursesCreateEditGeneral}/>
+                <Route path="studying" component={coursesCreateEditGeneral}/>
+                <Route path="interested" component={coursesCreateEditGeneral}/>
             </Route>
             {/*End course routes */}
 
