@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Course;
+use App\EmailForm;
 use App\StudyClass;
 use Illuminate\Support\Facades\Mail;
 
@@ -23,7 +24,7 @@ class EmailService
     {
 
         Mail::send($view, ['user' => $user], function ($m) use ($user, $subject) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
+            $m->from(config('app.email_company_from'), config('app.email_company_name'));
 
             $m->to($user['email'], $user['name'])->subject($subject);
         });
@@ -32,7 +33,7 @@ class EmailService
     public function send_mail_query($user, $view, $data, $subject)
     {
         Mail::queue($view, $data, function ($m) use ($user, $subject) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
+            $m->from(config('app.email_company_from'), config('app.email_company_name'));
 
             $m->to($user['email'], $user['name'])->subject($subject);
         });
@@ -41,7 +42,7 @@ class EmailService
     public function send_mail_not_queue($user, $view, $data, $subject)
     {
         Mail::send($view, $data, function ($m) use ($user, $subject) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
+            $m->from(config('app.email_company_from'), config('app.email_company_name'));
 
             $m->to($user['email'], $user['name'])->subject($subject);
         });
@@ -51,7 +52,7 @@ class EmailService
     {
 
         Mail::send($view, ['email' => $email], function ($m) use ($email, $subject) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
+            $m->from(config('app.email_company_from'), config('app.email_company_name'));
 
             $m->to($email, $email)->subject($subject);
         });
@@ -59,14 +60,18 @@ class EmailService
 
     public function send_mail_confirm_order($order, $emailcc)
     {
-        $data['order'] = $order;
+        $email_form = EmailForm::where('code', 'confirm_order');
 
-        $subject = "Xác nhận đơn đặt hàng mua sách";
+        $subject = "[" . config('app.email_company_name') . "]Xác nhận đơn đặt hàng mua sách";
 
-        Mail::queue('emails.confirm_order', $data, function ($m) use ($order, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
+        $data = convert_email_form($email_form);
+        $data = str_replace('[[EMAIL_ORDER]]', (!empty($order['email']) ? $order['email'] : ""), $data);
+        $data = str_replace('[[NAME_ORDER]]', (!empty($order['name']) ? $order['name'] : ""), $data);
 
-            $m->to($order['email'], $order['name'])->bcc($emailcc)->subject($subject);
+        Mail::queue('emails.view_email', $data, function ($m) use ($order, $subject) {
+            $m->from(config('app.email_company_from'), config('app.email_company_name'));
+
+            $m->to($order['email'], $order['name'])->bcc(config('app.email_company_to'))->subject($subject);
         });
     }
 
@@ -77,16 +82,34 @@ class EmailService
 
         $course = Course::find($class->course_id);
 
-        $data['class'] = $class;
-        $data['course'] = $course;
-        $data['user'] = $user;
+        $email_form = EmailForm::where('code', 'confirm_registration')->first();
 
-        $subject = "[colorME] Xác nhận đăng kí khoá học " . $course->name;
+        $data = convert_email_form($email_form);
+        $data = str_replace('[[COURSE_COVER_URL]]', $course->cover_url, $data);
+        $data = str_replace('[[COURSE_NAME]]', $course->name, $data);
+        $data = str_replace('[[COURSE_DURATION]]', $course->duration, $data);
+        $data = str_replace('[[COURSE_PRICE]]', currency_vnd_format($course->price), $data);
+        $data = str_replace('[[CLASS_NAME]]', $class->name, $data);
+        $data = str_replace('[[CLASS_ADDRESS]]', ($class->base ? $class->base->name . ": " . $class->base->address : ""), $data);
+        $data = str_replace('[[USER_NAME]]', $user->name, $data);
+        $data = str_replace('[[USER_EMAIL]]', $user->email, $data);
+        $data = str_replace('[[USER_PHONE]]', $user->phone, $data);
+        $data = str_replace('[[USER_ADDRESS]]', $user->address, $data);
+        $data = str_replace('[[USER_UNIVERSITY]]', $user->university, $data);
+        $data = str_replace('[[USER_WORK]]', $user->work, $data);
+        $data = str_replace('[[CLASS_STUDY_TIME]]', $user->phone, $data);
 
-        Mail::queue('emails.confirm_registration_2', $data, function ($m) use ($user, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'colorME');
+////        emails.confirm_registration_2
+//        $data['class'] = $class;
+//        $data['course'] = $course;
+//        $data['user'] = $user;
 
-            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
+        $subject = "[" . config('app.email_company_name') . "] Xác nhận đăng kí khoá học " . $course->name;
+
+        Mail::queue('emails.view_email', $data, function ($m) use ($user, $subject, $emailcc) {
+            $m->from(config('app.email_company_from'), config('app.email_company_name'));
+
+            $m->to($user['email'], $user['name'])->bcc(config('app.email_company_to'))->subject($subject);
         });
     }
 

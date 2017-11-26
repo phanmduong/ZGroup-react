@@ -246,6 +246,8 @@ class ManageEmailMaketingController extends ManageApiController
                 $email_form->template = $email_form->template()->first();
                 $data = convert_email_form($email_form);
 
+//                dd($data);
+
                 $this->emailService->send_mail_query($user, 'emails.view_email', ['data' => $data], $email_form->name);
                 return $this->respondSuccessWithStatus(['message' => "Gửi mail thành công"]);
 
