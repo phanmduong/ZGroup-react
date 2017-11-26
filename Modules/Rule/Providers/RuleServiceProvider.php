@@ -100,7 +100,7 @@ class RuleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Get the services provided by the provider.
+     * Get the Services provided by the provider.
      *
      * @return array
      */
