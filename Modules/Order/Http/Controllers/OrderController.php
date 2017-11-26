@@ -79,7 +79,8 @@ class OrderController extends ManageApiController
     public function editOrder($order_id, Request $request)
     {
         $order = Order::find($order_id);
-        if ($request->code == null)
+        dd($request->code);
+        if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
             ]);
