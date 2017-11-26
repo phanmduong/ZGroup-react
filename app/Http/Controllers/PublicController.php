@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
 
 
 class PublicController extends Controller
@@ -895,12 +896,13 @@ class PublicController extends Controller
         return response()->json(send_notification_browser([], 123));
     }
 
-    public function codeForm($subfix)
+    public function codeForm()
     {
-        return view('code_form');
+        $test = 0;
+        return view('public.code_form');
     }
 
-    public function check($subfix, Request $request)
+    public function check(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'code' => 'required'
@@ -921,6 +923,6 @@ class PublicController extends Controller
         $this->data['user'] = $register->user;
         $this->data['studyClass'] = $register->studyClass;
         $this->data['course'] = $register->studyClass->course;
-        return view('info', $this->data);
+        return view('public.info', $this->data);
     }
 }
