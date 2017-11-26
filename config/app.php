@@ -17,6 +17,9 @@ return [
     'sms_key' => env('SMS_KEY', ''),
     'domain_social' => env('DOMAIN_SOCIAL', 'no_social'),
     'domain_commerce' => env('DOMAIN_COMMERCE', 'no_commerce'),
+    'email_company_name' => env('EMAIL_COMPANY_NAME', ''),
+    'email_company_from' => env('EMAIL_COMPANY_FROM', ''),
+    'email_company_to' => env('EMAIL_COMPANY_TO', ''),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

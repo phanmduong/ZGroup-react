@@ -23,6 +23,7 @@ use App\Notification;
 use App\Product;
 use App\Providers\AppServiceProvider;
 use App\Register;
+use App\Services\EmailService;
 use App\StudyClass;
 use App\Test;
 use App\User;
@@ -38,6 +39,26 @@ class PublicController extends Controller
 {
     private $user;
     private $data;
+    protected $emailService;
+
+    public function __construct(
+        EmailService $emailService
+    )
+    {
+        $this->data = array();
+        $this->data['rating'] = false;
+        if (!empty(Auth::user())) {
+            $this->user = Auth::user();
+            $this->data['user'] = $this->user;
+            foreach ($this->user->registers as $register) {
+                if ($register->rated == 2 && $register->staff_id > 0) {
+                    $this->data['rating'] = true;
+                    break;
+                }
+            }
+        }
+        $this->emailService = $emailService;
+    }
 
     public function redirect()
     {
@@ -73,21 +94,6 @@ class PublicController extends Controller
         return response()->json($msg, 200);
     }
 
-    public function __construct()
-    {
-        $this->data = array();
-        $this->data['rating'] = false;
-        if (!empty(Auth::user())) {
-            $this->user = Auth::user();
-            $this->data['user'] = $this->user;
-            foreach ($this->user->registers as $register) {
-                if ($register->rated == 2 && $register->staff_id > 0) {
-                    $this->data['rating'] = true;
-                    break;
-                }
-            }
-        }
-    }
 
     public function access_forbidden()
     {
@@ -247,7 +253,7 @@ class PublicController extends Controller
 
         $register->save();
 
-        send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
 
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
@@ -718,7 +724,7 @@ class PublicController extends Controller
         $register->coupon = $request->coupon;
 
         $register->save();
-        send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
 
         return redirect('register_success');
     }

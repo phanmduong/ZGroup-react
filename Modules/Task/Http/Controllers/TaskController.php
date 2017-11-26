@@ -734,13 +734,14 @@ class TaskController extends ManageApiController
 
     }
 
-    public function addMemberToTask($taskId, $userId)
+    public function addMemberToTask($taskId, Request $request)
     {
         $task = Task::find($taskId);
         if (is_null($task)) {
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
-        $this->taskRepository->addMemberToTask($task, $userId, $this->user);
+        $members = json_decode($request->members);
+        $this->taskRepository->addMemberToTask($task, $members, $this->user);
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
