@@ -100,7 +100,7 @@ class OrderController extends ManageApiController
                 $importedGood->save();
                 $history = new HistoryGood;
                 $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->limit(1)->get();
-                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
+                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
                 $history->good_id = $importedGood->id;
                 $history->quantity = $importedGood->id;
                 $history->remain = $remain + $importedGood->quantity;
