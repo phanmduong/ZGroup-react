@@ -17,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
     ];
 
     /**
-     * Register any application authentication / authorization services.
+     * Register any application authentication / authorization Services.
      *
      * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
      * @return void
