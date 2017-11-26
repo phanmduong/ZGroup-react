@@ -111,8 +111,7 @@ class GoodController extends ManageApiController
         $manufacture_id = $request->manufacture_id;
         $good_category_id = $request->good_category_id;
         //propterties
-        $images_url = json_encode($request->images_url);
-        dd($images_url);
+        $images_url = $request->images_url;
         if ($name == null || $code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
@@ -149,7 +148,7 @@ class GoodController extends ManageApiController
         if($goodProperty == null)
             $images_url = null;
         else
-            $images_url = json_decode($goodProperty->value);
+            $images_url = $goodProperty->value;
         $data['images_url'] = $images_url;
         return $this->respondSuccessWithStatus([
             "good" => $data
