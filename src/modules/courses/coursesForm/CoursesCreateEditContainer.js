@@ -35,7 +35,6 @@ class CreateEditCoursesContainer extends React.Component {
 
     componentWillMount() {
         helper.setFormValidation('#form-course-create-edit');
-        //console.log('will mount',this.props);
         let id = this.props.params.courseId;
         this.urlType ="/manage/courses/" + (id ? "edit/" + id : "create");
         if(id) this.props.coursesActions.loadOneCourse(id);
@@ -69,7 +68,6 @@ class CreateEditCoursesContainer extends React.Component {
 
     uploadAvatar(event){
         let file = event.target.files[0];
-        //console.log('size',event.target.files[0].size);
         if(helper.checkFileSize(file, 2))
             this.props.coursesActions.uploadAvatar(file);
     }
