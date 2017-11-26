@@ -172,7 +172,7 @@ class coursesCreateEditDocuments extends React.Component {
                                         </td>
                                         <td >{link.link_name}</td>
                                         <td>
-                                                <a href={link.link_url} target="_blank">
+                                                <a href={this.validateLink(link.link_url)} target="_blank">
                                                     <p style={{
                                                         maxWidth: "100px",
                                                         wordWrap: 'break-word',
