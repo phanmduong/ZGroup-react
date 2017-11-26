@@ -9,8 +9,7 @@ use App\Good;
 use App\Group;
 use App\GroupMember;
 use App\Order;
-use App\StudyClass;
-use App\TopicAttendance;
+use App\Services\EmailService;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -20,15 +19,20 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserPublicApiController extends ApiController
 {
-    protected $productTransformer, $progressTransformer;
+    protected $productTransformer, $progressTransformer, $emailService;
 
-    public function __construct(ProductTransformer $productTransformer, ProgressTransformer $progressTransformer)
+    public function __construct(
+        ProductTransformer $productTransformer,
+        ProgressTransformer $progressTransformer,
+        EmailService $emailService
+    )
     {
         $this->productTransformer = $productTransformer;
         $this->progressTransformer = $progressTransformer;
+        $this->emailService = $emailService;
     }
 
-    public function load_user_side_nav_groups( $user_id, Request $request)
+    public function load_user_side_nav_groups($user_id, Request $request)
     {
         $user = User::find($user_id);
         $page = $request->page;
@@ -47,7 +51,7 @@ class UserPublicApiController extends ApiController
         return $this->respond($data);
     }
 
-    public function user_side_nav_info( $user_id)
+    public function user_side_nav_info($user_id)
     {
         $user = User::find($user_id);
 
@@ -107,7 +111,7 @@ class UserPublicApiController extends ApiController
         return $this->respond($data);
     }
 
-    public function user_progress( $username)
+    public function user_progress($username)
     {
         $target_user = User::where('username', $username)->first();
         if ($target_user) {
@@ -124,7 +128,7 @@ class UserPublicApiController extends ApiController
         }
     }
 
-    public function user_profile( $username)
+    public function user_profile($username)
     {
         $target_user = User::where('username', $username)->first();
         if ($target_user) {
@@ -167,7 +171,7 @@ class UserPublicApiController extends ApiController
         }
     }
 
-    public function user_products( $username, Request $request)
+    public function user_products($username, Request $request)
     {
         $target_user = User::where('username', $username)->first();
         if ($target_user) {
@@ -188,7 +192,7 @@ class UserPublicApiController extends ApiController
         }
     }
 
-    public function create_order( Request $request)
+    public function create_order(Request $request)
     {
         $errors = [];
         if (!$request->name) {
@@ -220,11 +224,12 @@ class UserPublicApiController extends ApiController
         $order->status = "ship_uncall";
 
         $order->save();
-        send_mail_confirm_order($order, ['colormevn.book@gmail.com']);
+
+        $this->emailService->send_mail_confirm_order($order, ['colormevn.book@gmail.com']);
         return $this->respond(['message' => 'Bạn đã đăng kí đặt mua sách thành công, vui lòng kiểm tra email để xác nhận đơn hàng. ColorME sẽ liên hệ với bạn trong vòng 24h tới. Cảm ơn bạn!']);
     }
 
-    public function change_order_status( Request $request)
+    public function change_order_status(Request $request)
     {
         $status = $request->status;
         $order_id = $request->order_id;
@@ -234,13 +239,13 @@ class UserPublicApiController extends ApiController
         return $this->respond(['message' => "Đổi trạng thái đơn hàng thành công"]);
     }
 
-    public function item( $item_id)
+    public function item($item_id)
     {
         $item = Good::find($item_id);
         return $this->respond(['num_orders' => $item->orders()->count() + 251]);
     }
 
-    public function search_users( Request $request)
+    public function search_users(Request $request)
     {
         $searchTerm = $request->term;
         $groupLink = $request->group_link;
@@ -281,7 +286,7 @@ class UserPublicApiController extends ApiController
         }
     }
 
-    public function store_user( Request $request)
+    public function store_user(Request $request)
     {
         $errors = [];
         $user = User::where('email', '=', $request->email)->first();
