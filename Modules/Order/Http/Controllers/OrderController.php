@@ -89,7 +89,7 @@ class OrderController extends ManageApiController
             ]);
         $order->note = $request->note;
         $order->code = $request->code;
-        $order->staff_id = $request->staff_id;
+        $order->staff_id = $this->user->id;
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();

@@ -115,7 +115,7 @@ class Good extends Model
     public function transform()
     {
         $data = $this->getData();
-        $data['quantity'] = $this->importedGoods()->where('status', '<>', 'uncompleted')->reduce(function ($total, $importedGood) {
+        $data['quantity'] = $this->importedGoods()->where('status', '<>', 'uncompleted')->get()->reduce(function ($total, $importedGood) {
             return $total + $importedGood->quantity;
         }, 0);
         $data['files'] = $this->files->map(function ($file) {
