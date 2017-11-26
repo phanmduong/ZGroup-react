@@ -16,15 +16,22 @@ use Illuminate\Support\Facades\Mail;
 class EmailService
 {
 
+    protected $emailCompanyName;
+    protected $emailCompanyFrom;
+    protected $emailCompanyTo;
+
     public function __construct()
     {
+        $this->emailCompanyName = config('app.email_company_name');
+        $this->emailCompanyFrom = config('app.email_company_from');
+        $this->emailCompanyTo = config('app.email_company_to');
     }
 
     public function send_mail($user, $view, $subject)
     {
 
         Mail::send($view, ['user' => $user], function ($m) use ($user, $subject) {
-            $m->from(config('app.email_company_from'), config('app.email_company_name'));
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
 
             $m->to($user['email'], $user['name'])->subject($subject);
         });
@@ -33,16 +40,39 @@ class EmailService
     public function send_mail_query($user, $view, $data, $subject)
     {
         Mail::queue($view, $data, function ($m) use ($user, $subject) {
-            $m->from(config('app.email_company_from'), config('app.email_company_name'));
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
 
             $m->to($user['email'], $user['name'])->subject($subject);
+        });
+    }
+
+    public function send_mail_queue($user, $data, $subject)
+    {
+        Mail::queue('emails.view_email', ['data' => $data], function ($m) use ($user, $subject) {
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+
+            $m->to($user['email'], $user['name'])->subject($subject);
+        });
+    }
+
+    public function send_mail_queue_cc($user, $data, $subject)
+    {
+        Mail::queue('emails.view_email', ['data' => $data], function ($m) use ($user, $subject) {
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+
+            if (!empty($this->emailCompanyTo)) {
+                $m->to($user['email'], $user['name'])->bcc($this->emailCompanyTo)->subject($subject);
+            } else {
+                $m->to($user['email'], $user['name'])->subject($subject);
+            }
+
         });
     }
 
     public function send_mail_not_queue($user, $view, $data, $subject)
     {
         Mail::send($view, $data, function ($m) use ($user, $subject) {
-            $m->from(config('app.email_company_from'), config('app.email_company_name'));
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
 
             $m->to($user['email'], $user['name'])->subject($subject);
         });
@@ -52,7 +82,7 @@ class EmailService
     {
 
         Mail::send($view, ['email' => $email], function ($m) use ($email, $subject) {
-            $m->from(config('app.email_company_from'), config('app.email_company_name'));
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
 
             $m->to($email, $email)->subject($subject);
         });
@@ -62,22 +92,17 @@ class EmailService
     {
         $email_form = EmailForm::where('code', 'confirm_order');
 
-        $subject = "[" . config('app.email_company_name') . "]Xác nhận đơn đặt hàng mua sách";
+        $subject = "[" . $this->emailCompanyName . "]Xác nhận đơn đặt hàng mua sách";
 
         $data = convert_email_form($email_form);
         $data = str_replace('[[EMAIL_ORDER]]', (!empty($order['email']) ? $order['email'] : ""), $data);
         $data = str_replace('[[NAME_ORDER]]', (!empty($order['name']) ? $order['name'] : ""), $data);
 
-        Mail::queue('emails.view_email', $data, function ($m) use ($order, $subject) {
-            $m->from(config('app.email_company_from'), config('app.email_company_name'));
-
-            $m->to($order['email'], $order['name'])->bcc(config('app.email_company_to'))->subject($subject);
-        });
+        $this->send_mail_queue_cc($order, $data, $subject);
     }
 
-    public function send_mail_confirm_registration($user, $class_id, $emailcc)
+    public function send_mail_confirm_registration($user, $class_id)
     {
-
         $class = StudyClass::find($class_id);
 
         $course = Course::find($class->course_id);
@@ -85,32 +110,30 @@ class EmailService
         $email_form = EmailForm::where('code', 'confirm_registration')->first();
 
         $data = convert_email_form($email_form);
-        $data = str_replace('[[COURSE_COVER_URL]]', $course->cover_url, $data);
-        $data = str_replace('[[COURSE_NAME]]', $course->name, $data);
-        $data = str_replace('[[COURSE_DURATION]]', $course->duration, $data);
-        $data = str_replace('[[COURSE_PRICE]]', currency_vnd_format($course->price), $data);
-        $data = str_replace('[[CLASS_NAME]]', $class->name, $data);
-        $data = str_replace('[[CLASS_ADDRESS]]', ($class->base ? $class->base->name . ": " . $class->base->address : ""), $data);
-        $data = str_replace('[[USER_NAME]]', $user->name, $data);
-        $data = str_replace('[[USER_EMAIL]]', $user->email, $data);
-        $data = str_replace('[[USER_PHONE]]', $user->phone, $data);
-        $data = str_replace('[[USER_ADDRESS]]', $user->address, $data);
-        $data = str_replace('[[USER_UNIVERSITY]]', $user->university, $data);
-        $data = str_replace('[[USER_WORK]]', $user->work, $data);
-        $data = str_replace('[[CLASS_STUDY_TIME]]', $user->phone, $data);
+        $searchReplaceArray = array(
+            '[[COURSE_COVER_URL]]' => $course->cover_url,
+            '[[COURSE_NAME]]' => $course->name,
+            '[[COURSE_DURATION]]' => $course->duration,
+            '[[COURSE_PRICE]]' => currency_vnd_format($course->price),
+            '[[CLASS_NAME]]' => $class->name,
+            '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ": " . $class->base->address : ""),
+            '[[USER_NAME]]' => $user->name,
+            '[[USER_EMAIL]]' => $user->email,
+            '[[USER_PHONE]]' => $user->phone,
+            '[[USER_ADDRESS]]' => $user->address,
+            '[[USER_UNIVERSITY]]' => $user->university,
+            '[[USER_WORK]]' => $user->work,
+            '[[CLASS_STUDY_TIME]]' => $user->phone
 
-////        emails.confirm_registration_2
-//        $data['class'] = $class;
-//        $data['course'] = $course;
-//        $data['user'] = $user;
+        );
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray)
+            , $data);
 
-        $subject = "[" . config('app.email_company_name') . "] Xác nhận đăng kí khoá học " . $course->name;
+        $subject = "[" . $this->emailCompanyName . "] Xác nhận đăng kí khoá học " . $course->name;
 
-        Mail::queue('emails.view_email', $data, function ($m) use ($user, $subject, $emailcc) {
-            $m->from(config('app.email_company_from'), config('app.email_company_name'));
-
-            $m->to($user['email'], $user['name'])->bcc(config('app.email_company_to'))->subject($subject);
-        });
+        $this->send_mail_queue_cc($user, $data, $subject);
     }
 
     public function send_mail_confirm_receive_student_money($register, $emailcc)
@@ -118,35 +141,67 @@ class EmailService
 
         $user = $register->user;
         $class = $register->studyClass;
-        $data['class'] = $class;
-        $data['course'] = $register->studyClass->course;
-        $data['user'] = $user;
-        $data['register'] = $register;
+        $course = $register->studyClass->course;
 
-        $subject = "[Alibaba English] Xác nhận thanh toán thành công khoá học " . $data['course']->name;
+        $email_form = EmailForm::where('code', 'confirm_receive_student_money')->first();
 
-        Mail::queue('emails.confirm_money_email_2', $data, function ($m) use ($user, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
+        $data = convert_email_form($email_form);
 
-            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-        });
+        $searchReplaceArray = array(
+            '[[COURSE_COVER_URL]]' => $course->cover_url,
+            '[[COURSE_NAME]]' => $course->name,
+            '[[COURSE_DURATION]]' => $course->duration,
+            '[[COURSE_PRICE]]' => currency_vnd_format($course->price),
+            '[[CLASS_NAME]]' => $class->name,
+            '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ": " . $class->base->address : ""),
+            '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ""),
+            '[[CLASS_STUDY_TIME]]' => $class->study_time,
+            '[[USER_NAME]]' => $user->name,
+            '[[USER_EMAIL]]' => $user->email,
+            '[[USER_PHONE]]' => $user->phone,
+            '[[USER_ADDRESS]]' => $user->address,
+            '[[REGISTER_PAID_TIME]]' => $register->paid_time,
+            '[[REGISTER_MONEY]]' => currency_vnd_format($register->money),
+            '[[REGISTER_CODE]]' => $register->code,
+
+        );
+
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray)
+            , $data);
+
+        $subject = "[" . $this->emailCompanyName . "] Xác nhận thanh toán thành công khoá học " . $course->name;
+
+        $this->send_mail_queue_cc($user, $data, $subject);
+
     }
 
     public function send_mail_goodbye($register, $emailcc)
     {
+        $email_form = EmailForm::where('code', 'goodbye')->first();
+
+        $data = convert_email_form($email_form);
 
         $user = $register->user;
 
-        $data['student'] = $user;
-        $data['class'] = $register->studyClass;
+        $class = $register->studyClass;
 
-        $subject = "[Alibaba English] Lời chào tạm biệt từ Alibaba English";
+        $searchReplaceArray = array(
+            '[[COURSE_DURATION]]' => $class->course->duration,
+            '[[CLASS_NAME]]' => $class->name,
+            '[[USER_NAME]]' => $user->name,
+        );
 
-        Mail::queue('emails.email_goodbye', $data, function ($m) use ($user, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray)
+            , $data);
 
-            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-        });
+        $subject = "[" . $this->emailCompanyName . "] Lời chào tạm biệt từ " . $this->emailCompanyName;
+
+
+        $this->send_mail_queue($user, $data, $subject);
     }
 
     public function send_mail_delete_register($register, $staff)
@@ -160,46 +215,91 @@ class EmailService
 
         $subject = "Xoá Register";
 
-        Mail::send('emails.email_delete_register', $data, function ($m) use ($subject) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
 
-            $m->to("thanghungkhi@gmail.com", "Nguyễn Việt Hùng")->bcc("aquancva@gmail.com")->subject($subject);
+        Mail::queue('emails.email_delete_register', $data, function ($m) use ($subject) {
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+
+            $m->to($this->emailCompanyTo, $this->emailCompanyName)->subject($subject);
         });
     }
 
     public function send_mail_activate_class($register, $emailcc)
     {
 
+        $class = $register->studyClass;
+        $course = $class->course;
+
         $user = $register->user;
-        $data['class'] = $register->studyClass;
-        $data['student'] = $user;
-        $data['regis'] = $register;
-        $data['user'] = $user;
-        $data['course'] = $data['class']->course;
-        $subject = "[Alibaba English] Thông báo khai giảng khoá học " . $data['course']->name;
 
-        Mail::queue('emails.activate_class_2', $data, function ($m) use ($user, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
+        $class = $register->studyClass;
 
-            $m->to($user['email'], $user['name'])->subject($subject);
-        });
+        $email_form = EmailForm::where('code', 'active_class')->first();
+
+        $data = convert_email_form($email_form);
+
+
+        $searchReplaceArray = array(
+            '[[COURSE_COVER_URL]]' => $course->cover_url,
+            '[[COURSE_NAME]]' => $course->name,
+            '[[COURSE_DURATION]]' => $course->duration,
+            '[[COURSE_LINK_MAC]]' => $course->linkmac,
+            '[[COURSE_MAC_HOW_INSTALL]]' => $course->mac_how_install,
+            '[[COURSE_LINK_WINDOW]]' => $course->linkwindow,
+            '[[COURSE_WINDOW_HOW_INSTALL]]' => $course->window_how_install,
+            '[[COURSE_PRICE]]' => currency_vnd_format($course->price),
+            '[[CLASS_NAME]]' => $class->name,
+            '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ": " . $class->base->address : ""),
+            '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ""),
+            '[[CLASS_STUDY_TIME]]' => $class->study_time,
+            '[[USER_NAME]]' => $user->name,
+            '[[USER_EMAIL]]' => $user->email,
+            '[[USER_PHONE]]' => $user->phone,
+            '[[REGISTER_CODE]]' => $register->code,
+        );
+
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray)
+            , $data);
+
+        $subject = "[" . $this->emailCompanyName . "] Thông báo khai giảng khoá học " . $course->name;
+
+        $this->send_mail_queue($user, $data, $subject);
     }
 
     public function send_mail_lesson($user, $lesson, $class, $study_date, $emailcc)
     {
 
-        $data['lesson'] = $lesson;
-        $data['class'] = $class;
-        $data['user'] = $user;
-        $data['study_date'] = $study_date;
-
         $subject = "Lịch trình và Giáo trình Buổi " . $lesson->order . " Lớp " . $class->name;
-        $data['subject'] = $subject;
-        Mail::queue('emails.send_lesson', $data, function ($m) use ($user, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
 
-            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-        });
+        $email_form = EmailForm::where('code', 'lesson')->first();
+
+        $data = convert_email_form($email_form);
+
+        $searchReplaceArray = array(
+            '[[SUBJECT]]' => $subject,
+            '[[STUDY_DATE]]' => $study_date,
+            '[[LESSON_ORDER]]' => $lesson->order,
+            '[[COURSE_NAME]]' => $class->course->name,
+            '[[CLASS_NAME]]' => $class->name,
+            '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ": " . $class->base->address : ""),
+            '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ""),
+            '[[CLASS_STUDY_TIME]]' => $class->study_time,
+            '[[USER_NAME]]' => $user->name,
+            '[[USER_EMAIL]]' => $user->email,
+            '[[USER_PHONE]]' => $user->phone,
+            '[[LINK_LESSON]]' => config('app.protocol') . config('app.domain') . '/resource/' .
+                convert_vi_to_en($lesson->course->name) . '/lesson/' . $lesson->id,
+            '[[LINK_LESSON_CONTENT]]' => config('app.protocol') . config('app.domain') .
+                '/student/lessoncontent/' . $lesson->id,
+        );
+
+        $data = str_replace(
+            array_keys($searchReplaceArray),
+            array_values($searchReplaceArray)
+            , $data);
+        $this->send_mail_queue($user, $data, $subject);
+
     }
 
     public function send_mail_regis_shift($user, $week, $gen, $emailcc)
@@ -211,8 +311,9 @@ class EmailService
 
         $subject = "Đăng ký trực tuần " . $week . " Khoá " . $gen->name;
         $data['subject'] = $subject;
+
         Mail::queue('emails.mail_regis_shift', $data, function ($m) use ($user, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Alibaba English');
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
             $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
         });
     }
