@@ -316,6 +316,8 @@ class GoodController extends ManageApiController
         $good->save();
 
         $property = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
+        if($property == null)
+            $property = new GoodProperty;
         $property->value = $images_url;
         $property->creator_id = $this->user->id;
         $property->editor_id = $this->user->id;
