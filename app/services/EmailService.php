@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 class EmailService
 {
 
+
     public function __construct()
     {
     }
