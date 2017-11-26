@@ -112,7 +112,7 @@ class GoodController extends ManageApiController
         $good_category_id = $request->good_category_id;
         //propterties
         $images_url = json_encode($request->images_url);
-
+        dd($images_url);
         if ($name == null || $code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
