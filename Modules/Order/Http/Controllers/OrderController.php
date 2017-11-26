@@ -93,7 +93,7 @@ class OrderController extends ManageApiController
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
-        if ($order->type == 'import' && $order->status == 'completed') {
+        if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;
             foreach ($importedGoods as $importedGood) {
                 $importedGood->status = 'completed';
@@ -106,7 +106,7 @@ class OrderController extends ManageApiController
                 $history->remain = $remain + $importedGood->quantity;
                 $history->warehouse_id = $importedGood->warehouse_id;
                 $history->type = 'import';
-                $history->order_id = $importedGood->order_id;
+                $history->order_id = $importedGood->order_import_id;
                 $history->imported_good_id = $importedGood->id;
                 $history->save();
             }
