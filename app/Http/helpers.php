@@ -275,118 +275,12 @@ function generate_class_lesson($class)
     }
 }
 
-function send_mail($user, $view, $subject)
-{
-
-    Mail::send($view, ['user' => $user], function ($m) use ($user, $subject) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->subject($subject);
-    });
-}
-
-function send_mail_query($user, $view, $data, $subject)
-{
-    Mail::queue($view, $data, function ($m) use ($user, $subject) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->subject($subject);
-    });
-}
-
-function send_mail_not_queue($user, $view, $data, $subject)
-{
-    Mail::send($view, $data, function ($m) use ($user, $subject) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->subject($subject);
-    });
-}
-
-function send_marketing_mail($email, $view, $subject)
-{
-
-    Mail::send($view, ['email' => $email], function ($m) use ($email, $subject) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($email, $email)->subject($subject);
-    });
-}
 
 function currency_vnd_format($number)
 {
     return number_format($number) . "đ";
 }
 
-function send_mail_confirm_order($order, $emailcc)
-{
-    $data['order'] = $order;
-
-    $subject = "Xác nhận đơn đặt hàng mua sách";
-
-    Mail::queue('emails.confirm_order', $data, function ($m) use ($order, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($order['email'], $order['name'])->bcc($emailcc)->subject($subject);
-    });
-}
-
-function send_mail_confirm_registration($user, $class_id, $emailcc)
-{
-
-    $class = \App\StudyClass::find($class_id);
-
-    $course = \App\Course::find($class->course_id);
-
-    $data['class'] = $class;
-    $data['course'] = $course;
-    $data['user'] = $user;
-
-    $subject = "[Alibaba English Club] Xác nhận đăng kí khoá học " . $course->name;
-
-    Mail::queue('emails.confirm_registration_2', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English Club');
-
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-    });
-}
-
-
-function send_mail_confirm_receive_studeny_money($register, $emailcc)
-{
-
-    $user = $register->user;
-    $class = $register->studyClass;
-    $data['class'] = $class;
-    $data['course'] = $register->studyClass->course;
-    $data['user'] = $user;
-    $data['register'] = $register;
-
-    $subject = "[Alibaba English] Xác nhận thanh toán thành công khoá học " . $data['course']->name;
-
-    Mail::queue('emails.confirm_money_email_2', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-    });
-}
-
-function send_mail_goodbye($register, $emailcc)
-{
-
-    $user = $register->user;
-
-    $data['student'] = $user;
-    $data['class'] = $register->studyClass;
-
-    $subject = "[Alibaba English] Lời chào tạm biệt từ Alibaba English";
-
-    Mail::queue('emails.email_goodbye', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-    });
-}
 
 function encodeUtf8($text)
 {
@@ -405,76 +299,6 @@ END;
     preg_replace($regex, '$1', $text);
     return $text;
 }
-
-function send_mail_delete_register($register, $staff)
-{
-
-    $user = $register->user;
-
-    $data['student'] = $user;
-    $data['class'] = $register->studyClass;
-    $data['staff'] = $staff;
-
-    $subject = "Xoá Register";
-
-    Mail::send('emails.email_delete_register', $data, function ($m) use ($subject) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to("thanghungkhi@gmail.com", "Nguyễn Việt Hùng")->bcc("aquancva@gmail.com")->subject($subject);
-    });
-}
-
-function send_mail_activate_class($register, $emailcc)
-{
-
-    $user = $register->user;
-    $data['class'] = $register->studyClass;
-    $data['student'] = $user;
-    $data['regis'] = $register;
-    $data['user'] = $user;
-    $data['course'] = $data['class']->course;
-    $subject = "[Alibaba English] Thông báo khai giảng khoá học " . $data['course']->name;
-
-    Mail::queue('emails.activate_class_2', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->subject($subject);
-    });
-}
-
-function send_mail_lesson($user, $lesson, $class, $study_date, $emailcc)
-{
-
-    $data['lesson'] = $lesson;
-    $data['class'] = $class;
-    $data['user'] = $user;
-    $data['study_date'] = $study_date;
-
-    $subject = "Lịch trình và Giáo trình Buổi " . $lesson->order . " Lớp " . $class->name;
-    $data['subject'] = $subject;
-    Mail::queue('emails.send_lesson', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-    });
-}
-
-
-function send_mail_regis_shift($user, $week, $gen, $emailcc)
-{
-
-    $data['week'] = $week;
-    $data['gen'] = $gen;
-    $data['user'] = $user;
-
-    $subject = "Đăng ký trực tuần " . $week . " Khoá " . $gen->name;
-    $data['subject'] = $subject;
-    Mail::queue('emails.mail_regis_shift', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-    });
-}
-
 
 function get_first_part_of_email($string)
 {
@@ -1438,16 +1262,23 @@ function trim_url($url)
 function convert_email_form($email_form)
 {
     $data = $email_form->template->content;
-    $data = str_replace('[[LOGO]]', config('app.protocol') .
-        (!empty($email_form->logo_url) ? $email_form->logo_url : "d1j8r0kxyu9tj8.cloudfront.net/icons/no-logo.png"), $data);
-    $data = str_replace('[[AVT]]', config('app.protocol') .
-        (!empty($email_form->avatar_url) ? $email_form->avatar_url : "d1j8r0kxyu9tj8.cloudfront.net/icons/no-logo.png"), $data);
-    $data = str_replace('[[TITLE]]', (!empty($email_form->title) ? $email_form->title : "Tiêu đề"), $data);
-    $data = str_replace('[[SUBTITLE]]', (!empty($email_form->subtitle) ? $email_form->subtitle : "Phụ đề"), $data);
-    $data = str_replace('[[CONTENT]]', (!empty($email_form->content) ? $email_form->content : "Nội dung"), $data);
-    $data = str_replace('[[FOOTER]]', (!empty($email_form->footer) ? $email_form->footer : "Footer"), $data);
-    $data = str_replace('[[BUTTONTEXT]]', (!empty($email_form->title_button) ? $email_form->title_button : "Tiêu đề"), $data);
-    $data = str_replace('[[BUTTONLINK]]', (!empty($email_form->link_button) ? $email_form->link_button : "Link"), $data);
+
+    $searchReplaceArray = array(
+        '[[LOGO]]' => config('app.protocol') . (!empty($email_form->logo_url) ? $email_form->logo_url : "d1j8r0kxyu9tj8.cloudfront.net/icons/no-logo.png"),
+        '[[AVT]]' => config('app.protocol') . (!empty($email_form->avatar_url) ? $email_form->avatar_url : "d1j8r0kxyu9tj8.cloudfront.net/icons/no-logo.png"),
+        '[[TITLE]]' => (!empty($email_form->title) ? $email_form->title : "Tiêu đề"),
+        '[[SUBTITLE]]' => (!empty($email_form->subtitle) ? $email_form->subtitle : "Phụ đề"),
+        '[[CONTENT]]' => (!empty($email_form->content) ? $email_form->content : "Nội dung"),
+        '[[FOOTER]]' => (!empty($email_form->footer) ? $email_form->footer : "Footer"),
+        '[[BUTTONTEXT]]' => (!empty($email_form->title_button) ? $email_form->title_button : "Tiêu đề"),
+        '[[BUTTONLINK]]' => (!empty($email_form->link_button) ? $email_form->link_button : "Link"),
+    );
+
+
+    $data = str_replace(
+        array_keys($searchReplaceArray),
+        array_values($searchReplaceArray),
+        $data);
     return $data;
 }
 

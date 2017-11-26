@@ -112,6 +112,7 @@ class OrderController extends ManageApiController
             }
         }
         //thieu confirm order thi them history_goods && tru quantity imported_goods
+        //trang
         return $this->respondSuccessWithStatus([
             'message' => 'ok'
         ]);

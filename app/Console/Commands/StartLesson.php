@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\ClassLesson;
+use App\Services\EmailService;
 use Illuminate\Console\Command;
 
 class StartLesson extends Command
@@ -21,14 +22,19 @@ class StartLesson extends Command
      */
     protected $description = 'Send the email before lesson start 1 day';
 
+    protected $emailService;
+
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        EmailService $emailService
+    )
     {
         parent::__construct();
+        $this->emailService = $emailService;
     }
 
     /**
@@ -50,7 +56,7 @@ class StartLesson extends Command
 
             foreach ($registers as $register) {
                 $user = $register->user;
-                send_mail_lesson($user, $lesson, $class, $formatted_date, ['test@colorme.vn']);
+                $this->emailService->send_mail_lesson($user, $lesson, $class, $formatted_date, ['test@colorme.vn']);
             }
         }
     }

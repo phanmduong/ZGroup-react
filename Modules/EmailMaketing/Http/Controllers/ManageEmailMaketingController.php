@@ -6,14 +6,16 @@ use App\EmailForm;
 use App\EmailTemplate;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Services\EmailService;
 
 class ManageEmailMaketingController extends ManageApiController
 {
-    public function __construct()
+    protected $emailService;
+
+    public function __construct(EmailService $emailService)
     {
         parent::__construct();
+        $this->emailService = $emailService;
     }
 
     /**
@@ -240,10 +242,13 @@ class ManageEmailMaketingController extends ManageApiController
                     'email' => $request->email,
                     'name' => "Tester"
                 ];
+
                 $email_form->template = $email_form->template()->first();
                 $data = convert_email_form($email_form);
 
-                send_mail_query($user, 'emails.view_email', ['data' => $data], $email_form->name);
+//                dd($data);
+
+                $this->emailService->send_mail_query($user, 'emails.view_email', ['data' => $data], $email_form->name);
                 return $this->respondSuccessWithStatus(['message' => "Gửi mail thành công"]);
 
             }

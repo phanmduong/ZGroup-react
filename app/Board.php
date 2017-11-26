@@ -36,11 +36,6 @@ class Board extends Model
         return $this->hasMany(Task::class, "current_board_id");
     }
 
-    public function targetTasks()
-    {
-        return $this->hasMany(Task::class, "target_board_id");
-    }
-
     public function transform()
     {
         return [
