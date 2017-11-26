@@ -584,14 +584,14 @@ div#datatables-goodorders_length label {
   }
 }
 
-.container {
+.container-for-images {
   position: relative;
   margin-top: 25px;
   width: 250px;
   height: 250px;
 }
 
-.overlay {
+.overlay-for-images {
   position: absolute;
   top: 0;
   left: 0;
@@ -601,16 +601,16 @@ div#datatables-goodorders_length label {
   transition: background 0.5s ease;
 }
 
-.container:hover .overlay {
+.container-for-images:hover .overlay-for-images {
   display: block;
   background: rgba(0, 0, 0, .3);
 }
 
-.container:hover .title {
+.container-for-images:hover {
   top: 90px;
 }
 
-.button {
+.button-for-images {
   position: absolute;
   top: 0;
   left: 228px;
@@ -618,13 +618,13 @@ div#datatables-goodorders_length label {
   transition: opacity .35s ease;
 }
 
-.button a {
+.button-for-images a {
   text-align: center;
   color: white;
   z-index: 1;
 }
 
-.container:hover .button {
+.container-for-images:hover .button-for-images {
   opacity: 1;
 }
 

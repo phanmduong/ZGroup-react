@@ -48,7 +48,7 @@ export function saveCategoriesInventoryGood(categories) {
     });
 }
 
-export function getHistoryInventories(inventory) {
+export function getHistoryWarehouseInventories(inventory) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_HISTORY_INVENTORY_GOOD
@@ -57,8 +57,15 @@ export function getHistoryInventories(inventory) {
             .then(function (response) {
                 dispatch({
                     type: types.SAVE_HISTORY_INVENTORY_GOOD,
-                    histories: response.data.data.history,
+                    histories: response.data.history,
                     inventoryInfo: inventory
+                });
+            });
+        inventoryGoodApi.getWarehouseApi(inventory.id)
+            .then(function (response) {
+                dispatch({
+                    type: types.SAVE_WAREHOUSE_INVENTORY_GOOD,
+                    warehouses: response.data.data.warehouses
                 });
             });
     };

@@ -37,6 +37,12 @@ export function getHistoryInventoriesApi(id) {
     return axios.get(url);
 }
 
+export function getWarehouseApi(id) {
+    let token = localStorage.getItem("token");
+    let url = env.MANAGE_API_URL + "/good/warehouses/" + id + "?token=" + token;
+    return axios.get(url);
+}
+
 export function getInfoInventoriesApi() {
     let token = localStorage.getItem("token");
     let url = env.MANAGE_API_URL + "/good/inventories-info?token=" + token;

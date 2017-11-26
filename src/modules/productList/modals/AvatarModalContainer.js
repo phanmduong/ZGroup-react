@@ -8,6 +8,7 @@ import * as productListAction from '../productListAction';
 import UploadButton from "../../../components/common/uploadButton/UploadButton";
 import Select from 'react-select';
 import Loading from "../../../components/common/Loading";
+import {dotNumber} from "../../../helpers/helper";
 
 class AvatarModalContainer extends React.Component {
     constructor(props, context) {
@@ -183,7 +184,7 @@ class AvatarModalContainer extends React.Component {
                                 <input type="text"
                                        name="price"
                                        className="form-control"
-                                       value={this.props.productEditing.productPresent.price}
+                                       value={dotNumber(this.props.productEditing.productPresent.price)}
                                        onChange={this.handleProduct}/>
                                 <span className="material-input"/>
                             </div>

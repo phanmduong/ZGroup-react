@@ -43,7 +43,7 @@ class WareHouseModalContainer extends React.Component {
                                         {
                                             this.props.showWareHouse ?
                                                 <WareHouseTab
-                                                    productPresent={this.props.productEditing.productPresent}/> :
+                                                    warehouses={this.props.warehouses}/> :
                                                 <HistoryTab
                                                     histories={this.props.histories}
                                                     inventoryInfo={this.props.inventoryInfo}/>
@@ -62,6 +62,7 @@ class WareHouseModalContainer extends React.Component {
 
 WareHouseModalContainer.propTypes = {
     histories: PropTypes.array.isRequired,
+    warehouses: PropTypes.array.isRequired,
     wareHouseModal: PropTypes.bool,
     inventoryInfo: PropTypes.object.isRequired,
     modalProductAction: PropTypes.object.isRequired,
@@ -75,6 +76,7 @@ function mapStateToProps(state) {
     return {
         inventoryInfo: state.inventoryGood.inventoryChecking.inventoryInfo,
         histories: state.inventoryGood.inventoryChecking.histories,
+        warehouses: state.inventoryGood.inventoryChecking.warehouses,
         wareHouseModal: state.productList.modalInProduct.wareHouseModal,
         productEditing: state.productList.productEditing,
         showWareHouse: state.productList.showWareHouse,

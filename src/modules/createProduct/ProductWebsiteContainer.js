@@ -136,7 +136,7 @@ class ProductWebsiteContainer extends React.Component {
                                             product.images_url && product.images_url.map((image, index) => {
                                                 return (
                                                     <div key={index} className="col-md-12">
-                                                        <div className="container">
+                                                        <div className="container-for-images">
                                                             <img style={{
                                                                 width: "250px",
                                                                 height: "250px",
@@ -146,8 +146,8 @@ class ProductWebsiteContainer extends React.Component {
                                                             }}
                                                                  data-original-title=""
                                                                  className="product-image"/>
-                                                            <div className="overlay"/>
-                                                            <div className="button">
+                                                            <div className="overlay-for-images"/>
+                                                            <div className="button-for-images">
                                                                 <a rel="tooltip"
                                                                    data-original-title="" title=""
                                                                    onClick={() => this.props.createProductAction.deleteImage(image)}>

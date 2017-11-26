@@ -18,7 +18,7 @@ export default {
             images_url: [],
         },
         isUploadingImage: false,
-        isLoading:false
+        isLoading: false
     },
 
     globalLoading: {
@@ -37,6 +37,7 @@ export default {
         totalCount: 1,
         inventoryChecking: {
             histories: [],
+            warehouses: [],
             inventoryInfo: {}
         },
         historyModal: false,
