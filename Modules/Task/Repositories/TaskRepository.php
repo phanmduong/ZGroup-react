@@ -174,48 +174,53 @@ class TaskRepository
         ];
     }
 
-    public function addMemberToTask($task, $userId, $currentUser)
+    public function addMemberToTask($task, $members, $currentUser)
     {
-        $task->assignee_id = $userId;
+        $task->users()->detach();
         $card = $task->taskList->card;
-        if ($card) {
-            $member = $card->assignees()->where("id", $userId)->first();
+        foreach ($members as $member) {
+            $task->users()->attach($member->id);
+            $userId = $member->id;
+            if ($card) {
+                $member = $card->assignees()->where("id", $userId)->first();
 
-            if ($userId != 0 && $member == null) {
-                $card->assignees()->attach($userId);
+                if ($userId != 0 && $member == null) {
+                    $card->assignees()->attach($userId);
+                }
+
+
+                $this->calendarEventRepository->updateCalendarEvent("task", $task->id);
+
+                $card = $task->taskList->card;
+                $project = $card->board->project;
+
+                $user = User::find($userId);
+                if ($currentUser && $user != null && $currentUser->id != $user->id) {
+
+                    $notification = new Notification;
+                    $notification->actor_id = $currentUser->id;
+                    $notification->receiver_id = $user->id;
+                    $notification->type = 19;
+                    $message = $notification->notificationType->template;
+
+                    $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
+                    $message = str_replace('[[TASK]]', "<strong>" . $task->title . "</strong>", $message);
+                    $message = str_replace('[[CARD]]', "<strong>" . $card->title . "</strong>", $message);
+                    $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
+                    $notification->message = $message;
+
+                    $notification->color = $notification->notificationType->color;
+                    $notification->icon = $notification->notificationType->icon;
+                    $notification->url = '/project/' . $project->id . "/boards?card_id=" . $card->id;
+
+                    $notification->save();
+
+                    $this->notificationRepository->sendNotification($notification);
+                }
             }
-
-
-            $this->calendarEventRepository->updateCalendarEvent("task", $task->id);
-
-            $card = $task->taskList->card;
-            $project = $card->board->project;
-
-            $user = User::find($userId);
-            if ($currentUser && $user != null && $currentUser->id != $user->id) {
-
-                $notification = new Notification;
-                $notification->actor_id = $currentUser->id;
-                $notification->receiver_id = $user->id;
-                $notification->type = 19;
-                $message = $notification->notificationType->template;
-
-                $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
-                $message = str_replace('[[TASK]]', "<strong>" . $task->title . "</strong>", $message);
-                $message = str_replace('[[CARD]]', "<strong>" . $card->title . "</strong>", $message);
-                $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
-                $notification->message = $message;
-
-                $notification->color = $notification->notificationType->color;
-                $notification->icon = $notification->notificationType->icon;
-                $notification->url = '/project/' . $project->id . "/boards?card_id=" . $card->id;
-
-                $notification->save();
-
-                $this->notificationRepository->sendNotification($notification);
-            }
+            $task->save();
         }
-        $task->save();
+
 
         return true;
     }

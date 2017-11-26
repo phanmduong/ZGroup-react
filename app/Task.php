@@ -15,11 +15,6 @@ class Task extends Model
         return $this->belongsTo(TaskList::class, 'task_list_id');
     }
 
-    public function member()
-    {
-        return $this->belongsTo(User::class, 'assignee_id');
-    }
-
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
@@ -58,6 +53,12 @@ class Task extends Model
     public function goodPropertyItemTasks()
     {
         return $this->hasMany(GoodPropertyItemTask::class, "task_id");
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, "user_task", "task_id", "user_id")
+            ->withTimestamps();
     }
 
     public function transform()
@@ -113,12 +114,14 @@ class Task extends Model
             $data["deadline_str"] = time_remain_string(strtotime($this->deadline));
             $data["deadline"] = date("H:i d-m-Y", strtotime($this->deadline));
         }
-        if ($this->member) {
-            $data["member"] = [
-                "id" => $this->member->id,
-                "name" => $this->member->name,
-                "avatar_url" => generate_protocol_url($this->member->avatar_url),
-            ];
+        if ($this->users) {
+            $data["members"] = $this->users->map(function ($user) {
+                return [
+                    "id" => $user->id,
+                    "name" => $user->name,
+                    "avatar_url" => generate_protocol_url($user->avatar_url),
+                ];
+            });
         }
         return $data;
     }
