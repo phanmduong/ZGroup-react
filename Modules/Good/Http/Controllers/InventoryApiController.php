@@ -190,7 +190,7 @@ class InventoryApiController extends ManageApiController
                         'address' => $warehouse->base->address,
                     ];
                 return $data;
-            })
+            })->toArray()
         ]);
 
 
