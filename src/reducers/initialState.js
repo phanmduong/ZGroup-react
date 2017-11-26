@@ -18,10 +18,9 @@ export default {
             images_url: [],
         },
         isUploadingImage: false,
-        isLoading:false
+        isLoading: false,
         avatar_url: '',
-        images: [],
-        isUploadingImage: false
+        images: []
     },
 
     globalLoading: {
@@ -931,7 +930,7 @@ export default {
         isUploadingLink: false,
         error: false,
         coursesList: [],
-        isDeleting : false,
+        isDeleting: false,
         paginator: {
             total_count: 1,
             total_pages: 1,
@@ -947,7 +946,7 @@ export default {
         updateCoverError: false,
         isCommitting: false,
         commitSuccess: false,
-        data:{
+        data: {
             id: null,
             name: "",
             duration: "",
@@ -976,21 +975,21 @@ export default {
             link_icon: "",
         }
     },
-    lessons:{
-      isLoading: false,
-      isCommitting: false,
-      commitSuccess: false,
-      data: {
-          id: null,
-          course_id: 1,
-          name: "",
-          description: "",
-          detail: "",
-          order: "",
-          detail_content: "",
-          detail_teacher: "",
-          created_at: "",
-      }
+    lessons: {
+        isLoading: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            course_id: 1,
+            name: "",
+            description: "",
+            detail: "",
+            order: "",
+            detail_content: "",
+            detail_teacher: "",
+            created_at: "",
+        }
     },
 
     marketingCampaigns: {
