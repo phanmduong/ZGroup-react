@@ -16,9 +16,6 @@ export function getInventories(page, search, manufacture_id, good_category_id) {
                     limit: response.data.paginator.limit,
                     totalCount: response.data.paginator.total_count
                 });
-            })
-            .catch(function (error) {
-                throw (error);
             });
     };
 }
@@ -31,9 +28,6 @@ export function getManufacturesInventoryGood() {
                     type: types.GET_MANUFACTURES_INVENTORY_GOOD,
                     manufactures: response.data.data.manufactures
                 });
-            })
-            .catch(function (error) {
-                throw(error);
             });
     };
 }
@@ -43,9 +37,6 @@ export function getCategoriesInventoryGood() {
         inventoryGoodApi.getCategoriesApi()
             .then(function (response) {
                 dispatch(saveCategoriesInventoryGood(superSortCategories(response.data.data[0].good_categories)));
-            })
-            .catch(function (error) {
-                throw(error);
             });
     };
 }
@@ -64,15 +55,11 @@ export function getHistoryInventories(inventory) {
         });
         inventoryGoodApi.getHistoryInventoriesApi(inventory.id)
             .then(function (response) {
-                console.log("response",response);
                 dispatch({
                     type: types.SAVE_HISTORY_INVENTORY_GOOD,
                     histories: response.data.data.history,
                     inventoryInfo: inventory
                 });
-            })
-            .catch(function (error) {
-                throw(error);
             });
     };
 }
@@ -87,9 +74,6 @@ export function getInfoInventories() {
                     totalImportMoney: response.data.data.total_import_money,
                     totalMoney: response.data.data.total_money
                 });
-            })
-            .catch(function () {
-
             });
     };
 }

@@ -16,7 +16,10 @@ export default function createProductReducer(state = initialState.createProduct,
         case types.UPLOAD_AVATAR_COMPLETE_CREATE_PRODUCT:
             return {
                 ...state,
-                avatar_url: action.avatar_url,
+                productWorking: {
+                    ...state.productWorking,
+                    avatar_url: action.avatar_url
+                },
                 isUploadingAvatar: false
             };
         case types.UPDATE_AVATAR_PROGRESS_CREATE_PRODUCT:
@@ -29,22 +32,76 @@ export default function createProductReducer(state = initialState.createProduct,
                 ...state,
                 isUploadingAvatar: true
             };
-        case types.UPLOAD_IMAGE_COMPLETE_CREATE_PRODUCT:
+        case types.BEGIN_UPLOAD_IMAGE_CREATE_PRODUCT:
             return {
                 ...state,
-                images: [...state.images, action.image],
-                isUploadingImage: false
+                percent: 0,
+                isUploadingImage: true
             };
         case types.UPDATE_IMAGE_PROGRESS_CREATE_PRODUCT:
             return {
                 ...state,
                 percent: action.percent
             };
-        case types.BEGIN_UPLOAD_IMAGE_CREATE_PRODUCT:
+        case types.UPLOAD_IMAGE_COMPLETE_CREATE_PRODUCT: {
+            if (action.length + action.first_length === state.productWorking.images_url.length + 1) {
+                return {
+                    ...state,
+                    isUploadingImage: false,
+                    productWorking: {
+                        ...state.productWorking,
+                        images_url: [...state.productWorking.images_url, action.image]
+                    },
+
+                };
+            } else {
+                return {
+                    ...state,
+                    productWorking: {
+                        ...state.productWorking,
+                        images_url: [...state.productWorking.images_url, action.image]
+                    },
+                    isUploadingImage: true
+                };
+            }
+        }
+
+        case types.END_UPLOAD_IMAGE_CREATE_PRODUCT:
             return {
                 ...state,
-                isUploadingImage: true
+                isUploadingImage: false
             };
+        case types.HANDLE_PRODUCT_CREATE:
+            return {
+                ...state,
+                productWorking: action.product
+            };
+        case types.DELETE_IMAGE_CREATE_PRODUCT:
+            return {
+                ...state,
+                productWorking: {
+                    ...state.productWorking,
+                    images_url: state.productWorking.images_url.filter(image => image !== action.image)
+                }
+            };
+        case types.BEGIN_LOAD_PRODUCT_DETAIL:
+            return {
+                ...state,
+                isLoading: true
+            };
+        case types.LOAD_PRODUCT_DETAIL_SUCCESS: {
+            let product = {};
+            if (action.product.images_url) {
+                product = {...action.product, images_url: JSON.parse(action.product.images_url)};
+            } else {
+                product = {...action.product, images_url: []};
+            }
+            return {
+                ...state,
+                productWorking: product,
+                isLoading: false
+            };
+        }
         default:
             return state;
     }

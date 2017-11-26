@@ -1,15 +1,25 @@
 export default {
-
-    createProduct:{
+    createProduct: {
         categories: [],
         manufactures: [],
         isUploadingAvatar: false,
         percent: 0,
-        avatar_url:'',
-        images:[],
-        isUploadingImage:false
+        productWorking: {
+            name: '',
+            code: '',
+            description: '',
+            price: '',
+            avatar_url: '',
+            sale_status: false,
+            highlight_status: false,
+            display_status: false,
+            manufacture_id: '',
+            good_category_id: '',
+            images_url: [],
+        },
+        isUploadingImage: false,
+        isLoading:false
     },
-
 
     globalLoading: {
         isLoading: false

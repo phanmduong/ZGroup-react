@@ -27,18 +27,18 @@ export function getManufacturesApi() {
 
 export function getCategoriesApi() {
     let token = localStorage.getItem("token");
-    let url = "http://manageapi.graphics.vn/order/category/all?token=" + token;
+    let url = env.MANAGE_API_URL + "/order/category/all?token=" + token;
     return axios.get(url);
 }
 
 export function getHistoryInventoriesApi(id) {
     let token = localStorage.getItem("token");
-    let url = "http://manageapi.graphics.vn/good/history/" + id + "?token=" + token;
+    let url = env.MANAGE_API_URL + "/good/history/" + id + "?token=" + token;
     return axios.get(url);
 }
 
 export function getInfoInventoriesApi() {
     let token = localStorage.getItem("token");
-    let url = "http://manageapi.graphics.vn/good/inventories-info?token=" + token;
+    let url = env.MANAGE_API_URL + "/good/inventories-info?token=" + token;
     return axios.get(url);
 }

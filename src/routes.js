@@ -73,6 +73,7 @@ import InventoryGoodContainer from "./modules/inventoryGood/InventoryGoodContain
 import CreateProductContainer from "./modules/createProduct/CreateProductContainer";
 import ProductSystemContainer from "./modules/createProduct/ProductSystemContainer";
 import ProductWebsiteContainer from "./modules/createProduct/ProductWebsiteContainer";
+import EditProductContainer from "./modules/createProduct/EditProductContainer";
 
 export default (
     <Route>
@@ -250,12 +251,19 @@ export default (
             <Route path="/goods/customer" component={CustomerContainer}/>
             {/*End customer routes*/}
 
-            {/*Begin customer routes */}
-            <Route path="/create-product" component={CreateProductContainer}>
+            {/*Begin create-product routes */}
+            <Route path="/create-product" component={CreateProductContainer} type="create">
                 <IndexRoute component={ProductSystemContainer}/>
                 <Route path="website-display" component={ProductWebsiteContainer}/>
             </Route>
-            {/*End warehouse routes*/}
+            {/*End create-product routes*/}
+
+            {/*Begin edit-product routes */}
+            <Route path="/product/:productId/edit" component={EditProductContainer} type="edit">
+                <IndexRoute component={ProductSystemContainer}/>
+                <Route path="website-display" component={ProductWebsiteContainer}/>
+            </Route>
+            {/*End edit-product routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>
