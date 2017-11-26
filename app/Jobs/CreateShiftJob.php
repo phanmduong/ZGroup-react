@@ -6,6 +6,7 @@ use App\Base;
 use App\Gen;
 use App\Jobs\Job;
 use App\Role;
+use App\Services\EmailService;
 use App\Shift;
 use App\ShiftSession;
 use App\Tab;
@@ -17,14 +18,18 @@ class CreateShiftJob extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    protected $emailService;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        EmailService $emailService
+    )
     {
-        //
+        $this->emailService = $emailService;
     }
 
     /**
@@ -71,7 +76,7 @@ class CreateShiftJob extends Job implements ShouldQueue
         foreach ($roles as $role) {
             $users = $role->users;
             foreach ($users as $user) {
-                send_mail_regis_shift($user, $week, $current_gen, ['test@colorme.vn']);
+                $this->emailService->send_mail_regis_shift($user, $week, $current_gen, ['test@colorme.vn']);
             }
         }
     }

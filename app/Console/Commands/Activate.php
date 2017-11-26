@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Providers\AppServiceProvider;
+use App\Services\EmailService;
 use App\StudyClass;
 use Illuminate\Console\Command;
 
@@ -22,14 +23,17 @@ class Activate extends Command
      */
     protected $description = 'Activate the class ';
 
+    protected $emailService;
+
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(EmailService $emailService)
     {
         parent::__construct();
+        $this->emailService = $emailService;
     }
 
     /**
@@ -46,7 +50,7 @@ class Activate extends Command
             ->where('name', 'like', '%.%')->get();
         foreach ($classes as $class) {
             foreach ($class->registers as $regis) {
-                send_mail_activate_class($regis, [AppServiceProvider::$config['email']]);
+                $this->emailService->send_mail_activate_class($regis, [AppServiceProvider::$config['email']]);
             }
             $class->activated = 1;
             $class->save();

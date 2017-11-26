@@ -7,6 +7,7 @@ use App\Colorme\Transformers\ClassTransformer;
 use App\Colorme\Transformers\RegisterToStudentTransformer;
 use App\Gen;
 use App\Register;
+use App\Services\EmailService;
 use App\StudyClass;
 use App\StudySession;
 use DateTime;
@@ -19,15 +20,20 @@ class ClassApiController extends ApiController
 
     protected $registerToStudentTransformer;
     protected $classTransformer;
+    protected $emailService;
 
-    public function __construct(RegisterToStudentTransformer $registerToStudentTransformer, ClassTransformer $classTransformer)
+    public function __construct(RegisterToStudentTransformer $registerToStudentTransformer,
+                                ClassTransformer $classTransformer,
+                                EmailService $emailService
+    )
     {
         parent::__construct();
         $this->registerToStudentTransformer = $registerToStudentTransformer;
         $this->classTransformer = $classTransformer;
+        $this->emailService = $emailService;
     }
 
-    public function enroll( $classId)
+    public function enroll($classId)
     {
         $register = $this->user->registers()->where('class_id', $classId)->first();
         if ($register) {
@@ -41,7 +47,7 @@ class ClassApiController extends ApiController
             $register->status = 0;
 
             $register->save();
-            send_mail_confirm_registration($this->user, $classId, ["colorme.idea@gmail.com"]);
+            $this->emailService->send_mail_confirm_registration($this->user, $classId, ["colorme.idea@gmail.com"]);
             return $this->respond(['message' => "Bạn đă đăng kí thành công. Bạn hãy check email để kiểm tra thông tin đăng kí."]);
         }
     }
@@ -79,7 +85,7 @@ class ClassApiController extends ApiController
 
     }
 
-    public function students( $classId)
+    public function students($classId)
     {
         if ($classId) {
             $class = StudyClass::find($classId);
@@ -113,7 +119,7 @@ class ClassApiController extends ApiController
         }
     }
 
-    public function form( $classId, Request $request)
+    public function form($classId, Request $request)
     {
         if ($classId) {
             $class = StudyClass::find($classId);
