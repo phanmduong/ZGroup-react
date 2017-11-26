@@ -315,7 +315,7 @@ class GoodController extends ManageApiController
         $good->good_category_id = $good_category_id;
         $good->save();
 
-        $property = GoodProperty::where('good_id', $good->id)->where('name', 'images_url')->first();
+        $property = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
         $property->value = $images_url;
         $property->creator_id = $this->user->id;
         $property->editor_id = $this->user->id;
