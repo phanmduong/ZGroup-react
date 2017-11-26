@@ -130,7 +130,7 @@ class CourseController extends ManageApiController
             $link->link_icon = $link_icon;
             $link->link_icon_url = $this->s3_url . $link_icon;
         } else {
-            if ($link->link_icon_url == null) {
+            if ($link->link_icon_url === null) {
                 $link->link_icon_url = 'https://placehold.it/800x600';
             }
         }
@@ -156,7 +156,7 @@ class CourseController extends ManageApiController
             $link->link_icon = $link_icon;
             $link->link_icon_url = $this->s3_url . $link_icon;
         } else {
-            if ($link->link_icon_url == null) {
+            if ($link->link_icon_url === null) {
                 $link->link_icon_url = 'https://placehold.it/800x600';
             }
         }
