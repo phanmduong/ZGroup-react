@@ -1,0 +1,2027 @@
+2017-09-15 23:36:29: ===============================================================================
+2017-09-15 23:36:29: --- New PM2 Daemon started ----------------------------------------------------
+2017-09-15 23:36:29: Time                 : Fri Sep 15 2017 23:36:29 GMT+0700 (+07)
+2017-09-15 23:36:29: PM2 version          : 2.6.1
+2017-09-15 23:36:29: Node.js version      : 6.11.2
+2017-09-15 23:36:29: Current arch         : x64
+2017-09-15 23:36:29: PM2 home             : /var/www/client/.pm2
+2017-09-15 23:36:29: PM2 PID file         : /var/www/client/.pm2/pm2.pid
+2017-09-15 23:36:29: RPC socket file      : /var/www/client/.pm2/rpc.sock
+2017-09-15 23:36:29: BUS socket file      : /var/www/client/.pm2/pub.sock
+2017-09-15 23:36:29: Application log path : /var/www/client/.pm2/logs
+2017-09-15 23:36:29: Process dump file    : /var/www/client/.pm2/dump.pm2
+2017-09-15 23:36:29: Concurrent actions   : 2
+2017-09-15 23:36:29: SIGTERM timeout      : 1600
+2017-09-15 23:36:29: ===============================================================================
+2017-09-15 23:36:30: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:30: App name:socket id:0 online
+2017-09-15 23:36:30: App [socket] with id [0] and pid [10561], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:30: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:30: App name:socket id:0 online
+2017-09-15 23:36:31: App [socket] with id [0] and pid [10597], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:31: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:31: App name:socket id:0 online
+2017-09-15 23:36:31: App [socket] with id [0] and pid [10631], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:31: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:31: App name:socket id:0 online
+2017-09-15 23:36:32: App [socket] with id [0] and pid [10665], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:32: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:32: App name:socket id:0 online
+2017-09-15 23:36:32: App [socket] with id [0] and pid [10699], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:32: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:32: App name:socket id:0 online
+2017-09-15 23:36:33: App [socket] with id [0] and pid [10733], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:33: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:33: App name:socket id:0 online
+2017-09-15 23:36:33: App [socket] with id [0] and pid [10771], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:33: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:33: App name:socket id:0 online
+2017-09-15 23:36:33: App [socket] with id [0] and pid [10805], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:33: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:33: App name:socket id:0 online
+2017-09-15 23:36:34: App [socket] with id [0] and pid [10839], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:34: App name:socket id:0 online
+2017-09-15 23:36:34: App [socket] with id [0] and pid [10873], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:34: App name:socket id:0 online
+2017-09-15 23:36:35: App [socket] with id [0] and pid [10907], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:35: App name:socket id:0 online
+2017-09-15 23:36:35: App [socket] with id [0] and pid [10941], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:35: App name:socket id:0 online
+2017-09-15 23:36:36: App [socket] with id [0] and pid [10976], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:36: App name:socket id:0 online
+2017-09-15 23:36:36: App [socket] with id [0] and pid [11014], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:36: App name:socket id:0 online
+2017-09-15 23:36:37: App [socket] with id [0] and pid [11048], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:37: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:36:37: App name:socket id:0 online
+2017-09-15 23:36:37: App [socket] with id [0] and pid [11082], exited with code [1] via signal [SIGINT]
+2017-09-15 23:36:37: Script /var/www/client/socket-http.js had too many unstable restarts (16). Stopped. "errored"
+2017-09-15 23:37:06: 0
+2017-09-15 23:37:06: Stopping app:socket id:0
+2017-09-15 23:37:06: app=socket id=0 does not have a pid
+2017-09-15 23:37:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:06: App name:socket id:0 online
+2017-09-15 23:37:07: App [socket] with id [0] and pid [11310], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:07: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:07: App name:socket id:0 online
+2017-09-15 23:37:07: App [socket] with id [0] and pid [11359], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:07: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:07: App name:socket id:0 online
+2017-09-15 23:37:08: App [socket] with id [0] and pid [11401], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:08: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:08: App name:socket id:0 online
+2017-09-15 23:37:08: App [socket] with id [0] and pid [11435], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:08: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:08: App name:socket id:0 online
+2017-09-15 23:37:09: App [socket] with id [0] and pid [11481], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:09: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:09: App name:socket id:0 online
+2017-09-15 23:37:09: App [socket] with id [0] and pid [11533], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:09: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:09: App name:socket id:0 online
+2017-09-15 23:37:10: App [socket] with id [0] and pid [11568], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:10: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:10: App name:socket id:0 online
+2017-09-15 23:37:10: App [socket] with id [0] and pid [11602], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:10: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:10: App name:socket id:0 online
+2017-09-15 23:37:11: App [socket] with id [0] and pid [11637], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:11: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:11: App name:socket id:0 online
+2017-09-15 23:37:11: App [socket] with id [0] and pid [11674], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:11: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:11: App name:socket id:0 online
+2017-09-15 23:37:12: App [socket] with id [0] and pid [11708], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:12: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:12: App name:socket id:0 online
+2017-09-15 23:37:12: App [socket] with id [0] and pid [11742], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:12: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:12: App name:socket id:0 online
+2017-09-15 23:37:13: 0
+2017-09-15 23:37:13: Stopping app:socket id:0
+2017-09-15 23:37:13: App [socket] with id [0] and pid [11780], exited with code [0] via signal [SIGINT]
+2017-09-15 23:37:13: pid=11780 msg=process killed
+2017-09-15 23:37:13: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:13: App name:socket id:0 online
+2017-09-15 23:37:13: App [socket] with id [0] and pid [11827], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:13: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:13: App name:socket id:0 online
+2017-09-15 23:37:14: App [socket] with id [0] and pid [11862], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:14: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:14: App name:socket id:0 online
+2017-09-15 23:37:14: App [socket] with id [0] and pid [11899], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:14: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:14: App name:socket id:0 online
+2017-09-15 23:37:15: App [socket] with id [0] and pid [11933], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:15: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:15: App name:socket id:0 online
+2017-09-15 23:37:15: App [socket] with id [0] and pid [11967], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:15: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:15: App name:socket id:0 online
+2017-09-15 23:37:16: App [socket] with id [0] and pid [12001], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:16: App name:socket id:0 online
+2017-09-15 23:37:16: App [socket] with id [0] and pid [12035], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:16: App name:socket id:0 online
+2017-09-15 23:37:17: App [socket] with id [0] and pid [12069], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:17: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:17: App name:socket id:0 online
+2017-09-15 23:37:17: App [socket] with id [0] and pid [12120], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:17: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:17: App name:socket id:0 online
+2017-09-15 23:37:17: App [socket] with id [0] and pid [12157], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:17: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:17: App name:socket id:0 online
+2017-09-15 23:37:18: App [socket] with id [0] and pid [12191], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:18: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:18: App name:socket id:0 online
+2017-09-15 23:37:18: App [socket] with id [0] and pid [12231], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:18: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:18: App name:socket id:0 online
+2017-09-15 23:37:19: App [socket] with id [0] and pid [12265], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:19: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:19: App name:socket id:0 online
+2017-09-15 23:37:19: App [socket] with id [0] and pid [12299], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:19: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:19: App name:socket id:0 online
+2017-09-15 23:37:20: App [socket] with id [0] and pid [12333], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:20: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:37:20: App name:socket id:0 online
+2017-09-15 23:37:20: App [socket] with id [0] and pid [12368], exited with code [1] via signal [SIGINT]
+2017-09-15 23:37:20: Script /var/www/client/socket-http.js had too many unstable restarts (16). Stopped. "errored"
+2017-09-15 23:40:05: 0
+2017-09-15 23:40:05: Stopping app:socket id:0
+2017-09-15 23:40:05: app=socket id=0 does not have a pid
+2017-09-15 23:40:05: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-15 23:40:05: App name:socket id:0 online
+2017-09-16 11:16:15: 0
+2017-09-16 11:16:15: Stopping app:socket id:0
+2017-09-16 11:16:15: App [socket] with id [0] and pid [13095], exited with code [0] via signal [SIGINT]
+2017-09-16 11:16:15: pid=13095 msg=process killed
+2017-09-16 11:16:15: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 11:16:15: App name:socket id:0 online
+2017-09-16 12:15:38: 0
+2017-09-16 12:15:38: Stopping app:socket id:0
+2017-09-16 12:15:38: App [socket] with id [0] and pid [9551], exited with code [0] via signal [SIGINT]
+2017-09-16 12:15:38: pid=9551 msg=process killed
+2017-09-16 12:15:39: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 12:15:39: App name:socket id:0 online
+2017-09-16 16:25:10: 0
+2017-09-16 16:25:10: Stopping app:socket id:0
+2017-09-16 16:25:10: App [socket] with id [0] and pid [23692], exited with code [0] via signal [SIGINT]
+2017-09-16 16:25:11: pid=23692 msg=process killed
+2017-09-16 16:25:11: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 16:25:11: App name:socket id:0 online
+2017-09-16 16:35:43: 0
+2017-09-16 16:35:43: Stopping app:socket id:0
+2017-09-16 16:35:43: App [socket] with id [0] and pid [18409], exited with code [0] via signal [SIGINT]
+2017-09-16 16:35:43: pid=18409 msg=process killed
+2017-09-16 16:35:43: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 16:35:43: App name:socket id:0 online
+2017-09-16 17:06:03: 0
+2017-09-16 17:06:03: Stopping app:socket id:0
+2017-09-16 17:06:04: App [socket] with id [0] and pid [20908], exited with code [0] via signal [SIGINT]
+2017-09-16 17:06:04: pid=20908 msg=process killed
+2017-09-16 17:06:04: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 17:06:04: App name:socket id:0 online
+2017-09-16 17:09:31: 0
+2017-09-16 17:09:31: Stopping app:socket id:0
+2017-09-16 17:09:31: App [socket] with id [0] and pid [28386], exited with code [0] via signal [SIGINT]
+2017-09-16 17:09:31: pid=28386 msg=process killed
+2017-09-16 17:09:31: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 17:09:31: App name:socket id:0 online
+2017-09-16 17:12:07: 0
+2017-09-16 17:12:07: Stopping app:socket id:0
+2017-09-16 17:12:07: App [socket] with id [0] and pid [29339], exited with code [0] via signal [SIGINT]
+2017-09-16 17:12:07: pid=29339 msg=process killed
+2017-09-16 17:12:08: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 17:12:08: App name:socket id:0 online
+2017-09-16 17:23:53: 0
+2017-09-16 17:23:53: Stopping app:socket id:0
+2017-09-16 17:23:53: App [socket] with id [0] and pid [30127], exited with code [0] via signal [SIGINT]
+2017-09-16 17:23:53: pid=30127 msg=process killed
+2017-09-16 17:23:53: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 17:23:53: App name:socket id:0 online
+2017-09-16 17:26:36: 0
+2017-09-16 17:26:36: Stopping app:socket id:0
+2017-09-16 17:26:36: App [socket] with id [0] and pid [674], exited with code [0] via signal [SIGINT]
+2017-09-16 17:26:36: pid=674 msg=process killed
+2017-09-16 17:26:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 17:26:36: App name:socket id:0 online
+2017-09-16 17:53:36: 0
+2017-09-16 17:53:36: Stopping app:socket id:0
+2017-09-16 17:53:36: App [socket] with id [0] and pid [1455], exited with code [0] via signal [SIGINT]
+2017-09-16 17:53:36: pid=1455 msg=process killed
+2017-09-16 17:53:37: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 17:53:37: App name:socket id:0 online
+2017-09-16 23:14:27: 0
+2017-09-16 23:14:27: Stopping app:socket id:0
+2017-09-16 23:14:27: App [socket] with id [0] and pid [8080], exited with code [0] via signal [SIGINT]
+2017-09-16 23:14:27: pid=8080 msg=process killed
+2017-09-16 23:14:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-16 23:14:28: App name:socket id:0 online
+2017-09-17 01:25:35: 0
+2017-09-17 01:25:35: Stopping app:socket id:0
+2017-09-17 01:25:35: App [socket] with id [0] and pid [19162], exited with code [0] via signal [SIGINT]
+2017-09-17 01:25:36: pid=19162 msg=process killed
+2017-09-17 01:25:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 01:25:36: App name:socket id:0 online
+2017-09-17 01:45:58: 0
+2017-09-17 01:45:58: Stopping app:socket id:0
+2017-09-17 01:45:58: App [socket] with id [0] and pid [17239], exited with code [0] via signal [SIGINT]
+2017-09-17 01:45:58: pid=17239 msg=process killed
+2017-09-17 01:45:58: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 01:45:58: App name:socket id:0 online
+2017-09-17 12:04:20: 0
+2017-09-17 12:04:20: Stopping app:socket id:0
+2017-09-17 12:04:20: App [socket] with id [0] and pid [21788], exited with code [0] via signal [SIGINT]
+2017-09-17 12:04:21: pid=21788 msg=process killed
+2017-09-17 12:04:21: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 12:04:21: App name:socket id:0 online
+2017-09-17 14:15:12: 0
+2017-09-17 14:15:12: Stopping app:socket id:0
+2017-09-17 14:15:12: App [socket] with id [0] and pid [30503], exited with code [0] via signal [SIGINT]
+2017-09-17 14:15:12: pid=30503 msg=process killed
+2017-09-17 14:15:12: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 14:15:12: App name:socket id:0 online
+2017-09-17 16:08:46: 0
+2017-09-17 16:08:46: Stopping app:socket id:0
+2017-09-17 16:08:46: App [socket] with id [0] and pid [28124], exited with code [0] via signal [SIGINT]
+2017-09-17 16:08:46: pid=28124 msg=process killed
+2017-09-17 16:08:46: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 16:08:46: App name:socket id:0 online
+2017-09-17 16:13:20: 0
+2017-09-17 16:13:20: Stopping app:socket id:0
+2017-09-17 16:13:20: App [socket] with id [0] and pid [22422], exited with code [0] via signal [SIGINT]
+2017-09-17 16:13:20: pid=22422 msg=process killed
+2017-09-17 16:13:20: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 16:13:20: App name:socket id:0 online
+2017-09-17 16:46:45: 0
+2017-09-17 16:46:45: Stopping app:socket id:0
+2017-09-17 16:46:45: App [socket] with id [0] and pid [23584], exited with code [0] via signal [SIGINT]
+2017-09-17 16:46:45: pid=23584 msg=process killed
+2017-09-17 16:46:46: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 16:46:46: App name:socket id:0 online
+2017-09-17 20:27:26: 0
+2017-09-17 20:27:26: Stopping app:socket id:0
+2017-09-17 20:27:26: App [socket] with id [0] and pid [31389], exited with code [0] via signal [SIGINT]
+2017-09-17 20:27:26: pid=31389 msg=process killed
+2017-09-17 20:27:26: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 20:27:26: App name:socket id:0 online
+2017-09-17 20:40:46: 0
+2017-09-17 20:40:46: Stopping app:socket id:0
+2017-09-17 20:40:46: App [socket] with id [0] and pid [18116], exited with code [0] via signal [SIGINT]
+2017-09-17 20:40:46: pid=18116 msg=process killed
+2017-09-17 20:40:47: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 20:40:47: App name:socket id:0 online
+2017-09-17 23:23:14: 0
+2017-09-17 23:23:14: Stopping app:socket id:0
+2017-09-17 23:23:14: App [socket] with id [0] and pid [21400], exited with code [0] via signal [SIGINT]
+2017-09-17 23:23:14: pid=21400 msg=process killed
+2017-09-17 23:23:14: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 23:23:14: App name:socket id:0 online
+2017-09-17 23:23:30: 0
+2017-09-17 23:23:30: Stopping app:socket id:0
+2017-09-17 23:23:30: App [socket] with id [0] and pid [26966], exited with code [0] via signal [SIGINT]
+2017-09-17 23:23:30: pid=26966 msg=process killed
+2017-09-17 23:23:30: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-17 23:23:30: App name:socket id:0 online
+2017-09-18 00:05:35: 0
+2017-09-18 00:05:35: Stopping app:socket id:0
+2017-09-18 00:05:35: App [socket] with id [0] and pid [27129], exited with code [0] via signal [SIGINT]
+2017-09-18 00:05:35: pid=27129 msg=process killed
+2017-09-18 00:05:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 00:05:35: App name:socket id:0 online
+2017-09-18 00:33:01: 0
+2017-09-18 00:33:01: Stopping app:socket id:0
+2017-09-18 00:33:01: App [socket] with id [0] and pid [4553], exited with code [0] via signal [SIGINT]
+2017-09-18 00:33:01: pid=4553 msg=process killed
+2017-09-18 00:33:01: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 00:33:01: App name:socket id:0 online
+2017-09-18 14:16:48: 0
+2017-09-18 14:16:48: Stopping app:socket id:0
+2017-09-18 14:16:48: App [socket] with id [0] and pid [10882], exited with code [0] via signal [SIGINT]
+2017-09-18 14:16:48: pid=10882 msg=process killed
+2017-09-18 14:16:49: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 14:16:49: App name:socket id:0 online
+2017-09-18 17:30:55: 0
+2017-09-18 17:30:55: Stopping app:socket id:0
+2017-09-18 17:30:55: App [socket] with id [0] and pid [3040], exited with code [0] via signal [SIGINT]
+2017-09-18 17:30:55: pid=3040 msg=process killed
+2017-09-18 17:30:55: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 17:30:55: App name:socket id:0 online
+2017-09-18 17:33:23: 0
+2017-09-18 17:33:23: Stopping app:socket id:0
+2017-09-18 17:33:23: App [socket] with id [0] and pid [15897], exited with code [0] via signal [SIGINT]
+2017-09-18 17:33:23: pid=15897 msg=process killed
+2017-09-18 17:33:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 17:33:24: App name:socket id:0 online
+2017-09-18 17:44:22: 0
+2017-09-18 17:44:22: Stopping app:socket id:0
+2017-09-18 17:44:22: App [socket] with id [0] and pid [16561], exited with code [0] via signal [SIGINT]
+2017-09-18 17:44:22: pid=16561 msg=process killed
+2017-09-18 17:44:22: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 17:44:22: App name:socket id:0 online
+2017-09-18 17:46:58: 0
+2017-09-18 17:46:58: Stopping app:socket id:0
+2017-09-18 17:46:58: App [socket] with id [0] and pid [19112], exited with code [0] via signal [SIGINT]
+2017-09-18 17:46:59: pid=19112 msg=process killed
+2017-09-18 17:46:59: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 17:46:59: App name:socket id:0 online
+2017-09-18 17:50:06: 0
+2017-09-18 17:50:06: Stopping app:socket id:0
+2017-09-18 17:50:06: App [socket] with id [0] and pid [19807], exited with code [0] via signal [SIGINT]
+2017-09-18 17:50:06: pid=19807 msg=process killed
+2017-09-18 17:50:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 17:50:06: App name:socket id:0 online
+2017-09-18 17:52:28: 0
+2017-09-18 17:52:28: Stopping app:socket id:0
+2017-09-18 17:52:28: App [socket] with id [0] and pid [20664], exited with code [0] via signal [SIGINT]
+2017-09-18 17:52:28: pid=20664 msg=process killed
+2017-09-18 17:52:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 17:52:28: App name:socket id:0 online
+2017-09-18 17:54:16: 0
+2017-09-18 17:54:16: Stopping app:socket id:0
+2017-09-18 17:54:16: App [socket] with id [0] and pid [21323], exited with code [0] via signal [SIGINT]
+2017-09-18 17:54:16: pid=21323 msg=process killed
+2017-09-18 17:54:17: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 17:54:17: App name:socket id:0 online
+2017-09-18 18:00:02: 0
+2017-09-18 18:00:02: Stopping app:socket id:0
+2017-09-18 18:00:02: App [socket] with id [0] and pid [21803], exited with code [0] via signal [SIGINT]
+2017-09-18 18:00:02: pid=21803 msg=process killed
+2017-09-18 18:00:02: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:00:02: App name:socket id:0 online
+2017-09-18 18:03:07: 0
+2017-09-18 18:03:07: Stopping app:socket id:0
+2017-09-18 18:03:07: App [socket] with id [0] and pid [23178], exited with code [0] via signal [SIGINT]
+2017-09-18 18:03:07: pid=23178 msg=process killed
+2017-09-18 18:03:07: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:03:07: App name:socket id:0 online
+2017-09-18 18:04:04: 0
+2017-09-18 18:04:04: Stopping app:socket id:0
+2017-09-18 18:04:04: App [socket] with id [0] and pid [24002], exited with code [0] via signal [SIGINT]
+2017-09-18 18:04:04: pid=24002 msg=process killed
+2017-09-18 18:04:05: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:04:05: App name:socket id:0 online
+2017-09-18 18:16:40: 0
+2017-09-18 18:16:40: Stopping app:socket id:0
+2017-09-18 18:16:40: App [socket] with id [0] and pid [24321], exited with code [0] via signal [SIGINT]
+2017-09-18 18:16:40: pid=24321 msg=process killed
+2017-09-18 18:16:41: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:16:41: App name:socket id:0 online
+2017-09-18 18:17:20: 0
+2017-09-18 18:17:20: Stopping app:socket id:0
+2017-09-18 18:17:20: App [socket] with id [0] and pid [27240], exited with code [0] via signal [SIGINT]
+2017-09-18 18:17:20: pid=27240 msg=process killed
+2017-09-18 18:17:21: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:17:21: App name:socket id:0 online
+2017-09-18 18:32:34: 0
+2017-09-18 18:32:34: Stopping app:socket id:0
+2017-09-18 18:32:34: App [socket] with id [0] and pid [27466], exited with code [0] via signal [SIGINT]
+2017-09-18 18:32:34: pid=27466 msg=process killed
+2017-09-18 18:32:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:32:35: App name:socket id:0 online
+2017-09-18 18:35:02: 0
+2017-09-18 18:35:02: Stopping app:socket id:0
+2017-09-18 18:35:02: App [socket] with id [0] and pid [31107], exited with code [0] via signal [SIGINT]
+2017-09-18 18:35:02: pid=31107 msg=process killed
+2017-09-18 18:35:02: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:35:02: App name:socket id:0 online
+2017-09-18 18:36:34: 0
+2017-09-18 18:36:34: Stopping app:socket id:0
+2017-09-18 18:36:34: App [socket] with id [0] and pid [31787], exited with code [0] via signal [SIGINT]
+2017-09-18 18:36:34: pid=31787 msg=process killed
+2017-09-18 18:36:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:36:34: App name:socket id:0 online
+2017-09-18 18:36:58: 0
+2017-09-18 18:36:58: Stopping app:socket id:0
+2017-09-18 18:36:58: App [socket] with id [0] and pid [32229], exited with code [0] via signal [SIGINT]
+2017-09-18 18:36:58: pid=32229 msg=process killed
+2017-09-18 18:36:59: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:36:59: App name:socket id:0 online
+2017-09-18 18:39:23: 0
+2017-09-18 18:39:23: Stopping app:socket id:0
+2017-09-18 18:39:23: App [socket] with id [0] and pid [32419], exited with code [0] via signal [SIGINT]
+2017-09-18 18:39:24: pid=32419 msg=process killed
+2017-09-18 18:39:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-18 18:39:24: App name:socket id:0 online
+2017-09-19 01:36:36: 0
+2017-09-19 01:36:36: Stopping app:socket id:0
+2017-09-19 01:36:36: App [socket] with id [0] and pid [642], exited with code [0] via signal [SIGINT]
+2017-09-19 01:36:37: pid=642 msg=process killed
+2017-09-19 01:36:37: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 01:36:37: App name:socket id:0 online
+2017-09-19 01:42:55: 0
+2017-09-19 01:42:55: Stopping app:socket id:0
+2017-09-19 01:42:55: App [socket] with id [0] and pid [32451], exited with code [0] via signal [SIGINT]
+2017-09-19 01:42:55: pid=32451 msg=process killed
+2017-09-19 01:42:56: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 01:42:56: App name:socket id:0 online
+2017-09-19 11:06:42: 0
+2017-09-19 11:06:42: Stopping app:socket id:0
+2017-09-19 11:06:42: App [socket] with id [0] and pid [1484], exited with code [0] via signal [SIGINT]
+2017-09-19 11:06:42: pid=1484 msg=process killed
+2017-09-19 11:06:42: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 11:06:42: App name:socket id:0 online
+2017-09-19 12:35:51: 0
+2017-09-19 12:35:51: Stopping app:socket id:0
+2017-09-19 12:35:51: App [socket] with id [0] and pid [30490], exited with code [0] via signal [SIGINT]
+2017-09-19 12:35:51: pid=30490 msg=process killed
+2017-09-19 12:35:51: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 12:35:51: App name:socket id:0 online
+2017-09-19 12:36:25: 0
+2017-09-19 12:36:25: Stopping app:socket id:0
+2017-09-19 12:36:25: App [socket] with id [0] and pid [18770], exited with code [0] via signal [SIGINT]
+2017-09-19 12:36:25: pid=18770 msg=process killed
+2017-09-19 12:36:26: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 12:36:26: App name:socket id:0 online
+2017-09-19 14:53:23: 0
+2017-09-19 14:53:23: Stopping app:socket id:0
+2017-09-19 14:53:23: App [socket] with id [0] and pid [19008], exited with code [0] via signal [SIGINT]
+2017-09-19 14:53:23: pid=19008 msg=process killed
+2017-09-19 14:53:23: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 14:53:23: App name:socket id:0 online
+2017-09-19 15:01:17: 0
+2017-09-19 15:01:17: Stopping app:socket id:0
+2017-09-19 15:01:17: App [socket] with id [0] and pid [18381], exited with code [0] via signal [SIGINT]
+2017-09-19 15:01:17: pid=18381 msg=process killed
+2017-09-19 15:01:17: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 15:01:17: App name:socket id:0 online
+2017-09-19 15:10:43: 0
+2017-09-19 15:10:43: Stopping app:socket id:0
+2017-09-19 15:10:43: App [socket] with id [0] and pid [20386], exited with code [0] via signal [SIGINT]
+2017-09-19 15:10:43: pid=20386 msg=process killed
+2017-09-19 15:10:44: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 15:10:44: App name:socket id:0 online
+2017-09-19 15:21:33: 0
+2017-09-19 15:21:33: Stopping app:socket id:0
+2017-09-19 15:21:33: App [socket] with id [0] and pid [22801], exited with code [0] via signal [SIGINT]
+2017-09-19 15:21:33: pid=22801 msg=process killed
+2017-09-19 15:21:33: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 15:21:33: App name:socket id:0 online
+2017-09-19 15:32:45: 0
+2017-09-19 15:32:45: Stopping app:socket id:0
+2017-09-19 15:32:45: App [socket] with id [0] and pid [25561], exited with code [0] via signal [SIGINT]
+2017-09-19 15:32:45: pid=25561 msg=process killed
+2017-09-19 15:32:46: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 15:32:46: App name:socket id:0 online
+2017-09-19 16:14:26: 0
+2017-09-19 16:14:26: Stopping app:socket id:0
+2017-09-19 16:14:26: App [socket] with id [0] and pid [28417], exited with code [0] via signal [SIGINT]
+2017-09-19 16:14:26: pid=28417 msg=process killed
+2017-09-19 16:14:27: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 16:14:27: App name:socket id:0 online
+2017-09-19 16:15:00: 0
+2017-09-19 16:15:00: Stopping app:socket id:0
+2017-09-19 16:15:00: App [socket] with id [0] and pid [5800], exited with code [0] via signal [SIGINT]
+2017-09-19 16:15:00: pid=5800 msg=process killed
+2017-09-19 16:15:01: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 16:15:01: App name:socket id:0 online
+2017-09-19 16:15:25: 0
+2017-09-19 16:15:25: Stopping app:socket id:0
+2017-09-19 16:15:25: App [socket] with id [0] and pid [6036], exited with code [0] via signal [SIGINT]
+2017-09-19 16:15:25: pid=6036 msg=process killed
+2017-09-19 16:15:25: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-19 16:15:25: App name:socket id:0 online
+2017-09-20 01:48:42: 0
+2017-09-20 01:48:42: Stopping app:socket id:0
+2017-09-20 01:48:42: App [socket] with id [0] and pid [6224], exited with code [0] via signal [SIGINT]
+2017-09-20 01:48:42: pid=6224 msg=process killed
+2017-09-20 01:48:43: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 01:48:43: App name:socket id:0 online
+2017-09-20 02:03:46: 0
+2017-09-20 02:03:46: Stopping app:socket id:0
+2017-09-20 02:03:46: App [socket] with id [0] and pid [10765], exited with code [0] via signal [SIGINT]
+2017-09-20 02:03:46: pid=10765 msg=process killed
+2017-09-20 02:03:47: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 02:03:47: App name:socket id:0 online
+2017-09-20 11:42:13: 0
+2017-09-20 11:42:13: Stopping app:socket id:0
+2017-09-20 11:42:13: App [socket] with id [0] and pid [14219], exited with code [0] via signal [SIGINT]
+2017-09-20 11:42:14: pid=14219 msg=process killed
+2017-09-20 11:42:14: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 11:42:14: App name:socket id:0 online
+2017-09-20 12:04:04: 0
+2017-09-20 12:04:04: Stopping app:socket id:0
+2017-09-20 12:04:04: App [socket] with id [0] and pid [14164], exited with code [0] via signal [SIGINT]
+2017-09-20 12:04:04: pid=14164 msg=process killed
+2017-09-20 12:04:05: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 12:04:05: App name:socket id:0 online
+2017-09-20 14:03:02: 0
+2017-09-20 14:03:02: Stopping app:socket id:0
+2017-09-20 14:03:02: App [socket] with id [0] and pid [19427], exited with code [0] via signal [SIGINT]
+2017-09-20 14:03:02: pid=19427 msg=process killed
+2017-09-20 14:03:03: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 14:03:03: App name:socket id:0 online
+2017-09-20 14:03:27: 0
+2017-09-20 14:03:27: Stopping app:socket id:0
+2017-09-20 14:03:27: App [socket] with id [0] and pid [14520], exited with code [0] via signal [SIGINT]
+2017-09-20 14:03:27: pid=14520 msg=process killed
+2017-09-20 14:03:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 14:03:28: App name:socket id:0 online
+2017-09-20 16:09:08: 0
+2017-09-20 16:09:08: Stopping app:socket id:0
+2017-09-20 16:09:08: App [socket] with id [0] and pid [14689], exited with code [0] via signal [SIGINT]
+2017-09-20 16:09:08: pid=14689 msg=process killed
+2017-09-20 16:09:08: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 16:09:08: App name:socket id:0 online
+2017-09-20 18:30:25: 0
+2017-09-20 18:30:25: Stopping app:socket id:0
+2017-09-20 18:30:25: App [socket] with id [0] and pid [12288], exited with code [0] via signal [SIGINT]
+2017-09-20 18:30:25: pid=12288 msg=process killed
+2017-09-20 18:30:25: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 18:30:25: App name:socket id:0 online
+2017-09-20 18:41:00: 0
+2017-09-20 18:41:00: Stopping app:socket id:0
+2017-09-20 18:41:00: App [socket] with id [0] and pid [12622], exited with code [0] via signal [SIGINT]
+2017-09-20 18:41:00: pid=12622 msg=process killed
+2017-09-20 18:41:01: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 18:41:01: App name:socket id:0 online
+2017-09-20 18:48:17: 0
+2017-09-20 18:48:17: Stopping app:socket id:0
+2017-09-20 18:48:17: App [socket] with id [0] and pid [15173], exited with code [0] via signal [SIGINT]
+2017-09-20 18:48:17: pid=15173 msg=process killed
+2017-09-20 18:48:18: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 18:48:18: App name:socket id:0 online
+2017-09-20 19:45:00: 0
+2017-09-20 19:45:00: Stopping app:socket id:0
+2017-09-20 19:45:00: App [socket] with id [0] and pid [17008], exited with code [0] via signal [SIGINT]
+2017-09-20 19:45:00: pid=17008 msg=process killed
+2017-09-20 19:45:00: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 19:45:00: App name:socket id:0 online
+2017-09-20 19:49:48: 0
+2017-09-20 19:49:48: Stopping app:socket id:0
+2017-09-20 19:49:48: App [socket] with id [0] and pid [30895], exited with code [0] via signal [SIGINT]
+2017-09-20 19:49:48: pid=30895 msg=process killed
+2017-09-20 19:49:49: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 19:49:49: App name:socket id:0 online
+2017-09-20 21:23:45: 0
+2017-09-20 21:23:45: Stopping app:socket id:0
+2017-09-20 21:23:45: App [socket] with id [0] and pid [32122], exited with code [0] via signal [SIGINT]
+2017-09-20 21:23:45: pid=32122 msg=process killed
+2017-09-20 21:23:46: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 21:23:46: App name:socket id:0 online
+2017-09-20 21:26:33: 0
+2017-09-20 21:26:33: Stopping app:socket id:0
+2017-09-20 21:26:33: App [socket] with id [0] and pid [22322], exited with code [0] via signal [SIGINT]
+2017-09-20 21:26:33: pid=22322 msg=process killed
+2017-09-20 21:26:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 21:26:34: App name:socket id:0 online
+2017-09-20 21:35:40: 0
+2017-09-20 21:35:40: Stopping app:socket id:0
+2017-09-20 21:35:40: App [socket] with id [0] and pid [23080], exited with code [0] via signal [SIGINT]
+2017-09-20 21:35:40: pid=23080 msg=process killed
+2017-09-20 21:35:41: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-20 21:35:41: App name:socket id:0 online
+2017-09-21 12:05:09: 0
+2017-09-21 12:05:09: Stopping app:socket id:0
+2017-09-21 12:05:09: App [socket] with id [0] and pid [25185], exited with code [0] via signal [SIGINT]
+2017-09-21 12:05:09: pid=25185 msg=process killed
+2017-09-21 12:05:09: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-21 12:05:09: App name:socket id:0 online
+2017-09-21 12:06:17: 0
+2017-09-21 12:06:17: Stopping app:socket id:0
+2017-09-21 12:06:17: App [socket] with id [0] and pid [27366], exited with code [0] via signal [SIGINT]
+2017-09-21 12:06:17: pid=27366 msg=process killed
+2017-09-21 12:06:17: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-21 12:06:17: App name:socket id:0 online
+2017-09-21 15:24:21: 0
+2017-09-21 15:24:21: Stopping app:socket id:0
+2017-09-21 15:24:21: App [socket] with id [0] and pid [27730], exited with code [0] via signal [SIGINT]
+2017-09-21 15:24:21: pid=27730 msg=process killed
+2017-09-21 15:24:22: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-21 15:24:22: App name:socket id:0 online
+2017-09-22 01:28:05: 0
+2017-09-22 01:28:05: Stopping app:socket id:0
+2017-09-22 01:28:05: App [socket] with id [0] and pid [9992], exited with code [0] via signal [SIGINT]
+2017-09-22 01:28:06: pid=9992 msg=process killed
+2017-09-22 01:28:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 01:28:06: App name:socket id:0 online
+2017-09-22 11:10:36: 0
+2017-09-22 11:10:36: Stopping app:socket id:0
+2017-09-22 11:10:36: App [socket] with id [0] and pid [21586], exited with code [0] via signal [SIGINT]
+2017-09-22 11:10:36: pid=21586 msg=process killed
+2017-09-22 11:10:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 11:10:36: App name:socket id:0 online
+2017-09-22 11:11:18: 0
+2017-09-22 11:11:18: Stopping app:socket id:0
+2017-09-22 11:11:18: App [socket] with id [0] and pid [21801], exited with code [0] via signal [SIGINT]
+2017-09-22 11:11:18: pid=21801 msg=process killed
+2017-09-22 11:11:18: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 11:11:18: App name:socket id:0 online
+2017-09-22 14:00:09: 0
+2017-09-22 14:00:09: Stopping app:socket id:0
+2017-09-22 14:00:09: App [socket] with id [0] and pid [22055], exited with code [0] via signal [SIGINT]
+2017-09-22 14:00:09: pid=22055 msg=process killed
+2017-09-22 14:00:10: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 14:00:10: App name:socket id:0 online
+2017-09-22 14:10:45: 0
+2017-09-22 14:10:45: Stopping app:socket id:0
+2017-09-22 14:10:45: App [socket] with id [0] and pid [27973], exited with code [0] via signal [SIGINT]
+2017-09-22 14:10:45: pid=27973 msg=process killed
+2017-09-22 14:10:46: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 14:10:46: App name:socket id:0 online
+2017-09-22 17:09:41: 0
+2017-09-22 17:09:41: Stopping app:socket id:0
+2017-09-22 17:09:41: App [socket] with id [0] and pid [30493], exited with code [0] via signal [SIGINT]
+2017-09-22 17:09:41: pid=30493 msg=process killed
+2017-09-22 17:09:42: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 17:09:42: App name:socket id:0 online
+2017-09-22 23:38:57: pm2 has been killed by signal, dumping process list before exit...
+2017-09-22 23:38:57: Deleting process 0
+2017-09-22 23:38:57: Stopping app:socket id:0
+2017-09-22 23:38:57: App [socket] with id [0] and pid [8022], exited with code [0] via signal [SIGTERM]
+2017-09-22 23:38:57: pid=8022 msg=process killed
+2017-09-22 23:38:57: [PM2] Exited peacefully
+2017-09-22 23:40:41: ===============================================================================
+2017-09-22 23:40:41: --- New PM2 Daemon started ----------------------------------------------------
+2017-09-22 23:40:41: Time                 : Fri Sep 22 2017 23:40:41 GMT+0700 (+07)
+2017-09-22 23:40:41: PM2 version          : 2.6.1
+2017-09-22 23:40:41: Node.js version      : 6.11.2
+2017-09-22 23:40:41: Current arch         : x64
+2017-09-22 23:40:41: PM2 home             : /var/www/client/.pm2
+2017-09-22 23:40:41: PM2 PID file         : /var/www/client/.pm2/pm2.pid
+2017-09-22 23:40:41: RPC socket file      : /var/www/client/.pm2/rpc.sock
+2017-09-22 23:40:41: BUS socket file      : /var/www/client/.pm2/pub.sock
+2017-09-22 23:40:41: Application log path : /var/www/client/.pm2/logs
+2017-09-22 23:40:41: Process dump file    : /var/www/client/.pm2/dump.pm2
+2017-09-22 23:40:41: Concurrent actions   : 2
+2017-09-22 23:40:41: SIGTERM timeout      : 1600
+2017-09-22 23:40:41: ===============================================================================
+2017-09-22 23:40:41: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 23:40:41: App name:socket id:0 online
+2017-09-22 23:42:16: 0
+2017-09-22 23:42:16: Stopping app:socket id:0
+2017-09-22 23:42:16: App [socket] with id [0] and pid [2929], exited with code [0] via signal [SIGINT]
+2017-09-22 23:42:16: pid=2929 msg=process killed
+2017-09-22 23:42:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 23:42:16: App name:socket id:0 online
+2017-09-22 23:44:00: 0
+2017-09-22 23:44:00: Stopping app:socket id:0
+2017-09-22 23:44:00: App [socket] with id [0] and pid [8828], exited with code [0] via signal [SIGINT]
+2017-09-22 23:44:00: pid=8828 msg=process killed
+2017-09-22 23:44:00: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 23:44:00: App name:socket id:0 online
+2017-09-22 23:48:52: 0
+2017-09-22 23:48:52: Stopping app:socket id:0
+2017-09-22 23:48:52: App [socket] with id [0] and pid [9225], exited with code [0] via signal [SIGINT]
+2017-09-22 23:48:52: pid=9225 msg=process killed
+2017-09-22 23:48:52: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 23:48:52: App name:socket id:0 online
+2017-09-22 23:51:27: 0
+2017-09-22 23:51:27: Stopping app:socket id:0
+2017-09-22 23:51:27: App [socket] with id [0] and pid [10248], exited with code [0] via signal [SIGINT]
+2017-09-22 23:51:27: pid=10248 msg=process killed
+2017-09-22 23:51:27: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 23:51:27: App name:socket id:0 online
+2017-09-22 23:59:37: 0
+2017-09-22 23:59:37: Stopping app:socket id:0
+2017-09-22 23:59:37: App [socket] with id [0] and pid [10846], exited with code [0] via signal [SIGINT]
+2017-09-22 23:59:37: pid=10846 msg=process killed
+2017-09-22 23:59:38: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-22 23:59:38: App name:socket id:0 online
+2017-09-23 11:32:20: 0
+2017-09-23 11:32:20: Stopping app:socket id:0
+2017-09-23 11:32:20: App [socket] with id [0] and pid [12404], exited with code [0] via signal [SIGINT]
+2017-09-23 11:32:20: pid=12404 msg=process killed
+2017-09-23 11:32:20: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 11:32:20: App name:socket id:0 online
+2017-09-23 14:50:20: 0
+2017-09-23 14:50:20: Stopping app:socket id:0
+2017-09-23 14:50:20: App [socket] with id [0] and pid [6088], exited with code [0] via signal [SIGINT]
+2017-09-23 14:50:20: pid=6088 msg=process killed
+2017-09-23 14:50:20: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 14:50:20: App name:socket id:0 online
+2017-09-23 15:49:45: 0
+2017-09-23 15:49:45: Stopping app:socket id:0
+2017-09-23 15:49:45: App [socket] with id [0] and pid [8902], exited with code [0] via signal [SIGINT]
+2017-09-23 15:49:45: pid=8902 msg=process killed
+2017-09-23 15:49:46: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 15:49:46: App name:socket id:0 online
+2017-09-23 16:53:45: 0
+2017-09-23 16:53:45: Stopping app:socket id:0
+2017-09-23 16:53:45: App [socket] with id [0] and pid [19974], exited with code [0] via signal [SIGINT]
+2017-09-23 16:53:45: pid=19974 msg=process killed
+2017-09-23 16:53:45: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 16:53:45: App name:socket id:0 online
+2017-09-23 17:16:13: 0
+2017-09-23 17:16:13: Stopping app:socket id:0
+2017-09-23 17:16:13: App [socket] with id [0] and pid [31597], exited with code [0] via signal [SIGINT]
+2017-09-23 17:16:13: pid=31597 msg=process killed
+2017-09-23 17:16:13: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 17:16:13: App name:socket id:0 online
+2017-09-23 17:22:55: 0
+2017-09-23 17:22:55: Stopping app:socket id:0
+2017-09-23 17:22:55: App [socket] with id [0] and pid [3525], exited with code [0] via signal [SIGINT]
+2017-09-23 17:22:55: pid=3525 msg=process killed
+2017-09-23 17:22:55: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 17:22:55: App name:socket id:0 online
+2017-09-23 17:42:19: 0
+2017-09-23 17:42:19: Stopping app:socket id:0
+2017-09-23 17:42:19: App [socket] with id [0] and pid [4874], exited with code [0] via signal [SIGINT]
+2017-09-23 17:42:19: pid=4874 msg=process killed
+2017-09-23 17:42:19: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 17:42:19: App name:socket id:0 online
+2017-09-23 22:48:24: 0
+2017-09-23 22:48:24: Stopping app:socket id:0
+2017-09-23 22:48:24: App [socket] with id [0] and pid [8546], exited with code [0] via signal [SIGINT]
+2017-09-23 22:48:25: pid=8546 msg=process killed
+2017-09-23 22:48:25: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 22:48:25: App name:socket id:0 online
+2017-09-23 23:13:06: 0
+2017-09-23 23:13:06: Stopping app:socket id:0
+2017-09-23 23:13:06: App [socket] with id [0] and pid [31485], exited with code [0] via signal [SIGINT]
+2017-09-23 23:13:06: pid=31485 msg=process killed
+2017-09-23 23:13:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 23:13:06: App name:socket id:0 online
+2017-09-23 23:13:34: 0
+2017-09-23 23:13:34: Stopping app:socket id:0
+2017-09-23 23:13:34: App [socket] with id [0] and pid [4062], exited with code [0] via signal [SIGINT]
+2017-09-23 23:13:35: pid=4062 msg=process killed
+2017-09-23 23:13:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 23:13:35: App name:socket id:0 online
+2017-09-23 23:17:02: 0
+2017-09-23 23:17:02: Stopping app:socket id:0
+2017-09-23 23:17:02: App [socket] with id [0] and pid [4233], exited with code [0] via signal [SIGINT]
+2017-09-23 23:17:02: pid=4233 msg=process killed
+2017-09-23 23:17:02: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 23:17:02: App name:socket id:0 online
+2017-09-23 23:29:05: 0
+2017-09-23 23:29:05: Stopping app:socket id:0
+2017-09-23 23:29:05: App [socket] with id [0] and pid [4986], exited with code [0] via signal [SIGINT]
+2017-09-23 23:29:05: pid=4986 msg=process killed
+2017-09-23 23:29:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-23 23:29:06: App name:socket id:0 online
+2017-09-24 11:00:44: 0
+2017-09-24 11:00:44: Stopping app:socket id:0
+2017-09-24 11:00:44: App [socket] with id [0] and pid [7346], exited with code [0] via signal [SIGINT]
+2017-09-24 11:00:44: pid=7346 msg=process killed
+2017-09-24 11:00:45: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-24 11:00:45: App name:socket id:0 online
+2017-09-24 11:10:27: 0
+2017-09-24 11:10:27: Stopping app:socket id:0
+2017-09-24 11:10:27: App [socket] with id [0] and pid [30867], exited with code [0] via signal [SIGINT]
+2017-09-24 11:10:27: pid=30867 msg=process killed
+2017-09-24 11:10:27: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-24 11:10:27: App name:socket id:0 online
+2017-09-24 17:28:01: 0
+2017-09-24 17:28:01: Stopping app:socket id:0
+2017-09-24 17:28:01: App [socket] with id [0] and pid [32730], exited with code [0] via signal [SIGINT]
+2017-09-24 17:28:01: pid=32730 msg=process killed
+2017-09-24 17:28:02: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-24 17:28:02: App name:socket id:0 online
+2017-09-25 11:58:43: 0
+2017-09-25 11:58:43: Stopping app:socket id:0
+2017-09-25 11:58:43: App [socket] with id [0] and pid [3077], exited with code [0] via signal [SIGINT]
+2017-09-25 11:58:43: pid=3077 msg=process killed
+2017-09-25 11:58:44: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-25 11:58:44: App name:socket id:0 online
+2017-09-25 17:19:28: 0
+2017-09-25 17:19:28: Stopping app:socket id:0
+2017-09-25 17:19:28: App [socket] with id [0] and pid [2679], exited with code [0] via signal [SIGINT]
+2017-09-25 17:19:28: pid=2679 msg=process killed
+2017-09-25 17:19:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-25 17:19:28: App name:socket id:0 online
+2017-09-25 17:45:10: 0
+2017-09-25 17:45:10: Stopping app:socket id:0
+2017-09-25 17:45:10: App [socket] with id [0] and pid [29532], exited with code [0] via signal [SIGINT]
+2017-09-25 17:45:10: pid=29532 msg=process killed
+2017-09-25 17:45:10: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-25 17:45:10: App name:socket id:0 online
+2017-09-26 22:07:36: 0
+2017-09-26 22:07:36: Stopping app:socket id:0
+2017-09-26 22:07:36: App [socket] with id [0] and pid [1735], exited with code [0] via signal [SIGINT]
+2017-09-26 22:07:36: pid=1735 msg=process killed
+2017-09-26 22:07:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-26 22:07:36: App name:socket id:0 online
+2017-09-26 22:30:22: 0
+2017-09-26 22:30:22: Stopping app:socket id:0
+2017-09-26 22:30:22: App [socket] with id [0] and pid [12944], exited with code [0] via signal [SIGINT]
+2017-09-26 22:30:22: pid=12944 msg=process killed
+2017-09-26 22:30:22: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-26 22:30:22: App name:socket id:0 online
+2017-09-26 22:33:27: 0
+2017-09-26 22:33:27: Stopping app:socket id:0
+2017-09-26 22:33:27: App [socket] with id [0] and pid [17229], exited with code [0] via signal [SIGINT]
+2017-09-26 22:33:27: pid=17229 msg=process killed
+2017-09-26 22:33:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-26 22:33:28: App name:socket id:0 online
+2017-09-27 03:09:38: 0
+2017-09-27 03:09:38: Stopping app:socket id:0
+2017-09-27 03:09:38: App [socket] with id [0] and pid [17852], exited with code [0] via signal [SIGINT]
+2017-09-27 03:09:38: pid=17852 msg=process killed
+2017-09-27 03:09:38: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-27 03:09:39: App name:socket id:0 online
+2017-09-27 20:10:53: 0
+2017-09-27 20:10:53: Stopping app:socket id:0
+2017-09-27 20:10:53: App [socket] with id [0] and pid [1557], exited with code [0] via signal [SIGINT]
+2017-09-27 20:10:53: pid=1557 msg=process killed
+2017-09-27 20:10:53: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-27 20:10:53: App name:socket id:0 online
+2017-09-27 20:25:45: 0
+2017-09-27 20:25:45: Stopping app:socket id:0
+2017-09-27 20:25:45: App [socket] with id [0] and pid [23356], exited with code [0] via signal [SIGINT]
+2017-09-27 20:25:45: pid=23356 msg=process killed
+2017-09-27 20:25:45: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-27 20:25:45: App name:socket id:0 online
+2017-09-27 20:26:02: 0
+2017-09-27 20:26:02: Stopping app:socket id:0
+2017-09-27 20:26:02: App [socket] with id [0] and pid [26102], exited with code [0] via signal [SIGINT]
+2017-09-27 20:26:02: pid=26102 msg=process killed
+2017-09-27 20:26:03: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-27 20:26:03: App name:socket id:0 online
+2017-09-28 01:58:16: 0
+2017-09-28 01:58:16: Stopping app:socket id:0
+2017-09-28 01:58:16: App [socket] with id [0] and pid [26263], exited with code [0] via signal [SIGINT]
+2017-09-28 01:58:16: pid=26263 msg=process killed
+2017-09-28 01:58:17: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-28 01:58:17: App name:socket id:0 online
+2017-09-28 10:49:07: 0
+2017-09-28 10:49:07: Stopping app:socket id:0
+2017-09-28 10:49:07: App [socket] with id [0] and pid [23378], exited with code [0] via signal [SIGINT]
+2017-09-28 10:49:07: pid=23378 msg=process killed
+2017-09-28 10:49:08: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-28 10:49:08: App name:socket id:0 online
+2017-09-28 11:52:10: 0
+2017-09-28 11:52:10: Stopping app:socket id:0
+2017-09-28 11:52:10: App [socket] with id [0] and pid [19142], exited with code [0] via signal [SIGINT]
+2017-09-28 11:52:10: pid=19142 msg=process killed
+2017-09-28 11:52:10: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-28 11:52:10: App name:socket id:0 online
+2017-09-28 14:31:38: 0
+2017-09-28 14:31:38: Stopping app:socket id:0
+2017-09-28 14:31:38: App [socket] with id [0] and pid [30705], exited with code [0] via signal [SIGINT]
+2017-09-28 14:31:38: pid=30705 msg=process killed
+2017-09-28 14:31:38: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-28 14:31:38: App name:socket id:0 online
+2017-09-28 14:32:50: 0
+2017-09-28 14:32:50: Stopping app:socket id:0
+2017-09-28 14:32:51: App [socket] with id [0] and pid [28264], exited with code [0] via signal [SIGINT]
+2017-09-28 14:32:51: pid=28264 msg=process killed
+2017-09-28 14:32:51: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-28 14:32:51: App name:socket id:0 online
+2017-09-28 15:57:36: 0
+2017-09-28 15:57:36: Stopping app:socket id:0
+2017-09-28 15:57:36: App [socket] with id [0] and pid [28590], exited with code [0] via signal [SIGINT]
+2017-09-28 15:57:36: pid=28590 msg=process killed
+2017-09-28 15:57:37: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-28 15:57:37: App name:socket id:0 online
+2017-09-28 16:58:16: 0
+2017-09-28 16:58:16: Stopping app:socket id:0
+2017-09-28 16:58:16: App [socket] with id [0] and pid [12917], exited with code [0] via signal [SIGINT]
+2017-09-28 16:58:16: pid=12917 msg=process killed
+2017-09-28 16:58:17: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-28 16:58:17: App name:socket id:0 online
+2017-09-28 17:11:17: 0
+2017-09-28 17:11:17: Stopping app:socket id:0
+2017-09-28 17:11:17: App [socket] with id [0] and pid [25541], exited with code [0] via signal [SIGINT]
+2017-09-28 17:11:17: pid=25541 msg=process killed
+2017-09-28 17:11:18: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-28 17:11:18: App name:socket id:0 online
+2017-09-28 17:12:39: 0
+2017-09-28 17:12:39: Stopping app:socket id:0
+2017-09-28 17:12:39: App [socket] with id [0] and pid [28415], exited with code [0] via signal [SIGINT]
+2017-09-28 17:12:39: pid=28415 msg=process killed
+2017-09-28 17:12:39: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-28 17:12:39: App name:socket id:0 online
+2017-09-29 01:46:35: 0
+2017-09-29 01:46:35: Stopping app:socket id:0
+2017-09-29 01:46:35: App [socket] with id [0] and pid [28796], exited with code [0] via signal [SIGINT]
+2017-09-29 01:46:35: pid=28796 msg=process killed
+2017-09-29 01:46:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-29 01:46:36: App name:socket id:0 online
+2017-09-29 02:15:44: 0
+2017-09-29 02:15:44: Stopping app:socket id:0
+2017-09-29 02:15:44: App [socket] with id [0] and pid [29579], exited with code [0] via signal [SIGINT]
+2017-09-29 02:15:44: pid=29579 msg=process killed
+2017-09-29 02:15:45: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-29 02:15:45: App name:socket id:0 online
+2017-09-29 02:22:55: 0
+2017-09-29 02:22:55: Stopping app:socket id:0
+2017-09-29 02:22:55: App [socket] with id [0] and pid [2200], exited with code [0] via signal [SIGINT]
+2017-09-29 02:22:55: pid=2200 msg=process killed
+2017-09-29 02:22:55: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-29 02:22:55: App name:socket id:0 online
+2017-09-29 23:32:38: 0
+2017-09-29 23:32:38: Stopping app:socket id:0
+2017-09-29 23:32:38: App [socket] with id [0] and pid [3657], exited with code [0] via signal [SIGINT]
+2017-09-29 23:32:38: pid=3657 msg=process killed
+2017-09-29 23:32:38: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-29 23:32:38: App name:socket id:0 online
+2017-09-30 00:12:28: 0
+2017-09-30 00:12:28: Stopping app:socket id:0
+2017-09-30 00:12:28: App [socket] with id [0] and pid [5846], exited with code [0] via signal [SIGINT]
+2017-09-30 00:12:28: pid=5846 msg=process killed
+2017-09-30 00:12:29: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-30 00:12:29: App name:socket id:0 online
+2017-09-30 00:18:06: 0
+2017-09-30 00:18:06: Stopping app:socket id:0
+2017-09-30 00:18:06: App [socket] with id [0] and pid [13515], exited with code [0] via signal [SIGINT]
+2017-09-30 00:18:06: pid=13515 msg=process killed
+2017-09-30 00:18:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-30 00:18:06: App name:socket id:0 online
+2017-09-30 00:29:54: 0
+2017-09-30 00:29:54: Stopping app:socket id:0
+2017-09-30 00:29:54: App [socket] with id [0] and pid [14620], exited with code [0] via signal [SIGINT]
+2017-09-30 00:29:54: pid=14620 msg=process killed
+2017-09-30 00:29:54: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-30 00:29:54: App name:socket id:0 online
+2017-09-30 01:04:59: 0
+2017-09-30 01:04:59: Stopping app:socket id:0
+2017-09-30 01:04:59: App [socket] with id [0] and pid [16867], exited with code [0] via signal [SIGINT]
+2017-09-30 01:04:59: pid=16867 msg=process killed
+2017-09-30 01:04:59: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-30 01:04:59: App name:socket id:0 online
+2017-09-30 01:06:59: 0
+2017-09-30 01:06:59: Stopping app:socket id:0
+2017-09-30 01:06:59: App [socket] with id [0] and pid [23205], exited with code [0] via signal [SIGINT]
+2017-09-30 01:06:59: pid=23205 msg=process killed
+2017-09-30 01:07:00: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-30 01:07:00: App name:socket id:0 online
+2017-09-30 11:51:27: 0
+2017-09-30 11:51:27: Stopping app:socket id:0
+2017-09-30 11:51:27: App [socket] with id [0] and pid [23640], exited with code [0] via signal [SIGINT]
+2017-09-30 11:51:27: pid=23640 msg=process killed
+2017-09-30 11:51:27: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-30 11:51:27: App name:socket id:0 online
+2017-09-30 15:54:43: 0
+2017-09-30 15:54:43: Stopping app:socket id:0
+2017-09-30 15:54:43: App [socket] with id [0] and pid [7210], exited with code [0] via signal [SIGINT]
+2017-09-30 15:54:43: pid=7210 msg=process killed
+2017-09-30 15:54:43: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-09-30 15:54:43: App name:socket id:0 online
+2017-10-01 10:34:29: 0
+2017-10-01 10:34:29: Stopping app:socket id:0
+2017-10-01 10:34:29: App [socket] with id [0] and pid [18744], exited with code [0] via signal [SIGINT]
+2017-10-01 10:34:29: pid=18744 msg=process killed
+2017-10-01 10:34:30: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-01 10:34:30: App name:socket id:0 online
+2017-10-01 14:36:54: 0
+2017-10-01 14:36:54: Stopping app:socket id:0
+2017-10-01 14:36:54: App [socket] with id [0] and pid [23521], exited with code [0] via signal [SIGINT]
+2017-10-01 14:36:54: pid=23521 msg=process killed
+2017-10-01 14:36:54: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-01 14:36:54: App name:socket id:0 online
+2017-10-01 16:40:28: 0
+2017-10-01 16:40:28: Stopping app:socket id:0
+2017-10-01 16:40:28: App [socket] with id [0] and pid [3242], exited with code [0] via signal [SIGINT]
+2017-10-01 16:40:29: pid=3242 msg=process killed
+2017-10-01 16:40:29: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-01 16:40:29: App name:socket id:0 online
+2017-10-01 16:42:07: 0
+2017-10-01 16:42:07: Stopping app:socket id:0
+2017-10-01 16:42:07: App [socket] with id [0] and pid [26742], exited with code [0] via signal [SIGINT]
+2017-10-01 16:42:07: pid=26742 msg=process killed
+2017-10-01 16:42:08: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-01 16:42:08: App name:socket id:0 online
+2017-10-02 16:53:15: 0
+2017-10-02 16:53:15: Stopping app:socket id:0
+2017-10-02 16:53:15: App [socket] with id [0] and pid [27156], exited with code [0] via signal [SIGINT]
+2017-10-02 16:53:16: pid=27156 msg=process killed
+2017-10-02 16:53:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-02 16:53:16: App name:socket id:0 online
+2017-10-02 17:28:29: 0
+2017-10-02 17:28:29: Stopping app:socket id:0
+2017-10-02 17:28:29: App [socket] with id [0] and pid [6892], exited with code [0] via signal [SIGINT]
+2017-10-02 17:28:29: pid=6892 msg=process killed
+2017-10-02 17:28:29: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-02 17:28:29: App name:socket id:0 online
+2017-10-02 17:39:09: 0
+2017-10-02 17:39:09: Stopping app:socket id:0
+2017-10-02 17:39:09: App [socket] with id [0] and pid [13503], exited with code [0] via signal [SIGINT]
+2017-10-02 17:39:10: pid=13503 msg=process killed
+2017-10-02 17:39:10: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-02 17:39:10: App name:socket id:0 online
+2017-10-02 18:44:18: 0
+2017-10-02 18:44:18: Stopping app:socket id:0
+2017-10-02 18:44:18: App [socket] with id [0] and pid [15597], exited with code [0] via signal [SIGINT]
+2017-10-02 18:44:18: pid=15597 msg=process killed
+2017-10-02 18:44:19: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-02 18:44:19: App name:socket id:0 online
+2017-10-02 19:05:28: 0
+2017-10-02 19:05:28: Stopping app:socket id:0
+2017-10-02 19:05:28: App [socket] with id [0] and pid [27511], exited with code [0] via signal [SIGINT]
+2017-10-02 19:05:28: pid=27511 msg=process killed
+2017-10-02 19:05:29: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-02 19:05:29: App name:socket id:0 online
+2017-10-02 21:59:26: 0
+2017-10-02 21:59:26: Stopping app:socket id:0
+2017-10-02 21:59:26: App [socket] with id [0] and pid [31432], exited with code [0] via signal [SIGINT]
+2017-10-02 21:59:26: pid=31432 msg=process killed
+2017-10-02 21:59:26: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-02 21:59:26: App name:socket id:0 online
+2017-10-03 02:13:54: 0
+2017-10-03 02:13:54: Stopping app:socket id:0
+2017-10-03 02:13:54: App [socket] with id [0] and pid [31183], exited with code [0] via signal [SIGINT]
+2017-10-03 02:13:54: pid=31183 msg=process killed
+2017-10-03 02:13:55: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 02:13:55: App name:socket id:0 online
+2017-10-03 02:43:34: 0
+2017-10-03 02:43:34: Stopping app:socket id:0
+2017-10-03 02:43:34: App [socket] with id [0] and pid [11997], exited with code [0] via signal [SIGINT]
+2017-10-03 02:43:34: pid=11997 msg=process killed
+2017-10-03 02:43:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 02:43:34: App name:socket id:0 online
+2017-10-03 02:44:01: 0
+2017-10-03 02:44:01: Stopping app:socket id:0
+2017-10-03 02:44:01: App [socket] with id [0] and pid [17354], exited with code [0] via signal [SIGINT]
+2017-10-03 02:44:01: pid=17354 msg=process killed
+2017-10-03 02:44:01: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 02:44:01: App name:socket id:0 online
+2017-10-03 02:45:05: 0
+2017-10-03 02:45:05: Stopping app:socket id:0
+2017-10-03 02:45:05: App [socket] with id [0] and pid [17509], exited with code [0] via signal [SIGINT]
+2017-10-03 02:45:05: pid=17509 msg=process killed
+2017-10-03 02:45:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 02:45:06: App name:socket id:0 online
+2017-10-03 02:45:16: 0
+2017-10-03 02:45:16: Stopping app:socket id:0
+2017-10-03 02:45:16: App [socket] with id [0] and pid [17816], exited with code [0] via signal [SIGINT]
+2017-10-03 02:45:16: pid=17816 msg=process killed
+2017-10-03 02:45:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 02:45:16: App name:socket id:0 online
+2017-10-03 10:24:23: 0
+2017-10-03 10:24:23: Stopping app:socket id:0
+2017-10-03 10:24:23: App [socket] with id [0] and pid [17929], exited with code [0] via signal [SIGINT]
+2017-10-03 10:24:23: pid=17929 msg=process killed
+2017-10-03 10:24:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 10:24:24: App name:socket id:0 online
+2017-10-03 10:36:43: 0
+2017-10-03 10:36:43: Stopping app:socket id:0
+2017-10-03 10:36:43: App [socket] with id [0] and pid [2077], exited with code [0] via signal [SIGINT]
+2017-10-03 10:36:43: pid=2077 msg=process killed
+2017-10-03 10:36:43: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 10:36:43: App name:socket id:0 online
+2017-10-03 13:05:50: 0
+2017-10-03 13:05:50: Stopping app:socket id:0
+2017-10-03 13:05:50: App [socket] with id [0] and pid [4444], exited with code [0] via signal [SIGINT]
+2017-10-03 13:05:50: pid=4444 msg=process killed
+2017-10-03 13:05:51: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 13:05:51: App name:socket id:0 online
+2017-10-03 14:55:49: 0
+2017-10-03 14:55:49: Stopping app:socket id:0
+2017-10-03 14:55:49: App [socket] with id [0] and pid [32426], exited with code [0] via signal [SIGINT]
+2017-10-03 14:55:49: pid=32426 msg=process killed
+2017-10-03 14:55:50: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 14:55:50: App name:socket id:0 online
+2017-10-03 14:57:46: 0
+2017-10-03 14:57:46: Stopping app:socket id:0
+2017-10-03 14:57:46: App [socket] with id [0] and pid [20185], exited with code [0] via signal [SIGINT]
+2017-10-03 14:57:46: pid=20185 msg=process killed
+2017-10-03 14:57:46: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 14:57:46: App name:socket id:0 online
+2017-10-03 15:13:46: 0
+2017-10-03 15:13:46: Stopping app:socket id:0
+2017-10-03 15:13:46: App [socket] with id [0] and pid [20644], exited with code [0] via signal [SIGINT]
+2017-10-03 15:13:46: pid=20644 msg=process killed
+2017-10-03 15:13:46: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 15:13:46: App name:socket id:0 online
+2017-10-03 15:19:20: 0
+2017-10-03 15:19:20: Stopping app:socket id:0
+2017-10-03 15:19:20: App [socket] with id [0] and pid [23742], exited with code [0] via signal [SIGINT]
+2017-10-03 15:19:20: pid=23742 msg=process killed
+2017-10-03 15:19:21: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 15:19:21: App name:socket id:0 online
+2017-10-03 15:21:20: 0
+2017-10-03 15:21:20: Stopping app:socket id:0
+2017-10-03 15:21:20: App [socket] with id [0] and pid [24831], exited with code [0] via signal [SIGINT]
+2017-10-03 15:21:20: pid=24831 msg=process killed
+2017-10-03 15:21:20: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-03 15:21:20: App name:socket id:0 online
+2017-10-04 01:48:16: 0
+2017-10-04 01:48:16: Stopping app:socket id:0
+2017-10-04 01:48:16: App [socket] with id [0] and pid [25268], exited with code [0] via signal [SIGINT]
+2017-10-04 01:48:16: pid=25268 msg=process killed
+2017-10-04 01:48:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 01:48:16: App name:socket id:0 online
+2017-10-04 01:57:46: 0
+2017-10-04 01:57:46: Stopping app:socket id:0
+2017-10-04 01:57:46: App [socket] with id [0] and pid [8910], exited with code [0] via signal [SIGINT]
+2017-10-04 01:57:46: pid=8910 msg=process killed
+2017-10-04 01:57:47: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 01:57:47: App name:socket id:0 online
+2017-10-04 02:04:04: 0
+2017-10-04 02:04:04: Stopping app:socket id:0
+2017-10-04 02:04:04: App [socket] with id [0] and pid [10644], exited with code [0] via signal [SIGINT]
+2017-10-04 02:04:04: pid=10644 msg=process killed
+2017-10-04 02:04:04: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 02:04:04: App name:socket id:0 online
+2017-10-04 02:14:05: 0
+2017-10-04 02:14:05: Stopping app:socket id:0
+2017-10-04 02:14:05: App [socket] with id [0] and pid [12021], exited with code [0] via signal [SIGINT]
+2017-10-04 02:14:05: pid=12021 msg=process killed
+2017-10-04 02:14:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 02:14:06: App name:socket id:0 online
+2017-10-04 02:18:12: 0
+2017-10-04 02:18:12: Stopping app:socket id:0
+2017-10-04 02:18:12: App [socket] with id [0] and pid [13898], exited with code [0] via signal [SIGINT]
+2017-10-04 02:18:12: pid=13898 msg=process killed
+2017-10-04 02:18:12: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 02:18:12: App name:socket id:0 online
+2017-10-04 02:21:09: pm2 has been killed by signal, dumping process list before exit...
+2017-10-04 02:21:09: Deleting process 0
+2017-10-04 02:21:09: Stopping app:socket id:0
+2017-10-04 02:21:09: App [socket] with id [0] and pid [14691], exited with code [0] via signal [SIGTERM]
+2017-10-04 02:21:09: pid=14691 msg=process killed
+2017-10-04 02:21:09: [PM2] Exited peacefully
+2017-10-04 02:22:44: ===============================================================================
+2017-10-04 02:22:44: --- New PM2 Daemon started ----------------------------------------------------
+2017-10-04 02:22:44: Time                 : Wed Oct 04 2017 02:22:44 GMT+0700 (+07)
+2017-10-04 02:22:44: PM2 version          : 2.6.1
+2017-10-04 02:22:44: Node.js version      : 6.11.3
+2017-10-04 02:22:44: Current arch         : x64
+2017-10-04 02:22:44: PM2 home             : /var/www/client/.pm2
+2017-10-04 02:22:44: PM2 PID file         : /var/www/client/.pm2/pm2.pid
+2017-10-04 02:22:44: RPC socket file      : /var/www/client/.pm2/rpc.sock
+2017-10-04 02:22:44: BUS socket file      : /var/www/client/.pm2/pub.sock
+2017-10-04 02:22:44: Application log path : /var/www/client/.pm2/logs
+2017-10-04 02:22:44: Process dump file    : /var/www/client/.pm2/dump.pm2
+2017-10-04 02:22:44: Concurrent actions   : 2
+2017-10-04 02:22:44: SIGTERM timeout      : 1600
+2017-10-04 02:22:44: ===============================================================================
+2017-10-04 02:22:44: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 02:22:44: App name:socket id:0 online
+2017-10-04 02:26:33: 0
+2017-10-04 02:26:33: Stopping app:socket id:0
+2017-10-04 02:26:33: App [socket] with id [0] and pid [2852], exited with code [0] via signal [SIGINT]
+2017-10-04 02:26:33: pid=2852 msg=process killed
+2017-10-04 02:26:33: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 02:26:33: App name:socket id:0 online
+2017-10-04 02:29:55: 0
+2017-10-04 02:29:55: Stopping app:socket id:0
+2017-10-04 02:29:55: App [socket] with id [0] and pid [3263], exited with code [0] via signal [SIGINT]
+2017-10-04 02:29:55: pid=3263 msg=process killed
+2017-10-04 02:29:56: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 02:29:56: App name:socket id:0 online
+2017-10-04 02:34:00: 0
+2017-10-04 02:34:00: Stopping app:socket id:0
+2017-10-04 02:34:00: App [socket] with id [0] and pid [4383], exited with code [0] via signal [SIGINT]
+2017-10-04 02:34:00: pid=4383 msg=process killed
+2017-10-04 02:34:00: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 02:34:00: App name:socket id:0 online
+2017-10-04 08:10:37: 0
+2017-10-04 08:10:37: Stopping app:socket id:0
+2017-10-04 08:10:37: App [socket] with id [0] and pid [5062], exited with code [0] via signal [SIGINT]
+2017-10-04 08:10:37: pid=5062 msg=process killed
+2017-10-04 08:10:37: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 08:10:37: App name:socket id:0 online
+2017-10-04 12:32:02: 0
+2017-10-04 12:32:02: Stopping app:socket id:0
+2017-10-04 12:32:02: App [socket] with id [0] and pid [30521], exited with code [0] via signal [SIGINT]
+2017-10-04 12:32:02: pid=30521 msg=process killed
+2017-10-04 12:32:02: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 12:32:02: App name:socket id:0 online
+2017-10-04 15:59:12: 0
+2017-10-04 15:59:12: Stopping app:socket id:0
+2017-10-04 15:59:12: App [socket] with id [0] and pid [31391], exited with code [0] via signal [SIGINT]
+2017-10-04 15:59:13: pid=31391 msg=process killed
+2017-10-04 15:59:13: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 15:59:13: App name:socket id:0 online
+2017-10-04 16:14:38: 0
+2017-10-04 16:14:38: Stopping app:socket id:0
+2017-10-04 16:14:38: App [socket] with id [0] and pid [17693], exited with code [0] via signal [SIGINT]
+2017-10-04 16:14:38: pid=17693 msg=process killed
+2017-10-04 16:14:38: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-04 16:14:38: App name:socket id:0 online
+2017-10-05 02:37:15: 0
+2017-10-05 02:37:15: Stopping app:socket id:0
+2017-10-05 02:37:15: App [socket] with id [0] and pid [21473], exited with code [0] via signal [SIGINT]
+2017-10-05 02:37:15: pid=21473 msg=process killed
+2017-10-05 02:37:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-05 02:37:16: App name:socket id:0 online
+2017-10-05 02:46:42: 0
+2017-10-05 02:46:42: Stopping app:socket id:0
+2017-10-05 02:46:42: App [socket] with id [0] and pid [6444], exited with code [0] via signal [SIGINT]
+2017-10-05 02:46:43: pid=6444 msg=process killed
+2017-10-05 02:46:43: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-05 02:46:43: App name:socket id:0 online
+2017-10-05 16:59:53: 0
+2017-10-05 16:59:53: Stopping app:socket id:0
+2017-10-05 16:59:53: App [socket] with id [0] and pid [8806], exited with code [0] via signal [SIGINT]
+2017-10-05 16:59:53: pid=8806 msg=process killed
+2017-10-05 16:59:53: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-05 16:59:53: App name:socket id:0 online
+2017-10-06 01:26:27: 0
+2017-10-06 01:26:27: Stopping app:socket id:0
+2017-10-06 01:26:28: App [socket] with id [0] and pid [14881], exited with code [0] via signal [SIGINT]
+2017-10-06 01:26:28: pid=14881 msg=process killed
+2017-10-06 01:26:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-06 01:26:28: App name:socket id:0 online
+2017-10-06 01:33:31: 0
+2017-10-06 01:33:31: Stopping app:socket id:0
+2017-10-06 01:33:31: App [socket] with id [0] and pid [9905], exited with code [0] via signal [SIGINT]
+2017-10-06 01:33:32: pid=9905 msg=process killed
+2017-10-06 01:33:32: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-06 01:33:32: App name:socket id:0 online
+2017-10-07 10:55:39: 0
+2017-10-07 10:55:39: Stopping app:socket id:0
+2017-10-07 10:55:39: App [socket] with id [0] and pid [11596], exited with code [0] via signal [SIGINT]
+2017-10-07 10:55:39: pid=11596 msg=process killed
+2017-10-07 10:55:39: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-07 10:55:39: App name:socket id:0 online
+2017-10-07 10:59:27: 0
+2017-10-07 10:59:27: Stopping app:socket id:0
+2017-10-07 10:59:27: App [socket] with id [0] and pid [28451], exited with code [0] via signal [SIGINT]
+2017-10-07 10:59:27: pid=28451 msg=process killed
+2017-10-07 10:59:27: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-07 10:59:27: App name:socket id:0 online
+2017-10-07 11:17:13: 0
+2017-10-07 11:17:13: Stopping app:socket id:0
+2017-10-07 11:17:13: App [socket] with id [0] and pid [29453], exited with code [0] via signal [SIGINT]
+2017-10-07 11:17:13: pid=29453 msg=process killed
+2017-10-07 11:17:13: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-07 11:17:13: App name:socket id:0 online
+2017-10-07 11:25:34: 0
+2017-10-07 11:25:34: Stopping app:socket id:0
+2017-10-07 11:25:34: App [socket] with id [0] and pid [10469], exited with code [0] via signal [SIGINT]
+2017-10-07 11:25:34: pid=10469 msg=process killed
+2017-10-07 11:25:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-07 11:25:34: App name:socket id:0 online
+2017-10-07 17:22:48: 0
+2017-10-07 17:22:48: Stopping app:socket id:0
+2017-10-07 17:22:48: App [socket] with id [0] and pid [11809], exited with code [0] via signal [SIGINT]
+2017-10-07 17:22:48: pid=11809 msg=process killed
+2017-10-07 17:22:48: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-07 17:22:48: App name:socket id:0 online
+2017-10-09 16:40:23: 0
+2017-10-09 16:40:23: Stopping app:socket id:0
+2017-10-09 16:40:23: App [socket] with id [0] and pid [30719], exited with code [0] via signal [SIGINT]
+2017-10-09 16:40:24: pid=30719 msg=process killed
+2017-10-09 16:40:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-09 16:40:24: App name:socket id:0 online
+2017-10-09 21:13:00: 0
+2017-10-09 21:13:00: Stopping app:socket id:0
+2017-10-09 21:13:00: App [socket] with id [0] and pid [24599], exited with code [0] via signal [SIGINT]
+2017-10-09 21:13:00: pid=24599 msg=process killed
+2017-10-09 21:13:01: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-09 21:13:01: App name:socket id:0 online
+2017-10-10 02:52:21: 0
+2017-10-10 02:52:21: Stopping app:socket id:0
+2017-10-10 02:52:21: App [socket] with id [0] and pid [24567], exited with code [0] via signal [SIGINT]
+2017-10-10 02:52:21: pid=24567 msg=process killed
+2017-10-10 02:52:22: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:22: App name:socket id:0 online
+2017-10-10 02:52:22: App [socket] with id [0] and pid [9026], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:22: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:22: App name:socket id:0 online
+2017-10-10 02:52:23: App [socket] with id [0] and pid [9059], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:23: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:23: App name:socket id:0 online
+2017-10-10 02:52:23: App [socket] with id [0] and pid [9116], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:23: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:23: App name:socket id:0 online
+2017-10-10 02:52:24: App [socket] with id [0] and pid [9151], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:24: App name:socket id:0 online
+2017-10-10 02:52:24: App [socket] with id [0] and pid [9186], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:24: App name:socket id:0 online
+2017-10-10 02:52:24: App [socket] with id [0] and pid [9221], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:24: App name:socket id:0 online
+2017-10-10 02:52:25: App [socket] with id [0] and pid [9256], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:25: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:25: App name:socket id:0 online
+2017-10-10 02:52:25: App [socket] with id [0] and pid [9291], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:25: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:25: App name:socket id:0 online
+2017-10-10 02:52:26: App [socket] with id [0] and pid [9330], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:26: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:26: App name:socket id:0 online
+2017-10-10 02:52:26: App [socket] with id [0] and pid [9365], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:26: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:26: App name:socket id:0 online
+2017-10-10 02:52:27: App [socket] with id [0] and pid [9400], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:27: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:27: App name:socket id:0 online
+2017-10-10 02:52:27: App [socket] with id [0] and pid [9435], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:27: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:27: App name:socket id:0 online
+2017-10-10 02:52:27: App [socket] with id [0] and pid [9470], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:27: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:27: App name:socket id:0 online
+2017-10-10 02:52:28: App [socket] with id [0] and pid [9505], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:28: App name:socket id:0 online
+2017-10-10 02:52:28: App [socket] with id [0] and pid [9540], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:52:28: App name:socket id:0 online
+2017-10-10 02:52:29: App [socket] with id [0] and pid [9575], exited with code [1] via signal [SIGINT]
+2017-10-10 02:52:29: Script /var/www/client/socket-http.js had too many unstable restarts (16). Stopped. "errored"
+2017-10-10 02:53:31: 0
+2017-10-10 02:53:31: Stopping app:socket id:0
+2017-10-10 02:53:31: app=socket id=0 does not have a pid
+2017-10-10 02:53:32: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:32: App name:socket id:0 online
+2017-10-10 02:53:32: App [socket] with id [0] and pid [9967], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:32: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:32: App name:socket id:0 online
+2017-10-10 02:53:32: App [socket] with id [0] and pid [10002], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:32: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:32: App name:socket id:0 online
+2017-10-10 02:53:33: App [socket] with id [0] and pid [10037], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:33: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:33: App name:socket id:0 online
+2017-10-10 02:53:33: App [socket] with id [0] and pid [10072], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:33: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:33: App name:socket id:0 online
+2017-10-10 02:53:34: App [socket] with id [0] and pid [10107], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:34: App name:socket id:0 online
+2017-10-10 02:53:34: App [socket] with id [0] and pid [10142], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:34: App name:socket id:0 online
+2017-10-10 02:53:34: App [socket] with id [0] and pid [10177], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:34: App name:socket id:0 online
+2017-10-10 02:53:35: App [socket] with id [0] and pid [10212], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:35: App name:socket id:0 online
+2017-10-10 02:53:35: App [socket] with id [0] and pid [10251], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:35: App name:socket id:0 online
+2017-10-10 02:53:36: App [socket] with id [0] and pid [10286], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:36: App name:socket id:0 online
+2017-10-10 02:53:36: App [socket] with id [0] and pid [10321], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:36: App name:socket id:0 online
+2017-10-10 02:53:36: App [socket] with id [0] and pid [10356], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:36: App name:socket id:0 online
+2017-10-10 02:53:37: App [socket] with id [0] and pid [10391], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:37: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:37: App name:socket id:0 online
+2017-10-10 02:53:37: App [socket] with id [0] and pid [10426], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:37: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:37: App name:socket id:0 online
+2017-10-10 02:53:37: App [socket] with id [0] and pid [10461], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:37: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:53:37: App name:socket id:0 online
+2017-10-10 02:53:38: App [socket] with id [0] and pid [10496], exited with code [1] via signal [SIGINT]
+2017-10-10 02:53:38: Script /var/www/client/socket-http.js had too many unstable restarts (16). Stopped. "errored"
+2017-10-10 02:57:30: 0
+2017-10-10 02:57:30: Stopping app:socket id:0
+2017-10-10 02:57:30: app=socket id=0 does not have a pid
+2017-10-10 02:57:49: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 02:57:49: App name:socket id:0 online
+2017-10-10 03:01:46: 0
+2017-10-10 03:01:46: Stopping app:socket id:0
+2017-10-10 03:01:46: App [socket] with id [0] and pid [11624], exited with code [0] via signal [SIGINT]
+2017-10-10 03:01:46: pid=11624 msg=process killed
+2017-10-10 03:01:55: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 03:01:55: App name:socket id:0 online
+2017-10-10 03:04:18: App [socket] with id [0] and pid [12740], exited with code [1] via signal [SIGINT]
+2017-10-10 03:04:18: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 03:04:18: App name:socket id:0 online
+2017-10-10 03:05:20: 0
+2017-10-10 03:05:20: Stopping app:socket id:0
+2017-10-10 03:05:20: App [socket] with id [0] and pid [13319], exited with code [0] via signal [SIGINT]
+2017-10-10 03:05:20: pid=13319 msg=process killed
+2017-10-10 03:05:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 03:05:28: App name:socket id:0 online
+2017-10-10 03:05:45: App [socket] with id [0] and pid [13744], exited with code [1] via signal [SIGINT]
+2017-10-10 03:05:45: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 03:05:45: App name:socket id:0 online
+2017-10-10 03:05:56: App [socket] with id [0] and pid [13809], exited with code [1] via signal [SIGINT]
+2017-10-10 03:05:56: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 03:05:56: App name:socket id:0 online
+2017-10-10 03:07:21: 0
+2017-10-10 03:07:21: Stopping app:socket id:0
+2017-10-10 03:07:21: App [socket] with id [0] and pid [13911], exited with code [0] via signal [SIGINT]
+2017-10-10 03:07:21: pid=13911 msg=process killed
+2017-10-10 11:25:19: 0
+2017-10-10 11:25:27: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 11:25:27: App name:socket id:0 online
+2017-10-10 12:11:59: 0
+2017-10-10 12:11:59: Stopping app:socket id:0
+2017-10-10 12:11:59: App [socket] with id [0] and pid [2161], exited with code [0] via signal [SIGINT]
+2017-10-10 12:12:00: pid=2161 msg=process killed
+2017-10-10 12:12:08: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 12:12:08: App name:socket id:0 online
+2017-10-10 14:50:17: 0
+2017-10-10 14:50:17: Stopping app:socket id:0
+2017-10-10 14:50:17: App [socket] with id [0] and pid [13469], exited with code [0] via signal [SIGINT]
+2017-10-10 14:50:17: pid=13469 msg=process killed
+2017-10-10 14:50:25: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 14:50:25: App name:socket id:0 online
+2017-10-10 23:07:42: 0
+2017-10-10 23:07:42: Stopping app:socket id:0
+2017-10-10 23:07:42: App [socket] with id [0] and pid [20251], exited with code [0] via signal [SIGINT]
+2017-10-10 23:07:43: pid=20251 msg=process killed
+2017-10-10 23:07:51: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 23:07:51: App name:socket id:0 online
+2017-10-10 23:45:26: 0
+2017-10-10 23:45:26: Stopping app:socket id:0
+2017-10-10 23:45:26: App [socket] with id [0] and pid [23160], exited with code [0] via signal [SIGINT]
+2017-10-10 23:45:26: pid=23160 msg=process killed
+2017-10-10 23:45:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-10 23:45:34: App name:socket id:0 online
+2017-10-11 01:32:29: 0
+2017-10-11 01:32:29: Stopping app:socket id:0
+2017-10-11 01:32:29: App [socket] with id [0] and pid [1219], exited with code [0] via signal [SIGINT]
+2017-10-11 01:32:29: pid=1219 msg=process killed
+2017-10-11 01:32:37: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 01:32:37: App name:socket id:0 online
+2017-10-11 01:34:55: 0
+2017-10-11 01:34:55: Stopping app:socket id:0
+2017-10-11 01:34:55: App [socket] with id [0] and pid [26792], exited with code [0] via signal [SIGINT]
+2017-10-11 01:34:55: pid=26792 msg=process killed
+2017-10-11 01:35:03: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 01:35:03: App name:socket id:0 online
+2017-10-11 01:50:31: App [socket] with id [0] and pid [27475], exited with code [1] via signal [SIGINT]
+2017-10-11 01:50:31: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 01:50:31: App name:socket id:0 online
+2017-10-11 01:52:07: App [socket] with id [0] and pid [31212], exited with code [1] via signal [SIGINT]
+2017-10-11 01:52:07: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 01:52:07: App name:socket id:0 online
+2017-10-11 01:52:31: 0
+2017-10-11 01:52:31: Stopping app:socket id:0
+2017-10-11 01:52:31: App [socket] with id [0] and pid [31615], exited with code [0] via signal [SIGINT]
+2017-10-11 01:52:31: pid=31615 msg=process killed
+2017-10-11 01:52:40: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 01:52:40: App name:socket id:0 online
+2017-10-11 01:54:17: 0
+2017-10-11 01:54:17: Stopping app:socket id:0
+2017-10-11 01:54:17: App [socket] with id [0] and pid [31834], exited with code [0] via signal [SIGINT]
+2017-10-11 01:54:17: pid=31834 msg=process killed
+2017-10-11 01:54:25: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 01:54:25: App name:socket id:0 online
+2017-10-11 11:56:52: 0
+2017-10-11 11:56:52: Stopping app:socket id:0
+2017-10-11 11:56:52: App [socket] with id [0] and pid [32375], exited with code [0] via signal [SIGINT]
+2017-10-11 11:56:52: pid=32375 msg=process killed
+2017-10-11 11:57:01: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 11:57:01: App name:socket id:0 online
+2017-10-11 15:48:28: 0
+2017-10-11 15:48:28: Stopping app:socket id:0
+2017-10-11 15:48:28: App [socket] with id [0] and pid [13649], exited with code [0] via signal [SIGINT]
+2017-10-11 15:48:28: pid=13649 msg=process killed
+2017-10-11 15:48:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 15:48:35: App name:socket id:0 online
+2017-10-11 15:49:45: 0
+2017-10-11 15:49:45: Stopping app:socket id:0
+2017-10-11 15:49:45: App [socket] with id [0] and pid [7930], exited with code [0] via signal [SIGINT]
+2017-10-11 15:49:45: pid=7930 msg=process killed
+2017-10-11 15:49:53: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 15:49:53: App name:socket id:0 online
+2017-10-11 15:54:09: 0
+2017-10-11 15:54:09: Stopping app:socket id:0
+2017-10-11 15:54:09: App [socket] with id [0] and pid [8373], exited with code [0] via signal [SIGINT]
+2017-10-11 15:54:09: pid=8373 msg=process killed
+2017-10-11 15:54:17: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 15:54:17: App name:socket id:0 online
+2017-10-11 22:41:39: 0
+2017-10-11 22:41:39: Stopping app:socket id:0
+2017-10-11 22:41:39: App [socket] with id [0] and pid [9597], exited with code [0] via signal [SIGINT]
+2017-10-11 22:41:39: pid=9597 msg=process killed
+2017-10-11 22:41:47: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 22:41:47: App name:socket id:0 online
+2017-10-11 22:44:15: 0
+2017-10-11 22:44:15: Stopping app:socket id:0
+2017-10-11 22:44:15: App [socket] with id [0] and pid [24566], exited with code [0] via signal [SIGINT]
+2017-10-11 22:44:15: pid=24566 msg=process killed
+2017-10-11 22:44:23: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 22:44:23: App name:socket id:0 online
+2017-10-11 22:44:48: 0
+2017-10-11 22:44:48: Stopping app:socket id:0
+2017-10-11 22:44:48: App [socket] with id [0] and pid [25377], exited with code [0] via signal [SIGINT]
+2017-10-11 22:44:48: pid=25377 msg=process killed
+2017-10-11 22:44:56: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 22:44:56: App name:socket id:0 online
+2017-10-11 22:59:57: 0
+2017-10-11 22:59:57: Stopping app:socket id:0
+2017-10-11 22:59:57: App [socket] with id [0] and pid [25600], exited with code [0] via signal [SIGINT]
+2017-10-11 22:59:57: pid=25600 msg=process killed
+2017-10-11 23:00:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 23:00:06: App name:socket id:0 online
+2017-10-11 23:04:02: 0
+2017-10-11 23:04:02: Stopping app:socket id:0
+2017-10-11 23:04:02: App [socket] with id [0] and pid [30266], exited with code [0] via signal [SIGINT]
+2017-10-11 23:04:02: pid=30266 msg=process killed
+2017-10-11 23:04:10: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-11 23:04:10: App name:socket id:0 online
+2017-10-12 02:06:30: 0
+2017-10-12 02:06:30: Stopping app:socket id:0
+2017-10-12 02:06:30: App [socket] with id [0] and pid [31620], exited with code [0] via signal [SIGINT]
+2017-10-12 02:06:30: pid=31620 msg=process killed
+2017-10-12 02:06:38: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 02:06:38: App name:socket id:0 online
+2017-10-12 02:10:27: 0
+2017-10-12 02:10:27: Stopping app:socket id:0
+2017-10-12 02:10:27: App [socket] with id [0] and pid [16543], exited with code [0] via signal [SIGINT]
+2017-10-12 02:10:27: pid=16543 msg=process killed
+2017-10-12 02:10:36: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 02:10:36: App name:socket id:0 online
+2017-10-12 13:01:00: 0
+2017-10-12 13:01:00: Stopping app:socket id:0
+2017-10-12 13:01:00: App [socket] with id [0] and pid [17649], exited with code [0] via signal [SIGINT]
+2017-10-12 13:01:00: pid=17649 msg=process killed
+2017-10-12 13:01:09: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 13:01:09: App name:socket id:0 online
+2017-10-12 13:51:27: 0
+2017-10-12 13:51:27: Stopping app:socket id:0
+2017-10-12 13:51:27: App [socket] with id [0] and pid [15434], exited with code [0] via signal [SIGINT]
+2017-10-12 13:51:27: pid=15434 msg=process killed
+2017-10-12 13:51:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 13:51:35: App name:socket id:0 online
+2017-10-12 17:06:12: 0
+2017-10-12 17:06:12: Stopping app:socket id:0
+2017-10-12 17:06:12: App [socket] with id [0] and pid [29318], exited with code [0] via signal [SIGINT]
+2017-10-12 17:06:12: pid=29318 msg=process killed
+2017-10-12 17:06:20: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 17:06:20: App name:socket id:0 online
+2017-10-12 17:18:16: 0
+2017-10-12 17:18:16: Stopping app:socket id:0
+2017-10-12 17:18:16: App [socket] with id [0] and pid [20426], exited with code [0] via signal [SIGINT]
+2017-10-12 17:18:16: pid=20426 msg=process killed
+2017-10-12 17:18:25: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 17:18:25: App name:socket id:0 online
+2017-10-12 18:36:04: 0
+2017-10-12 18:36:04: Stopping app:socket id:0
+2017-10-12 18:36:04: App [socket] with id [0] and pid [23954], exited with code [0] via signal [SIGINT]
+2017-10-12 18:36:04: pid=23954 msg=process killed
+2017-10-12 18:36:14: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 18:36:14: App name:socket id:0 online
+2017-10-12 19:58:28: 0
+2017-10-12 19:58:28: Stopping app:socket id:0
+2017-10-12 19:58:28: App [socket] with id [0] and pid [13805], exited with code [0] via signal [SIGINT]
+2017-10-12 19:58:28: pid=13805 msg=process killed
+2017-10-12 19:58:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 19:58:28: App name:socket id:0 online
+2017-10-12 20:35:35: 0
+2017-10-12 20:35:35: Stopping app:socket id:0
+2017-10-12 20:35:35: App [socket] with id [0] and pid [4756], exited with code [0] via signal [SIGINT]
+2017-10-12 20:35:35: pid=4756 msg=process killed
+2017-10-12 20:35:44: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 20:35:44: App name:socket id:0 online
+2017-10-12 20:35:57: 0
+2017-10-12 20:35:57: Stopping app:socket id:0
+2017-10-12 20:35:57: App [socket] with id [0] and pid [14784], exited with code [0] via signal [SIGINT]
+2017-10-12 20:35:57: pid=14784 msg=process killed
+2017-10-12 20:36:05: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 20:36:05: App name:socket id:0 online
+2017-10-12 20:36:57: 0
+2017-10-12 20:36:57: Stopping app:socket id:0
+2017-10-12 20:36:57: App [socket] with id [0] and pid [15004], exited with code [0] via signal [SIGINT]
+2017-10-12 20:36:57: pid=15004 msg=process killed
+2017-10-12 20:37:05: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 20:37:05: App name:socket id:0 online
+2017-10-12 21:44:44: 0
+2017-10-12 21:44:44: Stopping app:socket id:0
+2017-10-12 21:44:44: App [socket] with id [0] and pid [15359], exited with code [0] via signal [SIGINT]
+2017-10-12 21:44:44: pid=15359 msg=process killed
+2017-10-12 21:44:52: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 21:44:52: App name:socket id:0 online
+2017-10-12 21:49:30: 0
+2017-10-12 21:49:30: Stopping app:socket id:0
+2017-10-12 21:49:30: App [socket] with id [0] and pid [1227], exited with code [0] via signal [SIGINT]
+2017-10-12 21:49:30: pid=1227 msg=process killed
+2017-10-12 21:49:39: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 21:49:39: App name:socket id:0 online
+2017-10-12 21:51:31: 0
+2017-10-12 21:51:31: Stopping app:socket id:0
+2017-10-12 21:51:31: App [socket] with id [0] and pid [2586], exited with code [0] via signal [SIGINT]
+2017-10-12 21:51:31: pid=2586 msg=process killed
+2017-10-12 21:51:39: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 21:51:39: App name:socket id:0 online
+2017-10-12 22:06:08: 0
+2017-10-12 22:06:08: Stopping app:socket id:0
+2017-10-12 22:06:08: App [socket] with id [0] and pid [3366], exited with code [0] via signal [SIGINT]
+2017-10-12 22:06:08: pid=3366 msg=process killed
+2017-10-12 22:06:18: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-12 22:06:18: App name:socket id:0 online
+2017-10-13 11:15:31: 0
+2017-10-13 11:15:31: Stopping app:socket id:0
+2017-10-13 11:15:31: App [socket] with id [0] and pid [7312], exited with code [0] via signal [SIGINT]
+2017-10-13 11:15:31: pid=7312 msg=process killed
+2017-10-13 11:15:40: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-13 11:15:40: App name:socket id:0 online
+2017-10-13 11:19:04: 0
+2017-10-13 11:19:04: Stopping app:socket id:0
+2017-10-13 11:19:04: App [socket] with id [0] and pid [8327], exited with code [0] via signal [SIGINT]
+2017-10-13 11:19:04: pid=8327 msg=process killed
+2017-10-13 11:19:13: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-13 11:19:13: App name:socket id:0 online
+2017-10-13 23:43:58: 0
+2017-10-13 23:43:58: Stopping app:socket id:0
+2017-10-13 23:43:58: App [socket] with id [0] and pid [9432], exited with code [0] via signal [SIGINT]
+2017-10-13 23:43:58: pid=9432 msg=process killed
+2017-10-13 23:44:06: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-13 23:44:06: App name:socket id:0 online
+2017-10-14 09:46:42: 0
+2017-10-14 09:46:42: Stopping app:socket id:0
+2017-10-14 09:46:42: App [socket] with id [0] and pid [2327], exited with code [0] via signal [SIGINT]
+2017-10-14 09:46:42: pid=2327 msg=process killed
+2017-10-14 09:46:50: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-14 09:46:50: App name:socket id:0 online
+2017-10-14 13:47:31: 0
+2017-10-14 13:47:31: Stopping app:socket id:0
+2017-10-14 13:47:31: App [socket] with id [0] and pid [15659], exited with code [0] via signal [SIGINT]
+2017-10-14 13:47:31: pid=15659 msg=process killed
+2017-10-14 13:47:40: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-14 13:47:40: App name:socket id:0 online
+2017-10-14 14:48:49: 0
+2017-10-14 14:48:49: Stopping app:socket id:0
+2017-10-14 14:48:49: App [socket] with id [0] and pid [13379], exited with code [0] via signal [SIGINT]
+2017-10-14 14:48:49: pid=13379 msg=process killed
+2017-10-14 14:48:57: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-14 14:48:57: App name:socket id:0 online
+2017-10-14 14:54:11: 0
+2017-10-14 14:54:11: Stopping app:socket id:0
+2017-10-14 14:54:11: App [socket] with id [0] and pid [29179], exited with code [0] via signal [SIGINT]
+2017-10-14 14:54:11: pid=29179 msg=process killed
+2017-10-14 14:54:20: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-14 14:54:20: App name:socket id:0 online
+2017-10-14 14:55:34: 0
+2017-10-14 14:55:34: Stopping app:socket id:0
+2017-10-14 14:55:34: App [socket] with id [0] and pid [30897], exited with code [0] via signal [SIGINT]
+2017-10-14 14:55:34: pid=30897 msg=process killed
+2017-10-14 14:55:43: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-14 14:55:43: App name:socket id:0 online
+2017-10-14 15:19:46: 0
+2017-10-14 15:19:46: Stopping app:socket id:0
+2017-10-14 15:19:46: App [socket] with id [0] and pid [31522], exited with code [0] via signal [SIGINT]
+2017-10-14 15:19:46: pid=31522 msg=process killed
+2017-10-14 15:19:54: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-14 15:19:54: App name:socket id:0 online
+2017-10-15 11:22:00: 0
+2017-10-15 11:22:00: Stopping app:socket id:0
+2017-10-15 11:22:00: App [socket] with id [0] and pid [6367], exited with code [0] via signal [SIGINT]
+2017-10-15 11:22:01: pid=6367 msg=process killed
+2017-10-15 11:22:10: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-15 11:22:10: App name:socket id:0 online
+2017-10-15 11:26:18: 0
+2017-10-15 11:26:18: Stopping app:socket id:0
+2017-10-15 11:26:18: App [socket] with id [0] and pid [21413], exited with code [0] via signal [SIGINT]
+2017-10-15 11:26:18: pid=21413 msg=process killed
+2017-10-15 11:26:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-15 11:26:28: App name:socket id:0 online
+2017-10-15 23:20:55: 0
+2017-10-15 23:20:55: Stopping app:socket id:0
+2017-10-15 23:20:55: App [socket] with id [0] and pid [22806], exited with code [0] via signal [SIGINT]
+2017-10-15 23:20:55: pid=22806 msg=process killed
+2017-10-15 23:21:04: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-15 23:21:04: App name:socket id:0 online
+2017-10-16 18:15:55: 0
+2017-10-16 18:15:55: Stopping app:socket id:0
+2017-10-16 18:15:55: App [socket] with id [0] and pid [14409], exited with code [0] via signal [SIGINT]
+2017-10-16 18:15:55: pid=14409 msg=process killed
+2017-10-16 18:16:04: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-16 18:16:04: App name:socket id:0 online
+2017-10-16 18:19:21: pm2 has been killed by signal, dumping process list before exit...
+2017-10-16 18:19:21: Deleting process 0
+2017-10-16 18:19:21: Stopping app:socket id:0
+2017-10-16 18:19:21: App [socket] with id [0] and pid [31657], exited with code [0] via signal [SIGTERM]
+2017-10-16 18:19:21: pid=31657 msg=process killed
+2017-10-16 18:19:21: [PM2] Exited peacefully
+2017-10-16 22:36:34: ===============================================================================
+2017-10-16 22:36:34: --- New PM2 Daemon started ----------------------------------------------------
+2017-10-16 22:36:34: Time                 : Mon Oct 16 2017 22:36:34 GMT+0700 (+07)
+2017-10-16 22:36:34: PM2 version          : 2.6.1
+2017-10-16 22:36:34: Node.js version      : 6.11.4
+2017-10-16 22:36:34: Current arch         : x64
+2017-10-16 22:36:34: PM2 home             : /var/www/client/.pm2
+2017-10-16 22:36:34: PM2 PID file         : /var/www/client/.pm2/pm2.pid
+2017-10-16 22:36:34: RPC socket file      : /var/www/client/.pm2/rpc.sock
+2017-10-16 22:36:34: BUS socket file      : /var/www/client/.pm2/pub.sock
+2017-10-16 22:36:34: Application log path : /var/www/client/.pm2/logs
+2017-10-16 22:36:34: Process dump file    : /var/www/client/.pm2/dump.pm2
+2017-10-16 22:36:34: Concurrent actions   : 2
+2017-10-16 22:36:34: SIGTERM timeout      : 1600
+2017-10-16 22:36:34: ===============================================================================
+2017-10-16 22:36:42: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-10-16 22:36:42: App name:socket id:0 online
+2017-11-01 13:38:42: 0
+2017-11-01 13:38:42: Stopping app:socket id:0
+2017-11-01 13:38:42: App [socket] with id [0] and pid [3051], exited with code [0] via signal [SIGINT]
+2017-11-01 13:38:42: pid=3051 msg=process killed
+2017-11-01 13:38:53: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-01 13:38:53: App name:socket id:0 online
+2017-11-01 14:12:15: 0
+2017-11-01 14:12:15: Stopping app:socket id:0
+2017-11-01 14:12:15: App [socket] with id [0] and pid [10831], exited with code [0] via signal [SIGINT]
+2017-11-01 14:12:15: pid=10831 msg=process killed
+2017-11-01 14:12:23: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-01 14:12:23: App name:socket id:0 online
+2017-11-01 23:15:49: 0
+2017-11-01 23:15:49: Stopping app:socket id:0
+2017-11-01 23:15:49: App [socket] with id [0] and pid [13353], exited with code [0] via signal [SIGINT]
+2017-11-01 23:15:49: pid=13353 msg=process killed
+2017-11-01 23:15:58: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-01 23:15:58: App name:socket id:0 online
+2017-11-01 23:40:56: 0
+2017-11-01 23:40:56: Stopping app:socket id:0
+2017-11-01 23:40:56: App [socket] with id [0] and pid [18292], exited with code [0] via signal [SIGINT]
+2017-11-01 23:40:57: pid=18292 msg=process killed
+2017-11-01 23:41:07: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-01 23:41:07: App name:socket id:0 online
+2017-11-01 23:43:11: 0
+2017-11-01 23:43:11: Stopping app:socket id:0
+2017-11-01 23:43:11: App [socket] with id [0] and pid [20170], exited with code [0] via signal [SIGINT]
+2017-11-01 23:43:11: pid=20170 msg=process killed
+2017-11-01 23:43:19: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-01 23:43:19: App name:socket id:0 online
+2017-11-01 23:44:08: 0
+2017-11-01 23:44:08: Stopping app:socket id:0
+2017-11-01 23:44:08: App [socket] with id [0] and pid [20449], exited with code [0] via signal [SIGINT]
+2017-11-01 23:44:08: pid=20449 msg=process killed
+2017-11-01 23:44:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-01 23:44:16: App name:socket id:0 online
+2017-11-01 23:48:06: 0
+2017-11-01 23:48:06: Stopping app:socket id:0
+2017-11-01 23:48:06: App [socket] with id [0] and pid [20638], exited with code [0] via signal [SIGINT]
+2017-11-01 23:48:06: pid=20638 msg=process killed
+2017-11-01 23:48:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-01 23:48:16: App name:socket id:0 online
+2017-11-02 00:15:15: 0
+2017-11-02 00:15:15: Stopping app:socket id:0
+2017-11-02 00:15:15: App [socket] with id [0] and pid [21025], exited with code [0] via signal [SIGINT]
+2017-11-02 00:15:15: pid=21025 msg=process killed
+2017-11-02 00:15:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 00:15:24: App name:socket id:0 online
+2017-11-02 00:27:26: 0
+2017-11-02 00:27:26: Stopping app:socket id:0
+2017-11-02 00:27:26: App [socket] with id [0] and pid [23030], exited with code [0] via signal [SIGINT]
+2017-11-02 00:27:26: pid=23030 msg=process killed
+2017-11-02 00:27:34: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 00:27:34: App name:socket id:0 online
+2017-11-02 00:49:37: 0
+2017-11-02 00:49:37: Stopping app:socket id:0
+2017-11-02 00:49:37: App [socket] with id [0] and pid [24006], exited with code [0] via signal [SIGINT]
+2017-11-02 00:49:37: pid=24006 msg=process killed
+2017-11-02 00:49:52: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 00:49:52: App name:socket id:0 online
+2017-11-02 00:49:52: 0
+2017-11-02 00:49:52: Stopping app:socket id:0
+2017-11-02 00:49:52: App [socket] with id [0] and pid [25969], exited with code [0] via signal [SIGINT]
+2017-11-02 00:49:52: pid=25969 msg=process killed
+2017-11-02 00:50:01: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 00:50:01: App name:socket id:0 online
+2017-11-02 00:50:59: 0
+2017-11-02 00:50:59: Stopping app:socket id:0
+2017-11-02 00:50:59: App [socket] with id [0] and pid [26030], exited with code [0] via signal [SIGINT]
+2017-11-02 00:50:59: pid=26030 msg=process killed
+2017-11-02 00:51:07: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 00:51:07: App name:socket id:0 online
+2017-11-02 00:52:22: 0
+2017-11-02 00:52:22: Stopping app:socket id:0
+2017-11-02 00:52:22: App [socket] with id [0] and pid [26266], exited with code [0] via signal [SIGINT]
+2017-11-02 00:52:22: pid=26266 msg=process killed
+2017-11-02 00:52:30: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 00:52:30: App name:socket id:0 online
+2017-11-02 01:00:07: 0
+2017-11-02 01:00:07: Stopping app:socket id:0
+2017-11-02 01:00:07: App [socket] with id [0] and pid [26507], exited with code [0] via signal [SIGINT]
+2017-11-02 01:00:07: pid=26507 msg=process killed
+2017-11-02 01:00:15: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 01:00:15: App name:socket id:0 online
+2017-11-02 01:02:35: 0
+2017-11-02 01:02:35: Stopping app:socket id:0
+2017-11-02 01:02:35: App [socket] with id [0] and pid [27265], exited with code [0] via signal [SIGINT]
+2017-11-02 01:02:35: pid=27265 msg=process killed
+2017-11-02 01:02:43: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 01:02:43: App name:socket id:0 online
+2017-11-02 01:04:46: 0
+2017-11-02 01:04:46: Stopping app:socket id:0
+2017-11-02 01:04:46: App [socket] with id [0] and pid [27585], exited with code [0] via signal [SIGINT]
+2017-11-02 01:04:46: pid=27585 msg=process killed
+2017-11-02 01:04:56: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 01:04:56: App name:socket id:0 online
+2017-11-02 01:05:13: 0
+2017-11-02 01:05:13: Stopping app:socket id:0
+2017-11-02 01:05:13: App [socket] with id [0] and pid [27860], exited with code [0] via signal [SIGINT]
+2017-11-02 01:05:13: pid=27860 msg=process killed
+2017-11-02 01:05:21: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-02 01:05:21: App name:socket id:0 online
+2017-11-07 00:20:27: 0
+2017-11-07 00:20:27: Stopping app:socket id:0
+2017-11-07 00:20:27: App [socket] with id [0] and pid [28023], exited with code [0] via signal [SIGINT]
+2017-11-07 00:20:27: pid=28023 msg=process killed
+2017-11-07 00:20:35: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-07 00:20:35: App name:socket id:0 online
+2017-11-07 17:55:54: 0
+2017-11-07 17:55:54: Stopping app:socket id:0
+2017-11-07 17:55:54: App [socket] with id [0] and pid [20516], exited with code [0] via signal [SIGINT]
+2017-11-07 17:55:54: pid=20516 msg=process killed
+2017-11-07 17:56:05: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-07 17:56:05: App name:socket id:0 online
+2017-11-07 18:00:58: 0
+2017-11-07 18:00:58: Stopping app:socket id:0
+2017-11-07 18:00:58: App [socket] with id [0] and pid [30191], exited with code [0] via signal [SIGINT]
+2017-11-07 18:00:58: pid=30191 msg=process killed
+2017-11-07 18:01:07: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-07 18:01:07: App name:socket id:0 online
+2017-11-07 23:49:47: 0
+2017-11-07 23:49:47: Stopping app:socket id:0
+2017-11-07 23:49:47: App [socket] with id [0] and pid [30660], exited with code [0] via signal [SIGINT]
+2017-11-07 23:49:47: pid=30660 msg=process killed
+2017-11-07 23:49:55: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-07 23:49:55: App name:socket id:0 online
+2017-11-08 00:01:39: 0
+2017-11-08 00:01:39: Stopping app:socket id:0
+2017-11-08 00:01:39: App [socket] with id [0] and pid [23003], exited with code [0] via signal [SIGINT]
+2017-11-08 00:01:39: pid=23003 msg=process killed
+2017-11-08 00:01:47: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-08 00:01:47: App name:socket id:0 online
+2017-11-08 00:02:20: 0
+2017-11-08 00:02:20: Stopping app:socket id:0
+2017-11-08 00:02:20: App [socket] with id [0] and pid [23999], exited with code [0] via signal [SIGINT]
+2017-11-08 00:02:20: pid=23999 msg=process killed
+2017-11-08 00:02:28: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-08 00:02:28: App name:socket id:0 online
+2017-11-08 00:07:55: 0
+2017-11-08 00:07:55: Stopping app:socket id:0
+2017-11-08 00:07:55: App [socket] with id [0] and pid [24181], exited with code [0] via signal [SIGINT]
+2017-11-08 00:07:55: pid=24181 msg=process killed
+2017-11-08 00:08:03: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-08 00:08:03: App name:socket id:0 online
+2017-11-08 00:09:40: 0
+2017-11-08 00:09:40: Stopping app:socket id:0
+2017-11-08 00:09:40: App [socket] with id [0] and pid [24681], exited with code [0] via signal [SIGINT]
+2017-11-08 00:09:40: pid=24681 msg=process killed
+2017-11-08 00:09:49: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-08 00:09:49: App name:socket id:0 online
+2017-11-08 00:14:15: 0
+2017-11-08 00:14:15: Stopping app:socket id:0
+2017-11-08 00:14:15: App [socket] with id [0] and pid [24899], exited with code [0] via signal [SIGINT]
+2017-11-08 00:14:15: pid=24899 msg=process killed
+2017-11-08 00:14:23: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-08 00:14:23: App name:socket id:0 online
+2017-11-08 00:16:04: 0
+2017-11-08 00:16:04: Stopping app:socket id:0
+2017-11-08 00:16:04: App [socket] with id [0] and pid [25337], exited with code [0] via signal [SIGINT]
+2017-11-08 00:16:04: pid=25337 msg=process killed
+2017-11-08 00:16:13: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-08 00:16:13: App name:socket id:0 online
+2017-11-09 20:56:02: 0
+2017-11-09 20:56:02: Stopping app:socket id:0
+2017-11-09 20:56:02: App [socket] with id [0] and pid [25565], exited with code [0] via signal [SIGINT]
+2017-11-09 20:56:02: pid=25565 msg=process killed
+2017-11-09 20:56:11: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-09 20:56:11: App name:socket id:0 online
+2017-11-14 10:52:00: 0
+2017-11-14 10:52:00: Stopping app:socket id:0
+2017-11-14 10:52:00: App [socket] with id [0] and pid [21881], exited with code [0] via signal [SIGINT]
+2017-11-14 10:52:00: pid=21881 msg=process killed
+2017-11-14 10:52:11: 0
+2017-11-14 10:52:21: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 10:52:21: App name:socket id:0 online
+2017-11-14 10:53:04: 0
+2017-11-14 10:53:04: Stopping app:socket id:0
+2017-11-14 10:53:04: App [socket] with id [0] and pid [4295], exited with code [0] via signal [SIGINT]
+2017-11-14 10:53:04: pid=4295 msg=process killed
+2017-11-14 10:53:14: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 10:53:14: App name:socket id:0 online
+2017-11-14 10:54:50: 0
+2017-11-14 10:54:50: Stopping app:socket id:0
+2017-11-14 10:54:50: App [socket] with id [0] and pid [4526], exited with code [0] via signal [SIGINT]
+2017-11-14 10:54:50: pid=4526 msg=process killed
+2017-11-14 10:54:59: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 10:54:59: App name:socket id:0 online
+2017-11-14 10:59:16: 0
+2017-11-14 10:59:16: Stopping app:socket id:0
+2017-11-14 10:59:16: App [socket] with id [0] and pid [4808], exited with code [0] via signal [SIGINT]
+2017-11-14 10:59:16: pid=4808 msg=process killed
+2017-11-14 10:59:25: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 10:59:25: App name:socket id:0 online
+2017-11-14 11:04:14: 0
+2017-11-14 11:04:14: Stopping app:socket id:0
+2017-11-14 11:04:14: App [socket] with id [0] and pid [5433], exited with code [0] via signal [SIGINT]
+2017-11-14 11:04:14: pid=5433 msg=process killed
+2017-11-14 11:04:23: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 11:04:23: App name:socket id:0 online
+2017-11-14 11:07:05: 0
+2017-11-14 11:07:05: Stopping app:socket id:0
+2017-11-14 11:07:05: App [socket] with id [0] and pid [6132], exited with code [0] via signal [SIGINT]
+2017-11-14 11:07:05: pid=6132 msg=process killed
+2017-11-14 11:07:14: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 11:07:14: App name:socket id:0 online
+2017-11-14 11:07:47: 0
+2017-11-14 11:07:47: Stopping app:socket id:0
+2017-11-14 11:07:47: App [socket] with id [0] and pid [6588], exited with code [0] via signal [SIGINT]
+2017-11-14 11:07:48: pid=6588 msg=process killed
+2017-11-14 11:07:55: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 11:07:55: App name:socket id:0 online
+2017-11-14 11:12:50: 0
+2017-11-14 11:12:50: Stopping app:socket id:0
+2017-11-14 11:12:50: App [socket] with id [0] and pid [6754], exited with code [0] via signal [SIGINT]
+2017-11-14 11:12:50: pid=6754 msg=process killed
+2017-11-14 11:12:59: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 11:12:59: App name:socket id:0 online
+2017-11-14 11:44:32: 0
+2017-11-14 11:44:32: Stopping app:socket id:0
+2017-11-14 11:44:32: App [socket] with id [0] and pid [7455], exited with code [0] via signal [SIGINT]
+2017-11-14 11:44:32: pid=7455 msg=process killed
+2017-11-14 11:44:43: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 11:44:43: App name:socket id:0 online
+2017-11-14 11:49:15: 0
+2017-11-14 11:49:15: Stopping app:socket id:0
+2017-11-14 11:49:15: App [socket] with id [0] and pid [11223], exited with code [0] via signal [SIGINT]
+2017-11-14 11:49:15: pid=11223 msg=process killed
+2017-11-14 11:49:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 11:49:24: App name:socket id:0 online
+2017-11-14 12:07:40: 0
+2017-11-14 12:07:40: Stopping app:socket id:0
+2017-11-14 12:07:40: App [socket] with id [0] and pid [11855], exited with code [0] via signal [SIGINT]
+2017-11-14 12:07:40: pid=11855 msg=process killed
+2017-11-14 12:07:48: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 12:07:48: App name:socket id:0 online
+2017-11-14 12:16:49: 0
+2017-11-14 12:16:49: Stopping app:socket id:0
+2017-11-14 12:16:49: App [socket] with id [0] and pid [13553], exited with code [0] via signal [SIGINT]
+2017-11-14 12:16:49: pid=13553 msg=process killed
+2017-11-14 12:16:59: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-14 12:16:59: App name:socket id:0 online
+2017-11-17 15:34:31: 0
+2017-11-17 15:34:31: Stopping app:socket id:0
+2017-11-17 15:34:31: App [socket] with id [0] and pid [14421], exited with code [0] via signal [SIGINT]
+2017-11-17 15:34:31: pid=14421 msg=process killed
+2017-11-17 15:34:39: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-17 15:34:39: App name:socket id:0 online
+2017-11-19 11:11:00: 0
+2017-11-19 11:11:00: Stopping app:socket id:0
+2017-11-19 11:11:00: App [socket] with id [0] and pid [17418], exited with code [0] via signal [SIGINT]
+2017-11-19 11:11:01: pid=17418 msg=process killed
+2017-11-19 11:11:09: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-19 11:11:09: App name:socket id:0 online
+2017-11-21 12:26:47: 0
+2017-11-21 12:26:47: Stopping app:socket id:0
+2017-11-21 12:26:47: App [socket] with id [0] and pid [16768], exited with code [0] via signal [SIGINT]
+2017-11-21 12:26:47: pid=16768 msg=process killed
+2017-11-21 12:26:57: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-21 12:26:57: App name:socket id:0 online
+2017-11-23 00:36:07: 0
+2017-11-23 00:36:07: Stopping app:socket id:0
+2017-11-23 00:36:07: App [socket] with id [0] and pid [1006], exited with code [0] via signal [SIGINT]
+2017-11-23 00:36:08: pid=1006 msg=process killed
+2017-11-23 00:36:16: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-23 00:36:16: App name:socket id:0 online
+2017-11-25 17:29:45: 0
+2017-11-25 17:29:45: Stopping app:socket id:0
+2017-11-25 17:29:45: App [socket] with id [0] and pid [25138], exited with code [0] via signal [SIGINT]
+2017-11-25 17:29:45: pid=25138 msg=process killed
+2017-11-25 17:29:54: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-25 17:29:54: App name:socket id:0 online
+2017-11-26 16:16:47: 0
+2017-11-26 16:16:47: Stopping app:socket id:0
+2017-11-26 16:16:47: App [socket] with id [0] and pid [11817], exited with code [0] via signal [SIGINT]
+2017-11-26 16:16:47: pid=11817 msg=process killed
+2017-11-26 16:16:55: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-26 16:16:55: App name:socket id:0 online
+2017-11-26 16:44:54: 0
+2017-11-26 16:44:54: Stopping app:socket id:0
+2017-11-26 16:44:54: App [socket] with id [0] and pid [14478], exited with code [0] via signal [SIGINT]
+2017-11-26 16:44:55: pid=14478 msg=process killed
+2017-11-26 16:45:04: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-26 16:45:04: App name:socket id:0 online
+2017-11-26 16:52:46: 0
+2017-11-26 16:52:46: Stopping app:socket id:0
+2017-11-26 16:52:47: App [socket] with id [0] and pid [16841], exited with code [0] via signal [SIGINT]
+2017-11-26 16:52:47: pid=16841 msg=process killed
+2017-11-26 16:52:56: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-26 16:52:56: App name:socket id:0 online
+2017-11-26 16:54:05: 0
+2017-11-26 16:54:05: Stopping app:socket id:0
+2017-11-26 16:54:05: App [socket] with id [0] and pid [17517], exited with code [0] via signal [SIGINT]
+2017-11-26 16:54:05: pid=17517 msg=process killed
+2017-11-26 16:54:15: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-26 16:54:15: App name:socket id:0 online
+2017-11-26 16:56:28: 0
+2017-11-26 16:56:28: Stopping app:socket id:0
+2017-11-26 16:56:28: App [socket] with id [0] and pid [17834], exited with code [0] via signal [SIGINT]
+2017-11-26 16:56:28: pid=17834 msg=process killed
+2017-11-26 16:56:38: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-26 16:56:38: App name:socket id:0 online
+2017-11-26 17:04:14: 0
+2017-11-26 17:04:14: Stopping app:socket id:0
+2017-11-26 17:04:14: App [socket] with id [0] and pid [18120], exited with code [0] via signal [SIGINT]
+2017-11-26 17:04:14: pid=18120 msg=process killed
+2017-11-26 17:04:24: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-26 17:04:24: App name:socket id:0 online
+2017-11-26 17:05:41: 0
+2017-11-26 17:05:41: Stopping app:socket id:0
+2017-11-26 17:05:41: App [socket] with id [0] and pid [18576], exited with code [0] via signal [SIGINT]
+2017-11-26 17:05:41: pid=18576 msg=process killed
+2017-11-26 17:05:49: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-26 17:05:49: App name:socket id:0 online
+2017-11-26 17:06:41: 0
+2017-11-26 17:06:41: Stopping app:socket id:0
+2017-11-26 17:06:41: App [socket] with id [0] and pid [18694], exited with code [0] via signal [SIGINT]
+2017-11-26 17:06:41: pid=18694 msg=process killed
+2017-11-26 17:06:50: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-26 17:06:50: App name:socket id:0 online
+2017-11-26 17:07:10: 0
+2017-11-26 17:07:10: Stopping app:socket id:0
+2017-11-26 17:07:10: App [socket] with id [0] and pid [18807], exited with code [0] via signal [SIGINT]
+2017-11-26 17:07:10: pid=18807 msg=process killed
+2017-11-26 17:07:18: Starting execution sequence in -fork mode- for app name:socket id:0
+2017-11-26 17:07:18: App name:socket id:0 online
