@@ -77,7 +77,7 @@
     <script src="{{url('angularjs/group/controllers/TopicController.js')}}"></script>
     
     <script src="{{url('angularjs/group/services/TopicData.js')}}"></script>
-    <script src="{{url('angularjs/group/services/multipartForm.js')}}"></script>
+    <script src="{{url('Services')}}"></script>
     
     <script src="{{url('angularjs/group/directives/TopicItem.js')}}"></script>
     <script src="{{url('angularjs/group/directives/uploadItem.js')}}"></script>
