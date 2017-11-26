@@ -43,9 +43,6 @@ class coursesCreateEditDocuments extends React.Component {
         helper.setFormValidation('#form-edit-link');
     }
 
-    componentDidMount(){
-        helper.setFormValidation('#form-edit-link');
-    }
     componentDidUpdate(){
         helper.setFormValidation('#form-edit-link');
     }
@@ -74,7 +71,8 @@ class coursesCreateEditDocuments extends React.Component {
 
     uploadLinkIcon(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadLinkIcon(this.props.link, file);
+        if(helper.checkFileSize(file, 2))
+            this.props.coursesActions.uploadLinkIcon(this.props.link, file);
     }
 
     openModalEditLink(link){
