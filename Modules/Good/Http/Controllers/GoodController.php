@@ -416,17 +416,12 @@ class GoodController extends ManageApiController
             $card->title = $good->name;
             $card->save();
         }
-
         $newTaskList->card_id = $card->id;
         $newTaskList->save();
-
-
         return $this->respondSuccessWithStatus([
             "card" => $card->transform()
         ]);
     }
-
-
 }
 
 
