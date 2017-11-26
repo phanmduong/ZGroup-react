@@ -13,6 +13,11 @@ import * as helper                      from '../../../helpers/helper';
 import {linkUploadImageEditor}          from '../../../constants/constants';
 import {CirclePicker}                   from 'react-color';
 import {Link, IndexLink}                from 'react-router';
+
+const btn ={
+  width: "100%",
+};
+
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -205,13 +210,13 @@ class CreateEditCoursesContainer extends React.Component {
                                 <img src = {helper.isEmptyInput(this.props.data.icon_url) ? NO_IMAGE : this.props.data.icon_url} />
                             { this.props.isUpdatingLogo ?
                                 (
-                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <button className="btn btn-rose btn-round disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 )
                                 :
                                 (
-                                <button className="btn btn-fill btn-rose" type="button">
+                                <button className="btn btn-fill btn-rose" type="button"  style={btn}>
                                 Chọn ảnh icon
                                 <input type="file"
                                 accept=".jpg,.png,.gif"
@@ -234,13 +239,13 @@ class CreateEditCoursesContainer extends React.Component {
                                 <img src = {helper.isEmptyInput(this.props.data.image_url) ? NO_IMAGE : this.props.data.image_url} />
                             { this.props.isUpdatingAvatar ?
                                 (
-                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <button className="btn btn-rose btn-round disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 )
                                 :
                                 (
-                                <button className="btn btn-fill btn-rose" type="button">
+                                <button className="btn btn-fill btn-rose" type="button" style={btn}>
                                 Chọn ảnh đại diện
                                 <input type="file"
                                 accept=".jpg,.png,.gif"
@@ -263,13 +268,13 @@ class CreateEditCoursesContainer extends React.Component {
                                 <img src = {helper.isEmptyInput(this.props.data.cover_url) ? NO_IMAGE : this.props.data.cover_url} />
                             { this.props.isUpdatingCover ?
                                 (
-                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <button className="btn btn-rose btn-round disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 )
                                 :
                                 (
-                                <button className="btn btn-fill btn-rose" type="button">
+                                <button className="btn btn-fill btn-rose" type="button" style={btn}>
                                 Chọn cover
                                 <input type="file"
                                 accept=".jpg,.png,.gif"
