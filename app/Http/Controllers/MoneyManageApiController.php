@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\GroupMember;
 use App\Register;
+use App\Services\EmailService;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -13,9 +14,12 @@ use Illuminate\Support\Facades\DB;
 
 class MoneyManageApiController extends ApiController
 {
-    public function __construct()
+    protected $emailService;
+
+    public function __construct(EmailService $emailService)
     {
         parent::__construct();
+        $this->emailService = $emailService;
     }
 
     /**
@@ -23,7 +27,7 @@ class MoneyManageApiController extends ApiController
      * @param Request $request (money,note,register_id,code)
      * @return mixed
      */
-    public function pay_register( Request $request)
+    public function pay_register(Request $request)
     {
         $register_id = $request->register_id;
         $register = Register::find($register_id);
@@ -77,7 +81,8 @@ class MoneyManageApiController extends ApiController
                     $groupMember->save();
                 }
 
-                send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
+                $this->emailService->send_mail_confirm_receive_student_money($register, ["colorme.idea@gmail.com"]);
+
                 send_sms_confirm_money($register);
 
             }
@@ -86,7 +91,7 @@ class MoneyManageApiController extends ApiController
 
     }
 
-    public function search_registers( Request $request)
+    public function search_registers(Request $request)
     {
         $search = $request->search;
 

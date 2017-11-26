@@ -283,45 +283,6 @@ function currency_vnd_format($number)
 }
 
 
-
-
-
-function send_mail_confirm_receive_studeny_money($register, $emailcc)
-{
-
-    $user = $register->user;
-    $class = $register->studyClass;
-    $data['class'] = $class;
-    $data['course'] = $register->studyClass->course;
-    $data['user'] = $user;
-    $data['register'] = $register;
-
-    $subject = "[Alibaba English] Xác nhận thanh toán thành công khoá học " . $data['course']->name;
-
-    Mail::queue('emails.confirm_money_email_2', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-    });
-}
-
-function send_mail_goodbye($register, $emailcc)
-{
-
-    $user = $register->user;
-
-    $data['student'] = $user;
-    $data['class'] = $register->studyClass;
-
-    $subject = "[Alibaba English] Lời chào tạm biệt từ Alibaba English";
-
-    Mail::queue('emails.email_goodbye', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-    });
-}
-
 function encodeUtf8($text)
 {
     $regex = <<<'END'
@@ -339,76 +300,6 @@ END;
     preg_replace($regex, '$1', $text);
     return $text;
 }
-
-function send_mail_delete_register($register, $staff)
-{
-
-    $user = $register->user;
-
-    $data['student'] = $user;
-    $data['class'] = $register->studyClass;
-    $data['staff'] = $staff;
-
-    $subject = "Xoá Register";
-
-    Mail::send('emails.email_delete_register', $data, function ($m) use ($subject) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to("thanghungkhi@gmail.com", "Nguyễn Việt Hùng")->bcc("aquancva@gmail.com")->subject($subject);
-    });
-}
-
-function send_mail_activate_class($register, $emailcc)
-{
-
-    $user = $register->user;
-    $data['class'] = $register->studyClass;
-    $data['student'] = $user;
-    $data['regis'] = $register;
-    $data['user'] = $user;
-    $data['course'] = $data['class']->course;
-    $subject = "[Alibaba English] Thông báo khai giảng khoá học " . $data['course']->name;
-
-    Mail::queue('emails.activate_class_2', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->subject($subject);
-    });
-}
-
-function send_mail_lesson($user, $lesson, $class, $study_date, $emailcc)
-{
-
-    $data['lesson'] = $lesson;
-    $data['class'] = $class;
-    $data['user'] = $user;
-    $data['study_date'] = $study_date;
-
-    $subject = "Lịch trình và Giáo trình Buổi " . $lesson->order . " Lớp " . $class->name;
-    $data['subject'] = $subject;
-    Mail::queue('emails.send_lesson', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-    });
-}
-
-
-function send_mail_regis_shift($user, $week, $gen, $emailcc)
-{
-
-    $data['week'] = $week;
-    $data['gen'] = $gen;
-    $data['user'] = $user;
-
-    $subject = "Đăng ký trực tuần " . $week . " Khoá " . $gen->name;
-    $data['subject'] = $subject;
-    Mail::queue('emails.mail_regis_shift', $data, function ($m) use ($user, $subject, $emailcc) {
-        $m->from('no-reply@colorme.vn', 'Alibaba English');
-        $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-    });
-}
-
 
 function get_first_part_of_email($string)
 {

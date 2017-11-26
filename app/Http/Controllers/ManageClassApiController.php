@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\EmailService;
 use App\StudyClass;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,11 @@ use App\Http\Requests;
 
 class ManageClassApiController extends ManageApiController
 {
-    public function __construct()
+    protected $emailService;
+
+    public function __construct(
+        EmailService $emailService
+    )
     {
         parent::__construct();
     }
@@ -19,7 +24,7 @@ class ManageClassApiController extends ManageApiController
         $class_id = $request->class_id;
         $class = StudyClass::find($class_id);
         foreach ($class->registers as $regis) {
-            send_mail_activate_class($regis, ['colorme.vn.test@gmail.com']);
+            $this->emailService->send_mail_activate_class($regis, ['colorme.vn.test@gmail.com']);
         }
         $class->activated = 1;
         $class->status = 0;
