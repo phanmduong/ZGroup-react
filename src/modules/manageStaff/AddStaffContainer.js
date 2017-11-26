@@ -17,6 +17,7 @@ class AddStaffContainer extends React.Component {
         this.addStaff = this.addStaff.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.changeColor = this.changeColor.bind(this);
+        this.resetPassword = this.resetPassword.bind(this);
         this.usernameEmpty = true;
     }
 
@@ -88,6 +89,10 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.updateAddStaffFormData(staffForm);
     }
 
+    resetPassword(){
+        this.props.staffActions.resetPassword(this.props.params.staffId);
+    }
+
     render() {
         let roles = (this.props.roles !== undefined) ? this.props.roles : [];
         let bases = (this.props.bases !== undefined) ? this.props.bases : [];
@@ -97,6 +102,7 @@ class AddStaffContainer extends React.Component {
                 updateFormData={this.updateFormData}
                 changeColor={this.changeColor}
                 addStaff={this.addStaff}
+                resetPassword={this.resetPassword}
                 type={this.props.route.type}
                 handleFileUpload={this.handleFileUpload}
                 roles={[{id: 0, role_title: ''}, ...roles]}
@@ -132,6 +138,7 @@ function mapStateToProps(state) {
         isLoadingStaff: state.staffs.addStaff.isLoadingStaff,
         isLoadingAddStaff: state.staffs.addStaff.isLoading,
         isChangingAvatar: state.staffs.addStaff.isChangingAvatar,
+        isResettingPassword: state.staffs.addStaff.isResettingPassword,
         isLoadingRoles: state.roles.isLoading,
         error: state.staffs.addStaff.error,
         roles: state.roles.roleListData,

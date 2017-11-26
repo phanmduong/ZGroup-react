@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
+// import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import {generateDatatableLanguage, dotNumber} from "../../../helpers/helper";
 import PropTypes from 'prop-types';
 
@@ -28,7 +28,7 @@ class ListGood extends React.Component {
                 if (that.search() !== this.value) {
                     that
                         .search(this.value)
-                        .draw();
+                        .draw(); 
                 }
             });
         });
@@ -54,16 +54,6 @@ class ListGood extends React.Component {
             ],
             iDisplayLength: 10,
             responsive: true,
-            columns: [
-                {"name": "", "orderable": true},
-                {"name": "Mã sản phẩm", "orderable": true},
-                {"name": "Tên sản phẩm", "orderable": true},
-                {"name": "Số lượng", "orderable": true},
-                {"name": "Giá vốn", "orderable": true},
-                {"name": "Thành tiên", "orderable": true},
-                {"name": "Giá bán", "orderable": true},
-                {"name": "", "orderable": false}
-            ],
             "language": generateDatatableLanguage("hóa đơn"),
             initComplete: function () {
                 let r = $('#goods-table tfoot tr');
@@ -91,7 +81,6 @@ class ListGood extends React.Component {
                         <th>Giá vốn</th>
                         <th>Thành tiên</th>
                         <th>Giá bán</th>
-                        <th/>
                     </tr>
                     </thead>
                     <tfoot>
@@ -103,7 +92,6 @@ class ListGood extends React.Component {
                         <th>Giá vốn</th>
                         <th>Thành tiên</th>
                         <th>Giá bán</th>
-                        <th/>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -118,12 +106,6 @@ class ListGood extends React.Component {
                                     <td>{dotNumber(good.import_price)}đ</td>
                                     <td>{dotNumber(good.import_price * good.quantity)}đ</td>
                                     <td>{dotNumber(good.price)}đ</td>
-                                    <td><ButtonGroupAction
-                                        object={good}
-                                        delete={this.props.deleteGood}
-                                        edit={() => this.props.openModalEditGood(good)}
-
-                                    /></td>
                                 </tr>
                             );
                         })

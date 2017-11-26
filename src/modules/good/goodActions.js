@@ -277,28 +277,35 @@ export function closeAddPropertyItemModal() {
     };
 }
 
-export function loadAllGoodPropertyItems(type) {
+export function loadAllGoodPropertyItems(type, taskId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_GOOD_PROPERTY_ITEMS
         });
-        goodApi.loadAllGoodPropertyItems(type)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
-                    good_property_items: res.data.data.good_property_items,
-                    boards: res.data.data.boards
+        return new Promise((resolve) => {
+
+            goodApi.loadAllGoodPropertyItems(type, taskId)
+                .then((res) => {
+                    resolve(res.data.data.selected_boards);
+                    dispatch({
+                        type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
+                        good_property_items: res.data.data.good_property_items,
+                        boards: res.data.data.boards,
+                        selectedBoards: res.data.data.selected_boards
+                    });
                 });
-            });
+
+        });
+
     };
 }
 
-export function addPropertyItemsToTask(goodPropertyItems, task, currentBoard, targetBoard) {
+export function addPropertyItemsToTask(selectedBoards, goodPropertyItems, task, currentBoard, targetBoard) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK
         });
-        goodApi.addPropertyItemsToTask(goodPropertyItems, task.id, currentBoard, targetBoard)
+        goodApi.addPropertyItemsToTask(selectedBoards, goodPropertyItems, task.id, currentBoard, targetBoard)
             .then((res) => {
                 dispatch({
                     type: types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS,
@@ -326,38 +333,6 @@ export function loadGoodPropertiesFilled(cardId, goodProperties) {
         });
         goodApi.loadGoodPropertiesFilled(cardId, goodProperties)
             .then((res) => {
-                // const goodProperties = res.data.data.good_properties;
-
-                // let goodPropertiesOutput = {};
-                //
-                // goodProperties.forEach((goodProperty) => {
-                //     const {name, value} = goodProperty;
-                //     goodPropertiesOutput[name] = {};
-                //     if (goodProperty.preunit) {
-                //         const units = goodProperty.preunit.split(",");
-                //
-                //         var filteredUnits = units.filter(unit => value.lastIndexOf(unit) !== -1)
-                //
-                //         let unitValue = filteredUnits.map((unit) => {
-                //             return {
-                //                 ...unit,
-                //                 index: value.lastIndexOf(unit)
-                //             };
-                //         }).sort((a, b) => b.index - a.index)[0];
-                //
-                //         if (unitValue) {
-                //             const index = value.lastIndexOf(unitValue);
-                //             console.log("index", index);
-                //             goodPropertiesOutput[name].value = value.slice(0, index - 1);
-                //             goodPropertiesOutput[name].unit = value.slice(index);
-                //         }
-                //         console.log("goodPropertiesOutput", goodPropertiesOutput);
-                //
-                //     } else {
-                //         goodPropertiesOutput[name].value = goodProperty.value;
-                //     }
-                // });
-                // console.log(goodPropertiesOutput);
                 dispatch({
                     type: types.LOAD_GOOD_PROPERTIES_FILLED_SUCCESS,
                     goodProperties: res.data.data.good_properties
@@ -365,3 +340,4 @@ export function loadGoodPropertiesFilled(cardId, goodProperties) {
             });
     };
 }
+

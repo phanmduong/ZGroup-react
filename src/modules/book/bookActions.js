@@ -229,19 +229,16 @@ export function saveTaskSpan(task) {
     };
 }
 
-export function saveMemberTask(task, user) {
+export function saveMemberTask(task, members) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_SAVE_MEMBER_TASK_TEMPLATE});
-        let userId = 0;
-        if (user) {
-            userId = user.id;
-        }
-        taskApi.saveMemberTask(userId, task.id)
+        const membersStr = JSON.stringify(members);
+        taskApi.saveMemberTask(membersStr, task.id)
             .then(() => {
                 showNotification("Phân công việc thành công");
                 dispatch({
                     type: types.SAVE_MEMBER_TASK_TEMPLATE_SUCCESS,
-                    user,
+                    members,
                     task
                 });
                 dispatch({
