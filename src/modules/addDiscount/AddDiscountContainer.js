@@ -32,6 +32,9 @@ class AddDiscountContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng chọn ngày bắt đầu", 'warning');
                 return;
             }
+            if (this.props.discount.name === null || this.props.discount.name === undefined || this.props.discount.name === '') {
+                helper.showTypeNotification("Vui lòng nhập tên khuyến mãi", 'warning');
+            }
             if (this.props.discount.end_time === null || this.props.discount.end_time === undefined || this.props.discount.end_time === '') {
                 helper.showTypeNotification("Vui lòng chọn ngày kết thúc", 'warning');
             }
@@ -51,9 +54,11 @@ class AddDiscountContainer extends React.Component {
             used_for : '',
             start_time : '',
             end_time : '',
-            customer_id : '',
-            category_id : '',
-            good_id : '',};
+            order_value : '',
+            good : {},
+            category : {},
+            customer : {},
+        };
         this.props.addDiscountActions.updateDiscountFormData(discount);
     }
 

@@ -908,9 +908,10 @@ export default {
             used_for : '',
             start_time : '',
             end_time : '',
-            customer_id : '',
-            category_id : '',
-            good_id : '',
+            order_value : '',
+            good : {},
+            category : {},
+            customer : {},
         },
 
     },

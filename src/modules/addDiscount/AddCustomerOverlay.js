@@ -1,8 +1,10 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import ListCustomers from './ListCustomers';
+import Avatar from "../../components/common/Avatar";
+import PropTypes from 'prop-types';
+
 
 class AddCustomerOverlay extends React.Component {
     constructor(props, context) {
@@ -19,11 +21,21 @@ class AddCustomerOverlay extends React.Component {
 
 
     render() {
+        let customer = this.props.customer;
         return (
             <div style={{position: "relative"}}>
                 <a className="btn btn-default card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
-                    <i className="material-icons">people</i> Khách hàng
+                    {customer.name ?
+                        <div style={{display: "flex"}}>
+                            <Avatar size={30} url={customer.avatar_url}/>
+                            {customer.name}
+                        </div>
+                        :
+                        <span>
+                        <i className="material-icons">people</i> Chọn Khách hàng
+                        </span>
+                    }
                 </a>
                 <Overlay
                     rootClose={true}
@@ -42,5 +54,7 @@ class AddCustomerOverlay extends React.Component {
     }
 }
 
-
+AddCustomerOverlay.PropTypes = {
+    customer : PropTypes.object,
+};
 export default AddCustomerOverlay;

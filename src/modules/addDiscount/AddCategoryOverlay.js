@@ -3,6 +3,8 @@ import React from 'react';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import ListCategories from './ListCategories';
+import PropTypes from 'prop-types';
+
 
 class AddCategoryOverlay extends React.Component {
     constructor(props, context) {
@@ -19,11 +21,20 @@ class AddCategoryOverlay extends React.Component {
 
 
     render() {
+        let category = this.props.category;
         return (
             <div style={{position: "relative"}}>
                 <a className="btn btn-default card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
-                    <i className="material-icons">people</i> Danh mục
+                    {category.name ?
+                        <div style={{display: "flex"}}>
+                            {category.name}
+                        </div>
+                        :
+                        <span>
+                        <i className="material-icons">card_giftcard</i> Chọn Danh mục
+                        </span>
+                    }
                 </a>
                 <Overlay
                     rootClose={true}
@@ -33,7 +44,7 @@ class AddCategoryOverlay extends React.Component {
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
                     <ListCategories
-                        toggle = {this.toggle}
+                        toggle={this.toggle}
                     />
                 </Overlay>
             </div>
@@ -42,5 +53,7 @@ class AddCategoryOverlay extends React.Component {
     }
 }
 
-
+AddCategoryOverlay.PropTypes = {
+    category: PropTypes.object,
+};
 export default AddCategoryOverlay;

@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import Loading from "../../components/common/Loading";
-// import Avatar from "../../components/common/Avatar";
+import Avatar from "../../components/common/Avatar";
 import * as addDiscountActions from './addDiscountActions';
 import Search from '../../components/common/Search';
 import Pagination from '../../components/common/Pagination';
@@ -41,10 +41,10 @@ class ListCustomers extends React.Component {
         }.bind(this), 500);
     }
 
-    updateFormData(id) {
-        const field = 'customer_id';
+    updateFormData(customer) {
+        const field = 'customer';
         let discount = {...this.props.discount};
-        discount[field] = id;
+        discount[field] = customer;
         this.props.addDiscountActions.updateDiscountFormData(discount);
     }
     // toggleAssign(member) {
@@ -85,7 +85,7 @@ class ListCustomers extends React.Component {
                                         <ListGroupItem
                                             key={customer.id}
                                             onClick={(e) => {
-                                                this.updateFormData(customer.id);
+                                                this.updateFormData(customer);
                                                 e.preventDefault();
                                                 this.props.toggle();
                                             }}>
@@ -95,7 +95,7 @@ class ListCustomers extends React.Component {
                                                 lineHeight: "30px"
                                             }}>
                                                 <div style={{display: "flex"}}>
-                                                    {/*<Avatar size={30} url={m.avatar_url}/>*/}
+                                                    <Avatar size={30} url={customer.avatar_url}/>
                                                     {customer.name}
                                                 </div>
                                                 {/*{*/}

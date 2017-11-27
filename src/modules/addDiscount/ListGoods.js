@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import Loading from "../../components/common/Loading";
-// import Avatar from "../../components/common/Avatar";
+import Avatar from "../../components/common/Avatar";
 import * as addDiscountActions from './addDiscountActions';
 import Search from '../../components/common/Search';
 import Pagination from '../../components/common/Pagination';
@@ -41,10 +41,10 @@ class ListGoods extends React.Component {
         }.bind(this), 500);
     }
 
-    updateFormData(id) {
-        const field = 'good_id';
+    updateFormData(good) {
+        const field = 'good';
         let discount = {...this.props.discount};
-        discount[field] = id;
+        discount[field] = good;
         this.props.addDiscountActions.updateDiscountFormData(discount);
     }
     // toggleAssign(member) {
@@ -85,7 +85,7 @@ class ListGoods extends React.Component {
                                         <ListGroupItem
                                             key={good.id}
                                             onClick={(e) => {
-                                                this.updateFormData(good.id);
+                                                this.updateFormData(good);
                                                 this.props.toggle();
                                                 e.preventDefault();
                                             }}>
@@ -95,7 +95,7 @@ class ListGoods extends React.Component {
                                                 lineHeight: "30px"
                                             }}>
                                                 <div style={{display: "flex"}}>
-                                                    {/*<Avatar size={30} url={m.avatar_url}/>*/}
+                                                    <Avatar size={30} url={good.avatar_url}/>
                                                     {good.name}
                                                 </div>
                                                 {/*{*/}

@@ -22,10 +22,10 @@ class ListCategories extends React.Component {
 
 
 
-    updateFormData(id) {
-        const field = 'category_id';
+    updateFormData(category) {
+        const field = 'category';
         let discount = {...this.props.discount};
-        discount[field] = id;
+        discount[field] = category;
         this.props.addDiscountActions.updateDiscountFormData(discount);
     }
     // toggleAssign(member) {
@@ -59,7 +59,7 @@ class ListCategories extends React.Component {
                                         <ListGroupItem
                                             key={category.id}
                                             onClick={(e) => {
-                                                this.updateFormData(category.id);
+                                                this.updateFormData(category);
                                                 this.props.toggle();
                                                 e.preventDefault();
                                             }}>
