@@ -48,25 +48,35 @@ export function saveCategoriesInventoryGood(categories) {
     });
 }
 
-export function getHistoryWarehouseInventories(inventory) {
+export function getHistoryInventories(inventory, page, warehouse_id, loadMore) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_LOAD_HISTORY_INVENTORY_GOOD
+            type: types.BEGIN_LOAD_MORE_HISTORY_INVENTORY_GOOD
         });
-        inventoryGoodApi.getHistoryInventoriesApi(inventory.id)
+        inventoryGoodApi.getHistoryInventoriesApi(inventory.id, page, warehouse_id)
             .then(function (response) {
                 dispatch({
                     type: types.SAVE_HISTORY_INVENTORY_GOOD,
                     histories: response.data.history,
-                    inventoryInfo: inventory
+                    inventoryInfo: inventory,
+                    loadMore
                 });
             });
+    };
+}
+
+export function getWarehouseInventories(inventory) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_HISTORY_INVENTORY_GOOD
+        });
         inventoryGoodApi.getWarehouseApi(inventory.id)
             .then(function (response) {
                 dispatch({
                     type: types.SAVE_WAREHOUSE_INVENTORY_GOOD,
                     warehouses: response.data.data.warehouses
                 });
+                dispatch(getHistoryInventories(inventory, null, null, false));
             });
     };
 }
@@ -80,6 +90,18 @@ export function getInfoInventories() {
                     count: response.data.data.count,
                     totalImportMoney: response.data.data.total_import_money,
                     totalMoney: response.data.data.total_money
+                });
+            });
+    };
+}
+
+export function getWarehouseList() {
+    return function (dispatch) {
+        inventoryGoodApi.getWarehouseListApi()
+            .then(function (response) {
+                dispatch({
+                    type: types.GET_WAREHOUSES_INVENTORY_GOOD,
+                    warehousesList: response.data.warehouses
                 });
             });
     };

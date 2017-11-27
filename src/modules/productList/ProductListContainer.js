@@ -318,7 +318,7 @@ class ProductListContainer extends React.Component {
         this.props.modalProductAction.showWareHouseModal();
         this.props.modalProductAction.openWareHouseTab();
         this.props.modalProductAction.handleProduct(product);
-        this.props.inventoryGoodAction.getHistoryWarehouseInventories(product);
+        this.props.inventoryGoodAction.getWarehouseInventories(product);
     }
 
     showAvatarModal(product) {

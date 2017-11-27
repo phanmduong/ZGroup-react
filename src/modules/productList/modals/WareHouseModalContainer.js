@@ -7,10 +7,15 @@ import * as modalProductAction from './modalProductAction';
 import WareHouseTab from './WareHouseTab';
 import HistoryTab from "../../inventoryGood/HistoryTab";
 import Loading from "../../../components/common/Loading";
+import * as inventoryGoodAction from "../../inventoryGood/inventoryGoodAction";
 
 class WareHouseModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+    }
+
+    componentWillMount() {
+        this.props.inventoryGoodAction.getWarehouseList();
     }
 
     render() {
@@ -45,8 +50,12 @@ class WareHouseModalContainer extends React.Component {
                                                 <WareHouseTab
                                                     warehouses={this.props.warehouses}/> :
                                                 <HistoryTab
+                                                    warehousesList={this.props.warehousesList}
                                                     histories={this.props.histories}
-                                                    inventoryInfo={this.props.inventoryInfo}/>
+                                                    inventoryInfo={this.props.inventoryInfo}
+                                                    isLoadingMore={this.props.isLoadingMore}
+                                                    getHistoryInventories={this.props.inventoryGoodAction.getHistoryInventories}
+                                                    inventory={this.props.productPresent}/>
                                         }
                                     </div>
                                 )
@@ -69,7 +78,11 @@ WareHouseModalContainer.propTypes = {
     showWareHouseModal: PropTypes.func.isRequired,
     productEditing: PropTypes.object.isRequired,
     showWareHouse: PropTypes.bool,
-    isLoadingHistoryModal: PropTypes.bool.isRequired
+    isLoadingHistoryModal: PropTypes.bool.isRequired,
+    isLoadingMore: PropTypes.bool.isRequired,
+    inventoryGoodAction: PropTypes.object.isRequired,
+    productPresent: PropTypes.object.isRequired,
+    warehousesList: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -80,13 +93,17 @@ function mapStateToProps(state) {
         wareHouseModal: state.productList.modalInProduct.wareHouseModal,
         productEditing: state.productList.productEditing,
         showWareHouse: state.productList.showWareHouse,
-        isLoadingHistoryModal: state.inventoryGood.isLoadingHistoryModal
+        isLoadingHistoryModal: state.inventoryGood.isLoadingHistoryModal,
+        isLoadingMore: state.inventoryGood.isLoadingMore,
+        productPresent: state.productList.productEditing.productPresent,
+        warehousesList: state.inventoryGood.warehousesList
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        modalProductAction: bindActionCreators(modalProductAction, dispatch)
+        modalProductAction: bindActionCreators(modalProductAction, dispatch),
+        inventoryGoodAction: bindActionCreators(inventoryGoodAction, dispatch)
     };
 }
 

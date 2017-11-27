@@ -27,10 +27,12 @@ export default {
 
     inventoryGood: {
         isLoading: false,
+        isLoadingMore: false,
         isLoadingHistoryModal: false,
         inventories: [],
         categories: [],
         manufactures: [],
+        warehousesList: [],
         totalPages: 1,
         currentPage: 1,
         limit: 20,

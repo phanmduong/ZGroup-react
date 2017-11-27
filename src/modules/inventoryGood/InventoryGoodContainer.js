@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import * as inventoryGoodAction from './inventoryGoodAction';
+import * as modalProductAction from '../productList/modals/modalProductAction';
 import {dotNumber} from "../../helpers/helper";
 
 class InventoryGoodContainer extends React.Component {
@@ -30,6 +31,7 @@ class InventoryGoodContainer extends React.Component {
         this.manufacturesSearchChange = this.manufacturesSearchChange.bind(this);
         this.getHistoryInventories = this.getHistoryInventories.bind(this);
         this.categoriesSearchChange = this.categoriesSearchChange.bind(this);
+        this.showWareHouseModal = this.showWareHouseModal.bind(this);
     }
 
     componentWillMount() {
@@ -119,6 +121,13 @@ class InventoryGoodContainer extends React.Component {
         this.props.inventoryGoodAction.getHistoryInventories(inventory);
     }
 
+    showWareHouseModal(product) {
+        this.props.modalProductAction.showWareHouseModal();
+        this.props.modalProductAction.openWareHouseTab();
+        this.props.modalProductAction.handleProduct(product);
+        this.props.inventoryGoodAction.getWarehouseInventories(product);
+    }
+
     render() {
         let first = (this.props.currentPage - 1) * this.props.limit + 1;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
@@ -201,7 +210,7 @@ class InventoryGoodContainer extends React.Component {
                                                     this.props.isLoading ? <Loading/> : (
                                                         <InventoryGoodComponent
                                                             inventories={this.props.inventories}
-                                                            getHistoryInventories={this.getHistoryInventories}/>
+                                                            showWareHouseModal={this.showWareHouseModal}/>
                                                     )
                                                 }
                                             </div>
@@ -282,6 +291,7 @@ InventoryGoodContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     inventories: PropTypes.array.isRequired,
     inventoryGoodAction: PropTypes.object.isRequired,
+    modalProductAction: PropTypes.object.isRequired,
     manufactures: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
@@ -311,7 +321,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        inventoryGoodAction: bindActionCreators(inventoryGoodAction, dispatch)
+        inventoryGoodAction: bindActionCreators(inventoryGoodAction, dispatch),
+        modalProductAction: bindActionCreators(modalProductAction, dispatch)
     };
 }
 
