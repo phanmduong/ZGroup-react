@@ -79,17 +79,6 @@ class TaskTemplateItem extends React.Component {
                                 </span>
                             )
                         }
-                        {
-                            task.member && (
-                                <Avatar style={{
-                                    display: "inline-block",
-                                    position: "relative",
-                                    top: "7px",
-                                    marginLeft: "4px"
-                                }}
-                                        url={task.member.avatar_url} size={20}/>
-                            )
-                        }
 
                     </div>
                     <div className="timeline-body">
@@ -119,6 +108,27 @@ class TaskTemplateItem extends React.Component {
                                                         <div>{optionalBoard.board ?
                                                             optionalBoard.board.title : ""}</div>
                                                     )}
+                                                </div>
+                                            );
+                                        }
+                                    )
+                                }
+                            </div>
+                        </KeetoolPanel>
+                        <KeetoolPanel
+                            title={`Thành viên (${task.members ? task.members.length : 0} thành viên)`}>
+                            <div>
+                                {
+                                    task.members && task.members.map((member, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <Avatar style={{
+                                                        display: "inline-block",
+                                                        position: "relative",
+                                                        top: "7px",
+                                                        marginLeft: "4px"
+                                                    }} url={member.avatar_url} size={20}/>
+                                                    {member.name}
                                                 </div>
                                             );
                                         }
