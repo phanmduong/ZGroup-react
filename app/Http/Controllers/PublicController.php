@@ -23,6 +23,7 @@ use App\Notification;
 use App\Product;
 use App\Providers\AppServiceProvider;
 use App\Register;
+use App\Services\EmailService;
 use App\StudyClass;
 use App\Test;
 use App\User;
@@ -31,12 +32,33 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
 
 
 class PublicController extends Controller
 {
     private $user;
     private $data;
+    protected $emailService;
+
+    public function __construct(
+        EmailService $emailService
+    )
+    {
+        $this->data = array();
+        $this->data['rating'] = false;
+        if (!empty(Auth::user())) {
+            $this->user = Auth::user();
+            $this->data['user'] = $this->user;
+            foreach ($this->user->registers as $register) {
+                if ($register->rated == 2 && $register->staff_id > 0) {
+                    $this->data['rating'] = true;
+                    break;
+                }
+            }
+        }
+        $this->emailService = $emailService;
+    }
 
     public function redirect()
     {
@@ -72,21 +94,6 @@ class PublicController extends Controller
         return response()->json($msg, 200);
     }
 
-    public function __construct()
-    {
-        $this->data = array();
-        $this->data['rating'] = false;
-        if (!empty(Auth::user())) {
-            $this->user = Auth::user();
-            $this->data['user'] = $this->user;
-            foreach ($this->user->registers as $register) {
-                if ($register->rated == 2 && $register->staff_id > 0) {
-                    $this->data['rating'] = true;
-                    break;
-                }
-            }
-        }
-    }
 
     public function access_forbidden()
     {
@@ -246,7 +253,7 @@ class PublicController extends Controller
 
         $register->save();
 
-        send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
 
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
@@ -717,7 +724,7 @@ class PublicController extends Controller
         $register->coupon = $request->coupon;
 
         $register->save();
-        send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
 
         return redirect('register_success');
     }
@@ -893,5 +900,35 @@ class PublicController extends Controller
     public function send_noti_test()
     {
         return response()->json(send_notification_browser([], 123));
+    }
+
+    public function codeForm()
+    {
+        $test = 0;
+        return view('public.code_form');
+    }
+
+    public function check(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'code' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return redirect('/code-form')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $register_count = Register::where('code', $request->code)->count();
+        if ($register_count == 0)
+            return redirect('/code-form')
+                ->withErrors([
+                    'register' => 'not found'
+                ])->withInput();
+        $register = Register::where('code', $request->code)->first();
+        $this->data['register'] = $register;
+        $this->data['user'] = $register->user;
+        $this->data['studyClass'] = $register->studyClass;
+        $this->data['course'] = $register->studyClass->course;
+        return view('public.info', $this->data);
     }
 }

@@ -14,23 +14,22 @@
                                     <div class="col-md-6" style="margin: auto">
                                         <form role="form" id="contact-form" method="post"
                                               action="{{url('/check')}}">
+                                            {{csrf_field()}}
                                             <div class="card-block">
                                                 <div class="form-group label-floating">
-                                                    <label class="control-label">Mã học viên</label>
+                                                    <label class="control-label">Mã đăng ký khóa học</label>
                                                     <input type="text" name="code" class="form-control"
                                                            placeholder="Ví dụ: AB1234">
-                                                    @if ($errors->has('code'))
+                                                    @if($errors->has('code'))
                                                         <strong class="red-text">Xin bạn vui lòng điền mã</strong>
+                                                    @endif
+                                                    @if($errors->has('register'))
+                                                        <strong class="red-text">Không tồn tại đăng ký vui lòng điền
+                                                            lại mã</strong>
                                                     @endif
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <div class="checkbox">
-                                                            <input id="checkbox1" type="checkbox">
-                                                            <label for="checkbox1">
-                                                                Tôi không phải là robot!
-                                                            </label>
-                                                        </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <button type="submit" class="btn btn-primary pull-right">Kiểm
@@ -57,26 +56,4 @@
             });
         });
     </script>
-    {{--<div class="panel-body">--}}
-    {{--<form action="{{ url('task') }}" method="POST" class="form-horizontal">--}}
-    {{--{{ csrf_field() }}--}}
-
-    {{--<div class="form-group">--}}
-    {{--<label for="task" class="col-sm-3 control-label">Task</label>--}}
-
-    {{--<div class="col-sm-6">--}}
-    {{--<input type="text" name="name" id="task-name" class="form-control">--}}
-    {{--</div>--}}
-    {{--</div>--}}
-
-    {{--<!-- Add Task Button -->--}}
-    {{--<div class="form-group">--}}
-    {{--<div class="col-sm-offset-3 col-sm-6">--}}
-    {{--<button type="submit" class="btn btn-default">--}}
-    {{--<i class="fa fa-plus"></i> Add Task--}}
-    {{--</button>--}}
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--</form>--}}
-    {{--</div>--}}
 @endsection

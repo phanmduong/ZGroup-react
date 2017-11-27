@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use App\GroupMember;
 use App\Register;
+use App\Services\EmailService;
 use App\StudyClass;
 use App\TeleCall;
 use App\User;
@@ -19,9 +20,12 @@ use Illuminate\Support\Facades\Mail;
 
 class ManageRegisterStudentApiController extends ManageApiController
 {
-    public function __construct()
+    protected $emailService;
+
+    public function __construct(EmailService $emailService)
     {
         parent::__construct();
+        $this->emailService = $emailService;
     }
 
     public function history_call_student(Request $request)
@@ -119,7 +123,7 @@ class ManageRegisterStudentApiController extends ManageApiController
                 $class->save();
             }
 
-            send_mail_delete_register($register, $this->user);
+            $this->emailService->send_mail_delete_register($register, $this->user);
             $register->delete();
             return $this->respondSuccessWithStatus([
                 'message' => 'Xóa thành công'
@@ -241,7 +245,8 @@ class ManageRegisterStudentApiController extends ManageApiController
         ]);
     }
 
-    public function get_registers_by_user($userId){
+    public function get_registers_by_user($userId)
+    {
 //        $regis
     }
 

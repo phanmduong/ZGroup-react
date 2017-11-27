@@ -11,6 +11,7 @@ namespace Modules\Alibaba\Http\Controllers;
 use App\Gen;
 use App\Providers\AppServiceProvider;
 use App\Register;
+use App\Services\EmailService;
 use App\StudyClass;
 use App\User;
 use Illuminate\Http\Request;
@@ -19,6 +20,14 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
+    protected $emailService;
+
+    public function __construct(
+        EmailService $emailService
+    )
+    {
+        $this->emailService = $emailService;
+    }
 
     public function getRegisterClass($subfix, $classId = '', $salerId = '', $campaignId = '')
     {
@@ -73,7 +82,7 @@ class RegisterController extends Controller
 
         $register->save();
 
-        send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
 
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {

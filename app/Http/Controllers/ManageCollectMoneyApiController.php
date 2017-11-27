@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\GroupMember;
 use App\Providers\AppServiceProvider;
 use App\Register;
+use App\Services\EmailService;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -19,10 +20,12 @@ use Illuminate\Support\Facades\DB;
 
 class ManageCollectMoneyApiController extends ManageApiController
 {
+    protected $emailService;
 
-    public function __construct()
+    public function __construct(EmailService $emailService)
     {
         parent::__construct();
+        $this->emailService = $emailService;
     }
 
     public function search_registers(Request $request)
@@ -155,7 +158,7 @@ class ManageCollectMoneyApiController extends ManageApiController
                 $groupMember->save();
             }
 
-            send_mail_confirm_receive_studeny_money($register, [AppServiceProvider::$config['email']]);
+            $this->emailService->send_mail_confirm_receive_student_money($register, [AppServiceProvider::$config['email']]);
             send_sms_confirm_money($register);
         }
         $return_data = array(
@@ -180,9 +183,9 @@ class ManageCollectMoneyApiController extends ManageApiController
         $nextNumber = explode("M", $code)[1] + 1;
         $return_data["next_code"] = 'CM' . $nextNumber;
 
-        $waiting_code = Register::where('code', 'like', 'CCM%')->orderBy('code', 'desc')->first()->code;
-        $waiting_code = explode("M", $waiting_code)[1] + 1;
-        $return_data["next_waiting_code"] = 'CCM' . $waiting_code;
+//        $waiting_code = Register::where('code', 'like', 'CCM%')->orderBy('code', 'desc')->first()->code;
+//        $waiting_code = explode("M", $waiting_code)[1] + 1;
+        $return_data["next_waiting_code"] = 'CCM' . "";
 
 
         return $this->respondSuccessWithStatus($return_data);

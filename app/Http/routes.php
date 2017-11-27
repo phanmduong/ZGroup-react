@@ -88,6 +88,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::post('add-staff', "ManageStaffApiController@add_staff");
     Route::get('/get-staffs', 'ManageStaffApiController@get_staffs');
     Route::post('/create-avatar', 'ManageStaffApiController@create_avatar');
+    Route::post('/reset-password', 'ManageStaffApiController@reset_password');
     // End staff api
 
     // Begin Base api
@@ -124,6 +125,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::get('/profile', 'ManageUserApiController@get_profile');
     Route::post('/change-avatar', 'ManageUserApiController@change_avatar');
     Route::post('/edit-profile', 'ManageUserApiController@edit_profile');
+    Route::post('/change-password', 'ManageUserApiController@change_password');
     //End user api
 
     //Begin study session api
@@ -312,12 +314,13 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
 
 Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], function () {
 
+
     Route::group(['domain' => 'beta.colorme.{vn}'], function () {
         Route::get('/', 'PublicController@beta');
         Route::get('/about-us', 'PublicController@beta');
         Route::get('/post/{LinkId}', 'PublicController@beta');
         Route::get('/sign-in', 'PublicController@beta');
-        Route::get('/upload-post', 'PublicCon??troller@beta');
+        Route::get('/upload-post', 'PublicController@beta');
         Route::get('/course/{LinkId}', 'PublicController@beta');
         Route::get('/profile/{username}', 'PublicController@beta');
         Route::get('/profile/{username}/progress', 'PublicController@beta');
@@ -385,6 +388,9 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
         Route::get('sms-classes', 'ManageSmsController@smsClasses');
 
     });
+
+    Route::get('/code-form', 'PublicController@codeForm');
+    Route::post('/check', 'PublicController@check');
 
     Route::get('/mua-sach', 'PublicCrawlController@buy_book');
     Route::get('/group/{group_id}', 'PublicController@beta');

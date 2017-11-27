@@ -6,6 +6,7 @@ use App\Good;
 use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
+use App\OrderPaidMoney;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -115,8 +116,9 @@ class ImportApiController extends ManageApiController
             return [
                 'name' => $importedGood->good->name,
                 'code' => $importedGood->good->code,
+                'price' => $importedGood->good->price,
                 'quantity' => $importedGood->quantity,
-                'import_price' => $importedGood->import_price
+                'import_price' => $importedGood->import_price,
             ];
         });
         $data['order_paid_money'] = $importOrder->orderPaidMoneys->map(function ($orderPaidMoney) {
@@ -183,11 +185,10 @@ class ImportApiController extends ManageApiController
             $importedGood->staff_id = $this->user->id;
             $importedGood->warehouse_id = $request->warehouse_id;
             $importedGood->save();
-            if($request->status == 'completed')
-            {
+            if ($request->status == 'completed') {
                 $history = new HistoryGood;
-                $lastest_good_history = HistoryGood::where('good_id', $imported_good['good_id'])->orderBy('created_at', 'desc')->limit(1)->get();
-                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
+                $lastest_good_history = HistoryGood::where('good_id', $imported_good['good_id'])->orderBy('created_at', 'desc')->first();
+                $remain = $lastest_good_history ? $lastest_good_history->remain : null;
                 $history->quantity = $imported_good['quantity'];
                 $history->remain = $remain + $imported_good['quantity'];
                 $history->warehouse_id = $request->warehouse_id;
@@ -205,12 +206,11 @@ class ImportApiController extends ManageApiController
     public function deleteImportOrder($importOrderId, Request $request)
     {
         $importOrder = Order::find($importOrderId);
-        if($importOrder->status == 'completed')
+        if ($importOrder->status == 'completed')
             return $this->respondErrorWithStatus([
                 'message' => 'Cant deleted completed import order'
             ]);
-        foreach ($importOrder->importedGoods as $importedGood)
-        {
+        foreach ($importOrder->importedGoods as $importedGood) {
             $importedGood->delete();
         }
         $importOrder->delete();

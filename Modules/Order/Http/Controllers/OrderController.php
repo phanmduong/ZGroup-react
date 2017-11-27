@@ -79,39 +79,40 @@ class OrderController extends ManageApiController
     public function editOrder($order_id, Request $request)
     {
         $order = Order::find($order_id);
-        if ($request->code == null || $request->staff_id)
+        if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu code || staff_id'
+                'message' => 'Thiếu code'
             ]);
-        if($order->type == 'import' && $order->status == 'completed' && $request->status != 'completed')
+        if($order->type == 'import' && $order->status == 'completed' && trim($request->status) != 'completed')
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change status of completed import order'
             ]);
         $order->note = $request->note;
         $order->code = $request->code;
-        $order->staff_id = $request->staff_id;
+        $order->staff_id = $this->user->id;
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
-        if ($order->type == 'import' && $order->status == 'completed') {
+        if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;
             foreach ($importedGoods as $importedGood) {
                 $importedGood->status = 'completed';
                 $importedGood->save();
-//                $history = new HistoryGood;
-//                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->limit(1)->get();
-//                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
-//                $history->good_id = $importedGood->id;
-//                $history->quantity = $importedGood->id;
-//                $history->remain = $remain + $importedGood->quantity;
-//                $history->warehouse_id = $importedGood->warehouse_id;
-//                $history->type = 'import';
-//                $history->order_id = $importedGood->order_id;
-//                $history->imported_good_id = $importedGood->id;
-//                $history->save();
+                $history = new HistoryGood;
+                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->first();
+                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
+                $history->good_id = $importedGood->good_id;
+                $history->quantity = $importedGood->quantity;
+                $history->remain = $remain + $importedGood->quantity;
+                $history->warehouse_id = $importedGood->warehouse_id;
+                $history->type = 'import';
+                $history->order_id = $importedGood->order_import_id;
+                $history->imported_good_id = $importedGood->id;
+                $history->save();
             }
         }
         //thieu confirm order thi them history_goods && tru quantity imported_goods
+        //trang
         return $this->respondSuccessWithStatus([
             'message' => 'ok'
         ]);

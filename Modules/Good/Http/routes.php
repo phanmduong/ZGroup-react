@@ -7,6 +7,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/inventories/all', 'InventoryApiController@allInventories');
     Route::get('/inventories-info', 'InventoryApiController@inventoriesInfo');
     Route::get('/history/{goodId}', 'InventoryApiController@historyGoods');
+    Route::get('/warehouses/{goodId}', 'InventoryApiController@goodInWarehouses');
 
     Route::get('/all-property-items', 'GoodPropertyApiController@allPropertyItems');
     Route::delete('/delete-property-item/{property_item_id}', 'GoodPropertyApiController@deletePropertyItem');
@@ -25,7 +26,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::post('/create-good', 'GoodController@createGood');
     Route::delete('/{goodId}/delete', 'GoodController@deleteGood');
     Route::put('/{goodId}/update-price', 'GoodController@updatePrice');
-    Route::put('/edit/{goodId}', 'GoodController@editGood');
+    Route::put('/edit/{goodId}', 'GoodController@editGoodBeta');
+    Route::put('/{goodId}/edit', 'GoodController@editGood');
     Route::post('/{goodId}/create-child-good', 'GoodController@createChildGood');
     Route::get('/{goodId}', 'GoodController@good');
 

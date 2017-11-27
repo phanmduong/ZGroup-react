@@ -239,4 +239,15 @@ class ManageStaffApiController extends ManageApiController
         ]);
     }
 
+    public function reset_password(Request $request)
+    {
+        $staff = User::find($request->staff_id);
+        $staff->password = bcrypt("123456");
+        $staff->save();
+
+        return $this->respondSuccessWithStatus([
+            'message' => "Khôi phục mật khẩu thành công"
+        ]);
+    }
+
 }

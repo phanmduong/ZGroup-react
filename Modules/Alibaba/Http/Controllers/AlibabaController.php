@@ -17,6 +17,7 @@ class AlibabaController extends Controller
 {
     public function index()
     {
+//test
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->limit(3)->get();
         return view('alibaba::index', [
             'blogs' => $blogs
@@ -32,7 +33,6 @@ class AlibabaController extends Controller
     {
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(6);
         $display = "";
-
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
         return view('alibaba::blogs', [
@@ -116,10 +116,22 @@ class AlibabaController extends Controller
         $validator = Validator::make($request->all(), [
             'code' => 'required'
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect('/code-form')
                 ->withErrors($validator)
                 ->withInput();
         }
+        $register_count = Register::where('code', $request->code)->count();
+        if ($register_count == 0)
+            return redirect('/code-form')
+                ->withErrors([
+                    'register' => 'not found'
+                ])->withInput();
+        $register = Register::where('code', $request->code)->first();
+        $this->data['register'] = $register;
+        $this->data['user'] = $register->user;
+        $this->data['studyClass'] = $register->studyClass;
+        $this->data['course'] = $register->studyClass->course;
+        return view('alibaba::info', $this->data);
     }
 }

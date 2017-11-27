@@ -6,6 +6,7 @@ use App\Colorme\Transformers\RegisterTransformer;
 use App\Colorme\Transformers\StudentTransformer;
 use App\Gen;
 use App\Register;
+use App\Services\EmailService;
 use App\TeleCall;
 use App\Transaction;
 use App\User;
@@ -16,13 +17,16 @@ use Illuminate\Support\Facades\DB;
 
 class StudentApiController extends ApiController
 {
-    protected $studentTransformer, $registerTransformer;
+    protected $studentTransformer, $registerTransformer, $emailService;
 
-    public function __construct(StudentTransformer $studentTransformer, RegisterTransformer $registerTransformer)
+    public function __construct(StudentTransformer $studentTransformer,
+                                EmailService $emailService,
+                                RegisterTransformer $registerTransformer)
     {
         parent::__construct();
         $this->studentTransformer = $studentTransformer;
         $this->registerTransformer = $registerTransformer;
+        $this->emailService = $emailService;
     }
 
     public function get_newest_code()
@@ -112,7 +116,7 @@ class StudentApiController extends ApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
-            send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
+            $this->emailService->send_mail_confirm_receive_student_money($register, ["colorme.idea@gmail.com"]);
             send_sms_confirm_money($register);
         }
         $return_data = array(
@@ -180,7 +184,7 @@ class StudentApiController extends ApiController
         }
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
-        $registers->map(function ($register){
+        $registers->map(function ($register) {
 
         });
         foreach ($registers as &$register) {

@@ -10,8 +10,11 @@ namespace Modules\Good\Repositories;
 
 
 use App\Project;
+use App\Task;
+use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
+use Modules\Good\Entities\GoodPropertyItemTask;
 use Modules\Task\Entities\TaskList;
 
 class GoodRepository
@@ -24,32 +27,52 @@ class GoodRepository
         });
     }
 
-    public function getPropertyItems($type)
+    public function getPropertyItems($type, $task)
     {
-        $order = 0;
+        $goodPropertyItemIds = GoodPropertyItemTask::select("good_property_item_task.*")->join('tasks', 'tasks.id', '=', 'good_property_item_task.task_id')
+            ->where("tasks.task_list_id", $task->task_list_id)->pluck("good_property_item_id");
+
         $goodPropertyItems = GoodPropertyItem::where("type", $type)
-            ->orderBy("name")->get()->map(function ($item) use ($order) {
-            return [
-                "label" => $item->name,
-                "value" => $item->name,
-                "id" => $item->id,
-                "order" => 0
-            ];
-        });
+            ->whereNotIn("id", $goodPropertyItemIds)
+            ->orderBy("name")->get()->map(function ($item) use ($task) {
+                $goodPropertyItemTask = GoodPropertyItemTask::where("good_property_item_id", $item->id)
+                    ->where("task_id", $task->id)->first();
+                return [
+                    "name" => $item->name,
+                    "label" => $item->name,
+                    "value" => $item->id,
+                    "id" => $item->id,
+                    "order" => $goodPropertyItemTask ? $goodPropertyItemTask->order : 0
+                ];
+            });
         return $goodPropertyItems;
     }
 
-    public function getProjectBoards($type)
+    public function getProjectBoards($type, $task)
     {
         $project = Project::where("status", $type)->first();
-        return $project->boards()->where("status", "open")->get()->map(function ($board) {
-            return [
-                "id" => $board->id,
-                "title" => $board->title,
-                "label" => $board->title,
-                "value" => $board->id
-            ];
-        });
+        $taskList = $task->taskList;
+        if ($taskList == null) {
+            return [];
+        }
+        $taskIds = $taskList->tasks()->pluck("id");
+        $notIncludedBoardIds = BoardTaskTaskList::whereIn("task_id", $taskIds)->pluck("board_id");
+
+        $boardIds = $taskList->tasks()->where("id", "!=", $task->id)
+            ->whereNotIn("current_board_id", $notIncludedBoardIds)
+            ->pluck('current_board_id');
+
+        return $project->boards()
+            ->where("status", "open")
+            ->whereIn("id", $boardIds)
+            ->get()->map(function ($board) {
+                return [
+                    "id" => $board->id,
+                    "title" => $board->title,
+                    "label" => $board->title,
+                    "value" => $board->id
+                ];
+            });
     }
 
     public function saveGoodProperties($goodProperties, $goodId)

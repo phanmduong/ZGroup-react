@@ -58,15 +58,6 @@ class TaskListTemplateRepository
                 $task->save();
             }
         }
-
-        $tasks = $taskListTemplate->tasks()->orderBy("order")->get();
-        $count = count($tasks);
-        for ($i = 0; $i < $count - 1; $i += 1) {
-            $task = $tasks->get($i);
-            $nextTask = $tasks->get($i + 1);
-            $task->target_board_id = $nextTask->current_board_id;
-            $task->save();
-        }
         return $taskListTemplate;
     }
 }

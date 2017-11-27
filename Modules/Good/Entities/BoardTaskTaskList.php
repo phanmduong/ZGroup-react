@@ -15,21 +15,12 @@ class BoardTaskTaskList extends Model
         return $this->belongsTo(Board::class, "board_id");
     }
 
-    public function taskList()
-    {
-        return $this->belongsTo(TaskList::class, "task_list_id");
-    }
-
     public function transform()
     {
         return [
             "board" => [
                 "id" => $this->board->id,
                 "title" => $this->board->title
-            ],
-            "process" => [
-                "id" => $this->taskList->id,
-                "title" => $this->taskList->title
             ]
         ];
     }

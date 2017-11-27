@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
+use Modules\Task\Entities\TaskList;
 
 class GoodPropertyApiController extends ManageApiController
 {
@@ -115,12 +116,12 @@ class GoodPropertyApiController extends ManageApiController
     public function addPropertyItemsTask($task_id, Request $request)
     {
         $goodPropertyItems = json_decode($request->good_property_items);
-        $optionalBoards = json_decode($request->optional_boards);
+        $selectedBoards = json_decode($request->selected_boards);
 
         $task = Task::find($task_id);
         $task->current_board_id = $request->current_board_id;
-        $task->target_board_id = $request->target_board_id;
         $task->goodPropertyItems()->detach();
+        
         foreach ($goodPropertyItems as $item) {
             $task->goodPropertyItems()->attach($item->id, ['order' => $item->order]);
         }
@@ -133,10 +134,9 @@ class GoodPropertyApiController extends ManageApiController
 
         BoardTaskTaskList::where("task_id", $task_id)->delete();
 
-        foreach ($optionalBoards as $optionalBoard) {
+        foreach ($selectedBoards as $selectedBoard) {
             $boardTaskTaskList = new BoardTaskTaskList();
-            $boardTaskTaskList->board_id = $optionalBoard->board->id;
-            $boardTaskTaskList->task_list_id = $optionalBoard->process->id;
+            $boardTaskTaskList->board_id = $selectedBoard->id;
             $boardTaskTaskList->task_id = $task_id;
             $boardTaskTaskList->save();
         }
