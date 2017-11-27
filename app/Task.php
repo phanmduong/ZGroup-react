@@ -73,7 +73,6 @@ class Task extends Model
 
 
         $data['current_board_id'] = $this->current_board_id;
-        $data['target_board_id'] = $this->target_board_id;
         $data['order'] = $this->order;
 
         if ($this->goodPropertyItemTasks) {
