@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\EmailForm;
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Mail;
  * Date: 11/26/17
  * Time: 17:15
  */
-
 class EmailService
 {
 
@@ -115,8 +115,10 @@ class EmailService
             '[[COURSE_NAME]]' => $course->name,
             '[[COURSE_DURATION]]' => $course->duration,
             '[[COURSE_PRICE]]' => currency_vnd_format($course->price),
+            '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ""),
             '[[CLASS_NAME]]' => $class->name,
             '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ": " . $class->base->address : ""),
+            '[[CLASS_DATE_START]]' => $class->datestart,
             '[[USER_NAME]]' => $user->name,
             '[[USER_EMAIL]]' => $user->email,
             '[[USER_PHONE]]' => $user->phone,
@@ -156,6 +158,7 @@ class EmailService
             '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ": " . $class->base->address : ""),
             '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ""),
             '[[CLASS_STUDY_TIME]]' => $class->study_time,
+            '[[CLASS_DATE_START]]' => $class->datestart,
             '[[USER_NAME]]' => $user->name,
             '[[USER_EMAIL]]' => $user->email,
             '[[USER_PHONE]]' => $user->phone,
@@ -163,6 +166,7 @@ class EmailService
             '[[REGISTER_PAID_TIME]]' => $register->paid_time,
             '[[REGISTER_MONEY]]' => currency_vnd_format($register->money),
             '[[REGISTER_CODE]]' => $register->code,
+
 
         );
 
@@ -251,6 +255,7 @@ class EmailService
             '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ": " . $class->base->address : ""),
             '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ""),
             '[[CLASS_STUDY_TIME]]' => $class->study_time,
+            '[[CLASS_DATE_START]]' => $class->datestart,
             '[[USER_NAME]]' => $user->name,
             '[[USER_EMAIL]]' => $user->email,
             '[[USER_PHONE]]' => $user->phone,
@@ -285,6 +290,7 @@ class EmailService
             '[[CLASS_ADDRESS]]' => ($class->base ? $class->base->name . ": " . $class->base->address : ""),
             '[[CLASS_ROOM]]' => ($class->room ? $class->room->name : ""),
             '[[CLASS_STUDY_TIME]]' => $class->study_time,
+            '[[CLASS_DATE_START]]' => $class->datestart,
             '[[USER_NAME]]' => $user->name,
             '[[USER_EMAIL]]' => $user->email,
             '[[USER_PHONE]]' => $user->phone,
