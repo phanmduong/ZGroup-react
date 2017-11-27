@@ -69,7 +69,8 @@ const appReducer = combineReducers({
     shiftSessions: shiftSessionsReducer,
     courses: courseReducer,
     coursesCreateEdit: courseReducer,
-    lessons: lessonsReducer
+    lessons: lessonsReducer,
+
 });
 
 const rootReducer = (state, action) => {

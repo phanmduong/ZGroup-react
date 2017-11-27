@@ -64,6 +64,7 @@ import coursesCreateEditDocuments from "./modules/courses/coursesForm/coursesCre
 import coursesCreateEditStudying from "./modules/courses/coursesForm/coursesCreateEditStudying";
 import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCreateEditInterested";
 import LessonsContainer from "./modules/lessons/LessonsContainer";
+import AttendanceContainer from "./modules/attendance/AttendanceContainer";
 
 export default (
     <Route>
@@ -221,8 +222,12 @@ export default (
             {/*End course routes */}
 
             {/*End lessons routes */}
-            <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
-            <Route path="/manage/courses/lessons/create/:courseId" component={LessonsContainer}/>
+                <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
+                <Route path="/manage/courses/lessons/create/:courseId" component={LessonsContainer}/>
+            {/*End lessons routes */}
+
+            {/*Begin lessons routes */}
+                <Route path="/manage/attendance" component={AttendanceContainer}/>
             {/*End lessons routes */}
 
         </Route>

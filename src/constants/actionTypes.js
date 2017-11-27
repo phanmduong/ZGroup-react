@@ -1,3 +1,6 @@
+{/*Begin Attendance Actions*/}
+{/*End Attendance Actions*/}
+
 {/*Begin Course Actions*/}
 export const BEGIN_LOAD_COURSES_DATA = 'BEGIN_LOAD_COURSES_DATA';
 export const LOADED_COURSES_DATA = 'LOAD_COURSES_DATA';
@@ -56,9 +59,6 @@ export const CREATE_LINK_ERROR = 'CREATE_LINK_ERROR';
 export const BEGIN_EDIT_LINK = 'BEGIN_EDIT_LINK';
 export const EDIT_LINK_SUCCESS = 'EDIT_LINK_SUCCESS';
 export const EDIT_LINK_ERROR = 'EDIT_LINK_ERROR';
-
-
-
 {/*End Course Actions*/}
 
 
