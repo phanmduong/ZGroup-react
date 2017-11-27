@@ -23,7 +23,7 @@ class AddCustomerOverlay extends React.Component {
             <div style={{position: "relative"}}>
                 <a className="btn btn-default card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
-                    <i className="material-icons">people</i> Thành viên
+                    <i className="material-icons">people</i> Khách hàng
                 </a>
                 <Overlay
                     rootClose={true}
@@ -32,7 +32,9 @@ class AddCustomerOverlay extends React.Component {
                     placement="top"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <ListCustomers/>
+                    <ListCustomers
+                        toggle = {this.toggle}
+                    />
                 </Overlay>
             </div>
 

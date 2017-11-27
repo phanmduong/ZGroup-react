@@ -41,6 +41,21 @@ class AddDiscountContainer extends React.Component {
         }
         e.preventDefault();
     }
+    resetDiscount(){
+        const discount = {
+            name: '',
+            description: '',
+            discount_type : '',
+            discount_value : '',
+            type : '',
+            used_for : '',
+            start_time : '',
+            end_time : '',
+            customer_id : '',
+            category_id : '',
+            good_id : '',};
+        this.props.addDiscountActions.updateDiscountFormData(discount);
+    }
 
     render() {
         return (
@@ -87,8 +102,8 @@ class AddDiscountContainer extends React.Component {
                                                 <i className="material-icons">save</i> Lưu
                                             </button>
                                         }
-                                        <button rel="tooltip" data-placement="top" title
-                                                data-original-title="Remove item" className="btn btn-danger btn-sm">
+                                        <button data-original-title="Remove item" className="btn btn-danger btn-sm"
+                                        onClick={() => this.resetDiscount()}>
                                             <i className="material-icons">cancel</i> Huỷ
                                         </button>
                                     </div>

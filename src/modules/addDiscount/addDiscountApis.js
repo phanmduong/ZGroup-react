@@ -16,6 +16,9 @@ export function addDiscountApi(discount) {
         'start_time' : discount.start_time,
         'end_time' : discount.end_time,
         'used_for' : discount.used_for,
+        'customer_id' : discount.customer_id,
+        'category_id' : discount.category_id,
+        'good_id' : discount.good_id,
     });
 }
 

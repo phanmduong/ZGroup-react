@@ -33,11 +33,15 @@ class AddDiscountComponent extends React.Component {
         let {discount_value, discount_type, type, used_for, description ,name , start_time , end_time} = this.props.discount;
         let TYPE = [
             {
-                name: 'mã khuyến mãi',
+                name : '',
+                id : '',
+            },
+            {
+                name: 'Mã khuyến mãi',
                 id: 'code',
             },
             {
-                name: 'chương trình khuyến mãi',
+                name: 'Chương trình khuyến mãi',
                 id: 'program',
             },
         ];
@@ -55,11 +59,11 @@ class AddDiscountComponent extends React.Component {
                 id: 'order',
             },
             {
-                name: 'Mặt hàng',
+                name: 'Hàng hóa',
                 id: 'good',
             },
             {
-                name: 'Nhóm hàng',
+                name: 'Danh mục',
                 id: 'category',
             },
             {

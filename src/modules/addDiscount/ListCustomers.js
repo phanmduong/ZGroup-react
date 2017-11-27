@@ -63,7 +63,7 @@ class ListCustomers extends React.Component {
                 marginLeft: -80,
             }}>
                 <button
-                    // onClick={this.props.toggle}
+                    onClick={this.props.toggle}
                     type="button" className="close"
                     style={{color: '#5a5a5a'}}>
                     <span aria-hidden="true">×</span>
@@ -87,6 +87,7 @@ class ListCustomers extends React.Component {
                                             onClick={(e) => {
                                                 this.updateFormData(customer.id);
                                                 e.preventDefault();
+                                                this.props.toggle();
                                             }}>
 
                                             <div style={{
@@ -124,6 +125,7 @@ ListCustomers.propTypes = {
     isLoading: PropTypes.bool,
     addDiscountActions: PropTypes.object.isRequired,
     totalCustomerPages : PropTypes.number,
+    toggle : PropTypes.func,
 };
 
 function mapStateToProps(state) {
