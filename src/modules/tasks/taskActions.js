@@ -982,11 +982,11 @@ export function closeAddMemberToTaskModal() {
     };
 }
 
-export function updateAssignMemberToTaskForm(member) {
+export function updateAssignMemberToTaskForm(members) {
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_ASSIGN_MEMBER_TO_TASK_FORM,
-            member
+            members
         });
     };
 }
