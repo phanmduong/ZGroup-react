@@ -79,7 +79,7 @@ class OrderController extends ManageApiController
     public function editOrder($order_id, Request $request)
     {
         $order = Order::find($order_id);
-        if ($request->code == null)
+        if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
             ]);
@@ -93,20 +93,20 @@ class OrderController extends ManageApiController
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
-        if ($order->type == 'import' && $order->status == 'completed') {
+        if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;
             foreach ($importedGoods as $importedGood) {
                 $importedGood->status = 'completed';
                 $importedGood->save();
                 $history = new HistoryGood;
-                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->limit(1)->get();
-                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
-                $history->good_id = $importedGood->id;
-                $history->quantity = $importedGood->id;
+                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->first();
+                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
+                $history->good_id = $importedGood->good_id;
+                $history->quantity = $importedGood->quantity;
                 $history->remain = $remain + $importedGood->quantity;
                 $history->warehouse_id = $importedGood->warehouse_id;
                 $history->type = 'import';
-                $history->order_id = $importedGood->order_id;
+                $history->order_id = $importedGood->order_import_id;
                 $history->imported_good_id = $importedGood->id;
                 $history->save();
             }

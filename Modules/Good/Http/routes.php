@@ -7,6 +7,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/inventories/all', 'InventoryApiController@allInventories');
     Route::get('/inventories-info', 'InventoryApiController@inventoriesInfo');
     Route::get('/history/{goodId}', 'InventoryApiController@historyGoods');
+    Route::get('/warehouses/{goodId}', 'InventoryApiController@goodInWarehouses');
 
     Route::get('/all-property-items', 'GoodPropertyApiController@allPropertyItems');
     Route::delete('/delete-property-item/{property_item_id}', 'GoodPropertyApiController@deletePropertyItem');
