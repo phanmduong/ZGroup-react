@@ -1,15 +1,27 @@
 export default {
-
     createProduct: {
         categories: [],
         manufactures: [],
         isUploadingAvatar: false,
         percent: 0,
+        productWorking: {
+            name: '',
+            code: '',
+            description: '',
+            price: '',
+            avatar_url: '',
+            sale_status: false,
+            highlight_status: false,
+            display_status: false,
+            manufacture_id: '',
+            good_category_id: '',
+            images_url: [],
+        },
+        isUploadingImage: false,
+        isLoading: false,
         avatar_url: '',
-        images: [],
-        isUploadingImage: false
+        images: []
     },
-
 
     globalLoading: {
         isLoading: false
@@ -314,7 +326,7 @@ export default {
             members: [],
             task: {},
             isSaving: false,
-            selectedMember: null
+            selectedMember: []
         },
         commentCard: {
             value: "",
@@ -918,7 +930,7 @@ export default {
         isUploadingLink: false,
         error: false,
         coursesList: [],
-        isDeleting : false,
+        isDeleting: false,
         paginator: {
             total_count: 1,
             total_pages: 1,
@@ -934,7 +946,7 @@ export default {
         updateCoverError: false,
         isCommitting: false,
         commitSuccess: false,
-        data:{
+        data: {
             id: null,
             name: "",
             duration: "",
@@ -963,21 +975,21 @@ export default {
             link_icon: "",
         }
     },
-    lessons:{
-      isLoading: false,
-      isCommitting: false,
-      commitSuccess: false,
-      data: {
-          id: null,
-          course_id: 1,
-          name: "",
-          description: "",
-          detail: "",
-          order: "",
-          detail_content: "",
-          detail_teacher: "",
-          created_at: "",
-      }
+    lessons: {
+        isLoading: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            course_id: 1,
+            name: "",
+            description: "",
+            detail: "",
+            order: "",
+            detail_content: "",
+            detail_teacher: "",
+            created_at: "",
+        }
     },
 
     marketingCampaigns: {

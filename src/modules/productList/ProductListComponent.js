@@ -64,14 +64,14 @@ class ProductListComponent extends React.Component {
                                         {
                                             product.category ? (
                                                 product.category.name
-                                            ): "Chưa có"
+                                            ) : "Chưa có"
                                         }
                                     </td>
                                     <td style={{width: "120px"}}>
                                         {
                                             product.manufacture ? (
                                                 product.manufacture.name
-                                            ): "Chưa có"
+                                            ) : "Chưa có"
                                         }
                                     </td>
                                     <td>
@@ -90,7 +90,7 @@ class ProductListComponent extends React.Component {
                                     </td>
                                     <td>
                                         <div className="btn-group-action">
-                                            <Link to={`/good/${product.id}/edit`}
+                                            <Link to={`/product/${product.id}/edit`}
                                                   style={{color: "#878787"}}
                                                   data-toggle="tooltip" title=""
                                                   type="button" rel="tooltip"

@@ -21,9 +21,6 @@ export function getProducts(page, search, start_time, end_time, manufacture_id, 
                     productsHighlight: response.data.data.highlight_on,
                     productsNotHighlight: response.data.data.highlight_off
                 });
-            })
-            .catch(function (error) {
-                throw(error);
             });
         productListApi.getProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status)
             .then(function (response) {
@@ -39,9 +36,6 @@ export function getProducts(page, search, start_time, end_time, manufacture_id, 
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
                     updated: false
                 });
-            })
-            .catch(function (error) {
-                throw(error);
             });
     };
 }
@@ -61,9 +55,6 @@ export function getProductsStatus(status) {
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
                     updated: false
                 });
-            })
-            .catch(function (error) {
-                throw (error);
             });
     };
 }
@@ -81,9 +72,6 @@ export function updatePrice(productPresent) {
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
                     modalUpdated: true
                 });
-            })
-            .catch(function (error) {
-                throw (error);
             });
     };
 }
@@ -119,7 +107,6 @@ export function changeAvatar(file) {
         dispatch({
             type: types.BEGIN_UPLOAD_PRODUCT_AVATAR
         });
-
         productListApi.changeAvatarApi(file,
             completeHandler, progressHandler, error);
     };
@@ -151,9 +138,6 @@ export function uploadEditProduct(productPresent, manufacture_id, category_id) {
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
                     modalUpdated: true
                 });
-            })
-            .catch(function (error) {
-                throw(error);
             });
     };
 }
@@ -166,9 +150,6 @@ export function getManufacturesProductsList() {
                     type: types.GET_MANUFACTURES_PRODUCTS_LIST,
                     manufactures: response.data.data.manufactures
                 });
-            })
-            .catch(function (error) {
-                throw(error);
             });
     };
 }
@@ -178,9 +159,6 @@ export function getCategoriesProductsList() {
         productListApi.getCategoriesApi()
             .then(function (response) {
                 dispatch(saveCategoriesProductsList(superSortCategories(response.data.data[0].good_categories)));
-            })
-            .catch(function (error) {
-                throw(error);
             });
     };
 }

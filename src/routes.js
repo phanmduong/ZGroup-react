@@ -82,10 +82,12 @@ import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCam
 import CreateProductContainer from "./modules/createProduct/CreateProductContainer";
 import ProductSystemContainer from "./modules/createProduct/ProductSystemContainer";
 import ProductWebsiteContainer from "./modules/createProduct/ProductWebsiteContainer";
+import EditProductContainer from "./modules/createProduct/EditProductContainer";
 import SummaryMarketingCampaignContainer from "./modules/summaryMarketingCampaign/SummaryMarketingCampaignContainer";
 import SummarySalesContainer from "./modules/summarySales/SummarySalesContainer";
 import OverviewSales from "./modules/summarySales/OverviewSales";
 import StatisticSales from "./modules/summarySales/StatisticSales";
+
 
 export default (
     <Route>
@@ -285,6 +287,9 @@ export default (
             {/*End customer routes*/}
 
 
+            {/*Begin create-product routes */}
+            <Route path="/create-product" component={CreateProductContainer} type="create">
+
             {/*Begin marketing campaigns routes */}
             <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
             <Route path="/marketing-campaign/summary" component={SummaryMarketingCampaignContainer}/>
@@ -298,11 +303,18 @@ export default (
             {/*End sales routes*/}
 
             {/*Begin customer routes */}
-            <Route path="/create-product" component={CreateProductContainer}>
+            
                 <IndexRoute component={ProductSystemContainer}/>
                 <Route path="website-display" component={ProductWebsiteContainer}/>
             </Route>
-            {/*End warehouse routes*/}
+            {/*End create-product routes*/}
+
+            {/*Begin edit-product routes */}
+            <Route path="/product/:productId/edit" component={EditProductContainer} type="edit">
+                <IndexRoute component={ProductSystemContainer}/>
+                <Route path="website-display" component={ProductWebsiteContainer}/>
+            </Route>
+            {/*End edit-product routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

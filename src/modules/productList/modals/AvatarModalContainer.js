@@ -27,11 +27,19 @@ class AvatarModalContainer extends React.Component {
     }
 
     changeSelectManufacture(value) {
-        this.props.modalProductAction.handleManufacture(value.id);
+        if (value) {
+            this.props.modalProductAction.handleManufacture(value.id);
+        } else {
+            this.props.modalProductAction.handleManufacture('');
+        }
     }
 
     changeSelectCategory(value) {
-        this.props.modalProductAction.handleCategory(value.id);
+        if (value) {
+            this.props.modalProductAction.handleCategory(value.id);
+        } else {
+            this.props.modalProductAction.handleCategory('');
+        }
     }
 
     removeImageChange(e) {
