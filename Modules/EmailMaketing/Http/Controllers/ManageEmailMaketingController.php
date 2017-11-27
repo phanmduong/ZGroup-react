@@ -150,9 +150,9 @@ class ManageEmailMaketingController extends ManageApiController
     public function delete_email_form($email_form_id)
     {
         $email_form = EmailForm::where('id', $email_form_id)->first();
-        
+
         if ($email_form->type == "system") {
-            $this->respondErrorWithStatus("Không thể xóa email form này");
+            return $this->respondErrorWithStatus("Không thể xóa email form này");
         }
 
         $email_form->delete();
