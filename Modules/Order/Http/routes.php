@@ -12,6 +12,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('total-and-debt-money','CustomerController@countMoney');
     Route::post('add-customer','CustomerController@addCustomer');
     Route::put('edit-customer/{customerId}','CustomerController@editCustomer');
+    Route::get('/info-customer/{customerId}','CustomerController@getInfoCustomer');
 
     Route::get('/category/all', 'CategoryApiController@allCategory');
     Route::post('/category/add', 'CategoryApiController@addCategory');
@@ -21,6 +22,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/import-orders', 'ImportApiController@allImportOrders');
     Route::get('/detailed-import-order/{importOrderId}', 'ImportApiController@detailedImportOrder');
     Route::post('/add-import-order-goods', 'ImportApiController@addImportOrderGoods');
+    Route::delete('/import-order/delete/{importOrderId}', 'ImportApiController@deleteImportOrder');
 
     Route::post('/add-supplier', 'WarehouseApiController@addSupplier');
     Route::put('/supplier/{supplier_id}/edit', 'WarehouseApiController@editSupplier');

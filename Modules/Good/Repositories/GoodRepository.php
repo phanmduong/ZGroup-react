@@ -29,27 +29,35 @@ class GoodRepository
         $order = 0;
         $goodPropertyItems = GoodPropertyItem::where("type", $type)
             ->orderBy("name")->get()->map(function ($item) use ($order) {
-            return [
-                "label" => $item->name,
-                "value" => $item->name,
-                "id" => $item->id,
-                "order" => 0
-            ];
-        });
+                return [
+                    "label" => $item->name,
+                    "value" => $item->name,
+                    "id" => $item->id,
+                    "order" => 0
+                ];
+            });
         return $goodPropertyItems;
     }
 
-    public function getProjectBoards($type)
+    public function getProjectBoards($type, $task)
     {
         $project = Project::where("status", $type)->first();
-        return $project->boards()->where("status", "open")->get()->map(function ($board) {
-            return [
-                "id" => $board->id,
-                "title" => $board->title,
-                "label" => $board->title,
-                "value" => $board->id
-            ];
-        });
+        $taskList = $task->taskList;
+        if ($taskList == null) {
+            return [];
+        }
+        $boardIds = $taskList->tasks()->pluck('current_board_id');
+        return $project->boards()
+            ->where("status", "open")
+            ->whereIn("id", $boardIds)
+            ->get()->map(function ($board) {
+                return [
+                    "id" => $board->id,
+                    "title" => $board->title,
+                    "label" => $board->title,
+                    "value" => $board->id
+                ];
+            });
     }
 
     public function saveGoodProperties($goodProperties, $goodId)

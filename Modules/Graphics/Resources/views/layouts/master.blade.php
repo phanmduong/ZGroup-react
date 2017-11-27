@@ -13,14 +13,14 @@
 
     <link href="/fontawesome/css/font-awesome.min.css" rel="stylesheet"/>
 
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/assets/css/paper-kit.css" rel="stylesheet"/>
-    <link href="/assets/css/demo.css" rel="stylesheet"/>
+    <link href="/graphics-assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/graphics-assets/css/paper-kit.css" rel="stylesheet"/>
+    <link href="/graphics-assets/css/demo.css" rel="stylesheet"/>
 
     <!--     Fonts and icons     -->
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/assets/css/nucleo-icons.css" rel="stylesheet">
+    <link href="/graphics-assets/css/nucleo-icons.css" rel="stylesheet">
     <script>
         window.url = "{{url("/")}}";
         window.token = "{{csrf_token()}}";
@@ -337,10 +337,10 @@
 </body>
 
 <!-- Core JS Files -->
-<script src="/assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
-<script src="/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
-<script src="/assets/js/tether.min.js" type="text/javascript"></script>
-<script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="/assets/js/paper-kit.js?v=2.0.0"></script>
+<script src="/graphics-assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="/graphics-assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
+<script src="/graphics-assets/js/tether.min.js" type="text/javascript"></script>
+<script src="/graphics-assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/graphics-assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="/js/graphics.js?6868"></script>
 </html>

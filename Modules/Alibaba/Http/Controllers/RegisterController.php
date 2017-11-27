@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Validator;
 class RegisterController extends Controller
 {
 
-    public function getRegisterClass($subfix, $classId, $salerId, $campaignId)
+    public function getRegisterClass($subfix, $classId = '', $salerId = '', $campaignId = '')
     {
 
         $class = StudyClass::find($classId);
@@ -73,7 +73,7 @@ class RegisterController extends Controller
 
         $register->save();
 
-//        send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
 
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
@@ -87,6 +87,4 @@ class RegisterController extends Controller
             'class' => $class
         ]);
     }
-
-
 }

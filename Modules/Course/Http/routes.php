@@ -9,7 +9,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/create-edit', 'CourseController@createOrEdit');
     Route::get('/get-detailed-link/{link_id}', 'CourseController@detailedLink');
     Route::post('/create-link', 'CourseController@createLink');
-    Route::post('/edit-link/{linkId}', 'CourseController@editLink');
+    Route::put('/edit-link/{linkId}', 'CourseController@editLink');
     Route::delete('/delete-link/{link_id}', 'CourseController@deleteLink');
     Route::post('/lesson/add/{courseId}', 'CourseController@addLesson');
     Route::put('/lesson/edit/{lessonId}', 'CourseController@editLesson');
