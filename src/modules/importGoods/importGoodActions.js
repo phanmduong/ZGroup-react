@@ -54,25 +54,28 @@ export function updateFormImportGood(formImportGood) {
     });
 }
 
-export function storeImportGood(formImportGood) {
+export function storeImportGood(formImportGood, status) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_STORE_IMPORT_GOOD
         });
-        importGoodsApi.createImportGoods(formImportGood)
+        importGoodsApi.createImportGoods(formImportGood, status)
             .then((res) => {
                 if (res.data.status === 1) {
+                    helper.showNotification("Lưu thành công.");
                     browserHistory.push('/import-goods');
                     dispatch({
                         type: types.STORE_IMPORT_GOOD_SUCCESS
                     });
                 } else {
+                    helper.showNotification("Có lỗi xảy ra.");
                     dispatch({
                         type: types.STORE_IMPORT_GOOD_ERROR
                     });
                 }
             })
             .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
                 dispatch({
                     type: types.STORE_IMPORT_GOOD_ERROR
                 });

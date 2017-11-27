@@ -203,9 +203,9 @@ class StoreImportContainer extends React.Component {
         this.props.importGoodActions.updateFormImportGood(formImportGood);
     }
 
-    storeImportGood() {
+    storeImportGood(status) {
         if (this.props.formImportGood.warehouse_id) {
-            this.props.importGoodActions.storeImportGood(this.props.formImportGood);
+            this.props.importGoodActions.storeImportGood(this.props.formImportGood, status);
         } else {
             helper.showWarningNotification("Vui lòng chọn kho hàng");
         }
@@ -263,7 +263,7 @@ class StoreImportContainer extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-9">
+                    <div className="col-md-8">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose">
                                 <i className="material-icons">assignment</i>
@@ -290,7 +290,7 @@ class StoreImportContainer extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">announcement</i></div>
@@ -415,15 +415,28 @@ class StoreImportContainer extends React.Component {
 
                                     {
                                         this.props.isStoring ?
-                                            <button className="btn btn-sm btn-success"
+                                            <button className="btn btn-sm btn-info disabled"
+                                            >
+                                                <i className="fa fa-spinner fa-spin"/> Đang lưu tạm
+                                            </button>
+                                            :
+                                            <button className="btn btn-sm btn-info"
+                                                    onClick={() => this.storeImportGood("uncompleted")}
+                                            >
+                                                <i className="material-icons">save</i> Lưu tạm
+                                            </button>
+                                    }
+                                    {
+                                        this.props.isStoring ?
+                                            <button className="btn btn-sm btn-success disabled"
                                             >
                                                 <i className="fa fa-spinner fa-spin"/> Đang lưu
                                             </button>
                                             :
                                             <button className="btn btn-sm btn-success"
-                                                    onClick={this.storeImportGood}
+                                                    onClick={() => this.storeImportGood("completed")}
                                             >
-                                                <i className="material-icons">save</i> Lưu
+                                                <i className="material-icons">save</i> Hoàn thành
                                             </button>
                                     }
                                     <button className="btn btn-sm btn-danger">
