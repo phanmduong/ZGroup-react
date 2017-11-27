@@ -18,3 +18,48 @@ export function addDiscountApi(discount) {
         'used_for' : discount.used_for,
     });
 }
+
+export function loadCustomersApi(limit , page , query ) {
+    let url = env.MANAGE_API_URL + "/order/all-customers?";
+    let token = localStorage.getItem('token');
+    if (limit){
+        url += "&limit=" + limit;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (query) {
+        url += "&search=" + query;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadGoodsApi(limit , page , query ) {
+    let url = env.MANAGE_API_URL + "/good/all?";
+    let token = localStorage.getItem('token');
+    if (limit){
+        url += "&limit=" + limit;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (query) {
+        url += "&search=" + query;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadCategoriesApi() {
+    let url = env.MANAGE_API_URL + "/order/category/all?";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}

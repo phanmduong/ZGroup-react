@@ -1,14 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormInputText from '../../components/common/FormInputText';
-import ReactSelect from 'react-select';
+// import ReactSelect from 'react-select';
 import FormInputSelect from '../../components/common/FormInputSelect';
 import FormInputDate from '../../components/common/FormInputDate';
+// import {Overlay} from "react-bootstrap";
+// import * as ReactDOM from "react-dom";
+// import ListCustomers from './ListCustomers';
+import AddCustomerOverlay from "./AddCustomerOverlay";
+import AddGoodOverlay from "./AddGoodOverlay";
+import AddCategoryOverlay from "./AddCategoryOverlay";
+
+
+
+
 
 
 class AddDiscountComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+          isShowModal : false,
+        };
+        this.toggle = this.toggle.bind(this);
+    }
+
+    toggle() {
+        this.setState({isShowModal: !this.state.isShowModal});
     }
 
     render() {
@@ -160,6 +178,13 @@ class AddDiscountComponent extends React.Component {
 
 
 
+                                <AddCustomerOverlay />
+                                <AddGoodOverlay />
+                                <AddCategoryOverlay />
+
+
+
+
                             </div>
                         </div>
                     </div>
@@ -202,7 +227,6 @@ class AddDiscountComponent extends React.Component {
                             </div>
                         </div>
                     </div>
-
 
 
                 </div>

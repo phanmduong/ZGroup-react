@@ -10,6 +10,7 @@ import * as helper from '../../helpers/helper';
 // import {CUSTOMTYPE} from '../../constants/constants';
 
 
+
 class AddDiscountContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -91,6 +92,7 @@ class AddDiscountContainer extends React.Component {
                                             <i className="material-icons">cancel</i> Huỷ
                                         </button>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

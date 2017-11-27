@@ -893,7 +893,12 @@ export default {
 
     addDiscount :{
         isSaving : false,
-        isLoading: true,
+        isLoading: false,
+        customers : [],
+        goods : [],
+        categories : [],
+        totalCustomerPages : 10,
+        totalGoodPages : 10,
         discount :{
             name: '',
             description: '',
@@ -903,6 +908,9 @@ export default {
             used_for : '',
             start_time : '',
             end_time : '',
+            customer_id : '',
+            category_id : '',
+            good_id : '',
         },
 
     },
