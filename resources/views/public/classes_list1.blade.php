@@ -21,7 +21,7 @@
                     <div class="col-md-3 col-sm-5 col-xs-6">
                         <div class="avatar">
                             <img width="100%"
-                                 src="http://d1j8r0kxyu9tj8.cloudfront.net/files/15115161466W7v5SSCk4NgHqg.png"
+                                 src="{{$course->icon_url}}"
                                  alt="Photoshop" class="img-responsive">
                         </div>
                     </div>
@@ -173,65 +173,39 @@
                 </div>
             </div>
         </div>
+        <div class="container" >
+            <h4 id="class-list" style="margin-top: 50px;">Danh sách lớp học</h4>
+            @foreach($bases as $base)
+                <h5 style="padding-top:40px"><strong>{{$base->name}}</strong>: {{$base->address}}</h5>
+                <ul class="collection">
+                    @foreach($base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('name','desc')->get() as $class)
+                        <li class="collection-item avatar">
+                            <img src="{{$course->icon_url}}" alt="" class="circle">
 
-        @endsection
-        <nav class="navbar navbar-inverse navbar-fixed-top" style="font-size: 12px;">
-            <div class="container-fluid" style="padding-left: 0px;">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span
-                                class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-                    </button>
-                    <a href="http://colorme.vn/"><img alt="Color ME"
-                                                      src="http://d1j8r0kxyu9tj8.cloudfront.net/webs/logo1.jpg"></a>
-                </div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                aria-haspopup="true" aria-expanded="false"><!-- react-text: 16 -->Đăng
-                                kí học <!-- /react-text --><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/course/photoshop"><img class="img-circle"
-                                                                     src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072407tOyRFhAeFPjsbfu.jpg"
-                                                                     style="width: 20px; height: 20px; margin-right: 5px;">
-                                        <!-- react-text: 179 -->Photoshop<!-- /react-text --></a></li>
-                                <li><a href="/course/illustrator"><img class="img-circle"
-                                                                       src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072336A5Ks9NSnqnHsXOn.jpg"
-                                                                       style="width: 20px; height: 20px; margin-right: 5px;">
-                                        <!-- react-text: 183 -->Illustrator<!-- /react-text --></a></li>
-                                <li><a href="/course/after-effects"><img class="img-circle"
-                                                                         src="https://s3-ap-southeast-1.amazonaws.com/cmstorage/images/1455035399GURqJY2y45AZIAp.png"
-                                                                         style="width: 20px; height: 20px; margin-right: 5px;">
-                                        <!-- react-text: 187 -->After Effects<!-- /react-text --></a></li>
-                                <li><a href="/course/photography"><img class="img-circle"
-                                                                       src="https://s3-ap-southeast-1.amazonaws.com/cmstorage/images/1468283993EUvpBPDYpu8IkQ0.jpg"
-                                                                       style="width: 20px; height: 20px; margin-right: 5px;">
-                                        <!-- react-text: 191 -->Photography<!-- /react-text --></a></li>
-                                <li><a href="/course/premiere"><img class="img-circle"
-                                                                    src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1481009736PWVqDXlU8KoFwwJ.jpg"
-                                                                    style="width: 20px; height: 20px; margin-right: 5px;">
-                                        <!-- react-text: 195 -->Premiere<!-- /react-text --></a></li>
-                                <li><a href="/course/indesign"><img class="img-circle"
-                                                                    src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1481440169SyPRLsY5aXZOL6d.jpg"
-                                                                    style="width: 20px; height: 20px; margin-right: 5px;">
-                                        <!-- react-text: 199 -->InDesign<!-- /react-text --></a></li>
-                                <li><a href="/course/thiet-ke-chuyen-sau"><img class="img-circle"
-                                                                               src="http://d1j8r0kxyu9tj8.cloudfront.net/images/1494575688odFkdXzweOeXMpO.jpg"
-                                                                               style="width: 20px; height: 20px; margin-right: 5px;">
-                                        <!-- react-text: 203 -->Thiết Kế Chuyên Sâu<!-- /react-text --></a></li>
-                                <li><a href="/course/ui-ux"><img class="img-circle"
-                                                                 src="http://d1j8r0kxyu9tj8.cloudfront.net/images/150643679690MuQbClSmXQ7ug.jpg"
-                                                                 style="width: 20px; height: 20px; margin-right: 5px;">
-                                        <!-- react-text: 207 -->UI UX<!-- /react-text --></a></li>
-                            </ul>
+                            <h6 class="title">Lớp {{$class->name}}</h6>
+                            <div>
+                                <i class="tiny material-icons">schedule</i> {{$class->study_time}}
+                            </div>
+                            <div>
+                                <i class="tiny material-icons">description</i> {{$class->description}}
+                            </div>
+                            <div class="red-text text-darken-4">
+                                <i class="tiny material-icons">place</i> {{$class->base->name}}
+                                : {{$class->base->address}}
+                            </div>
+                            @if($class->status == 1)
+                                <a class="register-btn waves-effect waves-light btn secondary-content  red darken-4"
+                                   href="{{url('/classes/register/'.$class->id."/".$saler_id."/".$campaign_id)}}"><i
+                                            class="material-icons right">play_arrow</i>Đăng
+                                    kí</a>
+                            @else
+                                <p class="secondary-content red-text">Ngừng tuyển sinh</p>
+                            @endif
                         </li>
-                        <li class=""><a href="http://graphics.vn/">Đặt mua sách</a></li>
-                        <li class=""><a href="/about-us">Về chúng tôi</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class=""><a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                        <li><a>Đăng nhập</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                    @endforeach
+                </ul>
+            @endforeach
+
+        </div>
+
+@endsection
