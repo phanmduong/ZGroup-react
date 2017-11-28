@@ -19,10 +19,9 @@ class ProcessTaskContainer extends React.Component {
         if (task.good_property_items && task.good_property_items.length > 0) {
             if (!task.status) {
                 this.props.taskActions.openAskGoodPropertiesModal(task);
-            } else {
-                this.props.taskActions.toggleTaskStatus(task, card);
             }
-
+        } else {
+            this.props.taskActions.toggleTaskStatus(task, card);
         }
     }
 
