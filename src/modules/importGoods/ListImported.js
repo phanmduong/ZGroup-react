@@ -53,6 +53,9 @@ class ListImported extends React.Component {
                                     <td>{dotNumber(importOrder.debt)}đ</td>
                                     <td><ButtonGroupAction
                                         disabledDelete={isCompleted}
+                                        disabledEdit={isCompleted}
+                                        delete={this.props.deleteImportOrder}
+                                        object={importOrder}
                                     /></td>
                                 </tr>
                             );
@@ -68,7 +71,8 @@ class ListImported extends React.Component {
 
 ListImported.propTypes = {
     importOrders: PropTypes.array.isRequired,
-    setTable: PropTypes.func.isRequired
+    setTable: PropTypes.func.isRequired,
+    deleteImportOrder: PropTypes.func.isRequired,
 };
 
 export default ListImported;

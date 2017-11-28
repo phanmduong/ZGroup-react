@@ -72,6 +72,21 @@ export const DAY_OF_WEEK = [
     },
 ];
 
+export const PAYMENT = [
+    {
+        label: "Tiền mặt",
+        value: "cash"
+    },
+    {
+        label: "Chuyển khoản",
+        value: "transfer"
+    },
+    {
+        label: "Thẻ",
+        value: "credit"
+    }
+];
+
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
 export const DATE = 60 * 60 * 24;
 const LINK_UPLOAD_IMAGE_EDITOR = env.MANAGE_API_URL + '/upload-image-editor';
