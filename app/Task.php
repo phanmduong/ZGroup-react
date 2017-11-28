@@ -95,7 +95,7 @@ class Task extends Model
         }
 
         if ($this->boardTasks) {
-            $data["boards"] = $this->boardTasks->map(function ($boardTask) {
+            $data["board_tasks"] = $this->boardTasks->map(function ($boardTask) {
                 return $boardTask->transform();
             });
         }
