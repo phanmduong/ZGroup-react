@@ -83,9 +83,9 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
             ]);
-        if($order->type == 'import' && $order->status == 'completed' && trim($request->status) != 'completed')
+        if($order->type == 'import' && $order->status == 'completed')
             return $this->respondErrorWithStatus([
-                'message' => 'Cant change status of completed import order'
+                'message' => 'Cant change completed import order'
             ]);
         $order->note = $request->note;
         $order->code = $request->code;

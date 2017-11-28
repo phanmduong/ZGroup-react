@@ -108,6 +108,7 @@ class InventoryApiController extends ManageApiController
                         'import_money' => $import_money,
                         'price' => $good->price,
                         'money' => $good->price * $quantity,
+                        'avatar_url' => $good->avatar_url,
                     ];
                 })
             ]
