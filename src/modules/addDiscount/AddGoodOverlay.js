@@ -24,7 +24,7 @@ class AddGoodOverlay extends React.Component {
         let good = this.props.good ;
         return (
             <div style={{position: "relative"}}>
-                <a className="btn btn-default card-detail-btn-action"
+                <a className="btn btn-simple card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
 
                     {good.name ?

@@ -19,7 +19,9 @@ class ListCategories extends React.Component {
     componentWillMount() {
         this.loadCategories();
     }
-
+    loadCategories() {
+        this.props.addDiscountActions.loadCategories();
+    }
 
 
     updateFormData(category) {
@@ -31,9 +33,7 @@ class ListCategories extends React.Component {
     // toggleAssign(member) {
     //     this.props.addDiscountActions.assignMember(this.props.card, member);
     // }  Hàm dùng để chọn nhiều người
-    loadCategories() {
-        this.props.addDiscountActions.loadCategories();
-    }
+
 
     render() {
         return (
@@ -70,7 +70,7 @@ class ListCategories extends React.Component {
                                             }}>
                                                 <div style={{display: "flex"}}>
                                                     {/*<Avatar size={30} url={m.avatar_url}/>*/}
-                                                    {category.name}
+                                                    {category.label}
                                                 </div>
                                                 {/*{*/}
                                                 {/*category.added && <i className="material-icons">done</i>*/}

@@ -14,11 +14,17 @@ import * as helper from '../../helpers/helper';
 class AddDiscountContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
         this.updateFormData = this.updateFormData.bind(this);
         this.addDiscount = this.addDiscount.bind(this);
+        // this.loadCategories = this.loadCategories.bind(this);
 
     }
+    // componentWillMount() {
+    //     this.loadCategories();
+    // }
+    // loadCategories() {
+    //     this.props.addDiscountActions.loadCategories();
+    // }
     updateFormData(event) {
         const field = event.target.name;
         let discount = {...this.props.discount};
@@ -60,6 +66,8 @@ class AddDiscountContainer extends React.Component {
             customer : {},
         };
         this.props.addDiscountActions.updateDiscountFormData(discount);
+        console.log('hihi container', this.props.categories);
+
     }
 
     render() {
@@ -71,6 +79,7 @@ class AddDiscountContainer extends React.Component {
                             <AddDiscountComponent
                                 updateFormData = {this.updateFormData}
                                 discount = {this.props.discount}
+                                categories = {this.props.categories}
                             />
                             <div className="card-footer">
                                 <div style={{
@@ -127,6 +136,7 @@ AddDiscountContainer.propTypes = {
     addDiscountActions: PropTypes.object,
     discount : PropTypes.object,
     isSaving : PropTypes.bool,
+    categories : PropTypes.object,
 
 };
 
@@ -135,6 +145,7 @@ function mapStateToProps(state) {
         addDiscount: state.addDiscount,
         discount : state.addDiscount.discount,
         isSaving : state.addDiscount.isSaving,
+        categories : state.addDiscount.categories ,
     };
 }
 

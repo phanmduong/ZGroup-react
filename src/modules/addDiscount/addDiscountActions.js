@@ -92,7 +92,7 @@ export function loadCategories() {
             .then( (res) =>  {
                 dispatch({
                     type : types.LOADED_CATEGORY_SUCCESS_IN_DISCOUNT,
-                    categories : res.data.data[0].good_categories,
+                    categories : helper.superSortCategories( res.data.data[0].good_categories),
                 });
             })
             .catch(() => {

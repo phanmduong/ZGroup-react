@@ -24,7 +24,7 @@ class AddCustomerOverlay extends React.Component {
         let customer = this.props.customer;
         return (
             <div style={{position: "relative"}}>
-                <a className="btn btn-default card-detail-btn-action"
+                <a className="btn btn-simple card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
                     {customer.name ?
                         <div style={{display: "flex"}}>

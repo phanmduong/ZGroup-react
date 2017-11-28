@@ -24,7 +24,7 @@ class AddCategoryOverlay extends React.Component {
         let category = this.props.category;
         return (
             <div style={{position: "relative"}}>
-                <a className="btn btn-default card-detail-btn-action"
+                <a className="btn btn-simple card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
                     {category.name ?
                         <div style={{display: "flex"}}>

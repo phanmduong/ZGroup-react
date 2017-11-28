@@ -6,6 +6,7 @@ import FormInputDate from '../../components/common/FormInputDate';
 import AddCustomerOverlay from "./AddCustomerOverlay";
 import AddGoodOverlay from "./AddGoodOverlay";
 import AddCategoryOverlay from "./AddCategoryOverlay";
+// import ReactSelect from 'react-select';
 
 
 class AddDiscountComponent extends React.Component {
@@ -21,8 +22,9 @@ class AddDiscountComponent extends React.Component {
         this.setState({isShowModal: !this.state.isShowModal});
     }
 
+
     render() {
-        let {discount_value, discount_type, type, used_for, description, name, start_time, end_time ,order_value} = this.props.discount;
+        let {discount_value, discount_type, type, used_for, description, name, start_time, end_time, order_value} = this.props.discount;
         let TYPE = [
             {
                 name: '',
@@ -78,6 +80,26 @@ class AddDiscountComponent extends React.Component {
             },
 
         ];
+        // let CATEGORY = {
+        //     this.props.categories.map((category) => {
+        //         return {
+        //             ...category,
+        //             value: category.id,
+        //             label: category.label,
+        //         };
+        //     })
+        // };
+        {/*<div className="form-group col-md-8">*/}
+            {/*<label className="label-control">Phân loại: </label>*/}
+            {/*<ReactSelect*/}
+                {/*name="category"*/}
+                {/*value={this.props.discount.category}*/}
+                {/*options={CATEGORY[0]}*/}
+                {/*onChange={this.props.updateFormData}*/}
+                {/*placeholder="Chọn danh mục"*/}
+                {/*autosize={true}*/}
+            {/*/>*/}
+        {/*</div>*/}
         return (
             <div>
                 <form id="form-add-discount">
@@ -93,27 +115,24 @@ class AddDiscountComponent extends React.Component {
                                     <h4 className="card-title">Thêm mã khuyễn mãi</h4>
 
 
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                            <FormInputSelect
-                                                label="Chọn chương trình khuyến mãi"
-                                                name="type"
-                                                data={TYPE}
-                                                value={type}
-                                                required={true}
-                                                updateFormData={this.props.updateFormData}
-                                            />
-                                        </div>
-                                        <FormInputText
-                                            label="Tên"
-                                            name="name"
-                                            type="text"
-                                            updateFormData={this.props.updateFormData}
-                                            value={name}
-                                            required={true}
-                                            className="col-md-6"
-                                        />
-                                    </div>
+                                    <FormInputSelect
+                                        label="Chọn chương trình khuyến mãi"
+                                        name="type"
+                                        data={TYPE}
+                                        value={type}
+                                        required={true}
+                                        updateFormData={this.props.updateFormData}
+                                    />
+                                    <FormInputText
+                                        label="Tên"
+                                        name="name"
+                                        type="text"
+                                        updateFormData={this.props.updateFormData}
+                                        value={name}
+                                        required={true}
+                                    />
+
+
                                     <FormInputText
                                         label="Mô tả"
                                         name="description"
@@ -124,7 +143,7 @@ class AddDiscountComponent extends React.Component {
 
 
                                     <div className="row">
-                                        <div className="col-md-4">
+                                        <div className="col-md-6">
                                             <FormInputSelect
                                                 label="Loại khuyến mãi"
                                                 data={DISCOUNTYPE}
@@ -136,76 +155,95 @@ class AddDiscountComponent extends React.Component {
                                             />
                                         </div>
                                         {discount_type === '' ? null :
-                                            <div className="input-group" style={{marginTop: 22}}>
-                                                <FormInputText
-                                                    label={discount_type === 'percentage' ? 'Phần trăm' : 'Số tiền'}
-                                                    name="discount_value"
-                                                    type="tel"
-                                                    updateFormData={this.props.updateFormData}
-                                                    value={discount_value}
-                                                    required={true}
-                                                    className="col-md-5"
-                                                />
-                                                <span className="input-group-addon border-color-input-group"
-                                                      data-bind="text: $parent.Culture">{discount_type === 'percentage' ? '%' : '₫'}</span>
+                                            <div>
+                                                <div style={{marginTop: 22}} className="col-md-4">
+                                                    <FormInputText
+                                                        label={discount_type === 'percentage' ? 'Phần trăm' : 'Số tiền'}
+                                                        name="discount_value"
+                                                        type="tel"
+                                                        updateFormData={this.props.updateFormData}
+                                                        value={discount_value}
+                                                        required={true}
+                                                    />
+                                                </div>
+                                                <div className="col-md-2 input-group-addon border-color-input-group"
+                                                     data-bind="text: $parent.Culture"
+                                                     style={{
+                                                         width: "12px",
+                                                         marginTop: "50px",
+                                                         marginLeft: "-16px",
+                                                     }}
+                                                >{discount_type === 'percentage' ? '%' : '₫'}
+                                                </div>
                                             </div>
                                         }
                                     </div>
+                                    <div className="row">
+                                        <div className="col-md-3">
 
+                                            <FormInputSelect
+                                                label="Sử dụng cho"
+                                                data={USEDFOR}
+                                                required={true}
+                                                updateFormData={this.props.updateFormData}
+                                                name="used_for"
+                                                value={used_for}
+                                            />
+                                        </div>
+                                        <div className="col-md-9">
+                                            <div style={{
+                                                display: 'flex',
+                                                marginTop: "42px"
+                                            }}>
+                                                {
+                                                    this.props.discount.used_for === 'good' ?
 
-                                    <FormInputSelect
-                                        label="Sử dụng cho"
-                                        data={USEDFOR}
-                                        required={true}
-                                        updateFormData={this.props.updateFormData}
-                                        name="used_for"
-                                        value={used_for}
-                                    />
-
-
-                                    <div style={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'center',
-                                        marginBottom: 20
-                                    }}>
-                                        {
-                                            this.props.discount.used_for === 'good' ?
-                                                <AddGoodOverlay
-                                                    good={this.props.discount.good}
-                                                />
-                                                :
-                                                this.props.discount.used_for === 'category' ?
-                                                    <AddCategoryOverlay
-                                                        category={this.props.discount.category}
-                                                    />
-                                                    :
-                                                    this.props.discount.used_for === 'customer' ?
-                                                        <AddCustomerOverlay
-                                                            customer={this.props.discount.customer}
+                                                        <AddGoodOverlay
+                                                            good={this.props.discount.good}
                                                         />
                                                         :
-                                                        this.props.discount.used_for === 'order' ?
+                                                        this.props.discount.used_for === 'category' ?
 
-                                                            <div className="input-group" style={{marginTop: 22}}>
-                                                                <FormInputText
-                                                                    label="Trị giá đơn hàng từ "
-                                                                    name="order_value"
-                                                                    type="tel"
-                                                                    updateFormData={this.props.updateFormData}
-                                                                    value={order_value}
-                                                                    required={true}
-                                                                    className="col-md-5"
-                                                                />
-                                                                <span
-                                                                    className="input-group-addon border-color-input-group"
-                                                                    data-bind="text: $parent.Culture">₫</span>
-                                                            </div>
+
+                                                            <AddCategoryOverlay category={this.props.discount.category} />
+
                                                             :
-                                                            null
-                                        }
+                                                            this.props.discount.used_for === 'customer' ?
+                                                                <AddCustomerOverlay
+                                                                    customer={this.props.discount.customer}
+                                                                />
+                                                                :
+                                                                this.props.discount.used_for === 'order' ?
+                                                                    <div>
+                                                                        <div className="col-md-10"
+                                                                             style={{marginTop: -16}}>
+                                                                            <FormInputText
+                                                                                label="Trị giá đơn hàng từ "
+                                                                                name="order_value"
+                                                                                type="tel"
+                                                                                updateFormData={this.props.updateFormData}
+                                                                                value={order_value}
+                                                                                required={true}
+                                                                            />
+                                                                        </div>
+                                                                        <div
+                                                                            className="col-md-2 input-group-addon border-color-input-group"
+                                                                            data-bind="text: $parent.Culture"
+                                                                            style={{
+                                                                                width: "12px",
+                                                                                marginTop: "11px",
+                                                                                marginLeft: "-16px",
+                                                                            }}
+                                                                        >₫
+                                                                        </div>
+                                                                    </div>
+                                                                    :
+                                                                    null
+                                                }
 
 
+                                            </div>
+                                        </div>
                                     </div>
 
 
@@ -258,6 +296,7 @@ class AddDiscountComponent extends React.Component {
 
 AddDiscountComponent.propTypes = {
     discount: PropTypes.object,
+    categories: PropTypes.object,
     updateFormData: PropTypes.func,
 };
 
