@@ -2,7 +2,9 @@
 
 namespace Modules\Course\Http\Controllers;
 
+use App\ClassLesson;
 use App\Course;
+use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
 use App\Link;
@@ -244,5 +246,31 @@ class CourseController extends ManageApiController
                 'detail_teacher' => $lesson->detail_teacher
             ]
         ]);
+    }
+
+    public function getAttendance($classId, $lessonId, Request $request)
+    {
+        $classLesson = ClassLesson::query();
+        $classLesson = $classLesson->where('class_id', $classId)->where('lesson_id', $lessonId)->first();
+        if (!$classLesson) return $this->respondErrorWithStatus("Khong tontai buoi hoc");
+        $attendance_list = $classLesson->attendances;
+        $data['attendances'] = $attendance_list->map(function ($attendance) {
+            return [
+                'name' => $attendance->register->user->name,
+                'email' => $attendance->register->user->email,
+                'study_class' => $attendance->register->studyClass->name,
+                'device' => $attendance->device,
+                'attendance_status' => $attendance->status,
+            ];
+        });
+        $data['classLesson'] = [
+            'name' => $classLesson->studyClass->name,
+            'attendance_count' => $classLesson->attendances->count(),
+        ];
+
+        return $this->respondSuccessWithStatus([
+            "data" => $data
+        ]);
+
     }
 }
