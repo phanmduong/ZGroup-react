@@ -15,7 +15,6 @@ class ProcessTaskContainer extends React.Component {
     }
 
     toggleTaskStatus(task) {
-        console.log(task);
         const {card} = this.props;
         if (task.good_property_items && task.good_property_items.length > 0) {
             if (!task.status) {
