@@ -251,7 +251,7 @@ class CourseController extends ManageApiController
     public function getAttendance($classId, $lessonId, Request $request)
     {
         $classLesson = ClassLesson::query();
-        $classLesson = $classLesson->where('class_id', $classId)->first();
+        $classLesson = $classLesson->where('class_id', $classId)->where('lesson_id', $lessonId)->first();
         if (!$classLesson) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
         $attendance_list = $classLesson->attendances;
         $data['attendances'] = $attendance_list->map(function ($attendance) {
