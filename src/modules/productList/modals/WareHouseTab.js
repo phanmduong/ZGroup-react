@@ -28,7 +28,6 @@ class WareHouseTab extends React.Component {
                                     <th>Cơ sở</th>
                                     <th>Địa chỉ cơ sở</th>
                                     <th>SL</th>
-                                    <th/>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -50,25 +49,6 @@ class WareHouseTab extends React.Component {
                                                     ) : (<td>Chưa có</td>)
                                                 }
                                                 <td>{warehouse.quantity}</td>
-                                                <td>
-                                                    <div className="btn-group-action">
-                                                        <a data-toggle="tooltip" title="" type="button"
-                                                           rel="tooltip" href="good/11/edit"
-                                                           data-original-title="Sửa"><i
-                                                            className="material-icons">edit</i></a>
-                                                        <a
-                                                            data-toggle="tooltip" title="" type="button"
-                                                            rel="tooltip"
-                                                            data-original-title="Không thể xoá"><i
-                                                            className="material-icons">delete_forever</i></a>
-                                                        <a
-                                                            data-toggle="tooltip" title="" type="button"
-                                                            rel="tooltip"
-                                                            data-original-title="Chuyển kho"><i
-                                                            className="material-icons">swap_horiz</i></a>
-
-                                                    </div>
-                                                </td>
                                             </tr>
                                         );
                                     })

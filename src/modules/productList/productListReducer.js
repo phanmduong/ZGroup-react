@@ -31,6 +31,7 @@ export default function productListReducer(state = initialState.productList, act
             return {
                 ...state,
                 modalInProduct: {
+                    ...state.modalInProduct,
                     priceModal: !state.modalInProduct.priceModal
                 }
             };
@@ -60,13 +61,14 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 modalInProduct: {
                     ...state.modalInProduct,
-                    modalUpdated: action.modalUpdated
+                    modalUpdated: action.updated
                 }
             };
         case types.TOGGLE_WARE_HOUSE_MODAL:
             return {
                 ...state,
                 modalInProduct: {
+                    ...state.modalInProduct,
                     wareHouseModal: !state.modalInProduct.wareHouseModal
                 }
             };
@@ -74,6 +76,7 @@ export default function productListReducer(state = initialState.productList, act
             return {
                 ...state,
                 modalInProduct: {
+                    ...state.modalInProduct,
                     avatarModal: !state.modalInProduct.avatarModal
                 }
             };

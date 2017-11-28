@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button} from "react-bootstrap";
 import Loading from "../../components/common/Loading";
 import Select from 'react-select';
 
@@ -117,12 +116,22 @@ class HistoryTab extends React.Component {
                                     </tbody>
                                 </table>
                             </div>
-                            <div style={{textAlign: "center"}}>
-                                {
-                                    this.props.isLoadingMore ? <Loading/> :
-                                        <Button onClick={() => this.loadMore(this.state.page + 1)}>Tải thêm</Button>
-                                }
-                            </div>
+                            {
+                                this.props.currentPage === this.props.totalPages ? (
+                                    <div/>
+                                ) : (
+                                    <div style={{textAlign: "center"}}>
+                                        {
+                                            this.props.isLoadingMore ? <Loading/> :
+                                                <button className="btn btn-simple"
+                                                        onClick={() => this.loadMore(this.state.page + 1)}>
+                                                    <i className="material-icons">cached</i>
+                                                    Tải thêm
+                                                </button>
+                                        }
+                                    </div>
+                                )
+                            }
                         </div>
                     )
                 }
@@ -137,7 +146,9 @@ HistoryTab.propTypes = {
     isLoadingMore: PropTypes.bool.isRequired,
     getHistoryInventories: PropTypes.func.isRequired,
     inventory: PropTypes.object.isRequired,
-    warehousesList: PropTypes.array.isRequired
+    warehousesList: PropTypes.array.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired
 };
 
 export default HistoryTab;

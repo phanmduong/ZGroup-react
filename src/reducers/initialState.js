@@ -10,9 +10,9 @@ export default {
             description: '',
             price: '',
             avatar_url: '',
-            sale_status: false,
-            highlight_status: false,
-            display_status: false,
+            sale_status: 0,
+            highlight_status: 0,
+            display_status: 0,
             manufacture_id: '',
             good_category_id: '',
             images_url: [],
@@ -40,7 +40,9 @@ export default {
         inventoryChecking: {
             histories: [],
             warehouses: [],
-            inventoryInfo: {}
+            inventoryInfo: {},
+            totalPages: 0,
+            currentPage: 0
         },
         historyModal: false,
         count: 0,
