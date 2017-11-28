@@ -294,7 +294,7 @@ class CourseController extends ManageApiController
             $attendance->class_lesson_id = $classLesson->id;
             $attendance->save();
         } else {
-            if ($attendance->status == 0) $attendance->status = 1;
+            $attendance->status = 1 - $attendance->status;
             $attendance->save();
         }
         return $this->respondSuccessWithStatus([
