@@ -7,6 +7,7 @@ import ListClassComponent           from './ListClassComponent';
 import Search                       from '../../components/common/Search';
 import _                            from 'lodash';
 import ListLessonModal              from './ListLessonModal';
+import LessonDetailModal              from './LessonDetailModal';
 
 class AttendanceContainer extends React.Component {
     constructor(props, context) {
@@ -15,12 +16,15 @@ class AttendanceContainer extends React.Component {
             query : "",
             page  :  1,
             showModalLesson: false,
+            showModalDetailLesson: false,
             selectedClass: {},
         };
         this.classesSearchChange        = this.classesSearchChange.bind(this);
         this.loadClasses                = this.loadClasses.bind(this);
         this.closeModalLesson           = this.closeModalLesson.bind(this);
         this.openModalLesson            = this.openModalLesson.bind(this);
+        this.openModalDetailLesson      = this.openModalDetailLesson.bind(this);
+        this.closeModalDetailLesson     = this.closeModalDetailLesson.bind(this);
     }
 
     componentWillMount(){
@@ -28,7 +32,7 @@ class AttendanceContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('AttendanceContainer',nextProps.class);
+        console.log('AttendanceContainer',nextProps);
     }
 
     loadClasses(page = 1, query = '', teacherid) {
@@ -54,10 +58,20 @@ class AttendanceContainer extends React.Component {
             showModalLesson: true,
             selectedClass:  this.props.data.classes[index]});
         this.props.attendanceActions.loadClassLessonModal(this.props.data.classes[index].id);
-        console.log(this.props.class);
+        console.log(this.state);
     }
+
     closeModalLesson(){
         this.setState({showModalLesson: false});
+    }
+
+    openModalDetailLesson(id){
+        this.setState({
+            showModalDetailLesson: true});
+        console.log(id);
+    }
+    closeModalDetailLesson(){
+        this.setState({showModalDetailLesson: false});
     }
 
 
@@ -111,6 +125,12 @@ class AttendanceContainer extends React.Component {
                         show={this.state.showModalLesson}
                         onHide={this.closeModalLesson}
                         class={this.state.selectedClass}
+                        openModalDetailLesson={this.openModalDetailLesson}
+                    />
+                    <LessonDetailModal
+                        show={this.state.showModalDetailLesson}
+                        onHide={this.closeModalDetailLesson}
+                        class={this.state.selectedClass}
 
                     />
                 </div>
@@ -131,6 +151,7 @@ function mapStateToProps(state) {
         isLoading: state.attendance.isLoading,
         data:      state.attendance.data,
         class:     state.attendance.class,
+        lesson:    state.attendance.lesson,
     };
 }
 

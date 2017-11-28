@@ -728,5 +728,8 @@ export default {
 
         },
         class:[],
+        lesson:{
+            list: [],
+        },
     },
 };
