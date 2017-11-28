@@ -68,3 +68,15 @@ export function editProfile(profile) {
     });
 }
 
+export function changePassword(oldPassword, newPassword) {
+    let url = env.MANAGE_API_URL + '/change-password';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        old_password: oldPassword,
+        new_password: newPassword,
+    });
+}
+

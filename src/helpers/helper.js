@@ -208,6 +208,10 @@ export function calculatorRating(ratingNumbers, avgRatings) {
     return Math.round(sumScore * 100 / sum) / 100;
 }
 
+export function round2(first, second) {
+    return Math.round(first * 100 / second) / 100;
+}
+
 export function isClassWait(className) {
     return className.indexOf('.') > -1;
 }
@@ -844,4 +848,9 @@ export function readExcel(file, isSkipReadFile) {
 
     return promise;
 
+}
+
+
+export function splitComma(value) {
+    return value.split(",").join(", ");
 }

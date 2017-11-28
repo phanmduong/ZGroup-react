@@ -32,7 +32,7 @@ class AddMemberToTaskModalContainer extends React.Component {
     }
 
     save() {
-        if(this.props.isTemplate) {
+        if (this.props.isTemplate) {
             this.props.bookActions.saveMemberTask(this.props.task, this.props.selectedMember);
         } else {
             this.props.taskActions.saveMemberTask(this.props.task, this.props.selectedMember, this.props.card);
@@ -50,10 +50,12 @@ class AddMemberToTaskModalContainer extends React.Component {
                     {
                         this.props.isLoading ? <Loading/> : (
                             <Select
+                                multi={true}
                                 placeholder="Nhập tên"
                                 style={{width: "100%"}}
                                 value={this.props.selectedMember}
                                 name="members"
+                                closeOnSelect={false}
                                 valueComponent={MemberReactSelectValue}
                                 optionComponent={MemberReactSelectOption}
                                 options={this.props.members}
@@ -88,7 +90,7 @@ AddMemberToTaskModalContainer.propTypes = {
     card: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
     bookActions: PropTypes.object.isRequired,
-    selectedMember: PropTypes.object,
+    selectedMember: PropTypes.array,
     members: PropTypes.array.isRequired
 };
 

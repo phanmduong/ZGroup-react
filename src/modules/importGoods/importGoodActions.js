@@ -4,14 +4,16 @@ import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 
-export function loadImportOrders(startTime, endTime) {
+export function loadImportOrders(page, search, startTime, endTime, status, staff) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_IMPORT_ORDERS});
-        importGoodsApi.loadImportOrders(startTime, endTime)
+        importGoodsApi.loadImportOrders(page, search, startTime, endTime, status, staff)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_IMPORT_ORDERS_SUCCESS,
-                    importOrders: res.data.data.import_orders,
+                    importOrders: res.data.import_orders,
+                    currentPage: res.data.paginator.current_page,
+                    totalPages: res.data.paginator.total_pages
                 });
             }).catch(() => {
             dispatch({
@@ -92,8 +94,29 @@ export function getAllWarehouses() {
                     warehouses: res.data.data.warehouses
                 });
             })
+            .catch(() => {
+                dispatch({
+                    type: types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR
+                });
+            });
+    };
+}
+
+export function getHistoryPaid(orderId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_HISTORY_PAID_MONEY_IMPORT_ORDER
+        });
+        importGoodsApi.loadHistoryPaid(orderId)
+            .then(res => {
+
+                dispatch({
+                    type: types.LOAD_HISTORY_PAID_MONEY_IMPORT_ORDER_SUCCESS,
+                    historyPaidMoney: res.data.data.order_paid_money
+                });
+            })
             .catch({
-                type: types.GET_ALL_WAREHOUSES_IMPORT_GOODS_ERROR
+                type: types.LOAD_HISTORY_PAID_MONEY_IMPORT_ORDER_ERROR
             });
     };
 }
@@ -126,7 +149,7 @@ export function storeSupplier(supplier, closeModal) {
                 }
             })
             .catch(() => {
-            helper.showErrorNotification("Có lỗi xảy ra");
+                helper.showErrorNotification("Có lỗi xảy ra");
                 dispatch({
                     type: types.STORE_SUPPLIER_IMPORT_GOOD_ERROR
                 });
@@ -143,14 +166,14 @@ export function beginCheckGoods() {
 export function checkGoods(goods) {
     return function (dispatch) {
         importGoodsApi.checkGoods(goods)
-            .then(res=>{
+            .then(res => {
                 dispatch({
                     type: types.CHECK_GOODS_IMPORT_GOODS_SUCCESS,
                     existsGoods: res.data.data.exists,
                     notExistsGoods: res.data.data.not_exists,
                 });
             })
-            .catch(()=>{
+            .catch(() => {
                 dispatch({
                     type: types.CHECK_GOODS_IMPORT_GOODS_ERROR
                 });

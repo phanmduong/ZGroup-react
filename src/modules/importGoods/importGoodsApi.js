@@ -1,14 +1,24 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadImportOrders(startTime = '', endTime = '') {
+export function loadImportOrders(page = 1, search = '', startTime = '', endTime = '', status = '', staff = '') {
     let url = env.MANAGE_API_URL + '/order/import-orders';
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
+    url += `&page=${page}`;
     if (startTime && endTime) {
         url += `&start_time=${startTime}&end_time=${endTime}`;
+    }
+    if (search) {
+        url += `&search=${search}`;
+    }
+    if (status) {
+        url += `&status=${status}`;
+    }
+    if (staff) {
+        url += `&staff_id=${staff}`;
     }
 
     return axios.get(url);
@@ -46,6 +56,7 @@ export function createImportGoods(formImportGood) {
             good_id: good.id,
             quantity: good.quantity,
             import_price: good.import_price,
+            price: good.price,
         };
     });
 
@@ -79,6 +90,16 @@ export function loadSupplier(search) {
     return axios.get(url);
 }
 
+export function searchStaffs(search) {
+    let url = env.MANAGE_API_URL + `/order/staffs?search=` + search;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
 export function storeSupplier(supplier) {
     let url = env.MANAGE_API_URL + `/order/add-supplier`;
     let token = localStorage.getItem('token');
@@ -93,6 +114,20 @@ export function storeSupplier(supplier) {
         address: supplier.address,
         code: supplier.code,
     });
+}
+
+export function loadHistoryPaid(orderId) {
+    let url = env.MANAGE_API_URL + `/order/all-order-paid-money`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    if (orderId) {
+        url += "&order_id=" + orderId;
+    }
+
+    return axios.get(url);
 }
 
 export function checkGoods(goods) {

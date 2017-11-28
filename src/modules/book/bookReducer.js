@@ -143,7 +143,7 @@ export default function bookReducer(state = initialState.book, action) {
                             if (task.id === action.task.id) {
                                 return {
                                     ...task,
-                                    member: action.user
+                                    members: action.members
                                 };
                             }
                             return task;

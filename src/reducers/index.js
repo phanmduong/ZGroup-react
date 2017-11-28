@@ -41,6 +41,10 @@ import customerReducer from "../modules/customer/customerReducer";
 import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer";
 import createProductReducer from "../modules/createProduct/createProductReducer";
 import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer";
+import lessonsReducer from "../modules/lessons/lessonsReducer";
+import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
+import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
+import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 
 
 const appReducer = combineReducers({
@@ -77,14 +81,20 @@ const appReducer = combineReducers({
     historyShiftRegisters: historyShiftRegistersReducer,
     shiftSessions: shiftSessionsReducer,
     courses: courseReducer,
-    categories: categoriesReducer,
+    coursesCreateEdit: courseReducer,
+    lessons: lessonsReducer,
     goodOrders: goodOrdersReducer,
     productList: productListReducer,
     importGoods: importGoodsReducer,
-    wareHouses : wareHouseReducer ,
-    customers : customerReducer,
+    wareHouses: wareHouseReducer,
+    customers: customerReducer,
     inventoryGood: inventoryGoodReducer,
+    categories: categoriesReducer,
+    marketingCampaigns: marketingCampaignsReducer,
     createProduct: createProductReducer,
+    summaryMarketingCampaign: summaryMarketingCampaignReducer,
+    summarySales: summarySalesReducer,
+
 });
 
 const rootReducer = (state, action) => {

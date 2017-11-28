@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from "../../components/common/Avatar";
+import KeetoolPanel from "../../components/common/KeetoolPanel";
+import {splitComma} from "../../helpers/helper";
 
 class TaskTemplateItem extends React.Component {
     constructor(props, context) {
@@ -23,11 +25,12 @@ class TaskTemplateItem extends React.Component {
     }
 
     render() {
+
         const {task} = this.props;
         return (
             <li className="timeline-inverted">
                 <div className="timeline-badge success">
-                    {this.props.index + 1}
+                    {this.props.task.order + 1}
                 </div>
                 <div className="timeline-panel" style={{position: "relative"}}>
                     <div className="dropdown" style={{
@@ -66,60 +69,63 @@ class TaskTemplateItem extends React.Component {
                         </ul>
                     </div>
                     <div className="timeline-heading">
-                        {
-                            task.member && (
-                                <Avatar url={task.member.avatar_url} size={20}/>
-                            )
-                        }
                         <span className="label label-success">
                              {task.title}
                         </span>
-                    </div>
-                    <div className="timeline-body">
-                        <p>
-                            {
-                                task.good_property_items && task.good_property_items.length > 0 && (
-                                    <div>
-                                        Thuộc tính cần nhập:
-                                        <ul>
-                                            {
-                                                task.good_property_items.map((item) => {
-                                                    return (
-                                                        <li key={item.id}>{item.name}: {item.prevalue} {item.preunit}</li>
-                                                    );
-                                                })
-                                            }
-                                        </ul>
-                                    </div>
-                                )
-                            }
-                        </p>
-                        <p>
-                            {
-                                task.current_board && (
-                                    <div>
-                                        Bảng hiện tại: {task.current_board.title}
-                                    </div>
-                                )
-                            }
-                        </p>
-                        <p>
-                            {
-                                task.target_board && (
-                                    <div>
-                                        Bảng đích: {task.target_board.title}
-                                    </div>
-                                )
-                            }
-                        </p>
                         {
                             !!task.span && (
-                                <h6>
-                                    <i className="ti-time"></i> trong {task.span} giờ
-                                </h6>
+                                <span style={{marginLeft: "4px"}} className="label label-default">
+                                    <i className="ti-time"/> trong {task.span} giờ
+                                </span>
+                            )
+                        }
+                        {
+                            task.member && (
+                                <Avatar style={{
+                                    display: "inline-block",
+                                    position: "relative",
+                                    top: "7px",
+                                    marginLeft: "4px"
+                                }}
+                                        url={task.member.avatar_url} size={20}/>
                             )
                         }
 
+                    </div>
+                    <div className="timeline-body">
+                        <KeetoolPanel
+                            title={`Thuộc tính cần nhập (${task.good_property_items ? task.good_property_items.length : 0} thuộc tính)`}>
+                            <div>
+                                {
+                                    task.good_property_items.sort((a, b) => a.order - b.order).map((item, index) => {
+                                        return (
+                                            <div
+                                                data-order={item.order}
+                                                key={item.id}>{index + 1}. {item.name}: {splitComma(item.prevalue)} {splitComma(item.preunit)}
+                                            </div>
+                                        );
+                                    })
+                                }
+                            </div>
+                        </KeetoolPanel>
+                        <KeetoolPanel
+                            title={`Bảng đích (${task.optional_boards ? task.optional_boards.length : 0} bảng)`}>
+                            <div>
+                                {
+                                    task.optional_boards && task.optional_boards.map((optionalBoard, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    {optionalBoard.board && (
+                                                        <div>{optionalBoard.board ?
+                                                            optionalBoard.board.title : ""}</div>
+                                                    )}
+                                                </div>
+                                            );
+                                        }
+                                    )
+                                }
+                            </div>
+                        </KeetoolPanel>
                     </div>
                 </div>
             </li>
@@ -135,7 +141,6 @@ TaskTemplateItem.propTypes = {
     openAddMemberToTaskModal: PropTypes.func.isRequired,
     openTaskSpanModal: PropTypes.func.isRequired,
     task: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
     isTemplate: PropTypes.bool
 };
 

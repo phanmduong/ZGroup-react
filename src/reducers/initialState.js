@@ -107,7 +107,8 @@ export default {
             goodPropertyItems: [],
             task: {},
             isSaving: false,
-            boards: []
+            boards: [],
+            selectedBoards: []
         },
         createProperty: {
             property: {},
@@ -183,6 +184,8 @@ export default {
             error: false,
             isLoadingStaff: false,
             errorStaff: false,
+            isResettingPassword: false,
+            errorResetPassword: false,
         },
         editStaff: {
             isLoadingStaff: false,
@@ -324,7 +327,7 @@ export default {
             members: [],
             task: {},
             isSaving: false,
-            selectedMember: null
+            selectedMember: []
         },
         commentCard: {
             value: "",
@@ -560,7 +563,9 @@ export default {
         error: false,
         isChangingAvatar: false,
         isSaving: false,
-        savingError: false
+        savingError: false,
+        isChangingPassword: false,
+        errorChangePassword: false
     },
 
     studySession: {
@@ -638,7 +643,7 @@ export default {
 
     dashboard: {
         gens: [],
-        isLoadingGens: false,
+        isLoadingGens: true,
         errorGens: false,
         currentGen: {},
         bases: [],
@@ -782,15 +787,6 @@ export default {
         error: false
     },
 
-    courses: {
-        isLoading: false,
-        error: false,
-        coursesList: [],
-        addCoursesModal: {
-            isShowModal: false,
-            isSaving: false
-        }
-    },
 
     categories: {
         addCategoriesModal: {
@@ -834,6 +830,8 @@ export default {
         isLoading: false,
         error: false,
         importOrders: [],
+        currentPage: 1,
+        totalPages: 1,
         importGood: {
             infoOrder: {},
             infoPaid: {},
@@ -842,6 +840,9 @@ export default {
             },
             isLoading: false,
             error: false,
+            isLoadingHistoryPaid: false,
+            errorHistoryPaid: false,
+            historyPaidMoney: []
         },
         formImportGood: {
             importGoods: [],
@@ -891,5 +892,140 @@ export default {
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
+    },
+    coursesCreateEdit: {
+        isLoading: false,
+        isEditing: false,
+        isUpdatingAvatar: false,
+        updateAvatarError: false,
+        isUpdatingLogo: false,
+        updateLogoError: false,
+        isUpdatingCover: false,
+        updateCoverError: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            name: "",
+            duration: "",
+            price: "",
+            description: "",
+            linkmac: "",
+            linkwindow: "",
+            num_classes: "",
+            mac_how_install: "",
+            window_how_install: "",
+            cover_url: "",
+            color: "",
+            image_url: "",
+            icon_url: "",
+            created_at: "",
+            detail: "",
+            lessons: [],
+            links: []
+        }
+    },
+    courses: {
+        isLoading: false,
+        isUploadingLinkIcon: false,
+        isUploadingLink: false,
+        error: false,
+        coursesList: [],
+        isDeleting: false,
+        paginator: {
+            total_count: 1,
+            total_pages: 1,
+            current_page: 1,
+            limit: 1
+        },
+        isEditing: false,
+        isUpdatingAvatar: false,
+        updateAvatarError: false,
+        isUpdatingLogo: false,
+        updateLogoError: false,
+        isUpdatingCover: false,
+        updateCoverError: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            name: "",
+            duration: "",
+            price: "",
+            description: "",
+            linkmac: "",
+            linkwindow: "",
+            num_classes: "",
+            mac_how_install: "",
+            window_how_install: "",
+            cover_url: "",
+            color: "",
+            image_url: "",
+            icon_url: "",
+            created_at: "",
+            detail: "",
+            lessons: [],
+            links: [],
+        },
+        link: {
+            id: null,
+            course_id: "",
+            link_name: "",
+            link_url: "",
+            link_description: "",
+            link_icon: "",
+        }
+    },
+    lessons: {
+        isLoading: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            course_id: 1,
+            name: "",
+            description: "",
+            detail: "",
+            order: "",
+            detail_content: "",
+            detail_teacher: "",
+            created_at: "",
+        }
+    },
+
+    marketingCampaigns: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        marketingCampaigns: [],
+        courses: [],
+        isLoadingCourses: false,
+        errorCourses: false,
+    },
+
+    summaryMarketingCampaign: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+    summarySales: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
     },
 };

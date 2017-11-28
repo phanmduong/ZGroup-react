@@ -79,6 +79,7 @@ FormInputText.propTypes = {
     errorMessage: PropTypes.string,
     className: PropTypes.string,
     placeholder: PropTypes.string,
+    equalTo: PropTypes.string,
     onKeyPress: PropTypes.func
 
 };

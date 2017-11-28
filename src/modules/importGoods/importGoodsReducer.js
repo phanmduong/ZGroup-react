@@ -20,7 +20,9 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                 ...{
                     isLoading: false,
                     error: false,
-                    importOrders: action.importOrders
+                    importOrders: action.importOrders,
+                    currentPage: action.currentPage,
+                    totalPages: action.totalPages
                 }
             };
         case types.LOAD_IMPORT_ORDERS_ERROR:
@@ -177,7 +179,7 @@ export default function importGoodsReducer(state = initialState.importGoods, act
         case types.CHECK_GOODS_IMPORT_GOODS_SUCCESS:
             return {
                 ...state,
-                addGoodFile:{
+                addGoodFile: {
                     ...state.addGoodFile,
                     isCheckingGoods: false,
                     errorCheckGoods: false,
@@ -188,10 +190,40 @@ export default function importGoodsReducer(state = initialState.importGoods, act
         case types.CHECK_GOODS_IMPORT_GOODS_ERROR:
             return {
                 ...state,
-                addGoodFile:{
+                addGoodFile: {
                     ...state.addGoodFile,
                     isCheckingGoods: false,
                     errorCheckGoods: true,
+                }
+            };
+        case types.BEGIN_LOAD_HISTORY_PAID_MONEY_IMPORT_ORDER:
+            return {
+                ...state,
+                importGood: {
+                    ...state.importGood,
+                    isLoadingHistoryPaid: true,
+                    errorHistoryPaid: false,
+                    historyPaidMoney: []
+                }
+            };
+        case types.LOAD_HISTORY_PAID_MONEY_IMPORT_ORDER_SUCCESS:
+            return {
+                ...state,
+                importGood: {
+                    ...state.importGood,
+                    isLoadingHistoryPaid: false,
+                    errorHistoryPaid: false,
+                    historyPaidMoney: action.historyPaidMoney
+                }
+            };
+        case types.LOAD_HISTORY_PAID_MONEY_IMPORT_ORDER_ERROR:
+            return {
+                ...state,
+                importGood: {
+                    ...state.importGood,
+                    isLoadingHistoryPaid: false,
+                    errorHistoryPaid: true,
+                    historyPaidMoney: []
                 }
             };
         default:
