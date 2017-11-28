@@ -40,8 +40,7 @@ export default function goodReducer(state = initialState.good, action) {
                     isLoading: false,
                     goodPropertyItems: action.good_property_items,
                     boards: action.boards,
-                    processes: action.processes,
-                    optionalBoards: action.optionalBoards
+                    selectedBoards: action.selectedBoards
                 }
             };
         case types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL:

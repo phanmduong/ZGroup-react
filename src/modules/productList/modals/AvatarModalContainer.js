@@ -8,6 +8,7 @@ import * as productListAction from '../productListAction';
 import UploadButton from "../../../components/common/uploadButton/UploadButton";
 import Select from 'react-select';
 import Loading from "../../../components/common/Loading";
+import {dotNumber} from "../../../helpers/helper";
 
 class AvatarModalContainer extends React.Component {
     constructor(props, context) {
@@ -27,11 +28,19 @@ class AvatarModalContainer extends React.Component {
     }
 
     changeSelectManufacture(value) {
-        this.props.modalProductAction.handleManufacture(value.id);
+        if (value) {
+            this.props.modalProductAction.handleManufacture(value.id);
+        } else {
+            this.props.modalProductAction.handleManufacture('');
+        }
     }
 
     changeSelectCategory(value) {
-        this.props.modalProductAction.handleCategory(value.id);
+        if (value) {
+            this.props.modalProductAction.handleCategory(value.id);
+        } else {
+            this.props.modalProductAction.handleCategory('');
+        }
     }
 
     removeImageChange(e) {
@@ -175,28 +184,29 @@ class AvatarModalContainer extends React.Component {
                                 <input type="text"
                                        name="price"
                                        className="form-control"
-                                       value={this.props.productEditing.productPresent.price}
+                                       value={dotNumber(this.props.productEditing.productPresent.price)}
                                        onChange={this.handleProduct}/>
                                 <span className="material-input"/>
                             </div>
                             <div className="panel panel-default">
                                 <div className="panel-body">
                                     <div className="panel panel-default">
-                                        <div className="panel-heading" role="tab"><a>
-                                            <h4 className="panel-title">
-                                                <div className="checkbox none-margin">
-                                                    <label>
-                                                        <input type="checkbox"
-                                                               name="sale_status"
-                                                               checked={this.props.productEditing.productPresent.sale_status}
-                                                               onChange={this.selectStatusProduct}/>
-                                                        <span className="checkbox-material">
+                                        <div className="panel-heading" role="tab">
+                                            <a>
+                                                <h4 className="panel-title">
+                                                    <div className="checkbox none-margin">
+                                                        <label>
+                                                            <input type="checkbox"
+                                                                   name="sale_status"
+                                                                   checked={this.props.productEditing.productPresent.sale_status}
+                                                                   onChange={this.selectStatusProduct}/>
+                                                            <span className="checkbox-material">
                                                                 <span className="check"/>
                                                                 </span> Đang kinh doanh
-                                                    </label>
-                                                </div>
-                                            </h4>
-                                        </a>
+                                                        </label>
+                                                    </div>
+                                                </h4>
+                                            </a>
                                         </div>
                                     </div>
                                     <div className="panel panel-default">

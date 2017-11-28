@@ -208,6 +208,10 @@ export function calculatorRating(ratingNumbers, avgRatings) {
     return Math.round(sumScore * 100 / sum) / 100;
 }
 
+export function round2(first, second) {
+    return Math.round(first * 100 / second) / 100;
+}
+
 export function isClassWait(className) {
     return className.indexOf('.') > -1;
 }
@@ -844,4 +848,44 @@ export function readExcel(file, isSkipReadFile) {
 
     return promise;
 
+}
+
+
+export function splitComma(value) {
+    return value.split(",").join(", ");
+}
+
+export function superSortCategories(categories) {
+    categories.reverse();
+    let result = [];
+    let index = -1, id = 0, gen = 0;
+    let medium = superFilter(id, categories, gen);
+    result.splice(index + 1, 0, ...medium);
+    for (let j = 0; j < categories.length; j++) {
+        let tmp = medium[j];
+        if (tmp) {
+            index = result.indexOf(tmp);
+            gen = tmp.gen;
+            let a = superFilter(tmp.id, categories, gen);
+            result.splice(index + 1, 0, ...a);
+            medium = [...medium, ...a];
+        }
+    }
+    return result;
+}
+
+export function superFilter(id, inter, gen) {
+    let first = '';
+    for (let j = 0; j < gen; j++) first += '--';
+    let res = inter.filter(children => children.parent_id === id);
+    const newArr = res.map((children) => {
+        return {
+            ...children,
+            ...{
+                gen: gen + 1,
+                label: first + children.name
+            }
+        };
+    });
+    return newArr;
 }

@@ -495,6 +495,31 @@ export function loadDataError() {
     };
 }
 
+export function resetPassword(staffId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_RESET_PASSWORD_STAFF});
+        staffApi.resetPassword(staffId)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    dispatch({
+                        type: types.RESET_PASSWORD_STAFF_SUCCESSFUL,
+                    });
+                    helper.showNotification(res.data.data.message);
+                } else {
+                    dispatch({
+                        type: types.RESET_PASSWORD_STAFF_ERROR
+                    });
+                    helper.showErrorNotification(res.data.message);
+                }
+
+            }).catch(() => {
+            dispatch({
+                type: types.RESET_PASSWORD_STAFF_ERROR
+            });
+        });
+    };
+}
+
 
 
 

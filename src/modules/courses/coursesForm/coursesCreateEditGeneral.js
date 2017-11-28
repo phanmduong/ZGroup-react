@@ -10,7 +10,7 @@ class coursesCreateEditGeneral extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {}
+        this.state = {};
 
         this.updateFormData     = this.updateFormData.bind(this);
         this.commitCourseData   = this.commitCourseData.bind(this);
@@ -20,7 +20,7 @@ class coursesCreateEditGeneral extends React.Component {
     componentWillMount() {
         helper.setFormValidation('#form-course-create-edit');
 
-        console.log('child general will mount',this.props);
+        //console.log('child general will mount',this.props);
     }
 
     commitCourseData(){
@@ -33,7 +33,9 @@ class coursesCreateEditGeneral extends React.Component {
     updateFormData(e){
         const   feild   = e.target.name;
         const   value   = e.target.value;
-        this.props.coursesActions.updateData(feild,value);
+        let data = {...this.props.data};
+        data[feild] = value;
+        this.props.coursesActions.updateData(data);
     }
 
     checkValidate() {
@@ -102,7 +104,6 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="col-md-6">
                                 <FormInputText
                                     label="Link tải phần mềm trên Windows"
-                                    required
                                     name="linkwindow"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.linkwindow}
@@ -110,7 +111,6 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="col-md-6">
                                 <FormInputText
                                     label="Link hướng dẫn trên Windows"
-                                    required
                                     name="window_how_install"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.window_how_install}
@@ -119,7 +119,6 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="col-md-6">
                                 <FormInputText
                                     label="Link tải phần mềm trên Mac"
-                                    required
                                     name="linkmac"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.linkmac}
@@ -127,7 +126,6 @@ class coursesCreateEditGeneral extends React.Component {
                             <div className="col-md-6">
                                 <FormInputText
                                     label="Link hướng dẫn trên Mac"
-                                    required
                                     name="mac_how_install"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.mac_how_install}
@@ -168,6 +166,7 @@ coursesCreateEditGeneral.propTypes = {
     updateCoverError    : PropTypes.bool,
     isCommitting        : PropTypes.bool,
     commitSuccess       : PropTypes.bool,
+    updateData       : PropTypes.func,
     coursesActions      : PropTypes.object.isRequired
 };
 

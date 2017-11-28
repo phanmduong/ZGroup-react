@@ -7,19 +7,36 @@ import {bindActionCreators} from 'redux';
 import FormInputText from '../../../components/common/FormInputText';
 import Search from '../../../components/common/Search';
 import Loading from '../../../components/common/Loading';
+import * as helper from '../../../helpers/helper';
 import PropTypes from 'prop-types';
 import * as importGoodActions from '../importGoodActions';
 import ListGood from './ListGood';
+import {Modal} from 'react-bootstrap';
+import HistoryPaid from "./HistoryPaid";
 
 class ImportContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.setTable = this.setTable.bind(this);
+        this.closeModalHistoryPaid = this.closeModalHistoryPaid.bind(this);
+        this.openModalHistoryPaid = this.openModalHistoryPaid.bind(this);
+        this.state = {
+            showModalHistoryPaid: false,
+
+        };
         this.table = null;
     }
 
     componentWillMount() {
         this.props.importGoodActions.loadImportGoodsOrder(this.props.params.importGoodId);
+    }
+
+    closeModalHistoryPaid() {
+        this.setState({showModalHistoryPaid: false});
+    }
+
+    openModalHistoryPaid() {
+        this.setState({showModalHistoryPaid: true});
     }
 
     setTable(table) {
@@ -30,7 +47,7 @@ class ImportContainer extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-9">
+                    <div className="col-md-8">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose">
                                 <i className="material-icons">assignment</i>
@@ -53,7 +70,7 @@ class ImportContainer extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">announcement</i></div>
@@ -78,18 +95,37 @@ class ImportContainer extends React.Component {
                                                 disabled
                                             />
                                             <FormInputText label="Ghi chú" name="note"
-                                                           value={this.props.importOrder.note}/>
+                                                           value={this.props.importOrder.note}
+                                                           disabled
+                                            />
                                         </div>
                                         <div>
-                                            <h4>
-                                                <strong>Thông tin thanh toán </strong>
-                                            </h4>
+                                            <div className="flex flex-row flex-space-between">
+                                                <h4>
+                                                    <strong>Thông tin thanh toán </strong>
+                                                </h4>
+                                                <button className="btn btn-rose btn-xs btn-simple text-align-right"
+                                                        onClick={this.openModalHistoryPaid}
+                                                >
+                                                    Lịch sử <i className="material-icons">navigate_next</i>
+                                                </button>
+                                            </div>
+
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <b>Tổng cộng</b>
                                                 </div>
                                                 <div className="col-md-6">
-                                                    <b>{this.props.importOrder.total_money}</b>
+                                                    <b>{helper.dotNumber(this.props.importOrder.total_money)} đ</b>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <b>Đã thanh toán</b>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <b>{helper.dotNumber(this.props.importOrder.total_money - this.props.importOrder.debt)}
+                                                        đ</b>
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -97,28 +133,26 @@ class ImportContainer extends React.Component {
                                                     Nợ
                                                 </div>
                                                 <div className="col-md-6">
-                                                    {this.props.importOrder.debt}
+                                                    {helper.dotNumber(this.props.importOrder.debt)} đ
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 }
                             </div>
-                            {!this.props.isLoading &&
-                            <div className="card-footer">
-                                <div className="float-right" style={{marginBottom: '20px'}}>
-                                    <button className="btn btn-sm btn-success">
-                                        <i className="material-icons">save</i> Lưu
-                                    </button>
-                                    <button className="btn btn-sm btn-danger">
-                                        <i className="material-icons">cancel</i> Huỷ
-                                    </button>
-                                </div>
-                            </div>
-                            }
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.showModalHistoryPaid} bsSize="large" onHide={this.closeModalHistoryPaid} >
+                    <Modal.Header closeButton closeLabel="Đóng">
+                        <Modal.Title>Lịch sử thanh toán</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <HistoryPaid
+                            importGoodId={this.props.params.importGoodId}
+                        />
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }

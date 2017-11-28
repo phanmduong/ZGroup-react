@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {dotNumber} from "../../helpers/helper";
-import HistoryModalContainer from "./HistoryModalContainer";
+import WareHouseModalContainer from "../productList/modals/WareHouseModalContainer";
 
 class InventoryGoodComponent extends React.Component {
     constructor(props, context) {
@@ -30,7 +30,7 @@ class InventoryGoodComponent extends React.Component {
                                         <a className="text-name-student-register"
                                            rel="tooltip" title=""
                                            data-original-title="Remove item"
-                                           onClick={() => this.props.getHistoryInventories(inventory)}>
+                                           onClick={() => this.props.showWareHouseModal(inventory)}>
                                             {inventory.code}
                                         </a>
                                     </td>
@@ -44,7 +44,8 @@ class InventoryGoodComponent extends React.Component {
                     }
                     </tbody>
                 </table>
-                <HistoryModalContainer/>
+                <WareHouseModalContainer
+                    showWareHouseModal={this.props.showWareHouseModal}/>
             </div>
         );
     }
@@ -52,7 +53,7 @@ class InventoryGoodComponent extends React.Component {
 
 InventoryGoodComponent.propTypes = {
     inventories: PropTypes.array.isRequired,
-    getHistoryInventories: PropTypes.func.isRequired
+    showWareHouseModal: PropTypes.func.isRequired
 };
 
 export default InventoryGoodComponent;

@@ -106,7 +106,7 @@ export function saveGoodProperty(property) {
     return axios.post(url, property);
 }
 
-export function addPropertyItemsToTask(optionalBoards,
+export function addPropertyItemsToTask(selectedBoards,
                                        goodPropertyItems, taskId,
                                        currentBoard, targetBoard) {
     let url = env.MANAGE_API_URL + `/good/add-property-item-task/${taskId}`;
@@ -115,7 +115,7 @@ export function addPropertyItemsToTask(optionalBoards,
         url += "?token=" + token;
     }
     return axios.post(url, {
-        optional_boards: JSON.stringify(optionalBoards),
+        selected_boards: JSON.stringify(selectedBoards),
         good_property_items: JSON.stringify(goodPropertyItems),
         current_board_id: currentBoard ? currentBoard.id : 0,
         target_board_id: targetBoard ? targetBoard.id : 0

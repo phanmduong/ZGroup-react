@@ -5,23 +5,31 @@ import {connect}                        from 'react-redux';
 import  * as coursesActions             from '../coursesActions';
 import ButtonGroupAction                from "../../../components/common/ButtonGroupAction";
 import {Link}                   from 'react-router';
-
+import * as helper      from '../../../helpers/helper';
+let id;
 class coursesCreateEditCurriculum extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {};
+        this.deleteLesson = this.deleteLesson.bind(this);
     }
     componentWillMount() {
-
-        console.log('child Curriculum will mount',this.props);
+        id = this.props.params.courseId;
     }
+
+    deleteLesson(id){
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa buổi học này không?", () => {
+            this.props.coursesActions.deleteLesson(id);
+        });
+    }
+
 
     render(){
         return (
             <div className="card-content">
 
-                    <Link className="btn btn-rose" to="/manage/courses/lessons/create">
+                    <Link className="btn btn-rose" to={`/manage/courses/lessons/create/` + id}>
                         Thêm Buổi Học
                     </Link>
 

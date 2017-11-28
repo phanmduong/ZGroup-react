@@ -116,6 +116,20 @@ export function storeSupplier(supplier) {
     });
 }
 
+export function loadHistoryPaid(orderId) {
+    let url = env.MANAGE_API_URL + `/order/all-order-paid-money`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    if (orderId) {
+        url += "&order_id=" + orderId;
+    }
+
+    return axios.get(url);
+}
+
 export function checkGoods(goods) {
     let url = env.MANAGE_API_URL + '/order/check-goods';
     let token = localStorage.getItem('token');

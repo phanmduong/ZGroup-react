@@ -435,13 +435,13 @@ export function changeProjectMemberRole(projectId, memberId, role) {
     return axios.put(url);
 }
 
-export function saveMemberTask(memberId, taskId) {
-    let url = env.MANAGE_API_URL + `/task/${taskId}/member/${memberId}`;
+export function saveMemberTask(membersStr, taskId) {
+    let url = env.MANAGE_API_URL + `/task/${taskId}/members`;
     const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    return axios.put(url);
+    return axios.put(url, {members: membersStr});
 }
 
 export function saveTaskDeadline(task) {

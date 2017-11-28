@@ -30,7 +30,7 @@ class ProductListComponent extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.products.map((product) => {
+                        this.props.products && this.props.products.map((product) => {
                             return (
                                 <tr key={product.id}>
                                     <td>
@@ -61,13 +61,17 @@ class ProductListComponent extends React.Component {
                                         </a>
                                     </td>
                                     <td style={{width: "115px"}}>
-                                        {(product.good_category_id && this.props.categories.filter(category => category.id === product.good_category_id)[0]) ?
-                                            this.props.categories.filter(category => category.id === product.good_category_id)[0].name : "Chưa có"
+                                        {
+                                            product.category ? (
+                                                product.category.name
+                                            ) : "Chưa có"
                                         }
                                     </td>
                                     <td style={{width: "120px"}}>
-                                        {(product.manufacture_id && this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0]) ?
-                                            this.props.manufactures.filter(manufacture => manufacture.id === product.manufacture_id)[0].name : "Chưa có"
+                                        {
+                                            product.manufacture ? (
+                                                product.manufacture.name
+                                            ) : "Chưa có"
                                         }
                                     </td>
                                     <td>
@@ -76,17 +80,17 @@ class ProductListComponent extends React.Component {
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showWareHouseModal(product)}>
                                             {
-                                                product.good_warehouses.length === 0 ? (
-                                                    <p>Chưa có</p>
-                                                ) : (
+                                                product.good_warehouses ? (
                                                     <p>{product.good_warehouses.length} kho</p>
+                                                ) : (
+                                                    <p>Chưa có</p>
                                                 )
                                             }
                                         </a>
                                     </td>
                                     <td>
                                         <div className="btn-group-action">
-                                            <Link to={`/good/${product.id}/edit`}
+                                            <Link to={`/product/${product.id}/edit`}
                                                   style={{color: "#878787"}}
                                                   data-toggle="tooltip" title=""
                                                   type="button" rel="tooltip"

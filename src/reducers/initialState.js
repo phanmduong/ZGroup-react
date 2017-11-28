@@ -1,20 +1,48 @@
 export default {
+    createProduct: {
+        categories: [],
+        manufactures: [],
+        isUploadingAvatar: false,
+        percent: 0,
+        productWorking: {
+            name: '',
+            code: '',
+            description: '',
+            price: '',
+            avatar_url: '',
+            sale_status: 0,
+            highlight_status: 0,
+            display_status: 0,
+            manufacture_id: '',
+            good_category_id: '',
+            images_url: [],
+        },
+        isUploadingImage: false,
+        isLoading: false
+    },
+
     globalLoading: {
         isLoading: false
     },
+
     inventoryGood: {
         isLoading: false,
+        isLoadingMore: false,
         isLoadingHistoryModal: false,
         inventories: [],
         categories: [],
         manufactures: [],
+        warehousesList: [],
         totalPages: 1,
         currentPage: 1,
         limit: 20,
         totalCount: 1,
         inventoryChecking: {
             histories: [],
-            inventoryInfo: {}
+            warehouses: [],
+            inventoryInfo: {},
+            totalPages: 0,
+            currentPage: 0
         },
         historyModal: false,
         count: 0,
@@ -82,8 +110,7 @@ export default {
             task: {},
             isSaving: false,
             boards: [],
-            optionalBoards: [],
-            processes: []
+            selectedBoards: []
         },
         createProperty: {
             property: {},
@@ -159,6 +186,8 @@ export default {
             error: false,
             isLoadingStaff: false,
             errorStaff: false,
+            isResettingPassword: false,
+            errorResetPassword: false,
         },
         editStaff: {
             isLoadingStaff: false,
@@ -300,7 +329,7 @@ export default {
             members: [],
             task: {},
             isSaving: false,
-            selectedMember: null
+            selectedMember: []
         },
         commentCard: {
             value: "",
@@ -536,7 +565,9 @@ export default {
         error: false,
         isChangingAvatar: false,
         isSaving: false,
-        savingError: false
+        savingError: false,
+        isChangingPassword: false,
+        errorChangePassword: false
     },
 
     studySession: {
@@ -614,7 +645,7 @@ export default {
 
     dashboard: {
         gens: [],
-        isLoadingGens: false,
+        isLoadingGens: true,
         errorGens: false,
         currentGen: {},
         bases: [],
@@ -811,6 +842,9 @@ export default {
             },
             isLoading: false,
             error: false,
+            isLoadingHistoryPaid: false,
+            errorHistoryPaid: false,
+            historyPaidMoney: []
         },
         formImportGood: {
             importGoods: [],
@@ -949,57 +983,53 @@ export default {
     },
     courses: {
         isLoading: false,
+        isUploadingLinkIcon: false,
+        isUploadingLink: false,
         error: false,
         coursesList: [],
+        isDeleting: false,
         paginator: {
             total_count: 1,
             total_pages: 1,
             current_page: 1,
             limit: 1
         },
-        data: {},
-        addCoursesModal: {
-            isShowModal: false,
-            isDeleting: false,
-            addCoursesModal: {
-                isShowModal: false,
-                isSaving: false
-            },
-            paginator: {
-                total_count: 1,
-                total_pages: 1,
-                current_page: 1,
-                limit: 1
-            },
-            isEditing: false,
-            isUpdatingAvatar: false,
-            updateAvatarError: false,
-            isUpdatingLogo: false,
-            updateLogoError: false,
-            isUpdatingCover: false,
-            updateCoverError: false,
-            isCommitting: false,
-            commitSuccess: false,
-            data: {
-                id: null,
-                name: "",
-                duration: "",
-                price: "",
-                description: "",
-                linkmac: "",
-                linkwindow: "",
-                num_classes: "",
-                mac_how_install: "",
-                window_how_install: "",
-                cover_url: "",
-                color: "",
-                image_url: "",
-                icon_url: "",
-                created_at: "",
-                detail: "",
-                lessons: [],
-                links: []
-            }
+        isEditing: false,
+        isUpdatingAvatar: false,
+        updateAvatarError: false,
+        isUpdatingLogo: false,
+        updateLogoError: false,
+        isUpdatingCover: false,
+        updateCoverError: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            name: "",
+            duration: "",
+            price: "",
+            description: "",
+            linkmac: "",
+            linkwindow: "",
+            num_classes: "",
+            mac_how_install: "",
+            window_how_install: "",
+            cover_url: "",
+            color: "",
+            image_url: "",
+            icon_url: "",
+            created_at: "",
+            detail: "",
+            lessons: [],
+            links: [],
+        },
+        link: {
+            id: null,
+            course_id: "",
+            link_name: "",
+            link_url: "",
+            link_description: "",
+            link_icon: "",
         }
     },
     lessons: {
@@ -1008,14 +1038,14 @@ export default {
         commitSuccess: false,
         data: {
             id: null,
-            course_id: null,
+            course_id: 1,
             name: "",
             description: "",
             detail: "",
             order: "",
             detail_content: "",
             detail_teacher: "",
-            created_at: "2016-07-12 18:00:16"
+            created_at: "",
         }
     },
 
@@ -1028,5 +1058,30 @@ export default {
         courses: [],
         isLoadingCourses: false,
         errorCourses: false,
-    }
+    },
+
+    summaryMarketingCampaign: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+    summarySales: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
 };

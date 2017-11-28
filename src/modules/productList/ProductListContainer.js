@@ -25,7 +25,7 @@ class ProductListContainer extends React.Component {
             query: '',
             manufacture: '',
             category: '',
-            page: '',
+            page: 1,
             status: {
                 sale: '',
                 display: '',
@@ -81,15 +81,22 @@ class ProductListContainer extends React.Component {
                 this.state.category,
                 this.state.status
             );
-            this.setState({time: time});
+            this.setState({
+                time: time,
+                page: 1
+            });
         } else {
-            this.setState({time: time});
+            this.setState({
+                time: time,
+                page: 1
+            });
         }
     }
 
     productsSearchChange(value) {
         this.setState({
-            query: value
+            query: value,
+            page: 1
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
@@ -110,7 +117,8 @@ class ProductListContainer extends React.Component {
     manufacturesSearchChange(value) {
         if (value) {
             this.setState({
-                manufacture: value.id
+                manufacture: value.id,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -123,7 +131,8 @@ class ProductListContainer extends React.Component {
             );
         } else {
             this.setState({
-                manufacture: null
+                manufacture: null,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -140,7 +149,8 @@ class ProductListContainer extends React.Component {
     categoriesSearchChange(value) {
         if (value) {
             this.setState({
-                category: value.id
+                category: value.id,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -172,7 +182,8 @@ class ProductListContainer extends React.Component {
         if (value) {
             status.sale = value.value;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -186,7 +197,8 @@ class ProductListContainer extends React.Component {
         } else {
             status.sale = null;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -205,7 +217,8 @@ class ProductListContainer extends React.Component {
         if (value) {
             status.display = value.value;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -219,7 +232,8 @@ class ProductListContainer extends React.Component {
         } else {
             status.display = null;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -238,7 +252,8 @@ class ProductListContainer extends React.Component {
         if (value) {
             status.highlight = value.value;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -252,7 +267,8 @@ class ProductListContainer extends React.Component {
         } else {
             status.highlight = null;
             this.setState({
-                status: status
+                status: status,
+                page: 1
             });
             this.props.productListAction.getProducts(
                 1,
@@ -302,7 +318,7 @@ class ProductListContainer extends React.Component {
         this.props.modalProductAction.showWareHouseModal();
         this.props.modalProductAction.openWareHouseTab();
         this.props.modalProductAction.handleProduct(product);
-        this.props.inventoryGoodAction.getHistoryInventories(product);
+        this.props.inventoryGoodAction.getWarehouseInventories(product);
     }
 
     showAvatarModal(product) {
@@ -336,7 +352,7 @@ class ProductListContainer extends React.Component {
                                         }}>
                                             <div>
                                                 <Link
-                                                    to="/good/create"
+                                                    to="/create-product"
                                                     rel="tooltip" data-placement="top" title=""
                                                     data-original-title="Thêm sản phẩm" type="button"
                                                     className="btn btn-rose">
@@ -366,120 +382,135 @@ class ProductListContainer extends React.Component {
                                             <div className="card-content"><h4 className="card-title">Danh sách
                                                 sản phẩm</h4>
                                                 <div className="row">
-                                                    <Search
-                                                        onChange={this.productsSearchChange}
-                                                        value={this.state.query}
-                                                        placeholder="Nhập tên hoặc mã hàng hoá để tìm"
-                                                        className="col-md-12"
-                                                    />
-                                                    <div className="form-group col-md-4">
-                                                        <label className="control-label">Tìm theo nhà sản xuất</label>
-                                                        <Select
-                                                            name="manufactures"
-                                                            value={this.state.manufacture}
-                                                            options={this.props.manufactures.map((manufacture) => {
-                                                                return {
-                                                                    ...manufacture,
-                                                                    value: manufacture.id,
-                                                                    label: manufacture.name
-                                                                };
-                                                            })}
-                                                            onChange={this.manufacturesSearchChange}
+                                                    <div className="col-md-10">
+                                                        <Search
+                                                            onChange={this.productsSearchChange}
+                                                            value={this.state.query}
+                                                            placeholder="Nhập tên hoặc mã hàng hoá để tìm"
                                                         />
                                                     </div>
-                                                    <div className="form-group col-md-4">
-                                                        <label className="control-label">Tìm theo nhóm hàng hóa</label>
-                                                        <Select
-                                                            name="categories"
-                                                            value={this.state.category}
-                                                            options={this.props.categories.map((category) => {
-                                                                return {
-                                                                    ...category,
-                                                                    value: category.id,
-                                                                    label: category.label
-                                                                };
-                                                            })}
-                                                            onChange={this.categoriesSearchChange}
-                                                        />
+                                                    <div className="col-md-2">
+                                                        <button type="button" data-toggle="collapse" data-target="#demo"
+                                                                className="btn btn-info">
+                                                            <i className="material-icons">filter</i> Lọc
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                <div className="row">
-                                                    <div className="form-group col-md-4">
-                                                        <label className="control-label">Tìm theo trạng thái kinh
-                                                            doanh</label>
-                                                        <Select
-                                                            value={this.state.status.sale}
-                                                            options={[
-                                                                {
-                                                                    value: 1,
-                                                                    label: "ĐANG KINH DOANH"
-                                                                },
-                                                                {
-                                                                    value: "0",
-                                                                    label: "NGỪNG KINH DOANH"
-                                                                }
-                                                            ]}
-                                                            onChange={this.saleStatusChange}
-                                                        />
+                                                <div id="demo" className="collapse">
+                                                    <div className="row">
+                                                        <div className="form-group col-md-3">
+                                                            <label className="label-control">Tìm theo nhà sản
+                                                                xuất</label>
+                                                            <Select
+                                                                name="manufactures"
+                                                                value={this.state.manufacture}
+                                                                options={this.props.manufactures.map((manufacture) => {
+                                                                    return {
+                                                                        ...manufacture,
+                                                                        value: manufacture.id,
+                                                                        label: manufacture.name
+                                                                    };
+                                                                })}
+                                                                onChange={this.manufacturesSearchChange}
+                                                            />
+                                                        </div>
+                                                        <div className="form-group col-md-3">
+                                                            <label className="label-control">Tìm theo nhóm hàng
+                                                                hóa</label>
+                                                            <Select
+                                                                name="categories"
+                                                                value={this.state.category}
+                                                                options={this.props.categories.map((category) => {
+                                                                    return {
+                                                                        ...category,
+                                                                        value: category.id,
+                                                                        label: category.label
+                                                                    };
+                                                                })}
+                                                                onChange={this.categoriesSearchChange}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <FormInputDate
+                                                                label="Từ ngày"
+                                                                name="startTime"
+                                                                updateFormData={this.updateFormDate}
+                                                                id="form-start-time"
+                                                                value={this.state.time.startTime}
+                                                                maxDate={this.state.time.endTime}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <FormInputDate
+                                                                label="Đến ngày"
+                                                                name="endTime"
+                                                                updateFormData={this.updateFormDate}
+                                                                id="form-end-time"
+                                                                value={this.state.time.endTime}
+                                                                minDate={this.state.time.startTime}
+                                                            />
+                                                        </div>
                                                     </div>
-                                                    <div className="form-group col-md-4">
-                                                        <label className="control-label">Tìm theo trạng thái hiển
-                                                            thị</label>
-                                                        <Select
-                                                            value={this.state.status.display}
-                                                            options={[
-                                                                {
-                                                                    value: 1,
-                                                                    label: "HIỂN THỊ RA WEBSITE"
-                                                                },
-                                                                {
-                                                                    value: "0",
-                                                                    label: "KHÔNG HIỂN THỊ RA WEBSITE"
-                                                                }
-                                                            ]}
-                                                            onChange={this.displayStatusChange}
-                                                        />
+                                                    <div className="row">
+                                                        <div className="form-group col-md-4">
+                                                            <label className="label-control">Tìm theo trạng thái kinh
+                                                                doanh</label>
+                                                            <Select
+                                                                value={this.state.status.sale}
+                                                                options={[
+                                                                    {
+                                                                        value: 1,
+                                                                        label: "ĐANG KINH DOANH"
+                                                                    },
+                                                                    {
+                                                                        value: "0",
+                                                                        label: "NGỪNG KINH DOANH"
+                                                                    }
+                                                                ]}
+                                                                onChange={this.saleStatusChange}
+                                                            />
+                                                        </div>
+                                                        <div className="form-group col-md-4">
+                                                            <label className="label-control">Tìm theo trạng thái hiển
+                                                                thị</label>
+                                                            <Select
+                                                                value={this.state.status.display}
+                                                                options={[
+                                                                    {
+                                                                        value: 1,
+                                                                        label: "HIỂN THỊ RA WEBSITE"
+                                                                    },
+                                                                    {
+                                                                        value: "0",
+                                                                        label: "KHÔNG HIỂN THỊ RA WEBSITE"
+                                                                    }
+                                                                ]}
+                                                                onChange={this.displayStatusChange}
+                                                            />
+                                                        </div>
+                                                        <div className="form-group col-md-4">
+                                                            <label className="label-control">Tìm theo trạng thái nổi
+                                                                bật</label>
+                                                            <Select
+                                                                value={this.state.status.highlight}
+                                                                options={[
+                                                                    {
+                                                                        value: 1,
+                                                                        label: "NỔI BẬT"
+                                                                    },
+                                                                    {
+                                                                        value: "0",
+                                                                        label: "KHÔNG NỔI BẬT"
+                                                                    }
+                                                                ]}
+                                                                onChange={this.highlightStatusChange}
+                                                            />
+                                                        </div>
+
+                                                        <br/>
                                                     </div>
-                                                    <div className="form-group col-md-4">
-                                                        <label className="control-label">Tìm theo trạng thái nổi
-                                                            bật</label>
-                                                        <Select
-                                                            value={this.state.status.highlight}
-                                                            options={[
-                                                                {
-                                                                    value: 1,
-                                                                    label: "NỔI BẬT"
-                                                                },
-                                                                {
-                                                                    value: "0",
-                                                                    label: "KHÔNG NỔI BẬT"
-                                                                }
-                                                            ]}
-                                                            onChange={this.highlightStatusChange}
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-3">
-                                                        <FormInputDate
-                                                            label="Từ ngày"
-                                                            name="startTime"
-                                                            updateFormData={this.updateFormDate}
-                                                            id="form-start-time"
-                                                            value={this.state.time.startTime}
-                                                            maxDate={this.state.time.endTime}
-                                                        />
-                                                    </div>
-                                                    <div className="col-md-3">
-                                                        <FormInputDate
-                                                            label="Đến ngày"
-                                                            name="endTime"
-                                                            updateFormData={this.updateFormDate}
-                                                            id="form-end-time"
-                                                            value={this.state.time.endTime}
-                                                            minDate={this.state.time.startTime}
-                                                        />
-                                                    </div>
-                                                    <br/>
                                                 </div>
+
                                                 <br/>
                                                 {
                                                     this.props.isLoading ? <Loading/> : (

@@ -1,10 +1,11 @@
 import React                            from 'react';
 
+
 class coursesCreateEditStudying extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {}
+        this.state = {};
     }
 
 

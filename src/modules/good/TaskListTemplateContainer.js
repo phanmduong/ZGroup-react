@@ -137,7 +137,8 @@ class TaskListTemplateContainer extends React.Component {
                                         <AddMemberToTaskModalContainer isTemplate={true}/>
                                         {
                                             taskList.type &&
-                                            <AddPropertyItemsToTaskModalContainer type={taskList.type}/>
+                                            <AddPropertyItemsToTaskModalContainer
+                                                type={taskList.type}/>
                                         }
 
                                         <TaskSpanModalContainer/>
