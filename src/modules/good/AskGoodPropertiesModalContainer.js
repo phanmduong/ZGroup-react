@@ -27,9 +27,25 @@ class AskGoodPropertiesModalContainer extends React.Component {
             .then(() => {
                 if (!this.props.task.isEditProcess) {
                     const sourceBoardId = this.props.task.current_board_id;
-                    const targetBoardId = this.props.task.target_board_id;
-                    this.props.taskActions.toggleTaskStatus(this.props.task, this.props.card);
-                    this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.props.card.id);
+                    let isMoved = false;
+                    this.props.task.boards.forEach((board) => {
+                        const targetBoardId = board.id;
+                        if (isMoved) {
+                            console.log("crete card: " + targetBoardId);
+                            this.props.taskActions.createCard({
+                                ...this.props.card,
+                                board_id: targetBoardId,
+                                task_list_id: ,
+                                good_properties: JSON.stringify(goodProperties)
+                            });
+                        } else {
+                            isMoved = true;
+                            this.props.taskActions.toggleTaskStatus(this.props.task, this.props.card);
+                            this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.props.card.id);
+                        }
+
+                    });
+
                 }
             });
     }

@@ -9,7 +9,6 @@ import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
 import {confirm} from "../../../../helpers/helper";
-import AskGoodPropertiesModalContainer from "../../../good/AskGoodPropertiesModalContainer";
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
@@ -23,13 +22,9 @@ class TaskListsContainer extends React.Component {
             currentTask: {},
             currentCard: {}
         };
-        this.openAskGoodPropertiesModal = this.openAskGoodPropertiesModal.bind(this);
         this.closeAskGoodPropertiesModal = this.closeAskGoodPropertiesModal.bind(this);
     }
 
-    openAskGoodPropertiesModal(task) {
-        this.props.taskActions.openAskGoodPropertiesModal(task);
-    }
 
     closeAskGoodPropertiesModal() {
         this.setState({
@@ -64,7 +59,6 @@ class TaskListsContainer extends React.Component {
         const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
         return (
             <div className="task-lists">
-                <AskGoodPropertiesModalContainer/>
 
                 <AddMemberToTaskModalContainer/>
 

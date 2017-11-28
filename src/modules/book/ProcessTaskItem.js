@@ -5,10 +5,15 @@ import Avatar from "../../components/common/Avatar";
 class ProcessTaskItem extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.toggleTaskStatus = this.toggleTaskStatus.bind(this);
     }
 
     componentDidMount() {
         $.material.init();
+    }
+
+    toggleTaskStatus() {
+        this.props.toggleTaskStatus(this.props.task);
     }
 
     render() {
