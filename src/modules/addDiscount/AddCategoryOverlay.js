@@ -3,7 +3,7 @@ import React from 'react';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import ListCategories from './ListCategories';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 
 class AddCategoryOverlay extends React.Component {
@@ -53,7 +53,7 @@ class AddCategoryOverlay extends React.Component {
     }
 }
 
-AddCategoryOverlay.PropTypes = {
-    category: PropTypes.object,
+AddCategoryOverlay.propTypes = {
+    category: propTypes.object,
 };
 export default AddCategoryOverlay;

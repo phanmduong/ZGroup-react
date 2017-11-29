@@ -81,6 +81,7 @@ import LessonsContainer from "./modules/lessons/LessonsContainer";
 import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCampaignContainer";
 import SupplierContainer from "./modules/supplier/SupplierContainer";
 import AddDiscountContainer from "./modules/addDiscount/AddDiscountContainer";
+import DiscountContainer from "./modules/discount/DiscountContainer";
 import InfoCustomerContainer from "./modules/customer/InfoCustomerContainer" ;
 import CreateProductContainer from "./modules/createProduct/CreateProductContainer";
 import ProductSystemContainer from "./modules/createProduct/ProductSystemContainer";
@@ -305,8 +306,9 @@ export default (
             {/*End supplier routes*/}
 
             {/*Begin discount routes */}
-            <Route path="/goods/discount/add" component={AddDiscountContainer}/>
-            {/*End supplier routes*/}
+            <Route path="/discount/add" component={AddDiscountContainer}/>
+            <Route path="/discount" component={DiscountContainer}/>
+            {/*End discount routes*/}
 
             {/*Begin sales routes */}
             <Route path="/manage/sales" component={SummarySalesContainer}>

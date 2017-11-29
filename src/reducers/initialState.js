@@ -1084,4 +1084,10 @@ export default {
         error: false,
         summary: [],
     },
+    discounts : {
+        discountsList : [],
+        isLoading : false,
+        totalPages : 10,
+        totalCount : 10,
+    },
 };

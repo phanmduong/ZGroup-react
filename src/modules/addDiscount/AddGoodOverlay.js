@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import ListGoods from './ListGoods';
@@ -55,8 +55,8 @@ class AddGoodOverlay extends React.Component {
         );
     }
 }
-AddGoodOverlay.PropTypes = {
-  good : PropTypes.object,
+AddGoodOverlay.propTypes = {
+  good : propTypes.object,
 };
 
 export default AddGoodOverlay;

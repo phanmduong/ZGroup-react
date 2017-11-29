@@ -1,19 +1,25 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {Modal} from 'react-bootstrap';
+import {Link , browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
-import ListChildCustomer from "./ListChildCustomer";
+import ReactSelect from 'react-select';
+
+
 import Pagination from '../../components/common/Pagination';
-import * as customerActions from './customerActions';
 import Loading from "../../components/common/Loading";
 import Search from '../../components/common/Search';
-import {Modal} from 'react-bootstrap';
-import AddCustomerModal from './AddCustomerModal';
+
+
+
 import {CUSTOMTYPE} from '../../constants/constants';
 import * as helper from '../../helpers/helper';
-import {Link} from 'react-router';
-import ReactSelect from 'react-select';
-import {browserHistory} from 'react-router';
+import ListChildCustomer from "./ListChildCustomer";
+import * as customerActions from './customerActions';
+import AddCustomerModal from './AddCustomerModal';
+
+
 
 
 
@@ -202,7 +208,7 @@ class CustomerContainer extends React.Component {
 
 
                                             <div className="row" style={{marginBottom: "30px"}}>
-                                                <div className="col-md-6"></div>
+                                                <div className="col-md-6"/>
                                                 <div className="form-group col-md-4">
                                                     <label className="label-control">Phân loại: </label>
                                                     <ReactSelect

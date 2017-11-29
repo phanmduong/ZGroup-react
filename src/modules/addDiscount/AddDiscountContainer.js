@@ -66,7 +66,6 @@ class AddDiscountContainer extends React.Component {
             customer : {},
         };
         this.props.addDiscountActions.updateDiscountFormData(discount);
-        console.log('hihi container', this.props.categories);
 
     }
 
