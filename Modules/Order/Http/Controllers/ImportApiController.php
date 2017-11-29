@@ -245,7 +245,6 @@ class ImportApiController extends ManageApiController
         $importOrder->code = $request->code ? $request->code : rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $importOrder->node = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
-        $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
         $importOrder->user_id = $request->user_id;
         $importOrder->type = 'import';
