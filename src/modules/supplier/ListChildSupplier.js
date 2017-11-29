@@ -38,14 +38,16 @@ class ListChildSupplier extends React.Component {
                                                         <a data-toggle="tooltip" title type="button"
                                                            rel="tooltip"
                                                            data-original-title="Sửa"
-                                                        onClick={()=>{this.props.openFormDataInEdit(supplier , supplier.id);}}
+                                                           onClick={() => {
+                                                               this.props.openFormDataInEdit(supplier, supplier.id);
+                                                           }}
                                                         >
                                                             <i className="material-icons">edit</i>
                                                         </a>
                                                         <a data-toggle="tooltip" title type="button"
                                                            rel="tooltip"
                                                            data-original-title="Xóa"
-                                                        onClick={() => this.props.deleteSupplier(supplier.id,supplier.name)}
+                                                           onClick={() => this.props.deleteSupplier(supplier.id, supplier.name)}
                                                         >
                                                             <i className="material-icons">delete</i>
                                                         </a>
@@ -69,8 +71,8 @@ class ListChildSupplier extends React.Component {
 
 ListChildSupplier.propTypes = {
     suppliersList: PropTypes.array,
-    deleteSupplier : PropTypes.func,
-    openFormDataInEdit : PropTypes.func,
+    deleteSupplier: PropTypes.func,
+    openFormDataInEdit: PropTypes.func,
 };
 
 

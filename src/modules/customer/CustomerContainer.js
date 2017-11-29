@@ -12,7 +12,6 @@ import Loading from "../../components/common/Loading";
 import Search from '../../components/common/Search';
 
 
-
 import {CUSTOMTYPE} from '../../constants/constants';
 import * as helper from '../../helpers/helper';
 import ListChildCustomer from "./ListChildCustomer";

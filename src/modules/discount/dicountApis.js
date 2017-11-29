@@ -18,3 +18,12 @@ export function loadDiscountsApi(limit , page , query ) {
     }
     return axios.get(url);
 }
+
+export function deleteDiscountApi(id) {
+    let token = localStorage.getItem("token");
+    let url = env.MANAGE_API_URL + '/coupon/'+ id + '/delete?';
+    if (token) {
+        url += 'token=' + token;
+    }
+    return axios.delete(url);
+}

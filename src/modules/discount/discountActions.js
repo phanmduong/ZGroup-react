@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as discountApis from './dicountApis';
-// import * as helper from '../../helpers/helper';
+import * as helper from '../../helpers/helper';
 
 
 export function loadDiscounts( page , limit, query) {
@@ -24,3 +24,23 @@ export function loadDiscounts( page , limit, query) {
             });
     };
 }
+
+export function deleteDiscount(id , name) {
+    return function (dispatch ) {
+        helper.showTypeNotification("Đang xóa " + name, "info");
+        discountApis.deleteDiscountApi(id)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showTypeNotification(" Đã xóa " + name, "success");
+                    dispatch({
+                        type: types.DELETE_DISCOUNT_SUCCESS,
+                        id: id,
+                    });
+                }
+                else {
+                    helper.sweetAlertError(res.data.message.message);
+                }
+            });
+    };
+}
+

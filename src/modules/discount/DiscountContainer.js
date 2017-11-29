@@ -1,20 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-// import {Link , browserHistory} from 'react-router';
+import {browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
 // import ReactSelect from 'react-select';
 
 
-
 import Loading from "../../components/common/Loading";
 import Search from '../../components/common/Search';
+import * as helper from '../../helpers/helper';
 import Pagination from '../../components/common/Pagination';
 
 import * as discountActions from './discountActions';
 import ListChildDiscount from './ListChildDiscount';
-
-
 
 
 class DiscountContainer extends React.Component {
@@ -27,14 +25,18 @@ class DiscountContainer extends React.Component {
         };
         this.loadDiscounts = this.loadDiscounts.bind(this);
         this.discountsSearchChange = this.discountsSearchChange.bind(this);
+        this.deleteDiscount = this.deleteDiscount.bind(this);
     }
+
     componentWillMount() {
-        this.loadDiscounts( 1, this.state.limit );
+        this.loadDiscounts(1, this.state.limit);
     }
+
     loadDiscounts(page) {
         this.setState({page: page});
         this.props.discountActions.loadDiscounts(this.state.page, this.state.limit, this.state.query);
     }
+
     discountsSearchChange(value) {
         this.setState({
             page: 1,
@@ -48,6 +50,18 @@ class DiscountContainer extends React.Component {
         }.bind(this), 500);
     }
 
+    // openInfoCustomer(customer){
+    //     this.props.discountActions.updateAddCustomerFormData(customer);     //      Gán customer vào để show ra trong InfoCustomerContainer
+    //     browserHistory.push('/goods/customer/info-customer/'+customer.id);
+    // }
+
+    deleteDiscount(id, name) {
+        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + name,
+            function () {
+                this.props.discountActions.deleteDiscount(id, name);
+            }.bind(this)); // bind để thực hiện hàm khi hiện ra helper thông báo cf xóa
+    }
+
 
     render() {
         let currentPage = this.state.page;
@@ -58,63 +72,53 @@ class DiscountContainer extends React.Component {
                     <div>
                         <div className="row">
                             <div className="col-md-12">
-                                {this.props.isLoading ?
-                                    <Loading/>
-                                    :
-                                    <div className="card">
-                                        <div className="card-header card-header-icon" data-background-color="rose">
-                                            <i className="material-icons">assignment</i>
-                                        </div>
-                                        <div className="card-content">
-                                            <h4 className="card-title">Nhà kho</h4>
-                                            <div className="row">
-                                                <div className="col-md-12">
-                                                    <div style={{
-                                                        display: 'flex',
-                                                        flexDirection: 'row',
-                                                        justifyContent: 'space-between'
-                                                    }}>
-                                                        <div>
-                                                            <button rel="tooltip" data-placement="top" title
-                                                                    data-original-title="Remove item" type="button"
-                                                                    className="btn btn-rose"
-                                                            >
-                                                                Thêm nhà kho
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div className="row">
-                                                        <div className="col-md-12">
-                                                            <Search
-                                                                onChange={this.discountsSearchChange}
-                                                                value={this.state.query}
-                                                                placeholder="Tìm kiếm khuyến mãi"
-                                                                className="col-md-12"
-                                                            />
-                                                        </div>
-                                                    </div>
+                                <div className="card">
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">assignment</i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">Khuyến mãi</h4>
+                                        <div className="row">
+                                            <div className="col-md-4">
+                                                <div>
+                                                    <button type="button" className="btn btn-rose"
+                                                            onClick={() => {
+                                                                browserHistory.push('/discount/add');
+                                                            }}>
+                                                        Thêm khuyến mãi
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <br/>
-                                            <div className="table-responsive">
+
+                                            <div className="col-md-8">
+                                                <Search
+                                                    onChange={this.discountsSearchChange}
+                                                    value={this.state.query}
+                                                    placeholder="Tìm kiếm khuyến mãi"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {this.props.isLoading ?
+                                                <Loading/>
+                                                :
                                                 <ListChildDiscount
                                                     discountsList={this.props.discountsList}
-                                                    deleteWareHouse={this.deleteDiscount}
+                                                    deleteDiscount={this.deleteDiscount}
                                                 />
-
-                                                <div className="row" style={{float: 'right'}}>
-                                                    <div className="col-md-12" style={{textAlign: 'right'}}>
-                                                        <Pagination
-                                                            totalPages={this.props.totalPages}
-                                                            currentPage={currentPage}
-                                                            loadDataPage={this.loadDiscounts}
-                                                        />
-                                                    </div>
+                                            }
+                                            <div className="row" style={{float: 'right'}}>
+                                                <div className="col-md-12" style={{textAlign: 'right'}}>
+                                                    <Pagination
+                                                        totalPages={this.props.totalPages}
+                                                        currentPage={currentPage}
+                                                        loadDataPage={this.loadDiscounts}
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                }
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-// let customersList;
+let discountsList;
 export default function discountReducer(state = initialState.discounts, action) {
     switch (action.type) {
 
@@ -33,7 +33,23 @@ export default function discountReducer(state = initialState.discounts, action) 
                 isLoading: false,
 
             };
+
+
+        case types.DELETE_DISCOUNT_SUCCESS:
+
+            discountsList = deleteDiscountReducer(action.id , state.discountsList);
+            return {
+                ...state,
+                discountsList : discountsList,
+            };
         default :
             return state;
     }
+}
+
+function deleteDiscountReducer(id, discountsList) {
+    if (discountsList){
+        discountsList = discountsList.filter((discount) => discount.id !== id);
+    }
+    return discountsList;
 }
