@@ -80,7 +80,7 @@ class CouponController extends ManageApiController
                         'name' => $coupon->name,
                         'description' => $coupon->description,
                         'discount_type' => $coupon->discount_type,
-                        'discount_value' => $coupon->discount_type,
+                        'discount_value' => $coupon->discount_value,
                         'type' => $coupon->type,
                         'used_for' => $coupon->used_for,
                         'quantity' => $coupon->rate,
