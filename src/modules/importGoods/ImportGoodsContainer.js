@@ -38,6 +38,7 @@ class ImportGoodsContainer extends React.Component {
         this.setTable = this.setTable.bind(this);
         this.postsImportOrders = this.postsImportOrders.bind(this);
         this.loadImportGoods = this.loadImportGoods.bind(this);
+        this.deleteImportOrder = this.deleteImportOrder.bind(this);
         this.table = null;
     }
 
@@ -116,6 +117,10 @@ class ImportGoodsContainer extends React.Component {
 
     setTable(table) {
         this.table = table;
+    }
+
+    deleteImportOrder(importOrder) {
+        this.props.importGoodActions.deleteImportOrder(importOrder.id);
     }
 
     render() {
@@ -201,6 +206,7 @@ class ImportGoodsContainer extends React.Component {
                                     <ListImported
                                         setTable={this.setTable}
                                         importOrders={this.props.importOrders}
+                                        deleteImportOrder={this.deleteImportOrder}
                                     />
                                 }
                                 <Pagination

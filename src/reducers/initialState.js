@@ -849,6 +849,7 @@ export default {
             paid_money: 0,
             isStoring: false,
             error: false,
+            payment: ''
         },
         addGoodFile: {
             isCheckingGoods: false,
@@ -861,6 +862,8 @@ export default {
         warehouses: [],
         isStoringSupplier: false,
         errorStoreSupplier: false,
+        isSavingPaidMoney: false,
+        errorPaidMoney: false,
     },
     wareHouses: {
         isLoading: true,

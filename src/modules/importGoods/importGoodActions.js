@@ -2,7 +2,7 @@ import * as types from '../../constants/actionTypes';
 import * as importGoodsApi from './importGoodsApi';
 import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
-
+import async from 'async';
 
 export function loadImportOrders(page, search, startTime, endTime, status, staff) {
     return function (dispatch) {
@@ -71,6 +71,37 @@ export function storeImportGood(formImportGood, status) {
                     helper.showNotification("Có lỗi xảy ra.");
                     dispatch({
                         type: types.STORE_IMPORT_GOOD_ERROR
+                    });
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({
+                    type: types.STORE_IMPORT_GOOD_ERROR
+                });
+            });
+
+    };
+}
+
+export function addPaidMoney(paidMoney, orderId, closeModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_ADD_PAID_MONEY_IMPORT_GOODS
+        });
+        importGoodsApi.addPaidMoney(paidMoney, orderId)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    closeModal();
+                    helper.showNotification("Thêm thanh toán thành công.");
+                    dispatch({
+                        type: types.ADD_PAID_MONEY_IMPORT_GOODS_SUCCESS,
+                        orderPaidMoney: res.data.data.order_paid_money
+                    });
+                } else {
+                    helper.showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.ADD_PAID_MONEY_IMPORT_GOODS_ERROR
                     });
                 }
             })
@@ -181,5 +212,45 @@ export function checkGoods(goods) {
                     type: types.CHECK_GOODS_IMPORT_GOODS_ERROR
                 });
             });
+    };
+}
+
+export function deleteImportOrder(importOrderId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_IMPORT_ORDERS});
+        async.waterfall([
+            function (callback) {
+                importGoodsApi.deleteImportOrder(importOrderId)
+                    .then(() => {
+                        callback(null, "Xóa thành công");
+                    }).catch(() => {
+                    callback("Xóa thất bại");
+                });
+            },
+            function (message, callback) {
+                importGoodsApi.loadImportOrders(1)
+                    .then((res) => {
+                        dispatch({
+                            type: types.LOAD_IMPORT_ORDERS_SUCCESS,
+                            importOrders: res.data.import_orders,
+                            currentPage: res.data.paginator.current_page,
+                            totalPages: res.data.paginator.total_pages
+                        });
+                        callback(null, "Tải thành công");
+                    }).catch(() => {
+                    dispatch({
+                        type: types.LOAD_IMPORT_ORDERS_ERROR
+                    });
+                    callback("Có lỗi xảy ra");
+                });
+            }
+        ], function (error) {
+            if (error) {
+                helper.showErrorNotification(error);
+                dispatch({
+                    type: types.LOAD_IMPORT_ORDERS_ERROR
+                });
+            }
+        });
     };
 }
