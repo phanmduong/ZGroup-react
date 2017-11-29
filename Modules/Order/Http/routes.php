@@ -5,6 +5,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::put('/{order_id}/edit', 'OrderController@editOrder');
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
+    Route::post('/pay-import-order/{orderId}', 'OrderController@payImportOrder');
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
 
