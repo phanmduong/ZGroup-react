@@ -13,9 +13,12 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::delete('/delete-link/{link_id}', 'CourseController@deleteLink');
     Route::post('/lesson/add/{courseId}', 'CourseController@addLesson');
     Route::put('/lesson/edit/{lessonId}', 'CourseController@editLesson');
+    Route::get('/get-attendance-lesson/{classId}/{lessonId}','CourseController@getAttendance');
+    Route::post('/change-attendance/{classId}/{lessonId}','CourseController@changeAttendance');
 });
 
 Route::group(['domain' => 'api.' . config('app.domain'), 'prefix' => 'apiv2', 'namespace' => 'Modules\Course\Http\Controllers'], function () {
     Route::get('/gens/{genId}/classes', 'ClassApiController@genClasses');
     Route::get('/class/{classId}/attendance/lessons', 'ClassApiController@classLessons');
+
 });

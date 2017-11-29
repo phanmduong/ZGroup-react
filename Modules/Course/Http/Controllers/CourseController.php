@@ -2,10 +2,14 @@
 
 namespace Modules\Course\Http\Controllers;
 
+use App\Attendance;
+use App\ClassLesson;
 use App\Course;
+use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
 use App\Link;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -130,7 +134,13 @@ class CourseController extends ManageApiController
             $link->link_icon = $link_icon;
             $link->link_icon_url = $this->s3_url . $link_icon;
         } else {
+
+            if ($link->link_icon_url === null) {
+                $link->link_icon_url = 'https://placehold.it/800x600';
+            }
+
             $link->link_icon_url = trim($request->link_icon_url) ? trim($request->link_icon_url) : 'https://placehold.it/800x600';
+
         }
         $link->save();
         return $this->respondSuccessWithStatus([
@@ -154,7 +164,13 @@ class CourseController extends ManageApiController
             $link->link_icon = $link_icon;
             $link->link_icon_url = $this->s3_url . $link_icon;
         } else {
+
+            if ($link->link_icon_url === null) {
+                $link->link_icon_url = 'https://placehold.it/800x600';
+            }
+
             $link->link_icon_url = trim($request->link_icon_url) ? trim($request->link_icon_url) : 'https://placehold.it/800x600';
+
         }
         $link->save();
         return $this->respondSuccessWithStatus([
@@ -232,5 +248,58 @@ class CourseController extends ManageApiController
                 'detail_teacher' => $lesson->detail_teacher
             ]
         ]);
+    }
+
+    public function getAttendance($classId, $lessonId, Request $request)
+    {
+        $classLesson = ClassLesson::query();
+        $classLesson = $classLesson->where('class_id', $classId)->where('lesson_id', $lessonId)->first();
+        if (!$classLesson) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
+        $attendance_list = $classLesson->attendances;
+        $data['attendances'] = $attendance_list->map(function ($attendance) {
+            return [
+                'id' => $attendance->register->user->id,
+                'name' => $attendance->register->user->name,
+                'email' => $attendance->register->user->email,
+                'study_class' => $attendance->register->studyClass->name,
+                'device' => $attendance->device,
+                'attendance_status' => $attendance->status,
+            ];
+        });
+        $data['classLesson'] = [
+            'name' => $classLesson->studyClass->name,
+            'attendance_count' => $classLesson->attendances->count(),
+        ];
+
+        return $this->respondSuccessWithStatus([
+            "data" => $data
+        ]);
+
+    }
+
+    public function changeAttendance($classId, $lessonId, Request $request)
+    {
+        $classLesson = ClassLesson::query();
+        $classLesson = $classLesson->where('class_id', $classId)->where('lesson_id', $lessonId)->first();
+
+        $student_id = $request->student_id;
+
+        $student = User::find($student_id);
+        $register = $student->registers()->where('class_id', $classId)->where('status',1)->first();
+        $attendance = Attendance:: where('register_id', $register->id)->where('class_lesson_id',$classLesson->id)->first();
+        if (!$attendance) {
+            $attendance = new Attendance;
+            $attendance->status = 1;
+            $attendance->register_id= $register->id;
+            $attendance->class_lesson_id = $classLesson->id;
+            $attendance->save();
+        } else {
+            $attendance->status = 1 - $attendance->status;
+            $attendance->save();
+        }
+        return $this->respondSuccessWithStatus([
+           "message" => "Diem danh thanh cong"
+        ]);
+
     }
 }
