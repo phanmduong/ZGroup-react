@@ -1,4 +1,4 @@
-@extends('layouts.public1')
+@extends('layouts.public_new')
 @section('title','Khoá học '.$course->name)
 @section('fb-info')
     <link rel="canonical" href="{{url('classes').'/'.$course->id}}"/>
