@@ -174,7 +174,7 @@
             </div>
         </div>
         <div class="container" >
-            <h4 id="class-list" style="margin-top: 50px;">Danh sách lớp học</h4>
+            <h4 style="margin-top: 50px;">Danh sách lớp học</h4>
             @foreach($bases as $base)
                 <h5 style="padding-top:40px"><strong>{{$base->name}}</strong>: {{$base->address}}</h5>
                 <ul class="collection">

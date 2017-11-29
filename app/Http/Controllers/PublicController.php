@@ -193,7 +193,7 @@ class PublicController extends Controller
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
 
-        return view('public.classes_list1',$this->data);
+        return view('public.classes_list_new',$this->data);
     }
 
     public function register_class($class_id = null, $saler_id = null, $campaign_id = null)
