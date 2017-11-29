@@ -223,4 +223,70 @@ class ImportApiController extends ManageApiController
             'message' => 'SUCCESS'
         ]);
     }
+
+    public function editImportOrder($importOrderId, Request $request)
+    {
+        foreach ($request->imported_goods as $imported_good) {
+            $good = Good::find($imported_good['good_id']);
+            if ($good == null)
+                return $this->respondErrorWithStatus([
+                    'message' => 'Không tồn tại sản phẩm'
+                ]);
+        }
+        $importOrder = Order::find($importOrderId);
+        if ($importOrder == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại đơn nhập hàng'
+            ]);
+        if ($importOrder->status == 'completed')
+            return $this->respondErrorWithStatus([
+                'message' => 'Cant edit completed import order'
+            ]);
+        $importOrder->code = $request->code ? $request->code : rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $importOrder->node = $request->note;
+        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->staff_id = $this->user->id;
+        $importOrder->user_id = $request->user_id;
+        $importOrder->type = 'import';
+        $importOrder->save();
+        if ($request->paid_money) {
+            $oldOrderPaidMoney = OrderPaidMoney::where('order_id', $importOrder->id)->get();
+            if ($oldOrderPaidMoney)
+                $oldOrderPaidMoney->delete();
+            $orderPaidMoney = new OrderPaidMoney;
+            $orderPaidMoney->order_id = $importOrder->id;
+            $orderPaidMoney->money = $request->paid_money;
+            $orderPaidMoney->staff_id = $this->user->id;
+            $orderPaidMoney->payment = $request->payment;
+            $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
+            $orderPaidMoney->save();
+        }
+
+        $orderImportId = $importOrder->id;
+        $importedGoods = $importOrder->importedGoods;
+        foreach ($importedGoods as $importedGood) {
+            $importedGood->delete();
+        }
+        foreach ($request->imported_goods as $imported_good) {
+            $importedGood = new ImportedGoods;
+            if ($imported_good['price']) {
+                $good = Good::find($imported_good['good_id']);
+                $good->price = $imported_good['price'];
+                $good->save();
+            }
+            $importedGood->order_import_id = $orderImportId;
+            $importedGood->good_id = $imported_good['good_id'];
+            $importedGood->quantity = $imported_good['quantity'];
+            $importedGood->import_quantity = $imported_good['quantity'];
+            $importedGood->import_price = $imported_good['import_price'];
+            $importedGood->status = $request->status ? $request->status : 'uncompleted';
+            $importedGood->staff_id = $this->user->id;
+            $importedGood->warehouse_id = $request->warehouse_id;
+            $importedGood->save();
+        }
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
 }
