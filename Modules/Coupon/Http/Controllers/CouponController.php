@@ -77,6 +77,7 @@ class CouponController extends ManageApiController
             [
                 'coupons' => $coupons->map(function ($coupon) {
                     $data = [
+                        'id' => $coupon->id,
                         'name' => $coupon->name,
                         'description' => $coupon->description,
                         'discount_type' => $coupon->discount_type,
