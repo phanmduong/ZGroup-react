@@ -83,4 +83,41 @@ class MarketingCampaignController extends ManageApiController
         ]);
     }
 
+    public function summaryMarketingRegister(Request $request)
+    {
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $registers = Register::query();
+        if ($startTime) {
+            $registers = $registers->whereBetween('created_at', array($startTime, $endTime));
+        }
+
+        $registers = $registers->select(DB::raw('count(*) as total_registers, campaign_id, saler_id'))
+            ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)->where('status', '>', 0)
+            ->groupBy('campaign_id', 'saler_id')->get();
+
+        $registers = $registers->map(function ($item) {
+
+            $data = [
+                'total_registers' => $item->total_registers,
+                'campaign' => [
+                    'id' => $item->marketing_campaign->id,
+                    'name' => $item->marketing_campaign->name,
+                    'color' => $item->marketing_campaign->color,
+                ],
+                'saler' =>[
+                    'id' => $item->saler->id,
+                    'name' => $item->saler->name,
+                    'color' => $item->saler->color,
+                ]
+            ];
+            return $data;
+        });
+
+        return $this->respondSuccessWithStatus([
+            'data' => $registers
+        ]);
+
+    }
+
 }
