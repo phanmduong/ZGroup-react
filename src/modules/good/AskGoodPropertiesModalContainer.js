@@ -27,7 +27,7 @@ class AskGoodPropertiesModalContainer extends React.Component {
         this.props.taskActions.submitGoodProperties()
             .then(() => {
                 if (!this.props.task.isEditProcess) {
-                    moveAndCreateCard(this);
+                    moveAndCreateCard(this, this.props.task);
                 }
             });
     }
