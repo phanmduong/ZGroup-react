@@ -160,6 +160,7 @@ class ImportApiController extends ManageApiController
             $orderPaidMoney->order_id = $importOrder->id;
             $orderPaidMoney->money = $request->paid_money;
             $orderPaidMoney->staff_id = $this->user->id;
+            $orderPaidMoney->payment = $request->payment;
             $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
             $orderPaidMoney->save();
         }
