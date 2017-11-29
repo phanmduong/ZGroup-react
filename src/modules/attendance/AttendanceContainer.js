@@ -76,24 +76,27 @@ class AttendanceContainer extends React.Component {
 
     componentWillReceiveProps(nextProps){
         console.log('AttendanceContainer',nextProps);
-        //this.setState({gens: this.getGens(nextProps.gens), selectGenId: 0});
-        //this.setState({bases: this.getBases(nextProps.bases), selectBaseId: 0});
-        if (nextProps.isLoadingGens !== this.props.isLoadingGens && !nextProps.isLoadingGens) {
+        console.log('state',this.state);
+        if(nextProps.isLoadingGens !== this.props.isLoadingGens && !nextProps.isLoadingGens) {
             this.setState({
                 gens: this.getGens(nextProps.gens),
                 selectGenId: nextProps.currentGen.id
             });
+            this.loadClasses(1,'','',this.state.selectBaseId,nextProps.currentGen.id);
         }
         if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
             this.setState({
                 bases: this.getBases(nextProps.bases),
             });
+            this.loadClasses(1,'','','',this.state.selectGenId);
         }
     }
 
     loadClasses(page = 1, query = '', teacherid, baseid, genid) {
         this.setState({page});
-        this.props.attendanceActions.loadClasses(query, page, teacherid, baseid, genid);
+        console.log( page,  this.state.selectBaseId , this.state.selectGenId);
+        console.log( page,  baseid , genid);
+        this.props.attendanceActions.loadClasses(query, page, teacherid, baseid == 0 ? '' : baseid , genid);
     }
 
     classesSearchChange(value) {
@@ -105,7 +108,7 @@ class AttendanceContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.loadClasses(1, value, null, null, null);
+            this.loadClasses(1, value, '', this.state.selectBaseId, this.state.selectGenId);
         }.bind(this), 500);
     }
 
@@ -157,7 +160,6 @@ class AttendanceContainer extends React.Component {
                 value: base.name
             };
         });
-        this.setState({selectBaseId: 0});
         return [{
             key: 0,
             value: 'Tất cả'
@@ -166,39 +168,45 @@ class AttendanceContainer extends React.Component {
 
     onChangeBase(value) {
         this.setState({selectBaseId: value});
-        console.log(this.state);
         //this.loadDashboard(this.state.selectBaseId, value);
+        this.loadClasses(1,'','', value, this.state.selectGenId);
     }
 
     onChangeGen(value) {
-        console.log(this.state);
         this.setState({selectGenId: value});
         //this.loadDashboard(value, this.state.selectGenId);
+        this.loadClasses(1,'','', this.state.selectBaseId, value);
     }
 
     render(){
         return(
 
             <div className="row">
-                {this.props.isLoading || this.props.isLoadingBases || this.props.isLoadingGens ? <Loading/> :
                 <div className="col-md-12">
-                    <div className="col-sm-6 col-xs-5"></div>
-                    <div className="col-sm-3 col-xs-5">
-                            <Select
-                                    defaultMessage={'Chọn cơ sở'}
-                                    options={this.state.bases}
-                                    disableRound
-                                    value={this.state.selectBaseId}
-                                    onChange={this.onChangeBase}
+                    {this.props.isLoadingBases || this.props.isLoadingGens
+                        ?
+                        <Loading/>
+                        :
+                        <div>
+                            <div className="col-sm-6 col-xs-5"></div>
+                            <div className="col-sm-3 col-xs-5">
+                                <Select
+                                defaultMessage={'Chọn cơ sở'}
+                                options={this.state.bases}
+                                disableRound
+                                value={this.state.selectBaseId}
+                                onChange={this.onChangeBase}
+                                /></div>
+                            <div className="col-sm-3 col-xs-5">
+                                <Select
+                                defaultMessage={'Chọn khóa học'}
+                                options={this.state.gens}
+                                disableRound
+                                value={this.state.selectGenId}
+                                onChange={this.onChangeGen}
                             /></div>
-                    <div className="col-sm-3 col-xs-5">
-                    <Select
-                            defaultMessage={'Chọn khóa học'}
-                            options={this.state.gens}
-                            disableRound
-                            value={this.state.selectGenId}
-                            onChange={this.onChangeGen}
-                    /></div>
+                        </div>
+                    }
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">assignment</i>
@@ -210,18 +218,22 @@ class AttendanceContainer extends React.Component {
                                 value={this.state.query}
                                 placeholder="Tìm kiếm lớp"
                             />
-                            <ListClassComponent
-                                classes={this.props.data.classes}
-                                isLoading={this.props.isLoading}
-                                searchByTeacher={this.loadClasses}
-                                openModalLesson={this.openModalLesson}
-                            />
+                            {this.props.isLoading ?
+                                <Loading/>
+                                :
+                                <ListClassComponent
+                                    classes={this.props.data.classes}
+                                    isLoading={this.props.isLoading}
+                                    searchByTeacher={this.loadClasses}
+                                    openModalLesson={this.openModalLesson}
+                                />
+                            }
                             <ul className="pagination pagination-primary">
                                 { _.range(1, (this.props.data.paginator? this.props.data.paginator.total_pages :0) + 1).map(page => {
                                     if (Number(this.state.page) === page) {
                                         return (
                                             <li key={page} className="active">
-                                                <a onClick={() => this.loadClasses(page, this.state.query)}>
+                                                <a onClick={() => this.loadClasses(page, this.state.query,'', this.state.selectBaseId, this.state.selectGenId)}>
                                                     {page}
                                                 </a>
                                             </li>
@@ -229,7 +241,7 @@ class AttendanceContainer extends React.Component {
                                     } else {
                                         return (
                                             <li key={page}>
-                                                <a onClick={() => this.loadClasses(page, this.state.query)}>
+                                                <a onClick={() => this.loadClasses(page, this.state.query,'', this.state.selectBaseId, this.state.selectGenId)}>
                                                     {page}
                                                 </a>
                                             </li>
@@ -238,6 +250,7 @@ class AttendanceContainer extends React.Component {
 
                                 })}
                             </ul>
+
                         </div>
                     </div>
                     <ListLessonModal
@@ -258,7 +271,7 @@ class AttendanceContainer extends React.Component {
                         isLoadingLessonDetailModal={this.props.isLoadingLessonDetailModal}
                     />
                 </div>
-                }
+
             </div>
 
 
