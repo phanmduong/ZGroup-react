@@ -70,8 +70,19 @@ class CouponController extends ManageApiController
     public function allCoupons(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
+        $keyword = $request->search;
+        $used_for = $request->used_for;
+        $discount_type = $request->discount_type;
 
         $coupons = Coupon::query();
+        $coupons = $coupons->where(function ($query) use ($keyword) {
+            $query->where('name', 'like', '%' .$keyword. '%')->orWhere('description', 'like', '%' .$keyword. '%');
+        });
+        if($used_for)
+            $coupons = $coupons->where('used_for', $used_for);
+        if($discount_type)
+            $coupons = $coupons->where('discount_type', $discount_type);
+
         $coupons = $coupons->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($coupons,
             [
