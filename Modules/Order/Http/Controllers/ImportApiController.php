@@ -132,6 +132,8 @@ class ImportApiController extends ManageApiController
             $user = [
                 'id' => $importOrder->user->id,
                 'name' => $importOrder->user->name,
+                'phone' => $importOrder->user->phone,
+                'email' => $importOrder->user->email,
             ];
             $data['user'] = $user;
         }
