@@ -6,7 +6,6 @@ import * as modalProductAction from './modalProductAction';
 import * as productListAction from '../productListAction';
 import PropTypes from "prop-types";
 import Loading from "../../../components/common/Loading";
-import {dotNumber} from "../../../helpers/helper";
 
 class PriceModalContainer extends React.Component {
     constructor(props, context) {
@@ -21,9 +20,9 @@ class PriceModalContainer extends React.Component {
 
     handleProduct(e) {
         const field = e.target.name;
-        let productEditing = this.props.productEditing;
-        productEditing.productPresent[field] = e.target.value;
-        this.props.modalProductAction.handleProduct(productEditing.productPresent);
+        let productPresent = {...this.props.productEditing.productPresent};
+        productPresent[field] = e.target.value;
+        this.props.modalProductAction.handleProduct(productPresent);
     }
 
     render() {
@@ -41,7 +40,7 @@ class PriceModalContainer extends React.Component {
                         <input type="text"
                                name="price"
                                className="form-control datepicker"
-                               value={dotNumber(this.props.productEditing.productPresent.price)}
+                               value={this.props.productEditing.productPresent.price}
                                onChange={this.handleProduct}/>
                         <span className="material-input"/>
                     </div>

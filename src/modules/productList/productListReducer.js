@@ -61,7 +61,7 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 modalInProduct: {
                     ...state.modalInProduct,
-                    modalUpdated: action.updated
+                    modalUpdated: action.modalUpdated
                 }
             };
         case types.TOGGLE_WARE_HOUSE_MODAL:

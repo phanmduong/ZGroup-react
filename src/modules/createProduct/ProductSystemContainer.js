@@ -66,21 +66,21 @@ class ProductSystemContainer extends React.Component {
                     <div className="col-md-4">
                         <CheckBoxMaterial
                             name="sale_status"
-                            checked={product.sale_status}
+                            checked={product.sale_status ? (true) : (false)}
                             onChange={this.selectStatusProduct}
                             label="Đang kinh doanh"/>
                     </div>
                     <div className="col-md-4">
                         <CheckBoxMaterial
                             name="display_status"
-                            checked={product.display_status}
+                            checked={product.display_status ? (true) : (false)}
                             onChange={this.selectStatusProduct}
                             label="Hiển thị ra website"/>
                     </div>
                     <div className="col-md-4">
                         <CheckBoxMaterial
                             name="highlight_status"
-                            checked={product.highlight_status}
+                            checked={product.highlight_status ? (true) : (false)}
                             onChange={this.selectStatusProduct}
                             label=" Nổi bật"/>
                     </div>

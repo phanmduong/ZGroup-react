@@ -104,7 +104,7 @@ class ProductWebsiteContainer extends React.Component {
                         <div className="card-content">
                             <h4 className="card-title">Thêm ảnh mô tả</h4>
                             {
-                                !product.images_url || product.images_url.length === 0 ? (
+                                (!product.images_url || product.images_url.length === 0) && !this.props.isUploadingImage ? (
                                     <div style={{
                                         maxWidth: "250px",
                                         lineHeight: "250px",
@@ -163,7 +163,7 @@ class ProductWebsiteContainer extends React.Component {
                                             this.props.isUploadingImage ? (
                                                 <div className="col-md-4">
                                                     <div className="container-for-images"
-                                                    style={{textAlign:"center"}}>
+                                                         style={{textAlign: "center"}}>
                                                         <div className="progress">
                                                             <div className="progress-bar" role="progressbar"
                                                                  aria-valuenow="70"

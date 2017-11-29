@@ -10,7 +10,7 @@ class ItemOrder extends React.Component {
         super(props, context);
     }
 
-    statusOrder(status){
+    statusOrder(status) {
         switch (status) {
             case "ship_uncall":
                 return (
@@ -96,7 +96,7 @@ class ItemOrder extends React.Component {
                 <td>{order.total}</td>
                 <td>{order.debt}</td>
                 <td>
-                    <ButtonGroupAction />
+                    <ButtonGroupAction/>
                 </td>
             </tr>
         );
@@ -104,7 +104,7 @@ class ItemOrder extends React.Component {
 }
 
 ItemOrder.propTypes = {
-    order : PropTypes.object.isRequired,
+    order: PropTypes.object.isRequired,
 };
 
 
