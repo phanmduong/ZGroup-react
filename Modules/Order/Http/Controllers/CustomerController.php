@@ -71,6 +71,7 @@ class CustomerController extends ManageApiController
                         'address' => $user->address,
                         'birthday' => $user->dob,
                         'gender' => $user->gender,
+                        'avatar_url' => $user->avatar_url ? $user->avatar_url : "http://api.colorme.vn/img/user.png",
                         'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",
                         'total_money' => $totalMoney,
                         'total_paid_money' => $totalPaidMoney,

@@ -70,17 +70,33 @@ class CouponController extends ManageApiController
     public function allCoupons(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
+        $keyword = $request->search;
+        $used_for = $request->used_for;
+        $discount_type = $request->discount_type;
+        $type = $request->type;
 
         $coupons = Coupon::query();
+        $coupons = $coupons->where(function ($query) use ($keyword) {
+            $query->where('name', 'like', '%' .$keyword. '%')->orWhere('description', 'like', '%' .$keyword. '%');
+        });
+        if($used_for)
+            $coupons = $coupons->where('used_for', $used_for);
+        if($discount_type)
+            $coupons = $coupons->where('discount_type', $discount_type);
+        if($type)
+            $coupons = $coupons->where('type', $type);
+
+
         $coupons = $coupons->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($coupons,
             [
                 'coupons' => $coupons->map(function ($coupon) {
                     $data = [
+                        'id' => $coupon->id,
                         'name' => $coupon->name,
                         'description' => $coupon->description,
                         'discount_type' => $coupon->discount_type,
-                        'discount_value' => $coupon->discount_type,
+                        'discount_value' => $coupon->discount_value,
                         'type' => $coupon->type,
                         'used_for' => $coupon->used_for,
                         'quantity' => $coupon->rate,
@@ -88,20 +104,22 @@ class CouponController extends ManageApiController
                         'end_time' => $coupon->end_time,
                     ];
                     if($coupon->used_for == 'order')
-                        $data['order_value'] = $coupon->order_value;
+                        $data['order'] = [
+                            'value' => $coupon->order_value,
+                        ];
                     if($coupon->used_for == 'good')
                         $data['good'] = [
                             'id' => $coupon->good_id,
                             'name' => $coupon->good->name,
                         ];
                     if($coupon->used_for == 'customer')
-                        $data['good'] = [
+                        $data['customer'] = [
                            'id' => $coupon->customer_id,
                            'name' => $coupon->user->name
                         ];
                     if($coupon->used_for == 'category')
-                        $data['good'] = [
-                            'id' => $coupon->customer_id,
+                        $data['category'] = [
+                            'id' => $coupon->category_id,
                             'name' => $coupon->goodCategory->name
                         ];
                     return $data;
