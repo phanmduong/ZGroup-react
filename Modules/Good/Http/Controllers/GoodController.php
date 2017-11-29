@@ -220,10 +220,14 @@ class GoodController extends ManageApiController
             $goods,
             [
                 "goods" => $goods->map(function ($good) {
-                    $warehouses_count = Warehouse::join('imported_goods', 'warehouses.id', '=', 'imported_goods.warehouse_id')
-                        ->select('warehouses.*', DB::raw('SUM(imported_goods.quantity) as quantity'))
-                        ->groupBy('warehouse_id')->having(DB::raw('SUM(quantity)'), '>', 0)->count();
-                    $data = $good->transform();
+
+                    $warehouses_count = ImportedGoods::where('good_id', $good->id)
+                        ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT name) as count'))->get()->count;
+
+//                        Warehouse::join('imported_goods', 'warehouses.id', '=', 'imported_goods.warehouse_id')
+//                        ->select('warehouses.*', DB::raw('SUM(imported_goods.quantity) as quantity'))
+//                        ->groupBy('warehouse_id')->having(DB::raw('SUM(quantity)'), '>', 0)->count();
+//                    $data = $good->transform();
                     $data['warehouses_count'] = $warehouses_count;
                     return $data;
                 })
