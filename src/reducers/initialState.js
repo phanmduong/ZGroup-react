@@ -849,12 +849,14 @@ export default {
             historyPaidMoney: []
         },
         formImportGood: {
-            importGoods: [],
+            imported_goods: [],
             scot: 0,
             paid_money: 0,
             isStoring: false,
             error: false,
-            payment: ''
+            payment: '',
+            isLoadingHistoryPaid: false,
+            errorHistoryPaid: false,
         },
         addGoodFile: {
             isCheckingGoods: false,

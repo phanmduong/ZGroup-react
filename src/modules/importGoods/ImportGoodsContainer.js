@@ -46,6 +46,12 @@ class ImportGoodsContainer extends React.Component {
         this.props.importGoodActions.loadImportOrders();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isLoading != this.props.isLoading && !nextProps.isLoading) {
+            this.setState({page: nextProps.currentPage});
+        }
+    }
+
     postsImportOrders(value) {
         this.setState({
             page: 1,
@@ -91,7 +97,7 @@ class ImportGoodsContainer extends React.Component {
 
     loadImportGoods(page) {
         this.setState({page});
-        this.props.importGoodActions.loadImportOrders(1, this.state.search, this.state.time.startTime,
+        this.props.importGoodActions.loadImportOrders(page, this.state.search, this.state.time.startTime,
             this.state.time.endTime, this.state.status, this.state.staff);
     }
 
@@ -120,7 +126,10 @@ class ImportGoodsContainer extends React.Component {
     }
 
     deleteImportOrder(importOrder) {
-        this.props.importGoodActions.deleteImportOrder(importOrder.id);
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa phiếu nhập này không ?", () => {
+            this.props.importGoodActions.deleteImportOrder(importOrder.id, this.state.page, this.state.search, this.state.time.startTime,
+                this.state.time.endTime, this.state.status, this.state.staff);
+        });
     }
 
     render() {
@@ -235,6 +244,7 @@ function mapStateToProps(state) {
         isLoading: state.importGoods.isLoading,
         importOrders: state.importGoods.importOrders,
         totalPages: state.importGoods.totalPages,
+        currentPage: state.importGoods.currentPage,
     };
 }
 

@@ -275,6 +275,7 @@ export default (
             {/*Begin import goods routes */}
             <Route path="/import-goods" component={ImportGoodsContainer}/>
             <Route path="/import-good/create" component={StoreImportContainer} type="create"/>
+            <Route path="/import-good/:importGoodId/edit" component={StoreImportContainer} type="edit"/>
             <Route path="/import-good/:importGoodId" component={ImportContainer}/>
             {/*End import goods routes*/}
 
@@ -289,17 +290,17 @@ export default (
 
 
 
-            {/*Begin marketing campaigns routes */}
-            <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
-            <Route path="/marketing-campaign/summary" component={SummaryMarketingCampaignContainer}/>
-            {/*End marketing campaigns routes*/}
+                {/*Begin marketing campaigns routes */}
+                <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
+                <Route path="/marketing-campaign/summary" component={SummaryMarketingCampaignContainer}/>
+                {/*End marketing campaigns routes*/}
 
-            {/*Begin sales routes */}
-            <Route path="/manage/sales" component={SummarySalesContainer}>
-                <IndexRoute component={OverviewSales}/>
-                <Route path="statistic" component={StatisticSales}/>
-            </Route>
-            {/*End sales routes*/}
+                {/*Begin sales routes */}
+                <Route path="/manage/sales" component={SummarySalesContainer}>
+                    <IndexRoute component={OverviewSales}/>
+                    <Route path="statistic" component={StatisticSales}/>
+                </Route>
+                {/*End sales routes*/}
 
             {/*Begin create-product routes */}
             <Route path="/create-product" component={CreateProductContainer} type="create">

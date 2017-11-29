@@ -44,7 +44,7 @@ export function searchGoods(search) {
     return axios.get(url);
 }
 
-export function createImportGoods(formImportGood, status) {
+export function createImportGoods(formImportGood, status, importGoodsId) {
     let url = env.MANAGE_API_URL + `/order/add-import-order-goods`;
     let token = localStorage.getItem('token');
     if (token) {
@@ -62,7 +62,7 @@ export function createImportGoods(formImportGood, status) {
 
     return axios.post(url, {
         code: formImportGood.code,
-        id: formImportGood.id ? formImportGood.id : "",
+        id: importGoodsId ? importGoodsId : "",
         note: formImportGood.note,
         status: status,
         paid_money: Number(formImportGood.paid_money.toString().replace(/\./g, "")),
