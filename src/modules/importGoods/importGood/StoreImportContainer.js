@@ -632,7 +632,7 @@ function mapStateToProps(state) {
             ...supplier,
             value: supplier.id,
             label: supplier.name + ` (${supplier.phone})`,
-        }
+        };
     }
     let warehouse = state.importGoods.formImportGood.warehouse;
     if (warehouse && warehouse.id) {
