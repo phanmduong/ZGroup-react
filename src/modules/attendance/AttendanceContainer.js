@@ -164,13 +164,13 @@ class AttendanceContainer extends React.Component {
     onChangeBase(value) {
         this.setState({selectBaseId: value});
         //this.loadDashboard(this.state.selectBaseId, value);
-        this.loadClasses(1,'','', value, this.state.selectGenId);
+        this.loadClasses(1,this.state.query,'', value, this.state.selectGenId);
     }
 
     onChangeGen(value) {
         this.setState({selectGenId: value});
         //this.loadDashboard(value, this.state.selectGenId);
-        this.loadClasses(1,'','', this.state.selectBaseId, value);
+        this.loadClasses(1,this.state.query,'', this.state.selectBaseId, value);
     }
 
     render(){
