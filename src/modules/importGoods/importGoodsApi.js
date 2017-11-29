@@ -67,6 +67,8 @@ export function createImportGoods(formImportGood, status) {
         status: status,
         paid_money: Number(formImportGood.paid_money.toString().replace(/\./g, "")),
         imported_goods: importGoods,
+        payment: formImportGood.payment,
+        note_paid_money: formImportGood.note_paid_money,
         warehouse_id: formImportGood.warehouse_id,
         user_id: formImportGood.supplier ? formImportGood.supplier.id : ''
     });
@@ -141,6 +143,33 @@ export function checkGoods(goods) {
 
     return axios.post(url, {
         goods: goods
+    });
+
+}
+
+export function deleteImportOrder(importOrderId) {
+    let url = env.MANAGE_API_URL + '/order/import-order/delete/' + importOrderId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.delete(url);
+
+}
+
+export function addPaidMoney(paidMoney, orderId) {
+    let url = env.MANAGE_API_URL + '/order/pay-import-order/' + orderId;
+    let token = localStorage.getItem('token');
+
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        money: Number(paidMoney.money.toString().replace(/\./g, "")),
+        note: paidMoney.note,
+        payment: paidMoney.payment,
     });
 
 }
