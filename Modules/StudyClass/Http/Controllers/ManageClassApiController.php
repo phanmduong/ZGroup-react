@@ -49,25 +49,23 @@ class ManageClassApiController extends ManageApiController
     {
 
         $search = $request->search;
-        $limit = 10;
+        $limit = $request->limit ? $request->limit : 20;
         if ($request->limit)
             $limit = $request->limit;
-
-        if ($search) {
-            $classes = StudyClass::where('name', 'like', '%' . $search . '%')
-                ->orderBy('created_at', 'desc')->paginate($limit);
-        } else {
-            $classes = StudyClass::orderBy('created_at', 'desc')->paginate($limit);
-        }
-
-        if ($request->teacher_id) {
-            $classes = StudyClass::where('name', 'like', '%' . $search . '%')
-                ->where(function ($query) use ($request) {
+        $classes = StudyClass::query();
+        if ($search)
+            $classes = $classes->where('name', 'like', '%' . $search . '%');
+        if($request->gen_id)
+            $classes = $classes->where('gen_id', $request->gen_id);
+        if($request->base_id)
+            $classes = $classes->where('base_id', $request->base_id);
+        if ($request->teacher_id)
+            $classes = $classes->where(function ($query) use ($request) {
                     $query->where('teacher_id', $request->teacher_id)
                         ->orWhere('teaching_assistant_id', $request->teacher_id);
-                })
-                ->orderBy('created_at', 'desc')->paginate($limit);
-        }
+                });
+
+        $classes = $classes->orderBy('gen_id', 'desc')->paginate($limit);
 
         $data = [
             "classes" => $classes->map(function ($class) {
