@@ -5,6 +5,7 @@ namespace Modules\Good\Http\Controllers;
 use App\Good;
 use App\Http\Controllers\ManageApiController;
 use App\Task;
+use App\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\BoardTaskTaskList;
@@ -218,6 +219,17 @@ class GoodController extends ManageApiController
             $goods,
             [
                 "goods" => $goods->map(function ($good) {
+                    $warehouses = Warehouse::all();
+                    $goodId = $good->id;
+                    $warehouses_count = $warehouses->filter(function ($warehouse) use ($goodId) {
+                        $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
+                        $quantity = $importedGoods->reduce(function ($total, $importedGood) {
+                            return $total + $importedGood->quantity;
+                        }, 0)->count();
+                        return $quantity > 0;
+                    });
+                    $data = $good->transform();
+                    $data['warehouses_count'] = $warehouses_count;
                     return $good->transform();
                 })
             ]
