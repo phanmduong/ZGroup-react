@@ -83,7 +83,7 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
             ]);
-        if($order->type == 'import' && $order->status == 'completed')
+        if ($order->type == 'import' && $order->status == 'completed')
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change completed import order'
             ]);
@@ -156,13 +156,13 @@ class OrderController extends ManageApiController
         if ($request->money == null)
             return $this->respondErrorWithStatus("Thiếu tiền thanh toán");
         $debt = Order::find($orderId)->importedGoods->reduce(function ($total, $importedGood) {
-                return $total + $importedGood->import_price * $importedGood->import_quantity;
+                return $total + $importedGood->quantity * $importedGood->import_price;
             }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
             }, 0);
 
         if ($request->money > $debt)
-            return $this->respondErrorWithStatus("Thanh toán thừa số tiền" . $debt);
+            return $this->respondErrorWithStatus("Thanh toán quá số tiền còn nợ " . $debt);
         if ($debt == 0) {
             $order = Order::find($orderId)->get();
             $order->status_paid = 1;
