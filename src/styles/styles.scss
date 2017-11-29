@@ -590,17 +590,17 @@ div#datatables-goodorders_length label {
 
 .container-for-images {
   position: relative;
-  margin-top: 25px;
-  width: 250px;
-  height: 250px;
+  margin-top: 10px;
+  width: 65px;
+  height: 65px;
 }
 
 .overlay-for-images {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 65px;
+  height: 65px;
   background: rgba(0, 0, 0, 0);
   transition: background 0.5s ease;
 }
@@ -611,13 +611,13 @@ div#datatables-goodorders_length label {
 }
 
 .container-for-images:hover {
-  top: 90px;
+  top: 2.5px;
 }
 
 .button-for-images {
   position: absolute;
-  top: 0;
-  left: 228px;
+  top: -5px;
+  left: 45px;
   opacity: 0;
   transition: opacity .35s ease;
 }

@@ -291,8 +291,7 @@ export default (
             {/*End customer routes*/}
 
 
-            {/*Begin create-product routes */}
-            <Route path="/create-product" component={CreateProductContainer} type="create">
+
 
             {/*Begin marketing campaigns routes */}
             <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
@@ -315,8 +314,8 @@ export default (
             </Route>
             {/*End sales routes*/}
 
-            {/*Begin customer routes */}
-            
+            {/*Begin create-product routes */}
+            <Route path="/create-product" component={CreateProductContainer} type="create">
                 <IndexRoute component={ProductSystemContainer}/>
                 <Route path="website-display" component={ProductWebsiteContainer}/>
             </Route>

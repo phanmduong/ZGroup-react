@@ -23,13 +23,13 @@ class ProductListContainer extends React.Component {
                 endTime: ''
             },
             query: '',
-            manufacture: '',
-            category: '',
+            manufacture: null,
+            category: null,
             page: 1,
             status: {
-                sale: '',
-                display: '',
-                highlight: ''
+                sale: null,
+                display: null,
+                highlight: null
             }
         };
         this.timeOut = null;
