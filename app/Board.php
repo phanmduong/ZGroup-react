@@ -60,6 +60,7 @@ class Board extends Model
     {
         $cards = $this->cards()->where("status", "open")->orderBy('order')->get();
         $data = $this->transform();
+
         $data["cards"] = $cards->map(function ($card) {
             return $card->transform();
         });

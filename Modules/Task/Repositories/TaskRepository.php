@@ -16,6 +16,7 @@ use App\Repositories\CalendarEventRepository;
 use App\Repositories\NotificationRepository;
 use App\User;
 use Illuminate\Support\Facades\Redis;
+use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Task\Entities\TaskList;
 use Modules\Task\Transformers\MemberTransformer;
 
@@ -110,6 +111,16 @@ class TaskRepository
                 $task->deadline = $date->format("Y-m-d H:i:s");
             }
             $task->save();
+
+            // copy boards from old task to the new one
+            $boardTasks = $item->boardTasks;
+            if ($boardTasks) {
+                foreach ($boardTasks as $boardTask) {
+                    $newBoardTask = $boardTask->replicate();
+                    $newBoardTask->task_id = $task->id;
+                    $newBoardTask->save();
+                }
+            }
 
             // replicate all GoodPropertyItems
             foreach ($item->goodPropertyItems as $goodPropertyItem) {

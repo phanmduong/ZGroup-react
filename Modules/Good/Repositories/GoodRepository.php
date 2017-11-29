@@ -56,11 +56,13 @@ class GoodRepository
             return [];
         }
         $taskIds = $taskList->tasks()->pluck("id");
+
         $notIncludedBoardIds = BoardTaskTaskList::whereIn("task_id", $taskIds)->pluck("board_id");
 
         $boardIds = $taskList->tasks()->where("id", "!=", $task->id)
             ->whereNotIn("current_board_id", $notIncludedBoardIds)
             ->pluck('current_board_id');
+
 
         return $project->boards()
             ->where("status", "open")
