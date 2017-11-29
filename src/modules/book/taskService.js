@@ -8,12 +8,12 @@ export function moveAndCreateCard(instance) {
 
         if (isMoved) {
             instance.props.taskActions.showGlobalLoading();
-            console.log(instance.props.card);
             const promise =
                 instance.props.taskActions.createCard({
                     ...instance.props.card,
                     board_id: targetBoardId,
-                    task_list_id: instance.props.task.task_list_id
+                    task_list_id: instance.props.task.task_list_id,
+                    id: null
                 });
             promiseArray = [...promiseArray, promise];
         } else {
