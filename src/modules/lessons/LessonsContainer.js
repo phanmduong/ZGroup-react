@@ -9,7 +9,7 @@ import FormInputText                    from '../../components/common/FormInputT
 import {Link}                           from 'react-router';
 import Loading                          from "../../components/common/Loading";
 import * as helper                      from '../../helpers/helper';
-//let courseid;
+let courseid;
 class LessonsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -28,13 +28,16 @@ class LessonsContainer extends React.Component {
         //console.log('lesson container will mount',this.props);
         helper.setFormValidation('#form-lesson-create-edit');
         let id = this.props.params.lessonId;
-        //courseid = this.props.params.courseId;
-        //console.log('props',this.props);
+        courseid = this.props.params.courseId;
         if(id) {
             this.props.lessonsActions.loadLessonData(id);
             this.urlType = "edit";
 
-        } else this.props.lessonsActions.clearData(this.props.data.course_id);
+        } else this.props.lessonsActions.clearData(courseid);
+    }
+
+    componentDidMount(){
+        helper.setFormValidation('#form-lesson-create-edit');
     }
 
     updateDetail(content){
@@ -53,9 +56,9 @@ class LessonsContainer extends React.Component {
         this.props.lessonsActions.updateData(feild,value);
     }
     commitData(){
-        //console.log('props',this.props);
+        //console.log('props before commit',this.props);
         if(this.checkValidate())
-        if(this.urlType=="create") this.props.lessonsActions.createLesson(this.props.data);
+        if(this.urlType=="create") this.props.lessonsActions.createLesson(this.props.data, courseid);
         else this.props.lessonsActions.editLesson(this.props.data);
     }
 

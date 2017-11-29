@@ -14,6 +14,15 @@ export function shortenStr(str, length) {
     }
 }
 
+export function checkFileSize(file, sizeMB) {
+    let sizeBytes = sizeMB*1024*1024;
+    if(file.size > sizeBytes){
+        showWarningNotification("Vui lòng chọn file có kích thước nhỏ hơn " + sizeMB + " MB.");
+        return false;
+    }
+    return true;
+}
+
 export function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

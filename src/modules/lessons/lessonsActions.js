@@ -1,7 +1,7 @@
 import * as types       from '../../constants/actionTypes';
 import * as lessonsApi   from './lessonsApi';
 import * as helper      from '../../helpers/helper';
-
+import {browserHistory}  from 'react-router';
 
 
 export function loadLessonData(id) {
@@ -53,18 +53,18 @@ export function clearData(course_id) {
     };
 }
 
-export function createLesson(data) {
+export function createLesson(data, courseid) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_LESSON, data: data});
-        helper.showNotification("Đang sửa...");
+        helper.showNotification("Đang tạo...");
         lessonsApi.createLesson(data)
             .then(res => {
-                helper.sweetAlertSuccess("Lưu Thành Công!");
+                helper.showNotification("Tạo Thành Công!");
                 dispatch({
                     type: types.CREATE_LESSON_SUCCESS,
                     data: res
                 });
-                //browserHistory.push("/manage/courses");
+                browserHistory.push("/manage/courses/edit/" + courseid + "/curriculum");
             })
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! ");
@@ -78,12 +78,12 @@ export function editLesson(data) {
         helper.showNotification("Đang sửa...");
         lessonsApi.editLesson(data)
             .then(res => {
-                helper.sweetAlertSuccess("Sửa Thành Công!");
+                helper.showNotification("Sửa Thành Công!");
                 dispatch({
                     type: types.EDIT_LESSON_SUCCESS,
                     data: res
                 });
-                //browserHistory.push("/manage/courses");
+                browserHistory.push("/manage/courses/edit/" + data.course_id + "/curriculum");
             })
             .catch((err) => {
                 helper.sweetAlertError("Có lỗi xảy ra! " + err);

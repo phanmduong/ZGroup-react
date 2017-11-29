@@ -138,22 +138,22 @@ class CoursesContainer extends React.Component {
 }
 
 CoursesContainer.propTypes = {
-    coursesActions: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.bool.isRequired,
-    coursesList: PropTypes.array.isRequired,
-    paginator: PropTypes.object.isRequired,
-    isDeleting: PropTypes.bool,
+    coursesActions  : PropTypes.object.isRequired,
+    isLoading       : PropTypes.bool.isRequired,
+    error           : PropTypes.bool.isRequired,
+    coursesList     : PropTypes.array.isRequired,
+    paginator       : PropTypes.object.isRequired,
+    isDeleting      : PropTypes.bool,
 
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.courses.isLoading,
-        error: state.courses.error,
-        coursesList: state.courses.coursesList,
-        paginator : state.courses.paginator,
-        isDeleting : state.courses.isDeleting
+        isLoading   : state.courses.isLoading,
+        error       : state.courses.error,
+        coursesList : state.courses.coursesList,
+        paginator   : state.courses.paginator,
+        isDeleting  : state.courses.isDeleting
     };
 }
 
