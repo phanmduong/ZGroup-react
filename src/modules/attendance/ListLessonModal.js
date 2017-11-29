@@ -32,6 +32,7 @@ class ListLessonModal extends React.Component {
                         <h3 className="col-md-9">{ "Danh sách buổi học lớp " +  this.props.class.name}</h3>
                     </div>
 
+                    <div className="row"><br/></div>
                     <div className="row">
                         <div className="col-md-3">{
                             this.props.class.teacher ?
@@ -54,7 +55,6 @@ class ListLessonModal extends React.Component {
                                 )
 
                         }</div>
-
 
                         <div className="col-md-3">{
                             this.props.class.teacher_assistant ?
@@ -84,10 +84,10 @@ class ListLessonModal extends React.Component {
                         <Loading/>
                         :
                         <div className="table-responsive">
-                        <table className="table" style={{textAlign:"center"}}>
+                        <table className="table">
                             <thead className="text-rose">
                             <tr>
-                                <th style={{textAlign:"center"}}>Thứ tự</th>
+                                <th >Thứ tự</th>
                                 <th style={{textAlign:"center"}}>Tình trạng điểm danh</th>
                                 <th/>
                             </tr>
@@ -98,7 +98,7 @@ class ListLessonModal extends React.Component {
                                 <td><h6>
                                     <strong>Buổi {item.order} </strong>
                                 </h6></td>
-                                <td width="65%">
+                                <td width="65%" style={{textAlign:"center"}}>
                                     <h6>{item.attended_students + "/" + item.total_students}</h6>
                                     <div className="progress progress-line-success progress-bar-table" style={{width: "90%"}}>
                                         <div className="progress-bar progress-bar-success" role="progressbar"
@@ -132,6 +132,8 @@ class ListLessonModal extends React.Component {
 
 ListLessonModal.PropTypes ={
     lessondata: PropTypes.array,
+    show: PropTypes.bool,
+    onHide: PropTypes.func,
 }
 
 export default (ListLessonModal);

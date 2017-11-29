@@ -75,8 +75,6 @@ class AttendanceContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('AttendanceContainer',nextProps);
-        console.log('state',this.state);
         if(nextProps.isLoadingGens !== this.props.isLoadingGens && !nextProps.isLoadingGens) {
             this.setState({
                 gens: this.getGens(nextProps.gens),
@@ -94,8 +92,6 @@ class AttendanceContainer extends React.Component {
 
     loadClasses(page = 1, query = '', teacherid, baseid, genid) {
         this.setState({page});
-        console.log( page,  this.state.selectBaseId , this.state.selectGenId);
-        console.log( page,  baseid , genid);
         this.props.attendanceActions.loadClasses(query, page, teacherid, baseid == 0 ? '' : baseid , genid);
     }
 
@@ -139,7 +135,6 @@ class AttendanceContainer extends React.Component {
     takeAttendance(classid, lessonid, studentid, index){
 
         if(!this.props.isTakingAttendance) {
-            //console.log(classid, lessonid, studentid, index);
             this.props.attendanceActions.takeAttendance(classid, lessonid, studentid, index);
         }
     }
@@ -289,6 +284,7 @@ AttendanceContainer.propTypes = {
     isLoadingLessonClassModal: PropTypes.bool,
     isLoadingLessonDetailModal: PropTypes.bool,
     data: PropTypes.object,
+    attendanceActions: PropTypes.object,
     currentGen: PropTypes.object,
     class: PropTypes.array,
     lesson: PropTypes.array,

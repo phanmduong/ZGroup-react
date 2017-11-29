@@ -55,7 +55,7 @@ export function loadClasses(search ="", page="", teacherId="", baseid='' , genid
                     data: res.data
                 });
             }).catch((err) => {
-            helper.showNotification(err);
+            helper.showErrorNotification(err);
             dispatch({
 
                 type: types.ATTENDANCE_LOAD_CLASS_DATA_ERROR,

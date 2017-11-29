@@ -38,17 +38,17 @@ class LessonDetailModal extends React.Component {
                 <Modal.Body>
 
                     <div className="table-responsive">
-                        <table className="table" style={{textAlign:"center"}}>
+                        <table className="table" >
                             <thead className="text-rose">
                             <tr>
-                                <th style={{textAlign:"center"}}>Tên học viên</th>
-                                <th style={{textAlign:"center"}}>Email</th>
+                                <th >Tên học viên</th>
+                                <th >Email</th>
                                 <th style={{textAlign:"center"}}>Có mặt</th>
                             </tr>
                             </thead>
                             <tbody>
                             {this.props.isLoadingLessonDetailModal ?
-                                <tr><Loading/></tr>
+                                <tr><td colSpan={3}><Loading/></td></tr>
                                 :
                                  this.props.list.length !=0 ?
 
@@ -57,7 +57,7 @@ class LessonDetailModal extends React.Component {
                                                 <tr key={item.id}>
                                                     <td>{item.name}</td>
                                                     <td>{item.email}</td>
-                                                    <td>
+                                                    <td style={{textAlign:"center"}}>
                                                         <CheckBoxMaterial
                                                             label=""
                                                             name="active"
@@ -85,6 +85,8 @@ class LessonDetailModal extends React.Component {
 
 LessonDetailModal.PropTypes ={
     lessondata: PropTypes.array,
+    show: PropTypes.bool,
+    onHide: PropTypes.func,
 }
 
 export default (LessonDetailModal);
