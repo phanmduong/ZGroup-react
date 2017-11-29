@@ -111,13 +111,13 @@ class CouponController extends ManageApiController
                             'name' => $coupon->good->name,
                         ];
                     if($coupon->used_for == 'customer')
-                        $data['good'] = [
+                        $data['customer'] = [
                            'id' => $coupon->customer_id,
                            'name' => $coupon->user->name
                         ];
                     if($coupon->used_for == 'category')
-                        $data['good'] = [
-                            'id' => $coupon->customer_id,
+                        $data['category'] = [
+                            'id' => $coupon->category_id,
                             'name' => $coupon->goodCategory->name
                         ];
                     return $data;
