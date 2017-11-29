@@ -228,7 +228,7 @@ class GoodController extends ManageApiController
 //                        ->select('warehouses.*', DB::raw('SUM(imported_goods.quantity) as quantity'))
 //                        ->groupBy('warehouse_id')->having(DB::raw('SUM(quantity)'), '>', 0)->count();
                     $data = $good->transform();
-                    $data['warehouses_count'] = $warehouses_count;
+                    $data['warehouses_count'] = $warehouses_count['count'];
                     return $data;
                 })
             ]
