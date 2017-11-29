@@ -19,13 +19,14 @@ class OrdersContainer extends React.Component {
         this.state = {
             page: 1,
             query: '',
+            user: '',
             time: {
                 startTime: '',
                 endTime: ''
             },
-            staff:'',
-            base:'',
-            status:''
+            staff: '',
+            base: '',
+            status: ''
         };
         this.timeOut = null;
         this.ordersSearchChange = this.ordersSearchChange.bind(this);
@@ -125,6 +126,19 @@ class OrdersContainer extends React.Component {
                                 </div>
                                 <div id="demo" className="collapse">
                                     <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label className="label-control"/>
+                                                <input type="text"
+                                                       name="name"
+                                                       className="form-control"
+                                                       value={this.state.user}
+                                                       onChange={this.handleProduct}
+                                                       placeholder="Nhập tên khách hàng"
+                                                />
+                                                <span className="material-input"/>
+                                            </div>
+                                        </div>
                                         <div className="col-md-3">
                                             <FormInputDate
                                                 label="Từ ngày"
