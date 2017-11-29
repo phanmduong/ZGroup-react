@@ -19,6 +19,7 @@ import {Modal} from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import TooltipButton from '../../../components/common/TooltipButton';
 import * as importGoodsApi from '../importGoodsApi';
+import {PAYMENT} from "../../../constants/constants";
 
 
 class StoreImportContainer extends React.Component {
@@ -54,10 +55,12 @@ class StoreImportContainer extends React.Component {
         this.deleteGood = this.deleteGood.bind(this);
         this.editStore = this.editStore.bind(this);
         this.storeGoods = this.storeGoods.bind(this);
+        this.changePayment = this.changePayment.bind(this);
     }
 
     componentWillMount() {
         this.props.importGoodActions.initDataImport();
+        this.initTable();
         this.props.importGoodActions.getAllWarehouses();
     }
 
@@ -203,9 +206,9 @@ class StoreImportContainer extends React.Component {
         this.props.importGoodActions.updateFormImportGood(formImportGood);
     }
 
-    storeImportGood() {
+    storeImportGood(status) {
         if (this.props.formImportGood.warehouse_id) {
-            this.props.importGoodActions.storeImportGood(this.props.formImportGood);
+            this.props.importGoodActions.storeImportGood(this.props.formImportGood, status);
         } else {
             helper.showWarningNotification("Vui lòng chọn kho hàng");
         }
@@ -237,6 +240,13 @@ class StoreImportContainer extends React.Component {
         }.bind(this), 500);
     }
 
+    changePayment(value) {
+        let payment = value && value.value ? value.value : "";
+        let formImportGood = {...this.props.formImportGood};
+        formImportGood.payment = payment;
+        this.props.importGoodActions.updateFormImportGood(formImportGood);
+    }
+
     render() {
         let totalMoney = 0;
 
@@ -263,7 +273,7 @@ class StoreImportContainer extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-9">
+                    <div className="col-md-8">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose">
                                 <i className="material-icons">assignment</i>
@@ -290,7 +300,7 @@ class StoreImportContainer extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">announcement</i></div>
@@ -405,6 +415,35 @@ class StoreImportContainer extends React.Component {
                                                     </b>
                                                 </div>
                                             </div>
+                                            <div className="row">
+                                                <div className="col-sm-6">
+                                                    Phương thức
+                                                </div>
+                                                <div className="col-sm-6">
+                                                    <ReactSelect
+                                                        name="form-field-name"
+                                                        value={this.props.formImportGood.payment}
+                                                        options={PAYMENT}
+                                                        onChange={this.changePayment}
+                                                        placeholder="Chọn phương thức"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-sm-6">
+                                                    Ghi chú
+                                                </div>
+                                                <div className="col-sm-6">
+                                                    <div className="form-group label-floating none-margin">
+                                                        <input
+                                                            className="form-control none-padding"
+                                                            name="note_paid_money"
+                                                            onChange={this.updateFormData}
+                                                            value={this.props.formImportGood.note_paid_money}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 }
@@ -415,20 +454,30 @@ class StoreImportContainer extends React.Component {
 
                                     {
                                         this.props.isStoring ?
-                                            <button className="btn btn-sm btn-success"
+                                            <button className="btn btn-sm btn-info disabled"
+                                            >
+                                                <i className="fa fa-spinner fa-spin"/> Đang lưu tạm
+                                            </button>
+                                            :
+                                            <button className="btn btn-sm btn-info"
+                                                    onClick={() => this.storeImportGood("uncompleted")}
+                                            >
+                                                <i className="material-icons">save</i> Lưu tạm
+                                            </button>
+                                    }
+                                    {
+                                        this.props.isStoring ?
+                                            <button className="btn btn-sm btn-success disabled"
                                             >
                                                 <i className="fa fa-spinner fa-spin"/> Đang lưu
                                             </button>
                                             :
                                             <button className="btn btn-sm btn-success"
-                                                    onClick={this.storeImportGood}
+                                                    onClick={() => this.storeImportGood("completed")}
                                             >
-                                                <i className="material-icons">save</i> Lưu
+                                                <i className="material-icons">save</i> Hoàn thành
                                             </button>
                                     }
-                                    <button className="btn btn-sm btn-danger">
-                                        <i className="material-icons">cancel</i> Huỷ
-                                    </button>
                                 </div>
                             </div>
                             }

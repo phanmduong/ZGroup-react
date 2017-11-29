@@ -62,6 +62,7 @@ class ListForm extends React.Component {
                                         editUrl={"/email-form/" + form.id + "/edit"}
                                         delete={this.props.deleteEmailForm}
                                         object={form}
+                                        disabledDelete={!form.can_delete}
                                     />
                                 </td>
                             </tr>

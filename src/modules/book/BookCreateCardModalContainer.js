@@ -56,6 +56,7 @@ class BookCreateCardModalContainer extends React.Component {
                 ...this.props.card,
                 board_id: this.props.board.id,
                 task_list_id: this.state.taskListTemplate.id,
+                good_id: null,
                 good_properties: JSON.stringify(goodProperties)
             });
         }

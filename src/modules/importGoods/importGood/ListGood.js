@@ -28,7 +28,7 @@ class ListGood extends React.Component {
                 if (that.search() !== this.value) {
                     that
                         .search(this.value)
-                        .draw(); 
+                        .draw();
                 }
             });
         });
@@ -51,6 +51,15 @@ class ListGood extends React.Component {
             lengthMenu: [
                 [-1, 10, 25, 50],
                 ["Tất cả", 10, 25, 50]
+            ],
+            columns: [
+                {"name": "STT", "orderable": true},
+                {"name": "Mã sản phẩm", "orderable": true},
+                {"name": "Tên sản phẩm", "orderable": true},
+                {"name": "Số lượng", "orderable": true},
+                {"name": "Giá vốn", "orderable": false},
+                {"name": "Thành tiên", "orderable": false},
+                {"name": "Giá bán", "orderable": false}
             ],
             iDisplayLength: 10,
             responsive: true,
@@ -78,9 +87,9 @@ class ListGood extends React.Component {
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
-                        <th>Giá vốn</th>
-                        <th>Thành tiên</th>
-                        <th>Giá bán</th>
+                        <th className="disabled-search">Giá vốn</th>
+                        <th className="disabled-search">Thành tiên</th>
+                        <th className="disabled-search">Giá bán</th>
                     </tr>
                     </thead>
                     <tfoot>
