@@ -286,6 +286,19 @@ class ImportApiController extends ManageApiController
             $importedGood->staff_id = $this->user->id;
             $importedGood->warehouse_id = $request->warehouse_id;
             $importedGood->save();
+            if ($request->status == 'completed') {
+                $history = new HistoryGood;
+                $lastest_good_history = HistoryGood::where('good_id', $imported_good['good_id'])->orderBy('created_at', 'desc')->first();
+                $remain = $lastest_good_history ? $lastest_good_history->remain : null;
+                $history->good_id = $imported_good["good_id"];
+                $history->quantity = $imported_good['quantity'];
+                $history->remain = $remain + $imported_good['quantity'];
+                $history->warehouse_id = $request->warehouse_id;
+                $history->type = 'import';
+                $history->order_id = $importOrder->id;
+                $history->imported_good_id = $importedGood->id;
+                $history->save();
+            }
         }
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
