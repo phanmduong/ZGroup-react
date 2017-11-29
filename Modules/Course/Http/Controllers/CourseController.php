@@ -258,12 +258,15 @@ class CourseController extends ManageApiController
         $attendance_list = $classLesson->attendances;
         $data['attendances'] = $attendance_list->map(function ($attendance) {
             return [
-                'id' => $attendance->register->user->id,
+                'student_id' => $attendance->register->user->id,
                 'name' => $attendance->register->user->name,
                 'email' => $attendance->register->user->email,
+                'attendance_id' => $attendance->id,
                 'study_class' => $attendance->register->studyClass->name,
                 'device' => $attendance->device,
-                'attendance_status' => $attendance->status,
+                'attendance_lesson_status' => $attendance->status,
+                'attendance_homework_status' => $attendance->hw_status
+
             ];
         });
         $data['classLesson'] = [
@@ -277,28 +280,26 @@ class CourseController extends ManageApiController
 
     }
 
-    public function changeAttendance($classId, $lessonId, Request $request)
+    public function changeAttendanceLesson($attendanceId, Request $request)
     {
-        $classLesson = ClassLesson::query();
-        $classLesson = $classLesson->where('class_id', $classId)->where('lesson_id', $lessonId)->first();
-
-        $student_id = $request->student_id;
-
-        $student = User::find($student_id);
-        $register = $student->registers()->where('class_id', $classId)->where('status',1)->first();
-        $attendance = Attendance:: where('register_id', $register->id)->where('class_lesson_id',$classLesson->id)->first();
-        if (!$attendance) {
-            $attendance = new Attendance;
-            $attendance->status = 1;
-            $attendance->register_id= $register->id;
-            $attendance->class_lesson_id = $classLesson->id;
-            $attendance->save();
-        } else {
-            $attendance->status = 1 - $attendance->status;
-            $attendance->save();
-        }
+        $attendance = Attendance::find($attendanceId);
+        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
+        $attendance->status = 1 - $attendance->status;
+        $attendance->save();
         return $this->respondSuccessWithStatus([
-           "message" => "Diem danh thanh cong"
+            "message" => "Diem danh thanh cong"
+        ]);
+
+    }
+
+    public function changeAttendanceHomework($attendanceId, Request $request)
+    {
+        $attendance = Attendance::find($attendanceId);
+        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
+        $attendance->hw_status = 1 - $attendance->hw_status;
+        $attendance->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Diem danh bai tap thanh cong"
         ]);
 
     }
