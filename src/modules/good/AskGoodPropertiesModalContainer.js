@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import {Button, Modal} from 'react-bootstrap';
 import Loading from "../../components/common/Loading";
 import InputGoodProperties from "./InputGoodProperties";
+import {moveAndCreateCard} from "../book/taskService";
 
 class AskGoodPropertiesModalContainer extends React.Component {
     constructor(props, context) {
@@ -26,26 +27,7 @@ class AskGoodPropertiesModalContainer extends React.Component {
         this.props.taskActions.submitGoodProperties()
             .then(() => {
                 if (!this.props.task.isEditProcess) {
-                    const sourceBoardId = this.props.task.current_board_id;
-                    let isMoved = false;
-                    this.props.task.boards.forEach((board) => {
-                        const targetBoardId = board.id;
-                        if (isMoved) {
-                            console.log("crete card: " + targetBoardId);
-                            this.props.taskActions.createCard({
-                                ...this.props.card,
-                                board_id: targetBoardId,
-                                task_list_id: ,
-                                good_properties: JSON.stringify(goodProperties)
-                            });
-                        } else {
-                            isMoved = true;
-                            this.props.taskActions.toggleTaskStatus(this.props.task, this.props.card);
-                            this.props.taskActions.moveCard(sourceBoardId, targetBoardId, this.props.card.id);
-                        }
-
-                    });
-
+                    moveAndCreateCard(this, this.props.task);
                 }
             });
     }

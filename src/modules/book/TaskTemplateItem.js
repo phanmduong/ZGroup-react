@@ -98,10 +98,10 @@ class TaskTemplateItem extends React.Component {
                             </div>
                         </KeetoolPanel>
                         <KeetoolPanel
-                            title={`Bảng đích (${task.boards ? task.boards.length : 0} bảng)`}>
+                            title={`Bảng đích (${task.board_tasks ? task.board_tasks.length : 0} bảng)`}>
                             <div>
                                 {
-                                    task.boards && task.boards.map((board, index) => {
+                                    task.board_tasks && task.board_tasks.map((board, index) => {
                                             return (
                                                 <div key={index}>
                                                     {board.board && (

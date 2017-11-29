@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import * as taskActions from '../tasks/taskActions';
 import ProcessTaskItem from "./ProcessTaskItem";
 import AskGoodPropertiesModalContainer from "../good/AskGoodPropertiesModalContainer";
+import {moveAndCreateCard} from "./taskService";
 
 
 class ProcessTaskContainer extends React.Component {
@@ -15,11 +16,14 @@ class ProcessTaskContainer extends React.Component {
     }
 
     toggleTaskStatus(task) {
-        console.log(task);
         const {card} = this.props;
         if (task.good_property_items && task.good_property_items.length > 0) {
             if (!task.status) {
                 this.props.taskActions.openAskGoodPropertiesModal(task);
+            }
+        } else {
+            if (task.board_tasks && task.board_tasks.length > 0) {
+                moveAndCreateCard(this, task);
             } else {
                 this.props.taskActions.toggleTaskStatus(task, card);
             }

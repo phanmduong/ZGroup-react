@@ -855,6 +855,7 @@ export function splitComma(value) {
     return value.split(",").join(", ");
 }
 
+
 export function superSortCategories(categories) {
     categories.reverse();
     let result = [];
@@ -889,3 +890,4 @@ export function superFilter(id, inter, gen) {
     });
     return newArr;
 }
+
