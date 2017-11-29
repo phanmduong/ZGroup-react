@@ -243,11 +243,12 @@ class ImportApiController extends ManageApiController
                 'message' => 'Cant edit completed import order'
             ]);
         $importOrder->code = $request->code ? $request->code : rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
-        $importOrder->node = $request->note;
+        $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
         $importOrder->user_id = $request->user_id;
         $importOrder->type = 'import';
+        $importOrder->status = $request->status;
         $importOrder->save();
         if ($request->paid_money) {
             $oldOrderPaidMoney = OrderPaidMoney::where('order_id', $importOrder->id)->get();
