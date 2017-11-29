@@ -1,9 +1,9 @@
 import React                        from 'react';
 import {Modal}                      from 'react-bootstrap';
 import Loading                      from '../../components/common/Loading';
-import * as helper                  from '../../helpers/helper';
-import TooltipButton from '../../components/common/TooltipButton';
 import PropTypes                    from 'prop-types';
+import Switch from 'react-bootstrap-switch';
+import Checkbox from '../../components/common/Checkbox';
 class LessonDetailModal extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -42,19 +42,36 @@ class LessonDetailModal extends React.Component {
                         <table className="table" style={{textAlign:"center"}}>
                             <thead className="text-rose">
                             <tr>
-                                <th>Tên học viên</th>
-                                <th>Email</th>
-                                <th>Có mặt</th>
+                                <th style={{textAlign:"center"}}>Tên học viên</th>
+                                <th style={{textAlign:"center"}}>Email</th>
+                                <th style={{textAlign:"center"}}>Có mặt</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
+                            {
+                                 this.props.list.length !=0 ?
 
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                        this.props.list.map((item, index)=>{
+                                            return(
+                                                <tr key={item.id}>
+                                                    <td>{item.name}</td>
+                                                    <td>{item.email}</td>
+                                                    <td><div className="checkbox">
+                                                        <Checkbox
+                                                            label=""
+                                                            name="active"
+                                                            checked={Boolean(item.attendance_status)}
+                                                            onChange={() => {return this.props.takeAttendance(this.props.class.id, this.props.selectedLessonId, item.id, index);}}
+                                                        /></div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })
+
+                                    :
+                                    <h5>Chưa thể điểm danh</h5>
+                            }
+
                             </tbody>
                         </table>
                     </div>

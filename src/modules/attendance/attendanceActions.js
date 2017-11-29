@@ -41,4 +41,48 @@ export function loadClassLessonModal(id) {
         });
     };
 }
+export function loadLessonDetailModal(classid, lessonid) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_LESSON_DETAIL_MODAL,
+        });
+        attendanceApi.loadLessonDetailModal(classid, lessonid)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_LESSON_DETAIL_MODAL_SUCCESS,
+                    lesson: res.data.data.data.attendances
+            });
+            }).catch(() => {
+            dispatch({
+
+                type: types.LOAD_LESSON_DETAIL_MODAL_ERROR,
+
+            });
+        });
+    };
+}
+
+
+export function takeAttendance(classid, lessonid, studentid, index) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_TAKE_ATTENDANCE,
+            index: index,
+        });
+        attendanceApi.takeAttendance(classid, lessonid, studentid, index)
+            .then(() => {
+                dispatch({
+                    type: types.TAKE_ATTENDANCE_SUCCESS,
+                    index: index,
+            });
+            }).catch(() => {
+            dispatch({
+
+                type: types.TAKE_ATTENDANCE_ERROR,
+                index: index,
+
+            });
+        });
+    };
+}
 

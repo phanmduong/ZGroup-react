@@ -17,7 +17,13 @@ class AttendanceContainer extends React.Component {
             page  :  1,
             showModalLesson: false,
             showModalDetailLesson: false,
-            selectedClass: {},
+            selectedLessonId: 1,
+            selectedClass: {
+                id : 0,
+                course:{
+                    icon_url: "",
+                },
+            },
         };
         this.classesSearchChange        = this.classesSearchChange.bind(this);
         this.loadClasses                = this.loadClasses.bind(this);
@@ -25,6 +31,7 @@ class AttendanceContainer extends React.Component {
         this.openModalLesson            = this.openModalLesson.bind(this);
         this.openModalDetailLesson      = this.openModalDetailLesson.bind(this);
         this.closeModalDetailLesson     = this.closeModalDetailLesson.bind(this);
+        this.takeAttendance             = this.takeAttendance.bind(this);
     }
 
     componentWillMount(){
@@ -58,7 +65,6 @@ class AttendanceContainer extends React.Component {
             showModalLesson: true,
             selectedClass:  this.props.data.classes[index]});
         this.props.attendanceActions.loadClassLessonModal(this.props.data.classes[index].id);
-        console.log(this.state);
     }
 
     closeModalLesson(){
@@ -67,13 +73,24 @@ class AttendanceContainer extends React.Component {
 
     openModalDetailLesson(id){
         this.setState({
-            showModalDetailLesson: true});
-        console.log(id);
-    }
-    closeModalDetailLesson(){
-        this.setState({showModalDetailLesson: false});
+            showModalDetailLesson: true,
+            selectedLessonId: id
+        });
+        this.props.attendanceActions.loadLessonDetailModal(this.state.selectedClass.id,id);
     }
 
+    closeModalDetailLesson(){
+        this.setState({showModalDetailLesson: false});
+        this.props.attendanceActions.loadClassLessonModal(this.state.selectedClass.id);
+    }
+
+    takeAttendance(classid, lessonid, studentid, index){
+
+        if(!this.props.isTakingAttendance) {
+            console.log(classid, lessonid, studentid, index);
+            this.props.attendanceActions.takeAttendance(classid, lessonid, studentid, index);
+        }
+    }
 
     render(){
         return(
@@ -126,12 +143,15 @@ class AttendanceContainer extends React.Component {
                         onHide={this.closeModalLesson}
                         class={this.state.selectedClass}
                         openModalDetailLesson={this.openModalDetailLesson}
+                        isLoadingLessonClassModal={this.props.isLoadingLessonClassModal}
                     />
                     <LessonDetailModal
                         show={this.state.showModalDetailLesson}
                         onHide={this.closeModalDetailLesson}
                         class={this.state.selectedClass}
-
+                        list={this.props.lesson}
+                        takeAttendance={this.takeAttendance}
+                        selectedLessonId={this.state.selectedLessonId}
                     />
                 </div>
             </div>
@@ -148,10 +168,13 @@ AttendanceContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.attendance.isLoading,
-        data:      state.attendance.data,
-        class:     state.attendance.class,
-        lesson:    state.attendance.lesson,
+        isLoading:                      state.attendance.isLoading,
+        isTakingAttendance:             state.attendance.isTakingAttendance,
+        isLoadingLessonClassModal:      state.attendance.isLoadingLessonClassModal,
+        isLoadingLessonDetailModal:     state.attendance.isLoadingLessonDetailModal,
+        data:                           state.attendance.data,
+        class:                          state.attendance.class,
+        lesson:                         state.attendance.lesson,
     };
 }
 

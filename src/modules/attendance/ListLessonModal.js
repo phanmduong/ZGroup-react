@@ -79,17 +79,20 @@ class ListLessonModal extends React.Component {
                     </div>
                 </Modal.Header>
                 <Modal.Body>
-
-                    <div className="table-responsive">
+                    {
+                        this.props.isLoadingLessonClassModal ?
+                        <Loading/>
+                        :
+                        <div className="table-responsive">
                         <table className="table" style={{textAlign:"center"}}>
                             <thead className="text-rose">
                             <tr>
-                                <th>Thứ tự</th>
-                                <th>Tình trạng điểm danh</th>
+                                <th style={{textAlign:"center"}}>Thứ tự</th>
+                                <th style={{textAlign:"center"}}>Tình trạng điểm danh</th>
                                 <th/>
                             </tr>
                             </thead><tbody>
-                        {this.props.lessondata.map((item,index)=>{
+                        {this.props.lessondata.map((item, index)=>{
                         return (
                             <tr key={item.order}>
                                 <td><h6>
@@ -111,7 +114,7 @@ class ListLessonModal extends React.Component {
                                 <td>
                                     <button className="btn btn-fill btn-rose" type="button"
                                             style={{fontSize: "xx-small"}}
-                                            onClick={()=>{return this.props.openModalDetailLesson(index);}}
+                                            onClick={()=>{return this.props.openModalDetailLesson(index + 1);}}
                                     >Điểm danh</button>
                                 </td>
                             </tr>
@@ -119,6 +122,7 @@ class ListLessonModal extends React.Component {
                         })}
                         </tbody></table>
                     </div>
+                    }
 
                 </Modal.Body>
             </Modal>

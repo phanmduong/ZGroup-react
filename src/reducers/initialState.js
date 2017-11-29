@@ -701,6 +701,9 @@ export default {
     },
     attendance:{
         isLoading: false,
+        isTakingAttendance: false,
+        isLoadingLessonClassModal: false,
+        isLoadingLessonDetailModal: false,
         status:1,
         data: {
             classes: [
@@ -728,8 +731,6 @@ export default {
 
         },
         class:[],
-        lesson:{
-            list: [],
-        },
+        lesson:[],
     },
 };
