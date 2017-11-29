@@ -73,6 +73,7 @@ class CouponController extends ManageApiController
         $keyword = $request->search;
         $used_for = $request->used_for;
         $discount_type = $request->discount_type;
+        $type = $request->type;
 
         $coupons = Coupon::query();
         $coupons = $coupons->where(function ($query) use ($keyword) {
@@ -82,6 +83,9 @@ class CouponController extends ManageApiController
             $coupons = $coupons->where('used_for', $used_for);
         if($discount_type)
             $coupons = $coupons->where('discount_type', $discount_type);
+        if($type)
+            $coupons = $coupons->where('type', $type);
+
 
         $coupons = $coupons->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination($coupons,
