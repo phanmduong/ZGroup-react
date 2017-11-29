@@ -1032,10 +1032,15 @@ export default {
     },
     attendance:{
         isLoading: false,
+        isLoadingGens: false,
+        isLoadingBases: false,
         isTakingAttendance: false,
         isLoadingLessonClassModal: false,
         isLoadingLessonDetailModal: false,
         status:1,
+        currentGen:{
+          id: "",
+        },
         data: {
             classes: [
                 {
@@ -1063,5 +1068,7 @@ export default {
         },
         class:[],
         lesson:[],
+        bases:[],
+        gens:[]
     },
 };

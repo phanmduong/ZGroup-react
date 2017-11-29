@@ -3,8 +3,59 @@ import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function attendanceReducer(state = initialState.attendance, action) {
-    //console.log(action.type);
+    console.log(action.type);
     switch (action.type) {
+        case types.BEGIN_LOAD_GENS_DATA_ATTENDANCE:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                    isLoadingGens: true,
+
+                }
+            };
+        case types.LOAD_GENS_ATTENDANCE_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isLoadingGens: false,
+                    gens: action.gens,
+                    currentGen: action.currentGen,
+                }
+            };
+        case types.LOAD_GENS_ATTENDANCE_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isLoadingGens: false,
+                }
+            };
+        case types.BEGIN_LOAD_BASES_DATA_ATTENDANCE:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                    isLoadingBases: true,
+                }
+            };
+        case types.LOAD_BASES_ATTENDANCE_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                isLoadingBases: false,
+                bases: action.bases
+
+            };
+        case types.LOAD_BASES_ATTENDANCE_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isLoadingBases: false,
+                }
+            };
         case types.ATTENDANCE_BEGIN_LOAD_CLASS_DATA:
             return {
                 ...state,

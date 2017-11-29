@@ -1,8 +1,13 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadClasses(search, page = 1, teacherId = '') {
-    let url = env.MANAGE_API_URL + "/class/all?search=" + search + "&teacher_id=" + teacherId + "&page=" + page;
+export function loadClasses(search='', page = 1, teacherId = '', baseid='' , genid='') {
+    // &base_id=&gen_id=
+    let url = env.MANAGE_API_URL + "/class/all?search=" + search
+        + "&teacher_id=" + teacherId
+        + "&page=" + page
+        + "&base_id="+ baseid
+        + "&gen_id=" + genid;
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
@@ -40,4 +45,25 @@ export function takeAttendance(classid , lessonid, studentid) {
         url += "?token=" + token;
     }
     return axios.post(url, {student_id : studentid});
+}
+
+
+export function loadGens() {
+    let url = env.MANAGE_API_URL + "/gen/all";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function loadBases() {
+    let url = env.MANAGE_API_URL + "/base/all";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
 }

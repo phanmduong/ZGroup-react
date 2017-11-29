@@ -25,7 +25,6 @@ class CoursesContainer extends React.Component {
                 total_count: 1
             }
         };
-
         this.loadCourses                    = this.loadCourses.bind(this);
         this.deleteCourse                   = this.deleteCourse.bind(this);
         this.courseSearchChange             = this.courseSearchChange.bind(this);
@@ -74,6 +73,7 @@ class CoursesContainer extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
+
                             <div className="card">
                                 <div className="card-header card-header-icon" data-background-color="rose">
                                     <i className="material-icons">assignment</i>

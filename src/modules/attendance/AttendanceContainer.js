@@ -8,6 +8,8 @@ import _                            from 'lodash';
 import ListLessonModal              from './ListLessonModal';
 import LessonDetailModal            from './LessonDetailModal';
 import PropTypes                    from 'prop-types';
+import Select                       from '../../components/common/Select';
+import Loading                      from "../../components/common/Loading";
 
 class AttendanceContainer extends React.Component {
     constructor(props, context) {
@@ -24,7 +26,35 @@ class AttendanceContainer extends React.Component {
                     icon_url: "",
                 },
             },
+            gens:[
+                {
+                    key: 0,
+                    value: 'Tất cả0'
+                },{
+                    key: 1,
+                    value: 'Tất cả1'
+                },{
+                    key: 2,
+                    value: 'Tất cả2'
+                },
+            ],
+            bases:[
+                {
+                    key: 0,
+                    value: 'Tất cả0'
+                },{
+                    key: 1,
+                    value: 'Tất cả1'
+                },{
+                    key: 2,
+                    value: 'Tất cả2'
+                },
+            ],
+            selectBaseId: 0,
+            selectGenId: 0,
         };
+
+
         this.classesSearchChange        = this.classesSearchChange.bind(this);
         this.loadClasses                = this.loadClasses.bind(this);
         this.closeModalLesson           = this.closeModalLesson.bind(this);
@@ -32,19 +62,38 @@ class AttendanceContainer extends React.Component {
         this.openModalDetailLesson      = this.openModalDetailLesson.bind(this);
         this.closeModalDetailLesson     = this.closeModalDetailLesson.bind(this);
         this.takeAttendance             = this.takeAttendance.bind(this);
+        this.getBases                   = this.getBases.bind(this);
+        this.getGens                    = this.getGens.bind(this);
+        this.onChangeBase               = this.onChangeBase.bind(this);
+        this.onChangeGen                = this.onChangeGen.bind(this);
     }
 
     componentWillMount(){
+        this.props.attendanceActions.loadGensData();
+        this.props.attendanceActions.loadBasesData();
         this.props.attendanceActions.loadClasses();
     }
 
-    componentWillReceiveProps(){
-        //console.log('AttendanceContainer',nextProps);
+    componentWillReceiveProps(nextProps){
+        console.log('AttendanceContainer',nextProps);
+        //this.setState({gens: this.getGens(nextProps.gens), selectGenId: 0});
+        //this.setState({bases: this.getBases(nextProps.bases), selectBaseId: 0});
+        if (nextProps.isLoadingGens !== this.props.isLoadingGens && !nextProps.isLoadingGens) {
+            this.setState({
+                gens: this.getGens(nextProps.gens),
+                selectGenId: nextProps.currentGen.id
+            });
+        }
+        if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
+            this.setState({
+                bases: this.getBases(nextProps.bases),
+            });
+        }
     }
 
-    loadClasses(page = 1, query = '', teacherid) {
+    loadClasses(page = 1, query = '', teacherid, baseid, genid) {
         this.setState({page});
-        this.props.attendanceActions.loadClasses(query, page, teacherid);
+        this.props.attendanceActions.loadClasses(query, page, teacherid, baseid, genid);
     }
 
     classesSearchChange(value) {
@@ -56,7 +105,7 @@ class AttendanceContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.loadClasses(1, value);
+            this.loadClasses(1, value, null, null, null);
         }.bind(this), 500);
     }
 
@@ -92,10 +141,64 @@ class AttendanceContainer extends React.Component {
         }
     }
 
+    getGens(gens) {
+        return gens.map(function (gen) {
+            return {
+                key: gen.id,
+                value: 'Khóa ' + gen.name
+            };
+        });
+    }
+
+    getBases(bases) {
+        let baseData = bases.map(function (base) {
+            return {
+                key: base.id,
+                value: base.name
+            };
+        });
+        this.setState({selectBaseId: 0});
+        return [{
+            key: 0,
+            value: 'Tất cả'
+        }, ...baseData];
+    }
+
+    onChangeBase(value) {
+        this.setState({selectBaseId: value});
+        console.log(this.state);
+        //this.loadDashboard(this.state.selectBaseId, value);
+    }
+
+    onChangeGen(value) {
+        console.log(this.state);
+        this.setState({selectGenId: value});
+        //this.loadDashboard(value, this.state.selectGenId);
+    }
+
     render(){
         return(
+
             <div className="row">
+                {this.props.isLoading || this.props.isLoadingBases || this.props.isLoadingGens ? <Loading/> :
                 <div className="col-md-12">
+                    <div className="col-sm-6 col-xs-5"></div>
+                    <div className="col-sm-3 col-xs-5">
+                            <Select
+                                    defaultMessage={'Chọn cơ sở'}
+                                    options={this.state.bases}
+                                    disableRound
+                                    value={this.state.selectBaseId}
+                                    onChange={this.onChangeBase}
+                            /></div>
+                    <div className="col-sm-3 col-xs-5">
+                    <Select
+                            defaultMessage={'Chọn khóa học'}
+                            options={this.state.gens}
+                            disableRound
+                            value={this.state.selectGenId}
+                            onChange={this.onChangeGen}
+                    /></div>
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">assignment</i>
@@ -155,7 +258,9 @@ class AttendanceContainer extends React.Component {
                         isLoadingLessonDetailModal={this.props.isLoadingLessonDetailModal}
                     />
                 </div>
+                }
             </div>
+
 
         );
     }
@@ -164,24 +269,34 @@ class AttendanceContainer extends React.Component {
 /**/
 
 AttendanceContainer.propTypes = {
-    isLoading:                      PropTypes.boolean,
-    isTakingAttendance:             PropTypes.boolean,
-    isLoadingLessonClassModal:      PropTypes.boolean,
-    isLoadingLessonDetailModal:     PropTypes.boolean,
-    data:     PropTypes.object,
-    class:     PropTypes.object,
-    lesson:     PropTypes.object,
+    isLoading: PropTypes.bool,
+    isLoadingGens: PropTypes.bool,
+    isLoadingBases: PropTypes.bool,
+    isTakingAttendance: PropTypes.bool,
+    isLoadingLessonClassModal: PropTypes.bool,
+    isLoadingLessonDetailModal: PropTypes.bool,
+    data: PropTypes.object,
+    currentGen: PropTypes.object,
+    class: PropTypes.array,
+    lesson: PropTypes.array,
+    gens: PropTypes.array,
+    bases: PropTypes.array,
 };
 
 function mapStateToProps(state) {
     return {
         isLoading:                      state.attendance.isLoading,
+        isLoadingGens:                  state.attendance.isLoadingGens,
+        isLoadingBases:                 state.attendance.isLoadingBases,
         isTakingAttendance:             state.attendance.isTakingAttendance,
         isLoadingLessonClassModal:      state.attendance.isLoadingLessonClassModal,
         isLoadingLessonDetailModal:     state.attendance.isLoadingLessonDetailModal,
         data:                           state.attendance.data,
+        currentGen:                     state.attendance.currentGen,
         class:                          state.attendance.class,
         lesson:                         state.attendance.lesson,
+        gens:                           state.attendance.gens,
+        bases:                          state.attendance.bases,
     };
 }
 

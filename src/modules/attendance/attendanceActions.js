@@ -1,19 +1,61 @@
 import * as types from '../../constants/actionTypes';
 import * as attendanceApi from './attendanceApi';
+import * as helper      from '../../helpers/helper';
+
+export function loadGensData() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GENS_DATA_ATTENDANCE
+        });
+        attendanceApi.loadGens()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_GENS_ATTENDANCE_SUCCESS,
+                    gens: res.data.data.gens,
+                    currentGen: res.data.data.current_gen
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_GENS_ATTENDANCE_ERROR
+            });
+        });
+    };
+}
+
+export function loadBasesData() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_BASES_DATA_ATTENDANCE
+        });
+        attendanceApi.loadBases()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_BASES_ATTENDANCE_SUCCESS,
+                    bases: res.data.data.bases,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_BASES_ATTENDANCE_ERROR
+            });
+        });
+    };
+}
 
 
-export function loadClasses(search ="", page="", teacherId="") {
+
+export function loadClasses(search ="", page="", teacherId="", baseid='' , genid='') {
     return function (dispatch) {
         dispatch({
             type: types.ATTENDANCE_BEGIN_LOAD_CLASS_DATA,
         });
-        attendanceApi.loadClasses(search, page, teacherId)
+        attendanceApi.loadClasses(search, page, teacherId, baseid , genid)
             .then((res) => {
                 dispatch({
                     type: types.ATTENDANCE_LOAD_CLASS_DATA_SUCCESS,
                     data: res.data
                 });
-            }).catch(() => {
+            }).catch((err) => {
+            helper.showNotification(err);
             dispatch({
 
                 type: types.ATTENDANCE_LOAD_CLASS_DATA_ERROR,
