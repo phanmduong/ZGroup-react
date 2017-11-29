@@ -161,6 +161,7 @@ class StudentApiController extends ApiController
 
 
         $search = $request->search;
+
         if ($search) {
             $users_id = User::where('email', 'like', '%' . $search . '%')
                 ->orWhere('phone', 'like', '%' . $search . '%')
@@ -170,6 +171,9 @@ class StudentApiController extends ApiController
             $registers = $gen->registers();
         }
 
+        if ($request->class_id != null) {
+            $registers = $registers->where('class_id', $request->class_id);
+        }
 
         if ($request->saler_id != null) {
             $registers = $registers->where('saler_id', $request->saler_id);
