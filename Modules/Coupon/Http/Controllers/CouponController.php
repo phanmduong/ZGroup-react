@@ -104,7 +104,9 @@ class CouponController extends ManageApiController
                         'end_time' => $coupon->end_time,
                     ];
                     if($coupon->used_for == 'order')
-                        $data['order_value'] = $coupon->order_value;
+                        $data['order'] = [
+                            'value' => $coupon->order_value,
+                        ];
                     if($coupon->used_for == 'good')
                         $data['good'] = [
                             'id' => $coupon->good_id,
