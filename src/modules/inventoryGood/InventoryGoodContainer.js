@@ -20,8 +20,8 @@ class InventoryGoodContainer extends React.Component {
                 endTime: ''
             },
             query: '',
-            manufacture: '',
-            category: '',
+            manufacture: null,
+            category: null,
             page: '',
             status: ''
         };
