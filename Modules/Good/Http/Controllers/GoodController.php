@@ -4,6 +4,7 @@ namespace Modules\Good\Http\Controllers;
 
 use App\Good;
 use App\Http\Controllers\ManageApiController;
+use App\ImportedGoods;
 use App\Task;
 use App\Warehouse;
 use Illuminate\Http\Request;
