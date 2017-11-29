@@ -19,7 +19,7 @@ class HistoryPaid extends React.Component {
                 note: '',
                 payment: ''
             }
-        }
+        };
         this.updateFormData = this.updateFormData.bind(this);
         this.changePayment = this.changePayment.bind(this);
     }
@@ -31,7 +31,7 @@ class HistoryPaid extends React.Component {
     changeTab(tab) {
         this.setState({
             tab: tab
-        })
+        });
     }
 
     updateFormData(event) {
