@@ -6,6 +6,7 @@ use App\Colorme\Transformers\RegisterTransformer;
 use App\Colorme\Transformers\StudentTransformer;
 use App\Gen;
 use App\Register;
+use App\StudyClass;
 use App\TeleCall;
 use App\Transaction;
 use App\User;
@@ -165,8 +166,16 @@ class StudentApiController extends ApiController
         } else {
             $registers = $gen->registers();
         }
-
-
+        if ($request->type != null) {
+            $classes= StudyClass::where('type', $request->type)->get()->pluck('id')->toArray();
+            $registers = $registers->whereIn('class_id', $classes);
+        }
+        if ($request->class_id != null) {
+            $registers = $registers->where('class_id', $request->class_id);
+        }
+        if ($request->saler_id != null) {
+            $registers = $registers->where('saler_id', $request->saler_id);
+        }
         if ($request->saler_id != null) {
             $registers = $registers->where('saler_id', $request->saler_id);
         }
@@ -180,7 +189,7 @@ class StudentApiController extends ApiController
         }
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
-        $registers->map(function ($register){
+        $registers->map(function ($register) {
 
         });
         foreach ($registers as &$register) {
