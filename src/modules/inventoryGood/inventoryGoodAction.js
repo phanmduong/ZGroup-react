@@ -104,7 +104,7 @@ export function getWarehouseList() {
             .then(function (response) {
                 dispatch({
                     type: types.GET_WAREHOUSES_INVENTORY_GOOD,
-                    warehousesList: response.data.warehouses
+                    warehousesList: response.data.data.warehouses
                 });
             });
     };

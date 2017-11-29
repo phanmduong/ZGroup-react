@@ -159,6 +159,26 @@ class ProductWebsiteContainer extends React.Component {
                                                 );
                                             })
                                         }
+                                        {
+                                            this.props.isUploadingImage ? (
+                                                <div className="col-md-4">
+                                                    <div className="container-for-images"
+                                                    style={{textAlign:"center"}}>
+                                                        <div className="progress">
+                                                            <div className="progress-bar" role="progressbar"
+                                                                 aria-valuenow="70"
+                                                                 aria-valuemin="0" aria-valuemax="100"
+                                                                 style={{width: `${this.props.percent}%`}}>
+                                                                <span
+                                                                    className="sr-only">{this.props.percent}% Complete</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div/>
+                                            )
+                                        }
                                     </div>
                                 )
                             }
