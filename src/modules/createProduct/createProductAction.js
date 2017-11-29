@@ -1,6 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import * as createProductApi from './createProductApi';
-import {showErrorNotification, showNotification} from "../../helpers/helper";
+import * as helper from "../../helpers/helper";
 import {browserHistory} from 'react-router';
 
 export function getManufacturesCreateProduct() {
@@ -19,7 +19,7 @@ export function getCategoriesCreateProduct() {
     return function (dispatch) {
         createProductApi.getCategoriesApi()
             .then(function (response) {
-                dispatch(saveCategoriesCreateProduct(superSortCategories(response.data.data[0].good_categories)));
+                dispatch(saveCategoriesCreateProduct(helper.superSortCategories(response.data.data[0].good_categories)));
             });
     };
 }
@@ -34,11 +34,11 @@ export function saveCategoriesCreateProduct(categories) {
 export function changeAvatar(file) {
     return function (dispatch) {
         const error = () => {
-            showErrorNotification("Có lỗi xảy ra");
+            helper.showErrorNotification("Có lỗi xảy ra");
         };
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            showNotification("Tải lên ảnh đại diện thành công");
+            helper.showNotification("Tải lên ảnh đại diện thành công");
             dispatch({
                 type: types.UPLOAD_AVATAR_COMPLETE_CREATE_PRODUCT,
                 avatar_url: data.url
@@ -62,11 +62,11 @@ export function changeAvatar(file) {
 export function changeImage(file, length, first_length) {
     return function (dispatch) {
         const error = () => {
-            showErrorNotification("Có lỗi xảy ra");
+            helper.showErrorNotification("Có lỗi xảy ra");
         };
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            showNotification("Tải lên ảnh thành công");
+            helper.showNotification("Tải lên ảnh thành công");
             dispatch({
                 type: types.UPLOAD_IMAGE_COMPLETE_CREATE_PRODUCT,
                 image: data.url,
@@ -110,7 +110,7 @@ export function saveProductCreate(product) {
         createProductApi.saveProductApi(product)
             .then(function () {
                 browserHistory.push("/goods/products");
-                showNotification("Thêm sản phẩm thành công");
+                helper.showNotification("Thêm sản phẩm thành công");
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING
                 });
@@ -126,7 +126,7 @@ export function saveProductEdit(product) {
         createProductApi.editProductApi(product)
             .then(function () {
                 browserHistory.push("/goods/products");
-                showNotification("Thêm sản phẩm thành công");
+                helper.showNotification("Thêm sản phẩm thành công");
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING
                 });
@@ -155,39 +155,4 @@ export function deleteImage(image) {
         type: types.DELETE_IMAGE_CREATE_PRODUCT,
         image
     };
-}
-
-export function superSortCategories(categories) {
-    categories.reverse();
-    let result = [];
-    let index = -1, id = 0, gen = 0;
-    let medium = superFilter(id, categories, gen);
-    result.splice(index + 1, 0, ...medium);
-    for (let j = 0; j < categories.length; j++) {
-        let tmp = medium[j];
-        if (tmp) {
-            index = result.indexOf(tmp);
-            gen = tmp.gen;
-            let a = superFilter(tmp.id, categories, gen);
-            result.splice(index + 1, 0, ...a);
-            medium = [...medium, ...a];
-        }
-    }
-    return result;
-}
-
-export function superFilter(id, inter, gen) {
-    let first = '';
-    for (let j = 0; j < gen; j++) first += '--';
-    let res = inter.filter(children => children.parent_id === id);
-    const newArr = res.map((children) => {
-        return {
-            ...children,
-            ...{
-                gen: gen + 1,
-                label: first + children.name
-            }
-        };
-    });
-    return newArr;
 }

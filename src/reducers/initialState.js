@@ -10,9 +10,9 @@ export default {
             description: '',
             price: '',
             avatar_url: '',
-            sale_status: false,
-            highlight_status: false,
-            display_status: false,
+            sale_status: 0,
+            highlight_status: 0,
+            display_status: 0,
             manufacture_id: '',
             good_category_id: '',
             images_url: [],
@@ -29,17 +29,22 @@ export default {
 
     inventoryGood: {
         isLoading: false,
+        isLoadingMore: false,
         isLoadingHistoryModal: false,
         inventories: [],
         categories: [],
         manufactures: [],
+        warehousesList: [],
         totalPages: 1,
         currentPage: 1,
         limit: 20,
         totalCount: 1,
         inventoryChecking: {
             histories: [],
-            inventoryInfo: {}
+            warehouses: [],
+            inventoryInfo: {},
+            totalPages: 0,
+            currentPage: 0
         },
         historyModal: false,
         count: 0,

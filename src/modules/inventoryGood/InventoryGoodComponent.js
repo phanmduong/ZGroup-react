@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {dotNumber} from "../../helpers/helper";
-import HistoryModalContainer from "./HistoryModalContainer";
+import WareHouseModalContainer from "../productList/modals/WareHouseModalContainer";
 
 class InventoryGoodComponent extends React.Component {
     constructor(props, context) {
@@ -14,6 +14,7 @@ class InventoryGoodComponent extends React.Component {
                 <table className="table">
                     <thead className="text-rose">
                     <tr className="text-rose">
+                        <th/>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
@@ -26,11 +27,25 @@ class InventoryGoodComponent extends React.Component {
                         this.props.inventories.map((inventory) => {
                             return (
                                 <tr key={inventory.id}>
+                                    <td style={{width: "40px"}}>
+                                        <img style={{
+                                            width: "30px",
+                                            height: "30px",
+                                            borderRadius: "50%",
+                                            verticalAlign: "middle",
+                                            background: "url(" + inventory.avatar_url + ") center center / cover",
+                                            display: "inline-block",
+                                            float: "right",
+                                            marginLeft: "3px"
+                                        }} data-toggle="tooltip" title="" type="button"
+                                             rel="tooltip"
+                                             data-original-title=""/>
+                                    </td>
                                     <td>
                                         <a className="text-name-student-register"
                                            rel="tooltip" title=""
                                            data-original-title="Remove item"
-                                           onClick={() => this.props.getHistoryInventories(inventory)}>
+                                           onClick={() => this.props.showWareHouseModal(inventory)}>
                                             {inventory.code}
                                         </a>
                                     </td>
@@ -44,7 +59,8 @@ class InventoryGoodComponent extends React.Component {
                     }
                     </tbody>
                 </table>
-                <HistoryModalContainer/>
+                <WareHouseModalContainer
+                    showWareHouseModal={this.props.showWareHouseModal}/>
             </div>
         );
     }
@@ -52,7 +68,7 @@ class InventoryGoodComponent extends React.Component {
 
 InventoryGoodComponent.propTypes = {
     inventories: PropTypes.array.isRequired,
-    getHistoryInventories: PropTypes.func.isRequired
+    showWareHouseModal: PropTypes.func.isRequired
 };
 
 export default InventoryGoodComponent;

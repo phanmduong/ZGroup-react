@@ -588,50 +588,52 @@ div#datatables-goodorders_length label {
   }
 }
 
-//.container {
-//  position: relative;
-//  margin-top: 25px;
-//  width: 250px;
-//  height: 250px;
-//}
-//
-//.overlay {
-//  position: absolute;
-//  top: 0;
-//  left: 0;
-//  width: 100%;
-//  height: 100%;
-//  background: rgba(0, 0, 0, 0);
-//  transition: background 0.5s ease;
-//}
-//
-//.container:hover .overlay {
-//  display: block;
-//  background: rgba(0, 0, 0, .3);
-//}
-//
-//.container:hover .title {
-//  top: 90px;
-//}
-//
-//.button {
-//  position: absolute;
-//  top: 0;
-//  left: 228px;
-//  opacity: 0;
-//  transition: opacity .35s ease;
-//}
-//
-//.button a {
-//  text-align: center;
-//  color: white;
-//  z-index: 1;
-//}
-//
-//.container:hover .button {
-//  opacity: 1;
-//}
-//
-//img .product-image {
-//  position: absolute;
-//}
+
+.container-for-images {
+  position: relative;
+  margin-top: 10px;
+  width: 65px;
+  height: 65px;
+}
+
+.overlay-for-images {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 65px;
+  height: 65px;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.5s ease;
+}
+
+.container-for-images:hover .overlay-for-images {
+  display: block;
+  background: rgba(0, 0, 0, .3);
+}
+
+.container-for-images:hover {
+  top: 2.5px;
+}
+
+.button-for-images {
+  position: absolute;
+  top: -3px;
+  left: 42px;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+
+.button-for-images a {
+  text-align: center;
+  color: white;
+  z-index: 1;
+}
+
+.container-for-images:hover .button-for-images {
+  opacity: 1;
+}
+
+img .product-image {
+  position: absolute;
+}
+
