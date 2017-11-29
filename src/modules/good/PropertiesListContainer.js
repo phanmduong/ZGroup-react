@@ -3,59 +3,42 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {Link} from "react-router";
-import Search from "../../components/common/Search";
 import * as goodActions from './goodActions';
-import * as _ from "lodash";
 import Loading from "../../components/common/Loading";
-import ButtonGroupAction from "../../components/common/ButtonGroupAction";
-import {confirm} from "../../helpers/helper";
+import PropertyList from "./PropertyList";
+import {deletePropertyItem} from "./goodApi";
 
 
 class PropertiesListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.propertiesSearchChange = this.propertiesSearchChange.bind(this);
         this.state = {
             query: ""
         };
-        this.loadPropertyItems = this.loadPropertyItems.bind(this);
-        this.timeOut = null;
     }
 
     componentWillMount() {
-        this.props.goodActions.loadGoodPropertyItems(1, this.state.query, this.props.params.type);
+        this.props.goodActions.loadGoodPropertyItems(-1, this.state.query, this.props.params.type);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.params.type !== this.props.params.type) {
-            this.props.goodActions.loadGoodPropertyItems(1, this.state.query, nextProps.params.type);
+            this.props.goodActions.loadGoodPropertyItems(-1, this.state.query, nextProps.params.type);
         }
 
     }
 
-    propertiesSearchChange(value) {
-        this.setState({
-            page: 1,
-            query: value
-        });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.goodActions.loadGoodPropertyItems(this.state.page, this.state.query, this.props.params.type);
-        }.bind(this), 500);
-    }
-
-    loadPropertyItems(page = 1) {
-        this.setState({page});
-        this.props.goodActions.loadGoodPropertyItems(page, this.state.query, this.props.params.type);
-    }
 
     render() {
         return (
             <div id="page-wrapper">
                 <div className="container-fluid">
 
+                    <div style={{marginTop: "15px"}}>
+                        <Link to={`/good/${this.props.params.type}/property/create`} className="btn btn-rose">
+                            Thêm thuộc tính
+                        </Link>
+                    </div>
 
                     <div className="card">
 
@@ -64,82 +47,22 @@ class PropertiesListContainer extends React.Component {
                         </div>
 
                         <div className="card-content">
-                            <h4 className="card-title">{
-                                this.props.params.type === "book" ? "Thuộc tính sách" : "Thuộc tính thời trang"
-                            }</h4>
-
-                            <div style={{marginTop: "15px"}}>
-                                <Link to={`/${this.props.params.type}-property/create`} className="btn btn-rose">
-                                    Thêm thuộc tính
-                                </Link>
-                            </div>
-
-                            <Search
-                                onChange={this.propertiesSearchChange}
-                                value={this.state.query}
-                                placeholder="Tìm kiếm thuộc tính"
-                            />
-
-                            <table className="table table-responsive">
-                                <thead>
-                                <tr className="text-rose">
-                                    <th>Tên thuộc tính</th>
-                                    <th>Giá trị khả dụng</th>
-                                    <th>Đơn vị khả dụng</th>
-                                    <th>Người tạo</th>
-                                    <th/>
-                                </tr>
-                                </thead>
-                                <tbody>
+                            <h4 className="card-title">
                                 {
-                                    !this.props.isLoading && this.props.propertyItems.map((item) => {
-                                        return (
-                                            <tr key={item.id}>
-                                                <td>{item.name}</td>
-                                                <td>{item.prevalue}</td>
-                                                <td>{item.preunit}</td>
-                                                <td>{item.creator.name}</td>
-                                                <td>
-                                                    <ButtonGroupAction
-                                                        editUrl={"/property-item/" + item.id + "/edit"}
-                                                        delete={() => {
-                                                            if (confirm("warning", "Xác nhận xoá", "Bạn có chắc chắc muốn xoá thuộc tính này?",
-                                                                    () => {
-                                                                        this.props.goodActions.deletePropertyItem(item.id);
-                                                                    })) ;
-
-                                                        }}
-                                                        object={item}
-                                                    />
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
+                                    this.props.params.type === "book" ? "Thuộc tính sách" : "Thuộc tính thời trang"
                                 }
-                                </tbody>
-                            </table>
-                            {this.props.isLoading && <Loading/>}
+                            </h4>
+
+                            {
+                                this.props.isLoading ? <Loading/> :
+                                    <PropertyList
+                                        deletePropertyItem={(id) => deletePropertyItem(id)}
+                                        propertyItems={this.props.propertyItems}/>
+                            }
+
+
                         </div>
 
-                        <div className="card-content">
-                            <ul className="pagination pagination-primary">
-                                {_.range(1, this.props.totalPages + 1).map(page => {
-                                    if (Number(this.props.currentPage) === page) {
-                                        return (
-                                            <li key={page} className="active">
-                                                <a onClick={() => this.loadPropertyItems(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    } else {
-                                        return (
-                                            <li key={page}>
-                                                <a onClick={() => this.loadPropertyItems(page)}>{page}</a>
-                                            </li>
-                                        );
-                                    }
-                                })}
-                            </ul>
-                        </div>
 
                     </div>
                 </div>
@@ -152,17 +75,13 @@ PropertiesListContainer.propTypes = {
     propertyItems: PropTypes.array.isRequired,
     params: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    totalPages: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
     goodActions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         propertyItems: state.good.propertyItem.propertyItems,
-        isLoading: state.good.propertyItem.isLoading,
-        currentPage: state.good.propertyItem.currentPage,
-        totalPages: state.good.propertyItem.totalPages
+        isLoading: state.good.propertyItem.isLoading
     };
 }
 

@@ -17,6 +17,8 @@ class AddStaffContainer extends React.Component {
         this.addStaff = this.addStaff.bind(this);
         this.handleFileUpload = this.handleFileUpload.bind(this);
         this.changeColor = this.changeColor.bind(this);
+        this.resetPassword = this.resetPassword.bind(this);
+        this.usernameEmpty = true;
     }
 
     componentWillMount() {
@@ -25,6 +27,7 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.loadDataBase();
         if (this.props.route.type === 'edit') {
             this.props.staffActions.loadStaffData(this.props.params.staffId);
+            this.usernameEmpty = false;
         }
     }
 
@@ -36,6 +39,17 @@ class AddStaffContainer extends React.Component {
         const field = event.target.name;
         let staffForm = {...this.props.staffForm};
         if (staffForm[field] != event.target.value) {
+            if (field === 'email'){
+                if (helper.isEmptyInput(staffForm['username']) || this.usernameEmpty){
+                    this.usernameEmpty = true;
+                    staffForm['username'] = event.target.value;
+                }
+            }
+
+            if (field === 'username'){
+                this.usernameEmpty = false;
+            }
+
             staffForm[field] = event.target.value;
             this.props.staffActions.updateAddStaffFormData(staffForm);
         }
@@ -51,6 +65,10 @@ class AddStaffContainer extends React.Component {
     }
 
     addStaff() {
+        if (this.props.staffForm.role_id == null || this.props.staffForm.role_id == undefined || this.props.staffForm.role_id <= 0) {
+            helper.showTypeNotification("Vui lòng chọn chức vụ", 'warning');
+            return;
+        }
         if (this.props.route.type === 'edit') {
             this.props.staffActions.editStaffData(this.props.staffForm);
         } else {
@@ -71,6 +89,10 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.updateAddStaffFormData(staffForm);
     }
 
+    resetPassword(){
+        this.props.staffActions.resetPassword(this.props.params.staffId);
+    }
+
     render() {
         let roles = (this.props.roles !== undefined) ? this.props.roles : [];
         let bases = (this.props.bases !== undefined) ? this.props.bases : [];
@@ -80,6 +102,7 @@ class AddStaffContainer extends React.Component {
                 updateFormData={this.updateFormData}
                 changeColor={this.changeColor}
                 addStaff={this.addStaff}
+                resetPassword={this.resetPassword}
                 type={this.props.route.type}
                 handleFileUpload={this.handleFileUpload}
                 roles={[{id: 0, role_title: ''}, ...roles]}
@@ -115,6 +138,7 @@ function mapStateToProps(state) {
         isLoadingStaff: state.staffs.addStaff.isLoadingStaff,
         isLoadingAddStaff: state.staffs.addStaff.isLoading,
         isChangingAvatar: state.staffs.addStaff.isChangingAvatar,
+        isResettingPassword: state.staffs.addStaff.isResettingPassword,
         isLoadingRoles: state.roles.isLoading,
         error: state.staffs.addStaff.error,
         roles: state.roles.roleListData,

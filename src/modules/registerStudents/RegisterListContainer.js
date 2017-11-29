@@ -54,7 +54,17 @@ class RegisterListContainer extends React.Component {
             });
             this.salerId = this.props.params.salerId;
         } else {
-            this.loadRegisterStudent(1, '');
+            if (this.props.params.genId && this.props.params.campaignId) {
+                this.setState({
+                    page: 1,
+                    query: '',
+                    campaignId: this.props.params.campaignId,
+                    selectGenId: this.props.params.genId
+                });
+                this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
+            } else {
+                this.loadRegisterStudent(1, '');
+            }
         }
     }
 

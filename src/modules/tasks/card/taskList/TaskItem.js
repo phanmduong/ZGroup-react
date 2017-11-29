@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {ListGroupItem} from "react-bootstrap";
 import Avatar from "../../../../components/common/Avatar";
+import EditTaskNameContainer from "../../EditTaskNameContainer";
 
 class TaskItem extends React.Component {
     constructor(props, context) {
@@ -33,7 +34,7 @@ class TaskItem extends React.Component {
                     <label style={{fontWeight: 700, color: "#858585"}}>
                         <input
                             checked={task.status || false}
-                            onChange={() => this.props.toggleTaskStatus(task, card)}
+                            onChange={() => this.props.toggleTaskStatus(task)}
                             type="checkbox" name="optionsCheckboxes"/>
                         <div style={{display: "inline-block", position: "relative", top: 4}}>
                             {
@@ -60,6 +61,17 @@ class TaskItem extends React.Component {
                         <i className="material-icons">more_horiz</i>
                     </a>
                     <ul className="dropdown-menu dropdown-menu-left">
+                        <EditTaskNameContainer
+                            task={this.props.task}/>
+
+
+                        {/*<li className="more-dropdown-item">*/}
+                            {/*<a onClick={this.props.openEditPropertiesModal}>*/}
+                                {/*<i className="material-icons">details</i>*/}
+                                {/*Sửa thuộc tính*/}
+                            {/*</a>*/}
+                        {/*</li>*/}
+
                         <li className="more-dropdown-item">
                             <a onClick={this.openAddMemberToTaskModal}>
                                 <i className="material-icons">person</i>
@@ -96,6 +108,5 @@ TaskItem.propTypes = {
     task: PropTypes.object.isRequired
 };
 
-TaskItem.defaultProps = {};
 
 export default TaskItem;

@@ -140,6 +140,7 @@ export function loadBoards(projectId) {
 }
 
 export function createCard(card) {
+    console.log(card);
     let url = env.MANAGE_API_URL + "/card/create";
     const token = localStorage.getItem('token');
     if (token) {
@@ -435,13 +436,13 @@ export function changeProjectMemberRole(projectId, memberId, role) {
     return axios.put(url);
 }
 
-export function saveMemberTask(memberId, taskId) {
-    let url = env.MANAGE_API_URL + `/task/${taskId}/member/${memberId}`;
+export function saveMemberTask(membersStr, taskId) {
+    let url = env.MANAGE_API_URL + `/task/${taskId}/members`;
     const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    return axios.put(url);
+    return axios.put(url, {members: membersStr});
 }
 
 export function saveTaskDeadline(task) {
@@ -464,3 +465,53 @@ export function updateTasksOrder(tasks) {
 
     return axios.put(url, {tasks: JSON.stringify(tasks)});
 }
+
+
+export function submitProjectPersonalSetting(projectId, setting) {
+    let url = env.MANAGE_API_URL + `/project/${projectId}/personal-setting`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {setting});
+}
+
+export function loadProjectPersonalSetting(projectId) {
+    let url = env.MANAGE_API_URL + `/project/${projectId}/personal-setting`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function saveTaskTitle(taskId, title) {
+    let url = env.MANAGE_API_URL + `/task/${taskId}/title`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {title});
+}
+
+export function loadGoodPropertyItems(taskListId) {
+    let url = env.MANAGE_API_URL + `/tasklist-templates/${taskListId}/items`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+export function loadTaskListTemplates(projectId) {
+    let url = env.MANAGE_API_URL + `/tasklist-templates/${projectId}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+
+
+

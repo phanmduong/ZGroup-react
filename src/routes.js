@@ -18,7 +18,8 @@ import EmailTemplatesContainer from "./modules/emailTemplates/EmailTemplatesCont
 import EmailFormsContainer from "./modules/emailForms/EmailFormsContainer";
 import CreateEmailFormContainer from "./modules/emailForms/CreateEmailFormContainer";
 import CreateEmailTemplateContainer from "./modules/emailTemplates/CreateEmailTemplateContainer";
-import BlogContainer from "./modules/blog/BlogContainer";
+import StorePostContainer from "./modules/blog/StorePostContainer";
+import PostsContainer from "./modules/blog/PostsContainer";
 import ProfileContainer from "./modules/profile/ProfileContainer";
 import EditProfileContainer from "./modules/profile/EditProfileContainer";
 import StudySessionContainer from "./modules/studySession/StudySessionContainer";
@@ -47,7 +48,6 @@ import ProcessListContainer from "./modules/book/ProcessListContainer";
 import SubscribersContainer from "./modules/emailSubscribersList/SubscribersContainer";
 import BookBoardListContainer from "./modules/book/BookBoardListContainer";
 import EmailCampaignsContainer from "./modules/emailCampaigns/EmailCampaignsContainer";
-import FashionBoardListContainer from "./modules/book/FashionBoardListContainer";
 import GoodListContainer from "./modules/good/GoodListContainer";
 import CreateGoodContainer from "./modules/good/CreateGoodContainer";
 import PropertiesListContainer from "./modules/good/PropertiesListContainer";
@@ -57,6 +57,19 @@ import TaskListTemplateContainer from "./modules/good/TaskListTemplateContainer"
 import HistoryShiftRegistersContainer from "./modules/historyShiftRegisters/HistoryShiftRegistersContainer";
 import ShiftSessionsContainer from "./modules/shiftSessions/ShiftSessionsContainer";
 import CoursesContainer from './modules/courses/CoursesContainer';
+import CategoriesContainer from './modules/categories/CategoriesContainer';
+
+import OrdersContainer from './modules/goodOrders/OrdersContainer';
+import OrderContainer from './modules/goodOrders/order/OrderContainer';
+import ProductListContainer from './modules/productList/ProductListContainer';
+// import GoodDetailContainer from "./modules/good/GoodDetailContainer";
+import ImportGoodsContainer from './modules/importGoods/ImportGoodsContainer';
+import ImportContainer from './modules/importGoods/importGood/ImportContainer';
+import StoreImportContainer from './modules/importGoods/importGood/StoreImportContainer';
+import GoodDetailContainer from "./modules/good/GoodDetailContainer";
+import WareHouseContainer from "./modules/wareHouse/WareHouseContainer";
+import CustomerContainer from "./modules/customer/CustomerContainer";
+import InventoryGoodContainer from "./modules/inventoryGood/InventoryGoodContainer";
 import CreateEditCoursesContainer from "./modules/courses/coursesForm/CoursesCreateEditContainer";
 import coursesCreateEditGeneral from "./modules/courses/coursesForm/coursesCreateEditGeneral";
 import coursesCreateEditCurriculum from "./modules/courses/coursesForm/coursesCreateEditCurriculum";
@@ -65,6 +78,15 @@ import coursesCreateEditStudying from "./modules/courses/coursesForm/coursesCrea
 import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCreateEditInterested";
 import LessonsContainer from "./modules/lessons/LessonsContainer";
 import AttendanceContainer from "./modules/attendance/AttendanceContainer";
+import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCampaignContainer";
+import CreateProductContainer from "./modules/createProduct/CreateProductContainer";
+import ProductSystemContainer from "./modules/createProduct/ProductSystemContainer";
+import ProductWebsiteContainer from "./modules/createProduct/ProductWebsiteContainer";
+import EditProductContainer from "./modules/createProduct/EditProductContainer";
+import SummaryMarketingCampaignContainer from "./modules/summaryMarketingCampaign/SummaryMarketingCampaignContainer";
+import SummarySalesContainer from "./modules/summarySales/SummarySalesContainer";
+import OverviewSales from "./modules/summarySales/OverviewSales";
+import StatisticSales from "./modules/summarySales/StatisticSales";
 
 export default (
     <Route>
@@ -109,11 +131,14 @@ export default (
             {/*End Email marketing routes*/}
 
             {/*Begin blog routes*/}
-            <Route path="/blog/new-post" component={BlogContainer} type="create"/>
+            <Route path="/blog/new-post" component={StorePostContainer} type="create"/>
+            <Route path="/blog/post/:postId/edit" component={StorePostContainer} type="edit"/>
+            <Route path="/blog/posts" component={PostsContainer}/>
             {/*End blog routes*/}
 
             {/*Begin register student routes*/}
             <Route path="/manage/registerlist(/:salerId)" component={RegisterListContainer}/>
+            <Route path="/registerlist/:campaignId/:genId" component={RegisterListContainer}/>
             {/*End register student routes*/}
 
             {/*Begin register student routes*/}
@@ -160,18 +185,18 @@ export default (
 
             {/*Begin good routes*/}
             <Route path="/good/:type/process" component={ProcessListContainer}/>
+            <Route path="/good/:goodId/detail" component={GoodDetailContainer}/>
             <Route path="/good/:type/properties" component={PropertiesListContainer}/>
-            <Route path="/book-property/create" component={CreateGoodPropertyContainer} type="book"/>
-            <Route path="/book-property/create" component={CreateGoodPropertyContainer} type="book"/>
+            <Route path="/good/:type/property/create" component={CreateGoodPropertyContainer}/>
             <Route path="/property-item/:id/edit" component={CreateGoodPropertyContainer}/>
             <Route path="/tasklist-template/:id" component={TaskListTemplateContainer}/>
 
 
-            <Route path="/book-manufacture" component={BookBoardListContainer}/>
-            <Route path="/fashion-manufacture" component={FashionBoardListContainer}/>
+            <Route path="/:type/manufacture" component={BookBoardListContainer}/>
             <Route path="/good/:type/all" component={GoodListContainer}/>
             <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
             <Route path="good/:type/create" component={CreateGoodContainer} type="create"/>
+            <Route path="good/create" component={CreateGoodContainer} type="create"/>
             {/*End good routes*/}
 
             {/*Begin class routes*/}
@@ -229,6 +254,70 @@ export default (
             {/*Begin lessons routes */}
                 <Route path="/manage/attendance" component={AttendanceContainer}/>
             {/*End lessons routes */}
+
+            l
+
+            {/*Begin categories routes */}
+            <Route path="/goods/categories" component={CategoriesContainer}/>
+            {/*End categories routes */}
+
+
+            {/*Begin good order routes */}
+            <Route path="/goods/orders" component={OrdersContainer}/>
+            <Route path="/goods/order/:orderId" component={OrderContainer}/>
+            {/*End good order routes */}
+
+            {/*Begin product-list routes */}
+            <Route path="/goods/products" component={ProductListContainer}/>
+            {/*End product-list routes*/}
+
+            {/*Begin inventory-good routes*/}
+            <Route path="/goods/inventories" components={InventoryGoodContainer}/>
+            {/*End inventory-good routes*/}
+
+            {/*Begin import goods routes */}
+            <Route path="/import-goods" component={ImportGoodsContainer}/>
+            <Route path="/import-good/create" component={StoreImportContainer} type="create"/>
+            <Route path="/import-good/:importGoodId" component={ImportContainer}/>
+            {/*End import goods routes*/}
+
+            {/*Begin warehouse routes */}
+            <Route path="/goods/warehouses" component={WareHouseContainer}/>
+            {/*End warehouse routes*/}
+
+            {/*Begin customer routes */}
+            <Route path="/goods/customer" component={CustomerContainer}/>
+            {/*End customer routes*/}
+
+
+            {/*Begin create-product routes */}
+            <Route path="/create-product" component={CreateProductContainer} type="create">
+
+            {/*Begin marketing campaigns routes */}
+            <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
+            <Route path="/marketing-campaign/summary" component={SummaryMarketingCampaignContainer}/>
+            {/*End marketing campaigns routes*/}
+
+            {/*Begin sales routes */}
+            <Route path="/manage/sales" component={SummarySalesContainer}>
+                <IndexRoute component={OverviewSales}/>
+                <Route path="statistic" component={StatisticSales}/>
+            </Route>
+            {/*End sales routes*/}
+
+            {/*Begin customer routes */}
+            
+                <IndexRoute component={ProductSystemContainer}/>
+                <Route path="website-display" component={ProductWebsiteContainer}/>
+            </Route>
+            {/*End create-product routes*/}
+
+            {/*Begin edit-product routes */}
+            <Route path="/product/:productId/edit" component={EditProductContainer} type="edit">
+                <IndexRoute component={ProductSystemContainer}/>
+                <Route path="website-display" component={ProductWebsiteContainer}/>
+            </Route>
+            {/*End edit-product routes*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

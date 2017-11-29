@@ -30,6 +30,17 @@ export const LITERACY = [
     }
 ];
 
+export const STATUS_IMPORT_GOODS = [
+    {
+        label: "Lưu tạm",
+        value: "uncompleted"
+    },
+    {
+        label: "Hoàn thành",
+        value: "completed"
+    }
+];
+
 export const DAY_OF_WEEK = [
     {
         value: 'Thứ hai',
@@ -59,6 +70,21 @@ export const DAY_OF_WEEK = [
         value: 'Chủ nhật',
         key: 'Chủ nhật',
     },
+];
+
+export const PAYMENT = [
+    {
+        label: "Tiền mặt",
+        value: "cash"
+    },
+    {
+        label: "Chuyển khoản",
+        value: "transfer"
+    },
+    {
+        label: "Thẻ",
+        value: "credit"
+    }
 ];
 
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';

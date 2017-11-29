@@ -36,13 +36,18 @@ export default function staffsReducer(state = initialState.staffs, action) {
             };
         case types.BEGIN_CHANGE_ROLE_STAFF:
             staffListData = changeRoleStaff(action.staffId, action.roleId, state.staffListData);
+            let userListData = changeRoleStaff(action.staffId, action.roleId, state.users.userListData);
             return {
                 ...state,
                 ...{
                     messageChangeRoleStaff: action.messageChangeRoleStaff,
                     isLoadingChangeRoleStaff: action.isLoadingChangeRoleStaff,
                     errorChangeRoleStaff: action.errorChangeRoleStaff,
-                    staffListData: staffListData
+                    staffListData: staffListData,
+                    users: {
+                        ...state.users,
+                        userListData: userListData
+                    }
                 }
             }
                 ;
@@ -125,13 +130,19 @@ export default function staffsReducer(state = initialState.staffs, action) {
             };
         case types.BEGIN_CHANGE_BASE_STAFF:
             let staffListDataChangeBase = changeBaseStaff(action.staffId, action.baseId, state.staffListData);
+            let userListDataChangeBase = changeBaseStaff(action.staffId, action.baseId, state.users.userListData);
             return {
                 ...state,
                 ...{
                     messageChangeBaseStaff: action.messageChangeBaseStaff,
                     isLoadingChangeBaseStaff: action.isLoadingChangeBaseStaff,
                     errorChangeBaseStaff: action.errorChangeBaseStaff,
-                    staffListData: staffListDataChangeBase
+                    staffListData: staffListDataChangeBase,
+                    users: {
+                        ...state.users,
+                        userListData: userListDataChangeBase
+                    }
+
                 }
             }
                 ;
@@ -233,6 +244,45 @@ export default function staffsReducer(state = initialState.staffs, action) {
                             staffForm: state.addStaff.staffForm,
                             isLoading: action.isLoading,
                             error: action.error,
+                        }
+                    }
+                }
+            };
+        case types.BEGIN_RESET_PASSWORD_STAFF:
+            return {
+                ...state,
+                ...{
+                    addStaff: {
+                        ...state.addStaff,
+                        ...{
+                            isResettingPassword: true,
+                            errorResetPassword: false,
+                        }
+                    }
+                }
+            };
+        case types.RESET_PASSWORD_STAFF_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    addStaff: {
+                        ...state.addStaff,
+                        ...{
+                            isResettingPassword: false,
+                            errorResetPassword: false,
+                        }
+                    }
+                }
+            };
+        case types.RESET_PASSWORD_STAFF_ERROR:
+            return {
+                ...state,
+                ...{
+                    addStaff: {
+                        ...state.addStaff,
+                        ...{
+                            isResettingPassword: false,
+                            errorResetPassword: true,
                         }
                     }
                 }
@@ -363,6 +413,43 @@ export default function staffsReducer(state = initialState.staffs, action) {
                             isLoading: action.isLoading,
                             error: action.error,
                         }
+                    }
+                }
+            };
+        case types.BEGIN_LOAD_ALL_USERS_NOT_STAFF_DATA:
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    ...{
+                        isLoading: true,
+                        error: false,
+                        staffListData: action.staffListData
+                    }
+                }
+            };
+        case types.LOAD_ALL_USERS_NOT_STAFF_DATA_SUCCESSFUL:
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    ...{
+                        isLoading: false,
+                        error: false,
+                        userListData: action.userListData,
+                        currentPage: action.currentPage,
+                        totalPages: action.totalPages
+                    }
+                }
+            };
+        case types.LOAD_ALL_USERS_NOT_STAFF_DATA_ERROR:
+            return {
+                ...state,
+                users: {
+                    ...state.users,
+                    ...{
+                        isLoading: false,
+                        error: true
                     }
                 }
             };

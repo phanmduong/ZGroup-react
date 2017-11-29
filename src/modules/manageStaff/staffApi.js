@@ -25,10 +25,23 @@ export function addStaff(staff) {
     });
 }
 
-export function getStaffs(page = 1, search= null) {
-    let url = env.MANAGE_API_URL + "/get-staffs?page="+page;
+export function getStaffs(page = 1, search = null) {
+    let url = env.MANAGE_API_URL + "/get-staffs?page=" + page;
     let token = localStorage.getItem('token');
-    if (search){
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+
+    return axios.get(url);
+}
+
+export function getUsers(page = 1, search = null) {
+    let url = env.MANAGE_API_URL + "/staff/get-all-user?page=" + page;
+    let token = localStorage.getItem('token');
+    if (search) {
         url += "&search=" + search;
     }
     if (token) {
@@ -75,7 +88,7 @@ export function getStaff(staffId) {
 }
 
 export function editStaff(staff) {
-    let url = env.MANAGE_API_URL + '/staff/'+staff.id+'/edit';
+    let url = env.MANAGE_API_URL + '/staff/' + staff.id + '/edit';
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -104,7 +117,7 @@ export function deleteStaff(staff) {
         url += "?token=" + token;
     }
     return axios.post(url, {
-        username: staff.username
+        id: staff.id
     });
 }
 
@@ -122,7 +135,6 @@ export function changeAvatar(file, completeHandler, id) {
     ajax.open("POST", url);
     ajax.send(formdata);
 }
-
 
 
 export function createAvatar(file, completeHandler) {
@@ -157,5 +169,17 @@ export function loadBaseApi() {
     }
 
     return axios.get(url);
+}
+
+export function resetPassword(staffId) {
+    let url = env.MANAGE_API_URL + "/reset-password";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        staff_id: staffId
+    });
 }
 

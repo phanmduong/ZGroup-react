@@ -4,13 +4,12 @@ import {bindActionCreators} from 'redux';
 import {ListGroup, ListGroupItem, Modal} from "react-bootstrap";
 import PropTypes from 'prop-types';
 import * as taskActions from '../taskActions';
-import FormInputText from "../../../components/common/FormInputText";
-import {CirclePicker} from "react-color";
 import Select from 'react-select';
 import AddMemberProjectOverlay from "./AddMemberProjectOverlay";
 import ProjectMemberDetailOverlayContainer from "./ProjectMemberDetailOverlayContainer";
 import Switch from "../../../components/common/Switch";
 import Loading from "../../../components/common/Loading";
+import ProjectDetailCommon from "./common/ProjectDetailCommon";
 
 
 class ProjectDetailModalContainer extends Component {
@@ -110,23 +109,15 @@ class ProjectDetailModalContainer extends Component {
                                     </h5>
                                     <form role="form">
 
-                                        <FormInputText
-                                            placeholder="Nhập tên dự án"
-                                            label="Tên dự án"
-                                            name="title"
+                                        <ProjectDetailCommon
                                             updateFormData={this.updateFormData}
-                                            value={project.title}/>
-                                        <FormInputText
-                                            placeholder="Nhập mô tả dự án"
-                                            label="Mô tả dự án"
-                                            name="description"
-                                            updateFormData={this.updateFormData}
-                                            value={project.description}/>
+                                            changeColor={this.changeColor}
+                                            project={project}/>
 
                                         {
                                             (project.status === "book" || project.status === "fashion") && (
-                                                <div className="form-group">
-                                                    <label>Bảng bắt đầu</label>
+                                                <div className="form-group label-floating">
+                                                    <label className="control-label">Bảng bắt đầu</label>
                                                     <Select
                                                         name="start"
                                                         value={project.start_board ? project.start_board.id : 0}
@@ -138,23 +129,14 @@ class ProjectDetailModalContainer extends Component {
                                         }
 
 
-                                        <CirclePicker
-                                            width="100%"
-                                            color={project.color || ""}
-                                            onChangeComplete={this.changeColor}/>
-
-                                        {
-                                            (project.status === "open" || project.status === "close")  && (
-                                                <div className="form-group">
-                                                    <Select
-                                                        name="status"
-                                                        value={project.status}
-                                                        options={this.statusOptions}
-                                                        onChange={this.changeStatus}
-                                                    />
-                                                </div>
-                                            )
-                                        }
+                                        <div className="form-group">
+                                            <Select
+                                                name="status"
+                                                value={project.status}
+                                                options={this.statusOptions}
+                                                onChange={this.changeStatus}
+                                            />
+                                        </div>
 
 
                                         <div>
@@ -162,7 +144,7 @@ class ProjectDetailModalContainer extends Component {
                                                 (
                                                     <button
                                                         type="button"
-                                                        className="btn btn-primary disabled">
+                                                        className="btn btn-rose disabled">
                                                         <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                                     </button>
                                                 ) :

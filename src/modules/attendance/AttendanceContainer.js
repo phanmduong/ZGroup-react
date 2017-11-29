@@ -1,13 +1,13 @@
 import React                        from 'react';
 import {connect}                    from 'react-redux';
-import PropTypes                    from 'prop-types';
 import {bindActionCreators}         from 'redux';
 import * as    attendanceActions    from '../attendance/attendanceActions';
 import ListClassComponent           from './ListClassComponent';
 import Search                       from '../../components/common/Search';
 import _                            from 'lodash';
 import ListLessonModal              from './ListLessonModal';
-import LessonDetailModal              from './LessonDetailModal';
+import LessonDetailModal            from './LessonDetailModal';
+import PropTypes                    from 'prop-types';
 
 class AttendanceContainer extends React.Component {
     constructor(props, context) {
@@ -38,8 +38,8 @@ class AttendanceContainer extends React.Component {
         this.props.attendanceActions.loadClasses();
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log('AttendanceContainer',nextProps);
+    componentWillReceiveProps(){
+        //console.log('AttendanceContainer',nextProps);
     }
 
     loadClasses(page = 1, query = '', teacherid) {
@@ -87,7 +87,7 @@ class AttendanceContainer extends React.Component {
     takeAttendance(classid, lessonid, studentid, index){
 
         if(!this.props.isTakingAttendance) {
-            console.log(classid, lessonid, studentid, index);
+            //console.log(classid, lessonid, studentid, index);
             this.props.attendanceActions.takeAttendance(classid, lessonid, studentid, index);
         }
     }
@@ -152,6 +152,7 @@ class AttendanceContainer extends React.Component {
                         list={this.props.lesson}
                         takeAttendance={this.takeAttendance}
                         selectedLessonId={this.state.selectedLessonId}
+                        isLoadingLessonDetailModal={this.props.isLoadingLessonDetailModal}
                     />
                 </div>
             </div>
@@ -163,7 +164,13 @@ class AttendanceContainer extends React.Component {
 /**/
 
 AttendanceContainer.propTypes = {
-
+    isLoading:                      PropTypes.boolean,
+    isTakingAttendance:             PropTypes.boolean,
+    isLoadingLessonClassModal:      PropTypes.boolean,
+    isLoadingLessonDetailModal:     PropTypes.boolean,
+    data:     PropTypes.object,
+    class:     PropTypes.object,
+    lesson:     PropTypes.object,
 };
 
 function mapStateToProps(state) {

@@ -2,9 +2,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-// import PropTypes from 'prop-types';
-
 import * as taskActions from '../taskActions';
+import * as boardActions from '../board/boardActions';
 import * as PropTypes from "prop-types";
 import CreateBoardModalContainer from "./CreateBoardModalContainer";
 import Loading from "../../../components/common/Loading";
@@ -73,13 +72,15 @@ class BoardListContainer extends React.Component {
             <div>
                 <CreateBoardModalContainer projectId={this.props.params.projectId}/>
                 <CreateCardModalContainer/>
-                <CardDetailModalContainer/>
+                <CardDetailModalContainer isProcess={false}/>
                 {this.props.isLoadingBoards ? <Loading/> : (
                     <div>
                         <CardFilterContainer
                             isAdmin={isAdmin}
                             projectId={Number(this.props.params.projectId)}/>
                         <BoardList
+                            archiveBoard={this.props.boardActions.archiveBoard}
+                            display={this.props.setting.display || "full"}
                             canDragBoard={isAdmin || this.props.canDragBoard}
                             canDragCard={isAdmin || this.props.canDragCard}
                             archiveCard={this.props.taskActions.archiveCard}
@@ -101,11 +102,13 @@ class BoardListContainer extends React.Component {
 
 BoardListContainer.propTypes = {
     taskActions: PropTypes.object.isRequired,
+    boardActions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     members: PropTypes.array.isRequired,
     boards: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired,
     isLoadingBoards: PropTypes.bool.isRequired,
+    setting: PropTypes.object.isRequired,
     canDragBoard: PropTypes.oneOfType([
         PropTypes.number.isRequired,
         PropTypes.bool.isRequired
@@ -157,10 +160,12 @@ function mapStateToProps(state) {
     });
 
     return {
+        projectId: Number(state.task.boardList.projectId),
         isLoadingBoards: state.task.boardList.isLoadingBoards,
         canDragBoard: state.task.boardList.canDragBoard,
         canDragCard: state.task.boardList.canDragCard,
         members: state.task.boardList.members,
+        setting: state.task.boardList.setting,
         boards,
         user: state.login.user
     };
@@ -168,7 +173,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        taskActions: bindActionCreators(taskActions, dispatch)
+        taskActions: bindActionCreators(taskActions, dispatch),
+        boardActions: bindActionCreators(boardActions, dispatch)
     };
 }
 

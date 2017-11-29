@@ -2,8 +2,7 @@ import React                        from 'react';
 import {Modal}                      from 'react-bootstrap';
 import Loading                      from '../../components/common/Loading';
 import PropTypes                    from 'prop-types';
-import Switch from 'react-bootstrap-switch';
-import Checkbox from '../../components/common/Checkbox';
+import CheckBoxMaterial             from '../../components/common/CheckBoxMaterial';
 class LessonDetailModal extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -48,7 +47,9 @@ class LessonDetailModal extends React.Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {
+                            {this.props.isLoadingLessonDetailModal ?
+                                <tr><Loading/></tr>
+                                :
                                  this.props.list.length !=0 ?
 
                                         this.props.list.map((item, index)=>{
@@ -56,20 +57,20 @@ class LessonDetailModal extends React.Component {
                                                 <tr key={item.id}>
                                                     <td>{item.name}</td>
                                                     <td>{item.email}</td>
-                                                    <td><div className="checkbox">
-                                                        <Checkbox
+                                                    <td>
+                                                        <CheckBoxMaterial
                                                             label=""
                                                             name="active"
                                                             checked={Boolean(item.attendance_status)}
                                                             onChange={() => {return this.props.takeAttendance(this.props.class.id, this.props.selectedLessonId, item.id, index);}}
-                                                        /></div>
+                                                        />
                                                     </td>
                                                 </tr>
                                             );
                                         })
 
                                     :
-                                    <h5>Chưa thể điểm danh</h5>
+                                    <tr> <h5>Chưa thể điểm danh</h5></tr>
                             }
 
                             </tbody>

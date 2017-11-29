@@ -4,6 +4,7 @@ import toastr from 'toastr';
 import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 import _ from 'lodash';
+
 /*eslint no-console: 0 */
 export function beginLoadStaffsData() {
     return {
@@ -45,6 +46,28 @@ export function loadStaffsDataError() {
     });
 }
 
+export function loadUsersData(page, search) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_ALL_USERS_NOT_STAFF_DATA,
+            userListData: []
+        });
+        staffApi.getUsers(page, search)
+            .then(function (res) {
+                dispatch({
+                    type: types.LOAD_ALL_USERS_NOT_STAFF_DATA_SUCCESSFUL,
+                    userListData: res.data.users,
+                    currentPage: res.data.paginator.current_page,
+                    totalPages: res.data.paginator.total_pages,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_ALL_USERS_NOT_STAFF_DATA_ERROR,
+            });
+        });
+    };
+}
+
 
 export function beginChangeRoleStaff(staffId, roleId) {
     toastr.info('Đang thay đổi chức vụ');
@@ -81,7 +104,7 @@ export function changeRoleStaffSucessful(res) {
 }
 
 export function changeRoleStaffError() {
-    toastr.error('Thay đổi chức vụ thất bại');
+    helper.showErrorNotification('Thay đổi chức vụ thất bại');
     return ({
         type: types.CHANGE_ROLE_STAFF_ERROR,
         messageChangeRoleStaff: null,
@@ -112,36 +135,40 @@ export function addStaffData(staff) {
             .then(function (res) {
                 dispatch(addStaffDataSucessful(res));
             }).catch((error) => {
-            dispatch(addStaffDataError(error.response.data.error));
+            dispatch(addStaffDataError(error.response.data.message));
             console.log(error);
         });
     };
 }
 
-export function addStaffDataSucessful() {
-    toastr.success("Thêm nhân viên thành công");
-    browserHistory.push('manage/quan-li-nhan-su');
-    return ({
-        type: types.ADD_STAFF_DATA_SUCCESSFUL,
-        isLoading: false,
-        error: false
-    });
+export function addStaffDataSucessful(res) {
+    if (res.data.status === 1) {
+        toastr.success("Thêm nhân viên thành công");
+        browserHistory.push('manage/quan-li-nhan-su');
+        return ({
+            type: types.ADD_STAFF_DATA_SUCCESSFUL,
+            isLoading: false,
+            error: false
+        });
+    } else {
+        return addStaffDataError(res.data.message);
+    }
 }
 
 export function addStaffDataError(data) {
     let isMessageError = false;
-    if (data.email) {
-        toastr.error(data.email);
+    if (data && data.email) {
+        helper.showErrorNotification(data.email);
         isMessageError = true;
     }
 
-    if (data.username) {
-        toastr.error(data.username);
+    if (data && data.username) {
+        helper.showErrorNotification(data.username);
         isMessageError = true;
     }
 
     if (!isMessageError) {
-        toastr.error('Tạo nhân viên thất bại. Thử lại');
+        helper.showErrorNotification('Tạo nhân viên thất bại. Thử lại');
     }
 
     return ({
@@ -186,7 +213,7 @@ export function changeBaseStaffSucessful(res) {
 }
 
 export function changeBaseStaffError() {
-    toastr.error('Thay đổi cơ sở thất bại');
+    helper.showErrorNotification('Thay đổi cơ sở thất bại');
     return ({
         type: types.CHANGE_BASE_STAFF_ERROR,
         messageChangeBaseStaff: null,
@@ -250,26 +277,40 @@ export function editStaffData(staff) {
             .then(function (res) {
                 dispatch(editStaffDataSucessful(res));
             }).catch((error) => {
-            dispatch(editStaffDataError(error.response.data.error));
+            dispatch(editStaffDataError(error.response.data.message));
             console.log(error);
         });
     };
 }
 
-export function editStaffDataSucessful() {
-    helper.showNotification("Cập nhật nhân viên thành công");
-    browserHistory.push('manage/quan-li-nhan-su');
-    return ({
-        type: types.EDIT_STAFF_DATA_SUCCESSFUL,
-        isLoading: false,
-        error: false
-    });
+export function editStaffDataSucessful(res) {
+    if (res.data.status === 1) {
+        helper.showNotification("Cập nhật nhân viên thành công");
+        browserHistory.push('manage/quan-li-nhan-su');
+        return ({
+            type: types.EDIT_STAFF_DATA_SUCCESSFUL,
+            isLoading: false,
+            error: false
+        });
+    } else {
+        return editStaffDataError(res.data.message);
+    }
 }
 
 export function editStaffDataError(data) {
 
     if (data) {
-        helper.showTypeNotification(data, 'danger');
+        if (data.message) {
+            helper.showErrorNotification(data.message);
+        }
+
+        if (data.email) {
+            helper.showErrorNotification(data.email);
+        }
+
+        if (data.username) {
+            helper.showErrorNotification(data.username);
+        }
     } else {
         helper.showTypeNotification('Cập nhật nhân viên thất bại. Thử lại', 'danger');
     }
@@ -295,7 +336,7 @@ export function deleteStaffData(staff) {
         dispatch(beginDeleteStaffData());
         staffApi.deleteStaff(staff)
             .then(function (res) {
-                dispatch(deleteStaffDataSucessful(staff.id,res));
+                dispatch(deleteStaffDataSucessful(staff.id, res));
             }).catch((error) => {
             dispatch(deleteStaffDataError(error.response.data.error));
             console.log(error);
@@ -416,7 +457,7 @@ export function loadRolesDataError() {
         ;
 }
 
-export function beginDataBaseLoad(){
+export function beginDataBaseLoad() {
     return {
         type: types.BEGIN_DATA_BASE_LOAD,
         isLoading: true,
@@ -451,6 +492,31 @@ export function loadDataError() {
         type: types.LOAD_DATA_BASE_ERROR,
         isLoading: false,
         error: false
+    };
+}
+
+export function resetPassword(staffId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_RESET_PASSWORD_STAFF});
+        staffApi.resetPassword(staffId)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    dispatch({
+                        type: types.RESET_PASSWORD_STAFF_SUCCESSFUL,
+                    });
+                    helper.showNotification(res.data.data.message);
+                } else {
+                    dispatch({
+                        type: types.RESET_PASSWORD_STAFF_ERROR
+                    });
+                    helper.showErrorNotification(res.data.message);
+                }
+
+            }).catch(() => {
+            dispatch({
+                type: types.RESET_PASSWORD_STAFF_ERROR
+            });
+        });
     };
 }
 

@@ -14,10 +14,16 @@ import LabelOverlayContainer from "./label/CardLabelOverlayContainer";
 import DeadlineOverlayContainer from "./deadline/DeadlineOverlayContainer";
 import CommentInputContainer from "./comment/CommentInputContainer";
 import CommentListContainer from "./comment/CommentListContainer";
+import AddChildGoodContainer from "../../good/addChildGood/AddChildGoodContainer";
+import ProcessTaskContainer from "../../book/ProcessTaskContainer";
+
 
 const CardBody = ({
-                      card, isSavingCard, toggleEditCardDescription, deleteFile,
-                      isEditing, saveCard, cancelEdit, updateEditor
+                      card, isSavingCard, toggleEditCardDescription,
+                      deleteFile,
+                      openAddChildGoodModal,
+                      isEditing, saveCard, cancelEdit,
+                      updateEditor, description, isProcess
                   }) => {
     const editTooltip = (
         <Tooltip id="tooltip">Chỉnh sửa mô tả công việc</Tooltip>
@@ -42,6 +48,7 @@ const CardBody = ({
                                     <div className="ripple-container"/>
                                 </button>
                             );
+
                         })
                     }
 
@@ -78,7 +85,7 @@ const CardBody = ({
                                         <ReactEditor
                                             urlPost={linkUploadImageEditor()}
                                             fileField="image"
-                                            value={card.description || ""}
+                                            value={description || ""}
                                             updateEditor={updateEditor}/>
                                         <button
                                             onClick={saveCard}
@@ -98,8 +105,16 @@ const CardBody = ({
                         </div>
                     )
                 }
+                {
+                    isProcess ? (
+                        <ProcessTaskContainer/>
+                    ) : (
+                        <div>
+                            {card.id && <TaskListsContainer/>}
+                        </div>
+                    )
+                }
 
-                {card.id && <TaskListsContainer card={card}/>}
                 <CommentListContainer/>
                 <CommentInputContainer/>
             </div>
@@ -108,7 +123,20 @@ const CardBody = ({
                     <strong>Thêm</strong>
                 </h4>
                 <div className="card-detail-btn-group">
-                    <AddTaskListOverlayContainer card={card}/>
+                    {
+                        isProcess && (
+                            <div>
+                                <button className="btn btn-default card-detail-btn-action"
+                                        onClick={openAddChildGoodModal}>
+                                    <i className="material-icons">shopping_cart</i> Tạo sản phẩm con
+                                </button>
+                                <AddChildGoodContainer/>
+                            </div>
+                        )
+                    }
+                    <AddTaskListOverlayContainer
+                        isProcess={isProcess}
+                        card={card}/>
                     <LabelOverlayContainer/>
                     <DeadlineOverlayContainer/>
                     <AddMemberOverlay card={card}/>
@@ -126,13 +154,16 @@ const CardBody = ({
 
 CardBody.propTypes = {
     card: PropTypes.object.isRequired,
+    description: PropTypes.string,
     cancelEdit: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
     toggleEditCardDescription: PropTypes.func.isRequired,
     saveCard: PropTypes.func.isRequired,
+    openAddChildGoodModal: PropTypes.func.isRequired,
     updateEditor: PropTypes.func.isRequired,
     isSavingCard: PropTypes.bool.isRequired,
-    isEditing: PropTypes.bool.isRequired
+    isEditing: PropTypes.bool.isRequired,
+    isProcess: PropTypes.bool
 };
 
 export default CardBody;

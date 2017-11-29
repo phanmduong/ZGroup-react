@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Dragula from 'react-dragula';
-import CardItem from "../card/CardItem";
+import CardList from "../card/CardList";
 
 class BoardList extends React.Component {
+
     constructor(props, context) {
         super(props, context);
         this.initBoardDragula = this.initBoardDragula.bind(this);
@@ -18,7 +19,6 @@ class BoardList extends React.Component {
         this.initBoardContainerDragula();
     }
 
-    //
     componentDidUpdate() {
         this.initBoardDragula();
         this.initBoardContainerDragula();
@@ -132,27 +132,26 @@ class BoardList extends React.Component {
                                                         Thêm thẻ
                                                     </a>
                                                 </li>
+                                                <li className="more-dropdown-item">
+                                                    <a onClick={() => this.props.archiveBoard(board)}>
+                                                        <i className="material-icons">archive</i>
+                                                        Lưu trữ
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
-
-
                                     </div>
                                 </div>
 
-                                <div className="board" id={board.id}>
-                                    {board.cards.map((card) => {
-                                        return (
-                                            <CardItem
-                                                archiveCard={this.props.archiveCard}
-                                                updateCardInBoard={this.props.updateCardInBoard}
-                                                key={card.id}
-                                                card={card}
-                                                openCardDetailModal={this.props.openCardDetailModal}/>
-                                        );
-                                    })}
 
+                                <CardList
+                                    board={board}
+                                    display={this.props.display}
+                                    archiveCard={this.props.archiveCard}
+                                    updateCardInBoard={this.props.updateCardInBoard}
+                                    openCardDetailModal={this.props.openCardDetailModal}
+                                />
 
-                                </div>
                             </div>
                         );
                     })}
@@ -182,6 +181,8 @@ BoardList.propTypes = {
         PropTypes.bool.isRequired
     ]),
     boards: PropTypes.array.isRequired,
+    display: PropTypes.string,
+    archiveBoard: PropTypes.func.isRequired,
     openCreateBoardModal: PropTypes.func.isRequired,
     changeOrderCard: PropTypes.func.isRequired,
     addCard: PropTypes.func.isRequired,

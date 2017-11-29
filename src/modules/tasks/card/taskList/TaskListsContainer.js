@@ -14,7 +14,24 @@ class TaskListsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.addTask = this.addTask.bind(this);
+        this.toggleTaskStatus = this.toggleTaskStatus.bind(this);
+        this.state = {
+            showAskGoodPropertiesModal: false,
+            goodProperties: [],
+            goodPropertiesOutput: {},
+            currentTask: {},
+            currentCard: {}
+        };
+        this.closeAskGoodPropertiesModal = this.closeAskGoodPropertiesModal.bind(this);
     }
+
+
+    closeAskGoodPropertiesModal() {
+        this.setState({
+            showAskGoodPropertiesModal: false
+        });
+    }
+
 
     addTask(taskListId) {
         return (event) => {
@@ -29,36 +46,50 @@ class TaskListsContainer extends React.Component {
         };
     }
 
+    toggleTaskStatus(task) {
+        const {card} = this.props;
+        this.props.taskActions.toggleTaskStatus(task, card);
+    }
+
 
     render() {
+
         const tasksComplete = (taskList) => taskList.tasks.filter(t => t.status).length;
         const totalTasks = (taskList) => taskList.tasks.length;
         const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
         return (
             <div className="task-lists">
+
                 <AddMemberToTaskModalContainer/>
+
                 <TaskDeadlineModalContainer/>
                 {
                     this.props.card.taskLists && this.props.card.taskLists.map((taskList) => {
+                        const isProcess = taskList.role === "process";
                         return (
                             <div key={taskList.id}>
                                 <div style={{display: "flex", justifyContent: "space-between"}}>
                                     <h4>
                                         <strong>{taskList.title}</strong>
                                     </h4>
-                                    <button
-                                        onClick={() => {
-                                            confirm("warning", "Xoá danh sách việc",
-                                                "Toàn bộ công việc trong danh sách này sẽ bị xoá vĩnh viễn",
-                                                () => {
-                                                    this.props.taskActions.deleteTaskList(taskList);
-                                                }, null);
-                                        }}
-                                        type="button" className="close"
-                                        style={{color: '#5a5a5a'}}>
-                                        <span aria-hidden="true">×</span>
-                                        <span className="sr-only">Close</span>
-                                    </button>
+                                    {
+                                        !isProcess && (
+                                            <button
+                                                onClick={() => {
+                                                    confirm("warning", "Xoá danh sách việc",
+                                                        "Toàn bộ công việc trong danh sách này sẽ bị xoá vĩnh viễn",
+                                                        () => {
+                                                            this.props.taskActions.deleteTaskList(taskList);
+                                                        }, null);
+                                                }}
+                                                type="button" className="close"
+                                                style={{color: '#5a5a5a'}}>
+                                                <span aria-hidden="true">×</span>
+                                                <span className="sr-only">Close</span>
+                                            </button>
+                                        )
+                                    }
+
                                 </div>
                                 <small>
                                     {tasksComplete(taskList)}/{totalTasks(taskList)}
@@ -83,15 +114,17 @@ class TaskListsContainer extends React.Component {
                                 </div>
                                 <ListGroup>
                                     {
-                                        taskList.tasks.map((task) =>
-                                            (<TaskItem
+                                        taskList.tasks.map((task) => {
+                                            return (<TaskItem
                                                 openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
-                                                toggleTaskStatus={this.props.taskActions.toggleTaskStatus}
+                                                toggleTaskStatus={this.toggleTaskStatus}
                                                 deleteTask={this.props.taskActions.deleteTask}
                                                 key={task.id}
-                                                task={task}/>))
+                                                task={task}/>);
+                                        })
+
                                     }
                                     <ListGroupItem>
                                         {
@@ -108,6 +141,8 @@ class TaskListsContainer extends React.Component {
                                         }
 
                                     </ListGroupItem>
+
+
                                 </ListGroup>
                             </div>
                         );
@@ -118,13 +153,16 @@ class TaskListsContainer extends React.Component {
     }
 }
 
+
 TaskListsContainer.propTypes = {
     card: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired
 };
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+        card: state.task.cardDetail.card
+    };
 }
 
 function mapDispatchToProps(dispatch) {

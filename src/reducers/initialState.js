@@ -1,4 +1,104 @@
 export default {
+    createProduct: {
+        categories: [],
+        manufactures: [],
+        isUploadingAvatar: false,
+        percent: 0,
+        productWorking: {
+            name: '',
+            code: '',
+            description: '',
+            price: '',
+            avatar_url: '',
+            sale_status: false,
+            highlight_status: false,
+            display_status: false,
+            manufacture_id: '',
+            good_category_id: '',
+            images_url: [],
+        },
+        isUploadingImage: false,
+        isLoading: false,
+        avatar_url: '',
+        images: []
+    },
+
+    globalLoading: {
+        isLoading: false
+    },
+
+    inventoryGood: {
+        isLoading: false,
+        isLoadingHistoryModal: false,
+        inventories: [],
+        categories: [],
+        manufactures: [],
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
+        inventoryChecking: {
+            histories: [],
+            inventoryInfo: {}
+        },
+        historyModal: false,
+        count: 0,
+        totalImportMoney: 0,
+        totalMoney: 0
+    },
+
+    productList: {
+        products: [],
+        productsTotal: 0,
+        productsBusiness: 0,
+        productsNotBusiness: 0,
+        productsDisplay: 0,
+        productsNotDisplay: 0,
+        productsDeleted: 0,
+        productsQuantity: 0,
+        productsHighlight: 0,
+        productsNotHighlight: 0,
+        totalPages: 1,
+        currentPage: 1,
+        limit: 20,
+        totalCount: 1,
+        isLoading: false,
+        showWareHouse: true,
+        modalInProduct: {
+            priceModal: false,
+            wareHouseModal: false,
+            avatarModal: false,
+            isModalUpdating: false,
+            modalUpdated: false
+        },
+        productEditing: {
+            productPresent: {
+                id: '',
+                name: '',
+                code: '',
+                avatar_url: '',
+                price: '',
+                quantity: '',
+                warehouses: [],
+                category: {
+                    id: '',
+                    name: ''
+                },
+                manufacture: {
+                    id: '',
+                    name: ''
+                }
+            },
+            good_category_id: '',
+            manufacture_id: '',
+            status: '',
+            isUploadingAvatar: false,
+            percent: 0
+        },
+        categories: [],
+        manufactures: []
+    },
+
     good: {
         attachPropertyItem: {
             showModal: false,
@@ -6,7 +106,8 @@ export default {
             goodPropertyItems: [],
             task: {},
             isSaving: false,
-            boards: []
+            boards: [],
+            selectedBoards: []
         },
         createProperty: {
             property: {},
@@ -15,9 +116,7 @@ export default {
         },
         propertyItem: {
             propertyItems: [],
-            isLoading: false,
-            currentPage: 1,
-            totalPages: 1
+            isLoading: false
         },
         goodList: {
             goods: [],
@@ -84,6 +183,8 @@ export default {
             error: false,
             isLoadingStaff: false,
             errorStaff: false,
+            isResettingPassword: false,
+            errorResetPassword: false,
         },
         editStaff: {
             isLoadingStaff: false,
@@ -108,6 +209,13 @@ export default {
             basesData: [],
             isLoading: false,
             error: false,
+        },
+        users: {
+            userListData: [],
+            isLoading: false,
+            error: false,
+            currentPage: 1,
+            totalPages: 1
         }
     },
     roles: {
@@ -155,6 +263,11 @@ export default {
     },
 
     book: {
+        taskListTemplateModal: {
+            showModal: false,
+            boards: [],
+            isLoading: false
+        },
         taskSpan: {
             showModal: false,
             hours: 0,
@@ -167,6 +280,8 @@ export default {
             showModal: false,
             taskList: {},
             isSaving: false,
+            isSavingTask: false,
+            showEditTaskModal: false,
             isLoading: false
         },
         taskLists: {
@@ -183,6 +298,23 @@ export default {
     },
 
     task: {
+        addChildGood: {
+            good: {},
+            taskId: 0,
+            isSaving: false,
+            showModal: false
+        },
+        archiveBoard: {
+            showModal: false,
+            boards: [],
+            isLoading: false
+        },
+        personalSetting: {
+            showModal: false,
+            setting: {},
+            isSaving: false,
+            isLoading: false
+        },
         taskDeadline: {
             showModal: false,
             isSaving: false,
@@ -194,7 +326,7 @@ export default {
             members: [],
             task: {},
             isSaving: false,
-            selectedMember: null
+            selectedMembers: []
         },
         commentCard: {
             value: "",
@@ -245,17 +377,30 @@ export default {
             showModal: false,
             isSavingCard: false
         },
+        askGoodProperties: {
+            showModal: false,
+            isSaving: false,
+            goodPropertiesOutput: {},
+            goodProperties: [],
+            task: {},
+            isLoading: false
+        },
         createCard: {
             card: {},
             isSaving: false,
             showModal: false,
-            board: {}
+            board: {},
+            isLoading: false,
+            isLoadingTaskListTemplate: false,
+            taskListTemplates: [],
+            goodPropertyItems: []
         },
 
         boardList: {
             projectId: 0,
             members: [],
             boards: [],
+            setting: {},
             isLoadingBoards: false,
             canDragCard: false,
             canDragBoard: false
@@ -374,7 +519,14 @@ export default {
             name: '',
             isCreating: false,
             error: false
-        }
+        },
+        isLoading: false,
+        error: false,
+        totalPages: 1,
+        currentPage: 1,
+        posts: [],
+        isLoadingPost: false,
+        errorPost: false,
     },
     registerStudents: {
         registers: [],
@@ -410,7 +562,9 @@ export default {
         error: false,
         isChangingAvatar: false,
         isSaving: false,
-        savingError: false
+        savingError: false,
+        isChangingPassword: false,
+        errorChangePassword: false
     },
 
     studySession: {
@@ -488,7 +642,7 @@ export default {
 
     dashboard: {
         gens: [],
-        isLoadingGens: false,
+        isLoadingGens: true,
         errorGens: false,
         currentGen: {},
         bases: [],
@@ -632,13 +786,154 @@ export default {
         error: false
     },
 
+
+    categories: {
+        addCategoriesModal: {
+            isShowModal: false,
+            isSaving: false,
+            id: '',
+            parent_id: '',
+            name: '',
+            isEdit: false,
+        },
+        isLoading: true,
+        error: false,
+        categoriesList: [],
+    },
+
+    goodOrders: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        orders: [],
+        totalOrder: 0,
+        totalMoney: 0,
+        totalPaidMoney: 0,
+        limit: 1,
+        totalCount: 1,
+        order: {
+            isLoading: false,
+            error: false,
+            infoOrder: {},
+            infoUser: {},
+            infoShip: {},
+            goodOrders: []
+        },
+        staffs: [],
+        isLoadingStaffs: false,
+        errorStaffs: false,
+    },
+
+    importGoods: {
+        isLoading: false,
+        error: false,
+        importOrders: [],
+        currentPage: 1,
+        totalPages: 1,
+        importGood: {
+            infoOrder: {},
+            infoPaid: {},
+            importOrder: {
+                imported_goods: []
+            },
+            isLoading: false,
+            error: false,
+            isLoadingHistoryPaid: false,
+            errorHistoryPaid: false,
+            historyPaidMoney: []
+        },
+        formImportGood: {
+            importGoods: [],
+            scot: 0,
+            paid_money: 0,
+            isStoring: false,
+            error: false,
+            payment: ''
+        },
+        addGoodFile: {
+            isCheckingGoods: false,
+            errorCheckGoods: false,
+            existsGoods: [],
+            notExistsGoods: [],
+        },
+        isLoadingWarehouses: false,
+        errorWarehouses: false,
+        warehouses: [],
+        isStoringSupplier: false,
+        errorStoreSupplier: false,
+        isSavingPaidMoney: false,
+        errorPaidMoney: false,
+    },
+    wareHouses: {
+        isLoading: true,
+        wareHousesList: [],
+        bases: [],
+        totalPages: 1,
+        modal: {
+            wareHouse: {
+                id: '',
+                name: '',
+                location: '',
+                base: {
+                    id: '',
+                    name: '',
+                    address: '',
+
+                }
+            },
+            isShowModal: false,
+            isEdit: false,
+            isSaving: false,
+        }
+    },
+
+    customers: {
+        customersList: [],
+        isLoading: true,
+        totalPages: 10,
+        totalMoneys: 10,
+        totalDebtMoneys: 10,
+    },
+    coursesCreateEdit: {
+        isLoading: false,
+        isEditing: false,
+        isUpdatingAvatar: false,
+        updateAvatarError: false,
+        isUpdatingLogo: false,
+        updateLogoError: false,
+        isUpdatingCover: false,
+        updateCoverError: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            name: "",
+            duration: "",
+            price: "",
+            description: "",
+            linkmac: "",
+            linkwindow: "",
+            num_classes: "",
+            mac_how_install: "",
+            window_how_install: "",
+            cover_url: "",
+            color: "",
+            image_url: "",
+            icon_url: "",
+            created_at: "",
+            detail: "",
+            lessons: [],
+            links: []
+        }
+    },
     courses: {
         isLoading: false,
         isUploadingLinkIcon: false,
         isUploadingLink: false,
         error: false,
         coursesList: [],
-        isDeleting : false,
+        isDeleting: false,
         paginator: {
             total_count: 1,
             total_pages: 1,
@@ -654,7 +949,7 @@ export default {
         updateCoverError: false,
         isCommitting: false,
         commitSuccess: false,
-        data:{
+        data: {
             id: null,
             name: "",
             duration: "",
@@ -683,21 +978,57 @@ export default {
             link_icon: "",
         }
     },
-    lessons:{
-      isLoading: false,
-      isCommitting: false,
-      commitSuccess: false,
-      data: {
-          id: null,
-          course_id: 1,
-          name: "",
-          description: "",
-          detail: "",
-          order: "",
-          detail_content: "",
-          detail_teacher: "",
-          created_at: "",
-      }
+    lessons: {
+        isLoading: false,
+        isCommitting: false,
+        commitSuccess: false,
+        data: {
+            id: null,
+            course_id: 1,
+            name: "",
+            description: "",
+            detail: "",
+            order: "",
+            detail_content: "",
+            detail_teacher: "",
+            created_at: "",
+        }
+    },
+
+    marketingCampaigns: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        marketingCampaigns: [],
+        courses: [],
+        isLoadingCourses: false,
+        errorCourses: false,
+    },
+
+    summaryMarketingCampaign: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
+    },
+    summarySales: {
+        gens: [],
+        isLoadingGens: false,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        summary: [],
     },
     attendance:{
         isLoading: false,

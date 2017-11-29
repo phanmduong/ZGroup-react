@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import * as env from '../constants/env';
 import _ from 'lodash';
 import moment from 'moment';
-
+import XLSX from 'xlsx';
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -57,6 +57,26 @@ export function confirm(type, title, html, success, cancel) {
         if (cancel) {
             cancel(dismiss);
         }
+    });
+}
+
+export function showErrorMessage(title, html) {
+    //  warning, error, success, info and question
+    swal({
+        title,
+        error: "warning",
+        html,
+        showCloseButton: true,
+        // showCancelButton: true,
+        confirmButtonColor: "#c50000",
+        cancelButtonText:
+            'Huỷ'
+    }).then(function () {
+        // success();
+    }.bind(this), function () {
+        // if (cancel) {
+        // cancel(dismiss);
+        // }
     });
 }
 
@@ -172,7 +192,7 @@ export function updateArrayElement(element, array) {
 }
 
 export function getShortName(name) {
-
+    if (isEmptyInput(name)) return null;
     let n = name.trim().split(" ");
     if (n.length > 1)
         return n[n.length - 2] + ' ' + n[n.length - 1];
@@ -195,6 +215,10 @@ export function calculatorRating(ratingNumbers, avgRatings) {
 
     //round 2 decimal
     return Math.round(sumScore * 100 / sum) / 100;
+}
+
+export function round2(first, second) {
+    return Math.round(first * 100 / second) / 100;
 }
 
 export function isClassWait(className) {
@@ -769,4 +793,73 @@ function addZeroTime(time) {
 export function formatTime(time, formatBefore, formatAtfer) {
     let timeIsValid = moment(time, formatBefore).isValid();
     return timeIsValid ? moment(time, formatBefore).format(formatAtfer) : null;
+}
+
+export function generateDatatableLanguage(item) {
+    return {
+        "lengthMenu": `Hiển thị _MENU_ ${item} trên 1 trang`,
+        "zeroRecords": "Không có kết quả nào phù hợp",
+        "processing": "Đang xử lý...",
+        "info": "Hiển trị trang _PAGE_ trên tổng số _PAGES_ trang",
+        "infoEmpty": "Không có dữ liệu",
+        "infoFiltered": `(lọc từ _MAX_ ${item})`,
+        "search": "Tìm kiếm: ",
+        "paginate": {
+            "first": "đầu",
+            "last": "cuối",
+            "next": "tiếp",
+            "previous": "trước"
+        },
+        "emptyTable": `Không có ${item} sản phẩm`,
+    };
+}
+
+export function transformToTree(arr, nameParent, nameChildren) {
+    let nodes = {};
+    arr = arr.map((item) => {
+        return {...item};
+    });
+    return arr.filter(function (obj) {
+        let id = obj[nameParent],
+            parentId = obj[nameChildren];
+
+        nodes[id] = _.defaults(obj, nodes[id], {children: []});
+        parentId && (nodes[parentId] = (nodes[parentId] || {children: []}))["children"].push(obj);
+
+        return !parentId;
+    });
+}
+
+export function readExcel(file, isSkipReadFile) {
+
+    let promise = new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            /* Parse data */
+            const bstr = e.target.result;
+            const wb = XLSX.read(bstr, {type: 'binary'});
+            /* Get first worksheet */
+            const wsname = wb.SheetNames[0];
+            const ws = wb.Sheets[wsname];
+
+            if (isSkipReadFile) {
+                let range = XLSX.utils.decode_range(ws['!ref']);
+                range.s.r = 1; // <-- zero-indexed, so setting to 1 will skip row 0
+                ws['!ref'] = XLSX.utils.encode_range(range);
+            }
+            /* Convert array of arrays */
+            const data = XLSX.utils.sheet_to_json(ws, {header: 1});
+            /* Update state */
+            resolve(data);
+        };
+        reader.readAsBinaryString(file);
+    });
+
+    return promise;
+
+}
+
+
+export function splitComma(value) {
+    return value.split(",").join(", ");
 }

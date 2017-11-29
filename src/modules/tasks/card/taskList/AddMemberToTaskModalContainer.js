@@ -32,17 +32,17 @@ class AddMemberToTaskModalContainer extends React.Component {
     }
 
     save() {
-        if(this.props.isTemplate) {
-            this.props.bookActions.saveMemberTask(this.props.task, this.props.selectedMember);
+        if (this.props.isTemplate) {
+            this.props.bookActions.saveMemberTask(this.props.task, this.props.selectedMembers);
         } else {
-            this.props.taskActions.saveMemberTask(this.props.task, this.props.selectedMember, this.props.card);
+            this.props.taskActions.saveMemberTask(this.props.task, this.props.selectedMembers, this.props.card);
         }
     }
 
 
     render() {
         return (
-            <Modal bsSize="small" show={this.props.showModal} onHide={this.close}>
+            <Modal show={this.props.showModal} onHide={this.close}>
                 <Modal.Header closeButton>
                     <Modal.Title>Phân công việc</Modal.Title>
                 </Modal.Header>
@@ -50,10 +50,12 @@ class AddMemberToTaskModalContainer extends React.Component {
                     {
                         this.props.isLoading ? <Loading/> : (
                             <Select
+                                multi={true}
                                 placeholder="Nhập tên"
                                 style={{width: "100%"}}
-                                value={this.props.selectedMember}
+                                value={this.props.selectedMembers}
                                 name="members"
+                                closeOnSelect={false}
                                 valueComponent={MemberReactSelectValue}
                                 optionComponent={MemberReactSelectOption}
                                 options={this.props.members}
@@ -88,7 +90,7 @@ AddMemberToTaskModalContainer.propTypes = {
     card: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
     bookActions: PropTypes.object.isRequired,
-    selectedMember: PropTypes.object,
+    selectedMembers: PropTypes.array.isRequired,
     members: PropTypes.array.isRequired
 };
 
@@ -106,7 +108,7 @@ function mapStateToProps(state) {
                 label: member.name
             };
         }),
-        selectedMember: state.task.addMemberToTask.selectedMember
+        selectedMembers: state.task.addMemberToTask.selectedMembers
     };
 }
 

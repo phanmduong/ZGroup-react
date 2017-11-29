@@ -27,14 +27,14 @@ const ProjectForm = ({updateFormData, project, error, submit, isSaving}) => {
                     (
                         <button
                             type="button"
-                            className="btn btn-primary disabled">
+                            className="btn btn-rose disabled">
                             <i className="fa fa-spinner fa-spin"/> Đang tải lên
                         </button>
                     ) :
                     (
                         <button
                             type="button"
-                            className="btn btn-primary"
+                            className="btn btn-rose"
                             onClick={submit}>
                             Tải lên
                         </button>

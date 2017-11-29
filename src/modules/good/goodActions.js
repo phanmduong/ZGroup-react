@@ -9,18 +9,16 @@ import {browserHistory} from 'react-router';
 
 // import _ from 'lodash';
 /*eslint no-console: 0 */
-export function loadGoods(page = 1, query = null, type = null) {
+export function loadGoods(type = null) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_GOODS
         });
-        goodApi.loadGoods(page, query, type)
+        goodApi.loadGoods(type)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GOODS_SUCCESS,
-                    goods: res.data.goods,
-                    currentPage: res.data.paginator.current_page,
-                    totalPages: res.data.paginator.total_pages
+                    goods: res.data.data.goods
                 });
             });
 
@@ -44,11 +42,10 @@ export function uploadAvatar(file) {
         };
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            console.log(data);
             showNotification("Tải lên ảnh đại diện thành công");
             dispatch({
                 type: types.UPLOAD_GOOD_AVATAR_COMPLETE,
-                avatar_url: data.link
+                avatar_url: data.url
             });
         };
         const progressHandler = (event) => {
@@ -75,11 +72,10 @@ export function uploadCover(file) {
         };
         const completeHandler = (event) => {
             const data = JSON.parse(event.currentTarget.responseText);
-            console.log(data);
             showNotification("Tải lên ảnh nền thành công");
             dispatch({
                 type: types.UPLOAD_COVER_SUCCESS,
-                coverUrl: data.link
+                coverUrl: data.url
             });
         };
         const progressHandler = (event) => {
@@ -117,7 +113,7 @@ export function saveGood(good) {
 
         goodApi.saveGood(good)
             .then(() => {
-                browserHistory.push(`/good/${good.type}/all`);
+                browserHistory.push("/goods/products");
                 showNotification("Thêm sản phẩm thành công");
                 dispatch({
                     type: types.SAVE_GOOD_SUCCESS
@@ -184,9 +180,7 @@ export function loadGoodPropertyItems(page = 1, query = "", type = "") {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS,
-                    propertyItems: res.data.good_property_items,
-                    totalPages: res.data.paginator.total_pages,
-                    currentPage: res.data.paginator.current_page
+                    propertyItems: res.data.good_property_items
                 });
             });
     };
@@ -217,12 +211,20 @@ export function saveGoodProperty(property, type) {
             type: types.BEGIN_SAVE_GOOD_PROPERTY,
         });
         goodApi.saveGoodProperty(property)
-            .then(() => {
-                showNotification("Tạo thuộc tính cho sách thành công");
-                browserHistory.push(`/${type}/properties`);
-                dispatch({
-                    type: types.SAVE_GOOD_PROPERTY_SUCCESS
-                });
+            .then((res) => {
+                if (res.data.status == 0) {
+                    showErrorNotification(res.data.message);
+                    dispatch({
+                        type: types.CREATE_GOOD_PROPERTY_ERROR
+                    });
+                } else {
+                    showNotification("Tạo thuộc tính cho sách thành công");
+                    browserHistory.push(`/good/${type}/properties`);
+                    dispatch({
+                        type: types.SAVE_GOOD_PROPERTY_SUCCESS
+                    });
+                }
+
             });
 
     };
@@ -275,28 +277,35 @@ export function closeAddPropertyItemModal() {
     };
 }
 
-export function loadAllGoodPropertyItems(type) {
+export function loadAllGoodPropertyItems(type, taskId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_ALL_GOOD_PROPERTY_ITEMS
         });
-        goodApi.loadAllGoodPropertyItems(type)
-            .then((res) => {
-                dispatch({
-                    type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
-                    good_property_items: res.data.data.good_property_items,
-                    boards: res.data.data.boards
+        return new Promise((resolve) => {
+
+            goodApi.loadAllGoodPropertyItems(type, taskId)
+                .then((res) => {
+                    resolve(res.data.data.selected_boards);
+                    dispatch({
+                        type: types.LOAD_ALL_GOOD_PROPERTY_ITEMS_SUCCESS,
+                        good_property_items: res.data.data.good_property_items,
+                        boards: res.data.data.boards,
+                        selectedBoards: res.data.data.selected_boards
+                    });
                 });
-            });
+
+        });
+
     };
 }
 
-export function addPropertyItemsToTask(goodPropertyItems, task, currentBoard, targetBoard) {
+export function addPropertyItemsToTask(selectedBoards, goodPropertyItems, task, currentBoard, targetBoard) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK
         });
-        goodApi.addPropertyItemsToTask(goodPropertyItems, task.id, currentBoard, targetBoard)
+        goodApi.addPropertyItemsToTask(selectedBoards, goodPropertyItems, task.id, currentBoard, targetBoard)
             .then((res) => {
                 dispatch({
                     type: types.ADD_PROPERTY_ITEM_TO_TASK_SUCCESS,
@@ -307,3 +316,28 @@ export function addPropertyItemsToTask(goodPropertyItems, task, currentBoard, ta
             });
     };
 }
+
+
+export function resetGoodPropertyForm() {
+    return function (dispatch) {
+        dispatch({
+            type: types.RESET_CREATE_GOOD_PROPERTY_FORM
+        });
+    };
+}
+
+export function loadGoodPropertiesFilled(cardId, goodProperties) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GOOD_PROPERTIES_FILLED
+        });
+        goodApi.loadGoodPropertiesFilled(cardId, goodProperties)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_GOOD_PROPERTIES_FILLED_SUCCESS,
+                    goodProperties: res.data.data.good_properties
+                });
+            });
+    };
+}
+

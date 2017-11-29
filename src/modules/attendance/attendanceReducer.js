@@ -3,7 +3,7 @@ import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function attendanceReducer(state = initialState.attendance, action) {
-    console.log(action.type);
+    //console.log(action.type);
     switch (action.type) {
         case types.ATTENDANCE_BEGIN_LOAD_CLASS_DATA:
             return {
@@ -82,8 +82,9 @@ export default function attendanceReducer(state = initialState.attendance, actio
         case types.BEGIN_TAKE_ATTENDANCE:{
                 let newdata = [...state.lesson];
                 let index = action.index;
-                let newstatus = !newdata[index].attendance_status;
-                newdata[index].attendance_status = newstatus;
+                let newitem = {...newdata[index]};
+                newitem.attendance_status = !newitem.attendance_status;
+                newdata[index] = newitem;
                 return {
                     ...state,
                     ...{
@@ -106,9 +107,9 @@ export default function attendanceReducer(state = initialState.attendance, actio
         case types.TAKE_ATTENDANCE_ERROR:{
             let newdata = [...state.lesson];
             let index = action.index;
-            let newstatus = !newdata[index].attendance_status;
-            newdata[index].attendance_status = newstatus;
-
+            let newitem = {...newdata[index]};
+            newitem.attendance_status = !newitem.attendance_status;
+            newdata[index] = newitem;
             return {
                 ...state,
                 ...{

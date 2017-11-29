@@ -20,6 +20,7 @@ class EditProfileContainer extends React.Component {
 
     componentWillMount() {
         this.props.profileActions.loadMyProfile();
+        this.usernameEmpty = false;
     }
 
     componentDidUpdate() {
@@ -29,8 +30,20 @@ class EditProfileContainer extends React.Component {
     updateFormData(event) {
         const field = event.target.name;
         let profile = {...this.props.profile};
-        profile[field] = event.target.value;
-        this.props.profileActions.updateEditProfileFormData(profile);
+        if (profile[field] != event.target.value) {
+            profile[field] = event.target.value;
+            if (field === 'email') {
+                if (helper.isEmptyInput(profile['username']) || this.usernameEmpty) {
+                    this.usernameEmpty = true;
+                    profile['username'] = event.target.value;
+                }
+            }
+
+            if (field === 'username') {
+                this.usernameEmpty = false;
+            }
+            this.props.profileActions.updateEditProfileFormData(profile);
+        }
     }
 
     handleFileUpload(event) {

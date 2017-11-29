@@ -8,6 +8,7 @@ import * as loginActions from '../modules/login/loginActions';
 import * as helper from '../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import RuleContainer from '../modules/rule/RuleContainer';
+import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
 
 let self;
 
@@ -83,6 +84,7 @@ class AppContainer extends React.Component {
     render() {
         return (
             <div>
+                <GlobalLoadingContainer/>
                 <App
                     pathname={this.props.location.pathname}
                     {...this.props}

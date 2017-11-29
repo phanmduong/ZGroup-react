@@ -3,8 +3,10 @@
  */
 import * as types from '../../constants/actionTypes';
 import * as taskApi from "./taskApi";
+import * as goodApi from '../good/goodApi';
 import {showErrorNotification, showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
+import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
 
 /*eslint no-console: 0 */
 export function changeProjectStatus(project, status) {
@@ -192,6 +194,7 @@ export function loadBoards(projectId) {
                     projectId: projectId,
                     type: types.LOAD_BOARDS_SUCCESS,
                     boards: res.data.boards,
+                    setting: res.data.setting ? JSON.parse(res.data.setting) : {},
                     cardLabels: res.data.cardLabels,
                     members: res.data.members,
                     canDragCard: res.data.canDragCard,
@@ -228,22 +231,43 @@ export function updateCreateCardFormData(card) {
     };
 }
 
+export function showGlobalLoading() {
+    return function (dispatch) {
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+    };
+}
+
+export function hideGlobalLoading() {
+    return function (dispatch) {
+        dispatch({
+            type: types.HIDE_GLOBAL_LOADING
+        });
+    };
+}
+
 export function createCard(card) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_CARD
         });
-        taskApi.createCard(card)
-            .then(res => {
-                showNotification("Tạo thẻ mới thành công");
-                dispatch({
-                    type: types.CREATE_CARD_SUCCESS,
-                    card: res.data.card
+
+        return new Promise((resolve) => {
+            taskApi.createCard(card)
+                .then(res => {
+                    resolve();
+                    showNotification("Tạo thẻ thành công");
+                    dispatch({
+                        type: types.CREATE_CARD_SUCCESS,
+                        card: res.data.card
+                    });
+                })
+                .catch(() => {
+                    showErrorNotification("Có lỗi xảy ra");
                 });
-            })
-            .catch(() => {
-                showErrorNotification("Có lỗi xảy ra");
-            });
+        });
+
     };
 }
 
@@ -309,7 +333,7 @@ export function changeOrderCard(sourceBoardId, cardId, siblingOrder) {
     };
 }
 
-export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
+export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1) {
     return function (dispatch, getState) {
         const state = getState();
         const boards = state.task.boardList.boards;
@@ -323,6 +347,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
 
         let order = 0;
         let sourceBoardCards = [];
+
         sourceBoard.cards
             .filter(c => c.id !== card.id)
             .forEach((c) => {
@@ -358,6 +383,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
 
             const part1 = cards.slice(0, index);
             const part2 = cards.slice(index);
+
             const temp = [...part1, card, ...part2];
             temp.forEach((c) => {
                 targetBoardCards = [...targetBoardCards, {...c, order}];
@@ -374,6 +400,7 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder) {
         // console.log(siblingOrder);
         // console.log(newSourceBoard);
         // console.log(newTargetBoard);
+
         taskApi.updateCards(newTargetBoard.cards, newTargetBoard.id)
             .then(() => {
             })
@@ -826,11 +853,11 @@ export function submitProject(project) {
             project
         });
         taskApi.createProject(project)
-            .then(() => {
+            .then((res) => {
                 showNotification("Lưu dự án thành công");
                 dispatch({
                     type: types.SUBMIT_PROJECT_SUCCESS,
-                    project
+                    project: res.data.data.project
                 });
             });
     };
@@ -976,11 +1003,11 @@ export function closeAddMemberToTaskModal() {
     };
 }
 
-export function updateAssignMemberToTaskForm(member) {
+export function updateAssignMemberToTaskForm(members) {
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_ASSIGN_MEMBER_TO_TASK_FORM,
-            member
+            members
         });
     };
 }
@@ -1070,48 +1097,149 @@ export function loadCardLabelsSuccess(cardLabels) {
     };
 }
 
-export function moveTaskUp(taskList, task) {
+export function saveTaskTitle(task) {
     return function (dispatch) {
-        const tasks = taskList.tasks;
-        const upperTasks = tasks.slice(0, task.order - 1);
-        const lowerTasks = tasks.slice(task.order + 1);
         dispatch({
-            type: types.CHANGE_TASK_ORDER,
-            tasks: [
-                ...upperTasks,
-                {
-                    ...task,
-                    order: task.order - 1
-                },
-                {
-                    ...tasks[task.order - 1],
-                    order: task.order
-                },
-                ...lowerTasks
-            ]
+            type: types.SAVE_TASK_TITLE_SUCCESS,
+            task
         });
     };
 }
 
-export function moveTaskDown(taskList, task) {
+export function loadTaskListTemplates(projectId) {
     return function (dispatch) {
-        const tasks = taskList.tasks;
-        const upperTasks = tasks.slice(0, task.order);
-        const lowerTasks = tasks.slice(task.order + 2);
         dispatch({
-            type: types.CHANGE_TASK_ORDER,
-            tasks: [
-                ...upperTasks,
-                {
-                    ...tasks[task.order + 1],
-                    order: task.order
-                },
-                {
-                    ...task,
-                    order: task.order + 1
-                },
-                ...lowerTasks
-            ]
+            type: types.BEGIN_LOAD_POLL_TASK_LIST_TEMPLATES,
+        });
+        taskApi.loadTaskListTemplates(projectId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_POLL_TASK_LIST_TEMPLATES_SUCCESS,
+                    taskListTemplates: res.data.data.task_template_templates.map((taskListTemplate) => {
+                        return {
+                            ...taskListTemplate,
+                            value: taskListTemplate.id,
+                            label: taskListTemplate.title
+                        };
+                    })
+                });
+            });
+    };
+
+}
+
+
+export function loadGoodPropertyItems(taskListId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS
+        });
+        taskApi.loadGoodPropertyItems(taskListId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS,
+                    goodPropertyItems: res.data.data.good_property_items
+                });
+            });
+    };
+}
+
+export function openAskGoodPropertiesModal(task) {
+    return function (dispatch) {
+        let goodPropertiesOutput = {};
+        let goodProperties = task.good_property_items;
+        goodProperties.forEach((goodPropertyItem) => {
+            goodPropertiesOutput[goodPropertyItem.name] = {};
+        });
+        dispatch({
+            type: types.OPEN_ASK_GOOD_PROPERTY_MODAL,
+            goodPropertiesOutput,
+            goodProperties,
+            task
+        });
+    };
+}
+
+export function closeAskGoodPropertiesModal() {
+    return function (dispatch) {
+        dispatch({
+            type: types.CLOSE_ASK_GOOD_PROPERTY_MODAL
+        });
+    };
+}
+
+export function updateGoodPropertiesOutput(goodPropertiesOutput) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_GOOD_PROPERTIES_OUTPUT,
+            goodPropertiesOutput
+        });
+    };
+}
+
+export function submitGoodProperties() {
+    return function (dispatch, getState) {
+
+        const state = getState();
+
+        const {goodProperties, goodPropertiesOutput} = state.task.askGoodProperties;
+        const {card} = state.task.cardDetail;
+
+        const isValid = isNotEmptyGoodProperty(goodProperties, goodPropertiesOutput);
+        return new Promise((resolve, reject) => {
+            if (isValid) {
+
+                let goodPropertyMap = {};
+
+                goodProperties.forEach((goodProperty) => {
+                    goodPropertyMap[goodProperty.name] = goodProperty.value;
+                });
+
+
+                let goodPropertiesSubmit = [];
+                for (let key in goodPropertiesOutput) {
+                    let property = goodPropertiesOutput[key];
+                    let obj = {
+                        name: key
+                    };
+
+                    if (property.value) {
+                        obj = {
+                            ...obj,
+                            value: property.value + (property.unit ? " " + property.unit : "")
+                        };
+                    } else {
+                        if (goodPropertyMap[key]) {
+                            obj = {
+                                ...obj,
+                                value: goodPropertyMap[key]
+                            };
+                        }
+                    }
+
+                    goodPropertiesSubmit.push(obj);
+                }
+
+
+                dispatch({
+                    type: types.BEGIN_SUBMIT_GOOD_PROPERTIES
+                });
+
+
+                goodApi.saveGoodProperties(card.good_id, goodPropertiesSubmit)
+                    .then(() => {
+                        showNotification("Cập nhật thuộc tính sản phẩm thành công");
+                        dispatch({
+                            type: types.SUBMIT_GOOD_PROPERTIES_SUCCESS
+                        });
+                        resolve();
+                    });
+
+
+            } else {
+                reject();
+            }
+
         });
     };
 }

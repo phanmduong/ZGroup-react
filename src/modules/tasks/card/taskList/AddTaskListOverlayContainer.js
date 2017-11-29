@@ -16,14 +16,12 @@ class AddTaskListOverlayContainer extends React.Component {
         this.saveTaskList = this.saveTaskList.bind(this);
         this.updateCreateTaskListFormData = this.updateCreateTaskListFormData.bind(this);
         this.onChangeTaskList = this.onChangeTaskList.bind(this);
-        this.toggleCreateNew = this.toggleCreateNew.bind(this);
         this.saveTaskListTemplate = this.saveTaskListTemplate.bind(this);
         this.state = {
             show: false,
             isLoading: false,
             page: 1,
-            selectedTaskList: null,
-            createNewTask: false
+            selectedTaskList: null
         };
     }
 
@@ -34,9 +32,6 @@ class AddTaskListOverlayContainer extends React.Component {
         this.setState({show: !this.state.show});
     }
 
-    toggleCreateNew() {
-        this.setState({createNewTask: !this.state.createNewTask});
-    }
 
     saveTaskList() {
         this.props.taskActions
@@ -63,40 +58,47 @@ class AddTaskListOverlayContainer extends React.Component {
         taskList[field] = value;
         this.props.taskActions.updateCreateTaskListFormData(taskList);
     }
+
     onChangeTaskList(value) {
         this.setState({selectedTaskList: value});
     }
 
     render() {
         return (
-            <div style={{position: "relative"}}>
-                <button className="btn btn-default card-detail-btn-action"
-                        ref="target" onClick={this.toggle}>
-                    <i className="material-icons">work</i> Việc cần làm
-                </button>
-                <Overlay
-                    rootClose={true}
-                    show={this.state.show}
-                    onHide={() => this.setState({show: false})}
-                    placement="bottom"
-                    container={this}
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}>
+            <div>
+                {
+                    ((this.props.isProcess && this.props.card.taskLists && this.props.card.taskLists.length === 0)
+                        || !this.props.isProcess) && (
+                        <div style={{position: "relative"}}>
+                            <button className="btn btn-default card-detail-btn-action"
+                                    ref="target" onClick={this.toggle}>
+                                <i className="material-icons">work</i> Việc cần làm
+                            </button>
+                            <Overlay
+                                rootClose={true}
+                                show={this.state.show}
+                                onHide={() => this.setState({show: false})}
+                                placement="bottom"
+                                container={this}
+                                target={() => ReactDOM.findDOMNode(this.refs.target)}>
 
-                    <TaskFormPopover
-                        saveTaskListTemplate={this.saveTaskListTemplate}
-                        isLoading={this.props.isLoading}
-                        toggleCreateNew={this.toggleCreateNew}
-                        createNewTask={this.state.createNewTask}
-                        selectedTaskList={this.state.selectedTaskList}
-                        taskLists={this.props.taskLists}
-                        onChangeTaskList={this.onChangeTaskList}
-                        isSavingTaskList={this.props.isSavingTaskList}
-                        taskList={this.props.taskList}
-                        updateCreateTaskListFormData={this.updateCreateTaskListFormData}
-                        saveTaskList={this.saveTaskList}
-                        toggle={this.toggle}/>
+                                <TaskFormPopover
+                                    isProcess={this.props.isProcess}
+                                    saveTaskListTemplate={this.saveTaskListTemplate}
+                                    isLoading={this.props.isLoading}
+                                    selectedTaskList={this.state.selectedTaskList}
+                                    taskLists={this.props.taskLists}
+                                    onChangeTaskList={this.onChangeTaskList}
+                                    isSavingTaskList={this.props.isSavingTaskList}
+                                    taskList={this.props.taskList}
+                                    updateCreateTaskListFormData={this.updateCreateTaskListFormData}
+                                    saveTaskList={this.saveTaskList}
+                                    toggle={this.toggle}/>
 
-                </Overlay>
+                            </Overlay>
+                        </div>
+                    )
+                }
             </div>
         );
     }
@@ -110,7 +112,8 @@ AddTaskListOverlayContainer.propTypes = {
     bookActions: PropTypes.object.isRequired,
     taskList: PropTypes.object.isRequired,
     taskLists: PropTypes.array.isRequired,
-    card: PropTypes.object.isRequired
+    card: PropTypes.object.isRequired,
+    isProcess: PropTypes.bool
 };
 
 function mapStateToProps(state) {

@@ -127,16 +127,6 @@ export function closeTaskListDetailModal() {
     };
 }
 
-export function deleteTaskTemplate(task) {
-    return function (dispatch) {
-        dispatch({
-            type: types.DELETE_TASK_TEMPLATE,
-            task
-        });
-        taskApi.deleteTask(task);
-    };
-}
-
 export function createTask(task) {
     return function (dispatch) {
         dispatch({
@@ -180,18 +170,19 @@ export function updateTaskSpanForm(task) {
     };
 }
 
-export function loadBoards() {
+export function loadBoards(type = "book") {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_BOARDS
         });
-        bookApi.loadBoards()
+        bookApi.loadBoards(type)
             .then((res) => {
                 const project = res.data;
                 dispatch({
                     projectId: project.id,
                     type: types.LOAD_BOARDS_SUCCESS,
                     boards: project.boards,
+                    setting: res.data.setting ? JSON.parse(res.data.setting) : {},
                     cardLabels: project.cardLabels,
                     members: project.members,
                     canDragCard: project.canDragCard,
@@ -238,19 +229,16 @@ export function saveTaskSpan(task) {
     };
 }
 
-export function saveMemberTask(task, user) {
+export function saveMemberTask(task, members) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_SAVE_MEMBER_TASK_TEMPLATE});
-        let userId = 0;
-        if (user) {
-            userId = user.id;
-        }
-        taskApi.saveMemberTask(userId, task.id)
+        const membersStr = JSON.stringify(members);
+        taskApi.saveMemberTask(membersStr, task.id)
             .then(() => {
                 showNotification("Phân công việc thành công");
                 dispatch({
                     type: types.SAVE_MEMBER_TASK_TEMPLATE_SUCCESS,
-                    user,
+                    members,
                     task
                 });
                 dispatch({
@@ -273,5 +261,56 @@ export function loadTaskListTemplate(taskListId) {
                     taskList: res.data.data
                 });
             });
+    };
+}
+
+export function showTaskListTemplateSettingModal(showModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.SHOW_TASK_LIST_TEMPLATE_SETTING_MODAL,
+            showModal
+        });
+    };
+}
+
+export function loadTaskListTemplateSetting(taskListTemplateId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_TASK_LIST_TEMPLATE_SETTING
+        });
+        bookApi.loadTaskListTemplateSetting(taskListTemplateId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LIST_TEMPLATE_SETTING_SUCCESS,
+                    boards: res.data.data.boards
+                });
+            });
+    };
+}
+
+export function handleChangeBoxTaskListTemplateSetting(board) {
+    return function (dispatch) {
+        dispatch({
+            type: types.HANDLE_TASK_LIST_TEMPLATE_SETTING_CHECKBOX_CHANGE,
+            board
+        });
+    };
+}
+
+export function saveTaskListTemplateSetting(taskListTemplateId, boards) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SAVE_TASK_LIST_TEMPLATE_SETTING,
+        });
+
+        bookApi.storeTaskListTemplateSetting(taskListTemplateId, boards)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_TASK_LIST_TEMPLATE_SUCCESS,
+                    taskList: res.data.data.task_list_template
+                });
+            });
+
+
     };
 }

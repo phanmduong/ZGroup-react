@@ -129,7 +129,7 @@ class CreateEditCoursesContainer extends React.Component {
                 <div className="col-md-12">
                         <div className="row">
                             {this.props.isLoading ? <Loading/> :
-                            <div name='content'>
+                            <div name="content">
                                 <div className="col-md-8">
                                 <div className="card">
 

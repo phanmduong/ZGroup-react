@@ -1,6 +1,5 @@
 import * as types from '../../constants/actionTypes';
 import * as attendanceApi from './attendanceApi';
-import * as helper from '../../helpers/helper';
 
 
 export function loadClasses(search ="", page="", teacherId="") {

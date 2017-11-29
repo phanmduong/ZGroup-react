@@ -32,11 +32,25 @@ import shiftRegistersReducer from "../modules/shiftRegisters/shiftRegistersReduc
 import historyShiftRegistersReducer from "../modules/historyShiftRegisters/historyShiftRegistersReducer";
 import shiftSessionsReducer from "../modules/shiftSessions/shiftSessionsReducer";
 import courseReducer from "../modules/courses/coursesReducer";
+import categoriesReducer from "../modules/categories/categoriesReducer";
+import goodOrdersReducer from "../modules/goodOrders/goodOrdersReducer";
+import productListReducer from "../modules/productList/productListReducer";
+import importGoodsReducer from "../modules/importGoods/importGoodsReducer";
+import wareHouseReducer from "../modules/wareHouse/wareHouseReducer";
+import customerReducer from "../modules/customer/customerReducer";
+import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer";
+import createProductReducer from "../modules/createProduct/createProductReducer";
+import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer";
 import lessonsReducer from "../modules/lessons/lessonsReducer";
 import attendanceReducer from "../modules/attendance/attendanceReducer";
+import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
+import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
+import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
+
 
 
 const appReducer = combineReducers({
+    globalLoading: globalLoadingReducer,
     login: loginReducer,
     tabs: tabsReducer,
     staffs: staffsReducer,
@@ -72,6 +86,19 @@ const appReducer = combineReducers({
     coursesCreateEdit: courseReducer,
     lessons: lessonsReducer,
     attendance: attendanceReducer,
+    goodOrders: goodOrdersReducer,
+    productList: productListReducer,
+    importGoods: importGoodsReducer,
+    wareHouses: wareHouseReducer,
+    customers: customerReducer,
+    inventoryGood: inventoryGoodReducer,
+    categories: categoriesReducer,
+    marketingCampaigns: marketingCampaignsReducer,
+    createProduct: createProductReducer,
+    summaryMarketingCampaign: summaryMarketingCampaignReducer,
+    summarySales: summarySalesReducer,
+
+
 });
 
 const rootReducer = (state, action) => {

@@ -6,6 +6,78 @@ import initialState from '../../reducers/initialState';
 
 export default function bookReducer(state = initialState.book, action) {
     switch (action.type) {
+        case types.BEGIN_SAVE_TASK_LIST_TEMPLATE_SETTING:
+            return {
+                ...state,
+                taskListTemplateModal: {
+                    ...state.taskListTemplateModal,
+                    showModal: false
+                },
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    isLoading: true
+                }
+            };
+
+        case types.HANDLE_TASK_LIST_TEMPLATE_SETTING_CHECKBOX_CHANGE:
+            return {
+                ...state,
+                taskListTemplateModal: {
+                    ...state.taskListTemplateModal,
+                    boards: state.taskListTemplateModal.boards.map((board) => {
+                        if (board.id === action.board.id) {
+                            return action.board;
+                        }
+                        return board;
+                    })
+                }
+            };
+        case types.BEGIN_LOAD_TASK_LIST_TEMPLATE_SETTING:
+            return {
+                ...state,
+                taskListTemplateModal: {
+                    ...state.taskListTemplateModal,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_TASK_LIST_TEMPLATE_SETTING_SUCCESS:
+            return {
+                ...state,
+                taskListTemplateModal: {
+                    ...state.taskListTemplateModal,
+                    isLoading: false,
+                    boards: action.boards
+                }
+            };
+        case types.SHOW_TASK_LIST_TEMPLATE_SETTING_MODAL:
+            return {
+                ...state,
+                taskListTemplateModal: {
+                    ...state.taskListTemplateModal,
+                    showModal: action.showModal
+                }
+            };
+
+        case types.SAVE_TASK_TITLE_SUCCESS:
+            return {
+                ...state,
+                taskListDetail: {
+                    ...state.taskListDetail,
+                    taskList: {
+                        ...state.taskListDetail.taskList,
+                        tasks: state.taskListDetail.taskList.tasks && state.taskListDetail.taskList.tasks.map((task) => {
+                            if (task.id == action.task.id) {
+                                return {
+                                    ...task,
+                                    ...action.task
+                                };
+                            }
+                            return task;
+                        })
+                    },
+                    isSavingTask: false
+                }
+            };
 
         case types.CHANGE_TASK_ORDER:
             return {
@@ -71,7 +143,7 @@ export default function bookReducer(state = initialState.book, action) {
                             if (task.id === action.task.id) {
                                 return {
                                     ...task,
-                                    member: action.user
+                                    members: action.members
                                 };
                             }
                             return task;

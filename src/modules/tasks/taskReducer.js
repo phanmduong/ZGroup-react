@@ -6,6 +6,289 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.SAVE_CHILD_GOOD_FAIL:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    isSaving: false
+                }
+            };
+
+        case types.BEGIN_SAVE_CHILD_GOOD:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    isSaving: true
+                }
+            };
+        case types.SAVE_CHILD_GOOD_SUCCESS:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    isSaving: false,
+                    showModal: false
+                }
+            };
+
+        case types.UPDATE_TASK_ID_CHILD_MODAL:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    taskId: action.taskId
+                }
+            };
+
+        case types.UPDATE_ADD_CHILD_GOOD_FORM:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    good: action.good
+                }
+            };
+
+        case types.SHOW_ADD_CHILD_GOOD_MODAL:
+            return {
+                ...state,
+                addChildGood: {
+                    ...state.addChildGood,
+                    showModal: action.showModal,
+                    good: (action.showModal && action.good) ? action.good : {}
+                }
+            };
+
+        case types.BEGIN_LOAD_GOOD_PROPERTIES_FILLED:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_GOOD_PROPERTIES_FILLED_SUCCESS:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isLoading: false,
+                    goodProperties: action.goodProperties
+                }
+            };
+        case types.SUBMIT_GOOD_PROPERTIES_SUCCESS:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isSaving: false,
+                    showModal: false,
+                    goodPropertiesOutput: {},
+                    goodProperties: []
+                }
+            };
+        case types.BEGIN_SUBMIT_GOOD_PROPERTIES:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    isSaving: true
+                }
+            };
+        case types.UPDATE_GOOD_PROPERTIES_OUTPUT:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    goodPropertiesOutput: action.goodPropertiesOutput
+                }
+            };
+        case types.CLOSE_ASK_GOOD_PROPERTY_MODAL:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    showModal: false,
+                    goodPropertiesOutput: {},
+                    goodProperties: []
+                }
+            };
+        case types.OPEN_ASK_GOOD_PROPERTY_MODAL:
+            return {
+                ...state,
+                askGoodProperties: {
+                    ...state.askGoodProperties,
+                    showModal: true,
+                    goodPropertiesOutput: action.goodPropertiesOutput,
+                    goodProperties: action.goodProperties,
+                    task: action.task
+                }
+            };
+        case types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isLoading: true
+                }
+            };
+
+        case types.LOAD_GOOD_PROPERTY_ITEMS_SUCCESS:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isLoading: false,
+                    goodPropertyItems: action.goodPropertyItems
+                }
+            };
+
+        case types.BEGIN_LOAD_POLL_TASK_LIST_TEMPLATES:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isLoadingTaskListTemplate: true
+                }
+            };
+        case types.LOAD_POLL_TASK_LIST_TEMPLATES_SUCCESS:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isLoadingTaskListTemplate: false,
+                    taskListTemplates: action.taskListTemplates
+                }
+            };
+        case types.BEGIN_LOAD_ARCHIVE_BOARDS:
+            return {
+                ...state,
+                archiveBoard: {
+                    ...state.archiveBoard,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_ARCHIVE_BOARDS_SUCCESS:
+            return {
+                ...state,
+                archiveBoard: {
+                    ...state.archiveBoard,
+                    isLoading: false,
+                    boards: action.boards
+                }
+            };
+        case types.SHOW_ARCHIVE_BOARDS_MODAL:
+            return {
+                ...state,
+                archiveBoard: {
+                    ...state.archiveBoard,
+                    showModal: action.showModal
+                }
+            };
+        case types.UNARCHIVE_BOARD_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: [...state.boardList.boards, action.board]
+                },
+                archiveBoard: {
+                    ...state.archiveBoard,
+                    boards: state.archiveBoard.boards.filter(board => board.id != action.board.id)
+                }
+            };
+        case types.ARCHIVE_BOARD_SUCCESS:
+            return {
+                ...state,
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.filter(board => board.id != action.board.id)
+                }
+            };
+        case types.SAVE_TASK_TITLE_SUCCESS:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: {
+                        ...state.cardDetail.card,
+                        taskLists: state.cardDetail.card.taskLists ? state.cardDetail.card.taskLists.map((taskList) => {
+                            return {
+                                ...taskList,
+                                tasks: taskList.tasks.map((task) => {
+                                    if (task.id == action.task.id) {
+                                        return {
+                                            ...task,
+                                            ...action.task
+                                        };
+                                    }
+                                    return task;
+                                })
+                            };
+                        }) : []
+                    }
+                }
+            };
+        case types.BEGIN_LOAD_PROJECT_PERSONAL_SETTING:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    isLoading: true
+                }
+            };
+        case types.LOAD_PROJECT_PERSONAL_SETTING_SUCCESS:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    isLoading: false,
+                    setting: {
+                        ...action.setting,
+                        display: action.setting.display || "full"
+                    }
+                }
+            };
+        case types.BEGIN_SUBMIT_PROJECT_PERSONAL_SETTING:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    isSaving: true
+                }
+            };
+
+        case types.SUBMIT_PROJECT_PERSONAL_SETTING_SUCCESS:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    isSaving: false,
+                    showModal: false
+                },
+                boardList: {
+                    ...state.boardList,
+                    setting: action.setting
+                }
+            };
+        case types.UPDATE_PROJECT_PERSONAL_SETTING:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    setting: action.setting
+                }
+            };
+        case types.OPEN_CLOSE_PROJECT_MODAL_PERSONAL_SETTING:
+            return {
+                ...state,
+                personalSetting: {
+                    ...state.personalSetting,
+                    showModal: action.showModal
+                }
+            };
         case types.BEGIN_LOAD_TASK_LIST_TEMPLATES:
             return {
                 ...state,
@@ -151,7 +434,7 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 addMemberToTask: {
                     ...state.addMemberToTask,
-                    selectedMember: action.member
+                    selectedMembers: action.members
                 }
             };
         case types.LOAD_AVAILABLE_MEMBERS_SUCCESS:
@@ -178,11 +461,13 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.addMemberToTask,
                     showModal: true,
                     task: action.task,
-                    selectedMember: action.task.member ? {
-                        ...action.task.member,
-                        value: action.task.member.id,
-                        label: action.task.member.name
-                    } : null
+                    selectedMembers: action.task.members ? action.task.members.map((member) => {
+                        return {
+                            ...member,
+                            value: member.id,
+                            label: member.name
+                        };
+                    }) : []
                 }
             };
         case types.CLOSE_ADD_MEMBER_TO_TASK_MODAL:
@@ -394,6 +679,23 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.projectDetail,
                     isSaving: false,
                     showModal: false
+                },
+                boardList: {
+                    ...state.boardList,
+                    boards: action.project.start_board
+                        ? state.boardList.boards.map((board) => {
+                            if (board.id == action.project.start_board.id) {
+                                return {
+                                    ...board,
+                                    is_start: action.project.start_board.is_start
+                                };
+                            }
+                            return {
+                                ...board,
+                                is_start: false
+                            };
+                        })
+                        : state.boardList.boards
                 }
             };
         case types.BEGIN_SUBMIT_PROJECT:
@@ -831,18 +1133,21 @@ export default function taskReducer(state = initialState.task, action) {
                             return {
                                 ...board,
                                 cards: board.cards.map((card) => {
-                                    return {
-                                        ...card,
-                                        tasks: card.tasks.map((task) => {
-                                            if (task.id === action.task.id) {
-                                                return {
-                                                    ...task,
-                                                    status: !task.status
-                                                };
-                                            }
-                                            return task;
-                                        })
-                                    };
+                                    if (card.id === action.card.id) {
+                                        return {
+                                            ...card,
+                                            tasks: card.tasks.map((task) => {
+                                                if (task.id === action.task.id) {
+                                                    return {
+                                                        ...task,
+                                                        status: !task.status
+                                                    };
+                                                }
+                                                return task;
+                                            })
+                                        };
+                                    }
+                                    return card;
                                 })
                             };
                         }
@@ -941,10 +1246,13 @@ export default function taskReducer(state = initialState.task, action) {
                             return {
                                 ...board,
                                 cards: board.cards.map((card) => {
-                                    return {
-                                        ...card,
-                                        tasks: [...card.tasks, action.task]
-                                    };
+                                    if (card.id === action.card.id) {
+                                        return {
+                                            ...card,
+                                            tasks: [...card.tasks, action.task]
+                                        };
+                                    }
+                                    return card;
                                 })
                             };
                         }
@@ -1075,8 +1383,7 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 createCard: {
                     ...state.createCard,
-                    isSaving: true,
-                    card: {}
+                    isSaving: true
                 }
             };
         case types.CREATE_CARD_SUCCESS:
@@ -1085,7 +1392,8 @@ export default function taskReducer(state = initialState.task, action) {
                 createCard: {
                     ...state.createCard,
                     isSaving: false,
-                    showModal: false
+                    showModal: false,
+                    card: {}
                 },
                 boardList: {
                     ...state.boardList,
@@ -1153,6 +1461,7 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.boardList,
                     isLoadingBoards: false,
                     boards: action.boards,
+                    setting: action.setting,
                     projectId: action.projectId,
                     members: action.members,
                     canDragBoard: action.canDragBoard,

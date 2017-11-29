@@ -8,6 +8,7 @@ import CardBody from "./CardBody";
 import Loading from "../../../components/common/Loading";
 import socket from '../../../services/socketio';
 import {CHANNEL} from "../../../constants/env";
+import * as addChildGoodActions from '../../good/addChildGood/addChildGoodActions';
 
 class CardDetailModalContainer extends React.Component {
     constructor(props, context) {
@@ -90,6 +91,8 @@ class CardDetailModalContainer extends React.Component {
                         this.props.isLoading ?
                             <Loading/> : (
                                 <CardBody
+                                    openAddChildGoodModal={() => this.props.addChildGoodActions.showAddChildGoodModal(true)}
+                                    isProcess={this.props.isProcess}
                                     deleteFile={this.props.taskActions.deleteFile}
                                     toggleEditCardDescription={this.toggleEditCardDescription}
                                     isSavingCard={this.props.isSavingCard}
@@ -112,7 +115,9 @@ CardDetailModalContainer.propTypes = {
     isSavingCard: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     taskActions: PropTypes.object.isRequired,
+    addChildGoodActions: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
+    isProcess: PropTypes.bool,
     card: PropTypes.object.isRequired
 };
 
@@ -128,6 +133,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        addChildGoodActions: bindActionCreators(addChildGoodActions, dispatch),
         taskActions: bindActionCreators(taskActions, dispatch)
     };
 }

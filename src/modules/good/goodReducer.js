@@ -39,7 +39,8 @@ export default function goodReducer(state = initialState.good, action) {
                     ...state.attachPropertyItem,
                     isLoading: false,
                     goodPropertyItems: action.good_property_items,
-                    boards: action.boards
+                    boards: action.boards,
+                    selectedBoards: action.selectedBoards
                 }
             };
         case types.OPEN_ADD_GOOD_PROPERTY_ITEM_MODAL:
@@ -87,6 +88,25 @@ export default function goodReducer(state = initialState.good, action) {
                 }
             };
 
+        case types.RESET_CREATE_GOOD_PROPERTY_FORM:
+            return {
+                ...state,
+                createProperty: {
+                    ...state.createProperty,
+                    isSaving: false,
+                    property: {}
+                }
+            };
+
+        case types.CREATE_GOOD_PROPERTY_ERROR:
+            return {
+                ...state,
+                createProperty: {
+                    ...state.createProperty,
+                    isSaving: false
+                }
+            };
+
         case types.SAVE_GOOD_PROPERTY_SUCCESS:
             return {
                 ...state,
@@ -119,9 +139,7 @@ export default function goodReducer(state = initialState.good, action) {
                 propertyItem: {
                     ...state.propertyItem,
                     isLoading: false,
-                    propertyItems: action.propertyItems,
-                    totalPages: action.totalPages,
-                    currentPage: action.currentPage
+                    propertyItems: action.propertyItems
                 }
             };
         case types.BEGIN_LOAD_GOOD_PROPERTY_ITEMS:
