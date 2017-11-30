@@ -3,7 +3,6 @@ import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function attendanceReducer(state = initialState.attendance, action) {
-    console.log(action.type);
     switch (action.type) {
         case types.BEGIN_LOAD_GENS_DATA_ATTENDANCE:
             return {
