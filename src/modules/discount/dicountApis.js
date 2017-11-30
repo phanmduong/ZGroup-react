@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadDiscountsApi(limit , page , query ) {
+export function loadDiscountsApi(page , limit , query ) {
     let url = env.MANAGE_API_URL + "/coupon/all?";
     let token = localStorage.getItem('token');
     if (limit){

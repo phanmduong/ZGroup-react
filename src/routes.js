@@ -307,6 +307,7 @@ export default (
             {/*Begin discount routes */}
             <Route path="/discount/add" component={AddDiscountContainer}/>
             <Route path="/discount" component={DiscountContainer}/>
+            <Route path="/discount/edit/:discountId" component={AddDiscountContainer}/>
             {/*End discount routes*/}
 
             {/*Begin sales routes */}

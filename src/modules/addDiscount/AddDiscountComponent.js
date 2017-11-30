@@ -296,7 +296,7 @@ class AddDiscountComponent extends React.Component {
 
 AddDiscountComponent.propTypes = {
     discount: PropTypes.object,
-    categories: PropTypes.object,
+    // categories: PropTypes.object,
     updateFormData: PropTypes.func,
 };
 

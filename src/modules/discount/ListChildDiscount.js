@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {browserHistory} from 'react-router';
+
 
 
 class ListChildDiscount extends React.Component {
@@ -67,8 +69,9 @@ class ListChildDiscount extends React.Component {
                                                         <a data-toggle="tooltip" title type="button"
                                                            rel="tooltip"
                                                            data-original-title="Sửa"
-                                                            // onClick={() => this.props.openFormDataInEdit(discount)}
-                                                        >
+                                                           onClick={() => {
+                                                               browserHistory.push('/discount/edit/'+ discount.id);
+                                                           }}>
                                                             <i className="material-icons">edit</i>
                                                         </a></div>
                                                 </div>

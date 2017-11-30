@@ -926,6 +926,7 @@ export default {
     },
 
     addDiscount :{
+        isLoadingOut : false,
         isSaving : false,
         isLoading: false,
         customers : [],
@@ -934,7 +935,7 @@ export default {
         totalCustomerPages : 10,
         totalGoodPages : 10,
         discount :{
-            name: '',
+            name: 'lallalalall',
             description: '',
             discount_type : '',
             discount_value : '',
