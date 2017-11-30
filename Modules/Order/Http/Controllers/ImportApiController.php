@@ -128,6 +128,8 @@ class ImportApiController extends ManageApiController
                 'note' => $orderPaidMoney->note,
             ];
         });
+        if($importOrder->warehouse)
+            $data['warehouse'] = $importOrder->warehouse->Transform();
         if (isset($importOrder->user)) {
             $user = [
                 'id' => $importOrder->user->id,
