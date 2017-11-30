@@ -434,7 +434,7 @@ export default function taskReducer(state = initialState.task, action) {
                 ...state,
                 addMemberToTask: {
                     ...state.addMemberToTask,
-                    selectedMember: action.member
+                    selectedMembers: action.members
                 }
             };
         case types.LOAD_AVAILABLE_MEMBERS_SUCCESS:
@@ -461,11 +461,13 @@ export default function taskReducer(state = initialState.task, action) {
                     ...state.addMemberToTask,
                     showModal: true,
                     task: action.task,
-                    selectedMember: action.task.member ? {
-                        ...action.task.member,
-                        value: action.task.member.id,
-                        label: action.task.member.name
-                    } : null
+                    selectedMembers: action.task.members ? action.task.members.map((member) => {
+                        return {
+                            ...member,
+                            value: member.id,
+                            label: member.name
+                        };
+                    }) : []
                 }
             };
         case types.CLOSE_ADD_MEMBER_TO_TASK_MODAL:

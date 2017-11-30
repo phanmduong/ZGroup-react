@@ -15,6 +15,7 @@ import DeadlineOverlayContainer from "./deadline/DeadlineOverlayContainer";
 import CommentInputContainer from "./comment/CommentInputContainer";
 import CommentListContainer from "./comment/CommentListContainer";
 import AddChildGoodContainer from "../../good/addChildGood/AddChildGoodContainer";
+import ProcessTaskContainer from "../../book/ProcessTaskContainer";
 
 
 const CardBody = ({
@@ -104,9 +105,16 @@ const CardBody = ({
                         </div>
                     )
                 }
+                {
+                    isProcess ? (
+                        <ProcessTaskContainer/>
+                    ) : (
+                        <div>
+                            {card.id && <TaskListsContainer/>}
+                        </div>
+                    )
+                }
 
-                {card.id && <TaskListsContainer
-                    card={card}/>}
                 <CommentListContainer/>
                 <CommentInputContainer/>
             </div>

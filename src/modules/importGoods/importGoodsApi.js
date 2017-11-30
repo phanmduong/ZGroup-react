@@ -44,7 +44,7 @@ export function searchGoods(search) {
     return axios.get(url);
 }
 
-export function createImportGoods(formImportGood) {
+export function createImportGoods(formImportGood, status) {
     let url = env.MANAGE_API_URL + `/order/add-import-order-goods`;
     let token = localStorage.getItem('token');
     if (token) {
@@ -54,17 +54,21 @@ export function createImportGoods(formImportGood) {
     let importGoods = formImportGood.importGoods.map((good) => {
         return {
             good_id: good.id,
-            quantity: good.quantity,
-            import_price: good.import_price,
-            price: good.price,
+            quantity: Number(good.quantity.toString().replace(/\./g, "")),
+            import_price: Number(good.import_price.toString().replace(/\./g, "")),
+            price: Number(good.price.toString().replace(/\./g, "")),
         };
     });
 
     return axios.post(url, {
         code: formImportGood.code,
+        id: formImportGood.id ? formImportGood.id : "",
         note: formImportGood.note,
-        paid_money: formImportGood.paid_money,
+        status: status,
+        paid_money: Number(formImportGood.paid_money.toString().replace(/\./g, "")),
         imported_goods: importGoods,
+        payment: formImportGood.payment,
+        note_paid_money: formImportGood.note_paid_money,
         warehouse_id: formImportGood.warehouse_id,
         user_id: formImportGood.supplier ? formImportGood.supplier.id : ''
     });
@@ -139,6 +143,33 @@ export function checkGoods(goods) {
 
     return axios.post(url, {
         goods: goods
+    });
+
+}
+
+export function deleteImportOrder(importOrderId) {
+    let url = env.MANAGE_API_URL + '/order/import-order/delete/' + importOrderId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.delete(url);
+
+}
+
+export function addPaidMoney(paidMoney, orderId) {
+    let url = env.MANAGE_API_URL + '/order/pay-import-order/' + orderId;
+    let token = localStorage.getItem('token');
+
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url, {
+        money: Number(paidMoney.money.toString().replace(/\./g, "")),
+        note: paidMoney.note,
+        payment: paidMoney.payment,
     });
 
 }

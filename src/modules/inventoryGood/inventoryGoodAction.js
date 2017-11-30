@@ -51,9 +51,15 @@ export function saveCategoriesInventoryGood(categories) {
 
 export function getHistoryInventories(inventory, page, warehouse_id, loadMore) {
     return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_LOAD_MORE_HISTORY_INVENTORY_GOOD
-        });
+        if(loadMore){
+            dispatch({
+                type: types.BEGIN_LOAD_MORE_HISTORY_INVENTORY_GOOD
+            });
+        } else {
+          dispatch({
+             type: types.BEGIN_LOAD_FILTER_HISTORY_INVENTORY_GOOD
+          });
+        }
         inventoryGoodApi.getHistoryInventoriesApi(inventory.id, page, warehouse_id)
             .then(function (response) {
                 dispatch({
