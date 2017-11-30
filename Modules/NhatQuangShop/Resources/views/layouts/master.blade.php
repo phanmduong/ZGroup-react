@@ -358,4 +358,5 @@
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="/js/graphics.js?6868"></script>
+<script src="https://unpkg.com/vue"></script>
 </html>

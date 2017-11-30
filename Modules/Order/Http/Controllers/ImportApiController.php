@@ -84,6 +84,8 @@ class ImportApiController extends ManageApiController
                         ];
                         $importOrderData['user'] = $user;
                     }
+                    if (isset($importOrder->warehouse))
+                        $importOrderData['warehouse'] = $importOrder->warehouse->Transform();
                     return $importOrderData;
                 })
             ]
@@ -99,9 +101,10 @@ class ImportApiController extends ManageApiController
         $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
             return $total + $importedGood->quantity;
         }, 0);
-        $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
-                return $total + $orderPaidMoney->money;
-            }, 0);
+        $paid_money = $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
+            return $total + $orderPaidMoney->money;
+        }, 0);
+        $debt = $total_money - $paid_money;
         $data = [
             'id' => $importOrder->id,
             'name' => $importOrder->name,
@@ -111,9 +114,11 @@ class ImportApiController extends ManageApiController
             'total_money' => $total_money,
             'total_quantity' => $total_quantity,
             'debt' => $debt,
+            'paid_money' => $paid_money,
         ];
         $data['imported_goods'] = $importOrder->importedGoods->map(function ($importedGood) {
             return [
+                'id' => $importedGood->good->id,
                 'name' => $importedGood->good->name,
                 'code' => $importedGood->good->code,
                 'price' => $importedGood->good->price,
@@ -128,6 +133,8 @@ class ImportApiController extends ManageApiController
                 'note' => $orderPaidMoney->note,
             ];
         });
+        if($importOrder->warehouse)
+            $data['warehouse'] = $importOrder->warehouse->Transform();
         if (isset($importOrder->user)) {
             $user = [
                 'id' => $importOrder->user->id,
@@ -221,6 +228,82 @@ class ImportApiController extends ManageApiController
             $importedGood->delete();
         }
         $importOrder->delete();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function editImportOrder($importOrderId, Request $request)
+    {
+        foreach ($request->imported_goods as $imported_good) {
+            $good = Good::find($imported_good['good_id']);
+            if ($good == null)
+                return $this->respondErrorWithStatus([
+                    'message' => 'Không tồn tại sản phẩm'
+                ]);
+        }
+        $importOrder = Order::find($importOrderId);
+        if ($importOrder == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại đơn nhập hàng'
+            ]);
+        if ($importOrder->status == 'completed')
+            return $this->respondErrorWithStatus([
+                'message' => 'Cant edit completed import order'
+            ]);
+        $importOrder->code = $request->code ? $request->code : rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $importOrder->note = $request->note;
+        $importOrder->warehouse_id = $request->warehouse_id;
+        $importOrder->staff_id = $this->user->id;
+        $importOrder->user_id = $request->user_id;
+        $importOrder->type = 'import';
+        $importOrder->status = $request->status;
+        $importOrder->save();
+//        if ($request->paid_money) {
+//            $orderPaidMoney = new OrderPaidMoney;
+//            $orderPaidMoney->order_id = $importOrder->id;
+//            $orderPaidMoney->money = $request->paid_money;
+//            $orderPaidMoney->staff_id = $this->user->id;
+//            $orderPaidMoney->payment = $request->payment;
+//            $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
+//            $orderPaidMoney->save();
+//        }
+
+        $orderImportId = $importOrder->id;
+        $importedGoods = $importOrder->importedGoods;
+        foreach ($importedGoods as $importedGood) {
+            $importedGood->delete();
+        }
+        foreach ($request->imported_goods as $imported_good) {
+            $importedGood = new ImportedGoods;
+            if ($imported_good['price']) {
+                $good = Good::find($imported_good['good_id']);
+                $good->price = $imported_good['price'];
+                $good->save();
+            }
+            $importedGood->order_import_id = $orderImportId;
+            $importedGood->good_id = $imported_good['good_id'];
+            $importedGood->quantity = $imported_good['quantity'];
+            $importedGood->import_quantity = $imported_good['quantity'];
+            $importedGood->import_price = $imported_good['import_price'];
+            $importedGood->status = $request->status ? $request->status : 'uncompleted';
+            $importedGood->staff_id = $this->user->id;
+            $importedGood->warehouse_id = $request->warehouse_id;
+            $importedGood->save();
+            if ($request->status == 'completed') {
+                $history = new HistoryGood;
+                $lastest_good_history = HistoryGood::where('good_id', $imported_good['good_id'])->orderBy('created_at', 'desc')->first();
+                $remain = $lastest_good_history ? $lastest_good_history->remain : null;
+                $history->good_id = $imported_good["good_id"];
+                $history->quantity = $imported_good['quantity'];
+                $history->remain = $remain + $imported_good['quantity'];
+                $history->warehouse_id = $request->warehouse_id;
+                $history->type = 'import';
+                $history->order_id = $importOrder->id;
+                $history->imported_good_id = $importedGood->id;
+                $history->save();
+            }
+        }
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
