@@ -4,6 +4,7 @@ import * as env from '../constants/env';
 import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
+import * as FILE_SAVER from 'file-saver';
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -863,3 +864,29 @@ export function readExcel(file, isSkipReadFile) {
 export function splitComma(value) {
     return value.split(",").join(", ");
 }
+
+
+function sheetToArrayBit(s) {
+    if(typeof ArrayBuffer !== 'undefined') {
+        let buf = new ArrayBuffer(s.length);
+        let view = new Uint8Array(buf);
+        for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    } else {
+        let buf = new Array(s.length);
+        for (let i=0; i!=s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+}
+
+function exportTable(tableid, type) {
+    let wb = XLSX.utils.table_to_book(document.getElementById(tableid), {sheet:"Sheet JS"});
+    let wbout = XLSX.write(wb, {bookType:type, bookSST:true, type: 'binary'});
+    let fname =  'test.' + type;
+    try {
+        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)],{type:"application/octet-stream"}), fname);
+    } catch(e) { if(typeof console != 'undefined') console.log(e, wbout); }
+    return wbout;
+}
+
+export  function exportTableToExcel(tableid, type) { return exportTable(tableid, type || 'xlsx'); }
