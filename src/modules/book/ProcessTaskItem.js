@@ -22,6 +22,7 @@ class ProcessTaskItem extends React.Component {
             <div className="checkbox" id={"task" + task.id}>
                 <label style={{fontWeight: 700, color: "#858585"}}>
                     <input
+                        disabled={task.status}
                         checked={task.status || false}
                         onChange={this.toggleTaskStatus}
                         type="checkbox" name="optionsCheckboxes"/>

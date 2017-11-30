@@ -2,12 +2,13 @@ export function moveAndCreateCard(instance, task) {
     const sourceBoardId = task.current_board_id;
     let isMoved = false;
     let promiseArray = [];
+
     task.board_tasks.forEach((boardTask) => {
         const board = boardTask.board;
         const targetBoardId = board.id;
 
         if (isMoved) {
-            instance.props.taskActions.showGlobalLoading();
+
             const promise =
                 instance.props.taskActions.createCard({
                     ...instance.props.card,
@@ -22,10 +23,12 @@ export function moveAndCreateCard(instance, task) {
             instance.props.taskActions.moveCard(sourceBoardId, targetBoardId, instance.props.card.id);
         }
 
+    });
+
+    return new Promise((resolve) => {
         Promise.all(promiseArray)
             .then(() => {
-                instance.props.taskActions.hideGlobalLoading();
+                resolve("success");
             });
-
     });
 }

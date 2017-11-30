@@ -23,7 +23,11 @@ class ProcessTaskContainer extends React.Component {
             }
         } else {
             if (task.board_tasks && task.board_tasks.length > 0) {
-                moveAndCreateCard(this, task);
+                this.props.taskActions.showGlobalLoading();
+                moveAndCreateCard(this, task)
+                    .then(() => {
+                        this.props.taskActions.hideGlobalLoading();
+                    });
             } else {
                 this.props.taskActions.toggleTaskStatus(task, card);
             }
