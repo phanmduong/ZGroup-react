@@ -134,6 +134,9 @@ class CouponController extends ManageApiController
             $data['customer'] = $coupon->user;
         if ($coupon->used_for == 'category')
             $data['category'] = $coupon->category;
+        return $this->respondErrorWithStatus([
+            'coupon' => $data,
+        ]);
     }
 
     public function editCoupon($couponId, Request $request)
