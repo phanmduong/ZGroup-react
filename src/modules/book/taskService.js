@@ -19,11 +19,11 @@ export function moveAndCreateCard(instance, task) {
             promiseArray = [...promiseArray, promise];
         } else {
             isMoved = true;
-            instance.props.taskActions.toggleTaskStatus(task, instance.props.card);
             instance.props.taskActions.moveCard(sourceBoardId, targetBoardId, instance.props.card.id);
         }
 
     });
+    instance.props.taskActions.toggleTaskStatus(task, instance.props.card);
 
     return new Promise((resolve) => {
         Promise.all(promiseArray)
