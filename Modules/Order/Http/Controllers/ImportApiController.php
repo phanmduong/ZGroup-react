@@ -255,9 +255,6 @@ class ImportApiController extends ManageApiController
         $importOrder->status = $request->status;
         $importOrder->save();
         if ($request->paid_money) {
-            $oldOrderPaidMoney = OrderPaidMoney::where('order_id', $importOrder->id)->get();
-            if ($oldOrderPaidMoney)
-                $oldOrderPaidMoney->delete();
             $orderPaidMoney = new OrderPaidMoney;
             $orderPaidMoney->order_id = $importOrder->id;
             $orderPaidMoney->money = $request->paid_money;
