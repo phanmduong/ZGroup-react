@@ -9,7 +9,6 @@ import TaskItem from "./TaskItem";
 import AddMemberToTaskModalContainer from "./AddMemberToTaskModalContainer";
 import TaskDeadlineModalContainer from "./TaskDeadlineModalContainer";
 import {confirm} from "../../../../helpers/helper";
-import AskGoodPropertiesModalContainer from "../../../good/AskGoodPropertiesModalContainer";
 
 class TaskListsContainer extends React.Component {
     constructor(props, context) {
@@ -23,13 +22,9 @@ class TaskListsContainer extends React.Component {
             currentTask: {},
             currentCard: {}
         };
-        this.openAskGoodPropertiesModal = this.openAskGoodPropertiesModal.bind(this);
         this.closeAskGoodPropertiesModal = this.closeAskGoodPropertiesModal.bind(this);
     }
 
-    openAskGoodPropertiesModal(task) {
-        this.props.taskActions.openAskGoodPropertiesModal(task);
-    }
 
     closeAskGoodPropertiesModal() {
         this.setState({
@@ -51,18 +46,9 @@ class TaskListsContainer extends React.Component {
         };
     }
 
-    toggleTaskStatus(task, card) {
-        if (task.good_property_items && task.good_property_items.length > 0) {
-            if (!task.status) {
-                this.openAskGoodPropertiesModal(task);
-            } else {
-                this.props.taskActions.toggleTaskStatus(task, card);
-            }
-
-        } else {
-            this.props.taskActions.toggleTaskStatus(task, card);
-        }
-
+    toggleTaskStatus(task) {
+        const {card} = this.props;
+        this.props.taskActions.toggleTaskStatus(task, card);
     }
 
 
@@ -73,7 +59,6 @@ class TaskListsContainer extends React.Component {
         const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
         return (
             <div className="task-lists">
-                <AskGoodPropertiesModalContainer/>
 
                 <AddMemberToTaskModalContainer/>
 
@@ -129,27 +114,8 @@ class TaskListsContainer extends React.Component {
                                 </div>
                                 <ListGroup>
                                     {
-                                        taskList.tasks.sort((a, b) => a.order - b.order).map((task) => {
-
-                                            let isEnable = true;
-                                            if (isProcess) {
-                                                const previousTask = taskList.tasks.filter((t) => {
-                                                    const previousTaskOrder = Number(task.order) - 1;
-                                                    return t.order === previousTaskOrder;
-                                                })[0];
-
-
-                                                isEnable = !task.status &&
-                                                    (task.order === 0 || !!previousTask.status);
-                                            }
-
+                                        taskList.tasks.map((task) => {
                                             return (<TaskItem
-                                                isProcess={isProcess}
-                                                isEnable={isEnable}
-                                                openEditPropertiesModal={() => this.openAskGoodPropertiesModal({
-                                                    ...task,
-                                                    isEditProcess: true
-                                                })}
                                                 openTaskDeadlineModal={this.props.taskActions.openTaskDeadlineModal}
                                                 openAddMemberToTaskModal={this.props.taskActions.openAddMemberToTaskModal}
                                                 card={this.props.card}
@@ -160,25 +126,22 @@ class TaskListsContainer extends React.Component {
                                         })
 
                                     }
-                                    {
-                                        !isProcess && (
-                                            <ListGroupItem>
-                                                {
-                                                    taskList.isSavingTask ? <Loading/> :
-                                                        (
-                                                            <div className="form-group" style={{marginTop: 0}}>
-                                                                <input
-                                                                    placeholder="Thêm mục"
-                                                                    type="text"
-                                                                    className="form-control"
-                                                                    onKeyDown={this.addTask(taskList.id)}/>
-                                                            </div>
-                                                        )
-                                                }
+                                    <ListGroupItem>
+                                        {
+                                            taskList.isSavingTask ? <Loading/> :
+                                                (
+                                                    <div className="form-group" style={{marginTop: 0}}>
+                                                        <input
+                                                            placeholder="Thêm mục"
+                                                            type="text"
+                                                            className="form-control"
+                                                            onKeyDown={this.addTask(taskList.id)}/>
+                                                    </div>
+                                                )
+                                        }
 
-                                            </ListGroupItem>
-                                        )
-                                    }
+                                    </ListGroupItem>
+
 
                                 </ListGroup>
                             </div>
@@ -196,8 +159,10 @@ TaskListsContainer.propTypes = {
     taskActions: PropTypes.object.isRequired
 };
 
-function mapStateToProps() {
-    return {};
+function mapStateToProps(state) {
+    return {
+        card: state.task.cardDetail.card
+    };
 }
 
 function mapDispatchToProps(dispatch) {

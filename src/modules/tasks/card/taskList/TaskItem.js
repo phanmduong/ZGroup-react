@@ -24,10 +24,6 @@ class TaskItem extends React.Component {
         this.props.openTaskDeadlineModal(this.props.task);
     }
 
-    openEditPropertiesModal() {
-
-    }
-
     render() {
         const {task, card} = this.props;
         return (
@@ -37,9 +33,8 @@ class TaskItem extends React.Component {
                 <div className="checkbox" id={"task" + task.id}>
                     <label style={{fontWeight: 700, color: "#858585"}}>
                         <input
-                            disabled={!this.props.isEnable}
                             checked={task.status || false}
-                            onChange={() => this.props.toggleTaskStatus(task, card)}
+                            onChange={() => this.props.toggleTaskStatus(task)}
                             type="checkbox" name="optionsCheckboxes"/>
                         <div style={{display: "inline-block", position: "relative", top: 4}}>
                             {
@@ -69,17 +64,13 @@ class TaskItem extends React.Component {
                         <EditTaskNameContainer
                             task={this.props.task}/>
 
-                        {
-                            (this.props.isProcess && !!this.props.task.status) && (
-                                <li className="more-dropdown-item">
-                                    <a onClick={this.props.openEditPropertiesModal}>
-                                        <i className="material-icons">details</i>
-                                        Sửa thuộc tính
-                                    </a>
-                                </li>
-                            )
-                        }
 
+                        {/*<li className="more-dropdown-item">*/}
+                            {/*<a onClick={this.props.openEditPropertiesModal}>*/}
+                                {/*<i className="material-icons">details</i>*/}
+                                {/*Sửa thuộc tính*/}
+                            {/*</a>*/}
+                        {/*</li>*/}
 
                         <li className="more-dropdown-item">
                             <a onClick={this.openAddMemberToTaskModal}>
@@ -112,16 +103,10 @@ TaskItem.propTypes = {
     deleteTask: PropTypes.func.isRequired,
     openAddMemberToTaskModal: PropTypes.func.isRequired,
     openTaskDeadlineModal: PropTypes.func.isRequired,
-    openEditPropertiesModal: PropTypes.func.isRequired,
     toggleTaskStatus: PropTypes.func.isRequired,
     card: PropTypes.object.isRequired,
-    task: PropTypes.object.isRequired,
-    isEnable: PropTypes.bool,
-    isProcess: PropTypes.bool
+    task: PropTypes.object.isRequired
 };
 
-TaskItem.defaultProps = {
-    isEnable: true
-};
 
 export default TaskItem;

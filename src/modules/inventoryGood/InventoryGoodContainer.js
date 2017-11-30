@@ -174,7 +174,7 @@ class InventoryGoodContainer extends React.Component {
                                                         className="col-md-12"
                                                     />
                                                     <div className="form-group col-md-4">
-                                                        <label className="control-label">Tìm theo nhà sản xuất</label>
+                                                        <label className="label-control">Tìm theo nhà sản xuất</label>
                                                         <Select
                                                             name="manufactures"
                                                             value={this.state.manufacture}
@@ -189,7 +189,7 @@ class InventoryGoodContainer extends React.Component {
                                                         />
                                                     </div>
                                                     <div className="form-group col-md-4">
-                                                        <label className="control-label">Tìm theo nhóm hàng hóa</label>
+                                                        <label className="label-control">Tìm theo nhóm hàng hóa</label>
                                                         <Select
                                                             name="categories"
                                                             value={this.state.category}

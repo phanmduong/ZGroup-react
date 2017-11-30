@@ -34,7 +34,7 @@ export function getProducts(page, search, start_time, end_time, manufacture_id, 
                 });
                 dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
-                    updated: false
+                    modalUpdated: false
                 });
             });
     };
@@ -53,7 +53,7 @@ export function getProductsStatus(status) {
                 });
                 dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
-                    updated: false
+                    modalUpdated: false
                 });
             });
     };

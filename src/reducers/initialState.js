@@ -18,7 +18,9 @@ export default {
             images_url: [],
         },
         isUploadingImage: false,
-        isLoading: false
+        isLoading: false,
+        avatar_url: '',
+        images: []
     },
 
     globalLoading: {
@@ -329,7 +331,7 @@ export default {
             members: [],
             task: {},
             isSaving: false,
-            selectedMember: []
+            selectedMembers: []
         },
         commentCard: {
             value: "",
@@ -847,11 +849,14 @@ export default {
             historyPaidMoney: []
         },
         formImportGood: {
-            importGoods: [],
+            imported_goods: [],
             scot: 0,
             paid_money: 0,
             isStoring: false,
             error: false,
+            payment: '',
+            isLoadingHistoryPaid: false,
+            errorHistoryPaid: false,
         },
         addGoodFile: {
             isCheckingGoods: false,
@@ -864,6 +869,8 @@ export default {
         warehouses: [],
         isStoringSupplier: false,
         errorStoreSupplier: false,
+        isSavingPaidMoney: false,
+        errorPaidMoney: false,
     },
     wareHouses: {
         isLoading: true,

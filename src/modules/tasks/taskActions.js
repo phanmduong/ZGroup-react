@@ -231,22 +231,43 @@ export function updateCreateCardFormData(card) {
     };
 }
 
+export function showGlobalLoading() {
+    return function (dispatch) {
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+    };
+}
+
+export function hideGlobalLoading() {
+    return function (dispatch) {
+        dispatch({
+            type: types.HIDE_GLOBAL_LOADING
+        });
+    };
+}
+
 export function createCard(card) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_CARD
         });
-        taskApi.createCard(card)
-            .then(res => {
-                showNotification("Tạo sản phẩm mới thành công");
-                dispatch({
-                    type: types.CREATE_CARD_SUCCESS,
-                    card: res.data.card
+
+        return new Promise((resolve) => {
+            taskApi.createCard(card)
+                .then(res => {
+                    resolve();
+                    showNotification("Tạo thẻ thành công");
+                    dispatch({
+                        type: types.CREATE_CARD_SUCCESS,
+                        card: res.data.card
+                    });
+                })
+                .catch(() => {
+                    showErrorNotification("Có lỗi xảy ra");
                 });
-            })
-            .catch(() => {
-                showErrorNotification("Có lỗi xảy ra");
-            });
+        });
+
     };
 }
 
@@ -982,11 +1003,11 @@ export function closeAddMemberToTaskModal() {
     };
 }
 
-export function updateAssignMemberToTaskForm(member) {
+export function updateAssignMemberToTaskForm(members) {
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_ASSIGN_MEMBER_TO_TASK_FORM,
-            member
+            members
         });
     };
 }

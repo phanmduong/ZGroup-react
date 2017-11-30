@@ -134,7 +134,8 @@ class LiteCardItem extends React.Component {
                                                                event.stopPropagation();
                                                                this.archiveCard();
                                                            }}>
-                                                            <i className="material-icons" style={{fontSize: "16px"}}>archive</i>
+                                                            <i className="material-icons"
+                                                               style={{fontSize: "16px"}}>archive</i>
                                                             Lưu trữ thẻ
                                                         </a>
                                                     </li>

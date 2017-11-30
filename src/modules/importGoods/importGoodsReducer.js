@@ -49,11 +49,14 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                 ...state,
                 importGood: {
                     ...state.importGood,
-                    ...{
-                        isLoading: false,
-                        error: false,
-                        importOrder: action.importOrder
-                    }
+                    isLoading: false,
+                    error: false,
+                    importOrder: action.importOrder
+                },
+                formImportGood: {
+                    ...state.formImportGood,
+                    ...action.importOrder,
+                    supplier: action.supplier
                 }
             };
         case types.LOAD_IMPORT_GOOD_ORDERS_ERROR:
@@ -70,12 +73,13 @@ export default function importGoodsReducer(state = initialState.importGoods, act
         case types.INIT_DATA_IMPORT_GOOD_ORDERS:
             return {
                 ...state,
-                importGood: initialState.importGoods.importGood
+                importGood: initialState.importGoods.importGood,
+                formImportGood: initialState.importGoods.formImportGood,
             };
         case types.UPDATE_FORM_IMPORT_GOOD:
             return {
                 ...state,
-                formImportGood: action.formImportGood
+                formImportGood: action.formImportGood,
             };
         case types.BEGIN_STORE_IMPORT_GOOD: {
             return {
@@ -226,6 +230,38 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                     historyPaidMoney: []
                 }
             };
+        case types.BEGIN_ADD_PAID_MONEY_IMPORT_GOODS: {
+            return {
+                ...state,
+                isSavingPaidMoney: true,
+                errorPaidMoney: false,
+            };
+        }
+        case types.ADD_PAID_MONEY_IMPORT_GOODS_SUCCESS: {
+            return {
+                ...state,
+                isSavingPaidMoney: false,
+                errorPaidMoney: false,
+                importGood: {
+                    ...state.importGood,
+                    importOrder: {
+                        ...state.importGood.importOrder,
+                        debt: state.importGood.importOrder.debt - action.orderPaidMoney.money
+                    },
+                },
+                formImportGood: {
+                    ...state.formImportGood,
+                    debt: state.formImportGood.debt - action.orderPaidMoney.money
+                }
+            };
+        }
+        case types.ADD_PAID_MONEY_IMPORT_GOODS_ERROR: {
+            return {
+                ...state,
+                isSavingPaidMoney: false,
+                errorPaidMoney: true,
+            };
+        }
         default:
             return state;
     }

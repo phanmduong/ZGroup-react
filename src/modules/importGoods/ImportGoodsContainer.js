@@ -38,11 +38,18 @@ class ImportGoodsContainer extends React.Component {
         this.setTable = this.setTable.bind(this);
         this.postsImportOrders = this.postsImportOrders.bind(this);
         this.loadImportGoods = this.loadImportGoods.bind(this);
+        this.deleteImportOrder = this.deleteImportOrder.bind(this);
         this.table = null;
     }
 
     componentWillMount() {
         this.props.importGoodActions.loadImportOrders();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isLoading != this.props.isLoading && !nextProps.isLoading) {
+            this.setState({page: nextProps.currentPage});
+        }
     }
 
     postsImportOrders(value) {
@@ -90,7 +97,7 @@ class ImportGoodsContainer extends React.Component {
 
     loadImportGoods(page) {
         this.setState({page});
-        this.props.importGoodActions.loadImportOrders(1, this.state.search, this.state.time.startTime,
+        this.props.importGoodActions.loadImportOrders(page, this.state.search, this.state.time.startTime,
             this.state.time.endTime, this.state.status, this.state.staff);
     }
 
@@ -116,6 +123,13 @@ class ImportGoodsContainer extends React.Component {
 
     setTable(table) {
         this.table = table;
+    }
+
+    deleteImportOrder(importOrder) {
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa phiếu nhập này không ?", () => {
+            this.props.importGoodActions.deleteImportOrder(importOrder.id, this.state.page, this.state.search, this.state.time.startTime,
+                this.state.time.endTime, this.state.status, this.state.staff);
+        });
     }
 
     render() {
@@ -201,6 +215,7 @@ class ImportGoodsContainer extends React.Component {
                                     <ListImported
                                         setTable={this.setTable}
                                         importOrders={this.props.importOrders}
+                                        deleteImportOrder={this.deleteImportOrder}
                                     />
                                 }
                                 <Pagination
@@ -229,6 +244,7 @@ function mapStateToProps(state) {
         isLoading: state.importGoods.isLoading,
         importOrders: state.importGoods.importOrders,
         totalPages: state.importGoods.totalPages,
+        currentPage: state.importGoods.currentPage,
     };
 }
 

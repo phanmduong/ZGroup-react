@@ -61,6 +61,9 @@ export function changeAvatar(file) {
 
 export function changeImage(file, length, first_length) {
     return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_UPLOAD_IMAGE_CREATE_PRODUCT
+        });
         const error = () => {
             helper.showErrorNotification("Có lỗi xảy ra");
         };
@@ -81,9 +84,6 @@ export function changeImage(file, length, first_length) {
                 percent: percentComplete
             });
         };
-        dispatch({
-            type: types.BEGIN_UPLOAD_IMAGE_CREATE_PRODUCT
-        });
         createProductApi.changeAvatarApi(file,
             completeHandler, progressHandler, error);
     };
