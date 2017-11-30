@@ -77,13 +77,13 @@ class CouponController extends ManageApiController
 
         $coupons = Coupon::query();
         $coupons = $coupons->where(function ($query) use ($keyword) {
-            $query->where('name', 'like', '%' .$keyword. '%')->orWhere('description', 'like', '%' .$keyword. '%');
+            $query->where('name', 'like', '%' . $keyword . '%')->orWhere('description', 'like', '%' . $keyword . '%');
         });
-        if($used_for)
+        if ($used_for)
             $coupons = $coupons->where('used_for', $used_for);
-        if($discount_type)
+        if ($discount_type)
             $coupons = $coupons->where('discount_type', $discount_type);
-        if($type)
+        if ($type)
             $coupons = $coupons->where('type', $type);
 
 
@@ -91,33 +91,22 @@ class CouponController extends ManageApiController
         return $this->respondWithPagination($coupons,
             [
                 'coupons' => $coupons->map(function ($coupon) {
-                    $data = [
-                        'id' => $coupon->id,
-                        'name' => $coupon->name,
-                        'description' => $coupon->description,
-                        'discount_type' => $coupon->discount_type,
-                        'discount_value' => $coupon->discount_value,
-                        'type' => $coupon->type,
-                        'used_for' => $coupon->used_for,
-                        'quantity' => $coupon->rate,
-                        'start_time' => $coupon->start_time,
-                        'end_time' => $coupon->end_time,
-                    ];
-                    if($coupon->used_for == 'order')
+                    $data = $coupon->getData();
+                    if ($coupon->used_for == 'order')
                         $data['order'] = [
                             'value' => $coupon->order_value,
                         ];
-                    if($coupon->used_for == 'good')
+                    if ($coupon->used_for == 'good')
                         $data['good'] = [
                             'id' => $coupon->good_id,
                             'name' => $coupon->good->name,
                         ];
-                    if($coupon->used_for == 'customer')
+                    if ($coupon->used_for == 'customer')
                         $data['customer'] = [
-                           'id' => $coupon->customer_id,
-                           'name' => $coupon->user->name
+                            'id' => $coupon->customer_id,
+                            'name' => $coupon->user->name
                         ];
-                    if($coupon->used_for == 'category')
+                    if ($coupon->used_for == 'category')
                         $data['category'] = [
                             'id' => $coupon->category_id,
                             'name' => $coupon->goodCategory->name
@@ -125,6 +114,26 @@ class CouponController extends ManageApiController
                     return $data;
                 })
             ]);
+    }
+
+    public function detailedCoupon($couponId, Request $request)
+    {
+        $coupon = Coupon::find($couponId);
+        if ($coupon == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Không tồn tại coupon'
+            ]);
+        $data = $coupon->getData();
+        if ($coupon->used_for == 'order')
+            $data['order'] = [
+                'value' => $coupon->order_value,
+            ];
+        if ($coupon->used_for == 'good')
+            $data['good'] = $coupon->good;
+        if ($coupon->used_for == 'customer')
+            $data['customer'] = $coupon->user;
+        if ($coupon->used_for == 'category')
+            $data['category'] = $coupon->category;
     }
 
     public function editCoupon($couponId, Request $request)
@@ -144,7 +153,7 @@ class CouponController extends ManageApiController
         $end_time = $request->end_time;
 
         $coupon = Coupon::find($couponId);
-        if($coupon == null)
+        if ($coupon == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Không tồn tại coupon'
             ]);
