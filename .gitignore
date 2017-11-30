@@ -14,3 +14,4 @@ public/manage/.DS_STORE
 socketEnv.js
 .npm/
 .pm2/
+.*
