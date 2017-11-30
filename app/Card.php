@@ -95,8 +95,10 @@ class Card extends Model
             "members" => $this->memberTransformer->transformCollection($this->assignees)
         ];
 
+
         if ($this->good_id !== 0) {
             $taskList = $this->taskLists()->first();
+
             if ($taskList) {
                 $task = $taskList->tasks()->where("current_board_id", $this->board_id)->first();
                 if ($task) {
