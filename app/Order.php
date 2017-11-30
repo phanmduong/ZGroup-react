@@ -85,6 +85,11 @@ class Order extends Model
                     'name' => $this->warehouse->base->name,
                     'address' => $this->warehouse->base->address,
                 ];
+        if($this->user)
+            $data['customer'] = [
+                'name' => $this->user->name,
+                'address' => $this->user->address,
+            ];
         return $data;
     }
 

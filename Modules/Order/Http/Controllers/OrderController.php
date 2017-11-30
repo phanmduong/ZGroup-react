@@ -48,8 +48,8 @@ class OrderController extends ManageApiController
         });
         if ($startTime)
             $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
-        //if ($status)
-        //    $orders = $orders->where('status', $status);
+        if ($status)
+            $orders = $orders->where('status', $status);
         if ($user_id)
             $orders = $orders->where('user_id', $user_id);
         if ($staff_id)
