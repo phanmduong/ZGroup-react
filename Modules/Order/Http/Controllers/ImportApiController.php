@@ -101,9 +101,10 @@ class ImportApiController extends ManageApiController
         $total_quantity = $importOrder->importedGoods->reduce(function ($total, $importedGood) {
             return $total + $importedGood->quantity;
         }, 0);
-        $debt = $total_money - $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
-                return $total + $orderPaidMoney->money;
-            }, 0);
+        $paid_money = $importOrder->orderPaidMoneys->reduce(function ($total, $orderPaidMoney) {
+            return $total + $orderPaidMoney->money;
+        }, 0);
+        $debt = $total_money - $paid_money;
         $data = [
             'id' => $importOrder->id,
             'name' => $importOrder->name,
@@ -113,9 +114,11 @@ class ImportApiController extends ManageApiController
             'total_money' => $total_money,
             'total_quantity' => $total_quantity,
             'debt' => $debt,
+            'paid_money' => $paid_money,
         ];
         $data['imported_goods'] = $importOrder->importedGoods->map(function ($importedGood) {
             return [
+                'id' => $importedGood->good->id,
                 'name' => $importedGood->good->name,
                 'code' => $importedGood->good->code,
                 'price' => $importedGood->good->price,
@@ -256,15 +259,15 @@ class ImportApiController extends ManageApiController
         $importOrder->type = 'import';
         $importOrder->status = $request->status;
         $importOrder->save();
-        if ($request->paid_money) {
-            $orderPaidMoney = new OrderPaidMoney;
-            $orderPaidMoney->order_id = $importOrder->id;
-            $orderPaidMoney->money = $request->paid_money;
-            $orderPaidMoney->staff_id = $this->user->id;
-            $orderPaidMoney->payment = $request->payment;
-            $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
-            $orderPaidMoney->save();
-        }
+//        if ($request->paid_money) {
+//            $orderPaidMoney = new OrderPaidMoney;
+//            $orderPaidMoney->order_id = $importOrder->id;
+//            $orderPaidMoney->money = $request->paid_money;
+//            $orderPaidMoney->staff_id = $this->user->id;
+//            $orderPaidMoney->payment = $request->payment;
+//            $orderPaidMoney->note = $request->note_paid_money ? $request->note_paid_money : '';
+//            $orderPaidMoney->save();
+//        }
 
         $orderImportId = $importOrder->id;
         $importedGoods = $importOrder->importedGoods;

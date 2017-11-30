@@ -24,7 +24,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/detailed-import-order/{importOrderId}', 'ImportApiController@detailedImportOrder');
     Route::post('/add-import-order-goods', 'ImportApiController@addImportOrderGoods');
     Route::delete('/import-order/delete/{importOrderId}', 'ImportApiController@deleteImportOrder');
-    Route::put('/import_order/edit/{importOrderId}', 'ImportApiController@editImportOrder');
+    Route::post('/import-order/edit/{importOrderId}', 'ImportApiController@editImportOrder');
 
     Route::post('/add-supplier', 'WarehouseApiController@addSupplier');
     Route::put('/supplier/{supplier_id}/edit', 'WarehouseApiController@editSupplier');
