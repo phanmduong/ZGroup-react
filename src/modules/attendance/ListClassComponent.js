@@ -98,7 +98,7 @@ class ListClassComponent extends React.Component {
                                                         <td>{classItem.status === 1 ? 'Mở' : 'Đóng'}</td>
                                                         <td>
                                                             <button className="btn btn-fill btn-rose" type="button"
-                                                                    style={{fontSize: "xx-small"}}
+                                                                    style={{fontSize: "x-small"}}
                                                                     onClick={()=>{return this.props.openModalLesson(index);}}
                                                             >Điểm danh</button>
                                                         </td>

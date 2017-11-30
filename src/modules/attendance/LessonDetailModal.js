@@ -14,10 +14,11 @@ class LessonDetailModal extends React.Component {
     render(){
         return (
             <Modal
+                size="modal-lg"
                 show={this.props.show}
                 onHide={this.props.onHide}
             >
-                <Modal.Header closeButton>
+                <Modal.Header closeButton style={{paddingLeft :  "50px", paddingTop: "50px"}}>
                     <div className="row">
                         <button
                             className="btn btn-round btn-fab btn-fab-mini text-white col-md-3"
@@ -25,8 +26,8 @@ class LessonDetailModal extends React.Component {
                             rel="tooltip"
                             data-placement="right"
                             data-original-title={this.props.class.name}
-                            style={{width: "100px",height: "100px"}}>
-                            <img src={this.props.class ? this.props.class.course.icon_url : ""} style={{width: "100px",height: "100px"}} alt=""/>
+                            style={{width: "80px",height: "80px"}}>
+                            <img src={this.props.class ? this.props.class.course.icon_url : ""} style={{width: "80px",height: "80px"}} alt=""/>
                         </button>
                         <h3 className="col-md-9">{ "Danh sách buổi học lớp " +  this.props.class.name}</h3>
                     </div>

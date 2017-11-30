@@ -15,19 +15,21 @@ class ListLessonModal extends React.Component {
     render(){
         return (
             <Modal
+                bsSize="large"
                 show={this.props.show}
                 onHide={this.props.onHide}
+
             >
-                <Modal.Header closeButton>
-                    <div className="row">
+                <Modal.Header closeButton style={{paddingLeft :  "50px", paddingTop: "50px"}}>
+                    <div className="row" style={{paddingLeft :  "15px"}}>
                         <button
                             className="btn btn-round btn-fab btn-fab-mini text-white col-md-3"
                             data-toggle="tooltip" title="" type="button"
                             rel="tooltip"
                             data-placement="right"
                             data-original-title={this.props.class.name}
-                            style={{width: "100px",height: "100px"}}>
-                            <img src={this.props.class ? this.props.class.course.icon_url : ""} style={{width: "100px",height: "100px"}} alt=""/>
+                            style={{width: "80px",height: "80px"}}>
+                            <img src={this.props.class ? this.props.class.course.icon_url : ""} style={{width: "80px",height: "80px"}} alt=""/>
                         </button>
                         <h3 className="col-md-9">{ "Danh sách buổi học lớp " +  this.props.class.name}</h3>
                     </div>
@@ -41,7 +43,7 @@ class ListLessonModal extends React.Component {
                                         placement="top"
                                         >
                                         <button className="btn btn-sm"
-                                        style={{backgroundColor: '#' + this.props.class.teacher.color}}>
+                                        style={{backgroundColor: '#' + this.props.class.teacher.color , "inline-size": "-webkit-fill-available"}}>
                                         {helper.getShortName(this.props.class.teacher.name)}
                                         <div className="ripple-container"/>
                                         </button>
@@ -62,7 +64,7 @@ class ListLessonModal extends React.Component {
                                     <TooltipButton text="Trợ giảng"
                                                     placement="top">
                                         <button className="btn btn-sm"
-                                            style={{backgroundColor: '#' + this.props.class.teacher_assistant.color}}>
+                                            style={{backgroundColor: '#' + this.props.class.teacher_assistant.color, "inline-size": "-webkit-fill-available"}}>
                                             {helper.getShortName(this.props.class.teacher_assistant.name)}
                                             <div className="ripple-container"/>
                                         </button>
@@ -78,7 +80,7 @@ class ListLessonModal extends React.Component {
                         }</div>
                     </div>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body style={{paddingLeft :  "50px"}}>
                     {
                         this.props.isLoadingLessonClassModal ?
                         <Loading/>
@@ -100,7 +102,7 @@ class ListLessonModal extends React.Component {
                                 </h6></td>
                                 <td width="65%" style={{textAlign:"center"}}>
                                     <h6>{item.attended_students + "/" + item.total_students}</h6>
-                                    <div className="progress progress-line-success progress-bar-table" style={{width: "90%"}}>
+                                    <div className="progress progress-line-success progress-bar-table" style={{width: "100%"}}>
                                         <div className="progress-bar progress-bar-success" role="progressbar"
                                              aria-valuenow="60"
                                              aria-valuemin="0"
@@ -111,9 +113,9 @@ class ListLessonModal extends React.Component {
                                     </div>
                                 </td>
 
-                                <td>
+                                <td style={{textAlign:"center"}}>
                                     <button className="btn btn-fill btn-rose" type="button"
-                                            style={{fontSize: "xx-small"}}
+                                            style={{fontSize: "inherit"}}
                                             onClick={()=>{return this.props.openModalDetailLesson(index + 1);}}
                                     >Điểm danh</button>
                                 </td>
