@@ -46,7 +46,9 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
                 inventoryChecking: {
                     ...state.inventoryChecking,
                     histories: action.histories,
-                    inventoryInfo: action.inventoryInfo
+                    inventoryInfo: action.inventoryInfo,
+                    totalPages: action.totalPages,
+                    currentPage: action.currentPage
                 },
                 isLoadingHistoryModal: false,
                 isLoadingMore: false

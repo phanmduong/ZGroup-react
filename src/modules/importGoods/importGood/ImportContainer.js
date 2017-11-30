@@ -107,7 +107,7 @@ class ImportContainer extends React.Component {
                                                 <button className="btn btn-rose btn-xs btn-simple text-align-right"
                                                         onClick={this.openModalHistoryPaid}
                                                 >
-                                                    Lịch sử <i className="material-icons">navigate_next</i>
+                                                    Xem thêm <i className="material-icons">navigate_next</i>
                                                 </button>
                                             </div>
 
@@ -143,13 +143,14 @@ class ImportContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Modal show={this.state.showModalHistoryPaid} bsSize="large" onHide={this.closeModalHistoryPaid} >
+                <Modal show={this.state.showModalHistoryPaid} bsSize="large" onHide={this.closeModalHistoryPaid}>
                     <Modal.Header closeButton closeLabel="Đóng">
-                        <Modal.Title>Lịch sử thanh toán</Modal.Title>
+                        <Modal.Title>Thanh toán</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <HistoryPaid
                             importGoodId={this.props.params.importGoodId}
+                            closeModal={this.closeModalHistoryPaid}
                         />
                     </Modal.Body>
                 </Modal>

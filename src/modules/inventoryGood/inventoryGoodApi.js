@@ -52,6 +52,6 @@ export function getInfoInventoriesApi() {
 }
 
 export function getWarehouseListApi() {
-    let url = env.MANAGE_API_URL + "/order/warehouses/all" + "?token=" + token;
+    let url = env.MANAGE_API_URL + "/order/all-warehouses" + "?token=" + token;
     return axios.get(url);
 }

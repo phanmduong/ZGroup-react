@@ -79,17 +79,6 @@ class TaskTemplateItem extends React.Component {
                                 </span>
                             )
                         }
-                        {
-                            task.member && (
-                                <Avatar style={{
-                                    display: "inline-block",
-                                    position: "relative",
-                                    top: "7px",
-                                    marginLeft: "4px"
-                                }}
-                                        url={task.member.avatar_url} size={20}/>
-                            )
-                        }
 
                     </div>
                     <div className="timeline-body">
@@ -109,16 +98,37 @@ class TaskTemplateItem extends React.Component {
                             </div>
                         </KeetoolPanel>
                         <KeetoolPanel
-                            title={`Bảng đích (${task.optional_boards ? task.optional_boards.length : 0} bảng)`}>
+                            title={`Bảng đích (${task.board_tasks ? task.board_tasks.length : 0} bảng)`}>
                             <div>
                                 {
-                                    task.optional_boards && task.optional_boards.map((optionalBoard, index) => {
+                                    task.board_tasks && task.board_tasks.map((board, index) => {
                                             return (
                                                 <div key={index}>
-                                                    {optionalBoard.board && (
-                                                        <div>{optionalBoard.board ?
-                                                            optionalBoard.board.title : ""}</div>
+                                                    {board.board && (
+                                                        <div>{board.board ?
+                                                            board.board.title : ""}</div>
                                                     )}
+                                                </div>
+                                            );
+                                        }
+                                    )
+                                }
+                            </div>
+                        </KeetoolPanel>
+                        <KeetoolPanel
+                            title={`Thành viên (${task.members ? task.members.length : 0} thành viên)`}>
+                            <div>
+                                {
+                                    task.members && task.members.map((member, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <Avatar style={{
+                                                        display: "inline-block",
+                                                        position: "relative",
+                                                        top: "7px",
+                                                        marginLeft: "4px"
+                                                    }} url={member.avatar_url} size={20}/>
+                                                    {member.name}
                                                 </div>
                                             );
                                         }

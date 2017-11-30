@@ -2,6 +2,7 @@ import React from 'react';
 // import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import {generateDatatableLanguage, dotNumber} from "../../../helpers/helper";
 import PropTypes from 'prop-types';
+import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 
 class ListGood extends React.Component {
     constructor(props, context) {
@@ -28,7 +29,7 @@ class ListGood extends React.Component {
                 if (that.search() !== this.value) {
                     that
                         .search(this.value)
-                        .draw(); 
+                        .draw();
                 }
             });
         });
@@ -78,9 +79,10 @@ class ListGood extends React.Component {
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
                         <th>Số lượng</th>
-                        <th>Giá vốn</th>
-                        <th>Thành tiên</th>
-                        <th>Giá bán</th>
+                        <th className="disabled-search">Giá vốn</th>
+                        <th className="disabled-search">Thành tiên</th>
+                        <th className="disabled-search">Giá bán</th>
+                        {this.props.type && <th/>}
                     </tr>
                     </thead>
                     <tfoot>
@@ -92,6 +94,7 @@ class ListGood extends React.Component {
                         <th>Giá vốn</th>
                         <th>Thành tiên</th>
                         <th>Giá bán</th>
+                        {this.props.type && <th/>}
                     </tr>
                     </tfoot>
                     <tbody>
@@ -106,8 +109,21 @@ class ListGood extends React.Component {
                                     <td>{dotNumber(good.import_price)}đ</td>
                                     <td>{dotNumber(good.import_price * good.quantity)}đ</td>
                                     <td>{dotNumber(good.price)}đ</td>
+                                    {
+                                        this.props.type &&
+                                        <td>
+                                            <ButtonGroupAction
+                                                delete={this.props.deleteGood}
+                                                edit={this.props.openModalEditGood}
+                                                object={good}
+                                            />
+                                        </td>
+                                    }
+
                                 </tr>
                             );
+
+
                         })
                     }
 

@@ -42,7 +42,6 @@ class ProductListContainer extends React.Component {
         this.productsSearchChange = this.productsSearchChange.bind(this);
         this.manufacturesSearchChange = this.manufacturesSearchChange.bind(this);
         this.categoriesSearchChange = this.categoriesSearchChange.bind(this);
-        this.productsPageChange = this.productsPageChange.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
         this.saleStatusChange = this.saleStatusChange.bind(this);
         this.displayStatusChange = this.displayStatusChange.bind(this);
@@ -282,20 +281,6 @@ class ProductListContainer extends React.Component {
         }
     }
 
-
-    productsPageChange(value) {
-        this.setState({page: value});
-        this.props.productListAction.getProducts(
-            value,
-            this.state.query,
-            this.state.time.startTime,
-            this.state.time.endTime,
-            this.state.manufacture,
-            this.state.category,
-            this.state.status
-        );
-    }
-
     loadOrders(page = 1) {
         this.setState({page: page});
         this.props.productListAction.getProducts(
@@ -392,65 +377,11 @@ class ProductListContainer extends React.Component {
                                                     <div className="col-md-2">
                                                         <button type="button" data-toggle="collapse" data-target="#demo"
                                                                 className="btn btn-info">
-                                                            <i className="material-icons">filter</i> Lọc
+                                                            <i className="material-icons">filter_list</i> Lọc
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div id="demo" className="collapse">
-                                                    <div className="row">
-                                                        <div className="form-group col-md-3">
-                                                            <label className="label-control">Tìm theo nhà sản
-                                                                xuất</label>
-                                                            <Select
-                                                                name="manufactures"
-                                                                value={this.state.manufacture}
-                                                                options={this.props.manufactures.map((manufacture) => {
-                                                                    return {
-                                                                        ...manufacture,
-                                                                        value: manufacture.id,
-                                                                        label: manufacture.name
-                                                                    };
-                                                                })}
-                                                                onChange={this.manufacturesSearchChange}
-                                                            />
-                                                        </div>
-                                                        <div className="form-group col-md-3">
-                                                            <label className="label-control">Tìm theo nhóm hàng
-                                                                hóa</label>
-                                                            <Select
-                                                                name="categories"
-                                                                value={this.state.category}
-                                                                options={this.props.categories.map((category) => {
-                                                                    return {
-                                                                        ...category,
-                                                                        value: category.id,
-                                                                        label: category.label
-                                                                    };
-                                                                })}
-                                                                onChange={this.categoriesSearchChange}
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-3">
-                                                            <FormInputDate
-                                                                label="Từ ngày"
-                                                                name="startTime"
-                                                                updateFormData={this.updateFormDate}
-                                                                id="form-start-time"
-                                                                value={this.state.time.startTime}
-                                                                maxDate={this.state.time.endTime}
-                                                            />
-                                                        </div>
-                                                        <div className="col-md-3">
-                                                            <FormInputDate
-                                                                label="Đến ngày"
-                                                                name="endTime"
-                                                                updateFormData={this.updateFormDate}
-                                                                id="form-end-time"
-                                                                value={this.state.time.endTime}
-                                                                minDate={this.state.time.startTime}
-                                                            />
-                                                        </div>
-                                                    </div>
                                                     <div className="row">
                                                         <div className="form-group col-md-4">
                                                             <label className="label-control">Tìm theo trạng thái kinh
@@ -509,8 +440,61 @@ class ProductListContainer extends React.Component {
 
                                                         <br/>
                                                     </div>
+                                                    <div className="row">
+                                                        <div className="form-group col-md-3">
+                                                            <label className="label-control">Tìm theo nhà sản
+                                                                xuất</label>
+                                                            <Select
+                                                                name="manufactures"
+                                                                value={this.state.manufacture}
+                                                                options={this.props.manufactures.map((manufacture) => {
+                                                                    return {
+                                                                        ...manufacture,
+                                                                        value: manufacture.id,
+                                                                        label: manufacture.name
+                                                                    };
+                                                                })}
+                                                                onChange={this.manufacturesSearchChange}
+                                                            />
+                                                        </div>
+                                                        <div className="form-group col-md-3">
+                                                            <label className="label-control">Tìm theo nhóm hàng
+                                                                hóa</label>
+                                                            <Select
+                                                                name="categories"
+                                                                value={this.state.category}
+                                                                options={this.props.categories.map((category) => {
+                                                                    return {
+                                                                        ...category,
+                                                                        value: category.id,
+                                                                        label: category.label
+                                                                    };
+                                                                })}
+                                                                onChange={this.categoriesSearchChange}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <FormInputDate
+                                                                label="Từ ngày"
+                                                                name="startTime"
+                                                                updateFormData={this.updateFormDate}
+                                                                id="form-start-time"
+                                                                value={this.state.time.startTime}
+                                                                maxDate={this.state.time.endTime}
+                                                            />
+                                                        </div>
+                                                        <div className="col-md-3">
+                                                            <FormInputDate
+                                                                label="Đến ngày"
+                                                                name="endTime"
+                                                                updateFormData={this.updateFormDate}
+                                                                id="form-end-time"
+                                                                value={this.state.time.endTime}
+                                                                minDate={this.state.time.startTime}
+                                                            />
+                                                        </div>
+                                                    </div>
                                                 </div>
-
                                                 <br/>
                                                 {
                                                     this.props.isLoading ? <Loading/> : (
