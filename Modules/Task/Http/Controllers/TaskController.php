@@ -363,7 +363,11 @@ class TaskController extends ManageApiController
             $goodProperties = collect(json_decode($request->good_properties));
             $this->goodRepository->saveGoodProperties($goodProperties, $good->id);
         }
-        $this->taskRepository->createTaskListFromTemplate($request->task_list_id, $card->id, $this->user);
+
+        if ($request->task_list_id) {
+            $this->taskRepository->createTaskListFromTemplate($request->task_list_id, $card->id, $this->user);
+        }
+
 
         return $this->respond(["card" => $card->transform()]);
     }

@@ -93,6 +93,7 @@ class TaskRepository
     public function createTaskListFromTemplate($taskListId, $cardId, $currentUser)
     {
         $taskListTemplate = TaskList::find($taskListId);
+
         $taskList = $taskListTemplate->replicate();
         $taskList->role = "process";
         $taskList->card_id = $cardId;

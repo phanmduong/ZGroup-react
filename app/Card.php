@@ -71,16 +71,20 @@ class Card extends Model
         $this->memberTransformer = new MemberTransformer();
         $taskListIds = $this->taskLists->pluck("id");
         $hasDeadline = $this->deadline && $this->deadline != "0000-00-00 00:00:00";
-        return [
+        $board = $this->board;
+
+
+        $data = [
             'id' => $this->id,
             'title' => $this->title,
+            'is_end' => false,
             "deadline_elapse" => $hasDeadline ? time_remain_string(strtotime($this->deadline)) : null,
             "deadline" => $hasDeadline ? format_vn_short_datetime(strtotime($this->deadline)) : null,
             'board_id' => $this->board_id,
             "good_id" => $this->good_id,
             "board" => [
-                "id" => $this->board->id,
-                "title" => $this->board->title
+                "id" => $board->id,
+                "title" => $board->title
             ],
             "status" => $this->status,
             'order' => $this->order,
@@ -90,5 +94,20 @@ class Card extends Model
             }),
             "members" => $this->memberTransformer->transformCollection($this->assignees)
         ];
+
+        if ($this->good_id !== 0) {
+            $taskList = $this->taskLists()->first();
+            if ($taskList) {
+                $task = $taskList->tasks()->where("current_board_id", $this->board_id)->first();
+                if ($task) {
+                    if ($task->boardTasks->count() === 0) {
+                        $data['is_end'] = true;
+                    }
+                }
+            }
+        }
+
+
+        return $data;
     }
 }
