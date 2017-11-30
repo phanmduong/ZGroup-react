@@ -85,7 +85,7 @@ class ImportApiController extends ManageApiController
                         $importOrderData['user'] = $user;
                     }
                     if (isset($importOrder->warehouse))
-                        $data['warehouse'] = $importOrder->warehouse->Transform();
+                        $importOrderData['warehouse'] = $importOrder->warehouse->Transform();
                     return $importOrderData;
                 })
             ]
