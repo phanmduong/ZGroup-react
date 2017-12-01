@@ -20,7 +20,7 @@ class BookRepository
 {
     public function getAllBooks()
     {
-        $books = Good::where('type', 'book')->get();
+        $books = Good::where('type', 'book')->where('display_status', 0)->get();
         $book_arr = [];
         foreach ($books as $book) {
             $properties = GoodProperty::where('good_id', $book->id)->get();
