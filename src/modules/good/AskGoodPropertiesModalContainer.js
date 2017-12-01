@@ -26,7 +26,7 @@ class AskGoodPropertiesModalContainer extends React.Component {
     submitGoodProperties() {
         if (!this.props.task.isEditProcess)
             this.props.taskActions.showGlobalLoading();
-        
+
         this.props.taskActions.submitGoodProperties()
             .then(() => {
                 if (!this.props.task.isEditProcess) {
