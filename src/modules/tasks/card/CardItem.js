@@ -206,7 +206,7 @@ class CardItem extends React.Component {
                                         height: "6px",
                                         width: "6px",
                                         margin: "3px",
-                                        background: "#c50000"
+                                        background: card.completed ? "#bebebe" : "#c50000"
                                     }}/>
                                 }
 

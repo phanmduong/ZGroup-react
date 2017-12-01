@@ -188,19 +188,25 @@ export function loadBoards(projectId) {
         dispatch({
             type: types.BEGIN_LOAD_BOARDS
         });
-        taskApi.loadBoards(projectId)
-            .then((res) => {
-                dispatch({
-                    projectId: projectId,
-                    type: types.LOAD_BOARDS_SUCCESS,
-                    boards: res.data.boards,
-                    setting: res.data.setting ? JSON.parse(res.data.setting) : {},
-                    cardLabels: res.data.cardLabels,
-                    members: res.data.members,
-                    canDragCard: res.data.canDragCard,
-                    canDragBoard: res.data.canDragBoard
+        return new Promise((resolve) => {
+            taskApi.loadBoards(projectId)
+                .then((res) => {
+                    resolve();
+                    dispatch({
+                        projectId: projectId,
+                        type: types.LOAD_BOARDS_SUCCESS,
+                        boards: res.data.boards,
+                        setting: res.data.setting ? JSON.parse(res.data.setting) : {},
+                        cardLabels: res.data.cardLabels,
+                        members: res.data.members,
+                        canDragCard: res.data.canDragCard,
+                        canDragBoard: res.data.canDragBoard
+                    });
                 });
-            });
+
+        });
+
+
     };
 }
 
@@ -243,6 +249,17 @@ export function hideGlobalLoading() {
     return function (dispatch) {
         dispatch({
             type: types.HIDE_GLOBAL_LOADING
+        });
+    };
+}
+
+export function deleteCard(cardId) {
+    return function () {
+        return new Promise((resolve) => {
+            taskApi.deleteCard(cardId)
+                .then(() => {
+                    resolve();
+                });
         });
     };
 }
@@ -396,10 +413,6 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1
             cards: targetBoardCards
         };
 
-
-        // console.log(siblingOrder);
-        // console.log(newSourceBoard);
-        // console.log(newTargetBoard);
 
         taskApi.updateCards(newTargetBoard.cards, newTargetBoard.id)
             .then(() => {
@@ -593,6 +606,7 @@ export function deleteTask(task, card) {
 }
 
 export function toggleTaskStatus(task, card) {
+
     return function (dispatch) {
         dispatch({
             card,

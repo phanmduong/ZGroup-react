@@ -24,14 +24,13 @@ class ProcessTaskContainer extends React.Component {
         } else {
             if (task.board_tasks && task.board_tasks.length > 0) {
                 this.props.taskActions.showGlobalLoading();
-                moveAndCreateCard(this, task)
+                moveAndCreateCard(this, task, this.props.projectId, this.props.card.id)
                     .then(() => {
                         this.props.taskActions.hideGlobalLoading();
                     });
             } else {
                 this.props.taskActions.toggleTaskStatus(task, card);
             }
-
         }
     }
 
@@ -68,12 +67,14 @@ class ProcessTaskContainer extends React.Component {
 
 ProcessTaskContainer.propTypes = {
     card: PropTypes.object.isRequired,
-    taskActions: PropTypes.object.isRequired
+    taskActions: PropTypes.object.isRequired,
+    projectId: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        card: state.task.cardDetail.card
+        card: state.task.cardDetail.card,
+        projectId: state.task.boardList.projectId
     };
 }
 
