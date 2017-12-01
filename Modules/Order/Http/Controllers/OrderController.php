@@ -54,7 +54,7 @@ class OrderController extends ManageApiController
             $orders = $orders->where('user_id', $user_id);
         if ($staff_id)
             $orders = $orders->where('staff_id', $staff_id);
-        $orders = $orders->orderBy('created_at','desc')->paginate($limit);
+        $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
         return $this->respondWithPagination(
             $orders,
             [
@@ -74,6 +74,18 @@ class OrderController extends ManageApiController
         return $this->respondSuccessWithStatus(
             $order->detailedTransform()
         );
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $order = Order::find($request->order_id);
+
+        $order->status = $request->status;
+        $order->save();
+
+        return $this->respondSuccessWithStatus([
+            'order' => $order->transform()
+        ]);
     }
 
     public function editOrder($order_id, Request $request)

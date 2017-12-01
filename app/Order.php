@@ -56,6 +56,7 @@ class Order extends Model
         $data = [
             'id' => $this->id,
             'code' => $this->code,
+            'payment' => $this->payment,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'status' => $this->status,
             'total' => $this->goodOrders->reduce(function ($total, $goodOrder) {
@@ -86,12 +87,14 @@ class Order extends Model
                 'name' => $this->user->name,
                 'address' => $this->user->address,
                 'phone' => $this->user->phone,
+                'email' => $this->user->email,
             ];
         } else {
             $data['customer'] = [
                 'name' => $this->name,
                 'address' => $this->address,
                 'phone' => $this->phone,
+                'email' => $this->email,
             ];
         }
         return $data;
@@ -130,6 +133,7 @@ class Order extends Model
                 'code' => $this->code,
                 'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
                 'note' => $this->staff_note,
+                'payment' => $this->payment,
             ],
             'good_orders' => $goodOrders,
         ];
@@ -144,6 +148,7 @@ class Order extends Model
                 'name' => $this->user->name,
                 'email' => $this->user->email,
                 'phone' => $this->user->phone,
+                'address' => $this->user->address,
             ];
         return $data;
     }
