@@ -12,6 +12,7 @@ namespace Modules\Graphics\Repositories;
 use App\Good;
 use App\Order;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 
@@ -83,6 +84,7 @@ class BookRepository
         $order->status = "place_order";
         $order->status_paid = 0;
         $order->type = "order";
+        $order->code = "ORDER" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order->save();
 
 

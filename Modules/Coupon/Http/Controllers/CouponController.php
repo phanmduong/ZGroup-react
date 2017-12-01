@@ -93,9 +93,7 @@ class CouponController extends ManageApiController
                 'coupons' => $coupons->map(function ($coupon) {
                     $data = $coupon->getData();
                     if ($coupon->used_for == 'order')
-                        $data['order'] = [
-                            'value' => $coupon->order_value,
-                        ];
+                        $data['order_value'] = $coupon->order_value;
                     if ($coupon->used_for == 'good')
                         $data['good'] = [
                             'id' => $coupon->good_id,
@@ -125,9 +123,7 @@ class CouponController extends ManageApiController
             ]);
         $data = $coupon->getData();
         if ($coupon->used_for == 'order')
-            $data['order'] = [
-                'value' => $coupon->order_value,
-            ];
+            $data['order_value'] = $coupon->order_value;
         if ($coupon->used_for == 'good')
             $data['good'] = $coupon->good;
         if ($coupon->used_for == 'customer')
