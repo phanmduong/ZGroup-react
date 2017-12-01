@@ -55,6 +55,30 @@ class ProcessTaskItem extends React.Component {
                         }
                     </label>
                 </div>
+                <div className="dropdown" style={{
+                    position: "absolute",
+                    top: "5px",
+                    right: "10px"
+                }}>
+                    <a className="dropdown-toggle btn-more-dropdown" type="button"
+                       data-toggle="dropdown">
+                        <i className="material-icons">more_horiz</i>
+                    </a>
+                    <ul className="dropdown-menu dropdown-menu-left">
+
+
+                        <li className="more-dropdown-item">
+                            <a onClick={() => this.props.openEditPropertiesModal({
+                                ...task,
+                                isEditProcess: true
+                            })}>
+                                <i className="material-icons">details</i>
+                                Sửa thuộc tính
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
             </ListGroupItem>
         );
     }
@@ -62,6 +86,7 @@ class ProcessTaskItem extends React.Component {
 
 ProcessTaskItem.propTypes = {
     task: PropTypes.object.isRequired,
+    openEditPropertiesModal: PropTypes.func.isRequired,
     isActive: PropTypes.bool.isRequired,
     toggleTaskStatus: PropTypes.func.isRequired
 };
