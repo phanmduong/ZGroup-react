@@ -183,8 +183,8 @@ class ManageCollectMoneyApiController extends ManageApiController
         $nextNumber = explode("M", $code)[1] + 1;
         $return_data["next_code"] = 'CM' . $nextNumber;
 
-//        $waiting_code = Register::where('code', 'like', 'CCM%')->orderBy('code', 'desc')->first()->code;
-//        $waiting_code = explode("M", $waiting_code)[1] + 1;
+        $waiting_code = Register::where('code', 'like', 'CCM%')->orderBy('code', 'desc')->first()->code;
+        $waiting_code = explode("M", $waiting_code)[1] + 1;
         $return_data["next_waiting_code"] = 'CCM' . "";
 
 
