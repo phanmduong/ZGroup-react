@@ -32,6 +32,7 @@ class OrdersContainer extends React.Component {
         this.ordersSearchChange = this.ordersSearchChange.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
+        this.changeStatusOrder = this.changeStatusOrder.bind(this);
     }
 
     componentWillMount() {
@@ -68,6 +69,10 @@ class OrdersContainer extends React.Component {
     loadOrders(page = 1) {
         this.setState({page: page});
         this.props.goodOrderActions.loadAllOrders(page, this.state.query, this.state.time.startTime, this.state.time.endTime);
+    }
+
+    changeStatusOrder(status, orderId) {
+        this.props.goodOrderActions.changeStatusOrder(orderId, status);
     }
 
     render() {
@@ -218,6 +223,7 @@ class OrdersContainer extends React.Component {
                                 </div>
                                 <br/>
                                 <ListOrder
+                                    changeStatusOrder={this.changeStatusOrder}
                                     orders={this.props.orders}
                                     totalPages={this.props.totalPages}
                                     currentPage={this.state.page}

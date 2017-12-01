@@ -1,4 +1,5 @@
 import * as types from '../../constants/actionTypes';
+import * as helper from '../../helpers/helper';
 import * as goodOrdersApi from './goodOrdersApi';
 
 export function loadAllOrders(page = 1, search = '', startTime = '', endTime = '') {
@@ -17,9 +18,9 @@ export function loadAllOrders(page = 1, search = '', startTime = '', endTime = '
                     limit: res.data.paginator.limit,
                     totalCount: res.data.paginator.total_count
                 });
-            }).catch(()=>{
+            }).catch(() => {
             dispatch({
-               type: types.LOAD_GOOD_ORDERS_ERROR
+                type: types.LOAD_GOOD_ORDERS_ERROR
             });
         });
     };
@@ -37,7 +38,7 @@ export function loadDetailOrder(orderId) {
                     infoShip: res.data.data.info_ship,
                     goodOrders: res.data.data.good_orders,
                 });
-            }).catch(()=>{
+            }).catch(() => {
             dispatch({
                 type: types.LOAD_DETAIL_ORDER_ERROR
             });
@@ -54,9 +55,30 @@ export function loadStaffs() {
                     type: types.LOAD_STAFFS_ORDERS_SUCCESS,
                     staffs: res.data.data.staffs
                 });
-            }).catch(()=>{
+            }).catch(() => {
             dispatch({
                 type: types.LOAD_STAFFS_ORDERS_ERROR
+            });
+        });
+    };
+}
+
+export function changeStatusOrder(orderId, status) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang thay đổi trạng thái", "info");
+        dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
+        goodOrdersApi.changeStatusOrder(orderId, status)
+            .then(() => {
+                helper.showNotification("Thay đổi trạng thái thành công");
+                dispatch({
+                    type: types.CHANGE_STATUS_ORDER_SUCCESS,
+                    order_id: orderId,
+                    status
+                });
+            }).catch(() => {
+            helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+            dispatch({
+                type: types.CHANGE_STATUS_ORDER_ERROR
             });
         });
     };
