@@ -87,12 +87,14 @@ class Order extends Model
                 'name' => $this->user->name,
                 'address' => $this->user->address,
                 'phone' => $this->user->phone,
+                'email' => $this->user->email,
             ];
         } else {
             $data['customer'] = [
                 'name' => $this->name,
                 'address' => $this->address,
                 'phone' => $this->phone,
+                'email' => $this->email,
             ];
         }
         return $data;
@@ -146,6 +148,7 @@ class Order extends Model
                 'name' => $this->user->name,
                 'email' => $this->user->email,
                 'phone' => $this->user->phone,
+                'address' => $this->user->address,
             ];
         return $data;
     }
