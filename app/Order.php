@@ -56,6 +56,7 @@ class Order extends Model
         $data = [
             'id' => $this->id,
             'code' => $this->code,
+            'payment' => $this->payment,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
             'status' => $this->status,
             'total' => $this->goodOrders->reduce(function ($total, $goodOrder) {
@@ -130,6 +131,7 @@ class Order extends Model
                 'code' => $this->code,
                 'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
                 'note' => $this->staff_note,
+                'payment' => $this->payment,
             ],
             'good_orders' => $goodOrders,
         ];
