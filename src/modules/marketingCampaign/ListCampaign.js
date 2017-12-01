@@ -1,5 +1,6 @@
 import React from 'react';
 import ItemListCampaign from "./ItemListCampaign";
+import PropTypes from 'prop-types';
 
 class ListCampaign extends React.Component {
     constructor(props, context) {
@@ -47,6 +48,13 @@ class ListCampaign extends React.Component {
         );
     }
 }
+
+ListCampaign.propTypes = {
+    openModalStoreCampaign: PropTypes.func.isRequired,
+    campaigns: PropTypes.array.isRequired,
+    courses: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+};
 
 
 export default ListCampaign;

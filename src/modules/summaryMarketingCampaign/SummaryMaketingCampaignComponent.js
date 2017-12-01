@@ -2,6 +2,7 @@ import React from 'react';
 import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import CardChart from "./CardChart";
+import PropTypes from 'prop-types';
 
 class SummaryMaketingCampaignComponent extends React.Component {
     constructor(props, context) {
@@ -18,9 +19,7 @@ class SummaryMaketingCampaignComponent extends React.Component {
                 <Loading/>
             );
         } else {
-            console.log(this.props.summary);
             let summary = helper.groupBy(this.props.summary, item => item.campaign.id, ["campaign_id", "registers"]);
-            console.log(summary);
             return (
                 <div>
                     <div className="row">
@@ -57,5 +56,11 @@ class SummaryMaketingCampaignComponent extends React.Component {
     }
 }
 
+SummaryMaketingCampaignComponent.propTypes = {
+    summary: PropTypes.array.isRequired,
+    genId: PropTypes.number.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    loadSummary: PropTypes.func.isRequired,
+};
 
 export default SummaryMaketingCampaignComponent;

@@ -195,7 +195,8 @@ LessonsContainer.propTypes = {
     isLoading           : PropTypes.bool.isRequired,
     isCommitting        : PropTypes.bool,
     data                : PropTypes.object,
-    lessonsActions      : PropTypes.object.isRequired
+    lessonsActions      : PropTypes.object.isRequired,
+    params              : PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

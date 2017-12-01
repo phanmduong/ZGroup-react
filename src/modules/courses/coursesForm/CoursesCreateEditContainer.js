@@ -45,11 +45,6 @@ class CreateEditCoursesContainer extends React.Component {
         helper.setFormValidation('#form-course-create-edit');
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log('next props', nextProps);
-    }
-
-
     backToList(){
         this.props.coursesActions.backToList();
     }
@@ -339,7 +334,10 @@ CreateEditCoursesContainer.propTypes = {
     updateCoverError    : PropTypes.bool,
     isCommitting        : PropTypes.bool,
     commitSuccess       : PropTypes.bool,
-    coursesActions      : PropTypes.object.isRequired
+    coursesActions      : PropTypes.object.isRequired,
+    location            : PropTypes.object,
+    params            : PropTypes.object,
+    children            : PropTypes.element,
 };
 
 function mapStateToProps(state) {

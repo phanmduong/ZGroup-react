@@ -10,6 +10,7 @@ import ListCampaign from "./ListCampaign";
 import * as marketingCampaignActions from "./marketingCampaignActions";
 import {Modal} from "react-bootstrap";
 import StoreCampaign from "./StoreCampaign";
+import PropTypes from 'prop-types';
 
 class MarketingCampaignContainer extends React.Component {
     constructor(props, context) {
@@ -21,6 +22,11 @@ class MarketingCampaignContainer extends React.Component {
         this.loadMarketingCampaigns = this.loadMarketingCampaigns.bind(this);
         this.closeModalStoreCampaign = this.closeModalStoreCampaign.bind(this);
         this.openModalStoreCampaign = this.openModalStoreCampaign.bind(this);
+    }
+
+    componentWillMount() {
+        this.loadMarketingCampaigns();
+        this.props.marketingCampaignActions.loadAllCourse();
     }
 
     closeModalStoreCampaign() {
@@ -44,11 +50,6 @@ class MarketingCampaignContainer extends React.Component {
 
     }
 
-    componentWillMount() {
-        this.loadMarketingCampaigns();
-        this.props.marketingCampaignActions.loadAllCourse();
-    }
-
     loadMarketingCampaigns(page = 1) {
         this.setState({page: page});
         this.props.marketingCampaignActions.loadMarketingCampaigns(page);
@@ -70,7 +71,7 @@ class MarketingCampaignContainer extends React.Component {
                             <h4 className="card-title">Chiến dịch marketing</h4>
 
                             <div style={{marginTop: "15px"}}>
-                                <button className="btn btn-rose" onClick={()=>this.openModalStoreCampaign()}>
+                                <button className="btn btn-rose" onClick={() => this.openModalStoreCampaign()}>
                                     Thêm chiến dịch
                                 </button>
                             </div>
@@ -106,6 +107,15 @@ class MarketingCampaignContainer extends React.Component {
         );
     }
 }
+
+MarketingCampaignContainer.propTypes = {
+    marketingCampaignActions: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    marketingCampaigns: PropTypes.array.isRequired,
+    courses: PropTypes.array.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

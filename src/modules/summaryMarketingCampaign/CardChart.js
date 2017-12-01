@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {Pie} from 'react-chartjs-2';
 import {Link} from 'react-router';
 import * as helper from '../../helpers/helper';
-
+import PropTypes from 'prop-types';
 
 const legendOpts = {
     display: false,
@@ -87,5 +87,9 @@ class CardChart extends React.Component {
     }
 }
 
+CardChart.propTypes = {
+    campaign: PropTypes.object.isRequired,
+    genId: PropTypes.number.isRequired,
+};
 
 export default CardChart;

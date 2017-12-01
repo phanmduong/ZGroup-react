@@ -139,7 +139,7 @@ class StoreImportContainer extends React.Component {
 
     changeOptionWarehouse(value) {
         let formImportGood = {...this.props.formImportGood};
-        formImportGood['warehouse_id'] = value && value.id ? value.id : null;
+        formImportGood['warehouse'] = value;
         this.props.importGoodActions.updateFormImportGood(formImportGood);
     }
 
@@ -223,7 +223,7 @@ class StoreImportContainer extends React.Component {
     }
 
     storeImportGood(status) {
-        if (this.props.formImportGood.warehouse_id) {
+        if (this.props.formImportGood.warehouse && this.props.formImportGood.warehouse.id) {
             this.props.importGoodActions.storeImportGood(this.props.formImportGood, status, this.props.params.importGoodId);
         } else {
             helper.showWarningNotification("Vui lòng chọn kho hàng");
@@ -338,7 +338,7 @@ class StoreImportContainer extends React.Component {
                                                 <label className="control-label">Kho hàng</label>
                                                 <ReactSelect
                                                     name="form-field-name"
-                                                    value={this.props.formImportGood.warehouse_id}
+                                                    value={this.props.formImportGood.warehouse}
                                                     options={this.state.optionsSelectWarehouses}
                                                     onChange={this.changeOptionWarehouse}
                                                     placeholder="Chọn kho hàng"
@@ -495,7 +495,7 @@ class StoreImportContainer extends React.Component {
                                                             <b>Đã thanh toán</b>
                                                         </div>
                                                         <div className="col-md-6">
-                                                            <b>{helper.dotNumber(totalMoney - this.props.formImportGood.debt)}
+                                                            <b>{helper.dotNumber(this.props.formImportGood.paid_money)}
                                                                 đ</b>
                                                         </div>
                                                     </div>
@@ -504,7 +504,8 @@ class StoreImportContainer extends React.Component {
                                                             Nợ
                                                         </div>
                                                         <div className="col-md-6">
-                                                            {helper.dotNumber(this.props.formImportGood.debt)} đ
+                                                            {helper.dotNumber(totalMoney - this.props.formImportGood.paid_money)}
+                                                            đ
                                                         </div>
                                                     </div>
                                                 </div>
@@ -622,7 +623,8 @@ StoreImportContainer.propTypes = {
     params: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isStoring: PropTypes.bool.isRequired,
-    type: PropTypes.string
+    type: PropTypes.string,
+    route: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -632,21 +634,21 @@ function mapStateToProps(state) {
             ...supplier,
             value: supplier.id,
             label: supplier.name + ` (${supplier.phone})`,
-        }
+        };
     }
     let warehouse = state.importGoods.formImportGood.warehouse;
     if (warehouse && warehouse.id) {
         warehouse = {
-            ...supplier,
+            ...warehouse,
             value: warehouse.id,
-            label: warehouse.name,
+            label: warehouse.name
         };
     }
 
     let dataImportGoods = {
         ...state.importGoods.formImportGood,
         supplier,
-        warehouse
+        warehouse: warehouse
     };
     return {
         formImportGood: dataImportGoods,

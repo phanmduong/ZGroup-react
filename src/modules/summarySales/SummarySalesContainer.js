@@ -121,6 +121,7 @@ class SummarySalesContainer extends React.Component {
 SummarySalesContainer.propTypes = {
     gens: PropTypes.array.isRequired,
     summarySalesActions: PropTypes.object.isRequired,
+    currentGen: PropTypes.object.isRequired,
     bases: PropTypes.array.isRequired,
     isLoadingGens: PropTypes.bool.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
