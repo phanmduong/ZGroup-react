@@ -27,9 +27,11 @@ class ProcessTaskContainer extends React.Component {
                 moveAndCreateCard(this, task, this.props.projectId, this.props.card.id)
                     .then(() => {
                         this.props.taskActions.hideGlobalLoading();
+                        this.props.taskActions.closeCardDetailModal();
                     });
             } else {
                 this.props.taskActions.toggleTaskStatus(task, card);
+                this.props.taskActions.closeCardDetailModal();
             }
         }
     }
