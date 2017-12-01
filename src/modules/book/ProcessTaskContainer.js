@@ -7,6 +7,7 @@ import * as taskActions from '../tasks/taskActions';
 import ProcessTaskItem from "./ProcessTaskItem";
 import AskGoodPropertiesModalContainer from "../good/AskGoodPropertiesModalContainer";
 import {moveAndCreateCard} from "./taskService";
+import {ListGroup} from "react-bootstrap";
 
 
 class ProcessTaskContainer extends React.Component {
@@ -39,29 +40,29 @@ class ProcessTaskContainer extends React.Component {
     render() {
         const {card} = this.props;
         return (
-            <div className="card">
-                <div className="card-content">
-                    <AskGoodPropertiesModalContainer/>
-                    {
-                        card.taskLists && card.taskLists.map((taskList) => {
-                            return (
-                                <div key={taskList.id}>
-                                    {
-                                        taskList.tasks.filter((task) => task.current_board_id === card.board_id).map((task) => {
-                                            return (
-                                                <ProcessTaskItem
-                                                    key={task.id}
-                                                    task={task}
-                                                    toggleTaskStatus={this.toggleTaskStatus}/>
-                                            );
-                                        })
-                                    }
-                                </div>
-                            );
-                        })
-                    }
+            <div>
+                <AskGoodPropertiesModalContainer/>
 
-                </div>
+                {
+                    card.taskLists && card.taskLists.map((taskList) => {
+                        return (
+                            <ListGroup key={taskList.id}>
+                                {
+                                    taskList.tasks.map((task) => {
+                                        return (
+                                            <ProcessTaskItem
+                                                isActive={task.current_board_id === card.board_id}
+                                                key={task.id}
+                                                task={task}
+                                                toggleTaskStatus={this.toggleTaskStatus}/>
+                                        );
+                                    })
+                                }
+                            </ListGroup>
+                        );
+                    })
+                }
+
             </div>
         );
     }
