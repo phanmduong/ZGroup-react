@@ -76,16 +76,16 @@ export const DAY_OF_WEEK = [
 
 export const GENDER = [
     {
-        name : '',
-        id : '',
+        name: '',
+        id: '',
     },
     {
-        name : 'Nam',
-        id : '1',
+        name: 'Nam',
+        id: '1',
     },
     {
-        name : 'Nữ',
-        id : '2',
+        name: 'Nữ',
+        id: '2',
     }
 ];
 
@@ -93,19 +93,18 @@ export const GENDER = [
 export const CUSTOMTYPE = [
 
     {
-        label : 'Tất cả',
-        value : 2,
+        label: 'Tất cả',
+        value: 2,
     },
     {
-        label : 'Khách hàng còn nợ',
-        value : '0',
+        label: 'Khách hàng còn nợ',
+        value: '0',
     },
     {
-        label : 'Khách hàng đã mua',
-        value : 1,
+        label: 'Khách hàng đã mua',
+        value: 1,
     }
 ];
-
 
 
 export const PAYMENT = [
@@ -120,6 +119,29 @@ export const PAYMENT = [
     {
         label: "Thẻ",
         value: "credit"
+    }
+];
+
+export const ORDER_STATUS = [
+    {
+        label: "Đặt hàng",
+        value: "place_order"
+    },
+    {
+        label: "Xác nhận",
+        value: "confirm_order"
+    },
+    {
+        label: "Giao hàng",
+        value: "ship_order"
+    },
+    {
+        label: "Hoàn thành",
+        value: "completed_order"
+    },
+    {
+        label: "Hủy",
+        value: "cancel"
     }
 ];
 

@@ -145,6 +145,12 @@ class OrderContainer extends React.Component {
                                                 value={this.props.infoUser ? this.props.infoUser.phone : ''}
                                                 disabled
                                             />
+                                            <FormInputText
+                                                label="Địa chỉ"
+                                                name="address"
+                                                value={this.props.infoUser ? this.props.infoUser.address : ''}
+                                                disabled
+                                            />
                                         </div>
                                         <div>
                                             <h4><strong>Thông tin giao hàng</strong></h4>
