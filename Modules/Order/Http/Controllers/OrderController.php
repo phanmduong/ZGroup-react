@@ -20,7 +20,7 @@ class OrderController extends ManageApiController
 
     public function allOrders(Request $request)
     {
-        $limit = 3;
+        $limit = 20;
         $user_id = $request->user_id;
         $staff_id = $request->staff_id;
         $startTime = $request->start_time;
@@ -54,7 +54,7 @@ class OrderController extends ManageApiController
             $orders = $orders->where('user_id', $user_id);
         if ($staff_id)
             $orders = $orders->where('staff_id', $staff_id);
-        $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
+        $orders = $orders->orderBy('created_at')->paginate($limit);
         return $this->respondWithPagination(
             $orders,
             [
