@@ -1,11 +1,5 @@
 @extends('nhatquangshop::layouts.master')
-
-
 @section('content')
-
-
-
-
     <div class="container" id="bookinfo">
         <br><br><br><br><br>
         <div class="row">
@@ -33,11 +27,8 @@
                     </div>
                     <br>
                 </div>
-
             </div>
-
         </div>
-
         <div class="row">
             @foreach($books as $book)
                 <div class="col-md-3">
@@ -90,7 +81,7 @@
         </div>
     </div>
 
-
+W
     <div class="container" id="bookinfo1">
         <br><br>
         <div class="row">
