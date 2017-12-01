@@ -372,6 +372,13 @@ class TaskController extends ManageApiController
         return $this->respond(["card" => $card->transform()]);
     }
 
+    public function deleteCard($cardId)
+    {
+        $card = Card::find($cardId);
+        $card->delete();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
+
 
     public function updateCards(Request $request)
     {

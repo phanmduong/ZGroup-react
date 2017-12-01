@@ -82,6 +82,7 @@ class Card extends Model
             "deadline" => $hasDeadline ? format_vn_short_datetime(strtotime($this->deadline)) : null,
             'board_id' => $this->board_id,
             "good_id" => $this->good_id,
+            "completed" => false,
             "board" => [
                 "id" => $board->id,
                 "title" => $board->title
@@ -104,6 +105,9 @@ class Card extends Model
                 if ($task) {
                     if ($task->boardTasks->count() === 0) {
                         $data['is_end'] = true;
+                    }
+                    if ($task->status == true) {
+                        $data["completed"] = true;
                     }
                 }
             }

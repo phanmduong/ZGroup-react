@@ -36,6 +36,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     // card api
     Route::put('/card/{cardId}/toggle-archive', "TaskController@archiveCard");
     Route::post('/card/create', "TaskController@createCard");
+    Route::delete('/card/{cardId}/delete', "TaskController@deleteCard");
     Route::post('/cards/update', "TaskController@updateCards");
     Route::get('/card/{cardId}/detail', "CardController@card");
     Route::post('/card/{cardId}/update', "TaskController@updateCard");
