@@ -237,6 +237,7 @@ ImportGoodsContainer.propTypes = {
     importOrders: PropTypes.array.isRequired,
     importGoodActions: PropTypes.object.isRequired,
     totalPages: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
 };
 
 function mapStateToProps(state) {

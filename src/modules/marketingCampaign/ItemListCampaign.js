@@ -3,6 +3,7 @@ import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import ReactSelect from "react-select";
 import {BASE_URL} from "../../constants/env";
 import * as helper from "../../helpers/helper";
+import PropTypes from 'prop-types';
 
 class ItemListCampaign extends React.Component {
     constructor(props, context) {
@@ -72,5 +73,11 @@ class ItemListCampaign extends React.Component {
     }
 }
 
+ItemListCampaign.propTypes = {
+    campaign: PropTypes.object.isRequired,
+    openModalStoreCampaign: PropTypes.func.isRequired,
+    courses: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+};
 
 export default ItemListCampaign;

@@ -139,6 +139,7 @@ ListGood.propTypes = {
     deleteGood: PropTypes.func.isRequired,
     openModalEditGood: PropTypes.func.isRequired,
     importGoods: PropTypes.array.isRequired,
+    type: PropTypes.string.isRequired,
 };
 
 export default ListGood;

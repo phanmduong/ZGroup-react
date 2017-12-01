@@ -90,8 +90,8 @@ class NotificationContainer extends React.Component {
                             return (
                                 <li key={index} style={{backgroundColor}}>
                                     <a href={MANAGE_BASE_URL + "/notification/" + notification.id + "/redirect"}>
-                                        <div className="notification-item"
-                                             dangerouslySetInnerHTML={{__html: notification.message}}/>
+                                        {//eslint-disable-next-line
+                                        }<div className="notification-item" dangerouslySetInnerHTML={{__html: notification.message}}/>
                                     </a>
                                 </li>
                             );

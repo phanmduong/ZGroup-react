@@ -2,10 +2,9 @@
  * Created by phanmduong on 11/20/17.
  */
 import React from 'react';
-// import {connect} from 'react-redux';
-// import {bindActionCreators} from 'redux';
 import FormInputText from "../../components/common/FormInputText";
 import {CirclePicker} from "react-color";
+import PropTypes from 'prop-types';
 
 class StoreCampaign extends React.Component {
     constructor(props, context) {
@@ -17,16 +16,15 @@ class StoreCampaign extends React.Component {
         this.changeColor = this.changeColor.bind(this);
     }
 
-    changeColor(color) {
-        console.log(color.hex);
-        this.setState({color: color.hex});
-    }
-
     componentWillMount() {
         this.setState({
             name: this.props.campaign.name,
             color: this.props.campaign.color,
         });
+    }
+
+    changeColor(color) {
+        this.setState({color: color.hex});
     }
 
     render() {
@@ -63,13 +61,10 @@ class StoreCampaign extends React.Component {
         );
     }
 }
-//
-// function mapStateToProps(state) {
-//     return {};
-// }
-//
-// function mapDispatchToProps(dispatch) {
-//     return {};
-// }
+
+StoreCampaign.propTypes = {
+    closeModal: PropTypes.func.isRequired,
+    campaign: PropTypes.array.isRequired,
+};
 
 export default (StoreCampaign);
