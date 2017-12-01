@@ -39,7 +39,13 @@ class ProcessTaskItem extends React.Component {
                                 )
                             }
                         </div>
+                        <span
+                            style={{
+                                textDecoration: task.status ? "line-through" : "none",
+                                color: (!task.status && !isActive) && "#d9d9d9"
+                            }}>
                         {task.title}
+                        </span>
                         {
                             task.deadline_str && (
                                 <small className="keetool-card"
