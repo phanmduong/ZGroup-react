@@ -161,8 +161,7 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function payImportOrder($orderId, Request $request)
-    {
+    public function payImportOrder($orderId, Request $request){
         if (Order::find($orderId)->get() == null)
             return $this->respondErrorWithStatus("Order không tồn tại");
         if ($request->money == null)
