@@ -157,7 +157,7 @@ export function editDiscount(discount ) {
                     });
                 }
             }) ;
-        dispatch(updateDiscountFormData(emptydiscount));
+        dispatch(updateDiscountFormData(emptydiscount));// Có thể không cần thiết
         browserHistory.push('/discount');
     };
 }

@@ -169,6 +169,7 @@ InfoCustomerContainer.propTypes = {
     ordersList : PropTypes.array,
     totalOrderPages : PropTypes.number,
     customersList : PropTypes.array,
+    params : PropTypes.object,
 };
 
 function mapStateToProps(state) {

@@ -56,7 +56,7 @@ class ListChildDiscount extends React.Component {
                                                             discount.used_for === 'customer' ?
                                                                 'Khách hàng: ' + discount.customer.name : (
                                                                 discount.used_for === 'order' ?
-                                                                    'Giá trị đơn hàng từ ' + discount.order.value : "Tất cả các đơn hàng"
+                                                                    'Giá trị đơn hàng từ ' + discount.order_value : "Tất cả các đơn hàng"
                                                             )
                                                         )
                                                     )

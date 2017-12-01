@@ -19,16 +19,22 @@ class AddDiscountContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.addDiscount = this.addDiscount.bind(this);
         this.loadDiscount = this.loadDiscount.bind(this);
+        this.resetDiscount = this.resetDiscount.bind(this);
         // this.loadCategories = this.loadCategories.bind(this);   Để dự phòng khi category phải chuyển sang select
     }
 
     componentWillMount() {
-        let isEdit = this.props.params.discountId;
-        if (isEdit) {
-            this.loadDiscount();
+        let route = document.location.pathname;
+        if (route === '/discount/add') {
+            if (this.timeOut !== null) {
+                clearTimeout(this.timeOut);
+            }
+            this.timeOut = setTimeout(function () {
+                this.resetDiscount();
+            }.bind(this), 0);
 
         } else {
-            this.resetDiscount();
+            this.loadDiscount();
 
 
         }// Chưa xử lí được ..........
@@ -166,6 +172,8 @@ AddDiscountContainer.propTypes = {
     discount: PropTypes.object,
     isSaving: PropTypes.bool,
     isLoadingOut: PropTypes.bool,
+    params : PropTypes.object,
+    discountId : PropTypes.number,
     // categories: PropTypes.object,
 };
 
@@ -176,6 +184,7 @@ function mapStateToProps(state) {
         discount: state.addDiscount.discount,
         isSaving: state.addDiscount.isSaving,
         isLoadingOut: state.addDiscount.isLoadingOut,
+
         // categories: state.addDiscount.categories,
     };
 }
