@@ -4,9 +4,9 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-function changeStatusOrder(goodOrders, order_id, status) {
-    if (goodOrders) {
-        goodOrders = goodOrders.map((order) => {
+function changeStatusOrder(orders, order_id, status) {
+    if (orders) {
+        orders = orders.map((order) => {
             if (order.id === order_id) {
                 return {
                     ...order,
@@ -16,7 +16,7 @@ function changeStatusOrder(goodOrders, order_id, status) {
             return order;
         });
     }
-    return goodOrders;
+    return orders;
 }
 
 export default function goodOrdersReducer(state = initialState.goodOrders, action) {
@@ -108,10 +108,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
         case types.CHANGE_STATUS_ORDER_SUCCESS:
             return {
                 ...state,
-                order: {
-                    ...state.order,
-                    goodOrders: changeStatusOrder(state.order.goodOrders, action.order_id, action.status),
-                }
+                orders: changeStatusOrder(state.orders, action.order_id, action.status),
             };
         default:
             return state;

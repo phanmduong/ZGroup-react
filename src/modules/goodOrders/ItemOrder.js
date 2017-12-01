@@ -94,7 +94,7 @@ class ItemOrder extends React.Component {
                             )
                     }
                 </td>
-                <td>
+                <td className="min-width-130-px">
                     <ReactSelect
                         name="form-field-name"
                         options={ORDER_STATUS}
@@ -104,8 +104,8 @@ class ItemOrder extends React.Component {
                     />
                 </td>
 
-                <td>{order.total}</td>
-                <td>{order.debt}</td>
+                <td>{helper.dotNumber(order.total)}đ</td>
+                <td>{helper.dotNumber(order.debt)}đ</td>
                 <td>
                     <ButtonGroupAction/>
                 </td>
