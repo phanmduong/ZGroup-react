@@ -14,6 +14,7 @@ use App\Colorme\Transformers\TaskTransformer;
 use App\Notification;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\NotificationRepository;
+use App\Task;
 use App\User;
 use Illuminate\Support\Facades\Redis;
 use Modules\Good\Entities\BoardTaskTaskList;
@@ -100,6 +101,7 @@ class TaskRepository
         $taskList->save();
 
         $card = Card::find($cardId);
+
         $project = $card->board->project;
 
         foreach ($taskListTemplate->tasks as $item) {
@@ -123,49 +125,58 @@ class TaskRepository
                 }
             }
 
+            // copy users
+            if ($item->users) {
+                foreach ($item->users as $user) {
+                    $task->users()->attach($user->id);
+                }
+            }
+
             // replicate all GoodPropertyItems
             foreach ($item->goodPropertyItems as $goodPropertyItem) {
                 $task->goodPropertyItems()->attach($goodPropertyItem->id);
             }
 
-            if ($task->users) {
-                foreach ($task->users as $member) {
-                    $member = $card->assignees()->where("id", $task->member->id)->first();
-                    if ($member == null) {
-                        $card->assignees()->attach($task->member->id);
-                    }
-
-                    $projectMember = $project->members()->where("user_id", $task->member->id)->first();
-                    if ($projectMember == null) {
-                        $project->members()->attach($task->member->id);
-                    }
-
-                    $user = $task->member;
-                    if ($currentUser && $currentUser->id != $user->id) {
-
-                        $notification = new Notification;
-                        $notification->actor_id = $currentUser->id;
-                        $notification->receiver_id = $user->id;
-                        $notification->type = 19;
-                        $message = $notification->notificationType->template;
-
-                        $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
-                        $message = str_replace('[[TASK]]', "<strong>" . $task->title . "</strong>", $message);
-                        $message = str_replace('[[CARD]]', "<strong>" . $card->title . "</strong>", $message);
-                        $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
-                        $notification->message = $message;
-
-                        $notification->color = $notification->notificationType->color;
-                        $notification->icon = $notification->notificationType->icon;
-                        $notification->url = '/project/' . $project->id . "/boards?card_id=" . $card->id;
-
-                        $notification->save();
-
-                        $this->notificationRepository->sendNotification($notification);
-                    }
+        }
+        // add only the users of current task to current board
+        $currentTask = $taskList->tasks->where("current_board_id", $card->board_id)->first();
+//            dd($currentTask);
+        if ($currentTask) {
+            foreach ($currentTask->users as $user) {
+                $member = $card->assignees()->where("id", $user->id)->first();
+                if ($member == null) {
+                    $card->assignees()->attach($user->id);
                 }
 
+                $projectMember = $project->members()->where("user_id", $user->id)->first();
+                if ($projectMember == null) {
+                    $project->members()->attach($user->id);
+                }
+
+                if ($currentUser && $currentUser->id != $user->id) {
+
+                    $notification = new Notification;
+                    $notification->actor_id = $currentUser->id;
+                    $notification->receiver_id = $user->id;
+                    $notification->type = 19;
+                    $message = $notification->notificationType->template;
+
+                    $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
+                    $message = str_replace('[[TASK]]', "<strong>" . $currentTask->title . "</strong>", $message);
+                    $message = str_replace('[[CARD]]', "<strong>" . $card->title . "</strong>", $message);
+                    $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
+                    $notification->message = $message;
+
+                    $notification->color = $notification->notificationType->color;
+                    $notification->icon = $notification->notificationType->icon;
+                    $notification->url = '/project/' . $project->id . "/boards?card_id=" . $card->id;
+
+                    $notification->save();
+
+                    $this->notificationRepository->sendNotification($notification);
+                }
             }
+
         }
         return [
             "id" => $taskList->id,

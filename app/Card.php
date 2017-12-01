@@ -10,7 +10,7 @@ use Modules\Task\Transformers\MemberTransformer;
 
 class Card extends Model
 {
-    use SoftDeletes;
+//    use SoftDeletes;
 
     protected $table = "cards";
 
