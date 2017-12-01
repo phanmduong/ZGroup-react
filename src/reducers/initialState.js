@@ -897,10 +897,64 @@ export default {
 
     customers: {
         customersList: [],
+        ordersList : [],
         isLoading: true,
+        totalOrderPages : 10,
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
+        totalCount: 10,
+        modal : {
+            isSaving : false,
+            customer : {
+                name : '',
+                phone : '',
+                email : '',
+                address : '',
+                gender : '',
+                dob : '',
+            }
+        },
+    },
+    suppliers: {
+        suppliersList : [],
+        isLoading : false,
+        totalCount: 10,
+        totalPages : 10,
+        modal : {
+            isSaving : false,
+            supplier : {
+                name : '',
+                phone : '',
+                email : '',
+                address : '',
+            }
+        }
+    },
+
+    addDiscount :{
+        isSaving : false,
+        isLoading: false,
+        customers : [],
+        goods : [],
+        categories : [],
+        totalCustomerPages : 10,
+        totalGoodPages : 10,
+        discount :{
+            name: '',
+            description: '',
+            discount_type : '',
+            discount_value : '',
+            type : '',
+            used_for : '',
+            start_time : '',
+            end_time : '',
+            order_value : '',
+            good : {},
+            category : {},
+            customer : {},
+        },
+
     },
     coursesCreateEdit: {
         isLoading: false,
@@ -1036,5 +1090,11 @@ export default {
         isLoading: false,
         error: false,
         summary: [],
+    },
+    discounts : {
+        discountsList : [],
+        isLoading : false,
+        totalPages : 10,
+        totalCount : 10,
     },
 };
