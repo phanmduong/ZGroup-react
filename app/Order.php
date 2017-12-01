@@ -84,11 +84,14 @@ class Order extends Model
         if ($this->user) {
             $data['customer'] = [
                 'name' => $this->user->name,
-                'address' => $this->user->name,
+                'address' => $this->user->address,
+                'phone' => $this->user->phone,
             ];
-            $data['user'] = [
-                'name' => $this->user->name,
-                'address' => $this->user->name,
+        } else {
+            $data['customer'] = [
+                'name' => $this->name,
+                'address' => $this->address,
+                'phone' => $this->phone,
             ];
         }
         return $data;
