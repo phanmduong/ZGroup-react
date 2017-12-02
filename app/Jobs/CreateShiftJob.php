@@ -25,11 +25,9 @@ class CreateShiftJob extends Job implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(
-        EmailService $emailService
-    )
+    public function __construct()
     {
-        $this->emailService = $emailService;
+
     }
 
     /**
@@ -39,6 +37,7 @@ class CreateShiftJob extends Job implements ShouldQueue
      */
     public function handle()
     {
+        $this->emailService = new EmailService();
         $date = new \DateTime();
         $date->modify('+3 days');
         $formatted_date_from = $date->format('Y-m-d');
