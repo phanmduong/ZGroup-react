@@ -7,13 +7,22 @@ use App\Good;
 use App\Http\Controllers\PublicApiController;
 use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
+use Modules\Graphics\Repositories\BookRepository;
 
 class NhatQuangApiController extends PublicApiController
 {
+    private $bookRepository;
+
+    public function __construct(BookRepository $bookRepository)
+    {
+        $this->bookRepository = $bookRepository;
+    }
+
     public function flush($subfix, Request $request)
     {
         $request->session()->flush();
     }
+
     public function getGoodsFromSession($subfix, Request $request)
     {
         $goods_str = $request->session()->get('goods');
@@ -98,7 +107,24 @@ class NhatQuangApiController extends PublicApiController
     public function saveOrder($subfix, Request $request)
     {
         //code phan api dat sach o day hihi
-        $request->session()->flush();
-        return ['status' => 1];
+        $email = $request->email;
+        $name = $request->name;
+        $phone = $request->phone;
+        $address = $request->address;
+        $payment = $request->payment;
+        $goods_str = $request->session()->get('goods');
+        $goods_arr = json_decode($goods_str);
+        if (count($goods_arr) > 0) {
+            $this->bookRepository->saveOrder($email, $phone, $name, $address, $payment, $goods_arr);
+            $request->session()->flush();
+            return [
+                "status" => 1
+            ];
+        } else {
+            return [
+                "status" => 0,
+                "message" => "Bạn chưa đặt cuốn sách nào"
+            ];
+        }
     }
 }

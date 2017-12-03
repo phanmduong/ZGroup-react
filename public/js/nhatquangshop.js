@@ -127,23 +127,30 @@ var modalPurchase = new Vue({
                 $("#btn-purchase-group").css("display", "block");
                 return;
             }
+            console.log(window.token);
             axios.post(window.url + '/save-order/v2', {
                 name: this.name,
                 phone: this.phone,
                 email: this.email,
                 address: this.address,
                 payment: this.payment,
+                _token: window.token
             })
                 .then(function (response) {
                     $("#purchase-loading-text").css("display", "none");
                     $("#btn-purchase-group").css("display", "block");
                     $("#modalPurchase").modal("hide");
                     $("#modalSuccess").modal("show");
+                    name = "";
+                    phone = "";
+                    email = "";
+                    address = "";
+                    payment = "";
                 })
 
                 .catch(function (error) {
                     console.log(error);
                 });
-         },
+        },
     }
 });
