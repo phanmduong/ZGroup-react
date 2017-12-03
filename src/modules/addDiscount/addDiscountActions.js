@@ -4,20 +4,6 @@ import * as helper from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 
 
-const emptydiscount = {
-    name: '',
-    description: '',
-    discount_type: '',
-    discount_value: '',
-    type: '',
-    used_for: '',
-    start_time: '',
-    end_time: '',
-    order_value: '',
-    good: {},
-    category: {},
-    customer: {},
-};
 export function updateDiscountFormData(discount){
     return function (dispatch) {
         dispatch({
@@ -26,6 +12,7 @@ export function updateDiscountFormData(discount){
         });
     };
 }
+
 
 export function addDiscount(discount) {
     return function (dispatch) {
@@ -37,6 +24,7 @@ export function addDiscount(discount) {
                     dispatch({
                         type: types.ADD_DISCOUNT_SUCCESS,
                     });
+                    browserHistory.push('/discount');
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);
@@ -44,16 +32,7 @@ export function addDiscount(discount) {
                         type: types.ADD_DISCOUNT_ERROR,
                     });
                 }
-            })
-            .catch(() => {
-                    helper.sweetAlertError('Thêm thất bại ');
-                    dispatch({
-                        type: types.ADD_DISCOUNT_ERROR
-                    });
-                }
-            );
-        dispatch(updateDiscountFormData(emptydiscount));
-        browserHistory.push('/discount');
+            });
     };
 }
 
@@ -149,15 +128,14 @@ export function editDiscount(discount ) {
                         type: types.EDIT_DISCOUNT_SUCCESS,
                         discount: res.data.data.coupon,
                     });
+                    browserHistory.push('/discount');
                 }
                 else {
-                    helper.sweetAlertError("Thiếu thông tin");
+                    helper.sweetAlertError(res.data.data.message);
                     dispatch({
                         type: types.EDIT_DISCOUNT_ERROR
                     });
                 }
             }) ;
-        dispatch(updateDiscountFormData(emptydiscount));// Có thể không cần thiết
-        browserHistory.push('/discount');
     };
 }

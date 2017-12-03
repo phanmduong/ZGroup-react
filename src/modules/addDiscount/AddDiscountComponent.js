@@ -170,7 +170,7 @@ class AddDiscountComponent extends React.Component {
                                                      data-bind="text: $parent.Culture"
                                                      style={{
                                                          width: "12px",
-                                                         marginTop: "50px",
+                                                         marginTop: "49px",
                                                          marginLeft: "-16px",
                                                      }}
                                                 >{discount_type === 'percentage' ? '%' : '₫'}

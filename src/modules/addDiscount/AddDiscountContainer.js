@@ -26,12 +26,8 @@ class AddDiscountContainer extends React.Component {
     componentWillMount() {
         let route = document.location.pathname;
         if (route === '/discount/add') {
-            if (this.timeOut !== null) {
-                clearTimeout(this.timeOut);
-            }
-            this.timeOut = setTimeout(function () {
-                this.resetDiscount();
-            }.bind(this), 0);
+
+                // this.resetDiscount();
 
         } else {
             this.loadDiscount();
@@ -41,9 +37,17 @@ class AddDiscountContainer extends React.Component {
         // Nếu muốn add phải xóa hết thông tin đã edit của lần trước
     }
 
+    componentDidMount(){
+        if (document.location.pathname === '/discount/add' ) {
+            this.resetDiscount();
+
+        }
+    }
+
     loadDiscount() {
         this.props.addDiscountActions.loadDiscount(this.props.params.discountId);
     }
+
 
     resetDiscount() {
         const discount = {
@@ -117,25 +121,9 @@ class AddDiscountContainer extends React.Component {
                                 <div className="card-footer">
                                     <div style={{
                                         display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                        marginBottom: 20
+                                        flexDirection: 'row-reverse',
+                                        marginBottom: 70,
                                     }}>
-                                        <div>
-                                            <button rel="tooltip" data-placement="top" title
-                                                    data-original-title="Remove item"
-                                                    className="btn btn-success btn-sm">
-                                                <i className="material-icons">work</i> Phí vận chuyển
-                                            </button>
-                                            <button rel="tooltip" data-placement="top" title
-                                                    data-original-title="Remove item" className="btn btn-info btn-sm">
-                                                <i className="material-icons">card_giftcard</i> Giảm giá
-                                            </button>
-                                            <button rel="tooltip" data-placement="top" title
-                                                    data-original-title="Remove item" className="btn btn-danger btn-sm">
-                                                <i className="material-icons">attach_money</i> Thanh toán
-                                            </button>
-                                        </div>
                                         <div>
                                             {this.props.isSaving ?
                                                 <button

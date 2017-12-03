@@ -14,7 +14,7 @@ class ListChildDiscount extends React.Component {
             <div>
                 <div className="row">
                     <div className="col-sm-12">
-                        <table id="property-table" className="table table-hover" role="grid"
+                        <table id="property-table" className="table table-hover table-responsive" role="grid"
                                aria-describedby="property-table_info">
                             <thead>
                             <tr className="text-rose" role="row">
@@ -66,10 +66,7 @@ class ListChildDiscount extends React.Component {
                                             <td>
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
-                                                        <a data-toggle="tooltip" title type="button"
-                                                           rel="tooltip"
-                                                           data-original-title="Sửa"
-                                                           onClick={() => {
+                                                        <a onClick={() => {
                                                                browserHistory.push('/discount/edit/'+ discount.id);
                                                            }}>
                                                             <i className="material-icons">edit</i>
@@ -79,10 +76,7 @@ class ListChildDiscount extends React.Component {
                                             <td>
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
-                                                        <a data-toggle="tooltip" title type="button"
-                                                           rel="tooltip"
-                                                           data-original-title="Xóa"
-                                                           onClick={() => this.props.deleteDiscount(discount.id, discount.name)}
+                                                        <a onClick={() => this.props.deleteDiscount(discount.id, discount.name)}
                                                         >
                                                             <i className="material-icons">delete</i>
                                                         </a>
