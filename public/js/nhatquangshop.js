@@ -120,6 +120,10 @@ var modalPurchase = new Vue({
     },
     methods: {
         submitOrder: function () {
+            $("#purchase-error").css("display", "none");
+            $("#btn-purchase-group").css("display", "none");
+            $("#purchase-loading-text").css("display", "block");
+
             if (!this.name || !this.phone || !this.email || !this.address || !this.payment) {
                 alert("Bạn vui lòng nhập đủ thông tin và kiểm tra lại email");
                 $("#purchase-error").css("display", "block");
