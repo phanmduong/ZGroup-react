@@ -85,11 +85,11 @@
 </nav>
 
 @yield('content')
-<div class="modal fade" style="overflow-y: scroll">
+
+<div id="modalPurchase"  class="modal fade" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
 
-        <!-- Modal content-->
-        <div id="akakdia" class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h2 class="medium-title">Thanh toán</h2>
@@ -113,16 +113,14 @@
                         </option>
                     </select>
                 </form>
-                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error" }>Bạn vui
-                    lòng nhập đầy đủ thông tin
+                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error" >
+                    Bạn vui lòng nhập đầy đủ thông tin
                 </div>
             </div>
             <div class="modal-footer" style="display: block">
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
-                <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
-
                 <div id="btn-purchase-group" style="text-align: right">
                     <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
                         tục mua <i class="fa fa-angle-right"></i></button>

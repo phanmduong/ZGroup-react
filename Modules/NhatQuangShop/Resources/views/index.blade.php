@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" id="vuejs">
+        <div class="row" id="vuejs1">
             @foreach($books as $book)
                 <div class="col-md-3">
                     <div class="card card-profile" style="border-radius:0;">
@@ -104,7 +104,7 @@
             </div>
 
         </div>
-        <div class="row" id="openModalBuy">
+        <div class="row" id = "vuejs2">
             @foreach($books as $book)
                 <div class="col-md-6 book-item">
                     <div class="card card-profile" style="border-radius:0; height: 90%">

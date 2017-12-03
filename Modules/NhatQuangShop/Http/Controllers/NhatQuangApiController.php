@@ -94,4 +94,11 @@ class NhatQuangApiController extends PublicApiController
         $request->session()->put('goods', $goods_str);
         return ["status" => 1];
     }
+
+    public function saveOrder($subfix, Request $request)
+    {
+        //code phan api dat sach o day hihi
+        $request->session()->flush();
+        return ['status' => 1];
+    }
 }
