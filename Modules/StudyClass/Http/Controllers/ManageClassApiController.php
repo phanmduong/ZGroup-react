@@ -235,7 +235,6 @@ class ManageClassApiController extends ManageApiController
 
         $class->save();
 
-
         if ($request->id) {
             $group = Group::where("class_id", $class->id)->first();
             if ($group) {
