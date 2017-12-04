@@ -35,7 +35,9 @@ class RegisterListContainer extends React.Component {
             selectedCampaignFilter: 0,
             selectedCampaignId: '',
             paid_status: '',
+            class_status: '',
             selectedMoneyFilter: 0,
+            selectedClassStatus: 0,
             classFilter:[],
             salerFilter:[],
             campaignFilter:[],
@@ -43,6 +45,11 @@ class RegisterListContainer extends React.Component {
                 {value: 0, label: 'Tất cả',},
                 {value: 1, label: 'Đã nộp',},
                 {value: 2, label: 'Chưa nộp',},
+            ],
+            classStatusFilter:[
+                {value: 0, label: 'Tất cả',},
+                {value: 1, label: 'Active',},
+                {value: 2, label: 'Watiting',},
             ],
         };
 
@@ -64,6 +71,7 @@ class RegisterListContainer extends React.Component {
         this.onSalerFilterChange = this.onSalerFilterChange.bind(this);
         this.onCampaignFilterChange = this.onCampaignFilterChange.bind(this);
         this.onMoneyFilterChange = this.onMoneyFilterChange.bind(this);
+        this.onClassStatusFilterChange = this.onClassStatusFilterChange.bind(this);
     }
 
     onClassFilterChange(obj){
@@ -147,6 +155,31 @@ class RegisterListContainer extends React.Component {
             this.state.campaignId,
             this.state.selectedClassId,
             res,
+        );
+    }
+    onClassStatusFilterChange(obj){
+        console.log('onchange_class_status',obj);
+        let num = obj ? obj.value : 0 ;
+        let res = '';
+        switch(num){
+            case 1: {res = 1; break;}
+            case 2: {res = 0;break;}
+            default: res = '';
+        }
+        if(obj){
+            this.setState({selectedClassStatus: obj.value, class_status: res});
+        }
+        else {
+            this.setState({selectedClassStatus: 0, class_status: res});
+        }
+        this.props.registerActions.loadRegisterStudent(
+            1,//page
+            this.state.selectGenId,
+            this.state.query,
+            this.state.selectedSalerId,
+            this.state.campaignId,
+            this.state.selectedClassId,
+            this.state.class_status,
         );
     }
 
@@ -427,6 +460,21 @@ class RegisterListContainer extends React.Component {
                                                     options={this.state.moneyFilter}
                                                     onChange={this.onMoneyFilterChange}
                                                     value={this.state.selectedMoneyFilter}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_money"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo học phí
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoading}
+                                                    options={this.state.classStatusFilter}
+                                                    onChange={this.onClassStatusFilterChange}
+                                                    value={this.state.selectedClassStatus}
                                                     defaultMessage="Tuỳ chọn"
                                                     name="filter_money"
                                                 />
