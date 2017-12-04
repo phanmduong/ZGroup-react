@@ -5,4 +5,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'coup
     Route::post('/create', 'CouponController@createCoupon');
     Route::delete('/{couponId}/delete', 'CouponController@deleteCoupon');
     Route::get('/all', 'CouponController@allCoupons');
+    Route::put('/{couponId}/edit', 'CouponController@editCoupon');
+    Route::get('/{couponId}/detailed', 'CouponController@detailedCoupon');
 });

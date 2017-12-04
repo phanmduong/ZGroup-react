@@ -14,6 +14,7 @@ use App\Colorme\Transformers\TaskTransformer;
 use App\Notification;
 use App\Repositories\CalendarEventRepository;
 use App\Repositories\NotificationRepository;
+use App\Task;
 use App\User;
 use Illuminate\Support\Facades\Redis;
 use Modules\Good\Entities\BoardTaskTaskList;
@@ -93,12 +94,14 @@ class TaskRepository
     public function createTaskListFromTemplate($taskListId, $cardId, $currentUser)
     {
         $taskListTemplate = TaskList::find($taskListId);
+
         $taskList = $taskListTemplate->replicate();
         $taskList->role = "process";
         $taskList->card_id = $cardId;
         $taskList->save();
 
         $card = Card::find($cardId);
+
         $project = $card->board->project;
 
         foreach ($taskListTemplate->tasks as $item) {
@@ -122,23 +125,34 @@ class TaskRepository
                 }
             }
 
+            // copy users
+            if ($item->users) {
+                foreach ($item->users as $user) {
+                    $task->users()->attach($user->id);
+                }
+            }
+
             // replicate all GoodPropertyItems
             foreach ($item->goodPropertyItems as $goodPropertyItem) {
                 $task->goodPropertyItems()->attach($goodPropertyItem->id);
             }
 
-            if ($task->member) {
-                $member = $card->assignees()->where("id", $task->member->id)->first();
+        }
+        // add only the users of current task to current board
+        $currentTask = $taskList->tasks->where("current_board_id", $card->board_id)->first();
+//            dd($currentTask);
+        if ($currentTask) {
+            foreach ($currentTask->users as $user) {
+                $member = $card->assignees()->where("id", $user->id)->first();
                 if ($member == null) {
-                    $card->assignees()->attach($task->member->id);
+                    $card->assignees()->attach($user->id);
                 }
 
-                $projectMember = $project->members()->where("user_id", $task->member->id)->first();
+                $projectMember = $project->members()->where("user_id", $user->id)->first();
                 if ($projectMember == null) {
-                    $project->members()->attach($task->member->id);
+                    $project->members()->attach($user->id);
                 }
 
-                $user = $task->member;
                 if ($currentUser && $currentUser->id != $user->id) {
 
                     $notification = new Notification;
@@ -148,7 +162,7 @@ class TaskRepository
                     $message = $notification->notificationType->template;
 
                     $message = str_replace('[[ACTOR]]', "<strong>" . $currentUser->name . "</strong>", $message);
-                    $message = str_replace('[[TASK]]', "<strong>" . $task->title . "</strong>", $message);
+                    $message = str_replace('[[TASK]]', "<strong>" . $currentTask->title . "</strong>", $message);
                     $message = str_replace('[[CARD]]', "<strong>" . $card->title . "</strong>", $message);
                     $message = str_replace('[[PROJECT]]', "<strong>" . $project->title . "</strong>", $message);
                     $notification->message = $message;
@@ -162,6 +176,7 @@ class TaskRepository
                     $this->notificationRepository->sendNotification($notification);
                 }
             }
+
         }
         return [
             "id" => $taskList->id,

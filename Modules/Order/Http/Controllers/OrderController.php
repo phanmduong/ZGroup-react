@@ -20,7 +20,7 @@ class OrderController extends ManageApiController
 
     public function allOrders(Request $request)
     {
-        $limit = 3;
+        $limit = 20;
         $user_id = $request->user_id;
         $staff_id = $request->staff_id;
         $startTime = $request->start_time;
@@ -48,8 +48,8 @@ class OrderController extends ManageApiController
         });
         if ($startTime)
             $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
-        //if ($status)
-        //    $orders = $orders->where('status', $status);
+//        if ($status)
+//            $orders = $orders->where('status', $status);
         if ($user_id)
             $orders = $orders->where('user_id', $user_id);
         if ($staff_id)
@@ -76,6 +76,18 @@ class OrderController extends ManageApiController
         );
     }
 
+    public function changeStatus(Request $request)
+    {
+        $order = Order::find($request->order_id);
+
+        $order->status = $request->status;
+        $order->save();
+
+        return $this->respondSuccessWithStatus([
+            'order' => $order->transform()
+        ]);
+    }
+
     public function editOrder($order_id, Request $request)
     {
         $order = Order::find($order_id);
@@ -83,7 +95,7 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
             ]);
-        if($order->type == 'import' && $order->status == 'completed')
+        if ($order->type == 'import' && $order->status == 'completed')
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change completed import order'
             ]);
@@ -149,20 +161,19 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function payImportOrder($orderId, Request $request)
-    {
+    public function payImportOrder($orderId, Request $request){
         if (Order::find($orderId)->get() == null)
             return $this->respondErrorWithStatus("Order không tồn tại");
         if ($request->money == null)
             return $this->respondErrorWithStatus("Thiếu tiền thanh toán");
         $debt = Order::find($orderId)->importedGoods->reduce(function ($total, $importedGood) {
-                return $total + $importedGood->import_price * $importedGood->import_quantity;
+                return $total + $importedGood->quantity * $importedGood->import_price;
             }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
             }, 0);
 
         if ($request->money > $debt)
-            return $this->respondErrorWithStatus("Thanh toán thừa số tiền" . $debt);
+            return $this->respondErrorWithStatus("Thanh toán quá số tiền còn nợ " . $debt);
         if ($debt == 0) {
             $order = Order::find($orderId)->get();
             $order->status_paid = 1;

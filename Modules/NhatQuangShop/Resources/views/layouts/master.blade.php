@@ -11,13 +11,13 @@
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="/fontawesome/css/font-awesome.min.css" rel="stylesheet"/>
 
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/assets/css/paper-kit.css" rel="stylesheet"/>
     <link href="/assets/css/demo.css" rel="stylesheet"/>
-
     <!--     Fonts and icons     -->
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700' rel='stylesheet' type='text/css'>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -54,7 +54,7 @@
         <a class="navbar-brand" href="/">
             <img src="http://www.nhatquangshop.vn/themes/giaodienweb/images/lo-go.png" height="40px">
         </a>
-        <div class="collapse navbar-collapse">
+        <div id="openWithoutAdd" class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Đặt hàng</a>
@@ -69,7 +69,7 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="openModalBuyWithoutAdd()" data-scroll="true" href="javascript:void(0)">
+                    <a class="nav-link" v-on:click="openModalBuyWithoutAdd" data-scroll="true" href="javascript:void(0)">
                         <i class="fa fa-shopping-cart"></i>
                         Giỏ hàng
                         <p id="cart-num-items"
@@ -85,10 +85,10 @@
 </nav>
 
 @yield('content')
-<div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
+
+<div id="modalPurchase"  class="modal fade" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
 
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -97,37 +97,35 @@
             <div class="modal-body">
                 <form class="register-form ">
                     <h6>Họ và tên</h6>
-                    <input id="graphics-name" type="text" class="form-control" placeholder="Họ và tên"><br>
+                    <input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
                     <h6>Số điện thoại</h6>
-                    <input id="graphics-phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Email</h6>
-                    <input id="graphics-email" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
-                    <input id="graphics-address" type="text" class="form-control"
+                    <input v-model="address" type="text" class="form-control"
                            placeholder="Địa chỉ nhận sách"><br>
                     <h6>Phương thức thanh toán</h6>
-                    <select id="graphics-payment" class="form-control" id="sel1">
+                    <select v-model="payment" class="form-control" id="sel1">
                         <option value="Chuyển khoản">Chuyển khoản</option>
                         <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
                             Thanh toán trực tiếp khi nhận hàng(COD)
                         </option>
                     </select>
                 </form>
-                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error" }>Bạn vui
-                    lòng nhập đầy đủ thông tin
+                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error" >
+                    Bạn vui lòng nhập đầy đủ thông tin
                 </div>
             </div>
             <div class="modal-footer" style="display: block">
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
-                <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
-
                 <div id="btn-purchase-group" style="text-align: right">
                     <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
                         tục mua <i class="fa fa-angle-right"></i></button>
                     <button
-                            onclick="submitOrder()"
+                            v-on:click="submitOrder"
                             class="btn btn-sm btn-success"
                             style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
                     </button>
@@ -149,55 +147,53 @@
             </div>
             <div class="modal-body" id="modal-buy-body">
                 <br>
-                <div>
+                <div v-if="isLoading" style="text-align: center;width: 100%;;padding: 15px;"><i class='fa fa-spin fa-spinner'></i>Đang tải...</div>
+                <div v-for="good in goods">
                     <div class="row" style="margin-bottom:20px;">
                         <div class="col-md-1 h-center">
                             <img class="shadow-image"
-                                 src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035612VsAtwZU2JjcAcPV.jpg">
+                                 v-bind:src="good.avatar_url">
                         </div>
                         <div class="col-md-4">
-                            <p><b style="font-weight:600;">GRAPHICS ISSUE #1</b></p>
+                            <p><b style="font-weight:600;">@{{good.name}}</b></p>
                             <p>Connect the dots</p>
                         </div>
                         <div class="col-md-3 h-center">
-                            <button class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-minus"></i>
+                            <button v-on:click="minusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-minus"></i>
                             </button>
                             &nbsp
-                            <button class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-plus"></i>
+                            <button v-on:click="plusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-plus"></i>
                             </button>
                             &nbsp
-                            <b style="font-weight:600;"> 5 </b>
+                            <b style="font-weight:600;"> @{{ good.number }} </b>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p>200.000đ</p>
+                            <p>@{{ good.price * (1 - good.coupon_value)}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">1.000.000đ</b></p>
+                            <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) * good.number}}</b></p>
                         </div>
                     </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 class="text-left"><b>Tổng</b></h4>
-                        </div>
-                        <div class="col-md-8">
-                            <h4 class="text-right"><b>2.000.000đ</b></h4>
-                        </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 class="text-left"><b>Tổng</b></h4>
                     </div>
-
+                    <div class="col-md-8">
+                        <h4 class="text-right"><b>@{{ total_price }}</b></h4>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
                 <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
                         style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
                 <button id="btn-purchase"
-                        onclick="openPurchaseModal()"
+                        v-on:click="openPurchaseModal"
                         class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
                             class="fa fa-angle-right"></i></button>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -220,7 +216,6 @@
 
     </div>
 </div>
-
 
 
 <footer class="footer footer-light footer-big">
@@ -357,5 +352,7 @@
 <script src="/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/assets/js/paper-kit.js?v=2.0.0"></script>
-<script src="/js/graphics.js?6868"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/js/nhatquangshop.js?6868"></script>
 </html>

@@ -23,4 +23,21 @@ class Coupon extends Model
     {
         return $this->belongsTo(GoodCategory::class, 'category_id');
     }
+
+    public function getData()
+    {
+        $data = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'discount_type' => $this->discount_type,
+            'discount_value' => $this->discount_value,
+            'type' => $this->type,
+            'used_for' => $this->used_for,
+            'quantity' => $this->rate,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+        ];
+        return $data;
+    }
 }
