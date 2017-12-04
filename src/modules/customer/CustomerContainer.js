@@ -162,7 +162,7 @@ class CustomerContainer extends React.Component {
                                     <div className="nav-tabs-navigation">
                                         <div className="nav-tabs-wrapper">
                                             <ul className="nav nav-tabs" data-tabs="tabs">
-                                                <li className="active">
+                                                <li className="">
                                                     <Link to="goods/customer">
                                                         Khách hàng
                                                         <div className="ripple-container"/>
@@ -174,6 +174,7 @@ class CustomerContainer extends React.Component {
                                                         <div className="ripple-container"/>
                                                     </Link>
                                                 </li>
+
                                             </ul>
                                         </div>
                                     </div>

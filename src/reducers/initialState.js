@@ -1098,4 +1098,8 @@ export default {
         totalPages : 10,
         totalCount : 10,
     },
+    groupCustomer: {
+        isSaving : false,
+        isLoading : false,
+    },
 };

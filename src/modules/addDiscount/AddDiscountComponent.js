@@ -15,7 +15,7 @@ class AddDiscountComponent extends React.Component {
         this.state = {
             isShowModal: false,
         };
-        this.toggle = this.toggle.bind(this);
+        this.toggle = this.toggle.bind(this); // Không dùng
     }
 
     toggle() {

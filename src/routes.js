@@ -91,6 +91,7 @@ import SummaryMarketingCampaignContainer from "./modules/summaryMarketingCampaig
 import SummarySalesContainer from "./modules/summarySales/SummarySalesContainer";
 import OverviewSales from "./modules/summarySales/OverviewSales";
 import StatisticSales from "./modules/summarySales/StatisticSales";
+import GroupCustomerContainer from "./modules/groupCustomer/GroupCustomerContainer";
 
 
 export default (
@@ -290,6 +291,7 @@ export default (
             {/*Begin customer routes */}
             <Route path="/goods/customer" component={CustomerContainer}/>
             <Route path="/goods/customer/info-customer/:customerId" component={InfoCustomerContainer}/>
+            <Route path="/goods/group-customer" component={GroupCustomerContainer}/>
             {/*End customer routes*/}
 
 
