@@ -550,7 +550,11 @@ export default {
         classes: [],
         isLoadingRegistersByStudent: false,
         errorRegistersByStudent: false,
-        registersByStudent: []
+        registersByStudent: [],
+        classFilter: [],
+        salerFilter:[],
+        isLoadingClassFilter: false,
+        isLoadingSalerFilter: false,
     },
 
     profile: {

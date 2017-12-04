@@ -6,12 +6,53 @@ import * as registerStudentsApi from './registerStudentsApi';
 import {showErrorNotification, showNotification, showTypeNotification} from '../../helpers/helper';
 
 /*eslint no-console: 0 */
-export function loadRegisterStudent(page, genId, search, salerId, campaignId) {
+
+
+export function loadClassFilter() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASS_FILTER,
+        });
+        registerStudentsApi.loadClassFilter().then((res) => {
+            dispatch({
+                type: types.LOAD_CLASS_FILTER_SUCCESS,
+                filter: res.data.classes
+            });
+        }).catch(error => {
+            console.log(error);
+            dispatch({
+                type: types.LOAD_CLASS_FILTER_ERROR
+            });
+        });
+    };
+}
+
+export function loadSalerFilter() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_SALER_FILTER,
+        });
+        registerStudentsApi.loadSalerFilter().then((res) => {
+            dispatch({
+                type: types.LOAD_SALER_FILTER_SUCCESS,
+                filter: res.data.data.salers
+            });
+        }).catch(error => {
+            console.log(error);
+            dispatch({
+                type: types.LOAD_SALER_FILTER_ERROR
+            });
+        });
+    };
+}
+
+
+export function loadRegisterStudent(page, genId, search, salerId, campaignId, classId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
-        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId).then(function (res) {
+        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId).then(function (res) {
             dispatch(loadDataSuccessful(res));
         }).catch(error => {
             console.log(error);

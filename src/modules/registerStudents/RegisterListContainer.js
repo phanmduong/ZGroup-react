@@ -9,7 +9,8 @@ import _ from 'lodash';
 import Loading from '../../components/common/Loading';
 import Search from '../../components/common/Search';
 import Select from './SelectGen';
-import {Modal} from 'react-bootstrap';
+import ReactSelect from 'react-select';
+import {Modal, Panel} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 
 class RegisterListContainer extends React.Component {
@@ -25,8 +26,20 @@ class RegisterListContainer extends React.Component {
             register: {},
             note: '',
             campaignId: '',
-            selectRegisterId: 0
+            selectRegisterId: 0,
+            openFilterPanel: false,
+            selectedClassFilter: 0,
+            selectedClassId: '',
+            selectedSalerFilter: 0,
+            selectedSalerId: '',
+            classFilter:[
+                {value: 1, label: "demo"},
+                {value: 2, label: "demo2"},
+                {value: 3, label: "demo3"},
+            ],
+            salerFilter:[],
         };
+
         this.timeOut = null;
         this.salerId = '';
         this.registersSearchChange = this.registersSearchChange.bind(this);
@@ -40,10 +53,74 @@ class RegisterListContainer extends React.Component {
         this.deleteRegister = this.deleteRegister.bind(this);
         this.loadRegisterStudentByCampaign = this.loadRegisterStudentByCampaign.bind(this);
         this.confirmChangeClass = this.confirmChangeClass.bind(this);
+        this.openFilterPanel = this.openFilterPanel.bind(this);
+        this.onClassFilterChange = this.onClassFilterChange.bind(this);
+        this.onSalerFilterChange = this.onSalerFilterChange.bind(this);
+    }
+
+    onClassFilterChange(obj){
+        console.log('onchange',obj);
+        if(obj){
+            this.setState({selectedClassFilter: obj.value, selectedClassId: obj.id});
+        }
+        else {
+            this.setState({selectedClassFilter: 0,  selectedClassId: ''});
+        }
+        this.props.registerActions.loadRegisterStudent(
+            1,//page
+            this.state.selectGenId,
+            this.state.query,
+            this.salerId,
+            this.state.campaignId,
+            obj ? obj.id : '',
+            this.state.selectedSalerId,
+        );
+    }
+
+    onSalerFilterChange(obj){
+        console.log('onchange_saler',obj);
+        if(obj){
+            this.setState({selectedSalerFilter: obj.value, selectedSalerId: obj.id});
+            this.salerId = obj.id;
+        }
+        else {
+            this.setState({selectedSalerFilter: 0,  selectedSalerId: '', salerId:''});
+            this.salerId = '';
+        }
+        this.props.registerActions.loadRegisterStudent(
+            1,//page
+            this.state.selectGenId,
+            this.state.query,
+            obj ? obj.id : '',
+            this.state.campaignId,
+            this.state.selectedClassId,
+        );
+    }
+
+    getFilter(arr) {
+        let data = arr.map(function (obj, index) {
+            return {
+                id: obj.id,
+                value: index + 1,
+                label: obj.name
+            };
+        });
+        return [{
+            id: '',
+            value: 0,
+            label: 'Tất cả'
+        }, ...data];
+    }
+
+    openFilterPanel(){
+        let newstatus = !this.state.openFilterPanel;
+        this.setState({openFilterPanel: newstatus});
     }
 
     componentWillMount() {
         this.props.registerActions.loadGensData();
+        this.props.registerActions.loadSalerFilter();
+        this.props.registerActions.loadClassFilter();
         if (this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
             this.setState({
@@ -69,6 +146,17 @@ class RegisterListContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('next props', nextProps);
+        if (!nextProps.isLoadingClassFilter && this.props.isLoadingClassFilter) {
+            this.setState({
+                classFilter: this.getFilter(nextProps.classFilter),
+            });
+        }
+        if (!nextProps.isLoadingSalerFilter && this.props.isLoadingSalerFilter) {
+            this.setState({
+                salerFilter: this.getFilter(nextProps.salerFilter),
+            });
+        }
         if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens) {
             let gens = _.sortBy(nextProps.gens, [function (o) {
                 return parseInt(o.name);
@@ -140,7 +228,14 @@ class RegisterListContainer extends React.Component {
         this.setState({
             page,
         });
-        this.props.registerActions.loadRegisterStudent(page, this.state.selectGenId, this.state.query, this.salerId, this.state.campaignId);
+        console.log('onsubmit state',this.state);
+        this.props.registerActions.loadRegisterStudent(page,
+            this.state.selectGenId,
+            this.state.query,
+            this.salerId,
+            this.state.campaignId,
+            this.state.selectedClassId,
+            );
     }
 
     registersSearchChange(value) {
@@ -202,11 +297,57 @@ class RegisterListContainer extends React.Component {
                                             name="gens"
                                         />
                                     }
-                                    <Search
-                                        onChange={this.registersSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm học viên"
-                                    />
+                                    <div className="row">
+                                        <Search
+                                            className="col-md-10"
+                                            onChange={this.registersSearchChange}
+                                            value={this.state.query}
+                                            placeholder="Tìm kiếm học viên"
+                                        />
+                                        <div className="col-md-2">
+                                            <button
+                                                onClick={this.openFilterPanel}
+                                                className="btn btn-info btn-rose"
+                                            >
+                                                <i className="material-icons">filter_list</i>
+                                                Lọc
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                    <Panel collapsible expanded={!this.state.openFilterPanel}>
+                                        <div className="row">
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo lớp học
+                                                </label>
+                                                <ReactSelect
+
+                                                    disabled={this.props.isLoadingClassFilter}
+                                                    className=""
+                                                    options={this.state.classFilter}
+                                                    onChange={this.onClassFilterChange}
+                                                    value={this.state.selectedClassFilter}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_class"
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo Saler
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoadingSalerFilter}
+                                                    options={this.state.salerFilter}
+                                                    onChange={this.onSalerFilterChange}
+                                                    value={this.state.selectedSalerFilter}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_saler"
+                                                />
+                                            </div>
+                                        </div>
+
+                                    </Panel>
                                     {
                                         this.props.isLoadingRegisters ? <Loading/> :
                                             <ListRegister
@@ -534,14 +675,18 @@ RegisterListContainer.propTypes = {
     isLoadingClasses: PropTypes.bool.isRequired,
     isChangingClass: PropTypes.bool.isRequired,
     isLoadingRegistersByStudent: PropTypes.bool.isRequired,
+    isLoadingClassFilter: PropTypes.bool.isRequired,
+    isLoadingSalerFilter: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    genId: PropTypes.number.isRequired,
+    genId: PropTypes.number,
 };
 
 function mapStateToProps(state) {
     return {
+        classFilter: state.registerStudents.classFilter,
+        salerFilter: state.registerStudents.salerFilter,
         registers: state.registerStudents.registers,
         classes: state.registerStudents.classes,
         totalPages: state.registerStudents.totalPages,
@@ -557,6 +702,8 @@ function mapStateToProps(state) {
         isChangingClass: state.registerStudents.isChangingClass,
         isLoadingClasses: state.registerStudents.isLoadingClasses,
         isLoadingRegistersByStudent: state.registerStudents.isLoadingRegistersByStudent,
+        isLoadingClassFilter: state.registerStudents.isLoadingClassFilter,
+        isLoadingSalerFilter: state.registerStudents.isLoadingClassFilter,
         genId: state.registerStudents.genId,
     };
 }

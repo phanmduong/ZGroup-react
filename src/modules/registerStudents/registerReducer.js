@@ -6,7 +6,52 @@ import initialState from '../../reducers/initialState';
 
 let registers;
 export default function registerReducer(state = initialState.registerStudents, action) {
+    console.log(action.type, action.classfilter);
     switch (action.type) {
+        case types.BEGIN_LOAD_CLASS_FILTER:
+            return {
+                ...state,
+                ...{
+                    isLoadingClassFilter: true,
+                }
+            };
+        case types.LOAD_CLASS_FILTER_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingClassFilter: false,
+                    classFilter: action.filter
+                }
+            };
+        case types.LOAD_CLASS_FILTER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingClassFilter: false,
+                }
+            };
+        case types.BEGIN_LOAD_SALER_FILTER:
+            return {
+                ...state,
+                ...{
+                    isLoadingSalerFilter: true,
+                }
+            };
+        case types.LOAD_SALER_FILTER_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingSalerFilter: false,
+                    salerFilter: action.filter
+                }
+            };
+        case types.LOAD_SALER_FILTER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingSalerFilter: false,
+                }
+            };
         case types.BEGIN_DATA_REGISTER_LIST_LOAD:
             return {
                 ...state,
