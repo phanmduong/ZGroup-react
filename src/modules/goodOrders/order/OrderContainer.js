@@ -10,6 +10,8 @@ import TooltipButton from '../../../components/common/TooltipButton';
 import Loading from '../../../components/common/Loading';
 import * as goodOrderActions from '../goodOrderActions';
 import PropTypes from 'prop-types';
+import {ORDER_STATUS} from "../../../constants/constants";
+import ReactSelect from 'react-select';
 
 class OrderContainer extends React.Component {
     constructor(props, context) {
@@ -18,6 +20,7 @@ class OrderContainer extends React.Component {
             infoOrder: {},
             optionsSelectStaff: []
         };
+        this.changeStatusOrder = this.changeStatusOrder.bind(this);
 
     }
 
@@ -41,6 +44,11 @@ class OrderContainer extends React.Component {
                 optionsSelectStaff: dataStaffs,
             });
         }
+    }
+
+    changeStatusOrder(value) {
+        let statusOrder = value && value.value ? value.value : '';
+        this.props.goodOrderActions.changeStatusOrder(this.props.params.orderId,statusOrder);
     }
 
     render() {
@@ -116,7 +124,21 @@ class OrderContainer extends React.Component {
                                                 value={this.props.infoOrder.staff ? this.props.infoOrder.staff.name : 'Không có'}
                                                 disabled
                                             />
-                                            <FormInputText label="Ghi chú" name="note" value={this.props.infoOrder.note}/>
+                                            <FormInputText
+                                                label="Phương thức"
+                                                name="payment"
+                                                value={this.props.infoOrder.payment ? this.props.infoOrder.payment : ''}
+                                                disabled
+                                            />
+                                            <ReactSelect
+                                                name="form-field-name"
+                                                options={ORDER_STATUS}
+                                                value={this.props.infoOrder.status}
+                                                placeholder="Chọn trạng thái"
+                                                onChange={this.changeStatusOrder}
+                                            />
+                                            <FormInputText label="Ghi chú" name="note"
+                                                           value={this.props.infoOrder.note}/>
                                         </div>
                                         <div>
                                             <h4><strong>Thông tin khách hàng </strong>

@@ -8,10 +8,12 @@ import Select from '../../components/common/Select';
 import Loading from '../../components/common/Loading';
 import * as dashboardActions from './dashboardActions';
 import DashboardComponent from './DashboardComponent';
-import {Modal} from 'react-bootstrap';
+import {Modal, Panel} from 'react-bootstrap';
 import ClassContainer from './ClassContainer';
 import PropTypes from 'prop-types';
 import TooltipButton from '../../components/common/TooltipButton';
+import FormInputDate from "../../components/common/FormInputDate";
+import * as helper from '../../helpers/helper';
 
 class DashboardContainer extends React.Component {
     constructor(props, context) {
@@ -24,6 +26,11 @@ class DashboardContainer extends React.Component {
             showModalClass: false,
             classSelected: {
                 name: ''
+            },
+            openFilter: false,
+            filter: {
+                startTime: '',
+                endTime: '',
             }
         };
         this.onChangeGen = this.onChangeGen.bind(this);
@@ -34,6 +41,7 @@ class DashboardContainer extends React.Component {
         this.openModalClass = this.openModalClass.bind(this);
         this.loadAttendanceShift = this.loadAttendanceShift.bind(this);
         this.loadAttendanceClass = this.loadAttendanceClass.bind(this);
+        this.updateFormFilter = this.updateFormFilter.bind(this);
     }
 
     componentWillMount() {
@@ -82,13 +90,13 @@ class DashboardContainer extends React.Component {
         this.loadDashboard(this.state.selectGenId, this.state.selectBaseId);
     }
 
-    loadDashboard(genId, baseId) {
+    loadDashboard(genId, baseId, startTime, endTime) {
         if (genId <= 0) return;
         if (baseId === 0) {
-            this.props.dashboardActions.loadDashboardData(genId);
+            this.props.dashboardActions.loadDashboardData(genId, '', startTime, endTime);
         }
         else {
-            this.props.dashboardActions.loadDashboardData(genId, baseId);
+            this.props.dashboardActions.loadDashboardData(genId, baseId, startTime, endTime);
         }
     }
 
@@ -140,6 +148,17 @@ class DashboardContainer extends React.Component {
 
     }
 
+    updateFormFilter(event) {
+        const field = event.target.name;
+        let filter = {...this.state.filter};
+        filter[field] = event.target.value;
+
+        if (!helper.isEmptyInput(filter.startTime) && !helper.isEmptyInput(filter.endTime)) {
+            this.loadDashboard(this.state.selectGenId, this.state.selectBaseId, filter.startTime, filter.endTime);
+        }
+        this.setState({filter: filter});
+    }
+
     render() {
         return (
             <div>
@@ -166,7 +185,53 @@ class DashboardContainer extends React.Component {
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
+                                <div className="col-sm-2">
+                                    <button className="btn btn-info"
+                                            onClick={() => this.setState({openFilter: !this.state.openFilter})}>
+                                        <i className="material-icons">filter_list</i>
+                                        Lọc
+                                    </button>
+                                </div>
                             </div>
+                            <Panel collapsible expanded={this.state.openFilter}>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="card">
+                                            <div className="card-header card-header-icon" data-background-color="blue">
+                                                <i className="material-icons">filter_list</i>
+                                            </div>
+                                            <div className="card-content">
+                                                <h4 className="card-title">Bộ lọc
+                                                    <small/>
+                                                </h4>
+                                                <div className="row">
+                                                    <div className="col-md-3">
+                                                        <FormInputDate
+                                                            label="Từ ngày"
+                                                            name="startTime"
+                                                            updateFormData={this.updateFormFilter}
+                                                            id="form-start-time"
+                                                            value={this.state.filter.startTime}
+                                                            maxDate={this.state.filter.endTime}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <FormInputDate
+                                                            label="Đến ngày"
+                                                            name="endTime"
+                                                            updateFormData={this.updateFormFilter}
+                                                            id="form-end-time"
+                                                            value={this.state.filter.endTime}
+                                                            minDate={this.state.filter.startTime}
+
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Panel>
                             <DashboardComponent
                                 {...this.props}
                                 baseId={this.state.selectBaseId}

@@ -109,6 +109,11 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             return {
                 ...state,
                 orders: changeStatusOrder(state.orders, action.order_id, action.status),
+                order: {
+                    infoOrder: {
+                        status: action.status
+                    }
+                }
             };
         default:
             return state;
