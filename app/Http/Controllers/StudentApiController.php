@@ -184,6 +184,9 @@ class StudentApiController extends ApiController
         if ($request->status != null) {
             $registers = $registers->where('status', $request->status);
         }
+        if($request->start_time != null){
+            $registers = $registers->whereBetween('created_at', array($request->start_time, $request->end_time));
+        }
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
         $registers->map(function ($register) {
