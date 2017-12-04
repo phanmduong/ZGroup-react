@@ -553,8 +553,10 @@ export default {
         registersByStudent: [],
         classFilter: [],
         salerFilter:[],
+        campaignFilter:[],
         isLoadingClassFilter: false,
         isLoadingSalerFilter: false,
+        isLoadingCampaignFilter: false,
     },
 
     profile: {

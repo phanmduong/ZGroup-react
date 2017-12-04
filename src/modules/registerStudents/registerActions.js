@@ -45,6 +45,24 @@ export function loadSalerFilter() {
         });
     };
 }
+export function loadCampaignFilter() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CAMPAIGN_FILTER,
+        });
+        registerStudentsApi.loadCampaignFilter().then((res) => {
+            dispatch({
+                type: types.LOAD_CAMPAIGN_FILTER_SUCCESS,
+                filter: res.data.marketing_campaigns
+            });
+        }).catch(error => {
+            console.log(error);
+            dispatch({
+                type: types.LOAD_CAMPAIGN_FILTER_ERROR
+            });
+        });
+    };
+}
 
 
 export function loadRegisterStudent(page, genId, search, salerId, campaignId, classId) {

@@ -32,12 +32,11 @@ class RegisterListContainer extends React.Component {
             selectedClassId: '',
             selectedSalerFilter: 0,
             selectedSalerId: '',
-            classFilter:[
-                {value: 1, label: "demo"},
-                {value: 2, label: "demo2"},
-                {value: 3, label: "demo3"},
-            ],
+            selectedCampaignFilter: 0,
+            selectedCampaignId: '',
+            classFilter:[],
             salerFilter:[],
+            campaignFilter:[],
         };
 
         this.timeOut = null;
@@ -56,6 +55,7 @@ class RegisterListContainer extends React.Component {
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.onClassFilterChange = this.onClassFilterChange.bind(this);
         this.onSalerFilterChange = this.onSalerFilterChange.bind(this);
+        this.onCampaignFilterChange = this.onCampaignFilterChange.bind(this);
     }
 
     onClassFilterChange(obj){
@@ -80,11 +80,11 @@ class RegisterListContainer extends React.Component {
     onSalerFilterChange(obj){
         console.log('onchange_saler',obj);
         if(obj){
-            this.setState({selectedSalerFilter: obj.value, selectedSalerId: obj.id});
+            this.setState({selectedSalerFilter: obj.value, selectedSalerId: obj.id, page: 1});
             this.salerId = obj.id;
         }
         else {
-            this.setState({selectedSalerFilter: 0,  selectedSalerId: '', salerId:''});
+            this.setState({selectedSalerFilter: 0,  selectedSalerId: '',page : 1});
             this.salerId = '';
         }
         this.props.registerActions.loadRegisterStudent(
@@ -93,6 +93,24 @@ class RegisterListContainer extends React.Component {
             this.state.query,
             obj ? obj.id : '',
             this.state.campaignId,
+            this.state.selectedClassId,
+        );
+    }
+
+    onCampaignFilterChange(obj){
+        console.log('onchange_Campaign',obj);
+        if(obj){
+            this.setState({selectedCampaignFilter: obj.value, campaignId: obj.id});
+        }
+        else {
+            this.setState({selectedCampaignFilter: 0,  campaignId: ''});
+        }
+        this.props.registerActions.loadRegisterStudent(
+            1,//page
+            this.state.selectGenId,
+            this.state.query,
+            this.state.selectedSalerId,
+            obj ? obj.id : '',
             this.state.selectedClassId,
         );
     }
@@ -121,6 +139,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadGensData();
         this.props.registerActions.loadSalerFilter();
         this.props.registerActions.loadClassFilter();
+        this.props.registerActions.loadCampaignFilter();
         if (this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
             this.setState({
@@ -155,6 +174,11 @@ class RegisterListContainer extends React.Component {
         if (!nextProps.isLoadingSalerFilter && this.props.isLoadingSalerFilter) {
             this.setState({
                 salerFilter: this.getFilter(nextProps.salerFilter),
+            });
+        }
+        if (!nextProps.isLoadingCampaignFilter && this.props.isLoadingCampaignFilter) {
+            this.setState({
+                campaignFilter: this.getFilter(nextProps.campaignFilter),
             });
         }
         if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens) {
@@ -343,6 +367,19 @@ class RegisterListContainer extends React.Component {
                                                     value={this.state.selectedSalerFilter}
                                                     defaultMessage="Tuỳ chọn"
                                                     name="filter_saler"
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo Chiến dịch
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoadingCampaignFilter}
+                                                    options={this.state.campaignFilter}
+                                                    onChange={this.onCampaignFilterChange}
+                                                    value={this.state.selectedCampaignFilter}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_campaign"
                                                 />
                                             </div>
                                         </div>
@@ -677,6 +714,7 @@ RegisterListContainer.propTypes = {
     isLoadingRegistersByStudent: PropTypes.bool.isRequired,
     isLoadingClassFilter: PropTypes.bool.isRequired,
     isLoadingSalerFilter: PropTypes.bool.isRequired,
+    isLoadingCampaignFilter: PropTypes.bool.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
@@ -685,6 +723,7 @@ RegisterListContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        campaignFilter: state.registerStudents.campaignFilter,
         classFilter: state.registerStudents.classFilter,
         salerFilter: state.registerStudents.salerFilter,
         registers: state.registerStudents.registers,
@@ -704,6 +743,7 @@ function mapStateToProps(state) {
         isLoadingRegistersByStudent: state.registerStudents.isLoadingRegistersByStudent,
         isLoadingClassFilter: state.registerStudents.isLoadingClassFilter,
         isLoadingSalerFilter: state.registerStudents.isLoadingClassFilter,
+        isLoadingCampaignFilter: state.registerStudents.isLoadingCampaignFilter,
         genId: state.registerStudents.genId,
     };
 }

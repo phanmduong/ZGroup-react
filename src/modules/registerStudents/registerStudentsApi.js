@@ -35,6 +35,13 @@ export  function loadSalerFilter(){
     return axios.get(url);
 }
 
+export  function loadCampaignFilter(){
+    //http://manageapi.keetool.xyz/marketing-campaign/all?token=
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/marketing-campaign/all?token=" + token;
+    return axios.get(url);
+}
+
 export function historyCallStudent(studentId, registerId) {
     let token = localStorage.getItem('token');
     let url = `${env.MANAGE_API_URL}/history-call-student?id=${studentId}&register_id=${registerId}&token=${token}`;
