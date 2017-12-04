@@ -8,15 +8,15 @@ import {showErrorNotification, showNotification, showTypeNotification} from '../
 /*eslint no-console: 0 */
 
 
-export function loadClassFilter() {
+export function loadClassFilter(genid) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASS_FILTER,
         });
-        registerStudentsApi.loadClassFilter().then((res) => {
+        registerStudentsApi.loadClassFilter(genid).then((res) => {
             dispatch({
                 type: types.LOAD_CLASS_FILTER_SUCCESS,
-                filter: res.data.classes
+                filter: res.data.data.classes
             });
         }).catch(error => {
             console.log(error);
@@ -65,12 +65,12 @@ export function loadCampaignFilter() {
 }
 
 
-export function loadRegisterStudent(page, genId, search, salerId, campaignId, classId) {
+export function loadRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
-        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId).then(function (res) {
+        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status).then(function (res) {
             dispatch(loadDataSuccessful(res));
         }).catch(error => {
             console.log(error);

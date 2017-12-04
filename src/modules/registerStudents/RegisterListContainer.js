@@ -34,9 +34,16 @@ class RegisterListContainer extends React.Component {
             selectedSalerId: '',
             selectedCampaignFilter: 0,
             selectedCampaignId: '',
+            paid_status: '',
+            selectedMoneyFilter: 0,
             classFilter:[],
             salerFilter:[],
             campaignFilter:[],
+            moneyFilter:[
+                {value: 0, label: 'Tất cả',},
+                {value: 1, label: 'Đã nộp',},
+                {value: 2, label: 'Chưa nộp',},
+            ],
         };
 
         this.timeOut = null;
@@ -56,6 +63,7 @@ class RegisterListContainer extends React.Component {
         this.onClassFilterChange = this.onClassFilterChange.bind(this);
         this.onSalerFilterChange = this.onSalerFilterChange.bind(this);
         this.onCampaignFilterChange = this.onCampaignFilterChange.bind(this);
+        this.onMoneyFilterChange = this.onMoneyFilterChange.bind(this);
     }
 
     onClassFilterChange(obj){
@@ -73,7 +81,7 @@ class RegisterListContainer extends React.Component {
             this.salerId,
             this.state.campaignId,
             obj ? obj.id : '',
-            this.state.selectedSalerId,
+            this.state.paid_status,
         );
     }
 
@@ -94,6 +102,7 @@ class RegisterListContainer extends React.Component {
             obj ? obj.id : '',
             this.state.campaignId,
             this.state.selectedClassId,
+            this.state.paid_status,
         );
     }
 
@@ -112,6 +121,32 @@ class RegisterListContainer extends React.Component {
             this.state.selectedSalerId,
             obj ? obj.id : '',
             this.state.selectedClassId,
+            this.state.paid_status,
+        );
+    }
+    onMoneyFilterChange(obj){
+        console.log('onchange_money',obj);
+        let num = obj ? obj.value : 0 ;
+        let res = '';
+        switch(num){
+            case 1: {res = 1; break;}
+            case 2: {res = 0;break;}
+            default: res = '';
+        }
+        if(obj){
+            this.setState({selectedMoneyFilter: obj.value, paid_status: res});
+        }
+        else {
+            this.setState({selectedMoneyFilter: 0, paid_status: res});
+        }
+        this.props.registerActions.loadRegisterStudent(
+            1,//page
+            this.state.selectGenId,
+            this.state.query,
+            this.state.selectedSalerId,
+            this.state.campaignId,
+            this.state.selectedClassId,
+            res,
         );
     }
 
@@ -138,7 +173,6 @@ class RegisterListContainer extends React.Component {
     componentWillMount() {
         this.props.registerActions.loadGensData();
         this.props.registerActions.loadSalerFilter();
-        this.props.registerActions.loadClassFilter();
         this.props.registerActions.loadCampaignFilter();
         if (this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
@@ -189,6 +223,7 @@ class RegisterListContainer extends React.Component {
             this.setState({
                 gens: gens,
             });
+            this.props.registerActions.loadClassFilter(gens[0].id);
         }
 
         if (!nextProps.isLoadingRegisters && nextProps.isLoadingRegisters !== this.props.isLoadingRegisters) {
@@ -252,13 +287,13 @@ class RegisterListContainer extends React.Component {
         this.setState({
             page,
         });
-        console.log('onsubmit state',this.state);
         this.props.registerActions.loadRegisterStudent(page,
             this.state.selectGenId,
             this.state.query,
             this.salerId,
             this.state.campaignId,
             this.state.selectedClassId,
+            this.state.paid_status,
             );
     }
 
@@ -283,6 +318,7 @@ class RegisterListContainer extends React.Component {
             selectGenId: value
         });
         this.props.registerActions.loadRegisterStudent(1, value, this.state.query, this.salerId, '');
+        this.props.registerActions.loadClassFilter(value);
     }
 
     changeCallStatusStudent(callStatus, studentId) {
@@ -323,7 +359,7 @@ class RegisterListContainer extends React.Component {
                                     }
                                     <div className="row">
                                         <Search
-                                            className="col-md-10"
+                                            className="col-md-9"
                                             onChange={this.registersSearchChange}
                                             value={this.state.query}
                                             placeholder="Tìm kiếm học viên"
@@ -347,7 +383,7 @@ class RegisterListContainer extends React.Component {
                                                 </label>
                                                 <ReactSelect
 
-                                                    disabled={this.props.isLoadingClassFilter}
+                                                    disabled={this.props.isLoadingClassFilter && this.props.isLoadingGens}
                                                     className=""
                                                     options={this.state.classFilter}
                                                     onChange={this.onClassFilterChange}
@@ -380,6 +416,19 @@ class RegisterListContainer extends React.Component {
                                                     value={this.state.selectedCampaignFilter}
                                                     defaultMessage="Tuỳ chọn"
                                                     name="filter_campaign"
+                                                />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <label className="">
+                                                    Theo học phí
+                                                </label>
+                                                <ReactSelect
+                                                    disabled={this.props.isLoading}
+                                                    options={this.state.moneyFilter}
+                                                    onChange={this.onMoneyFilterChange}
+                                                    value={this.state.selectedMoneyFilter}
+                                                    defaultMessage="Tuỳ chọn"
+                                                    name="filter_money"
                                                 />
                                             </div>
                                         </div>

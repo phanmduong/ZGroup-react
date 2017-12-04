@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 
-export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '',) {
+export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status='') {
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?"+
         "page=" + page +
@@ -11,6 +11,7 @@ export function getRegisterStudent(page = 1, genId, search = '', salerId = '', c
         "&saler_id=" + salerId +
         '&campaign_id=' + campaignId +
         "&class_id=" + classId +
+        "&status=" + paid_status +
         "&token=" + token;
     return axios.get(url);
 }
@@ -21,10 +22,11 @@ export function loadGens() {
     return axios.get(url);
 }
 
-export  function loadClassFilter(){
+export  function loadClassFilter(genid){
     //http://manageapi.keetool.xyz/class/all?token=
+    //http://api.keetool.xyz/apiv2/gens/22/classes?token=
     let token = localStorage.getItem('token');
-    let url = env.MANAGE_API_URL + "/class/all?limit=1000&token=" + token;
+    let url = env.API_URL + "/apiv2/gens/"+ genid +"/classes?token=" + token;
     return axios.get(url);
 }
 
