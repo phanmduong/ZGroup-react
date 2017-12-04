@@ -11,6 +11,17 @@ class ListClass extends React.Component {
         super(props, context);
     }
 
+    typeClass(type) {
+        switch (type) {
+            case 'active':
+                return 'Hoạt động';
+            case 'waiting':
+                return 'Chờ';
+            default:
+                return 'Chưa xét';
+        }
+    }
+
     render() {
         return (
             <div className="table-responsive">
@@ -25,6 +36,7 @@ class ListClass extends React.Component {
                         <th>Giảng viên</th>
                         <th>Trợ giảng</th>
                         <th>Trạng thái</th>
+                        <th>Loại</th>
                         <th>Học viên</th>
                         <th/>
                     </tr>
@@ -106,6 +118,9 @@ class ListClass extends React.Component {
                                                 classItem.status === 1 ? 'Mở' : 'Đóng'
                                             )
                                         }
+                                    </td>
+                                    <td>
+                                        {this.typeClass(classItem.type)}
                                     </td>
                                     <td>
                                         <h6>{classItem.total_register + "/" + classItem.regis_target}</h6>
