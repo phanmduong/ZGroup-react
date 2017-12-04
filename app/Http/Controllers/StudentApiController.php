@@ -191,8 +191,10 @@ class StudentApiController extends ApiController
         if ($request->status != null) {
             $registers = $registers->where('status', $request->status);
         }
+
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         if($request->start_time != null){
-            $registers = $registers->whereBetween('created_at', array($request->start_time, $request->end_time));
+            $registers = $registers->whereBetween('created_at', array($request->start_time, $endTime));
         }
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
