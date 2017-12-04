@@ -40,6 +40,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/warehouse/goods/{warehouseId}', 'WarehouseApiController@warehouseGoods');
 
     Route::get('/staffs', 'StaffController@getStaffs');
-
+    Route::get('/salers', 'StaffController@allSalers');
 });
 
