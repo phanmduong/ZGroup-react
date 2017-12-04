@@ -176,9 +176,6 @@ class StudentApiController extends ApiController
         if ($request->saler_id != null) {
             $registers = $registers->where('saler_id', $request->saler_id);
         }
-        if ($request->saler_id != null) {
-            $registers = $registers->where('saler_id', $request->saler_id);
-        }
 
         if ($request->campaign_id != null) {
             $registers = $registers->where('campaign_id', $request->campaign_id);
