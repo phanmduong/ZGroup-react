@@ -6,6 +6,7 @@ use App\Color;
 use App\Colorme\Transformers\NotificationTransformer;
 use App\Colorme\Transformers\OldNotificationTransformer;
 use App\CV;
+use App\Gen;
 use App\Group;
 use App\GroupMember;
 use App\Notification;
@@ -18,6 +19,7 @@ use App\TopicAction;
 use App\TopicAttendance;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
 class UserApiController extends ApiController
@@ -345,6 +347,21 @@ class UserApiController extends ApiController
                     "is_current_cv" => $current_cv_id == $cv->id
                 ];
             })
+        ]);
+    }
+    public function getAllSaler(Request $request){
+        $saler_ids = DB::table('registers')->select('saler_id')->distinct()->get();
+
+        $saler_idss =[];
+        foreach($saler_ids as $saler_id){
+            array_push($saler_idss,$saler_id->saler_id);
+        }
+
+        $salers = User::query();
+        $salers= $salers->whereIn('id',$saler_idss)->get(   );
+
+        return $this->respondSuccessWithStatus([
+            'salers' => $salers
         ]);
     }
 }

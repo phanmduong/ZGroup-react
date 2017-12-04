@@ -248,6 +248,8 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::post('/products/{username}', 'UserApiController@store_avatar');
     Route::post('/change-avatar', 'UserApiController@change_avatar');
 
+    Route::get('all-saler','UserApiController@getAllSaler');
+
     Route::post('/upload-image', 'UserApiController@upload_image');
     Route::post('/upload-image-froala', 'PublicApiController@upload_image_froala');
     Route::post('/upload-file-froala', 'PublicApiController@upload_file_froala');
