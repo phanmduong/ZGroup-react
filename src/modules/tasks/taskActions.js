@@ -1200,7 +1200,8 @@ export function submitGoodProperties() {
         const {card} = state.task.cardDetail;
 
         const isValid = isNotEmptyGoodProperty(goodProperties, goodPropertiesOutput);
-        return new Promise((resolve, reject) => {
+
+        return new Promise((resolve) => {
             if (isValid) {
 
                 let goodPropertyMap = {};
@@ -1246,12 +1247,12 @@ export function submitGoodProperties() {
                         dispatch({
                             type: types.SUBMIT_GOOD_PROPERTIES_SUCCESS
                         });
-                        resolve();
+                        resolve(true);
                     });
 
 
             } else {
-                reject();
+                resolve(false);
             }
 
         });
