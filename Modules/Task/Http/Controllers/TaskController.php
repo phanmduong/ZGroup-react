@@ -316,6 +316,10 @@ class TaskController extends ManageApiController
         $card->board_id = $request->board_id;
         $card->editor_id = $this->user->id;
         $card->creator_id = $this->user->id;
+
+        if ($request->good_id) {
+            $card->good_id = $request->good_id;
+        }
         $card->save();
 
         $board = Board::find($request->board_id);
@@ -326,19 +330,30 @@ class TaskController extends ManageApiController
             $project = $board->project;
             switch ($project->status) {
                 case "book":
-                    $good = new Good();
-                    $good->type = "book";
-                    $good->name = $card->title;
-                    $good->save();
-                    $card->good_id = $good->id;
+                    if ($request->good_id) {
+                        $card->good_id = $request->good_id;
+                    } else {
+                        $good = new Good();
+                        $good->type = "book";
+                        $good->name = $card->title;
+                        $good->save();
+                        $card->good_id = $good->id;
+                    }
+
                     $card->save();
                     break;
                 case "fashion":
-                    $good = new Good();
-                    $good->type = "fashion";
-                    $good->name = $card->title;
-                    $good->save();
-                    $card->good_id = $good->id;
+                    if ($request->good_id) {
+                        $card->good_id = $request->good_id;
+                    } else {
+                        $good = new Good();
+                        $good->type = "fashion";
+                        $good->name = $card->title;
+                        $good->save();
+                        $card->good_id = $good->id;
+                    }
+
+
                     $card->save();
                     break;
             }
@@ -347,10 +362,21 @@ class TaskController extends ManageApiController
         if ($request->good_properties) {
             $goodProperties = collect(json_decode($request->good_properties));
             $this->goodRepository->saveGoodProperties($goodProperties, $good->id);
+        }
+
+        if ($request->task_list_id) {
             $this->taskRepository->createTaskListFromTemplate($request->task_list_id, $card->id, $this->user);
         }
 
+
         return $this->respond(["card" => $card->transform()]);
+    }
+
+    public function deleteCard($cardId)
+    {
+        $card = Card::find($cardId);
+        $card->delete();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
 
@@ -734,13 +760,14 @@ class TaskController extends ManageApiController
 
     }
 
-    public function addMemberToTask($taskId, $userId)
+    public function addMemberToTask($taskId, Request $request)
     {
         $task = Task::find($taskId);
         if (is_null($task)) {
             return $this->respondErrorWithStatus("Công việc với id này không tồn tại");
         }
-        $this->taskRepository->addMemberToTask($task, $userId, $this->user);
+        $members = json_decode($request->members);
+        $this->taskRepository->addMemberToTask($task, $members, $this->user);
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 

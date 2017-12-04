@@ -8,13 +8,17 @@ use Illuminate\Http\Request;
 use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
+use Modules\Good\Repositories\GoodRepository;
 use Modules\Task\Entities\TaskList;
 
 class GoodPropertyApiController extends ManageApiController
 {
-    public function __construct()
+    protected $goodRepository;
+
+    public function __construct(GoodRepository $goodRepository)
     {
         parent::__construct();
+        $this->goodRepository = $goodRepository;
     }
 
     public function allPropertyItems(Request $request)
@@ -121,6 +125,7 @@ class GoodPropertyApiController extends ManageApiController
         $task = Task::find($task_id);
         $task->current_board_id = $request->current_board_id;
         $task->goodPropertyItems()->detach();
+
         foreach ($goodPropertyItems as $item) {
             $task->goodPropertyItems()->attach($item->id, ['order' => $item->order]);
         }

@@ -4,10 +4,11 @@ namespace Modules\Good\Http\Controllers;
 
 use App\Good;
 use App\Http\Controllers\ManageApiController;
+use App\ImportedGoods;
 use App\Task;
+use App\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Modules\Book\Repositories\TaskListTemplateRepository;
 use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Repositories\GoodRepository;
@@ -105,14 +106,13 @@ class GoodController extends ManageApiController
         $price = $request->price;
         $avatarUrl = $request->avatar_url;
         $coverUrl = $request->cover_url;
-        $sale_status = $request->sale_status;
-        $highlight_status = $request->highlight_status;
-        $display_status = $request->display_status;
+        $sale_status = $request->sale_status ? $request->sale_status : 0;
+        $highlight_status = $request->highlight_status ? $request->highlight_status : 0;
+        $display_status = $request->display_status ? $request->display_status : 0;
         $manufacture_id = $request->manufacture_id;
         $good_category_id = $request->good_category_id;
         //propterties
-        $images_url = json_encode($request->images_url);
-
+        $images_url = $request->images_url;
         if ($name == null || $code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
@@ -144,9 +144,15 @@ class GoodController extends ManageApiController
     public function good($goodId)
     {
         $good = Good::find($goodId);
-
+        $data = $good->goodProcessTransform();
+        $goodProperty = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
+        if($goodProperty == null)
+            $images_url = null;
+        else
+            $images_url = $goodProperty->value;
+        $data['images_url'] = $images_url;
         return $this->respondSuccessWithStatus([
-            "good" => $good->goodProcessTransform()
+            "good" => $data
         ]);
     }
 
@@ -159,7 +165,7 @@ class GoodController extends ManageApiController
         }
 
         $type = $request->type;
-        $propertyItems = $this->goodRepository->getPropertyItems($type);
+        $propertyItems = $this->goodRepository->getPropertyItems($type, $task);
         $boards = $this->goodRepository->getProjectBoards($type, $task);
         $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
 
@@ -214,7 +220,16 @@ class GoodController extends ManageApiController
             $goods,
             [
                 "goods" => $goods->map(function ($good) {
-                    return $good->transform();
+
+                    $warehouses_count = ImportedGoods::where('good_id', $good->id)
+                        ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
+                    //dd(json_encode($warehouses_count));
+//                        Warehouse::join('imported_goods', 'warehouses.id', '=', 'imported_goods.warehouse_id')
+//                        ->select('warehouses.*', DB::raw('SUM(imported_goods.quantity) as quantity'))
+//                        ->groupBy('warehouse_id')->having(DB::raw('SUM(quantity)'), '>', 0)->count();
+                    $data = $good->transform();
+                    $data['warehouses_count'] = $warehouses_count->count;
+                    return $data;
                 })
             ]
         );
@@ -287,7 +302,7 @@ class GoodController extends ManageApiController
         $manufacture_id = $request->manufacture_id;
         $good_category_id = $request->good_category_id;
         //propterties
-        $images_url = json_encode($request->images_url);
+        $images_url = $request->images_url;
 
         if ($name == null || $code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
@@ -311,7 +326,11 @@ class GoodController extends ManageApiController
         $good->good_category_id = $good_category_id;
         $good->save();
 
-        $property = GoodProperty::where('good_id', $good->id)->where('name', 'images_url')->first();
+        $property = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
+        if($property == null) {
+            $property = new GoodProperty;
+            $property->name = 'images_url';
+        }
         $property->value = $images_url;
         $property->creator_id = $this->user->id;
         $property->editor_id = $this->user->id;
@@ -329,6 +348,10 @@ class GoodController extends ManageApiController
                 "message" => "Không tìm thấy sản phẩm"
             ]);
         $good->status = 'deleted';
+        foreach ($good->properties as $property)
+        {
+            $property->delete();
+        }
         $good->delete();
         return $this->respondSuccessWithStatus([
             "message" => "Xóa sản phẩm thành công"
@@ -408,17 +431,12 @@ class GoodController extends ManageApiController
             $card->title = $good->name;
             $card->save();
         }
-
         $newTaskList->card_id = $card->id;
         $newTaskList->save();
-
-
         return $this->respondSuccessWithStatus([
             "card" => $card->transform()
         ]);
     }
-
-
 }
 
 

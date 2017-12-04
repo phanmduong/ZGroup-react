@@ -43,7 +43,7 @@
 
     <script src="{{url('angularjs/common/filters/pagination.js')}}"></script>
 
-    <script src="{{url('angularjs/role/services/StaffData.js')}}"></script>
+    <script src="{{url('Services')}}"></script>
     <script src="{{url('angularjs/role/services/RoleData.js')}}"></script>
     <script src="{{url('angularjs/role/services/TabData.js')}}"></script>
 

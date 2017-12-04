@@ -4,14 +4,16 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/all-orders', 'OrderController@allOrders');
     Route::put('/{order_id}/edit', 'OrderController@editOrder');
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
+    Route::put('/change-status-order', 'OrderController@changeStatus');
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
+    Route::post('/pay-import-order/{orderId}', 'OrderController@payImportOrder');
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
 
     Route::get('/all-customers','CustomerController@allCustomers');
-    Route::get('total-and-debt-money','CustomerController@countMoney');
-    Route::post('add-customer','CustomerController@addCustomer');
-    Route::put('edit-customer/{customerId}','CustomerController@editCustomer');
+    Route::get('/total-and-debt-money','CustomerController@countMoney');
+    Route::post('/add-customer','CustomerController@addCustomer');
+    Route::put('/edit-customer/{customerId}','CustomerController@editCustomer');
     Route::get('/info-customer/{customerId}','CustomerController@getInfoCustomer');
 
     Route::get('/category/all', 'CategoryApiController@allCategory');
@@ -23,6 +25,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/detailed-import-order/{importOrderId}', 'ImportApiController@detailedImportOrder');
     Route::post('/add-import-order-goods', 'ImportApiController@addImportOrderGoods');
     Route::delete('/import-order/delete/{importOrderId}', 'ImportApiController@deleteImportOrder');
+    Route::post('/import-order/edit/{importOrderId}', 'ImportApiController@editImportOrder');
 
     Route::post('/add-supplier', 'WarehouseApiController@addSupplier');
     Route::put('/supplier/{supplier_id}/edit', 'WarehouseApiController@editSupplier');

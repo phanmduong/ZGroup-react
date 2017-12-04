@@ -16,11 +16,28 @@ class Coupon extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'customer_id');
     }
 
     public function goodCategory()
     {
         return $this->belongsTo(GoodCategory::class, 'category_id');
+    }
+
+    public function getData()
+    {
+        $data = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'discount_type' => $this->discount_type,
+            'discount_value' => $this->discount_value,
+            'type' => $this->type,
+            'used_for' => $this->used_for,
+            'quantity' => $this->rate,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+        ];
+        return $data;
     }
 }

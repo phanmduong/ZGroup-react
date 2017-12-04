@@ -20,7 +20,7 @@ class OrderController extends ManageApiController
 
     public function allOrders(Request $request)
     {
-        $limit = 3;
+        $limit = 20;
         $user_id = $request->user_id;
         $staff_id = $request->staff_id;
         $startTime = $request->start_time;
@@ -48,8 +48,8 @@ class OrderController extends ManageApiController
         });
         if ($startTime)
             $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
-        //if ($status)
-        //    $orders = $orders->where('status', $status);
+//        if ($status)
+//            $orders = $orders->where('status', $status);
         if ($user_id)
             $orders = $orders->where('user_id', $user_id);
         if ($staff_id)
@@ -76,42 +76,55 @@ class OrderController extends ManageApiController
         );
     }
 
+    public function changeStatus(Request $request)
+    {
+        $order = Order::find($request->order_id);
+
+        $order->status = $request->status;
+        $order->save();
+
+        return $this->respondSuccessWithStatus([
+            'order' => $order->transform()
+        ]);
+    }
+
     public function editOrder($order_id, Request $request)
     {
         $order = Order::find($order_id);
-        if ($request->code == null || $request->staff_id)
+        if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
-                'message' => 'Thiếu code || staff_id'
+                'message' => 'Thiếu code'
             ]);
-        if($order->type == 'import' && $order->status == 'completed' && trim($request->status) != 'completed')
+        if ($order->type == 'import' && $order->status == 'completed')
             return $this->respondErrorWithStatus([
-                'message' => 'Cant change status of completed import order'
+                'message' => 'Cant change completed import order'
             ]);
         $order->note = $request->note;
         $order->code = $request->code;
-        $order->staff_id = $request->staff_id;
+        $order->staff_id = $this->user->id;
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
-        if ($order->type == 'import' && $order->status == 'completed') {
+        if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;
             foreach ($importedGoods as $importedGood) {
                 $importedGood->status = 'completed';
                 $importedGood->save();
                 $history = new HistoryGood;
-                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->limit(1)->get();
-                $remain = $lastest_good_history ? $lastest_good_history ->remain : null;
-                $history->good_id = $importedGood->id;
-                $history->quantity = $importedGood->id;
+                $lastest_good_history = HistoryGood::where('good_id', $importedGood->good_id)->orderBy('created_at', 'desc')->first();
+                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
+                $history->good_id = $importedGood->good_id;
+                $history->quantity = $importedGood->quantity;
                 $history->remain = $remain + $importedGood->quantity;
                 $history->warehouse_id = $importedGood->warehouse_id;
                 $history->type = 'import';
-                $history->order_id = $importedGood->order_id;
+                $history->order_id = $importedGood->order_import_id;
                 $history->imported_good_id = $importedGood->id;
                 $history->save();
             }
         }
         //thieu confirm order thi them history_goods && tru quantity imported_goods
+        //trang
         return $this->respondSuccessWithStatus([
             'message' => 'ok'
         ]);
@@ -121,23 +134,17 @@ class OrderController extends ManageApiController
     public function payOrder($orderId, Request $request)
     {
         if (Order::find($orderId)->get() == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'non-exist order'
-            ]);
+            return $this->respondErrorWithStatus("Order không tồn tại");
         if ($request->money == null)
-            return $this->respondErrorWithStatus([
-                'message' => 'Thiếu tiền thanh toán'
-            ]);
+            return $this->respondErrorWithStatus("Thiếu tiền thanh toán");
         $debt = Order::find($orderId)->goodOrders->reduce(function ($total, $goodOrder) {
                 return $total + $goodOrder->price * $goodOrder->quantity;
             }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
             }, 0);
+
         if ($request->money > $debt)
-            return $this->respondErrorWithStatus([
-                'message' => 'over',
-                'money' => $debt,
-            ]);
+            return $this->respondErrorWithStatus("Thanh toán thừa số tiền" . $debt);
         if ($debt == 0) {
             $order = Order::find($orderId)->get();
             $order->status_paid = 1;
@@ -145,10 +152,42 @@ class OrderController extends ManageApiController
         $orderPaidMoney = new OrderPaidMoney;
         $orderPaidMoney->order_id = $orderId;
         $orderPaidMoney->money = $request->money;
+        $orderPaidMoney->note = $request->note;
+        $orderPaidMoney->payment = $request->payment;
         $orderPaidMoney->staff_id = $this->user->id;
         $orderPaidMoney->save();
         return $this->respondSuccessWithStatus([
-            'message' => 'SUCCESS'
+            'order_paid_money' => $orderPaidMoney
+        ]);
+    }
+
+    public function payImportOrder($orderId, Request $request)
+    {
+        if (Order::find($orderId)->get() == null)
+            return $this->respondErrorWithStatus("Order không tồn tại");
+        if ($request->money == null)
+            return $this->respondErrorWithStatus("Thiếu tiền thanh toán");
+        $debt = Order::find($orderId)->importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity * $importedGood->import_price;
+            }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0);
+
+        if ($request->money > $debt)
+            return $this->respondErrorWithStatus("Thanh toán quá số tiền còn nợ " . $debt);
+        if ($debt == 0) {
+            $order = Order::find($orderId)->get();
+            $order->status_paid = 1;
+        }
+        $orderPaidMoney = new OrderPaidMoney;
+        $orderPaidMoney->order_id = $orderId;
+        $orderPaidMoney->money = $request->money;
+        $orderPaidMoney->note = $request->note;
+        $orderPaidMoney->payment = $request->payment;
+        $orderPaidMoney->staff_id = $this->user->id;
+        $orderPaidMoney->save();
+        return $this->respondSuccessWithStatus([
+            'order_paid_money' => $orderPaidMoney
         ]);
     }
 
@@ -156,7 +195,7 @@ class OrderController extends ManageApiController
     public function getOrderPaidMoney(Request $request)
     {
         $orderPMs = OrderPaidMoney::query();
-        if($request->order_id)
+        if ($request->order_id)
             $orderPMs = $orderPMs->where('order_id', $request->order_id);
         $orderPMs = $orderPMs->orderBy('created_at', 'desc')->get();
         return $this->respondSuccessWithStatus([

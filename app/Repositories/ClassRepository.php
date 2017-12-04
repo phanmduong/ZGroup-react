@@ -50,6 +50,7 @@ class ClassRepository
             'target' => $class->target,
             'total_register' => $class->registers()->count(),
             'regis_target' => $class->regis_target,
+            'type' => $class->type,
             'created_at' => format_full_time_date($class->created_at)
         ];
 

@@ -12,6 +12,7 @@ namespace Modules\Graphics\Repositories;
 use App\Good;
 use App\Order;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Modules\Good\Entities\GoodProperty;
 
@@ -83,6 +84,7 @@ class BookRepository
         $order->status = "place_order";
         $order->status_paid = 0;
         $order->type = "order";
+        $order->code = "ORDER" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order->save();
 
 
@@ -105,7 +107,7 @@ class BookRepository
             $total_price += $good->price * (1 - $coupon) * $good->pivot->quantity;
         }
         $subject = "Xác nhận đặt hàng thành công";
-        $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods];
+        $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
         $emailcc = ["graphics@colorme.vn"];
         Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
             $m->from('no-reply@colorme.vn', 'Graphics');

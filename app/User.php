@@ -76,6 +76,14 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role', 'role_id');
     }
 
+    public function tasks()
+    {
+        return $this
+            ->belongsToMany(Task::class, "user_task", "user_id", "task_id")
+            ->withTimestamps();
+    }
+
+
     /**
      * Check if the permission matches with any permission user has
      *

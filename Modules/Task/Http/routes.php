@@ -36,6 +36,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     // card api
     Route::put('/card/{cardId}/toggle-archive', "TaskController@archiveCard");
     Route::post('/card/create', "TaskController@createCard");
+    Route::delete('/card/{cardId}/delete', "TaskController@deleteCard");
     Route::post('/cards/update', "TaskController@updateCards");
     Route::get('/card/{cardId}/detail', "CardController@card");
     Route::post('/card/{cardId}/update', "TaskController@updateCard");
@@ -68,7 +69,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::post('/task/create', "TaskController@createTask");
     Route::delete('/task/{taskId}/delete', "TaskController@deleteTask");
     Route::post('/task/{taskId}/toggle', "TaskController@toggleTask");
-    Route::put('/task/{taskId}/member/{userId}', "TaskController@addMemberToTask");
+    Route::put('/task/{taskId}/members', "TaskController@addMemberToTask");
     Route::put('/task/{taskId}/deadline', "TaskController@saveTaskDeadline");
     Route::put('/task/{taskId}/span', "TaskController@saveTaskSpan");
     Route::put('/task/{taskId}/title', "TaskController@editTaskName");

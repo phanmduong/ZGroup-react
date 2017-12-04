@@ -122,7 +122,9 @@ class ProjectRepository
 
     public function loadProjectBoards($project, $currentUser)
     {
+
         $boards = Board::where('project_id', '=', $project->id)->where("status", "open")->orderBy('order')->get();
+
         $data = [
             "id" => $project->id,
             "title" => $project->title,
@@ -133,12 +135,14 @@ class ProjectRepository
             })
         ];
 
+
         if ($currentUser) {
             $projectUser = ProjectUser::where("project_id", $project->id)->where("user_id", $currentUser->id)->first();
             if ($projectUser) {
                 $data["setting"] = $projectUser->setting;
             }
         }
+
 
 
         $members = $project->members->map(function ($member) {

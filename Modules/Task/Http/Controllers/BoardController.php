@@ -116,11 +116,21 @@ class BoardController extends ManageApiController
             $board->order = $order + 1;
         }
 
-        $board->title = trim($request->title);
+        $title = trim($request->title);
+        if ($title !== $board) {
+            foreach ($board->currentTasks as $task) {
+                $task->title = $title;
+                $task->save();
+            }
+        }
+
+
+        $board->title = $title;
         $board->project_id = trim($request->project_id);
         $board->editor_id = $this->user->id;
         $board->creator_id = $this->user->id;
         $board->save();
+
 
         return $this->respond([
             "message" => $message,

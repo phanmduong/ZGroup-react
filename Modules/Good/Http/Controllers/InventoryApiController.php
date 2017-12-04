@@ -108,10 +108,48 @@ class InventoryApiController extends ManageApiController
                         'import_money' => $import_money,
                         'price' => $good->price,
                         'money' => $good->price * $quantity,
+                        'avatar_url' => $good->avatar_url,
                     ];
                 })
             ]
         );
+    }
+
+    public function goodInWarehouses($goodId)
+    {
+        $warehouses = Warehouse::all();
+        $warehouses = $warehouses->filter(function ($warehouse) use ($goodId) {
+            $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
+            $quantity = $importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity;
+            }, 0);
+            return $quantity > 0;
+        });
+        return $this->respondSuccessWithStatus([
+            'warehouses' => $warehouses->map(function ($warehouse) use ($goodId) {
+                $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
+                $quantity = $importedGoods->reduce(function ($total, $importedGood) {
+                    return $total + $importedGood->quantity;
+                }, 0);
+                $import_money = $importedGoods->reduce(function ($total, $importedGood) {
+                    return $total + $importedGood->quantity * $importedGood->import_price;
+                }, 0);
+                $data = [
+                    'id' => $warehouse->id,
+                    'name' => $warehouse->name,
+                    'location' => $warehouse->location,
+                    'quantity' => $quantity,
+                    'import_money' => $import_money,
+                ];
+                if ($warehouse->base)
+                    $data['base'] = [
+                        'id' => $warehouse->base_id,
+                        'name' => $warehouse->base->name,
+                        'address' => $warehouse->base->address,
+                    ];
+                return $data;
+            })->values()
+        ]);
     }
 
     public function inventoriesInfo(Request $request)
@@ -135,64 +173,34 @@ class InventoryApiController extends ManageApiController
 
     public function historyGoods($goodId, Request $request)
     {
+        $limit = $request->limit ? $request->limit : 20;
         $warehouse_id = $request->warehouse_id;
         if (Good::find($goodId) == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai san pham'
             ]);
-        $warehouses = Warehouse::all();
-        $warehouses = $warehouses->filter(function ($warehouse) use ($goodId) {
-            $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
-            $quantity = $importedGoods->reduce(function ($total, $importedGood) {
-                return $total + $importedGood->quantity;
-            }, 0);
-            return $quantity > 0;
-        });
         $history = HistoryGood::where('good_id', $goodId);
         if ($warehouse_id)
             $history = $history->where('warehouse_id', $warehouse_id);
-        $history = $history->orderBy('created_at', 'desc')->get();
-        return $this->respondSuccessWithStatus([
-            'history' => $history->map(function ($singular_history) {
-                return [
-                    'code' => $singular_history->good->code,
-                    'note' => $singular_history->note,
-                    'type' => $singular_history->type,
-                    'created_at' => format_vn_short_datetime(strtotime($singular_history->created_at)),
-                    'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
-                    'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
-                    'remain' => $singular_history->remain,
-                    'warehouse' => [
-                        'id' => $singular_history->warehouse->id,
-                        'name' => $singular_history->warehouse->name,
-                    ]
-                ];
-            }),
-            'warehouses' => $warehouses->map(function ($warehouse) use ($goodId) {
-                $importedGoods = ImportedGoods::where('warehouse_id', $warehouse->id)->where('good_id', $goodId)->get();
-                $quantity = $importedGoods->reduce(function ($total, $importedGood) {
-                    return $total + $importedGood->quantity;
-                }, 0);
-                $import_money = $importedGoods->reduce(function ($total, $importedGood) {
-                    return $total + $importedGood->quantity * $importedGood->import_price;
-                }, 0);
-                $data = [
-                    'id' => $warehouse->id,
-                    'name' => $warehouse->name,
-                    'location' => $warehouse->location,
-                    'quantity' => $quantity,
-                    'import_money' => $import_money,
-                ];
-                if ($warehouse->base)
-                    $data['base'] = [
-                        'id' => $warehouse->base_id,
-                        'name' => $warehouse->base->name,
-                        'address' => $warehouse->base->address,
+        $history = $history->orderBy('created_at', 'desc')->paginate($limit);
+        return $this->respondWithPagination(
+            $history,
+            [
+                'history' => $history->map(function ($singular_history) {
+                    return [
+                        'code' => $singular_history->good->code,
+                        'note' => $singular_history->note,
+                        'type' => $singular_history->type,
+                        'created_at' => format_vn_short_datetime(strtotime($singular_history->created_at)),
+                        'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
+                        'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
+                        'remain' => $singular_history->remain,
+                        'warehouse' => [
+                            'id' => $singular_history->warehouse->id,
+                            'name' => $singular_history->warehouse->name,
+                        ]
                     ];
-                return $data;
-            })
-        ]);
-
-
+                })
+            ]);
     }
 }

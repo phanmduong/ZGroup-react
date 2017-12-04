@@ -12,3 +12,6 @@ public/manage/.DS_STORE
 /public/config.js
 /public/config.css
 socketEnv.js
+.npm/
+.pm2/
+.*

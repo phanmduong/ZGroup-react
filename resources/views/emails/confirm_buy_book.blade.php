@@ -235,15 +235,15 @@
                                         <tbody>
                                         <tr>
                                             <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                <p>Chào {{$order->name}},</p>
+                                                <p>Chào {{$user->name}},</p>
                                                 <p>Chúng tôi đã nhận được đơn đặt hàng của bạn, vui lòng kiểm tra thông
                                                     tin bên dưới. Nếu có sai sót, vui lòng liên hệ lại với chúng tôi qua
                                                     <a href="emailto:graphics@colorme.vn">graphics@colorme.vn</a></p>
                                                 <p>
-                                                    Tên: <b>{{$order->name}}</b><br/>
-                                                    Email: <b>{{$order->email}}</b><br/>
-                                                    Số điện thoại: <b>{{$order->phone}}</b><br/>
-                                                    Địa chỉ: <b>{{$order->address}}</b><br/>
+                                                    Tên: <b>{{$user->name}}</b><br/>
+                                                    Email: <b>{{$user->email}}</b><br/>
+                                                    Số điện thoại: <b>{{$user->phone}}</b><br/>
+                                                    Địa chỉ: <b>{{$user->address}}</b><br/>
                                                     Phương thức thanh toán: <b>{{$order->payment}}</b><br/>
                                                 </p>
                                                 <p>

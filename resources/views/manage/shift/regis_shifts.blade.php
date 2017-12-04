@@ -46,7 +46,7 @@
     <script src="{{url('angularjs/regisshift/controllers/ShiftPickController.js')}}"></script>
 
     <script src="{{url('angularjs/regisshift/services/ShiftData.js')}}"></script>
-    <script src="{{url('angularjs/regisshift/services/socket.js')}}"></script>
+    <script src="{{url('Services')}}"></script>
 
     <script src="{{url('angularjs/regisshift/directives/resolveLoader.js')}}"></script>
 

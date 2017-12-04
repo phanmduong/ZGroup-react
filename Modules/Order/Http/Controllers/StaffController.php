@@ -17,7 +17,7 @@ class StaffController extends ManageApiController
     {
         $q = trim($request->search);
 
-        $limit = 20;
+        $limit = $request->limit ? $request->limit : 20;
 
         $staffs = User::where('role', ">", 0)
             ->where(function ($query) use ($q) {

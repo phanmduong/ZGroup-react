@@ -22,6 +22,7 @@ use App\Repositories\ClassRepository;
 use App\Repositories\NotificationRepository;
 use App\Room;
 use App\Schedule;
+use App\Services\EmailService;
 use App\StudyClass;
 use App\StudySession;
 use App\Survey;
@@ -44,18 +45,21 @@ class HomeController extends ManageController
 {
     protected $notificationTransformer;
     protected $classRepository;
+    protected $emailService;
     protected $notificationRepository;
 
     public function __construct(
         NotificationTransformer $notificationTransformer,
         ClassRepository $classRepository,
-        NotificationRepository $notificationRepository
+        NotificationRepository $notificationRepository,
+        EmailService $emailService
     )
     {
         parent::__construct();
         $this->classRepository = $classRepository;
         $this->notificationRepository = $notificationRepository;
         $this->notificationTransformer = $notificationTransformer;
+        $this->emailService = $emailService;
     }
 
     /**
@@ -1003,7 +1007,7 @@ class HomeController extends ManageController
             $class->save();
         }
 
-        send_mail_delete_register($register, $this->user);
+        $this->emailService->send_mail_delete_register($register, $this->user);
         if ($register->status != 1) {
             $register->delete();
         }
@@ -1498,8 +1502,7 @@ class HomeController extends ManageController
 
 
             }
-
-            send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
+            $this->emailService->send_mail_confirm_receive_student_money($register, ["colorme.idea@gmail.com"]);
             send_sms_confirm_money($register);
 
         }
@@ -1803,7 +1806,7 @@ class HomeController extends ManageController
         $class_id = $request->class_id;
         $class = StudyClass::find($class_id);
         foreach ($class->registers as $regis) {
-            send_mail_activate_class($regis, ['colorme.vn.test@gmail.com']);
+            $this->emailService->send_mail_activate_class($regis, ['colorme.vn.test@gmail.com']);
         }
         $class->activated = 1;
         $class->status = 0;

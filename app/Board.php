@@ -36,11 +36,6 @@ class Board extends Model
         return $this->hasMany(Task::class, "current_board_id");
     }
 
-    public function targetTasks()
-    {
-        return $this->hasMany(Task::class, "target_board_id");
-    }
-
     public function transform()
     {
         return [
@@ -65,6 +60,7 @@ class Board extends Model
     {
         $cards = $this->cards()->where("status", "open")->orderBy('order')->get();
         $data = $this->transform();
+
         $data["cards"] = $cards->map(function ($card) {
             return $card->transform();
         });

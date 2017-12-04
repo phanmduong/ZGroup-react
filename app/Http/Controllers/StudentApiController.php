@@ -6,6 +6,7 @@ use App\Colorme\Transformers\RegisterTransformer;
 use App\Colorme\Transformers\StudentTransformer;
 use App\Gen;
 use App\Register;
+use App\Services\EmailService;
 use App\StudyClass;
 use App\TeleCall;
 use App\Transaction;
@@ -17,13 +18,16 @@ use Illuminate\Support\Facades\DB;
 
 class StudentApiController extends ApiController
 {
-    protected $studentTransformer, $registerTransformer;
+    protected $studentTransformer, $registerTransformer, $emailService;
 
-    public function __construct(StudentTransformer $studentTransformer, RegisterTransformer $registerTransformer)
+    public function __construct(StudentTransformer $studentTransformer,
+                                EmailService $emailService,
+                                RegisterTransformer $registerTransformer)
     {
         parent::__construct();
         $this->studentTransformer = $studentTransformer;
         $this->registerTransformer = $registerTransformer;
+        $this->emailService = $emailService;
     }
 
     public function get_newest_code()
@@ -113,7 +117,7 @@ class StudentApiController extends ApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
-            send_mail_confirm_receive_studeny_money($register, ["colorme.idea@gmail.com"]);
+            $this->emailService->send_mail_confirm_receive_student_money($register, ["colorme.idea@gmail.com"]);
             send_sms_confirm_money($register);
         }
         $return_data = array(
@@ -158,6 +162,7 @@ class StudentApiController extends ApiController
 
 
         $search = $request->search;
+
         if ($search) {
             $users_id = User::where('email', 'like', '%' . $search . '%')
                 ->orWhere('phone', 'like', '%' . $search . '%')
@@ -166,12 +171,14 @@ class StudentApiController extends ApiController
         } else {
             $registers = $gen->registers();
         }
+
+        if ($request->class_id != null) {
+            $registers = $registers->where('class_id', $request->class_id);
+        }
+
         if ($request->type != null) {
             $classes= StudyClass::where('type', $request->type)->get()->pluck('id')->toArray();
             $registers = $registers->whereIn('class_id', $classes);
-        }
-        if ($request->class_id != null) {
-            $registers = $registers->where('class_id', $request->class_id);
         }
         if ($request->saler_id != null) {
             $registers = $registers->where('saler_id', $request->saler_id);

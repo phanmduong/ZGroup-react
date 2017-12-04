@@ -231,6 +231,7 @@ class ManageClassApiController extends ManageApiController
         $class->teacher_id = $request->teacher_id;
         $class->study_time = $request->study_time;
         $class->status = ($request->status == null) ? 0 : 1;
+        $class->type = $request->type ? $request->type : "active";
 
         $class->save();
 
