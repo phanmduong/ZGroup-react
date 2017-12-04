@@ -7,6 +7,7 @@ use App\Colorme\Transformers\StudentTransformer;
 use App\Gen;
 use App\Register;
 use App\Services\EmailService;
+use App\StudyClass;
 use App\TeleCall;
 use App\Transaction;
 use App\User;
@@ -175,6 +176,10 @@ class StudentApiController extends ApiController
             $registers = $registers->where('class_id', $request->class_id);
         }
 
+        if ($request->type != null) {
+            $classes= StudyClass::where('type', $request->type)->get()->pluck('id')->toArray();
+            $registers = $registers->whereIn('class_id', $classes);
+        }
         if ($request->saler_id != null) {
             $registers = $registers->where('saler_id', $request->saler_id);
         }

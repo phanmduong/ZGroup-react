@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTypeClassTable extends Migration
+class AddTypeColClassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,12 @@ class AddTypeClassTable extends Migration
      */
     public function up()
     {
-        Schema::table('classes', function (Blueprint $table) {
-            $table->string('type')->nullable();
+        //
+        Schema::table('classes', function (Blueprint $table){
+            $table->string('type');
+
         });
+
     }
 
     /**
@@ -24,8 +27,6 @@ class AddTypeClassTable extends Migration
      */
     public function down()
     {
-        Schema::table('classes', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }
