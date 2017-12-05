@@ -89,7 +89,7 @@ class MarketingCampaignController extends ManageApiController
     public function summaryMarketingRegister(Request $request)
     {
         $startTime = $request->start_time;
-        $endTime = $request->end_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         $registers = Register::query();
         if ($startTime) {
             $registers = $registers->whereBetween('created_at', array($startTime, $endTime));
