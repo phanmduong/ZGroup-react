@@ -71,7 +71,7 @@
                 @foreach($bases as $base)
                     <h5 style="padding-top:40px"><strong>{{$base->name}}</strong>: {{$base->address}}</h5>
                     <ul class="collection">
-                        @foreach($base->classes()->where('course_id',$course_id)->where('gen_id',$current_gen_id)->orderBy('name','desc')->get() as $class)
+                        @foreach($base->classes()->where('course_id',$course_id)->where('status',1)->orderBy('name','desc')->get() as $class)
                             <li class="collection-item avatar">
                                 <img src="{{$course->icon_url}}" alt="" class="circle">
 
