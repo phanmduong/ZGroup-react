@@ -40,7 +40,7 @@ class CourseTransformer extends Transformer
             'image_url' => $course->image_url,
             'cover_url' => $course->cover_url,
             'classes' => $this->classTransformer
-                ->transformCollection($course->classes()->where('status', 1)->orderBy('gen_id')
+                ->transformCollection($course->classes()->where('status', 1)->orderBy('gen_id', 'desc')
                     ->orderBy('name', 'desc')->get())
         ];
     }
