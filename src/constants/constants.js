@@ -145,6 +145,17 @@ export const ORDER_STATUS = [
     }
 ];
 
+export const TYPE_CLASSES = [
+    {
+        label: "Hoạt động",
+        value: "active"
+    },
+    {
+        label: "Chờ",
+        value: "waiting"
+    }
+];
+
 
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
 export const DATE = 60 * 60 * 24;

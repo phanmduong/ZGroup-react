@@ -105,6 +105,8 @@ class ClassesContainer extends React.Component {
                 teacher_assis_id: classData.teacher_assistant ? classData.teacher_assistant.id : '',
                 teacher_id: classData.teacher ? classData.teacher.id : '',
                 schedule_id: classData.schedule_id,
+                type: classData.type,
+                status: classData.status,
                 datestart: classData.datestart_en,
                 room_id: classData.room ? classData.room.id : '',
             };
@@ -202,6 +204,7 @@ class ClassesContainer extends React.Component {
                 <Modal
                     show={this.state.showModalClass}
                     onHide={this.closeModalClass}
+                    bsSize="lg"
                 >
                     <Modal.Header closeButton>
                         {this.state.editClass ? "Chỉnh sửa lớp " + this.state.classSelected.name : "Tạo lớp học"}

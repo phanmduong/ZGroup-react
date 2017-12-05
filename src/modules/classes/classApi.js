@@ -74,6 +74,8 @@ export function addClass(classData) {
         'teaching_assistant_id': classData.teacher_assis_id,
         'teacher_id': classData.teacher_id,
         'study_time': classData.study_time,
+        'type': classData.type,
+        'status': classData.status,
 
     });
 }
