@@ -90,6 +90,7 @@ class RegisterListContainer extends React.Component {
             this.state.campaignId,
             obj ? obj.id : '',
             this.state.paid_status,
+            this.state.class_status,
         );
     }
 
@@ -111,6 +112,7 @@ class RegisterListContainer extends React.Component {
             this.state.campaignId,
             this.state.selectedClassId,
             this.state.paid_status,
+            this.state.class_status,
         );
     }
 
@@ -130,6 +132,7 @@ class RegisterListContainer extends React.Component {
             obj ? obj.id : '',
             this.state.selectedClassId,
             this.state.paid_status,
+            this.state.class_status,
         );
     }
     onMoneyFilterChange(obj){
@@ -155,6 +158,7 @@ class RegisterListContainer extends React.Component {
             this.state.campaignId,
             this.state.selectedClassId,
             res,
+            this.state.class_status,
         );
     }
     onClassStatusFilterChange(obj){
@@ -162,8 +166,8 @@ class RegisterListContainer extends React.Component {
         let num = obj ? obj.value : 0 ;
         let res = '';
         switch(num){
-            case 1: {res = 1; break;}
-            case 2: {res = 0;break;}
+            case 1: {res = 'active'; break;}
+            case 2: {res = 'waiting';break;}
             default: res = '';
         }
         if(obj){
@@ -179,7 +183,8 @@ class RegisterListContainer extends React.Component {
             this.state.selectedSalerId,
             this.state.campaignId,
             this.state.selectedClassId,
-            this.state.class_status,
+            this.state.paid_status,
+            res
         );
     }
 
@@ -327,6 +332,7 @@ class RegisterListContainer extends React.Component {
             this.state.campaignId,
             this.state.selectedClassId,
             this.state.paid_status,
+            this.state.class_status,
             );
     }
 
@@ -350,7 +356,13 @@ class RegisterListContainer extends React.Component {
             campaignId: '',
             selectGenId: value
         });
-        this.props.registerActions.loadRegisterStudent(1, value, this.state.query, this.salerId, '');
+        this.props.registerActions.loadRegisterStudent(1, value,
+            this.state.query,
+            this.salerId,
+            this.state.campaignId,
+            this.state.selectedClassId,
+            this.state.paid_status,
+            this.state.class_status,);
         this.props.registerActions.loadClassFilter(value);
     }
 

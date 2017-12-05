@@ -65,12 +65,12 @@ export function loadCampaignFilter() {
 }
 
 
-export function loadRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status) {
+export function loadRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
-        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status).then(function (res) {
+        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status).then(function (res) {
             dispatch(loadDataSuccessful(res));
         }).catch(error => {
             console.log(error);
