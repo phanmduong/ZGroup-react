@@ -28,13 +28,18 @@ class AskGoodPropertiesModalContainer extends React.Component {
             this.props.taskActions.showGlobalLoading();
 
         this.props.taskActions.submitGoodProperties()
-            .then(() => {
-                if (!this.props.task.isEditProcess) {
-                    moveAndCreateCard(this, this.props.task, this.props.projectId, this.props.card.id)
-                        .then(() => {
-                            this.props.taskActions.hideGlobalLoading();
-                            this.props.taskActions.closeCardDetailModal();
-                        });
+            .then((noError) => {
+                if (noError) {
+                    if (!this.props.task.isEditProcess) {
+                        moveAndCreateCard(this, this.props.task, this.props.projectId, this.props.card.id)
+                            .then(() => {
+                                this.props.taskActions.hideGlobalLoading();
+                                this.props.taskActions.closeCardDetailModal();
+
+                            });
+                    }
+                } else {
+                    this.props.taskActions.hideGlobalLoading();
                 }
             });
     }
