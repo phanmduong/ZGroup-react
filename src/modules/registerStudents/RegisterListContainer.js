@@ -477,7 +477,7 @@ class RegisterListContainer extends React.Component {
 
                                         </div>
                                     </div>
-                                    <Panel collapsible expanded={!this.state.openFilterPanel}>
+                                    <Panel collapsible expanded={this.state.openFilterPanel}>
                                         <div className="row">
                                             <div className="col-md-3">
                                                 <label className="">

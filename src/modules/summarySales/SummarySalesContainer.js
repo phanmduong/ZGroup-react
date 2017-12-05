@@ -9,7 +9,9 @@ import * as summarySalesActions from './summarySalesActions';
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
 import SummarySalesComponent from "./SummarySalesComponent";
-
+import * as helper from '../../helpers/helper';
+import FormInputDate from '../../components/common/FormInputDate';
+import { Panel} from 'react-bootstrap';
 class SummarySalesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -17,11 +19,18 @@ class SummarySalesContainer extends React.Component {
             selectGenId: 0,
             selectBaseId: 0,
             gens: [],
-            bases: []
+            bases: [],
+            time:{
+                startTime: '',
+                endTime: '',
+            },
+            openFilterPanel: false,
         };
         this.onChangeGen = this.onChangeGen.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.loadSummary = this.loadSummary.bind(this);
+        this.openFilterPanel = this.openFilterPanel.bind(this);
+        this.updateFormDate = this.updateFormDate.bind(this);
     }
 
     componentWillMount() {
@@ -68,16 +77,34 @@ class SummarySalesContainer extends React.Component {
 
     onChangeGen(value) {
         this.setState({selectGenId: value});
-        this.props.summarySalesActions.loadSummarySalesData(value, this.state.selectBaseId);
+        this.props.summarySalesActions.loadSummarySalesData(value, this.state.selectBaseId, this.state.time.startTime,this.state.time.endTime);
     }
 
     onChangeBase(value) {
         this.setState({selectBaseId: value});
-        this.props.summarySalesActions.loadSummarySalesData(this.state.selectGenId, value);
+        this.props.summarySalesActions.loadSummarySalesData(this.state.selectGenId, value, this.state.time.startTime,this.state.time.endTime);
     }
 
     loadSummary() {
         this.props.summarySalesActions.loadSummarySalesData(this.state.selectGenId, this.state.selectBaseId);
+    }
+
+    openFilterPanel(){
+        let newstatus = !this.state.openFilterPanel;
+        this.setState({openFilterPanel: newstatus});
+    }
+
+    updateFormDate(event) {
+        const field = event.target.name;
+        let time = {...this.state.time};
+        time[field] = event.target.value;
+
+        if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
+            this.setState({time: time, page: 1});
+            this.props.summarySalesActions.loadSummarySalesData(this.state.selectGenId, this.state.selectBaseId, time.startTime,time.endTime);
+        } else {
+            this.setState({time: time});
+        }
     }
 
     render() {
@@ -105,7 +132,39 @@ class SummarySalesContainer extends React.Component {
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
+                                <div className="col-sm-3 col-xs-5">
+                                    <button
+                                        onClick={this.openFilterPanel}
+                                        className="btn btn-info btn-rose"
+                                    >
+                                        <i className="material-icons">filter_list</i>
+                                        Lọc
+                                    </button>
+                                </div>
                             </div>
+                            <Panel collapsible expanded={!this.state.openFilterPanel}>
+                                <div className="col-md-3 col-xs-5">
+                                    <FormInputDate
+                                        label="Từ ngày"
+                                        name="startTime"
+                                        updateFormData={this.updateFormDate}
+                                        id="form-start-time"
+                                        value={this.state.time.startTime}
+                                        maxDate={this.state.time.endTime}
+                                    />
+                                </div>
+                                <div className="col-md-3 col-xs-5">
+                                    <FormInputDate
+                                        label="Đến ngày"
+                                        name="endTime"
+                                        updateFormData={this.updateFormDate}
+                                        id="form-end-time"
+                                        value={this.state.time.endTime}
+                                        minDate={this.state.time.startTime}
+
+                                    />
+                                </div>
+                            </Panel>
                             <SummarySalesComponent
                                 {...this.props}
                                 loadSummary={this.loadSummary}
