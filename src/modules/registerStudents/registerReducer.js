@@ -6,7 +6,7 @@ import initialState from '../../reducers/initialState';
 
 let registers;
 export default function registerReducer(state = initialState.registerStudents, action) {
-    console.log(action.type, action.classfilter);
+    //console.log(action.type);
     switch (action.type) {
         case types.BEGIN_LOAD_CLASS_FILTER:
             return {

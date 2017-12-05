@@ -49,7 +49,7 @@ class  ListRegister extends React.Component {
                         return (
                             <tr key={register.id}>
                                 <td>
-                                    <div className="container-dot-bottom-right" style={{zIndex: 0}}>
+                                    <div className="container-dot-bottom-right">
                                         <button className="btn btn-round btn-fab btn-fab-mini text-white"
                                                 data-toggle="tooltip" title="" type="button" rel="tooltip"
                                                 data-placement="right"

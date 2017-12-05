@@ -138,6 +138,7 @@ export default (
 
             {/*Begin register student routes*/}
             <Route path="/manage/registerlist(/:salerId)" component={RegisterListContainer}/>
+            <Route path="/manage/waitlist" component={RegisterListContainer}/>
             <Route path="/registerlist/:campaignId/:genId" component={RegisterListContainer}/>
             {/*End register student routes*/}
 
