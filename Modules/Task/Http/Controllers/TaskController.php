@@ -328,6 +328,12 @@ class TaskController extends ManageApiController
 
         if ($board) {
             $project = $board->project;
+            $order = 0;
+            if ($project->status == "book" || $project->status == "fashion") {
+                $order = DB::table('goods')->max('order');
+                $order += 1;
+            }
+
             switch ($project->status) {
                 case "book":
                     if ($request->good_id) {
@@ -336,6 +342,8 @@ class TaskController extends ManageApiController
                         $good = new Good();
                         $good->type = "book";
                         $good->name = $card->title;
+                        $good->order = $order;
+                        $good->label = $request->label;
                         $good->save();
                         $card->good_id = $good->id;
                     }
@@ -349,6 +357,8 @@ class TaskController extends ManageApiController
                         $good = new Good();
                         $good->type = "fashion";
                         $good->name = $card->title;
+                        $good->order = $order;
+                        $good->label = $request->label;
                         $good->save();
                         $card->good_id = $good->id;
                     }
@@ -367,7 +377,14 @@ class TaskController extends ManageApiController
         if ($request->task_list_id) {
             $this->taskRepository->createTaskListFromTemplate($request->task_list_id, $card->id, $this->user);
         }
-
+        $title = "";
+        $taskList = $card->taskLists()->first();
+        if ($taskList) {
+            $title = $taskList->title;
+        }
+        $code = $good->order . '-' . $good->label . '-' . abbrev($title);
+        $good->code = $code;
+        $good->save();
 
         return $this->respond(["card" => $card->transform()]);
     }
