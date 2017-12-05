@@ -10,9 +10,9 @@ export default {
             description: '',
             price: '',
             avatar_url: '',
-            sale_status: false,
-            highlight_status: false,
-            display_status: false,
+            sale_status: 0,
+            highlight_status: 0,
+            display_status: 0,
             manufacture_id: '',
             good_category_id: '',
             images_url: [],
@@ -29,17 +29,22 @@ export default {
 
     inventoryGood: {
         isLoading: false,
+        isLoadingMore: false,
         isLoadingHistoryModal: false,
         inventories: [],
         categories: [],
         manufactures: [],
+        warehousesList: [],
         totalPages: 1,
         currentPage: 1,
         limit: 20,
         totalCount: 1,
         inventoryChecking: {
             histories: [],
-            inventoryInfo: {}
+            warehouses: [],
+            inventoryInfo: {},
+            totalPages: 0,
+            currentPage: 0
         },
         historyModal: false,
         count: 0,
@@ -850,12 +855,14 @@ export default {
             historyPaidMoney: []
         },
         formImportGood: {
-            importGoods: [],
+            imported_goods: [],
             scot: 0,
             paid_money: 0,
             isStoring: false,
             error: false,
-            payment: ''
+            payment: '',
+            isLoadingHistoryPaid: false,
+            errorHistoryPaid: false,
         },
         addGoodFile: {
             isCheckingGoods: false,
@@ -896,10 +903,64 @@ export default {
 
     customers: {
         customersList: [],
+        ordersList : [],
         isLoading: true,
+        totalOrderPages : 10,
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
+        totalCount: 10,
+        modal : {
+            isSaving : false,
+            customer : {
+                name : '',
+                phone : '',
+                email : '',
+                address : '',
+                gender : '',
+                dob : '',
+            }
+        },
+    },
+    suppliers: {
+        suppliersList : [],
+        isLoading : false,
+        totalCount: 10,
+        totalPages : 10,
+        modal : {
+            isSaving : false,
+            supplier : {
+                name : '',
+                phone : '',
+                email : '',
+                address : '',
+            }
+        }
+    },
+
+    addDiscount :{
+        isSaving : false,
+        isLoading: false,
+        customers : [],
+        goods : [],
+        categories : [],
+        totalCustomerPages : 10,
+        totalGoodPages : 10,
+        discount :{
+            name: '',
+            description: '',
+            discount_type : '',
+            discount_value : '',
+            type : '',
+            used_for : '',
+            start_time : '',
+            end_time : '',
+            order_value : '',
+            good : {},
+            category : {},
+            customer : {},
+        },
+
     },
     coursesCreateEdit: {
         isLoading: false,
@@ -1035,6 +1096,12 @@ export default {
         isLoading: false,
         error: false,
         summary: [],
+    },
+    discounts : {
+        discountsList : [],
+        isLoading : false,
+        totalPages : 10,
+        totalCount : 10,
     },
     attendance:{
         isLoading: false,

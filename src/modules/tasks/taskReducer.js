@@ -1136,6 +1136,7 @@ export default function taskReducer(state = initialState.task, action) {
                                     if (card.id === action.card.id) {
                                         return {
                                             ...card,
+                                            completed: !action.task.status && card.is_end,
                                             tasks: card.tasks.map((task) => {
                                                 if (task.id === action.task.id) {
                                                     return {

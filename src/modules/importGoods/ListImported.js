@@ -11,8 +11,8 @@ class ListImported extends React.Component {
 
     render() {
         return (
-            <div className="material-datatables">
-                <table id="imported-goods-table" className="table" width="100%">
+            <div className="table-responsive">
+                <table className="table">
                     <thead>
                     <tr className="text-rose">
                         <th className="text-center">Mã hóa đơn</th>
@@ -56,6 +56,7 @@ class ListImported extends React.Component {
                                         disabledEdit={isCompleted}
                                         delete={this.props.deleteImportOrder}
                                         object={importOrder}
+                                        editUrl={`/import-good/${importOrder.id}/edit`}
                                     /></td>
                                 </tr>
                             );

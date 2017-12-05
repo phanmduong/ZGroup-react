@@ -8,70 +8,74 @@ class WareHouseTab extends React.Component {
 
     render() {
         return (
-            <div className="table-responsive">
-                <table className="table">
-                    <thead>
-                    <tr className="text-rose">
-                        <th>STT</th>
-                        <th>Tên kho</th>
-                        <th>Địa chỉ</th>
-                        <th>Cơ sở</th>
-                        <th>Địa chỉ cơ sở</th>
-                        <th>SL</th>
-                        <th/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        this.props.productPresent.good_warehouses && this.props.productPresent.good_warehouses.map((warehouse, id) => {
-                            return (
-                                <tr key={id}>
-                                    <td>{id + 1}</td>
-                                    <td>{warehouse.warehouse.name}</td>
-                                    <td>{warehouse.warehouse.address}</td>
-                                    <td>{warehouse.base.name}</td>
-                                    <td>{warehouse.base.address}</td>
-                                    <td>{warehouse.quantity}</td>
-                                    <td>
-                                        <div className="btn-group-action">
-                                            <a data-toggle="tooltip" title="" type="button"
-                                               rel="tooltip" href="good/11/edit"
-                                               data-original-title="Sửa"><i className="material-icons">edit</i></a>
-                                            <a
-                                                data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                                data-original-title="Không thể xoá"><i
-                                                className="material-icons">delete_forever</i></a>
-                                            <a
-                                                data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                                data-original-title="Chuyển kho"><i
-                                                className="material-icons">swap_horiz</i></a>
-
-                                        </div>
-                                    </td>
+            <div>
+                {
+                    this.props.warehouses.length === 0 ? (
+                        <div style={{
+                            textAlign: "center",
+                            margin: "10px"
+                        }}>
+                            <h4 className="panel-title"><b>Không có kho hàng nào</b></h4>
+                        </div>
+                    ) : (
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead>
+                                <tr className="text-rose">
+                                    <th>STT</th>
+                                    <th>Tên kho</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Cơ sở</th>
+                                    <th>Địa chỉ cơ sở</th>
+                                    <th>SL</th>
                                 </tr>
-                            );
-                        })
-                    }
-                    <tr>
-                        <td/>
-                        <td><b>Tổng</b></td>
-                        <td/>
-                        <td/>
-                        <td/>
-                        <td>
-                            <b>{this.props.productPresent.total_quantity_in_warehouses}</b>
-                        </td>
-                        <td/>
-                    </tr>
-                    </tbody>
-                </table>
+                                </thead>
+                                <tbody>
+                                {
+                                    this.props.warehouses.map((warehouse, id) => {
+                                        return (
+                                            <tr key={id}>
+                                                <td>{id + 1}</td>
+                                                <td>{warehouse.name}</td>
+                                                <td>{warehouse.location}</td>
+                                                {
+                                                    warehouse.base ? (
+                                                        <td>{warehouse.base.name}</td>
+                                                    ) : (<td>Chưa có</td>)
+                                                }
+                                                {
+                                                    warehouse.base ? (
+                                                        <td>{warehouse.base.address}</td>
+                                                    ) : (<td>Chưa có</td>)
+                                                }
+                                                <td>{warehouse.quantity}</td>
+                                            </tr>
+                                        );
+                                    })
+                                }
+                                <tr>
+                                    <td/>
+                                    <td><b>Tổng</b></td>
+                                    <td/>
+                                    <td/>
+                                    <td/>
+                                    <td>
+                                        <b>{this.props.warehouses.reduce((sum, warehouse) => sum + warehouse.quantity, 0)}</b>
+                                    </td>
+                                    <td/>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    )
+                }
             </div>
         );
     }
 }
 
 WareHouseTab.propTypes = {
-    productPresent: PropTypes.object.isRequired
+    warehouses: PropTypes.array.isRequired
 };
 
 export default WareHouseTab;

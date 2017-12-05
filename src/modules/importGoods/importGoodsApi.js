@@ -44,14 +44,17 @@ export function searchGoods(search) {
     return axios.get(url);
 }
 
-export function createImportGoods(formImportGood, status) {
-    let url = env.MANAGE_API_URL + `/order/add-import-order-goods`;
+export function createImportGoods(formImportGood, status, importGoodsId) {
+    let url = env.MANAGE_API_URL + (importGoodsId ? `/order/import-order/edit/${importGoodsId}` :
+        `/order/add-import-order-goods`)
+
+    ;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
 
-    let importGoods = formImportGood.importGoods.map((good) => {
+    let importGoods = formImportGood.imported_goods.map((good) => {
         return {
             good_id: good.id,
             quantity: Number(good.quantity.toString().replace(/\./g, "")),
@@ -62,14 +65,14 @@ export function createImportGoods(formImportGood, status) {
 
     return axios.post(url, {
         code: formImportGood.code,
-        id: formImportGood.id ? formImportGood.id : "",
+        id: importGoodsId ? importGoodsId : "",
         note: formImportGood.note,
         status: status,
         paid_money: Number(formImportGood.paid_money.toString().replace(/\./g, "")),
         imported_goods: importGoods,
         payment: formImportGood.payment,
         note_paid_money: formImportGood.note_paid_money,
-        warehouse_id: formImportGood.warehouse_id,
+        warehouse_id: formImportGood.warehouse ? formImportGood.warehouse.id : '',
         user_id: formImportGood.supplier ? formImportGood.supplier.id : ''
     });
 }

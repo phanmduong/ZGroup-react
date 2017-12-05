@@ -1,5 +1,6 @@
 import * as inventoryGoodApi from './inventoryGoodApi';
 import * as types from '../../constants/actionTypes';
+import * as helper from "../../helpers/helper";
 
 export function getInventories(page, search, manufacture_id, good_category_id) {
     return function (dispatch) {
@@ -36,7 +37,7 @@ export function getCategoriesInventoryGood() {
     return function (dispatch) {
         inventoryGoodApi.getCategoriesApi()
             .then(function (response) {
-                dispatch(saveCategoriesInventoryGood(superSortCategories(response.data.data[0].good_categories)));
+                dispatch(saveCategoriesInventoryGood(helper.superSortCategories(response.data.data[0].good_categories)));
             });
     };
 }
@@ -48,18 +49,37 @@ export function saveCategoriesInventoryGood(categories) {
     });
 }
 
-export function getHistoryInventories(inventory) {
+export function getHistoryInventories(inventory, page, warehouse_id, loadMore) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_MORE_HISTORY_INVENTORY_GOOD
+        });
+        inventoryGoodApi.getHistoryInventoriesApi(inventory.id, page, warehouse_id)
+            .then(function (response) {
+                dispatch({
+                    type: types.SAVE_HISTORY_INVENTORY_GOOD,
+                    histories: response.data.history,
+                    inventoryInfo: inventory,
+                    totalPages: response.data.paginator.total_pages,
+                    currentPage: response.data.paginator.current_page,
+                    loadMore
+                });
+            });
+    };
+}
+
+export function getWarehouseInventories(inventory) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_HISTORY_INVENTORY_GOOD
         });
-        inventoryGoodApi.getHistoryInventoriesApi(inventory.id)
+        inventoryGoodApi.getWarehouseApi(inventory.id)
             .then(function (response) {
                 dispatch({
-                    type: types.SAVE_HISTORY_INVENTORY_GOOD,
-                    histories: response.data.data.history,
-                    inventoryInfo: inventory
+                    type: types.SAVE_WAREHOUSE_INVENTORY_GOOD,
+                    warehouses: response.data.data.warehouses
                 });
+                dispatch(getHistoryInventories(inventory, null, null, false));
             });
     };
 }
@@ -78,43 +98,20 @@ export function getInfoInventories() {
     };
 }
 
+export function getWarehouseList() {
+    return function (dispatch) {
+        inventoryGoodApi.getWarehouseListApi()
+            .then(function (response) {
+                dispatch({
+                    type: types.GET_WAREHOUSES_INVENTORY_GOOD,
+                    warehousesList: response.data.data.warehouses
+                });
+            });
+    };
+}
+
 export function showHistoryModal() {
     return ({
         type: types.TOGGLE_HISTORY_MODAL_INVENTORY_GOOD
     });
-}
-
-export function superSortCategories(categories) {
-    categories.reverse();
-    let result = [];
-    let index = -1, id = 0, gen = 0;
-    let medium = superFilter(id, categories, gen);
-    result.splice(index + 1, 0, ...medium);
-    for (let j = 0; j < categories.length; j++) {
-        let tmp = medium[j];
-        if (tmp) {
-            index = result.indexOf(tmp);
-            gen = tmp.gen;
-            let a = superFilter(tmp.id, categories, gen);
-            result.splice(index + 1, 0, ...a);
-            medium = [...medium, ...a];
-        }
-    }
-    return result;
-}
-
-export function superFilter(id, inter, gen) {
-    let first = '';
-    for (let j = 0; j < gen; j++) first += '--';
-    let res = inter.filter(children => children.parent_id === id);
-    const newArr = res.map((children) => {
-        return {
-            ...children,
-            ...{
-                gen: gen + 1,
-                label: first + children.name
-            }
-        };
-    });
-    return newArr;
 }

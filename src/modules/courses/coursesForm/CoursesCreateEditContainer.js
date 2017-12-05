@@ -347,7 +347,10 @@ CreateEditCoursesContainer.propTypes = {
     updateCoverError    : PropTypes.bool,
     isCommitting        : PropTypes.bool,
     commitSuccess       : PropTypes.bool,
-    coursesActions      : PropTypes.object.isRequired
+    coursesActions      : PropTypes.object.isRequired,
+    location            : PropTypes.object,
+    params            : PropTypes.object,
+    children            : PropTypes.element,
 };
 
 function mapStateToProps(state) {

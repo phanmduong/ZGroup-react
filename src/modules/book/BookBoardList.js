@@ -14,13 +14,13 @@ class BoardList extends React.Component {
 
 
     componentDidMount() {
-        this.initBoardDragula();
+        // this.initBoardDragula();
         this.initBoardContainerDragula();
     }
 
     //
     componentDidUpdate() {
-        this.initBoardDragula();
+        // this.initBoardDragula();
         this.initBoardContainerDragula();
     }
 

@@ -7,7 +7,7 @@ import * as helper from '../../../helpers/helper';
 import FormInputText from "../../../components/common/FormInputText";
 import ReactSelect from "react-select";
 import {PAYMENT} from "../../../constants/constants";
-
+import PropTypes from 'prop-types';
 
 class HistoryPaid extends React.Component {
     constructor(props, context) {
@@ -19,7 +19,7 @@ class HistoryPaid extends React.Component {
                 note: '',
                 payment: ''
             }
-        }
+        };
         this.updateFormData = this.updateFormData.bind(this);
         this.changePayment = this.changePayment.bind(this);
     }
@@ -31,7 +31,7 @@ class HistoryPaid extends React.Component {
     changeTab(tab) {
         this.setState({
             tab: tab
-        })
+        });
     }
 
     updateFormData(event) {
@@ -215,6 +215,16 @@ class HistoryPaid extends React.Component {
 
     }
 }
+
+HistoryPaid.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    isSavingPaidMoney: PropTypes.bool.isRequired,
+    importOrder: PropTypes.object.isRequired,
+    importGoodActions: PropTypes.object.isRequired,
+    historyPaidMoney: PropTypes.number.isRequired,
+    importGoodId: PropTypes.number.isRequired,
+    closeModal: PropTypes.func,
+};
 
 function mapStateToProps(state) {
     return {

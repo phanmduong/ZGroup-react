@@ -13,6 +13,7 @@ import SelectDropdown from '../../components/common/Select';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import ItemReactSelect from '../../components/common/ItemReactSelect';
+import {TYPE_CLASSES} from "../../constants/constants";
 
 
 class AddClassContainer extends React.Component {
@@ -32,6 +33,7 @@ class AddClassContainer extends React.Component {
         this.changeTeachAssis = this.changeTeachAssis.bind(this);
         this.changeSchedule = this.changeSchedule.bind(this);
         this.checkValidate = this.checkValidate.bind(this);
+        this.changeType = this.changeType.bind(this);
         this.createClass = this.createClass.bind(this);
         this.editClass = this.editClass.bind(this);
     }
@@ -116,31 +118,37 @@ class AddClassContainer extends React.Component {
 
     changeGen(value) {
         let classData = {...this.props.class};
-        classData.gen_id = value.id;
+        classData.gen_id = value && value.id ? value.id : '';
         this.props.classActions.updateFormCreateClass(classData);
     }
 
     changeCourse(value) {
         let classData = {...this.props.class};
-        classData.course_id = value.id;
+        classData.course_id = value && value.id ? value.id : '';
         this.props.classActions.updateFormCreateClass(classData);
     }
 
     changeTeacher(value) {
         let classData = {...this.props.class};
-        classData.teacher_id = value.id;
+        classData.teacher_id = value && value.id ? value.id : '';
         this.props.classActions.updateFormCreateClass(classData);
     }
 
     changeTeachAssis(value) {
         let classData = {...this.props.class};
-        classData.teacher_assis_id = value.id;
+        classData.teacher_assis_id = value && value.id ? value.id : '';
         this.props.classActions.updateFormCreateClass(classData);
     }
 
     changeSchedule(value) {
         let classData = {...this.props.class};
-        classData.schedule_id = value.id;
+        classData.schedule_id = value && value.id ? value.id : '';
+        this.props.classActions.updateFormCreateClass(classData);
+    }
+
+    changeType(value) {
+        let classData = {...this.props.class};
+        classData.type = value && value.value ? value.value : '';
         this.props.classActions.updateFormCreateClass(classData);
     }
 
@@ -161,7 +169,7 @@ class AddClassContainer extends React.Component {
     }
 
     checkValidate() {
-        let {gen_id, course_id, schedule_id, datestart, room_id} = this.props.class;
+        let {gen_id, course_id, schedule_id, datestart, room_id, type} = this.props.class;
         helper.setFormValidation("#form-add-class");
         if ($("#form-add-class").valid()) {
             if (helper.isEmptyInput(datestart)) {
@@ -182,6 +190,10 @@ class AddClassContainer extends React.Component {
             }
             if (helper.isEmptyInput(gen_id)) {
                 helper.showTypeNotification("Vui lòng chọn khóa học", "warning");
+                return false;
+            }
+            if (helper.isEmptyInput(type)) {
+                helper.showTypeNotification("Vui lòng chọn thể loại lớp", "warning");
                 return false;
             }
             return true;
@@ -205,7 +217,7 @@ class AddClassContainer extends React.Component {
         if (this.props.isLoadingInfoCreateClass) {
             return <Loading/>;
         } else {
-            let {name, description, target, regis_target, study_time, gen_id, course_id, teacher_assis_id, teacher_id, schedule_id, datestart, room_id} = this.props.class;
+            let {name, description, target, regis_target, study_time, gen_id, course_id, teacher_assis_id, teacher_id, schedule_id, datestart, room_id, type} = this.props.class;
             return (
                 <div>
                     <form id="form-add-class" onSubmit={(e) => {
@@ -274,30 +286,48 @@ class AddClassContainer extends React.Component {
                             value={room_id}
                             isPaddingLeft
                         />
-                        <div className="form-group">
-                            <Select
-                                name="form-field-name"
-                                value={schedule_id}
-                                options={this.state.optionsSelectSchedule}
-                                onChange={this.changeSchedule}
-                                placeholder="Chọn lịch học"
-                            />
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label className="label-control">Lịch học</label>
+                                    <Select
+                                        name="form-field-name"
+                                        value={schedule_id}
+                                        options={this.state.optionsSelectSchedule}
+                                        onChange={this.changeSchedule}
+                                        placeholder="Chọn lịch học"
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="form-group">
+                                    <label className="label-control">Thể loại lớp</label>
+                                    <Select
+                                        name="form-field-name"
+                                        value={type}
+                                        options={TYPE_CLASSES}
+                                        onChange={this.changeType}
+                                        placeholder="Chọn thể loại"
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className="row">
                             <div className="col-md-6">
                                 <div className="form-group">
+                                    <label className="label-control">Môn học</label>
                                     <Select
                                         name="form-field-name"
                                         value={course_id}
                                         options={this.state.optionsSelectCourse}
                                         onChange={this.changeCourse}
                                         placeholder="Chọn môn học"
-                                        optionRenderer={(option)=>{
+                                        optionRenderer={(option) => {
                                             return (
                                                 <ItemReactSelect label={option.label} url={option.icon_url}/>
                                             );
                                         }}
-                                        valueRenderer={(option)=>{
+                                        valueRenderer={(option) => {
                                             return (
                                                 <ItemReactSelect label={option.label} url={option.icon_url}/>
                                             );
@@ -307,6 +337,7 @@ class AddClassContainer extends React.Component {
                             </div>
                             <div className="col-md-6">
                                 <div className="form-group">
+                                    <label className="label-control">Khóa học</label>
                                     <Select
                                         name="form-field-name"
                                         value={gen_id}
@@ -320,18 +351,19 @@ class AddClassContainer extends React.Component {
                         <div className="row">
                             <div className="col-md-6">
                                 <div className="form-group">
+                                    <label className="label-control">Giảng viên</label>
                                     <Select
                                         name="form-field-name"
                                         value={teacher_id}
                                         options={this.state.optionsSelectStaff}
                                         onChange={this.changeTeacher}
                                         placeholder="Chọn giảng viên"
-                                        optionRenderer={(option)=>{
+                                        optionRenderer={(option) => {
                                             return (
                                                 <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                             );
                                         }}
-                                        valueRenderer={(option)=>{
+                                        valueRenderer={(option) => {
                                             return (
                                                 <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                             );
@@ -341,17 +373,18 @@ class AddClassContainer extends React.Component {
                             </div>
                             <div className="col-md-6">
                                 <div className="form-group">
+                                    <label className="label-control">Trợ giảng</label>
                                     <Select
                                         name="form-field-name"
                                         value={teacher_assis_id}
                                         options={this.state.optionsSelectStaff}
                                         onChange={this.changeTeachAssis}
-                                        optionRenderer={(option)=>{
+                                        optionRenderer={(option) => {
                                             return (
                                                 <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                             );
                                         }}
-                                        valueRenderer={(option)=>{
+                                        valueRenderer={(option) => {
                                             return (
                                                 <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                             );

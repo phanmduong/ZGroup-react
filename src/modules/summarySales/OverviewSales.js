@@ -6,6 +6,7 @@ import {connect} from 'react-redux';
 import * as helper from '../../helpers/helper';
 import TooltipButton from '../../components/common/TooltipButton';
 import {Pie} from "react-chartjs-2";
+import PropTypes from 'prop-types';
 
 const legendOpts = {
     display: false,
@@ -47,10 +48,10 @@ class OverviewSales extends React.Component {
     render() {
         return (
             <div>
-                {this.props.summary.map((item) => {
+                {this.props.summary.map((item, index) => {
                     let dataChart = this.convertData(item.campaigns);
                     return (
-                        <div className="row">
+                        <div className="row" key={index}>
                             <div className="col-md-12">
                                 <div className="card">
                                     <div className="card-header card-header-icon" data-background-color="rose">
@@ -94,7 +95,7 @@ class OverviewSales extends React.Component {
                                                         {
                                                             item.courses && item.courses.map((course) => {
                                                                 return (
-                                                                    <tr>
+                                                                    <tr key={course.id}>
                                                                         <td>{course.name}</td>
                                                                         <td className="text-center">{course.count}</td>
                                                                         <td className="text-center">{helper.dotNumber(course.count * course.sale_bonus)}đ</td>
@@ -121,6 +122,10 @@ class OverviewSales extends React.Component {
         );
     }
 }
+
+OverviewSales.propTypes = {
+    summary: PropTypes.array.isRequired,
+};
 
 function mapStateToProps(state) {
     return {

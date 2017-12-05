@@ -20,9 +20,9 @@ class PriceModalContainer extends React.Component {
 
     handleProduct(e) {
         const field = e.target.name;
-        let productEditing = this.props.productEditing;
-        productEditing.productPresent[field] = e.target.value;
-        this.props.modalProductAction.handleProduct(productEditing.productPresent);
+        let productPresent = {...this.props.productEditing.productPresent};
+        productPresent[field] = e.target.value;
+        this.props.modalProductAction.handleProduct(productPresent);
     }
 
     render() {

@@ -77,6 +77,7 @@ class coursesCreateEditCurriculum extends React.Component {
 coursesCreateEditCurriculum.propTypes = {
     isLoading           : PropTypes.bool.isRequired,
     data                : PropTypes.object,
+    params                : PropTypes.object,
     coursesActions      : PropTypes.object.isRequired
 };
 

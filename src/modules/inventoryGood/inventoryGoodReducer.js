@@ -29,13 +29,36 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
                 manufactures: action.manufactures
             };
         case types.SAVE_HISTORY_INVENTORY_GOOD:
-            return {
+            if (action.loadMore) {
+                return {
+                    ...state,
+                    inventoryChecking: {
+                        ...state.inventoryChecking,
+                        histories: [...state.inventoryChecking.histories, ...action.histories],
+                        inventoryInfo: action.inventoryInfo,
+                        totalPages: action.totalPages,
+                        currentPage: action.currentPage
+                    },
+                    isLoadingMore: false
+                };
+            } else return {
                 ...state,
-                isLoadingHistoryModal: false,
                 inventoryChecking: {
                     ...state.inventoryChecking,
                     histories: action.histories,
                     inventoryInfo: action.inventoryInfo,
+                    totalPages: action.totalPages,
+                    currentPage: action.currentPage
+                },
+                isLoadingHistoryModal: false,
+                isLoadingMore: false
+            };
+        case types.SAVE_WAREHOUSE_INVENTORY_GOOD:
+            return {
+                ...state,
+                inventoryChecking: {
+                    ...state.inventoryChecking,
+                    warehouses: action.warehouses
                 }
             };
         case types.TOGGLE_HISTORY_MODAL_INVENTORY_GOOD:
@@ -54,6 +77,16 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
             return {
                 ...state,
                 isLoadingHistoryModal: true
+            };
+        case types.BEGIN_LOAD_MORE_HISTORY_INVENTORY_GOOD:
+            return {
+                ...state,
+                isLoadingMore: true
+            };
+        case types.GET_WAREHOUSES_INVENTORY_GOOD:
+            return {
+                ...state,
+                warehousesList: action.warehousesList
             };
         default:
             return state;

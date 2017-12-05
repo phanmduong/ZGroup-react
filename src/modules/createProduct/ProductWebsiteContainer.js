@@ -45,7 +45,7 @@ class ProductWebsiteContainer extends React.Component {
                             urlPost={linkUploadImageEditor()}
                             fileField="image"
                             updateEditor={this.updateEditorContent}
-                            value={product.description}
+                            value={product.description || ''}
                         />
                     </div>
                     <div className="col-md-4">
@@ -104,7 +104,7 @@ class ProductWebsiteContainer extends React.Component {
                         <div className="card-content">
                             <h4 className="card-title">Thêm ảnh mô tả</h4>
                             {
-                                !product.images_url || product.images_url.length === 0 ? (
+                                (!product.images_url || product.images_url.length === 0) && !this.props.isUploadingImage ? (
                                     <div style={{
                                         maxWidth: "250px",
                                         lineHeight: "250px",
@@ -135,19 +135,19 @@ class ProductWebsiteContainer extends React.Component {
                                         {
                                             product.images_url && product.images_url.map((image, index) => {
                                                 return (
-                                                    <div key={index} className="col-md-12">
-                                                        <div className="container">
+                                                    <div key={index} className="col-md-4">
+                                                        <div className="container-for-images">
                                                             <img style={{
-                                                                width: "250px",
-                                                                height: "250px",
+                                                                width: "65px",
+                                                                height: "65px",
                                                                 background: "url(" + image + ") center center / cover",
                                                                 position: "absolute",
                                                                 left: "0"
                                                             }}
                                                                  data-original-title=""
                                                                  className="product-image"/>
-                                                            <div className="overlay"/>
-                                                            <div className="button">
+                                                            <div className="overlay-for-images"/>
+                                                            <div className="button-for-images">
                                                                 <a rel="tooltip"
                                                                    data-original-title="" title=""
                                                                    onClick={() => this.props.createProductAction.deleteImage(image)}>
@@ -158,6 +158,26 @@ class ProductWebsiteContainer extends React.Component {
                                                     </div>
                                                 );
                                             })
+                                        }
+                                        {
+                                            this.props.isUploadingImage ? (
+                                                <div className="col-md-4">
+                                                    <div className="container-for-images"
+                                                         style={{textAlign: "center"}}>
+                                                        <div className="progress">
+                                                            <div className="progress-bar" role="progressbar"
+                                                                 aria-valuenow="70"
+                                                                 aria-valuemin="0" aria-valuemax="100"
+                                                                 style={{width: `${this.props.percent}%`}}>
+                                                                <span
+                                                                    className="sr-only">{this.props.percent}% Complete</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div/>
+                                            )
                                         }
                                     </div>
                                 )

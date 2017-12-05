@@ -49,11 +49,14 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                 ...state,
                 importGood: {
                     ...state.importGood,
-                    ...{
-                        isLoading: false,
-                        error: false,
-                        importOrder: action.importOrder
-                    }
+                    isLoading: false,
+                    error: false,
+                    importOrder: action.importOrder
+                },
+                formImportGood: {
+                    ...state.formImportGood,
+                    ...action.importOrder,
+                    supplier: action.supplier
                 }
             };
         case types.LOAD_IMPORT_GOOD_ORDERS_ERROR:
@@ -244,7 +247,12 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                     importOrder: {
                         ...state.importGood.importOrder,
                         debt: state.importGood.importOrder.debt - action.orderPaidMoney.money
-                    }
+                    },
+                },
+                formImportGood: {
+                    ...state.formImportGood,
+                    debt: state.formImportGood.debt - action.orderPaidMoney.money,
+                    paid_money: state.formImportGood.paid_money + action.orderPaidMoney.money,
                 }
             };
         }

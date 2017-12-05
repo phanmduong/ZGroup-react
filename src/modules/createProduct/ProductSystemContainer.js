@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as createProductAction from './createProductAction';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
+import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
 
 class ProductSystemContainer extends React.Component {
     constructor(props, context) {
@@ -63,55 +64,25 @@ class ProductSystemContainer extends React.Component {
             <form role="form">
                 <div className="row">
                     <div className="col-md-4">
-                        <h4 className="panel-title">
-                            <div className="checkbox none-margin">
-                                <label>
-                                    <input type="checkbox"
-                                           name="sale_status"
-                                           checked={product.sale_status}
-                                           onChange={this.selectStatusProduct}
-                                    />
-                                    <span className="checkbox-material">
-                                    <span className="check"/>
-                                </span>
-                                    Đang kinh doanh
-                                </label>
-                            </div>
-                        </h4>
+                        <CheckBoxMaterial
+                            name="sale_status"
+                            checked={product.sale_status ? (true) : (false)}
+                            onChange={this.selectStatusProduct}
+                            label="Đang kinh doanh"/>
                     </div>
                     <div className="col-md-4">
-                        <h4 className="panel-title">
-                            <div className="checkbox none-margin">
-                                <label>
-                                    <input type="checkbox"
-                                           name="display_status"
-                                           checked={product.display_status}
-                                           onChange={this.selectStatusProduct}
-                                    />
-                                    <span className="checkbox-material">
-                                    <span className="check"/>
-                                </span>
-                                    Hiển thị ra website
-                                </label>
-                            </div>
-                        </h4>
+                        <CheckBoxMaterial
+                            name="display_status"
+                            checked={product.display_status ? (true) : (false)}
+                            onChange={this.selectStatusProduct}
+                            label="Hiển thị ra website"/>
                     </div>
                     <div className="col-md-4">
-                        <h4 className="panel-title">
-                            <div className="checkbox none-margin">
-                                <label>
-                                    <input type="checkbox"
-                                           name="highlight_status"
-                                           checked={product.highlight_status}
-                                           onChange={this.selectStatusProduct}
-                                    />
-                                    <span className="checkbox-material">
-                                    <span className="check"/>
-                                </span>
-                                    Nổi bật
-                                </label>
-                            </div>
-                        </h4>
+                        <CheckBoxMaterial
+                            name="highlight_status"
+                            checked={product.highlight_status ? (true) : (false)}
+                            onChange={this.selectStatusProduct}
+                            label=" Nổi bật"/>
                     </div>
                 </div>
                 <div className="form-group">

@@ -4,13 +4,16 @@ import TooltipButton from '../../components/common/TooltipButton';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
+import ReactSelect from 'react-select';
+import {ORDER_STATUS} from "../../constants/constants";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.changeStatusOrder = this.changeStatusOrder.bind(this);
     }
 
-    statusOrder(status){
+    statusOrder(status) {
         switch (status) {
             case "ship_uncall":
                 return (
@@ -41,18 +44,22 @@ class ItemOrder extends React.Component {
         }
     }
 
+    changeStatusOrder(value) {
+        let statusOrder = value && value.value ? value.value : '';
+        this.props.changeStatusOrder(statusOrder, this.props.order.id);
+    }
+
     render() {
         let order = this.props.order;
         return (
             <tr>
                 <td>
                     <Link className="text-name-student-register" to={`/goods/order/${order.id}`}>
-                        {/*{order.code}*/}
-                        test
+                        {order.code ? order.code : 'Không có mã'}
                     </Link>
                 </td>
                 <td>{order.created_at}</td>
-                <td>{order.user ? order.user.name : "Không nhập"}</td>
+                <td>{order.customer ? order.customer.name : "Không nhập"}</td>
                 <td>
                     {
                         order.staff ?
@@ -87,16 +94,20 @@ class ItemOrder extends React.Component {
                             )
                     }
                 </td>
-                <td>
-                    {
-                        this.statusOrder(order.status)
-                    }
+                <td className="min-width-130-px">
+                    <ReactSelect
+                        name="form-field-name"
+                        options={ORDER_STATUS}
+                        value={order.status}
+                        placeholder="Chọn trạng thái"
+                        onChange={this.changeStatusOrder}
+                    />
                 </td>
 
-                <td>{order.total}</td>
-                <td>{order.debt}</td>
+                <td>{helper.dotNumber(order.total)}đ</td>
+                <td>{helper.dotNumber(order.debt)}đ</td>
                 <td>
-                    <ButtonGroupAction />
+                    <ButtonGroupAction/>
                 </td>
             </tr>
         );
@@ -104,7 +115,8 @@ class ItemOrder extends React.Component {
 }
 
 ItemOrder.propTypes = {
-    order : PropTypes.object.isRequired,
+    order: PropTypes.object.isRequired,
+    changeStatusOrder: PropTypes.func.isRequired,
 };
 
 

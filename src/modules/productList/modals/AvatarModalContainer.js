@@ -154,7 +154,6 @@ class AvatarModalContainer extends React.Component {
                                                             type="file"
                                                         />Change
                                                     </label>
-
                                                     <button
                                                         className="btn btn-xs btn-danger btn-round"
                                                         onClick={this.removeImageChange}><i
