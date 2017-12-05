@@ -221,7 +221,6 @@ class GoodController extends ManageApiController
             $goods,
             [
                 "goods" => $goods->map(function ($good) {
-
                     $goods_count = Good::where('code', $good->code)->count();
                     $data = $good->transform();
                     if($goods_count == 1)
