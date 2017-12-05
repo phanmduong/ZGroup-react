@@ -107,10 +107,7 @@ class OverviewSales extends React.Component {
                                                 </div>
                                             </div>
                                             <div className="col-md-6">
-                                                <Pie
-                                                    data={dataChart}
-                                                    legend={legendOpts}
-                                                />
+
                                             </div>
                                         </div>
 
