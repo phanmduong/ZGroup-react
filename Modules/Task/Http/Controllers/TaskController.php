@@ -377,14 +377,18 @@ class TaskController extends ManageApiController
         if ($request->task_list_id) {
             $this->taskRepository->createTaskListFromTemplate($request->task_list_id, $card->id, $this->user);
         }
-        $title = "";
-        $taskList = $card->taskLists()->first();
-        if ($taskList) {
-            $title = $taskList->title;
+
+        if ($good != null) {
+            $title = "";
+            $taskList = $card->taskLists()->first();
+            if ($taskList) {
+                $title = $taskList->title;
+            }
+            $code = $good->order . '-' . strtoupper($good->label) . '-' . abbrev($title);
+            $good->code = $code;
+            $good->save();
         }
-        $code = $good->order . '-' . $good->label . '-' . abbrev($title);
-        $good->code = $code;
-        $good->save();
+
 
         return $this->respond(["card" => $card->transform()]);
     }
