@@ -45,7 +45,7 @@ class ManageDashboardApiController extends ManageApiController
         $gen = Gen::find($gen_id);
         $courses = Course::all();
 
-        if (isset($start_time) && isset($end_time)) {
+        if ($start_time && $end_time) {
             $date_array = createDateRangeArray(strtotime($start_time), strtotime($end_time));
         } else {
             $date_array = createDateRangeArray(strtotime($gen->start_time), strtotime($gen->end_time));
