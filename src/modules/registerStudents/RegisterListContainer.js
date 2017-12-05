@@ -82,7 +82,6 @@ class RegisterListContainer extends React.Component {
     }
 
     onClassFilterChange(obj){
-        //console.log('onchange',obj);
         if(obj){
             this.setState({selectedClassFilter: obj.value, selectedClassId: obj.id});
         }
@@ -104,7 +103,6 @@ class RegisterListContainer extends React.Component {
     }
 
     onSalerFilterChange(obj){
-        //console.log('onchange_saler',obj);
         if(obj){
             this.setState({selectedSalerFilter: obj.value, selectedSalerId: obj.id, page: 1});
             this.salerId = obj.id;
@@ -128,7 +126,6 @@ class RegisterListContainer extends React.Component {
     }
 
     onCampaignFilterChange(obj){
-        //console.log('onchange_Campaign',obj);
         if(obj){
             this.setState({selectedCampaignFilter: obj.value, campaignId: obj.id});
         }
@@ -150,7 +147,6 @@ class RegisterListContainer extends React.Component {
     }
 
     onMoneyFilterChange(obj){
-       // console.log('onchange_money',obj);
         let num = obj ? obj.value : 0 ;
         let res = '';
         switch(num){
@@ -179,7 +175,6 @@ class RegisterListContainer extends React.Component {
     }
 
     onClassStatusFilterChange(obj){
-        //console.log('onchange_class_status',obj);
         let num = obj ? obj.value : 0 ;
         let res = '';
         switch(num){
@@ -278,7 +273,6 @@ class RegisterListContainer extends React.Component {
                 });
                 this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
             } else {
-                console.log('last case', this.state, this.isWaitListPage);
                 if(this.isWaitListPage){
                     this.loadRegisterStudent(1, 18);
                 }else
@@ -289,7 +283,6 @@ class RegisterListContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('next props', nextProps);
         if (!nextProps.isLoadingClassFilter && this.props.isLoadingClassFilter) {
             this.setState({
                 classFilter: this.getFilter(nextProps.classFilter),
@@ -325,7 +318,6 @@ class RegisterListContainer extends React.Component {
                 this.state.class_status,
                 this.state.time.startTime,
                 this.state.time.endTime,);
-            console.log('GENS',gens);
         }
 
         if (!nextProps.isLoadingRegisters && nextProps.isLoadingRegisters !== this.props.isLoadingRegisters) {
@@ -485,7 +477,7 @@ class RegisterListContainer extends React.Component {
 
                                         </div>
                                     </div>
-                                    <Panel collapsible expanded={this.state.openFilterPanel}>
+                                    <Panel collapsible expanded={!this.state.openFilterPanel}>
                                         <div className="row">
                                             <div className="col-md-3">
                                                 <label className="">
