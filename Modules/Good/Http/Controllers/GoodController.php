@@ -152,8 +152,7 @@ class GoodController extends ManageApiController
         else
             $images_url = $goodProperty->value;
         $goods_count = Good::where('code', $good->code)->count();
-        if($goods_count > 1)
-        {
+        if ($goods_count > 1) {
             $children = Good::where('code', $good->code)->get();
             $data['children'] = $children->map(function ($child) {
                 return [
@@ -171,7 +170,6 @@ class GoodController extends ManageApiController
             "good" => $data
         ]);
     }
-
 
     public function getPropertyItems($taskId, Request $request)
     {
@@ -238,7 +236,7 @@ class GoodController extends ManageApiController
                 "goods" => $goods->map(function ($good) {
                     $goods_count = Good::where('code', $good->code)->count();
                     $data = $good->transform();
-                    if($goods_count == 1)
+                    if ($goods_count == 1)
                         $warehouses_count = ImportedGoods::where('good_id', $good->id)
                             ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
                     else {
@@ -262,6 +260,47 @@ class GoodController extends ManageApiController
                 })
             ]
         );
+    }
+
+    public function goodInfomation(Request $request)
+    {
+        $keyword = $request->search;
+        $type = $request->type;
+        $manufacture_id = $request->manufacture_id;
+        $good_category_id = $request->good_category_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $sale_status = $request->sale_status;
+        $display_status = $request->display_status;
+        $highlight_status = $request->highlight_status;
+        $goods = Good::query();
+        $goods = $goods->where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%" . $keyword . "%")->orWhere("code", "like", "%" . $keyword . "%");
+        });
+        if ($sale_status != null)
+            $goods = $goods->where('sale_status', $sale_status);
+        if ($display_status != null)
+            $goods = $goods->where('display_status', $display_status);
+        if ($highlight_status != null)
+            $goods = $goods->where('highlight_status', $highlight_status);
+        if ($type)
+            $goods = $goods->where("type", $type);
+        if ($manufacture_id)
+            $goods = $goods->where('manufacture_id', $manufacture_id);
+        if ($good_category_id)
+            $goods = $goods->where('good_category_id', $good_category_id);
+        if ($startTime)
+            $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
+        $count = $goods->count();
+        $goods = $goods->get();
+        return $this->respondSuccessWithStatus([
+            'count' => $count,
+            'total_quantity' => $goods->reduce(function ($total, $good){
+                return $total + $good->importedGoods->reduce(function ($total, $importedGoods){
+                        return $total + $importedGoods->quantity;
+                    }, 0);
+            }, 0)
+        ]);
     }
 
     public function goodsByStatus(Request $request)
