@@ -43,7 +43,7 @@ class ListLessonModal extends React.Component {
                                         placement="top"
                                         >
                                         <button className="btn btn-sm"
-                                        style={{backgroundColor: '#' + this.props.class.teacher.color , "inline-size": "-webkit-fill-available"}}>
+                                        style={{backgroundColor: '#' + this.props.class.teacher.color , inlineSize: "-webkit-fill-available"}}>
                                         {helper.getShortName(this.props.class.teacher.name)}
                                         <div className="ripple-container"/>
                                         </button>
