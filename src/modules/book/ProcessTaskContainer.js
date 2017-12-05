@@ -38,7 +38,7 @@ class ProcessTaskContainer extends React.Component {
     }
 
     render() {
-        const {card} = this.props;
+        const {card, user} = this.props;
         const tasksComplete = (taskList) => taskList.tasks.filter(t => t.status).length;
         const totalTasks = (taskList) => taskList.tasks.length;
         const percent = (taskList) => tasksComplete(taskList) / totalTasks(taskList);
@@ -79,6 +79,8 @@ class ProcessTaskContainer extends React.Component {
                                                     openEditPropertiesModal={this.props.taskActions.openAskGoodPropertiesModal}
                                                     isActive={task.current_board_id === card.board_id}
                                                     key={task.id}
+                                                    card={card}
+                                                    user={user}
                                                     task={task}
                                                     toggleTaskStatus={this.toggleTaskStatus}/>
                                             );
@@ -98,12 +100,14 @@ class ProcessTaskContainer extends React.Component {
 ProcessTaskContainer.propTypes = {
     card: PropTypes.object.isRequired,
     taskActions: PropTypes.object.isRequired,
-    projectId: PropTypes.number.isRequired
+    projectId: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         card: state.task.cardDetail.card,
+        user: state.login.user,
         projectId: state.task.boardList.projectId
     };
 }

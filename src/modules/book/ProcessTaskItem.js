@@ -18,7 +18,8 @@ class ProcessTaskItem extends React.Component {
     }
 
     render() {
-        const {task, isActive} = this.props;
+        const {task, isActive, user} = this.props;
+        const canEditProperty = task.members && task.members.filter((member) => member.id === user.id).length > 0 && task.status;
         return (
             <ListGroupItem>
                 <div className="checkbox" id={"task" + task.id}>
@@ -55,30 +56,36 @@ class ProcessTaskItem extends React.Component {
                         }
                     </label>
                 </div>
-                <div className="dropdown" style={{
-                    position: "absolute",
-                    top: "5px",
-                    right: "10px"
-                }}>
-                    <a className="dropdown-toggle btn-more-dropdown" type="button"
-                       data-toggle="dropdown">
-                        <i className="material-icons">more_horiz</i>
-                    </a>
-                    <ul className="dropdown-menu dropdown-menu-left">
 
 
-                        <li className="more-dropdown-item">
-                            <a onClick={() => this.props.openEditPropertiesModal({
-                                ...task,
-                                isEditProcess: true
-                            })}>
-                                <i className="material-icons">details</i>
-                                Sửa thuộc tính
-                            </a>
-                        </li>
+                {
+                    canEditProperty ?
+                        (
+                            <div className="dropdown" style={{
+                                position: "absolute",
+                                top: "5px",
+                                right: "10px"
+                            }}>
+                                <a className="dropdown-toggle btn-more-dropdown" type="button"
+                                   data-toggle="dropdown">
+                                    <i className="material-icons">more_horiz</i>
+                                </a>
+                                <ul className="dropdown-menu dropdown-menu-left">
+                                    <li className="more-dropdown-item">
+                                        <a onClick={() => this.props.openEditPropertiesModal({
+                                            ...task,
+                                            isEditProcess: true
+                                        })}>
+                                            <i className="material-icons">details</i>
+                                            Sửa thuộc tính
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        ) : ""
+                }
 
-                    </ul>
-                </div>
+
             </ListGroupItem>
         );
     }
@@ -88,6 +95,7 @@ ProcessTaskItem.propTypes = {
     task: PropTypes.object.isRequired,
     openEditPropertiesModal: PropTypes.func.isRequired,
     isActive: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
     toggleTaskStatus: PropTypes.func.isRequired
 };
 
