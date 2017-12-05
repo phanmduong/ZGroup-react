@@ -151,7 +151,22 @@ class GoodController extends ManageApiController
             $images_url = null;
         else
             $images_url = $goodProperty->value;
+        $goods_count = Good::where('code', $good->code)->count();
+        if($goods_count > 1)
+        {
+            $children = Good::where('code', $good->code)->get();
+            $data['children'] = $children->map(function ($child) {
+                return [
+                    'id' => $child->id,
+                    'barcode' => $child->barcode,
+                    'properties' => $child->properties->map(function ($property) {
+                        return $property->transform();
+                    }),
+                ];
+            });
+        }
         $data['images_url'] = $images_url;
+        $data['goods_count'] = $goods_count;
         return $this->respondSuccessWithStatus([
             "good" => $data
         ]);
