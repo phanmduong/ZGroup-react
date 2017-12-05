@@ -37,14 +37,19 @@ class ManageDashboardApiController extends ManageApiController
         $this->attendancesRepository = $attendancesRepository;
     }
 
-    public function dashboard($gen_id, $base_id = null)
+    public function dashboard($gen_id, Request $request, $base_id = null)
     {
-
+        $start_time = $request->start_time;
+        $end_time = $request->end_time;
         $data = [];
         $gen = Gen::find($gen_id);
         $courses = Course::all();
 
-        $date_array = createDateRangeArray(strtotime($gen->start_time), strtotime($gen->end_time));
+        if (isset($start_time) && isset($end_time)) {
+            $date_array = createDateRangeArray(strtotime($start_time), strtotime($end_time));
+        } else {
+            $date_array = createDateRangeArray(strtotime($gen->start_time), strtotime($gen->end_time));
+        }
 
         if ($base_id) {
             $base = Base::find($base_id);
