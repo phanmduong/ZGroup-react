@@ -145,6 +145,10 @@ class GoodController extends ManageApiController
     public function good($goodId)
     {
         $good = Good::find($goodId);
+        if($goodId == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'khong ton tai san pham'
+            ]);
         $data = $good->goodProcessTransform();
         $goodProperty = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
         if ($goodProperty == null)
