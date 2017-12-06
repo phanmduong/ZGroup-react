@@ -84,7 +84,7 @@ class User extends Authenticatable
     }
 
     public function infoCustomerGroup(){
-        return $this->belongsToMany('App\CustomerGroup','info_customer_groups','customer_id');
+        return $this->belongsToMany(InfoCustomerGroup::class,'customer_groups','customer_id','customer_group_id');
     }
 
 

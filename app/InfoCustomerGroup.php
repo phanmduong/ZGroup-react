@@ -12,6 +12,6 @@ class InfoCustomerGroup extends Model
     protected $table = 'info_customer_groups';
 
     public function customer(){
-        return $this->belongsToMany('App\CustomerGroup','users','customer_group_id');
+        return $this->belongsToMany(User::class,'customer_groups','customer_group_id','customer_id');
     }
 }
