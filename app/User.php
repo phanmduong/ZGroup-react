@@ -83,6 +83,10 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function infoCustomerGroup(){
+        return $this->belongsToMany('App\CustomerGroup','info_customer_groups','customer_id');
+    }
+
 
     /**
      * Check if the permission matches with any permission user has
