@@ -1414,3 +1414,13 @@ function defaultAvatarUrl()
 {
     return generate_protocol_url("d1j8r0kxyu9tj8.cloudfront.net/user.png");
 }
+
+function abbrev($s)
+{
+    $v = "";
+    $pieces = explode(" ", $s);
+    foreach ($pieces as $piece) {
+        $v .= $piece[0];
+    }
+    return strtoupper($v);
+}
