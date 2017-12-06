@@ -33,7 +33,7 @@ class ListRegister extends React.Component {
                                 key={register.id}
                                 register={register}
                                 updateMoney={this.props.updateMoney}
-                                nextCode={helper.isClassWait(register.class_name) ? this.props.nextCode : this.props.nextWaitingCode}
+                                nextCode={helper.isClassWait(register.class_type) ? this.props.nextWaitingCode : this.props.nextCode}
                             />
                         );
                     })}
