@@ -20,6 +20,8 @@ return [
     'email_company_name' => env('EMAIL_COMPANY_NAME', ''),
     'email_company_from' => env('EMAIL_COMPANY_FROM', ''),
     'email_company_to' => env('EMAIL_COMPANY_TO', ''),
+    'prefix_code' => env('PREFIX_CODE', ''),
+    'prefix_code_wait' => env('PREFIX_CODE_WAIT', ''),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

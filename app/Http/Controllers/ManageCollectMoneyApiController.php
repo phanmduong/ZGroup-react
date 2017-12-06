@@ -46,20 +46,11 @@ class ManageCollectMoneyApiController extends ManageApiController
         })->orderBy('created_at')->paginate($limit);
 
 
-        // compute the code and waiting code
-        $code = Register::orderBy('code', 'desc')->first();
-        $code = $code ? $code->code : "";
-        $waiting_code = Register::where('code', 'like', 'CCM%')->orderBy('code', 'desc')->first();
-        $waiting_code = $waiting_code ? $waiting_code->code : "";
-        $nextNumber = empty($code) ? "" : explode("M", $code)[1] + 1;
-        if ($waiting_code) {
-            $waiting_code = empty($waiting_code) ? "" : explode("M", $waiting_code)[1] + 1;
-        } else {
-            $waiting_code = $nextNumber;
-        }
+        $code = next_code();
+
         $data = [
-            'next_code' => 'CM' . $nextNumber,
-            'next_waiting_code' => 'CCM' . $waiting_code,
+            'next_code' => $code['next_code'],
+            'next_waiting_code' => $code['next_waiting_code'],
             'users' => []
         ];
 
@@ -76,6 +67,7 @@ class ManageCollectMoneyApiController extends ManageApiController
                         'id' => $regis->id,
                         'course' => $regis->studyClass->course->name,
                         'class_name' => $regis->studyClass->name,
+                        'class_type' => $regis->studyClass->type,
                         'register_time' => format_vn_date(strtotime($regis->created_at)),
                         'code' => $regis->code,
                         'icon_url' => $regis->studyClass->course->icon_url,
@@ -178,15 +170,10 @@ class ManageCollectMoneyApiController extends ManageApiController
         );
 
 
-        $code = Register::orderBy('code', 'desc')->first()->code;
+        $code = next_code();
 
-        $nextNumber = explode("M", $code)[1] + 1;
-        $return_data["next_code"] = 'CM' . $nextNumber;
-
-//        $waiting_code = Register::where('code', 'like', 'CCM%')->orderBy('code', 'desc')->first()->code;
-//        $waiting_code = explode("M", $waiting_code)[1] + 1;
-        $return_data["next_waiting_code"] = 'CCM' . "";
-
+        $return_data["next_code"] = $code['next_code'];
+        $return_data["next_waiting_code"] = $code['next_waiting_code'];
 
         return $this->respondSuccessWithStatus($return_data);
     }
