@@ -76,6 +76,7 @@ class ClassContainer extends React.Component {
     }
 
     exportExcel(){
+
         let data = this.props.class.registers;
 
         data = data.map((item, index)=>{
