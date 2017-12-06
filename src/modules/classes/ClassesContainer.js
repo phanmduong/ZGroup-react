@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import AddClassContainer from './AddClassContainer';
+import Select from './SelectGen';
 
 class ClassesContainer extends React.Component {
     constructor(props, context) {
@@ -22,7 +23,9 @@ class ClassesContainer extends React.Component {
             query: "",
             showModalClass: false,
             classSelected: {},
-            editClass: false
+            editClass: false,
+            gens: [],
+            selectGenId: '',
         };
         this.search = {
             teacherId: ''
@@ -35,16 +38,30 @@ class ClassesContainer extends React.Component {
         this.changeClassStatus = this.changeClassStatus.bind(this);
         this.closeModalClass = this.closeModalClass.bind(this);
         this.openModalClass = this.openModalClass.bind(this);
+        this.changeGens = this.changeGens.bind(this);
     }
 
     componentWillMount() {
         if (this.props.params.teacherId) {
             this.search.teacherId = this.props.params.teacherId;
         }
-        this.loadClasses();
+        this.props.classActions.loadClasses('', 1, this.search.teacherId, this.state.selectGenId);
+        this.props.classActions.loadGensData();
     }
 
     componentWillReceiveProps(nextProps) {
+        if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens)
+        {
+            let gens = _.sortBy(nextProps.gens, [function (o) {
+                return parseInt(o.name);
+            }]);
+            gens = _.reverse(gens);
+            this.setState({
+                gens: [...gens],
+                selectGenId: 11,
+            });
+            this.props.classActions.loadClasses('', 1, this.search.teacherId, '');
+        }
         if (nextProps.params.teacherId !== this.props.params.teacherId) {
             this.search.teacherId = nextProps.params.teacherId;
             this.setState({
@@ -69,7 +86,7 @@ class ClassesContainer extends React.Component {
 
     loadClasses(page = 1, query = '') {
         this.setState({page});
-        this.props.classActions.loadClasses(query, page, this.search.teacherId);
+        this.props.classActions.loadClasses(query, page, this.search.teacherId, this.state.selectGenId);
     }
 
     deleteClass(classData) {
@@ -118,6 +135,16 @@ class ClassesContainer extends React.Component {
         });
     }
 
+
+    changeGens(value) {
+        this.setState({
+            page: 1,
+            selectGenId: value
+        });
+        this.props.classActions.loadClasses(this.state.query, '', this.search.teacherId, value);
+    }
+
+
     render() {
         return (
             <div>
@@ -156,11 +183,23 @@ class ClassesContainer extends React.Component {
                                     )
                                     :
                                     (
-                                        <Search
-                                            onChange={this.classesSearchChange}
-                                            value={this.state.query}
-                                            placeholder="Tìm kiếm lớp"
-                                        />
+                                            <div>
+                                                {
+                                                    (this.state.selectGenId && this.state.selectGenId > 0) &&
+                                                    <Select
+                                                        options={this.state.gens}
+                                                        onChange={this.changeGens}
+                                                        value={this.state.selectGenId}
+                                                        defaultMessage="Chọn khóa học"
+                                                        name="gens"
+                                                    />
+                                                }
+                                                    <Search
+                                                        onChange={this.classesSearchChange}
+                                                        value={this.state.query}
+                                                        placeholder="Tìm kiếm lớp"
+                                                    />
+                                            </div>
                                     )
                             }
 
@@ -227,8 +266,10 @@ ClassesContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     totalPages: PropTypes.number.isRequired,
     classes: PropTypes.array.isRequired,
+    gens: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    isCreateClass: PropTypes.bool.isRequired,
+    isCreateClass: PropTypes.bool,
+    isLoadingGens: PropTypes.bool,
     classActions: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
@@ -242,6 +283,9 @@ function mapStateToProps(state) {
         classes: state.classes.classes,
         isLoading: state.classes.isLoading,
         isCreateClass: state.classes.isCreateClass,
+        gens:state.classes.gens,
+        isLoadingGens:state.classes.isLoadingGens,
+
     };
 }
 

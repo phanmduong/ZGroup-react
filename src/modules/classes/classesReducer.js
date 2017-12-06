@@ -4,7 +4,30 @@ import initialState from '../../reducers/initialState';
 
 let classes;
 export default function classesReducer(state = initialState.classes, action) {
+    console.log(action.type);
     switch (action.type) {
+        case types.BEGIN_LOAD_GENS_CLASSES_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isLoadingGens: true,
+                }
+            };
+        case types.LOAD_GENS_CLASSES_STUDENT_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    isLoadingGens: false,
+                    gens: action.gens,
+                }
+            };
+            case types.LOAD_GENS_CLASSES_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingGens: false,
+                }
+            };
         case types.BEGIN_LOAD_CLASSES_DATA:
 
             return {
