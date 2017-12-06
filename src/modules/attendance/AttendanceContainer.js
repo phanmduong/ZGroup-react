@@ -183,7 +183,6 @@ class AttendanceContainer extends React.Component {
                         <Loading/>
                         :
                         <div>
-                            <div className="col-sm-6 col-xs-5"></div>
                             <div className="col-sm-3 col-xs-5">
                                 <Select
                                 defaultMessage={'Chọn cơ sở'}
