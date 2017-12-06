@@ -7,6 +7,7 @@ use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\Task;
 use App\Warehouse;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\BoardTaskTaskList;
@@ -103,7 +104,7 @@ class GoodController extends ManageApiController
     public function createGood(Request $request)
     {
         $name = trim($request->name);
-        $code = trim($request->code);
+        $code = trim($request->code) ? trim($request->code) : "GOOD" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $description = $request->description;
         $price = $request->price;
         $avatarUrl = $request->avatar_url;
@@ -115,7 +116,7 @@ class GoodController extends ManageApiController
         $good_category_id = $request->good_category_id;
         $barcode = $request->barcode;
         //propterties
-        $images_url = $request->images_url;
+        $images_url = $request->images_url ? $request->images_url : "";
         if ($name == null || $code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
@@ -135,11 +136,10 @@ class GoodController extends ManageApiController
                 $good->manufacture_id = $manufacture_id;
                 $good->good_category_id = $good_category_id;
                 $good->barcode = $child->barcode;
+                $good->price = $child->price ? $child->price : $price;
                 $good->save();
-
                 foreach ($child->properties as $p) {
                     $property = new GoodProperty();
-                    $property->name = $p->name;
                     $property->property_item_id = $request->property_item_id;
                     if ($p->property_item_id)
                         $property->name = GoodPropertyItem::find($p->property_item_id)->name;
@@ -179,6 +179,8 @@ class GoodController extends ManageApiController
         $properties = json_decode($request->properties);
 
         foreach ($properties as $p) {
+            if ($p->value == null)
+                dd("gaguaug");
             $property = new GoodProperty();
             $property->name = $p->name;
             if ($p->property_item_id)
