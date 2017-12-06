@@ -7,4 +7,10 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'book
     Route::get('/{type}/project', 'BookController@bookProject');
     Route::post('/store-task-list-templates', 'BookController@storeTaskList');
     Route::post('/task-list-template/{taskListTemplateId}/tasks', 'BookController@storeTaskListTasks');
+
+    // Barcode api
+    Route::get("/barcodes", "BarcodeController@barcodes");
+    Route::get("/barcode/{barcodeId}", "BarcodeController@barcode");
+    Route::post("/barcode", "BarcodeController@saveBarcode");
+
 });
