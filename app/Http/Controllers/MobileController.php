@@ -223,7 +223,7 @@ class MobileController extends ApiController
             'end_time' => $current_gen->end_time
         ];
         if ($base_id == null) {
-
+            $base = Base::find($base_id);
             $zero_paid_num = Register::where('gen_id', $current_gen->id)->where('status', '=', 1)->where('money', '=', 0)->count();
 //            $total_money = Register::where('gen_id', $current_gen->id)->sum('money');
             $num = Register::where('gen_id', $current_gen->id)->count();
@@ -319,6 +319,7 @@ class MobileController extends ApiController
 
             $total_money = 0;
 
+            $classes_id2 = $base->classes()->pluck('id');
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
                 ->whereIn("class_id", $classes_id2)
                 ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
