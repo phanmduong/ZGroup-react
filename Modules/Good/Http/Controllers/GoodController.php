@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
+use Modules\Good\Entities\GoodPropertyItem;
+use Modules\Good\Providers\GoodServiceProvider;
 use Modules\Good\Repositories\GoodRepository;
 
 
@@ -130,6 +132,20 @@ class GoodController extends ManageApiController
         $good->good_category_id = $good_category_id;
         $good->save();
 
+        $properties = json_decode($request->properties);
+
+        foreach ($properties as $p) {
+            $property = new GoodProperty();
+            $property->name = $p->name;
+            if($p->property_item_id)
+                $property->name = GoodPropertyItem::find($p->property_item_id)->name;
+            $property->value = $p->value;
+            $property->creator_id = $this->user->id;
+            $property->editor_id = $this->user->id;
+            $property->good_id = $good->id;
+            $property->save();
+        }
+
         $property = new GoodProperty;
         $property->name = 'images_url';
         $property->value = $images_url;
@@ -144,18 +160,35 @@ class GoodController extends ManageApiController
     public function good($goodId)
     {
         $good = Good::find($goodId);
+        if($goodId == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'khong ton tai san pham'
+            ]);
         $data = $good->goodProcessTransform();
         $goodProperty = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
-        if($goodProperty == null)
+        if ($goodProperty == null)
             $images_url = null;
         else
             $images_url = $goodProperty->value;
+        $goods_count = Good::where('code', $good->code)->count();
+        if ($goods_count > 1) {
+            $children = Good::where('code', $good->code)->get();
+            $data['children'] = $children->map(function ($child) {
+                return [
+                    'id' => $child->id,
+                    'barcode' => $child->barcode,
+                    'properties' => $child->properties->map(function ($property) {
+                        return $property->transform();
+                    }),
+                ];
+            });
+        }
         $data['images_url'] = $images_url;
+        $data['goods_count'] = $goods_count;
         return $this->respondSuccessWithStatus([
             "good" => $data
         ]);
     }
-
 
     public function getPropertyItems($taskId, Request $request)
     {
@@ -196,8 +229,8 @@ class GoodController extends ManageApiController
         $sale_status = $request->sale_status;
         $display_status = $request->display_status;
         $highlight_status = $request->highlight_status;
-
-        $goods = Good::where(function ($query) use ($keyword) {
+        $goods = Good::groupBy('code');
+        $goods = $goods->where(function ($query) use ($keyword) {
             $query->where("name", "like", "%" . $keyword . "%")->orWhere("code", "like", "%" . $keyword . "%");
         });
         if ($sale_status != null)
@@ -220,15 +253,73 @@ class GoodController extends ManageApiController
             $goods,
             [
                 "goods" => $goods->map(function ($good) {
-
-                    $warehouses_count = ImportedGoods::where('good_id', $good->id)
-                        ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
+                    $goods_count = Good::where('code', $good->code)->count();
                     $data = $good->transform();
+                    if ($goods_count == 1)
+                        $warehouses_count = ImportedGoods::where('good_id', $good->id)
+                            ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
+                    else {
+                        $children = Good::where('code', $good->code)->get();
+                        $childrenIds = Good::where('code', $good->code)->pluck('id')->toArray();
+                        $warehouses_count = ImportedGoods::whereIn('good_id', $childrenIds)
+                            ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
+                        $data['children'] = $children->map(function ($child) {
+                            return [
+                                'id' => $child->id,
+                                'barcode' => $child->barcode,
+                                'properties' => $child->properties->map(function ($property) {
+                                    return $property->transform();
+                                }),
+                            ];
+                        });
+                    }
                     $data['warehouses_count'] = $warehouses_count->count;
+                    $data['goods_count'] = $goods_count;
                     return $data;
                 })
             ]
         );
+    }
+
+    public function goodInfomation(Request $request)
+    {
+        $keyword = $request->search;
+        $type = $request->type;
+        $manufacture_id = $request->manufacture_id;
+        $good_category_id = $request->good_category_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $sale_status = $request->sale_status;
+        $display_status = $request->display_status;
+        $highlight_status = $request->highlight_status;
+        $goods = Good::query();
+        $goods = $goods->where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%" . $keyword . "%")->orWhere("code", "like", "%" . $keyword . "%");
+        });
+        if ($sale_status != null)
+            $goods = $goods->where('sale_status', $sale_status);
+        if ($display_status != null)
+            $goods = $goods->where('display_status', $display_status);
+        if ($highlight_status != null)
+            $goods = $goods->where('highlight_status', $highlight_status);
+        if ($type)
+            $goods = $goods->where("type", $type);
+        if ($manufacture_id)
+            $goods = $goods->where('manufacture_id', $manufacture_id);
+        if ($good_category_id)
+            $goods = $goods->where('good_category_id', $good_category_id);
+        if ($startTime)
+            $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
+        $count = $goods->count();
+        $goods = $goods->get();
+        return $this->respondSuccessWithStatus([
+            'count' => $count,
+            'total_quantity' => $goods->reduce(function ($total, $good){
+                return $total + $good->importedGoods->reduce(function ($total, $importedGoods){
+                        return $total + $importedGoods->quantity;
+                    }, 0);
+            }, 0)
+        ]);
     }
 
     public function goodsByStatus(Request $request)
@@ -322,8 +413,22 @@ class GoodController extends ManageApiController
         $good->good_category_id = $good_category_id;
         $good->save();
 
+        $properties = json_decode($request->properties);
+
+        DB::table('good_properties')->where('name', '<>', 'images_url')->where('good_id', '=', $good->id)->delete();
+
+        foreach ($properties as $p) {
+            $property = new GoodProperty();
+            $property->name = $p->name;
+            $property->value = $p->value;
+            $property->creator_id = $this->user->id;
+            $property->editor_id = $this->user->id;
+            $property->good_id = $good->id;
+            $property->save();
+        }
+
         $property = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
-        if($property == null) {
+        if ($property == null) {
             $property = new GoodProperty;
             $property->name = 'images_url';
         }
@@ -344,8 +449,7 @@ class GoodController extends ManageApiController
                 "message" => "Không tìm thấy sản phẩm"
             ]);
         $good->status = 'deleted';
-        foreach ($good->properties as $property)
-        {
+        foreach ($good->properties as $property) {
             $property->delete();
         }
         $good->delete();
