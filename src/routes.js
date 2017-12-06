@@ -91,7 +91,7 @@ import SummaryMarketingCampaignContainer from "./modules/summaryMarketingCampaig
 import SummarySalesContainer from "./modules/summarySales/SummarySalesContainer";
 import OverviewSales from "./modules/summarySales/OverviewSales";
 import StatisticSales from "./modules/summarySales/StatisticSales";
-
+import BarcodesContainer from "./modules/book/barcode/BarcodesContainer";
 
 export default (
     <Route>
@@ -197,6 +197,9 @@ export default (
             <Route path="/tasklist-template/:id" component={TaskListTemplateContainer}/>
 
 
+            <Route path="/barcodes" component={BarcodesContainer}/>
+
+
             <Route path="/:type/manufacture" component={BookBoardListContainer}/>
             <Route path="/good/:type/all" component={GoodListContainer}/>
             <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
@@ -293,13 +296,10 @@ export default (
             {/*End customer routes*/}
 
 
-
-
-                {/*Begin marketing campaigns routes */}
-                <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
-                <Route path="/marketing-campaign/summary" component={SummaryMarketingCampaignContainer}/>
-                {/*End marketing campaigns routes*/}
-
+            {/*Begin marketing campaigns routes */}
+            <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
+            <Route path="/marketing-campaign/summary" component={SummaryMarketingCampaignContainer}/>
+            {/*End marketing campaigns routes*/}
 
 
             {/*Begin supplier routes */}

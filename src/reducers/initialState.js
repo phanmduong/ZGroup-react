@@ -105,6 +105,19 @@ export default {
     },
 
     good: {
+        barcode: {
+            barcodeList: {
+                barcodes: [],
+                isLoading: false,
+                currentPage: 1,
+                totalPages: 0,
+            },
+            createBarcode: {
+                showModal: false,
+                barcode: {},
+                isSaving: false
+            }
+        },
         attachPropertyItem: {
             showModal: false,
             isLoading: false,
@@ -897,62 +910,62 @@ export default {
 
     customers: {
         customersList: [],
-        ordersList : [],
+        ordersList: [],
         isLoading: true,
-        totalOrderPages : 10,
+        totalOrderPages: 10,
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
         totalCount: 10,
-        modal : {
-            isSaving : false,
-            customer : {
-                name : '',
-                phone : '',
-                email : '',
-                address : '',
-                gender : '',
-                dob : '',
+        modal: {
+            isSaving: false,
+            customer: {
+                name: '',
+                phone: '',
+                email: '',
+                address: '',
+                gender: '',
+                dob: '',
             }
         },
     },
     suppliers: {
-        suppliersList : [],
-        isLoading : false,
+        suppliersList: [],
+        isLoading: false,
         totalCount: 10,
-        totalPages : 10,
-        modal : {
-            isSaving : false,
-            supplier : {
-                name : '',
-                phone : '',
-                email : '',
-                address : '',
+        totalPages: 10,
+        modal: {
+            isSaving: false,
+            supplier: {
+                name: '',
+                phone: '',
+                email: '',
+                address: '',
             }
         }
     },
 
-    addDiscount :{
-        isSaving : false,
+    addDiscount: {
+        isSaving: false,
         isLoading: false,
-        customers : [],
-        goods : [],
-        categories : [],
-        totalCustomerPages : 10,
-        totalGoodPages : 10,
-        discount :{
+        customers: [],
+        goods: [],
+        categories: [],
+        totalCustomerPages: 10,
+        totalGoodPages: 10,
+        discount: {
             name: '',
             description: '',
-            discount_type : '',
-            discount_value : '',
-            type : '',
-            used_for : '',
-            start_time : '',
-            end_time : '',
-            order_value : '',
-            good : {},
-            category : {},
-            customer : {},
+            discount_type: '',
+            discount_value: '',
+            type: '',
+            used_for: '',
+            start_time: '',
+            end_time: '',
+            order_value: '',
+            good: {},
+            category: {},
+            customer: {},
         },
 
     },
@@ -1091,10 +1104,10 @@ export default {
         error: false,
         summary: [],
     },
-    discounts : {
-        discountsList : [],
-        isLoading : false,
-        totalPages : 10,
-        totalCount : 10,
+    discounts: {
+        discountsList: [],
+        isLoading: false,
+        totalPages: 10,
+        totalCount: 10,
     },
 };

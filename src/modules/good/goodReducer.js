@@ -6,6 +6,46 @@ import initialState from '../../reducers/initialState';
 
 export default function goodReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.CREATE_BARCODE_SUCCESS:
+            return {
+                ...state,
+                barcode: {
+                    ...state.barcode,
+                    createBarcode: {
+                        ...state.barcode.createBarcode,
+                        isSaving: false,
+                        barcode: {}
+                    },
+                    barcodeList: {
+                        ...state.barcode.barcodeList,
+                        barcodes: [...state.barcode.barcodeList.barcodes, action.barcode]
+                    }
+                }
+            };
+        case types.BEGIN_CREATE_BARCODE:
+            return {
+                ...state,
+                barcode: {
+                    ...state.barcode,
+                    createBarcode: {
+                        ...state.barcode.createBarcode,
+                        isSaving: true
+                    }
+                }
+            };
+
+        case types.SHOW_CREATE_BARCODE_MODAL:
+            return {
+                ...state,
+                barcode: {
+                    ...state.barcode,
+                    createBarcode: {
+                        ...state.barcode.createBarcode,
+                        showModal: action.showModal
+                    }
+                }
+            };
+
         case types.BEGIN_ADD_PROPERTY_ITEM_TO_TASK:
             return {
                 ...state,
