@@ -892,6 +892,25 @@ function exportTable(tableid, type) {
 export  function exportTableToExcel(tableid, type) { return exportTable(tableid, type || 'xlsx'); }
 
 
+export function newWorkBook() {
+    return XLSX.utils.book_new();
+}
+
+export function appendJsonToWorkBook( json, wb, sheetname) {
+    let sheet = XLSX.utils.json_to_sheet(json);
+    XLSX.utils.book_append_sheet(wb, sheet, sheetname);
+    return wb;
+}
+
+export function saveWorkBookToExcel(wb, filename) {
+    let wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
+    let fname =  (filename ? filename : 'datasheet') + '.xlsx';
+    try {
+        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)],{type:"application/octet-stream"}), fname);
+    } catch(e) { if(typeof console != 'undefined') console.log(e, wbout); }
+}
+
+
 export function superSortCategories(categories) {
     categories.reverse();
     let result = [];

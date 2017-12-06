@@ -12,6 +12,7 @@ import SummarySalesComponent from "./SummarySalesComponent";
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import { Panel} from 'react-bootstrap';
+
 class SummarySalesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -31,6 +32,7 @@ class SummarySalesContainer extends React.Component {
         this.loadSummary = this.loadSummary.bind(this);
         this.openFilterPanel = this.openFilterPanel.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
+        this.exportExcel = this.exportExcel.bind(this);
     }
 
     componentWillMount() {
@@ -107,6 +109,19 @@ class SummarySalesContainer extends React.Component {
         }
     }
 
+    exportExcel(){
+        //console.log('exportExcel',this.props.summary);
+        let wb = helper.newWorkBook();
+        helper.appendJsonToWorkBook( this.props.summary, wb, 'Tổng quan');
+        let detail =  this.props.summary.map((item)=>{
+            let res = {'Họ và tên': item.name};
+            item.campaigns.forEach(obj => (res[obj.name]=  obj.total_registers));
+            return res;
+        });
+        helper.appendJsonToWorkBook(detail, wb, 'Chi tiết');
+        helper.saveWorkBookToExcel(wb, 'Tổng kết sale');
+    }
+
     render() {
         return (
             <div>
@@ -141,8 +156,16 @@ class SummarySalesContainer extends React.Component {
                                         Lọc
                                     </button>
                                 </div>
+                                <div className="col-sm-3 col-xs-5">
+                                    <button
+                                        onClick={this.exportExcel}
+                                        className="btn btn-info btn-rose"
+                                    >
+                                        Xuất ra excel
+                                    </button>
+                                </div>
                             </div>
-                            <Panel collapsible expanded={!this.state.openFilterPanel}>
+                            <Panel collapsible expanded={this.state.openFilterPanel}>
                                 <div className="col-md-3 col-xs-5">
                                     <FormInputDate
                                         label="Từ ngày"

@@ -15,6 +15,7 @@ import FormInputDate from '../../../components/common/FormInputDate';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 import ItemReactSelect from '../../../components/common/ItemReactSelect';
+import * as helper from '../../../helpers/helper';
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -51,6 +52,7 @@ class ClassContainer extends React.Component {
         this.changeClassLesson = this.changeClassLesson.bind(this);
         this.changeTeachingAssis = this.changeTeachingAssis.bind(this);
         this.changeTeacher = this.changeTeacher.bind(this);
+        this.exportExcel = this.exportExcel.bind(this);
     }
 
     componentWillMount() {
@@ -71,6 +73,25 @@ class ClassContainer extends React.Component {
             });
             this.setState({staffs: dataStaffs});
         }
+    }
+
+    exportExcel(){
+        let data = this.props.class.registers;
+
+        data = data.map((item, index)=>{
+            let res={
+                'Số thứ tự': index,
+                'Họ và tên': item.student.name,
+                'Mã học viên': item.code,
+                'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
+                'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
+            };
+            return res;
+        });
+
+        let  wb = helper.newWorkBook();
+        helper.appendJsonToWorkBook(data, wb, 'Danh sách học viên');
+        helper.saveWorkBookToExcel(wb, 'Danh sách học viên');
     }
 
     closeModalClassLesson() {
@@ -220,6 +241,12 @@ class ClassContainer extends React.Component {
                                                 <button className="btn btn-default width-100">
                                                     <i className="material-icons">timer</i>
                                                     In bằng
+                                                </button>
+                                                <button className="btn btn-default width-100"
+                                                    onClick={this.exportExcel}
+                                                >
+                                                    <i className="material-icons">timer</i>
+                                                    Xuất ra Excel
                                                 </button>
                                             </div>
                                             {this.props.isLoadingClass ? <Loading/> :
