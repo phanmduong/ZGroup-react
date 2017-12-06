@@ -699,6 +699,8 @@ export default {
         error: false
     },
     classes: {
+        excel: [],
+        isLoadingExcel: false,
         currentPage: 1,
         totalPages: 1,
         classes: [],

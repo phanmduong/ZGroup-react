@@ -6,6 +6,28 @@ let classes;
 export default function classesReducer(state = initialState.classes, action) {
     console.log(action.type);
     switch (action.type) {
+        case types.BEGIN_LOAD_CLASSES_EXCEL:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: true,
+                }
+            };
+        case types.LOAD_CLASSES_EXCEL_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                    excel: action.excel,
+                }
+            };
+        case types.LOAD_CLASSES_EXCEL_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                }
+            };
         case types.BEGIN_LOAD_GENS_CLASSES_STUDENT:
             return {
                 ...state,

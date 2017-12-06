@@ -5,6 +5,23 @@ import * as helper from '../../helpers/helper';
 /*eslint no-console: 0 */
 
 
+
+export function loadExcelData(genid) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_CLASSES_EXCEL});
+        classApi.loadExcelData(genid)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CLASSES_EXCEL_SUCCESSFUL,
+                    excel: res.data.data.classes,
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_CLASSES_EXCEL_ERROR});
+            });
+    };
+}
+
 export function loadGensData() {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_GENS_CLASSES_STUDENT});

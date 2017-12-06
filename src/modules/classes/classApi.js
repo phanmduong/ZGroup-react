@@ -2,6 +2,12 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 
+export function loadExcelData(genid) {
+    //http://api.keetool.xyz/apiv2/gens/10/classes?token=
+    let token = localStorage.getItem('token');
+    let url = env.API_URL + "/apiv2/gens/" + genid + "/classes?token=" + token;
+    return axios.get(url);
+}
 export function loadGens() {
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/gens?token=" + token;
