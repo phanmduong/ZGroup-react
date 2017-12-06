@@ -210,8 +210,8 @@ class MobileController extends ApiController
         $campaign_registers = null;
         $campaign_paids = null;
 
-        $start_time = $request->start_time ? $request->start_time : $gen->start_time;
-        $end_time = $request->end_time ? $request->end_time : $gen->end_time;
+        $start_time = $request->start_time ? $request->start_time : $current_gen->start_time;
+        $end_time = $request->end_time ? $request->end_time : $current_gen->end_time;
         $end_time_plus_1 = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
 
         $date_array = createDateRangeArray(strtotime($start_time), strtotime($end_time));
