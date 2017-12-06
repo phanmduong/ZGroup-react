@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomerGroupsInfoTable extends Migration
+class CreateCustomerGroupTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCustomerGroupsInfoTable extends Migration
     public function up()
     {
         //
-        Schema::create('info_customer_groups', function (Blueprint $table) {
+        Schema::create('customer_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('customer_group_id')->unsigned()->index();
             $table->integer('customer_id')->unsigned()->index();
@@ -30,6 +30,5 @@ class CreateCustomerGroupsInfoTable extends Migration
     public function down()
     {
         //
-
     }
 }
