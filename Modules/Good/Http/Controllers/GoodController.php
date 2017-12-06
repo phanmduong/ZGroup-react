@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
+use Modules\Good\Entities\GoodPropertyItem;
 use Modules\Good\Providers\GoodServiceProvider;
 use Modules\Good\Repositories\GoodRepository;
 
@@ -130,6 +131,20 @@ class GoodController extends ManageApiController
         $good->manufacture_id = $manufacture_id;
         $good->good_category_id = $good_category_id;
         $good->save();
+
+        $properties = json_decode($request->properties);
+
+        foreach ($properties as $p) {
+            $property = new GoodProperty();
+            $property->name = $p->name;
+            if($p->property_item_id)
+                $property->name = GoodPropertyItem::find($p->property_item_id)->name;
+            $property->value = $p->value;
+            $property->creator_id = $this->user->id;
+            $property->editor_id = $this->user->id;
+            $property->good_id = $good->id;
+            $property->save();
+        }
 
         $property = new GoodProperty;
         $property->name = 'images_url';
@@ -397,6 +412,20 @@ class GoodController extends ManageApiController
         $good->manufacture_id = $manufacture_id;
         $good->good_category_id = $good_category_id;
         $good->save();
+
+        $properties = json_decode($request->properties);
+
+        DB::table('good_properties')->where('name', '<>', 'images_url')->where('good_id', '=', $good->id)->delete();
+
+        foreach ($properties as $p) {
+            $property = new GoodProperty();
+            $property->name = $p->name;
+            $property->value = $p->value;
+            $property->creator_id = $this->user->id;
+            $property->editor_id = $this->user->id;
+            $property->good_id = $good->id;
+            $property->save();
+        }
 
         $property = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
         if ($property == null) {
