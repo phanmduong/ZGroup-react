@@ -113,11 +113,54 @@ class GoodController extends ManageApiController
         $display_status = $request->display_status ? $request->display_status : 0;
         $manufacture_id = $request->manufacture_id;
         $good_category_id = $request->good_category_id;
+        $barcode = $request->barcode;
         //propterties
         $images_url = $request->images_url;
         if ($name == null || $code == null) {
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
+        if ($request->children) {
+            $children = json_decode($request->children);
+            foreach ($children as $child) {
+                $good = new Good;
+                $good->name = $name;
+                $good->code = $code;
+                $good->description = $description;
+                $good->price = $price;
+                $good->avatar_url = $avatarUrl;
+                $good->cover_url = $coverUrl;
+                $good->sale_status = $sale_status;
+                $good->highlight_status = $highlight_status;
+                $good->display_status = $display_status;
+                $good->manufacture_id = $manufacture_id;
+                $good->good_category_id = $good_category_id;
+                $good->barcode = $child->barcode;
+                $good->save();
+
+                foreach ($child->properties as $p) {
+                    $property = new GoodProperty();
+                    $property->name = $p->name;
+                    $property->property_item_id = $request->property_item_id;
+                    if ($p->property_item_id)
+                        $property->name = GoodPropertyItem::find($p->property_item_id)->name;
+                    $property->value = $p->value;
+                    $property->creator_id = $this->user->id;
+                    $property->editor_id = $this->user->id;
+                    $property->good_id = $good->id;
+                    $property->save();
+                }
+
+                $property = new GoodProperty;
+                $property->name = 'images_url';
+                $property->value = $images_url;
+                $property->creator_id = $this->user->id;
+                $property->editor_id = $this->user->id;
+                $property->good_id = $good->id;
+                $property->save();
+            }
+            return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
+        }
+
         $good = new Good;
         $good->name = $name;
         $good->code = $code;
@@ -130,6 +173,7 @@ class GoodController extends ManageApiController
         $good->display_status = $display_status;
         $good->manufacture_id = $manufacture_id;
         $good->good_category_id = $good_category_id;
+        $good->barcode = $barcode;
         $good->save();
 
         $properties = json_decode($request->properties);
@@ -137,7 +181,7 @@ class GoodController extends ManageApiController
         foreach ($properties as $p) {
             $property = new GoodProperty();
             $property->name = $p->name;
-            if($p->property_item_id)
+            if ($p->property_item_id)
                 $property->name = GoodPropertyItem::find($p->property_item_id)->name;
             $property->value = $p->value;
             $property->creator_id = $this->user->id;
@@ -160,7 +204,7 @@ class GoodController extends ManageApiController
     public function good($goodId)
     {
         $good = Good::find($goodId);
-        if($goodId == null)
+        if ($goodId == null)
             return $this->respondErrorWithStatus([
                 'message' => 'khong ton tai san pham'
             ]);
@@ -314,8 +358,8 @@ class GoodController extends ManageApiController
         $goods = $goods->get();
         return $this->respondSuccessWithStatus([
             'count' => $count,
-            'total_quantity' => $goods->reduce(function ($total, $good){
-                return $total + $good->importedGoods->reduce(function ($total, $importedGoods){
+            'total_quantity' => $goods->reduce(function ($total, $good) {
+                return $total + $good->importedGoods->reduce(function ($total, $importedGoods) {
                         return $total + $importedGoods->quantity;
                     }, 0);
             }, 0)

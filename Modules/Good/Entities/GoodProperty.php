@@ -11,15 +11,11 @@ class GoodProperty extends Model
     use SoftDeletes;
     protected $table = "good_properties";
 
-//    public function good()
-//    {
-//        return $this->belongsTo(Good::class, "good_id");
-//    }
-
     public function transform()
     {
         return [
             "id" => $this->id,
+            "property_item_id" => $this->property_item_id,
             "name" => $this->name,
             "value" => $this->value
         ];
