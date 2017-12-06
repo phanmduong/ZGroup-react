@@ -313,10 +313,16 @@ class MobileController extends ApiController
 
             $registers_by_date = array();
             $paid_by_date = array();
+            $money_by_date = array();
 
             $di = 0;
 
             $total_money = 0;
+
+            $money_by_date_temp = Register::select(DB::raw('sum(money) as money'))
+                ->where('money', '>', 0)
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
+                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money')->toArray();
 
             foreach ($date_array as $date) {
 //                dd(isset($registers_by_date_personal_temp["2016-10-09"]));
@@ -339,18 +345,22 @@ class MobileController extends ApiController
 
                 if (isset($paid_by_date_temp[$date])) {
                     $paid_by_date[$di] = $paid_by_date_temp[$date];
-                    $total_money += $paid_by_date[$di];
                 } else {
                     $paid_by_date[$di] = 0;
                 }
+
+                if (isset($money_by_date_temp[$date])) {
+                    $money_by_date[$di] = $money_by_date_temp[$date];
+                    $total_money += $money_by_date[$di];
+                } else {
+                    $money_by_date[$di] = 0;
+                }
+
                 $di += 1;
             }
 
 
-            $money_by_date = Register::select(DB::raw('sum(money) as money'))
-                ->where('money', '>', 0)
-                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
-                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money')->toArray();
+
             $registers_by_hour = Register::select(DB::raw('HOUR(created_at) as \'hour\', count(1) as num'))->where('gen_id', $current_gen->id)->groupBy(DB::raw('HOUR(created_at)'))->get();
 
             $orders_by_hour = Order::select(DB::raw('DATE(created_at) as date,count(1) as num'))->groupBy(DB::raw('DATE(created_at)'))->get();
@@ -443,7 +453,7 @@ class MobileController extends ApiController
 //            $bonus = compute_sale_bonus($total_paid_personal);
 //            $data['bonus'] = currency_vnd_format($bonus);
 
-            $money_by_date = Register::select(DB::raw('sum(money) as money'))->whereIn("class_id", $classes_id)
+            $money_by_date_temp = Register::select(DB::raw('sum(money) as money'))->whereIn("class_id", $classes_id)
                 ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money')->toArray();
 //            $registers_by_date_personal_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
@@ -515,11 +525,17 @@ class MobileController extends ApiController
 
                 if (isset($paid_by_date_temp[$date])) {
                     $paid_by_date[$di] = $paid_by_date_temp[$date];
-                    $total_money += $paid_by_date[$di];
-
                 } else {
                     $paid_by_date[$di] = 0;
                 }
+
+                if (isset($money_by_date_temp[$date])) {
+                    $money_by_date[$di] = $money_by_date_temp[$date];
+                    $total_money += $money_by_date[$di];
+                } else {
+                    $money_by_date[$di] = 0;
+                }
+
                 $di += 1;
             }
 
