@@ -39,17 +39,17 @@ class ManageDashboardApiController extends ManageApiController
 
     public function dashboard($gen_id, Request $request, $base_id = null)
     {
-        $start_time = $request->start_time;
-        $end_time = $request->end_time;
+
         $data = [];
         $gen = Gen::find($gen_id);
         $courses = Course::all();
 
-        if ($start_time && $end_time) {
-            $date_array = createDateRangeArray(strtotime($start_time), strtotime($end_time));
-        } else {
-            $date_array = createDateRangeArray(strtotime($gen->start_time), strtotime($gen->end_time));
-        }
+        $start_time = $request->start_time ? $request->start_time : $gen->start_time;
+        $end_time = $request->end_time ? $request->end_time : $gen->end_time;
+        $end_time_plus_1 = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+
+
+        $date_array = createDateRangeArray(strtotime($start_time), strtotime($end_time));
 
         if ($base_id) {
             $base = Base::find($base_id);
@@ -78,10 +78,12 @@ class ManageDashboardApiController extends ManageApiController
             $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
                 ->where('money', '>', 0)
                 ->whereIn("class_id", $classes_id2)
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
                 ->whereIn("class_id", $classes_id2)
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money', ' date');
 
         } else {
@@ -116,9 +118,11 @@ class ManageDashboardApiController extends ManageApiController
 
             $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
                 ->where('money', '>', 0)
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
 
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money', ' date');
             $now_classes = StudyClass::orderBy('id');
         }
