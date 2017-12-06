@@ -108,7 +108,7 @@ class MarketingCampaignController extends ManageApiController
                     'name' => $item->marketing_campaign->name,
                     'color' => $item->marketing_campaign->color,
                 ],
-                'saler' =>[
+                'saler' => [
                     'id' => $item->saler->id,
                     'name' => $item->saler->name,
                     'color' => $item->saler->color,
@@ -126,6 +126,8 @@ class MarketingCampaignController extends ManageApiController
     public function summarySales(Request $request)
     {
         $gen_id = $request->gen_id;
+        $startTime = $request->start_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         if ($gen_id && $gen_id != 0) {
             $current_gen = Gen::find($gen_id);
         } else {
@@ -133,6 +135,10 @@ class MarketingCampaignController extends ManageApiController
         }
 
         $all_registers = $current_gen->registers();
+
+        if ($startTime) {
+            $all_registers = $all_registers->whereBetween('created_at', array($startTime, $endTime));
+        }
 
         if ($request->base_id && $request->base_id != 0) {
             $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
