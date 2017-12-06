@@ -199,7 +199,7 @@ class MobileController extends ApiController
         }
     }
 
-    public function dashboardv2($gen_id, $base_id = null, Request $request)
+    public function dashboardv2($gen_id, Request $request, $base_id = null)
     {
         $data = [];
 //        $data['user'] = $this->user;
