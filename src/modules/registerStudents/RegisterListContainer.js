@@ -89,7 +89,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadCampaignFilter();
         if(this.props.route.path=='/manage/waitlist'){
             this.isWaitListPage=true;
-            this.setState({campaignId: 18, selectedCampaignId: 18, cardTitle:'Danh sách chờ'});
+            this.setState({class_status: 'waiting', cardTitle:'Danh sách chờ'});
         }
         if (this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
@@ -110,10 +110,11 @@ class RegisterListContainer extends React.Component {
                 });
                 this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
             } else {
-                if(this.isWaitListPage){
-                    this.loadRegisterStudent(1, 18);
-                }else
+                if(this.props.route.path=='/manage/waitlist'){
+                    this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
+                }else {
                     this.loadRegisterStudent(1, '');
+                }
             }
         }
 
@@ -193,8 +194,8 @@ class RegisterListContainer extends React.Component {
                 },});
             if(nextProps.route.path=='/manage/waitlist'){
                 this.isWaitListPage=true;
-                this.setState({  selectedClassStatus: 2, cardTitle:'Danh sách chờ'});
-                this.loadRegisterStudent(1);
+                this.setState({class_status: 'waiting',  selectedClassStatus: 2, cardTitle:'Danh sách chờ'});
+                this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
             }
             else {
                 this.isWaitListPage=false;
@@ -205,7 +206,8 @@ class RegisterListContainer extends React.Component {
                     page: 1,
                     query: '',
                     campaignId: '',
-                    selectGenId: ''
+                    selectGenId: '',
+                    class_status: 0,
                 });
                 this.salerId = this.props.params.salerId;
             } else {
@@ -218,10 +220,7 @@ class RegisterListContainer extends React.Component {
                     });
                     this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
                 } else {
-                    if(this.isWaitListPage){
-                        this.loadRegisterStudent(1, 18);
-                    }else
-                        this.loadRegisterStudent(1, '');
+                    this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','','','',);
                 }
             }
             }
