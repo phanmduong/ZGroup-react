@@ -20,11 +20,9 @@ class RegisterListContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
-            gens: [],
             selectGenId: '',
             showModal: false,
             showModalChangeClass: false,
-            register: {},
             note: '',
             campaignId: '',
             selectRegisterId: 0,
@@ -39,6 +37,11 @@ class RegisterListContainer extends React.Component {
             class_status: '',
             selectedMoneyFilter: 0,
             selectedClassStatus: 0,
+            time:{
+                startTime: '',
+                endTime: '',
+            },
+            gens: [],
             classFilter:[],
             salerFilter:[],
             campaignFilter:[],
@@ -52,10 +55,8 @@ class RegisterListContainer extends React.Component {
                 {value: 1, label: 'Active',},
                 {value: 2, label: 'Watiting',},
             ],
-            time:{
-                startTime: '',
-                endTime: '',
-            }
+            register: {},
+
         };
 
         this.isWaitListPage=false;
@@ -155,13 +156,11 @@ class RegisterListContainer extends React.Component {
                 this.state.time.startTime,
                 this.state.time.endTime,);
         }
-
         if (!nextProps.isLoadingRegisters && nextProps.isLoadingRegisters !== this.props.isLoadingRegisters) {
             this.setState({
                 selectGenId: nextProps.genId
             });
         }
-
         if (nextProps.params.salerId !== this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', nextProps.params.salerId, '');
             this.setState({
@@ -170,6 +169,59 @@ class RegisterListContainer extends React.Component {
                 campaignId: '',
             });
             this.salerId = nextProps.params.salerId;
+        }
+        if(nextProps.location.pathname != this.props.location.pathname){
+            this.setState({page: 1,
+                query: "",
+                showModal: false,
+                showModalChangeClass: false,
+                campaignId: '',
+                selectRegisterId: 0,
+                selectedClassFilter: 0,
+                selectedClassId: '',
+                selectedSalerFilter: 0,
+                selectedCampaignFilter: 0,
+                selectedCampaignId: '',
+                paid_status: '',
+                selectedMoneyFilter: 0,
+                time:{
+                    startTime: '',
+                    endTime: '',
+                },});
+            if(nextProps.route.path=='/manage/waitlist'){
+                this.isWaitListPage=true;
+                this.setState({  selectedClassStatus: 2});
+                this.loadRegisterStudent(1);
+            }
+            else {
+                this.isWaitListPage=false;
+                this.setState({ selectedClassStatus : 0});
+                if (this.props.params.salerId) {
+                this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
+                this.setState({
+                    page: 1,
+                    query: '',
+                    campaignId: '',
+                    selectGenId: ''
+                });
+                this.salerId = this.props.params.salerId;
+            } else {
+                if (this.props.params.genId && this.props.params.campaignId) {
+                    this.setState({
+                        page: 1,
+                        query: '',
+                        campaignId: this.props.params.campaignId,
+                        selectGenId: this.props.params.genId
+                    });
+                    this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
+                } else {
+                    if(this.isWaitListPage){
+                        this.loadRegisterStudent(1, 18);
+                    }else
+                        this.loadRegisterStudent(1, '');
+                }
+            }
+            }
         }
     }
 
@@ -447,7 +499,7 @@ class RegisterListContainer extends React.Component {
                             <i className="material-icons">assignment</i>
                         </div>
                         <div className="card-content">
-                            <h4 className="card-title">Danh sách học viên đăng kí</h4>
+                            <h4 className="card-title">Danh sách đăng kí học</h4>
                             {this.props.isLoadingGens ? <Loading/> :
                                 <div>
                                     {
@@ -512,7 +564,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo Chiến dịch
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoadingCampaignFilter || this.isWaitListPage}
+                                                    disabled={this.props.isLoadingCampaignFilter}
                                                     options={this.state.campaignFilter}
                                                     onChange={this.onCampaignFilterChange}
                                                     value={this.state.selectedCampaignFilter}
@@ -561,7 +613,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo trạng thái lớp
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoading}
+                                                    disabled={this.props.isLoading ||  this.isWaitListPage}
                                                     options={this.state.classStatusFilter}
                                                     onChange={this.onClassStatusFilterChange}
                                                     value={this.state.selectedClassStatus}
