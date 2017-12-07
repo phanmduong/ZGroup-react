@@ -4,12 +4,47 @@ import * as helper from '../../helpers/helper';
 
 /*eslint no-console: 0 */
 
-export function loadClasses(search, page, teacherId) {
+
+
+export function loadExcelData(genid) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_CLASSES_EXCEL});
+        classApi.loadExcelData(genid)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CLASSES_EXCEL_SUCCESSFUL,
+                    excel: res.data.data.classes,
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_CLASSES_EXCEL_ERROR});
+            });
+    };
+}
+
+export function loadGensData() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_GENS_CLASSES_STUDENT});
+        classApi.loadGens()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_GENS_CLASSES_STUDENT_SUCCESSFUL,
+                    gens: res.data.gens,
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_GENS_CLASSES_STUDENT_ERROR});
+            });
+    };
+}
+
+
+export function loadClasses(search, page, teacherId, genId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASSES_DATA,
         });
-        classApi.loadClasses(search, page, teacherId)
+        classApi.loadClasses(search, page, teacherId, genId)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_CLASSES_DATA_SUCCESS,

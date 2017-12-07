@@ -43,11 +43,13 @@ import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer"
 import createProductReducer from "../modules/createProduct/createProductReducer";
 import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer";
 import lessonsReducer from "../modules/lessons/lessonsReducer";
+import attendanceReducer from "../modules/attendance/attendanceReducer";
 import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
 import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
 import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import discountReducer from "../modules/discount/discountReducer";
+
 
 
 const appReducer = combineReducers({
@@ -86,6 +88,7 @@ const appReducer = combineReducers({
     courses: courseReducer,
     coursesCreateEdit: courseReducer,
     lessons: lessonsReducer,
+    attendance: attendanceReducer,
     goodOrders: goodOrdersReducer,
     productList: productListReducer,
     importGoods: importGoodsReducer,

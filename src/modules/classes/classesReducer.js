@@ -5,6 +5,50 @@ import initialState from '../../reducers/initialState';
 let classes;
 export default function classesReducer(state = initialState.classes, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_CLASSES_EXCEL:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: true,
+                }
+            };
+        case types.LOAD_CLASSES_EXCEL_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                    excel: action.excel,
+                }
+            };
+        case types.LOAD_CLASSES_EXCEL_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                }
+            };
+        case types.BEGIN_LOAD_GENS_CLASSES_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isLoadingGens: true,
+                }
+            };
+        case types.LOAD_GENS_CLASSES_STUDENT_SUCCESSFUL:
+            return {
+                ...state,
+                ...{
+                    isLoadingGens: false,
+                    gens: action.gens,
+                }
+            };
+            case types.LOAD_GENS_CLASSES_STUDENT_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingGens: false,
+                }
+            };
         case types.BEGIN_LOAD_CLASSES_DATA:
 
             return {
