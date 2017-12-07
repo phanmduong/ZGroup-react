@@ -101,6 +101,15 @@
                 <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error" }>Bạn vui
                     lòng nhập đầy đủ thông tin
                 </div>
+                <p style="font-weight: 600">
+                    <br>
+                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển khoản</b> dưới đây là thông tin chuyển
+                    khoản:</p>
+                <p>
+                    Tên tài khoản: VU CHI CONG<br/>
+                    Số tài khoản: 44 11 00 00 85 14 60 <br/>
+                    Ngân hàng: BIDV Cảm Phả - Quảng Ninh
+                </p>
             </div>
             <div class="modal-footer" style="display: block">
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
@@ -164,10 +173,17 @@
                     <div class="row">
                         <div class="col-md-4">
                             <h4 class="text-left"><b>Tổng</b></h4>
+
                         </div>
                         <div class="col-md-8">
                             <h4 class="text-right"><b>2.000.000đ</b></h4>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <p>Lưu ý: chi phí ship được tính như sau: </p>
+                        <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
+                        <div>Ship đến tỉnh thành khác: 30k</div>
                     </div>
 
                 </div>
@@ -205,7 +221,6 @@
 
     </div>
 </div>
-
 
 
 <footer class="footer footer-light footer-big">

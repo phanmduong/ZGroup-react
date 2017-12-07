@@ -1389,16 +1389,10 @@ class HomeController extends ManageController
 //            }
 //        }
         $this->data['students'] = $students;
-        $code = Register::orderBy('code', 'desc')->first()->code;
-        $waiting_code = Register::where('code', 'like', 'CCM%')->orderBy('code', 'desc')->first()->code;
-        $nextNumber = explode("M", $code)[1] + 1;
-        if ($waiting_code) {
-            $waiting_code = explode("M", $waiting_code)[1] + 1;
-        } else {
-            $waiting_code = $nextNumber;
-        }
-        $this->data['nextCode'] = $nextNumber;
-        $this->data['waitingCode'] = $waiting_code;
+        $code = next_code();
+
+        $this->data['nextCode'] = $code['next_code'];
+        $this->data['waitingCode'] = $code['next_waiting_code'];
         if ($students->count() > 0) {
             return view('ajax.search_student', $this->data);
         } else {

@@ -44,5 +44,3 @@
         <h4 class="text-right"><b>{{currency_vnd_format($total_price)}}</b></h4>
     </div>
 </div>
-
-</div>

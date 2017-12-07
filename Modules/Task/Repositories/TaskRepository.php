@@ -108,10 +108,12 @@ class TaskRepository
             $task = $item->replicate();
             $task->task_template_id = $item->id;
             $task->task_list_id = $taskList->id;
-            if ($task->span > 0) {
+            if ($task->span > 0 && $card->board_id == $task->current_board_id) {
                 $date = new \DateTime();
                 $date->modify("+$task->span hours");
                 $task->deadline = $date->format("Y-m-d H:i:s");
+            } else {
+                $task->deadline = "";
             }
             $task->save();
 

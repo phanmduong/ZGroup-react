@@ -272,7 +272,18 @@ class NhatQuangShopController extends Controller
                 "message" => "Bạn chưa đặt cuốn sách nào"
             ];
         }
+    }
 
-
+    public function test($subfix, Request $request)
+    {
+        $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->paginate(9);
+        $display = "";
+        if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
+        if ($blogs->lastPage() == $request->page) $display = "display:none";
+        return view('nhatquangshop::test', [
+            'blogs' => $blogs,
+            'page_id' => $page_id,
+            'display' => $display,
+        ]);
     }
 }

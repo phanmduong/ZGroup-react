@@ -53,6 +53,41 @@
             transition: width 1s;
         }
     </style>
+
+    <!-- Global site tag (gtag.js) - Google AdWords: 923433004 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-923433004"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'AW-923433004');
+        gtag('config', 'UA-110883203-1');
+    </script>
+
+
+    <!-- Event snippet for Chuyển đổi Photoshop conversion page
+    In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+    <script>
+        function gtag_report_conversion(url) {
+            var callback = function () {
+                if (typeof(url) != 'undefined') {
+                    window.location = url;
+                }
+            };
+            gtag('event', 'conversion', {
+                'send_to': 'AW-923433004/TwIhCKXaiHoQrPCpuAM',
+                'event_callback': callback
+            });
+            return false;
+        }
+    </script>
+
+
 </head>
 <body>
 <ul id="faq" class="collapsible" data-collapsible="accordion"
@@ -132,7 +167,7 @@
             var event = e.originalEvent,
                 d = event.wheelDelta || -event.detail;
 
-            this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
+            this.scrollTop += (d < 0 ? 1 : -1) * 30;
             e.preventDefault();
         });
 
@@ -473,6 +508,9 @@
                src="https://www.facebook.com/tr?id=296964117457250&ev=PageView&noscript=1"
     /></noscript>
 <!-- End Facebook Pixel Code -->
+
+
+
 
 
 </body>
