@@ -96,6 +96,7 @@ class CustomerGroupApiController extends ManageApiController
         $group = InfoCustomerGroup::find($request->customer_group_id);
         if (!$group) return $this->respondErrorWithStatus("Khong ton tai nhom");
 
+        if ($request->name === null) return $this->respondErrorWithStatus("Chua co ten");g
         $group->name = $request->name;
         $group->description = $request->description;
         $group->save();
