@@ -3,7 +3,7 @@ import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import ListCustomers from './ListCustomers';
 import Avatar from "../../components/common/Avatar";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 class AddCustomerOverlay extends React.Component {
@@ -55,6 +55,6 @@ class AddCustomerOverlay extends React.Component {
 }
 
 AddCustomerOverlay.propTypes = {
-    customer : propTypes.object,
+    customer : PropTypes.object,
 };
 export default AddCustomerOverlay;

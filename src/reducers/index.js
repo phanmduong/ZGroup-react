@@ -48,6 +48,7 @@ import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
 import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import discountReducer from "../modules/discount/discountReducer";
+import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
 
 
 const appReducer = combineReducers({
@@ -100,6 +101,7 @@ const appReducer = combineReducers({
     summaryMarketingCampaign: summaryMarketingCampaignReducer,
     summarySales: summarySalesReducer,
     discounts : discountReducer,
+    groupCustomers : groupCustomerReducer,
 });
 
 const rootReducer = (state, action) => {

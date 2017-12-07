@@ -1098,8 +1098,22 @@ export default {
         totalPages : 10,
         totalCount : 10,
     },
-    groupCustomer: {
+    groupCustomers: {
         isSaving : false,
         isLoading : false,
+        isLoadingOverlay : false,     // load trong overlay
+        customersList : [],         //  +  customers  = full
+        totalCustomerPages: 1,
+        totalCustomerCount: 1,
+        totalGroupCustomerPages :1 ,
+        groupCustomerForm:{
+            customerCount : 1,
+            id : 1,
+            name : '',
+            description : '',
+            stringId : [],
+            customers : [],                         // cac customer trong mot group
+        },
+        groupCustomersList: [],
     },
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Avatar from "../../components/common/Avatar";
 
 
 class GroupCustomerItem extends React.Component {
@@ -8,8 +9,9 @@ class GroupCustomerItem extends React.Component {
     }
 
     render() {
+        let groupCustomerForm = this.props.groupCustomerForm;
         return (
-            <div className="col-md-4 col-sm-6">
+            <div className="col-md-4 col-sm-6" key={groupCustomerForm.id}>
                 <a className="btn btn-default btn-lg"
                    style={{
                        width: '100%',
@@ -17,13 +19,17 @@ class GroupCustomerItem extends React.Component {
                        color: 'rgb(69, 90, 100)',
                        textAlign: 'left'
                    }}
-                onClick={()=> {this.props.openModal();}}
+                   onClick={() => {
+                       this.props.openEditModal(groupCustomerForm);
+                   }}
                 >
                     <div className="dropdown" style={{position: 'absolute', top: 10, right: 10}}>
 
                         <a className="dropdown-toggle btn-more-dropdown" type="button"
                            data-toggle="dropdown" aria-expanded="false"
-                           onClick={()=> {this.props.openModal();}}
+                           onClick={() => {
+                               this.props.openEditModal(groupCustomerForm);
+                           }}
                         >
                             <i className="material-icons">edit</i>
                         </a>
@@ -33,8 +39,7 @@ class GroupCustomerItem extends React.Component {
                         </a>
                     </div>
                     <div className="row" style={{fontSize: 16, fontWeight: 600}}>
-                        <i className="material-icons">account_balance_wallet</i> Dự
-                        án 1
+                        <i className="material-icons">account_balance_wallet</i> {groupCustomerForm.name}
                     </div>
                     <div className="row" style={{
                         height: 5,
@@ -43,28 +48,41 @@ class GroupCustomerItem extends React.Component {
                         background: 'rgb(205, 220, 57)'
                     }}/>
                     <div className="row" style={{textTransform: 'none', marginBottom: 10}}>
-                        <span>Mô tả: jsdfnks dnckjsnd kjndkjx sn</span>
+                        <span>{groupCustomerForm.description}</span>
                         <br/>
                         <br/>
                         1
                         thẻ
-                        | 100
+                        | {groupCustomerForm.customerCount}
                         khách hàng<br/>
                     </div>
-                    <div className="row"
-                         style={{display: 'flex', flexFlow: 'row-reverse wrap', height: 29}}>
-                        <div style={{padding: '2px 0px'}}>
-                            <div style={{
-                                width: 25,
-                                marginRight: 5,
-                                height: 25,
-                                backgroundPosition: 'center center',
-                                backgroundSize: 'cover',
-                                borderRadius: 4,
-                                backgroundImage: 'url("http://d1j8r0kxyu9tj8.cloudfront.net/user.png")'
-                            }}/>
-                        </div>
-                    </div>
+                    {/*<div className="row"*/}
+                         {/*style={{display: 'flex', flexFlow: 'row-reverse wrap', height: 29}}>*/}
+                        {/*<div style={{padding: '2px 0px'}}>*/}
+                            {/*<div style={{*/}
+                                {/*width: 25,*/}
+                                {/*marginRight: 5,*/}
+                                {/*height: 25,*/}
+
+                            {/*}}>*/}
+                                {/*<div style={{*/}
+                                    {/*backgroundPosition: 'center center',*/}
+                                    {/*backgroundSize: 'cover',*/}
+                                    {/*borderRadius: 4,*/}
+                                {/*}}*/}
+
+                                {/*>*/}
+                                    {/*{groupCustomerForm.customers.map((customer) => {*/}
+                                        {/*return (*/}
+                                            {/*<Avatar size={20} url={customer.avatar_url} key={customer.id}*/}
+                                            {/*/>*/}
+                                        {/*);*/}
+                                    {/*})}*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+
+                        {/*</div>*/}
+                    {/*</div>*/}
                     <div className="ripple-container"/>
                 </a>
             </div>
@@ -74,7 +92,8 @@ class GroupCustomerItem extends React.Component {
 }
 
 GroupCustomerItem.propTypes = {
-    openModal: PropTypes.func,
+    openEditModal: PropTypes.func,
+    groupCustomerForm: PropTypes.object,
 
 };
 export default GroupCustomerItem;
