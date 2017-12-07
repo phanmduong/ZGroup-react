@@ -1428,7 +1428,7 @@ function abbrev($s)
 
 function next_code()
 {
-    $code = Register::orderBy('code', 'desc')->first();
+    $code = Register::where('code', 'like', config('app.prefix_code') . '%')->orderBy('code', 'desc')->first();
 
     $data = [];
     if ($code) {

@@ -154,7 +154,31 @@ class InventoryApiController extends ManageApiController
 
     public function inventoriesInfo(Request $request)
     {
+        $good_category_id = $request->good_category_id;
+        $manufacture_id = $request->manufacture_id;
+        $keyword = $request->search;
+        $warehouse_id = $request->warehouse_id;
         $inventories = ImportedGoods::where('quantity', '<>', 0)->get();
+        if ($good_category_id) {
+            $goodIds = Good::where('good_category_id', $good_category_id)->pluck('id')->toArray();
+            $inventories = $inventories->whereIn('good_id', $goodIds);
+        }
+        if ($manufacture_id) {
+            $goodIds = Good::where('manufacture_id', $manufacture_id)->pluck('id')->toArray();
+            $inventories = $inventories->whereIn('good_id', $goodIds);
+        }
+        if ($warehouse_id) {
+            $goodIds = Good::where('warehouse_id', $warehouse_id)->pluck('id')->toArray();
+            $inventories = $inventories->whereIn('good_id', $goodIds);
+        }
+        if ($keyword) {
+            $goodIds = Good::where(function ($query) use ($keyword) {
+                $query->where("name", "like", "%$keyword%")->orWhere("code", "like", "%$keyword%");
+            })->pluck('id')->toArray();
+            $inventories = $inventories->whereIn('good_id', $goodIds)->get();
+        }
+
+
         $count = $inventories->reduce(function ($total, $inventory) {
             return $total + $inventory->quantity;
         }, 0);
@@ -195,6 +219,7 @@ class InventoryApiController extends ManageApiController
                         'import_quantity' => $singular_history->quantity * ($singular_history->type == 'import'),
                         'export_quantity' => $singular_history->quantity * ($singular_history->type == 'order'),
                         'remain' => $singular_history->remain,
+                        'order_code' => $singular_history->order->code,
                         'warehouse' => [
                             'id' => $singular_history->warehouse->id,
                             'name' => $singular_history->warehouse->name,

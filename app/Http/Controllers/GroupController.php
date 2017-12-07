@@ -127,7 +127,7 @@ class GroupController extends StudentAccessController
                 "event" => "notification",
                 "data" => $data
             );
-            Redis::publish('colorme-channel', json_encode($publish_data));
+            Redis::publish(config('app.channel'), json_encode($publish_data));
         }
         return response()->json($topic, 200);
     }

@@ -134,6 +134,7 @@ class Order extends Model
                 'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
                 'note' => $this->staff_note,
                 'payment' => $this->payment,
+                'status' => $this->status,
             ],
             'good_orders' => $goodOrders,
         ];
