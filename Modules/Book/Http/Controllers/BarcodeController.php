@@ -36,7 +36,7 @@ class BarcodeController extends ManageApiController
 
     public function barcodes()
     {
-        $barcodes = Barcode::orderBy("created_at", "desc")->paginate();
+        $barcodes = Barcode::orderBy("created_at", "desc")->paginate(20);
         return $this->respondWithPagination($barcodes, [
             "barcodes" => $barcodes->map(function ($barcode) {
                 return $barcode;

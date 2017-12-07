@@ -510,5 +510,22 @@
 <!-- End Facebook Pixel Code -->
 
 
+<!-- Google Code for Chuy&#7875;n &#273;&#7893;i Photoshop Conversion Page -->
+<script type="text/javascript">
+    /* <![CDATA[ */
+    var google_conversion_id = 923433004;
+    var google_conversion_label = "TwIhCKXaiHoQrPCpuAM";
+    var google_remarketing_only = false;
+    /* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt=""
+             src="//www.googleadservices.com/pagead/conversion/923433004/?label=TwIhCKXaiHoQrPCpuAM&amp;guid=ON&amp;script=0"/>
+    </div>
+</noscript>
+
 </body>
 </html>
