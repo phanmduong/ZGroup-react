@@ -15,7 +15,11 @@ class BarcodeController extends ManageApiController
         } else {
             $barcode = Barcode::find($request->id);
         }
-        $barcode->used = $request->used;
+        if ($request->used) {
+            $barcode->used = $request->used;
+        } else {
+            $barcode->used = false;
+        }
         $barcode->value = $request->value;
         $barcode->save();
         return $this->respondSuccessWithStatus(["barcode" => $barcode]);
