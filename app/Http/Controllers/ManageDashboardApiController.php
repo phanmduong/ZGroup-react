@@ -39,17 +39,17 @@ class ManageDashboardApiController extends ManageApiController
 
     public function dashboard($gen_id, Request $request, $base_id = null)
     {
-        $start_time = $request->start_time;
-        $end_time = $request->end_time;
+
         $data = [];
         $gen = Gen::find($gen_id);
         $courses = Course::all();
 
-        if ($start_time && $end_time) {
-            $date_array = createDateRangeArray(strtotime($start_time), strtotime($end_time));
-        } else {
-            $date_array = createDateRangeArray(strtotime($gen->start_time), strtotime($gen->end_time));
-        }
+        $start_time = $request->start_time ? $request->start_time : $gen->start_time;
+        $end_time = $request->end_time ? $request->end_time : $gen->end_time;
+        $end_time_plus_1 = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+
+
+        $date_array = createDateRangeArray(strtotime($start_time), strtotime($end_time));
 
         if ($base_id) {
             $base = Base::find($base_id);
@@ -68,21 +68,22 @@ class ManageDashboardApiController extends ManageApiController
             $data['total_classes'] = $classes->count();
 
             $classes_id = $classes->pluck("id");
+            $classes_id2 = $base->classes()->pluck('id');
 
             $registers_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
                 ->where('gen_id', $gen_id)
                 ->whereIn("class_id", $classes_id)
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
-                ->where('gen_id', $gen_id)
+            $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
                 ->where('money', '>', 0)
-                ->whereIn("class_id", $classes_id)
+                ->whereIn("class_id", $classes_id2)
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
-                ->where('gen_id', $gen_id)
-                ->whereIn("class_id", $classes_id)
+                ->whereIn("class_id", $classes_id2)
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money', ' date');
 
         } else {
@@ -115,13 +116,13 @@ class ManageDashboardApiController extends ManageApiController
                 })
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
-                ->where('gen_id', $gen_id)
+            $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
                 ->where('money', '>', 0)
-                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
+                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
 
             $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
-                ->where('gen_id', $gen_id)
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money', ' date');
             $now_classes = StudyClass::orderBy('id');
         }
@@ -159,6 +160,8 @@ class ManageDashboardApiController extends ManageApiController
 
         $di = 0;
 
+        $total_money_registers = 0;
+
         foreach ($date_array as $date) {
 
             if (isset($registers_by_date_temp[$date])) {
@@ -175,6 +178,7 @@ class ManageDashboardApiController extends ManageApiController
 
             if (isset($money_by_date_temp[$date])) {
                 $money_by_date[$di] = $money_by_date_temp[$date];
+                $total_money_registers += $money_by_date[$di];
             } else {
                 $money_by_date[$di] = 0;
             }
@@ -210,7 +214,7 @@ class ManageDashboardApiController extends ManageApiController
             ];
         });
 
-        $total_money = $registers->sum('money');
+        $total_money = $total_money_registers;
         $register_number = $registers->count();
 
         $remain_days = (strtotime($gen->end_time) - time());
