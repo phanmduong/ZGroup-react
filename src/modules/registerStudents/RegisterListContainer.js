@@ -141,12 +141,12 @@ class RegisterListContainer extends React.Component {
             gens = _.reverse(gens);
             this.setState({
                 gens: gens,
-                selectGenId: nextProps.currentGen.id
+                selectGenId: gens[1].id
             });
-            this.props.registerActions.loadClassFilter(nextProps.currentGen.id);
+            this.props.registerActions.loadClassFilter(gens[1].id);
             this.props.registerActions.loadRegisterStudent(
                 1,//page
-                nextProps.currentGen.id,
+                gens[1].id,
                 this.state.query,
                 this.state.selectedSalerId,
                 this.state.campaignId,
