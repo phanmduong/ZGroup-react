@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {Button, Modal} from "react-bootstrap";
 import * as barcodeActions from './barcodeActions';
 import FormInputText from "../../../components/common/FormInputText";
+import Loading from "../../../components/common/Loading";
 
 // Import actions here!!
 
@@ -13,6 +14,7 @@ class CreateBarcodeModalContainer extends React.Component {
         super(props, context);
         this.close = this.close.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     updateFormData(event) {
@@ -27,7 +29,7 @@ class CreateBarcodeModalContainer extends React.Component {
     }
 
     submit() {
-        this.props.barcodeActions.createBarcode();
+        this.props.barcodeActions.createBarcode(this.props.barcode);
     }
 
     render() {
@@ -46,8 +48,17 @@ class CreateBarcodeModalContainer extends React.Component {
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.submit}>Lưu</Button>
-                    <Button onClick={this.close}>Đóng</Button>
+                    {
+                        this.props.isSaving ? (
+                            <Loading/>
+                        ) : (
+                            <div>
+                                <Button className="btn btn-rose" onClick={this.submit}>Lưu</Button>
+                                <Button onClick={this.close}>Đóng</Button>
+                            </div>
+                        )
+                    }
+
                 </Modal.Footer>
             </Modal>
         );

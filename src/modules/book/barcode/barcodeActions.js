@@ -15,12 +15,12 @@ export function showCreateBarcodeModal(showModal) {
     };
 }
 
-export function createBarcode() {
+export function createBarcode(barcode) {
     return (dispatch) => {
         dispatch({
             type: types.BEGIN_CREATE_BARCODE
         });
-        barcodeApi.createBarcode()
+        barcodeApi.createBarcode(barcode)
             .then((res) => {
                 dispatch({
                     type: types.CREATE_BARCODE_SUCCESS,
@@ -37,5 +37,22 @@ export function updateBarcodeFormData(barcode) {
             type: types.UPDATE_BARCODE_FORM_DATA,
             barcode
         });
+    };
+}
+
+export function loadBarcodes(page = 1) {
+    return (dispatch) => {
+        dispatch({
+            type: types.BEGIN_LOAD_BARCODES
+        });
+        barcodeApi.loadBarcodes(page)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_BARCODES_SUCCESS,
+                    barcodes: res.data.barcodes,
+                    currentPage: res.data.paginator.current_page,
+                    totalPages: res.data.paginator.total_pages
+                });
+            });
     };
 }

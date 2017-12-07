@@ -6,6 +6,42 @@ import initialState from '../../reducers/initialState';
 
 export default function goodReducer(state = initialState.good, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_BARCODES:
+            return {
+                ...state,
+                barcode: {
+                    ...state.barcode,
+                    barcodeList: {
+                        ...state.barcode.barcodeList,
+                        isLoading: true
+                    }
+                }
+            };
+        case types.LOAD_BARCODES_SUCCESS:
+            return {
+                ...state,
+                barcode: {
+                    ...state.barcode,
+                    barcodeList: {
+                        ...state.barcode.barcodeList,
+                        barcodes: action.barcodes,
+                        currentPage: action.currentPage,
+                        totalPages: action.totalPages,
+                        isLoading: false
+                    }
+                }
+            };
+        case types.UPDATE_BARCODE_FORM_DATA:
+            return {
+                ...state,
+                barcode: {
+                    ...state.barcode,
+                    createBarcode: {
+                        ...state.barcode.createBarcode,
+                        barcode: action.barcode
+                    }
+                }
+            };
         case types.CREATE_BARCODE_SUCCESS:
             return {
                 ...state,
@@ -14,7 +50,8 @@ export default function goodReducer(state = initialState.good, action) {
                     createBarcode: {
                         ...state.barcode.createBarcode,
                         isSaving: false,
-                        barcode: {}
+                        barcode: {},
+                        showModal: false
                     },
                     barcodeList: {
                         ...state.barcode.barcodeList,
