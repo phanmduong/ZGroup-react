@@ -301,8 +301,8 @@ class ProductApiController extends ApiController
                 "user_id" => $this->user->id
             ])
         );
-//        dd(Redis::publish('colorme-channel', json_encode($publish_data)));
-        Redis::publish('colorme-channel', json_encode($publish_data));
+//        dd(Redis::publish(config('app.channel'), json_encode($publish_data)));
+        Redis::publish(config('app.channel'), json_encode($publish_data));
 
         return $this->respond($this->commentTransformer->transform($comment));
     }

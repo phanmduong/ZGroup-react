@@ -163,7 +163,6 @@ class MarketingCampaignController extends ManageApiController
 
             $data['total_paid_registers'] = $saler_registers->where('status', 1)->where('money', '>', 0)->count();
 
-
             $bonus = 0;
             $courses = array();
 
