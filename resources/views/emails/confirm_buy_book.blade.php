@@ -245,6 +245,10 @@
                                                     Số điện thoại: <b>{{$user->phone}}</b><br/>
                                                     Địa chỉ: <b>{{$user->address}}</b><br/>
                                                     Phương thức thanh toán: <b>{{$order->payment}}</b><br/>
+                                                <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:
+                                                </div>
+                                                <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
+                                                <div>Ship đến tỉnh thành khác: 30k</div>
                                                 </p>
                                                 <p>
                                                 <table id="goods-table" style="width: 100%">
@@ -276,6 +280,16 @@
                                                     </tr>
                                                 </table>
 
+                                                </p>
+                                                <p style="font-weight: 600">
+                                                    <br>
+                                                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển
+                                                        khoản</b> dưới đây là thông tin chuyển
+                                                    khoản:</p>
+                                                <p>
+                                                    Tên tài khoản: VU CHI CONG<br/>
+                                                    Số tài khoản: 44 11 00 00 85 14 60 <br/>
+                                                    Ngân hàng: BIDV Cảm Phả - Quảng Ninh
                                                 </p>
                                                 <p>
                                                     Rất cám ơn sự ủng hộ của bạn đối với Graphics. Chúc bạn một ngày tốt
