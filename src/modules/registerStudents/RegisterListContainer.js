@@ -395,7 +395,8 @@ class RegisterListContainer extends React.Component {
                 type: obj.type,
             };
         });
-        return (data[0].id==0) ?  data : [{
+        let bol = data[0] && (data[0].id != 0);
+        return bol ?  data : [{
             id: '',
             value: 0,
             label: 'Tất cả'
