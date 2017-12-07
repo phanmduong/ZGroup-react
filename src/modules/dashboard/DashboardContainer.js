@@ -186,7 +186,7 @@ class DashboardContainer extends React.Component {
                                     />
                                 </div>
                                 <div className="col-sm-2">
-                                    <button className="btn btn-info"
+                                    <button className="btn btn-info btn-rose"
                                             onClick={() => this.setState({openFilter: !this.state.openFilter})}>
                                         <i className="material-icons">filter_list</i>
                                         Lọc
