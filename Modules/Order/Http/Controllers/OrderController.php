@@ -23,10 +23,12 @@ class OrderController extends ManageApiController
         $limit = 20;
         $user_id = $request->user_id;
         $staff_id = $request->staff_id;
+        $warehouse_id = $request->warehouse_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
         $keyWord = $request->search;
+
         $totalOrders = Order::where('type', 'order')->get()->count();
         $totalMoney = 0;
         $totalPaidMoney = 0;
@@ -46,15 +48,17 @@ class OrderController extends ManageApiController
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
+        if ($status)
+            $orders = $orders->where('status', $status);
         if ($startTime)
             $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
-//        if ($status)
-//            $orders = $orders->where('status', $status);
+        if ($warehouse_id)
+            $orders = $orders->where('warehouse_id', $warehouse_id);
         if ($user_id)
             $orders = $orders->where('user_id', $user_id);
         if ($staff_id)
             $orders = $orders->where('staff_id', $staff_id);
-        $orders = $orders->orderBy('created_at', 'desc')->paginate($limit);
+        $orders = $orders->orderBy('created_at', 'desc')->pagfinate($limit);
         return $this->respondWithPagination(
             $orders,
             [
@@ -161,8 +165,7 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function payImportOrder($orderId, Request $request)
-    {
+    public function payImportOrder($orderId, Request $request){
         if (Order::find($orderId)->get() == null)
             return $this->respondErrorWithStatus("Order không tồn tại");
         if ($request->money == null)

@@ -161,7 +161,7 @@ class ManageRegisterStudentApiController extends ManageApiController
             $prefix = substr($register->code, 0, strlen(config('app.prefix_code_wait')));
             $code = Register::orderBy('code', 'desc')->first()->code;
 
-            if ($prefix == config('app.prefix_code_wait')) {
+            if ($prefix == config('app.prefix_code_wait') && count(explode(config('app.prefix_code_wait'), $code)) > 1) {
                 $nextNumber = explode(config('app.prefix_code_wait'), $code)[1] + 1;
                 $nextCode = config('app.prefix_code') . $nextNumber;
                 $register->code = $nextCode;
