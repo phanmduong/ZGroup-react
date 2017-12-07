@@ -136,10 +136,13 @@ class SummarySalesContainer extends React.Component {
         let gen = this.state.gens.filter(gen => (gen.key == this.state.selectGenId));
         let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let empt1 =helper.isEmptyInput(this.state.time.startTime);
+        let empt2 =helper.isEmptyInput(this.state.time.endTime);
         helper.saveWorkBookToExcel(wb,
             'Tổng kết sales' +
             ` - ${base[0].value == 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
-            (helper.isEmptyInput(this.state.time.startTime) || helper.isEmptyInput(this.state.time.startTime)
+            (
+                (empt1 || empt2)
                     ? ` - ${gen[0].value}`
                     :
                     (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
