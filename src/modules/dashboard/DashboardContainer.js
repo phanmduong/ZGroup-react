@@ -197,7 +197,7 @@ class DashboardContainer extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="card">
-                                            <div className="card-header card-header-icon" data-background-color="blue">
+                                            <div className="card-header card-header-icon" data-background-color="rose">
                                                 <i className="material-icons">filter_list</i>
                                             </div>
                                             <div className="card-content">

@@ -12,6 +12,8 @@ import SummarySalesComponent from "./SummarySalesComponent";
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import { Panel} from 'react-bootstrap';
+import moment from "moment";
+import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
 
 class SummarySalesContainer extends React.Component {
     constructor(props, context) {
@@ -109,33 +111,38 @@ class SummarySalesContainer extends React.Component {
         }
     }
 
-    exportExcel(){
+    exportExcel() {
         let wb = helper.newWorkBook();
-        let general = this.props.summary.map((item, index)=>{
+        let general = this.props.summary.map((item, index) => {
             return {
-                'Số thứ tự' : index + 1,
-                'Họ và tên' : item.name,
+                'STT': index + 1,
+                'Họ và tên': item.name,
                 'Số lượng đã nộp tiền': item.total_paid_registers,
                 'Số lượng đăng kí': item.total_registers,
             };
         });
-        helper.appendJsonToWorkBook( general, wb, 'Tổng quan');
+        helper.appendJsonToWorkBook(general, wb, 'Tổng quan');
 
-        let detail =  this.props.summary.map((item, index)=>{
-            let res = {'Số thứ tự': index + 1,'Họ và tên': item.name};
-            item.campaigns.forEach(obj => (res[obj.name]=  obj.total_registers));
+        let detail = this.props.summary.map((item, index) => {
+            let res = {'STT': index + 1, 'Họ và tên': item.name};
+            item.campaigns.forEach(obj => (res[obj.name] = obj.total_registers));
             return res;
         });
         helper.appendJsonToWorkBook(detail, wb, 'Chi tiết');
 
         let base = this.state.bases.filter(base => (base.key == this.state.selectBaseId));
         let gen = this.state.gens.filter(gen => (gen.key == this.state.selectGenId));
+        let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         helper.saveWorkBookToExcel(wb,
             'Tổng kết sale' +
             `-${base[0].value == 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
-            `-${gen[0].value}` +
-            `${helper.isEmptyInput(this.state.time.startTime) ? '' : ('_' + this.state.time.startTime)}`+
-            `${helper.isEmptyInput(this.state.time.endTime) ? '' : ('/' + this.state.time.endTime)}`
+            (helper.isEmptyInput(this.state.time.startTime) || helper.isEmptyInput(this.state.time.startTime)
+                    ? `-${gen[0].value}`
+                    :
+                    (`${helper.isEmptyInput(this.state.time.startTime) ? '' : ('-' + startTime)}` +
+                     `${helper.isEmptyInput(this.state.time.endTime)   ? '' : ('-' + endTime)  }`)
+            )
         );
 
     }
@@ -185,27 +192,45 @@ class SummarySalesContainer extends React.Component {
                                 </div>
                             </div>
                             <Panel collapsible expanded={this.state.openFilterPanel}>
-                                <div className="col-md-3 col-xs-5">
-                                    <FormInputDate
-                                        label="Từ ngày"
-                                        name="startTime"
-                                        updateFormData={this.updateFormDate}
-                                        id="form-start-time"
-                                        value={this.state.time.startTime}
-                                        maxDate={this.state.time.endTime}
-                                    />
-                                </div>
-                                <div className="col-md-3 col-xs-5">
-                                    <FormInputDate
-                                        label="Đến ngày"
-                                        name="endTime"
-                                        updateFormData={this.updateFormDate}
-                                        id="form-end-time"
-                                        value={this.state.time.endTime}
-                                        minDate={this.state.time.startTime}
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="card">
+                                            <div className="card-header card-header-icon"  data-background-color="rose">
+                                                <i className="material-icons">filter_list</i>
+                                            </div>
+                                            <div className="card-content">
+                                                <h4 className="card-title">Bộ lọc
+                                                    <small/>
+                                                </h4>
+                                                <div className="row">
+                                                    <div className="col-md-3 col-xs-5">
+                                                        <FormInputDate
+                                                            label="Từ ngày"
+                                                            name="startTime"
+                                                            updateFormData={this.updateFormDate}
+                                                            id="form-start-time"
+                                                            value={this.state.time.startTime}
+                                                            maxDate={this.state.time.endTime}
+                                                        />
+                                                    </div>
+                                                    <div className="col-md-3 col-xs-5">
+                                                        <FormInputDate
+                                                            label="Đến ngày"
+                                                            name="endTime"
+                                                            updateFormData={this.updateFormDate}
+                                                            id="form-end-time"
+                                                            value={this.state.time.endTime}
+                                                            minDate={this.state.time.startTime}
 
-                                    />
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
+
                             </Panel>
                             <SummarySalesComponent
                                 {...this.props}
