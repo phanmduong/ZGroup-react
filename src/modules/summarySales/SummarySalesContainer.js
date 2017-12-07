@@ -110,16 +110,34 @@ class SummarySalesContainer extends React.Component {
     }
 
     exportExcel(){
-        //console.log('exportExcel',this.props.summary);
         let wb = helper.newWorkBook();
-        helper.appendJsonToWorkBook( this.props.summary, wb, 'Tổng quan');
-        let detail =  this.props.summary.map((item)=>{
-            let res = {'Họ và tên': item.name};
+        let general = this.props.summary.map((item, index)=>{
+            return {
+                'Số thứ tự' : index + 1,
+                'Họ và tên' : item.name,
+                'Số lượng đã nộp tiền': item.total_paid_registers,
+                'Số lượng đăng kí': item.total_registers,
+            };
+        });
+        helper.appendJsonToWorkBook( general, wb, 'Tổng quan');
+
+        let detail =  this.props.summary.map((item, index)=>{
+            let res = {'Số thứ tự': index + 1,'Họ và tên': item.name};
             item.campaigns.forEach(obj => (res[obj.name]=  obj.total_registers));
             return res;
         });
         helper.appendJsonToWorkBook(detail, wb, 'Chi tiết');
-        helper.saveWorkBookToExcel(wb, 'Tổng kết sale');
+
+        let base = this.state.bases.filter(base => (base.key == this.state.selectBaseId));
+        let gen = this.state.gens.filter(gen => (gen.key == this.state.selectGenId));
+        helper.saveWorkBookToExcel(wb,
+            'Tổng kết sale' +
+            `-${base[0].value == 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
+            `-${gen[0].value}` +
+            `${helper.isEmptyInput(this.state.time.startTime) ? '' : ('_' + this.state.time.startTime)}`+
+            `${helper.isEmptyInput(this.state.time.endTime) ? '' : ('/' + this.state.time.endTime)}`
+        );
+
     }
 
     render() {
@@ -147,8 +165,9 @@ class SummarySalesContainer extends React.Component {
                                         onChange={this.onChangeBase}
                                     />
                                 </div>
-                                <div className="col-sm-3 col-xs-5">
+                                <div className="col-sm-2 col-xs-5">
                                     <button
+                                        style={{width: '100%'}}
                                         onClick={this.openFilterPanel}
                                         className="btn btn-info btn-rose"
                                     >
@@ -156,7 +175,7 @@ class SummarySalesContainer extends React.Component {
                                         Lọc
                                     </button>
                                 </div>
-                                <div className="col-sm-3 col-xs-5">
+                                <div className="col-sm-2 col-xs-5">
                                     <button
                                         onClick={this.exportExcel}
                                         className="btn btn-info btn-rose"
