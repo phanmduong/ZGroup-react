@@ -51,7 +51,7 @@ class RegisterListContainer extends React.Component {
             classStatusFilter:[
                 {value: 0, label: 'Tất cả',},
                 {value: 1, label: 'Hoạt động',},
-                {value: 2, label: 'Đang chờ',},
+                {value: 2, label: 'Chờ',},
             ],
             time:{
                 startTime: '',
@@ -630,7 +630,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo trạng thái lớp
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoading}
+                                                    disabled={this.props.isLoading || this.isWaitListPage}
                                                     options={this.state.classStatusFilter}
                                                     onChange={this.onClassStatusFilterChange}
                                                     value={this.state.selectedClassStatus}
