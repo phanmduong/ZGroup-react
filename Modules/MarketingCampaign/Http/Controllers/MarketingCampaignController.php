@@ -126,14 +126,17 @@ class MarketingCampaignController extends ManageApiController
     public function summarySales(Request $request)
     {
         $gen_id = $request->gen_id;
-        $startTime = $request->start_time;
-        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+
         if ($gen_id && $gen_id != 0) {
             $current_gen = Gen::find($gen_id);
         } else {
             $current_gen = Gen::getCurrentGen();
         }
 
+        $startTime = $request->start_time ? $request->start_time : $current_gen->start_time;
+        $end_time = $request->end_time ? $request->end_time : $current_gen->end_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+        $date_array = createDateRangeArray(strtotime($startTime), strtotime($end_time));
 
         if ($startTime && $endTime) {
             $all_registers = Register::whereBetween('created_at', array($startTime, $endTime));
@@ -147,6 +150,7 @@ class MarketingCampaignController extends ManageApiController
 //
 //        }
 
+
         $saler_ids = $all_registers->pluck('saler_id');
 
         if ($request->base_id && $request->base_id != 0) {
@@ -154,8 +158,6 @@ class MarketingCampaignController extends ManageApiController
         } else {
             $salers = User::whereIn('id', $saler_ids)->get();
         }
-
-        $date_array = createDateRangeArray(strtotime($current_gen->start_time), strtotime($current_gen->end_time));
 
         $salers = $salers->map(function ($saler) use ($date_array, $endTime, $startTime, $request, $current_gen, $all_registers) {
             $data = [
@@ -184,13 +186,13 @@ class MarketingCampaignController extends ManageApiController
 
             $paid_by_date_personal_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
                 ->whereBetween('paid_time', array($startTime, $endTime))
-                ->where('saler_id', $this->user->id)
+                ->where('saler_id', $saler->id)
                 ->where('money', '>', 0)
                 ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
 
             $registers_by_date_personal_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
                 ->whereBetween('created_at', array($startTime, $endTime))
-                ->where('saler_id', $this->user->id)
+                ->where('saler_id', $saler->id)
                 ->where(function ($query) {
                     $query->where('status', 0)
                         ->orWhere('money', '>', 0);
