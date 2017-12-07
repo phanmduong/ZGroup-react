@@ -108,20 +108,11 @@ class MoneyManageApiController extends ApiController
         })->take(20)->get();
 
 
-        // compute the code and waiting code
-        $code = Register::orderBy('code', 'desc')->first();
-        $code = $code ? $code->code : "";
-        $waiting_code = Register::where('code', 'like', 'CCM%')->orderBy('code', 'desc')->first();
-        $waiting_code = $waiting_code ? $waiting_code->code : "";
-        $nextNumber = empty($code) ? "" : explode("M", $code)[1] + 1;
-        if ($waiting_code) {
-            $waiting_code = empty($waiting_code) ? "" : explode("M", $waiting_code)[1] + 1;
-        } else {
-            $waiting_code = $nextNumber;
-        }
+        $code = next_code();
+
         $data = [
-            'next_code' => 'CM' . $nextNumber,
-            'next_waiting_code' => 'CCM' . $waiting_code,
+            'next_code' => $code['next_code'],
+            'next_waiting_code' => $code['next_waiting_code'],
             'users' => []
         ];
 
@@ -137,6 +128,7 @@ class MoneyManageApiController extends ApiController
                         'id' => $regis->id,
                         'course' => $regis->studyClass->course->name,
                         'class' => $regis->studyClass->name,
+                        'class_type' => $regis->studyClass->type,
                         'register_time' => format_time_to_mysql(strtotime($regis->created_at)),
                         'code' => $regis->code,
                         'icon_url' => $regis->studyClass->course->icon_url,
