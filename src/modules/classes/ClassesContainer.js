@@ -64,7 +64,7 @@ class ClassesContainer extends React.Component {
             });
             this.props.classActions.loadClasses('', 1, this.search.teacherId, '');
         }
-        if (!nextProps.isLoadingExcel && this.props.isLoadingExcel)
+        /*if (!nextProps.isLoadingExcel && this.props.isLoadingExcel)
         {
           let data = nextProps.excel.map((obj)=>{
               let res = {
@@ -81,7 +81,7 @@ class ClassesContainer extends React.Component {
               helper.saveWorkBookToExcel(wb, 'Danh sách lớp');
           }
           this.setState({openLoadingModal: false});
-        }
+        }*/
         if (nextProps.params.teacherId !== this.props.params.teacherId) {
             this.search.teacherId = nextProps.params.teacherId;
             this.setState({
@@ -165,12 +165,12 @@ class ClassesContainer extends React.Component {
     }
 
     beginExportExcel(){
-        if(this.state.selectGenId == 11 || this.state.selectGenId == '')
+        /*if(this.state.selectGenId == 11 || this.state.selectGenId == '')
             helper.showErrorNotification('Vui lòng chọn một khóa.');
         else{
             this.setState({openLoadingModal: true});
             this.props.classActions.loadExcelData(this.state.selectGenId);
-        }
+        }*/
     }
 
     render() {
@@ -237,7 +237,9 @@ class ClassesContainer extends React.Component {
 
                                                     <div className="col-sm-3 col-xs-5">
                                                         <button className="btn btn-fill btn-rose"
-                                                                onClick={this.beginExportExcel}>
+                                                                onClick={this.beginExportExcel}
+                                                            disabled={true}
+                                                        >
                                                             Xuất ra Excel
                                                         </button>
                                                     </div>
