@@ -14,7 +14,6 @@ class GoodProperty extends Model
     public function transform()
     {
         return [
-            "id" => $this->id,
             "property_item_id" => $this->property_item_id,
             "name" => $this->name,
             "value" => $this->value
