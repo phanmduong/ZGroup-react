@@ -566,7 +566,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo Chiến dịch
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoadingCampaignFilter || this.isWaitListPage}
+                                                    disabled={this.props.isLoadingCampaignFilter }
                                                     options={this.state.campaignFilter}
                                                     onChange={this.onCampaignFilterChange}
                                                     value={this.state.selectedCampaignFilter}
@@ -615,7 +615,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo trạng thái lớp
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoading}
+                                                    disabled={this.props.isLoading || this.isWaitListPage}
                                                     options={this.state.classStatusFilter}
                                                     onChange={this.onClassStatusFilterChange}
                                                     value={this.state.selectedClassStatus}
