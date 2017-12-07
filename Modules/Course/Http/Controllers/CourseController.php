@@ -288,6 +288,7 @@ class CourseController extends ManageApiController
                 'attendance_id' => $attendance->id,
                 'study_class' => $attendance->register->studyClass->name,
                 'device' => $attendance->device,
+                'note' => $attendance->note,
                 'attendance_lesson_status' => $attendance->status,
                 'attendance_homework_status' => $attendance->hw_status
 
@@ -326,5 +327,17 @@ class CourseController extends ManageApiController
             "message" => "Diem danh bai tap thanh cong"
         ]);
 
+    }
+
+    public function editNoteAttendance($attendanceId, Request $request)
+    {
+        if ($request->note === null) return $this->respondErrorWithStatus("Thieu truong");
+        $attendance = Attendance::find($attendanceId);
+        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
+        $attendance->note = $request->note;
+        $attendance->save();
+        return $this->respondSuccessWithStatus([
+            "messange" => "Note thanh cong"
+        ]);
     }
 }
