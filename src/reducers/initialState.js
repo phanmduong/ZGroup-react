@@ -540,6 +540,7 @@ export default {
         currentPage: 1,
         totalPages: 1,
         gens: [],
+        currentGen: {},
         isLoadingGens: false,
         errorGens: false,
         historyCall: [],
@@ -557,8 +558,8 @@ export default {
         errorRegistersByStudent: false,
         registersByStudent: [],
         classFilter: [],
-        salerFilter:[],
-        campaignFilter:[],
+        salerFilter: [],
+        campaignFilter: [],
         isLoadingClassFilter: false,
         isLoadingSalerFilter: false,
         isLoadingCampaignFilter: false,
@@ -907,62 +908,62 @@ export default {
 
     customers: {
         customersList: [],
-        ordersList : [],
+        ordersList: [],
         isLoading: true,
-        totalOrderPages : 10,
+        totalOrderPages: 10,
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
         totalCount: 10,
-        modal : {
-            isSaving : false,
-            customer : {
-                name : '',
-                phone : '',
-                email : '',
-                address : '',
-                gender : '',
-                dob : '',
+        modal: {
+            isSaving: false,
+            customer: {
+                name: '',
+                phone: '',
+                email: '',
+                address: '',
+                gender: '',
+                dob: '',
             }
         },
     },
     suppliers: {
-        suppliersList : [],
-        isLoading : false,
+        suppliersList: [],
+        isLoading: false,
         totalCount: 10,
-        totalPages : 10,
-        modal : {
-            isSaving : false,
-            supplier : {
-                name : '',
-                phone : '',
-                email : '',
-                address : '',
+        totalPages: 10,
+        modal: {
+            isSaving: false,
+            supplier: {
+                name: '',
+                phone: '',
+                email: '',
+                address: '',
             }
         }
     },
 
-    addDiscount :{
-        isSaving : false,
+    addDiscount: {
+        isSaving: false,
         isLoading: false,
-        customers : [],
-        goods : [],
-        categories : [],
-        totalCustomerPages : 10,
-        totalGoodPages : 10,
-        discount :{
+        customers: [],
+        goods: [],
+        categories: [],
+        totalCustomerPages: 10,
+        totalGoodPages: 10,
+        discount: {
             name: '',
             description: '',
-            discount_type : '',
-            discount_value : '',
-            type : '',
-            used_for : '',
-            start_time : '',
-            end_time : '',
-            order_value : '',
-            good : {},
-            category : {},
-            customer : {},
+            discount_type: '',
+            discount_value: '',
+            type: '',
+            used_for: '',
+            start_time: '',
+            end_time: '',
+            order_value: '',
+            good: {},
+            category: {},
+            customer: {},
         },
 
     },
@@ -1101,51 +1102,61 @@ export default {
         error: false,
         summary: [],
     },
-    discounts : {
-        discountsList : [],
-        isLoading : false,
-        totalPages : 10,
-        totalCount : 10,
+    discounts: {
+        discountsList: [],
+        isLoading: false,
+        totalPages: 10,
+        totalCount: 10,
     },
-    attendance:{
+    attendance: {
         isLoading: false,
         isLoadingGens: false,
         isLoadingBases: false,
         isTakingAttendance: false,
         isLoadingLessonClassModal: false,
         isLoadingLessonDetailModal: false,
-        status:1,
-        currentGen:{
-          id: "",
+        status: 1,
+        currentGen: {
+            id: "",
         },
         data: {
             classes: [
                 {
 
-                    activated:0,
-                    course    :{id: 2, name: "Illustrator", icon_url: "http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072336A5Ks9NSnqnHsXOn.jpg"},
-                    created_at    :    "13:50, 14 Tháng Tư, 2017",
-                    datestart    :    "13 Tháng Mười, 2017",
-                    datestart_en        :    "2017-10-13",
-                    description    :    "Học riêng với giảng viên (Học phí: 2.500.000đ)",
-                    gen    :{id: 23, name: "30"},
-                    id    :    578,
-                    name    :    "AI 1-1",
-                    regis_target       :    1,
-                    room    :{id: 17, name: "Tầng 3", base: "Cơ sở 1", address: " Số 175 phố Chùa Láng - Đống Đa - Hà Nội", base_id: 3},
-                    schedule_id    :    0,
-                    status    :    1,
-                    study_time    :    "Tuỳ theo sự sắp xếp của trợ giảng và giảng viên",
-                    target    :    1,
-                    total_paid    :    1,
-                    total_register    :    1,
+                    activated: 0,
+                    course: {
+                        id: 2,
+                        name: "Illustrator",
+                        icon_url: "http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072336A5Ks9NSnqnHsXOn.jpg"
+                    },
+                    created_at: "13:50, 14 Tháng Tư, 2017",
+                    datestart: "13 Tháng Mười, 2017",
+                    datestart_en: "2017-10-13",
+                    description: "Học riêng với giảng viên (Học phí: 2.500.000đ)",
+                    gen: {id: 23, name: "30"},
+                    id: 578,
+                    name: "AI 1-1",
+                    regis_target: 1,
+                    room: {
+                        id: 17,
+                        name: "Tầng 3",
+                        base: "Cơ sở 1",
+                        address: " Số 175 phố Chùa Láng - Đống Đa - Hà Nội",
+                        base_id: 3
+                    },
+                    schedule_id: 0,
+                    status: 1,
+                    study_time: "Tuỳ theo sự sắp xếp của trợ giảng và giảng viên",
+                    target: 1,
+                    total_paid: 1,
+                    total_register: 1,
                 }
             ],
 
         },
-        class:[],
-        lesson:[],
-        bases:[],
-        gens:[]
+        class: [],
+        lesson: [],
+        bases: [],
+        gens: []
     },
 };

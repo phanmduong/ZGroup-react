@@ -20,9 +20,11 @@ class RegisterListContainer extends React.Component {
         this.state = {
             page: 1,
             query: "",
+            gens: [],
             selectGenId: '',
             showModal: false,
             showModalChangeClass: false,
+            register: {},
             note: '',
             campaignId: '',
             selectRegisterId: 0,
@@ -37,11 +39,6 @@ class RegisterListContainer extends React.Component {
             class_status: '',
             selectedMoneyFilter: 0,
             selectedClassStatus: 0,
-            time:{
-                startTime: '',
-                endTime: '',
-            },
-            gens: [],
             classFilter:[],
             salerFilter:[],
             campaignFilter:[],
@@ -55,8 +52,10 @@ class RegisterListContainer extends React.Component {
                 {value: 1, label: 'Active',},
                 {value: 2, label: 'Watiting',},
             ],
-            register: {},
-
+            time:{
+                startTime: '',
+                endTime: '',
+            }
         };
 
         this.isWaitListPage=false;
@@ -141,12 +140,13 @@ class RegisterListContainer extends React.Component {
             }]);
             gens = _.reverse(gens);
             this.setState({
-                gens: gens
+                gens: gens,
+                selectGenId: nextProps.currentGen.id
             });
-            this.props.registerActions.loadClassFilter(gens[1].id);
+            this.props.registerActions.loadClassFilter(nextProps.currentGen.id);
             this.props.registerActions.loadRegisterStudent(
                 1,//page
-                gens[1].id,
+                nextProps.currentGen.id,
                 this.state.query,
                 this.state.selectedSalerId,
                 this.state.campaignId,
@@ -156,11 +156,13 @@ class RegisterListContainer extends React.Component {
                 this.state.time.startTime,
                 this.state.time.endTime,);
         }
+
         if (!nextProps.isLoadingRegisters && nextProps.isLoadingRegisters !== this.props.isLoadingRegisters) {
             this.setState({
                 selectGenId: nextProps.genId
             });
         }
+
         if (nextProps.params.salerId !== this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', nextProps.params.salerId, '');
             this.setState({
@@ -514,12 +516,12 @@ class RegisterListContainer extends React.Component {
                                     }
                                     <div className="row">
                                         <Search
-                                            className="col-md-10"
+                                            className="col-sm-10"
                                             onChange={this.registersSearchChange}
                                             value={this.state.query}
                                             placeholder="Tìm kiếm học viên"
                                         />
-                                        <div className="col-md-2">
+                                        <div className="col-sm-2 text-align-right">
                                             <button
                                                 onClick={this.openFilterPanel}
                                                 className="btn btn-info btn-rose"
@@ -564,7 +566,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo Chiến dịch
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoadingCampaignFilter}
+                                                    disabled={this.props.isLoadingCampaignFilter || this.isWaitListPage}
                                                     options={this.state.campaignFilter}
                                                     onChange={this.onCampaignFilterChange}
                                                     value={this.state.selectedCampaignFilter}
@@ -613,7 +615,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo trạng thái lớp
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoading ||  this.isWaitListPage}
+                                                    disabled={this.props.isLoading}
                                                     options={this.state.classStatusFilter}
                                                     onChange={this.onClassStatusFilterChange}
                                                     value={this.state.selectedClassStatus}
