@@ -329,6 +329,7 @@ class GoodController extends ManageApiController
                             return [
                                 'id' => $child->id,
                                 'barcode' => $child->barcode,
+                                'price' => $child->price,
                                 'properties' => $child->properties->map(function ($property) {
                                     return $property->transform();
                                 }),
