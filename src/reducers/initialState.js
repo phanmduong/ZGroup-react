@@ -105,6 +105,19 @@ export default {
     },
 
     good: {
+        barcode: {
+            barcodeList: {
+                barcodes: [],
+                isLoading: false,
+                currentPage: 1,
+                totalPages: 0,
+            },
+            createBarcode: {
+                showModal: false,
+                barcode: {},
+                isSaving: false
+            }
+        },
         attachPropertyItem: {
             showModal: false,
             isLoading: false,
@@ -1076,6 +1089,8 @@ export default {
         courses: [],
         isLoadingCourses: false,
         errorCourses: false,
+        isStoringCampaign: false,
+        errorStoreCampaign: false,
     },
 
     summaryMarketingCampaign: {

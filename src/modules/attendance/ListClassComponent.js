@@ -2,7 +2,6 @@ import React                    from 'react';
 import Loading                  from '../../components/common/Loading';
 import PropTypes                from 'prop-types';
 import * as helper              from '../../helpers/helper';
-import {Link}                   from 'react-router';
 
 class ListClassComponent extends React.Component {
     constructor(props, context) {
