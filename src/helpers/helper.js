@@ -4,6 +4,7 @@ import * as env from '../constants/env';
 import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
+import * as FILE_SAVER from 'file-saver';
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -12,6 +13,15 @@ export function shortenStr(str, length) {
     } else {
         return str;
     }
+}
+
+export function checkFileSize(file, sizeMB) {
+    let sizeBytes = sizeMB * 1024 * 1024;
+    if (file.size > sizeBytes) {
+        showWarningNotification("Vui lòng chọn file có kích thước nhỏ hơn " + sizeMB + " MB.");
+        return false;
+    }
+    return true;
 }
 
 export function numberWithCommas(x) {
@@ -212,8 +222,8 @@ export function round2(first, second) {
     return Math.round(first * 100 / second) / 100;
 }
 
-export function isClassWait(className) {
-    return className.indexOf('.') > -1;
+export function isClassWait(type) {
+    return type == 'waiting';
 }
 
 export function sweetAlertSuccess(message) {
@@ -853,6 +863,57 @@ export function readExcel(file, isSkipReadFile) {
 
 export function splitComma(value) {
     return value.split(",").join(", ");
+}
+
+
+function sheetToArrayBit(s) {
+    if (typeof ArrayBuffer !== 'undefined') {
+        let buf = new ArrayBuffer(s.length);
+        let view = new Uint8Array(buf);
+        for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    } else {
+        let buf = new Array(s.length);
+        for (let i = 0; i != s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+}
+
+function exportTable(tableid, type) {
+    let wb = XLSX.utils.table_to_book(document.getElementById(tableid), {sheet: "Sheet JS"});
+    let wbout = XLSX.write(wb, {bookType: type, bookSST: true, type: 'binary'});
+    let fname = 'test.' + type;
+    try {
+        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)], {type: "application/octet-stream"}), fname);
+    } catch (e) {
+        if (typeof console != 'undefined') console.log(e, wbout);
+    }
+    return wbout;
+}
+
+export function exportTableToExcel(tableid, type) {
+    return exportTable(tableid, type || 'xlsx');
+}
+
+
+export function newWorkBook() {
+    return XLSX.utils.book_new();
+}
+
+export function appendJsonToWorkBook(json, wb, sheetname) {
+    let sheet = XLSX.utils.json_to_sheet(json);
+    XLSX.utils.book_append_sheet(wb, sheet, sheetname);
+    return wb;
+}
+
+export function saveWorkBookToExcel(wb, filename) {
+    let wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
+    let fname = (filename ? filename : 'datasheet') + '.xlsx';
+    try {
+        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)], {type: "application/octet-stream"}), fname);
+    } catch (e) {
+        if (typeof console != 'undefined') console.log(e, wbout);
+    }
 }
 
 

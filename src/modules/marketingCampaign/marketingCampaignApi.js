@@ -22,3 +22,19 @@ export function loadAllCourses() {
     return axios.get(url);
 }
 
+export function storeMarketingCampaign(marketingCampaign) {
+
+    let url = env.MANAGE_API_URL + "/marketing-campaign/store";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        id: marketingCampaign.id ? marketingCampaign.id : '',
+        name: marketingCampaign.name,
+        color: marketingCampaign.color && marketingCampaign.color[0] == '#' ? marketingCampaign.color.substr(1) : marketingCampaign.color,
+    });
+}
+
+
+

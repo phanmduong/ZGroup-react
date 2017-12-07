@@ -1078,6 +1078,8 @@ export default {
         courses: [],
         isLoadingCourses: false,
         errorCourses: false,
+        isStoringCampaign: false,
+        errorStoreCampaign: false,
     },
 
     summaryMarketingCampaign: {

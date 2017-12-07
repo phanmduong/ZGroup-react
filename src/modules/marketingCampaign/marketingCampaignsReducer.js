@@ -4,6 +4,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+let marketingCampaigns;
 export default function importGoodsReducer(state = initialState.marketingCampaigns, action) {
     switch (action.type) {
         case types.BEGIN_LOAD_MARKETING_CAMPAIGNS:
@@ -56,6 +57,46 @@ export default function importGoodsReducer(state = initialState.marketingCampaig
                 ...{
                     isLoadingCourses: false,
                     errorCourses: true
+                }
+            };
+        case types.BEGIN_STORE_MARKETING_CAMPAIGN:
+            return {
+                ...state,
+                ...{
+                    isStoringCampaign: true,
+                    errorStoreCampaign: false,
+                }
+            };
+        case types.STORE_MARKETING_CAMPAIGN_SUCCESS:
+
+            if (action.isEdit) {
+                marketingCampaigns = state.marketingCampaigns.map((marketingCampaign) => {
+                    if (marketingCampaign.id === action.marketingCampaign.id) {
+                        return {
+                            ...action.marketingCampaign
+                        };
+                    }
+                    return {
+                        ...marketingCampaign
+                    };
+                });
+            } else {
+                marketingCampaigns = [action.marketingCampaign, ...state.marketingCampaigns];
+            }
+            return {
+                ...state,
+                ...{
+                    isStoringCampaign: false,
+                    errorStoreCampaign: false,
+                    marketingCampaigns: marketingCampaigns
+                }
+            };
+        case types.STORE_MARKETING_CAMPAIGN_ERROR:
+            return {
+                ...state,
+                ...{
+                    isStoringCampaign: false,
+                    errorStoreCampaign: true
                 }
             };
         default:
