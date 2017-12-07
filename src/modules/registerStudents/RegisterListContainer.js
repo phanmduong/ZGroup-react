@@ -347,14 +347,14 @@ class RegisterListContainer extends React.Component {
         if(res=='active'){
             newfilter = newfilter.filter(item => (item.type == 'active'));
         }
-        this.setState({classFilter: this.getFilter(newfilter)});
+        this.setState({classFilter: this.getFilter(newfilter), selectedClassFilter: 0,  selectedClassId: ''});
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
             this.state.campaignId,
-            this.state.selectedClassId,
+            '',
             this.state.paid_status,
             res,
             this.state.time.startTime,
