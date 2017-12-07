@@ -29,7 +29,7 @@ class MarketingCampaignController extends ManageApiController
         else
             $limit = $request->limit;
 
-        $marketingCampaigns = MarketingCampaign::orderBy('created_at')->paginate($limit);
+        $marketingCampaigns = MarketingCampaign::orderBy('created_at', 'desc')->paginate($limit);
 
         $data = $marketingCampaigns->map(function ($marketingCampaign) {
             return [
@@ -41,6 +41,25 @@ class MarketingCampaignController extends ManageApiController
 
         return $this->respondWithPagination($marketingCampaigns, [
             'marketing_campaigns' => $data
+        ]);
+    }
+
+    public function storeMarketingCampaign(Request $request)
+    {
+
+        if ($request->id) {
+            $marketingCampaign = MarketingCampaign::find($request->id);
+        } else {
+            $marketingCampaign = new MarketingCampaign();
+        }
+
+        $marketingCampaign->name = $request->name;
+        $marketingCampaign->color = $request->color ? $request->color : '';
+
+        $marketingCampaign->save();
+
+        return $this->respondSuccessWithStatus([
+            'marketing_campaign' => $marketingCampaign
         ]);
     }
 
@@ -108,7 +127,7 @@ class MarketingCampaignController extends ManageApiController
                     'name' => $item->marketing_campaign->name,
                     'color' => $item->marketing_campaign->color,
                 ],
-                'saler' =>[
+                'saler' => [
                     'id' => $item->saler->id,
                     'name' => $item->saler->name,
                     'color' => $item->saler->color,
@@ -215,7 +234,6 @@ class MarketingCampaignController extends ManageApiController
         return $this->respondSuccessWithStatus([
             'summary_sales' => $salers
         ]);
-
     }
 
 }
