@@ -223,7 +223,7 @@ class ClassesContainer extends React.Component {
                                                   {
                                                             (this.state.selectGenId && this.state.selectGenId > 0) &&
 
-                                                                <div  className="col-sm-9 col-xs-5">
+                                                                <div  className="col-sm-12 col-xs-5">
                                                                 <Select
                                                                     options={this.state.gens}
                                                                     onChange={this.changeGens}
@@ -235,14 +235,6 @@ class ClassesContainer extends React.Component {
 
                                                  }
 
-                                                    <div className="col-sm-3 col-xs-5">
-                                                        <button className="btn btn-fill btn-rose"
-                                                                onClick={this.beginExportExcel}
-                                                            disabled={true}
-                                                        >
-                                                            Xuất ra Excel
-                                                        </button>
-                                                    </div>
                                                 </div>
 
                                                     <Search
