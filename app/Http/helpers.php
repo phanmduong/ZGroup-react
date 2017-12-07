@@ -1,5 +1,6 @@
 <?php
 
+use App\Register;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManagerStatic as Image;
 use \Illuminate\Support\Facades\Storage as Storage;
@@ -1117,9 +1118,9 @@ function random_color()
 function first_part_of_code($class_name, $waitingCode, $nextCode)
 {
     if (strpos($class_name, '.') !== false) {
-        return "CM" . $nextCode;
+        return config('app.prefix_code') . $nextCode;
     } else {
-        return "CCM" . $waitingCode;
+        return config('app.prefix_code_wait') . $waitingCode;
     }
 }
 
@@ -1413,4 +1414,39 @@ function remove_tag($html)
 function defaultAvatarUrl()
 {
     return generate_protocol_url("d1j8r0kxyu9tj8.cloudfront.net/user.png");
+}
+
+function abbrev($s)
+{
+    $v = "";
+    $pieces = explode(" ", $s);
+    foreach ($pieces as $piece) {
+        $v .= $piece[0];
+    }
+    return strtoupper($v);
+}
+
+function next_code()
+{
+    $code = Register::where('code', 'like', config('app.prefix_code') . '%')->orderBy('code', 'desc')->first();
+
+    $data = [];
+    if ($code) {
+        $code = $code->code;
+        $nextNumber = explode(config('app.prefix_code'), $code)[1] + 1;
+        $data["next_code"] = config('app.prefix_code') . $nextNumber;
+    } else {
+        $data["next_code"] = config('app.prefix_code');
+    }
+
+    $waiting_code = Register::where('code', 'like', config('app.prefix_code_wait') . '%')->orderBy('code', 'desc')->first();
+    if ($waiting_code) {
+        $waiting_code = $waiting_code->code;
+        $waiting_code = explode(config('app.prefix_code_wait'), $waiting_code)[1] + 1;
+        $data["next_waiting_code"] = config('app.prefix_code_wait') . $waiting_code;
+    } else {
+        $data["next_waiting_code"] = config('app.prefix_code_wait') . "";
+    }
+    return $data;
+
 }

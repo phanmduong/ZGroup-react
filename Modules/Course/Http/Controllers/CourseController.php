@@ -2,10 +2,14 @@
 
 namespace Modules\Course\Http\Controllers;
 
+use App\Attendance;
+use App\ClassLesson;
 use App\Course;
+use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
 use App\Link;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -130,7 +134,43 @@ class CourseController extends ManageApiController
             $link->link_icon = $link_icon;
             $link->link_icon_url = $this->s3_url . $link_icon;
         } else {
+
+            if ($link->link_icon_url === null) {
+                $link->link_icon_url = 'https://placehold.it/800x600';
+            }
+
             $link->link_icon_url = trim($request->link_icon_url) ? trim($request->link_icon_url) : 'https://placehold.it/800x600';
+
+        }
+        $link->save();
+        return $this->respondSuccessWithStatus([
+            'link' => $link
+        ]);
+    }
+
+    public function editLink($linkId, Request $request)
+    {
+        $link = Link::find($linkId);
+        if (!$link) return $this->respondErrorWithStatus("không tồn tại link");
+        if ($request->link_url == null || $request->link_name == null || $request->course_id == null)
+            return $this->respondErrorWithStatus(["message" => "Thiếu course_id or link_url or link_name"]);
+        $link->link_name = $request->link_name;
+        $link->link_url = $request->link_url;
+        $link->link_description = $request->link_description;
+        $link->course_id = $request->course_id;
+        if ($request->link_icon != null) {
+
+            $link_icon = uploadFileToS3($request, 'link_icon', 200, $link->link_icon);
+            $link->link_icon = $link_icon;
+            $link->link_icon_url = $this->s3_url . $link_icon;
+        } else {
+
+            if ($link->link_icon_url === null) {
+                $link->link_icon_url = 'https://placehold.it/800x600';
+            }
+
+            $link->link_icon_url = trim($request->link_icon_url) ? trim($request->link_icon_url) : 'https://placehold.it/800x600';
+
         }
         $link->save();
         return $this->respondSuccessWithStatus([
@@ -232,5 +272,59 @@ class CourseController extends ManageApiController
                 'detail_teacher' => $lesson->detail_teacher
             ]
         ]);
+    }
+
+    public function getAttendance($classId, $lessonId, Request $request)
+    {
+        $classLesson = ClassLesson::query();
+        $classLesson = $classLesson->where('class_id', $classId)->where('lesson_id', $lessonId)->first();
+        if (!$classLesson) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
+        $attendance_list = $classLesson->attendances;
+        $data['attendances'] = $attendance_list->map(function ($attendance) {
+            return [
+                'student_id' => $attendance->register->user->id,
+                'name' => $attendance->register->user->name,
+                'email' => $attendance->register->user->email,
+                'attendance_id' => $attendance->id,
+                'study_class' => $attendance->register->studyClass->name,
+                'device' => $attendance->device,
+                'attendance_lesson_status' => $attendance->status,
+                'attendance_homework_status' => $attendance->hw_status
+
+            ];
+        });
+        $data['classLesson'] = [
+            'name' => $classLesson->studyClass->name,
+            'attendance_count' => $classLesson->attendances->count(),
+        ];
+
+        return $this->respondSuccessWithStatus([
+            "data" => $data
+        ]);
+
+    }
+
+    public function changeAttendanceLesson($attendanceId, Request $request)
+    {
+        $attendance = Attendance::find($attendanceId);
+        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
+        $attendance->status = 1 - $attendance->status;
+        $attendance->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Diem danh thanh cong"
+        ]);
+
+    }
+
+    public function changeAttendanceHomework($attendanceId, Request $request)
+    {
+        $attendance = Attendance::find($attendanceId);
+        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
+        $attendance->hw_status = 1 - $attendance->hw_status;
+        $attendance->save();
+        return $this->respondSuccessWithStatus([
+            "message" => "Diem danh bai tap thanh cong"
+        ]);
+
     }
 }
