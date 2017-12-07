@@ -55,14 +55,14 @@ class LessonDetailModal extends React.Component {
 
                                         this.props.list.map((item, index)=>{
                                             return(
-                                                <tr key={item.id}>
+                                                <tr key={index}>
                                                     <td>{item.name}</td>
                                                     <td>{item.email}</td>
                                                     <td style={{textAlign:"center"}}>
                                                         <CheckBoxMaterial
                                                             label=""
                                                             name="active"
-                                                            checked={Boolean(item.attendance_status)}
+                                                            checked={Boolean(item.attendance_lesson_status)}
                                                             onChange={() => {return this.props.takeAttendance(this.props.class.id, this.props.selectedLessonId, item.id, index);}}
                                                         />
                                                     </td>

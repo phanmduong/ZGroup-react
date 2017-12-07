@@ -10,7 +10,6 @@ import LessonDetailModal            from './LessonDetailModal';
 import PropTypes                    from 'prop-types';
 import Select                       from '../../components/common/Select';
 import Loading                      from "../../components/common/Loading";
-
 class AttendanceContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -66,6 +65,7 @@ class AttendanceContainer extends React.Component {
         this.getGens                    = this.getGens.bind(this);
         this.onChangeBase               = this.onChangeBase.bind(this);
         this.onChangeGen                = this.onChangeGen.bind(this);
+        this.exportAttendanceExcel      = this.exportAttendanceExcel.bind(this);
     }
 
     componentWillMount(){
@@ -163,15 +163,15 @@ class AttendanceContainer extends React.Component {
 
     onChangeBase(value) {
         this.setState({selectBaseId: value});
-        //this.loadDashboard(this.state.selectBaseId, value);
         this.loadClasses(1,this.state.query,'', value, this.state.selectGenId);
     }
 
     onChangeGen(value) {
         this.setState({selectGenId: value});
-        //this.loadDashboard(value, this.state.selectGenId);
         this.loadClasses(1,this.state.query,'', this.state.selectBaseId, value);
     }
+
+
 
     render(){
         return(

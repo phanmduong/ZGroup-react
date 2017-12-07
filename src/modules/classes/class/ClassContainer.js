@@ -53,6 +53,7 @@ class ClassContainer extends React.Component {
         this.changeTeachingAssis = this.changeTeachingAssis.bind(this);
         this.changeTeacher = this.changeTeacher.bind(this);
         this.exportExcel = this.exportExcel.bind(this);
+        this.exportAttendanceExcel = this.exportAttendanceExcel.bind(this);
     }
 
     componentWillMount() {
@@ -61,6 +62,7 @@ class ClassContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('next props', nextProps);
         if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
             let dataStaffs = [];
             nextProps.staffs.forEach(staff => {
@@ -78,21 +80,47 @@ class ClassContainer extends React.Component {
     exportExcel(){
 
         let data = this.props.class.registers;
-
+        let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 10 },{ "wch": 20 },{ "wch": 12 },{ "wch": 30 },{ "wch": 16 },];
         data = data.map((item, index)=>{
             let res={
-                'Số thứ tự': index,
+                'STT': index + 1,
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
+                'Email' : item.student.email,
+                'Phone' : item.student.phone,
             };
             return res;
         });
 
         let  wb = helper.newWorkBook();
-        helper.appendJsonToWorkBook(data, wb, 'Danh sách học viên');
+        helper.appendJsonToWorkBook(data, wb, 'Danh sách học viên',cols);
         helper.saveWorkBookToExcel(wb, 'Danh sách học viên');
+    }
+    exportAttendanceExcel(){
+        let  wb = helper.newWorkBook();
+        let data = this.props.class.registers;
+        let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 30 },{ "wch": 16 }];
+        data = this.props.class.registers.map((item, index)=>{
+            let res={
+                'STT': index + 1,
+                'Họ và tên': item.student.name,
+                'Email' : item.student.email,
+                'Phone' : item.student.phone,
+            };
+            item.attendances.forEach((obj, index2)=>{
+                res = {...res, [`Buổi${index2+1}`] : ((obj.status == 1) ? 'X' : '')};
+            });
+            console.log(res);
+            return res;
+        });
+
+        helper.appendJsonToWorkBook(data, wb, 'Điểm danh',cols);
+
+
+
+        helper.saveWorkBookToExcel(wb, 'Danh sách điểm danh');
     }
 
     closeModalClassLesson() {
@@ -246,8 +274,14 @@ class ClassContainer extends React.Component {
                                                 <button className="btn btn-default width-100"
                                                     onClick={this.exportExcel}
                                                 >
-                                                    <i className="material-icons">timer</i>
-                                                    Xuất ra Excel
+                                                    <i className="material-icons">file_download</i>
+                                                    Xuất danh sách
+                                                </button>
+                                                <button className="btn btn-default width-100"
+                                                    onClick={this.exportAttendanceExcel}
+                                                >
+                                                    <i className="material-icons">file_download</i>
+                                                    Xuất danh sách điểm danh
                                                 </button>
                                             </div>
                                             {this.props.isLoadingClass ? <Loading/> :
