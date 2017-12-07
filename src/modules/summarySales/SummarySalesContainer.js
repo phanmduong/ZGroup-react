@@ -135,13 +135,13 @@ class SummarySalesContainer extends React.Component {
         let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         helper.saveWorkBookToExcel(wb,
-            'Tổng kết sale' +
-            `-${base[0].value == 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
+            'Tổng kết sales' +
+            ` - ${base[0].value == 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
             (helper.isEmptyInput(this.state.time.startTime) || helper.isEmptyInput(this.state.time.startTime)
-                    ? `-${gen[0].value}`
+                    ? ` - ${gen[0].value}`
                     :
-                    (`${helper.isEmptyInput(this.state.time.startTime) ? '' : ('-' + startTime)}` +
-                     `${helper.isEmptyInput(this.state.time.endTime)   ? '' : ('-' + endTime)  }`)
+                    (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
+                     `${helper.isEmptyInput(this.state.time.endTime)   ? '' : (' - ' + endTime)  }`)
             )
         );
 

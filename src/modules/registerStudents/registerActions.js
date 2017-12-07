@@ -101,7 +101,8 @@ export function loadGensData() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GENS_REGISTER_STUDENT_SUCCESSFUL,
-                    gens: res.data.gens,
+                    gens: res.data.data.gens,
+                    currentGen: res.data.data.current_gen,
                     isLoading: false,
                     error: false
                 });

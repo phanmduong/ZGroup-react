@@ -117,6 +117,7 @@ export default function registerReducer(state = initialState.registerStudents, a
                     isLoadingGens: false,
                     errorGens: false,
                     gens: action.gens,
+                    currentGen: action.currentGen,
                 }
             };
         case types.LOAD_GENS_REGISTER_STUDENT_ERROR:
