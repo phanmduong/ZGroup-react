@@ -42,6 +42,7 @@ class RegisterListContainer extends React.Component {
             classFilter:[],
             salerFilter:[],
             campaignFilter:[],
+            cardTitle: 'Danh sách đăng kí học',
             moneyFilter:[
                 {value: 0, label: 'Tất cả',},
                 {value: 1, label: 'Đã nộp',},
@@ -49,8 +50,8 @@ class RegisterListContainer extends React.Component {
             ],
             classStatusFilter:[
                 {value: 0, label: 'Tất cả',},
-                {value: 1, label: 'Active',},
-                {value: 2, label: 'Watiting',},
+                {value: 1, label: 'Hoạt động',},
+                {value: 2, label: 'Đang chờ',},
             ],
             time:{
                 startTime: '',
@@ -88,7 +89,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadCampaignFilter();
         if(this.props.route.path=='/manage/waitlist'){
             this.isWaitListPage=true;
-            this.setState({campaignId: 18, selectedCampaignId: 18});
+            this.setState({campaignId: 18, selectedCampaignId: 18, cardTitle:'Danh sách chờ'});
         }
         if (this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
@@ -192,12 +193,12 @@ class RegisterListContainer extends React.Component {
                 },});
             if(nextProps.route.path=='/manage/waitlist'){
                 this.isWaitListPage=true;
-                this.setState({  selectedClassStatus: 2});
+                this.setState({  selectedClassStatus: 2, cardTitle:'Danh sách chờ'});
                 this.loadRegisterStudent(1);
             }
             else {
                 this.isWaitListPage=false;
-                this.setState({ selectedClassStatus : 0});
+                this.setState({ selectedClassStatus : 0, cardTitle: 'Danh sách đăng kí học'});
                 if (this.props.params.salerId) {
                 this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
                 this.setState({
@@ -501,7 +502,7 @@ class RegisterListContainer extends React.Component {
                             <i className="material-icons">assignment</i>
                         </div>
                         <div className="card-content">
-                            <h4 className="card-title">Danh sách đăng kí học</h4>
+                            <h4 className="card-title">{this.state.cardTitle}</h4>
                             {this.props.isLoadingGens ? <Loading/> :
                                 <div>
                                     {

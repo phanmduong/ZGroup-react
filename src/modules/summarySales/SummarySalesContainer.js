@@ -121,14 +121,16 @@ class SummarySalesContainer extends React.Component {
                 'Số lượng đăng kí': item.total_registers,
             };
         });
-        helper.appendJsonToWorkBook(general, wb, 'Tổng quan');
+        let cols = [{ "wch": 5 },{ "wch": 20 },{ "wch": 20 },{ "wch": 20 },];
+        helper.appendJsonToWorkBook(general, wb, 'Tổng quan', cols);
 
         let detail = this.props.summary.map((item, index) => {
             let res = {'STT': index + 1, 'Họ và tên': item.name};
             item.campaigns.forEach(obj => (res[obj.name] = obj.total_registers));
             return res;
         });
-        helper.appendJsonToWorkBook(detail, wb, 'Chi tiết');
+        cols = [{ "wch": 5 },{ "wch": 20 }];
+        helper.appendJsonToWorkBook(detail, wb, 'Chi tiết', cols);
 
         let base = this.state.bases.filter(base => (base.key == this.state.selectBaseId));
         let gen = this.state.gens.filter(gen => (gen.key == this.state.selectGenId));
