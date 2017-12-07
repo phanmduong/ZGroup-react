@@ -462,7 +462,7 @@ class RegisterListContainer extends React.Component {
                                     }
                                     <div className="row">
                                         <Search
-                                            className="col-md-9"
+                                            className="col-md-10"
                                             onChange={this.registersSearchChange}
                                             value={this.state.query}
                                             placeholder="Tìm kiếm học viên"

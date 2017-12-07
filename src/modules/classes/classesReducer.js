@@ -4,7 +4,6 @@ import initialState from '../../reducers/initialState';
 
 let classes;
 export default function classesReducer(state = initialState.classes, action) {
-    console.log(action.type);
     switch (action.type) {
         case types.BEGIN_LOAD_CLASSES_EXCEL:
             return {
