@@ -117,7 +117,7 @@ class ManageShiftController extends ManageController
                 "event" => "regis-shift",
                 "data" => $data
             );
-            Redis::publish('colorme-channel', json_encode($publish_data));
+            Redis::publish(config('app.channel'), json_encode($publish_data));
 
             return response()->json([
                 'message' => 'Đăng kí thành công',
@@ -267,7 +267,7 @@ class ManageShiftController extends ManageController
             "event" => "remove-shift",
             "data" => $data
         );
-        Redis::publish('colorme-channel', json_encode($publish_data));
+        Redis::publish(config('app.channel'), json_encode($publish_data));
 
         return response()->json([
             'message' => "Bỏ đăng ký thành công",
