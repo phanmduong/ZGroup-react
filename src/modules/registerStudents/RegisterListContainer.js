@@ -56,7 +56,8 @@ class RegisterListContainer extends React.Component {
             time:{
                 startTime: '',
                 endTime: '',
-            }
+            },
+            allClassFilter:[],
         };
 
         this.isWaitListPage=false;
@@ -111,6 +112,7 @@ class RegisterListContainer extends React.Component {
                 this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
             } else {
                 if(this.props.route.path=='/manage/waitlist'){
+                    this.onClassStatusFilterChange({value: 2});
                     this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
                 }else {
                     this.loadRegisterStudent(1, '');
@@ -124,7 +126,9 @@ class RegisterListContainer extends React.Component {
         if (!nextProps.isLoadingClassFilter && this.props.isLoadingClassFilter) {
             this.setState({
                 classFilter: this.getFilter(nextProps.classFilter),
+                allClassFilter:this.getFilter(nextProps.classFilter),
             });
+            this.onClassStatusFilterChange({value: this.state.selectedClassStatus}, nextProps.classFilter);
         }
         if (!nextProps.isLoadingSalerFilter && this.props.isLoadingSalerFilter) {
             this.setState({
@@ -196,8 +200,10 @@ class RegisterListContainer extends React.Component {
                 this.isWaitListPage=true;
                 this.setState({class_status: 'waiting',  selectedClassStatus: 2, cardTitle:'Danh sách chờ'});
                 this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
+                this.onClassStatusFilterChange({value: 2});
             }
             else {
+                this.onClassStatusFilterChange();
                 this.isWaitListPage=false;
                 this.setState({ selectedClassStatus : 0, cardTitle: 'Danh sách đăng kí học'});
                 if (this.props.params.salerId) {
@@ -320,7 +326,7 @@ class RegisterListContainer extends React.Component {
         );
     }
 
-    onClassStatusFilterChange(obj){
+    onClassStatusFilterChange(obj, filter){
         let num = obj ? obj.value : 0 ;
         let res = '';
         switch(num){
@@ -334,6 +340,14 @@ class RegisterListContainer extends React.Component {
         else {
             this.setState({selectedClassStatus: 0, class_status: res});
         }
+        let newfilter = filter ? filter : this.state.allClassFilter;
+        if(res=='waiting'){
+            newfilter = newfilter.filter(item => (item.type == 'waiting'));
+        } else
+        if(res=='active'){
+            newfilter = newfilter.filter(item => (item.type == 'active'));
+        }
+        this.setState({classFilter: this.getFilter(newfilter)});
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
@@ -377,10 +391,11 @@ class RegisterListContainer extends React.Component {
             return {
                 id: obj.id,
                 value: index + 1,
-                label: obj.name
+                label: obj.name ? obj.name : obj.label,
+                type: obj.type,
             };
         });
-        return [{
+        return (data[0].id==0) ?  data : [{
             id: '',
             value: 0,
             label: 'Tất cả'
