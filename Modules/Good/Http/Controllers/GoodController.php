@@ -349,6 +349,7 @@ class GoodController extends ManageApiController
                     'id' => $child->id,
                     'barcode' => $child->barcode,
                     'price' => $child->price,
+                    'check' => true,
                     'properties' => $child->properties->map(function ($property) {
                         return $property->transform();
                     }),
