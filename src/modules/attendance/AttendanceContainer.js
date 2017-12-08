@@ -5,8 +5,6 @@ import * as    attendanceActions    from '../attendance/attendanceActions';
 import ListClassComponent           from './ListClassComponent';
 import Search                       from '../../components/common/Search';
 import _                            from 'lodash';
-import ListLessonModal              from './ListLessonModal';
-import LessonDetailModal            from './LessonDetailModal';
 import PropTypes                    from 'prop-types';
 import Select                       from '../../components/common/Select';
 import Loading                      from "../../components/common/Loading";
@@ -28,25 +26,13 @@ class AttendanceContainer extends React.Component {
             gens:[
                 {
                     key: 0,
-                    value: 'Tất cả0'
-                },{
-                    key: 1,
-                    value: 'Tất cả1'
-                },{
-                    key: 2,
-                    value: 'Tất cả2'
+                    value: 'Tất cả'
                 },
             ],
             bases:[
                 {
                     key: 0,
-                    value: 'Tất cả0'
-                },{
-                    key: 1,
-                    value: 'Tất cả1'
-                },{
-                    key: 2,
-                    value: 'Tất cả2'
+                    value: 'Tất cả'
                 },
             ],
             selectBaseId: 0,
@@ -246,23 +232,6 @@ class AttendanceContainer extends React.Component {
 
                         </div>
                     </div>
-                    <ListLessonModal
-                        lessondata={this.props.class ? this.props.class : []}
-                        show={this.state.showModalLesson}
-                        onHide={this.closeModalLesson}
-                        class={this.state.selectedClass}
-                        openModalDetailLesson={this.openModalDetailLesson}
-                        isLoadingLessonClassModal={this.props.isLoadingLessonClassModal}
-                    />
-                    <LessonDetailModal
-                        show={this.state.showModalDetailLesson}
-                        onHide={this.closeModalDetailLesson}
-                        class={this.state.selectedClass}
-                        list={this.props.lesson}
-                        takeAttendance={this.takeAttendance}
-                        selectedLessonId={this.state.selectedLessonId}
-                        isLoadingLessonDetailModal={this.props.isLoadingLessonDetailModal}
-                    />
                 </div>
 
             </div>

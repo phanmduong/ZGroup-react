@@ -168,4 +168,23 @@ export function takeAttendanceHomework(attendanceId, index) {
         });
     };
 }
+export function takeNote(note,attendanceId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_TAKE_NOTE,
+        });
+        attendanceApi.takeNote(note,attendanceId)
+            .then(() => {
+                dispatch({
+                    type: types.TAKE_NOTE_SUCCESS,
+            });
+            }).catch(() => {
+            dispatch({
+
+                type: types.TAKE_NOTE_ERROR,
+
+            });
+        });
+    };
+}
 

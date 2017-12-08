@@ -47,8 +47,8 @@ class LessonDetailContainer extends React.Component {
                                         )
                                         :
                                         (
-                                            <div className="no-data">
-                                                Không có thông tin giảng viên
+                                            <div className="btn btn-sm">
+                                                Không có giảng viên
                                             </div>
                                         )
 
@@ -67,8 +67,8 @@ class LessonDetailContainer extends React.Component {
                                         )
                                         :
                                         (
-                                            <div className="no-data">
-                                                Không có thông tin trợ giảng
+                                            <div className="btn btn-sm">
+                                                Không có trợ giảng
                                             </div>
                                         )
 

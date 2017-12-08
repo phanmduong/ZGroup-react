@@ -3,33 +3,49 @@ import {Modal}                      from 'react-bootstrap';
 import Loading                      from '../../components/common/Loading';
 import PropTypes                    from 'prop-types';
 import CheckBoxMaterial             from '../../components/common/CheckBoxMaterial';
+import FormInputText from "../../components/common/FormInputText";
 class LessonDetailModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
+            note : [],
         };
+        this.noteChange                 = this.noteChange.bind(this);
     }
 
+    componentWillReceiveProps(nextProps){
+        let note  = nextProps.list.map((item)=>{ return item.note ? item.note :'' ;});
+        this.setState({
+            note: note
+        });
+    }
 
+    noteChange(e, attid) {
+        const   id   = e.target.name;
+        const   value= e.target.value;
+        const   attendance_id= attid;
+        let note = {...this.state.note};
+        note[id] = value;
+        this.setState({
+            note: note
+        });
+        if (this.timeOut !== null) {
+            clearTimeout(this.timeOut);
+        }
+        this.timeOut = setTimeout(function () {
+            this.props.takeNote(value, attendance_id);
+        }.bind(this), 1000);
+    }
     render(){
         return (
             <Modal
-                size="modal-lg"
+                bsSize="large"
                 show={this.props.show}
                 onHide={this.props.onHide}
             >
                 <Modal.Header closeButton style={{paddingLeft :  "50px", paddingTop: "50px"}}>
                     <div className="row">
-                        <button
-                            className="btn btn-round btn-fab btn-fab-mini text-white col-md-3"
-                            data-toggle="tooltip" title="" type="button"
-                            rel="tooltip"
-                            data-placement="right"
-                            data-original-title={this.props.class.name}
-                            style={{width: "80px",height: "80px"}}>
-                            <img src={this.props.class ? this.props.class.course.icon_url : ""} style={{width: "80px",height: "80px"}} alt=""/>
-                        </button>
-                        <h3 className="col-md-9">{ "Danh sách buổi học lớp " +  this.props.class.name}</h3>
+                        <h3 >{ "Danh sách buổi học lớp " +  this.props.class.name}</h3>
                     </div>
 
 
@@ -45,11 +61,13 @@ class LessonDetailModal extends React.Component {
                                 <th >Tên học viên</th>
                                 <th >Email</th>
                                 <th style={{textAlign:"center"}}>Có mặt</th>
+                                <th style={{textAlign:"center"}}>Bài tập</th>
+                                <th style={{textAlign:"center"}}>Ghi chú</th>
                             </tr>
                             </thead>
                             <tbody>
                             {this.props.isLoadingLessonDetailModal ?
-                                <tr><td colSpan={3}><Loading/></td></tr>
+                                <tr><td colSpan={4}><Loading/></td></tr>
                                 :
                                  this.props.list.length !=0 ?
 
@@ -63,15 +81,29 @@ class LessonDetailModal extends React.Component {
                                                             label=""
                                                             name="active"
                                                             checked={Boolean(item.attendance_lesson_status)}
-                                                            onChange={() => {return this.props.takeAttendance(this.props.class.id, this.props.selectedLessonId, item.id, index);}}
+                                                            onChange={() => {return this.props.takeAttendance(item.attendance_id, index);}}
                                                         />
                                                     </td>
+                                                    <td style={{textAlign:"center"}}>
+                                                        <CheckBoxMaterial
+                                                            label=""
+                                                            name="active"
+                                                            checked={Boolean(item.attendance_homework_status)}
+                                                            onChange={() => {return this.props.takeAttendanceHomework(item.attendance_id, index);}}
+                                                        />
+                                                    </td>
+                                                    <td><FormInputText label="Ghi chú"
+                                                                       name={`${index}`}
+                                                                       id={`${item.attendance_id}`}
+                                                                       updateFormData={(e)=>{this.noteChange(e, item.attendance_id)}}
+                                                                       value={this.state.note[index]}
+                                                    /></td>
                                                 </tr>
                                             );
                                         })
 
                                     :
-                                    <tr> <h5>Chưa thể điểm danh</h5></tr>
+                                    <tr> <td colSpan={4}><h5>Chưa thể điểm danh</h5></td></tr>
                             }
 
                             </tbody>

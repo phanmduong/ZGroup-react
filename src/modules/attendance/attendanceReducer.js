@@ -4,6 +4,18 @@ import initialState from '../../reducers/initialState';
 
 export default function attendanceReducer(state = initialState.attendance, action) {
     switch (action.type) {
+        case types.BEGIN_TAKE_NOTE:
+            return {
+                ...state,
+            };
+        case types.TAKE_NOTE_SUCCESS:
+            return {
+                ...state,
+            };
+        case types.TAKE_NOTE_ERROR:
+            return {
+                ...state,
+            };
         case types.BEGIN_LOAD_CLASS_INFO:
             return {
                 ...state,

@@ -66,6 +66,16 @@ export function takeAttendanceHomework(attendanceId) {
     }
     return axios.post(url);
 }
+export function takeNote(note,attendanceId) {
+    //http://manageapi.keetool.xyz/v2/course/edit-attendance-note/184199?token=
+    let url = env.MANAGE_API_URL + "/v2/course/edit-attendance-note/" +attendanceId;
+    let token = localStorage.getItem('token');
+
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {note: note});
+}
 
 
 export function loadGens() {

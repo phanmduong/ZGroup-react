@@ -32,7 +32,7 @@ class ListClassComponent extends React.Component {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {this.props.classes.map((classItem, index) => {
+                                            {this.props.classes.map((classItem) => {
                                                 return (
                                                     <tr key={classItem.id}>
                                                         <td>
