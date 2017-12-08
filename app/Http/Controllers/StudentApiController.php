@@ -172,11 +172,16 @@ class StudentApiController extends ApiController
         }
 
         if ($request->type != null) {
-            $classes= StudyClass::where('type', $request->type)->get()->pluck('id')->toArray();
+            $classes = StudyClass::where('type', $request->type)->get()->pluck('id')->toArray();
             $registers = $registers->whereIn('class_id', $classes);
         }
         if ($request->saler_id != null) {
-            $registers = $registers->where('saler_id', $request->saler_id);
+            if ($request->saler_id == -1) {
+                $registers = $registers->whereNull('saler_id')->orWhere('saler_id', 0);
+            } else {
+                $registers = $registers->where('saler_id', $request->saler_id);
+            }
+
         }
 
         if ($request->campaign_id != null) {
@@ -188,7 +193,7 @@ class StudentApiController extends ApiController
         }
 
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
-        if($request->start_time != null){
+        if ($request->start_time != null) {
             $registers = $registers->whereBetween('created_at', array($request->start_time, $endTime));
         }
         $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
