@@ -107,8 +107,8 @@
                     khoản:</p>
                 <p>
                     Tên tài khoản: VU CHI CONG<br/>
-                    Số tài khoản: 44 11 00 00 85 14 60 <br/>
-                    Ngân hàng: BIDV Cảm Phả - Quảng Ninh
+                    Số tài khoản: 04 51 00 04 27 664 <br/>
+                    Ngân hàng: Vietcombank Thành Công.
                 </p>
             </div>
             <div class="modal-footer" style="display: block">
