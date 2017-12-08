@@ -104,13 +104,13 @@ export function loadLessonDetailModal(classid, lessonid) {
 }
 
 
-export function takeAttendance(classid, lessonid, studentid, index) {
+export function takeAttendance(attendanceId, index) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_TAKE_ATTENDANCE,
             index: index,
         });
-        attendanceApi.takeAttendance(classid, lessonid, studentid, index)
+        attendanceApi.takeAttendance(attendanceId)
             .then(() => {
                 dispatch({
                     type: types.TAKE_ATTENDANCE_SUCCESS,
@@ -120,6 +120,28 @@ export function takeAttendance(classid, lessonid, studentid, index) {
             dispatch({
 
                 type: types.TAKE_ATTENDANCE_ERROR,
+                index: index,
+
+            });
+        });
+    };
+}
+export function takeAttendanceHomework(attendanceId, index) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_TAKE_ATTENDANCE_HOMEWORK,
+            index: index,
+        });
+        attendanceApi.takeAttendanceHomework(attendanceId)
+            .then(() => {
+                dispatch({
+                    type: types.TAKE_ATTENDANCE_HOMEWORK_SUCCESS,
+                    index: index,
+            });
+            }).catch(() => {
+            dispatch({
+
+                type: types.TAKE_ATTENDANCE_HOMEWORK_ERROR,
                 index: index,
 
             });

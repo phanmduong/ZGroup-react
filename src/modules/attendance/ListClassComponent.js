@@ -2,7 +2,7 @@ import React                    from 'react';
 import Loading                  from '../../components/common/Loading';
 import PropTypes                from 'prop-types';
 import * as helper              from '../../helpers/helper';
-
+import {Link} from 'react-router';
 class ListClassComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -96,10 +96,10 @@ class ListClassComponent extends React.Component {
                                                         <td>{classItem.study_time}</td>
                                                         <td>{classItem.status === 1 ? 'Mở' : 'Đóng'}</td>
                                                         <td>
-                                                            <button className="btn btn-fill btn-rose" type="button"
-                                                                    style={{fontSize: "x-small"}}
-                                                                    onClick={()=>{return this.props.openModalLesson(index);}}
-                                                            >Điểm danh</button>
+                                                            <Link className="btn btn-fill btn-rose"
+                                                                  type="button"
+                                                                  to={'/manage/attendance/' + classItem.id}
+                                                            >Điểm danh</Link>
                                                         </td>
                                                     </tr>
                                                 );

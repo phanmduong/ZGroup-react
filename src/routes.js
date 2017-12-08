@@ -92,6 +92,8 @@ import SummarySalesContainer from "./modules/summarySales/SummarySalesContainer"
 import OverviewSales from "./modules/summarySales/OverviewSales";
 import StatisticSales from "./modules/summarySales/StatisticSales";
 import BarcodesContainer from "./modules/book/barcode/BarcodesContainer";
+import ListLessonContainer from "./modules/attendance/ListLessonContainer";
+import LessonDetailContainer from "./modules/attendance/LessonDetailContainer";
 
 export default (
     <Route>
@@ -262,6 +264,8 @@ export default (
 
             {/*Begin lessons routes */}
                 <Route path="/manage/attendance" component={AttendanceContainer}/>
+                <Route path="/manage/attendance/:classId" component={ListLessonContainer}/>
+                <Route path="/manage/attendance/:classId/:lessonId" component={LessonDetailContainer}/>
             {/*End lessons routes */}
 
             l

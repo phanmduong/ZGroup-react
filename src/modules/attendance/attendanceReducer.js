@@ -133,7 +133,7 @@ export default function attendanceReducer(state = initialState.attendance, actio
                 let newdata = [...state.lesson];
                 let index = action.index;
                 let newitem = {...newdata[index]};
-                newitem.attendance_status = !newitem.attendance_status;
+                newitem.attendance_lesson_status = !newitem.attendance_lesson_status;
                 newdata[index] = newitem;
                 return {
                     ...state,
@@ -158,7 +158,47 @@ export default function attendanceReducer(state = initialState.attendance, actio
             let newdata = [...state.lesson];
             let index = action.index;
             let newitem = {...newdata[index]};
-            newitem.attendance_status = !newitem.attendance_status;
+            newitem.attendance_lesson_status = !newitem.attendance_lesson_status;
+            newdata[index] = newitem;
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isTakingAttendance: false,
+                    lesson: newdata,
+                }
+            };
+        }
+        case types.BEGIN_TAKE_ATTENDANCE_HOMEWORK:{
+                let newdata = [...state.lesson];
+                let index = action.index;
+                let newitem = {...newdata[index]};
+                newitem.attendance_homework_status = !newitem.attendance_homework_status;
+                newdata[index] = newitem;
+                return {
+                    ...state,
+                    ...{
+                        isLoading: false,
+                        isTakingAttendance: true,
+                        lesson: newdata,
+                    }
+                };
+            }
+        case types.TAKE_ATTENDANCE_HOMEWORK_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    isTakingAttendance: false,
+
+                }
+            };
+
+        case types.TAKE_ATTENDANCE_HOMEWORK_ERROR:{
+            let newdata = [...state.lesson];
+            let index = action.index;
+            let newitem = {...newdata[index]};
+            newitem.attendance_homework_status = !newitem.attendance_homework_status;
             newdata[index] = newitem;
             return {
                 ...state,

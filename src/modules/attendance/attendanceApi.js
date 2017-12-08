@@ -36,15 +36,25 @@ export function loadLessonDetailModal(classid , lessonid) {
     return axios.get(url);
 }
 
-export function takeAttendance(classid , lessonid, studentid) {
-    //manageapi.keetool.xyz/v2/course/change-attendance/931/1?token=
-    let url = env.MANAGE_API_URL + "/v2/course/change-attendance/" + classid + "/" + lessonid;
+export function takeAttendance(attendanceId) {
+    //manageapi.keetool.xyz/v2/course/change-attendance-homework/{attendanceID}?token=
+    let url = env.MANAGE_API_URL + "/v2/course/change-attendance-lesson/" +attendanceId;
     let token = localStorage.getItem('token');
 
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url, {student_id : studentid});
+    return axios.post(url);
+}
+export function takeAttendanceHomework(attendanceId) {
+    //manageapi.keetool.xyz/v2/course/change-attendance-homework/{attendanceID}?token=
+    let url = env.MANAGE_API_URL + "/v2/course/change-attendance-homework/" +attendanceId;
+    let token = localStorage.getItem('token');
+
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url);
 }
 
 
