@@ -113,9 +113,9 @@ class RegisterListContainer extends React.Component {
             } else {
                 if(this.props.route.path=='/manage/waitlist'){
                     this.onClassStatusFilterChange({value: 2});
-                    this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
+                    //this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
                 }else {
-                    this.loadRegisterStudent(1, '');
+                    //this.loadRegisterStudent(1, '');
                 }
             }
         }
@@ -131,8 +131,9 @@ class RegisterListContainer extends React.Component {
             this.onClassStatusFilterChange({value: this.state.selectedClassStatus}, nextProps.classFilter);
         }
         if (!nextProps.isLoadingSalerFilter && this.props.isLoadingSalerFilter) {
+            let filter = this.getSalerFilter(nextProps.salerFilter);
             this.setState({
-                salerFilter: this.getFilter(nextProps.salerFilter),
+                salerFilter: filter
             });
         }
         if (!nextProps.isLoadingCampaignFilter && this.props.isLoadingCampaignFilter) {
@@ -150,7 +151,7 @@ class RegisterListContainer extends React.Component {
                 selectGenId: gens[1].id
             });
             this.props.registerActions.loadClassFilter(gens[1].id);
-            this.props.registerActions.loadRegisterStudent(
+            /*this.props.registerActions.loadRegisterStudent(
                 1,//page
                 gens[1].id,
                 this.state.query,
@@ -160,7 +161,7 @@ class RegisterListContainer extends React.Component {
                 this.state.paid_status,
                 this.state.class_status,
                 this.state.time.startTime,
-                this.state.time.endTime,);
+                this.state.time.endTime,);*/
         }
 
         if (!nextProps.isLoadingRegisters && nextProps.isLoadingRegisters !== this.props.isLoadingRegisters) {
@@ -199,7 +200,7 @@ class RegisterListContainer extends React.Component {
             if(nextProps.route.path=='/manage/waitlist'){
                 this.isWaitListPage=true;
                 this.setState({class_status: 'waiting',  selectedClassStatus: 2, cardTitle:'Danh sách chờ'});
-                this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
+                //this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
                 this.onClassStatusFilterChange({value: 2});
             }
             else {
@@ -400,6 +401,26 @@ class RegisterListContainer extends React.Component {
             id: '',
             value: 0,
             label: 'Tất cả'
+        }, ...data];
+    }
+    getSalerFilter(arr) {
+        let data = arr.map(function (obj, index) {
+            return {
+                id: obj.id,
+                value: index + 2,
+                label: obj.name ? obj.name : obj.label,
+                type: obj.type,
+            };
+        });
+
+        return [{
+            id: '',
+            value: 0,
+            label: 'Tất cả'
+        },{
+            id: '-1',
+            value: 1,
+            label: 'Không có'
         }, ...data];
     }
 
