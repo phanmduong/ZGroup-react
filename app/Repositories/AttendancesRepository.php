@@ -38,6 +38,19 @@ class AttendancesRepository
         }
     }
 
+    public function get_attendances_homework($register)
+    {
+        if ($register) {
+            $data = $register->attendances->map(function ($attendance) {
+                return [
+                    'id' => $attendance->id,
+                    'homework_status' => $attendance->hw_status
+                ];
+            });
+            return $data;
+        }
+    }
+
     public function get_attendances_class_lessons($class_lessons)
     {
         if ($class_lessons) {

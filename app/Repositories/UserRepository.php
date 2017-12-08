@@ -45,7 +45,10 @@ class UserRepository
                 'name' => $student->name,
                 'phone' => $student->phone,
                 'email' => $student->email,
-                'avatar_url' => generate_protocol_url($student->avatar_url)
+                'avatar_url' => generate_protocol_url($student->avatar_url),
+                'dob' => $student->dob,
+                'facebook' => $student->facebook,
+                'university' => $student->university,
             ];
     }
 
