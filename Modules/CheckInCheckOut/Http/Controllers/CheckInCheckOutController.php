@@ -3,11 +3,14 @@
 namespace Modules\CheckInCheckOut\Http\Controllers;
 
 use App\Base;
+use App\ClassLesson;
 use App\Colorme\Transformers\ShiftTransformer;
 use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Repositories\NotificationRepository;
+use App\Repositories\UserRepository;
 use App\Shift;
+use App\TeachingLesson;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,15 +23,17 @@ class CheckInCheckOutController extends ManageApiController
     protected $checkInCheckOutRepository;
     protected $notificationRepository;
     protected $shiftTransformer;
+    protected $userRepository;
 
     public function __construct(
         NotificationRepository $notificationRepository,
-        CheckInCheckOutRepository $checkInCheckOutRepository, ShiftTransformer $shiftTransformer)
+        CheckInCheckOutRepository $checkInCheckOutRepository, ShiftTransformer $shiftTransformer, UserRepository $userRepository)
     {
         parent::__construct();
         $this->notificationRepository = $notificationRepository;
         $this->checkInCheckOutRepository = $checkInCheckOutRepository;
         $this->shiftTransformer = $shiftTransformer;
+        $this->userRepository = $userRepository;
     }
 
     public function checkDevice(Request $request)
@@ -324,19 +329,63 @@ class CheckInCheckOutController extends ManageApiController
             $current_gen = Gen::getCurrentGen();
         }
 
-        $startTime = $request->start_time ? $request->start_time : $current_gen->start_time;
-        $end_time = $request->end_time ? $request->end_time : $current_gen->end_time;
-        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $teaching_lessons = TeachingLesson::join('class_lesson', 'class_lesson.id', '=', 'teaching_lessons.class_lesson_id')
+            ->join('classes', 'classes.id', '=', 'class_lesson.class_id')->join('lessons', 'lessons.id', '=', 'class_lesson.lesson_id')
+            ->select('teaching_lessons.*', 'classes.name as class_name', 'classes.gen_id', 'classes.base_id', 'class_lesson.time',
+                'class_lesson.start_time', 'class_lesson.end_time', 'lessons.order'
+            );
+
 
         if ($startTime && $endTime) {
-            $shifts = Shift::whereBetween('date', array($startTime, $endTime));
+            $shifts = Shift::whereBetween('date', array($startTime, $endTime))->whereNotNull('user_id')->where('user_id', '>', 0);
+            $teaching_lessons = $teaching_lessons->whereBetween('time', array($startTime, $endTime));
         } else {
-            $shifts = $current_gen->shifts();
+            $shifts = $current_gen->shifts()->whereNotNull('user_id')->where('user_id', '>', 0);
+            $teaching_lessons = $teaching_lessons->where('gen_id', $current_gen->id);
         }
 
         if ($request->base_id && $request->base_id != 0) {
             $shifts = $shifts->where('base_id', $request->base_id);
+            $teaching_lessons = $teaching_lessons->where('base_id', $request->base_id);
         }
+
+        $teaching_lessons = $teaching_lessons->where(function ($query) {
+            $query->where('teaching_lessons.teacher_id', '>', 0)
+                ->orWhere('teaching_lessons.teaching_assistant_id', '>', 0);
+        });
+
+        $teachers = $teaching_lessons->get()->map(function ($teacher_lesson) {
+
+            $data = [
+                'class_name' => $teacher_lesson->class_name,
+                'time' => date_shift(strtotime($teacher_lesson->time)),
+                'start_time' => format_time_shift(strtotime($teacher_lesson->start_time)),
+                'end_time' => format_time_shift(strtotime($teacher_lesson->end_time)),
+                'order' => $teacher_lesson->order,
+            ];
+            if ($teacher_lesson->teacher) {
+                $data['teacher'] = $this->userRepository->staff($teacher_lesson->teacher);
+            }
+            if ($teacher_lesson->teaching_assistant) {
+                $data['teaching_assistant'] = $this->userRepository->staff($teacher_lesson->teaching_assistant);
+            }
+            if ($teacher_lesson->teacher_check_in) {
+                $data['teacher_check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->teacher_check_in);
+            }
+            if ($teacher_lesson->teacher_check_out) {
+                $data['teacher_check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->teacher_check_out);
+            }
+            if ($teacher_lesson->ta_check_in) {
+                $data['ta_check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->ta_check_in);
+            }
+            if ($teacher_lesson->ta_check_out) {
+                $data['ta_check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($teacher_lesson->ta_check_out);
+            }
+
+            return $data;
+        });
 
         $shifts = $shifts->get()->map(function ($shift) {
             $data = $this->shiftTransformer->transform($shift);
@@ -352,6 +401,7 @@ class CheckInCheckOutController extends ManageApiController
         $data = [];
 
         $data['sales_marketing'] = $shifts;
+        $data['teachers'] = $teachers;
 
         return $this->respondSuccessWithStatus($data);
     }
