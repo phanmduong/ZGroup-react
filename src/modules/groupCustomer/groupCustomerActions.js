@@ -69,9 +69,9 @@ export function addGroupCustomer(groupCustomer) {
                 if (res.data.status) {
                     dispatch({
                         type: types.ADD_GROUP_CUSTOMER_SUCCESS,
-                        groupCustomer : groupCustomer, // nên lấy từ api
+                        groupCustomer : res.data.data.customer_group, // nên lấy từ api
                     });
-                    helper.showTypeNotification('Đã thêm nhóm' + groupCustomer.name, 'success');
+                    helper.showTypeNotification('Đã thêm nhóm ' + groupCustomer.name, 'success');
                 }
                 else {
                     dispatch({
@@ -88,10 +88,10 @@ export function editGroupCustomer(groupCustomer) {
         groupCustomerApis.editGroupCustomerApi(groupCustomer)
             .then((res) => {
                 if (res.data.status) {
-                    helper.showTypeNotification('Đã chỉnh sửa nhóm' + groupCustomer.name, 'success');
+                    helper.showTypeNotification('Đã chỉnh sửa nhóm ' + groupCustomer.name, 'success');
                     dispatch({
                         type: types.EDIT_GROUP_CUSTOMER_SUCCESS,
-                        groupCustomer : groupCustomer, // nên lấy từ api
+                        groupCustomer : res.data.data.customer_group, // nên lấy từ api
                     });
                 }
                 else {

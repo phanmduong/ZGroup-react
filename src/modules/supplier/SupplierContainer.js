@@ -138,6 +138,12 @@ class SupplierContainer extends React.Component {
                                                         <div className="ripple-container"/>
                                                     </Link>
                                                 </li>
+                                                <li className="">
+                                                    <Link to="goods/group-customer">
+                                                        Nhóm khách hàng
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
