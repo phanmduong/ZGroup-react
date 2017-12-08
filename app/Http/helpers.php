@@ -1137,7 +1137,7 @@ function send_sms_confirm_money($register)
 //    dd($headers);
     $text = strtoupper($register->studyClass->course->name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ", ban da thanh toan thanh cong " . currency_vnd_format($register->money) . ". Ma hoc vien cua ban la: " . $register->code . ". Cam on ban.";
     $body = json_encode([
-        "from" => "Alibaba English",
+        "from" => "COLORME",
         "to" => $register->user->phone,
         "text" => $text
     ]);
