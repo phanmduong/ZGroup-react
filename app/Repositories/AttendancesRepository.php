@@ -31,25 +31,15 @@ class AttendancesRepository
             $data = $register->attendances->map(function ($attendance) {
                 return [
                     'id' => $attendance->id,
-                    'status' => $attendance->status
+                    'status' => $attendance->status,
+                    'homework_status' => $attendance->hw_status,
+                    'note' => $attendance->note ? $attendance->note : ""
                 ];
             });
             return $data;
         }
     }
 
-    public function get_attendances_homework($register)
-    {
-        if ($register) {
-            $data = $register->attendances->map(function ($attendance) {
-                return [
-                    'id' => $attendance->id,
-                    'homework_status' => $attendance->hw_status
-                ];
-            });
-            return $data;
-        }
-    }
 
     public function get_attendances_class_lessons($class_lessons)
     {

@@ -108,7 +108,6 @@ class ClassRepository
                 $data['student'] = $this->userRepository->student($register->user);
                 $data['total_attendances'] = $this->attendancesRepository->get_total_attendances($register);
                 $data['attendances'] = $this->attendancesRepository->get_attendances($register);
-                $data['attendances_homework'] = $this->attendancesRepository->get_attendances_homework($register);
                 return $data;
             });
 
