@@ -1142,6 +1142,11 @@ export default {
         class: [],
         lesson: [],
         bases: [],
-        gens: []
+        gens: [],
+        selectedClass: {
+            name: '',
+            teacher: {},
+            teacher_assistant:{},
+        },
     },
 };

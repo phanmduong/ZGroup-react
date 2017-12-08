@@ -25,6 +25,16 @@ export function loadClassLessonModal(id) {
     return axios.get(url);
 }
 
+export function loadClassInfo(id) {
+    //http://manageapi.keetool.xyz/class/914?token=
+    let url = env.MANAGE_API_URL + "/class/" + id ;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
 
 export function loadLessonDetailModal(classid , lessonid) {
     //http://manageapi.keetool.xyz/v2/course/get-attendance-lesson/120/1?token=

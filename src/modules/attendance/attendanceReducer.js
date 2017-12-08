@@ -4,6 +4,28 @@ import initialState from '../../reducers/initialState';
 
 export default function attendanceReducer(state = initialState.attendance, action) {
     switch (action.type) {
+        case types.BEGIN_LOAD_CLASS_INFO:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        case types.LOAD_CLASS_INFO_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    selectedClass: action.selectedClass
+                }
+            };
+        case types.LOAD_CLASS_INFO_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
         case types.BEGIN_LOAD_GENS_DATA_ATTENDANCE:
             return {
                 ...state,

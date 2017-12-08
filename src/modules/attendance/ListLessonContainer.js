@@ -17,17 +17,9 @@ class ListLessonContainer extends React.Component {
     }
 
     componentWillMount(){
-        //console.log('will mount',this.props);
         this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
-        if(this.props.data.classes.length == 0){
-        }else {
-            let selectedClass = this.props.data.classes.filter((obj) => (obj.id == this.props.params.classId));
-            this.setState({selectedClass: selectedClass[0]});
-        }
-    }
-
-    componentWillReceiveProps(nextProps){
-        //console.log('next props list lesson',nextProps);
+        this.props.attendanceActions.loadClassInfo(this.props.params.classId);
+        
     }
 
     render(){
@@ -39,18 +31,18 @@ class ListLessonContainer extends React.Component {
                             <i className="material-icons">assignment</i>
                         </div>
                         <div className="card-content">
-                            <h4 className="card-title">{ "Danh sách buổi học lớp " +  this.state.selectedClass.name}</h4>
+                            <h4 className="card-title">{ "Danh sách buổi học lớp " +  this.props.selectedClass.name}</h4>
                             <div className="row"><br/></div>
                             <div className="row">
                                 <div className="col-md-3">{
-                                    this.state.selectedClass.teacher ?
+                                    this.props.selectedClass.teacher ?
                                         (
                                             <TooltipButton text="Giảng viên"
                                                            placement="top"
                                             >
                                                 <button className="btn btn-sm"
-                                                        style={{backgroundColor: '#' + this.state.selectedClass.teacher.color , inlineSize: "-webkit-fill-available"}}>
-                                                    {helper.getShortName(this.state.selectedClass.teacher.name)}
+                                                        style={{backgroundColor: '#' + this.props.selectedClass.teacher.color , inlineSize: "-webkit-fill-available"}}>
+                                                    {helper.getShortName(this.props.selectedClass.teacher.name)}
                                                     <div className="ripple-container"/>
                                                 </button>
                                             </TooltipButton>
@@ -65,13 +57,13 @@ class ListLessonContainer extends React.Component {
                                 }</div>
 
                                 <div className="col-md-3">{
-                                    this.state.selectedClass.teacher_assistant ?
+                                    this.props.selectedClass.teacher_assistant ?
                                         (
                                             <TooltipButton text="Trợ giảng"
                                                            placement="top">
                                                 <button className="btn btn-sm"
-                                                        style={{backgroundColor: '#' + this.state.selectedClass.teacher_assistant.color, inlineSize: "-webkit-fill-available"}}>
-                                                    {helper.getShortName(this.state.selectedClass.teacher_assistant.name)}
+                                                        style={{backgroundColor: '#' + this.props.selectedClass.teacher_assistant.color, inlineSize: "-webkit-fill-available"}}>
+                                                    {helper.getShortName(this.props.selectedClass.teacher_assistant.name)}
                                                     <div className="ripple-container"/>
                                                 </button>
                                             </TooltipButton>
@@ -155,6 +147,7 @@ ListLessonContainer.propTypes = {
     lesson: PropTypes.array,
     gens: PropTypes.array,
     bases: PropTypes.array,
+    selectedClass: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -171,6 +164,8 @@ function mapStateToProps(state) {
         lesson:                         state.attendance.lesson,
         gens:                           state.attendance.gens,
         bases:                          state.attendance.bases,
+        selectedClass:                  state.attendance.selectedClass,
+
     };
 }
 

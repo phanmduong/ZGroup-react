@@ -74,7 +74,6 @@ class AttendanceContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        //console.log('next props', nextProps);
         if(nextProps.isLoadingGens !== this.props.isLoadingGens && !nextProps.isLoadingGens) {
             this.setState({
                 gens: this.getGens(nextProps.gens),

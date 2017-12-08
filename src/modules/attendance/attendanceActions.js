@@ -63,6 +63,25 @@ export function loadClasses(search ="", page="", teacherId="", baseid='' , genid
         });
     };
 }
+export function loadClassInfo(id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASS_INFO,
+        });
+        attendanceApi.loadClassInfo(id)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CLASS_INFO_SUCCESS,
+                    selectedClass: res.data.data.class,
+            });
+            }).catch(() => {
+            dispatch({
+
+                type: types.LOAD_CLASS_INFO_ERROR,
+            });
+        });
+    };
+}
 export function loadClassLessonModal(id) {
     return function (dispatch) {
         dispatch({
@@ -82,6 +101,7 @@ export function loadClassLessonModal(id) {
         });
     };
 }
+
 export function loadLessonDetailModal(classid, lessonid) {
     return function (dispatch) {
         dispatch({
