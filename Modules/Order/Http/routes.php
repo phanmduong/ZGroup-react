@@ -19,6 +19,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::post('/create-customer-group','CustomerGroupApiController@createGroup');
     Route::put('/change-customer-group','CustomerGroupApiController@changeGroup');
     Route::get('/all-customer-group','CustomerGroupApiController@getAllGroup');
+    Route::delete('/delete-group','CustomerGroupApiController@deleteGroup');
 
     Route::get('/category/all', 'CategoryApiController@allCategory');
     Route::post('/category/add', 'CategoryApiController@addCategory');
