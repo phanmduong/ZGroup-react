@@ -13,7 +13,9 @@ class  ListRegister extends React.Component {
     render() {
         return (
             <div className="table-responsive">
-                <table className="table">
+                <table id="datatables"
+                       className="table table-striped table-no-bordered table-hover"
+                       cellSpacing="0" width="100%" style={{width: "100%"}}>
                     <thead className="text-rose">
                     <tr>
                         <th>Lớp</th>
@@ -183,7 +185,7 @@ ListRegister.propTypes = {
     openModalChangeClass: PropTypes.func.isRequired,
     deleteRegister: PropTypes.func.isRequired,
     loadRegisterStudentByCampaign: PropTypes.func.isRequired,
-    loadRegisterStudentBySaler: PropTypes.func.isRequired,
+    loadRegisterStudentBySaler: PropTypes.func,
 
 };
 

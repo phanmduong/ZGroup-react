@@ -36,16 +36,22 @@ class coursesCreateEditDocuments extends React.Component {
         this.commitLink         = this.commitLink.bind(this);
         this.deleteLink         = this.deleteLink.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
+        this.validateLink       = this.validateLink.bind(this);
     }
 
     componentWillMount(){
         helper.setFormValidation('#form-edit-link');
     }
 
+    componentDidUpdate(){
+        helper.setFormValidation('#form-edit-link');
+    }
+
     componentWillReceiveProps(){
         //console.log('coursesCreateEditDocuments', nextProps);
-
+        helper.setFormValidation('#form-edit-link');
     }
+
 
     openModal(){
         this.isCreate = true;
@@ -65,7 +71,8 @@ class coursesCreateEditDocuments extends React.Component {
 
     uploadLinkIcon(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadLinkIcon(this.props.link, file);
+        if(helper.checkFileSize(file, 2))
+            this.props.coursesActions.uploadLinkIcon(this.props.link, file);
     }
 
     openModalEditLink(link){
@@ -114,6 +121,15 @@ class coursesCreateEditDocuments extends React.Component {
         }
         return false;
     }
+
+    validateLink(link){
+        if(helper.isEmptyInput(link)) return NO_IMAGE;
+        if(link.substring(0,4) == 'http'){
+            return link;
+        }
+        return 'http://' + link;
+    }
+
     render(){
 
         return (
@@ -151,12 +167,12 @@ class coursesCreateEditDocuments extends React.Component {
                                                     rel         ="tooltip"
                                                     data-placement      ="right"
                                                     data-original-title ={link.link_name}>
-                                                <img src={link.link_icon_url} alt=""/>
+                                                <img src={this.validateLink(link.link_icon_url)} alt=""/>
                                             </button>
                                         </td>
                                         <td >{link.link_name}</td>
                                         <td>
-                                                <a href={link.link_url} target="_blank">
+                                                <a href={this.validateLink(link.link_url)} target="_blank">
                                                     <p style={{
                                                         maxWidth: "100px",
                                                         wordWrap: 'break-word',

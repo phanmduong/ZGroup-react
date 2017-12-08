@@ -6,12 +6,72 @@ import * as registerStudentsApi from './registerStudentsApi';
 import {showErrorNotification, showNotification, showTypeNotification} from '../../helpers/helper';
 
 /*eslint no-console: 0 */
-export function loadRegisterStudent(page, genId, search, salerId, campaignId) {
+
+
+export function loadClassFilter(genid) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASS_FILTER,
+        });
+        registerStudentsApi.loadClassFilter(genid).then((res) => {
+            dispatch({
+                type: types.LOAD_CLASS_FILTER_SUCCESS,
+                filter: res.data.data.classes
+            });
+        }).catch(error => {
+            console.log(error);
+            dispatch({
+                type: types.LOAD_CLASS_FILTER_ERROR
+            });
+        });
+    };
+}
+
+export function loadSalerFilter() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_SALER_FILTER,
+        });
+        registerStudentsApi.loadSalerFilter().then((res) => {
+            dispatch({
+                type: types.LOAD_SALER_FILTER_SUCCESS,
+                filter: res.data.data.salers
+            });
+        }).catch(error => {
+            console.log(error);
+            dispatch({
+                type: types.LOAD_SALER_FILTER_ERROR
+            });
+        });
+    };
+}
+export function loadCampaignFilter() {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CAMPAIGN_FILTER,
+        });
+        registerStudentsApi.loadCampaignFilter().then((res) => {
+            dispatch({
+                type: types.LOAD_CAMPAIGN_FILTER_SUCCESS,
+                filter: res.data.marketing_campaigns
+            });
+        }).catch(error => {
+            console.log(error);
+            dispatch({
+                type: types.LOAD_CAMPAIGN_FILTER_ERROR
+            });
+        });
+    };
+}
+
+
+export function loadRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
         });
-        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId).then(function (res) {
+        registerStudentsApi.getRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime )
+            .then(function (res) {
             dispatch(loadDataSuccessful(res));
         }).catch(error => {
             console.log(error);
@@ -41,7 +101,8 @@ export function loadGensData() {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GENS_REGISTER_STUDENT_SUCCESSFUL,
-                    gens: res.data.gens,
+                    gens: res.data.data.gens,
+                    currentGen: res.data.data.current_gen,
                     isLoading: false,
                     error: false
                 });

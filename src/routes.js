@@ -70,7 +70,6 @@ import GoodDetailContainer from "./modules/good/GoodDetailContainer";
 import WareHouseContainer from "./modules/wareHouse/WareHouseContainer";
 import CustomerContainer from "./modules/customer/CustomerContainer";
 import InventoryGoodContainer from "./modules/inventoryGood/InventoryGoodContainer";
-
 import CreateEditCoursesContainer from "./modules/courses/coursesForm/CoursesCreateEditContainer";
 import coursesCreateEditGeneral from "./modules/courses/coursesForm/coursesCreateEditGeneral";
 import coursesCreateEditCurriculum from "./modules/courses/coursesForm/coursesCreateEditCurriculum";
@@ -78,6 +77,7 @@ import coursesCreateEditDocuments from "./modules/courses/coursesForm/coursesCre
 import coursesCreateEditStudying from "./modules/courses/coursesForm/coursesCreateEditStudying";
 import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCreateEditInterested";
 import LessonsContainer from "./modules/lessons/LessonsContainer";
+import AttendanceContainer from "./modules/attendance/AttendanceContainer";
 import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCampaignContainer";
 import SupplierContainer from "./modules/supplier/SupplierContainer";
 import AddDiscountContainer from "./modules/addDiscount/AddDiscountContainer";
@@ -143,6 +143,7 @@ export default (
 
             {/*Begin register student routes*/}
             <Route path="/manage/registerlist(/:salerId)" component={RegisterListContainer}/>
+            <Route path="/manage/waitlist" component={RegisterListContainer}/>
             <Route path="/registerlist/:campaignId/:genId" component={RegisterListContainer}/>
             {/*End register student routes*/}
 
@@ -247,16 +248,20 @@ export default (
             </Route>
             <Route path="/manage/courses/create" component={CreateEditCoursesContainer} type="create">
                 <IndexRoute component={coursesCreateEditGeneral}/>
-                <Route path="curriculum" component={coursesCreateEditCurriculum}/>
-                <Route path="documents" component={coursesCreateEditDocuments}/>
-                <Route path="studying" component={coursesCreateEditStudying}/>
-                <Route path="interested" component={coursesCreateEditInterested}/>
+                <Route path="curriculum" component={coursesCreateEditGeneral}/>
+                <Route path="documents" component={coursesCreateEditGeneral}/>
+                <Route path="studying" component={coursesCreateEditGeneral}/>
+                <Route path="interested" component={coursesCreateEditGeneral}/>
             </Route>
             {/*End course routes */}
 
             {/*End lessons routes */}
-            <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
-            <Route path="/manage/courses/lessons/create/:courseId" component={LessonsContainer}/>
+                <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
+                <Route path="/manage/courses/lessons/create/:courseId" component={LessonsContainer}/>
+            {/*End lessons routes */}
+
+            {/*Begin lessons routes */}
+                <Route path="/manage/attendance" component={AttendanceContainer}/>
             {/*End lessons routes */}
 
             l
@@ -300,6 +305,7 @@ export default (
             <Route path="/manage/marketing-campaign" component={MarketingCampaignContainer}/>
             <Route path="/marketing-campaign/summary" component={SummaryMarketingCampaignContainer}/>
             {/*End marketing campaigns routes*/}
+
 
 
             {/*Begin supplier routes */}

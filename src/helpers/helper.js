@@ -900,8 +900,9 @@ export function newWorkBook() {
     return XLSX.utils.book_new();
 }
 
-export function appendJsonToWorkBook(json, wb, sheetname) {
+export function appendJsonToWorkBook(json, wb, sheetname, cols) {
     let sheet = XLSX.utils.json_to_sheet(json);
+    if(cols) sheet['!cols'] = cols;
     XLSX.utils.book_append_sheet(wb, sheet, sheetname);
     return wb;
 }
