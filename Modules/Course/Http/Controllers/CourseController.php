@@ -305,37 +305,49 @@ class CourseController extends ManageApiController
 
     }
 
-    public function changeAttendanceLesson($attendanceId, Request $request)
+    public function changeAttendanceLesson(Request $request)
     {
-        $attendance = Attendance::find($attendanceId);
-        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
-        $attendance->status = 1 - $attendance->status;
-        $attendance->save();
+
+        $attendances = json_decode($request->attendances);
+
+        foreach ($attendances as $attendance){
+            $get_attendance = Attendance::find($attendance->id);
+            if(!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
+            $get_attendance->status = 1- $get_attendance->status;
+            $get_attendance->save();
+        }
         return $this->respondSuccessWithStatus([
             "message" => "Diem danh thanh cong"
         ]);
 
     }
 
-    public function changeAttendanceHomework($attendanceId, Request $request)
+    public function changeAttendanceHomework(Request $request)
     {
-        $attendance = Attendance::find($attendanceId);
-        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
-        $attendance->hw_status = 1 - $attendance->hw_status;
-        $attendance->save();
+        $attendances = json_decode($request->attendances);
+
+        foreach ($attendances as $attendance){
+            $get_attendance = Attendance::find($attendance->id);
+            if(!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
+            $get_attendance->hw_status = 1- $get_attendance->hw_status;
+            $get_attendance->save();
+        }
         return $this->respondSuccessWithStatus([
             "message" => "Diem danh bai tap thanh cong"
         ]);
 
     }
 
-    public function editNoteAttendance($attendanceId, Request $request)
+    public function editNoteAttendance(Request $request)
     {
-        if ($request->note === null) return $this->respondErrorWithStatus("Thieu truong");
-        $attendance = Attendance::find($attendanceId);
-        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
-        $attendance->note = $request->note;
-        $attendance->save();
+        $attendances = json_decode($request->attendances);
+
+        foreach ($attendances as $attendance){
+            $get_attendance = Attendance::find($attendance->id);
+            if(!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
+            $get_attendance->note = $attendance->note;
+            $get_attendance->save();
+        }
         return $this->respondSuccessWithStatus([
             "messange" => "Note thanh cong"
         ]);
