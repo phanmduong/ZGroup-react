@@ -66,6 +66,7 @@
         gtag('js', new Date());
 
         gtag('config', 'AW-923433004');
+        gtag('config', 'UA-110883203-1');
     </script>
 
 
@@ -507,6 +508,9 @@
                src="https://www.facebook.com/tr?id=296964117457250&ev=PageView&noscript=1"
     /></noscript>
 <!-- End Facebook Pixel Code -->
+
+
+
 
 
 </body>

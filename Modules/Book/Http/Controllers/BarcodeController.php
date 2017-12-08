@@ -5,9 +5,13 @@ namespace Modules\Book\Http\Controllers;
 use App\Http\Controllers\ManageApiController;
 use Illuminate\Http\Request;
 use Modules\Book\Entities\Barcode;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+use Picqer\Barcode\Exceptions\BarcodeException;
 
 class BarcodeController extends ManageApiController
 {
+
+
     public function saveBarcode(Request $request)
     {
         if ($request->id == null) {
@@ -15,12 +19,20 @@ class BarcodeController extends ManageApiController
         } else {
             $barcode = Barcode::find($request->id);
         }
-        if ($request->used) {
-            $barcode->used = $request->used;
+        if ($request->good_id) {
+            $barcode->good_id = $request->good_id;
         } else {
-            $barcode->used = false;
+            $barcode->good_id = 0;
         }
         $barcode->value = $request->value;
+        $generator = new BarcodeGeneratorPNG();
+        if ($request->value) {
+            try {
+                $barcode->image_url = 'data:image/png;base64,' . base64_encode($generator->getBarcode($request->value, $generator::TYPE_CODE_128));
+            } catch (BarcodeException $e) {
+            }
+        }
+
         $barcode->save();
         return $this->respondSuccessWithStatus(["barcode" => $barcode]);
     }
@@ -36,9 +48,13 @@ class BarcodeController extends ManageApiController
 
     public function barcodes()
     {
-        $barcodes = Barcode::orderBy("created_at", "desc")->paginate();
+        $barcodes = Barcode::orderBy("created_at", "desc")->paginate(20);
         return $this->respondWithPagination($barcodes, [
-            "barcodes" => $barcodes
+            "barcodes" => $barcodes->map(function ($barcode) {
+                return $barcode;
+            })
         ]);
     }
+
+
 }

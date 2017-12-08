@@ -28,6 +28,7 @@ class ClassApiController extends ApiController
                     'name' => $class->name,
                     'activated' => $class->activated,
                     'study_time' => $class->study_time,
+                    'type' => $class->type,
                 ];
                 if ($class->course)
                     $data['course'] = [
