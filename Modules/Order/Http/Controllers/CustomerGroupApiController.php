@@ -111,7 +111,7 @@ class CustomerGroupApiController extends ManageApiController
                 $cusomer_group->save();
             }
 
-        }
+        } else if($request->stringId == "" && $group->customers) $group->customers()->detach();
 
         $customers = $group->customers;
         return $this->respondSuccessWithStatus([
