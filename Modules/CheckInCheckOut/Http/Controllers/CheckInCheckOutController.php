@@ -3,8 +3,11 @@
 namespace Modules\CheckInCheckOut\Http\Controllers;
 
 use App\Base;
+use App\Colorme\Transformers\ShiftTransformer;
+use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Repositories\NotificationRepository;
+use App\Shift;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,14 +19,16 @@ class CheckInCheckOutController extends ManageApiController
 
     protected $checkInCheckOutRepository;
     protected $notificationRepository;
+    protected $shiftTransformer;
 
     public function __construct(
         NotificationRepository $notificationRepository,
-        CheckInCheckOutRepository $checkInCheckOutRepository)
+        CheckInCheckOutRepository $checkInCheckOutRepository, ShiftTransformer $shiftTransformer)
     {
         parent::__construct();
         $this->notificationRepository = $notificationRepository;
         $this->checkInCheckOutRepository = $checkInCheckOutRepository;
+        $this->shiftTransformer = $shiftTransformer;
     }
 
     public function checkDevice(Request $request)
@@ -307,6 +312,48 @@ class CheckInCheckOutController extends ManageApiController
                 ]
             );
         }
+    }
+
+    public function statisticAttendanceStaffs(Request $request)
+    {
+        $gen_id = $request->gen_id;
+
+        if ($gen_id && $gen_id != 0) {
+            $current_gen = Gen::find($gen_id);
+        } else {
+            $current_gen = Gen::getCurrentGen();
+        }
+
+        $startTime = $request->start_time ? $request->start_time : $current_gen->start_time;
+        $end_time = $request->end_time ? $request->end_time : $current_gen->end_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+
+        if ($startTime && $endTime) {
+            $shifts = Shift::whereBetween('date', array($startTime, $endTime));
+        } else {
+            $shifts = $current_gen->shifts();
+        }
+
+        if ($request->base_id && $request->base_id != 0) {
+            $shifts = $shifts->where('base_id', $request->base_id);
+        }
+
+        $shifts = $shifts->get()->map(function ($shift) {
+            $data = $this->shiftTransformer->transform($shift);
+            if ($shift->check_in) {
+                $data['check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_in);
+            }
+            if ($shift->check_out) {
+                $data['check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_out);
+            }
+            return $data;
+        });
+
+        $data = [];
+
+        $data['sales_marketing'] = $shifts;
+
+        return $this->respondSuccessWithStatus($data);
     }
 
 

@@ -30,6 +30,7 @@ class ShiftTransformer extends Transformer
             'id' => $shift->id,
             "name" => $shift_session->name,
             'user' => $user,
+            'week' => $shift->week,
             'base' => ['name' => $shift->base->name, 'address' => $shift->base->address],
             'start_time' => format_time_shift(strtotime($shift_session->start_time)),
             'end_time' => format_time_shift(strtotime($shift_session->end_time))
