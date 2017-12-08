@@ -56,3 +56,22 @@ export function loadBarcodes(page = 1) {
             });
     };
 }
+
+export function deleteBarcode(barcodeId) {
+    return (dispatch) => {
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        return new Promise((resolve) => {
+            barcodeApi.deleteBarcode(barcodeId)
+                .then(() => {
+                    dispatch({
+                        type: types.HIDE_GLOBAL_LOADING
+                    });
+                    resolve();
+                });
+        });
+
+
+    };
+}

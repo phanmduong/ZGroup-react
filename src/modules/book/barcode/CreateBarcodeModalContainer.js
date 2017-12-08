@@ -53,7 +53,8 @@ class CreateBarcodeModalContainer extends React.Component {
                             <Loading/>
                         ) : (
                             <div>
-                                <Button className="btn btn-rose" onClick={this.submit}>Lưu</Button>
+                                <Button disabled={!this.props.barcode.value} className="btn btn-rose"
+                                        onClick={this.submit}>Lưu</Button>
                                 <Button onClick={this.close}>Đóng</Button>
                             </div>
                         )

@@ -7,6 +7,7 @@ import {Button} from "react-bootstrap";
 import CreateBarcodeModalContainer from "./CreateBarcodeModalContainer";
 import Loading from "../../../components/common/Loading";
 import Pagination from "../../../components/common/Pagination";
+import {Link} from "react-router";
 
 class BarcodesContainer extends React.Component {
     constructor(props, context) {
@@ -23,8 +24,9 @@ class BarcodesContainer extends React.Component {
         this.props.barcodeActions.showCreateBarcodeModal(true);
     }
 
-    delete() {
-        // this.props.
+    delete(barcodeId) {
+        this.props.barcodeActions.deleteBarcode(barcodeId)
+            .then(() => this.props.barcodeActions.loadBarcodes(this.props.currentPage));
     }
 
     render() {
@@ -79,8 +81,8 @@ class BarcodesContainer extends React.Component {
                                                         }
                                                     </td>
                                                     <td>
-                                                        <a onClick={this.delete}>
-                                                            <i className="material-icons">delete</i>
+                                                        <a onClick={() => this.delete(barcode.id)}>
+                                                            <i className="material-icons text-danger">delete</i>
                                                         </a>
                                                     </td>
                                                 </tr>
