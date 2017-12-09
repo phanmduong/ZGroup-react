@@ -14,9 +14,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => '/v2/
     Route::post('/lesson/add/{courseId}', 'CourseController@addLesson');
     Route::put('/lesson/edit/{lessonId}', 'CourseController@editLesson');
     Route::get('/get-attendance-lesson/{classId}/{lessonId}','CourseController@getAttendance');
-    Route::post('/change-attendance-lesson','CourseController@changeAttendanceLesson');
-    Route::post('/change-attendance-homework','CourseController@changeAttendanceHomework');
-    Route::put('/edit-attendance-note','CourseController@editNoteAttendance');
+    Route::post('/change-attendances','CourseController@changeAttendance');
 
 });
 

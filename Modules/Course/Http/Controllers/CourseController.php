@@ -305,15 +305,17 @@ class CourseController extends ManageApiController
 
     }
 
-    public function changeAttendanceLesson(Request $request)
+    public function changeAttendance(Request $request)
     {
 
         $attendances = json_decode($request->attendances);
 
         foreach ($attendances as $attendance){
-            $get_attendance = Attendance::find($attendance->id);
+            $get_attendance = Attendance::find($attendance->attendance_id);
             if(!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
-            $get_attendance->status = 1- $get_attendance->status;
+            $get_attendance->status = $attendance->attendance_lesson_status;
+            $get_attendance->hw_status = $attendance->attendance_homework_status;
+            $get_attendance->note = $attendance->note;
             $get_attendance->save();
         }
         return $this->respondSuccessWithStatus([
@@ -322,34 +324,4 @@ class CourseController extends ManageApiController
 
     }
 
-    public function changeAttendanceHomework(Request $request)
-    {
-        $attendances = json_decode($request->attendances);
-
-        foreach ($attendances as $attendance){
-            $get_attendance = Attendance::find($attendance->id);
-            if(!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
-            $get_attendance->hw_status = 1- $get_attendance->hw_status;
-            $get_attendance->save();
-        }
-        return $this->respondSuccessWithStatus([
-            "message" => "Diem danh bai tap thanh cong"
-        ]);
-
-    }
-
-    public function editNoteAttendance(Request $request)
-    {
-        $attendances = json_decode($request->attendances);
-
-        foreach ($attendances as $attendance){
-            $get_attendance = Attendance::find($attendance->id);
-            if(!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
-            $get_attendance->note = $attendance->note;
-            $get_attendance->save();
-        }
-        return $this->respondSuccessWithStatus([
-            "messange" => "Note thanh cong"
-        ]);
-    }
 }
