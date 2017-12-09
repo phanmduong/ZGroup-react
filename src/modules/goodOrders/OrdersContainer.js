@@ -25,18 +25,21 @@ class OrdersContainer extends React.Component {
                 startTime: '',
                 endTime: ''
             },
-            staff: '',
-            base: '',
-            status: ''
+            staff: null,
+            base: null,
+            status: null
         };
         this.timeOut = null;
         this.ordersSearchChange = this.ordersSearchChange.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
+        this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.statusesSearchChange = this.statusesSearchChange.bind(this);
     }
 
     componentWillMount() {
         this.loadOrders();
+        this.props.goodOrderActions.getAllStaffs();
     }
 
     updateFormDate(event) {
@@ -70,6 +73,67 @@ class OrdersContainer extends React.Component {
         this.setState({page: page});
         this.props.goodOrderActions.loadAllOrders(page, this.state.query, this.state.time.startTime, this.state.time.endTime);
     }
+
+    staffsSearchChange(value) {
+        if (value) {
+            this.setState({
+                staff: value.value,
+                page: 1
+            });
+            this.props.goodOrderActions.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                value.value,
+                this.state.status
+            );
+        } else {
+            this.setState({
+                staff: null,
+                page: 1
+            });
+            this.props.goodOrderActions.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                null,
+                this.state.status
+            );
+        }
+    }
+
+    statusesSearchChange(value) {
+        if (value) {
+            this.setState({
+                status: value.value,
+                page: 1
+            });
+            this.props.goodOrderActions.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.staff,
+                value.value
+            );
+        } else {
+            this.setState({
+                status: null,
+                page: 1
+            });
+            this.props.goodOrderActions.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.staff,
+                null
+            );
+        }
+    }
+
 
     render() {
         let first = (this.props.currentPage - 1) * this.props.limit + 1;
@@ -167,17 +231,14 @@ class OrdersContainer extends React.Component {
                                                     <label className="label-control">Tìm theo thu ngân</label>
                                                     <Select
                                                         value={this.state.staff}
-                                                        options={[
-                                                            {
-                                                                value: 1,
-                                                                label: "ĐANG KINH DOANH"
-                                                            },
-                                                            {
-                                                                value: "0",
-                                                                label: "NGỪNG KINH DOANH"
-                                                            }
-                                                        ]}
-                                                        onChange={this.saleStatusChange}
+                                                        options={this.props.allStaffs.map((staff) => {
+                                                            return {
+                                                                ...staff,
+                                                                value: staff.id,
+                                                                label: staff.name
+                                                            };
+                                                        })}
+                                                        onChange={this.staffsSearchChange}
                                                     />
                                                 </div>
                                                 <div className="form-group col-md-4">
@@ -203,15 +264,27 @@ class OrdersContainer extends React.Component {
                                                         value={this.state.status}
                                                         options={[
                                                             {
-                                                                value: 1,
-                                                                label: "NỔI BẬT"
+                                                                value: "order",
+                                                                label: "ĐÃ YÊU CẦU"
                                                             },
                                                             {
-                                                                value: "0",
-                                                                label: "KHÔNG NỔI BẬT"
+                                                                value: "confirmed",
+                                                                label: "ĐÃ XÁC NHẬN"
+                                                            },
+                                                            {
+                                                                value: "shipped",
+                                                                label: "ĐÃ GIAO HÀNG"
+                                                            },
+                                                            {
+                                                                value: "completed",
+                                                                label: "ĐÃ HOÀN THÀNH"
+                                                            },
+                                                            {
+                                                                value: "canceled",
+                                                                label: "ĐÃ XÓA"
                                                             }
                                                         ]}
-                                                        onChange={this.highlightStatusChange}
+                                                        onChange={this.statusesSearchChange}
                                                     />
                                                 </div>
                                             </div>
@@ -274,7 +347,8 @@ OrdersContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     orders: PropTypes.array.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
-    currentPage: PropTypes.number.isRequired
+    currentPage: PropTypes.number.isRequired,
+    allStaffs: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -287,6 +361,8 @@ function mapStateToProps(state) {
         totalPaidMoney: state.goodOrders.totalPaidMoney,
         limit: state.goodOrders.limit,
         totalCount: state.goodOrders.totalCount,
+        allStaffs: state.goodOrders.allStaffs,
+        currentPage: state.goodOrders.currentPage
     };
 }
 

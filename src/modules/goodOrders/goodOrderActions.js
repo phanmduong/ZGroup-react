@@ -1,10 +1,10 @@
 import * as types from '../../constants/actionTypes';
 import * as goodOrdersApi from './goodOrdersApi';
 
-export function loadAllOrders(page = 1, search = '', startTime = '', endTime = '') {
+export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_GOOD_ORDERS});
-        goodOrdersApi.loadAllOrders(page, search, startTime, endTime)
+        goodOrdersApi.loadAllOrders(page, search, startTime, endTime, staff, status)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GOOD_ORDERS_SUCCESS,
@@ -17,9 +17,9 @@ export function loadAllOrders(page = 1, search = '', startTime = '', endTime = '
                     limit: res.data.paginator.limit,
                     totalCount: res.data.paginator.total_count
                 });
-            }).catch(()=>{
+            }).catch(() => {
             dispatch({
-               type: types.LOAD_GOOD_ORDERS_ERROR
+                type: types.LOAD_GOOD_ORDERS_ERROR
             });
         });
     };
@@ -37,7 +37,7 @@ export function loadDetailOrder(orderId) {
                     infoShip: res.data.data.info_ship,
                     goodOrders: res.data.data.good_orders,
                 });
-            }).catch(()=>{
+            }).catch(() => {
             dispatch({
                 type: types.LOAD_DETAIL_ORDER_ERROR
             });
@@ -54,10 +54,22 @@ export function loadStaffs() {
                     type: types.LOAD_STAFFS_ORDERS_SUCCESS,
                     staffs: res.data.data.staffs
                 });
-            }).catch(()=>{
+            }).catch(() => {
             dispatch({
                 type: types.LOAD_STAFFS_ORDERS_ERROR
             });
         });
+    };
+}
+
+export function getAllStaffs() {
+    return function (dispatch) {
+        goodOrdersApi.getAllStaffs()
+            .then((response) => {
+                dispatch({
+                    type: types.GET_ALL_STAFFS_COMPLETE_GOOD_ORDER,
+                    allStaffs: response.data.data.staffs
+                });
+            });
     };
 }

@@ -46,6 +46,7 @@ class ProductListContainer extends React.Component {
         this.saleStatusChange = this.saleStatusChange.bind(this);
         this.displayStatusChange = this.displayStatusChange.bind(this);
         this.highlightStatusChange = this.highlightStatusChange.bind(this);
+        this.showSameProductModal = this.showSameProductModal.bind(this);
     }
 
     componentWillMount() {
@@ -299,6 +300,11 @@ class ProductListContainer extends React.Component {
         this.props.modalProductAction.handleProduct(product);
     }
 
+    showSameProductModal(product) {
+        this.props.modalProductAction.showSameProductModal();
+        this.props.modalProductAction.handleProduct(product);
+    }
+
     showWareHouseModal(product) {
         this.props.modalProductAction.showWareHouseModal();
         this.props.modalProductAction.openWareHouseTab();
@@ -357,6 +363,50 @@ class ProductListContainer extends React.Component {
                                                 </button>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div>
+                                        {
+                                            this.props.isLoading ? (
+                                                <Loading/>
+                                            ) : (
+                                                <div>
+                                                    <div className="col-lg-6 col-md-6 col-sm-6">
+                                                        <div className="card card-stats">
+                                                            <div className="card-header" data-background-color="green">
+                                                                <i className="material-icons">store</i>
+                                                            </div>
+                                                            <div className="card-content">
+                                                                <p className="category">Tổng sản phẩm</p>
+                                                                <h3 className="card-title">{helper.dotNumber(this.props.productsTotal)}</h3>
+                                                            </div>
+                                                            <div className="card-footer">
+                                                                <div className="stats">
+                                                                    <i className="material-icons">date_range</i> Last 24
+                                                                    Hours
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-6 col-md-6 col-sm-6">
+                                                        <div className="card card-stats">
+                                                            <div className="card-header" data-background-color="rose">
+                                                                <i className="material-icons">equalizer</i>
+                                                            </div>
+                                                            <div className="card-content">
+                                                                <p className="category">Tổng số lượng</p>
+                                                                <h3 className="card-title">{helper.dotNumber(this.props.productsQuantity)}</h3>
+                                                            </div>
+                                                            <div className="card-footer">
+                                                                <div className="stats">
+                                                                    <i className="material-icons">date_range</i> Last 24
+                                                                    Hours
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                     <div className="col-md-12">
                                         <div className="card">
@@ -505,7 +555,8 @@ class ProductListContainer extends React.Component {
                                                             categories={this.props.categories}
                                                             showPriceModal={this.showPriceModal}
                                                             showWareHouseModal={this.showWareHouseModal}
-                                                            showAvatarModal={this.showAvatarModal}/>
+                                                            showAvatarModal={this.showAvatarModal}
+                                                            showSameProductModal={this.showSameProductModal}/>
                                                     )
                                                 }
                                             </div>
@@ -519,51 +570,6 @@ class ProductListContainer extends React.Component {
                                                         currentPage={this.props.currentPage}
                                                         loadDataPage={this.loadOrders}
                                                     />
-                                                </div>
-                                            </div>
-                                            <div className="card-footer">
-                                                <div style={{float: "right"}}>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-danger btn-simple"
-                                                    >Đang kinh doanh: {this.props.productsBusiness}
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-danger btn-simple"
-                                                    >Ngừng kinh doanh: {this.props.productsNotBusiness}
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-danger btn-simple"
-                                                    >Hiển thị ra website: {this.props.productsDisplay}
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-danger btn-simple"
-                                                    >Không hiển thị ra website: {this.props.productsNotDisplay}
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-danger btn-simple"
-                                                    >Nổi bật: {this.props.productsHighlight}
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-danger btn-simple"
-                                                    >Không nổi bật: {this.props.productsNotHighlight}
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-info btn-simple"
-                                                    >Tổng sản phẩm: {this.props.productsTotal}
-
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-success btn-simple"
-                                                    >Tổng số lượng : {this.props.productsQuantity}
-                                                        <div className="ripple-container"/>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -613,10 +619,6 @@ ProductListContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     modalUpdated: PropTypes.bool.isRequired,
     productsTotal: PropTypes.number.isRequired,
-    productsBusiness: PropTypes.number.isRequired,
-    productsNotBusiness: PropTypes.number.isRequired,
-    productsDisplay: PropTypes.number.isRequired,
-    productsNotDisplay: PropTypes.number.isRequired,
     productsQuantity: PropTypes.number.isRequired,
     categories: PropTypes.array.isRequired,
     manufactures: PropTypes.array.isRequired,
@@ -624,8 +626,6 @@ ProductListContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,
     totalCount: PropTypes.number.isRequired,
-    productsHighlight: PropTypes.number.isRequired,
-    productsNotHighlight: PropTypes.number.isRequired,
     inventoryGoodAction: PropTypes.object.isRequired
 };
 
@@ -633,13 +633,7 @@ function mapStateToProps(state) {
     return {
         products: state.productList.products,
         productsTotal: state.productList.productsTotal,
-        productsBusiness: state.productList.productsBusiness,
-        productsNotBusiness: state.productList.productsNotBusiness,
-        productsDisplay: state.productList.productsDisplay,
-        productsNotDisplay: state.productList.productsNotDisplay,
         productsQuantity: state.productList.productsQuantity,
-        productsHighlight: state.productList.productsHighlight,
-        productsNotHighlight: state.productList.productsNotHighlight,
         isLoading: state.productList.isLoading,
         modalUpdated: state.productList.modalInProduct.modalUpdated,
         categories: state.productList.categories,

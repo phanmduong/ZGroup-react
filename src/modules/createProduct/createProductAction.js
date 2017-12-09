@@ -24,6 +24,18 @@ export function getCategoriesCreateProduct() {
     };
 }
 
+export function getPropertiesCreateProduct() {
+    return function (dispatch) {
+        createProductApi.getPropertiesApi()
+            .then(function (response) {
+                dispatch({
+                    type: types.GET_PROPERTIES_CREATE_PRODUCT,
+                    properties_list: response.data.good_property_items
+                });
+            });
+    };
+}
+
 export function saveCategoriesCreateProduct(categories) {
     return ({
         type: types.GET_CATEGORIES_CREATE_PRODUCT,
@@ -102,6 +114,33 @@ export function handleProductCreate(product) {
     });
 }
 
+export function addPropertiesCreate(property) {
+    return ({
+        type: types.ADD_PROPERTIES_CREATE,
+        property
+    });
+}
+
+export function handlePropertiesCreate(properties) {
+    return ({
+        type: types.HANDLE_PROPERTIES_CREATE,
+        properties
+    });
+}
+
+export function handleChildrenCreateProduct(children) {
+    return {
+        type: types.HANDLE_CHILDREN_CREATE_PRODUCT,
+        children
+    };
+}
+
+export function selectGoodCountCheck() {
+    return ({
+        type: types.SELECT_GOOD_COUNT_CHECK
+    });
+}
+
 export function saveProductCreate(product) {
     return function (dispatch) {
         dispatch({
@@ -156,3 +195,12 @@ export function deleteImage(image) {
         image
     };
 }
+
+export function handleGoodCountCreate(count) {
+    return {
+        type: types.HANDLE_GOOD_COUNT_CREATE,
+        count
+    };
+}
+
+

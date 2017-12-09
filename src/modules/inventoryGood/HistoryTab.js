@@ -87,7 +87,7 @@ class HistoryTab extends React.Component {
                                     this.props.isLoadingHistoryList ? (
                                         <Loading/>
                                     ) : (
-                                        <table className="table">
+                                        <table className="table table-hover">
                                             <thead>
                                             <tr className="text-rose">
                                                 <th>STT</th>

@@ -891,3 +891,31 @@ export function superFilter(id, inter, gen) {
     return newArr;
 }
 
+export function childrenBeginAddChild(properties) {
+    let children = [];
+    let product = properties.reduce((res, pro) => res * JSON.parse(pro.value).length, 1);
+    for (let i = 0; i < product; i++) {
+        children.push({
+            check: true,
+            price: 0,
+            barcode: '',
+            properties: []
+        });
+    }
+    properties.forEach(pro => {
+        let product_other = product / JSON.parse(pro.value).length;
+        let begin = 0;
+        JSON.parse(pro.value).forEach(value => {
+            for (let i = begin; i < begin + product_other; i++) {
+                children[i].properties.push({
+                    property_item_id: pro.id,
+                    value: value.value
+                });
+            }
+            begin += product_other;
+        });
+    });
+    return children;
+}
+
+

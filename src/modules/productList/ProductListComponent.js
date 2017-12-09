@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import WareHouseModalContainer from "./modals/WareHouseModalContainer";
 import AvatarModalContainer from "./modals/AvatarModalContainer";
 import PriceModalContainer from "./modals/PriceModalContainer";
+import SameProductModalContainer from "./modals/SameProductModalContainer";
 import {dotNumber} from "../../helpers/helper";
 import {Link} from "react-router";
 
@@ -14,7 +15,7 @@ class ProductListComponent extends React.Component {
     render() {
         return (
             <div className="table-responsive">
-                <table className="table">
+                <table className="table table-hover">
                     <thead className="text-rose">
                     <tr className="text-rose">
                         <th/>
@@ -53,7 +54,16 @@ class ProductListComponent extends React.Component {
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showAvatarModal(product)}>{product.code}</a>
                                     </td>
-                                    <td style={{width: "200px"}}>{product.name}</td>
+                                    <td style={{width: "200px"}}>
+                                        {product.name}<br/>
+                                        {
+                                            product.children ? (
+                                                <a onClick={() => this.props.showSameProductModal(product)}>
+                                                    (Xem chi tiết {product.children.length} sản phẩm cùng loại)
+                                                </a>
+                                            ) : (<div/>)
+                                        }
+                                    </td>
                                     <td style={{width: "50px"}}>{product.quantity}</td>
                                     <td>
                                         <a onClick={() => this.props.showPriceModal(product)}>
@@ -120,6 +130,8 @@ class ProductListComponent extends React.Component {
                     showWareHouseModal={this.props.showWareHouseModal}/>
                 <AvatarModalContainer
                     showAvatarModal={this.props.showAvatarModal}/>
+                <SameProductModalContainer
+                    showSameProductModal={this.props.showSameProductModal}/>
             </div>
         );
     }
@@ -130,6 +142,7 @@ ProductListComponent.propTypes = {
     showPriceModal: PropTypes.func.isRequired,
     showWareHouseModal: PropTypes.func.isRequired,
     showAvatarModal: PropTypes.func.isRequired,
+    showSameProductModal: PropTypes.func.isRequired,
     setTable: PropTypes.func.isRequired,
     manufactures: PropTypes.array.isRequired,
     categories: PropTypes.array.isRequired

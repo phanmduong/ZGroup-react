@@ -38,7 +38,6 @@ class InventoryGoodContainer extends React.Component {
         this.props.inventoryGoodAction.getInventories();
         this.props.inventoryGoodAction.getManufacturesInventoryGood();
         this.props.inventoryGoodAction.getCategoriesInventoryGood();
-        this.props.inventoryGoodAction.getInfoInventories();
     }
 
     loadOrders(page = 1) {
@@ -158,6 +157,66 @@ class InventoryGoodContainer extends React.Component {
                                             </div>
                                         </div>
                                     </div>
+                                    <div>
+                                        {
+                                            this.props.isLoading ? (
+                                                <Loading/>
+                                            ) : (
+                                                <div>
+                                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                                        <div className="card card-stats">
+                                                            <div className="card-header" data-background-color="green">
+                                                                <i className="material-icons">store</i>
+                                                            </div>
+                                                            <div className="card-content">
+                                                                <p className="category">Tổng số lượng</p>
+                                                                <h3 className="card-title">{dotNumber(this.props.count)}</h3>
+                                                            </div>
+                                                            <div className="card-footer">
+                                                                <div className="stats">
+                                                                    <i className="material-icons">date_range</i> Last 24
+                                                                    Hours
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                                        <div className="card card-stats">
+                                                            <div className="card-header" data-background-color="rose">
+                                                                <i className="material-icons">equalizer</i>
+                                                            </div>
+                                                            <div className="card-content">
+                                                                <p className="category">Tổng vốn tồn kho</p>
+                                                                <h3 className="card-title">{dotNumber(this.props.totalImportMoney)}đ</h3>
+                                                            </div>
+                                                            <div className="card-footer">
+                                                                <div className="stats">
+                                                                    <i className="material-icons">date_range</i> Last 24
+                                                                    Hours
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                                        <div className="card card-stats">
+                                                            <div className="card-header" data-background-color="blue">
+                                                                <i className="fa fa-twitter"/>
+                                                            </div>
+                                                            <div className="card-content">
+                                                                <p className="category">Tổng giá trị tồn kho</p>
+                                                                <h3 className="card-title">{dotNumber(this.props.totalMoney)}đ</h3>
+                                                            </div>
+                                                            <div className="card-footer">
+                                                                <div className="stats">
+                                                                    <i className="material-icons">update</i> Just Updated
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                    </div>
                                     <div className="col-md-12">
                                         <div className="card">
                                             <div className="card-header card-header-icon"
@@ -224,26 +283,6 @@ class InventoryGoodContainer extends React.Component {
                                                         currentPage={this.props.currentPage}
                                                         loadDataPage={this.loadOrders}
                                                     />
-                                                </div>
-                                            </div>
-                                            <div className="card-footer">
-                                                <div style={{float: "right"}}>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-success btn-simple"
-                                                    >Tổng số lượng: {dotNumber(this.props.count)}
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-info btn-simple"
-                                                    >Tổng vốn tồn kho: {dotNumber(this.props.totalImportMoney)}đ
-                                                        {dotNumber(this.props.totalImportMoney)}đ
-                                                        <div className="ripple-container"/>
-                                                    </div>
-                                                    <div rel="tooltip" data-placement="top" title=""
-                                                         className="btn btn-danger btn-simple"
-                                                    >Tổng giá trị tồn kho: {dotNumber(this.props.totalMoney)}đ
-                                                        <div className="ripple-container"/>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

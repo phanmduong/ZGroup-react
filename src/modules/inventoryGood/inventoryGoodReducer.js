@@ -69,6 +69,7 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
         case types.GET_INFO_INVENTORY_GOOD:
             return {
                 ...state,
+                isLoading: false,
                 count: action.count,
                 totalImportMoney: action.totalImportMoney,
                 totalMoney: action.totalMoney

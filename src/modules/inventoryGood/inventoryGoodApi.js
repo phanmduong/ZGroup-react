@@ -46,8 +46,20 @@ export function getWarehouseApi(id) {
     return axios.get(url);
 }
 
-export function getInfoInventoriesApi() {
+export function getInfoInventoriesApi(page, search, manufacture_id, good_category_id) {
     let url = env.MANAGE_API_URL + "/good/inventories-info?token=" + token;
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (manufacture_id) {
+        url += "&manufacture_id=" + manufacture_id;
+    }
+    if (good_category_id) {
+        url += "&good_category_id=" + good_category_id;
+    }
     return axios.get(url);
 }
 

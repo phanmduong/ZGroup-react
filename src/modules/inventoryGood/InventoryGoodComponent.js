@@ -11,7 +11,7 @@ class InventoryGoodComponent extends React.Component {
     render() {
         return (
             <div className="table-responsive">
-                <table className="table">
+                <table className="table table-hover">
                     <thead className="text-rose">
                     <tr className="text-rose">
                         <th/>

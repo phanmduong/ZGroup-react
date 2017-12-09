@@ -65,7 +65,6 @@ export default function createProductReducer(state = initialState.createProduct,
                 };
             }
         }
-
         case types.END_UPLOAD_IMAGE_CREATE_PRODUCT:
             return {
                 ...state,
@@ -75,6 +74,46 @@ export default function createProductReducer(state = initialState.createProduct,
             return {
                 ...state,
                 productWorking: action.product
+            };
+        case types.ADD_PROPERTIES_CREATE:
+            return {
+                ...state,
+                productWorking: {
+                    ...state.productWorking,
+                    goods_count: 0,
+                    properties: [...state.productWorking.properties, action.property],
+                    children: []
+                }
+            };
+        case types.HANDLE_PROPERTIES_CREATE: {
+            return {
+                ...state,
+                productWorking: {
+                    ...state.productWorking,
+                    properties: action.properties
+                }
+            };
+        }
+        case types.HANDLE_CHILDREN_CREATE_PRODUCT:
+            return {
+                ...state,
+                productWorking: {
+                    ...state.productWorking,
+                    children: action.children
+                }
+            };
+        case types.HANDLE_GOOD_COUNT_CREATE:
+            return {
+                ...state,
+                productWorking: {
+                    ...state.productWorking,
+                    goods_count: action.count
+                }
+            };
+        case types.SELECT_GOOD_COUNT_CHECK:
+            return {
+                ...state,
+                goods_count_check: !state.goods_count_check
             };
         case types.DELETE_IMAGE_CREATE_PRODUCT:
             return {
@@ -102,6 +141,11 @@ export default function createProductReducer(state = initialState.createProduct,
                 isLoading: false
             };
         }
+        case types.GET_PROPERTIES_CREATE_PRODUCT:
+            return {
+                ...state,
+                properties_list: action.properties_list
+            };
         default:
             return state;
     }

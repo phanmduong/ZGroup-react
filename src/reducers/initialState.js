@@ -13,14 +13,25 @@ export default {
             sale_status: 0,
             highlight_status: 0,
             display_status: 0,
+            goods_count: 0,
             manufacture_id: '',
             good_category_id: '',
             images_url: [],
+            properties: [
+                {
+                    name: 'coool',
+                    id: 3,
+                    value: '[]'
+                }
+            ],
+            children: []
         },
+        goods_count_check: false,
         isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
-        images: []
+        images: [],
+        properties_list: []
     },
 
     globalLoading: {
@@ -56,14 +67,7 @@ export default {
     productList: {
         products: [],
         productsTotal: 0,
-        productsBusiness: 0,
-        productsNotBusiness: 0,
-        productsDisplay: 0,
-        productsNotDisplay: 0,
-        productsDeleted: 0,
         productsQuantity: 0,
-        productsHighlight: 0,
-        productsNotHighlight: 0,
         totalPages: 1,
         currentPage: 1,
         limit: 20,
@@ -74,6 +78,7 @@ export default {
             priceModal: false,
             wareHouseModal: false,
             avatarModal: false,
+            sameProductModal: false,
             isModalUpdating: false,
             modalUpdated: false
         },
@@ -85,6 +90,7 @@ export default {
                 avatar_url: '',
                 price: '',
                 quantity: '',
+                children: [],
                 warehouses: [],
                 category: {
                     id: '',
@@ -827,6 +833,7 @@ export default {
             goodOrders: []
         },
         staffs: [],
+        allStaffs: [],
         isLoadingStaffs: false,
         errorStaffs: false,
     },
