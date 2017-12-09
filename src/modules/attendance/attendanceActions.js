@@ -124,67 +124,23 @@ export function loadLessonDetailModal(classid, lessonid) {
 }
 
 
-export function takeAttendance(attendanceId, index) {
+export function takeAttendance(data) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_TAKE_ATTENDANCE,
-            index: index,
+            type: types.BEGIN_TAKE_ATTENDANCE
         });
-        attendanceApi.takeAttendance(attendanceId)
+        attendanceApi.takeAttendance(data)
             .then(() => {
                 dispatch({
                     type: types.TAKE_ATTENDANCE_SUCCESS,
-                    index: index,
+                    data: data
             });
             }).catch(() => {
             dispatch({
 
                 type: types.TAKE_ATTENDANCE_ERROR,
-                index: index,
 
             });
         });
     };
 }
-export function takeAttendanceHomework(attendanceId, index) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_TAKE_ATTENDANCE_HOMEWORK,
-            index: index,
-        });
-        attendanceApi.takeAttendanceHomework(attendanceId)
-            .then(() => {
-                dispatch({
-                    type: types.TAKE_ATTENDANCE_HOMEWORK_SUCCESS,
-                    index: index,
-            });
-            }).catch(() => {
-            dispatch({
-
-                type: types.TAKE_ATTENDANCE_HOMEWORK_ERROR,
-                index: index,
-
-            });
-        });
-    };
-}
-export function takeNote(note,attendanceId) {
-    return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_TAKE_NOTE,
-        });
-        attendanceApi.takeNote(note,attendanceId)
-            .then(() => {
-                dispatch({
-                    type: types.TAKE_NOTE_SUCCESS,
-            });
-            }).catch(() => {
-            dispatch({
-
-                type: types.TAKE_NOTE_ERROR,
-
-            });
-        });
-    };
-}
-

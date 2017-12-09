@@ -9,35 +9,41 @@ class LessonDetailModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            note: [],
+            data: [],
         };
-        this.noteChange = this.noteChange.bind(this);
+        this.changeAttendance     = this.changeAttendance.bind(this);
+        this.changeHomework     = this.changeHomework.bind(this);
+        this.changeNote     = this.changeNote.bind(this);
+
     }
 
-    componentWillReceiveProps(nextProps) {
-        let note = nextProps.list.map((item) => {
-            return item.note ? item.note : '';
-        });
-        this.setState({
-            note: note
-        });
+    componentWillReceiveProps() {
+        //let newdata = nextProps.list;
+        //if(Array.isArray(newdata))
+        //this.setState({data: newdata});
     }
 
-    noteChange(e, attid) {
-        const id = e.target.name;
-        const value = e.target.value;
-        const attendance_id = attid;
-        let note = {...this.state.note};
-        note[id] = value;
-        this.setState({
-            note: note
-        });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.takeNote(value, attendance_id);
-        }.bind(this), 1000);
+    changeAttendance(id){
+        let data = this.props.list;
+        data[id].attendance_lesson_status= !data[id].attendance_lesson_status;
+        //this.setState({data: data});
+        this.props.updateData(data);
+    }
+
+    changeHomework(id){
+        let data = this.props.list;
+        data[id].attendance_homework_status= !data[id].attendance_homework_status;
+        //this.setState({data: data});
+        this.props.updateData(data);
+    }
+
+    changeNote(e){
+        let note = e.target.value;
+        let id = e.target.name;
+        let data = this.props.list;
+        data[id].note = note;
+        //this.setState({data: data});
+        this.props.updateData(data);
     }
 
     render() {
@@ -69,7 +75,7 @@ class LessonDetailModal extends React.Component {
                                     <td colSpan={4}><Loading/></td>
                                 </tr>
                                 :
-                                this.props.list.length != 0 ?
+                                this.props.list.length > 0 ?
 
                                     this.props.list.map((item, index) => {
                                         return (
@@ -81,9 +87,7 @@ class LessonDetailModal extends React.Component {
                                                         label=""
                                                         name="active"
                                                         checked={Boolean(item.attendance_lesson_status)}
-                                                        onChange={() => {
-                                                            return this.props.takeAttendance(item.attendance_id, index);
-                                                        }}
+                                                        onChange={() => {return this.changeAttendance(index);}}
                                                     />
                                                 </td>
                                                 <td style={{textAlign: "center"}}>
@@ -91,18 +95,14 @@ class LessonDetailModal extends React.Component {
                                                         label=""
                                                         name="active"
                                                         checked={Boolean(item.attendance_homework_status)}
-                                                        onChange={() => {
-                                                            return this.props.takeAttendanceHomework(item.attendance_id, index);
-                                                        }}
+                                                        onChange={() => {return this.changeHomework(index);}}
                                                     />
                                                 </td>
                                                 <td><FormInputText label="Ghi chú"
                                                                    name={`${index}`}
                                                                    id={`${item.attendance_id}`}
-                                                                   updateFormData={(e) => {
-                                                                       this.noteChange(e, item.attendance_id)
-                                                                   }}
-                                                                   value={this.state.note[index]}
+                                                                   updateFormData={(e) => {return this.changeNote(e);}}
+                                                                   value={item.note}
                                                 /></td>
                                             </tr>
                                         );
@@ -116,6 +116,20 @@ class LessonDetailModal extends React.Component {
 
                             </tbody>
                         </table>
+                        {this.props.isCommitting ?
+                            <button className="btn btn-rose btn-round disabled" type="button">
+                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                            </button>
+                            :
+
+
+                            <button
+                                className="btn btn-fill btn-rose"
+                                type="button"
+                                onClick={() => {return this.props.commitData(this.props.list)}}
+                            > Lưu </button>
+
+                        }
                     </div>
 
                 </Modal.Body>
@@ -126,6 +140,7 @@ class LessonDetailModal extends React.Component {
 
 LessonDetailModal.PropTypes = {
     lessondata: PropTypes.array,
+    list: PropTypes.array,
     show: PropTypes.bool,
     onHide: PropTypes.func,
 }

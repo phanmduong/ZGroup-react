@@ -16,11 +16,13 @@ class ListLessonContainer extends React.Component {
             showModalDetailLesson: false,
             selectedLessonId: '',
             note : [],
+            modalData: [],
         };
 
         this.openModalDetailLesson      = this.openModalDetailLesson.bind(this);
         this.closeModalDetailLesson     = this.closeModalDetailLesson.bind(this);
-        this.noteChange                 = this.noteChange.bind(this);
+        this.updataModalData            = this.updataModalData.bind(this);
+        this.commitModalData            = this.commitModalData.bind(this);
     }
 
     componentWillMount(){
@@ -28,7 +30,13 @@ class ListLessonContainer extends React.Component {
         this.props.attendanceActions.loadClassInfo(this.props.params.classId);
     }
 
-
+    componentWillReceiveProps(nextProps) {
+        if(!nextProps.isLoadingLessonDetailModal && this.props.isLoadingLessonDetailModal){
+            let clone  = Object.assign({}, nextProps);
+            let arr = clone.lesson.filter((obj)=>(obj));
+            this.setState({modalData: arr});
+        }
+    }
 
     openModalDetailLesson(id){
         this.setState({
@@ -38,26 +46,20 @@ class ListLessonContainer extends React.Component {
         this.props.attendanceActions.loadLessonDetailModal(this.props.params.classId,id);
     }
 
+    updataModalData(data){
+        this.setState({modalData: data});
+        console.log(this.props.lesson);
+    }
+
     closeModalDetailLesson(){
-        this.setState({showModalDetailLesson: false});
+        console.log(this.props);
+        this.setState({showModalDetailLesson: false, modalData: this.props.lesson});
         this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
     }
 
+    commitModalData(data){
 
-    noteChange(e) {
-        const   id   = e.target.name;
-        const   value= e.target.value;
-        let note = {...this.state.note};
-        note[id] = value;
-        this.setState({
-            note: note
-        });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            //this.props.coursesActions.loadCourses(1, value);
-        }.bind(this), 500);
+        this.props.attendanceActions.takeAttendance(data);
     }
 
     render(){
@@ -68,12 +70,11 @@ class ListLessonContainer extends React.Component {
                         show={this.state.showModalDetailLesson}
                         onHide={this.closeModalDetailLesson}
                         class={this.props.selectedClass}
-                        list={this.props.lesson}
-                        takeAttendance={this.props.attendanceActions.takeAttendance}
-                        takeAttendanceHomework={this.props.attendanceActions.takeAttendanceHomework}
-                        takeNote={this.props.attendanceActions.takeNote}
+                        list={this.state.modalData}
                         isLoadingLessonDetailModal={this.props.isLoadingLessonDetailModal}
-                        noteChange={this.noteChange}
+                        updateData={this.updataModalData}
+                        commitData={this.commitModalData}
+                        isCommitting={this.props.isTakingAttendance}
                     />
                     {this.props.isLoadingLessonClassModal ?
                         <Loading/>

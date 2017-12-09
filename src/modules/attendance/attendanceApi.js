@@ -46,35 +46,24 @@ export function loadLessonDetailModal(classid , lessonid) {
     return axios.get(url);
 }
 
-export function takeAttendance(attendanceId) {
-    //manageapi.keetool.xyz/v2/course/change-attendance-homework/{attendanceID}?token=
-    let url = env.MANAGE_API_URL + "/v2/course/change-attendance-lesson/" +attendanceId;
+export function takeAttendance(data) {
+    //http://manageapi.keetool.xyz/v2/course/change-attendances?token=
+    let res = data.map((obj)=>{
+        return {
+            "attendance_id" : obj.attendance_id,
+            "attendance_lesson_status" : obj.attendance_lesson_status,
+            "attendance_homework_status" : obj.attendance_homework_status,
+            "note" : obj.note ? obj.note : ''
+        };
+    });
+    let url = env.MANAGE_API_URL + "/v2/course/change-attendances";
     let token = localStorage.getItem('token');
 
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url);
-}
-export function takeAttendanceHomework(attendanceId) {
-    //manageapi.keetool.xyz/v2/course/change-attendance-homework/{attendanceID}?token=
-    let url = env.MANAGE_API_URL + "/v2/course/change-attendance-homework/" +attendanceId;
-    let token = localStorage.getItem('token');
-
-    if (token) {
-        url += "?token=" + token;
-    }
-    return axios.post(url);
-}
-export function takeNote(note,attendanceId) {
-    //http://manageapi.keetool.xyz/v2/course/edit-attendance-note/184199?token=
-    let url = env.MANAGE_API_URL + "/v2/course/edit-attendance-note/" +attendanceId;
-    let token = localStorage.getItem('token');
-
-    if (token) {
-        url += "?token=" + token;
-    }
-    return axios.put(url, {note: note});
+    res = JSON.stringify(res);
+    return axios.post(url, {attendances : res});
 }
 
 

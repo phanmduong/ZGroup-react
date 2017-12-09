@@ -3,19 +3,8 @@ import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function attendanceReducer(state = initialState.attendance, action) {
+    console.log(action.type);
     switch (action.type) {
-        case types.BEGIN_TAKE_NOTE:
-            return {
-                ...state,
-            };
-        case types.TAKE_NOTE_SUCCESS:
-            return {
-                ...state,
-            };
-        case types.TAKE_NOTE_ERROR:
-            return {
-                ...state,
-            };
         case types.BEGIN_LOAD_CLASS_INFO:
             return {
                 ...state,
@@ -119,7 +108,8 @@ export default function attendanceReducer(state = initialState.attendance, actio
                     isLoadingLessonClassModal: true,
                 }
             };
-        case types.LOAD_LESSON_CLASS_MODAL_SUCCESS:
+        case types.LOAD_LESSON_CLASS_MODAL_SUCCESS:{
+
             return {
                 ...state,
                 ...{
@@ -129,6 +119,7 @@ export default function attendanceReducer(state = initialState.attendance, actio
                     data: state.data,
                 }
             };
+        }
         case types.LOAD_LESSON_CLASS_MODAL_ERROR:
             return {
                 ...state,
@@ -164,82 +155,31 @@ export default function attendanceReducer(state = initialState.attendance, actio
                 }
             };
         case types.BEGIN_TAKE_ATTENDANCE:{
-                let newdata = [...state.lesson];
-                let index = action.index;
-                let newitem = {...newdata[index]};
-                newitem.attendance_lesson_status = !newitem.attendance_lesson_status;
-                newdata[index] = newitem;
                 return {
                     ...state,
                     ...{
                         isLoading: false,
                         isTakingAttendance: true,
-                        lesson: newdata,
                     }
                 };
             }
         case types.TAKE_ATTENDANCE_SUCCESS:
+
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     isTakingAttendance: false,
-
+                    lesson : action.data
                 }
             };
 
         case types.TAKE_ATTENDANCE_ERROR:{
-            let newdata = [...state.lesson];
-            let index = action.index;
-            let newitem = {...newdata[index]};
-            newitem.attendance_lesson_status = !newitem.attendance_lesson_status;
-            newdata[index] = newitem;
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     isTakingAttendance: false,
-                    lesson: newdata,
-                }
-            };
-        }
-        case types.BEGIN_TAKE_ATTENDANCE_HOMEWORK:{
-                let newdata = [...state.lesson];
-                let index = action.index;
-                let newitem = {...newdata[index]};
-                newitem.attendance_homework_status = !newitem.attendance_homework_status;
-                newdata[index] = newitem;
-                return {
-                    ...state,
-                    ...{
-                        isLoading: false,
-                        isTakingAttendance: true,
-                        lesson: newdata,
-                    }
-                };
-            }
-        case types.TAKE_ATTENDANCE_HOMEWORK_SUCCESS:
-            return {
-                ...state,
-                ...{
-                    isLoading: false,
-                    isTakingAttendance: false,
-
-                }
-            };
-
-        case types.TAKE_ATTENDANCE_HOMEWORK_ERROR:{
-            let newdata = [...state.lesson];
-            let index = action.index;
-            let newitem = {...newdata[index]};
-            newitem.attendance_homework_status = !newitem.attendance_homework_status;
-            newdata[index] = newitem;
-            return {
-                ...state,
-                ...{
-                    isLoading: false,
-                    isTakingAttendance: false,
-                    lesson: newdata,
                 }
             };
         }
