@@ -19,7 +19,7 @@ class ItemRegister extends React.Component {
     }
 
     componentWillMount() {
-        this.state = ({
+        this.setState({
             register: {
                 ...this.state.register,
                 ...{

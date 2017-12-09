@@ -1,4 +1,5 @@
 import * as types from '../../constants/actionTypes';
+import * as helper from '../../helpers/helper';
 import * as goodOrdersApi from './goodOrdersApi';
 
 export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
@@ -71,5 +72,25 @@ export function getAllStaffs() {
                     allStaffs: response.data.data.staffs
                 });
             });
+    };
+}
+export function changeStatusOrder(orderId, status) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang thay đổi trạng thái", "info");
+        dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
+        goodOrdersApi.changeStatusOrder(orderId, status)
+            .then(() => {
+                helper.showNotification("Thay đổi trạng thái thành công");
+                dispatch({
+                    type: types.CHANGE_STATUS_ORDER_SUCCESS,
+                    order_id: orderId,
+                    status
+                });
+            }).catch(() => {
+            helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+            dispatch({
+                type: types.CHANGE_STATUS_ORDER_ERROR
+            });
+        });
     };
 }

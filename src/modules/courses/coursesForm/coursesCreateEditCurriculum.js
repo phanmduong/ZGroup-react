@@ -55,7 +55,7 @@ class coursesCreateEditCurriculum extends React.Component {
                                               <td>{lesson['updated_at']}</td>
                                               <td><ButtonGroupAction
                                                   editUrl={"/manage/courses/lessons/edit/" + lesson.id}
-                                                  delete={()=>{}}
+                                                  delete={()=>{return this.deleteLesson(lesson.id);}}
                                                   object={lesson}
                                               />
                                               </td>
@@ -77,6 +77,7 @@ class coursesCreateEditCurriculum extends React.Component {
 coursesCreateEditCurriculum.propTypes = {
     isLoading           : PropTypes.bool.isRequired,
     data                : PropTypes.object,
+    params                : PropTypes.object,
     coursesActions      : PropTypes.object.isRequired
 };
 

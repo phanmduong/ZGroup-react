@@ -30,8 +30,8 @@ export default {
         isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
-        images: [],
-        properties_list: []
+        properties_list: [],
+        images: []
     },
 
     globalLoading: {
@@ -112,6 +112,19 @@ export default {
     },
 
     good: {
+        barcode: {
+            barcodeList: {
+                barcodes: [],
+                isLoading: false,
+                currentPage: 1,
+                totalPages: 0,
+            },
+            createBarcode: {
+                showModal: false,
+                barcode: {},
+                isSaving: false
+            }
+        },
         attachPropertyItem: {
             showModal: false,
             isLoading: false,
@@ -547,6 +560,7 @@ export default {
         currentPage: 1,
         totalPages: 1,
         gens: [],
+        currentGen: {},
         isLoadingGens: false,
         errorGens: false,
         historyCall: [],
@@ -562,7 +576,13 @@ export default {
         classes: [],
         isLoadingRegistersByStudent: false,
         errorRegistersByStudent: false,
-        registersByStudent: []
+        registersByStudent: [],
+        classFilter: [],
+        salerFilter: [],
+        campaignFilter: [],
+        isLoadingClassFilter: false,
+        isLoadingSalerFilter: false,
+        isLoadingCampaignFilter: false,
     },
 
     profile: {
@@ -700,10 +720,14 @@ export default {
         error: false
     },
     classes: {
+        excel: [],
+        isLoadingExcel: false,
         currentPage: 1,
         totalPages: 1,
         classes: [],
+        gens: [],
         isLoading: false,
+        isLoadingGens: false,
         error: false,
         isLoadingInfoCreateClass: true,
         errorInfoCreateClass: false,
@@ -857,12 +881,14 @@ export default {
             historyPaidMoney: []
         },
         formImportGood: {
-            importGoods: [],
+            imported_goods: [],
             scot: 0,
             paid_money: 0,
             isStoring: false,
             error: false,
-            payment: ''
+            payment: '',
+            isLoadingHistoryPaid: false,
+            errorHistoryPaid: false,
         },
         addGoodFile: {
             isCheckingGoods: false,
@@ -903,10 +929,64 @@ export default {
 
     customers: {
         customersList: [],
+        ordersList: [],
         isLoading: true,
+        totalOrderPages: 10,
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
+        totalCount: 10,
+        modal: {
+            isSaving: false,
+            customer: {
+                name: '',
+                phone: '',
+                email: '',
+                address: '',
+                gender: '',
+                dob: '',
+            }
+        },
+    },
+    suppliers: {
+        suppliersList: [],
+        isLoading: false,
+        totalCount: 10,
+        totalPages: 10,
+        modal: {
+            isSaving: false,
+            supplier: {
+                name: '',
+                phone: '',
+                email: '',
+                address: '',
+            }
+        }
+    },
+
+    addDiscount: {
+        isSaving: false,
+        isLoading: false,
+        customers: [],
+        goods: [],
+        categories: [],
+        totalCustomerPages: 10,
+        totalGoodPages: 10,
+        discount: {
+            name: '',
+            description: '',
+            discount_type: '',
+            discount_value: '',
+            type: '',
+            used_for: '',
+            start_time: '',
+            end_time: '',
+            order_value: '',
+            good: {},
+            category: {},
+            customer: {},
+        },
+
     },
     coursesCreateEdit: {
         isLoading: false,
@@ -1017,6 +1097,8 @@ export default {
         courses: [],
         isLoadingCourses: false,
         errorCourses: false,
+        isStoringCampaign: false,
+        errorStoreCampaign: false,
     },
 
     summaryMarketingCampaign: {
@@ -1042,5 +1124,75 @@ export default {
         isLoading: false,
         error: false,
         summary: [],
+    },
+    discounts: {
+        discountsList: [],
+        isLoading: false,
+        totalPages: 10,
+        totalCount: 10,
+    },
+    attendance: {
+        isLoading: false,
+        isLoadingGens: false,
+        isLoadingBases: false,
+        isTakingAttendance: false,
+        isLoadingLessonClassModal: false,
+        isLoadingLessonDetailModal: false,
+        status: 1,
+        currentGen: {
+            id: "",
+        },
+        data: {
+            classes: [
+                {
+
+                    activated: 0,
+                    course: {
+                        id: 2,
+                        name: "Illustrator",
+                        icon_url: "http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072336A5Ks9NSnqnHsXOn.jpg"
+                    },
+                    created_at: "13:50, 14 Tháng Tư, 2017",
+                    datestart: "13 Tháng Mười, 2017",
+                    datestart_en: "2017-10-13",
+                    description: "Học riêng với giảng viên (Học phí: 2.500.000đ)",
+                    gen: {id: 23, name: "30"},
+                    id: 578,
+                    name: "AI 1-1",
+                    regis_target: 1,
+                    room: {
+                        id: 17,
+                        name: "Tầng 3",
+                        base: "Cơ sở 1",
+                        address: " Số 175 phố Chùa Láng - Đống Đa - Hà Nội",
+                        base_id: 3
+                    },
+                    schedule_id: 0,
+                    status: 1,
+                    study_time: "Tuỳ theo sự sắp xếp của trợ giảng và giảng viên",
+                    target: 1,
+                    total_paid: 1,
+                    total_register: 1,
+                }
+            ],
+
+        },
+        class: [],
+        lesson: [],
+        bases: [],
+        gens: []
+    },
+    attendanceStaffs: {
+        gens: [],
+        isLoadingGens: true,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        teachers: [],
+        salesMarketings: [],
     },
 };

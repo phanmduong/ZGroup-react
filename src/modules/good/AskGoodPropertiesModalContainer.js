@@ -24,6 +24,9 @@ class AskGoodPropertiesModalContainer extends React.Component {
     }
 
     submitGoodProperties() {
+        if (!this.props.task.isEditProcess)
+            this.props.taskActions.showGlobalLoading();
+
         this.props.taskActions.submitGoodProperties()
             .then(() => {
                 if (!this.props.task.isEditProcess) {
@@ -84,7 +87,8 @@ AskGoodPropertiesModalContainer.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     goodPropertiesOutput: PropTypes.object.isRequired,
-    showModal: PropTypes.bool.isRequired
+    showModal: PropTypes.bool.isRequired,
+    projectId: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
@@ -95,7 +99,8 @@ function mapStateToProps(state) {
         goodPropertiesOutput: state.task.askGoodProperties.goodPropertiesOutput,
         goodProperties: state.task.askGoodProperties.goodProperties,
         card: state.task.cardDetail.card,
-        task: state.task.askGoodProperties.task
+        task: state.task.askGoodProperties.task,
+        projectId: state.task.boardList.projectId
     };
 }
 

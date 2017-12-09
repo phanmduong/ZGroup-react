@@ -6,7 +6,74 @@ import initialState from '../../reducers/initialState';
 
 let registers;
 export default function registerReducer(state = initialState.registerStudents, action) {
+    //console.log(action.type);
     switch (action.type) {
+        case types.BEGIN_LOAD_CLASS_FILTER:
+            return {
+                ...state,
+                ...{
+                    isLoadingClassFilter: true,
+                }
+            };
+        case types.LOAD_CLASS_FILTER_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingClassFilter: false,
+                    classFilter: action.filter
+                }
+            };
+        case types.LOAD_CLASS_FILTER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingClassFilter: false,
+                }
+            };
+        case types.BEGIN_LOAD_SALER_FILTER:
+            return {
+                ...state,
+                ...{
+                    isLoadingSalerFilter: true,
+                }
+            };
+        case types.LOAD_SALER_FILTER_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingSalerFilter: false,
+                    salerFilter: action.filter
+                }
+            };
+        case types.LOAD_SALER_FILTER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingSalerFilter: false,
+                }
+            };
+        case types.BEGIN_LOAD_CAMPAIGN_FILTER:
+            return {
+                ...state,
+                ...{
+                    isLoadingCampaignFilter: true,
+                }
+            };
+        case types.LOAD_CAMPAIGN_FILTER_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingCampaignFilter: false,
+                    campaignFilter: action.filter
+                }
+            };
+        case types.LOAD_CAMPAIGN_FILTER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingCampaignFilter: false,
+                }
+            };
         case types.BEGIN_DATA_REGISTER_LIST_LOAD:
             return {
                 ...state,
@@ -50,6 +117,7 @@ export default function registerReducer(state = initialState.registerStudents, a
                     isLoadingGens: false,
                     errorGens: false,
                     gens: action.gens,
+                    currentGen: action.currentGen,
                 }
             };
         case types.LOAD_GENS_REGISTER_STUDENT_ERROR:

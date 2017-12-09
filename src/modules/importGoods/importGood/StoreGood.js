@@ -106,6 +106,7 @@ class StoreGood extends React.Component {
                                 value={this.state.selectedGood.quantity}
                                 updateFormData={this.updateFormData}
                                 name="quantity"
+                                type="number"
                             />
                         </div>
                         <div className="col-md-4">

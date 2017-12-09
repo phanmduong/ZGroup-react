@@ -164,6 +164,7 @@ export default function wareHouseReducer(state = initialState.wareHouses, action
         case types.BEGIN_DELETE_WAREHOUSE :
             return{
                 ...state,
+                isLoading : true,
                 modal : {
                     ...state.modal,
                     ...{isSaving : true,}
@@ -173,6 +174,7 @@ export default function wareHouseReducer(state = initialState.wareHouses, action
             wareHousesList = deleteWareHouse(action.id, state.wareHousesList);
             return{
                 ...state,
+                isLoading : false,
                 wareHousesList : wareHousesList,
                 modal :{
                     ...state.modal,
@@ -182,6 +184,7 @@ export default function wareHouseReducer(state = initialState.wareHouses, action
         case types.DELETE_CATEGORY_ERROR:
             return{
                 ...state,
+                isLoading : false,
                 modal : {
                     ...state.modal,
                     ...{isSaving : false,}

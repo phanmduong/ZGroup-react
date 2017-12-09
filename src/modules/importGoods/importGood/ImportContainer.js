@@ -146,6 +146,7 @@ class ImportContainer extends React.Component {
                 <Modal show={this.state.showModalHistoryPaid} bsSize="large" onHide={this.closeModalHistoryPaid}>
                     <Modal.Header closeButton closeLabel="Đóng">
                         <Modal.Title>Tho thanh toán</Modal.Title>
+                        <Modal.Title>Thanh toán</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <HistoryPaid

@@ -42,12 +42,12 @@ export function loadBasesData() {
     };
 }
 
-export function loadSummarySalesData(genId, baseId) {
+export function loadSummarySalesData(genId, baseId, startTime,endTime) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_SUMMARY_SALES
         });
-        summarySalesApi.loadSummarySales(genId, baseId)
+        summarySalesApi.loadSummarySales(genId, baseId, startTime,endTime)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_SUMMARY_SALES_SUCCESS,

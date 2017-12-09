@@ -21,6 +21,7 @@ class WareHouseModalContainer extends React.Component {
     render() {
         return (
             <Modal show={this.props.wareHouseModal}
+                   bsSize="lg"
                    onHide={() => this.props.showWareHouseModal(this.props.productEditing.productPresent)}>
                 <a onClick={() => this.props.showWareHouseModal(this.props.productEditing.productPresent)}
                    id="btn-close-modal"/>

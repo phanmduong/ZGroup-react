@@ -59,6 +59,8 @@ class CardItem extends React.Component {
 
         const {card} = this.props;
         const board = card.board;
+
+
         if (this.state.isEditable) {
             return (
                 <div className="card-content keetool-card">
@@ -139,7 +141,8 @@ class CardItem extends React.Component {
                                                                event.stopPropagation();
                                                                this.archiveCard();
                                                            }}>
-                                                            <i className="material-icons" style={{fontSize: "16px"}}>archive</i>
+                                                            <i className="material-icons"
+                                                               style={{fontSize: "16px"}}>archive</i>
                                                             Lưu trữ thẻ
                                                         </a>
                                                     </li>
@@ -195,6 +198,18 @@ class CardItem extends React.Component {
                                      lineHeight: "18px",
                                      fontWeight: 600
                                  }}>
+                                {
+                                    card.is_end &&
+                                    <div style={{
+                                        display: "inline-block",
+                                        borderRadius: "50%",
+                                        height: "6px",
+                                        width: "6px",
+                                        margin: "3px",
+                                        background: card.completed ? "#bebebe" : "#c50000"
+                                    }}/>
+                                }
+
                                 {card.title}
                             </div>
                             {

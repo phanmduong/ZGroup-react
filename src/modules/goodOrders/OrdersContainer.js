@@ -35,6 +35,7 @@ class OrdersContainer extends React.Component {
         this.loadOrders = this.loadOrders.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
+        this.changeStatusOrder = this.changeStatusOrder.bind(this);
     }
 
     componentWillMount() {
@@ -134,6 +135,10 @@ class OrdersContainer extends React.Component {
         }
     }
 
+
+    changeStatusOrder(status, orderId) {
+        this.props.goodOrderActions.changeStatusOrder(orderId, status);
+    }
 
     render() {
         let first = (this.props.currentPage - 1) * this.props.limit + 1;
@@ -293,6 +298,7 @@ class OrdersContainer extends React.Component {
                                 </div>
                                 <br/>
                                 <ListOrder
+                                    changeStatusOrder={this.changeStatusOrder}
                                     orders={this.props.orders}
                                     isLoading={this.props.isLoading}
                                 />

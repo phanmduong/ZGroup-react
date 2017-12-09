@@ -31,6 +31,7 @@ export function loadImportGoodsOrder(orderId) {
                 dispatch({
                     type: types.LOAD_IMPORT_GOOD_ORDERS_SUCCESS,
                     importOrder: res.data.data.import_order,
+                    supplier: res.data.data.import_order.user,
                 });
             }).catch(() => {
             dispatch({
@@ -54,12 +55,13 @@ export function updateFormImportGood(formImportGood) {
     });
 }
 
-export function storeImportGood(formImportGood, status) {
+export function storeImportGood(formImportGood, status, importGoodsId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_STORE_IMPORT_GOOD
         });
-        importGoodsApi.createImportGoods(formImportGood, status)
+        importGoodsApi.createImportGoods(formImportGood, status);
+        importGoodsApi.createImportGoods(formImportGood, status, importGoodsId)
             .then((res) => {
                 if (res.data.status === 1) {
                     helper.showNotification("Lưu thành công.");
@@ -215,7 +217,7 @@ export function checkGoods(goods) {
     };
 }
 
-export function deleteImportOrder(importOrderId) {
+export function deleteImportOrder(importOrderId, page, search, startTime, endTime, status, staff) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_IMPORT_ORDERS});
         async.waterfall([
@@ -228,7 +230,8 @@ export function deleteImportOrder(importOrderId) {
                 });
             },
             function (message, callback) {
-                importGoodsApi.loadImportOrders(1)
+                importGoodsApi.loadImportOrders(1);
+                importGoodsApi.loadImportOrders(page, search, startTime, endTime, status, staff)
                     .then((res) => {
                         dispatch({
                             type: types.LOAD_IMPORT_ORDERS_SUCCESS,
@@ -254,3 +257,4 @@ export function deleteImportOrder(importOrderId) {
         });
     };
 }
+

@@ -20,6 +20,7 @@ import ReactSelect from 'react-select';
 import TooltipButton from '../../../components/common/TooltipButton';
 import * as importGoodsApi from '../importGoodsApi';
 import {PAYMENT} from "../../../constants/constants";
+import HistoryPaid from "./HistoryPaid";
 
 
 class StoreImportContainer extends React.Component {
@@ -32,11 +33,14 @@ class StoreImportContainer extends React.Component {
             showModalEditGood: false,
             showModalStoreSupplier: false,
             showModalAddGoodFile: false,
+            showModalHistoryPaid: false,
             search: '',
             initTable: false,
             optionsSelectWarehouses: [],
             selectedGood: {}
         };
+        this.closeModalHistoryPaid = this.closeModalHistoryPaid.bind(this);
+        this.openModalHistoryPaid = this.openModalHistoryPaid.bind(this);
         this.closeModalStoreGood = this.closeModalStoreGood.bind(this);
         this.openModalStoreGood = this.openModalStoreGood.bind(this);
         this.closeModalEditGood = this.closeModalEditGood.bind(this);
@@ -62,6 +66,9 @@ class StoreImportContainer extends React.Component {
         this.props.importGoodActions.initDataImport();
         this.initTable();
         this.props.importGoodActions.getAllWarehouses();
+        if (this.props.route.type === 'edit') {
+            this.props.importGoodActions.loadImportGoodsOrder(this.props.params.importGoodId);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -80,6 +87,15 @@ class StoreImportContainer extends React.Component {
                 optionsSelectWarehouses: warehouses
             });
         }
+    }
+
+
+    closeModalHistoryPaid() {
+        this.setState({showModalHistoryPaid: false});
+    }
+
+    openModalHistoryPaid() {
+        this.setState({showModalHistoryPaid: true});
     }
 
     setTable(table) {
@@ -123,14 +139,14 @@ class StoreImportContainer extends React.Component {
 
     changeOptionWarehouse(value) {
         let formImportGood = {...this.props.formImportGood};
-        formImportGood['warehouse_id'] = value && value.id ? value.id : null;
+        formImportGood['warehouse'] = value;
         this.props.importGoodActions.updateFormImportGood(formImportGood);
     }
 
     storeGoods(goods) {
         this.props.importGoodActions.updateFormImportGood({
             ...this.props.formImportGood,
-            importGoods: goods
+            imported_goods: goods
         });
 
         this.initTable();
@@ -138,7 +154,7 @@ class StoreImportContainer extends React.Component {
     }
 
     storeGood(good) {
-        let isExistGood = this.props.formImportGood.importGoods.filter((importGood) => {
+        let isExistGood = this.props.formImportGood.imported_goods.filter((importGood) => {
             return importGood.id === good.id;
         })[0];
 
@@ -149,7 +165,7 @@ class StoreImportContainer extends React.Component {
 
         this.props.importGoodActions.updateFormImportGood({
             ...this.props.formImportGood,
-            importGoods: [...this.props.formImportGood.importGoods, good]
+            imported_goods: [...this.props.formImportGood.imported_goods, good]
         });
 
         this.initTable();
@@ -158,13 +174,13 @@ class StoreImportContainer extends React.Component {
 
     deleteGood(good) {
         helper.confirm('error', 'Xóa', "Bạn có muốn sản phẩm này không ?", () => {
-            let importGoods = this.props.formImportGood.importGoods.filter((importGood) => {
+            let imported_goods = this.props.formImportGood.imported_goods.filter((importGood) => {
                 return importGood.id !== good.id;
             });
 
             this.props.importGoodActions.updateFormImportGood({
                 ...this.props.formImportGood,
-                importGoods: importGoods
+                imported_goods: imported_goods
             });
 
             this.initTable();
@@ -174,7 +190,7 @@ class StoreImportContainer extends React.Component {
 
     editStore(good) {
 
-        let importGoods = this.props.formImportGood.importGoods.map((importGood) => {
+        let imported_goods = this.props.formImportGood.imported_goods.map((importGood) => {
             if (importGood.id === good.id) {
                 return {...good};
             } else {
@@ -184,7 +200,7 @@ class StoreImportContainer extends React.Component {
 
         this.props.importGoodActions.updateFormImportGood({
             ...this.props.formImportGood,
-            importGoods: importGoods
+            imported_goods: imported_goods
         });
 
         this.initTable();
@@ -209,8 +225,11 @@ class StoreImportContainer extends React.Component {
     storeImportGood(status) {
         if (this.props.formImportGood.warehouse_id) {
             this.props.importGoodActions.storeImportGood(this.props.formImportGood, status);
-        } else {
-            helper.showWarningNotification("Vui lòng chọn kho hàng");
+            if (this.props.formImportGood.warehouse && this.props.formImportGood.warehouse.id) {
+                this.props.importGoodActions.storeImportGood(this.props.formImportGood, status, this.props.params.importGoodId);
+            } else {
+                helper.showWarningNotification("Vui lòng chọn kho hàng");
+            }
         }
     }
 
@@ -250,7 +269,7 @@ class StoreImportContainer extends React.Component {
     render() {
         let totalMoney = 0;
 
-        this.props.formImportGood.importGoods.map((good) => {
+        this.props.formImportGood.imported_goods.map((good) => {
             totalMoney += good.quantity * good.import_price;
         });
 
@@ -290,10 +309,11 @@ class StoreImportContainer extends React.Component {
                                 />
                                 {this.props.isLoading || this.state.initTable ? <Loading/> :
                                     <ListGood
-                                        importGoods={this.props.formImportGood.importGoods}
+                                        importGoods={this.props.formImportGood.imported_goods}
                                         setTable={this.setTable}
                                         deleteGood={this.deleteGood}
                                         openModalEditGood={this.openModalEditGood}
+                                        type={this.props.route.type}
                                     />
                                 }
 
@@ -303,118 +323,202 @@ class StoreImportContainer extends React.Component {
                     <div className="col-md-4">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
-                                className="material-icons">announcement</i></div>
+                                className="material-icons">announcement</i>
+                            </div>
                             <div className="card-content">
                                 <h4 className="card-title">Thông tin</h4>
-                                {this.props.isLoading ? <Loading/> :
-                                    <div>
+                                {
+                                    this.props.isLoading ? <Loading/> :
                                         <div>
-                                            <h4><strong>Thông tin phiếu nhập</strong></h4>
-                                            <FormInputText
-                                                label="Mã phiếu nhập"
-                                                name="code"
-                                                value={this.props.formImportGood.code}
-                                                placeholder="Hệ thống tự sinh"
-                                                updateFormData={this.updateFormData}
-                                            />
                                             <div>
-                                                <label className="control-label">Kho hàng</label>
-                                                <ReactSelect
-                                                    name="form-field-name"
-                                                    value={this.props.formImportGood.warehouse_id}
-                                                    options={this.state.optionsSelectWarehouses}
-                                                    onChange={this.changeOptionWarehouse}
-                                                    placeholder="Chọn kho hàng"
-                                                    searchPromptText="Không có tìm thấy"
-                                                    noResultsText="Không có dữ liệu"
+                                                <h4><strong>Thông tin phiếu nhập</strong></h4>
+                                                <FormInputText
+                                                    label="Mã phiếu nhập"
+                                                    name="code"
+                                                    value={this.props.formImportGood.code}
+                                                    placeholder="Hệ thống tự sinh"
+                                                    updateFormData={this.updateFormData}
                                                 />
-                                            </div>
-                                            <div>
-                                                <label className="control-label">Nhà cung cấp
-                                                    <TooltipButton text="Thêm nhà cung cấp" placement="top">
-                                                        <button className="btn btn-round btn-sm btn-primary"
-                                                                style={{
-                                                                    width: '20px',
-                                                                    height: '20px',
-                                                                    padding: '0',
-                                                                    margin: '5px'
-                                                                }}
-                                                                onClick={this.openModalStoreSupplier}
-                                                        >
-                                                            <i className="material-icons">add</i>
-                                                        </button>
-                                                    </TooltipButton>
-                                                </label>
-                                                <ReactSelect.Async
-                                                    loadOptions={this.loadSuppliers}
-                                                    loadingPlaceholder="Đang tải..."
-                                                    placeholder="Chọn nhà cung cấp"
-                                                    searchPromptText="Không có dữ liệu"
-                                                    onChange={this.selectSupplier}
-                                                    value={this.props.formImportGood.supplier}
-                                                />
-                                            </div>
+                                                <div>
+                                                    <label className="control-label">Kho hàng</label>
+                                                    <ReactSelect
+                                                        name="form-field-name"
+                                                        value={this.props.formImportGood.warehouse}
+                                                        options={this.state.optionsSelectWarehouses}
+                                                        onChange={this.changeOptionWarehouse}
+                                                        placeholder="Chọn kho hàng"
+                                                        searchPromptText="Không có tìm thấy"
+                                                        noResultsText="Không có dữ liệu"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="control-label">Nhà cung cấp
+                                                        <TooltipButton text="Thêm nhà cung cấp" placement="top">
+                                                            <button className="btn btn-round btn-sm btn-primary"
+                                                                    style={{
+                                                                        width: '20px',
+                                                                        height: '20px',
+                                                                        padding: '0',
+                                                                        margin: '5px'
+                                                                    }}
+                                                                    onClick={this.openModalStoreSupplier}
+                                                            >
+                                                                <i className="material-icons">add</i>
+                                                            </button>
+                                                        </TooltipButton>
+                                                    </label>
+                                                    <ReactSelect.Async
+                                                        loadOptions={this.loadSuppliers}
+                                                        loadingPlaceholder="Đang tải..."
+                                                        placeholder="Chọn nhà cung cấp"
+                                                        searchPromptText="Không có dữ liệu"
+                                                        onChange={this.selectSupplier}
+                                                        value={this.props.formImportGood.supplier}
+                                                    />
+                                                </div>
 
-                                            <FormInputText
-                                                label="Ghi chú"
-                                                name="note"
-                                                value={this.props.formImportGood.note}
-                                                updateFormData={this.updateFormData}
-                                            />
-                                        </div>
-                                        <div>
-                                            <h4>
-                                                <strong>Thông tin thanh toán </strong>
-                                            </h4>
-                                            <div className="row">
-                                                <div className="col-sm-6">
-                                                    Tiền hàng
-                                                </div>
-                                                <div className="col-sm-6">
-                                                    {helper.dotNumber(totalMoney)}
-                                                </div>
+                                                <FormInputText
+                                                    label="Ghi chú"
+                                                    name="note"
+                                                    value={this.props.formImportGood.note}
+                                                    updateFormData={this.updateFormData}
+                                                />
                                             </div>
-                                            <div className="row">
-                                                <div className="col-sm-6">
-                                                    Tiền thuế
-                                                </div>
-                                                <div className="col-sm-6">
-                                                    0
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-sm-6">
-                                                    <b>Tổng cộng</b>
-                                                </div>
-                                                <div className="col-sm-6">
-                                                    <b>{helper.dotNumber(totalMoney - this.props.formImportGood.scot)}</b>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-sm-6">
-                                                    <b>Thanh toán</b>
-                                                </div>
-                                                <div className="col-sm-6">
-                                                    <div className="form-group label-floating none-margin">
-                                                        <input
-                                                            type="number"
-                                                            className="form-control none-padding"
-                                                            name="paid_money"
-                                                            onChange={this.updateFormData}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-sm-6">
-                                                    <b>Nợ</b>
-                                                </div>
-                                                <div className="col-sm-6">
-                                                    <b>
-                                                        {helper.dotNumber(totalMoney - this.props.formImportGood.scot - this.props.formImportGood.paid_money)}
-                                                    </b>
-                                                </div>
-                                            </div>
+                                            {
+                                                this.props.route.type === 'create' ?
+                                                    (
+                                                        <div>
+                                                            <h4>
+                                                                <strong>Thông tin thanh toán </strong>
+                                                            </h4>
+                                                            <div className="row">
+                                                                <div className="col-sm-6">
+                                                                    Tiền hàng
+                                                                </div>
+                                                                <div className="col-sm-6">
+                                                                    {helper.dotNumber(totalMoney)}
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-sm-6">
+                                                                    Tiền thuế
+                                                                </div>
+                                                                <div className="col-sm-6">
+                                                                    0
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-sm-6">
+                                                                    <b>Tổng cộng</b>
+                                                                </div>
+                                                                <div className="col-sm-6">
+                                                                    <b>{helper.dotNumber(totalMoney - this.props.formImportGood.scot)}</b>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-sm-6">
+                                                                    <b>Thanh toán</b>
+                                                                </div>
+                                                                <div className="col-sm-6">
+                                                                    <div
+                                                                        className="form-group label-floating none-margin">
+                                                                        <input
+                                                                            type="number"
+                                                                            className="form-control none-padding"
+                                                                            name="paid_money"
+                                                                            onChange={this.updateFormData}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-sm-6">
+                                                                    <b>Nợ</b>
+                                                                </div>
+                                                                <div className="col-sm-6">
+                                                                    <b>
+                                                                        {helper.dotNumber(totalMoney - this.props.formImportGood.scot - this.props.formImportGood.paid_money)}
+                                                                    </b>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-sm-6">
+                                                                    Phương thức
+                                                                </div>
+                                                                <div className="col-sm-6">
+                                                                    <ReactSelect
+                                                                        name="form-field-name"
+                                                                        value={this.props.formImportGood.payment}
+                                                                        options={PAYMENT}
+                                                                        onChange={this.changePayment}
+                                                                        placeholder="Chọn phương thức"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-sm-6">
+                                                                    Ghi chú
+                                                                </div>
+                                                                <div className="col-sm-6">
+                                                                    <div
+                                                                        className="form-group label-floating none-margin">
+                                                                        <input
+                                                                            className="form-control none-padding"
+                                                                            name="note_paid_money"
+                                                                            onChange={this.updateFormData}
+                                                                            value={this.props.formImportGood.note_paid_money}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                    :
+                                                    (
+                                                        <div>
+                                                            <div className="flex flex-row flex-space-between">
+                                                                <h4>
+                                                                    <strong>Thông tin thanh toán </strong>
+                                                                </h4>
+                                                                <button
+                                                                    className="btn btn-rose btn-xs btn-simple text-align-right"
+                                                                    onClick={this.openModalHistoryPaid}
+                                                                >
+                                                                    Xem thêm <i
+                                                                    className="material-icons">navigate_next</i>
+                                                                </button>
+                                                            </div>
+
+                                                            <div className="row">
+                                                                <div className="col-md-6">
+                                                                    <b>Tổng cộng</b>
+                                                                </div>
+                                                                <div className="col-md-6">
+                                                                    <b>{helper.dotNumber(totalMoney)}
+                                                                        đ</b>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-md-6">
+                                                                    <b>Đã thanh toán</b>
+                                                                </div>
+                                                                <div className="col-md-6">
+                                                                    <b>{helper.dotNumber(this.props.formImportGood.paid_money)}
+                                                                        đ</b>
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-md-6">
+                                                                    Nợ
+                                                                </div>
+                                                                <div className="col-md-6">
+                                                                    {helper.dotNumber(totalMoney - this.props.formImportGood.paid_money)}
+                                                                    đ
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                            }
                                             <div className="row">
                                                 <div className="col-sm-6">
                                                     Phương thức
@@ -445,10 +549,12 @@ class StoreImportContainer extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 }
                             </div>
-                            {!this.props.isLoading &&
+                            }
+                        </div>
+                        {
+                            !this.props.isLoading &&
                             <div className="card-footer">
                                 <div className="float-right" style={{marginBottom: '20px'}}>
 
@@ -480,9 +586,9 @@ class StoreImportContainer extends React.Component {
                                     }
                                 </div>
                             </div>
-                            }
-                        </div>
+                        }
                     </div>
+
                 </div>
                 <Modal show={this.state.showModalStoreGood}>
                     <Modal.Header closeButton onHide={this.closeModalStoreGood} closeLabel="Đóng">
@@ -532,6 +638,17 @@ class StoreImportContainer extends React.Component {
 
                     </Modal.Body>
                 </Modal>
+                <Modal show={this.state.showModalHistoryPaid} bsSize="large" onHide={this.closeModalHistoryPaid}>
+                    <Modal.Header closeButton closeLabel="Đóng">
+                        <Modal.Title>Thanh toán</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <HistoryPaid
+                            importGoodId={this.props.params.importGoodId}
+                            closeModal={this.closeModalHistoryPaid}
+                        />
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
@@ -545,12 +662,36 @@ StoreImportContainer.propTypes = {
     params: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isStoring: PropTypes.bool.isRequired,
-    type: PropTypes.string
+    type: PropTypes.string,
+    route: PropTypes.object,
 };
 
 function mapStateToProps(state) {
+    let supplier = state.importGoods.formImportGood.supplier;
+    if (supplier && supplier.id) {
+        supplier = {
+            ...supplier,
+            value: supplier.id,
+            label: supplier.name + ` (${supplier.phone})`,
+        };
+    }
+    let warehouse = state.importGoods.formImportGood.warehouse;
+    if (warehouse && warehouse.id) {
+        warehouse = {
+            ...warehouse,
+            value: warehouse.id,
+            label: warehouse.name
+        };
+    }
+
+    let dataImportGoods = {
+        ...state.importGoods.formImportGood,
+        supplier,
+        warehouse: warehouse
+    };
     return {
-        formImportGood: state.importGoods.formImportGood,
+        formImportGood: dataImportGoods,
+        isLoading: state.importGoods.importGood.isLoading,
         isStoring: state.importGoods.formImportGood.isStoring,
         warehouses: state.importGoods.warehouses,
         isLoadingWarehouses: state.importGoods.isLoadingWarehouses,

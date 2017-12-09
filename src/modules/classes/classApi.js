@@ -1,8 +1,21 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadClasses(search, page = 1, teacherId = '') {
-    let url = env.MANAGE_API_URL + "/class/all?search=" + search + "&teacher_id=" + teacherId + "&page=" + page;
+
+export function loadExcelData(genid) {
+    //http://api.keetool.xyz/apiv2/gens/10/classes?token=
+    let token = localStorage.getItem('token');
+    let url = env.API_URL + "/apiv2/gens/" + genid + "/classes?token=" + token;
+    return axios.get(url);
+}
+export function loadGens() {
+    let token = localStorage.getItem('token');
+    let url = env.API_URL + "/gens?token=" + token;
+    return axios.get(url);
+}
+
+export function loadClasses(search, page = 1, teacherId = '', genId='') {
+    let url = env.MANAGE_API_URL + "/class/all?search=" + search + "&teacher_id=" + teacherId + "&page=" + page + "&gen_id=" + (genId == 11 ? '' : genId);
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
@@ -74,6 +87,8 @@ export function addClass(classData) {
         'teaching_assistant_id': classData.teacher_assis_id,
         'teacher_id': classData.teacher_id,
         'study_time': classData.study_time,
+        'type': classData.type,
+        'status': classData.status,
 
     });
 }

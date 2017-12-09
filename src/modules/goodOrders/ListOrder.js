@@ -31,7 +31,7 @@ class ListOrder extends React.Component {
                                 <tbody>
                                 {
                                     this.props.orders.map((order, index) => {
-                                        return <ItemOrder order={order} key={index}/>;
+                                        return <ItemOrder order={order} key={index} changeStatusOrder={this.props.changeStatusOrder}/>;
                                     })
                                 }
                                 </tbody>
@@ -44,6 +44,11 @@ class ListOrder extends React.Component {
 }
 
 ListOrder.propTypes = {
+    loadOrders: PropTypes.func.isRequired,
+    changeStatusOrder: PropTypes.func.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired,
+    totalCount: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
     orders: PropTypes.array.isRequired,
 };

@@ -49,3 +49,15 @@ export function getAllStaffs() {
     }
     return axios.get(url);
 }
+export function changeStatusOrder(orderId, status) {
+    let url = env.MANAGE_API_URL + `/order/change-status-order`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.put(url, {
+        order_id: orderId,
+        status: status,
+    });
+}

@@ -9,7 +9,7 @@ export function loadCoursesData(page=1,query='') {
         url +=  "?token="   + token +
                 "&page="    + page  +
                 '&search='  + query +
-                '&limit=5';
+                '&limit=10';
     }
     return axios.get(url);
 }
@@ -45,13 +45,13 @@ export function editLink(data) {
 }
 
 export function deleteLesson(id) {
-    let url = env.MANAGE_API_URL + "/v2/course/delete-link/";
+    let url = env.MANAGE_API_URL + "/v2/lesson/delete-lesson/";
     let token = localStorage.getItem('token');
     if (token) {
         url += id+"?token=" + token;
     }
     return axios.delete(url);
-    //http://manageapi.keetool.tk/v2/course/delete-link/{link_id}?token=
+    //manageapi.keetool.tk/v2/lesson/delete-lesson/{lessonId}?token=
 }
 export function deleteLink(id) {
     let url = env.MANAGE_API_URL + "/v2/course/delete-link/";

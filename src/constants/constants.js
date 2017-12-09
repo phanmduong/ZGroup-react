@@ -72,6 +72,41 @@ export const DAY_OF_WEEK = [
     },
 ];
 
+// Cặp (name ; id) dùng cho FormInputSelect
+
+export const GENDER = [
+    {
+        name: '',
+        id: '',
+    },
+    {
+        name: 'Nam',
+        id: '1',
+    },
+    {
+        name: 'Nữ',
+        id: '2',
+    }
+];
+
+// Cặp (label ; value) dùng cho ReactSelect
+export const CUSTOMTYPE = [
+
+    {
+        label: 'Tất cả',
+        value: 2,
+    },
+    {
+        label: 'Khách hàng còn nợ',
+        value: '0',
+    },
+    {
+        label: 'Khách hàng đã mua',
+        value: 1,
+    }
+];
+
+
 export const PAYMENT = [
     {
         label: "Tiền mặt",
@@ -87,6 +122,41 @@ export const PAYMENT = [
     }
 ];
 
+export const ORDER_STATUS = [
+    {
+        label: "Đặt hàng",
+        value: "place_order"
+    },
+    {
+        label: "Xác nhận",
+        value: "confirm_order"
+    },
+    {
+        label: "Giao hàng",
+        value: "ship_order"
+    },
+    {
+        label: "Hoàn thành",
+        value: "completed_order"
+    },
+    {
+        label: "Hủy",
+        value: "cancel"
+    }
+];
+
+export const TYPE_CLASSES = [
+    {
+        label: "Hoạt động",
+        value: "active"
+    },
+    {
+        label: "Chờ",
+        value: "waiting"
+    }
+];
+
+
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
 export const DATE = 60 * 60 * 24;
 const LINK_UPLOAD_IMAGE_EDITOR = env.MANAGE_API_URL + '/upload-image-editor';
@@ -96,6 +166,7 @@ export function linkUploadImageEditor() {
     return LINK_UPLOAD_IMAGE_EDITOR + '?token=' + token;
 }
 
+export const DATETIME_FILE_NAME_FORMAT = "DD_MM_YYYY";
 export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";
 export const DATETIME_FORMAT_SQL = "YYYY-MM-DD HH:mm:ss";
 export const FULLTIME_FORMAT = "HH:mm:ss";

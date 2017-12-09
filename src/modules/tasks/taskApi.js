@@ -139,6 +139,15 @@ export function loadBoards(projectId) {
     return axios.get(url);
 }
 
+export function deleteCard(cardId) {
+    let url = env.MANAGE_API_URL + `/card/${cardId}/delete`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
 export function createCard(card) {
     console.log(card);
     let url = env.MANAGE_API_URL + "/card/create";

@@ -13,6 +13,11 @@ import * as helper                      from '../../../helpers/helper';
 import {linkUploadImageEditor}          from '../../../constants/constants';
 import {CirclePicker}                   from 'react-color';
 import {Link, IndexLink}                from 'react-router';
+
+const btn ={
+  width: "100%",
+};
+
 class CreateEditCoursesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -35,7 +40,6 @@ class CreateEditCoursesContainer extends React.Component {
 
     componentWillMount() {
         helper.setFormValidation('#form-course-create-edit');
-        //console.log('will mount',this.props);
         let id = this.props.params.courseId;
         this.urlType ="/manage/courses/" + (id ? "edit/" + id : "create");
         if(id) this.props.coursesActions.loadOneCourse(id);
@@ -45,8 +49,8 @@ class CreateEditCoursesContainer extends React.Component {
         helper.setFormValidation('#form-course-create-edit');
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log('next props', nextProps);
+    componentWillReceiveProps(){
+        //console.log('next props', nextProps);
     }
 
 
@@ -62,28 +66,32 @@ class CreateEditCoursesContainer extends React.Component {
     }
 
     updateEditor(content){
-        this.props.coursesActions.updateData('detail', content);
+        let data    = {...this.props.data};
+        data.detail = content;
+        this.props.coursesActions.updateData(data);
     }
 
     uploadAvatar(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadAvatar(file);
+        if(helper.checkFileSize(file, 2))
+            this.props.coursesActions.uploadAvatar(file);
     }
     uploadLogo(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadLogo(file);
+        if(helper.checkFileSize(file, 2))
+            this.props.coursesActions.uploadLogo(file);
 
     }
     uploadCover(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadCover(file);
+        if(helper.checkFileSize(file, 2))
+            this.props.coursesActions.uploadCover(file);
     }
 
     changeColor(color){
-        let data    = this.state;
+        let data    = {...this.props.data};
         data.color  = color.hex;
-        //this.setState(data);
-        this.props.coursesActions.updateData('color', color.hex);
+        this.props.coursesActions.updateData(data);
     }
 
     commitCourseData(){
@@ -202,13 +210,13 @@ class CreateEditCoursesContainer extends React.Component {
                                 <img src = {helper.isEmptyInput(this.props.data.icon_url) ? NO_IMAGE : this.props.data.icon_url} />
                             { this.props.isUpdatingLogo ?
                                 (
-                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <button className="btn btn-rose btn-round disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 )
                                 :
                                 (
-                                <button className="btn btn-fill btn-rose" type="button">
+                                <button className="btn btn-fill btn-rose" type="button"  style={btn}>
                                 Chọn ảnh icon
                                 <input type="file"
                                 accept=".jpg,.png,.gif"
@@ -231,13 +239,13 @@ class CreateEditCoursesContainer extends React.Component {
                                 <img src = {helper.isEmptyInput(this.props.data.image_url) ? NO_IMAGE : this.props.data.image_url} />
                             { this.props.isUpdatingAvatar ?
                                 (
-                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <button className="btn btn-rose btn-round disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 )
                                 :
                                 (
-                                <button className="btn btn-fill btn-rose" type="button">
+                                <button className="btn btn-fill btn-rose" type="button" style={btn}>
                                 Chọn ảnh đại diện
                                 <input type="file"
                                 accept=".jpg,.png,.gif"
@@ -260,13 +268,13 @@ class CreateEditCoursesContainer extends React.Component {
                                 <img src = {helper.isEmptyInput(this.props.data.cover_url) ? NO_IMAGE : this.props.data.cover_url} />
                             { this.props.isUpdatingCover ?
                                 (
-                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <button className="btn btn-rose btn-round disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 )
                                 :
                                 (
-                                <button className="btn btn-fill btn-rose" type="button">
+                                <button className="btn btn-fill btn-rose" type="button" style={btn}>
                                 Chọn cover
                                 <input type="file"
                                 accept=".jpg,.png,.gif"
@@ -339,7 +347,10 @@ CreateEditCoursesContainer.propTypes = {
     updateCoverError    : PropTypes.bool,
     isCommitting        : PropTypes.bool,
     commitSuccess       : PropTypes.bool,
-    coursesActions      : PropTypes.object.isRequired
+    coursesActions      : PropTypes.object.isRequired,
+    location            : PropTypes.object,
+    params            : PropTypes.object,
+    children            : PropTypes.element,
 };
 
 function mapStateToProps(state) {

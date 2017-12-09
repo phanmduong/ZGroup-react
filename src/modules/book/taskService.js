@@ -27,5 +27,6 @@ export function moveAndCreateCard(instance, task) {
                 instance.props.taskActions.hideGlobalLoading();
             });
 
+
     });
 }
