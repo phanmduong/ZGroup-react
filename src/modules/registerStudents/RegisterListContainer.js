@@ -204,7 +204,7 @@ class RegisterListContainer extends React.Component {
             else {
                 this.onClassStatusFilterChange();
                 this.isWaitListPage=false;
-                this.setState({ selectedClassStatus : 0, cardTitle: 'Danh sách đăng kí học'});
+                this.setState({ selectedClassStatus : 0, cardTitle: 'Danh sách đăng kí học', query: ''});
                 if (this.props.params.salerId) {
                 this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
                 this.setState({
@@ -215,7 +215,7 @@ class RegisterListContainer extends React.Component {
                     class_status: 0,
                 });
                 this.salerId = this.props.params.salerId;
-            } else {
+                 } else {
                 if (this.props.params.genId && this.props.params.campaignId) {
                     this.setState({
                         page: 1,
