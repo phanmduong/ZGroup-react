@@ -2,6 +2,16 @@ import * as types from '../../constants/actionTypes';
 import * as attendanceApi from './attendanceApi';
 import * as helper      from '../../helpers/helper';
 
+export function updateModalData(index, value,name) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_DATA_MODAL_DETAIL_LESSON,
+            index: index,
+            value: value,
+            name: name,
+        });
+    };
+}
 export function loadGensData() {
     return function (dispatch) {
         dispatch({
@@ -131,13 +141,14 @@ export function takeAttendance(data) {
         });
         attendanceApi.takeAttendance(data)
             .then(() => {
+            helper.showNotification("Lưu thành công!");
                 dispatch({
                     type: types.TAKE_ATTENDANCE_SUCCESS,
                     data: data
             });
             }).catch(() => {
+            helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
-
                 type: types.TAKE_ATTENDANCE_ERROR,
 
             });

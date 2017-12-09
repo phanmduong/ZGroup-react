@@ -3,8 +3,19 @@ import * as types   from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function attendanceReducer(state = initialState.attendance, action) {
-    console.log(action.type);
     switch (action.type) {
+        case types.UPDATE_DATA_MODAL_DETAIL_LESSON:{
+            let index = action.index;
+            let newobj = {...state.lesson[index]};
+            newobj[action.name] = action.value;
+            let newdata = [...state.lesson.slice(0,index),newobj,...state.lesson.slice(index+1)];
+            return {
+                ...state,
+                ...{
+                    lesson: newdata
+                }
+            };
+        }
         case types.BEGIN_LOAD_CLASS_INFO:
             return {
                 ...state,

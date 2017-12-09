@@ -17,33 +17,21 @@ class LessonDetailModal extends React.Component {
 
     }
 
-    componentWillReceiveProps() {
-        //let newdata = nextProps.list;
-        //if(Array.isArray(newdata))
-        //this.setState({data: newdata});
-    }
-
     changeAttendance(id){
         let data = this.props.list;
-        data[id].attendance_lesson_status= !data[id].attendance_lesson_status;
-        //this.setState({data: data});
-        this.props.updateData(data);
+        let value = !data[id].attendance_lesson_status;
+        this.props.updateData(id, value, 'attendance_lesson_status');
     }
 
     changeHomework(id){
         let data = this.props.list;
-        data[id].attendance_homework_status= !data[id].attendance_homework_status;
-        //this.setState({data: data});
-        this.props.updateData(data);
+        let value = !data[id].attendance_homework_status;
+        this.props.updateData(id, value, 'attendance_homework_status');
     }
 
-    changeNote(e){
+    changeNote(e, index){
         let note = e.target.value;
-        let id = e.target.name;
-        let data = this.props.list;
-        data[id].note = note;
-        //this.setState({data: data});
-        this.props.updateData(data);
+        this.props.updateData(index, note,'note');
     }
 
     render() {
@@ -54,7 +42,7 @@ class LessonDetailModal extends React.Component {
                 onHide={this.props.onHide}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{"Danh sách buổi học lớp " + this.props.class.name}</Modal.Title>
+                    <Modal.Title>{"Danh sách buổi " + this.props.index + " - Lớp " + this.props.class.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
 
@@ -72,7 +60,7 @@ class LessonDetailModal extends React.Component {
                             <tbody>
                             {this.props.isLoadingLessonDetailModal ?
                                 <tr>
-                                    <td colSpan={4}><Loading/></td>
+                                    <td colSpan={5}><Loading/></td>
                                 </tr>
                                 :
                                 this.props.list.length > 0 ?
@@ -101,7 +89,7 @@ class LessonDetailModal extends React.Component {
                                                 <td><FormInputText label="Ghi chú"
                                                                    name={`${index}`}
                                                                    id={`${item.attendance_id}`}
-                                                                   updateFormData={(e) => {return this.changeNote(e);}}
+                                                                   updateFormData={(e) => {return this.changeNote(e, index);}}
                                                                    value={item.note}
                                                 /></td>
                                             </tr>
@@ -116,20 +104,24 @@ class LessonDetailModal extends React.Component {
 
                             </tbody>
                         </table>
-                        {this.props.isCommitting ?
-                            <button className="btn btn-rose btn-round disabled" type="button">
+                        <div>
+
+                        {this.props.isCommitting  ?
+                            <button style={{float: 'right', width: "35%"}} className="btn btn-rose disabled" type="button">
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                             </button>
                             :
 
 
                             <button
-                                className="btn btn-fill btn-rose"
+                                disabled={!(this.props.list.length > 0)}
+                                style={{float: 'right', width: "35%"}}
+                                className="btn btn-fill btn-rose "
                                 type="button"
                                 onClick={() => {return this.props.commitData(this.props.list)}}
                             > Lưu </button>
 
-                        }
+                        }</div>
                     </div>
 
                 </Modal.Body>

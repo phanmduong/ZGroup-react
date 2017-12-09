@@ -17,25 +17,18 @@ class ListLessonContainer extends React.Component {
             selectedLessonId: '',
             note : [],
             modalData: [],
+            store: [],
         };
 
         this.openModalDetailLesson      = this.openModalDetailLesson.bind(this);
         this.closeModalDetailLesson     = this.closeModalDetailLesson.bind(this);
-        this.updataModalData            = this.updataModalData.bind(this);
+        this.updateModalData            = this.updateModalData.bind(this);
         this.commitModalData            = this.commitModalData.bind(this);
     }
 
     componentWillMount(){
         this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
         this.props.attendanceActions.loadClassInfo(this.props.params.classId);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(!nextProps.isLoadingLessonDetailModal && this.props.isLoadingLessonDetailModal){
-            let clone  = Object.assign({}, nextProps);
-            let arr = clone.lesson.filter((obj)=>(obj));
-            this.setState({modalData: arr});
-        }
     }
 
     openModalDetailLesson(id){
@@ -46,14 +39,12 @@ class ListLessonContainer extends React.Component {
         this.props.attendanceActions.loadLessonDetailModal(this.props.params.classId,id);
     }
 
-    updataModalData(data){
-        this.setState({modalData: data});
-        console.log(this.props.lesson);
+    updateModalData(index, value, name){
+        this.props.attendanceActions.updateModalData(index, value, name);
     }
 
     closeModalDetailLesson(){
-        console.log(this.props);
-        this.setState({showModalDetailLesson: false, modalData: this.props.lesson});
+        this.setState({showModalDetailLesson: false});
         this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
     }
 
@@ -70,11 +61,12 @@ class ListLessonContainer extends React.Component {
                         show={this.state.showModalDetailLesson}
                         onHide={this.closeModalDetailLesson}
                         class={this.props.selectedClass}
-                        list={this.state.modalData}
+                        list={this.props.lesson}
                         isLoadingLessonDetailModal={this.props.isLoadingLessonDetailModal}
-                        updateData={this.updataModalData}
+                        updateData={this.updateModalData}
                         commitData={this.commitModalData}
                         isCommitting={this.props.isTakingAttendance}
+                        index={this.state.selectedLessonId}
                     />
                     {this.props.isLoadingLessonClassModal ?
                         <Loading/>
