@@ -308,7 +308,7 @@ class CourseController extends ManageApiController
     public function changeAttendance(Request $request)
     {
 
-        $attendances = json_decode($request->attendances);
+        $attendances = $request->attendances;
 
         foreach ($attendances as $attendance){
             $get_attendance = Attendance::find($attendance->attendance_id);
