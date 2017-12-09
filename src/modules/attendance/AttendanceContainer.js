@@ -35,11 +35,12 @@ class AttendanceContainer extends React.Component {
                     value: 'Tất cả'
                 },
             ],
-            selectBaseId: 0,
-            selectGenId: 0,
+            selectBaseId: null,
+            selectGenId: null,
         };
 
-
+        this.genid = null;
+        this.baseid = null;
         this.classesSearchChange        = this.classesSearchChange.bind(this);
         this.loadClasses                = this.loadClasses.bind(this);
         this.closeModalLesson           = this.closeModalLesson.bind(this);
@@ -56,7 +57,7 @@ class AttendanceContainer extends React.Component {
     componentWillMount(){
         this.props.attendanceActions.loadGensData();
         this.props.attendanceActions.loadBasesData();
-        this.props.attendanceActions.loadClasses();
+        //this.props.attendanceActions.loadClasses();
     }
 
     componentWillReceiveProps(nextProps){
@@ -65,17 +66,24 @@ class AttendanceContainer extends React.Component {
                 gens: this.getGens(nextProps.gens),
                 selectGenId: nextProps.currentGen.id
             });
-            this.loadClasses(1,'','',this.state.selectBaseId,nextProps.currentGen.id);
+            this.genid = nextProps.currentGen.id;
+            if(this.baseid )
+                this.loadClasses(1,'','',this.baseid,nextProps.currentGen.id);
         }
         if (nextProps.isLoadingBases !== this.props.isLoadingBases && !nextProps.isLoadingBases) {
+            let bases = this.getBases(nextProps.bases);
             this.setState({
-                bases: this.getBases(nextProps.bases),
+                bases: bases,
+                selectBaseId: nextProps.bases[0].id
             });
-            this.loadClasses(1,'','','',this.state.selectGenId);
+            this.baseid = nextProps.bases[0].id;
+
+            if(this.genid )
+                this.loadClasses(1,'','',nextProps.bases[0].id,this.genid);
         }
     }
 
-    loadClasses(page = 1, query = '', teacherid, baseid, genid) {
+    loadClasses(page = 1, query = '', teacherid, baseid , genid) {
         this.setState({page});
         this.props.attendanceActions.loadClasses(query, page, teacherid, baseid == 0 ? '' : baseid , genid);
     }
@@ -162,78 +170,75 @@ class AttendanceContainer extends React.Component {
         return(
 
             <div className="row">
-                <div className="col-md-12">
-                    {this.props.isLoadingBases || this.props.isLoadingGens
-                        ?
-                        <Loading/>
-                        :
-                        <div>
-                            <div className="col-sm-3 col-xs-5">
-                                <Select
-                                defaultMessage={'Chọn cơ sở'}
-                                options={this.state.bases}
-                                disableRound
-                                value={this.state.selectBaseId}
-                                onChange={this.onChangeBase}
-                                /></div>
-                            <div className="col-sm-3 col-xs-5">
-                                <Select
-                                defaultMessage={'Chọn khóa học'}
-                                options={this.state.gens}
-                                disableRound
-                                value={this.state.selectGenId}
-                                onChange={this.onChangeGen}
-                            /></div>
-                        </div>
-                    }
-                    <div className="card">
-                        <div className="card-header card-header-icon" data-background-color="rose">
-                            <i className="material-icons">assignment</i>
-                        </div>
-                        <div className="card-content">
-                            <h4 className="card-title">Danh sách lớp</h4>
-                            <Search
-                                onChange={this.classesSearchChange}
-                                value={this.state.query}
-                                placeholder="Tìm kiếm lớp"
-                            />
-                            {this.props.isLoading ?
-                                <Loading/>
-                                :
+                {this.props.isLoading ? <Loading/> :
+                    <div className="col-md-12">
+                        {this.props.isLoadingBases || this.props.isLoadingGens
+                            ?
+                            <Loading/>
+                            :
+                            <div>
+                                <div className="col-sm-3 col-xs-5">
+                                    <Select
+                                        defaultMessage={'Chọn khóa học'}
+                                        options={this.state.gens}
+                                        disableRound
+                                        value={this.state.selectGenId}
+                                        onChange={this.onChangeGen}
+                                    /></div>
+                                <div className="col-sm-3 col-xs-5">
+                                    <Select
+                                        defaultMessage={'Chọn cơ sở'}
+                                        options={this.state.bases}
+                                        disableRound
+                                        value={this.state.selectBaseId}
+                                        onChange={this.onChangeBase}
+                                    /></div>
+
+                            </div>
+                        }
+                        <div className="card">
+                            <div className="card-header card-header-icon" data-background-color="rose">
+                                <i className="material-icons">assignment</i>
+                            </div>
+                            <div className="card-content">
+                                <h4 className="card-title">Danh sách lớp</h4>
+                                <Search
+                                    onChange={this.classesSearchChange}
+                                    value={this.state.query}
+                                    placeholder="Tìm kiếm lớp"
+                                />
                                 <ListClassComponent
                                     classes={this.props.data.classes}
                                     isLoading={this.props.isLoading}
                                     searchByTeacher={this.loadClasses}
                                     openModalLesson={this.openModalLesson}
                                 />
-                            }
-                            <ul className="pagination pagination-primary">
-                                { _.range(1, (this.props.data.paginator? this.props.data.paginator.total_pages :0) + 1).map(page => {
-                                    if (Number(this.state.page) === page) {
-                                        return (
-                                            <li key={page} className="active">
-                                                <a onClick={() => this.loadClasses(page, this.state.query,'', this.state.selectBaseId, this.state.selectGenId)}>
-                                                    {page}
-                                                </a>
-                                            </li>
-                                        );
-                                    } else {
-                                        return (
-                                            <li key={page}>
-                                                <a onClick={() => this.loadClasses(page, this.state.query,'', this.state.selectBaseId, this.state.selectGenId)}>
-                                                    {page}
-                                                </a>
-                                            </li>
-                                        );
-                                    }
+                                <ul className="pagination pagination-primary">
+                                    {_.range(1, (this.props.data.paginator ? this.props.data.paginator.total_pages : 0) + 1).map(page => {
+                                        if (Number(this.state.page) === page) {
+                                            return (
+                                                <li key={page} className="active">
+                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                        {page}
+                                                    </a>
+                                                </li>
+                                            );
+                                        } else {
+                                            return (
+                                                <li key={page}>
+                                                    <a onClick={() => this.loadClasses(page, this.state.query, '', this.state.selectBaseId, this.state.selectGenId)}>
+                                                        {page}
+                                                    </a>
+                                                </li>
+                                            );
+                                        }
 
-                                })}
-                            </ul>
-
+                                    })}
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-
+                }
             </div>
 
 

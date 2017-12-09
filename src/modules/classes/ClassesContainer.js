@@ -52,7 +52,6 @@ class ClassesContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('next props', nextProps);
         if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens)
         {
             let gens = _.sortBy(nextProps.gens, [function (o) {
