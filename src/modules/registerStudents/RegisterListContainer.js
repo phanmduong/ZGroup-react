@@ -138,7 +138,7 @@ class RegisterListContainer extends React.Component {
         }
         if (!nextProps.isLoadingCampaignFilter && this.props.isLoadingCampaignFilter) {
             this.setState({
-                campaignFilter: this.getFilter(nextProps.campaignFilter),
+                campaignFilter: this.getSalerFilter(nextProps.campaignFilter),
             });
         }
         if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens) {
@@ -198,7 +198,7 @@ class RegisterListContainer extends React.Component {
                 },});
             if(nextProps.route.path=='/manage/waitlist'){
                 this.isWaitListPage=true;
-                this.setState({class_status: 'waiting',  selectedClassStatus: 2, cardTitle:'Danh sách chờ'});
+                this.setState({class_status: 'waiting',  selectedClassStatus: 2, cardTitle:'Danh sách chờ', query: ''});
                 this.onClassStatusFilterChange({value: 2});
             }
             else {
@@ -350,7 +350,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
-            this.state.query,
+            '',
             this.state.selectedSalerId,
             this.state.campaignId,
             '',
@@ -401,6 +401,7 @@ class RegisterListContainer extends React.Component {
             label: 'Tất cả'
         }, ...data];
     }
+
     getSalerFilter(arr) {
         let data = arr.map(function (obj, index) {
             return {
@@ -494,7 +495,17 @@ class RegisterListContainer extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, value, this.salerId, '');
+            this.props.registerActions.loadRegisterStudent(1,
+                this.state.selectGenId,
+                value,
+                this.salerId,
+                this.state.campaignId,
+                this.state.selectedClassId,
+                this.state.paid_status,
+                this.state.class_status,
+                this.state.time.startTime,
+                this.state.time.endTime,
+            );
         }.bind(this), 500);
     }
 
