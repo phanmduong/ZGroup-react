@@ -838,6 +838,30 @@ export default {
     },
 
     goodOrders: {
+        shipGoodModal: false,
+        isSendingShipOrder: false,
+        shippedGoodResponse: {},
+        shippingGood: {
+            product: [],
+            order: {
+                id: "",
+                pick_name: "Graphics",
+                pick_address: "175 Chùa Láng",
+                pick_province: "Hà Nội",
+                pick_district: "Quận Đống Đa",
+                pick_tel: "0903400807",
+                tel: "",
+                name: "",
+                address: "",
+                province: "",
+                district: "",
+                is_freeship: "1",
+                pick_date: "",
+                pick_money: 47000,
+                note: "Khối lượng tính cước tối đa: 1.00 kg",
+                value: 3000000
+            }
+        },
         isLoading: false,
         error: false,
         currentPage: 1,

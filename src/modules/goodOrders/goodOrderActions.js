@@ -74,6 +74,7 @@ export function getAllStaffs() {
             });
     };
 }
+
 export function changeStatusOrder(orderId, status) {
     return function (dispatch) {
         helper.showTypeNotification("Đang thay đổi trạng thái", "info");
@@ -90,6 +91,46 @@ export function changeStatusOrder(orderId, status) {
             helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
             dispatch({
                 type: types.CHANGE_STATUS_ORDER_ERROR
+            });
+        });
+    };
+}
+
+export function showShipGoodModal() {
+    return ({
+        type: types.TOGGLE_SHIP_GOOD_MODAL
+    });
+}
+
+export function handleShipOrderBegin(order) {
+    return ({
+        type: types.HANDLE_SHIP_ORDER_BEGIN,
+        order
+    });
+}
+
+export function handleShipOrder(order) {
+    return ({
+        type: types.HANDLE_SHIP_ORDER,
+        order
+    });
+}
+
+export function sendShipOrder(shippingGood) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_SEND_SHIP_ORDER
+        });
+        goodOrdersApi.sendShipOrder(shippingGood)
+            .then((res) => {
+                dispatch({
+                    type: types.SEND_SHIP_ORDER_COMPLETE,
+                    shippedGoodResponse: res
+                });
+            }).catch(() => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+            dispatch({
+                type: types.SEND_SHIP_ORDER_FAILED
             });
         });
     };

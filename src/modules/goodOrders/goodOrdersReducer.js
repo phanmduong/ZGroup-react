@@ -120,6 +120,55 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     }
                 }
             };
+        case types.TOGGLE_SHIP_GOOD_MODAL:
+            return {
+                ...state,
+                shipGoodModal: !state.shipGoodModal
+            };
+        case types.HANDLE_SHIP_ORDER_BEGIN:
+            return {
+                ...state,
+                shippingGood: {
+                    ...state.shipGoodModal,
+                    product: [
+                        ...state.shippingGood.product
+                    ],
+                    order: {
+                        ...state.shippingGood.order,
+                        id: action.order.code,
+                        tel: action.order.customer.phone,
+                        name: action.order.customer.name,
+                        address: action.order.customer.address,
+                        value: action.order.total
+                    }
+                }
+            };
+        case types.HANDLE_SHIP_ORDER:
+            return {
+                ...state,
+                shippingGood: {
+                    ...state.shippingGood,
+                    order: action.order
+                }
+            };
+        case types.BEGIN_SEND_SHIP_ORDER:
+            return {
+                ...state,
+                isSendingShipOrder: true
+            };
+        case types.SEND_SHIP_ORDER_COMPLETE:
+            return {
+                ...state,
+                isSendingShipOrder: false,
+                shipGoodModal: false,
+                shippedGoodResponse: action.shippedGoodResponse
+            };
+        case types.SEND_SHIP_ORDER_FAILED:
+            return{
+                ...state,
+                isSendingShipOrder: false,
+                shipGoodModal: false
+            };
         default:
             return state;
     }

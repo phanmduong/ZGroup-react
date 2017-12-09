@@ -109,6 +109,12 @@ class ItemOrder extends React.Component {
                 <td>
                     <ButtonGroupAction/>
                 </td>
+                <td>
+                    <button className="btn btn-social btn-fill btn-twitter"
+                            onClick={() => this.props.showShipGoodModal(order)}>
+                        <i className="fa fa-twitter"/> Ship hàng
+                    </button>
+                </td>
             </tr>
         );
     }
@@ -117,6 +123,7 @@ class ItemOrder extends React.Component {
 ItemOrder.propTypes = {
     order: PropTypes.object.isRequired,
     changeStatusOrder: PropTypes.func.isRequired,
+    showShipGoodModal: PropTypes.func.isRequired
 };
 
 

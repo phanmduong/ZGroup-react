@@ -2,6 +2,7 @@ import React from 'react';
 import ItemOrder from './ItemOrder';
 import Loading from '../../components/common/Loading';
 import PropTypes from 'prop-types';
+import ShipGoodModal from "./ShipGoodModal";
 
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -25,32 +26,33 @@ class ListOrder extends React.Component {
                                     <th>Trạng thái</th>
                                     <th>Tổng tiền</th>
                                     <th>Nợ</th>
-                                    <th />
+                                    <th/>
+                                    <th/>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {
                                     this.props.orders.map((order, index) => {
-                                        return <ItemOrder order={order} key={index} changeStatusOrder={this.props.changeStatusOrder}/>;
+                                        return <ItemOrder order={order} key={index}
+                                                          changeStatusOrder={this.props.changeStatusOrder}
+                                                          showShipGoodModal={this.props.showShipGoodModal}/>;
                                     })
                                 }
                                 </tbody>
                             </table>
                         )
                 }
+                <ShipGoodModal/>
             </div>
         );
     }
 }
 
 ListOrder.propTypes = {
-    loadOrders: PropTypes.func.isRequired,
     changeStatusOrder: PropTypes.func.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    limit: PropTypes.number.isRequired,
-    totalCount: PropTypes.number.isRequired,
     isLoading: PropTypes.bool.isRequired,
     orders: PropTypes.array.isRequired,
+    showShipGoodModal: PropTypes.func.isRequired
 };
 
 

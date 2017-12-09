@@ -61,3 +61,9 @@ export function changeStatusOrder(orderId, status) {
         status: status,
     });
 }
+
+export function sendShipOrder(shippingGood) {
+    let Token = "F7c711CD3443E52C1CDc4Dc6a097d5a6aBA3adf4";
+    let url = "https://dev.ghtk.vn" + "/services/shipment/order HTTP/1.1" + Token;
+    return axios.post(url, shippingGood);
+}
