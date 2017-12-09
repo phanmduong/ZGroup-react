@@ -111,7 +111,7 @@ class CustomerGroupApiController extends ManageApiController
                 $cusomer_group->save();
             }
 
-        }
+        } else if($request->stringId == "" && $group->customers) $group->customers()->detach();
 
         $customers = $group->customers;
         return $this->respondSuccessWithStatus([
@@ -218,5 +218,16 @@ class CustomerGroupApiController extends ManageApiController
 
             })
         ]);
+    }
+
+    public function deleteGroup(Request $request){
+        $customer_group = InfoCustomerGroup::find($request->id);
+        if(!$customer_group) return $this->respondErrorWithStatus("Khong ton tai nhom khach hang");
+        if($customer_group->customers) $customer_group->customers()->detach();
+        $customer_group->delete();
+        return $this->respondSuccessWithStatus([
+            "message" => "Xoa thanh cong"
+        ]);
+
     }
 }
