@@ -48,8 +48,6 @@ class AttendanceContainer extends React.Component {
         this.openModalDetailLesson      = this.openModalDetailLesson.bind(this);
         this.closeModalDetailLesson     = this.closeModalDetailLesson.bind(this);
         this.takeAttendance             = this.takeAttendance.bind(this);
-        this.getBases                   = this.getBases.bind(this);
-        this.getGens                    = this.getGens.bind(this);
         this.onChangeBase               = this.onChangeBase.bind(this);
         this.onChangeGen                = this.onChangeGen.bind(this);
     }
@@ -57,7 +55,6 @@ class AttendanceContainer extends React.Component {
     componentWillMount(){
         this.props.attendanceActions.loadGensData();
         this.props.attendanceActions.loadBasesData();
-        //this.props.attendanceActions.loadClasses();
     }
 
     componentWillReceiveProps(nextProps){

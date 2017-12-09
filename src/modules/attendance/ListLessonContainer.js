@@ -208,6 +208,7 @@ ListLessonContainer.propTypes = {
     gens: PropTypes.array,
     bases: PropTypes.array,
     selectedClass: PropTypes.object,
+    params: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -225,7 +226,6 @@ function mapStateToProps(state) {
         gens:                           state.attendance.gens,
         bases:                          state.attendance.bases,
         selectedClass:                  state.attendance.selectedClass,
-
     };
 }
 

@@ -122,6 +122,8 @@ class ListClassComponent extends React.Component {
 
 ListClassComponent.propTypes = {
     classes : PropTypes.array,
+    isLoading : PropTypes.bool,
+    searchByTeacher : PropTypes.func,
 };
 
 

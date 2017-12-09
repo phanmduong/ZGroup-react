@@ -118,7 +118,7 @@ class LessonDetailModal extends React.Component {
                                 style={{float: 'right', width: "35%"}}
                                 className="btn btn-fill btn-rose "
                                 type="button"
-                                onClick={() => {return this.props.commitData(this.props.list)}}
+                                onClick={() => {return this.props.commitData(this.props.list);}}
                             > Lưu </button>
 
                         }</div>
@@ -131,11 +131,15 @@ class LessonDetailModal extends React.Component {
 }
 
 LessonDetailModal.PropTypes = {
-    lessondata: PropTypes.array,
-    list: PropTypes.array,
-    show: PropTypes.bool,
-    onHide: PropTypes.func,
-}
+    lessondata: PropTypes.array.isRequired,
+    list: PropTypes.array.isRequired,
+    show: PropTypes.bool.isRequired,
+    isLoadingLessonDetailModal: PropTypes.bool.isRequired,
+    isCommitting: PropTypes.bool.isRequired,
+    onHide: PropTypes.func.isRequired,
+    updateData: PropTypes.func.isRequired,
+    commitData: PropTypes.func.isRequired,
+};
 
 export default (LessonDetailModal);
 /**/
