@@ -12,6 +12,8 @@ import FormInputDate from '../../components/common/FormInputDate';
 import {Panel} from 'react-bootstrap';
 import Select from '../../components/common/Select';
 import StatisticAttendanceStaffs from "./StatisticAttendanceStaffs";
+import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import moment from "moment";
 
 class AttendanceStaffsContainer extends React.Component {
     constructor(props, context) {
@@ -33,6 +35,12 @@ class AttendanceStaffsContainer extends React.Component {
         this.updateFormDate = this.updateFormDate.bind(this);
         this.exportExcel = this.exportExcel.bind(this);
         this.loadStatistic = this.loadStatistic.bind(this);
+        this.setData = this.setData.bind(this);
+    }
+
+    setData(salesMakerings, teachers) {
+        this.salesMaketings = salesMakerings;
+        this.teachers = teachers;
     }
 
     componentWillMount() {
@@ -113,43 +121,57 @@ class AttendanceStaffsContainer extends React.Component {
         }
     }
 
-    exportExcel() {
-        // let wb = helper.newWorkBook();
-        // let general = this.props.summary.map((item, index) => {
-        //     return {
-        //         'STT': index + 1,
-        //         'Họ và tên': item.name,
-        //         'Số lượng đã nộp tiền': item.total_paid_registers,
-        //         'Số lượng đăng kí': item.total_registers,
-        //     };
-        // });
-        // let cols = [{ "wch": 5 },{ "wch": 20 },{ "wch": 20 },{ "wch": 20 },];
-        // helper.appendJsonToWorkBook(general, wb, 'Tổng quan', cols);
-        //
-        // let detail = this.props.summary.map((item, index) => {
-        //     let res = {'STT': index + 1, 'Họ và tên': item.name};
-        //     item.campaigns.forEach(obj => (res[obj.name] = obj.total_registers));
-        //     return res;
-        // });
-        // cols = [{ "wch": 5 },{ "wch": 20 }];
-        // helper.appendJsonToWorkBook(detail, wb, 'Chi tiết', cols);
-        //
-        // let base = this.state.bases.filter(base => (base.key == this.state.selectBaseId));
-        // let gen = this.state.gens.filter(gen => (gen.key == this.state.selectGenId));
-        // let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-        // let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-        // helper.saveWorkBookToExcel(wb,
-        //     'Tổng kết sales' +
-        //     ` - ${base[0].value == 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
-        //     (helper.isEmptyInput(this.state.time.startTime) || helper.isEmptyInput(this.state.time.startTime)
-        //             ? ` - ${gen[0].value}`
-        //             :
-        //             (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
-        //                 `${helper.isEmptyInput(this.state.time.endTime)   ? '' : (' - ' + endTime)  }`)
-        //     )
-        // );
-
+    convertDataGeneral(data) {
+        return data && data.length > 0 ? data.map((item, index) => {
+            let staff = item.attendances[0].user;
+            return {
+                'STT': index + 1,
+                'Họ và tên': staff.name,
+                'Đi làm': item.total_attendance,
+                'Đúng luật': item.total_lawful,
+                'Bỏ làm': item.total_not_work,
+                'Checkin muộn': item.total_checkin_late,
+                'Checkout sớm': item.total_checkout_early,
+                'Không checkin': item.total_not_checkin,
+                'Không checkout': item.total_not_checkout,
+            };
+        }) : [{
+            'STT': '',
+            'Họ và tên': '',
+            'Đi làm': '',
+            'Đúng luật': '',
+            'Bỏ làm': '',
+            'Checkin muộn': '',
+            'Checkout sớm': '',
+            'Không checkin': '',
+            'Không checkout': '',
+        }];
     }
+
+    exportExcel() {
+        let wb = helper.newWorkBook();
+        let generalSales = this.convertDataGeneral(this.salesMaketings);
+        let generalTeachers = this.convertDataGeneral(this.teachers);
+
+        let cols = [{"wch": 5}, {"wch": 20}, {"wch": 10}, {"wch": 10}, {"wch": 15}, {"wch": 15}, {"wch": 15}, {"wch": 15}, {"wch": 15}];
+        helper.appendJsonToWorkBook(generalTeachers, wb, 'Tổng quan giảng viên', cols);
+        helper.appendJsonToWorkBook(generalSales, wb, 'Tổng quan sales & makering', cols);
+
+        let base = this.state.bases.filter(base => (base.key == this.state.selectBaseId));
+        let gen = this.state.gens.filter(gen => (gen.key == this.state.selectGenId));
+        let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        helper.saveWorkBookToExcel(wb,
+            'Tổng kết điểm danh' + ` - ${base[0].value == 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
+            (helper.isEmptyInput(this.state.time.startTime) || helper.isEmptyInput(this.state.time.startTime)
+                    ? ` - ${gen[0].value}`
+                    :
+                    (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
+                        `${helper.isEmptyInput(this.state.time.endTime) ? '' : (' - ' + endTime)  }`)
+            )
+        );
+    }
+
 
     render() {
         return (
@@ -186,14 +208,18 @@ class AttendanceStaffsContainer extends React.Component {
                                         Lọc
                                     </button>
                                 </div>
-                                <div className="col-sm-2 col-xs-5">
-                                    <button
-                                        onClick={this.exportExcel}
-                                        className="btn btn-info btn-rose"
-                                    >
-                                        Xuất ra excel
-                                    </button>
-                                </div>
+                                {this.props.isLoading ?
+                                    <div/>
+                                    :
+                                    <div className="col-sm-2 col-xs-5">
+                                        <button
+                                            onClick={this.exportExcel}
+                                            className="btn btn-info btn-rose"
+                                        >
+                                            Xuất ra excel
+                                        </button>
+                                    </div>
+                                }
                             </div>
                             <Panel collapsible expanded={this.state.openFilterPanel}>
                                 <div className="row">
@@ -238,6 +264,7 @@ class AttendanceStaffsContainer extends React.Component {
                                 isLoading={this.props.isLoading}
                                 salesMarketings={this.props.salesMarketings}
                                 teachers={this.props.teachers}
+                                setData={this.setData}
                             />
                         </div>
                     )

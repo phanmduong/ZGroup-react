@@ -66,7 +66,9 @@ class BarcodesContainer extends React.Component {
                                                     <td>
                                                         {
                                                             barcode.image_url && (
-                                                                <img src={barcode.image_url} alt=""/>
+                                                                <img style={{height: "25px", width: "auto"}}
+                                                                     src={barcode.image_url}
+                                                                     alt=""/>
                                                             )
                                                         }
                                                     </td>

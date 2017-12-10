@@ -63,20 +63,34 @@ class StatisticAttendanceStaffs extends React.Component {
     convertData(data) {
         return data.map((item) => {
             let total_attendance = 0;
-            let total_delinquent = 0;
+            let total_not_work = 0;
+            let total_not_checkin = 0;
+            let total_not_checkout = 0;
+            let total_checkin_late = 0;
+            let total_checkout_early = 0;
             let total_lawful = 0;
             item.attendances = item.attendances.map((attendance) => {
                 let message = null;
                 let isDelinquent = false;
+                if (helper.isNull(attendance.check_in) && helper.isNull(attendance.check_out)) {
+                    attendance.isNotWork = true;
+                    attendance.message = "Không checkin, không checkout";
+                    total_not_work++;
+                    return attendance;
+                }
                 if (attendance.check_in) {
                     let rangeTimeCheckIn = helper.convertTimeToSecond(attendance.check_in.created_at.substr(0, 5)) -
                         helper.convertTimeToSecond(attendance.start_time);
                     if (rangeTimeCheckIn > 60) {
-                        message = 'check in muộn ' + (rangeTimeCheckIn / 60) + ' phút';
+                        message = 'Check in muộn ' + (rangeTimeCheckIn / 60) + ' phút';
+                        attendance.isCheckinLate = true;
+                        total_checkin_late++;
                         isDelinquent = true;
                     }
                 } else {
-                    message = "không check in";
+                    attendance.isNotCheckin = true;
+                    total_not_checkin++;
+                    message = "Không check in";
                     isDelinquent = true;
                 }
 
@@ -86,29 +100,37 @@ class StatisticAttendanceStaffs extends React.Component {
                     if (rangeTimeCheckOut > 60) {
                         message = message ? message + ", " : "";
                         message += 'check out sớm ' + (rangeTimeCheckOut / 60) + ' phút';
+                        attendance.isCheckoutEarly = true;
+                        total_checkout_early++;
                         isDelinquent = true;
                     }
                 } else {
                     message = message ? message + ", " : "";
                     message += "không check out";
                     isDelinquent = true;
+                    attendance.isNotCheckout = true;
+                    total_not_checkout++;
                 }
 
-                if (isDelinquent) {
-                    total_delinquent++;
-                } else {
+                if (!isDelinquent) {
+                    attendance.isLawful = true;
                     total_lawful++;
                 }
 
                 if (attendance.check_in || attendance.check_out) {
+                    attendance.attendance = true;
                     total_attendance++;
                 }
                 attendance.message = message;
                 return attendance;
             });
             item.total_attendance = total_attendance;
+            item.total_not_work = total_not_work;
+            item.total_not_checkin = total_not_checkin;
+            item.total_not_checkout = total_not_checkout;
+            item.total_checkin_late = total_checkin_late;
+            item.total_checkout_early = total_checkout_early;
             item.total_lawful = total_lawful;
-            item.total_delinquent = total_delinquent;
             return item;
         });
     }
@@ -119,6 +141,7 @@ class StatisticAttendanceStaffs extends React.Component {
         } else {
             this.convertDataSalesMarketing();
             this.convertDataTeachers();
+            this.props.setData(this.salesMarketings, this.teachers);
             return (
                 <div>
                     <div className="row">

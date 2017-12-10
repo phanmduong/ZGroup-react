@@ -21,10 +21,15 @@ class StatisticSalesMarketing extends React.Component {
         });
     }
 
-    openModal(staff) {
+    openModal(staff, filter) {
+        let attendances = filter ? staff.attendances.filter(item => item[filter]) : staff.attendances;
         this.setState({
             showModal: true,
-            staff
+            staff: {
+                ...staff,
+                attendances,
+                user: staff.attendances[0].user
+            }
         });
     }
 
@@ -38,7 +43,7 @@ class StatisticSalesMarketing extends React.Component {
                             <i className="material-icons">assignment</i>
                         </div>
                         <div className="card-content">
-                            <h4 className="card-title">Thống kê điểm danh Sales & Marketing</h4>
+                            <h4 className="card-title">Thống kê điểm danh giảng viên</h4>
                             <div className="table-responsive">
                                 <table className="table">
                                     <thead className="text-rose">
@@ -47,7 +52,11 @@ class StatisticSalesMarketing extends React.Component {
                                         <th>Họ tên</th>
                                         <th>Đi làm</th>
                                         <th>Đúng luật</th>
-                                        <th>Vi phạm</th>
+                                        <th>Bỏ làm</th>
+                                        <th>Checkin muộn</th>
+                                        <th>Checkout sớm</th>
+                                        <th>Không checkin</th>
+                                        <th>Không checkout</th>
                                         <th/>
                                     </tr>
                                     </thead>
@@ -67,11 +76,64 @@ class StatisticSalesMarketing extends React.Component {
                                                     />
                                                 </td>
                                                 <td>{staff.name}</td>
-                                                <td>{item.total_attendance}</td>
-                                                <td>{item.total_lawful}</td>
-                                                <td>{item.total_delinquent}</td>
-                                                <td className="max-width-130-px text-align-right">
-                                                    <button className="btn btn-rose max-width-130-px"
+                                                <td>
+                                                    <button
+                                                        className="btn btn-success btn-xs min-width-80-px"
+                                                        onClick={() => this.openModal(item, 'attendance')}
+                                                    >
+                                                        {item.total_attendance}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        className="btn btn-success btn-xs min-width-80-px"
+                                                        onClick={() => this.openModal(item, 'isLawful')}
+                                                    >
+                                                        {item.total_lawful}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        className="btn btn-danger btn-xs min-width-80-px"
+                                                        onClick={() => this.openModal(item, 'isNotWork')}
+                                                    >
+                                                        {item.total_not_work}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        className="btn btn-info btn-xs min-width-80-px"
+                                                        onClick={() => this.openModal(item, 'isCheckinLate')}
+                                                    >
+                                                        {item.total_checkin_late}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        className="btn btn-info btn-xs min-width-80-px"
+                                                        onClick={() => this.openModal(item, 'isCheckoutEarly')}
+                                                    >
+                                                        {item.total_checkout_early}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        className="btn btn-warning btn-xs min-width-80-px"
+                                                        onClick={() => this.openModal(item, 'isNotCheckin')}
+                                                    >
+                                                        {item.total_not_checkin}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button
+                                                        className="btn btn-warning btn-xs min-width-80-px"
+                                                        onClick={() => this.openModal(item, 'isNotCheckout')}
+                                                    >
+                                                        {item.total_not_checkout}
+                                                    </button>
+                                                </td>
+                                                <td className="text-align-right">
+                                                    <button className="btn btn-rose"
                                                             onClick={() => this.openModal(item)}>
                                                         Chi tiết
                                                     </button>
@@ -88,7 +150,7 @@ class StatisticSalesMarketing extends React.Component {
                 {this.state.staff &&
                 <Modal show={this.state.showModal} onHide={this.closeModal} bsSize="large">
                     <Modal.Header closeButton>
-                        <Modal.Title>Chi tiết điểm danh {this.state.staff.attendances[0].user.name}</Modal.Title>
+                        <Modal.Title>Chi tiết điểm danh {this.state.staff.user.name}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div className="table-responsive">

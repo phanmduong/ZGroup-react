@@ -983,5 +983,9 @@ export function childrenBeginAddChild(properties) {
     });
     return children;
 }
+export function isNull(data) {
+    return data === null || data === undefined;
+}
+
 
 
