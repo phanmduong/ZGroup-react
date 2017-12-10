@@ -171,14 +171,16 @@ class RegisterListContainer extends React.Component {
         }
 
         if (nextProps.params.salerId !== this.props.params.salerId) {
-            this.props.registerActions.loadRegisterStudent(1, '', '', nextProps.params.salerId, '');
+            console.log('nextProps.params.salerId !== this.props.params.salerId');
+            this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, '', nextProps.params.salerId, '');
             this.setState({
                 page: 1,
                 query: '',
                 campaignId: '',
+                selectedSalerId: nextProps.params.salerId,
             });
             this.salerId = nextProps.params.salerId;
-        }
+        }else
         if(nextProps.location.pathname != this.props.location.pathname){
             this.setState({page: 1,
                 showModal: false,
@@ -395,7 +397,7 @@ class RegisterListContainer extends React.Component {
             };
         });
         let bol = data[0] && (data[0].id != 0);
-        return bol ?  data : [{
+        return !bol ?  data : [{
             id: '',
             value: 0,
             label: 'Tất cả'
@@ -571,6 +573,11 @@ class RegisterListContainer extends React.Component {
                                             <button
                                                 onClick={this.openFilterPanel}
                                                 className="btn btn-info btn-rose"
+                                                disabled={
+                                                    this.props.isLoadingGens ||
+                                                    this.props.isLoadingClassFilter ||
+                                                    this.props.isLoadingRegisters
+                                                }
                                             >
                                                 <i className="material-icons">filter_list</i>
                                                 Lọc
@@ -673,7 +680,7 @@ class RegisterListContainer extends React.Component {
 
                                     </Panel>
                                     {
-                                        this.props.isLoadingRegisters ? <Loading/> :
+                                        this.props.isLoadingRegisters || this.props.isLoadingClassFilter ? <Loading/> :
                                             <ListRegister
                                                 registers={this.props.registers}
                                                 viewCall={this.viewCall}
