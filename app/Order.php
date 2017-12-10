@@ -53,6 +53,20 @@ class Order extends Model
 
     public function transform()
     {
+        $goodOrders = $this->goodOrders->map(function ($goodOrder) {
+            $goodOrderData = [
+                'id' => $goodOrder->id,
+                'price' => $goodOrder->price,
+                'quantity' => $goodOrder->quantity,
+                'name' => $goodOrder->good->name,
+                'code' => $goodOrder->good->code,
+            ];
+            if ($goodOrder->discount_money)
+                $goodOrderData['discount_money'] = $goodOrder->discount_money;
+            if ($goodOrder->discount_percent)
+                $goodOrderData['discount_percent'] = $goodOrder->discount_percent;
+            return $goodOrderData;
+        });
         $data = [
             'id' => $this->id,
             'code' => $this->code,
@@ -71,6 +85,8 @@ class Order extends Model
                     return $paid + $orderPaidMoney->money;
                 }, 0),
         ];
+        if($goodOrders)
+            $data['good_orders'] = $goodOrders;
         if ($this->staff)
             $data['staff'] = [
                 'id' => $this->staff->id,
