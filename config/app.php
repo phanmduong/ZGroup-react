@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "ghtk_api" => env("GHTK_API", ""),
     "domain" => env('DOMAIN', ''),
     "channel" => env("CHANNEL", ""),
     "social_channel" => env("SOCIAL_CHANNEL", ""),

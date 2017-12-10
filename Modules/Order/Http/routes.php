@@ -1,6 +1,9 @@
 <?php
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'order', 'namespace' => 'Modules\Order\Http\Controllers'], function () {
+
+    Route::post('/test', "WarehouseApiController@test");
+
     Route::get('/all-orders', 'OrderController@allOrders');
     Route::put('/{order_id}/edit', 'OrderController@editOrder');
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
@@ -10,16 +13,16 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
 
-    Route::get('/all-customers','CustomerController@allCustomers');
-    Route::get('/total-and-debt-money','CustomerController@countMoney');
-    Route::post('/add-customer','CustomerController@addCustomer');
-    Route::put('/edit-customer/{customerId}','CustomerController@editCustomer');
-    Route::get('/info-customer/{customerId}','CustomerController@getInfoCustomer');
+    Route::get('/all-customers', 'CustomerController@allCustomers');
+    Route::get('/total-and-debt-money', 'CustomerController@countMoney');
+    Route::post('/add-customer', 'CustomerController@addCustomer');
+    Route::put('/edit-customer/{customerId}', 'CustomerController@editCustomer');
+    Route::get('/info-customer/{customerId}', 'CustomerController@getInfoCustomer');
 
-    Route::post('/create-customer-group','CustomerGroupApiController@createGroup');
-    Route::put('/change-customer-group','CustomerGroupApiController@changeGroup');
-    Route::get('/all-customer-group','CustomerGroupApiController@getAllGroup');
-    Route::delete('/delete-group','CustomerGroupApiController@deleteGroup');
+    Route::post('/create-customer-group', 'CustomerGroupApiController@createGroup');
+    Route::put('/change-customer-group', 'CustomerGroupApiController@changeGroup');
+    Route::get('/all-customer-group', 'CustomerGroupApiController@getAllGroup');
+    Route::delete('/delete-group', 'CustomerGroupApiController@deleteGroup');
 
     Route::get('/category/all', 'CategoryApiController@allCategory');
     Route::post('/category/add', 'CategoryApiController@addCategory');
@@ -46,5 +49,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
 
     Route::get('/staffs', 'StaffController@getStaffs');
     Route::get('/salers', 'StaffController@allSalers');
+
+
 });
 

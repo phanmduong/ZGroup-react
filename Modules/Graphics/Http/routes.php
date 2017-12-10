@@ -19,7 +19,6 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
     Route::post('/save-order', "GraphicsController@saveOrder");
     Route::get('/api/blogs', 'BlogApiController@getAllBlogs');
     Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
-
 });
 
 Route::group(['domain' => "api.graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
