@@ -957,5 +957,9 @@ export function superFilter(id, inter, gen) {
     return newArr;
 }
 
+export function isNull(data) {
+    return data === null || data === undefined;
+}
+
 
 
