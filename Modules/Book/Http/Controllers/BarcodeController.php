@@ -10,7 +10,18 @@ use Picqer\Barcode\Exceptions\BarcodeException;
 
 class BarcodeController extends ManageApiController
 {
-
+    public function deleteBarcode($barcodeId)
+    {
+        $barcode = Barcode::find($barcodeId);
+        if ($barcode == null) {
+            return $this->respondErrorWithStatus("Barcode không tồn tại");
+        }
+        if ($barcode->good != null) {
+            return $this->respondErrorWithStatus("Barcode này đã được gắn cho sản phẩm");
+        }
+        $barcode->delete();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
+    }
 
     public function saveBarcode(Request $request)
     {
@@ -46,12 +57,16 @@ class BarcodeController extends ManageApiController
         return $this->respondSuccessWithStatus(["barcode" => $barcode]);
     }
 
-    public function barcodes()
+    public function barcodes(Request $request)
     {
-        $barcodes = Barcode::orderBy("created_at", "desc")->paginate(20);
+        $limit = 20;
+        if ($request->limit) {
+            $limit = $request->limit;
+        }
+        $barcodes = Barcode::orderBy("created_at", "desc")->paginate($limit);
         return $this->respondWithPagination($barcodes, [
             "barcodes" => $barcodes->map(function ($barcode) {
-                return $barcode;
+                return $barcode->transform();
             })
         ]);
     }

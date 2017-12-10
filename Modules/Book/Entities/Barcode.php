@@ -18,7 +18,8 @@ class Barcode extends Model
     {
         $data = [
             "id" => $this->id,
-            "value" => $this->value
+            "value" => $this->value,
+            "image_url" => $this->image_url
         ];
 
         if ($this->good) {
