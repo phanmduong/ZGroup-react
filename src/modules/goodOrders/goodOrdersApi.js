@@ -65,7 +65,7 @@ export function changeStatusOrder(orderId, status) {
 
 export function sendShipOrder(shippingGood) {
     let Token = "F7c711CD3443E52C1CDc4Dc6a097d5a6aBA3adf4";
-    let url = " https://dev.ghtk.vn" + "/services/shipment/order";
+    let url = "https://services.giaohangtietkiem.vn" + "/services/shipment/order";
     let data = JSON.stringify(
         {
             "products": [{
@@ -104,7 +104,7 @@ export function sendShipOrder(shippingGood) {
     return axios.post(url, data,
         {
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
+                "Content-Type": "application/json",
                 "Token": Token
             }
         }

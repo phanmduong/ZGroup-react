@@ -959,7 +959,7 @@ export function superFilter(id, inter, gen) {
 
 export function childrenBeginAddChild(properties) {
     let children = [];
-    let product = properties.reduce((res, pro) => res * JSON.parse(pro.value).length, 1);
+    let product = properties.reduce((res, pro) => res * pro.value.length, 1);
     for (let i = 0; i < product; i++) {
         children.push({
             check: true,
@@ -969,12 +969,12 @@ export function childrenBeginAddChild(properties) {
         });
     }
     properties.forEach(pro => {
-        let product_other = product / JSON.parse(pro.value).length;
+        let product_other = product / pro.value.length;
         let begin = 0;
-        JSON.parse(pro.value).forEach(value => {
+        pro.value.forEach(value => {
             for (let i = begin; i < begin + product_other; i++) {
                 children[i].properties.push({
-                    property_item_id: pro.id,
+                    property_item_id: pro.property_item_id,
                     value: value.value
                 });
             }

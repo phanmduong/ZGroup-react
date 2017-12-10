@@ -53,18 +53,18 @@ class CreateProductContainer extends React.Component {
 
     changePropertySelect(index) {
         return (value) => {
-            let properties = [...this.props.productWorking.properties];
+            let properties = [...this.props.productWorking.property_list];
             let property = {...properties[index]};
             if (value) {
                 properties[index] = {
                     name: value.label,
-                    id: value.value,
+                    property_item_id: value.value,
                     value: property.value
                 };
             } else {
                 properties[index] = {
                     name: property.name,
-                    id: property.id,
+                    property_item_id: property.property_item_id,
                     value: property.value
                 };
             }
@@ -75,15 +75,16 @@ class CreateProductContainer extends React.Component {
 
     valueSelectChange(index) {
         return (value) => {
-            let properties = [...this.props.productWorking.properties];
+            let properties = [...this.props.productWorking.property_list];
             let property = {...properties[index]};
             let goods_count = properties.filter((property, i) => i !== index).reduce((result, property) =>
-                JSON.parse(property.value).length * result, 1) * value.length;
+                property.value.length * result, 1) * value.length;
             properties[index] = {
                 name: property.name,
-                id: property.id,
-                value: JSON.stringify(value)
+                property_item_id: property.property_item_id,
+                value: value
             };
+            console.log("properties", properties);
             this.props.createProductAction.handlePropertiesCreate(properties);
             this.props.createProductAction.handleGoodCountCreate(goods_count);
             this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(properties));
@@ -94,15 +95,15 @@ class CreateProductContainer extends React.Component {
         let arr = this.props.properties_list.filter(this.checkElementNotInArray);
         this.props.createProductAction.addPropertiesCreate({
             name: arr[0].name,
-            id: arr[0].id,
-            value: '[]'
+            property_item_id: arr[0].id,
+            value: []
         });
     }
 
     checkElementNotInArray(e) {
         let check = true;
-        this.props.productWorking.properties.forEach(pro => {
-            if (pro.id === e.id) {
+        this.props.productWorking.property_list.forEach(pro => {
+            if (pro.property_item_id === e.id) {
                 check = false;
             }
         });
@@ -111,9 +112,9 @@ class CreateProductContainer extends React.Component {
 
     deleteProperties(id, index) {
         let product = {...this.props.productWorking};
-        let properties = [...product.properties].filter(property => id !== property.id);
-        let goods_count = [...product.properties].filter((property, i) => i !== index).reduce((result, property) =>
-            JSON.parse(property.value).length * result, 1);
+        let properties = [...product.property_list].filter(property => id !== property.property_item_id);
+        let goods_count = [...product.property_list].filter((property, i) => i !== index).reduce((result, property) =>
+            property.value.length * result, 1);
         this.props.createProductAction.handlePropertiesCreate(properties);
         this.props.createProductAction.handleGoodCountCreate(goods_count);
         this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(properties));
@@ -186,7 +187,9 @@ class CreateProductContainer extends React.Component {
                             <div className="col-md-12">
                                 <div className="card">
                                     <div className="card-header card-header-icon"
-                                         data-background-color="rose"><i
+                                         data-background-color="rose"
+                                         style={{"z-index": 0}}
+                                    ><i
                                         className="material-icons">assignment</i>
                                     </div>
                                     <div className="card-content"><h4 className="card-title">Danh sách thuộc tính</h4>
@@ -200,12 +203,13 @@ class CreateProductContainer extends React.Component {
                                             </thead>
                                             <tbody>
                                             {
-                                                product.properties.map((property, index) => {
+
+                                                product.property_list.map((property, index) => {
                                                     return (
                                                         <tr key={index}>
                                                             <td>
                                                                 <Select
-                                                                    value={property.id}
+                                                                    value={property.property_item_id}
                                                                     placeholder="Chọn tên thuộc tính"
                                                                     options={
                                                                         this.props.properties_list.map((property) => {
@@ -232,17 +236,17 @@ class CreateProductContainer extends React.Component {
                                                                     placeholder="Nhập giá trị thuộc tính"
                                                                     options={[]}
                                                                     onChange={this.valueSelectChange(index)}
-                                                                    value={JSON.parse(property.value)}
+                                                                    value={property.value}
                                                                 />
                                                             </td>
                                                             <td>
                                                                 {
-                                                                    product.properties.length > 1 ? (
+                                                                    product.property_list.length > 1 ? (
                                                                         <a style={{color: "#878787"}}
                                                                            data-toggle="tooltip" title=""
                                                                            type="button" rel="tooltip"
                                                                            data-original-title="Xoá"
-                                                                           onClick={() => this.deleteProperties(property.id, index)}><i
+                                                                           onClick={() => this.deleteProperties(property.property_item_id, index)}><i
                                                                             className="material-icons">delete</i></a>
                                                                     ) : (<div/>)
                                                                 }
@@ -255,7 +259,7 @@ class CreateProductContainer extends React.Component {
                                         </table>
                                         <div>
                                             {
-                                                product.properties.length < this.props.properties_list.length ? (
+                                                product.property_list.length < this.props.properties_list.length ? (
                                                     <Button onClick={() => this.addProperties()}
                                                             style={{width: "100%"}} className="btn btn-simple btn-rose">
                                                         <i className="material-icons">add</i> Thêm thuộc tính

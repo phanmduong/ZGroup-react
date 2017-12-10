@@ -81,7 +81,7 @@ export default function createProductReducer(state = initialState.createProduct,
                 productWorking: {
                     ...state.productWorking,
                     goods_count: 0,
-                    properties: [...state.productWorking.properties, action.property],
+                    property_list: [...state.productWorking.property_list, action.property],
                     children: []
                 }
             };
@@ -90,7 +90,7 @@ export default function createProductReducer(state = initialState.createProduct,
                 ...state,
                 productWorking: {
                     ...state.productWorking,
-                    properties: action.properties
+                    property_list: action.properties
                 }
             };
         }

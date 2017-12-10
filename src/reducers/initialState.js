@@ -17,11 +17,11 @@ export default {
             manufacture_id: '',
             good_category_id: '',
             images_url: [],
-            properties: [
+            property_list: [
                 {
                     name: 'coool',
-                    id: 3,
-                    value: '[]'
+                    property_item_id: 3,
+                    value: []
                 }
             ],
             children: []
