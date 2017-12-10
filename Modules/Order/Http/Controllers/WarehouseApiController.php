@@ -256,33 +256,4 @@ class WarehouseApiController extends ManageApiController
             })
         ]);
     }
-
-    public function test(Request $request)
-    {
-        $order = $request->data;
-
-//        $order = json_encode($str);
-
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/order",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => $order,
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json",
-                "Token: " . config("app.ghtk_api"),
-                "Content-Length: " . strlen($order),
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        return $response;
-    }
-
 }
