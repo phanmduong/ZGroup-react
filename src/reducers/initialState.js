@@ -1174,4 +1174,17 @@ export default {
         bases: [],
         gens: []
     },
+    attendanceStaffs: {
+        gens: [],
+        isLoadingGens: true,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        teachers: [],
+        salesMarketings: [],
+    },
 };

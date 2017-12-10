@@ -92,6 +92,7 @@ import SummarySalesContainer from "./modules/summarySales/SummarySalesContainer"
 import OverviewSales from "./modules/summarySales/OverviewSales";
 import StatisticSales from "./modules/summarySales/StatisticSales";
 import BarcodesContainer from "./modules/book/barcode/BarcodesContainer";
+import AttendanceStaffsContainer from "./modules/attendanceStaffs/AttendanceStaffsContainer";
 
 export default (
     <Route>
@@ -337,6 +338,10 @@ export default (
                 <IndexRoute component={ProductSystemContainer}/>
                 <Route path="website-display" component={ProductWebsiteContainer}/>
             </Route>
+            {/*End edit-product routes*/}
+
+            {/*Begin edit-product routes */}
+            <Route path="/staff/attendances" component={AttendanceStaffsContainer}/>
             {/*End edit-product routes*/}
 
         </Route>

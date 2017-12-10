@@ -776,7 +776,11 @@ export function convertSecondToTime(timeSecond) {
 
     let hours = addZeroTime(timeSecond % 24);
 
-    return '' + hours + ':' + minutes + ':' + second;
+    if (hours != 0) {
+        return '' + hours + ':' + minutes + ':' + second;
+    } else {
+        return minutes + ':' + second;
+    }
 }
 
 function addZeroTime(time) {
@@ -902,7 +906,7 @@ export function newWorkBook() {
 
 export function appendJsonToWorkBook(json, wb, sheetname, cols) {
     let sheet = XLSX.utils.json_to_sheet(json);
-    if(cols) sheet['!cols'] = cols;
+    if (cols) sheet['!cols'] = cols;
     XLSX.utils.book_append_sheet(wb, sheet, sheetname);
     return wb;
 }
@@ -952,4 +956,10 @@ export function superFilter(id, inter, gen) {
     });
     return newArr;
 }
+
+export function isNull(data) {
+    return data === null || data === undefined;
+}
+
+
 
