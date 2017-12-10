@@ -134,14 +134,14 @@ export function loadLessonDetailModal(classid, lessonid) {
 }
 
 
-export function takeAttendance(data) {
+export function takeAttendance(data, commitSuccess) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_TAKE_ATTENDANCE
         });
         attendanceApi.takeAttendance(data)
             .then(() => {
-            helper.showNotification("Lưu thành công!");
+                commitSuccess();
                 dispatch({
                     type: types.TAKE_ATTENDANCE_SUCCESS,
                     data: data

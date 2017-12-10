@@ -34,6 +34,7 @@ class LessonDetailModal extends React.Component {
         this.props.updateData(index, note,'note');
     }
 
+
     render() {
         return (
             <Modal
@@ -115,10 +116,10 @@ class LessonDetailModal extends React.Component {
 
                             <button
                                 disabled={!(this.props.list.length > 0)}
-                                style={{float: 'right', width: "35%"}}
+                                style={{float: 'right', width: "20%"}}
                                 className="btn btn-fill btn-rose "
                                 type="button"
-                                onClick={() => {return this.props.commitData(this.props.list);}}
+                                onClick={() => {return this.props.commitData(this.props.list, this.props.commitSuccess);}}
                             > Lưu </button>
 
                         }</div>

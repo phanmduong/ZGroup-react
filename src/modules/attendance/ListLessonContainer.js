@@ -24,6 +24,7 @@ class ListLessonContainer extends React.Component {
         this.closeModalDetailLesson     = this.closeModalDetailLesson.bind(this);
         this.updateModalData            = this.updateModalData.bind(this);
         this.commitModalData            = this.commitModalData.bind(this);
+        this.commitSuccess              = this.commitSuccess.bind(this);
     }
 
     componentWillMount(){
@@ -45,12 +46,18 @@ class ListLessonContainer extends React.Component {
 
     closeModalDetailLesson(){
         this.setState({showModalDetailLesson: false});
-        this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
     }
 
-    commitModalData(data){
+    commitModalData(data, commitSuccess){
 
-        this.props.attendanceActions.takeAttendance(data);
+        this.props.attendanceActions.takeAttendance(data,commitSuccess);
+    }
+
+
+    commitSuccess(){
+        helper.showNotification("Lưu thành công!");
+        this.setState({showModalDetailLesson: false});
+        this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
     }
 
     render(){
@@ -67,6 +74,7 @@ class ListLessonContainer extends React.Component {
                         commitData={this.commitModalData}
                         isCommitting={this.props.isTakingAttendance}
                         index={this.state.selectedLessonId}
+                        commitSuccess={this.commitSuccess}
                     />
                     {this.props.isLoadingLessonClassModal ?
                         <Loading/>
@@ -79,7 +87,7 @@ class ListLessonContainer extends React.Component {
                                 <h4 className="card-title">{"Danh sách buổi học lớp " + this.props.selectedClass.name}</h4>
                                 <div className="row"><br/></div>
                                 <div className="row">
-                                    <div className="col-md-3">{
+                                    <div className="col-sm-3">{
                                         this.props.selectedClass.teacher ?
                                             (
                                                 <TooltipButton text="Giảng viên"
@@ -105,7 +113,7 @@ class ListLessonContainer extends React.Component {
 
                                     }</div>
 
-                                    <div className="col-md-3">{
+                                    <div className="col-sm-3">{
                                         this.props.selectedClass.teacher_assistant ?
                                             (
                                                 <TooltipButton text="Trợ giảng"
