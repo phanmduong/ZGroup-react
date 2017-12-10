@@ -125,14 +125,19 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 shipGoodModal: !state.shipGoodModal
             };
-        case types.HANDLE_SHIP_ORDER_BEGIN:
+        case types.HANDLE_SHIP_ORDER_BEGIN: {
+            let products = {...state.shippingGood.product};
+            action.order.good_orders.forEach(product => {
+                products = [...product, {
+                    name: product.name,
+                    weight: 0.3 * product.quantity
+                }];
+            });
             return {
                 ...state,
                 shippingGood: {
                     ...state.shipGoodModal,
-                    product: [
-                        ...state.shippingGood.product
-                    ],
+                    product: products,
                     order: {
                         ...state.shippingGood.order,
                         id: action.order.code,
@@ -143,6 +148,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     }
                 }
             };
+        }
         case types.HANDLE_SHIP_ORDER:
             return {
                 ...state,
@@ -164,7 +170,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 shippedGoodResponse: action.shippedGoodResponse
             };
         case types.SEND_SHIP_ORDER_FAILED:
-            return{
+            return {
                 ...state,
                 isSendingShipOrder: false,
                 shipGoodModal: false

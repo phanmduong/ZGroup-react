@@ -123,6 +123,7 @@ export function sendShipOrder(shippingGood) {
         });
         goodOrdersApi.sendShipOrder(shippingGood)
             .then((res) => {
+            console.log("res",res.data);
                 dispatch({
                     type: types.SEND_SHIP_ORDER_COMPLETE,
                     shippedGoodResponse: res

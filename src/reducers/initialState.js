@@ -842,7 +842,7 @@ export default {
         isSendingShipOrder: false,
         shippedGoodResponse: {},
         shippingGood: {
-            product: [],
+            products: [],
             order: {
                 id: "",
                 pick_name: "Graphics",
