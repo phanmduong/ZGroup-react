@@ -348,7 +348,7 @@ class GoodController extends ManageApiController
             $children = Good::where('code', $good->code)->get();
             $childrenIds = Good::where('code', $good->code)->pluck('id')->toArray();
             $data['property_list'] = $this->propertyList($childrenIds);
-            $data->forget('properties');
+            unset($data['properties']);
             $data['children'] = $children->map(function ($child) {
                 return [
                     'id' => $child->id,
