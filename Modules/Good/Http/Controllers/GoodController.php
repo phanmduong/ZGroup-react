@@ -158,7 +158,7 @@ class GoodController extends ManageApiController
 
     public function createGood(Request $request)
     {
-        if($request->code == null && trim($request->code) == null)
+        if ($request->code == null && trim($request->code) == null)
             $request->code = "GOOD" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $images_url = $request->images_url ? $request->images_url : "";
         if ($request->name == null || $request->code == null) {
@@ -231,7 +231,7 @@ class GoodController extends ManageApiController
 
     public function editGood($goodId, Request $request)
     {
-        if($request->code == null && trim($request->code) == null)
+        if ($request->code == null && trim($request->code) == null)
             $request->code = "GOOD" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $images_url = $request->images_url ? $request->images_url : "";
         if ($request->name == null || $request->code == null) {
@@ -321,7 +321,11 @@ class GoodController extends ManageApiController
         foreach ($propertyItemIds as $propertyItemId) {
             $propertiesValue = GoodProperty::where('name', '<>', 'images_url')->whereIn('good_id', $goodIds)->where('property_item_id', $propertyItemId)
                 ->groupBy('value')->pluck('value')->toArray();
-            $data[$propertyItemId] = $propertiesValue;
+            array_push($data, [
+                'property_item_id' => $propertyItemId,
+                'name' => GoodPropertyItem::find($propertyItemId)->name,
+                'value' => $propertiesValue,
+            ]);
         }
         return $data;
     }
@@ -344,6 +348,7 @@ class GoodController extends ManageApiController
             $children = Good::where('code', $good->code)->get();
             $childrenIds = Good::where('code', $good->code)->pluck('id')->toArray();
             $data['property_list'] = $this->propertyList($childrenIds);
+            unset($data['properties']);
             $data['children'] = $children->map(function ($child) {
                 return [
                     'id' => $child->id,
