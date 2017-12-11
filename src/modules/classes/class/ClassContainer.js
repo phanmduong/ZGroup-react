@@ -115,7 +115,7 @@ class ClassContainer extends React.Component {
         let colname = ['K','L','M','N','O','P','Q','R'];//danh sách cột cmt
         let cmts = [];// danh sách cmts
         //begin điểm danh
-        data = this.props.class.registers.map((item, index)=>{
+        data = this.props.class.registers.filter(item=>(item.paid_status)).map((item, index)=>{
             let dob = item.student.dob;
             let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
             if(isValidDate)
@@ -144,7 +144,7 @@ class ClassContainer extends React.Component {
         //end điểm danh
 
         //begin bài tập
-        data = this.props.class.registers.map((item, index)=>{
+        data = this.props.class.registers.filter(item=>(item.paid_status)).map((item, index)=>{
             let dob = item.student.dob;
             let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
             if(isValidDate)
@@ -324,12 +324,14 @@ class ClassContainer extends React.Component {
                                                 </button>
                                                 <button className="btn btn-default width-100"
                                                     onClick={this.exportExcel}
+                                                    disabled={this.props.isLoadingClass}
                                                 >
                                                     <i className="material-icons">file_download</i>
                                                     Xuất danh sách
                                                 </button>
                                                 <button className="btn btn-default width-100"
                                                     onClick={this.exportAttendanceExcel}
+                                                    disabled={this.props.isLoadingClass}
                                                 >
                                                     <i className="material-icons">file_download</i>
                                                     Xuất danh sách điểm danh

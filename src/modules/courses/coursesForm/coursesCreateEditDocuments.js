@@ -12,6 +12,13 @@ import * as helper                      from '../../../helpers/helper';
 
 
 class coursesCreateEditDocuments extends React.Component {
+    static  validateLink(link){
+        if(helper.isEmptyInput(link)) return NO_IMAGE;
+        if(link.substring(0,4) === 'http'){
+            return link;
+        }
+        return 'http://' + link;
+    }
     constructor(props, context) {
         super(props, context);
 
@@ -43,16 +50,12 @@ class coursesCreateEditDocuments extends React.Component {
         helper.setFormValidation('#form-edit-link');
     }
 
+    componentWillReceiveProps(){
+        helper.setFormValidation('#form-edit-link');
+    }
     componentDidUpdate(){
         helper.setFormValidation('#form-edit-link');
     }
-
-    componentWillReceiveProps(){
-        //console.log('coursesCreateEditDocuments', nextProps);
-        helper.setFormValidation('#form-edit-link');
-    }
-
-
     openModal(){
         this.isCreate = true;
         this.setState({openModal: true});
@@ -120,14 +123,6 @@ class coursesCreateEditDocuments extends React.Component {
             return true;
         }
         return false;
-    }
-
-    validateLink(link){
-        if(helper.isEmptyInput(link)) return NO_IMAGE;
-        if(link.substring(0,4) == 'http'){
-            return link;
-        }
-        return 'http://' + link;
     }
 
     render(){
@@ -312,7 +307,11 @@ coursesCreateEditDocuments.propTypes = {
     isUploadingLink     : PropTypes.bool.isRequired,
     data                : PropTypes.object,
     link                : PropTypes.object,
-    coursesActions      : PropTypes.object.isRequired
+    coursesActions      : PropTypes.object.isRequired,
+    loadOneCourse      : PropTypes.func,
+    createLink      : PropTypes.func,
+    commitEditLink      : PropTypes.func,
+    editLink      : PropTypes.func,
 };
 
 function mapStateToProps(state) {

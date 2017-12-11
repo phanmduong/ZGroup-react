@@ -114,33 +114,35 @@ class SummarySalesContainer extends React.Component {
     exportExcel() {
         let wb = helper.newWorkBook();
         let general = this.props.summary.map((item, index) => {
+            /* eslint-disable */
             return {
                 'STT': index + 1,
                 'Họ và tên': item.name,
                 'Số lượng đã nộp tiền': item.total_paid_registers,
                 'Số lượng đăng kí': item.total_registers,
             };
+            /* eslint-enable */
         });
         let cols = [{ "wch": 5 },{ "wch": 20 },{ "wch": 20 },{ "wch": 20 },];
         helper.appendJsonToWorkBook(general, wb, 'Tổng quan', cols);
 
         let detail = this.props.summary.map((item, index) => {
             let res = {'STT': index + 1, 'Họ và tên': item.name};
-            item.campaigns.forEach(obj => (res[obj.name] = obj.total_registers));
+            item.campaigns.forEach(obj => (res[obj.name] = obj['total_registers']));
             return res;
         });
         cols = [{ "wch": 5 },{ "wch": 20 }];
         helper.appendJsonToWorkBook(detail, wb, 'Chi tiết', cols);
 
-        let base = this.state.bases.filter(base => (base.key == this.state.selectBaseId));
-        let gen = this.state.gens.filter(gen => (gen.key == this.state.selectGenId));
+        let base = this.state.bases.filter(base => (base.key === this.state.selectBaseId));
+        let gen = this.state.gens.filter(gen => (gen.key === this.state.selectGenId));
         let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let empt1 =helper.isEmptyInput(this.state.time.startTime);
         let empt2 =helper.isEmptyInput(this.state.time.endTime);
         helper.saveWorkBookToExcel(wb,
             'Tổng kết sales' +
-            ` - ${base[0].value == 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
+            ` - ${base[0].value === 'Tất cả' ? 'Tất cả cơ sở' : base[0].value}` +
             (
                 (empt1 || empt2)
                     ? ` - ${gen[0].value}`
@@ -189,8 +191,9 @@ class SummarySalesContainer extends React.Component {
                                 </div>
                                 <div className="col-sm-2 col-xs-5">
                                     <button
-                                        onClick={this.exportExcel}
+                                        onClick={this.props.isLoading ? ()=>{} :  this.exportExcel}
                                         className="btn btn-info btn-rose"
+                                        disabled={this.props.isLoading}
                                     >
                                         Xuất ra excel
                                     </button>
@@ -254,9 +257,11 @@ SummarySalesContainer.propTypes = {
     summarySalesActions: PropTypes.object.isRequired,
     currentGen: PropTypes.object.isRequired,
     bases: PropTypes.array.isRequired,
+    summary: PropTypes.array.isRequired,
     isLoadingGens: PropTypes.bool.isRequired,
     isLoadingBases: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    loadSummarySalesData: PropTypes.func,
 };
 
 function mapStateToProps(state) {

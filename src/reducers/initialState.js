@@ -567,6 +567,7 @@ export default {
         isLoadingClasses: false,
         errorClasses: false,
         classes: [],
+        isLoadingRegisters: false,
         isLoadingRegistersByStudent: false,
         errorRegistersByStudent: false,
         registersByStudent: [],

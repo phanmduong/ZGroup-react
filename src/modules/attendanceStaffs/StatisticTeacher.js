@@ -161,9 +161,9 @@ class StatisticTeacher extends React.Component {
                                     <th/>
                                     <th>Lớp</th>
                                     <th>Thời gian</th>
-                                    <th></th>
+                                    <th />
                                     <th>Checkin lúc</th>
-                                    <th></th>
+                                    <th />
                                     <th>Checkout lúc</th>
                                     <th>Lỗi vi phạm</th>
                                 </tr>

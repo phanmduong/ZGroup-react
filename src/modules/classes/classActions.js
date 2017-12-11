@@ -22,11 +22,12 @@ export function loadExcelData(genid) {
     };
 }
 
-export function loadGensData() {
+export function loadGensData(loadClass) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_GENS_CLASSES_STUDENT});
         classApi.loadGens()
             .then((res) => {
+                loadClass();
                 dispatch({
                     type: types.LOAD_GENS_CLASSES_STUDENT_SUCCESSFUL,
                     gens: res.data.gens,

@@ -47,8 +47,7 @@ class ClassesContainer extends React.Component {
         if (this.props.params.teacherId) {
             this.search.teacherId = this.props.params.teacherId;
         }
-        this.props.classActions.loadClasses('', 1, this.search.teacherId, this.state.selectGenId);
-        this.props.classActions.loadGensData();
+        this.props.classActions.loadGensData(()=>{return this.props.classActions.loadClasses('', 1, this.search.teacherId, this.state.selectGenId);});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -62,7 +61,6 @@ class ClassesContainer extends React.Component {
                 gens: [...gens],
                 selectGenId: 11,
             });
-            this.props.classActions.loadClasses('', 1, this.search.teacherId, '');
         }
         /*if (!nextProps.isLoadingExcel && this.props.isLoadingExcel)
         {
@@ -267,7 +265,7 @@ class ClassesContainer extends React.Component {
                             }
 
 
-                            {this.props.isLoading ? <Loading/> :
+                            {this.props.isLoading || this.props.isLoadingGens ? <Loading/> :
                                 <div>
                                     <ListClass
                                         classes={this.props.classes}

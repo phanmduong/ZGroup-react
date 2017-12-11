@@ -8,6 +8,7 @@ import _                            from 'lodash';
 import PropTypes                    from 'prop-types';
 import Select                       from '../../components/common/Select';
 import Loading                      from "../../components/common/Loading";
+
 class AttendanceContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -35,8 +36,8 @@ class AttendanceContainer extends React.Component {
                     value: 'Tất cả'
                 },
             ],
-            selectBaseId: null,
-            selectGenId: null,
+            selectBaseId: '',
+            selectGenId: '',
         };
 
         this.genid = null;
@@ -82,7 +83,7 @@ class AttendanceContainer extends React.Component {
 
     loadClasses(page = 1, query = '', teacherid, baseid , genid) {
         this.setState({page});
-        this.props.attendanceActions.loadClasses(query, page, teacherid, baseid == 0 ? '' : baseid , genid);
+        this.props.attendanceActions.loadClasses(query, page, teacherid, baseid === 0 ? '' : baseid , genid);
     }
 
     classesSearchChange(value) {
@@ -161,8 +162,6 @@ class AttendanceContainer extends React.Component {
         this.loadClasses(1,this.state.query,'', this.state.selectBaseId, value);
     }
 
-
-
     render(){
         return(
 
@@ -190,6 +189,7 @@ class AttendanceContainer extends React.Component {
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     /></div>
+
 
                             </div>
                         }
@@ -259,6 +259,8 @@ AttendanceContainer.propTypes = {
     lesson: PropTypes.array,
     gens: PropTypes.array,
     bases: PropTypes.array,
+    loadGensData: PropTypes.func,
+    loadBasesData: PropTypes.func,
 };
 
 function mapStateToProps(state) {
