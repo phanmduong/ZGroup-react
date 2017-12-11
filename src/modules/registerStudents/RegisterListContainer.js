@@ -370,13 +370,13 @@ class RegisterListContainer extends React.Component {
     getFilter(arr) {
         let data = arr.map(function (obj) {
             return {
-                value: obj.id,
+                value: obj.id ? obj.id : obj.value,
                 label: obj.name ? obj.name : obj.label,
                 type: obj.type,
             };
         });
-        let bol = data[0] && (data[0].id != 0);
-        return !bol ?  data : [{
+        let bol = data[0] && (data[0].value == '');
+        return bol ?  data : [{
             value: '',
             label: 'Tất cả'
         }, ...data];
@@ -985,6 +985,7 @@ RegisterListContainer.propTypes = {
     isLoadingRegisters: PropTypes.bool.isRequired,
     isLoadingGens: PropTypes.bool.isRequired,
     isLoadingHistoryCall: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     isChangingStatus: PropTypes.bool.isRequired,
     isLoadingClasses: PropTypes.bool.isRequired,
     isChangingClass: PropTypes.bool.isRequired,
@@ -1014,8 +1015,9 @@ function mapStateToProps(state) {
         gens: state.registerStudents.gens,
         registersByStudent: state.registerStudents.registersByStudent,
         historyCall: state.registerStudents.historyCall,
+        isLoading: state.registerStudents.isLoading,
         isLoadingGens: state.registerStudents.isLoadingGens,
-        isLoadingRegisters: state.registerStudents.isLoading,
+        isLoadingRegisters: state.registerStudents.isLoadingRegisters,
         isLoadingHistoryCall: state.registerStudents.isLoadingHistoryCall,
         isChangingStatus: state.registerStudents.isChangingStatus,
         isChangingClass: state.registerStudents.isChangingClass,
