@@ -1137,7 +1137,7 @@ function send_sms_confirm_money($register)
 //    dd($headers);
     $text = strtoupper($register->studyClass->course->name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ", ban da thanh toan thanh cong " . currency_vnd_format($register->money) . ". Ma hoc vien cua ban la: " . $register->code . ". Cam on ban.";
     $body = json_encode([
-        "from" => "COLORME",
+        "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
         "text" => $text
     ]);
@@ -1185,7 +1185,7 @@ function send_sms_remind($register)
 
     $text = strtoupper($register->studyClass->course->name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ". Khoa hoc cua ban se bat dau vao ngay mai " . $datestart . " vao luc " . $splitted_time . ". Ban nho den som 15p de cai dat phan mem nhe.";
     $body = json_encode([
-        "from" => "COLORME",
+        "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
         "text" => $text
     ]);
@@ -1225,7 +1225,7 @@ function send_sms_general($register, $content)
 
 
     $body = json_encode([
-        "from" => "COLORME",
+        "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
         "text" => $content
     ]);
