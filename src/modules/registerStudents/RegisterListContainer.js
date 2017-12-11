@@ -29,12 +29,8 @@ class RegisterListContainer extends React.Component {
             campaignId: '',
             selectRegisterId: 0,
             openFilterPanel: false,
-            selectedClassFilter: 0,
             selectedClassId: '',
-            selectedSalerFilter: 0,
             selectedSalerId: '',
-            selectedCampaignFilter: 0,
-            selectedCampaignId: '',
             paid_status: '',
             class_status: '',
             selectedMoneyFilter: 0,
@@ -151,17 +147,6 @@ class RegisterListContainer extends React.Component {
                 selectGenId: gens[1].id
             });
             this.props.registerActions.loadClassFilter(gens[1].id);
-            /*this.props.registerActions.loadRegisterStudent(
-                1,//page
-                gens[1].id,
-                this.state.query,
-                this.state.selectedSalerId,
-                this.state.campaignId,
-                this.state.selectedClassId,
-                this.state.paid_status,
-                this.state.class_status,
-                this.state.time.startTime,
-                this.state.time.endTime,);*/
         }
 
         if (!nextProps.isLoadingRegisters && nextProps.isLoadingRegisters !== this.props.isLoadingRegisters) {
@@ -186,13 +171,8 @@ class RegisterListContainer extends React.Component {
                 showModalChangeClass: false,
                 campaignId: '',
                 selectRegisterId: 0,
-                selectedClassFilter: 0,
                 selectedClassId: '',
-                selectedSalerFilter: 0,
-                selectedCampaignFilter: 0,
-                selectedCampaignId: '',
                 paid_status: '',
-                selectedMoneyFilter: 0,
                 time:{
                     startTime: '',
                     endTime: '',
@@ -235,10 +215,10 @@ class RegisterListContainer extends React.Component {
 
     onClassFilterChange(obj){
         if(obj){
-            this.setState({selectedClassFilter: obj.value, selectedClassId: obj.id});
+            this.setState({ selectedClassId: obj.value});
         }
         else {
-            this.setState({selectedClassFilter: 0,  selectedClassId: ''});
+            this.setState({ selectedClassId: ''});
         }
         this.props.registerActions.loadRegisterStudent(
             1,//page
@@ -246,7 +226,7 @@ class RegisterListContainer extends React.Component {
             this.state.query,
             this.salerId,
             this.state.campaignId,
-            obj ? obj.id : '',
+            obj ? obj.value : '',
             this.state.paid_status,
             this.state.class_status,
             this.state.time.startTime,
@@ -256,18 +236,18 @@ class RegisterListContainer extends React.Component {
 
     onSalerFilterChange(obj){
         if(obj){
-            this.setState({selectedSalerFilter: obj.value, selectedSalerId: obj.id, page: 1});
-            this.salerId = obj.id;
+            this.setState({ selectedSalerId: obj.value, page: 1});
+            this.salerId = obj.value;
         }
         else {
-            this.setState({selectedSalerFilter: 0,  selectedSalerId: '',page : 1});
+            this.setState({  selectedSalerId: '',page : 1});
             this.salerId = '';
         }
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
             this.state.query,
-            obj ? obj.id : '',
+            obj ? obj.value : '',
             this.state.campaignId,
             this.state.selectedClassId,
             this.state.paid_status,
@@ -278,18 +258,19 @@ class RegisterListContainer extends React.Component {
     }
 
     onCampaignFilterChange(obj){
+        console.log(obj);
         if(obj){
-            this.setState({selectedCampaignFilter: obj.value, campaignId: obj.id});
+            this.setState({campaignId: obj.value});
         }
         else {
-            this.setState({selectedCampaignFilter: 0,  campaignId: ''});
+            this.setState({campaignId: ''});
         }
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
             this.state.query,
             this.state.selectedSalerId,
-            obj ? obj.id : '',
+            obj ? obj.value : '',
             this.state.selectedClassId,
             this.state.paid_status,
             this.state.class_status,
@@ -347,7 +328,7 @@ class RegisterListContainer extends React.Component {
         if(res==='active'){
             newfilter = newfilter.filter(item => (item.type === 'active'));
         }
-        this.setState({classFilter: this.getFilter(newfilter), selectedClassFilter: 0,  selectedClassId: ''});
+        this.setState({classFilter: this.getFilter(newfilter), selectedClassId: ''});
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
@@ -387,39 +368,34 @@ class RegisterListContainer extends React.Component {
     }
 
     getFilter(arr) {
-        let data = arr.map(function (obj, index) {
+        let data = arr.map(function (obj) {
             return {
-                id: obj.id,
-                value: index + 1,
+                value: obj.id,
                 label: obj.name ? obj.name : obj.label,
                 type: obj.type,
             };
         });
         let bol = data[0] && (data[0].id != 0);
         return !bol ?  data : [{
-            id: '',
-            value: 0,
+            value: '',
             label: 'Tất cả'
         }, ...data];
     }
 
     getSalerFilter(arr) {
-        let data = arr.map(function (obj, index) {
+        let data = arr.map(function (obj) {
             return {
-                id: obj.id,
-                value: index + 2,
+                value: obj.id,
                 label: obj.name ? obj.name : obj.label,
                 type: obj.type,
             };
         });
 
         return [{
-            id: '',
-            value: 0,
+            value: '',
             label: 'Tất cả'
         },{
-            id: '-1',
-            value: 1,
+            value: '-1',
             label: 'Không có'
         }, ...data];
     }
@@ -595,7 +571,7 @@ class RegisterListContainer extends React.Component {
                                                     className=""
                                                     options={this.state.classFilter}
                                                     onChange={this.onClassFilterChange}
-                                                    value={this.state.selectedClassFilter}
+                                                    value={this.state.selectedClassId}
                                                     defaultMessage="Tuỳ chọn"
                                                     name="filter_class"
                                                 />
@@ -608,7 +584,7 @@ class RegisterListContainer extends React.Component {
                                                     disabled={this.props.isLoadingSalerFilter}
                                                     options={this.state.salerFilter}
                                                     onChange={this.onSalerFilterChange}
-                                                    value={this.state.selectedSalerFilter}
+                                                    value={this.state.selectedSalerId}
                                                     defaultMessage="Tuỳ chọn"
                                                     name="filter_saler"
                                                 />
@@ -621,7 +597,7 @@ class RegisterListContainer extends React.Component {
                                                     disabled={this.props.isLoadingCampaignFilter }
                                                     options={this.state.campaignFilter}
                                                     onChange={this.onCampaignFilterChange}
-                                                    value={this.state.selectedCampaignFilter}
+                                                    value={this.state.campaignId}
                                                     defaultMessage="Tuỳ chọn"
                                                     name="filter_campaign"
                                                 />
