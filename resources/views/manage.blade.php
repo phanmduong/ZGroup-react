@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
-    <link href="manage/main.ef63420074285e0dad586c50650269e3.css" rel="stylesheet">
+    <link href="manage/main.165dbfa35077cde2d51d090c2245ac3b.css" rel="stylesheet">
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
