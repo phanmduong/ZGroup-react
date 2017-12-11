@@ -6,12 +6,15 @@ import {Modal} from "react-bootstrap";
 import * as goodOrderActions from './goodOrderActions';
 import Loading from "../../components/common/Loading";
 import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
+import {isEmptyInput, showErrorNotification} from "../../helpers/helper";
+import FormInputText from "../../components/common/FormInputText";
 
 class ShipGoodModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.handleShipOrder = this.handleShipOrder.bind(this);
         this.checkFreeShip = this.checkFreeShip.bind(this);
+        this.sendShipOrder = this.sendShipOrder.bind(this);
     }
 
     handleShipOrder(e) {
@@ -32,6 +35,22 @@ class ShipGoodModalContainer extends React.Component {
         this.props.goodOrderActions.handleShipOrder(order);
     }
 
+    sendShipOrder() {
+        const order = this.props.shippingGood.order;
+        if (
+            isEmptyInput(order.address) || isEmptyInput(order.province) ||
+            isEmptyInput(order.district) || isEmptyInput(order.name) ||
+            isEmptyInput(order.tel) || isEmptyInput(order.pick_money) || isEmptyInput(order.value) ||
+            isEmptyInput(order.pick_address) || isEmptyInput(order.pick_province) ||
+            isEmptyInput(order.pick_district) || isEmptyInput(order.pick_name) ||
+            isEmptyInput(order.pick_tel)
+        ) {
+            showErrorNotification("Bạn cần nhập đủ tất cả các bắt buộc (*)");
+        } else {
+            this.props.goodOrderActions.sendShipOrder(this.props.shippingGood);
+        }
+    }
+
     render() {
         const order = this.props.shippingGood.order;
 
@@ -48,42 +67,26 @@ class ShipGoodModalContainer extends React.Component {
                         <form method="#" action="#">
                             <div className="row">
                                 <div className="col-md-6">
-                                    {/*<div className="form-group">*/}
-                                    {/*<FormInputDate*/}
-                                    {/*label="Ngày đặt đơn giao hàng"*/}
-                                    {/*name="pick_date"*/}
-                                    {/*updateFormData={this.handleShipOrder}*/}
-                                    {/*id="pick_date"*/}
-                                    {/*value={order.pick_date}*/}
-                                    {/*/>*/}
-                                    {/*</div>*/}
-                                    <div className="form-group">
-                                        <label className="label-control">Địa chỉ khách hàng</label>
-                                        <input type="text"
-                                               name="address"
-                                               className="form-control"
-                                               value={order.address}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="label-control">Tỉnh</label>
-                                        <input type="text"
-                                               name="province"
-                                               className="form-control"
-                                               value={order.province}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="label-control">Quận</label>
-                                        <input type="text"
-                                               name="district"
-                                               className="form-control"
-                                               value={order.district}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
+                                    <FormInputText
+                                        required={true}
+                                        label="Địa chỉ khách hàng"
+                                        onChange={this.handleShipOrder}
+                                        value={order.address}
+                                        name="address"/>
+                                    <FormInputText
+                                        required={true}
+                                        label="Tỉnh"
+                                        onChange={this.handleShipOrder}
+                                        value={order.province}
+                                        name="province"/>
+
+                                    <FormInputText
+                                        required={true}
+                                        label="Quận"
+                                        onChange={this.handleShipOrder}
+                                        value={order.district}
+                                        name="district"/>
+
 
                                     <div className="form-group">
                                         <CheckBoxMaterial
@@ -92,102 +95,80 @@ class ShipGoodModalContainer extends React.Component {
                                             onChange={this.checkFreeShip}
                                             label="Miến phí giao hàng cho khách"/>
                                     </div>
-                                    <div className="form-group">
-                                        <label className="label-control">Tên khách hàng</label>
-                                        <input type="text"
-                                               name="name"
-                                               className="form-control"
-                                               value={order.name}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="label-control">Số điện thoại khách hàng</label>
-                                        <input type="text"
-                                               name="tel"
-                                               className="form-control"
-                                               value={order.tel}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="label-control">Phí giao hàng</label>
-                                        <input type="text"
-                                               name="pick_money"
-                                               className="form-control"
-                                               value={order.pick_money}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="label-control">Ghi chú</label>
-                                        <input type="text"
-                                               name="note"
-                                               className="form-control"
-                                               value={order.note}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="label-control">Giá trị đơn hàng</label>
-                                        <input type="text"
-                                               name="value"
-                                               className="form-control"
-                                               value={order.value}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
+
+                                    <FormInputText
+                                        required={true}
+                                        label="Tên khách hàng"
+                                        onChange={this.handleShipOrder}
+                                        value={order.name}
+                                        name="name"/>
+
+                                    <FormInputText
+                                        required={true}
+                                        label="Số điện thoại khách hàng"
+                                        onChange={this.handleShipOrder}
+                                        value={order.tel}
+                                        name="tel"/>
+
+                                    <FormInputText
+                                        required={true}
+                                        label="Phí thu hộ"
+                                        onChange={this.handleShipOrder}
+                                        value={order.pick_money}
+                                        name="pick_money"/>
+
+                                    <FormInputText
+                                        label="Ghi chú"
+                                        onChange={this.handleShipOrder}
+                                        value={order.note}
+                                        name="note"/>
+
+                                    <FormInputText
+                                        label="Giá trị đơn hàng"
+                                        onChange={this.handleShipOrder}
+                                        value={order.value}
+                                        name="value"/>
+
                                 </div>
                                 <div className="col-md-6">
 
-                                    <div className="form-group">
-                                        <label className="label-control">Địa chỉ lấy hàng</label>
-                                        <input type="text"
-                                               name="pick_address"
-                                               className="form-control"
-                                               value={order.pick_address}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="label-control">Tỉnh lấy hàng</label>
-                                        <input type="text"
-                                               name="pick_province"
-                                               className="form-control"
-                                               value={order.pick_province}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="label-control">Quận lấy hàng</label>
-                                        <input type="text"
-                                               name="pick_district"
-                                               className="form-control"
-                                               value={order.pick_district}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label className="label-control">Tên công ty lấy hàng</label>
-                                        <input type="text"
-                                               name="pick_name"
-                                               className="form-control"
-                                               value={order.pick_name}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
+                                    <FormInputText
+                                        required={true}
+                                        label="Địa chỉ lấy hàng"
+                                        onChange={this.handleShipOrder}
+                                        value={order.pick_address}
+                                        name="pick_address"/>
 
 
-                                    <div className="form-group">
-                                        <label className="label-control">Số điện thoại nơi lấy hàng</label>
-                                        <input type="text"
-                                               name="pick_tel"
-                                               className="form-control"
-                                               value={order.pick_tel}
-                                               onChange={this.handleShipOrder}/>
-                                        <span className="material-input"/>
-                                    </div>
+                                    <FormInputText
+                                        required={true}
+                                        label="Tỉnh lấy hàng"
+                                        onChange={this.handleShipOrder}
+                                        value={order.pick_province}
+                                        name="pick_province"/>
+
+                                    <FormInputText
+                                        required={true}
+                                        label="Quận lấy hàng"
+                                        onChange={this.handleShipOrder}
+                                        value={order.pick_district}
+                                        name="pick_district"/>
+
+                                    <FormInputText
+                                        required={true}
+                                        label="Tên công ty lấy hàng"
+                                        onChange={this.handleShipOrder}
+                                        value={order.pick_name}
+                                        name="pick_name"/>
+
+
+                                    <FormInputText
+                                        required={true}
+                                        label="Số điện thoại nơi lấy hàng"
+                                        onChange={this.handleShipOrder}
+                                        value={order.pick_tel}
+                                        name="pick_tel"/>
+                                    
                                 </div>
 
                             </div>
@@ -201,7 +182,7 @@ class ShipGoodModalContainer extends React.Component {
                                             <button rel="tooltip" data-placement="top" title=""
                                                     data-original-title="Remove item" type="button"
                                                     className="btn btn-success btn-round" data-dismiss="modal"
-                                                    onClick={() => this.props.goodOrderActions.sendShipOrder(this.props.shippingGood)}>
+                                                    onClick={this.sendShipOrder}>
                                                 <i className="material-icons">check</i> Xác nhận
                                             </button>
                                             <button rel="tooltip" data-placement="top" title=""

@@ -857,9 +857,9 @@ export default {
                 district: "",
                 is_freeship: "1",
                 pick_date: "",
-                pick_money: 47000,
-                note: "Khối lượng tính cước tối đa: 1.00 kg",
-                value: 3000000
+                pick_money: 0,
+                note: "",
+                value: 0
             }
         },
         isLoading: false,

@@ -67,34 +67,14 @@ export function changeStatusOrder(orderId, status) {
 export function sendShipOrder(shippingGood) {
     const token = localStorage.getItem('token');
     const data = JSON.stringify(shippingGood);
-    console.log(shippingGood);
     let url = env.MANAGE_API_URL + "/ghtk/services/shipment/order?token=" + token;
-    // let data = {
-    //     "products": [{
-    //         "name": "bút",
-    //         "weight": 0.1
-    //     }, {
-    //         "name": "tẩy",
-    //         "weight": 0.2
-    //     }],
-    //     "order": {
-    //         "id": "hihi", //code order cua minh (required)
-    //         "pick_name": "HCM-nội thành", //(required)
-    //         "pick_address": "590 CMT8 P.11", //(required)
-    //         "pick_province": "TP. Hồ Chí Minh", //(required)
-    //         "pick_district": "Quận 3", //(required)
-    //         "pick_tel": "0911222333", //(required)
-    //         "tel": "0911222333", //(required)
-    //         "name": "GHTK - HCM - Noi Thanh", //(required)
-    //         "address": "123 nguyễn chí thanh", //(required)
-    //         "province": "TP. Hồ Chí Minh", //(required)
-    //         "district": "Quận 1", //(required)
-    //         "is_freeship": "1",
-    //         "pick_date": "2016-09-30",
-    //         "pick_money": 47000, //(required)
-    //         "note": "Khối lượng tính cước tối đa: 1.00 kg",
-    //         "value": 3000000
-    //     }
-    // };
     return axios.post(url, {data});
 }
+
+export function updateShipOrder(shippingGood) {
+    const token = localStorage.getItem('token');
+    const data = JSON.stringify(shippingGood);
+    let url = env.MANAGE_API_URL + "/ghtk/services/shipment/order?token=" + token;
+    return axios.post(url, {data});
+}
+
