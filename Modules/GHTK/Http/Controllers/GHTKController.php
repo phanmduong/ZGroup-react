@@ -47,12 +47,12 @@ class GHTKController extends ManageApiController
         return $response;
     }
 
-    public function orderInfo($label_id)
+    public function orderInfo($id)
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/v2/" . $label_id,
+            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/v2/partner_id:" . $id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_HTTPHEADER => array(
@@ -66,12 +66,12 @@ class GHTKController extends ManageApiController
         return $response;
     }
 
-    public function cancelOrder($label_id)
+    public function cancelOrder($id)
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/cancel/" . $label_id,
+            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/cancel/partner_id:" . $id,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
