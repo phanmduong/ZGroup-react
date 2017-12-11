@@ -93,16 +93,16 @@ class RegisterListContainer extends React.Component {
                 query: '',
                 campaignId: '',
                 selectGenId: '',
-                selectedSalerId: this.props.params.salerId,
+                selectedSalerId: Number(this.props.params.salerId),
             });
-            this.salerId = this.props.params.salerId;
+            this.salerId =Number(this.props.params.salerId);
         } else {
             if (this.props.params.genId && this.props.params.campaignId) {
                 this.setState({
                     page: 1,
                     query: '',
-                    campaignId: this.props.params.campaignId,
-                    selectGenId: this.props.params.genId
+                    campaignId: Number(this.props.params.campaignId),
+                    selectGenId: Number(this.props.params.genId),
                 });
                 this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
             } else {
@@ -160,7 +160,7 @@ class RegisterListContainer extends React.Component {
                 1,//page
                 this.state.selectGenId,
                 this.state.query,
-                nextProps.params.salerId,
+                Number(nextProps.params.salerId),
                 this.state.campaignId,
                 this.state.selectedClassId,
                 this.state.selectedMoneyFilter,
@@ -172,9 +172,9 @@ class RegisterListContainer extends React.Component {
                 page: 1,
                 query: '',
                 campaignId: '',
-                selectedSalerId: nextProps.params.salerId,
+                selectedSalerId: Number(nextProps.params.salerId),
             });
-            this.salerId = nextProps.params.salerId;
+            this.salerId = Number(nextProps.params.salerId);
         }else
         if(nextProps.location.pathname != this.props.location.pathname){
             this.setState({page: 1,
@@ -198,8 +198,8 @@ class RegisterListContainer extends React.Component {
                 this.onClassStatusFilterChange();
                 this.isWaitListPage=false;
                 this.setState({ selectedClassStatus : '', cardTitle: 'Danh sách đăng kí học', query: ''});
-                if (this.props.params.salerId) {
-                        this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
+                if (nextProps.params.salerId) {
+                        this.props.registerActions.loadRegisterStudent(1, '', '', nextProps.params.salerId, '');
                         this.setState({
                             page: 1,
                             query: '',
@@ -207,16 +207,16 @@ class RegisterListContainer extends React.Component {
                             selectGenId: '',
                             selectedClassStatus: '',
                         });
-                        this.salerId = this.props.params.salerId;
+                        this.salerId = nextProps.params.salerId;
                  } else {
-                if (this.props.params.genId && this.props.params.campaignId) {
+                if (nextProps.params.genId && nextProps.params.campaignId) {
                     this.setState({
                         page: 1,
                         query: '',
-                        campaignId: this.props.params.campaignId,
-                        selectGenId: this.props.params.genId
+                        campaignId: Number(nextProps.params.campaignId),
+                        selectGenId: Number(nextProps.params.genId)
                     });
-                    this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
+                    this.props.registerActions.loadRegisterStudent(1, nextProps.params.genId, '', '', nextProps.params.campaignId);
                 } else {
                     this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId);
                 }
