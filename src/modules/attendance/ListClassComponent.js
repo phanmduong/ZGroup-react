@@ -16,7 +16,7 @@ class ListClassComponent extends React.Component {
 
                                 {!this.props.isLoading && this.props.classes ?
                                     <div>
-                                        { (this.props.classes && this.props.classes.length == 0) ?
+                                        { (this.props.classes && this.props.classes.length === 0) ?
                                             <h3>Không tìm thấy kết quả</h3>
                                             :
                                             <table className="table">

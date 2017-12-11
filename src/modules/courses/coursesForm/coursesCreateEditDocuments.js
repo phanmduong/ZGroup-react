@@ -43,16 +43,12 @@ class coursesCreateEditDocuments extends React.Component {
         helper.setFormValidation('#form-edit-link');
     }
 
+    componentWillReceiveProps(){
+        helper.setFormValidation('#form-edit-link');
+    }
     componentDidUpdate(){
         helper.setFormValidation('#form-edit-link');
     }
-
-    componentWillReceiveProps(){
-        //console.log('coursesCreateEditDocuments', nextProps);
-        helper.setFormValidation('#form-edit-link');
-    }
-
-
     openModal(){
         this.isCreate = true;
         this.setState({openModal: true});
@@ -312,7 +308,8 @@ coursesCreateEditDocuments.propTypes = {
     isUploadingLink     : PropTypes.bool.isRequired,
     data                : PropTypes.object,
     link                : PropTypes.object,
-    coursesActions      : PropTypes.object.isRequired
+    coursesActions      : PropTypes.object.isRequired,
+    loadOneCourse      : PropTypes.func,
 };
 
 function mapStateToProps(state) {

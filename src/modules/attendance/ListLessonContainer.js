@@ -64,7 +64,7 @@ class ListLessonContainer extends React.Component {
 
     exportExcel(){
             let  wb = helper.newWorkBook();
-            let data = this.props.selectedClass.registers;
+            let data;
             let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 10 },{ "wch": 10 },{ "wch": 20 },{ "wch": 12 },{ "wch": 30 },{ "wch": 16 },{ "wch": 30 },{ "wch": 25 },];//độ rộng cột
             let colname = ['K','L','M','N','O','P','Q','R'];//danh sách cột cmt
             let cmts = [];// danh sách cmts
@@ -89,7 +89,7 @@ class ListLessonContainer extends React.Component {
                     'Trường ĐH': item.student.university,
                 };
                 item.attendances.forEach((obj, index2)=>{
-                    res = {...res, [`Buổi ${index2+1}`] : ((obj.status == 1) ? 'X' : '')};
+                    res = {...res, [`Buổi ${index2+1}`] : ((obj.status === 1) ? 'X' : '')};
                     if(!helper.isEmptyInput(obj.note))
                         cmts = [...cmts, {cell: colname[index2] + (index + 2), note: obj.note}];
                 });
@@ -120,7 +120,7 @@ class ListLessonContainer extends React.Component {
                     'Trường ĐH': item.student.university,
                 };
                 item.attendances.forEach((obj, index2)=>{
-                    res = {...res, [`Buổi ${index2+1}`] : ((obj.homework_status == 1) ? 'X' : '')};
+                    res = {...res, [`Buổi ${index2+1}`] : ((obj['homework_status'] === 1) ? 'X' : '')};
                 });
                 return res;
                 /* eslint-enable */
@@ -244,7 +244,7 @@ class ListLessonContainer extends React.Component {
                                                                 <strong>Buổi {item.order} </strong>
                                                             </h6></td>
                                                             <td width="65%" style={{textAlign: "center"}}>
-                                                                <h6>{item.attended_students + "/" + item.total_students}</h6>
+                                                                <h6>{item['attended_students'] + "/" + item['total_students']}</h6>
                                                                 <div
                                                                     className="progress progress-line-success progress-bar-table"
                                                                     style={{width: "100%"}}>
@@ -253,9 +253,9 @@ class ListLessonContainer extends React.Component {
                                                                          aria-valuenow="60"
                                                                          aria-valuemin="0"
                                                                          aria-valuemax="100"
-                                                                         style={{width: item.attended_students * 100 / item.total_students + '%'}}>
+                                                                         style={{width: item['attended_students'] * 100 / item['total_students'] + '%'}}>
                                                                         <span
-                                                                            className="sr-only">{item.attended_students * 100 / item.total_students}%</span>
+                                                                            className="sr-only">{item['attended_students'] * 100 / item['total_students']}%</span>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -300,6 +300,9 @@ ListLessonContainer.propTypes = {
     bases: PropTypes.array,
     selectedClass: PropTypes.object,
     params: PropTypes.object,
+    loadClassLessonModal: PropTypes.func,
+    loadClassInfo: PropTypes.func,
+    loadLessonDetailModal: PropTypes.func,
 };
 
 function mapStateToProps(state) {

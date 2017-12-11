@@ -131,7 +131,7 @@ class LessonDetailModal extends React.Component {
     }
 }
 
-LessonDetailModal.PropTypes = {
+LessonDetailModal.propTypes = {
     lessondata: PropTypes.array.isRequired,
     list: PropTypes.array.isRequired,
     show: PropTypes.bool.isRequired,
@@ -139,7 +139,10 @@ LessonDetailModal.PropTypes = {
     isCommitting: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired,
     updateData: PropTypes.func.isRequired,
+    commitSuccess: PropTypes.func.isRequired,
     commitData: PropTypes.func.isRequired,
+    index: PropTypes.number,
+    class: PropTypes.object,
 };
 
 export default (LessonDetailModal);

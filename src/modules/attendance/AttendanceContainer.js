@@ -8,6 +8,7 @@ import _                            from 'lodash';
 import PropTypes                    from 'prop-types';
 import Select                       from '../../components/common/Select';
 import Loading                      from "../../components/common/Loading";
+
 class AttendanceContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -82,7 +83,7 @@ class AttendanceContainer extends React.Component {
 
     loadClasses(page = 1, query = '', teacherid, baseid , genid) {
         this.setState({page});
-        this.props.attendanceActions.loadClasses(query, page, teacherid, baseid == 0 ? '' : baseid , genid);
+        this.props.attendanceActions.loadClasses(query, page, teacherid, baseid === 0 ? '' : baseid , genid);
     }
 
     classesSearchChange(value) {
@@ -160,8 +161,6 @@ class AttendanceContainer extends React.Component {
         this.setState({selectGenId: value});
         this.loadClasses(1,this.state.query,'', this.state.selectBaseId, value);
     }
-
-
 
     render(){
         return(
@@ -260,6 +259,8 @@ AttendanceContainer.propTypes = {
     lesson: PropTypes.array,
     gens: PropTypes.array,
     bases: PropTypes.array,
+    loadGensData: PropTypes.func,
+    loadBasesData: PropTypes.func,
 };
 
 function mapStateToProps(state) {
