@@ -75,7 +75,7 @@ class ListLessonContainer extends React.Component {
                 if(isValidDate)
                     dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
                 else dob = '';
-                /* eslint-disable no-alert */
+                /* eslint-disable */
                 let res={
                     'STT': index + 1,
                     'Họ và tên': item.student.name,
@@ -106,7 +106,7 @@ class ListLessonContainer extends React.Component {
                 if(isValidDate)
                     dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
                 else dob = '';
-                /* eslint-disable no-alert */
+                /* eslint-disable */
                 let res={
                     'STT': index + 1,
                     'Họ và tên': item.student.name,
