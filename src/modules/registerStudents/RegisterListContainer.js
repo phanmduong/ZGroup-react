@@ -15,43 +15,6 @@ import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 
 class RegisterListContainer extends React.Component {
-    static getFilter(arr) {
-        let data = arr.map(function (obj, index) {
-            return {
-                id: obj.id,
-                value: index + 1,
-                label: obj.name ? obj.name : obj.label,
-                type: obj.type,
-            };
-        });
-        let bol = data[0] && (data[0].id !== 0);
-        return !bol ?  data : [{
-            id: '',
-            value: 0,
-            label: 'Tất cả'
-        }, ...data];
-    }
-    static getSalerFilter(arr) {
-        let data = arr.map(function (obj, index) {
-            return {
-                id: obj.id,
-                value: index + 2,
-                label: obj.name ? obj.name : obj.label,
-                type: obj.type,
-            };
-        });
-
-        return [{
-            id: '',
-            value: 0,
-            label: 'Tất cả'
-        },{
-            id: '-1',
-            value: 1,
-            label: 'Không có'
-        }, ...data];
-    }
-
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -217,7 +180,7 @@ class RegisterListContainer extends React.Component {
             });
             this.salerId = nextProps.params.salerId;
         }else
-        if(nextProps.location.pathname !== this.props.location.pathname){
+        if(nextProps.location.pathname != this.props.location.pathname){
             this.setState({page: 1,
                 showModal: false,
                 showModalChangeClass: false,
@@ -234,7 +197,7 @@ class RegisterListContainer extends React.Component {
                     startTime: '',
                     endTime: '',
                 },});
-            if(nextProps.route.path==='/manage/waitlist'){
+            if(nextProps.route.path=='/manage/waitlist'){
                 this.isWaitListPage=true;
                 this.setState({class_status: 'waiting',  selectedClassStatus: 2, cardTitle:'Danh sách chờ', query: ''});
                 this.onClassStatusFilterChange({value: 2});
@@ -421,6 +384,44 @@ class RegisterListContainer extends React.Component {
         } else {
             this.setState({time: time});
         }
+    }
+
+    getFilter(arr) {
+        let data = arr.map(function (obj, index) {
+            return {
+                id: obj.id,
+                value: index + 1,
+                label: obj.name ? obj.name : obj.label,
+                type: obj.type,
+            };
+        });
+        let bol = data[0] && (data[0].id != 0);
+        return !bol ?  data : [{
+            id: '',
+            value: 0,
+            label: 'Tất cả'
+        }, ...data];
+    }
+
+    getSalerFilter(arr) {
+        let data = arr.map(function (obj, index) {
+            return {
+                id: obj.id,
+                value: index + 2,
+                label: obj.name ? obj.name : obj.label,
+                type: obj.type,
+            };
+        });
+
+        return [{
+            id: '',
+            value: 0,
+            label: 'Tất cả'
+        },{
+            id: '-1',
+            value: 1,
+            label: 'Không có'
+        }, ...data];
     }
 
     openFilterPanel(){
@@ -617,7 +618,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo Chiến dịch
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoadingCampaignFilter}
+                                                    disabled={this.props.isLoadingCampaignFilter }
                                                     options={this.state.campaignFilter}
                                                     onChange={this.onCampaignFilterChange}
                                                     value={this.state.selectedCampaignFilter}
@@ -723,7 +724,7 @@ class RegisterListContainer extends React.Component {
                             <div className="panel panel-default">
                                 <div className="panel-heading" role="tab" id="headingOne">
 
-                                    <a role="button" data-toggle="collapse" data-parent={"#accordion"} href={"#collapseOne"}
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
                                        aria-expanded="false" aria-controls="collapseOne" className="collapsed">
                                         <h4 className="panel-title">
                                             Thông tin học viên
@@ -743,9 +744,9 @@ class RegisterListContainer extends React.Component {
                                         <div className="flex-row-center"><i
                                             className="material-icons">email</i>&nbsp; &nbsp; {this.state.register.email}
                                         </div>
-                                        {this.state.register['university'] &&
+                                        {this.state.register.university &&
                                         <div className="flex-row-center"><i
-                                            className="material-icons">account_balance</i>&nbsp; &nbsp; {this.state.register['university']}
+                                            className="material-icons">account_balance</i>&nbsp; &nbsp; {this.state.register.university}
                                         </div>
                                         }
 
@@ -755,7 +756,7 @@ class RegisterListContainer extends React.Component {
                             <div className="panel panel-default">
                                 <div className="panel-heading" role="tab" id="headingTwo">
                                     <a className="collapsed" role="button" data-toggle="collapse"
-                                       data-parent="#accordion" href={"#collapseTwo"} aria-expanded={false}
+                                       data-parent="#accordion" href="#collapseTwo" aria-expanded="false"
                                        aria-controls="collapseTwo">
                                         <h4 className="panel-title">
                                             Thông tin lớp học
@@ -775,7 +776,7 @@ class RegisterListContainer extends React.Component {
                                         </div>
                                         <div className="flex-row-center">
                                             <i className="material-icons">home</i>&nbsp; &nbsp;
-                                            {this.state.register.class['room'] + ' - ' + this.state.register.class.base}
+                                            {this.state.register.class.room + ' - ' + this.state.register.class.base}
                                         </div>
                                         <div className="flex-row-center">
                                             <i className="material-icons">date_range</i>&nbsp; &nbsp; {this.state.register.class.description}
@@ -786,7 +787,7 @@ class RegisterListContainer extends React.Component {
                             <div className="panel panel-default">
                                 <div className="panel-heading" role="tab" id="headingThree">
                                     <a className="collapsed" role="button" data-toggle="collapse"
-                                       data-parent={"#accordion"} href={"#collapseThree"} aria-expanded="false"
+                                       data-parent="#accordion" href="#collapseThree" aria-expanded="false"
                                        aria-controls="collapseThree">
                                         <h4 className="panel-title">
                                             Thông tin đăng kí
@@ -819,7 +820,7 @@ class RegisterListContainer extends React.Component {
                                                                         </div>
                                                                         <div className="flex-row-center">
                                                                             <i className="material-icons">home</i>&nbsp; &nbsp;
-                                                                            {register.class['room'] && register.class['room'] + ' - '}
+                                                                            {register.class.room && register.class.room + ' - '}
                                                                             {register.class.base}
                                                                         </div>
                                                                         <div className="flex-row-center">
@@ -838,7 +839,7 @@ class RegisterListContainer extends React.Component {
                             <div className="panel panel-default">
                                 <div className="panel-heading" role="tab" id="headingFour">
                                     <a className="collapsed" role="button" data-toggle="collapse"
-                                       data-parent="#accordion" href={"#collapseFour"} aria-expanded="false"
+                                       data-parent="#accordion" href="#collapseFour" aria-expanded="false"
                                        aria-controls="collapseFour">
                                         <h4 className="panel-title">
                                             Lịch sử gọi điện
@@ -874,7 +875,7 @@ class RegisterListContainer extends React.Component {
                                                                         <span className="label label-default"
                                                                               style={{backgroundColor: '#' + history.caller.color}}>
                                                                             {history.caller.name}</span> <span
-                                                                        className="label label-default">{history['updated_at']}</span>
+                                                                        className="label label-default">{history.updated_at}</span>
                                                                     </div>
                                                                     <div className="timeline-body">
                                                                         {history.note}
@@ -1001,7 +1002,6 @@ RegisterListContainer.propTypes = {
     currentPage: PropTypes.number.isRequired,
     telecallId: PropTypes.number.isRequired,
     isLoadingRegisters: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     isLoadingGens: PropTypes.bool.isRequired,
     isLoadingHistoryCall: PropTypes.bool.isRequired,
     isChangingStatus: PropTypes.bool.isRequired,
@@ -1017,10 +1017,6 @@ RegisterListContainer.propTypes = {
     genId: PropTypes.number,
     loadSalerFilter: PropTypes.func,
     loadCampaignFilter: PropTypes.func,
-    loadClassFilter: PropTypes.func,
-    loadHistoryCallStudent: PropTypes.func,
-    deleteRegisterStudent: PropTypes.func,
-    loadRegisterByStudent: PropTypes.func,
 };
 
 function mapStateToProps(state) {
