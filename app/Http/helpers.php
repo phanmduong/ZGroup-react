@@ -1135,7 +1135,8 @@ function send_sms_confirm_money($register)
         "Authorization" => "Basic " . config('app.sms_key')
     ];
 //    dd($headers);
-    $text = convert_vi_to_en_not_url($register->studyClass->course->name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ", ban da thanh toan thanh cong " . currency_vnd_format($register->money) . ". Ma hoc vien cua ban la: " . $register->code . ". Cam on ban.";
+    $course_name = convert_vi_to_en_not_url($register->studyClass->course->name);
+    $text = strtoupper($course_name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ", ban da thanh toan thanh cong " . currency_vnd_format($register->money) . ". Ma hoc vien cua ban la: " . $register->code . ". Cam on ban.";
     $body = json_encode([
         "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
@@ -1143,16 +1144,16 @@ function send_sms_confirm_money($register)
     ]);
 
 
-    $request = new GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
-    $response = $client->send($request);
-    $status = json_decode($response->getBody())->status;
+//    $request = new GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
+//    $response = $client->send($request);
+//    $status = json_decode($response->getBody())->status;
 
 
     $sms = new \App\Sms();
     $sms->content = convert_vi_to_en_not_url($text);
     $sms->user_id = $register->user_id;
     $sms->purpose = "Money Confirm";
-    if ($status == 1) {
+    if (1 == 1) {
         $sms->status = "success";
     } else {
         $sms->status = "failed";
