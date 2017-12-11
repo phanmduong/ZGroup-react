@@ -259,7 +259,6 @@ class RegisterListContainer extends React.Component {
     }
 
     onCampaignFilterChange(obj){
-        console.log(obj);
         if(obj){
             this.setState({campaignId: obj.value});
         }
