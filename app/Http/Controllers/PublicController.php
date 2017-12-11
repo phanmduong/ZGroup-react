@@ -901,6 +901,11 @@ class PublicController extends Controller
         return redirect(config('app.protocol') . 'manage.' . config('app.domain'));
     }
 
+    public function redirectKeetool()
+    {
+        return redirect('https://keetool.com');
+    }
+
     public function render_email_form($email_form_id, $email_template_id)
     {
         $email_form = EmailForm::find($email_form_id);
