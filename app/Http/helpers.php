@@ -1135,7 +1135,7 @@ function send_sms_confirm_money($register)
         "Authorization" => "Basic " . config('app.sms_key')
     ];
 //    dd($headers);
-    $text = strtoupper(convert_vi_to_en_not_url($register->studyClass->course->name)) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ", ban da thanh toan thanh cong " . currency_vnd_format($register->money) . ". Ma hoc vien cua ban la: " . $register->code . ". Cam on ban.";
+    $text = convert_vi_to_en_not_url($register->studyClass->course->name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ", ban da thanh toan thanh cong " . currency_vnd_format($register->money) . ". Ma hoc vien cua ban la: " . $register->code . ". Cam on ban.";
     $body = json_encode([
         "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
