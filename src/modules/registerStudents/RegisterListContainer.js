@@ -539,12 +539,12 @@ class RegisterListContainer extends React.Component {
                                     }
                                     <div className="row">
                                         <Search
-                                            className="col-sm-10"
+                                            className="col-sm-9"
                                             onChange={this.registersSearchChange}
                                             value={this.state.query}
                                             placeholder="Tìm kiếm học viên"
                                         />
-                                        <div className="col-sm-2 text-align-right">
+                                        <div className="col-sm-3 text-align-right">
                                             <button
                                                 onClick={this.openFilterPanel}
                                                 className="btn btn-info btn-rose"
@@ -560,7 +560,13 @@ class RegisterListContainer extends React.Component {
 
                                         </div>
                                     </div>
-                                    <Panel collapsible expanded={this.state.openFilterPanel}>
+                                    <Panel collapsible expanded={
+                                        this.state.openFilterPanel
+                                        &&
+                                        !(this.props.isLoadingGens ||
+                                         this.props.isLoadingClassFilter ||
+                                         this.props.isLoadingRegisters)
+                                    }>
                                         <div className="row">
                                             <div className="col-md-3">
                                                 <label className="">
