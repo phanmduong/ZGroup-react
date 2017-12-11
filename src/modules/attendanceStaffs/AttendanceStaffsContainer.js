@@ -121,41 +121,45 @@ class AttendanceStaffsContainer extends React.Component {
         }
     }
 
-    convertDataGeneral(data) {
-        return data && data.length > 0 ? data.map((item, index) => {
-            let staff = item.attendances[0].user;
-            return {
-                'STT': index + 1,
-                'Họ và tên': staff.name,
-                'Đi làm': item.total_attendance,
-                'Đúng luật': item.total_lawful,
-                'Bỏ làm': item.total_not_work,
-                'Checkin muộn': item.total_checkin_late,
-                'Checkout sớm': item.total_checkout_early,
-                'Không checkin': item.total_not_checkin,
-                'Không checkout': item.total_not_checkout,
-            };
-        }) : [{
-            'STT': '',
-            'Họ và tên': '',
-            'Đi làm': '',
-            'Đúng luật': '',
-            'Bỏ làm': '',
-            'Checkin muộn': '',
-            'Checkout sớm': '',
-            'Không checkin': '',
-            'Không checkout': '',
-        }];
-    }
-
     exportExcel() {
         let wb = helper.newWorkBook();
-        let generalSales = this.convertDataGeneral(this.salesMaketings);
-        let generalTeachers = this.convertDataGeneral(this.teachers);
+        let generalSales = helper.convertDataGeneral(this.salesMaketings);
+        let generalTeachers = helper.convertDataGeneral(this.teachers);
+        let detailTeacher = helper.convertDataDetailTeacher(this.teachers);
+        let detailTeacherAttendance = helper.convertDataDetailTeacher(this.teachers, 'attendance');
+        let detailTeacherLawful = helper.convertDataDetailTeacher(this.teachers, 'isLawful');
+        let detailTeacherNotWork = helper.convertDataDetailTeacher(this.teachers, 'isNotWork');
+        let detailTeacherCheckinLate = helper.convertDataDetailTeacher(this.teachers, 'isCheckinLate');
+        let detailTeacherCheckoutEarly = helper.convertDataDetailTeacher(this.teachers, 'isCheckoutEarly');
+        let detailTeacherNotCheckin = helper.convertDataDetailTeacher(this.teachers, 'isNotCheckin');
+        let detailTeacherNotCheckout = helper.convertDataDetailTeacher(this.teachers, 'isNotCheckout');
+        let detailSalesMarketingAttendance = helper.convertDataDetailSalesMarketing(this.salesMaketings, 'attendance');
+        let detailSalesMarketingLawful = helper.convertDataDetailSalesMarketing(this.salesMaketings, 'isLawful');
+        let detailSalesMarketingNotWork = helper.convertDataDetailSalesMarketing(this.salesMaketings, 'isNotWork');
+        let detailSalesMarketingCheckinLate = helper.convertDataDetailSalesMarketing(this.salesMaketings, 'isCheckinLate');
+        let detailSalesMarketingCheckoutEarly = helper.convertDataDetailSalesMarketing(this.salesMaketings, 'isCheckoutEarly');
+        let detailSalesMarketingNotCheckin = helper.convertDataDetailSalesMarketing(this.salesMaketings, 'isNotCheckin');
+        let detailSalesMarketingNotCheckout = helper.convertDataDetailSalesMarketing(this.salesMaketings, 'isNotCheckout');
 
-        let cols = [{"wch": 5}, {"wch": 20}, {"wch": 10}, {"wch": 10}, {"wch": 15}, {"wch": 15}, {"wch": 15}, {"wch": 15}, {"wch": 15}];
-        helper.appendJsonToWorkBook(generalTeachers, wb, 'Tổng quan giảng viên', cols);
-        helper.appendJsonToWorkBook(generalSales, wb, 'Tổng quan sales & makering', cols);
+        let cols1 = [{"wch": 5}, {"wch": 20}, {"wch": 10}, {"wch": 10}, {"wch": 15}, {"wch": 15}, {"wch": 15}, {"wch": 15}, {"wch": 15}];
+        let cols2 = [{"wch": 5}, {"wch": 20}, {"wch": 20}, {"wch": 30}, {"wch": 20}, {"wch": 20}, {"wch": 20}, {"wch": 40}];
+        helper.appendJsonToWorkBook(generalTeachers, wb, 'Tổng quan giảng viên', cols1);
+        helper.appendJsonToWorkBook(generalSales, wb, 'Tổng quan sales & makering', cols1);
+        helper.appendJsonToWorkBook(detailTeacher.data, wb, 'Chi tiết giảng viên', cols2, detailTeacher.merges);
+        helper.appendJsonToWorkBook(detailTeacherAttendance.data, wb, 'Giảng viên đi làm', cols2, detailTeacherAttendance.merges);
+        helper.appendJsonToWorkBook(detailTeacherLawful.data, wb, 'Giảng viên đúng luật', cols2, detailTeacherLawful.merges);
+        helper.appendJsonToWorkBook(detailTeacherNotWork.data, wb, 'Giảng viên bỏ làm', cols2, detailTeacherNotWork.merges);
+        helper.appendJsonToWorkBook(detailTeacherCheckinLate.data, wb, 'Giảng viên checkin muộn', cols2, detailTeacherCheckinLate.merges);
+        helper.appendJsonToWorkBook(detailTeacherCheckoutEarly.data, wb, 'Giảng viên checkout sớm', cols2, detailTeacherCheckoutEarly.merges);
+        helper.appendJsonToWorkBook(detailTeacherNotCheckin.data, wb, 'Giảng viên không checkin', cols2, detailTeacherNotCheckin.merges);
+        helper.appendJsonToWorkBook(detailTeacherNotCheckout.data, wb, 'Giảng viên không checkout', cols2, detailTeacherNotCheckout.merges);
+        helper.appendJsonToWorkBook(detailSalesMarketingAttendance.data, wb, 'SalesMarketing đi làm', cols2, detailSalesMarketingAttendance.merges);
+        helper.appendJsonToWorkBook(detailSalesMarketingLawful.data, wb, 'SalesMarketing đúng luật', cols2, detailSalesMarketingLawful.merges);
+        helper.appendJsonToWorkBook(detailSalesMarketingNotWork.data, wb, 'SalesMarketing bỏ làm', cols2, detailSalesMarketingNotWork.merges);
+        helper.appendJsonToWorkBook(detailSalesMarketingCheckinLate.data, wb, 'SalesMarketing checkin muộn', cols2, detailSalesMarketingCheckinLate.merges);
+        helper.appendJsonToWorkBook(detailSalesMarketingCheckoutEarly.data, wb, 'SalesMarketing checkout sớm', cols2, detailSalesMarketingCheckoutEarly.merges);
+        helper.appendJsonToWorkBook(detailSalesMarketingNotCheckin.data, wb, 'SalesMarketing không checkin', cols2, detailSalesMarketingNotCheckin.merges);
+        helper.appendJsonToWorkBook(detailSalesMarketingNotCheckout.data, wb, 'SalesMarketing không checkout', cols2, detailSalesMarketingNotCheckout.merges);
 
         let base = this.state.bases.filter(base => (base.key == this.state.selectBaseId));
         let gen = this.state.gens.filter(gen => (gen.key == this.state.selectGenId));
