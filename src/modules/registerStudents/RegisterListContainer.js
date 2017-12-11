@@ -546,6 +546,7 @@ class RegisterListContainer extends React.Component {
                                                 disabled={
                                                     this.props.isLoadingGens ||
                                                     this.props.isLoadingClassFilter ||
+                                                    this.props.isLoading ||
                                                     this.props.isLoadingRegisters
                                                 }
                                             >

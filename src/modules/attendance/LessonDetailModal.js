@@ -132,7 +132,7 @@ class LessonDetailModal extends React.Component {
 }
 
 LessonDetailModal.propTypes = {
-    lessondata: PropTypes.array.isRequired,
+    lessondata: PropTypes.array,
     list: PropTypes.array.isRequired,
     show: PropTypes.bool.isRequired,
     isLoadingLessonDetailModal: PropTypes.bool.isRequired,

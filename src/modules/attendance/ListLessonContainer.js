@@ -16,7 +16,7 @@ class ListLessonContainer extends React.Component {
         this.state = {
             selectedClass: '',
             showModalDetailLesson: false,
-            selectedLessonId: '',
+            selectedLessonId: 0,
             note : [],
             modalData: [],
             store: [],
