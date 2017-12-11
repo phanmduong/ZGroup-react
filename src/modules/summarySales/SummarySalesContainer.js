@@ -189,8 +189,9 @@ class SummarySalesContainer extends React.Component {
                                 </div>
                                 <div className="col-sm-2 col-xs-5">
                                     <button
-                                        onClick={this.exportExcel}
+                                        onClick={this.props.isLoading ? ()=>{} :  this.exportExcel}
                                         className="btn btn-info btn-rose"
+                                        disabled={this.props.isLoading}
                                     >
                                         Xuất ra excel
                                     </button>

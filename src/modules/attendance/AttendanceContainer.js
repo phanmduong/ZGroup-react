@@ -35,8 +35,8 @@ class AttendanceContainer extends React.Component {
                     value: 'Tất cả'
                 },
             ],
-            selectBaseId: null,
-            selectGenId: null,
+            selectBaseId: '',
+            selectGenId: '',
         };
 
         this.genid = null;
@@ -190,6 +190,7 @@ class AttendanceContainer extends React.Component {
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     /></div>
+
 
                             </div>
                         }

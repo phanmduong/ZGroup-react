@@ -7,6 +7,8 @@ import * as    attendanceActions    from '../attendance/attendanceActions';
 import * as helper                  from '../../helpers/helper';
 import TooltipButton from '../../components/common/TooltipButton';
 import LessonDetailModal            from './LessonDetailModal';
+import moment from "moment";
+import {DATETIME_FORMAT,DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
 
 class ListLessonContainer extends React.Component {
     constructor(props, context) {
@@ -25,6 +27,7 @@ class ListLessonContainer extends React.Component {
         this.updateModalData            = this.updateModalData.bind(this);
         this.commitModalData            = this.commitModalData.bind(this);
         this.commitSuccess              = this.commitSuccess.bind(this);
+        this.exportExcel                = this.exportExcel.bind(this);
     }
 
     componentWillMount(){
@@ -53,11 +56,81 @@ class ListLessonContainer extends React.Component {
         this.props.attendanceActions.takeAttendance(data,commitSuccess);
     }
 
-
     commitSuccess(){
         helper.showNotification("Lưu thành công!");
         this.setState({showModalDetailLesson: false});
         this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
+    }
+
+    exportExcel(){
+            let  wb = helper.newWorkBook();
+            let data = this.props.selectedClass.registers;
+            let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 10 },{ "wch": 10 },{ "wch": 20 },{ "wch": 12 },{ "wch": 30 },{ "wch": 16 },{ "wch": 30 },{ "wch": 25 },];//độ rộng cột
+            let colname = ['K','L','M','N','O','P','Q','R'];//danh sách cột cmt
+            let cmts = [];// danh sách cmts
+            //begin điểm danh
+            data = this.props.selectedClass.registers.filter(item=>(item.paid_status)).map((item, index)=>{
+                let dob = item.student.dob;
+                let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+                if(isValidDate)
+                    dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+                else dob = '';
+                /* eslint-disable no-alert */
+                let res={
+                    'STT': index + 1,
+                    'Họ và tên': item.student.name,
+                    'Mã học viên': item.code,
+                    'Ngày sinh': dob,
+                    'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
+                    'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
+                    'Email' : item.student.email,
+                    'Phone' : item.student.phone,
+                    'Facebook': item.student.facebook,
+                    'Trường ĐH': item.student.university,
+                };
+                item.attendances.forEach((obj, index2)=>{
+                    res = {...res, [`Buổi ${index2+1}`] : ((obj.status == 1) ? 'X' : '')};
+                    if(!helper.isEmptyInput(obj.note))
+                        cmts = [...cmts, {cell: colname[index2] + (index + 2), note: obj.note}];
+                });
+                /* eslint-enable */
+                return res;
+            });
+            helper.appendJsonToWorkBook(data, wb, 'Điểm danh',cols, cmts);
+            //end điểm danh
+
+            //begin bài tập
+            data = this.props.selectedClass.registers.filter(item=>(item.paid_status)).map((item, index)=>{
+                let dob = item.student.dob;
+                let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+                if(isValidDate)
+                    dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+                else dob = '';
+                /* eslint-disable no-alert */
+                let res={
+                    'STT': index + 1,
+                    'Họ và tên': item.student.name,
+                    'Mã học viên': item.code,
+                    'Ngày sinh': dob,
+                    'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
+                    'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
+                    'Email' : item.student.email,
+                    'Phone' : item.student.phone,
+                    'Facebook': item.student.facebook,
+                    'Trường ĐH': item.student.university,
+                };
+                item.attendances.forEach((obj, index2)=>{
+                    res = {...res, [`Buổi ${index2+1}`] : ((obj.homework_status == 1) ? 'X' : '')};
+                });
+                return res;
+                /* eslint-enable */
+            });
+            helper.appendJsonToWorkBook(data, wb, 'Bài tập',cols, cmts);
+            //end bài tập
+
+            //xuất file
+            helper.saveWorkBookToExcel(wb, 'Danh sách điểm danh lớp ' + this.props.selectedClass.name);
+
     }
 
     render(){
@@ -137,6 +210,16 @@ class ListLessonContainer extends React.Component {
                                             )
 
                                     }</div>
+
+                                    <div className="col-sm-4" style={{float: 'right'}}>
+                                        <button
+                                            onClick={this.props.isLoadingLessonClassModal ? ()=>{} :  this.exportExcel}
+                                            className="btn btn-info btn-rose"
+                                            disabled={this.props.isLoadingLessonClassModal}
+                                        >
+                                            Xuất danh sách điểm danh
+                                        </button>
+                                    </div>
                                 </div>
 
                                 {
