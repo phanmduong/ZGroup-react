@@ -1184,7 +1184,7 @@ function send_sms_remind($register)
     $datestart = date('d/m', strtotime($register->studyClass->datestart));
 //    dd($datestart);
     $course_name = convert_vi_to_en_not_url($register->studyClass->course->name);
-    $text = strtoupper($course_name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ". Khoa hoc cua ban se bat dau vao ngay mai " . $datestart . " vao luc " . $splitted_time . ". Ban nho den som 15p de cai dat phan mem nhe.";
+    $text = strtoupper($course_name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)). "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ". Khoa hoc cua ban se bat dau vao ngay mai " . $datestart . " vao luc " . $splitted_time . ". Ban nho den som 15p de cai dat phan mem nhe.";
     $body = json_encode([
         "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
