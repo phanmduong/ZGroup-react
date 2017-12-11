@@ -406,12 +406,12 @@ class CheckInCheckOutController extends ManageApiController
                 ],
                 'name' => $shift->shift_session_name
             ];
-//            if ($shift->check_in) {
-//                $data['check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_in);
-//            }
-//            if ($shift->check_out) {
-//                $data['check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_out);
-//            }
+            if ($shift->check_in) {
+                $data['check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_in);
+            }
+            if ($shift->check_out) {
+                $data['check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_out);
+            }
             return $data;
         });
 
