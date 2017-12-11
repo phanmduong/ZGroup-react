@@ -389,8 +389,23 @@ class CheckInCheckOutController extends ManageApiController
 //            return $data;
 //        });
 
+        $shifts = $shifts->join('users', 'users.id', '=', 'shifts.user_id')
+            ->join('shift_sessions', 'shift_sessions.id', '=', 'shifts.shift_session_id')
+            ->select('shifts.*', 'users.name as user_name', 'users.color as user_color', 'users.avatar_url as user_avatar_url',
+                'shift_sessions.name as shift_session_name'
+
+            );
+
         $shifts = $shifts->get()->map(function ($shift) {
-            $data = $shift->transform();
+            $data = [
+                'user' => [
+                    'id' => $shift->user_id,
+                    'name' => $shift->user_name,
+                    'color' => $shift->user_color,
+                    'avatar_url' => $shift->user_avatar_url ? generate_protocol_url($shift->user_avatar_url) : url('img/user.png'),
+                ],
+                'name' => $shift->shift_session_name
+            ];
 //            if ($shift->check_in) {
 //                $data['check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_in);
 //            }
