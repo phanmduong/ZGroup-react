@@ -1433,19 +1433,21 @@ function next_code()
     $data = [];
     if ($code) {
         $code = $code->code;
-        $nextNumber = explode(config('app.prefix_code'), $code)[1] + 1;
+        $nextNumber = explode(config('app.prefix_code'), $code)[1];
+        $nextNumber = $nextNumber != '' ? $nextNumber + 1 : config('app.prefix_code') . '1';
         $data["next_code"] = config('app.prefix_code') . $nextNumber;
     } else {
-        $data["next_code"] = config('app.prefix_code');
+        $data["next_code"] = config('app.prefix_code') . '1';
     }
 
     $waiting_code = Register::where('code', 'like', config('app.prefix_code_wait') . '%')->orderBy('code', 'desc')->first();
     if ($waiting_code) {
         $waiting_code = $waiting_code->code;
-        $waiting_code = explode(config('app.prefix_code_wait'), $waiting_code)[1] + 1;
+        $next_waiting_code = explode(config('app.prefix_code_wait'), $waiting_code)[1];
+        $waiting_code = $next_waiting_code != '' ? $next_waiting_code + 1 : config('app.prefix_code_wait') . "1";
         $data["next_waiting_code"] = config('app.prefix_code_wait') . $waiting_code;
     } else {
-        $data["next_waiting_code"] = config('app.prefix_code_wait') . "";
+        $data["next_waiting_code"] = config('app.prefix_code_wait') . "1";
     }
     return $data;
 
