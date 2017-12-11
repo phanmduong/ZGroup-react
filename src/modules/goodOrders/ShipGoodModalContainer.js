@@ -6,9 +6,8 @@ import {Modal} from "react-bootstrap";
 import * as goodOrderActions from './goodOrderActions';
 import Loading from "../../components/common/Loading";
 import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
-import FormInputDate from "../../components/common/FormInputDate";
 
-class ShipGoodModal extends React.Component {
+class ShipGoodModalContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.handleShipOrder = this.handleShipOrder.bind(this);
@@ -35,6 +34,7 @@ class ShipGoodModal extends React.Component {
 
     render() {
         const order = this.props.shippingGood.order;
+        console.log(order);
         return (
             <Modal show={this.props.shipGoodModal}
                    onHide={() => this.props.goodOrderActions.showShipGoodModal()}>
@@ -48,15 +48,15 @@ class ShipGoodModal extends React.Component {
                         <form method="#" action="#">
                             <div className="row">
                                 <div className="col-md-6">
-                                    <div className="form-group">
-                                        <FormInputDate
-                                            label="Ngày đặt đơn giao hàng"
-                                            name="pick_date"
-                                            updateFormData={this.handleShipOrder}
-                                            id="pick_date"
-                                            value={order.pick_date}
-                                        />
-                                    </div>
+                                    {/*<div className="form-group">*/}
+                                    {/*<FormInputDate*/}
+                                    {/*label="Ngày đặt đơn giao hàng"*/}
+                                    {/*name="pick_date"*/}
+                                    {/*updateFormData={this.handleShipOrder}*/}
+                                    {/*id="pick_date"*/}
+                                    {/*value={order.pick_date}*/}
+                                    {/*/>*/}
+                                    {/*</div>*/}
                                     <div className="form-group">
                                         <label className="label-control">Địa chỉ khách hàng</label>
                                         <input type="text"
@@ -222,7 +222,7 @@ class ShipGoodModal extends React.Component {
     }
 }
 
-ShipGoodModal.propTypes = {
+ShipGoodModalContainer.propTypes = {
     shipGoodModal: PropTypes.bool.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
     shippingGood: PropTypes.object.isRequired,
@@ -243,4 +243,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShipGoodModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ShipGoodModalContainer);

@@ -1,6 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import * as helper from '../../helpers/helper';
 import * as goodOrdersApi from './goodOrdersApi';
+import moment from 'moment';
 
 export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
     return function (dispatch) {
@@ -117,13 +118,17 @@ export function handleShipOrder(order) {
 }
 
 export function sendShipOrder(shippingGood) {
+    shippingGood = {
+        ...shippingGood,
+        pick_date: moment().format("YYYY-MM-DD")
+    };
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_SEND_SHIP_ORDER
         });
         goodOrdersApi.sendShipOrder(shippingGood)
             .then((res) => {
-            console.log("res",res.data);
+                console.log("res", res.data);
                 dispatch({
                     type: types.SEND_SHIP_ORDER_COMPLETE,
                     shippedGoodResponse: res

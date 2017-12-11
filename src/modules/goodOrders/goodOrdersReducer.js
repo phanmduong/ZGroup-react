@@ -137,7 +137,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 shippingGood: {
                     ...state.shipGoodModal,
-                    product: products,
+                    products,
                     order: {
                         ...state.shippingGood.order,
                         id: action.order.code,
