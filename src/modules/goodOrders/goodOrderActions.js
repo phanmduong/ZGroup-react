@@ -2,6 +2,8 @@ import * as types from '../../constants/actionTypes';
 import * as helper from '../../helpers/helper';
 import * as goodOrdersApi from './goodOrdersApi';
 import moment from 'moment';
+import {showErrorMessage} from "../../helpers/helper";
+import {showNotification} from "../../helpers/helper";
 
 export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
     return function (dispatch) {
@@ -128,7 +130,13 @@ export function sendShipOrder(shippingGood) {
         });
         goodOrdersApi.sendShipOrder(shippingGood)
             .then((res) => {
-                console.log("res", res.data);
+                const {data} = res;
+                if (!res.success) {
+                    showErrorMessage("Có lỗi xảy ra", data.message);
+                }
+                if (res.success) {
+                    showNotification("Gửi thành công");
+                }
                 dispatch({
                     type: types.SEND_SHIP_ORDER_COMPLETE,
                     shippedGoodResponse: res

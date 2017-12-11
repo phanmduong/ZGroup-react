@@ -34,7 +34,7 @@ class ShipGoodModalContainer extends React.Component {
 
     render() {
         const order = this.props.shippingGood.order;
-        console.log(order);
+
         return (
             <Modal show={this.props.shipGoodModal}
                    onHide={() => this.props.goodOrderActions.showShipGoodModal()}>
