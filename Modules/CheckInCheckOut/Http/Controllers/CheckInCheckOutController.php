@@ -336,7 +336,7 @@ class CheckInCheckOutController extends ManageApiController
             ->join('courses', 'courses.id', '=', 'classes.course_id')
             ->select('teaching_lessons.*', 'classes.name as class_name', 'classes.name as class_name', 'classes.gen_id', 'classes.base_id', 'class_lesson.time',
                 'class_lesson.start_time', 'class_lesson.end_time', 'lessons.order', 'courses.icon_url as course_icon_url'
-            );
+            )->whereNull('classes.deleted_at');
 
 
         if ($startTime && $endTime) {
