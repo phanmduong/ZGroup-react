@@ -1139,7 +1139,7 @@ function send_sms_confirm_money($register)
     $body = json_encode([
         "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
-        "text" => $text
+        "text" => convert_vi_to_en_not_url($text)
     ]);
 
 
@@ -1149,7 +1149,7 @@ function send_sms_confirm_money($register)
 
 
     $sms = new \App\Sms();
-    $sms->content = $text;
+    $sms->content = convert_vi_to_en_not_url($text);
     $sms->user_id = $register->user_id;
     $sms->purpose = "Money Confirm";
     if ($status == 1) {
@@ -1187,7 +1187,7 @@ function send_sms_remind($register)
     $body = json_encode([
         "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
-        "text" => $text
+        "text" => convert_vi_to_en_not_url($text)
     ]);
 
     $request = new GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
@@ -1195,7 +1195,7 @@ function send_sms_remind($register)
     $status = json_decode($response->getBody())->status;
 
     $sms = new \App\Sms();
-    $sms->content = $text;
+    $sms->content = convert_vi_to_en_not_url($text);
     $sms->user_id = $register->user_id;
     $sms->purpose = "Remind Start Date";
     if ($status == 1) {
@@ -1227,7 +1227,7 @@ function send_sms_general($register, $content)
     $body = json_encode([
         "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
-        "text" => $content
+        "text" => convert_vi_to_en_not_url($content)
     ]);
 
     $request = new GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
@@ -1235,7 +1235,7 @@ function send_sms_general($register, $content)
     $status = json_decode($response->getBody())->status;
 
     $sms = new \App\Sms();
-    $sms->content = $content;
+    $sms->content = convert_vi_to_en_not_url($content);
     $sms->user_id = $register->user_id;
     $sms->purpose = "Notification";
     if ($status == 1) {
