@@ -333,8 +333,9 @@ class CheckInCheckOutController extends ManageApiController
         $endTime = $request->end_time;
         $teaching_lessons = TeachingLesson::join('class_lesson', 'class_lesson.id', '=', 'teaching_lessons.class_lesson_id')
             ->join('classes', 'classes.id', '=', 'class_lesson.class_id')->join('lessons', 'lessons.id', '=', 'class_lesson.lesson_id')
-            ->select('teaching_lessons.*', 'classes.name as class_name', 'classes.gen_id', 'classes.base_id', 'class_lesson.time',
-                'class_lesson.start_time', 'class_lesson.end_time', 'lessons.order'
+            ->join('courses', 'courses.id', '=','classes.course_id')
+            ->select('teaching_lessons.*', 'classes.name as class_name','classes.name as class_name', 'classes.gen_id', 'classes.base_id', 'class_lesson.time',
+                'class_lesson.start_time', 'class_lesson.end_time', 'lessons.order', 'courses.icon_url as course_icon_url'
             );
 
 
@@ -360,6 +361,7 @@ class CheckInCheckOutController extends ManageApiController
 
             $data = [
                 'class_name' => $teacher_lesson->class_name,
+                'course_avatar_url' => generate_protocol_url($teacher_lesson->course_icon_url),
                 'time' => date_shift(strtotime($teacher_lesson->time)),
                 'start_time' => format_time_shift(strtotime($teacher_lesson->start_time)),
                 'end_time' => format_time_shift(strtotime($teacher_lesson->end_time)),
