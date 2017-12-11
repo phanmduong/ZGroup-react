@@ -38,4 +38,30 @@ class Shift extends Model
     {
         return $this->belongsTo(CheckInCheckOut::class, 'checkout_id');
     }
+
+    public function transform()
+    {
+        $user = $this->user;
+        if ($user) {
+            $user = [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'color' => $this->user->color,
+                'avatar_url' => $this->user->avatar_url ? generate_protocol_url($this->user->avatar_url) : url('img/user.png')
+            ];
+        }
+
+        $shift_session = $this->shift_session()->withTrashed()->first();
+        return [
+            'id' => $this->id,
+            "name" => $shift_session->name,
+            'user' => $user,
+            'date' => date_shift(strtotime($this->date)),
+            'week' => $this->week,
+            'gen' => ['name' => $this->gen->name],
+            'base' => ['name' => $this->base->name, 'address' => $this->base->address],
+            'start_time' => format_time_shift(strtotime($shift_session->start_time)),
+            'end_time' => format_time_shift(strtotime($shift_session->end_time))
+        ];
+    }
 }

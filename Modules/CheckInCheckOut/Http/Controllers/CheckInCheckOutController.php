@@ -390,7 +390,7 @@ class CheckInCheckOutController extends ManageApiController
 //        });
 
         $shifts = $shifts->get()->map(function ($shift) {
-            $data = $this->shiftTransformer->transform($shift);
+            $data = $shift->transform();
 //            if ($shift->check_in) {
 //                $data['check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_in);
 //            }
