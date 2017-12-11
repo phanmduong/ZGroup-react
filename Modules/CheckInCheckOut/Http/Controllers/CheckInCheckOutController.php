@@ -391,8 +391,10 @@ class CheckInCheckOutController extends ManageApiController
 
         $shifts = $shifts->join('users', 'users.id', '=', 'shifts.user_id')
             ->join('shift_sessions', 'shift_sessions.id', '=', 'shifts.shift_session_id')
+            ->join('bases', 'bases.id', '=', 'shifts.base_id')
+            ->join('gens', 'gens.id', '=', 'shifts.gen_id')
             ->select('shifts.*', 'shift_sessions.*', 'users.name as user_name', 'users.color as user_color', 'users.avatar_url as user_avatar_url',
-                'shift_sessions.name as shift_session_name'
+                'shift_sessions.name as shift_session_name', 'bases.name as base_name', 'gens.name as gen_name', 'bases.address as base_address'
             );
 
         $shifts = $shifts->get()->map(function ($shift) {
@@ -407,8 +409,8 @@ class CheckInCheckOutController extends ManageApiController
                 'id' => $shift->id,
                 'date' => date_shift(strtotime($shift->date)),
                 'week' => $shift->week,
-                'gen' => ['name' => $shift->gen->name],
-                'base' => ['name' => $shift->base->name, 'address' => $shift->base->address],
+                'gen' => ['name' => $shift->gen_name],
+                'base' => ['name' => $shift->base_name, 'address' => $shift->base_address],
                 'start_time' => format_time_shift(strtotime($shift->start_time)),
                 'end_time' => format_time_shift(strtotime($shift->end_time))
             ];
