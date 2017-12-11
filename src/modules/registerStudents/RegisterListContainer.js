@@ -564,6 +564,7 @@ class RegisterListContainer extends React.Component {
                                         &&
                                         !(this.props.isLoadingGens ||
                                          this.props.isLoadingClassFilter ||
+                                         this.props.isLoading ||
                                          this.props.isLoadingRegisters)
                                     }>
                                         <div className="row">
@@ -599,7 +600,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo Chiến dịch
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoadingCampaignFilter }
+                                                    disabled={this.props.isLoadingCampaignFilter}
                                                     options={this.state.campaignFilter}
                                                     onChange={this.onCampaignFilterChange}
                                                     value={this.state.campaignId}
@@ -660,7 +661,7 @@ class RegisterListContainer extends React.Component {
 
                                     </Panel>
                                     {
-                                        this.props.isLoadingRegisters || this.props.isLoadingClassFilter ? <Loading/> :
+                                        this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoading ? <Loading/> :
                                             <ListRegister
                                                 registers={this.props.registers}
                                                 viewCall={this.viewCall}
