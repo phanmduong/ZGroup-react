@@ -84,6 +84,10 @@ class OrderController extends ManageApiController
     {
         $order = Order::find($request->order_id);
 
+        if ($order == null) {
+            return $this->respondErrorWithStatus("Đơn hàng không tồn tại");
+        }
+
         $order->status = $request->status;
         $order->save();
 
