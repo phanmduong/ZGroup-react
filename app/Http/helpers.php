@@ -1135,11 +1135,12 @@ function send_sms_confirm_money($register)
         "Authorization" => "Basic " . config('app.sms_key')
     ];
 //    dd($headers);
-    $text = strtoupper($register->studyClass->course->name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ", ban da thanh toan thanh cong " . currency_vnd_format($register->money) . ". Ma hoc vien cua ban la: " . $register->code . ". Cam on ban.";
+    $course_name = convert_vi_to_en_not_url($register->studyClass->course->name);
+    $text = strtoupper($course_name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ", ban da thanh toan thanh cong " . currency_vnd_format($register->money) . ". Ma hoc vien cua ban la: " . $register->code . ". Cam on ban.";
     $body = json_encode([
-        "from" => "COLORME",
+        "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
-        "text" => $text
+        "text" => convert_vi_to_en_not_url($text)
     ]);
 
 
@@ -1149,7 +1150,7 @@ function send_sms_confirm_money($register)
 
 
     $sms = new \App\Sms();
-    $sms->content = $text;
+    $sms->content = convert_vi_to_en_not_url($text);
     $sms->user_id = $register->user_id;
     $sms->purpose = "Money Confirm";
     if ($status == 1) {
@@ -1182,12 +1183,12 @@ function send_sms_remind($register)
 
     $datestart = date('d/m', strtotime($register->studyClass->datestart));
 //    dd($datestart);
-
-    $text = strtoupper($register->studyClass->course->name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ". Khoa hoc cua ban se bat dau vao ngay mai " . $datestart . " vao luc " . $splitted_time . ". Ban nho den som 15p de cai dat phan mem nhe.";
+    $course_name = convert_vi_to_en_not_url($register->studyClass->course->name);
+    $text = strtoupper($course_name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)). "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ". Khoa hoc cua ban se bat dau vao ngay mai " . $datestart . " vao luc " . $splitted_time . ". Ban nho den som 15p de cai dat phan mem nhe.";
     $body = json_encode([
-        "from" => "COLORME",
+        "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
-        "text" => $text
+        "text" => convert_vi_to_en_not_url($text)
     ]);
 
     $request = new GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
@@ -1195,7 +1196,7 @@ function send_sms_remind($register)
     $status = json_decode($response->getBody())->status;
 
     $sms = new \App\Sms();
-    $sms->content = $text;
+    $sms->content = convert_vi_to_en_not_url($text);
     $sms->user_id = $register->user_id;
     $sms->purpose = "Remind Start Date";
     if ($status == 1) {
@@ -1225,9 +1226,9 @@ function send_sms_general($register, $content)
 
 
     $body = json_encode([
-        "from" => "COLORME",
+        "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
-        "text" => $content
+        "text" => convert_vi_to_en_not_url($content)
     ]);
 
     $request = new GuzzleHttp\Psr7\Request('POST', 'http://api-02.worldsms.vn/webapi/sendSMS', $headers, $body);
@@ -1235,7 +1236,7 @@ function send_sms_general($register, $content)
     $status = json_decode($response->getBody())->status;
 
     $sms = new \App\Sms();
-    $sms->content = $content;
+    $sms->content = convert_vi_to_en_not_url($content);
     $sms->user_id = $register->user_id;
     $sms->purpose = "Notification";
     if ($status == 1) {
@@ -1433,19 +1434,21 @@ function next_code()
     $data = [];
     if ($code) {
         $code = $code->code;
-        $nextNumber = explode(config('app.prefix_code'), $code)[1] + 1;
+        $nextNumber = explode(config('app.prefix_code'), $code)[1];
+        $nextNumber = $nextNumber != '' ? $nextNumber + 1 : config('app.prefix_code') . '1';
         $data["next_code"] = config('app.prefix_code') . $nextNumber;
     } else {
-        $data["next_code"] = config('app.prefix_code');
+        $data["next_code"] = config('app.prefix_code') . '1';
     }
 
     $waiting_code = Register::where('code', 'like', config('app.prefix_code_wait') . '%')->orderBy('code', 'desc')->first();
     if ($waiting_code) {
         $waiting_code = $waiting_code->code;
-        $waiting_code = explode(config('app.prefix_code_wait'), $waiting_code)[1] + 1;
+        $next_waiting_code = explode(config('app.prefix_code_wait'), $waiting_code)[1];
+        $waiting_code = $next_waiting_code != '' ? $next_waiting_code + 1 : config('app.prefix_code_wait') . "1";
         $data["next_waiting_code"] = config('app.prefix_code_wait') . $waiting_code;
     } else {
-        $data["next_waiting_code"] = config('app.prefix_code_wait') . "";
+        $data["next_waiting_code"] = config('app.prefix_code_wait') . "1";
     }
     return $data;
 

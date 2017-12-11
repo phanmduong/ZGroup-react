@@ -23,6 +23,7 @@ return [
     'email_company_to' => env('EMAIL_COMPANY_TO', ''),
     'prefix_code' => env('PREFIX_CODE', ''),
     'prefix_code_wait' => env('PREFIX_CODE_WAIT', ''),
+    'brand_sms' => env('BRAND_SMS', ''),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

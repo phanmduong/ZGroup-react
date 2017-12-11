@@ -333,8 +333,9 @@ class CheckInCheckOutController extends ManageApiController
         $endTime = $request->end_time;
         $teaching_lessons = TeachingLesson::join('class_lesson', 'class_lesson.id', '=', 'teaching_lessons.class_lesson_id')
             ->join('classes', 'classes.id', '=', 'class_lesson.class_id')->join('lessons', 'lessons.id', '=', 'class_lesson.lesson_id')
-            ->select('teaching_lessons.*', 'classes.name as class_name', 'classes.gen_id', 'classes.base_id', 'class_lesson.time',
-                'class_lesson.start_time', 'class_lesson.end_time', 'lessons.order'
+            ->join('courses', 'courses.id', '=', 'classes.course_id')
+            ->select('teaching_lessons.*', 'classes.name as class_name', 'classes.name as class_name', 'classes.gen_id', 'classes.base_id', 'class_lesson.time',
+                'class_lesson.start_time', 'class_lesson.end_time', 'lessons.order', 'courses.icon_url as course_icon_url'
             );
 
 
@@ -360,6 +361,7 @@ class CheckInCheckOutController extends ManageApiController
 
             $data = [
                 'class_name' => $teacher_lesson->class_name,
+                'course_avatar_url' => generate_protocol_url($teacher_lesson->course_icon_url),
                 'time' => date_shift(strtotime($teacher_lesson->time)),
                 'start_time' => format_time_shift(strtotime($teacher_lesson->start_time)),
                 'end_time' => format_time_shift(strtotime($teacher_lesson->end_time)),
@@ -387,8 +389,31 @@ class CheckInCheckOutController extends ManageApiController
             return $data;
         });
 
+        $shifts = $shifts->join('users', 'users.id', '=', 'shifts.user_id')
+            ->join('shift_sessions', 'shift_sessions.id', '=', 'shifts.shift_session_id')
+            ->join('bases', 'bases.id', '=', 'shifts.base_id')
+            ->join('gens', 'gens.id', '=', 'shifts.gen_id')
+            ->select('shifts.*', 'shift_sessions.*', 'users.name as user_name', 'users.color as user_color', 'users.avatar_url as user_avatar_url',
+                'shift_sessions.name as shift_session_name', 'bases.name as base_name', 'gens.name as gen_name', 'bases.address as base_address'
+            );
+
         $shifts = $shifts->get()->map(function ($shift) {
-            $data = $this->shiftTransformer->transform($shift);
+            $data = [
+                'user' => [
+                    'id' => $shift->user_id,
+                    'name' => $shift->user_name,
+                    'color' => $shift->user_color,
+                    'avatar_url' => $shift->user_avatar_url ? generate_protocol_url($shift->user_avatar_url) : url('img/user.png'),
+                ],
+                'name' => $shift->shift_session_name,
+                'id' => $shift->id,
+                'date' => date_shift(strtotime($shift->date)),
+                'week' => $shift->week,
+                'gen' => ['name' => $shift->gen_name],
+                'base' => ['name' => $shift->base_name, 'address' => $shift->base_address],
+                'start_time' => format_time_shift(strtotime($shift->start_time)),
+                'end_time' => format_time_shift(strtotime($shift->end_time))
+            ];
             if ($shift->check_in) {
                 $data['check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_in);
             }
