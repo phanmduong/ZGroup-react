@@ -84,23 +84,4 @@ class GHTKController extends ManageApiController
 
         return $response;
     }
-
-    public function label($label_id)
-    {
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://services.giaohangtietkiem.vn/services/shipment/v2/" . $label_id,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_HTTPHEADER => array(
-                "Token: " . config("app.ghtk_api"),
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        return $response;
-    }
 }
