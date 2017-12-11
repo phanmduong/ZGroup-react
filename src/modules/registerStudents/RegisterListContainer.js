@@ -466,7 +466,6 @@ class RegisterListContainer extends React.Component {
         this.setState({
             page: 1,
             query: value,
-            campaignId: ''
         });
         if (this.timeOut !== null) {
             clearTimeout(this.timeOut);
