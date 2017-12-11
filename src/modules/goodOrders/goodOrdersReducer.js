@@ -123,6 +123,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
         case types.TOGGLE_SHIP_GOOD_MODAL:
             return {
                 ...state,
+                isUpdate: action.isUpdate || false,
                 shipGoodModal: !state.shipGoodModal
             };
         case types.HANDLE_SHIP_ORDER_BEGIN: {
@@ -144,7 +145,8 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                         tel: action.order.customer.phone,
                         name: action.order.customer.name,
                         address: action.order.customer.address,
-                        value: action.order.total
+                        value: action.order.total,
+                        orderId: action.order.orderId
                     }
                 }
             };

@@ -45,7 +45,7 @@ class ShipGoodModalContainer extends React.Component {
             isEmptyInput(order.pick_district) || isEmptyInput(order.pick_name) ||
             isEmptyInput(order.pick_tel)
         ) {
-            showErrorNotification("Bạn cần nhập đủ tất cả các bắt buộc (*)");
+            showErrorNotification("Bạn cần nhập đủ tất cả các trường bắt buộc (*)");
         } else {
             this.props.goodOrderActions.sendShipOrder(this.props.shippingGood);
         }
@@ -53,7 +53,7 @@ class ShipGoodModalContainer extends React.Component {
 
     render() {
         const order = this.props.shippingGood.order;
-
+        console.log(order);
         return (
             <Modal show={this.props.shipGoodModal}
                    onHide={() => this.props.goodOrderActions.showShipGoodModal()}>
@@ -70,20 +70,20 @@ class ShipGoodModalContainer extends React.Component {
                                     <FormInputText
                                         required={true}
                                         label="Địa chỉ khách hàng"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.address}
                                         name="address"/>
                                     <FormInputText
                                         required={true}
                                         label="Tỉnh"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.province}
                                         name="province"/>
 
                                     <FormInputText
                                         required={true}
                                         label="Quận"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.district}
                                         name="district"/>
 
@@ -99,33 +99,33 @@ class ShipGoodModalContainer extends React.Component {
                                     <FormInputText
                                         required={true}
                                         label="Tên khách hàng"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.name}
                                         name="name"/>
 
                                     <FormInputText
                                         required={true}
                                         label="Số điện thoại khách hàng"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.tel}
                                         name="tel"/>
 
                                     <FormInputText
                                         required={true}
                                         label="Phí thu hộ"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.pick_money}
                                         name="pick_money"/>
 
                                     <FormInputText
                                         label="Ghi chú"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.note}
                                         name="note"/>
 
                                     <FormInputText
                                         label="Giá trị đơn hàng"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.value}
                                         name="value"/>
 
@@ -135,7 +135,7 @@ class ShipGoodModalContainer extends React.Component {
                                     <FormInputText
                                         required={true}
                                         label="Địa chỉ lấy hàng"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.pick_address}
                                         name="pick_address"/>
 
@@ -143,21 +143,21 @@ class ShipGoodModalContainer extends React.Component {
                                     <FormInputText
                                         required={true}
                                         label="Tỉnh lấy hàng"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.pick_province}
                                         name="pick_province"/>
 
                                     <FormInputText
                                         required={true}
                                         label="Quận lấy hàng"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.pick_district}
                                         name="pick_district"/>
 
                                     <FormInputText
                                         required={true}
                                         label="Tên công ty lấy hàng"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.pick_name}
                                         name="pick_name"/>
 
@@ -165,10 +165,10 @@ class ShipGoodModalContainer extends React.Component {
                                     <FormInputText
                                         required={true}
                                         label="Số điện thoại nơi lấy hàng"
-                                        onChange={this.handleShipOrder}
+                                        updateFormData={this.handleShipOrder}
                                         value={order.pick_tel}
                                         name="pick_tel"/>
-                                    
+
                                 </div>
 
                             </div>
@@ -183,7 +183,11 @@ class ShipGoodModalContainer extends React.Component {
                                                     data-original-title="Remove item" type="button"
                                                     className="btn btn-success btn-round" data-dismiss="modal"
                                                     onClick={this.sendShipOrder}>
-                                                <i className="material-icons">check</i> Xác nhận
+                                                <i className="material-icons">check</i>
+                                                {
+                                                    this.props.isUpdate ? "Lưu" : "Xác nhận"
+                                                }
+
                                             </button>
                                             <button rel="tooltip" data-placement="top" title=""
                                                     data-original-title="Remove item" type="button"
@@ -207,12 +211,14 @@ ShipGoodModalContainer.propTypes = {
     shipGoodModal: PropTypes.bool.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
     shippingGood: PropTypes.object.isRequired,
-    isSendingShipOrder: PropTypes.bool.isRequired
+    isSendingShipOrder: PropTypes.bool.isRequired,
+    isUpdate: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         shipGoodModal: state.goodOrders.shipGoodModal,
+        isUpdate: state.goodOrders.isUpdate,
         shippingGood: state.goodOrders.shippingGood,
         isSendingShipOrder: state.goodOrders.isSendingShipOrder
     };

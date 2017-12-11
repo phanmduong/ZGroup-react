@@ -838,6 +838,8 @@ export default {
     },
 
     goodOrders: {
+        isUpdate: false,
+        orderId: 0,
         shipGoodModal: false,
         isSendingShipOrder: false,
         shippedGoodResponse: {},
@@ -857,9 +859,9 @@ export default {
                 district: "",
                 is_freeship: "1",
                 pick_date: "",
-                pick_money: 0,
+                pick_money: "",
                 note: "",
-                value: 0
+                value: ""
             }
         },
         isLoading: false,
