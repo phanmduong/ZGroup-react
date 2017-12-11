@@ -389,16 +389,16 @@ class CheckInCheckOutController extends ManageApiController
 //            return $data;
 //        });
 
-//        $shifts = $shifts->get()->map(function ($shift) {
-//            $data = $this->shiftTransformer->transform($shift);
+        $shifts = $shifts->get()->map(function ($shift) {
+            $data = $this->shiftTransformer->transform($shift);
 //            if ($shift->check_in) {
 //                $data['check_in'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_in);
 //            }
 //            if ($shift->check_out) {
 //                $data['check_out'] = $this->checkInCheckOutRepository->getCheckInCheckOut($shift->check_out);
 //            }
-//            return $data;
-//        });
+            return $data;
+        });
 
         $data = [];
 
