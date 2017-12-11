@@ -26,9 +26,9 @@ class RoomRepository
             return [
                 'id' => $room->id,
                 'name' => $room->name,
-                'base' => $room->base()->withTrashed()->first()->name,
-                'address' => $room->base()->withTrashed()->first()->address,
-                'base_id' => $room->base()->withTrashed()->first()->id
+                'base' => $room->base->name,
+                'address' => $room->base->address,
+                'base_id'=>$room->base->id
             ];
     }
 }
