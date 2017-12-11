@@ -31,23 +31,21 @@ class RegisterListContainer extends React.Component {
             openFilterPanel: false,
             selectedClassId: '',
             selectedSalerId: '',
-            paid_status: '',
-            class_status: '',
-            selectedMoneyFilter: 0,
-            selectedClassStatus: 0,
+            selectedMoneyFilter: '',
+            selectedClassStatus: '',
             classFilter:[],
             salerFilter:[],
             campaignFilter:[],
             cardTitle: 'Danh sách đăng kí học',
             moneyFilter:[
-                {value: 0, label: 'Tất cả',},
+                {value: '', label: 'Tất cả',},
                 {value: 1, label: 'Đã nộp',},
-                {value: 2, label: 'Chưa nộp',},
+                {value: 0, label: 'Chưa nộp',},
             ],
             classStatusFilter:[
-                {value: 0, label: 'Tất cả',},
-                {value: 1, label: 'Hoạt động',},
-                {value: 2, label: 'Chờ',},
+                {value: '', label: 'Tất cả',},
+                {value: 'active', label: 'Hoạt động',},
+                {value: 'waiting', label: 'Chờ',},
             ],
             time:{
                 startTime: '',
@@ -86,7 +84,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadCampaignFilter();
         if(this.props.route.path ==='/manage/waitlist'){
             this.isWaitListPage=true;
-            this.setState({class_status: 'waiting', cardTitle:'Danh sách chờ', query: ''});
+            this.setState({selectedClassStatus: 'waiting', cardTitle:'Danh sách chờ', query: ''});
         }
         if (this.props.params.salerId) {
             this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
@@ -94,7 +92,8 @@ class RegisterListContainer extends React.Component {
                 page: 1,
                 query: '',
                 campaignId: '',
-                selectGenId: ''
+                selectGenId: '',
+                selectedSalerId: this.props.params.salerId,
             });
             this.salerId = this.props.params.salerId;
         } else {
@@ -108,7 +107,7 @@ class RegisterListContainer extends React.Component {
                 this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
             } else {
                 if(this.props.route.path ==='/manage/waitlist'){
-                    this.onClassStatusFilterChange({value: 2});
+                    this.onClassStatusFilterChange({value: 'waiting'});
                     //this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
                 }else {
                     //this.loadRegisterStudent(1, '');
@@ -137,7 +136,7 @@ class RegisterListContainer extends React.Component {
                 campaignFilter: this.getSalerFilter(nextProps.campaignFilter),
             });
         }
-        if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens) {
+        if (!nextProps.isLoadingGens && this.props.isLoadingGens) {
 
             let gens = _.sortBy(nextProps.gens, [function (o) {
                 return parseInt(o.name);
@@ -145,19 +144,30 @@ class RegisterListContainer extends React.Component {
             gens = _.reverse(gens);
             this.setState({
                 gens: gens,
-                selectGenId: nextProps.currentGen.id
+                selectGenId: this.props.params.genId ? this.props.params.genId : nextProps.currentGen.id
             });
             this.props.registerActions.loadClassFilter(nextProps.currentGen.id);
         }
 
-        if (!nextProps.isLoadingRegisters && nextProps.isLoadingRegisters !== this.props.isLoadingRegisters) {
+        if (!nextProps.isLoadingRegisters && this.props.isLoadingRegisters) {
             this.setState({
                 selectGenId: nextProps.genId
             });
         }
 
         if (nextProps.params.salerId !== this.props.params.salerId) {
-            this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, '', nextProps.params.salerId, '');
+            this.props.registerActions.loadRegisterStudent(
+                1,//page
+                this.state.selectGenId,
+                this.state.query,
+                nextProps.params.salerId,
+                this.state.campaignId,
+                this.state.selectedClassId,
+                this.state.selectedMoneyFilter,
+                this.state.selectedClassStatus,
+                this.state.time.startTime,
+                this.state.time.endTime,
+            );
             this.setState({
                 page: 1,
                 query: '',
@@ -173,30 +183,31 @@ class RegisterListContainer extends React.Component {
                 campaignId: '',
                 selectRegisterId: 0,
                 selectedClassId: '',
-                paid_status: '',
+                selectedSalerId: '',
+                selectedMoneyFilter: '',
                 time:{
                     startTime: '',
                     endTime: '',
                 },});
             if(nextProps.route.path=='/manage/waitlist'){
                 this.isWaitListPage=true;
-                this.setState({class_status: 'waiting',  selectedClassStatus: 2, cardTitle:'Danh sách chờ', query: ''});
-                this.onClassStatusFilterChange({value: 2});
+                this.setState({selectedClassStatus: 'waiting',   cardTitle:'Danh sách chờ', query: ''});
+                this.onClassStatusFilterChange({value: 'waiting'});
             }
             else {
                 this.onClassStatusFilterChange();
                 this.isWaitListPage=false;
-                this.setState({ selectedClassStatus : 0, cardTitle: 'Danh sách đăng kí học', query: ''});
+                this.setState({ selectedClassStatus : '', cardTitle: 'Danh sách đăng kí học', query: ''});
                 if (this.props.params.salerId) {
-                this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
-                this.setState({
-                    page: 1,
-                    query: '',
-                    campaignId: '',
-                    selectGenId: '',
-                    class_status: 0,
-                });
-                this.salerId = this.props.params.salerId;
+                        this.props.registerActions.loadRegisterStudent(1, '', '', this.props.params.salerId, '');
+                        this.setState({
+                            page: 1,
+                            query: '',
+                            campaignId: '',
+                            selectGenId: '',
+                            selectedClassStatus: '',
+                        });
+                        this.salerId = this.props.params.salerId;
                  } else {
                 if (this.props.params.genId && this.props.params.campaignId) {
                     this.setState({
@@ -207,7 +218,7 @@ class RegisterListContainer extends React.Component {
                     });
                     this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
                 } else {
-                    this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','','','',);
+                    this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId);
                 }
             }
             }
@@ -228,8 +239,8 @@ class RegisterListContainer extends React.Component {
             this.salerId,
             this.state.campaignId,
             obj ? obj.value : '',
-            this.state.paid_status,
-            this.state.class_status,
+            this.state.selectedMoneyFilter,
+            this.state.selectedClassStatus,
             this.state.time.startTime,
             this.state.time.endTime,
         );
@@ -251,8 +262,8 @@ class RegisterListContainer extends React.Component {
             obj ? obj.value : '',
             this.state.campaignId,
             this.state.selectedClassId,
-            this.state.paid_status,
-            this.state.class_status,
+            this.state.selectedMoneyFilter,
+            this.state.selectedClassStatus,
             this.state.time.startTime,
             this.state.time.endTime,
         );
@@ -272,27 +283,17 @@ class RegisterListContainer extends React.Component {
             this.state.selectedSalerId,
             obj ? obj.value : '',
             this.state.selectedClassId,
-            this.state.paid_status,
-            this.state.class_status,
+            this.state.selectedMoneyFilter,
+            this.state.selectedClassStatus,
             this.state.time.startTime,
             this.state.time.endTime,
         );
     }
 
     onMoneyFilterChange(obj){
-        let num = obj ? obj.value : 0 ;
-        let res = '';
-        switch(num){
-            case 1: {res = 1; break;}
-            case 2: {res = 0;break;}
-            default: res = '';
-        }
-        if(obj){
-            this.setState({selectedMoneyFilter: obj.value, paid_status: res});
-        }
-        else {
-            this.setState({selectedMoneyFilter: 0, paid_status: res});
-        }
+        let res = obj ? obj.value : '' ;
+        this.setState({selectedMoneyFilter: res,});
+
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
@@ -301,26 +302,16 @@ class RegisterListContainer extends React.Component {
             this.state.campaignId,
             this.state.selectedClassId,
             res,
-            this.state.class_status,
+            this.state.selectedClassStatus,
             this.state.time.startTime,
             this.state.time.endTime,
         );
     }
 
     onClassStatusFilterChange(obj, filter){
-        let num = obj ? obj.value : 0 ;
-        let res = '';
-        switch(num){
-            case 1: {res = 'active'; break;}
-            case 2: {res = 'waiting';break;}
-            default: res = '';
-        }
-        if(obj){
-            this.setState({selectedClassStatus: obj.value, class_status: res});
-        }
-        else {
-            this.setState({selectedClassStatus: 0, class_status: res});
-        }
+        let res = obj ? obj.value : '' ;
+        this.setState({selectedClassStatus: res});
+
         let newfilter = filter ? filter : this.state.allClassFilter;
         if(res==='waiting'){
             newfilter = newfilter.filter(item => (item.type === 'waiting'));
@@ -336,7 +327,7 @@ class RegisterListContainer extends React.Component {
             this.state.selectedSalerId,
             this.state.campaignId,
             '',
-            this.state.paid_status,
+            this.state.selectedMoneyFilter,
             res,
             this.state.time.startTime,
             this.state.time.endTime,
@@ -356,8 +347,8 @@ class RegisterListContainer extends React.Component {
                 this.salerId,
                 this.state.campaignId,
                 this.state.selectedClassId,
-                this.state.paid_status,
-                this.state.class_status,
+                this.state.selectedMoneyFilter,
+                this.state.selectedClassStatus,
                 time.startTime,
                 time.endTime
                 );
@@ -441,8 +432,10 @@ class RegisterListContainer extends React.Component {
         this.setState({
             page: 1,
             campaignId,
+            selectedClassStatus : '',
         });
-        this.props.registerActions.loadRegisterStudent(1, this.state.selectGenId, this.state.query, this.salerId, campaignId);
+
+        this.onCampaignFilterChange({value: campaignId});
     }
 
     loadRegisterStudent(page, campaignid) {
@@ -455,8 +448,8 @@ class RegisterListContainer extends React.Component {
             this.salerId,
             campaignid ? campaignid : this.state.campaignId,
             this.state.selectedClassId,
-            this.state.paid_status,
-            this.state.class_status,
+            this.state.selectedMoneyFilter,
+            this.state.selectedClassStatus,
             this.state.time.startTime,
             this.state.time.endTime,
             );
@@ -477,8 +470,8 @@ class RegisterListContainer extends React.Component {
                 this.salerId,
                 this.state.campaignId,
                 this.state.selectedClassId,
-                this.state.paid_status,
-                this.state.class_status,
+                this.state.selectedMoneyFilter,
+                this.state.selectedClassStatus,
                 this.state.time.startTime,
                 this.state.time.endTime,
             );
@@ -495,8 +488,11 @@ class RegisterListContainer extends React.Component {
             this.salerId,
             this.state.campaignId,
             this.state.selectedClassId,
-            this.state.paid_status,
-            this.state.class_status,);
+            this.state.selectedMoneyFilter,
+            this.state.selectedClassStatus,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            );
         this.props.registerActions.loadClassFilter(value);
     }
 
@@ -587,7 +583,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo Saler
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoadingSalerFilter}
+                                                    disabled={this.props.isLoadingSalerFilter || this.props.isLoading}
                                                     options={this.state.salerFilter}
                                                     onChange={this.onSalerFilterChange}
                                                     value={this.state.selectedSalerId}
@@ -600,7 +596,7 @@ class RegisterListContainer extends React.Component {
                                                     Theo Chiến dịch
                                                 </label>
                                                 <ReactSelect
-                                                    disabled={this.props.isLoadingCampaignFilter}
+                                                    disabled={this.props.isLoadingCampaignFilter || this.props.isLoading}
                                                     options={this.state.campaignFilter}
                                                     onChange={this.onCampaignFilterChange}
                                                     value={this.state.campaignId}
@@ -1000,7 +996,7 @@ RegisterListContainer.propTypes = {
     genId: PropTypes.number,
     loadSalerFilter: PropTypes.func,
     loadCampaignFilter: PropTypes.func,
-    currentGen: PropTypes.obj,
+    currentGen: PropTypes.object,
 };
 
 function mapStateToProps(state) {
