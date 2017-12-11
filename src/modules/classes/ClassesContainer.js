@@ -164,7 +164,7 @@ class ClassesContainer extends React.Component {
         this.props.classActions.loadClasses(this.state.query, '', this.search.teacherId, value);
     }
 
-    beginExportExcel(){
+    beginExportExcel() {
         /*if(this.state.selectGenId == 11 || this.state.selectGenId == '')
             helper.showErrorNotification('Vui lòng chọn một khóa.');
         else{
@@ -178,9 +178,10 @@ class ClassesContainer extends React.Component {
             <div>
                 <Modal
                     show={this.state.openLoadingModal}
-                    onHide={()=>{}}
+                    onHide={() => {
+                    }}
                 >
-                    <Modal.Header><h3>{ "Đang xuất file..." }</h3></Modal.Header>
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
                     <Modal.Body><Loading/></Modal.Body>
                 </Modal>
                 <div className="container-fluid">
@@ -193,56 +194,75 @@ class ClassesContainer extends React.Component {
                             {
                                 this.props.isCreateClass ?
                                     (
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <div className="col-md-3">
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-rose"
-                                                        onClick={() => {
-                                                            this.openModalClass();
-                                                        }}
-                                                    >
-                                                        Thêm lớp
-                                                    </button>
-                                                </div>
-                                                <div className="col-md-9">
-                                                    <Search
-                                                        onChange={this.classesSearchChange}
-                                                        value={this.state.query}
-                                                        placeholder="Tìm kiếm lớp"
-                                                    />
+                                        <div>
+                                            <div className="row">
+                                                {
+                                                    (this.state.selectGenId && this.state.selectGenId > 0) &&
+
+                                                    <div className="col-md-12">
+                                                        <Select
+                                                            options={this.state.gens}
+                                                            onChange={this.changeGens}
+                                                            value={this.state.selectGenId}
+                                                            defaultMessage="Chọn khóa học"
+                                                            name="gens"
+                                                        />
+                                                    </div>
+
+                                                }
+
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-12">
+                                                    <div className="col-md-3">
+                                                        <button
+                                                            type="button"
+                                                            className="btn btn-rose"
+                                                            onClick={() => {
+                                                                this.openModalClass();
+                                                            }}
+                                                        >
+                                                            Thêm lớp
+                                                        </button>
+                                                    </div>
+                                                    <div className="col-md-9">
+                                                        <Search
+                                                            onChange={this.classesSearchChange}
+                                                            value={this.state.query}
+                                                            placeholder="Tìm kiếm lớp"
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     )
                                     :
                                     (
-                                            <div>
-                                                <div className="row">
-                                                  {
-                                                            (this.state.selectGenId && this.state.selectGenId > 0) &&
+                                        <div>
+                                            <div className="row">
+                                                {
+                                                    (this.state.selectGenId && this.state.selectGenId > 0) &&
 
-                                                                <div  className="col-sm-12 col-xs-5">
-                                                                <Select
-                                                                    options={this.state.gens}
-                                                                    onChange={this.changeGens}
-                                                                    value={this.state.selectGenId}
-                                                                    defaultMessage="Chọn khóa học"
-                                                                    name="gens"
-                                                                />
-                                                                </div>
+                                                    <div className="col-md-12">
+                                                        <Select
+                                                            options={this.state.gens}
+                                                            onChange={this.changeGens}
+                                                            value={this.state.selectGenId}
+                                                            defaultMessage="Chọn khóa học"
+                                                            name="gens"
+                                                        />
+                                                    </div>
 
-                                                 }
+                                                }
 
-                                                </div>
-
-                                                    <Search
-                                                        onChange={this.classesSearchChange}
-                                                        value={this.state.query}
-                                                        placeholder="Tìm kiếm lớp"
-                                                    />
                                             </div>
+
+                                            <Search
+                                                onChange={this.classesSearchChange}
+                                                value={this.state.query}
+                                                placeholder="Tìm kiếm lớp"
+                                            />
+                                        </div>
                                     )
                             }
 
@@ -330,8 +350,8 @@ function mapStateToProps(state) {
         isLoadingExcel: state.classes.isLoadingExcel,
         excel: state.classes.excel,
         isCreateClass: state.classes.isCreateClass,
-        gens:state.classes.gens,
-        isLoadingGens:state.classes.isLoadingGens,
+        gens: state.classes.gens,
+        isLoadingGens: state.classes.isLoadingGens,
 
     };
 }

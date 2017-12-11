@@ -904,9 +904,12 @@ export function newWorkBook() {
     return XLSX.utils.book_new();
 }
 
-export function appendJsonToWorkBook(json, wb, sheetname, cols, merges) {
+export function appendJsonToWorkBook(json, wb, sheetname, cols, cmts, merges) {
     let sheet = XLSX.utils.json_to_sheet(json);
-    if (cols) sheet['!cols'] = cols;
+    if(cols) sheet['!cols'] = cols;
+    if(cmts){
+        cmts.forEach((item)=>{ XLSX.utils.cell_add_comment(sheet[item.cell], item.note, ''); });
+    }
     if (merges) sheet['!merges'] = merges;
     XLSX.utils.book_append_sheet(wb, sheet, sheetname);
     return wb;

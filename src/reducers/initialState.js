@@ -1136,43 +1136,18 @@ export default {
         },
         data: {
             classes: [
-                {
-
-                    activated: 0,
-                    course: {
-                        id: 2,
-                        name: "Illustrator",
-                        icon_url: "http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072336A5Ks9NSnqnHsXOn.jpg"
-                    },
-                    created_at: "13:50, 14 Tháng Tư, 2017",
-                    datestart: "13 Tháng Mười, 2017",
-                    datestart_en: "2017-10-13",
-                    description: "Học riêng với giảng viên (Học phí: 2.500.000đ)",
-                    gen: {id: 23, name: "30"},
-                    id: 578,
-                    name: "AI 1-1",
-                    regis_target: 1,
-                    room: {
-                        id: 17,
-                        name: "Tầng 3",
-                        base: "Cơ sở 1",
-                        address: " Số 175 phố Chùa Láng - Đống Đa - Hà Nội",
-                        base_id: 3
-                    },
-                    schedule_id: 0,
-                    status: 1,
-                    study_time: "Tuỳ theo sự sắp xếp của trợ giảng và giảng viên",
-                    target: 1,
-                    total_paid: 1,
-                    total_register: 1,
-                }
             ],
 
         },
         class: [],
         lesson: [],
         bases: [],
-        gens: []
+        gens: [],
+        selectedClass: {
+            name: '',
+            teacher: {},
+            teacher_assistant:{},
+        },
     },
     attendanceStaffs: {
         gens: [],
