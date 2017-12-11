@@ -138,15 +138,16 @@ class RegisterListContainer extends React.Component {
             });
         }
         if (!nextProps.isLoadingGens && nextProps.isLoadingGens !== this.props.isLoadingGens) {
+
             let gens = _.sortBy(nextProps.gens, [function (o) {
                 return parseInt(o.name);
             }]);
             gens = _.reverse(gens);
             this.setState({
                 gens: gens,
-                selectGenId: gens[1].id
+                selectGenId: nextProps.currentGen.id
             });
-            this.props.registerActions.loadClassFilter(gens[1].id);
+            this.props.registerActions.loadClassFilter(nextProps.currentGen.id);
         }
 
         if (!nextProps.isLoadingRegisters && nextProps.isLoadingRegisters !== this.props.isLoadingRegisters) {
@@ -993,6 +994,7 @@ RegisterListContainer.propTypes = {
     genId: PropTypes.number,
     loadSalerFilter: PropTypes.func,
     loadCampaignFilter: PropTypes.func,
+    currentGen: PropTypes.obj,
 };
 
 function mapStateToProps(state) {
@@ -1019,6 +1021,7 @@ function mapStateToProps(state) {
         isLoadingSalerFilter: state.registerStudents.isLoadingClassFilter,
         isLoadingCampaignFilter: state.registerStudents.isLoadingCampaignFilter,
         genId: state.registerStudents.genId,
+        currentGen: state.registerStudents.currentGen,
     };
 }
 
