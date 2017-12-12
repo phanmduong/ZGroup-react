@@ -141,6 +141,15 @@ export const EDIT_LINK_ERROR = 'EDIT_LINK_ERROR';
 }
 
 
+{/*Begin Excel Actions*/
+}
+export const BEGIN_EXPORT_EXCEL = 'BEGIN_EXPORT_EXCEL';
+export const EXPORT_EXCEL_SUCCESS = 'EXPORT_EXCEL_SUCCESS';
+export const EXPORT_EXCEL_ERROR = 'EXPORT_EXCEL_ERROR';
+{/*Begin Excel Actions*/
+}
+
+
 {/*Begin Lesson Actions*/
 }
 {/*Begin Lesson Actions*/
@@ -1001,5 +1010,8 @@ export const LOAD_BASES_ROOM_DATA_ERROR = "LOAD_BASES_ROOM_DATA_ERROR";
 export const BEGIN_LOAD_ROOMS_DATA = "BEGIN_LOAD_ROOMS_DATA";
 export const LOAD_ROOMS_DATA_SUCCESS = "LOAD_ROOMS_DATA_SUCCESS";
 export const LOAD_ROOMS_DATA_ERROR = "LOAD_ROOMS_DATA_ERROR";
+export const BEGIN_STORE_ROOM_DATA = "BEGIN_STORE_ROOM_DATA";
+export const STORE_ROOM_DATA_SUCCESS = "STORE_ROOM_DATA_SUCCESS";
+export const STORE_ROOM_DATA_ERROR = "STORE_ROOM_DATA_ERROR";
 
 

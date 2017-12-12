@@ -95,6 +95,7 @@ import BarcodesContainer from "./modules/book/barcode/BarcodesContainer";
 import AttendanceStaffsContainer from "./modules/attendanceStaffs/AttendanceStaffsContainer";
 import ListLessonContainer from "./modules/attendance/ListLessonContainer";
 import RoomsContainer from "./modules/rooms/RoomsContainer";
+import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
 
 export default (
     <Route>
@@ -312,6 +313,7 @@ export default (
             {/*End marketing campaigns routes*/}
 
 
+
             {/*Begin supplier routes */}
             <Route path="/goods/supplier" component={SupplierContainer}/>
             {/*End supplier routes*/}
@@ -345,6 +347,10 @@ export default (
 
             {/*Begin edit-product routes */}
             <Route path="/staff/attendances" component={AttendanceStaffsContainer}/>
+            {/*End edit-product routes*/}
+
+            {/*Begin edit-product routes */}
+            <Route path="/excel/teachers/:genId" component={TeachersExcelContainer}/>
             {/*End edit-product routes*/}
 
         </Route>

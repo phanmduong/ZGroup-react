@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function getRooms(page, search) {
+export function getRooms(page, search, baseId) {
     let url = env.MANAGE_API_URL + "/base/rooms?page=" + page;
     let token = localStorage.getItem('token');
     if (search) {
@@ -9,6 +9,10 @@ export function getRooms(page, search) {
     }
     if (token) {
         url += "&token=" + token;
+    }
+
+    if (baseId && baseId != 0) {
+        url += "&base_id=" + baseId;
     }
 
     return axios.get(url);

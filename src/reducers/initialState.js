@@ -1168,6 +1168,14 @@ export default {
         currentPage: 1,
         totalPages: 1,
         rooms: [],
-        bases: []
-    }
+        isLoadingBases: false,
+        errorBases: false,
+        isStoringRoom: false,
+        errorStoreRoom: false,
+        bases: [],
+    },
+    excel: {
+        isLoading: false,
+        data: [],
+    },
 };

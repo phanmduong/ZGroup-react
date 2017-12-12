@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
-export default function rolesReducer(state = initialState.roles, action) {
+export default function rolesReducer(state = initialState.rooms, action) {
 
     switch (action.type) {
         case types.BEGIN_LOAD_ROOMS_DATA:
@@ -27,15 +27,57 @@ export default function rolesReducer(state = initialState.roles, action) {
             return {
                 ...state,
                 ...{
-                    isLoading: action.isLoading,
-                    error: action.error
+                    isLoading: false,
+                    error: true
+                }
+            };
+        case types.BEGIN_LOAD_BASES_ROOM_DATA:
+            return {
+                ...state,
+                ...{
+                    isLoadingBases: true,
+                    errorBases: false,
                 }
             };
         case types.LOAD_BASES_ROOM_DATA_SUCCESS:
             return {
                 ...state,
                 ...{
+                    isLoadingBases: false,
+                    errorBases: false,
                     bases: action.bases,
+                }
+            };
+        case types.LOAD_BASES_ROOM_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingBases: false,
+                    errorBases: true
+                }
+            };
+        case types.BEGIN_STORE_ROOM_DATA:
+            return {
+                ...state,
+                ...{
+                    isStoringRoom: true,
+                    errorStoreRoom: false,
+                }
+            };
+        case types.STORE_ROOM_DATA_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isStoringRoom: false,
+                    errorStoreRoom: false,
+                }
+            };
+        case types.STORE_ROOM_DATA_ERROR:
+            return {
+                ...state,
+                ...{
+                    isStoringRoom: false,
+                    errorStoreRoom: true,
                 }
             };
         default:
