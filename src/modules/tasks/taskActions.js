@@ -271,6 +271,7 @@ export function createCard(card) {
         });
 
         return new Promise((resolve) => {
+            
             taskApi.createCard(card)
                 .then(res => {
                     resolve();

@@ -522,5 +522,15 @@ export function loadTaskListTemplates(projectId) {
 }
 
 
+export function barcodeNotEmpty() {
+    let url = env.MANAGE_API_URL + "/barcode/exist";
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+
 
 
