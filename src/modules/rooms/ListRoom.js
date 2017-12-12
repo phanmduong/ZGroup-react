@@ -1,6 +1,7 @@
 import React from 'react';
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import Loading from "../../components/common/Loading";
+import PropTypes from "prop-types";
 
 class ListRoom extends React.Component {
     constructor(props, context) {
@@ -19,7 +20,7 @@ class ListRoom extends React.Component {
         } else {
             return (
                 <div className="row">
-                    {this.props.rooms.map((room) => {
+                    {this.props.rooms && this.props.rooms.map((room) => {
                         return (
                             <div className="col-sm-4" id="card-email-template">
                                 <div className="card card-chart">
@@ -59,5 +60,10 @@ class ListRoom extends React.Component {
     }
 }
 
+ListRoom.propTypes = {
+    rooms: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    loadData: PropTypes.func.isRequired,
+};
 
 export default ListRoom;

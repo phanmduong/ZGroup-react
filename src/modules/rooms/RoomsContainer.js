@@ -9,6 +9,7 @@ import Loading from "../../components/common/Loading";
 import Search from "../../components/common/Search";
 import Pagination from "../../components/common/Pagination";
 import ListRoom from "./ListRoom";
+import PropTypes from "prop-types";
 import {Modal} from "react-bootstrap";
 import FormInputText from "../../components/common/FormInputText";
 import Select from "../../components/common/Select";
@@ -246,6 +247,17 @@ class RoomsContainer extends React.Component {
         );
     }
 }
+
+RoomsContainer.propTypes = {
+    isStoringRoom: PropTypes.bool.isRequired,
+    isLoadingBases: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    errorStoreRoom: PropTypes.bool.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    rooms: PropTypes.array.isRequired,
+    bases: PropTypes.array.isRequired,
+};
 
 function mapStateToProps(state) {
     return {
