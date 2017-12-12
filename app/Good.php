@@ -29,6 +29,11 @@ class Good extends Model
         return $this->hasMany('App\ImportedGoods', 'good_id');
     }
 
+    public function history()
+    {
+        return $this->hasMany(HistoryGood::class, 'good_id');
+    }
+
     public function goodWarehouse()
     {
         return $this->hasMany('App\GoodWarehouse', 'good_id');
