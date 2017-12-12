@@ -247,7 +247,7 @@ export default function importGoodsReducer(state = initialState.importGoods, act
                     importOrder: {
                         ...state.importGood.importOrder,
                         debt: state.importGood.importOrder.debt - action.orderPaidMoney.money
-                    },
+                    }
                 },
                 formImportGood: {
                     ...state.formImportGood,

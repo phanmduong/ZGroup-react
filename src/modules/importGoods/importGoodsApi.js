@@ -65,14 +65,15 @@ export function createImportGoods(formImportGood, status, importGoodsId) {
 
     return axios.post(url, {
         code: formImportGood.code,
-        id: importGoodsId ? importGoodsId : "",
+        id: formImportGood.id ? formImportGood.id : "",
+
         note: formImportGood.note,
         status: status,
         paid_money: Number(formImportGood.paid_money.toString().replace(/\./g, "")),
         imported_goods: importGoods,
         payment: formImportGood.payment,
         note_paid_money: formImportGood.note_paid_money,
-        warehouse_id: formImportGood.warehouse ? formImportGood.warehouse.id : '',
+        warehouse_id: formImportGood.warehouse_id,
         user_id: formImportGood.supplier ? formImportGood.supplier.id : ''
     });
 }
@@ -176,3 +177,4 @@ export function addPaidMoney(paidMoney, orderId) {
     });
 
 }
+

@@ -86,7 +86,6 @@ import InfoCustomerContainer from "./modules/customer/InfoCustomerContainer" ;
 import CreateProductContainer from "./modules/createProduct/CreateProductContainer";
 import ProductSystemContainer from "./modules/createProduct/ProductSystemContainer";
 import ProductWebsiteContainer from "./modules/createProduct/ProductWebsiteContainer";
-import EditProductContainer from "./modules/createProduct/EditProductContainer";
 import SummaryMarketingCampaignContainer from "./modules/summaryMarketingCampaign/SummaryMarketingCampaignContainer";
 import SummarySalesContainer from "./modules/summarySales/SummarySalesContainer";
 import OverviewSales from "./modules/summarySales/OverviewSales";
@@ -339,7 +338,7 @@ export default (
             {/*End create-product routes*/}
 
             {/*Begin edit-product routes */}
-            <Route path="/product/:productId/edit" component={EditProductContainer} type="edit">
+            <Route path="/product/:productId/edit" component={CreateProductContainer} type="edit">
                 <IndexRoute component={ProductSystemContainer}/>
                 <Route path="website-display" component={ProductWebsiteContainer}/>
             </Route>

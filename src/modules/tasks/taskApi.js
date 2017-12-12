@@ -149,6 +149,7 @@ export function deleteCard(cardId) {
 }
 
 export function createCard(card) {
+    console.log(card);
     let url = env.MANAGE_API_URL + "/card/create";
     const token = localStorage.getItem('token');
     if (token) {
@@ -513,6 +514,16 @@ export function loadGoodPropertyItems(taskListId) {
 
 export function loadTaskListTemplates(projectId) {
     let url = env.MANAGE_API_URL + `/tasklist-templates/${projectId}`;
+    const token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
+
+export function barcodeNotEmpty() {
+    let url = env.MANAGE_API_URL + "/book/barcode/exist";
     const token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

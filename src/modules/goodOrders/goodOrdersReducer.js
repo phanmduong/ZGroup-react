@@ -105,6 +105,11 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isLoadingStaffs: false,
                 errorStaffs: true,
             };
+        case types.GET_ALL_STAFFS_COMPLETE_GOOD_ORDER:
+            return {
+                ...state,
+                allStaffs: action.allStaffs
+            };
         case types.CHANGE_STATUS_ORDER_SUCCESS:
             return {
                 ...state,
@@ -114,6 +119,63 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                         status: action.status
                     }
                 }
+            };
+        case types.TOGGLE_SHIP_GOOD_MODAL:
+            return {
+                ...state,
+                isUpdate: action.isUpdate || false,
+                shipGoodModal: !state.shipGoodModal
+            };
+        case types.HANDLE_SHIP_ORDER_BEGIN: {
+            let products = {...state.shippingGood.product};
+            action.order.good_orders.forEach(product => {
+                products = [...product, {
+                    name: product.name,
+                    weight: 0.3 * product.quantity
+                }];
+            });
+            return {
+                ...state,
+                shippingGood: {
+                    ...state.shipGoodModal,
+                    products,
+                    order: {
+                        ...state.shippingGood.order,
+                        id: action.order.code,
+                        tel: action.order.customer.phone,
+                        name: action.order.customer.name,
+                        address: action.order.customer.address,
+                        value: action.order.total,
+                        orderId: action.order.id
+                    }
+                }
+            };
+        }
+        case types.HANDLE_SHIP_ORDER:
+            return {
+                ...state,
+                shippingGood: {
+                    ...state.shippingGood,
+                    order: action.order
+                }
+            };
+        case types.BEGIN_SEND_SHIP_ORDER:
+            return {
+                ...state,
+                isSendingShipOrder: true
+            };
+        case types.SEND_SHIP_ORDER_COMPLETE:
+            return {
+                ...state,
+                isSendingShipOrder: false,
+                shipGoodModal: false,
+                shippedGoodResponse: action.shippedGoodResponse
+            };
+        case types.SEND_SHIP_ORDER_FAILED:
+            return {
+                ...state,
+                isSendingShipOrder: false,
+                shipGoodModal: false
             };
         default:
             return state;

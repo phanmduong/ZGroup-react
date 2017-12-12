@@ -12,6 +12,8 @@ import * as goodOrderActions from './goodOrderActions';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import Pagination from "../../components/common/Pagination";
+import {ORDER_STATUS} from "../../constants/constants";
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -24,19 +26,23 @@ class OrdersContainer extends React.Component {
                 startTime: '',
                 endTime: ''
             },
-            staff: '',
-            base: '',
-            status: ''
+            staff: null,
+            base: null,
+            status: null
         };
         this.timeOut = null;
         this.ordersSearchChange = this.ordersSearchChange.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
+        this.staffsSearchChange = this.staffsSearchChange.bind(this);
+        this.statusesSearchChange = this.statusesSearchChange.bind(this);
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
+        this.showShipGoodModal = this.showShipGoodModal.bind(this);
     }
 
     componentWillMount() {
         this.loadOrders();
+        this.props.goodOrderActions.getAllStaffs();
     }
 
     updateFormDate(event) {
@@ -71,11 +77,79 @@ class OrdersContainer extends React.Component {
         this.props.goodOrderActions.loadAllOrders(page, this.state.query, this.state.time.startTime, this.state.time.endTime);
     }
 
+    staffsSearchChange(value) {
+        if (value) {
+            this.setState({
+                staff: value.value,
+                page: 1
+            });
+            this.props.goodOrderActions.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                value.value,
+                this.state.status
+            );
+        } else {
+            this.setState({
+                staff: null,
+                page: 1
+            });
+            this.props.goodOrderActions.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                null,
+                this.state.status
+            );
+        }
+    }
+
+    statusesSearchChange(value) {
+        if (value) {
+            this.setState({
+                status: value.value,
+                page: 1
+            });
+            this.props.goodOrderActions.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.staff,
+                value.value
+            );
+        } else {
+            this.setState({
+                status: null,
+                page: 1
+            });
+            this.props.goodOrderActions.loadAllOrders(
+                1,
+                this.state.query,
+                this.state.time.startTime,
+                this.state.time.endTime,
+                this.state.staff,
+                null
+            );
+        }
+    }
+
+
     changeStatusOrder(status, orderId) {
-        this.props.goodOrderActions.changeStatusOrder(orderId, status);
+        this.props.goodOrderActions.changeStatusOrder(status, orderId);
+    }
+
+    showShipGoodModal(order) {
+        this.props.goodOrderActions.showShipGoodModal(true);
+        this.props.goodOrderActions.handleShipOrderBegin(order);
     }
 
     render() {
+        let first = (this.props.currentPage - 1) * this.props.limit + 1;
+        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (
             <div>
                 <div className="row">
@@ -115,11 +189,18 @@ class OrdersContainer extends React.Component {
                             <div className="card-content">
                                 <h4 className="card-title">Danh sách đơn hàng</h4>
                                 <div className="row">
-                                    <div className="col-md-10">
+                                    <div className="col-md-6">
                                         <Search
                                             onChange={this.ordersSearchChange}
                                             value={this.state.query}
                                             placeholder="Nhập mã đơn hoặc mã/họ tên/SĐT khách hàng"
+                                        />
+                                    </div>
+                                    <div className="col-md-4">
+                                        <Search
+                                            onChange={this.ordersSearchChange}
+                                            value={this.state.user}
+                                            placeholder="Nhập tên khách hàng"
                                         />
                                     </div>
                                     <div className="col-md-2">
@@ -131,107 +212,94 @@ class OrdersContainer extends React.Component {
                                 </div>
                                 <div id="demo" className="collapse">
                                     <div className="row">
-                                        <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label className="label-control"/>
-                                                <input type="text"
-                                                       name="name"
-                                                       className="form-control"
-                                                       value={this.state.user}
-                                                       onChange={this.handleProduct}
-                                                       placeholder="Nhập tên khách hàng"
-                                                />
-                                                <span className="material-input"/>
+                                        <div className="col-md-3">
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <FormInputDate
+                                                        label="Từ ngày"
+                                                        name="startTime"
+                                                        updateFormData={this.updateFormDate}
+                                                        id="form-start-time"
+                                                        value={this.state.time.startTime}
+                                                        maxDate={this.state.time.endTime}
+                                                    />
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <FormInputDate
+                                                        label="Đến ngày"
+                                                        name="endTime"
+                                                        updateFormData={this.updateFormDate}
+                                                        id="form-end-time"
+                                                        value={this.state.time.endTime}
+                                                        minDate={this.state.time.startTime}
+
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-3">
-                                            <FormInputDate
-                                                label="Từ ngày"
-                                                name="startTime"
-                                                updateFormData={this.updateFormDate}
-                                                id="form-start-time"
-                                                value={this.state.time.startTime}
-                                                maxDate={this.state.time.endTime}
-                                            />
+                                        <div className="col-md-9">
+                                            <div className="row">
+                                                <div className="form-group col-md-4">
+                                                    <label className="label-control">Tìm theo thu ngân</label>
+                                                    <Select
+                                                        value={this.state.staff}
+                                                        options={this.props.allStaffs.map((staff) => {
+                                                            return {
+                                                                ...staff,
+                                                                value: staff.id,
+                                                                label: staff.name
+                                                            };
+                                                        })}
+                                                        onChange={this.staffsSearchChange}
+                                                    />
+                                                </div>
+                                                <div className="form-group col-md-4">
+                                                    <label className="label-control">Tìm theo cửa hàng</label>
+                                                    <Select
+                                                        value={this.state.base}
+                                                        options={[
+                                                            {
+                                                                value: 1,
+                                                                label: "HIỂN THỊ RA WEBSITE"
+                                                            },
+                                                            {
+                                                                value: "0",
+                                                                label: "KHÔNG HIỂN THỊ RA WEBSITE"
+                                                            }
+                                                        ]}
+                                                        onChange={this.displayStatusChange}
+                                                    />
+                                                </div>
+                                                <div className="form-group col-md-4">
+                                                    <label className="label-control">Tìm theo trạng thái</label>
+                                                    <Select
+                                                        value={this.state.status}
+                                                        options={ORDER_STATUS}
+                                                        onChange={this.statusesSearchChange}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="col-md-3">
-                                            <FormInputDate
-                                                label="Đến ngày"
-                                                name="endTime"
-                                                updateFormData={this.updateFormDate}
-                                                id="form-end-time"
-                                                value={this.state.time.endTime}
-                                                minDate={this.state.time.startTime}
-
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="form-group col-md-4">
-                                            <label className="label-control">Tìm theo thu ngân</label>
-                                            <Select
-                                                value={this.state.staff}
-                                                options={[
-                                                    {
-                                                        value: 1,
-                                                        label: "ĐANG KINH DOANH"
-                                                    },
-                                                    {
-                                                        value: "0",
-                                                        label: "NGỪNG KINH DOANH"
-                                                    }
-                                                ]}
-                                                onChange={this.saleStatusChange}
-                                            />
-                                        </div>
-                                        <div className="form-group col-md-4">
-                                            <label className="label-control">Tìm theo cửa hàng</label>
-                                            <Select
-                                                value={this.state.base}
-                                                options={[
-                                                    {
-                                                        value: 1,
-                                                        label: "HIỂN THỊ RA WEBSITE"
-                                                    },
-                                                    {
-                                                        value: "0",
-                                                        label: "KHÔNG HIỂN THỊ RA WEBSITE"
-                                                    }
-                                                ]}
-                                                onChange={this.displayStatusChange}
-                                            />
-                                        </div>
-                                        <div className="form-group col-md-4">
-                                            <label className="label-control">Tìm theo trạng thái</label>
-                                            <Select
-                                                value={this.state.status}
-                                                options={[
-                                                    {
-                                                        value: 1,
-                                                        label: "NỔI BẬT"
-                                                    },
-                                                    {
-                                                        value: "0",
-                                                        label: "KHÔNG NỔI BẬT"
-                                                    }
-                                                ]}
-                                                onChange={this.highlightStatusChange}
-                                            />
-                                        </div>
-                                        <br/>
                                     </div>
                                 </div>
                                 <br/>
                                 <ListOrder
                                     changeStatusOrder={this.changeStatusOrder}
                                     orders={this.props.orders}
-                                    totalPages={this.props.totalPages}
-                                    currentPage={this.state.page}
-                                    loadOrders={this.loadOrders}
                                     isLoading={this.props.isLoading}
-                                    totalCount={this.props.totalCount}
-                                    limit={this.props.limit}
+                                    showShipGoodModal={this.showShipGoodModal}
                                 />
+                            </div>
+                            <div className="row float-right">
+                                <div className="col-md-12" style={{textAlign: 'right'}}>
+                                    <b style={{marginRight: '15px'}}>
+                                        Hiển thị kêt quả từ {first} - {end}/{this.props.totalCount}</b><br/>
+                                    <Pagination
+                                        totalPages={this.props.totalPages}
+                                        currentPage={this.props.currentPage}
+                                        loadDataPage={this.loadOrders}
+                                    />
+                                </div>
                             </div>
                             {
                                 !this.props.isLoading && <div className="card-footer">
@@ -272,6 +340,8 @@ OrdersContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     orders: PropTypes.array.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    allStaffs: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -284,6 +354,8 @@ function mapStateToProps(state) {
         totalPaidMoney: state.goodOrders.totalPaidMoney,
         limit: state.goodOrders.limit,
         totalCount: state.goodOrders.totalCount,
+        allStaffs: state.goodOrders.allStaffs,
+        currentPage: state.goodOrders.currentPage
     };
 }
 

@@ -19,7 +19,7 @@ class WareHouseTab extends React.Component {
                         </div>
                     ) : (
                         <div className="table-responsive">
-                            <table className="table">
+                            <table className="table table-hover">
                                 <thead>
                                 <tr className="text-rose">
                                     <th>STT</th>

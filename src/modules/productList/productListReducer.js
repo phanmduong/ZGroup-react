@@ -18,14 +18,8 @@ export default function productListReducer(state = initialState.productList, act
             return {
                 ...state,
                 productsTotal: action.productsTotal,
-                productsBusiness: action.productsBusiness,
-                productsNotBusiness: action.productsNotBusiness,
-                productsDisplay: action.productsDisplay,
-                productsNotDisplay: action.productsNotDisplay,
-                productsDeleted: action.productsDeleted,
                 productsQuantity: action.productsQuantity,
-                productsHighlight: action.productsHighlight,
-                productsNotHighlight: action.productsNotHighlight
+                isLoading: false
             };
         case types.TOGGLE_PRICE_MODAL:
             return {
@@ -33,6 +27,14 @@ export default function productListReducer(state = initialState.productList, act
                 modalInProduct: {
                     ...state.modalInProduct,
                     priceModal: !state.modalInProduct.priceModal
+                }
+            };
+        case types.TOGGLE_SAME_PRODUCT_MODAL:
+            return {
+                ...state,
+                modalInProduct: {
+                    ...state.modalInProduct,
+                    sameProductModal: !state.modalInProduct.sameProductModal
                 }
             };
         case types.BEGIN_LOAD_PRODUCTS:

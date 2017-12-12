@@ -84,8 +84,6 @@ class ProcessTaskItem extends React.Component {
                             </div>
                         ) : ""
                 }
-
-
             </ListGroupItem>
         );
     }

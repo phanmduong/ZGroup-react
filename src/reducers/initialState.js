@@ -13,13 +13,24 @@ export default {
             sale_status: 0,
             highlight_status: 0,
             display_status: 0,
+            goods_count: 0,
             manufacture_id: '',
             good_category_id: '',
             images_url: [],
+            property_list: [
+                {
+                    name: 'coool',
+                    property_item_id: 3,
+                    value: []
+                }
+            ],
+            children: []
         },
+        goods_count_check: false,
         isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
+        properties_list: [],
         images: []
     },
 
@@ -31,6 +42,7 @@ export default {
         isLoading: false,
         isLoadingMore: false,
         isLoadingHistoryModal: false,
+        isLoadingHistoryList: false,
         inventories: [],
         categories: [],
         manufactures: [],
@@ -55,14 +67,7 @@ export default {
     productList: {
         products: [],
         productsTotal: 0,
-        productsBusiness: 0,
-        productsNotBusiness: 0,
-        productsDisplay: 0,
-        productsNotDisplay: 0,
-        productsDeleted: 0,
         productsQuantity: 0,
-        productsHighlight: 0,
-        productsNotHighlight: 0,
         totalPages: 1,
         currentPage: 1,
         limit: 20,
@@ -73,6 +78,7 @@ export default {
             priceModal: false,
             wareHouseModal: false,
             avatarModal: false,
+            sameProductModal: false,
             isModalUpdating: false,
             modalUpdated: false
         },
@@ -84,6 +90,7 @@ export default {
                 avatar_url: '',
                 price: '',
                 quantity: '',
+                children: [],
                 warehouses: [],
                 category: {
                     id: '',
@@ -832,6 +839,32 @@ export default {
     },
 
     goodOrders: {
+        isUpdate: false,
+        orderId: 0,
+        shipGoodModal: false,
+        isSendingShipOrder: false,
+        shippedGoodResponse: {},
+        shippingGood: {
+            products: [],
+            order: {
+                id: "",
+                pick_name: "Graphics",
+                pick_address: "175 Chùa Láng",
+                pick_province: "Hà Nội",
+                pick_district: "Quận Đống Đa",
+                pick_tel: "0903400807",
+                tel: "",
+                name: "",
+                address: "",
+                province: "",
+                district: "",
+                is_freeship: "1",
+                pick_date: "",
+                pick_money: "",
+                note: "",
+                value: ""
+            }
+        },
         isLoading: false,
         error: false,
         currentPage: 1,
@@ -851,6 +884,7 @@ export default {
             goodOrders: []
         },
         staffs: [],
+        allStaffs: [],
         isLoadingStaffs: false,
         errorStaffs: false,
     },

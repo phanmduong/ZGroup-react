@@ -4,7 +4,7 @@
 import * as types from '../../constants/actionTypes';
 import * as taskApi from "./taskApi";
 import * as goodApi from '../good/goodApi';
-import {showErrorNotification, showNotification} from '../../helpers/helper';
+import {showErrorMessage, showErrorNotification, showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
 
@@ -271,18 +271,33 @@ export function createCard(card) {
         });
 
         return new Promise((resolve) => {
-            taskApi.createCard(card)
-                .then(res => {
-                    resolve();
-                    showNotification("Tạo thẻ thành công");
-                    dispatch({
-                        type: types.CREATE_CARD_SUCCESS,
-                        card: res.data.card
-                    });
-                })
-                .catch(() => {
-                    showErrorNotification("Có lỗi xảy ra");
+            taskApi.barcodeNotEmpty()
+                .then((res) => {
+                    const {count} = res.data.data;
+                    if (Number(count) > 0) {
+                        taskApi.createCard(card)
+                            .then(res => {
+                                resolve();
+                                showNotification("Tạo thẻ thành công");
+                                dispatch({
+                                    type: types.CREATE_CARD_SUCCESS,
+                                    card: res.data.card
+                                });
+                            })
+                            .catch(() => {
+                                showErrorNotification("Có lỗi xảy ra");
+                            });
+                    } else {
+
+                        dispatch({
+                            type: types.CLOSE_BOOK_CREATE_CARD_MODAL
+                        });
+
+                        showErrorMessage("Không tạo được sản phẩm", "Không còn barcode khả dụng");
+                        resolve();
+                    }
                 });
+
         });
 
     };

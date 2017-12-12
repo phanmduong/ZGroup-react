@@ -37,6 +37,8 @@ class ProcessTaskContainer extends React.Component {
         }
     }
 
+
+
     render() {
         const {card, user} = this.props;
         const tasksComplete = (taskList) => taskList.tasks.filter(t => t.status).length;
@@ -91,11 +93,13 @@ class ProcessTaskContainer extends React.Component {
                         );
                     })
                 }
-
             </div>
+
+
         );
     }
 }
+
 
 ProcessTaskContainer.propTypes = {
     card: PropTypes.object.isRequired,

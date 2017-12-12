@@ -18,6 +18,15 @@ export function getInventories(page, search, manufacture_id, good_category_id) {
                     totalCount: response.data.paginator.total_count
                 });
             });
+        inventoryGoodApi.getInfoInventoriesApi(page, search, manufacture_id, good_category_id)
+            .then(function (response) {
+                dispatch({
+                    type: types.GET_INFO_INVENTORY_GOOD,
+                    count: response.data.data.count,
+                    totalImportMoney: response.data.data.total_import_money,
+                    totalMoney: response.data.data.total_money
+                });
+            });
     };
 }
 
@@ -51,9 +60,15 @@ export function saveCategoriesInventoryGood(categories) {
 
 export function getHistoryInventories(inventory, page, warehouse_id, loadMore) {
     return function (dispatch) {
-        dispatch({
-            type: types.BEGIN_LOAD_MORE_HISTORY_INVENTORY_GOOD
-        });
+        if(loadMore){
+            dispatch({
+                type: types.BEGIN_LOAD_MORE_HISTORY_INVENTORY_GOOD
+            });
+        } else {
+          dispatch({
+             type: types.BEGIN_LOAD_FILTER_HISTORY_INVENTORY_GOOD
+          });
+        }
         inventoryGoodApi.getHistoryInventoriesApi(inventory.id, page, warehouse_id)
             .then(function (response) {
                 dispatch({
@@ -80,20 +95,6 @@ export function getWarehouseInventories(inventory) {
                     warehouses: response.data.data.warehouses
                 });
                 dispatch(getHistoryInventories(inventory, null, null, false));
-            });
-    };
-}
-
-export function getInfoInventories() {
-    return function (dispatch) {
-        inventoryGoodApi.getInfoInventoriesApi()
-            .then(function (response) {
-                dispatch({
-                    type: types.GET_INFO_INVENTORY_GOOD,
-                    count: response.data.data.count,
-                    totalImportMoney: response.data.data.total_import_money,
-                    totalMoney: response.data.data.total_money
-                });
             });
     };
 }

@@ -961,6 +961,32 @@ export function superFilter(id, inter, gen) {
     return newArr;
 }
 
+export function childrenBeginAddChild(properties) {
+    let children = [];
+    let product = properties.reduce((res, pro) => res * pro.value.length, 1);
+    for (let i = 0; i < product; i++) {
+        children.push({
+            check: true,
+            price: 0,
+            barcode: '',
+            properties: []
+        });
+    }
+    properties.forEach(pro => {
+        let product_other = product / pro.value.length;
+        let begin = 0;
+        pro.value.forEach(value => {
+            for (let i = begin; i < begin + product_other; i++) {
+                children[i].properties.push({
+                    property_item_id: pro.property_item_id,
+                    value: value.value
+                });
+            }
+            begin += product_other;
+        });
+    });
+    return children;
+}
 export function isNull(data) {
     return data === null || data === undefined;
 }

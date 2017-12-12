@@ -7,6 +7,7 @@ import * as helper from '../../../helpers/helper';
 import FormInputText from "../../../components/common/FormInputText";
 import ReactSelect from "react-select";
 import {PAYMENT} from "../../../constants/constants";
+
 import PropTypes from 'prop-types';
 
 class HistoryPaid extends React.Component {

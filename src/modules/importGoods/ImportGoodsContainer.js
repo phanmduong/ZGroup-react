@@ -126,6 +126,7 @@ class ImportGoodsContainer extends React.Component {
     }
 
     deleteImportOrder(importOrder) {
+        this.props.importGoodActions.deleteImportOrder(importOrder.id);
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa phiếu nhập này không ?", () => {
             this.props.importGoodActions.deleteImportOrder(importOrder.id, this.state.page, this.state.search, this.state.time.startTime,
                 this.state.time.endTime, this.state.status, this.state.staff);
