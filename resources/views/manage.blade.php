@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
-    <link href="manage/main.ef63420074285e0dad586c50650269e3.css" rel="stylesheet">
+    <link href="manage/main.cb91a1a7932ba0c4e4a3508519fca995.css" rel="stylesheet">
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
@@ -75,7 +75,7 @@
 <script src="{{url('config.js')}}"></script>
 
 
-<script type="text/javascript" src="manage/main.06d061584d55865f3317.js"></script>
+<script type="text/javascript" src="manage/main.8e98680d5c8f451acccf.js"></script>
 
 
 <!-- Material Dashboard javascript methods -->
