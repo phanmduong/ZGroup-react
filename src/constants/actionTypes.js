@@ -139,6 +139,13 @@ export const EDIT_LINK_ERROR = 'EDIT_LINK_ERROR';
 }
 
 
+{/*Begin Excel Actions*/}
+export const BEGIN_EXPORT_EXCEL = 'BEGIN_EXPORT_EXCEL';
+export const EXPORT_EXCEL_SUCCESS = 'EXPORT_EXCEL_SUCCESS';
+export const EXPORT_EXCEL_ERROR = 'EXPORT_EXCEL_ERROR';
+{/*Begin Excel Actions*/}
+
+
 {/*Begin Lesson Actions*/}
 {/*Begin Lesson Actions*/
 }

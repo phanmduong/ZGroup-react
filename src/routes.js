@@ -93,6 +93,7 @@ import OverviewSales from "./modules/summarySales/OverviewSales";
 import StatisticSales from "./modules/summarySales/StatisticSales";
 import BarcodesContainer from "./modules/book/barcode/BarcodesContainer";
 import ListLessonContainer from "./modules/attendance/ListLessonContainer";
+import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
 
 export default (
     <Route>
@@ -339,6 +340,10 @@ export default (
                 <IndexRoute component={ProductSystemContainer}/>
                 <Route path="website-display" component={ProductWebsiteContainer}/>
             </Route>
+            {/*End edit-product routes*/}
+
+            {/*Begin edit-product routes */}
+            <Route path="/excel/teachers/:genId" component={TeachersExcelContainer}/>
             {/*End edit-product routes*/}
 
         </Route>

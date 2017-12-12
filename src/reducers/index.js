@@ -49,6 +49,7 @@ import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
 import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import discountReducer from "../modules/discount/discountReducer";
+import excelReducer from "../modules/excel/excelReducer";
 
 
 
@@ -103,6 +104,7 @@ const appReducer = combineReducers({
     summaryMarketingCampaign: summaryMarketingCampaignReducer,
     summarySales: summarySalesReducer,
     discounts : discountReducer,
+    excel : excelReducer,
 });
 
 const rootReducer = (state, action) => {

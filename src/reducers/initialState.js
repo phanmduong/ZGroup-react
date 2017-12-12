@@ -1150,4 +1150,8 @@ export default {
             teacher_assistant:{},
         },
     },
+    excel:{
+        isLoading: false,
+        data: [],
+    }
 };
