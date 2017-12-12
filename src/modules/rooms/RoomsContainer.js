@@ -115,8 +115,8 @@ class RoomsContainer extends React.Component {
     }
 
     onChangeBase(value) {
-        this.setState({selectBaseId: value});
-        this.props.roomActions.loadRoomsData(this.state.page, this.state.query, value);
+        this.setState({selectBaseId: value, page: 1});
+        this.props.roomActions.loadRoomsData(1, this.state.query, value);
     }
 
     onChangeBaseForm(value) {
