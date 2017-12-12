@@ -147,10 +147,44 @@ export function handleShipOrder(order) {
     });
 }
 
+function sendShipOrderSuccess(res, dispatch) {
+    const {data} = res;
+    if (!data.success) {
+        showErrorMessage("Có lỗi xảy ra", data.message);
+    }
+    if (data.success) {
+        showNotification("Gửi thành công");
+    }
+    dispatch({
+        type: types.SEND_SHIP_ORDER_COMPLETE,
+        shippedGoodResponse: data
+    });
+
+    return data.order.label;
+}
+
+function changeStatusOrderSuccess(res, dispatch, orderId) {
+    helper.showNotification("Thay đổi trạng thái thành công");
+    if (res.data.status === 0) {
+        showErrorNotification(res.data.message);
+    } else {
+
+        dispatch({
+            type: types.CHANGE_STATUS_ORDER_SUCCESS,
+            order_id: orderId,
+            status: "ship_order"
+        });
+    }
+}
+
 export function sendShipOrder(shippingGood) {
     shippingGood = {
         ...shippingGood,
-        pick_date: moment().format("YYYY-MM-DD")
+        pick_date: moment().format("YYYY-MM-DD"),
+        order: {
+            ...shippingGood.order,
+            id: shippingGood.order.id + ":" + moment().format("X")
+        }
     };
     return function (dispatch) {
         dispatch({
@@ -161,53 +195,24 @@ export function sendShipOrder(shippingGood) {
             type: types.DISPLAY_GLOBAL_LOADING
         });
 
-        const updateStatusPromise = new Promise((resolve) => {
-            const {orderId} = shippingGood.order;
-            goodOrdersApi.changeStatusOrder(orderId, "ship_order")
-                .then((res) => {
-                    helper.showNotification("Thay đổi trạng thái thành công");
-                    if (res.data.status === 0) {
-                        showErrorNotification(res.data.message);
-                    } else {
+        const {orderId} = shippingGood.order;
+
+
+        goodOrdersApi.sendShipOrder(shippingGood)
+            .then((res) => {
+
+                const labelId = sendShipOrderSuccess(res, dispatch);
+
+                goodOrdersApi.changeStatusOrder(orderId, "ship_order", labelId)
+                    .then((res) => {
+                        changeStatusOrderSuccess(res, dispatch, orderId);
 
                         dispatch({
-                            type: types.CHANGE_STATUS_ORDER_SUCCESS,
-                            order_id: orderId,
-                            status: "ship_order"
+                            type: types.HIDE_GLOBAL_LOADING
                         });
-                    }
-                    resolve();
-                });
-        });
-
-        const sendShipOrderPromise = new Promise((resolve) => {
-            resolve();
-            goodOrdersApi.sendShipOrder(shippingGood)
-                .then((res) => {
-                    // console.log("res", res);
-                    const {data} = res;
-                    // console.log("data", data);
-                    if (!data.success) {
-                        showErrorMessage("Có lỗi xảy ra", data.message);
-                    }
-                    if (data.success) {
-                        showNotification("Gửi thành công");
-                    }
-                    dispatch({
-                        type: types.SEND_SHIP_ORDER_COMPLETE,
-                        shippedGoodResponse: data
                     });
-                    resolve();
-                });
-        });
-
-        sendShipOrderPromise.then(() => {
-            updateStatusPromise.then(() => {
-                dispatch({
-                    type: types.HIDE_GLOBAL_LOADING
-                });
             });
-        });
+
 
     };
 }
