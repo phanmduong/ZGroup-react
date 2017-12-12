@@ -4,7 +4,6 @@ import * as goodOrdersApi from './goodOrdersApi';
 import moment from 'moment';
 import {showErrorMessage} from "../../helpers/helper";
 import {showNotification} from "../../helpers/helper";
-import {ORDER_STATUS} from "../../constants/constants";
 import {showErrorNotification} from "../../helpers/helper";
 
 export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
@@ -164,7 +163,6 @@ export function sendShipOrder(shippingGood) {
 
         const updateStatusPromise = new Promise((resolve) => {
             const {orderId} = shippingGood.order;
-            console.log(orderId);
             goodOrdersApi.changeStatusOrder(orderId, "ship_order")
                 .then((res) => {
                     helper.showNotification("Thay đổi trạng thái thành công");
@@ -175,7 +173,7 @@ export function sendShipOrder(shippingGood) {
                         dispatch({
                             type: types.CHANGE_STATUS_ORDER_SUCCESS,
                             order_id: orderId,
-                            status
+                            status: "ship_order"
                         });
                     }
                     resolve();
@@ -186,26 +184,30 @@ export function sendShipOrder(shippingGood) {
             resolve();
             goodOrdersApi.sendShipOrder(shippingGood)
                 .then((res) => {
+                    // console.log("res", res);
                     const {data} = res;
-                    if (!res.success) {
+                    // console.log("data", data);
+                    if (!data.success) {
                         showErrorMessage("Có lỗi xảy ra", data.message);
                     }
-                    if (res.success) {
+                    if (data.success) {
                         showNotification("Gửi thành công");
                     }
                     dispatch({
                         type: types.SEND_SHIP_ORDER_COMPLETE,
-                        shippedGoodResponse: res
+                        shippedGoodResponse: data
                     });
                     resolve();
                 });
         });
-        Promise.all([updateStatusPromise, sendShipOrderPromise])
-            .then(() => {
+
+        sendShipOrderPromise.then(() => {
+            updateStatusPromise.then(() => {
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING
                 });
             });
+        });
 
     };
 }

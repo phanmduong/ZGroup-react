@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
 import {showErrorNotification} from "../../helpers/helper";
+import {confirm} from "../../helpers/helper";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
@@ -60,9 +61,18 @@ class ItemOrder extends React.Component {
         const currentStatusOrder = ORDER_STATUS.filter((o) => {
             return o.value === this.props.order.status;
         })[0].order;
+
+        // Only change status of order to next status
         if (value.order > currentStatusOrder) {
-            let statusOrder = value && value.value ? value.value : '';
-            this.props.changeStatusOrder(statusOrder, this.props.order.id);
+            confirm(
+                "warning",
+                "Xác nhận",
+                `Chuyển trạng thái của đơn hàng thành ${value.label}`,
+                () => {
+                    const statusOrder = value && value.value ? value.value : '';
+                    this.props.changeStatusOrder(statusOrder, this.props.order.id);
+                }
+            );
         } else {
             showErrorNotification("Bạn không thể chuyển đơn hàng về các trạng thái trước");
         }
@@ -70,7 +80,7 @@ class ItemOrder extends React.Component {
     }
 
     render() {
-        let order = this.props.order;
+        const {order} = this.props;
         return (
             <tr>
                 <td>
@@ -138,10 +148,7 @@ class ItemOrder extends React.Component {
                     <button
                         disabled={this.disableShipOrder(order.status)}
                         className="btn btn-social btn-fill btn-twitter"
-                        onClick={() => this.props.showShipGoodModal({
-                            ...order,
-                            orderId: order.id
-                        })}>
+                        onClick={() => this.props.showShipGoodModal(order)}>
                         <i className="fa fa-twitter"/> Ship hàng
                     </button>
                 </td>

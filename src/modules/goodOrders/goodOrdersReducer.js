@@ -146,7 +146,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                         name: action.order.customer.name,
                         address: action.order.customer.address,
                         value: action.order.total,
-                        orderId: action.order.orderId
+                        orderId: action.order.id
                     }
                 }
             };
