@@ -220,7 +220,7 @@ class ListLessonContainer extends React.Component {
                                         <button
                                             onClick={this.props.isLoadingLessonClassModal ? ()=>{} :  this.reloadAndExport}
                                             className="btn btn-info btn-rose"
-                                            disabled={this.props.isLoadingLessonClassModal}
+                                            disabled={this.props.isLoadingLessonClassModal || this.props.isLoading}
                                         >
                                             Xuất danh sách điểm danh
                                         </button>
