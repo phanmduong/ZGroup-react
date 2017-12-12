@@ -1136,8 +1136,7 @@ export default {
             id: "",
         },
         data: {
-            classes: [
-            ],
+            classes: [],
 
         },
         class: [],
@@ -1147,7 +1146,7 @@ export default {
         selectedClass: {
             name: '',
             teacher: {},
-            teacher_assistant:{},
+            teacher_assistant: {},
         },
     },
     attendanceStaffs: {
@@ -1163,4 +1162,12 @@ export default {
         teachers: [],
         salesMarketings: [],
     },
+    rooms: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        rooms: [],
+        bases: []
+    }
 };

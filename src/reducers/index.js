@@ -50,6 +50,7 @@ import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import discountReducer from "../modules/discount/discountReducer";
 import attendancesStaffsReducer from "../modules/attendanceStaffs/attendancesStaffsReducer";
+import roomsReducer from "../modules/rooms/roomsReducer";
 
 
 const appReducer = combineReducers({
@@ -104,6 +105,7 @@ const appReducer = combineReducers({
     summarySales: summarySalesReducer,
     discounts: discountReducer,
     attendancesStaffs: attendancesStaffsReducer,
+    rooms: roomsReducer,
 });
 
 const rootReducer = (state, action) => {
