@@ -23,6 +23,7 @@ class CouponController extends ManageApiController
         $category_id = $request->category_id;
         $start_time = $request->start_time;
         $end_time = $request->end_time;
+        $customer_group_id = $request->customer_group_id;
 
         $coupon = new Coupon;
 
@@ -30,7 +31,8 @@ class CouponController extends ManageApiController
             ($used_for == 'order' && $order_value == null) ||
             ($used_for == 'good' && $good_id == null) ||
             ($used_for == 'category' && $category_id == null) ||
-            ($used_for == 'customer' && $customer_id == null))
+            ($used_for == 'customer' && $customer_id == null) ||
+            ($used_for == 'customer-group' && $customer_group_id == null))
             return $this->respondErrorWithStatus([
                 'message' => 'missing params'
             ]);
@@ -44,6 +46,7 @@ class CouponController extends ManageApiController
         $coupon->good_id = $good_id;
         $coupon->customer_id = $customer_id;
         $coupon->category_id = $category_id;
+        $coupon->customer_group_id = $customer_group_id;
         $coupon->start_time = $start_time;
         $coupon->end_time = $end_time;
         $coupon->rate = $quantity;
@@ -108,6 +111,12 @@ class CouponController extends ManageApiController
                         $data['category'] = [
                             'id' => $coupon->category_id,
                             'name' => $coupon->goodCategory->name
+                        ];
+                    if ($coupon->used_for == 'customer-group')
+                        $data['customer_group'] = [
+                            'id' => $coupon->customer_group_id,
+//                            'id' => $coupon->category_id,
+//                            'name' => $coupon->goodCategory->name
                         ];
                     return $data;
                 })
