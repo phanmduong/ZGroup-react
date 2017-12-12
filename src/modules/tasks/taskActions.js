@@ -274,7 +274,8 @@ export function createCard(card) {
             taskApi.barcodeNotEmpty()
                 .then((res) => {
                     const {count} = res.data.data;
-                    if (Number(count) > 0) {
+                    // if (Number(count) > 0) {
+                    if (true) {
                         taskApi.createCard(card)
                             .then(res => {
                                 resolve();
