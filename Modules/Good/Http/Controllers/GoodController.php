@@ -433,18 +433,19 @@ class GoodController extends ManageApiController
                 "goods" => $goods->map(function ($good) {
                     $goods_count = Good::where('code', $good->code)->count();
                     $data = $good->transform();
-                    if ($goods_count == 1)
-                        $warehouses_count = ImportedGoods::where('good_id', $good->id)
-                            ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
-                    else {
+                    if ($goods_count > 1) {
                         $children = Good::where('code', $good->code)->get();
-                        $childrenIds = Good::where('code', $good->code)->pluck('id')->toArray();
-                        $warehouses_count = ImportedGoods::whereIn('good_id', $childrenIds)
-                            ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
+                        unset($data['properties']);
                         $data['children'] = $children->map(function ($child) {
+                            $warehouses_count = ImportedGoods::where('good_id', $child->id)
+                                ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
+                            $import_price = ImportedGoods::where('good_id', $child->id)->orderBy('created_at', 'desc')->first();
+                            $import_price = $import_price ? $import_price->import_price : 0;
                             return [
                                 'id' => $child->id,
                                 'barcode' => $child->barcode,
+                                'warehouses_count' => $warehouses_count->count,
+                                'import_price' => $import_price,
                                 'price' => $child->price,
                                 'properties' => $child->properties->map(function ($property) {
                                     return $property->transform();
@@ -452,8 +453,14 @@ class GoodController extends ManageApiController
                             ];
                         });
                     }
+                    $import_price = ImportedGoods::where('good_id', $good->id)->orderBy('created_at', 'desc')->first();
+                    $import_price = $import_price ? $import_price->import_price : 0;
+
+                    $warehouses_count = ImportedGoods::where('good_id', $good->id)
+                        ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
                     $data['warehouses_count'] = $warehouses_count->count;
                     $data['goods_count'] = $goods_count;
+                    $data['import_price'] = $import_price;
                     return $data;
                 })
             ]
@@ -526,6 +533,13 @@ class GoodController extends ManageApiController
     public function deleteGood($good_id, Request $request)
     {
         $good = Good::find($good_id);
+        $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
+            return $total + $importedGood->quantity;
+        }, 0);
+        if($importedGoodsCount)
+            return $this->respondSuccessWithStatus([
+                'message' => 'Sản phẩm còn trong kho không được xóa'
+            ]);
         if ($good == null)
             return $this->respondSuccessWithStatus([
                 "message" => "Không tìm thấy sản phẩm"

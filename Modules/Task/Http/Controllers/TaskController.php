@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Redis;
+use Modules\Book\Entities\Barcode;
 use Modules\Good\Repositories\GoodRepository;
 use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\ProjectUser;
@@ -343,6 +344,7 @@ class TaskController extends ManageApiController
                         $good->type = "book";
                         $good->name = $card->title;
                         $good->order = $order;
+
                         $good->label = $request->label;
                         $good->save();
                         $card->good_id = $good->id;
@@ -386,7 +388,13 @@ class TaskController extends ManageApiController
             }
             $code = $good->order . '-' . strtoupper($good->label) . '-' . abbrev($title);
             $good->code = $code;
+
+            $barcode = Barcode::where("good_id", 0)->orderBy("created_at")->first();
+            $good->barcode = $barcode->value;
             $good->save();
+
+            $barcode->good_id = $good->id;
+            $barcode->save();
         }
 
 
