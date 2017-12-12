@@ -288,6 +288,7 @@ class CourseController extends ManageApiController
                 'attendance_id' => $attendance->id,
                 'study_class' => $attendance->register->studyClass->name,
                 'device' => $attendance->device,
+                'note' => $attendance->note,
                 'attendance_lesson_status' => $attendance->status,
                 'attendance_homework_status' => $attendance->hw_status
 
@@ -304,27 +305,23 @@ class CourseController extends ManageApiController
 
     }
 
-    public function changeAttendanceLesson($attendanceId, Request $request)
+    public function changeAttendance(Request $request)
     {
-        $attendance = Attendance::find($attendanceId);
-        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
-        $attendance->status = 1 - $attendance->status;
-        $attendance->save();
+
+        $attendances = json_decode($request->attendances);
+
+        foreach ($attendances as $attendance){
+            $get_attendance = Attendance::find($attendance->attendance_id);
+            if(!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
+            $get_attendance->status = $attendance->attendance_lesson_status;
+            $get_attendance->hw_status = $attendance->attendance_homework_status;
+            $get_attendance->note = $attendance->note;
+            $get_attendance->save();
+        }
         return $this->respondSuccessWithStatus([
             "message" => "Diem danh thanh cong"
         ]);
 
     }
 
-    public function changeAttendanceHomework($attendanceId, Request $request)
-    {
-        $attendance = Attendance::find($attendanceId);
-        if (!$attendance) return $this->respondErrorWithStatus("Khong ton tai");
-        $attendance->hw_status = 1 - $attendance->hw_status;
-        $attendance->save();
-        return $this->respondSuccessWithStatus([
-            "message" => "Diem danh bai tap thanh cong"
-        ]);
-
-    }
 }
