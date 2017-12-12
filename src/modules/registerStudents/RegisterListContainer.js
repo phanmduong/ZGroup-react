@@ -56,7 +56,6 @@ class RegisterListContainer extends React.Component {
 
         this.isWaitListPage=false;
         this.timeOut = null;
-        this.salerId = '';
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.changeGens = this.changeGens.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -75,8 +74,8 @@ class RegisterListContainer extends React.Component {
         this.onMoneyFilterChange = this.onMoneyFilterChange.bind(this);
         this.onClassStatusFilterChange = this.onClassStatusFilterChange.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
+        this.changeClassStatusFilter = this.changeClassStatusFilter.bind(this);
     }
-
 
     componentWillMount() {
         this.props.registerActions.loadGensData();
@@ -95,22 +94,20 @@ class RegisterListContainer extends React.Component {
                 selectGenId: '',
                 selectedSalerId: Number(this.props.params.salerId),
             });
-            this.salerId =Number(this.props.params.salerId);
+
         } else {
             if (this.props.params.genId && this.props.params.campaignId) {
+                this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
                 this.setState({
                     page: 1,
                     query: '',
                     campaignId: Number(this.props.params.campaignId),
                     selectGenId: Number(this.props.params.genId),
                 });
-                this.props.registerActions.loadRegisterStudent(1, this.props.params.genId, '', '', this.props.params.campaignId);
+
             } else {
                 if(this.props.route.path ==='/manage/waitlist'){
                     this.onClassStatusFilterChange({value: 'waiting'});
-                    //this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId,'','','','','','waiting','','',);
-                }else {
-                    //this.loadRegisterStudent(1, '');
                 }
             }
         }
@@ -155,7 +152,8 @@ class RegisterListContainer extends React.Component {
             });
         }
 
-        if (nextProps.params.salerId !== this.props.params.salerId) {
+        if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
+            console.log('case có salerid + change param');
             this.props.registerActions.loadRegisterStudent(
                 1,//page
                 this.state.selectGenId,
@@ -170,73 +168,97 @@ class RegisterListContainer extends React.Component {
             );
             this.setState({
                 page: 1,
-                query: '',
-                campaignId: '',
                 selectedSalerId: Number(nextProps.params.salerId),
+                selectedClassStatus: 'waiting',
             });
-            this.salerId = Number(nextProps.params.salerId);
         }else
         if(nextProps.location.pathname != this.props.location.pathname){
-            this.setState({page: 1,
-                showModal: false,
-                showModalChangeClass: false,
-                campaignId: '',
-                selectRegisterId: 0,
-                selectedClassId: '',
-                selectedSalerId: '',
-                selectedMoneyFilter: '',
-                time:{
-                    startTime: '',
-                    endTime: '',
-                },});
-            if(nextProps.route.path=='/manage/waitlist'){
-                this.isWaitListPage=true;
-                this.setState({selectedClassStatus: 'waiting',   cardTitle:'Danh sách chờ', query: ''});
-                this.onClassStatusFilterChange({value: 'waiting'});
-            }
-            else {
-                this.onClassStatusFilterChange();
-                this.isWaitListPage=false;
-                this.setState({ selectedClassStatus : '', cardTitle: 'Danh sách đăng kí học', query: ''});
-                if (nextProps.params.salerId) {
-                        this.props.registerActions.loadRegisterStudent(1, '', '', nextProps.params.salerId, '');
+            console.log('case change path name');
+                        this.setState({
+                            query: '',
+                            showModal: false,
+                            showModalChangeClass: false,
+                            campaignId: '',
+                            selectRegisterId: 0,
+                            selectedClassId: '',
+                            selectedSalerId: '',
+                            selectedMoneyFilter: '',
+                            time:{
+                                startTime: '',
+                                endTime: '',
+                            },
+                        });
+                if(nextProps.route.path=='/manage/waitlist'){
+                    console.log('case waitlist');
+                    this.isWaitListPage=true;
+                    this.props.registerActions.loadRegisterStudent(
+                        1,//page
+                        this.state.selectGenId,
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        'waiting',
+                    );
+                    this.changeClassStatusFilter({value: 'waiting'});
                         this.setState({
                             page: 1,
-                            query: '',
-                            campaignId: '',
-                            selectGenId: '',
-                            selectedClassStatus: '',
+                            selectedClassStatus: 'waiting',
+                            cardTitle:'Danh sách chờ',
                         });
-                        this.salerId = nextProps.params.salerId;
-                 } else {
-                if (nextProps.params.genId && nextProps.params.campaignId) {
-                    this.setState({
-                        page: 1,
-                        query: '',
-                        campaignId: Number(nextProps.params.campaignId),
-                        selectGenId: Number(nextProps.params.genId)
-                    });
-                    this.props.registerActions.loadRegisterStudent(1, nextProps.params.genId, '', '', nextProps.params.campaignId);
-                } else {
-                    this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId);
                 }
-            }
+                    else
+                {
+                    this.changeClassStatusFilter({value: ''});
+                    this.isWaitListPage=false;
+                        this.setState({
+                            page: 1,
+                            selectedClassStatus : '',
+                            cardTitle: 'Danh sách đăng kí học'
+                        });
+                    if (nextProps.params.salerId) {//1
+                        console.log('case nextProps.params.salerId');
+                            this.props.registerActions.loadRegisterStudent(1, '', '', nextProps.params.salerId, '');
+                                this.setState({
+                                    page: 1,
+                                    campaignId: '',
+                                    selectGenId: '',
+                                    selectedClassStatus: '',
+                                    selectedSalerId: nextProps.params.salerId,
+                                });
+                     } else {//2
+                    if (nextProps.params.genId && nextProps.params.campaignId) {
+                        console.log('case genId & campaignId');
+                        this.props.registerActions.loadRegisterStudent(1, nextProps.params.genId, '', '', nextProps.params.campaignId);
+                            this.setState({
+                                page: 1,
+                                campaignId: Number(nextProps.params.campaignId),
+                                selectGenId: Number(nextProps.params.genId)
+                            });
+                    } else {//3
+                        console.log('last case');
+                        this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId);
+                            this.setState({
+                                page: 1,
+                            });
+                    }
+                }
             }
         }
     }
 
     onClassFilterChange(obj){
+        let res = '';
         if(obj){
-            this.setState({ selectedClassId: obj.value});
+            res = obj.value;
         }
-        else {
-            this.setState({ selectedClassId: ''});
-        }
+        if(res!=this.state.selectedClassId)
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
             this.state.query,
-            this.salerId,
+            this.state.selectedSalerId,
             this.state.campaignId,
             obj ? obj.value : '',
             this.state.selectedMoneyFilter,
@@ -244,17 +266,15 @@ class RegisterListContainer extends React.Component {
             this.state.time.startTime,
             this.state.time.endTime,
         );
+        this.setState({ selectedClassId: res, page: 1});
     }
 
     onSalerFilterChange(obj){
+        let res = '';
         if(obj){
-            this.setState({ selectedSalerId: obj.value, page: 1});
-            this.salerId = obj.value;
+            res = obj.value;
         }
-        else {
-            this.setState({  selectedSalerId: '',page : 1});
-            this.salerId = '';
-        }
+        if(res != this.state.selectedSalerId)
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
@@ -267,15 +287,18 @@ class RegisterListContainer extends React.Component {
             this.state.time.startTime,
             this.state.time.endTime,
         );
+        this.setState({  selectedSalerId: res,page : 1});
     }
 
     onCampaignFilterChange(obj){
+        let res = '';
         if(obj){
-            this.setState({campaignId: obj.value});
+            res = obj.value;
         }
         else {
-            this.setState({campaignId: ''});
+            res = '';
         }
+        if(res != this.state.campaignId)
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
@@ -288,12 +311,12 @@ class RegisterListContainer extends React.Component {
             this.state.time.startTime,
             this.state.time.endTime,
         );
+        this.setState({campaignId: res,page : 1});
     }
 
     onMoneyFilterChange(obj){
         let res = obj ? obj.value : '' ;
-        this.setState({selectedMoneyFilter: res,});
-
+        if(this.state.selectedMoneyFilter != res)
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
@@ -306,12 +329,11 @@ class RegisterListContainer extends React.Component {
             this.state.time.startTime,
             this.state.time.endTime,
         );
+        this.setState({selectedMoneyFilter: res,page : 1});
     }
 
     onClassStatusFilterChange(obj, filter){
         let res = obj ? obj.value : '' ;
-        this.setState({selectedClassStatus: res});
-
         let newfilter = filter ? filter : this.state.allClassFilter;
         if(res==='waiting'){
             newfilter = newfilter.filter(item => (item.type === 'waiting'));
@@ -319,7 +341,6 @@ class RegisterListContainer extends React.Component {
         if(res==='active'){
             newfilter = newfilter.filter(item => (item.type === 'active'));
         }
-        this.setState({classFilter: this.getFilter(newfilter), selectedClassId: ''});
         this.props.registerActions.loadRegisterStudent(
             1,//page
             this.state.selectGenId,
@@ -332,6 +353,27 @@ class RegisterListContainer extends React.Component {
             this.state.time.startTime,
             this.state.time.endTime,
         );
+
+        this.setState({
+            classFilter: this.getFilter(newfilter),
+            selectedClassId: '',
+            selectedClassStatus: res,
+            page : 1
+        });
+    }
+
+    changeClassStatusFilter(obj, filter){
+        let res = obj ? obj.value : '' ;
+        this.setState({selectedClassStatus: res,page : 1});
+
+        let newfilter = filter ? filter : this.state.allClassFilter;
+        if(res==='waiting'){
+            newfilter = newfilter.filter(item => (item.type === 'waiting'));
+        } else
+        if(res==='active'){
+            newfilter = newfilter.filter(item => (item.type === 'active'));
+        }
+        this.setState({classFilter: this.getFilter(newfilter), selectedClassId: ''});
     }
 
     updateFormDate(event) {
@@ -340,11 +382,12 @@ class RegisterListContainer extends React.Component {
         time[field] = event.target.value;
 
         if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
+            this.setState({time: time, page: 1});
             this.props.registerActions.loadRegisterStudent(
                 1,
                 this.state.selectGenId,
                 this.state.query,
-                this.salerId,
+                this.state.selectedSalerId,
                 this.state.campaignId,
                 this.state.selectedClassId,
                 this.state.selectedMoneyFilter,
@@ -352,7 +395,6 @@ class RegisterListContainer extends React.Component {
                 time.startTime,
                 time.endTime
                 );
-            this.setState({time: time, page: 1});
         } else {
             this.setState({time: time});
         }
@@ -432,9 +474,7 @@ class RegisterListContainer extends React.Component {
         this.setState({
             page: 1,
             campaignId,
-            selectedClassStatus : '',
         });
-
         this.onCampaignFilterChange({value: campaignId});
     }
 
@@ -445,7 +485,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadRegisterStudent(page,
             this.state.selectGenId,
             this.state.query,
-            this.salerId,
+            this.state.selectedSalerId,
             campaignid ? campaignid : this.state.campaignId,
             this.state.selectedClassId,
             this.state.selectedMoneyFilter,
@@ -467,7 +507,7 @@ class RegisterListContainer extends React.Component {
             this.props.registerActions.loadRegisterStudent(1,
                 this.state.selectGenId,
                 value,
-                this.salerId,
+                this.state.selectedSalerId,
                 this.state.campaignId,
                 this.state.selectedClassId,
                 this.state.selectedMoneyFilter,
@@ -485,7 +525,7 @@ class RegisterListContainer extends React.Component {
         });
         this.props.registerActions.loadRegisterStudent(1, value,
             this.state.query,
-            this.salerId,
+            this.state.selectedSalerId,
             this.state.campaignId,
             this.state.selectedClassId,
             this.state.selectedMoneyFilter,
