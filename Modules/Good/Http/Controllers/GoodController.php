@@ -533,6 +533,13 @@ class GoodController extends ManageApiController
     public function deleteGood($good_id, Request $request)
     {
         $good = Good::find($good_id);
+        $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
+            return $total + $importedGood->quantity;
+        }, 0);
+        if($importedGoodsCount)
+            return $this->respondSuccessWithStatus([
+                'message' => 'Sản phẩm còn trong kho không được xóa'
+            ]);
         if ($good == null)
             return $this->respondSuccessWithStatus([
                 "message" => "Không tìm thấy sản phẩm"
