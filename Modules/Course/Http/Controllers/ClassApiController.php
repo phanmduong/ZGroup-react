@@ -86,6 +86,13 @@ class ClassApiController extends ApiController
 
         $teacher_ids = $gen->studyclasses()->groupBy('teacher_id')->pluck('teacher_id')->toArray();
         $teachers = User::whereIn('id', $teacher_ids)->orderBy('name', 'asc')->get();
+        $data["gen"] = [
+            "id" => $gen->id,
+            "name" => $gen->name,
+            "description" => $gen->description,
+            "start_time" => $gen->start_time,
+            "end_time" => $gen->end_time,
+        ];
         $data['teachers'] = $teachers->map(function ($teacher) {
             $classes = $teacher->teach()->orderBy('name', 'asc')->get();
             return [
