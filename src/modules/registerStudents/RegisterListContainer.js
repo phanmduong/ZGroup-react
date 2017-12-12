@@ -39,8 +39,8 @@ class RegisterListContainer extends React.Component {
             cardTitle: 'Danh sách đăng kí học',
             moneyFilter:[
                 {value: '', label: 'Tất cả',},
-                {value: 1, label: 'Đã nộp',},
-                {value: 0, label: 'Chưa nộp',},
+                {value: '1', label: 'Đã nộp',},
+                {value: '0', label: 'Chưa nộp',},
             ],
             classStatusFilter:[
                 {value: '', label: 'Tất cả',},
@@ -153,7 +153,7 @@ class RegisterListContainer extends React.Component {
         }
 
         if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
-            console.log('case có salerid + change param');
+            console.log('case có salerid + change param',this.state.selectedClassStatus);
             this.props.registerActions.loadRegisterStudent(
                 1,//page
                 this.state.selectGenId,
@@ -169,7 +169,6 @@ class RegisterListContainer extends React.Component {
             this.setState({
                 page: 1,
                 selectedSalerId: Number(nextProps.params.salerId),
-                selectedClassStatus: 'waiting',
             });
         }else
         if(nextProps.location.pathname != this.props.location.pathname){
