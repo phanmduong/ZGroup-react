@@ -10,6 +10,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'book
 
     // Barcode api
     Route::get("/barcodes", "BarcodeController@barcodes");
+    Route::get("/barcode/exist", "BarcodeController@barcodeExist");
     Route::get("/barcode/{barcodeId}", "BarcodeController@barcode");
     Route::post("/barcode", "BarcodeController@saveBarcode");
     Route::delete("/barcode/{barcodeId}", "BarcodeController@deleteBarcode");
