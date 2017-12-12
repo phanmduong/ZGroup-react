@@ -175,6 +175,9 @@ class StudentApiController extends ApiController
             $classes = StudyClass::where('type', $request->type)->get()->pluck('id')->toArray();
             $registers = $registers->whereIn('class_id', $classes);
         }
+        if ($request->status != null) {
+            $registers = $registers->where('status', $request->status);
+        }
         if ($request->saler_id != null) {
             if ($request->saler_id == -1) {
                 $registers = $registers->whereNull('saler_id')->orWhere('saler_id', 0);
@@ -193,9 +196,6 @@ class StudentApiController extends ApiController
 
         }
 
-        if ($request->status != null) {
-            $registers = $registers->where('status', $request->status);
-        }
 
         $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
         if ($request->start_time != null) {
