@@ -153,7 +153,6 @@ class RegisterListContainer extends React.Component {
         }
 
         if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
-            console.log('case có salerid + change param',this.state.selectedClassStatus);
             this.props.registerActions.loadRegisterStudent(
                 1,//page
                 this.state.selectGenId,
@@ -172,7 +171,6 @@ class RegisterListContainer extends React.Component {
             });
         }else
         if(nextProps.location.pathname != this.props.location.pathname){
-            console.log('case change path name');
                         this.setState({
                             query: '',
                             showModal: false,
@@ -188,16 +186,10 @@ class RegisterListContainer extends React.Component {
                             },
                         });
                 if(nextProps.route.path=='/manage/waitlist'){
-                    console.log('case waitlist');
                     this.isWaitListPage=true;
                     this.props.registerActions.loadRegisterStudent(
                         1,//page
-                        this.state.selectGenId,
-                        '',
-                        '',
-                        '',
-                        '',
-                        '',
+                        this.state.selectGenId,'','','','','',
                         'waiting',
                     );
                     this.changeClassStatusFilter({value: 'waiting'});
@@ -217,7 +209,6 @@ class RegisterListContainer extends React.Component {
                             cardTitle: 'Danh sách đăng kí học'
                         });
                     if (nextProps.params.salerId) {//1
-                        console.log('case nextProps.params.salerId');
                             this.props.registerActions.loadRegisterStudent(1, '', '', nextProps.params.salerId, '');
                                 this.setState({
                                     page: 1,
@@ -228,7 +219,6 @@ class RegisterListContainer extends React.Component {
                                 });
                      } else {//2
                     if (nextProps.params.genId && nextProps.params.campaignId) {
-                        console.log('case genId & campaignId');
                         this.props.registerActions.loadRegisterStudent(1, nextProps.params.genId, '', '', nextProps.params.campaignId);
                             this.setState({
                                 page: 1,
@@ -236,7 +226,6 @@ class RegisterListContainer extends React.Component {
                                 selectGenId: Number(nextProps.params.genId)
                             });
                     } else {//3
-                        console.log('last case');
                         this.props.registerActions.loadRegisterStudent(1,this.state.selectGenId);
                             this.setState({
                                 page: 1,
