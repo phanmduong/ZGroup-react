@@ -83,9 +83,14 @@ class BarcodesContainer extends React.Component {
                                                         }
                                                     </td>
                                                     <td>
-                                                        <a onClick={() => this.delete(barcode.id)}>
-                                                            <i className="material-icons text-danger">delete</i>
-                                                        </a>
+                                                        {
+                                                            !barcode.good && (
+                                                                <a onClick={() => this.delete(barcode.id)}>
+                                                                    <i className="material-icons text-danger">delete</i>
+                                                                </a>
+                                                            )
+                                                        }
+
                                                     </td>
                                                 </tr>
                                             );
