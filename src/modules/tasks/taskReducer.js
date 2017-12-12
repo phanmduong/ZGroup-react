@@ -1387,6 +1387,17 @@ export default function taskReducer(state = initialState.task, action) {
                     isSaving: true
                 }
             };
+        case types.CLOSE_BOOK_CREATE_CARD_MODAL:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isSaving: false,
+                    showModal: false,
+                    card: {}
+                }
+            };
+
         case types.CREATE_CARD_SUCCESS:
             return {
                 ...state,
