@@ -28,6 +28,7 @@ class ListLessonContainer extends React.Component {
         this.commitModalData            = this.commitModalData.bind(this);
         this.commitSuccess              = this.commitSuccess.bind(this);
         this.exportExcel                = this.exportExcel.bind(this);
+        this.reloadAndExport            = this.reloadAndExport.bind(this);
     }
 
     componentWillMount(){
@@ -133,6 +134,10 @@ class ListLessonContainer extends React.Component {
 
     }
 
+    reloadAndExport(){
+        this.props.attendanceActions.loadClassInfo(this.props.params.classId, this.exportExcel);
+    }
+
     render(){
         return (
             <div className="row">
@@ -213,7 +218,7 @@ class ListLessonContainer extends React.Component {
 
                                     <div className="col-sm-4" style={{float: 'right'}}>
                                         <button
-                                            onClick={this.props.isLoadingLessonClassModal ? ()=>{} :  this.exportExcel}
+                                            onClick={this.props.isLoadingLessonClassModal ? ()=>{} :  this.reloadAndExport}
                                             className="btn btn-info btn-rose"
                                             disabled={this.props.isLoadingLessonClassModal}
                                         >

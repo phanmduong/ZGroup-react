@@ -73,7 +73,7 @@ export function loadClasses(search ="", page="", teacherId="", baseid='' , genid
         });
     };
 }
-export function loadClassInfo(id) {
+export function loadClassInfo(id, func) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASS_INFO,
@@ -83,7 +83,8 @@ export function loadClassInfo(id) {
                 dispatch({
                     type: types.LOAD_CLASS_INFO_SUCCESS,
                     selectedClass: res.data.data.class,
-            });
+                });
+                if(func) func();
             }).catch(() => {
             dispatch({
 
