@@ -79,6 +79,7 @@ class coursesCreateEditGeneral extends React.Component {
                                 <FormInputText
                                     label="Thời lượng"
                                     required
+                                    type="number"
                                     name="duration"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.duration}

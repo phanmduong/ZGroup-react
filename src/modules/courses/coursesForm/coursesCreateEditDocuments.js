@@ -10,15 +10,16 @@ import FormInputText                    from '../../../components/common/FormInp
 import {NO_IMAGE}                       from '../../../constants/env';
 import * as helper                      from '../../../helpers/helper';
 
+function validateLink(link){
+    if(helper.isEmptyInput(link)) return NO_IMAGE;
+    if(link.substring(0,4) === 'http'){
+        return link;
+    }
+    return 'http://' + link;
+}
+
 
 class coursesCreateEditDocuments extends React.Component {
-    static  validateLink(link){
-        if(helper.isEmptyInput(link)) return NO_IMAGE;
-        if(link.substring(0,4) === 'http'){
-            return link;
-        }
-        return 'http://' + link;
-    }
     constructor(props, context) {
         super(props, context);
 
@@ -43,7 +44,6 @@ class coursesCreateEditDocuments extends React.Component {
         this.commitLink         = this.commitLink.bind(this);
         this.deleteLink         = this.deleteLink.bind(this);
         this.checkValidate      = this.checkValidate.bind(this);
-        this.validateLink       = this.validateLink.bind(this);
     }
 
     componentWillMount(){
@@ -104,9 +104,9 @@ class coursesCreateEditDocuments extends React.Component {
         if(this.checkValidate())
         if(this.isCreate)
         {
-            this.props.coursesActions.createLink(this.props.link);
+            this.props.coursesActions.createLink(this.props.link, ()=>{return this.setState({openModal: false});});
         }else {
-            this.props.coursesActions.commitEditLink(this.props.link);
+            this.props.coursesActions.commitEditLink(this.props.link, ()=>{return this.setState({openModal: false});});
         }
 
 
@@ -162,12 +162,12 @@ class coursesCreateEditDocuments extends React.Component {
                                                     rel         ="tooltip"
                                                     data-placement      ="right"
                                                     data-original-title ={link.link_name}>
-                                                <img src={this.validateLink(link.link_icon_url)} alt=""/>
+                                                <img src={validateLink(link.link_icon_url)} alt=""/>
                                             </button>
                                         </td>
                                         <td >{link.link_name}</td>
                                         <td>
-                                                <a href={this.validateLink(link.link_url)} target="_blank">
+                                                <a href={validateLink(link.link_url)} target="_blank">
                                                     <p style={{
                                                         maxWidth: "100px",
                                                         wordWrap: 'break-word',
@@ -283,10 +283,12 @@ class coursesCreateEditDocuments extends React.Component {
                                 <div>
                                     <button className="btn btn-rose"
                                             onClick={this.commitLink}
+                                            disabled={this.props.isUploadingLinkIcon}
                                     > Cập nhật
                                     </button>
                                     <button className="btn btn-rose"
                                             onClick={this.closeModal}
+                                            disabled={this.props.isUploadingLinkIcon}
                                     > Huỷ
                                     </button>
                                 </div>

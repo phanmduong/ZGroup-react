@@ -30,7 +30,7 @@ class TeachersExcelContainer extends React.Component {
         let  wb = helper.newWorkBook();
         let cols = [{ "wch": 5 },{ "wch": 12 },{ "wch": 25 },];//độ rộng cột
         //begin sheet
-        /*eslint-disable*/
+        /* eslint-disable */
             nextProps.data.teachers.forEach((item)=>{
                 let sheet =
                 item.classes.map((obj, index)=>{
@@ -47,7 +47,7 @@ class TeachersExcelContainer extends React.Component {
                 //console.log('sheet',sheet);
                 helper.appendJsonToWorkBook(sheet,wb,item.teacher.name,cols,[]);
             });
-        /*eslint-enable*/
+        /* eslint-enable */
         //end sheet
 
         //xuất file

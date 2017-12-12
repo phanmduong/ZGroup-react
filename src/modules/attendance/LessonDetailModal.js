@@ -115,7 +115,7 @@ class LessonDetailModal extends React.Component {
 
 
                             <button
-                                disabled={!(this.props.list.length > 0)}
+                                disabled={!(this.props.list.length > 0) ||this.props.isLoadingLessonDetailModal}
                                 style={{float: 'right', width: "20%"}}
                                 className="btn btn-fill btn-rose "
                                 type="button"
