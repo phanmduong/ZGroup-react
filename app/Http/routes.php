@@ -32,7 +32,6 @@
 */
 
 
-
 Route::post('uploadfile', 'PublicController@upload_file');
 Route::get('manage/email/open', 'PublicController@open_email');
 Route::post('manage/receive_notifications', 'PublicController@receive_notifications');
@@ -60,7 +59,7 @@ Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 //
 //});
 
-Route::group(['domain' => "www.".config('app.domain')], function () {
+Route::group(['domain' => "www." . config('app.domain')], function () {
 //    Route::get('/', 'PublicController@redirectManage');
     Route::get('/', 'PublicController@redirect');
 });
@@ -104,6 +103,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::get('/base/center/all', "ManageBaseApiController@get_base_center_all");
     Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
     Route::post('/base/create', "ManageBaseApiController@createBase");
+    Route::get('/base/rooms', "ManageBaseApiController@getRooms");
+    Route::post('/base/room', "ManageBaseApiController@storeRoom");
     Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
     Route::get('/base/{baseId}', "ManageBaseApiController@base");
     // End Base api
@@ -255,7 +256,7 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::post('/products/{username}', 'UserApiController@store_avatar');
     Route::post('/change-avatar', 'UserApiController@change_avatar');
 
-    Route::get('all-saler','UserApiController@getAllSaler');
+    Route::get('all-saler', 'UserApiController@getAllSaler');
 
     Route::post('/upload-image', 'UserApiController@upload_image');
     Route::post('/upload-image-froala', 'PublicApiController@upload_image_froala');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Base;
+use App\Room;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -132,5 +133,70 @@ class ManageBaseApiController extends ManageApiController
         $base->save();
 
         return $this->respondSuccessWithStatus(["message" => $message]);
+    }
+
+    public function getRooms(Request $request)
+    {
+        $query = trim($request->search);
+
+        $limit = 6;
+
+        if ($query) {
+            $rooms = Room::join('bases', 'bases.id', '=', 'rooms.base_id')->where("rooms.name", "like", "%$query%")
+                ->orWhere("bases.name", "like", "%$query%")
+                ->orWhere("bases.address", "like", "%$query%")
+                ->select("rooms.*", "bases.*", "bases.name as base_name", "rooms.name as room_name")
+                ->orderBy('rooms.created_at')->paginate($limit);
+        } else {
+            $rooms = Room::join('bases', 'bases.id', '=', 'rooms.base_id')
+                ->select("rooms.*", "bases.*", "bases.name as base_name", "rooms.name as room_name")
+                ->orderBy('rooms.created_at')->paginate($limit);
+        }
+
+        $data = [
+            'rooms' => $rooms->map(function ($room) {
+                return [
+                    'id' => $room->id,
+                    'name' => $room->room_name,
+                    'base_name' => $room->base_name,
+                    'address' => $room->address,
+                ];
+            })
+        ];
+
+        return $this->respondWithPagination($rooms, $data);
+    }
+
+    public function storeRoom(Request $request)
+    {
+
+        if ($request->name) {
+            return $this->responseBadRequest("Thiếu tên phòng");
+        }
+
+        if ($request->base_id) {
+            return $this->responseBadRequest("Thiếu cơ sở");
+        }
+
+        if ($request->id) {
+            $room = Room::find($request->id);
+        } else {
+            $room = new Room();
+        }
+
+        $room->name = $request->name;
+        $room->base_id = $request->base_id;
+        $room->save();
+
+        $data = [
+            'id' => $room->id,
+            'name' => $room->name,
+            'base_name' => $room->base->name,
+            'address' => $room->base->address,
+        ];
+
+        return $this->respondSuccessWithStatus([
+            'room' => $data
+        ]);
     }
 }
