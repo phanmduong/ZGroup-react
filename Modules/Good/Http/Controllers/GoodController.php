@@ -10,6 +10,7 @@ use App\Warehouse;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Modules\Book\Entities\Barcode;
 use Modules\Good\Entities\BoardTaskTaskList;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Good\Entities\GoodPropertyItem;
@@ -536,7 +537,7 @@ class GoodController extends ManageApiController
         $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
             return $total + $importedGood->quantity;
         }, 0);
-        if($importedGoodsCount)
+        if ($importedGoodsCount)
             return $this->respondSuccessWithStatus([
                 'message' => 'Sản phẩm còn trong kho không được xóa'
             ]);
@@ -575,22 +576,38 @@ class GoodController extends ManageApiController
 
     public function createChildGood($goodId, Request $request)
     {
-        if ($request->code == null || $request->taskId == null) {
-            return $this->respondErrorWithStatus("Thiếu code hoặc taskId");
+        $version = trim($request->version);
+        if ($request->code == null || $request->taskId == null || $version == null || $version == "") {
+            return $this->respondErrorWithStatus("Thiếu code hoặc taskId hoặc version");
         }
-        $currentGood = Good::where("code", $request->code)->first();
+        $abbrVersion = abbrev(trim($request->version));
+        $newCode = $request->code . "-" . $abbrVersion;
+        $currentGood = Good::where("code", $newCode)->first();
         if ($currentGood != null) {
             return $this->respondErrorWithStatus("Sản phẩm với mã này đã tồn tại");
         }
 
-        $parentGood = Good::find($goodId);
 
+        $version = $request->version;
+        $parentGood = Good::find($goodId);
         $good = $parentGood->replicate();
         $good->parent_id = $goodId;
-        $good->code = $request->code;
-        $good->name = $request->name;
+        $good->code = $newCode;
+        $good->name = $request->name . " - " . $version;
         $good->good_category_id = $parentGood->good_category_id;
+
+//        $order = DB::table('goods')->max('order');
+//        $order += 1;
+
+
+        $barcode = Barcode::where("good_id", 0)->orderBy("created_at")->first();
+        if ($barcode) {
+            $good->barcode = $barcode->value;
+        }
         $good->save();
+
+        $barcode->good_id = $good->id;
+        $barcode->save();
 
 
         foreach ($parentGood->properties as $property) {
@@ -609,12 +626,26 @@ class GoodController extends ManageApiController
         foreach ($taskList->tasks as $task) {
             $newTask = $task->replicate();
             $newTask->task_list_id = $newTaskList->id;
-            if ($task->order < $parentTask->order) {
-                $newTask->status = true;
-            } else {
-                $newTask->status = false;
-            }
+
+            $newTask->status = false;
             $newTask->save();
+
+            // copy boards from old task to the new one
+            $boardTasks = $task->boardTasks;
+            if ($boardTasks) {
+                foreach ($boardTasks as $boardTask) {
+                    $newBoardTask = $boardTask->replicate();
+                    $newBoardTask->task_id = $newTask->id;
+                    $newBoardTask->save();
+                }
+            }
+
+//            if ($task->order < $parentTask->order) {
+//                $newTask->status = true;
+//            } else {
+//                $newTask->status = false;
+//            }
+
         }
 
         $card = $parentGood->cards()->first();
