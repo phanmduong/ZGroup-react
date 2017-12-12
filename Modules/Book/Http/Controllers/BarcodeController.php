@@ -57,6 +57,14 @@ class BarcodeController extends ManageApiController
         return $this->respondSuccessWithStatus(["barcode" => $barcode]);
     }
 
+    public function barcodeExist()
+    {
+        $countEmpty = Barcode::orderBy("created_at")->where("good_id", 0)->count();
+        return $this->respondSuccessWithStatus([
+            "count" => $countEmpty
+        ]);
+    }
+
     public function barcodes(Request $request)
     {
         $limit = 20;

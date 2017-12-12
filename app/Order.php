@@ -69,6 +69,7 @@ class Order extends Model
         });
         $data = [
             'id' => $this->id,
+            'label_id' => $this->label_id,
             'code' => $this->code,
             'payment' => $this->payment,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
