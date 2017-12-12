@@ -9,7 +9,8 @@ class SameProductModalContainer extends React.Component {
     }
 
     render() {
-        let product = this.props.productEditing.productPresent;
+        const product = this.props.productEditing.productPresent;
+        console.log("product", product);
         return (
             <Modal show={this.props.sameProductModal}
                    onHide={() => this.props.showSameProductModal(product)}>
@@ -26,6 +27,7 @@ class SameProductModalContainer extends React.Component {
                                 <th>Sản phẩm</th>
                                 <th>Mã</th>
                                 <th>Giá</th>
+                                <th>Kho</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,6 +51,19 @@ class SameProductModalContainer extends React.Component {
                                             </td>
                                             <td>{child.barcode}</td>
                                             <td>{child.price}</td>
+                                            <td>
+                                                <a className="text-name-student-register"
+                                                   rel="tooltip" title=""
+                                                   data-original-title="Remove item"
+                                                   onClick={() => this.props.showWareHouseModal(product)}>                                                        {
+                                                    product.warehouses_count !== 0 ? (
+                                                        <p>{product.warehouses_count} kho</p>
+                                                    ) : (
+                                                        <p>Chưa có</p>
+                                                    )
+                                                }
+                                                </a>
+                                            </td>
                                         </tr>
                                     );
                                 })
@@ -65,6 +80,7 @@ class SameProductModalContainer extends React.Component {
 SameProductModalContainer.propTypes = {
     sameProductModal: PropTypes.bool,
     productEditing: PropTypes.object.isRequired,
+    showWareHouseModal: PropTypes.func.isRequired,
     showSameProductModal: PropTypes.func.isRequired
 };
 

@@ -23,6 +23,7 @@ class ProductListComponent extends React.Component {
                         <th>Tên sản phẩm</th>
                         <th>SL</th>
                         <th>Giá bán</th>
+                        <th>Giá vốn</th>
                         <th>Nhóm hàng</th>
                         <th>Nhà sản xuất</th>
                         <th>Kho</th>
@@ -59,7 +60,8 @@ class ProductListComponent extends React.Component {
                                         {
                                             product.children ? (
                                                 <a onClick={() => this.props.showSameProductModal(product)}>
-                                                    (Xem chi tiết {product.children.length} sản phẩm cùng loại)
+                                                    <i className="material-icons">search</i>
+                                                    {product.children.length} sản phẩm cùng loại
                                                 </a>
                                             ) : (<div/>)
                                         }
@@ -69,6 +71,9 @@ class ProductListComponent extends React.Component {
                                         <a onClick={() => this.props.showPriceModal(product)}>
                                             {dotNumber(product.price)}đ
                                         </a>
+                                    </td>
+                                    <td>
+                                        {dotNumber(product.import_price)}
                                     </td>
                                     <td style={{width: "115px"}}>
                                         {
@@ -85,18 +90,25 @@ class ProductListComponent extends React.Component {
                                         }
                                     </td>
                                     <td>
-                                        <a className="text-name-student-register"
-                                           rel="tooltip" title=""
-                                           data-original-title="Remove item"
-                                           onClick={() => this.props.showWareHouseModal(product)}>
-                                            {
-                                                product.warehouses_count !== 0 ? (
-                                                    <p>{product.warehouses_count} kho</p>
-                                                ) : (
-                                                    <p>Chưa có</p>
-                                                )
-                                            }
-                                        </a>
+                                        {
+                                            product.children ? (
+                                                <a onClick={() => this.props.showSameProductModal(product)}>
+                                                    <i className="material-icons">search</i>
+                                                </a>
+                                            ) : (
+                                                <a className="text-name-student-register"
+                                                   rel="tooltip" title=""
+                                                   data-original-title="Remove item"
+                                                   onClick={() => this.props.showWareHouseModal(product)}>                                                        {
+                                                    product.warehouses_count !== 0 ? (
+                                                        <p>{product.warehouses_count} kho</p>
+                                                    ) : (
+                                                        <p>Chưa có</p>
+                                                    )
+                                                }
+                                                </a>
+                                            )
+                                        }
                                     </td>
                                     <td>
                                         <div className="btn-group-action">
@@ -111,11 +123,6 @@ class ProductListComponent extends React.Component {
                                                type="button" rel="tooltip"
                                                data-original-title="Xoá"><i
                                                 className="material-icons">delete</i></a>
-                                            <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Ngừng kinh doanh">
-                                                <i className="material-icons">pause</i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -131,7 +138,8 @@ class ProductListComponent extends React.Component {
                 <AvatarModalContainer
                     showAvatarModal={this.props.showAvatarModal}/>
                 <SameProductModalContainer
-                    showSameProductModal={this.props.showSameProductModal}/>
+                    showSameProductModal={this.props.showSameProductModal}
+                    showWareHouseModal={this.props.showWareHouseModal}/>
             </div>
         );
     }

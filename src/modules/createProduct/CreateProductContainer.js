@@ -43,8 +43,10 @@ class CreateProductContainer extends React.Component {
 
     saveProductCreate() {
         const good = {...this.props.productWorking};
-        if (!good.name || !good.code) {
-            helper.showErrorNotification("Bạn cần nhập Tên và Mã sản phẩm");
+        const empty_arr = good.property_list.filter(property => property.value.length === 0);
+        if (!good.name || !good.code || empty_arr.length > 0) {
+            if (!good.name || !good.code) helper.showErrorNotification("Bạn cần nhập Tên và Mã sản phẩm");
+            if (empty_arr.length > 0) helper.showErrorNotification("Bạn cần nhập giá trị cho thuộc tính");
         } else {
             if (this.state.type === "create") this.props.createProductAction.saveProductCreate(good);
             else this.props.createProductAction.saveProductEdit(good);
@@ -84,7 +86,6 @@ class CreateProductContainer extends React.Component {
                 property_item_id: property.property_item_id,
                 value: value
             };
-            console.log("properties", properties);
             this.props.createProductAction.handlePropertiesCreate(properties);
             this.props.createProductAction.handleGoodCountCreate(goods_count);
             this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(properties));
@@ -203,8 +204,8 @@ class CreateProductContainer extends React.Component {
                                             </thead>
                                             <tbody>
                                             {
-
-                                                product.property_list.map((property, index) => {
+                                                product.property_list && product.property_list.map((property, index) => {
+                                                    console.log("property", property);
                                                     return (
                                                         <tr key={index}>
                                                             <td>
@@ -241,7 +242,7 @@ class CreateProductContainer extends React.Component {
                                                             </td>
                                                             <td>
                                                                 {
-                                                                    product.property_list.length > 1 ? (
+                                                                    product.property_list && product.property_list.length > 1 ? (
                                                                         <a style={{color: "#878787"}}
                                                                            data-toggle="tooltip" title=""
                                                                            type="button" rel="tooltip"
@@ -259,7 +260,8 @@ class CreateProductContainer extends React.Component {
                                         </table>
                                         <div>
                                             {
-                                                product.property_list.length < this.props.properties_list.length ? (
+                                                (product.property_list && product.property_list.length < this.props.properties_list.length)
+                                                || !product.property_list ? (
                                                     <Button onClick={() => this.addProperties()}
                                                             style={{width: "100%"}} className="btn btn-simple btn-rose">
                                                         <i className="material-icons">add</i> Thêm thuộc tính
@@ -267,7 +269,8 @@ class CreateProductContainer extends React.Component {
                                                 ) : (<div/>)
                                             }
                                         </div>
-                                        <div className="col-md-12">
+                                        <div className="col-md-12"
+                                             style={{"z-index": 0}}>
                                             <CheckBoxMaterial
                                                 name="sale_status"
                                                 checked={this.props.goods_count_check}

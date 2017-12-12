@@ -181,10 +181,30 @@ export function loadProduct(productId) {
         });
         createProductApi.loadProductApi(productId)
             .then((res) => {
+            console.log("property_list",res.data.data.good.property_list);
                 dispatch({
                     type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
                     product: res.data.data.good
                 });
+                if (res.data.data.good.property_list) {
+                    dispatch(handlePropertiesCreate(res.data.data.good.property_list.map(property => {
+                        return {
+                            ...property,
+                            value: property.value.map(e => {
+                                return {
+                                    value: e,
+                                    label: e
+                                };
+                            })
+                        };
+                    })));
+                } else dispatch(handlePropertiesCreate([
+                    {
+                        name: 'coool',
+                        property_item_id: 3,
+                        value: []
+                    }
+                ]));
             });
     };
 }
