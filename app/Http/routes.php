@@ -64,7 +64,7 @@ Route::group(['domain' => "www." . config('app.domain')], function () {
     Route::get('/', 'PublicController@redirect');
 });
 
-Route::group(['domain' => 'keetool1.xyz'], function () {
+Route::group(['domain' => 'keetool2.xyz'], function () {
 //    Route::get('/', 'PublicController@redirectManage');
     Route::get('/', 'PublicController@redirectKeetool');
 });
