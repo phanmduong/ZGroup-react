@@ -31,6 +31,8 @@
 |
 */
 
+
+
 Route::post('uploadfile', 'PublicController@upload_file');
 Route::get('manage/email/open', 'PublicController@open_email');
 Route::post('manage/receive_notifications', 'PublicController@receive_notifications');
@@ -61,6 +63,11 @@ Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 Route::group(['domain' => "www.".config('app.domain')], function () {
 //    Route::get('/', 'PublicController@redirectManage');
     Route::get('/', 'PublicController@redirect');
+});
+
+Route::group(['domain' => 'keetool1.xyz'], function () {
+//    Route::get('/', 'PublicController@redirectManage');
+    Route::get('/', 'PublicController@redirectKeetool');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
