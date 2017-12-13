@@ -9,6 +9,7 @@
 namespace Modules\Order\Http\Controllers;
 
 
+use App\CustomerGroup;
 use App\Http\Controllers\ManageApiController;
 use App\Order;
 use App\User;
@@ -83,8 +84,8 @@ class CustomerController extends ManageApiController
                             return [
                                 "id" => $group->id,
                                 "name" => $group->name,
-                                "description" => $group->descripton
-
+                                "description" => $group->descripton,
+                                "color" => $group->color,
                             ];
                         }),
                     ];
@@ -179,11 +180,6 @@ class CustomerController extends ManageApiController
         $data["total_paid_money"] = $totalPaidMoney;
         $data["debt"] = $totalMoney - $totalPaidMoney;
         $data["can_delete"] = $canDelete;
-        $groups = $user->infoCustomerGroups;
-        $count_groups = $user->infoCustomerGroups()->count();
-        $data["count_groups"] = $count_groups;
-        $data["groups"] = $groups;
-
         return $this->respondSuccessWithStatus([
             "message" => "Thêm thành công",
             "user" => $data
@@ -210,6 +206,17 @@ class CustomerController extends ManageApiController
         $user->dob = $request->dob;
         $user->save();
 
+        if ($request->stringId != null) {
+            $user->infoCustomerGroups()->detach();
+            $id_lists = explode(';', $request->stringId);
+            foreach ($id_lists as $id_list) {
+                $cusomer_group = new CustomerGroup;
+                $cusomer_group->customer_group_id = $id_list;
+                $cusomer_group->customer_id = $user->id;
+                $cusomer_group->save();
+            }
+
+        } else if ($request->stringId == "" && $user->infoCustomerGroups) $user->infoCustomerGroups()->detach();
         $orders = Order::where("user_id", $user->id)->get();
         if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
         $totalMoney = 0;
@@ -240,7 +247,17 @@ class CustomerController extends ManageApiController
         $data["total_paid_money"] = $totalPaidMoney;
         $data["debt"] = $totalMoney - $totalPaidMoney;
         $data["can_delete"] = $canDelete;
-
+        $groups = $user->infoCustomerGroups;
+        $count_groups = $user->infoCustomerGroups()->count();
+        $data["count_groups"] = $count_groups;
+        $data["groups"] = $groups->map(function ($group) {
+            return [
+                "id" => $group->id,
+                "name" => $group->name,
+                "description" => $group->descripton,
+                "color" => $group->color,
+            ];
+        });
 
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công",
@@ -284,6 +301,17 @@ class CustomerController extends ManageApiController
         $data["total_paid_money"] = $totalPaidMoney;
         $data["debt"] = $totalMoney - $totalPaidMoney;
         $data["can_delete"] = $canDelete;
+        $groups = $user->infoCustomerGroups;
+        $count_groups = $user->infoCustomerGroups()->count();
+        $data["count_groups"] = $count_groups;
+        $data["groups"] = $groups->map(function ($group) {
+            return [
+                "id" => $group->id,
+                "name" => $group->name,
+                "description" => $group->descripton,
+                "color" => $group->color,
+            ];
+        });
         return $this->respondSuccessWithStatus([
             'user' => $data
         ]);

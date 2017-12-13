@@ -31,6 +31,7 @@ class CustomerGroupApiController extends ManageApiController
         $group = new InfoCustomerGroup;
         $group->name = $request->name;
         $group->description = $request->description;
+        $group->color = $request->color;
         $group->save();
 
         if ($request->stringId != null) {
@@ -52,6 +53,7 @@ class CustomerGroupApiController extends ManageApiController
                 "customerCount" => $customers->count(),
                 "name" => $group->name,
                 "description" => $group->description,
+                "color" => $group->color,
                 "customers" => $customers->map(function ($customer) {
                     $orders = Order::where("user_id", $customer->id)->get();
                     if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
@@ -99,6 +101,7 @@ class CustomerGroupApiController extends ManageApiController
         if ($request->name === null) return $this->respondErrorWithStatus("Chua co ten");
         $group->name = $request->name;
         $group->description = $request->description;
+        $group->color = $request->color;
         $group->save();
 
         if ($request->stringId != null) {
@@ -121,6 +124,7 @@ class CustomerGroupApiController extends ManageApiController
                 "customerCount" => $customers->count(),
                 "name" => $group->name,
                 "description" => $group->description,
+                "color" => $group->color,
                 "customers" => $customers->map(function ($customer) {
                     $orders = Order::where("user_id", $customer->id)->get();
                     if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
@@ -179,6 +183,7 @@ class CustomerGroupApiController extends ManageApiController
                     "customerCount" => $customers->count(),
                     "name" => $group->name,
                     "description" => $group->description,
+                    "color" => $group->color,
                     "customers" => $customers->map(function ($customer) {
                         $orders = Order::where("user_id", $customer->id)->get();
                         if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
