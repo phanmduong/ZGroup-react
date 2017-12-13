@@ -313,7 +313,7 @@ class TaskController extends ManageApiController
 
         $card->title = trim($request->title);
         $card->description = trim($request->description);
-        $card->order = 0;
+//        $card->order = 0;
         $card->board_id = $request->board_id;
         $card->editor_id = $this->user->id;
         $card->creator_id = $this->user->id;
@@ -329,11 +329,11 @@ class TaskController extends ManageApiController
 
         if ($board) {
             $project = $board->project;
-            $order = 0;
-            if ($project->status == "book" || $project->status == "fashion") {
-                $order = DB::table('goods')->max('order');
-                $order += 1;
-            }
+//            $order = 0;
+//            if ($project->status == "book" || $project->status == "fashion") {
+//                $order = DB::table('goods')->max('order');
+//                $order += 1;
+//            }
 
             switch ($project->status) {
                 case "book":
@@ -343,7 +343,7 @@ class TaskController extends ManageApiController
                         $good = new Good();
                         $good->type = "book";
                         $good->name = $card->title;
-                        $good->order = $order;
+//                        $good->order = $order;
 
                         $good->label = $request->label;
                         $good->save();
@@ -359,7 +359,7 @@ class TaskController extends ManageApiController
                         $good = new Good();
                         $good->type = "fashion";
                         $good->name = $card->title;
-                        $good->order = $order;
+//                        $good->order = $order;
                         $good->label = $request->label;
                         $good->save();
                         $card->good_id = $good->id;
@@ -386,7 +386,7 @@ class TaskController extends ManageApiController
             if ($taskList) {
                 $title = $taskList->title;
             }
-            $code = $good->order . '-' . strtoupper($good->label) . '-' . abbrev($title);
+            $code = $good->id . '-' . strtoupper($good->label) . '-' . abbrev($title);
             $good->code = $code;
 
             $barcode = Barcode::where("good_id", 0)->orderBy("created_at")->first();
@@ -404,6 +404,9 @@ class TaskController extends ManageApiController
     public function deleteCard($cardId)
     {
         $card = Card::find($cardId);
+        if ($card == null) {
+            return $this->respondErrorWithStatus("Card ko tồn tại");
+        }
         $card->delete();
         return $this->respondSuccessWithStatus(["message" => "success"]);
     }
