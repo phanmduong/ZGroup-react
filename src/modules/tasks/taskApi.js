@@ -149,7 +149,6 @@ export function deleteCard(cardId) {
 }
 
 export function createCard(card) {
-    console.log(card);
     let url = env.MANAGE_API_URL + "/card/create";
     const token = localStorage.getItem('token');
     if (token) {
