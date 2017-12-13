@@ -601,7 +601,6 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus("Sản phẩm với mã này đã tồn tại");
         }
 
-
         $version = $request->version;
         $parentGood = Good::find($goodId);
         $good = $parentGood->replicate();
@@ -637,12 +636,18 @@ class GoodController extends ManageApiController
         $newTaskList = $taskList->replicate();
         $newTaskList->save();
 
+        // copy task
         foreach ($taskList->tasks as $task) {
             $newTask = $task->replicate();
             $newTask->task_list_id = $newTaskList->id;
 
             $newTask->status = false;
             $newTask->save();
+
+            // copy goodPropertyItems
+            foreach ($task->goodPropertyItems as $item) {
+                $newTask->goodPropertyItems()->attach($item->id, ['order' => $item->pivot->order]);
+            }
 
             // copy boards from old task to the new one
             $boardTasks = $task->boardTasks;
