@@ -5,5 +5,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'depa
     Route::get('/get-all-departments','DepartmentController@getAllDepartment');
     Route::post('/add-department','DepartmentController@addDepartment');
     Route::put('/edit-department','DepartmentController@editDepartment');
-    Route::delete('delete-department','DepartmentController@deleteDepartment');
+    Route::delete('delete-department/{departmentId}','DepartmentController@deleteDepartment');
 });

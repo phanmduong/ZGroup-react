@@ -49,9 +49,9 @@ class DepartmentController extends ManageApiController
         ]);
     }
 
-    public function deleteDepartment(Request $request)
+    public function deleteDepartment($departmentId,Request $request)
     {
-        $department = Department::find($request->id);
+        $department = Department::find($departmentId);
         if (!$department) return $this->respondErrorWithStatus("Khong ton tai");
         $department->delete();
         return $this->respondSuccessWithStatus([
