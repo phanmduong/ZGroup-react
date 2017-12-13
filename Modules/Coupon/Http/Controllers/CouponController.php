@@ -138,6 +138,8 @@ class CouponController extends ManageApiController
             $data['customer'] = $coupon->user;
         if ($coupon->used_for == 'category')
             $data['category'] = $coupon->goodCategory;
+        if ($coupon->used_for == 'customer-group')
+            $data['customer_group'] = $coupon->customerGroup;
         return $this->respondSuccessWithStatus([
             'coupon' => $data,
         ]);
