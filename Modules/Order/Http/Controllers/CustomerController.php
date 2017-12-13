@@ -63,6 +63,7 @@ class CustomerController extends ManageApiController
                         }
                     }
                     $groups = $user->infoCustomerGroups;
+                    $count_groups = $user->infoCustomerGroups()->count();
                     return [
                         'id' => $user->id,
                         'name' => $user->name,
@@ -77,6 +78,7 @@ class CustomerController extends ManageApiController
                         'total_paid_money' => $totalPaidMoney,
                         'debt' => $totalMoney - $totalPaidMoney,
                         'can_delete' => $canDelete,
+                        'count_groups' => $count_groups,
                         'groups' => $groups->map(function ($group) {
                             return [
                                 "id" => $group->id,
