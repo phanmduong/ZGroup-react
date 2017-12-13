@@ -24,6 +24,11 @@ class Coupon extends Model
         return $this->belongsTo(GoodCategory::class, 'category_id');
     }
 
+    public function customerGroup()
+    {
+        return $this->belongsTo(InfoCustomerGroup::class, 'customer_group_id');
+    }
+
     public function getData()
     {
         $data = [

@@ -115,8 +115,7 @@ class CouponController extends ManageApiController
                     if ($coupon->used_for == 'customer-group')
                         $data['customer_group'] = [
                             'id' => $coupon->customer_group_id,
-//                            'id' => $coupon->category_id,
-//                            'name' => $coupon->goodCategory->name
+                            'name' => $coupon->customerGroup->name
                         ];
                     return $data;
                 })
