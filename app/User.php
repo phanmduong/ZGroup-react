@@ -83,7 +83,7 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function infoCustomerGroup(){
+    public function infoCustomerGroups(){
         return $this->belongsToMany(InfoCustomerGroup::class,'customer_groups','customer_id','customer_group_id');
     }
 
