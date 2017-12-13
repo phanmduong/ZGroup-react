@@ -179,7 +179,10 @@ class CustomerController extends ManageApiController
         $data["total_paid_money"] = $totalPaidMoney;
         $data["debt"] = $totalMoney - $totalPaidMoney;
         $data["can_delete"] = $canDelete;
-
+        $groups = $user->infoCustomerGroups;
+        $count_groups = $user->infoCustomerGroups()->count();
+        $data["count_groups"] = $count_groups;
+        $data["groups"] = $groups;
 
         return $this->respondSuccessWithStatus([
             "message" => "Thêm thành công",
