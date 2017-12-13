@@ -95,6 +95,7 @@ import AttendanceStaffsContainer from "./modules/attendanceStaffs/AttendanceStaf
 import ListLessonContainer from "./modules/attendance/ListLessonContainer";
 import RoomsContainer from "./modules/rooms/RoomsContainer";
 import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
+import ManageDepartmentContainer from "./modules/manageDepartment/ManageDepartmentContainer";
 
 export default (
     <Route>
@@ -351,6 +352,11 @@ export default (
             {/*Begin edit-product routes */}
             <Route path="/excel/teachers/:genId" component={TeachersExcelContainer}/>
             {/*End edit-product routes*/}
+
+
+            {/*Begin Role route*/}
+                <Route path="manage-department" component={ManageDepartmentContainer}/>
+            {/*End Role route*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

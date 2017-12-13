@@ -52,6 +52,7 @@ import discountReducer from "../modules/discount/discountReducer";
 import attendancesStaffsReducer from "../modules/attendanceStaffs/attendancesStaffsReducer";
 import roomsReducer from "../modules/rooms/roomsReducer";
 import excelReducer from "../modules/excel/excelReducer";
+import departmentReducer from "../modules/manageDepartment/departmentReducer";
 
 
 
@@ -109,6 +110,7 @@ const appReducer = combineReducers({
     attendancesStaffs: attendancesStaffsReducer,
     rooms: roomsReducer,
     excel : excelReducer,
+    department : departmentReducer,
 });
 
 const rootReducer = (state, action) => {
