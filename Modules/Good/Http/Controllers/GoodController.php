@@ -242,9 +242,7 @@ class GoodController extends ManageApiController
             //Sua san pham nhieu thuoc tinh
             $children = json_decode($request->children);
             foreach ($children as $child) {
-                $good = Good::find($child->id);
-                if ($good == null)
-                    $good = new Good;
+                $good = $child->has('id') ? Good::find($child->id) : new Good;
                 $this->assignInfoToGood($good, $request);
                 $good->barcode = $child->barcode;
                 $good->price = $child->price ? $child->price : $request->price;
@@ -550,14 +548,14 @@ class GoodController extends ManageApiController
             $children = Good::where('code', $good->code)->get();
             foreach ($children as $child) {
                 $history = $child->history;
-                if($history == null)
+                if ($history == null)
                     $child->delete();
             }
             return $this->respondSuccessWithStatus([
                 'message' => 'Xóa thành công các sản phẩm con không có lịch sử'
             ]);
         }
-        if($good->history != null)
+        if ($good->history != null)
             return $this->respondErrorWithStatus([
                 "message" => "Sản phẩm có lịch sử không được xóa"
             ]);
