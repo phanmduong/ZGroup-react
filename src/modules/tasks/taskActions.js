@@ -264,7 +264,7 @@ export function deleteCard(cardId) {
     };
 }
 
-export function createCard(card) {
+export function createCard(card, createCard = false) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_CARD
@@ -274,8 +274,11 @@ export function createCard(card) {
             taskApi.barcodeNotEmpty()
                 .then((res) => {
                     const {count} = res.data.data;
-                    // if (Number(count) > 0) {
-                    if (true) {
+                    // if(createCard) {
+                    //    
+                    // }
+                    if (Number(count) > 0) {
+                        // if (true) {
                         taskApi.createCard(card)
                             .then(res => {
                                 resolve();
