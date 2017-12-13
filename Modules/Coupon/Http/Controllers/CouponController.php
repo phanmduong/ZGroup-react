@@ -16,7 +16,7 @@ class CouponController extends ManageApiController
         $discount_value = $request->discount_value;
         $type = $request->type; //code, program
         $quantity = $request->quantity; //dùng column rate trong bảng để chứa quantity vì lúc migrate éo đc -.-
-        $used_for = trim($request->used_for); //all, order, good, category, customer
+        $used_for = trim($request->used_for); //all, order, good, category, customer, customer-group
         $order_value = $request->order_value;
         $good_id = $request->good_id;
         $customer_id = $request->customer_id;
@@ -115,8 +115,7 @@ class CouponController extends ManageApiController
                     if ($coupon->used_for == 'customer-group')
                         $data['customer_group'] = [
                             'id' => $coupon->customer_group_id,
-//                            'id' => $coupon->category_id,
-//                            'name' => $coupon->goodCategory->name
+                            'name' => $coupon->customerGroup->name
                         ];
                     return $data;
                 })
