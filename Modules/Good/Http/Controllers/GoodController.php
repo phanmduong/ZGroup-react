@@ -207,18 +207,19 @@ class GoodController extends ManageApiController
 
         $properties = json_decode($request->properties);
 
-        foreach ($properties as $p) {
-            $property = new GoodProperty();
-            $property->property_item_id = $p->property_item_id;
-            if ($p->property_item_id)
-                $property->name = GoodPropertyItem::find($p->property_item_id)->name;
-            else $property->name = $p->name;
-            $property->value = $p->value;
-            $property->creator_id = $this->user->id;
-            $property->editor_id = $this->user->id;
-            $property->good_id = $good->id;
-            $property->save();
-        }
+        if($properties)
+            foreach($properties as $p) {
+                $property = new GoodProperty();
+                $property->property_item_id = $p->property_item_id;
+                if ($p->property_item_id)
+                    $property->name = GoodPropertyItem::find($p->property_item_id)->name;
+                else $property->name = $p->name;
+                $property->value = $p->value;
+                $property->creator_id = $this->user->id;
+                $property->editor_id = $this->user->id;
+                $property->good_id = $good->id;
+                $property->save();
+            }
 
         $property = new GoodProperty;
         $property->name = 'images_url';
@@ -543,18 +544,6 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus([
                 "message" => "Không tìm thấy sản phẩm"
             ]);
-        $goods_count = Good::where('code', $good->code)->count();
-        if ($goods_count > 1) {
-            $children = Good::where('code', $good->code)->get();
-            foreach ($children as $child) {
-                $history = $child->history;
-                if ($history == null)
-                    $child->delete();
-            }
-            return $this->respondSuccessWithStatus([
-                'message' => 'Xóa thành công các sản phẩm con không có lịch sử'
-            ]);
-        }
         if ($good->history != null)
             return $this->respondErrorWithStatus([
                 "message" => "Sản phẩm có lịch sử không được xóa"

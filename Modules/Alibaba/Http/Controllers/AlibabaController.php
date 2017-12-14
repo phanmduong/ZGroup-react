@@ -7,8 +7,6 @@ use App\Course;
 use App\Gen;
 use App\Product;
 use App\Register;
-use App\StudyClass;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -51,7 +49,7 @@ class AlibabaController extends Controller
 
         $date_start = $course->classes->sortbyDesc('datestart')->first();
         if ($date_start) {
-            $this->data['date_start'] = $date_start->datestart;
+            $this->data['date_start'] = date("d-m-Y", strtotime($date_start->datestart));
         }
 
         $this->data['current_gen_id'] = $current_gen->id;
