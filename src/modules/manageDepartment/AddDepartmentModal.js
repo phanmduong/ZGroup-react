@@ -3,16 +3,18 @@ import {Modal} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import FormInputText from "../../components/common/FormInputText";
 import * as helper                      from '../../helpers/helper';
-
+import {CirclePicker}                   from 'react-color';
 class LessonDetailModal extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
            data:{
                name: '',
+               color: '',
            } ,
         };
         this.updateFormData = this.updateFormData.bind(this);
+        this.changeColor = this.changeColor.bind(this);
     }
 
     updateFormData(e){
@@ -32,6 +34,12 @@ class LessonDetailModal extends React.Component {
         helper.setFormValidation('#form-department-add');
     }
 
+    changeColor(color){
+        let data    = {...this.state.data};
+        data.color  = color.hex;
+        this.setState(data);
+    }
+
     render() {
         return (
             <Modal
@@ -43,13 +51,19 @@ class LessonDetailModal extends React.Component {
                 </Modal.Header>
                 <Modal.Body>
                     <form role="form" id="form-department-add">
-                    <FormInputText
-                        label="Tên bộ phận"
-                        required
-                        name="name"
-                        updateFormData={this.updateFormData}
-                        value={this.state.data.name}
-                    />
+                        <FormInputText
+                            label="Tên bộ phận"
+                            required
+                            name="name"
+                            updateFormData={this.updateFormData}
+                            value={this.state.data.name}
+                        />
+                        <h4 className="card-title">Chọn màu</h4>
+                        <CirclePicker width="50%"
+                                      color={this.state.data.color}
+                                      onChangeComplete={this.changeColor}
+                        />
+
                     {this.props.isAddingDepartment ?
                         <button className="btn btn-rose btn-fill disabled" type="button">
                             <i className="fa fa-spinner fa-spin"/> Đang tải lên
