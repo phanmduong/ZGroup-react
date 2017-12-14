@@ -5,6 +5,27 @@ import initialState from '../../reducers/initialState';
 let classes;
 export default function classesReducer(state = initialState.classes, action) {
     switch (action.type) {
+        case types.BEGIN_CHANGE_LINK_DRIVER_CLASS:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        case types.CHANGE_LINK_DRIVER_CLASS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        case types.CHANGE_LINK_DRIVER_CLASS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
         case types.BEGIN_LOAD_CLASSES_EXCEL:
             return {
                 ...state,

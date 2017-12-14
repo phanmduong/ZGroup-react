@@ -43,7 +43,8 @@ class ClassContainer extends React.Component {
                 id: '',
                 note: ''
             },
-            staffs: []
+            staffs: [],
+            linkDriver: "",
         };
         this.closeModalClassLesson = this.closeModalClassLesson.bind(this);
         this.openModalClassLesson = this.openModalClassLesson.bind(this);
@@ -56,6 +57,8 @@ class ClassContainer extends React.Component {
         this.changeTeacher = this.changeTeacher.bind(this);
         this.exportExcel = this.exportExcel.bind(this);
         this.exportAttendanceExcel = this.exportAttendanceExcel.bind(this);
+        this.changeLinkDriver = this.changeLinkDriver.bind(this);
+        this.submitLinkDriver = this.submitLinkDriver.bind(this);
     }
 
     componentWillMount() {
@@ -64,6 +67,10 @@ class ClassContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(this.props.isLoadingClass  && !nextProps.isLoadingClass){
+            console.log(nextProps);
+            this.setState({linkDriver: nextProps.class.link_drive});
+        }
         if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
             let dataStaffs = [];
             nextProps.staffs.forEach(staff => {
@@ -247,6 +254,19 @@ class ClassContainer extends React.Component {
         }, this.closeModalTeachAssis);
     }
 
+    changeLinkDriver(e){
+        const value = e.target.value;
+        this.setState({linkDriver: value});
+    }
+
+    submitLinkDriver(){
+        helper.showNotification("Đang lưu...");
+        this.props.classActions.changeLinkDriver(this.classId, this.state.linkDriver, ()=>{
+            helper.showNotification("Lưu thành công!");
+            this.props.classActions.loadClass(this.classId);
+        });
+    }
+
     render() {
         this.path = this.props.location.pathname;
         let classData = this.props.class;
@@ -310,15 +330,15 @@ class ClassContainer extends React.Component {
                                     <div className="card-content"><h4 className="card-title">Thông tin về điểm danh</h4>
                                         <div className="col-md-12">
                                             <div>
-                                                <button className="btn btn-default width-100">
+                                                <button className="btn btn-default width-100" disabled>
                                                     <i className="material-icons">timer</i>
                                                     Xem group lớp
                                                 </button>
-                                                <button className="btn btn-default width-100">
+                                                <button className="btn btn-default width-100" disabled>
                                                     <i className="material-icons">timer</i>
                                                     Xếp bằng
                                                 </button>
-                                                <button className="btn btn-default width-100">
+                                                <button className="btn btn-default width-100" disabled>
                                                     <i className="material-icons">timer</i>
                                                     In bằng
                                                 </button>
@@ -336,6 +356,28 @@ class ClassContainer extends React.Component {
                                                     <i className="material-icons">file_download</i>
                                                     Xuất danh sách điểm danh
                                                 </button>
+                                                <div className="row">
+                                                    <FormInputText
+                                                        name="link-driver"
+                                                        label="Link Driver"
+                                                        updateFormData={this.changeLinkDriver}
+                                                        value={this.state.linkDriver}
+                                                        type="text"
+                                                        disabled={this.props.isLoadingClass}
+                                                        className="col-xs-9"
+                                                    />
+                                                    <button className="btn btn-rose"
+                                                    style={{
+                                                        padding: "5px",
+                                                        marginTop: "25px",
+                                                        width: "20%"
+                                                    }}
+                                                            onClick={this.submitLinkDriver}
+                                                            disabled={this.props.isLoadingClass}
+                                                    >
+                                                        Lưu
+                                                    </button>
+                                                </div>
                                             </div>
                                             {this.props.isLoadingClass ? <Loading/> :
                                                 <div>
