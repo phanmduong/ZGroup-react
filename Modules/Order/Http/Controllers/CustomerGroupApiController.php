@@ -11,17 +11,19 @@ namespace Modules\Order\Http\Controllers;
 
 use App\CustomerGroup;
 use App\Http\Controllers\ManageApiController;
-use App\Info;
 use App\InfoCustomerGroup;
-use App\Order;
 use Illuminate\Http\Request;
+use Modules\Order\Transformer\GroupTransformer;
 
 class CustomerGroupApiController extends ManageApiController
 {
 
-    public function __construct()
+    protected $groupTransformer;
+
+    public function __construct(GroupTransformer $groupTransformer)
     {
         parent::__construct();
+        $this->groupTransformer = $groupTransformer;
     }
 
     public function createGroup(Request $request)
@@ -67,7 +69,7 @@ class CustomerGroupApiController extends ManageApiController
             }
 
         } else if ($request->stringId == "") $group->customers()->detach();
-        
+
         return $this->respondSuccessWithStatus([
             "message" => "Sua thanh cong",
             "customer_group" => $group->transform(),
@@ -80,16 +82,13 @@ class CustomerGroupApiController extends ManageApiController
     {
         $keyword = $request->search;
         $limit = $request->limit && $request->limit != -1 ? $request->limit : 20;
-        $groups = InfoCustomerGroup::query();
-        $groups = $groups->orderBy("created_at", "desc")->where(function ($query) use ($keyword) {
+        $groups = InfoCustomerGroup::orderBy("created_at", "desc")->where(function ($query) use ($keyword) {
             $query->where("name", "like", "%" . $keyword . "%");
         })->paginate($limit);
 
 
         return $this->respondWithPagination($groups, [
-            "customer_groups" => $groups->map(function ($group) {
-                return $group->transform();
-            })
+            "customer_groups" => $this->groupTransformer->transformCollection($groups)
         ]);
     }
 

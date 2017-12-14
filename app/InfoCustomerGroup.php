@@ -16,16 +16,5 @@ class InfoCustomerGroup extends Model
         return $this->belongsToMany(User::class, 'customer_groups', 'customer_group_id', 'customer_id');
     }
 
-    public function transfrom()
-    {
-        return [
-            "id" => $this->id,
-            "name" => $this->name,
-            "description" => $this->description,
-            "color" => $this->color,
-            "customers" => $this->customers->map(function ($customer) {
-                return $customer->transfromCustomer();
-            }),
-        ];
-    }
+
 }
