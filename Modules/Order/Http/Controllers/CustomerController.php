@@ -28,6 +28,7 @@ class CustomerController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
         $status = $request->status;
+
         if ($status == "1" || $status == "0") {
             $customerIds = Order::where('status_paid', $status)->select('user_id')->get();
             $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
@@ -95,8 +96,7 @@ class CustomerController extends ManageApiController
         );
     }
 
-    public
-    function countMoney()
+    public function countMoney()
     {
         $users = User::where("type", "customer")->get();
         $TM = 0; // Tong tien

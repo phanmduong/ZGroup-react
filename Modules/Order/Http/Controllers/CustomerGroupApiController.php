@@ -11,22 +11,24 @@ namespace Modules\Order\Http\Controllers;
 
 use App\CustomerGroup;
 use App\Http\Controllers\ManageApiController;
-use App\Info;
 use App\InfoCustomerGroup;
-use App\Order;
 use Illuminate\Http\Request;
+use Modules\Order\Transformer\GroupTransformer;
 
 class CustomerGroupApiController extends ManageApiController
 {
 
-    public function __construct()
+    protected $groupTransformer;
+
+    public function __construct(GroupTransformer $groupTransformer)
     {
         parent::__construct();
+        $this->groupTransformer = $groupTransformer;
     }
 
     public function createGroup(Request $request)
     {
-        if ($request->name === null) return $this->respondErrorWithStatus("Chua co ten");
+        if ($request->name === null) return $this->respondErrorWithStatus("Thiếu tên nhóm");
 
         $group = new InfoCustomerGroup;
         $group->name = $request->name;
@@ -38,64 +40,19 @@ class CustomerGroupApiController extends ManageApiController
             $id_lists = explode(';', $request->stringId);
         }
         if ($request->stringId) {
-            foreach ($id_lists as $id_list) {
-                $cusomer_group = new CustomerGroup;
-                $cusomer_group->customer_group_id = $group->id;
-                $cusomer_group->customer_id = $id_list;
-                $cusomer_group->save();
+            foreach ($id_lists as $customerId) {
+                $group->customers()->attach($customerId);
             }
         }
-        $customers = $group->customers;
         return $this->respondSuccessWithStatus([
-            "message" => "tao thanh cong",
-            "customer_group" => [
-                "id" => $group->id,
-                "customerCount" => $customers->count(),
-                "name" => $group->name,
-                "description" => $group->description,
-                "color" => $group->color,
-                "customers" => $customers->map(function ($customer) {
-                    $orders = Order::where("user_id", $customer->id)->get();
-                    if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
-                    $totalMoney = 0;
-                    $totalPaidMoney = 0;
-                    $lastOrder = 0;
-                    foreach ($orders as $order) {
-                        $goodOrders = $order->goodOrders()->get();
-                        foreach ($goodOrders as $goodOrder) {
-                            $totalMoney += $goodOrder->quantity * $goodOrder->price;
-                        }
-                        $lastOrder = $order->created_at;
-                    }
-                    foreach ($orders as $order) {
-                        $orderPaidMoneys = $order->orderPaidMoneys()->get();
-                        foreach ($orderPaidMoneys as $orderPaidMoney) {
-                            $totalPaidMoney += $orderPaidMoney->money;
-                        }
-                    }
-                    return [
-                        'id' => $customer->id,
-                        'name' => $customer->name,
-                        'phone' => $customer->phone,
-                        'email' => $customer->email,
-                        'address' => $customer->address,
-                        'birthday' => $customer->dob,
-                        'gender' => $customer->gender,
-                        'avatar_url' => $customer->avatar_url ? $customer->avatar_url : "http://api.colorme.vn/img/user.png",
-                        'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",
-                        'total_money' => $totalMoney,
-                        'total_paid_money' => $totalPaidMoney,
-                        'debt' => $totalMoney - $totalPaidMoney,
-                        'can_delete' => $canDelete
-                    ];
-                })],
+            "customer_group" => $group->transfrom(),
         ]);
 
     }
 
-    public function changeGroup(Request $request)
+    public function changeGroup($groupId, Request $request)
     {
-        $group = InfoCustomerGroup::find($request->customer_group_id);
+        $group = InfoCustomerGroup::find($groupId);
         if (!$group) return $this->respondErrorWithStatus("Khong ton tai nhom");
 
         if ($request->name === null) return $this->respondErrorWithStatus("Chua co ten");
@@ -107,59 +64,15 @@ class CustomerGroupApiController extends ManageApiController
         if ($request->stringId != null) {
             $group->customers()->detach();
             $id_lists = explode(';', $request->stringId);
-            foreach ($id_lists as $id_list) {
-                $cusomer_group = new CustomerGroup;
-                $cusomer_group->customer_group_id = $group->id;
-                $cusomer_group->customer_id = $id_list;
-                $cusomer_group->save();
+            foreach ($id_lists as $customerId) {
+                $group->customers()->attach($customerId);
             }
 
-        } else if($request->stringId == "" && $group->customers) $group->customers()->detach();
+        } else if ($request->stringId == "") $group->customers()->detach();
 
-        $customers = $group->customers;
         return $this->respondSuccessWithStatus([
             "message" => "Sua thanh cong",
-            "customer_group" => [
-                "id" => $group->id,
-                "customerCount" => $customers->count(),
-                "name" => $group->name,
-                "description" => $group->description,
-                "color" => $group->color,
-                "customers" => $customers->map(function ($customer) {
-                    $orders = Order::where("user_id", $customer->id)->get();
-                    if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
-                    $totalMoney = 0;
-                    $totalPaidMoney = 0;
-                    $lastOrder = 0;
-                    foreach ($orders as $order) {
-                        $goodOrders = $order->goodOrders()->get();
-                        foreach ($goodOrders as $goodOrder) {
-                            $totalMoney += $goodOrder->quantity * $goodOrder->price;
-                        }
-                        $lastOrder = $order->created_at;
-                    }
-                    foreach ($orders as $order) {
-                        $orderPaidMoneys = $order->orderPaidMoneys()->get();
-                        foreach ($orderPaidMoneys as $orderPaidMoney) {
-                            $totalPaidMoney += $orderPaidMoney->money;
-                        }
-                    }
-                    return [
-                        'id' => $customer->id,
-                        'name' => $customer->name,
-                        'phone' => $customer->phone,
-                        'email' => $customer->email,
-                        'address' => $customer->address,
-                        'birthday' => $customer->dob,
-                        'gender' => $customer->gender,
-                        'avatar_url' => $customer->avatar_url ? $customer->avatar_url : "http://api.colorme.vn/img/user.png",
-                        'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",
-                        'total_money' => $totalMoney,
-                        'total_paid_money' => $totalPaidMoney,
-                        'debt' => $totalMoney - $totalPaidMoney,
-                        'can_delete' => $canDelete
-                    ];
-                })],
+            "customer_group" => $this->groupTransformer->transform($group),
         ]);
 
 
@@ -169,69 +82,25 @@ class CustomerGroupApiController extends ManageApiController
     {
         $keyword = $request->search;
         $limit = $request->limit && $request->limit != -1 ? $request->limit : 20;
-        $groups = InfoCustomerGroup::query();
-        $groups = $groups->where(function ($query) use ($keyword) {
+        $groups = InfoCustomerGroup::orderBy("created_at", "desc")->where(function ($query) use ($keyword) {
             $query->where("name", "like", "%" . $keyword . "%");
         })->paginate($limit);
 
 
         return $this->respondWithPagination($groups, [
-            "customer_groups" => $groups->map(function ($group) {
-                $customers = $group->customers;
-                return [
-                    "id" => $group->id,
-                    "customerCount" => $customers->count(),
-                    "name" => $group->name,
-                    "description" => $group->description,
-                    "color" => $group->color,
-                    "customers" => $customers->map(function ($customer) {
-                        $orders = Order::where("user_id", $customer->id)->get();
-                        if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
-                        $totalMoney = 0;
-                        $totalPaidMoney = 0;
-                        $lastOrder = 0;
-                        foreach ($orders as $order) {
-                            $goodOrders = $order->goodOrders()->get();
-                            foreach ($goodOrders as $goodOrder) {
-                                $totalMoney += $goodOrder->quantity * $goodOrder->price;
-                            }
-                            $lastOrder = $order->created_at;
-                        }
-                        foreach ($orders as $order) {
-                            $orderPaidMoneys = $order->orderPaidMoneys()->get();
-                            foreach ($orderPaidMoneys as $orderPaidMoney) {
-                                $totalPaidMoney += $orderPaidMoney->money;
-                            }
-                        }
-                        return [
-                            'id' => $customer->id,
-                            'name' => $customer->name,
-                            'phone' => $customer->phone,
-                            'email' => $customer->email,
-                            'address' => $customer->address,
-                            'birthday' => $customer->dob,
-                            'gender' => $customer->gender,
-                            'avatar_url' => $customer->avatar_url ? $customer->avatar_url : "http://api.colorme.vn/img/user.png",
-                            'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",
-                            'total_money' => $totalMoney,
-                            'total_paid_money' => $totalPaidMoney,
-                            'debt' => $totalMoney - $totalPaidMoney,
-                            'can_delete' => $canDelete
-                        ];
-                    }),
-                ];
-
-            })
+            "customer_groups" => $this->groupTransformer->transformCollection($groups)
         ]);
     }
 
-    public function deleteGroup(Request $request){
-        $customer_group = InfoCustomerGroup::find($request->id);
-        if(!$customer_group) return $this->respondErrorWithStatus("Khong ton tai nhom khach hang");
-        if($customer_group->customers) return $this->respondErrorWithStatus("Khong duoc xoa");
+
+    public function deleteGroup($groupId)
+    {
+        $customer_group = InfoCustomerGroup::find($groupId);
+        if (!$customer_group) return $this->respondErrorWithStatus("Nhóm khách hàng không tồn tại");
+        if ($customer_group->customers()->first() != null) return $this->respondErrorWithStatus("Không được xoá nhóm khách hàng vẫn còn chứa khách hàng");
         $customer_group->delete();
         return $this->respondSuccessWithStatus([
-            "message" => "Xoa thanh cong"
+            "message" => "Xoá thành công"
         ]);
 
     }
