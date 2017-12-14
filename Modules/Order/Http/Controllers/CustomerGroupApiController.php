@@ -72,7 +72,7 @@ class CustomerGroupApiController extends ManageApiController
 
         return $this->respondSuccessWithStatus([
             "message" => "Sua thanh cong",
-            "customer_group" => $group->transform(),
+            "customer_group" => $this->groupTransformer->transform($group),
         ]);
 
 
