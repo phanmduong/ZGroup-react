@@ -3,6 +3,7 @@
 namespace Modules\Good\Http\Controllers;
 
 use App\Good;
+use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\Task;
@@ -533,20 +534,22 @@ class GoodController extends ManageApiController
     public function deleteGood($good_id, Request $request)
     {
         $good = Good::find($good_id);
-        $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
-            return $total + $importedGood->quantity;
-        }, 0);
-        if ($importedGoodsCount)
-            return $this->respondSuccessWithStatus([
-                'message' => 'Sản phẩm còn trong kho không được xóa'
-            ]);
         if ($good == null)
             return $this->respondErrorWithStatus([
                 "message" => "Không tìm thấy sản phẩm"
             ]);
-        if ($good->history != null)
+        $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
+            return $total + $importedGood->quantity;
+        }, 0);
+        $historyCount = HistoryGood::where('good_id', $good_id)->count();
+        if ($importedGoodsCount > 0)
             return $this->respondErrorWithStatus([
-                "message" => "Sản phẩm có lịch sử không được xóa"
+                'message' => 'Sản phẩm còn trong kho không được xóa'
+            ]);
+
+        if($historyCount > 0)
+            return $this->respondErrorWithStatus([
+                'message' => 'Sản phẩm đã từng bán không được xóa'
             ]);
         $good->status = 'deleted';
         foreach ($good->properties as $property) {
