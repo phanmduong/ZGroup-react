@@ -7,8 +7,6 @@ use App\Course;
 use App\Gen;
 use App\Product;
 use App\Register;
-use App\StudyClass;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
