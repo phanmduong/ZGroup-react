@@ -1212,4 +1212,13 @@ export default {
         isLoading: false,
         data: [],
     },
+    department:{
+        isLoading: false,
+        data: {
+            paginator: {
+                page: 1,
+                total_pages : 1,
+            },
+        },
+    }
 };

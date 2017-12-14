@@ -264,7 +264,13 @@ export function deleteCard(cardId) {
     };
 }
 
-export function createCard(card) {
+/**
+ * if createGood == true. Check barcode exist or not
+ * @param card
+ * @param createGood
+ * @returns {Function}
+ */
+export function createCardGood(card) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CREATE_CARD
@@ -274,7 +280,11 @@ export function createCard(card) {
             taskApi.barcodeNotEmpty()
                 .then((res) => {
                     const {count} = res.data.data;
+                    // if(createCard) {
+                    //
+                    // }
                     if (Number(count) > 0) {
+                        // if (true) {
                         taskApi.createCard(card)
                             .then(res => {
                                 resolve();
@@ -300,6 +310,30 @@ export function createCard(card) {
 
         });
 
+    };
+}
+
+export function createCard(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_CARD
+        });
+
+        return new Promise((resolve) => {
+            taskApi.createCard(card)
+                .then(res => {
+                    resolve();
+                    showNotification("Tạo thẻ thành công");
+                    dispatch({
+                        type: types.CREATE_CARD_SUCCESS,
+                        card: res.data.card
+                    });
+                })
+                .catch(() => {
+                    showErrorNotification("Có lỗi xảy ra");
+                });
+
+        });
     };
 }
 

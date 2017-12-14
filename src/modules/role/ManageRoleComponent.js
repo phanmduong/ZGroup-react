@@ -34,6 +34,12 @@ class ManageRoleComponent extends React.Component {
                                                 <div className="ripple-container"/>
                                             </Link>
                                         </li>
+                                        <li className="">
+                                            <Link to="manage-department">
+                                                Bộ phận
+                                                <div className="ripple-container"/>
+                                            </Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
