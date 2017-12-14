@@ -99,6 +99,11 @@ class LessonController extends ManageApiController
         if ($lesson == null)
             return $this->respondErrorWithStatus("Buổi học không tồn tại");
         $lesson->delete();
+        $course = $lesson->course;
+
+        $course->duration = $course->lessons->count();
+        $course->save();
+
         return $this->respondSuccessWithStatus([
             'message' => "Xoa thanh cong"
         ]);
