@@ -83,8 +83,9 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function infoCustomerGroups(){
-        return $this->belongsToMany(InfoCustomerGroup::class,'customer_groups','customer_id','customer_group_id');
+    public function infoCustomerGroups()
+    {
+        return $this->belongsToMany(InfoCustomerGroup::class, 'customer_groups', 'customer_id', 'customer_group_id');
     }
 
 
@@ -332,6 +333,43 @@ class User extends Authenticatable
             'avatar_url' => $this->avatar_url,
             'link' => '/profile/' . $this->username,
             'registers' => $data,
+        ];
+    }
+
+    public function transfromCustomer()
+    {
+        $orders = Order::where("user_id", $this->id)->get();
+        if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
+        $totalMoney = 0;
+        $totalPaidMoney = 0;
+        $lastOrder = 0;
+        foreach ($orders as $order) {
+            $goodOrders = $order->goodOrders()->get();
+            foreach ($goodOrders as $goodOrder) {
+                $totalMoney += $goodOrder->quantity * $goodOrder->price;
+            }
+            $lastOrder = $order->created_at;
+        }
+        foreach ($orders as $order) {
+            $orderPaidMoneys = $order->orderPaidMoneys()->get();
+            foreach ($orderPaidMoneys as $orderPaidMoney) {
+                $totalPaidMoney += $orderPaidMoney->money;
+            }
+        }
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'phone' => $this->phone,
+            'email' => $this->email,
+            'address' => $this->address,
+            'birthday' => $this->dob,
+            'gender' => $this->gender,
+            'avatar_url' => $this->avatar_url ? $this->avatar_url : "http://api.colorme.vn/img/user.png",
+            'last_order' => $lastOrder ? format_vn_short_datetime(strtotime($lastOrder)) : "Chưa có",
+            'total_money' => $totalMoney,
+            'total_paid_money' => $totalPaidMoney,
+            'debt' => $totalMoney - $totalPaidMoney,
+            'can_delete' => $canDelete
         ];
     }
 }
