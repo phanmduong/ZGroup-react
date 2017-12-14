@@ -65,7 +65,7 @@ class RegisterController extends Controller
 
         $user = User::where('email', '=', $request->email)->first();
         $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
-        if ($user == null) {
+        if (!isset($user)) {
             $user = new User;
         }
         $user->name = $request->name;
