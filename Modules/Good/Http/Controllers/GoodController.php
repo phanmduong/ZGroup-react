@@ -547,7 +547,7 @@ class GoodController extends ManageApiController
                 'message' => 'Sản phẩm còn trong kho không được xóa'
             ]);
 
-        if($historyCount)
+        if($historyCount > 0)
             return $this->respondErrorWithStatus([
                 'message' => 'Sản phẩm đã từng bán không được xóa'
             ]);
