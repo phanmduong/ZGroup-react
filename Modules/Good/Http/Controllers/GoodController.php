@@ -548,7 +548,7 @@ class GoodController extends ManageApiController
             $children = Good::where('code', $good->code)->get();
             foreach ($children as $child) {
                 $history = $child->history;
-                if ($history == null)
+                if ($history->count() == 0)
                     $child->delete();
             }
             return $this->respondSuccessWithStatus([
