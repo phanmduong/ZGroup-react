@@ -228,11 +228,11 @@ class CustomerGroupApiController extends ManageApiController
     public function deleteGroup($groupId)
     {
         $customer_group = InfoCustomerGroup::find($groupId);
-        if (!$customer_group) return $this->respondErrorWithStatus("Khong ton tai nhom khach hang");
-        if ($customer_group->customers()->first() != null) return $this->respondErrorWithStatus("Khong duoc xoa");
+        if (!$customer_group) return $this->respondErrorWithStatus("Nhóm khách hàng không tồn tại");
+        if ($customer_group->customers()->first() != null) return $this->respondErrorWithStatus("Không được xoá nhóm khách hàng vẫn còn chứa khách hàng");
         $customer_group->delete();
         return $this->respondSuccessWithStatus([
-            "message" => "Xoa thanh cong"
+            "message" => "Xoá thành công"
         ]);
 
     }
