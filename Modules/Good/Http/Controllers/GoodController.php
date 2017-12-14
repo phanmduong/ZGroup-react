@@ -544,18 +544,6 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus([
                 "message" => "Không tìm thấy sản phẩm"
             ]);
-        $goods_count = Good::where('code', $good->code)->count();
-        if ($goods_count > 1) {
-            $children = Good::where('code', $good->code)->get();
-            foreach ($children as $child) {
-                $history = $child->history;
-                if ($history->count() == 0)
-                    $child->delete();
-            }
-            return $this->respondSuccessWithStatus([
-                'message' => 'Xóa thành công các sản phẩm con không có lịch sử'
-            ]);
-        }
         if ($good->history != null)
             return $this->respondErrorWithStatus([
                 "message" => "Sản phẩm có lịch sử không được xóa"
