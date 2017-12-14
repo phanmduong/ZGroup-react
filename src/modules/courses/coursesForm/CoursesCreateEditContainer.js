@@ -210,7 +210,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 <img src = {helper.isEmptyInput(this.props.data.icon_url) ? NO_IMAGE : this.props.data.icon_url} />
                             { this.props.isUpdatingLogo ?
                                 (
-                                <button className="btn btn-rose btn-round disabled" type="button" style={btn}>
+                                <button className="btn btn-rose  disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 )
@@ -239,7 +239,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 <img src = {helper.isEmptyInput(this.props.data.image_url) ? NO_IMAGE : this.props.data.image_url} />
                             { this.props.isUpdatingAvatar ?
                                 (
-                                <button className="btn btn-rose btn-round disabled" type="button" style={btn}>
+                                <button className="btn btn-rose  disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 )
@@ -268,7 +268,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 <img src = {helper.isEmptyInput(this.props.data.cover_url) ? NO_IMAGE : this.props.data.cover_url} />
                             { this.props.isUpdatingCover ?
                                 (
-                                <button className="btn btn-rose btn-round disabled" type="button" style={btn}>
+                                <button className="btn btn-rose  disabled" type="button" style={btn}>
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 )
@@ -304,7 +304,7 @@ class CreateEditCoursesContainer extends React.Component {
                                 </div>
 
                             {this.props.isCommitting ?
-                                <button className="btn btn-rose btn-round disabled" type="button">
+                                <button className="btn btn-rose  disabled" type="button">
                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                 </button>
                                 :

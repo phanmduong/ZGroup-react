@@ -153,6 +153,7 @@ class LessonsContainer extends React.Component {
                                     label="Thứ tự"
                                     required
                                     name="order"
+                                    type="number"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.order}
                                 />
