@@ -225,6 +225,7 @@ class CustomerGroupApiController extends ManageApiController
         ]);
     }
 
+
     public function deleteGroup($groupId)
     {
         $customer_group = InfoCustomerGroup::find($groupId);
