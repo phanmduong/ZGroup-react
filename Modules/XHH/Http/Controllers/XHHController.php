@@ -2,7 +2,9 @@
 
 namespace Modules\XHH\Http\Controllers;
 
+use App\Product;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 
 class XHHController extends Controller
 {
@@ -17,7 +19,7 @@ class XHHController extends Controller
         $display = "";
         if ($request->page == null) $page_id = 2; else $page_id = $request->page + 1;
         if ($blogs->lastPage() == $page_id - 1) $display = "display:none";
-        return view('alibaba::blogs', [
+        return view('xhh::blogs', [
             'blogs' => $blogs,
             'page_id' => $page_id,
             'display' => $display,
@@ -45,7 +47,7 @@ class XHHController extends Controller
 
             return $comment;
         });
-        return view('alibaba::post',
+        return view('xhh::post',
             [
                 'post' => $post,
                 'posts_related' => $posts_related
