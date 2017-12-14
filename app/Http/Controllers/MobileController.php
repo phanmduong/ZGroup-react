@@ -169,34 +169,28 @@ class MobileController extends ApiController
                 'error' => "Attendance không tồn tại",
             ], 404);
         }
-        if ($request->status != null && $request->hw_status != null) {
-            if (($request->status != 1 && $request->status != 0) ||
-                (($request->hw_status != 1 && $request->hw_status != 0))
-            ) {
-                return response()->json([
-                    'error' => "status và hw_status phải bằng 0 hoặc 1",
-                ], 400);
-            }
-            $attendance->status = ($request->status == 0) ? 0 : 1;
-            $attendance->hw_status = ($request->status == 0) ? 0 : 1;
-            $user = JWTAuth::parseToken()->authenticate();
-            $attendance->checker_id = $user->id;
-            $attendance->register->received_id_card = 1;
-            $attendance->register->save();
-            $attendance->device = "Điện thoại";
-            $attendance->save();
-
-            $this->notificationRepository->sendConfirmStudentAttendanceNotification($this->user, $attendance);
-
+        if (($request->status != 1 && $request->status != 0) ||
+            (($request->hw_status != 1 && $request->hw_status != 0))
+        ) {
             return response()->json([
-                'message' => 'success',
-                'attendance' => $attendance->transform(),
-            ]);
-        } else {
-            return response()->json([
-                'error' => "dữ liệu truyền lên cần có status và hw_status",
+                'error' => "status và hw_status phải bằng 0 hoặc 1",
             ], 400);
         }
+        $attendance->status = ($request->status == 0) ? 0 : 1;
+        $attendance->hw_status = ($request->hw_status == 0) ? 0 : 1;
+        $user = JWTAuth::parseToken()->authenticate();
+        $attendance->checker_id = $user->id;
+        $attendance->register->received_id_card = 1;
+        $attendance->register->save();
+        $attendance->device = "Điện thoại";
+        $attendance->save();
+
+        $this->notificationRepository->sendConfirmStudentAttendanceNotification($this->user, $attendance);
+
+        return response()->json([
+            'message' => 'success',
+            'attendance' => $attendance->transform(),
+        ]);
     }
 
     public function dashboardv2($gen_id, Request $request, $base_id = null)
@@ -357,7 +351,6 @@ class MobileController extends ApiController
 
                 $di += 1;
             }
-
 
 
             $registers_by_hour = Register::select(DB::raw('HOUR(created_at) as \'hour\', count(1) as num'))->where('gen_id', $current_gen->id)->groupBy(DB::raw('HOUR(created_at)'))->get();
