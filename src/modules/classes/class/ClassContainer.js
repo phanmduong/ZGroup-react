@@ -264,6 +264,8 @@ class ClassContainer extends React.Component {
             this.props.classActions.changeLinkDriver(this.classId, this.state.linkDriver);
     }
 
+
+
     render() {
         this.path = this.props.location.pathname;
         let classData = this.props.class;
@@ -327,7 +329,7 @@ class ClassContainer extends React.Component {
                                     <div className="card-content"><h4 className="card-title">Thông tin về điểm danh</h4>
                                         <div className="col-md-12">
                                             <div>
-                                                <button className="btn btn-default width-100" disabled>
+                                                {/*<button className="btn btn-default width-100" disabled>
                                                     <i className="material-icons">timer</i>
                                                     Xem group lớp
                                                 </button>
@@ -338,7 +340,7 @@ class ClassContainer extends React.Component {
                                                 <button className="btn btn-default width-100" disabled>
                                                     <i className="material-icons">timer</i>
                                                     In bằng
-                                                </button>
+                                                </button>*/}
                                                 <button className="btn btn-default width-100"
                                                     onClick={this.exportExcel}
                                                     disabled={this.props.isLoadingClass}
