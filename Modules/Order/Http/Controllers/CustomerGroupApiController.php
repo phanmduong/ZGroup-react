@@ -170,7 +170,7 @@ class CustomerGroupApiController extends ManageApiController
         $keyword = $request->search;
         $limit = $request->limit && $request->limit != -1 ? $request->limit : 20;
         $groups = InfoCustomerGroup::query();
-        $groups = $groups->where(function ($query) use ($keyword) {
+        $groups = $groups->orderBy("created_at", "desc")->where(function ($query) use ($keyword) {
             $query->where("name", "like", "%" . $keyword . "%");
         })->paginate($limit);
 
