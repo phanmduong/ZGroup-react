@@ -536,7 +536,7 @@ class GoodController extends ManageApiController
         $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
             return $total + $importedGood->quantity;
         }, 0);
-        if ($importedGoodsCount)
+        if ($importedGoodsCount > 0)
             return $this->respondSuccessWithStatus([
                 'message' => 'Sản phẩm còn trong kho không được xóa'
             ]);
