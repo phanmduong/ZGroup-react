@@ -13,7 +13,7 @@ export function moveAndCreateCard(instance, task, projectId, cardId) {
                 board_id: targetBoardId,
                 task_list_id: task.task_list_id,
                 id: null
-            }, true);
+            });
 
         promiseArray = [...promiseArray, promise];
     });
