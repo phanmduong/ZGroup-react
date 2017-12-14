@@ -55,15 +55,15 @@ class ManageClassApiController extends ManageApiController
         $classes = StudyClass::query();
         if ($search)
             $classes = $classes->where('name', 'like', '%' . $search . '%');
-        if($request->gen_id)
+        if ($request->gen_id)
             $classes = $classes->where('gen_id', $request->gen_id);
-        if($request->base_id)
+        if ($request->base_id)
             $classes = $classes->where('base_id', $request->base_id);
         if ($request->teacher_id)
             $classes = $classes->where(function ($query) use ($request) {
-                    $query->where('teacher_id', $request->teacher_id)
-                        ->orWhere('teaching_assistant_id', $request->teacher_id);
-                });
+                $query->where('teacher_id', $request->teacher_id)
+                    ->orWhere('teaching_assistant_id', $request->teacher_id);
+            });
 
         $classes = $classes->orderBy('gen_id', 'desc')->paginate($limit);
 
@@ -373,15 +373,16 @@ class ManageClassApiController extends ManageApiController
         return $this->respondErrorWithStatus("Thiếu class_lesson_id");
     }
 
-    public function addLinkDrive($class_id, Request $request) {
+    public function addLinkDrive($class_id, Request $request)
+    {
         $class = StudyClass::find($class_id);
-        if($class == null)
+        if ($class == null)
             return $this->respondErrorWithStatus([
                 'message' => 'khong ton tai lop'
             ]);
         $class->link_drive = $request->link_drive;
         $class->save();
-        $this->respondSuccessWithStatus([
+        return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
     }
