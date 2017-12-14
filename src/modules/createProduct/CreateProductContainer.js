@@ -55,6 +55,7 @@ class CreateProductContainer extends React.Component {
 
     changePropertySelect(index) {
         return (value) => {
+            console.log("value", value);
             let properties = [...this.props.productWorking.property_list];
             let property = {...properties[index]};
             if (value) {
@@ -77,18 +78,62 @@ class CreateProductContainer extends React.Component {
 
     valueSelectChange(index) {
         return (value) => {
-            let properties = [...this.props.productWorking.property_list];
-            let property = {...properties[index]};
-            let goods_count = properties.filter((property, i) => i !== index).reduce((result, property) =>
+            const valNotInArr = (val) => {
+                let check = true;
+                value.forEach(valu => {
+                    if (valu.value === val.value) {
+                        check = false;
+                    }
+                });
+                return check;
+            };
+            const childNotRemoved = (child, properties_removed) => {
+                let check = true;
+                child.properties.forEach(property => {
+                    properties_removed.forEach(pro => {
+                        if (property.property_item_id === pro.property_item_id && property.value === pro.value) check = false;
+                    });
+                });
+                return check;
+            };
+            let property_list = [...this.props.productWorking.property_list];
+            let property = {...property_list[index]};
+            let goods_count = property_list.filter((property, i) => i !== index).reduce((result, property) =>
                 property.value.length * result, 1) * value.length;
-            properties[index] = {
+            property_list[index] = {
                 name: property.name,
                 property_item_id: property.property_item_id,
                 value: value
             };
-            this.props.createProductAction.handlePropertiesCreate(properties);
+            this.props.createProductAction.handlePropertiesCreate(property_list);
             this.props.createProductAction.handleGoodCountCreate(goods_count);
-            this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(properties));
+            if (value.length > property.value.length) {
+                let property_list_add = [...property_list];
+                property_list_add[index] = {
+                    name: property.name,
+                    property_item_id: property.property_item_id,
+                    value: [value[value.length - 1]]
+                };
+                let children = [...this.props.productWorking.children, ...helper.childrenBeginAddChild(property_list_add)];
+                this.props.createProductAction.handleChildrenCreateProduct(children);
+            } else {
+                let property_list_remove = [...property_list];
+                property_list_remove[index] = {
+                    name: property.name,
+                    property_item_id: property.property_item_id,
+                    value: property.value.filter(valNotInArr)
+                };
+                let properties_removed = property_list_remove[index].value.map(val => {
+                    return ({
+                        property_item_id: property.property_item_id,
+                        value: val.value
+                    });
+                });
+                console.log("properties_removed", properties_removed);
+                let children = [...this.props.productWorking.children].filter(child => childNotRemoved(child, properties_removed));
+                console.log("children_after_remove", children);
+                this.props.createProductAction.handleChildrenCreateProduct(children);
+            }
         };
     }
 
@@ -189,7 +234,7 @@ class CreateProductContainer extends React.Component {
                                 <div className="card">
                                     <div className="card-header card-header-icon"
                                          data-background-color="rose"
-                                         style={{"z-index": 0}}
+                                         style={{zIndex: 0}}
                                     ><i
                                         className="material-icons">assignment</i>
                                     </div>
@@ -269,7 +314,7 @@ class CreateProductContainer extends React.Component {
                                             }
                                         </div>
                                         <div className="col-md-12"
-                                             style={{"z-index": 0}}>
+                                             style={{zIndex: 0}}>
                                             <CheckBoxMaterial
                                                 name="sale_status"
                                                 checked={this.props.goods_count_check}

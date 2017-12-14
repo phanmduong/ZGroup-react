@@ -13,9 +13,9 @@ class ProductListComponent extends React.Component {
         this.deleteProduct = this.deleteProduct.bind(this);
     }
 
-    deleteProduct(product) {
-        helper.confirm("error", "Bạn có chắc muốn xóa sản phẩm này","", () => {
-            this.props.deleteProduct(product);
+    deleteProduct(product, isChild, index) {
+        helper.confirm("error", "Bạn có chắc muốn xóa sản phẩm này", "", () => {
+            this.props.deleteProduct(product, isChild, index);
         });
     }
 
@@ -39,9 +39,9 @@ class ProductListComponent extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.products && this.props.products.map((product) => {
+                        this.props.products && this.props.products.map((product, index) => {
                             return (
-                                <tr key={product.id}>
+                                <tr key={index}>
                                     <td>
                                         <img style={{
                                             width: "30px",
@@ -66,7 +66,7 @@ class ProductListComponent extends React.Component {
                                         {product.name}<br/>
                                         {
                                             product.children ? (
-                                                <a onClick={() => this.props.showSameProductModal(product)}>
+                                                <a onClick={() => this.props.showSameProductModal(index)}>
                                                     <i className="material-icons">search</i>
                                                     {product.children.length} sản phẩm cùng loại
                                                 </a>
@@ -99,7 +99,7 @@ class ProductListComponent extends React.Component {
                                     <td>
                                         {
                                             product.children ? (
-                                                <a onClick={() => this.props.showSameProductModal(product)}>
+                                                <a onClick={() => this.props.showSameProductModal(index)}>
                                                     <i className="material-icons">search</i>
                                                 </a>
                                             ) : (
@@ -128,12 +128,12 @@ class ProductListComponent extends React.Component {
                                                 className="material-icons">edit</i>
                                             </Link>
                                             {
-                                                product.children ? (
+                                                product.children && product.children.length > 1 ? (
                                                     <a style={{color: "#878787"}}
                                                        data-toggle="tooltip" title=""
                                                        type="button" rel="tooltip"
                                                        data-original-title="Xoá"
-                                                       onClick={() => this.props.showSameProductModal(product)}>
+                                                       onClick={() => this.props.showSameProductModal(index)}>
                                                         <i className="material-icons">delete</i>
                                                     </a>
                                                 ) : (
@@ -141,7 +141,7 @@ class ProductListComponent extends React.Component {
                                                        data-toggle="tooltip" title=""
                                                        type="button" rel="tooltip"
                                                        data-original-title="Xoá"
-                                                       onClick={() => this.deleteProduct(product)}>
+                                                       onClick={() => this.deleteProduct(product, false, index)}>
                                                         <i className="material-icons">delete</i>
                                                     </a>
                                                 )

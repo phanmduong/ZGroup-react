@@ -156,14 +156,33 @@ export function getCategoriesProductsList() {
     };
 }
 
-export function deleteProduct(product) {
-    return function () {
+export function deleteProduct(product, isChild, indexForChilds) {
+    return function (dispatch) {
         productListApi.deleteProductApi(product)
             .then(function (res) {
-                if (res.data.status) {
-                    helper.showNotification("Xóa sản phẩm thành công");
+                if (isChild) {
+                    //trường hợp xóa con, cần index của cha
+                    if (res.data.status) {
+                        helper.showNotification("Xóa sản phẩm thành công");
+                        dispatch({
+                            type: types.DELETE_CHILDREN_PRODUCT_LIST,
+                            product,
+                            index: indexForChilds
+                        });
+                    } else {
+                        helper.showErrorNotification("Không thể xóa sản phẩm này");
+                    }
                 } else {
-                    helper.showErrorNotification("Không thể xóa sản phẩm này");
+                    //khi xóa cha thì load lại trang
+                    if (res.data.status) {
+                        helper.showNotification("Xóa sản phẩm thành công");
+                        dispatch({
+                            type: types.UPDATED_PRODUCT_LIST_MODAL,
+                            modalUpdated: true
+                        });
+                    } else {
+                        helper.showErrorNotification("Không thể xóa sản phẩm này");
+                    }
                 }
             });
     };

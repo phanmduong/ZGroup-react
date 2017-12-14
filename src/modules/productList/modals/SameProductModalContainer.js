@@ -12,10 +12,11 @@ class SameProductModalContainer extends React.Component {
 
     render() {
         const product = this.props.productEditing.productPresent;
+        const indexForChilds = this.props.productEditing.index;
         return (
             <Modal show={this.props.sameProductModal}
-                   onHide={() => this.props.showSameProductModal(product)}>
-                <a onClick={() => this.props.showSameProductModal(product)}
+                   onHide={() => this.props.showSameProductModal(indexForChilds)}>
+                <a onClick={() => this.props.showSameProductModal(indexForChilds)}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title">Sản phẩm cùng loại</Modal.Title>
@@ -68,18 +69,33 @@ class SameProductModalContainer extends React.Component {
                                                 </a>
                                             </td>
                                             <td>
-                                                <div className="btn-group-action">
-                                                    <a style={{color: "#878787"}}
-                                                       data-toggle="tooltip" title=""
-                                                       type="button" rel="tooltip"
-                                                       data-original-title="Xoá"
-                                                       onClick={() => {
-                                                           this.props.deleteProduct(child);
-                                                           this.props.showSameProductModal(product);
-                                                       }}>
-                                                        <i className="material-icons">delete</i>
-                                                    </a>
-                                                </div>
+                                                {
+                                                    product.children && product.children.length > 1?(
+                                                        <div className="btn-group-action">
+                                                            <a style={{color: "#878787"}}
+                                                               data-toggle="tooltip" title=""
+                                                               type="button" rel="tooltip"
+                                                               data-original-title="Xoá"
+                                                               onClick={() => {
+                                                                   this.props.deleteProduct(child, true, indexForChilds);
+                                                               }}>
+                                                                <i className="material-icons">delete</i>
+                                                            </a>
+                                                        </div>
+                                                    ):(
+                                                        <div className="btn-group-action">
+                                                            <a style={{color: "#878787"}}
+                                                               data-toggle="tooltip" title=""
+                                                               type="button" rel="tooltip"
+                                                               data-original-title="Xoá"
+                                                               onClick={() => {
+                                                                   this.props.deleteProduct(child, false, indexForChilds);
+                                                               }}>
+                                                                <i className="material-icons">delete</i>
+                                                            </a>
+                                                        </div>
+                                                    )
+                                                }
                                             </td>
                                         </tr>
                                     );

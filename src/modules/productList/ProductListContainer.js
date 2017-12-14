@@ -300,9 +300,9 @@ class ProductListContainer extends React.Component {
         this.props.modalProductAction.handleProduct(product);
     }
 
-    showSameProductModal(product) {
-        this.props.modalProductAction.showSameProductModal();
-        this.props.modalProductAction.handleProduct(product);
+    showSameProductModal(index) {
+        this.props.modalProductAction.showSameProductModal(index);
+        this.props.modalProductAction.handleProduct(this.props.products[index]);
     }
 
     showWareHouseModal(product) {

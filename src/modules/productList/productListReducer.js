@@ -19,7 +19,11 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 productsTotal: action.productsTotal,
                 productsQuantity: action.productsQuantity,
-                isLoading: false
+                isLoading: false,
+                modalInProduct: {
+                    ...state.modalInProduct,
+                    sameProductModal: false
+                }
             };
         case types.TOGGLE_PRICE_MODAL:
             return {
@@ -35,6 +39,10 @@ export default function productListReducer(state = initialState.productList, act
                 modalInProduct: {
                     ...state.modalInProduct,
                     sameProductModal: !state.modalInProduct.sameProductModal
+                },
+                productEditing: {
+                    ...state.productEditing,
+                    index: action.index
                 }
             };
         case types.BEGIN_LOAD_PRODUCTS:
@@ -154,6 +162,25 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 showWareHouse: false
             };
+        case types.DELETE_CHILDREN_PRODUCT_LIST: {
+            let products = [...state.products];
+            let children = state.productEditing.productPresent.children.filter(child => child.id !== action.product.id);
+            products[action.index] = {
+                ...state.products[action.index],
+                children: children
+            };
+            return {
+                ...state,
+                products: products,
+                productEditing: {
+                    ...state.productEditing,
+                    productPresent: {
+                        ...state.productEditing.productPresent,
+                        children: children
+                    }
+                }
+            };
+        }
         default:
             return state;
     }

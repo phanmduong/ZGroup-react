@@ -26,7 +26,7 @@ export default {
             ],
             children: []
         },
-        goods_count_check: false,
+        goods_count_check: true,
         isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
@@ -83,6 +83,7 @@ export default {
             modalUpdated: false
         },
         productEditing: {
+            index: null,
             productPresent: {
                 id: '',
                 name: '',
