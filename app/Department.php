@@ -10,4 +10,7 @@ class Department extends Model
     //
     use SoftDeletes;
     protected $table = 'departments';
+    public function  employees(){
+        return $this->hasMany("App\User",'department_id');
+    }
 }
