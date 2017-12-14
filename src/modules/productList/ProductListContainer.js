@@ -556,7 +556,8 @@ class ProductListContainer extends React.Component {
                                                             showPriceModal={this.showPriceModal}
                                                             showWareHouseModal={this.showWareHouseModal}
                                                             showAvatarModal={this.showAvatarModal}
-                                                            showSameProductModal={this.showSameProductModal}/>
+                                                            showSameProductModal={this.showSameProductModal}
+                                                            deleteProduct={this.props.productListAction.deleteProduct}/>
                                                     )
                                                 }
                                             </div>

@@ -44,9 +44,9 @@ class CreateProductContainer extends React.Component {
     saveProductCreate() {
         const good = {...this.props.productWorking};
         const empty_arr = good.property_list.filter(property => property.value.length === 0);
-        if (!good.name || !good.code || empty_arr.length > 0) {
+        if (!good.name || !good.code || (empty_arr.length > 0 && good.property_list.length > 1)) {
             if (!good.name || !good.code) helper.showErrorNotification("Bạn cần nhập Tên và Mã sản phẩm");
-            if (empty_arr.length > 0) helper.showErrorNotification("Bạn cần nhập giá trị cho thuộc tính");
+            if (empty_arr.length > 0 && good.property_list.length > 1) helper.showErrorNotification("Bạn cần nhập giá trị cho thuộc tính");
         } else {
             if (this.state.type === "create") this.props.createProductAction.saveProductCreate(good);
             else this.props.createProductAction.saveProductEdit(good);
@@ -205,7 +205,6 @@ class CreateProductContainer extends React.Component {
                                             <tbody>
                                             {
                                                 product.property_list && product.property_list.map((property, index) => {
-                                                    console.log("property", property);
                                                     return (
                                                         <tr key={index}>
                                                             <td>

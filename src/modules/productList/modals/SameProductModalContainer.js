@@ -2,6 +2,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import {bindActionCreators} from 'redux';
+import * as productListAction from './../productListAction';
 
 class SameProductModalContainer extends React.Component {
     constructor(props, context) {
@@ -10,7 +12,6 @@ class SameProductModalContainer extends React.Component {
 
     render() {
         const product = this.props.productEditing.productPresent;
-        console.log("product", product);
         return (
             <Modal show={this.props.sameProductModal}
                    onHide={() => this.props.showSameProductModal(product)}>
@@ -28,6 +29,7 @@ class SameProductModalContainer extends React.Component {
                                 <th>Mã</th>
                                 <th>Giá</th>
                                 <th>Kho</th>
+                                <th/>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,14 +57,29 @@ class SameProductModalContainer extends React.Component {
                                                 <a className="text-name-student-register"
                                                    rel="tooltip" title=""
                                                    data-original-title="Remove item"
-                                                   onClick={() => this.props.showWareHouseModal(product)}>                                                        {
-                                                    product.warehouses_count !== 0 ? (
-                                                        <p>{product.warehouses_count} kho</p>
-                                                    ) : (
-                                                        <p>Chưa có</p>
-                                                    )
-                                                }
+                                                   onClick={() => this.props.showWareHouseModal(child)}>
+                                                    {
+                                                        product.warehouses_count !== 0 ? (
+                                                            <p>{product.warehouses_count} kho</p>
+                                                        ) : (
+                                                            <p>Chưa có</p>
+                                                        )
+                                                    }
                                                 </a>
+                                            </td>
+                                            <td>
+                                                <div className="btn-group-action">
+                                                    <a style={{color: "#878787"}}
+                                                       data-toggle="tooltip" title=""
+                                                       type="button" rel="tooltip"
+                                                       data-original-title="Xoá"
+                                                       onClick={() => {
+                                                           this.props.deleteProduct(child);
+                                                           this.props.showSameProductModal(product);
+                                                       }}>
+                                                        <i className="material-icons">delete</i>
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
                                     );
@@ -81,7 +98,9 @@ SameProductModalContainer.propTypes = {
     sameProductModal: PropTypes.bool,
     productEditing: PropTypes.object.isRequired,
     showWareHouseModal: PropTypes.func.isRequired,
-    showSameProductModal: PropTypes.func.isRequired
+    showSameProductModal: PropTypes.func.isRequired,
+    productListAction: PropTypes.object.isRequired,
+    deleteProduct: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -91,8 +110,10 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps() {
-    return {};
+function mapDispatchToProps(dispatch) {
+    return {
+        productListAction: bindActionCreators(productListAction, dispatch)
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SameProductModalContainer);

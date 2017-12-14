@@ -4,12 +4,19 @@ import WareHouseModalContainer from "./modals/WareHouseModalContainer";
 import AvatarModalContainer from "./modals/AvatarModalContainer";
 import PriceModalContainer from "./modals/PriceModalContainer";
 import SameProductModalContainer from "./modals/SameProductModalContainer";
-import {dotNumber} from "../../helpers/helper";
 import {Link} from "react-router";
+import * as helper from '../../helpers/helper';
 
 class ProductListComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.deleteProduct = this.deleteProduct.bind(this);
+    }
+
+    deleteProduct(product) {
+        helper.confirm("error", "Bạn có chắc muốn xóa sản phẩm này","", () => {
+            this.props.deleteProduct(product);
+        });
     }
 
     render() {
@@ -69,11 +76,11 @@ class ProductListComponent extends React.Component {
                                     <td style={{width: "50px"}}>{product.quantity}</td>
                                     <td>
                                         <a onClick={() => this.props.showPriceModal(product)}>
-                                            {dotNumber(product.price)}đ
+                                            {helper.dotNumber(product.price)}đ
                                         </a>
                                     </td>
                                     <td>
-                                        {dotNumber(product.import_price)}
+                                        {helper.dotNumber(product.import_price)}
                                     </td>
                                     <td style={{width: "115px"}}>
                                         {
@@ -99,13 +106,14 @@ class ProductListComponent extends React.Component {
                                                 <a className="text-name-student-register"
                                                    rel="tooltip" title=""
                                                    data-original-title="Remove item"
-                                                   onClick={() => this.props.showWareHouseModal(product)}>                                                        {
-                                                    product.warehouses_count !== 0 ? (
-                                                        <p>{product.warehouses_count} kho</p>
-                                                    ) : (
-                                                        <p>Chưa có</p>
-                                                    )
-                                                }
+                                                   onClick={() => this.props.showWareHouseModal(product)}>
+                                                    {
+                                                        product.warehouses_count !== 0 ? (
+                                                            <p>{product.warehouses_count} kho</p>
+                                                        ) : (
+                                                            <p>Chưa có</p>
+                                                        )
+                                                    }
                                                 </a>
                                             )
                                         }
@@ -117,12 +125,27 @@ class ProductListComponent extends React.Component {
                                                   data-toggle="tooltip" title=""
                                                   type="button" rel="tooltip"
                                                   data-original-title="Sửa"><i
-                                                className="material-icons">edit</i></Link>
-                                            <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Xoá"><i
-                                                className="material-icons">delete</i></a>
+                                                className="material-icons">edit</i>
+                                            </Link>
+                                            {
+                                                product.children ? (
+                                                    <a style={{color: "#878787"}}
+                                                       data-toggle="tooltip" title=""
+                                                       type="button" rel="tooltip"
+                                                       data-original-title="Xoá"
+                                                       onClick={() => this.props.showSameProductModal(product)}>
+                                                        <i className="material-icons">delete</i>
+                                                    </a>
+                                                ) : (
+                                                    <a style={{color: "#878787"}}
+                                                       data-toggle="tooltip" title=""
+                                                       type="button" rel="tooltip"
+                                                       data-original-title="Xoá"
+                                                       onClick={() => this.deleteProduct(product)}>
+                                                        <i className="material-icons">delete</i>
+                                                    </a>
+                                                )
+                                            }
                                         </div>
                                     </td>
                                 </tr>
@@ -139,7 +162,8 @@ class ProductListComponent extends React.Component {
                     showAvatarModal={this.props.showAvatarModal}/>
                 <SameProductModalContainer
                     showSameProductModal={this.props.showSameProductModal}
-                    showWareHouseModal={this.props.showWareHouseModal}/>
+                    showWareHouseModal={this.props.showWareHouseModal}
+                    deleteProduct={this.deleteProduct}/>
             </div>
         );
     }
@@ -153,7 +177,8 @@ ProductListComponent.propTypes = {
     showSameProductModal: PropTypes.func.isRequired,
     setTable: PropTypes.func.isRequired,
     manufactures: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    deleteProduct: PropTypes.func.isRequired
 };
 
 export default ProductListComponent;

@@ -156,3 +156,16 @@ export function getCategoriesProductsList() {
     };
 }
 
+export function deleteProduct(product) {
+    return function () {
+        productListApi.deleteProductApi(product)
+            .then(function (res) {
+                if (res.data.status) {
+                    helper.showNotification("Xóa sản phẩm thành công");
+                } else {
+                    helper.showErrorNotification("Không thể xóa sản phẩm này");
+                }
+            });
+    };
+}
+
