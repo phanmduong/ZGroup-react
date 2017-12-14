@@ -50,9 +50,9 @@ class CustomerGroupApiController extends ManageApiController
 
     }
 
-    public function changeGroup(Request $request)
+    public function changeGroup($groupId, Request $request)
     {
-        $group = InfoCustomerGroup::find($request->customer_group_id);
+        $group = InfoCustomerGroup::find($groupId);
         if (!$group) return $this->respondErrorWithStatus("Khong ton tai nhom");
 
         if ($request->name === null) return $this->respondErrorWithStatus("Chua co ten");
