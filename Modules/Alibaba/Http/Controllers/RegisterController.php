@@ -47,8 +47,8 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => "required",
             'email' => "required|email",
-            'phone' => "min:6",
-            'phone_confirmation' => 'required_with:phone|same:phone|min:6',
+            'phone' => "required|min:6|numeric",
+            'phone_confirmation' => 'required_with:phone|same:phone|min:6|numeric',
             'university' => "required",
             'address' => "required",
             'facebook' => "required",
@@ -93,7 +93,7 @@ class RegisterController extends Controller
 
         $register->save();
 
-        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id);
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
             if ($class->registers()->count() >= $class->target) {
