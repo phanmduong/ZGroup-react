@@ -2,11 +2,22 @@ import React                    from 'react';
 import Loading                  from '../../components/common/Loading';
 import PropTypes                from 'prop-types';
 import ButtonGroupAction        from "../../components/common/ButtonGroupAction";
+import {Panel} from 'react-bootstrap';
+import ListStaffs from "../manageDepartment/ListStaffs";
 
 class ListDepartments extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state= {
+            openPanel:[],
+        };
+        this.openPanel = this.openPanel.bind(this);
+    }
 
+    openPanel(id){
+        let newstate = {...this.state.openPanel};
+        newstate[id] = !newstate[id];
+        this.setState({openPanel: newstate});
     }
 
     render(){
@@ -25,31 +36,35 @@ class ListDepartments extends React.Component {
                                     { (this.props.data && this.props.data.length === 0) ?
                                         <h3>Chưa có bộ phận nào</h3>
                                         :
-                                        <table className="table">
-                                            <thead className="text-rose">
-                                            <tr>
-                                                <th>Tên</th>
-                                                <th/>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {this.props.data.map((obj) => {
+                                        <div>
+                                            {this.props.data.map((obj,index) => {
                                                 return (
-                                                    <tr key={obj.id}>
-                                                        <td>{obj.name}</td>
-                                                        <td style={{width: '5%'}}>
-                                                            <ButtonGroupAction
-                                                                edit={this.props.edit}
-                                                                delete={this.props.delete}
-                                                                object={obj}
-                                                            />
-                                                        </td>
-                                                    </tr>
+
+                                                        <div key={obj.id} className="panel panel-default">
+                                                                <div className="panel-heading" role="tab">
+                                                                    <a onClick={()=>{return this.openPanel(index);}}>
+                                                                        {obj.name}</a>
+                                                                    <div style={{width: '5%', float: "right"}}>
+                                                                        <ButtonGroupAction
+                                                                            edit={this.props.edit}
+                                                                            delete={this.props.delete}
+                                                                            object={obj}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+
+                                                                <Panel collapsible expanded={this.state.openPanel[index]}>
+                                                                    <ListStaffs
+                                                                        isLoading={this.props.isLoading}
+                                                                        data={this.props.data}
+                                                                    />
+                                                                </Panel>
+
+
+                                                        </div>
                                                 );
                                             })}
-
-                                            </tbody>
-                                        </table>
+                                        </div>
                                     }
                                 </div>
                                 :

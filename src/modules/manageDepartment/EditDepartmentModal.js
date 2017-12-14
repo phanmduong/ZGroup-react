@@ -15,6 +15,7 @@ class EditDepartmentModal extends React.Component {
         };
         this.updateFormData = this.updateFormData.bind(this);
         this.changeColor = this.changeColor.bind(this);
+        this.onHide = this.onHide.bind(this);
     }
 
     componentWillMount(){
@@ -44,11 +45,21 @@ class EditDepartmentModal extends React.Component {
         this.setState(data);
     }
 
+    onHide(){
+        this.setState({
+            data:{
+                name: '',
+                color: '',
+            } ,
+        });
+        this.props.onHide();
+    }
+
     render() {
         return (
             <Modal
                 show={this.props.show}
-                onHide={this.props.onHide}
+                onHide={this.onHide}
             >
                 <Modal.Header closeButton>
                     <Modal.Title>Thêm bộ phận</Modal.Title>
