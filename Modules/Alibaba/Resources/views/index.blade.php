@@ -59,7 +59,7 @@
             <div class="col-md-6">
                 <div class="card card-profile card-plain">
                     <img class="card-img-top"
-                         src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991526XBreG550R9JvXgM.png">
+                         src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513156688iXuFrlHCG1lXwgN.JPG">
                 </div>
 
             </div>
@@ -75,7 +75,7 @@
                     <div class="col-md-6">
                         <div class="card card-profile card-plain">
                             <img class="card-img-top" style="background-color: none"
-                                 src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991593DuzuaRljeSXIEoP.jpg">
+                                 src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513157053FzccSYu1aO05HEK.jpeg">
                         </div>
                     </div>
                     <div class="col-md-6">

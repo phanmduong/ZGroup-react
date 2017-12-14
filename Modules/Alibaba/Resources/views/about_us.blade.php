@@ -49,7 +49,7 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15131496378QpNumBTjqB1KKH.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226162Ia9ZutgMzPdf8L8.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
@@ -81,7 +81,7 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513153489Fk0BUwvzQ8YlEM5.png') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/151322608817gNB0DYpSlqOos.png') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
@@ -113,7 +113,7 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/151315035335kWssmoTI8YVuw.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15132261971o0FTrpBIsoVpMl.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
@@ -146,7 +146,7 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513151000YlKBmvkKoXFZ1Gd.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226230SYNX4R1rnrKhTV0.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
@@ -178,7 +178,7 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513151125dteBSukD4IN3nCJ.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226380QrGnfVjqDd1LqIZ.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
@@ -249,7 +249,8 @@
                                     </div>
                                     <p class="card-description text-center">
                                     <div class="name">
-                                        <h4 class="title text-center" style="margin-bottom: 0px">Nguyễn Công Hiệp<br>
+                                        <h4 class="title text-center" style="margin-bottom: 0px">Nguyễn Công
+                                            Hiệp<br>
                                             <small>Trainer</small>
                                         </h4>
                                     </div>
@@ -274,7 +275,7 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513151236iPSOh9En3nY1Jzf.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226424yJactkrKzWCGIuK.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
@@ -306,7 +307,7 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513151326n9ihyqXfeK2XFPS.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226458myq0gQytkjphZhn.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
@@ -328,7 +329,8 @@
                                                 class="fa fa-instagram"></i></a>
                                 </div>
                             </div>
-                        </div><div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
                             <div class="card card-profile card-plain" style="height: 75%!important;">
                                 <div class="card-block">
                                     <div class="card-avatar">
@@ -337,7 +339,7 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513151399gIa3oHOe1ezqjjo.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513226527ZL7efEzyoZjCneo.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
@@ -359,7 +361,8 @@
                                                 class="fa fa-instagram"></i></a>
                                 </div>
                             </div>
-                        </div><div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
                             <div class="card card-profile card-plain" style="height: 75%!important;">
                                 <div class="card-block">
                                     <div class="card-avatar">
@@ -368,7 +371,7 @@
                                                          height: 120px;
                                                          border-radius: 50%;
                                                          vertical-align: middle;
-                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15131514324upFGndXA3QzG1u.jpg') center center / cover;
+                                                         background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15132265631Zmw0aAem0TNUA0.jpg') center center / cover;
                                                          display: inline-block
                                                      ">
                                         </div>
