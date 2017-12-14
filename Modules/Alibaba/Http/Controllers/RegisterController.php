@@ -25,6 +25,7 @@ class RegisterController extends Controller
     public function __construct(
         EmailService $emailService
     )
+
     {
         $this->emailService = $emailService;
     }
@@ -47,6 +48,9 @@ class RegisterController extends Controller
             'name' => "required",
             'email' => "required|email",
             'phone' => "required",
+            'university' => "required",
+            'address' => "required",
+            'facebook' => "required",
         ]);
 
         if ($validator->fails()) {
@@ -59,16 +63,19 @@ class RegisterController extends Controller
         $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
-            $user->name = $request->name;
-            $user->phone = $phone;
-            $user->email = $request->email;
-            $user->username = $request->email;
-            $user->password = bcrypt($user->phone);
-            $user->save();
-
-        } else {
-            $user->phone = $phone;
         }
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->email = $request->email;
+        $user->username = $request->email;
+        $user->how_know = $request->how_know;
+        $user->password = bcrypt($user->phone);
+        $user->university = $request->university;
+        $user->work = $request->work;
+        $user->gender = $request->gender;
+        $user->dob = $request->dob;
+        $user->facebook = $request->facebook;
+        $user->address = $request->address;
         $user->save();
 
         $register = new Register;
@@ -83,7 +90,6 @@ class RegisterController extends Controller
         $register->save();
 
         $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
-
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
             if ($class->registers()->count() >= $class->target) {
