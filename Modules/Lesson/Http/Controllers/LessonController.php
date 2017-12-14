@@ -11,78 +11,96 @@ class LessonController extends ManageApiController
 {
     public function __construct()
     {
-       parent::__construct()  ;
+        parent::__construct();
     }
 
-    public function getdetailLesson($lessonId,Request $request){
-        $lesson= Lesson::find($lessonId);
-        if($lesson == null)
-            return $this->respondErrorWithStatus(["message"=>"Buổi học không tồn tại"]);
+    public function getdetailLesson($lessonId, Request $request)
+    {
+        $lesson = Lesson::find($lessonId);
+        if ($lesson == null)
+            return $this->respondErrorWithStatus(["message" => "Buổi học không tồn tại"]);
         return $this->respondSuccessWithStatus([
             "lesson" => $lesson->detailTransform()
         ]);
 
     }
 
-    public function createLesson($couseId, Request $request){
-        if(Course::find($couseId) == null)
-             return $this->respondErrorWithStatus([
-                 'message' => 'non-existing course'
-             ]);
-        if($request->name === null) return $this->respondErrorWithStatus([
-            "message"=> "Thieu name"
+    public function createLesson($couseId, Request $request)
+    {
+
+        $course = Course::find($couseId);
+
+        if ($course == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'non-existing course'
+            ]);
+        if ($request->name === null) return $this->respondErrorWithStatus([
+            "message" => "Thieu name"
         ]);
-        if($request->order === null) return $this->respondErrorWithStatus([
-            'message'=>'Thieu order'
+        if ($request->order === null) return $this->respondErrorWithStatus([
+            'message' => 'Thieu order'
         ]);
 
         $lesson = new Lesson;
         $lesson->name = $request->name;
         $lesson->description = $request->description;
-        $lesson->course_id= $request->course_id;
-        $lesson->detail= $request->detail;
+        $lesson->course_id = $request->course_id;
+        $lesson->detail = $request->detail;
         $lesson->order = $request->order;
-        $lesson->detail_content= $request->detail_content;
-        $lesson->detail_teacher=$request->detail_teacher;
+        $lesson->detail_content = $request->detail_content;
+        $lesson->detail_teacher = $request->detail_teacher;
         $lesson->save();
+
+        $course->duration = $course->lessons->count();
+        $course->save();
+
         return $this->respondSuccessWithStatus([
-            'message'=> "Tao buoi hoc thanh cong"
+            'message' => "Tao buoi hoc thanh cong"
         ]);
     }
 
-    public function editLesson($lessonId,Request $request){
-        $lesson= Lesson::find($lessonId);
-        if($lesson == null)
-            return $this->respondErrorWithStatus(["message"=>"Buổi học không tồn tại"]);
-        if(trim($request->name) == null) return $this->respondErrorWithStatus([
-            "message"=> "Thieu name"
+    public function editLesson($lessonId, Request $request)
+    {
+        $lesson = Lesson::find($lessonId);
+        if ($lesson == null)
+            return $this->respondErrorWithStatus(["message" => "Buổi học không tồn tại"]);
+        if (trim($request->name) == null) return $this->respondErrorWithStatus([
+            "message" => "Thieu name"
         ]);
-        if($request->course_id === null) return $this->respondErrorWithStatus([
-            'message'=>"Thieu courseId"
+        if ($request->course_id === null) return $this->respondErrorWithStatus([
+            'message' => "Thieu courseId"
         ]);
-        if($request->order === null) return $this->respondErrorWithStatus([
-            'message'=>'Thieu order'
+        if ($request->order === null) return $this->respondErrorWithStatus([
+            'message' => 'Thieu order'
         ]);
-        $lesson->name= $request->name;
+        $lesson->name = $request->name;
         $lesson->description = $request->description;
-        $lesson->course_id= $request->course_id;
-        $lesson->detail= $request->detail;
+        $lesson->course_id = $request->course_id;
+        $lesson->detail = $request->detail;
         $lesson->order = $request->order;
-        $lesson->detail_content= $request->detail_content;
-        $lesson->detail_teacher=$request->detail_teacher;
+        $lesson->detail_content = $request->detail_content;
+        $lesson->detail_teacher = $request->detail_teacher;
+        $course = Course::find($request->course_id);
+
         $lesson->save();
+
+
+        $course->duration = $course->lessons->count();
+        $course->save();
+
         return $this->respondSuccessWithStatus([
-            'message'=> "Sua buoi hoc thanh cong"
+            'message' => "Sua buoi hoc thanh cong"
         ]);
     }
 
-    public function deleteLesson($lesson_id,Request $request){
-        $lesson= Lesson::find($lesson_id);
-        if($lesson == null)
+    public function deleteLesson($lesson_id, Request $request)
+    {
+        $lesson = Lesson::find($lesson_id);
+        if ($lesson == null)
             return $this->respondErrorWithStatus("Buổi học không tồn tại");
         $lesson->delete();
         return $this->respondSuccessWithStatus([
-            'message'=> "Xoa thanh cong"
+            'message' => "Xoa thanh cong"
         ]);
     }
 }

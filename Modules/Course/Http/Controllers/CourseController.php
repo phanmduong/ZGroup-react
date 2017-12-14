@@ -38,12 +38,14 @@ class CourseController extends ManageApiController
     {
         if ($request->id)
             $course = Course::find($request->id);
-        else
+        else {
             $course = new Course;
+            $course->duration = 0;
+        }
         if ($request->name == null)
             return $this->respondErrorWithStatus(["message" => "Thiếu name"]);
         $course->name = $request->name;
-        $course->duration = $request->duration;
+
         $course->price = $request->price;
         $course->description = $request->description;
         $course->linkmac = $request->linkmac;
@@ -310,9 +312,9 @@ class CourseController extends ManageApiController
 
         $attendances = json_decode($request->attendances);
 
-        foreach ($attendances as $attendance){
+        foreach ($attendances as $attendance) {
             $get_attendance = Attendance::find($attendance->attendance_id);
-            if(!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
+            if (!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
             $get_attendance->status = $attendance->attendance_lesson_status;
             $get_attendance->hw_status = $attendance->attendance_homework_status;
             $get_attendance->note = $attendance->note;
