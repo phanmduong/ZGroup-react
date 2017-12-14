@@ -372,4 +372,17 @@ class ManageClassApiController extends ManageApiController
         }
         return $this->respondErrorWithStatus("Thiếu class_lesson_id");
     }
+
+    public function addLinkDrive($class_id, Request $request) {
+        $class = StudyClass::find($class_id);
+        if($class == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'khong ton tai lop'
+            ]);
+        $class->link_drive = $request->link_drive;
+        $class->save();
+        $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
 }

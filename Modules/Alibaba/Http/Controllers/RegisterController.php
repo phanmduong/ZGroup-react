@@ -51,6 +51,8 @@ class RegisterController extends Controller
             'university' => "required",
             'address' => "required",
             'facebook' => "required",
+            'dob' => "required",
+            'gender' => "required",
         ]);
 
         if ($validator->fails()) {

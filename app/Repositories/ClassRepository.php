@@ -45,6 +45,7 @@ class ClassRepository
             'description' => $class->description,
             'status' => $class->status,
             'activated' => $class->activated,
+            'link_drive' => $class->link_drive,
             'schedule_id' => $class->schedule_id,
             'total_paid' => $class->registers()->where('status', 1)->count(),
             'target' => $class->target,
