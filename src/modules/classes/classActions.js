@@ -6,7 +6,7 @@ import * as helper from '../../helpers/helper';
 
 
 
-export function changeLinkDriver(classId,link, success) {
+export function changeLinkDriver(classId,link) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CHANGE_LINK_DRIVER_CLASS});
         classApi.changeLinkDriver(classId,link)
@@ -14,7 +14,7 @@ export function changeLinkDriver(classId,link, success) {
                 dispatch({
                     type: types.CHANGE_LINK_DRIVER_CLASS_SUCCESS,
                 });
-                success();
+                helper.showNotification("Lưu thành công!");
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra!");

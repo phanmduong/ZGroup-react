@@ -68,7 +68,6 @@ class ClassContainer extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if(this.props.isLoadingClass  && !nextProps.isLoadingClass){
-            console.log(nextProps);
             this.setState({linkDriver: nextProps.class.link_drive});
         }
         if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
@@ -261,10 +260,8 @@ class ClassContainer extends React.Component {
 
     submitLinkDriver(){
         helper.showNotification("Đang lưu...");
-        this.props.classActions.changeLinkDriver(this.classId, this.state.linkDriver, ()=>{
-            helper.showNotification("Lưu thành công!");
-            this.props.classActions.loadClass(this.classId);
-        });
+        if(!this.props.isLoading)
+            this.props.classActions.changeLinkDriver(this.classId, this.state.linkDriver);
     }
 
     render() {
@@ -363,7 +360,7 @@ class ClassContainer extends React.Component {
                                                         updateFormData={this.changeLinkDriver}
                                                         value={this.state.linkDriver}
                                                         type="text"
-                                                        disabled={this.props.isLoadingClass}
+                                                        disabled={this.props.isLoadingClass||this.props.isLoading}
                                                         className="col-xs-9"
                                                     />
                                                     <button className="btn btn-rose"
@@ -373,7 +370,7 @@ class ClassContainer extends React.Component {
                                                         width: "20%"
                                                     }}
                                                             onClick={this.submitLinkDriver}
-                                                            disabled={this.props.isLoadingClass}
+                                                            disabled={this.props.isLoadingClass||this.props.isLoading}
                                                     >
                                                         Lưu
                                                     </button>
@@ -745,6 +742,7 @@ ClassContainer.propTypes = {
     class: PropTypes.object.isRequired,
     classActions: PropTypes.object.isRequired,
     isLoadingClass: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     isChangingClassLesson: PropTypes.bool.isRequired,
     isChangingTeachingAssis: PropTypes.bool.isRequired,
     isChangingTeacher: PropTypes.bool.isRequired,
@@ -759,6 +757,7 @@ ClassContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         class: state.classes.class,
+        isLoading: state.classes.isLoading,
         isLoadingClass: state.classes.isLoadingClass,
         isChangingClassLesson: state.classes.isChangingClassLesson,
         isChangingTeachingAssis: state.classes.isChangingTeachingAssis,
