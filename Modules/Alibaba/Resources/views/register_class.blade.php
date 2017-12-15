@@ -49,7 +49,7 @@
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Họ và tên <div style="display: inline" class="text-danger" >*</div></label>
                                                     <input type="text" name="name" class="form-control"
-                                                           placeholder="Ví dụ: abc@gmail.com" value="{{old('name')}}">
+                                                           placeholder="Ví dụ: Nguyễn Văn A" value="{{old('name')}}">
                                                     @if ($errors->has('name'))
                                                         <strong class="text-danger">Xin bạn vui lòng điền họ và tên</strong>
                                                     @endif
