@@ -93,8 +93,10 @@ class ManageStaffsComponent extends React.Component {
                                             staffs={this.props.staffListData}
                                             roles={this.props.roleListData}
                                             bases={this.props.baseListData}
+                                            departments={this.props.departments}
                                             changeRoleStaff={this.props.changeRoleStaff}
                                             changeBaseStaff={this.props.changeBaseStaff}
+                                            changeDepartmentStaff={this.props.changeDepartmentStaff}
                                             deleteStaff={this.props.deleteStaff}
                                             disableActions={false}
                                             titleList="Danh sách nhân viên"
@@ -143,9 +145,11 @@ ManageStaffsComponent.propTypes = {
     isLoadingStaffs: PropTypes.bool.isRequired,
     baseListData: PropTypes.array.isRequired,
     roleListData: PropTypes.array.isRequired,
+    departments: PropTypes.array.isRequired,
     staffListData: PropTypes.array.isRequired,
     changeRoleStaff: PropTypes.func.isRequired,
     changeBaseStaff: PropTypes.func.isRequired,
+    changeDepartmentStaff: PropTypes.func.isRequired,
     staffsSearchChange: PropTypes.func.isRequired,
     loadStaffs: PropTypes.func.isRequired,
     deleteStaff: PropTypes.func.isRequired,

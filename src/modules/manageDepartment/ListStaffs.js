@@ -16,13 +16,13 @@ class ListStaffs extends React.Component {
                     <div className="card-content">
                         <div className="table-responsive">
 
-                            {!this.props.isLoading && this.props.data ?
+                            {!this.props.isLoading && this.props.staffs ?
                                 <div>
-                                    { (this.props.data && this.props.data.length === 0) ?
+                                    { (this.props.staffs && this.props.staffs.length === 0) ?
                                         <h3>Chưa có nhân viên nào</h3>
                                         :
                                         <div>
-                                            {this.props.data.map((obj,index) => {
+                                            {this.props.staffs.map((obj,index) => {
                                                 return (
 
                                                     <div key={index} className="panel panel-default">
@@ -51,7 +51,7 @@ class ListStaffs extends React.Component {
 }
 
 ListStaffs.propTypes = {
-    data : PropTypes.array,
+    staffs : PropTypes.array,
     isLoading : PropTypes.bool,
     edit : PropTypes.func,
     delete : PropTypes.func,

@@ -38,7 +38,6 @@ class ManageDepartmentContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('nextProps',nextProps);
         if(this.props.isLoading && !nextProps.isLoading){
             this.setState({departments: nextProps.data.departments})
         }
@@ -71,9 +70,8 @@ class ManageDepartmentContainer extends React.Component {
             this.props.departmentActions.loadDepartment();
         });
     }
-
+    //delete
     deleteDepartment(obj){
-        console.log(obj);
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa bộ phận này không?", () => {
             this.props.departmentActions.deleteDepartment(obj,this.props.departmentActions.loadDepartment);
         });
@@ -127,7 +125,7 @@ class ManageDepartmentContainer extends React.Component {
                             <div className="row">
                                 <ListDepartments
                                     isLoading={this.props.isLoading}
-                                    data={this.props.data.departments}
+                                    departments={this.props.data.departments}
                                     edit={this.openModalEditDepartment}
                                     delete={this.deleteDepartment}
                                 />

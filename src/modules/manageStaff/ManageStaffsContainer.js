@@ -13,6 +13,7 @@ class ManageStaffsContainer extends React.Component {
         super(props, context);
         this.changeRoleStaff = this.changeRoleStaff.bind(this);
         this.changeBaseStaff = this.changeBaseStaff.bind(this);
+        this.changeDepartmentStaff = this.changeDepartmentStaff.bind(this);
         this.deleteStaff = this.deleteStaff.bind(this);
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.loadStaffs = this.loadStaffs.bind(this);
@@ -27,6 +28,7 @@ class ManageStaffsContainer extends React.Component {
         this.loadStaffs();
         this.props.staffActions.loadRolesData();
         this.props.staffActions.loadDataBase();
+        this.props.staffActions.loadDepartments();
     }
 
     changeRoleStaff(staffId, roleId) {
@@ -35,6 +37,10 @@ class ManageStaffsContainer extends React.Component {
 
     changeBaseStaff(staffId, baseId) {
         this.props.staffActions.changeBaseStaff(staffId, baseId);
+    }
+
+    changeDepartmentStaff(staffId, departId) {
+        this.props.staffActions.changeDepartmentStaff(staffId, departId);
     }
 
     deleteStaff(staff) {
@@ -67,16 +73,19 @@ class ManageStaffsContainer extends React.Component {
     render() {
         let roleListData = (this.props.roleListData !== undefined) ? this.props.roleListData : [];
         let baseListData = (this.props.baseListData !== undefined) ? this.props.baseListData : [];
+        let departments = this.props.departments || [];
         return (
             <ManageStaffsComponent
                 {...this.props}
                 changeRoleStaff={this.changeRoleStaff}
                 changeBaseStaff={this.changeBaseStaff}
+                changeDepartmentStaff={this.changeDepartmentStaff}
                 staffsSearchChange={this.staffsSearchChange}
                 loadStaffs={this.loadStaffs}
                 deleteStaff={this.deleteStaff}
                 roleListData={[{id: 0, role_title: ''}, ...roleListData]}
                 baseListData={[{id: 0, name: '', address: ''}, ...baseListData]}
+                departments={[{id: 0, name: ''}, ...departments]}
                 search={this.state.query}
             />
         );
@@ -95,6 +104,7 @@ ManageStaffsContainer.propTypes = {
     roleListData: PropTypes.array.isRequired,
     baseListData: PropTypes.array.isRequired,
     currentPage: PropTypes.number.isRequired,
+    departments: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
 };
 
@@ -115,6 +125,7 @@ function mapStateToProps(state) {
         isLoadingBases: state.staffs.bases.isLoading,
         baseListData: state.staffs.bases.basesData,
         errorBases: state.staffs.bases.error,
+        departments: state.staffs.departments,
 
     };
 }

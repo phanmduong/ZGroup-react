@@ -241,7 +241,8 @@ export default {
             error: false,
             currentPage: 1,
             totalPages: 1
-        }
+        },
+        departments:[],
     },
     roles: {
         roleListData: [],

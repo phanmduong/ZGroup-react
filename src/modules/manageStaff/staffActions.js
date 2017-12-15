@@ -521,5 +521,57 @@ export function resetPassword(staffId) {
 }
 
 
+export function loadDepartments() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_DEPARTMENT_STAFF});
+        staffApi.loadDepartments()
+            .then((res) => {
+                    dispatch({
+                        type: types.LOAD_DEPARTMENT_STAFF_SUCCESS,
+                        data: res.data.departments,
+                    });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_DEPARTMENT_STAFF_ERROR
+            });
+        });
+    };
+}
+export function changeDepartmentStaff(staffId, departId) {
+    return function (dispatch) {
+        toastr.info("Đang thay đổi...");
+        dispatch({
+            type: types.BEGIN_CHANGE_DEPARTMENT_STAFF,
+            staffId: staffId,
+            departId: departId,
+        });
+        staffApi.changeDepartmentStaff(staffId, departId)
+            .then((res) => {
+                if (res.data.status === 1) {
+                    dispatch({
+                        type: types.CHANGE_DEPARTMENT_STAFF_SUCCESS,
+                    });
+                    toastr.success("Đổi bộ phận thành công");
+                } else {
+                    dispatch({
+                        type: types.CHANGE_DEPARTMENT_STAFF_ERROR,
+                        staffId: staffId,
+                        departId: departId,
+                    });
+                    helper.showErrorNotification("Thay đổi bộ phận thất bại");
+                }
+            }).catch(() => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+            dispatch({
+                type: types.CHANGE_DEPARTMENT_STAFF_ERROR,
+                staffId: staffId,
+                departId: departId,
+            });
+        });
+    };
+}
+
+
+
 
 

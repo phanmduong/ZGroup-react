@@ -61,7 +61,7 @@ class LessonDetailModal extends React.Component {
                     <Modal.Title>Thêm bộ phận</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form role="form" id="form-department-add">
+                    <form role="form" id="form-department-add" onSubmit={(e)=>{e.preventDefault();}}>
                         <FormInputText
                             label="Tên bộ phận"
                             required
