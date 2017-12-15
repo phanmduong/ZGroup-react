@@ -3,6 +3,7 @@
 namespace Modules\Good\Http\Controllers;
 
 use App\Good;
+use App\HistoryGood;
 use App\Http\Controllers\ManageApiController;
 use App\ImportedGoods;
 use App\Task;
@@ -207,18 +208,19 @@ class GoodController extends ManageApiController
 
         $properties = json_decode($request->properties);
 
-        foreach ($properties as $p) {
-            $property = new GoodProperty();
-            $property->property_item_id = $p->property_item_id;
-            if ($p->property_item_id)
-                $property->name = GoodPropertyItem::find($p->property_item_id)->name;
-            else $property->name = $p->name;
-            $property->value = $p->value;
-            $property->creator_id = $this->user->id;
-            $property->editor_id = $this->user->id;
-            $property->good_id = $good->id;
-            $property->save();
-        }
+        if($properties)
+            foreach($properties as $p) {
+                $property = new GoodProperty();
+                $property->property_item_id = $p->property_item_id;
+                if ($p->property_item_id)
+                    $property->name = GoodPropertyItem::find($p->property_item_id)->name;
+                else $property->name = $p->name;
+                $property->value = $p->value;
+                $property->creator_id = $this->user->id;
+                $property->editor_id = $this->user->id;
+                $property->good_id = $good->id;
+                $property->save();
+            }
 
         $property = new GoodProperty;
         $property->name = 'images_url';
@@ -532,32 +534,22 @@ class GoodController extends ManageApiController
     public function deleteGood($good_id, Request $request)
     {
         $good = Good::find($good_id);
-        $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
-            return $total + $importedGood->quantity;
-        }, 0);
-        if ($importedGoodsCount)
-            return $this->respondSuccessWithStatus([
-                'message' => 'Sản phẩm còn trong kho không được xóa'
-            ]);
         if ($good == null)
             return $this->respondErrorWithStatus([
                 "message" => "Không tìm thấy sản phẩm"
             ]);
-        $goods_count = Good::where('code', $good->code)->count();
-        if ($goods_count > 1) {
-            $children = Good::where('code', $good->code)->get();
-            foreach ($children as $child) {
-                $history = $child->history;
-                if ($history->count() == 0)
-                    $child->delete();
-            }
-            return $this->respondSuccessWithStatus([
-                'message' => 'Xóa thành công các sản phẩm con không có lịch sử'
-            ]);
-        }
-        if ($good->history != null)
+        $importedGoodsCount = $good->importedGoods->reduce(function ($total, $importedGood) {
+            return $total + $importedGood->quantity;
+        }, 0);
+        $historyCount = HistoryGood::where('good_id', $good_id)->count();
+        if ($importedGoodsCount > 0)
             return $this->respondErrorWithStatus([
-                "message" => "Sản phẩm có lịch sử không được xóa"
+                'message' => 'Sản phẩm còn trong kho không được xóa'
+            ]);
+
+        if($historyCount > 0)
+            return $this->respondErrorWithStatus([
+                'message' => 'Sản phẩm đã từng bán không được xóa'
             ]);
         $good->status = 'deleted';
         foreach ($good->properties as $property) {
@@ -601,7 +593,6 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus("Sản phẩm với mã này đã tồn tại");
         }
 
-
         $version = $request->version;
         $parentGood = Good::find($goodId);
         $good = $parentGood->replicate();
@@ -637,12 +628,18 @@ class GoodController extends ManageApiController
         $newTaskList = $taskList->replicate();
         $newTaskList->save();
 
+        // copy task
         foreach ($taskList->tasks as $task) {
             $newTask = $task->replicate();
             $newTask->task_list_id = $newTaskList->id;
 
             $newTask->status = false;
             $newTask->save();
+
+            // copy goodPropertyItems
+            foreach ($task->goodPropertyItems as $item) {
+                $newTask->goodPropertyItems()->attach($item->id, ['order' => $item->pivot->order]);
+            }
 
             // copy boards from old task to the new one
             $boardTasks = $task->boardTasks;

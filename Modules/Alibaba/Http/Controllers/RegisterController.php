@@ -47,12 +47,14 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => "required",
             'email' => "required|email",
-            'phone' => "required",
+            'phone' => "required|min:6|numeric",
+            'phone_confirmation' => 'required_with:phone|same:phone|min:6|numeric',
             'university' => "required",
             'address' => "required",
             'facebook' => "required",
             'dob' => "required",
             'gender' => "required",
+
         ]);
 
         if ($validator->fails()) {
@@ -65,11 +67,11 @@ class RegisterController extends Controller
         $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
+            $user->username = $request->email;
+            $user->email = $request->email;
         }
         $user->name = $request->name;
         $user->phone = $phone;
-        $user->email = $request->email;
-        $user->username = $request->email;
         $user->how_know = $request->how_know;
         $user->password = bcrypt($user->phone);
         $user->university = $request->university;
@@ -91,7 +93,7 @@ class RegisterController extends Controller
 
         $register->save();
 
-        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id);
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
             if ($class->registers()->count() >= $class->target) {

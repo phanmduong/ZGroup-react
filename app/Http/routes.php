@@ -73,6 +73,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
+    Route::post('/login', 'AuthenticateController@login');
     Route::get('/all-tabs', "ManageTabApiController@get_all");
     // End tab api
 
@@ -460,7 +461,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('manage/expenseincome/{year?}', 'MoneyController@expense_income');
 
     //quan ly lich truc
-    Route::get('manage/shift', 'ManageShiftController@index');
+//    Route::get('manage/shift', 'ManageShiftController@index');
 //    Route::get('manage/regis-shifts', 'ManageShiftController@regis_shifts');
 
     Route::get('/manage/downloadsurveyclass', 'SurveyController@download_survey_class');
@@ -590,10 +591,10 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('manage/get_telecalls_list', 'HomeController@telecalls_list');
 
 //    Route::get('manage/gens/{page?}', 'HomeController@manage_gens');
-    Route::get('manage/courses/{page?}', 'HomeController@courses');
+//    Route::get('manage/courses/{page?}', 'HomeController@courses');
 //    Route::get('manage/classes/{page?}', 'HomeController@classes');
 //    Route::get('manage/registerlist', 'HomeController@registerList');
-    Route::get('manage/waitlist', 'HomeController@waitList');
+//    Route::get('manage/waitlist', 'HomeController@waitList');
     Route::get('manage/study-history/{student_id}', 'HomeController@study_history');
     Route::get('manage/studentsneedcall/{page?}', 'HomeController@student_needs_call');
     Route::get('manage/keepmoney/{page?}', 'HomeController@keep_money')->middleware(['is_admin']);
@@ -702,7 +703,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('manage/autostudent', 'HomeController@auto_student');
     Route::get('manage/deleteclass/{class_id?}', 'HomeController@delete_class');
     Route::get('manage/deleteregister/{register_id?}', 'HomeController@delete_register');
-    Route::get('manage/attendance', 'HomeController@attendance');
+//    Route::get('manage/attendance', 'HomeController@attendance');
     Route::get('manage/attendancelist/{class_lesson_id}', 'HomeController@attendance_list');
     Route::get('manage/paidlist/{page?}', 'HomeController@paid_list');
 
