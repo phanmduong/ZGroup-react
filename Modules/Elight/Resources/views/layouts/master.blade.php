@@ -2,11 +2,11 @@
 <html lang="en" class="no-js">
 <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" type="image/png" href="" cph-ssorder="0">
+    <link rel="shortcut icon" type="image/png" href="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327197KZI2aaOhKCE4BWZ.png" cph-ssorder="0">
     <link rel="icon" type="image/png" href="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>SOCIOLOGY HUE</title>
+    <title>Elight</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -22,26 +22,26 @@
 
 </head>
 <body class="profile" style="background: #f2f2f2;">
-<nav class="navbar navbar-toggleable-md fixed-top">
+<nav class="navbar navbar-light navbar-toggleable-md fixed-top" style="background: #138edc!important">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar"></span>
             <span class="navbar-toggler-bar"></span>
             <span class="navbar-toggler-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">
-            <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513241627VqTNu2QuUiqvs9X.png" height="20px">
+        <a class="navbar-brand" href="/" style="padding: 5px!important;">
+            <img src="http://elightbook.com/assets/img/Elight%20Logo%20Black%20copy.png" height="40px">
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/about-us" data-scroll="true">Giới thiệu</a>
+                    <a class="nav-link" style="color:white" href="/about-us" data-scroll="true">Giới thiệu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/all-books" data-scroll="true">Thư viện</a>
+                    <a class="nav-link" style="color:white"  href="/all-books" data-scroll="true">Thư viện</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/blog" data-scroll="true">BLOGS</a>
+                    <a class="nav-link" style="color:white"  href="/blog" data-scroll="true">BLOGS</a>
                 </li>
             </ul>
         </div>
@@ -54,7 +54,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2 col-sm-3 col-xs-12">
-                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513241627VqTNu2QuUiqvs9X.png" width="150px">
+                <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327197KZI2aaOhKCE4BWZ.png" width="150px">
             </div>
             <div class="col-md-9 offset-md-1 col-sm-9 col-xs-12">
                 <div class="row">

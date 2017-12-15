@@ -1,31 +1,49 @@
 @extends('elight::layouts.master')
 
 @section('content')
-    <div class="container" id="bookinfo">
-        <div class="row" style="margin-top:2%">
-            <div class="col-md-12">
-                <div style="background-image: url('http://elightbook.com/assets/img/info2.jpg');background-size: cover;">
-                    <div style="padding-top:30%">
-                        <div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">
-                            <h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>
-                                đến với khoa Xã Hội Học<br>
-                                Trường Đại Học Khoa Học Huế!
-                            </h3>
+    <div class="page-header page-header-small"
+         style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1350&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D');">
+        <div class="filter filter-dark"></div>
+        <div class="content-center">
+            <div class="container">
+                <h2 style="font-weight: 400">Chào mừng bạn<br>
+                    đến với thế giới của Elight Book<br>
+                </h2>
 
-                            <p style="color:white">
-                                Cùng chúng tôi cập nhật các thông tin mới nhất từ khoa
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <h4 style="color:white">
+                    Cùng học tiếng anh với Elight nhé
+                </h4>
+                <br>
+                <button class="btn btn-neutral btn-border btn-round" style="color:white">Đặt mua sách</button>
             </div>
         </div>
+    </div>
+    <div class="container" id="bookinfo">
+        {{--<div class="container-fluid">--}}
+            {{--<div class="row" style="margin-top:2%">--}}
+                {{--<div class="col-md-12">--}}
+                    {{--<div style="background-image: url('http://elightbook.com/assets/img/info2.jpg');background-size: cover;">--}}
+                        {{--<div style="padding-top:30%">--}}
+                            {{--<div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">--}}
+                                {{--<h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>--}}
+                                    {{--đến với thế giới của Elight Book<br>--}}
+                                {{--</h3>--}}
+
+                                {{--<p style="color:white">--}}
+                                    {{--Cùng học tiếng anh với Elight nhé--}}
+                                {{--</p>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
         <div class="row">
             <div class="col-md-12">
                 <h3>
                     <b>Bài viết mới nhất</b>
                 </h3>
-                <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <a href="/blog" style="color:#138edc!important"><b>Xem thêm</b></a>
                 <br><br>
             </div>
             <div class="col-md-6">
@@ -45,7 +63,7 @@
                         <p class="card-description">
                             {{$newestBlog->description}}
                         </p>
-                        <a href="/blog/post/{{$newestBlog->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
+                        <a href="/blog/post/{{$newestBlog->id}}" style="color:#138edc!important"><b>Xem thêm</b></a>
                     </div>
                 </div>
             </div>
@@ -70,7 +88,7 @@
                                     <p style="margin-top:15px"><b>{{$blog->title}}</b></p>
                                     <p class="card-description">
                                         {{$blog->description}}
-                                        <a href="/blog/post/{{$blog->id}}" style="color:#c50000!important"><br><b>Xem
+                                        <a href="/blog/post/{{$blog->id}}" style="color:#138edc!important"><br><b>Xem
                                                 thêm</b></a>
                                     </p>
                                 </div>
@@ -86,12 +104,11 @@
                             <div style="padding-top:15%">
                                 <div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">
                                     <h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>
-                                        đến với khoa Xã Hội Học<br>
-                                        Trường Đại Học Khoa Học Huế!
+                                        đến với thế giới của Elight Book<br>
                                     </h3>
 
                                     <p style="color:white">
-                                        Cùng chúng tôi cập nhật các thông tin mới nhất từ khoa
+                                        Cùng học tiếng anh với Elight nhé
                                     </p>
                                 </div>
                             </div>
@@ -106,7 +123,7 @@
                         <h3>
                             <b>Hoạt động đoàn thể</b>
                         </h3>
-                        <a href="/blog/post/14676" style="color:#c50000!important"><b>Xem thêm</b></a>
+                        <a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>
 
                         <br><br>
                     </div>
@@ -135,7 +152,7 @@
                                             <p class="card-description">
                                                 {{$blog->description}}
                                             </p>
-                                            <a href="/blog/post/{{$blog->id}}" style="color:#c50000!important"><br><b>Xem
+                                            <a href="/blog/post/{{$blog->id}}" style="color:#138edc!important"><br><b>Xem
                                                     thêm</b></a>
                                         </div>
 
@@ -156,7 +173,7 @@
                         <h3>
                             <b>Nghiên cứu khoa học</b>
                         </h3>
-                        <a href="/blog/post/14676" style="color:#c50000!important"><b>Xem thêm</b></a>
+                        <a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>
 
                         <br><br>
                     </div>
@@ -174,7 +191,7 @@
                                     </a>
                                 </div>
                                 <div class="card-body">
-                                    <h6 class="card-category text-danger">{{$blog->author->name}}</h6>
+                                    <h6 class="card-category text-facebook">{{$blog->author->name}}</h6>
                                     <h3 class="card-title">
                                         <a href="#pablo">{{$blog->title}}</a>
                                     </h3>
@@ -182,7 +199,7 @@
                                         {{$blog->description}}
                                     </p>
                                     <br>
-                                    <a href="/blog/post/{{$blog->id}}" class="btn btn-google btn-round"> Đọc thêm</a>
+                                    <a href="/blog/post/{{$blog->id}}" class="btn btn-facebook btn-round"> Đọc thêm</a>
                                 </div>
                             </div>
                         </div>
@@ -197,12 +214,11 @@
                             <div style="padding-top:15%">
                                 <div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">
                                     <h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>
-                                        đến với khoa Xã Hội Học<br>
-                                        Trường Đại Học Khoa Học Huế!
+                                        đến với thế giới của Elight Book<br>
                                     </h3>
 
                                     <p style="color:white">
-                                        Cùng chúng tôi cập nhật các thông tin mới nhất từ khoa
+                                        Cùng học tiếng anh với Elight nhé
                                     </p>
                                 </div>
                             </div>
@@ -225,7 +241,7 @@
                                 </div>
                                 <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
                                     <div style="text-align: right;">
-                                        <a class="btn btn-google" style="margin: 3px; font-size: 10px;"
+                                        <a class="btn btn-facebook" style="margin: 3px; font-size: 10px;"
                                            href="/book/{{$book->id}}">
                                             Tải xuống<i class="fa fa-download"></i></a>
                                     </div>
