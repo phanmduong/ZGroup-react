@@ -27,7 +27,7 @@ class DepartmentController extends ManageApiController
                              "email" => $user->email,
                              "name" =>$user->name,
                            ];
-                    })
+                    }),
                     "color" => $department->color
                 ];
             }),
