@@ -66,4 +66,28 @@ class XHHController extends Controller
             ]
         );
     }
+
+    public function book($subfix, $book_id) {
+        $book = Good::find($book_id);
+        $newestBooks = Good::where('type', 'book')->where('id', '<>', $book_id)->limit(4)->get();
+        return view('xhh::book', [
+            'book' => $book,
+            'newestBooks' => $newestBooks
+        ]);
+    }
+
+    public function allBooks($subfix) {
+        $books = Good::where('type', 'book')->get();
+        return view('xhh::library',[
+            'books' => $books,
+        ]);
+    }
+
+    public function aboutUs($subfix) {
+        return view('xhh::about-us');
+    }
+
+    public function contactUs($subfix) {
+        return view('xhh::contact-us');
+    }
 }

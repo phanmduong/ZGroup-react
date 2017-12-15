@@ -244,7 +244,7 @@ class GoodController extends ManageApiController
             //Sua san pham nhieu thuoc tinh
             $children = json_decode($request->children);
             foreach ($children as $child) {
-                $good = $child->has('id') ? Good::find($child->id) : new Good;
+                $good = $child->id ? Good::find($child->id) : new Good;
                 $this->assignInfoToGood($good, $request);
                 $good->barcode = $child->barcode;
                 $good->price = $child->price ? $child->price : $request->price;

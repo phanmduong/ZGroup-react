@@ -92,36 +92,11 @@
                                                     @endif
                                                 </div>
                                                 <div class="form-group label-floating">
-                                                    <label class="control-label">Giới tính <div style="display: inline" class="text-danger" >*</div></label>
-                                                    <select name="gender" class="form-control">
-                                                        <option value="" {{old('gender') == "" ? "selected" : ""}}>Chọn giới tính của bạn</option>
-                                                        <option value="Nam" {{old('gender') == "Nam" ? "selected" : ""}}>Nam</option>
-                                                        <option value="Nữ" {{old('gender') == "Nữ" ? "selected" : ""}}>Nữ</option>
-                                                        <option value="Khác" {{old('gender') == "Khác" ? "selected" : ""}}>Khác</option>
-                                                    </select>
-                                                    @if ($errors->has('gender'))
-                                                        <strong class="text-danger">Xin bạn vui lòng chọn giới tính</strong>
-                                                    @endif
-                                                </div>
-                                                <div class="form-group label-floating">
                                                     <label class="control-label">Trường học <div style="display: inline" class="text-danger" >*</div></label>
                                                     <input type="text" name="university" class="form-control"
                                                            placeholder="Trường học" value="{{old('university')}}">
                                                     @if ($errors->has('university'))
                                                         <strong class="text-danger">Xin bạn vui lòng điền trường học</strong>
-                                                    @endif
-                                                </div>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Nơi làm việc</label>
-                                                    <input type="text" name="work" class="form-control"
-                                                           placeholder="Nơi làm việc (không bắt buộc)" value="{{old('work')}}">
-                                                </div>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Địa chỉ <div style="display: inline" class="text-danger" >*</div></label>
-                                                    <input type="text" name="address" class="form-control"
-                                                           placeholder="Địa chỉ" value="{{old('address')}}">
-                                                    @if ($errors->has('address'))
-                                                        <strong class="text-danger">Xin bạn vui lòng điền địa chỉ</strong>
                                                     @endif
                                                 </div>
                                                 <div class="form-group label-floating">
@@ -133,7 +108,7 @@
                                                     @endif
                                                 </div>
                                                 <div class="form-group label-floating">
-                                                    <label class="control-label">Xin bạn vui lòng chọn lý do bạn biết đến Alibaba</label>
+                                                    <label class="control-label">Lý do bạn biết đến Alibaba (vui lòng chọn chính xác)</label>
                                                     <select name="how_know"class="form-control">
                                                         <option value="Bạn bè giới thiệu">Bạn bè giới thiệu</option>
                                                         <option value="Fanpage NEU Confessions">Fanpage NEU Confessions</option>
