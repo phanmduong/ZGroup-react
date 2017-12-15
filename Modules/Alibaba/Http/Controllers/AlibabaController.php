@@ -15,7 +15,6 @@ class AlibabaController extends Controller
 {
     public function index()
     {
-//test
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->limit(3)->get();
         return view('alibaba::index', [
             'blogs' => $blogs

@@ -2,8 +2,8 @@
 <html lang="en" class="no-js">
 <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" type="image/png" href="assets/img/logo.png" cph-ssorder="0">
-    <link rel="icon" type="image/png" href="assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="" cph-ssorder="0">
+    <link rel="icon" type="image/png" href="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
     <title>SOCIOLOGY HUE</title>
@@ -53,7 +53,7 @@
                     <a class="nav-link" href="about-us.html" data-scroll="true">Thư viện</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="price.html" data-scroll="true">Tin tức</a>
+                    <a class="nav-link" href="/blog" data-scroll="true">BLOGS</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="price.html" data-scroll="true">Học bổng</a>
