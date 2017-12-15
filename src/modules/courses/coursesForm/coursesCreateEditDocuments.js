@@ -69,7 +69,7 @@ class coursesCreateEditDocuments extends React.Component {
     }
     closeModal(){
         this.setState({openModal: false});
-        this.props.coursesActions.loadOneCourse(this.props.data.id);
+        //this.props.coursesActions.loadOneCourse(this.props.data.id);
     }
 
     uploadLinkIcon(event){
@@ -104,9 +104,15 @@ class coursesCreateEditDocuments extends React.Component {
         if(this.checkValidate())
         if(this.isCreate)
         {
-            this.props.coursesActions.createLink(this.props.link, ()=>{return this.setState({openModal: false});});
+            this.props.coursesActions.createLink(this.props.link, ()=>{
+                this.setState({openModal: false});
+                this.props.coursesActions.loadOneCourse(this.props.data.id);
+            });
         }else {
-            this.props.coursesActions.commitEditLink(this.props.link, ()=>{return this.setState({openModal: false});});
+            this.props.coursesActions.commitEditLink(this.props.link, ()=>{
+                this.setState({openModal: false});
+                this.props.coursesActions.loadOneCourse(this.props.data.id);
+            });
         }
 
 
@@ -248,6 +254,7 @@ class coursesCreateEditDocuments extends React.Component {
                                         updateFormData={this.updateLinkData}
                                         value={this.props.link.link_name}
                                         type="text"
+                                        disabled={this.props.isUploadingLinkIcon}
                                     />
                                 </div>
                                 <div className="col-md-12">
@@ -258,6 +265,7 @@ class coursesCreateEditDocuments extends React.Component {
                                         updateFormData={this.updateLinkData}
                                         value={this.props.link.link_description}
                                         type="text"
+                                        disabled={this.props.isUploadingLinkIcon}
                                     />
                                 </div>
                                 <div className="col-md-12">
@@ -268,6 +276,7 @@ class coursesCreateEditDocuments extends React.Component {
                                         updateFormData={this.updateLinkData}
                                         value={this.props.link.link_url}
                                         type="text"
+                                        disabled={this.props.isUploadingLinkIcon}
                                     />
                                 </div>
                             </div>

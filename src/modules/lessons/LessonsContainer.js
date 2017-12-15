@@ -89,7 +89,7 @@ class LessonsContainer extends React.Component {
                                             fileField="image"
                                             name="detail"
                                             updateEditor={this.updateDetail}
-                                            value={this.props.data.detail}
+                                            value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
                                         />
                                     }
 
@@ -107,7 +107,7 @@ class LessonsContainer extends React.Component {
                                             fileField="image"
                                             name="detail_content"
                                             updateEditor={this.updateDetailContent}
-                                            value={this.props.data.detail_content}
+                                            value={this.props.data.detail_content ? `<div>${this.props.data.detail_content}</div>` : ""}
                                         />
                                     }
 
@@ -125,7 +125,8 @@ class LessonsContainer extends React.Component {
                                             fileField="image"
                                             name="detail_teacher"
                                             updateEditor={this.updateDetailTeacher}
-                                            value={this.props.data.detail_teacher}
+                                            value={this.props.data.detail_teacher ? `<div>${this.props.data.detail_teacher}</div>` : ""}
+
                                         />
                                     }
 
@@ -148,6 +149,7 @@ class LessonsContainer extends React.Component {
                                     name="name"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.name}
+                                    disabled={this.props.isLoading}
                                 />
                                 <FormInputText
                                     label="Thứ tự"
@@ -156,6 +158,7 @@ class LessonsContainer extends React.Component {
                                     type="number"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.order}
+                                    disabled={this.props.isLoading}
                                 />
                                 <FormInputText
                                     label="Mô tả ngắn"
@@ -163,6 +166,7 @@ class LessonsContainer extends React.Component {
                                     name="description"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.description}
+                                    disabled={this.props.isLoading}
                                 />
 
                                 {this.props.isCommitting ?
@@ -176,8 +180,10 @@ class LessonsContainer extends React.Component {
                                         className="btn btn-fill btn-rose"
                                         type="button"
                                         onClick={this.commitData}
+                                        disabled={this.props.isLoading}
                                         > Lưu </button>
-                                        <Link className="btn btn-rose" to={`/manage/courses/edit/${this.props.data.course_id}/curriculum`}>
+                                        <Link className="btn btn-rose" to={`/manage/courses/edit/${this.props.data.course_id}/curriculum`}
+                                              disabled={this.props.isLoading}>
                                         Huỷ
                                         </Link>
                                     </div>
