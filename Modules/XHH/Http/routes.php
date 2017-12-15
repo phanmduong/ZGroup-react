@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web', 'domain' => "alibaba.{subfix}", 'namespace' => 'Modules\XHH\Http\Controllers'], function () {
+Route::group(['middleware' => 'web', 'domain' => "quanca.net", 'namespace' => 'Modules\XHH\Http\Controllers'], function () {
     Route::get('/', 'XHHController@index');
     Route::get('/blog', 'XHHController@blog');
     Route::get('/about-us', 'XHHController@aboutUs');
