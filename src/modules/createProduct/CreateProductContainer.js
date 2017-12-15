@@ -55,7 +55,6 @@ class CreateProductContainer extends React.Component {
 
     changePropertySelect(index) {
         return (value) => {
-            console.log("value", value);
             let properties = [...this.props.productWorking.property_list];
             let property = {...properties[index]};
             if (value) {
@@ -117,21 +116,13 @@ class CreateProductContainer extends React.Component {
                 let children = [...this.props.productWorking.children, ...helper.childrenBeginAddChild(property_list_add)];
                 this.props.createProductAction.handleChildrenCreateProduct(children);
             } else {
-                let property_list_remove = [...property_list];
-                property_list_remove[index] = {
-                    name: property.name,
-                    property_item_id: property.property_item_id,
-                    value: property.value.filter(valNotInArr)
-                };
-                let properties_removed = property_list_remove[index].value.map(val => {
+                let properties_removed = property.value.filter(valNotInArr).map(val => {
                     return ({
                         property_item_id: property.property_item_id,
                         value: val.value
                     });
                 });
-                console.log("properties_removed", properties_removed);
                 let children = [...this.props.productWorking.children].filter(child => childNotRemoved(child, properties_removed));
-                console.log("children_after_remove", children);
                 this.props.createProductAction.handleChildrenCreateProduct(children);
             }
         };
@@ -158,12 +149,12 @@ class CreateProductContainer extends React.Component {
 
     deleteProperties(id, index) {
         let product = {...this.props.productWorking};
-        let properties = [...product.property_list].filter(property => id !== property.property_item_id);
+        let property_list = [...product.property_list].filter(property => id !== property.property_item_id);
         let goods_count = [...product.property_list].filter((property, i) => i !== index).reduce((result, property) =>
             property.value.length * result, 1);
-        this.props.createProductAction.handlePropertiesCreate(properties);
+        this.props.createProductAction.handlePropertiesCreate(property_list);
         this.props.createProductAction.handleGoodCountCreate(goods_count);
-        this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(properties));
+        this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(property_list));
     }
 
     checkChildProduct(index) {
@@ -190,6 +181,8 @@ class CreateProductContainer extends React.Component {
     render() {
         this.path = this.props.location.pathname;
         let product = this.props.productWorking;
+        console.log("children", this.props.productWorking.children);
+        console.log("property_list", this.props.productWorking.property_list);
         return (
             <div>
                 <div className="row">

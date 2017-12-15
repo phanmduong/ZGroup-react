@@ -66,6 +66,10 @@ export function saveProductApi(product) {
 
 export function editProductApi(product) {
     let url = env.MANAGE_API_URL + "/good/" + product.id + "/edit?token=" + token;
+    let children;
+    if (product.children.filter(child => child.check).length === 0) {
+        children = null;
+    } else children = JSON.stringify(product.children.filter(child => child.check));
     return axios.put(url, {
         name: product.name,
         code: product.code,
@@ -78,7 +82,7 @@ export function editProductApi(product) {
         manufacture_id: product.manufacture_id,
         good_category_id: product.good_category_id,
         images_url: JSON.stringify(product.images_url),
-        children: JSON.stringify(product.children.filter(child => child.check))
+        children: children
     });
 }
 

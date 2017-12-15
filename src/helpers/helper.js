@@ -962,6 +962,7 @@ export function childrenBeginAddChild(properties) {
     let product = properties.reduce((res, pro) => res * pro.value.length, 1);
     for (let i = 0; i < product; i++) {
         children.push({
+            id: null,
             check: true,
             price: 0,
             barcode: '',
