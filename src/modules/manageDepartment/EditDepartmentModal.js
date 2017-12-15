@@ -65,7 +65,7 @@ class EditDepartmentModal extends React.Component {
                     <Modal.Title>Thêm bộ phận</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form role="form" id="form-department-edit"  onSubmit={(e)=>{e.preventDefault();}}>
+                    <form role="form" id="form-department-edit" onSubmit={null}>
                         <FormInputText
                             label="Tên bộ phận"
                             required
