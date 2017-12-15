@@ -50,10 +50,8 @@ class RegisterController extends Controller
             'phone' => "required|min:6|numeric",
             'phone_confirmation' => 'required_with:phone|same:phone|min:6|numeric',
             'university' => "required",
-            'address' => "required",
             'facebook' => "required",
             'dob' => "required",
-            'gender' => "required",
 
         ]);
 
@@ -76,10 +74,8 @@ class RegisterController extends Controller
         $user->password = bcrypt($user->phone);
         $user->university = $request->university;
         $user->work = $request->work;
-        $user->gender = $request->gender;
         $user->dob = $request->dob;
         $user->facebook = $request->facebook;
-        $user->address = $request->address;
         $user->save();
 
         $register = new Register;
