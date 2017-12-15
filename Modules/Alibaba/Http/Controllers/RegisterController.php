@@ -73,11 +73,9 @@ class RegisterController extends Controller
         $user->how_know = $request->how_know;
         $user->password = bcrypt($user->phone);
         $user->university = $request->university;
-        $user->work = $request->work;
         $user->dob = $request->dob;
         $user->facebook = $request->facebook;
         $user->save();
-
         $register = new Register;
         $register->user_id = $user->id;
         $register->gen_id = Gen::getCurrentGen()->id;
@@ -86,7 +84,6 @@ class RegisterController extends Controller
         $register->saler_id = $request->saler_id;
         $register->campaign_id = $request->campaign_id;
         $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
-
         $register->save();
 
         $this->emailService->send_mail_confirm_registration($user, $request->class_id);
