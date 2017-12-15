@@ -52,6 +52,7 @@ class RegisterController extends Controller
             'university' => "required",
             'facebook' => "required",
             'dob' => "required",
+
         ]);
 
         if ($validator->fails()) {
@@ -85,7 +86,7 @@ class RegisterController extends Controller
         $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
         $register->save();
 
-//        $this->emailService->send_mail_confirm_registration($user, $request->class_id);
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id);
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
             if ($class->registers()->count() >= $class->target) {

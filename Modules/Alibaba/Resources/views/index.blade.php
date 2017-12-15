@@ -67,7 +67,7 @@
     </div>
     <br><br>
     <div class="team-2 section-image"
-         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1510991179Dz6rALtf43ja91K.jpg')">
+         style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513327916YkkqkVfCTZkPtYF.jpg')">
 
         <div class="content-center">
             <div class="container">

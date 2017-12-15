@@ -108,7 +108,7 @@
                                                     @endif
                                                 </div>
                                                 <div class="form-group label-floating">
-                                                    <label class="control-label">Lý do bạn biết đến Alibaba (vui lòng chọn chính xác)</label>
+                                                    <label class="control-label">Lý do bạn biết đến  Alibaba (vui lòng chọn chính xác)</label>
                                                     <select name="how_know"class="form-control">
                                                         <option value="Bạn bè giới thiệu">Bạn bè giới thiệu</option>
                                                         <option value="Fanpage NEU Confessions">Fanpage NEU Confessions</option>
