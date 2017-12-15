@@ -89,7 +89,7 @@ class LessonsContainer extends React.Component {
                                             fileField="image"
                                             name="detail"
                                             updateEditor={this.updateDetail}
-                                            value={this.props.data.detail}
+                                            value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
                                         />
                                     }
 
@@ -107,7 +107,7 @@ class LessonsContainer extends React.Component {
                                             fileField="image"
                                             name="detail_content"
                                             updateEditor={this.updateDetailContent}
-                                            value={this.props.data.detail_content}
+                                            value={this.props.data.detail_content ? `<div>${this.props.data.detail_content}</div>` : ""}
                                         />
                                     }
 
@@ -125,7 +125,8 @@ class LessonsContainer extends React.Component {
                                             fileField="image"
                                             name="detail_teacher"
                                             updateEditor={this.updateDetailTeacher}
-                                            value={this.props.data.detail_teacher}
+                                            value={this.props.data.detail_teacher ? `<div>${this.props.data.detail_teacher}</div>` : ""}
+
                                         />
                                     }
 

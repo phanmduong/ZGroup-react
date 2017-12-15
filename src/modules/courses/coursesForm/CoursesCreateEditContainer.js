@@ -186,8 +186,6 @@ class CreateEditCoursesContainer extends React.Component {
                                                      fileField="image"
                                                      name="detail"
                                                      updateEditor={this.updateEditor}
-
-                                                     // value={this.props.data.detail ? this.props.data.detail : ""}
                                                      value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
                                                  />
                                              }
