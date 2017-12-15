@@ -47,16 +47,13 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html" data-scroll="true">Giới thiệu</a>
+                    <a class="nav-link" href="/about-us" data-scroll="true">Giới thiệu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about-us.html" data-scroll="true">Thư viện</a>
+                    <a class="nav-link" href="/all-books" data-scroll="true">Thư viện</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/blog" data-scroll="true">BLOGS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="price.html" data-scroll="true">Học bổng</a>
                 </li>
             </ul>
         </div>
@@ -87,8 +84,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/">
-                                        Mua sách
+                                    <a href="/library">
+                                        Thư viện
                                     </a>
                                 </li>
                                 <li>
@@ -108,12 +105,6 @@
                                         Liên hệ
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">
-                                        Nhà phân phối
-                                    </a>
-                                </li>
-
                             </ul>
                         </div>
                     </div>
