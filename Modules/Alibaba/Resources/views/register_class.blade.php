@@ -94,10 +94,10 @@
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Giới tính <div style="display: inline" class="text-danger" >*</div></label>
                                                     <select name="gender" class="form-control">
-                                                        <option value="Chọn giới tính của bạn">Chọn giới tính của bạn</option>
-                                                        <option value="Nam">Nam</option>
-                                                        <option value="Nữ">Nữ</option>
-                                                        <option value="Khác">Khác</option>
+                                                        <option value="" {{old('gender') == "" ? "selected" : ""}}>Chọn giới tính của bạn</option>
+                                                        <option value="Nam" {{old('gender') == "Nam" ? "selected" : ""}}>Nam</option>
+                                                        <option value="Nữ" {{old('gender') == "Nữ" ? "selected" : ""}}>Nữ</option>
+                                                        <option value="Khác" {{old('gender') == "Khác" ? "selected" : ""}}>Khác</option>
                                                     </select>
                                                     @if ($errors->has('gender'))
                                                         <strong class="text-danger">Xin bạn vui lòng chọn giới tính</strong>
@@ -127,8 +127,8 @@
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Link facebook <div style="display: inline" class="text-danger" >*</div></label>
                                                     <input type="text" name="facebook" class="form-control"
-                                                           placeholder="Ví dụ: facebook.com/dat123" value="{{old('facebook')}}">
-                                                    @if ($errors->has('address'))
+                                                           placeholder="Ví dụ: facebook.com/alibaba" value="{{old('facebook')}}">
+                                                    @if ($errors->has('facebook'))
                                                         <strong class="text-danger">Xin bạn vui lòng điền link facebook</strong>
                                                     @endif
                                                 </div>
