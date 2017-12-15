@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import ItemReactSelect from '../../../components/common/ItemReactSelect';
 import * as helper from '../../../helpers/helper';
 import moment from "moment";
-import {DATETIME_FORMAT,DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
+import {DATETIME_FORMAT, DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -67,7 +67,7 @@ class ClassContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.isLoadingClass  && !nextProps.isLoadingClass){
+        if (this.props.isLoadingClass && !nextProps.isLoadingClass) {
             this.setState({linkDriver: nextProps.class.link_drive});
         }
         if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
@@ -84,96 +84,96 @@ class ClassContainer extends React.Component {
         }
     }
 
-    exportExcel(){
+    exportExcel() {
 
         let data = this.props.class.registers;
-        let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 10 },{ "wch": 10 },{ "wch": 20 },{ "wch": 12 },{ "wch": 30 },{ "wch": 16 },{ "wch": 30 },{ "wch": 25 },];
-        data = data.map((item, index)=>{
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 10}, {"wch": 10}, {"wch": 20}, {"wch": 12}, {"wch": 30}, {"wch": 16}, {"wch": 30}, {"wch": 25},];
+        data = data.map((item, index) => {
             let dob = item.student.dob;
-            let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
-            if(isValidDate)
-                dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+            let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+            if (isValidDate)
+                dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
             else dob = '';
-            let res={
+            let res = {
                 'STT': index + 1,
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
                 'Ngày sinh': dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
-                'Email' : item.student.email,
-                'Phone' : item.student.phone,
+                'Email': item.student.email,
+                'Phone': item.student.phone,
                 'Facebook': item.student.facebook,
                 'Trường ĐH': item.student.university,
             };
             return res;
         });
 
-        let  wb = helper.newWorkBook();
-        helper.appendJsonToWorkBook(data, wb, 'Danh sách học viên',cols);
-        helper.saveWorkBookToExcel(wb, 'Danh sách học viên lớp '+ this.props.class.name);
+        let wb = helper.newWorkBook();
+        helper.appendJsonToWorkBook(data, wb, 'Danh sách học viên', cols);
+        helper.saveWorkBookToExcel(wb, 'Danh sách học viên lớp ' + this.props.class.name);
     }
 
-    exportAttendanceExcel(){
-        let  wb = helper.newWorkBook();
+    exportAttendanceExcel() {
+        let wb = helper.newWorkBook();
         let data = this.props.class.registers;
-        let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 10 },{ "wch": 10 },{ "wch": 20 },{ "wch": 12 },{ "wch": 30 },{ "wch": 16 },{ "wch": 30 },{ "wch": 25 },];//độ rộng cột
-        let colname = ['K','L','M','N','O','P','Q','R'];//danh sách cột cmt
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 10}, {"wch": 10}, {"wch": 20}, {"wch": 12}, {"wch": 30}, {"wch": 16}, {"wch": 30}, {"wch": 25},];//độ rộng cột
+        let colname = ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'];//danh sách cột cmt
         let cmts = [];// danh sách cmts
         //begin điểm danh
-        data = this.props.class.registers.filter(item=>(item.paid_status)).map((item, index)=>{
+        data = this.props.class.registers.filter(item => (item.paid_status)).map((item, index) => {
             let dob = item.student.dob;
-            let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
-            if(isValidDate)
-                dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+            let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+            if (isValidDate)
+                dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
             else dob = '';
-            let res={
+            let res = {
                 'STT': index + 1,
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
                 'Ngày sinh': dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
-                'Email' : item.student.email,
-                'Phone' : item.student.phone,
+                'Email': item.student.email,
+                'Phone': item.student.phone,
                 'Facebook': item.student.facebook,
                 'Trường ĐH': item.student.university,
             };
-            item.attendances.forEach((obj, index2)=>{
-                res = {...res, [`Buổi ${index2+1}`] : ((obj.status == 1) ? 'X' : '')};
-                if(!helper.isEmptyInput(obj.note))
+            item.attendances.forEach((obj, index2) => {
+                res = {...res, [`Buổi ${index2 + 1}`]: ((obj.status == 1) ? 'X' : '')};
+                if (!helper.isEmptyInput(obj.note))
                     cmts = [...cmts, {cell: colname[index2] + (index + 2), note: obj.note}];
             });
             return res;
         });
-        helper.appendJsonToWorkBook(data, wb, 'Điểm danh',cols, cmts);
+        helper.appendJsonToWorkBook(data, wb, 'Điểm danh', cols, cmts);
         //end điểm danh
 
         //begin bài tập
-        data = this.props.class.registers.filter(item=>(item.paid_status)).map((item, index)=>{
+        data = this.props.class.registers.filter(item => (item.paid_status)).map((item, index) => {
             let dob = item.student.dob;
-            let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
-            if(isValidDate)
-                dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+            let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+            if (isValidDate)
+                dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
             else dob = '';
-            let res={
+            let res = {
                 'STT': index + 1,
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
                 'Ngày sinh': dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
-                'Email' : item.student.email,
-                'Phone' : item.student.phone,
+                'Email': item.student.email,
+                'Phone': item.student.phone,
                 'Facebook': item.student.facebook,
                 'Trường ĐH': item.student.university,
             };
-            item.attendances.forEach((obj, index2)=>{
-                res = {...res, [`Buổi ${index2+1}`] : ((obj.homework_status == 1) ? 'X' : '')};
+            item.attendances.forEach((obj, index2) => {
+                res = {...res, [`Buổi ${index2 + 1}`]: ((obj.homework_status == 1) ? 'X' : '')};
             });
             return res;
         });
-        helper.appendJsonToWorkBook(data, wb, 'Bài tập',cols, cmts);
+        helper.appendJsonToWorkBook(data, wb, 'Bài tập', cols, cmts);
         //end bài tập
 
         //xuất file
@@ -253,17 +253,16 @@ class ClassContainer extends React.Component {
         }, this.closeModalTeachAssis);
     }
 
-    changeLinkDriver(e){
+    changeLinkDriver(e) {
         const value = e.target.value;
         this.setState({linkDriver: value});
     }
 
-    submitLinkDriver(){
+    submitLinkDriver() {
         helper.showNotification("Đang lưu...");
-        if(!this.props.isLoading)
+        if (!this.props.isLoading)
             this.props.classActions.changeLinkDriver(this.classId, this.state.linkDriver);
     }
-
 
 
     render() {
@@ -342,41 +341,33 @@ class ClassContainer extends React.Component {
                                                     In bằng
                                                 </button>*/}
                                                 <button className="btn btn-default width-100"
-                                                    onClick={this.exportExcel}
-                                                    disabled={this.props.isLoadingClass}
+                                                        onClick={this.exportExcel}
+                                                        disabled={this.props.isLoadingClass}
                                                 >
                                                     <i className="material-icons">file_download</i>
                                                     Xuất danh sách
                                                 </button>
                                                 <button className="btn btn-default width-100"
-                                                    onClick={this.exportAttendanceExcel}
-                                                    disabled={this.props.isLoadingClass}
+                                                        onClick={this.exportAttendanceExcel}
+                                                        disabled={this.props.isLoadingClass}
                                                 >
                                                     <i className="material-icons">file_download</i>
                                                     Xuất danh sách điểm danh
                                                 </button>
-                                                <div className="row">
-                                                    <FormInputText
-                                                        name="link-driver"
-                                                        label="Link Driver"
-                                                        updateFormData={this.changeLinkDriver}
-                                                        value={this.state.linkDriver}
-                                                        type="text"
-                                                        disabled={this.props.isLoadingClass||this.props.isLoading}
-                                                        className="col-xs-9"
-                                                    />
-                                                    <button className="btn btn-rose"
-                                                    style={{
-                                                        padding: "5px",
-                                                        marginTop: "25px",
-                                                        width: "20%"
-                                                    }}
-                                                            onClick={this.submitLinkDriver}
-                                                            disabled={this.props.isLoadingClass||this.props.isLoading}
-                                                    >
-                                                        Lưu
-                                                    </button>
-                                                </div>
+                                                <FormInputText
+                                                    name="link-driver"
+                                                    label="Link Driver"
+                                                    updateFormData={this.changeLinkDriver}
+                                                    value={this.state.linkDriver}
+                                                    type="text"
+                                                    disabled={this.props.isLoadingClass || this.props.isLoading}
+                                                />
+                                                <button className="btn btn-rose btn-sm"
+                                                        onClick={this.submitLinkDriver}
+                                                        disabled={this.props.isLoadingClass || this.props.isLoading}
+                                                >
+                                                    Lưu
+                                                </button>
                                             </div>
                                             {this.props.isLoadingClass ? <Loading/> :
                                                 <div>
@@ -601,12 +592,12 @@ class ClassContainer extends React.Component {
                                     name="form-field-name"
                                     value={this.state.changeTeacher.id}
                                     options={this.state.staffs}
-                                    optionRenderer={(option)=>{
+                                    optionRenderer={(option) => {
                                         return (
                                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                         );
                                     }}
-                                    valueRenderer={(option)=>{
+                                    valueRenderer={(option) => {
                                         return (
                                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                         );
@@ -676,12 +667,12 @@ class ClassContainer extends React.Component {
                                     name="form-field-name"
                                     value={this.state.changeTeachAssis.id}
                                     options={this.state.staffs}
-                                    optionRenderer={(option)=>{
+                                    optionRenderer={(option) => {
                                         return (
                                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                         );
                                     }}
-                                    valueRenderer={(option)=>{
+                                    valueRenderer={(option) => {
                                         return (
                                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                         );
