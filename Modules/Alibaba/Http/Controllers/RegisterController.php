@@ -67,11 +67,11 @@ class RegisterController extends Controller
         $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
+            $user->username = $request->email;
+            $user->email = $request->email;
         }
         $user->name = $request->name;
         $user->phone = $phone;
-        $user->email = $request->email;
-        $user->username = $request->email;
         $user->how_know = $request->how_know;
         $user->password = bcrypt($user->phone);
         $user->university = $request->university;
