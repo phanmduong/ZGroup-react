@@ -49,9 +49,6 @@ class CreateEditCoursesContainer extends React.Component {
         helper.setFormValidation('#form-course-create-edit');
     }
 
-    componentWillReceiveProps(){
-        //console.log('next props', nextProps);
-    }
 
 
     backToList(){
@@ -190,7 +187,8 @@ class CreateEditCoursesContainer extends React.Component {
                                                      name="detail"
                                                      updateEditor={this.updateEditor}
 
-                                                     value={this.props.data.detail ? this.props.data.detail : ""}
+                                                     // value={this.props.data.detail ? this.props.data.detail : ""}
+                                                     value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
                                                  />
                                              }
 
@@ -377,3 +375,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateEditCoursesContainer);
+
