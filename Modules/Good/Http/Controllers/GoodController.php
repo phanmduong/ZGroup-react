@@ -334,7 +334,7 @@ class GoodController extends ManageApiController
     public function good($goodId)
     {
         $good = Good::find($goodId);
-        if ($goodId == null)
+        if ($good == null)
             return $this->respondErrorWithStatus([
                 'message' => 'khong ton tai san pham'
             ]);
