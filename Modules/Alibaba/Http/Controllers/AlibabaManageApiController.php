@@ -64,7 +64,6 @@ class AlibabaManageApiController extends ManageApiController
         $telecall = TeleCall::find($request->telecall_id);
         $telecall->caller_id = $saler_id;
 
-
         $telecall->note = $request->note;
         $telecall->gen_id = Gen::getCurrentGen()->id;
         $telecall->call_status = $status;
