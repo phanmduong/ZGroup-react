@@ -584,6 +584,8 @@ export default {
         isLoadingClassFilter: false,
         isLoadingSalerFilter: false,
         isLoadingCampaignFilter: false,
+        excel:{},
+        isLoadingExcel:false
     },
 
     profile: {

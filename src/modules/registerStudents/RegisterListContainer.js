@@ -13,6 +13,8 @@ import ReactSelect from 'react-select';
 import {Modal, Panel} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
+import moment from "moment";
+import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -75,6 +77,8 @@ class RegisterListContainer extends React.Component {
         this.onClassStatusFilterChange = this.onClassStatusFilterChange.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.changeClassStatusFilter = this.changeClassStatusFilter.bind(this);
+        this.showLoadingModal = this.showLoadingModal.bind(this);
+        this.closeLoadingModal = this.closeLoadingModal.bind(this);
     }
 
     componentWillMount() {
@@ -115,6 +119,7 @@ class RegisterListContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        //console.log(nextProps);
         if (!nextProps.isLoadingClassFilter && this.props.isLoadingClassFilter) {
             this.setState({
                 classFilter: this.getFilter(nextProps.classFilter),
@@ -539,10 +544,91 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, this.closeModalChangeClass);
     }
 
+    showLoadingModal(){
+        this.props.registerActions.loadAllRegisterStudent(
+            '',//page
+            this.state.selectGenId,
+            this.state.query,
+            this.state.selectedSalerId,
+            this.state.campaignId,
+            this.state.selectedClassId,
+            this.state.selectedMoneyFilter,
+            this.state.selectedClassStatus,
+            this.state.time.startTime,
+            this.state.time.endTime,
+            this.closeLoadingModal
+        );
+    }
+    closeLoadingModal(){
+        let json = this.props.excel;
+        let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 22 },{ "wch": 22 },{ "wch": 25 },{ "wch": 12 },{ "wch": 8 },{ "wch": 22},{ "wch": 22 },{ "wch": 22 },];//độ rộng cột
+        //begin điểm danh
+        json = this.props.excel.registers.map((item, index)=>{
+            /* eslint-disable */
+            let titleCall = 'Chưa gọi';
+            if (item.call_status === 'success') {titleCall = 'Gọi thành công';}
+            else if (item.call_status === 'failed') {titleCall = 'Gọi thất bại';}
+            else if (item.call_status === 'calling') {titleCall = 'Đang gọi';}
+            let res={
+                'STT': index + 1,
+                'Lớp': item.class.name,
+                'Gọi': titleCall,
+                'Họ tên': item.name,
+                'Email' : item.email,
+                'Phone' : item.phone,
+                'Mã thẻ': item.code,
+                'Saler': item.saler ? item.saler.name : "Không có",
+                'Chiến dịch': item.campaign ? item.campaign.name : "Không có",
+                'Ngày đăng kí': item.created_at,
+            };
+            /* eslint-enable */
+            return res;
+        });
+        let wb =  helper.newWorkBook();
+        helper.appendJsonToWorkBook(json, wb, 'Danh sách',cols, []);
+        let gen = this.state.gens.filter(gen => (gen.id === this.state.selectGenId));
+        let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let empt1 =helper.isEmptyInput(this.state.time.startTime);
+        let empt2 =helper.isEmptyInput(this.state.time.endTime);
+        helper.saveWorkBookToExcel(wb,
+            'Danh sách đăng kí' +
+            (
+                (empt1 || empt2)
+                    ? ` - Khóa ${gen[0].name}`
+                    :
+                    (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
+                        `${helper.isEmptyInput(this.state.time.endTime)   ? '' : (' - ' + endTime)  }`)
+            )
+        );
+    }
+
     render() {
         return (
             <div id="page-wrapper">
+                <Modal
+                    show={this.props.isLoadingExcel}
+                    onHide={() => {}}
+                >
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                    <Modal.Body><Loading/></Modal.Body>
+                </Modal>
                 <div className="container-fluid">
+                    <button
+                        onClick={this.showLoadingModal}
+                        className="btn btn-info btn-rose"
+                        style={{float: "right"}}
+                        disabled={
+                            this.props.isLoadingGens ||
+                            this.props.isLoadingClassFilter ||
+                            this.props.isLoading ||
+                            this.props.isLoadingRegisters ||
+                            this.props.isLoadingExcel
+                        }
+                    >
+                        <i className="material-icons">file_download</i>
+                        Xuất ra Excel
+                    </button>
                     <div className="card">
                         <div className="card-header card-header-icon" data-background-color="rose">
                             <i className="material-icons">assignment</i>
@@ -563,12 +649,12 @@ class RegisterListContainer extends React.Component {
                                     }
                                     <div className="row">
                                         <Search
-                                            className="col-sm-9"
+                                            className="col-sm-10"
                                             onChange={this.registersSearchChange}
                                             value={this.state.query}
                                             placeholder="Tìm kiếm học viên"
                                         />
-                                        <div className="col-sm-3 text-align-right">
+                                        <div className="col-sm-2 text-align-right">
                                             <button
                                                 onClick={this.openFilterPanel}
                                                 className="btn btn-info btn-rose"
@@ -1027,6 +1113,8 @@ RegisterListContainer.propTypes = {
     loadSalerFilter: PropTypes.func,
     loadCampaignFilter: PropTypes.func,
     currentGen: PropTypes.object,
+    excel: PropTypes.object,
+    isLoadingExcel: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -1055,6 +1143,8 @@ function mapStateToProps(state) {
         isLoadingCampaignFilter: state.registerStudents.isLoadingCampaignFilter,
         genId: state.registerStudents.genId,
         currentGen: state.registerStudents.currentGen,
+        excel: state.registerStudents.excel,
+        isLoadingExcel: state.registerStudents.isLoadingExcel,
     };
 }
 
