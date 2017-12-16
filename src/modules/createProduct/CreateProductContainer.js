@@ -181,8 +181,6 @@ class CreateProductContainer extends React.Component {
     render() {
         this.path = this.props.location.pathname;
         let product = this.props.productWorking;
-        console.log("children", this.props.productWorking.children);
-        console.log("property_list", this.props.productWorking.property_list);
         return (
             <div>
                 <div className="row">
