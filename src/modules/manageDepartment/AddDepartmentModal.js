@@ -38,7 +38,7 @@ class LessonDetailModal extends React.Component {
     changeColor(color){
         let data    = {...this.state.data};
         data.color  = color.hex;
-        this.setState(data);
+        this.setState({data: data});
     }
 
     onHide(){
@@ -71,7 +71,7 @@ class LessonDetailModal extends React.Component {
                         />
                         <h4 className="card-title">Chọn màu</h4>
                         <CirclePicker width="50%"
-                                      color={this.state.data.color}
+                                      color={this.state.data.color || ''}
                                       onChangeComplete={this.changeColor}
                         />
 

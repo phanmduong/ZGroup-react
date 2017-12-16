@@ -39,6 +39,7 @@ class ListDepartments extends React.Component {
                                         :
                                         <div>
                                             {this.props.departments.map((obj,index) => {
+                                                console.log(obj);
                                                 return (
 
                                                         <div key={obj.id} className="panel panel-default">
@@ -46,7 +47,7 @@ class ListDepartments extends React.Component {
                                                                     <TooltipButton text={"Click để xem danh sách nhân viên " + obj.name}
                                                                                    placement="top">
                                                                         <button className="btn btn-xs btn-main"
-                                                                                style={{backgroundColor: '#' + obj.color, width: "90%"}}
+                                                                                style={{backgroundColor:  obj.color, width: "90%"}}
                                                                                 onClick={()=>{return this.openPanel(index);}}
                                                                         >
                                                                             {obj.name}

@@ -11,6 +11,7 @@ class EditDepartmentModal extends React.Component {
         this.state = {
             data:{
                 name: '',
+                color: '',
             } ,
         };
         this.updateFormData = this.updateFormData.bind(this);
@@ -42,7 +43,7 @@ class EditDepartmentModal extends React.Component {
     changeColor(color){
         let data    = {...this.state.data};
         data.color  = color.hex;
-        this.setState(data);
+        this.setState({data: data});
     }
 
     onHide(){
@@ -75,7 +76,7 @@ class EditDepartmentModal extends React.Component {
                         />
                         <h4 className="card-title">Chọn màu</h4>
                         <CirclePicker width="50%"
-                                      color={this.state.data.color}
+                                      color={this.state.data.color || ''}
                                       onChangeComplete={this.changeColor}
                         />
                     {this.props.isEditingDepartment ?
