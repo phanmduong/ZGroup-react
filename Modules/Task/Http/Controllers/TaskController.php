@@ -776,10 +776,10 @@ class TaskController extends ManageApiController
         }
         $card = $task->taskList->card;
         if ($card) {
-            $project = $card->board->project;
+//            $project = $card->board->project;
             $this->memberTransformer->setCard($card);
             $this->memberTransformer->setProject(null);
-            $members = $this->memberTransformer->transformCollection($card->members);
+            $members = $this->memberTransformer->transformCollection($card->assignees);
         } else {
             $this->memberTransformer->setCard(null);
             $this->memberTransformer->setProject(null);
