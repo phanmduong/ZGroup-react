@@ -111,15 +111,15 @@ class ManageDepartmentContainer extends React.Component {
                         <div className="tab-content">
                             <div className="row">
                                 <div className="col-md-12">
+                                    <button className="col-md-3 btn-rose btn"
+                                            onClick={this.openModalAddDepartment}
+                                    >Thêm bộ phận</button>
                                     <Search
                                         onChange={()=>{}}
                                         value={''}
                                         placeholder="Tìm kiếm bộ phận"
                                         className="col-md-8"
                                     />
-                                    <button className="col-md-3 btn-rose btn"
-                                        onClick={this.openModalAddDepartment}
-                                    >Thêm bộ phận</button>
                                 </div>
                             </div>
                             <div className="row">
