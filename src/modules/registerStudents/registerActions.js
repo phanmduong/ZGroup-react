@@ -146,6 +146,7 @@ export function changeCallStatusStudent(callStatus, studentId, telecallId, genId
                 dispatch({
                     type: types.CHANGE_CALL_STATUS_STUDENT_SUCCESS,
                     callStatus: res.data.data.call_status,
+                    saler: res.data.data.saler,
                     studentId: studentId
                 });
             })

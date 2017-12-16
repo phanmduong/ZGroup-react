@@ -362,6 +362,12 @@ class ClassContainer extends React.Component {
                                                     type="text"
                                                     disabled={this.props.isLoadingClass || this.props.isLoading}
                                                 />
+                                                <a className="btn btn-rose btn-sm"
+                                                   href={this.state.linkDriver}
+                                                   target="_blank"
+                                                >
+                                                    Mở link
+                                                </a>
                                                 <button className="btn btn-rose btn-sm"
                                                         onClick={this.submitLinkDriver}
                                                         disabled={this.props.isLoadingClass || this.props.isLoading}

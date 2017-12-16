@@ -55,7 +55,18 @@ export function historyCallStudent(studentId, registerId) {
 }
 
 export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '') {
-    let url = env.MANAGE_API_URL + "/change-call-status-student";
+
+    let url = env.MANAGE_API_URL;
+
+    switch (env.TYPE_API) {
+        case 'alibaba':
+            url += "/alibaba-change-call-status-student";
+            break;
+        default:
+            url += "/change-call-status-student";
+            break;
+    }
+
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
