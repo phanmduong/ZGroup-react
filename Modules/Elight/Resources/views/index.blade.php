@@ -19,25 +19,6 @@
         </div>
     </div>
     <div class="container" id="bookinfo">
-        {{--<div class="container-fluid">--}}
-            {{--<div class="row" style="margin-top:2%">--}}
-                {{--<div class="col-md-12">--}}
-                    {{--<div style="background-image: url('http://elightbook.com/assets/img/info2.jpg');background-size: cover;">--}}
-                        {{--<div style="padding-top:30%">--}}
-                            {{--<div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">--}}
-                                {{--<h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>--}}
-                                    {{--đến với thế giới của Elight Book<br>--}}
-                                {{--</h3>--}}
-
-                                {{--<p style="color:white">--}}
-                                    {{--Cùng học tiếng anh với Elight nhé--}}
-                                {{--</p>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
         <div class="row">
             <div class="col-md-12">
                 <h3>
@@ -121,7 +102,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <b>Hoạt động đoàn thể</b>
+                            <b>Học giao tiếp</b>
                         </h3>
                         <a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>
 
@@ -171,7 +152,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <b>Nghiên cứu khoa học</b>
+                            <b>Học từ vựng</b>
                         </h3>
                         <a href="/blog/post/14676" style="color:#138edc!important"><b>Xem thêm</b></a>
 
@@ -242,7 +223,7 @@
                                 <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
                                     <div style="text-align: right;">
                                         <a class="btn btn-facebook" style="margin: 3px; font-size: 10px;"
-                                           href="/book/{{$book->id}}">
+                                           href="/sach/{{$book->id}}">
                                             Tải xuống<i class="fa fa-download"></i></a>
                                     </div>
                                 </div>
