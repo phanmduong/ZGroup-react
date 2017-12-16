@@ -201,7 +201,10 @@ class StudentApiController extends ApiController
         if ($request->start_time != null) {
             $registers = $registers->whereBetween('created_at', array($request->start_time, $endTime));
         }
-        $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
+        if ($limit = -1)
+            $registers = $registers->orderBy('created_at', 'desc')->get();
+        else
+            $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
         $registers->map(function ($register) {
 
@@ -227,7 +230,14 @@ class StudentApiController extends ApiController
             }
             $register->is_delete = is_delete_register($this->user, $register);
         }
-
+        if ($limit == -1) {
+            return $this->respondSuccessWithStatus([
+                'registers' => $this->registerTransformer->transformCollection($registers),
+                'gen' => [
+                    'id' => $gen->id
+                ]
+            ]);
+        }
         return $this->respondWithPagination($registers, [
             'registers' => $this->registerTransformer->transformCollection($registers),
             'gen' => [
