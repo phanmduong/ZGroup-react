@@ -306,9 +306,9 @@ export default (
             {/*End supplier routes*/}
 
             {/*Begin discount routes */}
-            <Route path="manage/discount/add" component={AddDiscountContainer}/>
-            <Route path="manage/discount" component={DiscountContainer}/>
-            <Route path="manage/discount/edit/:discountId" component={AddDiscountContainer}/>
+            <Route path="/discount/add" component={AddDiscountContainer}/>
+            <Route path="/discount" component={DiscountContainer}/>
+            <Route path="/discount/edit/:discountId" component={AddDiscountContainer}/>
             {/*End discount routes*/}
 
             {/*Begin sales routes */}

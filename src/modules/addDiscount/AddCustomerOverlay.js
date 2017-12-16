@@ -26,7 +26,7 @@ class AddCustomerOverlay extends React.Component {
             <div style={{position: "relative"}}>
                 <a className="btn btn-simple card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
-                    {customer.name ?
+                    {customer && customer.name ?
                         <div style={{display: "flex"}}>
                             <Avatar size={30} url={customer.avatar_url}/>
                             {customer.name}

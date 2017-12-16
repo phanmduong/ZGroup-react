@@ -20,7 +20,7 @@ export function loadCustomersApi(limit , page , query ) {
 }
 
 export function loadGroupCustomerApi(page , limit , query ) {
-    let url = env.MANAGE_API_URL + "/order/all-customer-group?";
+    let url = env.MANAGE_API_URL + "/order/customer-groups?";
     let token = localStorage.getItem('token');
     if (limit){
         url += "&limit=" + limit;
@@ -39,30 +39,39 @@ export function loadGroupCustomerApi(page , limit , query ) {
 
 
 
-export function addGroupCustomerApi(groupCustomer) {
-    let url = env.MANAGE_API_URL + "/order/create-customer-group?";
+export function addGroupCustomerApi(groupCustomerForm) {
+    let url = env.MANAGE_API_URL + "/order/customer-group/add?" ;
     let token = localStorage.getItem('token');
     if (token) {
         url += "token=" + token;
     }
     return axios.post(url,{
-        'name' :  groupCustomer.name,
-        'description' : groupCustomer.description,
-        'stringId' : groupCustomer.stringId.join(";"),
+        'name' :  groupCustomerForm.name,
+        'description' : groupCustomerForm.description,
+        'stringId' : groupCustomerForm.stringId.join(";"),
+        'color': groupCustomerForm.color,
     });
 }
 
 
-export function editGroupCustomerApi(groupCustomer) {
-    let url = env.MANAGE_API_URL + "/order/change-customer-group?";
+export function editGroupCustomerApi(groupCustomerForm) {
+    let url = env.MANAGE_API_URL + "/order/customer-group/" + groupCustomerForm.id;
     let token = localStorage.getItem('token');
     if (token) {
-        url += "token=" + token;
+        url += "?token=" + token;
     }
     return axios.put(url,{
-        'name' :  groupCustomer.name,
-        'description' : groupCustomer.description,
-        'stringId' : groupCustomer.stringId.join(";"),
-        'customer_group_id' : groupCustomer.id,
+        'name' :  groupCustomerForm.name,
+        'description' : groupCustomerForm.description,
+        'stringId' : groupCustomerForm.stringId.join(";"),
+        'color': groupCustomerForm.color,
     });
+}
+export function deleteGroupCustomerApi(id) {
+    let url = env.MANAGE_API_URL + "/order/customer-group/" + id ;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.delete(url);
 }

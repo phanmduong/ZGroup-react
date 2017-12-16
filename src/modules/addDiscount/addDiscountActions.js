@@ -32,6 +32,11 @@ export function addDiscount(discount) {
                         type: types.ADD_DISCOUNT_ERROR,
                     });
                 }
+            })
+            .catch(() => {
+            dispatch ({
+                type: types.ADD_DISCOUNT_ERROR,
+            });
             });
     };
 }
@@ -78,6 +83,27 @@ export function loadGoods( page , limit, query) {
 
     };
 }
+export function loadGroupCustomers( page , limit, query) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GROUP_CUSTOMER_IN_DISCOUNT
+        });
+        addDiscountApis.loadGroupCustomersApi(limit, page ,query )
+            .then( (res) =>  {
+                dispatch({
+                    type : types.LOADED_GROUP_CUSTOMER_SUCCESS_IN_DISCOUNT,
+                    customer_groups : res.data.customer_groups,
+                    total_pages : res.data.paginator.total_pages,
+                });
+            })
+            .catch(() => {
+                dispatch ({
+                    type : types.LOADED_GROUP_CUSTOMER_ERROR_IN_DISCOUNT,
+                });
+            });
+
+    };
+}
 
 export function loadCategories() {
     return function (dispatch) {
@@ -88,10 +114,11 @@ export function loadCategories() {
             .then( (res) =>  {
                 dispatch({
                     type : types.LOADED_CATEGORY_SUCCESS_IN_DISCOUNT,
-                    categories : helper.superSortCategories( res.data.data[0].good_categories),
+                    categories : helper.superSortCategories( res.data.data[0].good_categories),  // hàm để sort các categories cha con
                 });
             })
             .catch(() => {
+                helper.sweetAlertError("Thiếu thông tin");
                 dispatch ({
                     type : types.LOADED_CATEGORY_ERROR_IN_DISCOUNT,
                 });
@@ -136,6 +163,12 @@ export function editDiscount(discount ) {
                         type: types.EDIT_DISCOUNT_ERROR
                     });
                 }
-            }) ;
+            })
+            .catch(() => {
+                helper.sweetAlertError("Thiếu thông tin");
+                dispatch({
+                    type: types.EDIT_DISCOUNT_ERROR,
+                });
+            });
     };
 }

@@ -90,6 +90,20 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isLoadingStaffs: false,
                 errorStaffs: true,
             };
+        case types.OPEN_SHIP_MODAL:
+            return {
+                ...state,
+                isShowModal: !state.isShowModal,
+                orderShip: {
+                    ...state.orderShip,
+                    order : {
+                        ...state.orderShip.order,
+                        name :action.order.customer.name,
+                        tel : action.order.customer.phone,
+                        address : action.order.customer.address,
+                    },
+                },
+            };
         default:
             return state;
     }

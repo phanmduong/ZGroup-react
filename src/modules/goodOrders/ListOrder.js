@@ -30,12 +30,14 @@ class ListOrder extends React.Component {
                                     <th>Tổng tiền</th>
                                     <th>Nợ</th>
                                     <th />
+                                    <th />
+
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {
                                     this.props.orders.map((order, index) => {
-                                        return <ItemOrder order={order} key={index}/>;
+                                        return <ItemOrder order={order} key={index} openModal = {this.props.toggleShipModal}/>;
                                     })
                                 }
                                 </tbody>
@@ -59,6 +61,7 @@ class ListOrder extends React.Component {
 }
 
 ListOrder.propTypes = {
+    toggleShipModal : PropTypes.func,
     loadOrders: PropTypes.func.isRequired,
     currentPage: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,

@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-
+import PopoverOverlay from "./PopoverOverlay";
 
 
 class ListChildCustomer extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            show : false,
+        };
+        this.toggle =this.toggle.bind(this);
+    }
+    toggle() {
+        this.setState({ show: !this.state.show });
     }
 
     render() {
@@ -25,6 +31,7 @@ class ListChildCustomer extends React.Component {
                                 <th>Tổng tiền hàng</th>
                                 <th> Tiền trả hàng</th>
                                 <th> Tiền nợ</th>
+                                <th> Nhóm khách hàng</th>
                                 <th/>
                             </tr>
                             </thead>
@@ -34,7 +41,9 @@ class ListChildCustomer extends React.Component {
                                     return (
                                         <tr role="row" className="even" key={customer.id}>
                                             <td className="sorting_1">
-                                                <a onClick={() => {this.props.openInfoCustomer(customer);}}>{customer.name}</a>
+                                                <a onClick={() => {
+                                                    this.props.openInfoCustomer(customer);
+                                                }}>{customer.name}</a>
                                             </td>
                                             <td>{customer.phone}</td>
                                             <td>{customer.address}</td>
@@ -42,6 +51,11 @@ class ListChildCustomer extends React.Component {
                                             <td>{customer.total_money}</td>
                                             <td>{customer.total_paid_money}</td>
                                             <td>{customer.debt}</td>
+                                            <td>
+                                               <PopoverOverlay
+                                               customer={customer}
+                                               />
+                                            </td>
                                             <td>
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
@@ -71,7 +85,7 @@ class ListChildCustomer extends React.Component {
 ListChildCustomer.propTypes = {
     customersList: PropTypes.array,
     openFormDataInEdit: PropTypes.func,
-    openInfoCustomer : PropTypes.func,
+    openInfoCustomer: PropTypes.func,
 };
 
 

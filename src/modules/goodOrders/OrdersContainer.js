@@ -12,6 +12,8 @@ import * as goodOrderActions from './goodOrderActions';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import {Modal} from 'react-bootstrap';
+import OrderModal from './OrderModal';
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -26,16 +28,26 @@ class OrdersContainer extends React.Component {
             },
             staff: '',
             base: '',
-            status: ''
+            status: '',
+            isShowModal : false,
+
         };
         this.timeOut = null;
         this.ordersSearchChange = this.ordersSearchChange.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.openModal = this.openModal.bind(this);
     }
 
     componentWillMount() {
         this.loadOrders();
+    }
+    toggleShipModal(order) {
+        this.props.goodOrderActions.openShipModal(order);
+    }
+    closeModal() {
+        this.setState({isShowModal: false});
     }
 
     updateFormDate(event) {
@@ -225,6 +237,7 @@ class OrdersContainer extends React.Component {
                                     isLoading={this.props.isLoading}
                                     totalCount={this.props.totalCount}
                                     limit={this.props.limit}
+                                    toggleShipModal = {this.toggleShipModal}
                                 />
                             </div>
                             {
@@ -251,6 +264,59 @@ class OrdersContainer extends React.Component {
                         </div>
                     </div>
                 </div>
+
+
+
+
+
+
+                {/*//              MODAL*/}
+
+
+                <Modal show={this.props.isShowModal} bsSize="large" bsStyle="primary" onHide={this.toggleShipModal}>
+
+
+                    <Modal.Body>
+                        <div className="card">
+                            <form id="form-add-group-customer">
+                                {/*<GroupCustomerModal*/}
+                                {/*isEdit={this.state.isEdit}*/}
+                                {/*/>*/}
+                                <OrderModal
+                                    orders={this.props.orders}
+                                />
+
+
+                                <div className="row">
+                                    <div className="col-md-9"/>
+                                    <div className="col-md-3">
+                                        {/*{this.props.isSaving ?*/}
+                                        {/*(*/}
+                                        {/*<button*/}
+                                        {/*className="btn btn-sm btn-success disabled"*/}
+                                        {/*>*/}
+                                        {/*<i className="fa fa-spinner fa-spin"/>*/}
+                                        {/*Đang cập nhật*/}
+                                        {/*</button>*/}
+                                        {/*)*/}
+                                        {/*:*/}
+                                        {/*(*/}
+                                            <button className="btn btn-success btn-sm">
+                                            <i className="material-icons">save</i> Lưu
+                                            </button>
+                                        {/* )*/}
+                                        {/* }*/}
+                                        <button className="btn btn-sm btn-danger">
+                                            <i className="material-icons">cancel</i> Huỷ
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </Modal.Body>
+
+
+                </Modal>
             </div>
         );
     }
@@ -266,6 +332,7 @@ OrdersContainer.propTypes = {
     totalPages: PropTypes.number.isRequired,
     orders: PropTypes.array.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
+    isShowModal : PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -278,6 +345,7 @@ function mapStateToProps(state) {
         totalPaidMoney: state.goodOrders.totalPaidMoney,
         limit: state.goodOrders.limit,
         totalCount: state.goodOrders.totalCount,
+        isShowModal : state.goodOrders.isShowModal,
     };
 }
 

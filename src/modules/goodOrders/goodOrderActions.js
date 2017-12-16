@@ -17,9 +17,9 @@ export function loadAllOrders(page = 1, search = '', startTime = '', endTime = '
                     limit: res.data.paginator.limit,
                     totalCount: res.data.paginator.total_count
                 });
-            }).catch(()=>{
+            }).catch(() => {
             dispatch({
-               type: types.LOAD_GOOD_ORDERS_ERROR
+                type: types.LOAD_GOOD_ORDERS_ERROR
             });
         });
     };
@@ -37,7 +37,7 @@ export function loadDetailOrder(orderId) {
                     infoShip: res.data.data.info_ship,
                     goodOrders: res.data.data.good_orders,
                 });
-            }).catch(()=>{
+            }).catch(() => {
             dispatch({
                 type: types.LOAD_DETAIL_ORDER_ERROR
             });
@@ -54,10 +54,21 @@ export function loadStaffs() {
                     type: types.LOAD_STAFFS_ORDERS_SUCCESS,
                     staffs: res.data.data.staffs
                 });
-            }).catch(()=>{
+            }).catch(() => {
             dispatch({
                 type: types.LOAD_STAFFS_ORDERS_ERROR
             });
         });
     };
+}
+
+export function openShipModal( order) {
+    return function (dispatch) {
+        dispatch({
+            type: types.OPEN_SHIP_MODAL,
+            order: order,
+        });
+    };
+
+
 }

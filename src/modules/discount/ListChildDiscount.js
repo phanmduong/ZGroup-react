@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {browserHistory} from 'react-router';
 
 
-
 class ListChildDiscount extends React.Component {
     constructor(props) {
         super(props);
@@ -45,8 +44,7 @@ class ListChildDiscount extends React.Component {
                                             <td>{discount.start_time}</td>
                                             <td>{discount.end_time}</td>
                                             <td>
-                                                <button
-                                                    className="btn btn-xs btn-main btn-success">{discount.used_for}</button>
+                                                <button className="btn btn-xs btn-main btn-success">{discount.used_for}</button>
                                             </td>
                                             <td>
                                                 {discount.used_for === 'good' ?
@@ -55,8 +53,11 @@ class ListChildDiscount extends React.Component {
                                                             'Danh mục: ' + discount.category.name : (
                                                             discount.used_for === 'customer' ?
                                                                 'Khách hàng: ' + discount.customer.name : (
-                                                                discount.used_for === 'order' ?
-                                                                    'Giá trị đơn hàng từ ' + discount.order_value : "Tất cả các đơn hàng"
+                                                                discount.used_for === 'customer-group' ?
+                                                                    'Nhóm khách hàng :' + discount.customer_group.name : (
+                                                                    discount.used_for === 'order' ?
+                                                                        'Giá trị đơn hàng từ ' + discount.order_value : "Tất cả các đơn hàng"
+                                                                )
                                                             )
                                                         )
                                                     )
@@ -67,8 +68,8 @@ class ListChildDiscount extends React.Component {
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
                                                         <a onClick={() => {
-                                                               browserHistory.push('/discount/edit/'+ discount.id);
-                                                           }}>
+                                                            browserHistory.push('/discount/edit/' + discount.id);
+                                                        }}>
                                                             <i className="material-icons">edit</i>
                                                         </a></div>
                                                 </div>

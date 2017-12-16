@@ -5,10 +5,13 @@ import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 
+
+
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
+
 
     statusOrder(status) {
         switch (status) {
@@ -98,13 +101,26 @@ class ItemOrder extends React.Component {
                 <td>
                     <ButtonGroupAction/>
                 </td>
+                <td>
+                    <button className="btn btn-info btn-sm"
+                            onClick={()=>{this.props.toggleShipModal(order);}}
+                    >
+                        <i className="material-icons">send</i> Ship hàng
+                    </button>
+
+                </td>
+
             </tr>
+
+
         );
     }
 }
 
 ItemOrder.propTypes = {
+
     order: PropTypes.object.isRequired,
+    toggleShipModal: PropTypes.func,
 };
 
 

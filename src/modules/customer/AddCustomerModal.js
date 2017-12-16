@@ -39,7 +39,7 @@ class AddCustomerModal extends React.Component {
                         required={true}
                         type="email"
                         value={email}
-                        placeholder = "Nhập email (ví dụ : hung@gmail.com)"
+                        placeholder = "Nhập email "
                     />
 
                     <FormInputText

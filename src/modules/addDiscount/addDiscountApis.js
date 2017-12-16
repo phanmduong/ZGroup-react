@@ -20,6 +20,7 @@ export function addDiscountApi(discount) {
         'customer_id' : discount.customer ? discount.customer.id : '',
         'category_id' : discount.category ? discount.category.id : '',
         'good_id' : discount.good ? discount.good.id : '',
+        'customer_group_id' : discount.customer_group ? discount.customer_group.id : '',
     });
 }
 
@@ -43,6 +44,23 @@ export function loadCustomersApi(limit , page , query ) {
 
 export function loadGoodsApi(limit , page , query ) {
     let url = env.MANAGE_API_URL + "/good/all?";
+    let token = localStorage.getItem('token');
+    if (limit){
+        url += "&limit=" + limit;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (query) {
+        url += "&search=" + query;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
+export function loadGroupCustomersApi(limit , page , query ) {
+    let url = env.MANAGE_API_URL + "/order/customer-groups?";
     let token = localStorage.getItem('token');
     if (limit){
         url += "&limit=" + limit;
@@ -98,5 +116,6 @@ export function editDiscountApi(discount) {
         'customer_id' : discount.customer ? discount.customer.id : '',
         'category_id' : discount.category ? discount.category.id : '',
         'good_id' : discount.good ? discount.good.id : '',
+        'customer_group_id' : discount.customer_group ? discount.customer_group.id : '',
     });
 }

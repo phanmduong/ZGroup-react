@@ -807,6 +807,31 @@ export default {
     },
 
     goodOrders: {
+
+        isShowModal: false,
+        orderShip: {
+            products: [],
+            order: {
+                id: "a4",
+                pick_name: "Graphics",
+                pick_address: "175, Chùa Láng, Đống Đa, Hà Nội",
+                pick_province: "Hà Nội",
+                pick_district: "Đống Đa",
+                pick_tel: "0911222333",
+                tel: '',
+                name: "",
+                address: "",
+                province: "",
+                district: "",
+                is_freeship: "",
+                pick_date: "",
+                pick_money: 0,
+                note: "",
+                value: 0,
+            },
+        },
+
+
         isLoading: false,
         error: false,
         currentPage: 1,
@@ -896,64 +921,72 @@ export default {
     },
 
     customers: {
+        groupsInOverlay: [],
         customersList: [],
-        ordersList : [],
+        ordersList: [],
         isLoading: true,
-        totalOrderPages : 10,
+        isLoadingInOverlay: false,
+        totalOrderPages: 10,
+        totalGroupCustomerPages: 10,
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
         totalCount: 10,
-        modal : {
-            isSaving : false,
-            customer : {
-                name : '',
-                phone : '',
-                email : '',
-                address : '',
-                gender : '',
-                dob : '',
+        modal: {
+            isSaving: false,
+            customer: {
+                name: '',
+                phone: '',
+                email: '',
+                address: '',
+                gender: '',
+                dob: '',
+                stringId: '',
+                groups: [],
             }
         },
     },
     suppliers: {
-        suppliersList : [],
-        isLoading : false,
+        suppliersList: [],
+        isLoading: false,
         totalCount: 10,
-        totalPages : 10,
-        modal : {
-            isSaving : false,
-            supplier : {
-                name : '',
-                phone : '',
-                email : '',
-                address : '',
+        totalPages: 10,
+        modal: {
+            isSaving: false,
+            supplier: {
+                name: '',
+                phone: '',
+                email: '',
+                address: '',
             }
         }
     },
 
-    addDiscount :{
-        isLoadingOut : false,
-        isSaving : false,
+    addDiscount: {
+        isLoadingOut: false,
+        isSaving: false,
         isLoading: false,
-        customers : [],
-        goods : [],
-        categories : [],
-        totalCustomerPages : 10,
-        totalGoodPages : 10,
-        discount :{
-            name: 'lallalalall',
+        customers: [],
+        goods: [],
+        categories: [],
+        groupCustomers: [],
+        totalCustomerPages: 0,
+        totalGoodPages: 0,
+        totalGroupCustomerPages: 0,
+        discount: {
+            name: '',
             description: '',
-            discount_type : '',
-            discount_value : '',
-            type : '',
-            used_for : '',
-            start_time : '',
-            end_time : '',
-            order_value : '',
-            good : {},
-            category : {},
-            customer : {},
+            discount_type: '',
+            discount_value: '',
+            type: '',
+            used_for: '',
+            start_time: '',
+            end_time: '',
+            order_value: '',
+            good: {},
+            category: {},
+            customer: {},
+            customer_group: {},
         },
 
     },
@@ -1092,27 +1125,28 @@ export default {
         error: false,
         summary: [],
     },
-    discounts : {
-        discountsList : [],
-        isLoading : false,
-        totalPages : 10,
-        totalCount : 10,
+    discounts: {
+        discountsList: [],
+        isLoading: false,
+        totalPages: 10,
+        totalCount: 10,
     },
     groupCustomers: {
-        isSaving : false,
-        isLoading : false,
-        isLoadingOverlay : false,     // load trong overlay
-        customersList : [],         //  +  customers  = full
+        isSaving: false,
+        isLoading: false,
+        isLoadingOverlay: false,     // load trong overlay
+        customersList: [],         //  +  customers  = full
         totalCustomerPages: 1,
         totalCustomerCount: 1,
-        totalGroupCustomerPages :1 ,
-        groupCustomerForm:{
-            customerCount : 1,
-            id : 1,
-            name : '',
-            description : '',
-            stringId : [],
-            customers : [],                         // cac customer trong mot group
+        totalGroupCustomerPages: 1,
+        groupCustomerForm: {
+            customerCount: 1,
+            id: 1,
+            name: '',
+            description: '',
+            stringId: [],
+            customers: [],                         // cac customer trong mot group
+            color: '',
         },
         groupCustomersList: [],
     },

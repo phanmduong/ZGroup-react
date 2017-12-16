@@ -33,14 +33,13 @@ class AddDiscountContainer extends React.Component {
             this.loadDiscount();
 
 
-        }// Chưa xử lí được ..........
+        }
         // Nếu muốn add phải xóa hết thông tin đã edit của lần trước
     }
 
     componentDidMount(){
         if (document.location.pathname === '/discount/add' ) {
             this.resetDiscount();
-
         }
     }
 
@@ -63,6 +62,7 @@ class AddDiscountContainer extends React.Component {
             good: {},
             category: {},
             customer: {},
+            customer_group: {},
         };
         this.props.addDiscountActions.updateDiscountFormData(discount);
     }
@@ -85,15 +85,21 @@ class AddDiscountContainer extends React.Component {
         let isEdit;
         this.state.id ? isEdit = true : isEdit = false;
         if ($('#form-add-discount').valid()) {
+            if (this.props.discount.type === null || this.props.discount.type === undefined || this.props.discount.type === '') {
+                helper.showTypeNotification("Vui lòng nhập tên khuyến mãi", 'warning');
+                return;
+            }
+            if (this.props.discount.name === null || this.props.discount.name === undefined || this.props.discount.name === '') {
+                helper.showTypeNotification("Vui lòng chọn chương trình khuyến mãi", 'warning');
+                return;
+            }
             if (this.props.discount.start_time === null || this.props.discount.start_time === undefined || this.props.discount.start_time === '') {
                 helper.showTypeNotification("Vui lòng chọn ngày bắt đầu", 'warning');
                 return;
             }
-            if (this.props.discount.name === null || this.props.discount.name === undefined || this.props.discount.name === '') {
-                helper.showTypeNotification("Vui lòng nhập tên khuyến mãi", 'warning');  // Có thể không cần thiết
-            }
             if (this.props.discount.end_time === null || this.props.discount.end_time === undefined || this.props.discount.end_time === '') {
                 helper.showTypeNotification("Vui lòng chọn ngày kết thúc", 'warning');
+                return;
             }
             else {
                 isEdit ?

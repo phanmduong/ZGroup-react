@@ -18,7 +18,7 @@ class GroupCustomerContainer extends React.Component {
         super(props);
         this.state = {
             page: 1,
-            limit: 12,
+            limit: 6,
             query: '',
             isShowModal: false,
         };
@@ -29,6 +29,8 @@ class GroupCustomerContainer extends React.Component {
         this.loadGroupCustomer = this.loadGroupCustomer.bind(this);
         this.groupCustomerSearchChange = this.groupCustomerSearchChange.bind(this);
         this.activeModal = this.activeModal.bind(this);
+        this.deleteGroupCustomer = this.deleteGroupCustomer.bind(this);
+        // this.resetCustomers = this.resetCustomers.bind(this);
     }
 
     componentWillMount() {
@@ -58,7 +60,6 @@ class GroupCustomerContainer extends React.Component {
     openAddModal() {
         // set dữ liệu về rỗng trước khi mở modal add
         let groupCustomerForm = {
-            customerCount: 0,
             id: 0,
             name: '',
             description: '',
@@ -66,15 +67,12 @@ class GroupCustomerContainer extends React.Component {
             customers: [],
         };
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
-        this.setState({isShowModal: true});
-        this.setState({isEdit: false});
-
+        this.setState({isShowModal: true , isEdit: false});
     }
 
     openEditModal(groupCustomerForm) {
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
-        this.setState({isShowModal: true});
-        this.setState({isEdit: true});
+        this.setState({isShowModal: true , isEdit: true});
     }
 
     closeModal() {
@@ -85,19 +83,33 @@ class GroupCustomerContainer extends React.Component {
         if ($('#form-add-group-customer').valid()) {
             if (this.props.groupCustomerForm.name === null || this.props.groupCustomerForm.name === undefined || this.props.groupCustomerForm.name === '') {
                 helper.showTypeNotification("Vui lòng chọn tên nhóm khách hàng", 'warning');
-                return;
             }
             else {
                 if (this.state.isEdit) {
-                    this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm);
+                    this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm, this.state.page);
                 }
                 else {
-                    this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm);
+                    this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page);
                 }
             }
         }
         e.preventDefault();
     }
+
+    deleteGroupCustomer(id , name){
+        helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa nhóm " + name,
+            function () {
+                this.props.groupCustomerActions.deleteGroupCustomer(id);
+            }.bind(this));
+
+    }
+    // resetCustomers(e){
+    //     let groupCustomerForm = {...this.props.groupCustomerForm};
+    //     groupCustomerForm['stringId'] = [];
+    //     groupCustomerForm['customers'] = [];
+    //     this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
+    //     e.preventDefault();
+    // }
 
     render() {
         const currentPage = this.state.page;
@@ -142,7 +154,7 @@ class GroupCustomerContainer extends React.Component {
 
 
                     <div className="card-content">
-                        <div className="row">
+                        <div className="row" style={{marginBottom : 60}}>
                             <div className="col-md-3">
                                 <div style={{marginTop: 15}}>
                                     <a className="btn btn-rose" onClick={() => {
@@ -155,19 +167,29 @@ class GroupCustomerContainer extends React.Component {
                             {/*//      SEARCH*/}
 
 
-                            <div className="col-md-9" style={{ marginTop : "0px"}}>
+                            <div className="col-md-9" style={{ marginTop : "0px" , paddingLeft : 100}}>
                                 <div className="form-group">
                                     <Search
                                         onChange={this.groupCustomerSearchChange}
                                         value={this.state.query}
-                                        placeholder="Tìm kiếm khách hàng          "
+                                        placeholder="Tìm kiếm nhóm khách hàng          "
                                     />
                                 </div>
                             </div>
                         </div>
 
 
+                        <div className= "row" style={{paddingLeft : 20}}>
+                        <div className="card-header card-header-icon " style={{ marginBottom : 20}}
+                             data-background-color="rose">
+                            <i className="material-icons">group</i>
+                        </div>
+                        <h4 className="card-title">Danh sách nhóm khách hàng</h4>
+                        </div>
+
                         {/*//      GROUPITEM*/}
+
+
 
                         {this.props.isLoading ? <Loading/> :
                             <div className="row">
@@ -176,6 +198,7 @@ class GroupCustomerContainer extends React.Component {
                                         <GroupCustomerItem
                                             openEditModal={this.openEditModal}
                                             groupCustomerForm={groupCustomer}
+                                            deleteGroupCustomer = {this.deleteGroupCustomer}
                                         />
                                     );
                                 })}
@@ -186,7 +209,7 @@ class GroupCustomerContainer extends React.Component {
                         {/*//          PAGINATION*/}
 
 
-                        <div className="row">
+                        <div className="row" style={{marginTop : 50}}>
                             <div className="col-sm-5">
                                 <div className="dataTables_info" id="property-table_info"
                                      role="status" aria-live="polite">Hiển trị
@@ -212,8 +235,6 @@ class GroupCustomerContainer extends React.Component {
 
 
                 <Modal show={this.state.isShowModal} bsSize="large" bsStyle="primary" onHide={this.closeModal}>
-
-
                     <Modal.Body>
                         <div className="card">
                             <form id="form-add-group-customer">
@@ -222,8 +243,15 @@ class GroupCustomerContainer extends React.Component {
                                 />
 
 
-                                <div className="row">
-                                    <div className="col-md-9"/>
+                                <div className="row" style={{marginLeft : 30, marginBottom : 20}}>
+                                    <div className="col-md-9">
+                                        {/*<button className="btn btn-info btn-sm"*/}
+                                                {/*onClick={(e) => {*/}
+                                                    {/*this.resetCustomers(e);*/}
+                                                {/*}}>*/}
+                                            {/*<i className="material-icons">autorenew</i> Reset Table*/}
+                                        {/*</button>*/}
+                                    </div>
                                     <div className="col-md-3">
                                         {this.props.isSaving ?
                                             (
@@ -244,7 +272,10 @@ class GroupCustomerContainer extends React.Component {
                                                 </button>
                                             )
                                         }
-                                        <button className="btn btn-sm btn-danger">
+
+                                        <button className="btn btn-sm btn-danger"
+                                                onClick={(e)=>{this.closeModal(); e.preventDefault();}}
+                                        >
                                             <i className="material-icons">cancel</i> Huỷ
                                         </button>
                                     </div>

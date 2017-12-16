@@ -59,19 +59,20 @@ export function updateGroupCustomerFormData(groupCustomerForm) {
 }
 
 
-export function addGroupCustomer(groupCustomer) {
+export function addGroupCustomer(groupCustomerForm,page) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_ADD_GROUP_CUSTOMER,
         });
-        groupCustomerApis.addGroupCustomerApi(groupCustomer)
+        groupCustomerApis.addGroupCustomerApi(groupCustomerForm)
             .then((res) => {
                 if (res.data.status) {
                     dispatch({
                         type: types.ADD_GROUP_CUSTOMER_SUCCESS,
-                        groupCustomer : res.data.data.customer_group, // nên lấy từ api
+                       // groupCustomer : res.data.data.customer_group, // nên lấy từ api
                     });
-                    helper.showTypeNotification('Đã thêm nhóm ' + groupCustomer.name, 'success');
+                    dispatch(loadGroupCustomer(page,6));
+                    helper.showTypeNotification('Đã thêm nhóm ' + groupCustomerForm.name, 'success');
                 }
                 else {
                     dispatch({
@@ -82,17 +83,18 @@ export function addGroupCustomer(groupCustomer) {
             });
     };
 }
-export function editGroupCustomer(groupCustomer) {
+export function editGroupCustomer(groupCustomerForm,page) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_GROUP_CUSTOMER,});
-        groupCustomerApis.editGroupCustomerApi(groupCustomer)
+        groupCustomerApis.editGroupCustomerApi(groupCustomerForm)
             .then((res) => {
                 if (res.data.status) {
-                    helper.showTypeNotification('Đã chỉnh sửa nhóm ' + groupCustomer.name, 'success');
                     dispatch({
                         type: types.EDIT_GROUP_CUSTOMER_SUCCESS,
-                        groupCustomer : res.data.data.customer_group, // nên lấy từ api
+                       // groupCustomer : res.data.data.customer_group, // nên lấy từ api
                     });
+                    helper.showTypeNotification('Đã chỉnh sửa nhóm ' + groupCustomerForm.name, 'success');
+                    dispatch(loadGroupCustomer(page,6));
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);
@@ -102,6 +104,27 @@ export function editGroupCustomer(groupCustomer) {
     };
 }
 
+export function deleteGroupCustomer(id) {
+    return function (dispatch) {
+        helper.showTypeNotification("Đang xóa ", "info");
+        groupCustomerApis.deleteGroupCustomerApi(id)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showTypeNotification(" Đã xóa ", "success");
+                    dispatch({
+                        type: types.DELETE_GROUP_CUSTOMER_SUCCESS,
+                        id: id,
+                    });
+                }
+                else {
+                    helper.sweetAlertError(res.data.message);
+                }
+            })
+            .catch(() => {
+                helper.sweetAlertError("Nhóm vẫn còn khách hàng ");
+            });
+    };
+}
 
 export function assignGroupCustomerFormData(id) {
     return function (dispatch) {

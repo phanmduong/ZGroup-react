@@ -39,7 +39,7 @@ export default function customerReducer(state = initialState.groupCustomers, act
             return {
                 ...state,
                 isSaving: false,
-                groupCustomersList: [action.groupCustomer, ...state.groupCustomersList]
+                // groupCustomersList: [action.groupCustomer, ...state.groupCustomersList]
             };
         case types.ADD_GROUP_CUSTOMER_ERROR :
             return {
@@ -67,10 +67,17 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 isSaving: false,
             };
         case types.EDIT_SUPPLIER_SUCCESS:
-            groupCustomersList = changeGroupCustomer(action.groupCustomer, state.groupCustomersList);
             return {
                 ...state,
                 isSaving: false,
+            };
+
+            //          DELETE
+        case types.DELETE_GROUP_CUSTOMER_SUCCESS:
+
+            groupCustomersList =deleteGroup (action.id , state.groupCustomersList);
+            return {
+                ...state,
                 groupCustomersList : groupCustomersList,
             };
 
@@ -172,16 +179,11 @@ function addStringId(groupCustomersList) {
     return groupCustomersList;
 }
 
-function changeGroupCustomer(newItem, list) {
-    if (list) {
-        list = list.map(function (oldItem) {
-            if (oldItem.id === newItem.id) {
-                return {
-                    ...newItem
-                };
-            }
-            else return oldItem;
-        });
+
+
+function deleteGroup (id, groupCustomersList) {
+    if (groupCustomersList){
+        groupCustomersList = groupCustomersList.filter((groupCustomer) => groupCustomer.id !== id);
     }
-    return list;
+    return groupCustomersList;
 }

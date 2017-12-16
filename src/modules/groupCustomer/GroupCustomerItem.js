@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Avatar from "../../components/common/Avatar";
 
 
 class GroupCustomerItem extends React.Component {
@@ -19,25 +18,54 @@ class GroupCustomerItem extends React.Component {
                        color: 'rgb(69, 90, 100)',
                        textAlign: 'left'
                    }}
-                   onClick={() => {
+                   onClick={(e) => {
                        this.props.openEditModal(groupCustomerForm);
+                       e.stopPropagation();
                    }}
                 >
-                    <div className="dropdown" style={{position: 'absolute', top: 10, right: 10}}>
 
+
+
+
+
+
+                    <div className="dropdown" style={{position: "absolute", top: "10px", right: "10px"}}>
                         <a className="dropdown-toggle btn-more-dropdown" type="button"
-                           data-toggle="dropdown" aria-expanded="false"
-                           onClick={() => {
-                               this.props.openEditModal(groupCustomerForm);
-                           }}
-                        >
-                            <i className="material-icons">edit</i>
+                           data-toggle="dropdown">
+                            <i className="material-icons">more_horiz</i>
                         </a>
-                        <a className="dropdown-toggle btn-more-dropdown" type="button"
-                           data-toggle="dropdown" aria-expanded="false">
-                            <i className="material-icons">delete</i>
-                        </a>
+                        <ul className="dropdown-menu dropdown-menu-right hover-dropdown-menu">
+
+                            <li className="more-dropdown-item">
+                                <a onClick={() => {
+                                       this.props.openEditModal(groupCustomerForm);
+                                   }}
+                                >
+                                    <i className="material-icons">edit</i> Sửa nhóm
+                                </a>
+                            </li>
+                            <li className="more-dropdown-item">
+                                <a onClick={(event) => {
+                                    event.stopPropagation(event);
+                                    this.props.deleteGroupCustomer(groupCustomerForm.id, groupCustomerForm.name);}}
+                                >
+                                    <i className="material-icons">delete</i> Xóa nhóm
+                                </a>
+                            </li>
+                        </ul>
                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
                     <div className="row" style={{fontSize: 16, fontWeight: 600}}>
                         <i className="material-icons">account_balance_wallet</i> {groupCustomerForm.name}
                     </div>
@@ -45,7 +73,7 @@ class GroupCustomerItem extends React.Component {
                         height: 5,
                         marginTop: 10,
                         marginBottom: 10,
-                        background: 'rgb(205, 220, 57)'
+                        background: groupCustomerForm.color
                     }}/>
                     <div className="row" style={{textTransform: 'none', marginBottom: 10}}>
                         <span>{groupCustomerForm.description}</span>
@@ -53,9 +81,17 @@ class GroupCustomerItem extends React.Component {
                         <br/>
                         1
                         thẻ
-                        | {groupCustomerForm.customerCount}
+                        | {groupCustomerForm.customers.length}
                         khách hàng<br/>
                     </div>
+
+
+
+
+
+
+                            {/*                           AVATAR                             */}
+
                     {/*<div className="row"*/}
                          {/*style={{display: 'flex', flexFlow: 'row-reverse wrap', height: 29}}>*/}
                         {/*<div style={{padding: '2px 0px'}}>*/}
@@ -82,7 +118,14 @@ class GroupCustomerItem extends React.Component {
                             {/*</div>*/}
 
                         {/*</div>*/}
-                    {/*</div>*/}
+                    {/*</div>                                   THÊM AVATAR VÀO THẺ              */}
+
+
+
+
+
+
+
                     <div className="ripple-container"/>
                 </a>
             </div>
@@ -93,6 +136,7 @@ class GroupCustomerItem extends React.Component {
 
 GroupCustomerItem.propTypes = {
     openEditModal: PropTypes.func,
+    deleteGroupCustomer: PropTypes.func,
     groupCustomerForm: PropTypes.object,
 
 };

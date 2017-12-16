@@ -3,11 +3,15 @@ import initialState from '../../reducers/initialState';
 
 export default function addDiscountReducer(state = initialState.addDiscount, action) {
     switch (action.type) {
+
+
         case types.UPDATE_DISCOUNT_FORM_DATA :
             return {
                 ...state,
                 discount: action.discount,
             };
+
+
 
             //           ADD
         case types.ADD_DISCOUNT_SUCCESS :
@@ -81,6 +85,35 @@ export default function addDiscountReducer(state = initialState.addDiscount, act
             };
 
         case types.LOADED_GOOD_ERROR_IN_DISCOUNT:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+
+
+            //          LOAD GROUP_CUSTOMER
+
+
+        case types.BEGIN_LOAD_GROUP_CUSTOMER_IN_DISCOUNT :
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        case types.LOADED_GROUP_CUSTOMER_SUCCESS_IN_DISCOUNT:
+            return {
+                ...state,
+                ...{
+                    groupCustomers : action.customer_groups,
+                    isLoading: false,
+                    totalGroupCustomerPages: action.total_pages,
+                }
+            };
+
+        case types.LOADED_GROUP_CUSTOMER_ERROR_IN_DISCOUNT:
             return {
                 ...state,
                 ...{
