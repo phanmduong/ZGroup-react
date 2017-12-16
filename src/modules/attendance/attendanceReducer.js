@@ -4,6 +4,40 @@ import initialState from '../../reducers/initialState';
 
 export default function attendanceReducer(state = initialState.attendance, action) {
     switch (action.type) {
+        case types.UPDATE_DATA_MODAL_DETAIL_LESSON:{
+            let index = action.index;
+            let newobj = {...state.lesson[index]};
+            newobj[action.name] = action.value;
+            let newdata = [...state.lesson.slice(0,index),newobj,...state.lesson.slice(index+1)];
+            return {
+                ...state,
+                ...{
+                    lesson: newdata
+                }
+            };
+        }
+        case types.BEGIN_LOAD_CLASS_INFO:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        case types.LOAD_CLASS_INFO_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    selectedClass: action.selectedClass
+                }
+            };
+        case types.LOAD_CLASS_INFO_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
         case types.BEGIN_LOAD_GENS_DATA_ATTENDANCE:
             return {
                 ...state,
@@ -85,7 +119,8 @@ export default function attendanceReducer(state = initialState.attendance, actio
                     isLoadingLessonClassModal: true,
                 }
             };
-        case types.LOAD_LESSON_CLASS_MODAL_SUCCESS:
+        case types.LOAD_LESSON_CLASS_MODAL_SUCCESS:{
+
             return {
                 ...state,
                 ...{
@@ -95,6 +130,7 @@ export default function attendanceReducer(state = initialState.attendance, actio
                     data: state.data,
                 }
             };
+        }
         case types.LOAD_LESSON_CLASS_MODAL_ERROR:
             return {
                 ...state,
@@ -130,42 +166,31 @@ export default function attendanceReducer(state = initialState.attendance, actio
                 }
             };
         case types.BEGIN_TAKE_ATTENDANCE:{
-                let newdata = [...state.lesson];
-                let index = action.index;
-                let newitem = {...newdata[index]};
-                newitem.attendance_status = !newitem.attendance_status;
-                newdata[index] = newitem;
                 return {
                     ...state,
                     ...{
                         isLoading: false,
                         isTakingAttendance: true,
-                        lesson: newdata,
                     }
                 };
             }
         case types.TAKE_ATTENDANCE_SUCCESS:
+
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     isTakingAttendance: false,
-
+                    lesson : action.data
                 }
             };
 
         case types.TAKE_ATTENDANCE_ERROR:{
-            let newdata = [...state.lesson];
-            let index = action.index;
-            let newitem = {...newdata[index]};
-            newitem.attendance_status = !newitem.attendance_status;
-            newdata[index] = newitem;
             return {
                 ...state,
                 ...{
                     isLoading: false,
                     isTakingAttendance: false,
-                    lesson: newdata,
                 }
             };
         }

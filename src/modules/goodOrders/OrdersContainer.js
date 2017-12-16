@@ -13,6 +13,7 @@ import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
+import {ORDER_STATUS} from "../../constants/constants";
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -138,11 +139,11 @@ class OrdersContainer extends React.Component {
 
 
     changeStatusOrder(status, orderId) {
-        this.props.goodOrderActions.changeStatusOrder(orderId, status);
+        this.props.goodOrderActions.changeStatusOrder(status, orderId);
     }
 
-    showShipGoodModal(order){
-        this.props.goodOrderActions.showShipGoodModal();
+    showShipGoodModal(order) {
+        this.props.goodOrderActions.showShipGoodModal(true);
         this.props.goodOrderActions.handleShipOrderBegin(order);
     }
 
@@ -273,28 +274,7 @@ class OrdersContainer extends React.Component {
                                                     <label className="label-control">Tìm theo trạng thái</label>
                                                     <Select
                                                         value={this.state.status}
-                                                        options={[
-                                                            {
-                                                                value: "order",
-                                                                label: "ĐÃ YÊU CẦU"
-                                                            },
-                                                            {
-                                                                value: "confirmed",
-                                                                label: "ĐÃ XÁC NHẬN"
-                                                            },
-                                                            {
-                                                                value: "shipped",
-                                                                label: "ĐÃ GIAO HÀNG"
-                                                            },
-                                                            {
-                                                                value: "completed",
-                                                                label: "ĐÃ HOÀN THÀNH"
-                                                            },
-                                                            {
-                                                                value: "canceled",
-                                                                label: "ĐÃ XÓA"
-                                                            }
-                                                        ]}
+                                                        options={ORDER_STATUS}
                                                         onChange={this.statusesSearchChange}
                                                     />
                                                 </div>

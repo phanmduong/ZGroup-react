@@ -122,24 +122,35 @@ export const PAYMENT = [
     }
 ];
 
+
 export const ORDER_STATUS = [
     {
+        order: 0,
         label: "Đặt hàng",
         value: "place_order"
     },
     {
+        order: 1,
+        label: "Chưa gọi",
+        value: "not_reach"
+    },
+    {
+        order: 2,
         label: "Xác nhận",
         value: "confirm_order"
     },
     {
+        order: 3,
         label: "Giao hàng",
         value: "ship_order"
     },
     {
+        order: 4,
         label: "Hoàn thành",
         value: "completed_order"
     },
     {
+        order: 5,
         label: "Hủy",
         value: "cancel"
     }
@@ -155,6 +166,14 @@ export const TYPE_CLASSES = [
         value: "waiting"
     }
 ];
+
+export const ORDER_STATUS_COLORS = {
+    place_order: "#f9f9f9",
+    confirm_order: "#b5d0fc",
+    ship_order: "#b8ffad",
+    completed_order: "#e2e2e2",
+    cancel: "#fcb7ab"
+};
 
 
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';

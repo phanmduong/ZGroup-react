@@ -62,7 +62,7 @@ class InfoClassContainer extends React.Component {
                     <div className="col-md-12">
                         <h4><strong>Danh sách học viên </strong></h4>
                         <div className="table-responsive">
-                            <table className="table" id='list_register'>
+                            <table className="table" id="list_register">
                                 <thead className="text-rose">
                                 <tr>
                                     <th>ID</th>

@@ -66,7 +66,7 @@ class BarcodesContainer extends React.Component {
                                                     <td>
                                                         {
                                                             barcode.image_url && (
-                                                                <img style={{height: "25px", width: "auto"}}
+                                                                <img style={{height: "25px", width: "150px"}}
                                                                      src={barcode.image_url}
                                                                      alt=""/>
                                                             )
@@ -83,9 +83,14 @@ class BarcodesContainer extends React.Component {
                                                         }
                                                     </td>
                                                     <td>
-                                                        <a onClick={() => this.delete(barcode.id)}>
-                                                            <i className="material-icons text-danger">delete</i>
-                                                        </a>
+                                                        {
+                                                            !barcode.good && (
+                                                                <a onClick={() => this.delete(barcode.id)}>
+                                                                    <i className="material-icons text-danger">delete</i>
+                                                                </a>
+                                                            )
+                                                        }
+
                                                     </td>
                                                 </tr>
                                             );

@@ -5,12 +5,25 @@ import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
-import {ORDER_STATUS} from "../../constants/constants";
+import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
+import {showErrorNotification} from "../../helpers/helper";
+import {confirm} from "../../helpers/helper";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
+        this.disableShipOrder = this.disableShipOrder.bind(this);
+    }
+
+    disableShipOrder(status) {
+        const statusOrder = ORDER_STATUS.filter((o) => {
+            return o.value === status;
+        })[0];
+        if (statusOrder) {
+            return statusOrder.order < 2;
+        }
+        return true;
     }
 
     statusOrder(status) {
@@ -45,16 +58,38 @@ class ItemOrder extends React.Component {
     }
 
     changeStatusOrder(value) {
-        let statusOrder = value && value.value ? value.value : '';
-        this.props.changeStatusOrder(statusOrder, this.props.order.id);
+        const currentStatusOrder = ORDER_STATUS.filter((o) => {
+            return o.value === this.props.order.status;
+        })[0].order;
+
+        // Only change status of order to next status
+        if (value.order > currentStatusOrder) {
+            confirm(
+                "warning",
+                "Xác nhận",
+                `Chuyển trạng thái của đơn hàng thành ${value.label}`,
+                () => {
+                    const statusOrder = value && value.value ? value.value : '';
+                    this.props.changeStatusOrder(statusOrder, this.props.order.id);
+                }
+            );
+        } else {
+            showErrorNotification("Bạn không thể chuyển đơn hàng về các trạng thái trước");
+        }
+
     }
 
     render() {
-        let order = this.props.order;
+        const {order} = this.props;
         return (
             <tr>
                 <td>
-                    <Link className="text-name-student-register" to={`/goods/order/${order.id}`}>
+                    <Link
+                        style={{
+                            backgroundColor: ORDER_STATUS_COLORS[order.status]
+                        }}
+                        className="btn text-name-student-register"
+                        to={`/goods/order/${order.id}`}>
                         {order.code ? order.code : 'Không có mã'}
                     </Link>
                 </td>
@@ -110,8 +145,10 @@ class ItemOrder extends React.Component {
                     <ButtonGroupAction/>
                 </td>
                 <td>
-                    <button className="btn btn-social btn-fill btn-twitter"
-                            onClick={() => this.props.showShipGoodModal(order)}>
+                    <button
+                        disabled={this.disableShipOrder(order.status)}
+                        className="btn btn-social btn-fill btn-twitter"
+                        onClick={() => this.props.showShipGoodModal(order)}>
                         <i className="fa fa-twitter"/> Ship hàng
                     </button>
                 </td>

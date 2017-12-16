@@ -107,9 +107,12 @@ class  ListRegister extends React.Component {
                                             )
                                             :
                                             (
-                                                <div className="no-data">
-                                                    Không có
-                                                </div>
+                                                   <Link className="btn btn-xs btn-main no-data"
+                                                    to={`/manage/registerlist/-1`}
+                                                    >
+                                                        Không có
+                                                    <div className="ripple-container"/>
+                                                    </Link>
                                             )
 
                                     }
@@ -129,9 +132,12 @@ class  ListRegister extends React.Component {
                                             )
                                             :
                                             (
-                                                <div className="no-data">
-                                                    Không có
-                                                </div>
+                                                <button className="btn btn-xs btn-main no-data"
+                                                onClick={() => this.props.loadRegisterStudentByCampaign('-1')}
+                                                    >
+                                                Không có
+                                                <div className="ripple-container"/>
+                                                </button>
                                             )
                                     }
                                 </td>

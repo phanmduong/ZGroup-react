@@ -575,6 +575,7 @@ export default {
         isLoadingClasses: false,
         errorClasses: false,
         classes: [],
+        isLoadingRegisters: false,
         isLoadingRegistersByStudent: false,
         errorRegistersByStudent: false,
         registersByStudent: [],
@@ -839,6 +840,8 @@ export default {
     },
 
     goodOrders: {
+        isUpdate: false,
+        orderId: 0,
         shipGoodModal: false,
         isSendingShipOrder: false,
         shippedGoodResponse: {},
@@ -858,9 +861,9 @@ export default {
                 district: "",
                 is_freeship: "1",
                 pick_date: "",
-                pick_money: 47000,
-                note: "Khối lượng tính cước tối đa: 1.00 kg",
-                value: 3000000
+                pick_money: "",
+                note: "",
+                value: ""
             }
         },
         isLoading: false,
@@ -1168,44 +1171,18 @@ export default {
             id: "",
         },
         data: {
-            classes: [
-                {
-
-                    activated: 0,
-                    course: {
-                        id: 2,
-                        name: "Illustrator",
-                        icon_url: "http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072336A5Ks9NSnqnHsXOn.jpg"
-                    },
-                    created_at: "13:50, 14 Tháng Tư, 2017",
-                    datestart: "13 Tháng Mười, 2017",
-                    datestart_en: "2017-10-13",
-                    description: "Học riêng với giảng viên (Học phí: 2.500.000đ)",
-                    gen: {id: 23, name: "30"},
-                    id: 578,
-                    name: "AI 1-1",
-                    regis_target: 1,
-                    room: {
-                        id: 17,
-                        name: "Tầng 3",
-                        base: "Cơ sở 1",
-                        address: " Số 175 phố Chùa Láng - Đống Đa - Hà Nội",
-                        base_id: 3
-                    },
-                    schedule_id: 0,
-                    status: 1,
-                    study_time: "Tuỳ theo sự sắp xếp của trợ giảng và giảng viên",
-                    target: 1,
-                    total_paid: 1,
-                    total_register: 1,
-                }
-            ],
+            classes: [],
 
         },
         class: [],
         lesson: [],
         bases: [],
-        gens: []
+        gens: [],
+        selectedClass: {
+            name: '',
+            teacher: {},
+            teacher_assistant: {},
+        },
     },
     attendanceStaffs: {
         gens: [],
@@ -1220,4 +1197,29 @@ export default {
         teachers: [],
         salesMarketings: [],
     },
+    rooms: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        rooms: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isStoringRoom: false,
+        errorStoreRoom: false,
+        bases: [],
+    },
+    excel: {
+        isLoading: false,
+        data: [],
+    },
+    department:{
+        isLoading: false,
+        data: {
+            paginator: {
+                page: 1,
+                total_pages : 1,
+            },
+        },
+    }
 };

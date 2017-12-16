@@ -2,6 +2,16 @@ import * as types from '../../constants/actionTypes';
 import * as attendanceApi from './attendanceApi';
 import * as helper      from '../../helpers/helper';
 
+export function updateModalData(index, value,name) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_DATA_MODAL_DETAIL_LESSON,
+            index: index,
+            value: value,
+            name: name,
+        });
+    };
+}
 export function loadGensData() {
     return function (dispatch) {
         dispatch({
@@ -63,6 +73,26 @@ export function loadClasses(search ="", page="", teacherId="", baseid='' , genid
         });
     };
 }
+export function loadClassInfo(id, func) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CLASS_INFO,
+        });
+        attendanceApi.loadClassInfo(id)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_CLASS_INFO_SUCCESS,
+                    selectedClass: res.data.data.class,
+                });
+                if(func) func();
+            }).catch(() => {
+            dispatch({
+
+                type: types.LOAD_CLASS_INFO_ERROR,
+            });
+        });
+    };
+}
 export function loadClassLessonModal(id) {
     return function (dispatch) {
         dispatch({
@@ -82,6 +112,7 @@ export function loadClassLessonModal(id) {
         });
     };
 }
+
 export function loadLessonDetailModal(classid, lessonid) {
     return function (dispatch) {
         dispatch({
@@ -104,26 +135,24 @@ export function loadLessonDetailModal(classid, lessonid) {
 }
 
 
-export function takeAttendance(classid, lessonid, studentid, index) {
+export function takeAttendance(data, commitSuccess) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_TAKE_ATTENDANCE,
-            index: index,
+            type: types.BEGIN_TAKE_ATTENDANCE
         });
-        attendanceApi.takeAttendance(classid, lessonid, studentid, index)
+        attendanceApi.takeAttendance(data)
             .then(() => {
+                commitSuccess();
                 dispatch({
                     type: types.TAKE_ATTENDANCE_SUCCESS,
-                    index: index,
+                    data: data
             });
             }).catch(() => {
+            helper.showErrorNotification("Có lỗi xảy ra");
             dispatch({
-
                 type: types.TAKE_ATTENDANCE_ERROR,
-                index: index,
 
             });
         });
     };
 }
-
