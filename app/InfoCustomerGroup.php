@@ -15,6 +15,4 @@ class InfoCustomerGroup extends Model
     {
         return $this->belongsToMany(User::class, 'customer_groups', 'customer_group_id', 'customer_id');
     }
-
-
 }
