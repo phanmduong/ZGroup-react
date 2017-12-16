@@ -72,7 +72,7 @@
 <!--  Full Calendar Plugin    -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/fullcalendar.min.js"></script>
 
-<script src="{{url('config.js')}}"></script>
+<script src="{{url('config.js')}}?2222"></script>
 
 <script type="text/javascript" src="manage/main.3ba295a071f3bf4c3ac2.js"></script>
 
