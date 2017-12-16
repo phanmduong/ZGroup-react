@@ -81,6 +81,29 @@ export function loadRegisterStudent(page, genId, search, salerId, campaignId, cl
     };
 }
 
+
+
+export function loadAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime,exportExcel) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_DATA_EXCEL_REGISTER_LIST,
+        });
+        registerStudentsApi.getAllRegisterStudent(page, genId, search, salerId, campaignId, classId, paid_status, class_status, startTime, endTime )
+            .then(function (res) {
+                dispatch({
+                    type: types.LOAD_DATA_EXCEL_REGISTER_LIST_SUCCESS,
+                    excel: res.data.data
+                });
+                exportExcel();
+        }).catch(error => {
+            console.log(error);
+            dispatch({
+                type: types.LOAD_DATA_EXCEL_REGISTER_LIST_ERROR
+            });
+        });
+    };
+}
+
 export function loadDataSuccessful(res) {
     return ({
         type: types.LOAD_DATA_REGISTER_LIST_SUCCESSFUL,

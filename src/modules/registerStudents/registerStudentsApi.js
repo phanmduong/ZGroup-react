@@ -2,6 +2,24 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
 
+export function getAllRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
+    let token = localStorage.getItem('token');
+    let url = env.API_URL + "/register-list?" +
+        "page=" + page +
+        "&gen_id=" + genId +
+        "&search=" + search +
+        "&saler_id=" + salerId +
+        '&campaign_id=' + campaignId +
+        "&class_id=" + classId +
+        "&status=" + paid_status +
+        "&limit=-1" +
+        "&type=" + class_status;
+    if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
+        url += `&start_time=${startTime}&end_time=${endTime}`;
+    }
+    url += "&token=" + token;
+    return axios.get(url);
+}
 export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?" +
