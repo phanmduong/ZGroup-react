@@ -39,7 +39,6 @@ class ListDepartments extends React.Component {
                                         :
                                         <div>
                                             {this.props.departments.map((obj,index) => {
-                                                console.log(obj);
                                                 return (
 
                                                         <div key={obj.id} className="panel panel-default">
