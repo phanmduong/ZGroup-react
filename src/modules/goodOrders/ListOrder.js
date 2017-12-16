@@ -33,9 +33,9 @@ class ListOrder extends React.Component {
                                 <tbody>
                                 {
                                     this.props.orders.map((order, index) => {
-                                        return <ItemOrder order={order} key={index}
+                                        return (<ItemOrder order={order} key={index}
                                                           changeStatusOrder={this.props.changeStatusOrder}
-                                                          showShipGoodModal={this.props.showShipGoodModal}/>;
+                                                          showShipGoodModal={this.props.showShipGoodModal}/>);
                                     })
                                 }
                                 </tbody>

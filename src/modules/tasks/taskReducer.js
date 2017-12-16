@@ -417,7 +417,7 @@ export default function taskReducer(state = initialState.task, action) {
                                         if (task.id === action.task.id) {
                                             return {
                                                 ...task,
-                                                member: action.user
+                                                members: action.members
                                             };
                                         }
                                         return task;
@@ -1046,10 +1046,13 @@ export default function taskReducer(state = initialState.task, action) {
                                         } else {
                                             return {
                                                 ...card,
-                                                members: [...card.members, {
-                                                    ...action.member,
-                                                    added: !action.member.added
-                                                }]
+                                                members: [...card.members,
+                                                    action.members.map((member) => {
+                                                        return {
+                                                            ...member,
+                                                            added: !member.added
+                                                        };
+                                                    })]
                                             };
                                         }
 
