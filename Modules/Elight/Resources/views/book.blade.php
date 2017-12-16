@@ -58,7 +58,7 @@
                         </div>
                         <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
                             <div style="text-align: right;">
-                                <a class="btn btn-google" href="/book/{{$book->id}}"
+                                <a class="btn btn-google" href="/sach/{{$book->id}}"
                                    style="padding: 3px; margin: 3px; font-size: 10px;">
                                     Tải sách <i class="fa fa-download"></i></a>
                             </div>

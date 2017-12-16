@@ -6,8 +6,13 @@
         <div class="filter filter-dark"></div>
         <div class="content-center">
             <div class="container">
-                <h1>Chào mừng bạn</h1>
-                <h3>Đến với khoa Xã hội học - Trường Đại học Khoa học Huế</h3>
+                <h2 style="font-weight: 400">Chào mừng bạn<br>
+                    đến với thế giới của Elight Book<br>
+                </h2>
+
+                <h4 style="color:white">
+                    Cùng học tiếng anh với Elight nhé
+                </h4>
             </div>
         </div>
     </div>

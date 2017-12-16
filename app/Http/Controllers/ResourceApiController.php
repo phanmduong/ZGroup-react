@@ -24,7 +24,9 @@ class ResourceApiController extends ApiController
             "name" => $lesson->name,
             "detail" => $lesson->detail_content,
             "order" => $lesson->order,
-            "id" => $lesson->id
+            "id" => $lesson->id,
+            "image_url" => $lesson->image_url,
+            "audio_url" => $lesson->audio_url,
         ]);
     }
 
