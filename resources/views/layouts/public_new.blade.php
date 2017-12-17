@@ -209,6 +209,10 @@
                        style="color :white">Đặt mua
                         sách</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#item1" data-scroll="true"
+                       style="color :white">{{$landing->item1}}</a>
+                </li>
 
             </ul>
         </div>

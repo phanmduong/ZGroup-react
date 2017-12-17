@@ -10,7 +10,7 @@
     <meta prefix="fb: http://ogp.me/ns/fb#" property="fb:app_id" content="1787695151450379"/>
 @endsection
 @section('content')
-    <div class="wrapper" style="background:#eeeeee!important;">
+    <div class="wrapper" style="background:#eeeeee!important;" >
         <div class="page-header page-header-small"
              style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/images/1511171543ZQBRp0HaVGhGsF5.jpg')">
 
@@ -39,7 +39,7 @@
 
             <div class="main">
 
-                <div class="section" style="background-color:{{$landing->background1}}">
+                <div class="section" style="background-color:{{$landing->background1}}" id="item1">
                     <div class="container">
                         <div class="row" >
                             <div class="col-md-6">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
 
-                <div class="section section-dark" style="background-color:#3c5dc5">
+                <div class="section section-dark" style="background-color:#3c5dc5" id="item2">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">
@@ -128,7 +128,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="section">
+                <div class="section" id="item3">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8 offset-md-2  text-center">
