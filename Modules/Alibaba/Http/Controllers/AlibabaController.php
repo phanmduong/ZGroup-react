@@ -7,8 +7,6 @@ use App\Course;
 use App\Gen;
 use App\Product;
 use App\Register;
-use App\StudyClass;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +15,6 @@ class AlibabaController extends Controller
 {
     public function index()
     {
-//test
         $blogs = Product::where('type', 2)->orderBy('created_at', 'desc')->limit(3)->get();
         return view('alibaba::index', [
             'blogs' => $blogs

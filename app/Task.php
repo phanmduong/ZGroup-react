@@ -27,7 +27,8 @@ class Task extends Model
 
     public function goodPropertyItems()
     {
-        return $this->belongsToMany(GoodPropertyItem::class, 'good_property_item_task', 'task_id', 'good_property_item_id');
+        return $this->belongsToMany(GoodPropertyItem::class, 'good_property_item_task',
+            'task_id', 'good_property_item_id')->withPivot("order");
     }
 
     public function currentBoard()

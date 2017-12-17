@@ -1,0 +1,16 @@
+{
+    "name": "Elight",
+    "alias": "elight",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Elight\\Providers\\ElightServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

@@ -99,23 +99,23 @@ class CouponController extends ManageApiController
                         $data['order_value'] = $coupon->order_value;
                     if ($coupon->used_for == 'good')
                         $data['good'] = [
-                            'id' => $coupon->good_id,
-                            'name' => $coupon->good->name,
+                            'id' => $coupon->good ? $coupon->good->id : null,
+                            'name' => $coupon->good ? $coupon->good->name : null,
                         ];
                     if ($coupon->used_for == 'customer')
                         $data['customer'] = [
-                            'id' => $coupon->customer_id,
-                            'name' => $coupon->user->name
+                            'id' => $coupon->user ? $coupon->user->id : null,
+                            'name' => $coupon->user ? $coupon->user->name : null
                         ];
                     if ($coupon->used_for == 'category')
                         $data['category'] = [
-                            'id' => $coupon->category_id,
-                            'name' => $coupon->goodCategory->name
+                            'id' => $coupon->goodCategory ? $coupon->goodCategory->id : null,
+                            'name' => $coupon->goodCategory ? $coupon->goodCategory->name : null
                         ];
                     if ($coupon->used_for == 'customer-group')
                         $data['customer_group'] = [
-                            'id' => $coupon->customer_group_id,
-                            'name' => $coupon->customerGroup->name
+                            'id' => $coupon->customerGroup ? $coupon->customerGroup->id : null,
+                            'name' => $coupon->customerGroup ? $coupon->customerGroup->name : null
                         ];
                     return $data;
                 })

@@ -27,7 +27,8 @@ class DepartmentController extends ManageApiController
                              "email" => $user->email,
                              "name" =>$user->name,
                            ];
-                    })
+                    }),
+                    "color" => $department->color
                 ];
             }),
         ]);
@@ -40,6 +41,7 @@ class DepartmentController extends ManageApiController
 
         $department = new Department;
         $department->name = $request->name;
+        $department->color = $request->color;
         $department->save();
         return $this->respondSuccessWithStatus([
             "message" => "Them thanh cong"
@@ -51,6 +53,7 @@ class DepartmentController extends ManageApiController
         $department = Department::find($request->id);
         if (!$department) return $this->respondErrorWithStatus("Khong ton tai");
         $department->name = $request->name;
+        $department->color = $request->color;
         $department->save();
         return $this->respondSuccessWithStatus([
             "message" => "Sua thanh cong"
