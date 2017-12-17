@@ -562,7 +562,7 @@ class RegisterListContainer extends React.Component {
         let json = this.props.excel;
         let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 22 },{ "wch": 22 },{ "wch": 25 },{ "wch": 12 },{ "wch": 8 },{ "wch": 22},{ "wch": 22 },{ "wch": 22 },];//độ rộng cột
         //begin điểm danh
-        json = this.props.excel.registers.map((item, index)=>{
+        json = this.props.excel.registers.map((item, index)=>{if(item){
             /* eslint-disable */
             let titleCall = 'Chưa gọi';
             if (item.call_status === 'success') {titleCall = 'Gọi thành công';}
@@ -570,7 +570,7 @@ class RegisterListContainer extends React.Component {
             else if (item.call_status === 'calling') {titleCall = 'Đang gọi';}
             let res={
                 'STT': index + 1,
-                'Lớp': item.class.name,
+                'Lớp': item.class ?  item.class.name : '',
                 'Gọi': titleCall,
                 'Họ tên': item.name,
                 'Email' : item.email,
@@ -581,11 +581,11 @@ class RegisterListContainer extends React.Component {
                 'Ngày đăng kí': item.created_at,
             };
             /* eslint-enable */
-            return res;
+            return res;}
         });
         let wb =  helper.newWorkBook();
         helper.appendJsonToWorkBook(json, wb, 'Danh sách',cols, []);
-        let gen = this.state.gens.filter(gen => (gen.id === this.state.selectGenId));
+        let gen = this.state.gens.filter(gen => (gen.id == this.state.selectGenId));
         let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let empt1 =helper.isEmptyInput(this.state.time.startTime);
@@ -594,7 +594,7 @@ class RegisterListContainer extends React.Component {
             'Danh sách đăng kí' +
             (
                 (empt1 || empt2)
-                    ? ` - Khóa ${gen[0].name}`
+                    ? (gen[0] ? ` - Khóa ${gen[0].name}` : '')
                     :
                     (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
                         `${helper.isEmptyInput(this.state.time.endTime)   ? '' : (' - ' + endTime)  }`)

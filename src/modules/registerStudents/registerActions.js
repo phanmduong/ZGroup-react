@@ -4,6 +4,8 @@
 import * as types from '../../constants/actionTypes';
 import * as registerStudentsApi from './registerStudentsApi';
 import {showErrorNotification, showNotification, showTypeNotification} from '../../helpers/helper';
+import * as helper      from '../../helpers/helper';
+
 /*eslint no-console: 0 */
 
 
@@ -97,6 +99,7 @@ export function loadAllRegisterStudent(page, genId, search, salerId, campaignId,
                 exportExcel();
         }).catch(error => {
             console.log(error);
+            helper.showErrorNotification("Lỗi kết nối mạng!")
             dispatch({
                 type: types.LOAD_DATA_EXCEL_REGISTER_LIST_ERROR
             });
