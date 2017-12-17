@@ -2,7 +2,7 @@ import React                    from 'react';
 import Loading                  from '../../components/common/Loading';
 import PropTypes                from 'prop-types';
 import * as helper              from '../../helpers/helper';
-
+import {Link} from 'react-router';
 class ListClassComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -16,7 +16,7 @@ class ListClassComponent extends React.Component {
 
                                 {!this.props.isLoading && this.props.classes ?
                                     <div>
-                                        { (this.props.classes && this.props.classes.length == 0) ?
+                                        { (this.props.classes && this.props.classes.length === 0) ?
                                             <h3>Không tìm thấy kết quả</h3>
                                             :
                                             <table className="table">
@@ -32,7 +32,7 @@ class ListClassComponent extends React.Component {
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {this.props.classes.map((classItem, index) => {
+                                            {this.props.classes.map((classItem) => {
                                                 return (
                                                     <tr key={classItem.id}>
                                                         <td>
@@ -96,10 +96,10 @@ class ListClassComponent extends React.Component {
                                                         <td>{classItem.study_time}</td>
                                                         <td>{classItem.status === 1 ? 'Mở' : 'Đóng'}</td>
                                                         <td>
-                                                            <button className="btn btn-fill btn-rose" type="button"
-                                                                    style={{fontSize: "x-small"}}
-                                                                    onClick={()=>{return this.props.openModalLesson(index);}}
-                                                            >Điểm danh</button>
+                                                            <Link className="btn btn-fill btn-rose"
+                                                                  type="button"
+                                                                  to={'/manage/attendance/' + classItem.id}
+                                                            >Điểm danh</Link>
                                                         </td>
                                                     </tr>
                                                 );
@@ -122,6 +122,8 @@ class ListClassComponent extends React.Component {
 
 ListClassComponent.propTypes = {
     classes : PropTypes.array,
+    isLoading : PropTypes.bool,
+    searchByTeacher : PropTypes.func,
 };
 
 

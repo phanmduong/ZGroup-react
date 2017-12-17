@@ -158,9 +158,12 @@ class StatisticTeacher extends React.Component {
                                 <thead className="text-rose">
                                 <tr>
                                     <th>Ngày</th>
+                                    <th/>
                                     <th>Lớp</th>
                                     <th>Thời gian</th>
+                                    <th />
                                     <th>Checkin lúc</th>
+                                    <th />
                                     <th>Checkout lúc</th>
                                     <th>Lỗi vi phạm</th>
                                 </tr>
@@ -170,10 +173,29 @@ class StatisticTeacher extends React.Component {
                                     return (
                                         <tr key={index}>
                                             <td>{item.time}</td>
+                                            <td>
+                                                <div className="avatar-list-staff"
+                                                     style={{
+                                                         background: 'url(' + item.course_avatar_url + ') center center / cover',
+                                                         display: 'inline-block'
+                                                     }}
+                                                />
+                                            </td>
                                             <td>{item.class_name}</td>
                                             <td>{item.start_time + " - " + item.end_time}</td>
-                                            <td>{item.check_in ? item.check_in.created_at : ""}</td>
-                                            <td>{item.check_out ? item.check_out.created_at : ""}</td>
+                                            <td>
+                                                {item.check_in ?
+                                                    <i className="material-icons text-success">arrow_downward</i> : ''
+                                                }
+                                            </td>
+                                            <td>
+                                                {item.check_in ? item.check_in.created_at : ''}
+                                            </td>
+                                            <td>{item.check_out ?
+                                                <i className="material-icons text-danger">arrow_upward</i> : ""}</td>
+                                            <td>
+                                                {item.check_out ? item.check_out.created_at : ""}
+                                            </td>
                                             <td>{item.message}</td>
                                         </tr>
                                     );

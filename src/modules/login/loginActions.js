@@ -15,6 +15,7 @@ export function updateFormData(login) {
     return function (dispatch) {
         dispatch(beginUpdateLoginForm());
         loadLoginApi.loadLoginApi(login).then(function (res) {
+
             dispatch(updatedLoginForm(res));
         }).catch(error => {
             console.log(error);

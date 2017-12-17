@@ -904,9 +904,13 @@ export function newWorkBook() {
     return XLSX.utils.book_new();
 }
 
-export function appendJsonToWorkBook(json, wb, sheetname, cols) {
+export function appendJsonToWorkBook(json, wb, sheetname, cols, cmts, merges) {
     let sheet = XLSX.utils.json_to_sheet(json);
-    if (cols) sheet['!cols'] = cols;
+    if(cols) sheet['!cols'] = cols;
+    if(cmts){
+        cmts.forEach((item)=>{ XLSX.utils.cell_add_comment(sheet[item.cell], item.note, ''); });
+    }
+    if (merges) sheet['!merges'] = merges;
     XLSX.utils.book_append_sheet(wb, sheet, sheetname);
     return wb;
 }
@@ -987,6 +991,154 @@ export function childrenBeginAddChild(properties) {
 
 export function isNull(data) {
     return data === null || data === undefined;
+}
+
+export function convertDataGeneral(data) {
+    return data && data.length > 0 ? data.map((item, index) => {
+        let staff = item.attendances[0].user;
+        return {
+            'STT': index + 1,
+            'Họ và tên': staff.name,
+            'Đi làm': item.total_attendance,
+            'Đúng luật': item.total_lawful,
+            'Bỏ làm': item.total_not_work,
+            'Checkin muộn': item.total_checkin_late,
+            'Checkout sớm': item.total_checkout_early,
+            'Không checkin': item.total_not_checkin,
+            'Không checkout': item.total_not_checkout,
+        };
+    }) : [{
+        'STT': '',
+        'Họ và tên': '',
+        'Đi làm': '',
+        'Đúng luật': '',
+        'Bỏ làm': '',
+        'Checkin muộn': '',
+        'Checkout sớm': '',
+        'Không checkin': '',
+        'Không checkout': '',
+    }];
+}
+
+export function convertDataDetailTeacher(data, filter) {
+    let result = [];
+    let merges = [];
+    let index = 0;
+    let i = 1;
+    let j = 1;
+    let jj = 1;
+    data.map((item) => {
+        let attendances = filter ? item.attendances.filter(itemFilter => itemFilter[filter]) : item.attendances;
+        if (attendances && attendances.length > 0) {
+            index++;
+            let attendanceBefore = attendances[0];
+            attendances.map(function (attendance) {
+                i++;
+                if (attendance.class_name !== attendanceBefore.class_name) {
+                    merges.push(
+                        {s: {r: jj, c: 3}, e: {r: i - 2, c: 3}}
+                    );
+                    jj = i - 1;
+                    attendanceBefore = attendance;
+                }
+                result.push({
+                    'STT': index,
+                    'Họ và tên': attendance.user.name,
+                    'Ngày': attendance.time,
+                    'Lớp': attendance.class_name,
+                    'Thời gian': attendance.start_time + " - " + attendance.end_time,
+                    'Checkin lúc': attendance.check_in ? attendance.check_in.created_at : '',
+                    'Checkout lúc': attendance.check_out ? attendance.check_out.created_at : "",
+                    'Lỗi vi phạm': attendance.message,
+                });
+            });
+            merges.push(
+                {s: {r: j, c: 1}, e: {r: i - 1, c: 1}}
+            );
+            merges.push(
+                {s: {r: jj, c: 3}, e: {r: i - 1, c: 3}}
+            );
+            merges.push(
+                {s: {r: j, c: 0}, e: {r: i - 1, c: 0}}
+            );
+            j = i;
+            jj = i;
+        }
+    });
+    if (result && result.length > 0) {
+        return {
+            data: result,
+            merges: merges
+        };
+    } else {
+        return {
+            data: [{
+                'STT': '',
+                'Họ và tên': '',
+                'Ngày': '',
+                'Lớp': '',
+                'Thời gian': '',
+                'Checkin lúc': '',
+                'Checkout lúc': '',
+                'Lỗi vi phạm': '',
+            }],
+            merges: merges
+        };
+    }
+}
+
+export function convertDataDetailSalesMarketing(data, filter) {
+    let result = [];
+    let merges = [];
+    let index = 0;
+    let i = 1;
+    let j = 1;
+    data.map((item) => {
+        let attendances = filter ? item.attendances.filter(itemFilter => itemFilter[filter]) : item.attendances;
+        if (attendances && attendances.length > 0) {
+            index++;
+            attendances.map(function (attendance) {
+                i++;
+                result.push({
+                    'STT': index,
+                    'Họ và tên': attendance.user.name,
+                    'Ngày': attendance.date,
+                    'Ca': attendance.name + `: ${attendance.start_time} - ${attendance.end_time}`,
+                    'Tuần': attendance.start_time + " - " + attendance.end_time,
+                    'Checkin lúc': attendance.check_in ? attendance.check_in.created_at : '',
+                    'Checkout lúc': attendance.check_out ? attendance.check_out.created_at : "",
+                    'Lỗi vi phạm': attendance.message,
+                });
+            });
+            merges.push(
+                {s: {r: j, c: 1}, e: {r: i - 1, c: 1}}
+            );
+            merges.push(
+                {s: {r: j, c: 0}, e: {r: i - 1, c: 0}}
+            );
+            j = i;
+        }
+    });
+    if (result && result.length > 0) {
+        return {
+            data: result,
+            merges: merges
+        };
+    } else {
+        return {
+            data: [{
+                'STT': '',
+                'Họ và tên': '',
+                'Ngày': '',
+                'Ca': '',
+                'Tuần': '',
+                'Checkin lúc': '',
+                'Checkout lúc': '',
+                'Lỗi vi phạm': '',
+            }],
+            merges: merges
+        };
+    }
 }
 
 

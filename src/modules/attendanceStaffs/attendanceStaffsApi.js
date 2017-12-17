@@ -28,7 +28,7 @@ export function statisticAttendanceStaffs(genId, baseId = '', startTime = '', en
         url += "?token=" + token;
     }
 
-    url += `&gen_id=${genId}&base_id=${baseId}&start_time=${startTime}&end_time=${endTime}`
+    url += `&gen_id=${genId}&base_id=${baseId}&start_time=${startTime}&end_time=${endTime}`;
 
     return axios.get(url);
 }

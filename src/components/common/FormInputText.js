@@ -31,7 +31,8 @@ class FormInputText extends React.Component {
                 {
                     this.props.label &&
                     <label className="control-label">
-                        {this.props.label} {(this.props.required && !this.props.disabled && <star>*</star>)}
+                        {this.props.label} {(this.props.required && !this.props.disabled &&
+                        <star style={{color: "red"}}>*</star>)}
                     </label>
                 }
 
