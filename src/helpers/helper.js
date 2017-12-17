@@ -966,6 +966,7 @@ export function childrenBeginAddChild(properties) {
     let product = properties.reduce((res, pro) => res * pro.value.length, 1);
     for (let i = 0; i < product; i++) {
         children.push({
+            id: null,
             check: true,
             price: 0,
             barcode: '',
@@ -987,6 +988,7 @@ export function childrenBeginAddChild(properties) {
     });
     return children;
 }
+
 export function isNull(data) {
     return data === null || data === undefined;
 }

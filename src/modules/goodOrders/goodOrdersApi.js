@@ -56,7 +56,6 @@ export function changeStatusOrder(orderId, status, labelId = "") {
     if (token) {
         url += "?token=" + token;
     }
-
     return axios.put(url, {
         order_id: orderId,
         label_id: labelId,
@@ -64,18 +63,8 @@ export function changeStatusOrder(orderId, status, labelId = "") {
     });
 }
 
-
 export function sendShipOrder(shippingGood) {
-    const token = localStorage.getItem('token');
-    const data = JSON.stringify(shippingGood);
+    let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + "/ghtk/services/shipment/order?token=" + token;
-    return axios.post(url, {data});
+    return axios.post(url, {data: JSON.stringify(shippingGood)});
 }
-
-export function updateShipOrder(shippingGood) {
-    const token = localStorage.getItem('token');
-    const data = JSON.stringify(shippingGood);
-    let url = env.MANAGE_API_URL + "/ghtk/services/shipment/order?token=" + token;
-    return axios.post(url, {data});
-}
-

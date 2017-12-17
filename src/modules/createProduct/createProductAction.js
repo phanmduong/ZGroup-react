@@ -121,10 +121,10 @@ export function addPropertiesCreate(property) {
     });
 }
 
-export function handlePropertiesCreate(properties) {
+export function handlePropertiesCreate(property_list) {
     return ({
         type: types.HANDLE_PROPERTIES_CREATE,
-        properties
+        property_list
     });
 }
 
@@ -185,6 +185,26 @@ export function loadProduct(productId) {
                     type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
                     product: res.data.data.good
                 });
+                if (res.data.data.good.property_list) {
+                    dispatch(handlePropertiesCreate(res.data.data.good.property_list.map(property => {
+                        return {
+                            ...property,
+                            value: property.value.map(e => {
+                                return {
+                                    old: true,
+                                    value: e,
+                                    label: e
+                                };
+                            })
+                        };
+                    })));
+                } else dispatch(handlePropertiesCreate([
+                    {
+                        name: 'coool',
+                        property_item_id: 3,
+                        value: []
+                    }
+                ]));
             });
     };
 }
