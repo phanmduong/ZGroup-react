@@ -95,7 +95,7 @@ class CreateProductContainer extends React.Component {
                 };
             }
             this.props.createProductAction.handlePropertiesCreate(properties);
-            this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(properties));
+            this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(properties, this.props.productWorking.price));
         };
     }
 
@@ -142,7 +142,7 @@ class CreateProductContainer extends React.Component {
                     property_item_id: property.property_item_id,
                     value: [value[value.length - 1]]
                 };
-                let children = [...this.props.productWorking.children, ...helper.childrenBeginAddChild(property_list_add)];
+                let children = [...this.props.productWorking.children, ...helper.childrenBeginAddChild(property_list_add, this.props.productWorking.price)];
                 this.props.createProductAction.handleChildrenCreateProduct(children);
             } else {
                 //Khi xóa bớt giá trị
@@ -186,7 +186,7 @@ class CreateProductContainer extends React.Component {
             property.value.length * result, 1);
         this.props.createProductAction.handlePropertiesCreate(property_list);
         this.props.createProductAction.handleGoodCountCreate(goods_count);
-        this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(property_list));
+        this.props.createProductAction.handleChildrenCreateProduct(helper.childrenBeginAddChild(property_list, this.props.productWorking.price));
     }
 
     checkChildProduct(index) {

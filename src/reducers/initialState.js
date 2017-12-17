@@ -8,7 +8,7 @@ export default {
             name: '',
             code: '',
             description: '',
-            price: '',
+            price: 0,
             avatar_url: '',
             sale_status: 0,
             highlight_status: 0,
