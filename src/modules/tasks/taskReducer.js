@@ -1046,13 +1046,13 @@ export default function taskReducer(state = initialState.task, action) {
                                         } else {
                                             return {
                                                 ...card,
-                                                members: [...card.members,
-                                                    action.members.map((member) => {
-                                                        return {
-                                                            ...member,
-                                                            added: !member.added
-                                                        };
-                                                    })]
+                                                members: [
+                                                    ...card.members,
+                                                    {
+                                                        ...action.member,
+                                                        added: !action.member.added
+                                                    }
+                                                ]
                                             };
                                         }
 
