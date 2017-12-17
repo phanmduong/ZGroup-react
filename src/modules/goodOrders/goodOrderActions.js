@@ -1,10 +1,15 @@
 import * as types from '../../constants/actionTypes';
+import * as helper from '../../helpers/helper';
 import * as goodOrdersApi from './goodOrdersApi';
+import moment from 'moment';
+import {showErrorMessage} from "../../helpers/helper";
+import {showNotification} from "../../helpers/helper";
+import {showErrorNotification} from "../../helpers/helper";
 
-export function loadAllOrders(page = 1, search = '', startTime = '', endTime = '') {
+export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_GOOD_ORDERS});
-        goodOrdersApi.loadAllOrders(page, search, startTime, endTime)
+        goodOrdersApi.loadAllOrders(page, search, startTime, endTime, staff, status)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_GOOD_ORDERS_SUCCESS,
@@ -62,13 +67,158 @@ export function loadStaffs() {
     };
 }
 
-export function openShipModal( order) {
+
+export function getAllStaffs() {
+    return function (dispatch) {
+        goodOrdersApi.getAllStaffs()
+            .then((response) => {
+                dispatch({
+                    type: types.GET_ALL_STAFFS_COMPLETE_GOOD_ORDER,
+                    allStaffs: response.data.data.staffs
+                });
+            });
+    };
+}
+
+export function changeStatusOrder(status, orderId) {
+    return function (dispatch, getState) {
+        const {orders} = getState().goodOrders;
+        const order = orders.filter((o) => {
+            return orderId === o.id;
+        })[0];
+        switch (status) {
+            case "not_reach":
+            case "confirm_order":
+
+                break;
+            case "ship_order":
+                dispatch({
+                    type: types.TOGGLE_SHIP_GOOD_MODAL,
+                });
+                dispatch({
+                    type: types.HANDLE_SHIP_ORDER_BEGIN,
+                    order: {
+                        ...order,
+                        orderId
+                    }
+
+                });
+                break;
+            default:
+                helper.showTypeNotification("Đang thay đổi trạng thái", "info");
+                dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
+                goodOrdersApi.changeStatusOrder(orderId, status)
+                    .then((res) => {
+                        helper.showNotification("Thay đổi trạng thái thành công");
+                        if (res.data.status === 0) {
+                            showErrorNotification(res.data.message);
+                        } else {
+
+                            dispatch({
+                                type: types.CHANGE_STATUS_ORDER_SUCCESS,
+                                order_id: orderId,
+                                status
+                            });
+                        }
+
+                    }).catch(() => {
+                    helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+                    dispatch({
+                        type: types.CHANGE_STATUS_ORDER_ERROR
+                    });
+                });
+        }
+
+    };
+}
+
+export function showShipGoodModal(isUpdate = false) {
+    return ({
+        type: types.TOGGLE_SHIP_GOOD_MODAL,
+        isUpdate
+    });
+}
+
+export function handleShipOrderBegin(order) {
+    return ({
+        type: types.HANDLE_SHIP_ORDER_BEGIN,
+        order
+    });
+}
+
+export function handleShipOrder(order) {
+    return ({
+        type: types.HANDLE_SHIP_ORDER,
+        order
+    });
+}
+
+function sendShipOrderSuccess(res, dispatch) {
+    const {data} = res;
+    if (!data.success) {
+        showErrorMessage("Có lỗi xảy ra", data.message);
+    }
+    if (data.success) {
+        showNotification("Gửi thành công");
+    }
+    dispatch({
+        type: types.SEND_SHIP_ORDER_COMPLETE,
+        shippedGoodResponse: data
+    });
+
+    return data.order.label;
+}
+
+function changeStatusOrderSuccess(res, dispatch, orderId) {
+    helper.showNotification("Thay đổi trạng thái thành công");
+    if (res.data.status === 0) {
+        showErrorNotification(res.data.message);
+    } else {
+
+        dispatch({
+            type: types.CHANGE_STATUS_ORDER_SUCCESS,
+            order_id: orderId,
+            status: "ship_order"
+        });
+    }
+}
+
+export function sendShipOrder(shippingGood) {
+    shippingGood = {
+        ...shippingGood,
+        pick_date: moment().format("YYYY-MM-DD"),
+        order: {
+            ...shippingGood.order,
+            id: shippingGood.order.id + ":" + moment().format("X")
+        }
+    };
     return function (dispatch) {
         dispatch({
-            type: types.OPEN_SHIP_MODAL,
-            order: order,
+            type: types.BEGIN_SEND_SHIP_ORDER
         });
+
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+
+        const {orderId} = shippingGood.order;
+
+
+        goodOrdersApi.sendShipOrder(shippingGood)
+            .then((res) => {
+
+                const labelId = sendShipOrderSuccess(res, dispatch);
+
+                goodOrdersApi.changeStatusOrder(orderId, "ship_order", labelId)
+                    .then((res) => {
+                        changeStatusOrderSuccess(res, dispatch, orderId);
+
+                        dispatch({
+                            type: types.HIDE_GLOBAL_LOADING
+                        });
+                    });
+            });
+
+
     };
-
-
 }

@@ -21,7 +21,7 @@ export function loadBases() {
     return axios.get(url);
 }
 
-export function loadDashboard(genId, baseId) {
+export function loadDashboard(genId, baseId, startTime = '', endTime = '') {
     let url = env.MANAGE_API_URL + `/gens/${genId}/dashboard`;
     if (baseId) {
         url += '/' + baseId;
@@ -30,6 +30,8 @@ export function loadDashboard(genId, baseId) {
     if (token) {
         url += "?token=" + token;
     }
+
+    url += `&start_time=${startTime}&end_time=${endTime}`;
 
     return axios.get(url);
 }
@@ -67,7 +69,7 @@ export function loadAttendanceShifts(genId, baseId, time) {
         url += "?token=" + token;
     }
 
-    return axios.post(url,{
+    return axios.post(url, {
         time: time
     });
 }
@@ -82,7 +84,7 @@ export function loadAttendanceClasses(genId, baseId, time) {
         url += "?token=" + token;
     }
 
-    return axios.post(url,{
+    return axios.post(url, {
         time: time
     });
 }

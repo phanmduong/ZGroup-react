@@ -417,7 +417,7 @@ export default function taskReducer(state = initialState.task, action) {
                                         if (task.id === action.task.id) {
                                             return {
                                                 ...task,
-                                                member: action.user
+                                                members: action.members
                                             };
                                         }
                                         return task;
@@ -1046,10 +1046,13 @@ export default function taskReducer(state = initialState.task, action) {
                                         } else {
                                             return {
                                                 ...card,
-                                                members: [...card.members, {
-                                                    ...action.member,
-                                                    added: !action.member.added
-                                                }]
+                                                members: [
+                                                    ...card.members,
+                                                    {
+                                                        ...action.member,
+                                                        added: !action.member.added
+                                                    }
+                                                ]
                                             };
                                         }
 
@@ -1136,6 +1139,7 @@ export default function taskReducer(state = initialState.task, action) {
                                     if (card.id === action.card.id) {
                                         return {
                                             ...card,
+                                            completed: !action.task.status && card.is_end,
                                             tasks: card.tasks.map((task) => {
                                                 if (task.id === action.task.id) {
                                                     return {
@@ -1386,6 +1390,17 @@ export default function taskReducer(state = initialState.task, action) {
                     isSaving: true
                 }
             };
+        case types.CLOSE_BOOK_CREATE_CARD_MODAL:
+            return {
+                ...state,
+                createCard: {
+                    ...state.createCard,
+                    isSaving: false,
+                    showModal: false,
+                    card: {}
+                }
+            };
+
         case types.CREATE_CARD_SUCCESS:
             return {
                 ...state,

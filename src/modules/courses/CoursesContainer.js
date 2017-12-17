@@ -25,7 +25,6 @@ class CoursesContainer extends React.Component {
                 total_count: 1
             }
         };
-
         this.loadCourses                    = this.loadCourses.bind(this);
         this.deleteCourse                   = this.deleteCourse.bind(this);
         this.courseSearchChange             = this.courseSearchChange.bind(this);
@@ -49,7 +48,9 @@ class CoursesContainer extends React.Component {
 
     deleteCourse(course) {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa môn học này không?", () => {
-            this.props.coursesActions.deleteCourse(course);
+            this.props.coursesActions.deleteCourse(course, ()=>{
+                return this.props.coursesActions.loadCourses(this.state.page);
+            });
         });
     }
 
@@ -74,6 +75,7 @@ class CoursesContainer extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
+
                             <div className="card">
                                 <div className="card-header card-header-icon" data-background-color="rose">
                                     <i className="material-icons">assignment</i>
@@ -138,22 +140,22 @@ class CoursesContainer extends React.Component {
 }
 
 CoursesContainer.propTypes = {
-    coursesActions: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    error: PropTypes.bool.isRequired,
-    coursesList: PropTypes.array.isRequired,
-    paginator: PropTypes.object.isRequired,
-    isDeleting: PropTypes.bool,
+    coursesActions  : PropTypes.object.isRequired,
+    isLoading       : PropTypes.bool.isRequired,
+    error           : PropTypes.bool.isRequired,
+    coursesList     : PropTypes.array.isRequired,
+    paginator       : PropTypes.object.isRequired,
+    isDeleting      : PropTypes.bool,
 
 };
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.courses.isLoading,
-        error: state.courses.error,
-        coursesList: state.courses.coursesList,
-        paginator : state.courses.paginator,
-        isDeleting : state.courses.isDeleting
+        isLoading   : state.courses.isLoading,
+        error       : state.courses.error,
+        coursesList : state.courses.coursesList,
+        paginator   : state.courses.paginator,
+        isDeleting  : state.courses.isDeleting
     };
 }
 

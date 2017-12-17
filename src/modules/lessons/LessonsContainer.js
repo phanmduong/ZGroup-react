@@ -9,7 +9,7 @@ import FormInputText                    from '../../components/common/FormInputT
 import {Link}                           from 'react-router';
 import Loading                          from "../../components/common/Loading";
 import * as helper                      from '../../helpers/helper';
-//let courseid;
+let courseid;
 class LessonsContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -28,13 +28,16 @@ class LessonsContainer extends React.Component {
         //console.log('lesson container will mount',this.props);
         helper.setFormValidation('#form-lesson-create-edit');
         let id = this.props.params.lessonId;
-        //courseid = this.props.params.courseId;
-        //console.log('props',this.props);
+        courseid = this.props.params.courseId;
         if(id) {
             this.props.lessonsActions.loadLessonData(id);
             this.urlType = "edit";
 
-        } else this.props.lessonsActions.clearData(this.props.data.course_id);
+        } else this.props.lessonsActions.clearData(courseid);
+    }
+
+    componentDidMount(){
+        helper.setFormValidation('#form-lesson-create-edit');
     }
 
     updateDetail(content){
@@ -53,9 +56,9 @@ class LessonsContainer extends React.Component {
         this.props.lessonsActions.updateData(feild,value);
     }
     commitData(){
-        //console.log('props',this.props);
+        //console.log('props before commit',this.props);
         if(this.checkValidate())
-        if(this.urlType=="create") this.props.lessonsActions.createLesson(this.props.data);
+        if(this.urlType=="create") this.props.lessonsActions.createLesson(this.props.data, courseid);
         else this.props.lessonsActions.editLesson(this.props.data);
     }
 
@@ -86,7 +89,7 @@ class LessonsContainer extends React.Component {
                                             fileField="image"
                                             name="detail"
                                             updateEditor={this.updateDetail}
-                                            value={this.props.data.detail}
+                                            value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}
                                         />
                                     }
 
@@ -104,7 +107,7 @@ class LessonsContainer extends React.Component {
                                             fileField="image"
                                             name="detail_content"
                                             updateEditor={this.updateDetailContent}
-                                            value={this.props.data.detail_content}
+                                            value={this.props.data.detail_content ? `<div>${this.props.data.detail_content}</div>` : ""}
                                         />
                                     }
 
@@ -122,7 +125,8 @@ class LessonsContainer extends React.Component {
                                             fileField="image"
                                             name="detail_teacher"
                                             updateEditor={this.updateDetailTeacher}
-                                            value={this.props.data.detail_teacher}
+                                            value={this.props.data.detail_teacher ? `<div>${this.props.data.detail_teacher}</div>` : ""}
+
                                         />
                                     }
 
@@ -145,13 +149,16 @@ class LessonsContainer extends React.Component {
                                     name="name"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.name}
+                                    disabled={this.props.isLoading}
                                 />
                                 <FormInputText
                                     label="Thứ tự"
                                     required
                                     name="order"
+                                    type="number"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.order}
+                                    disabled={this.props.isLoading}
                                 />
                                 <FormInputText
                                     label="Mô tả ngắn"
@@ -159,6 +166,7 @@ class LessonsContainer extends React.Component {
                                     name="description"
                                     updateFormData={this.updateFormData}
                                     value={this.props.data.description}
+                                    disabled={this.props.isLoading}
                                 />
 
                                 {this.props.isCommitting ?
@@ -172,8 +180,10 @@ class LessonsContainer extends React.Component {
                                         className="btn btn-fill btn-rose"
                                         type="button"
                                         onClick={this.commitData}
+                                        disabled={this.props.isLoading}
                                         > Lưu </button>
-                                        <Link className="btn btn-rose" to={`/manage/courses/edit/${this.props.data.course_id}/curriculum`}>
+                                        <Link className="btn btn-rose" to={`/manage/courses/edit/${this.props.data.course_id}/curriculum`}
+                                              disabled={this.props.isLoading}>
                                         Huỷ
                                         </Link>
                                     </div>
@@ -195,7 +205,8 @@ LessonsContainer.propTypes = {
     isLoading           : PropTypes.bool.isRequired,
     isCommitting        : PropTypes.bool,
     data                : PropTypes.object,
-    lessonsActions      : PropTypes.object.isRequired
+    lessonsActions      : PropTypes.object.isRequired,
+    params              : PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

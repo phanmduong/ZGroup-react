@@ -4,7 +4,7 @@
 import * as types from '../../constants/actionTypes';
 import * as taskApi from "./taskApi";
 import * as goodApi from '../good/goodApi';
-import {showErrorNotification, showNotification} from '../../helpers/helper';
+import {showErrorMessage, showErrorNotification, showNotification} from '../../helpers/helper';
 import {browserHistory} from 'react-router';
 import {isNotEmptyGoodProperty} from "../../helpers/goodPropertyHelper";
 
@@ -188,19 +188,25 @@ export function loadBoards(projectId) {
         dispatch({
             type: types.BEGIN_LOAD_BOARDS
         });
-        taskApi.loadBoards(projectId)
-            .then((res) => {
-                dispatch({
-                    projectId: projectId,
-                    type: types.LOAD_BOARDS_SUCCESS,
-                    boards: res.data.boards,
-                    setting: res.data.setting ? JSON.parse(res.data.setting) : {},
-                    cardLabels: res.data.cardLabels,
-                    members: res.data.members,
-                    canDragCard: res.data.canDragCard,
-                    canDragBoard: res.data.canDragBoard
+        return new Promise((resolve) => {
+            taskApi.loadBoards(projectId)
+                .then((res) => {
+                    resolve();
+                    dispatch({
+                        projectId: projectId,
+                        type: types.LOAD_BOARDS_SUCCESS,
+                        boards: res.data.boards,
+                        setting: res.data.setting ? JSON.parse(res.data.setting) : {},
+                        cardLabels: res.data.cardLabels,
+                        members: res.data.members,
+                        canDragCard: res.data.canDragCard,
+                        canDragBoard: res.data.canDragBoard
+                    });
                 });
-            });
+
+        });
+
+
     };
 }
 
@@ -247,6 +253,66 @@ export function hideGlobalLoading() {
     };
 }
 
+export function deleteCard(cardId) {
+    return function () {
+        return new Promise((resolve) => {
+            taskApi.deleteCard(cardId)
+                .then(() => {
+                    resolve();
+                });
+        });
+    };
+}
+
+/**
+ * if createGood == true. Check barcode exist or not
+ * @param card
+ * @param createGood
+ * @returns {Function}
+ */
+export function createCardGood(card) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CREATE_CARD
+        });
+
+        return new Promise((resolve) => {
+            taskApi.barcodeNotEmpty()
+                .then((res) => {
+                    const {count} = res.data.data;
+                    // if(createCard) {
+                    //
+                    // }
+                    if (Number(count) > 0) {
+                        // if (true) {
+                        taskApi.createCard(card)
+                            .then(res => {
+                                resolve();
+                                showNotification("Tạo thẻ thành công");
+                                dispatch({
+                                    type: types.CREATE_CARD_SUCCESS,
+                                    card: res.data.card
+                                });
+                            })
+                            .catch(() => {
+                                showErrorNotification("Có lỗi xảy ra");
+                            });
+                    } else {
+
+                        dispatch({
+                            type: types.CLOSE_BOOK_CREATE_CARD_MODAL
+                        });
+
+                        showErrorMessage("Không tạo được sản phẩm", "Không còn barcode khả dụng");
+                        resolve();
+                    }
+                });
+
+        });
+
+    };
+}
+
 export function createCard(card) {
     return function (dispatch) {
         dispatch({
@@ -266,8 +332,8 @@ export function createCard(card) {
                 .catch(() => {
                     showErrorNotification("Có lỗi xảy ra");
                 });
-        });
 
+        });
     };
 }
 
@@ -396,10 +462,6 @@ export function moveCard(sourceBoardId, targetBoardId, cardId, siblingOrder = -1
             cards: targetBoardCards
         };
 
-
-        // console.log(siblingOrder);
-        // console.log(newSourceBoard);
-        // console.log(newTargetBoard);
 
         taskApi.updateCards(newTargetBoard.cards, newTargetBoard.id)
             .then(() => {
@@ -593,6 +655,7 @@ export function deleteTask(task, card) {
 }
 
 export function toggleTaskStatus(task, card) {
+
     return function (dispatch) {
         dispatch({
             card,
@@ -1058,31 +1121,25 @@ export function loadAvailableMembers(task) {
     };
 }
 
-export function saveMemberTask(task, user, card) {
-    return function (dispatch) {
+export function saveMemberTask(task, members) {
+    return (dispatch) => {
         dispatch({type: types.BEGIN_SAVE_MEMBER_TASK});
-        let userId = 0;
-        if (user) {
-            userId = user.id;
-        }
-        taskApi.saveMemberTask(userId, task.id)
+        const newMembers = members.map((member) => {
+            return {
+                ...member,
+                added: true
+            };
+        });
+        const membersStr = JSON.stringify(newMembers);
+        taskApi.saveMemberTask(membersStr, task.id)
             .then(() => {
                 showNotification("Phân công việc thành công");
                 dispatch({
                     type: types.SAVE_MEMBER_TASK_SUCCESS,
-                    user,
+                    members: newMembers,
                     task
                 });
-                if (user) {
-                    const isAdded = card.members.filter(m => m.id === user.id).length > 0;
-                    if (!isAdded) {
-                        dispatch({
-                            type: types.ASSIGN_MEMBER_SUCCESS,
-                            card,
-                            member: user
-                        });
-                    }
-                }
+
 
             });
     };
@@ -1186,7 +1243,8 @@ export function submitGoodProperties() {
         const {card} = state.task.cardDetail;
 
         const isValid = isNotEmptyGoodProperty(goodProperties, goodPropertiesOutput);
-        return new Promise((resolve, reject) => {
+
+        return new Promise((resolve) => {
             if (isValid) {
 
                 let goodPropertyMap = {};
@@ -1232,12 +1290,12 @@ export function submitGoodProperties() {
                         dispatch({
                             type: types.SUBMIT_GOOD_PROPERTIES_SUCCESS
                         });
-                        resolve();
+                        resolve(true);
                     });
 
 
             } else {
-                reject();
+                resolve(false);
             }
 
         });

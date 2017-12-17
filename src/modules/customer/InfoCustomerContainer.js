@@ -224,12 +224,13 @@ InfoCustomerContainer.propTypes = {
     isLoadingInOverlay: PropTypes.bool,
     isSaving: PropTypes.bool,
     customer: PropTypes.object,
-    groupsInOverlay: PropTypes.object,
+    groupsInOverlay: PropTypes.array,
     ordersList: PropTypes.array,
     totalOrderPages: PropTypes.number,
     totalGroupCustomerPages: PropTypes.number,
     customersList: PropTypes.array,
     params: PropTypes.object,
+
 };
 
 function mapStateToProps(state) {

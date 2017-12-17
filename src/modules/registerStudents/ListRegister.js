@@ -13,7 +13,9 @@ class  ListRegister extends React.Component {
     render() {
         return (
             <div className="table-responsive">
-                <table className="table">
+                <table id="datatables"
+                       className="table table-striped table-no-bordered table-hover"
+                       cellSpacing="0" width="100%" style={{width: "100%"}}>
                     <thead className="text-rose">
                     <tr>
                         <th>Lớp</th>
@@ -105,9 +107,12 @@ class  ListRegister extends React.Component {
                                             )
                                             :
                                             (
-                                                <div className="no-data">
-                                                    Không có
-                                                </div>
+                                                   <Link className="btn btn-xs btn-main no-data"
+                                                    to={`/manage/registerlist/-1`}
+                                                    >
+                                                        Không có
+                                                    <div className="ripple-container"/>
+                                                    </Link>
                                             )
 
                                     }
@@ -127,9 +132,12 @@ class  ListRegister extends React.Component {
                                             )
                                             :
                                             (
-                                                <div className="no-data">
-                                                    Không có
-                                                </div>
+                                                <button className="btn btn-xs btn-main no-data"
+                                                onClick={() => this.props.loadRegisterStudentByCampaign('-1')}
+                                                    >
+                                                Không có
+                                                <div className="ripple-container"/>
+                                                </button>
                                             )
                                     }
                                 </td>
@@ -183,7 +191,7 @@ ListRegister.propTypes = {
     openModalChangeClass: PropTypes.func.isRequired,
     deleteRegister: PropTypes.func.isRequired,
     loadRegisterStudentByCampaign: PropTypes.func.isRequired,
-    loadRegisterStudentBySaler: PropTypes.func.isRequired,
+    loadRegisterStudentBySaler: PropTypes.func,
 
 };
 

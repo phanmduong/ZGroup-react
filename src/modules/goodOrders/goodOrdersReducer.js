@@ -4,6 +4,21 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
+function changeStatusOrder(orders, order_id, status) {
+    if (orders) {
+        orders = orders.map((order) => {
+            if (order.id === order_id) {
+                return {
+                    ...order,
+                    status: status,
+                };
+            }
+            return order;
+        });
+    }
+    return orders;
+}
+
 export default function goodOrdersReducer(state = initialState.goodOrders, action) {
     switch (action.type) {
         case types.BEGIN_LOAD_GOOD_ORDERS:
@@ -90,19 +105,78 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isLoadingStaffs: false,
                 errorStaffs: true,
             };
-        case types.OPEN_SHIP_MODAL:
+
+        case types.GET_ALL_STAFFS_COMPLETE_GOOD_ORDER:
             return {
                 ...state,
-                isShowModal: !state.isShowModal,
-                orderShip: {
-                    ...state.orderShip,
-                    order : {
-                        ...state.orderShip.order,
-                        name :action.order.customer.name,
-                        tel : action.order.customer.phone,
-                        address : action.order.customer.address,
-                    },
-                },
+                allStaffs: action.allStaffs
+            };
+        case types.CHANGE_STATUS_ORDER_SUCCESS:
+            return {
+                ...state,
+                orders: changeStatusOrder(state.orders, action.order_id, action.status),
+                order: {
+                    infoOrder: {
+                        status: action.status
+                    }
+                }
+            };
+        case types.TOGGLE_SHIP_GOOD_MODAL:
+            return {
+                ...state,
+                isUpdate: action.isUpdate || false,
+                shipGoodModal: !state.shipGoodModal
+            };
+        case types.HANDLE_SHIP_ORDER_BEGIN: {
+            let products = {...state.shippingGood.product};
+            action.order.good_orders.forEach(product => {
+                products = [...product, {
+                    name: product.name,
+                    weight: 0.3 * product.quantity
+                }];
+            });
+            return {
+                ...state,
+                shippingGood: {
+                    ...state.shipGoodModal,
+                    products,
+                    order: {
+                        ...state.shippingGood.order,
+                        id: action.order.code,
+                        tel: action.order.customer.phone,
+                        name: action.order.customer.name,
+                        address: action.order.customer.address,
+                        value: action.order.total,
+                        orderId: action.order.id
+                    }
+                }
+            };
+        }
+        case types.HANDLE_SHIP_ORDER:
+            return {
+                ...state,
+                shippingGood: {
+                    ...state.shippingGood,
+                    order: action.order
+                }
+            };
+        case types.BEGIN_SEND_SHIP_ORDER:
+            return {
+                ...state,
+                isSendingShipOrder: true
+            };
+        case types.SEND_SHIP_ORDER_COMPLETE:
+            return {
+                ...state,
+                isSendingShipOrder: false,
+                shipGoodModal: false,
+                shippedGoodResponse: action.shippedGoodResponse
+            };
+        case types.SEND_SHIP_ORDER_FAILED:
+            return {
+                ...state,
+                isSendingShipOrder: false,
+                shipGoodModal: false
             };
         default:
             return state;

@@ -3,8 +3,34 @@ import * as env from '../../constants/env';
 
 const token = localStorage.getItem('token');
 
-export function getInformationProductsApi() {
-    let url = env.MANAGE_API_URL + "/good/status/count?token=" + token;
+export function getInformationProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status) {
+    let url = env.MANAGE_API_URL + "/good/information?token=" + token;
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (start_time && end_time) {
+        url += "&start_time=" + start_time + "&end_time=" + end_time;
+    }
+    if (manufacture_id) {
+        url += "&manufacture_id=" + manufacture_id;
+    }
+    if (good_category_id) {
+        url += "&good_category_id=" + good_category_id;
+    }
+    if (status) {
+        if (status.sale) {
+            url += "&sale_status=" + status.sale;
+        }
+        if (status.display) {
+            url += "&display_status=" + status.display;
+        }
+        if (status.highlight) {
+            url += "&highlight_status=" + status.highlight;
+        }
+    }
     return axios.get(url);
 }
 
@@ -90,6 +116,11 @@ export function uploadEditProductApi(productPresent, manufacture_id, category_id
 export function getManufacturesApi() {
     let url = env.MANAGE_API_URL + "/good/manufactures?token=" + token;
     return axios.get(url);
+}
+
+export function deleteProductApi(product) {
+    let url = env.MANAGE_API_URL + "/good/" + product.id + "/delete?token=" + token;
+    return axios.delete(url);
 }
 
 

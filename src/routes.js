@@ -70,7 +70,6 @@ import GoodDetailContainer from "./modules/good/GoodDetailContainer";
 import WareHouseContainer from "./modules/wareHouse/WareHouseContainer";
 import CustomerContainer from "./modules/customer/CustomerContainer";
 import InventoryGoodContainer from "./modules/inventoryGood/InventoryGoodContainer";
-
 import CreateEditCoursesContainer from "./modules/courses/coursesForm/CoursesCreateEditContainer";
 import coursesCreateEditGeneral from "./modules/courses/coursesForm/coursesCreateEditGeneral";
 import coursesCreateEditCurriculum from "./modules/courses/coursesForm/coursesCreateEditCurriculum";
@@ -78,6 +77,7 @@ import coursesCreateEditDocuments from "./modules/courses/coursesForm/coursesCre
 import coursesCreateEditStudying from "./modules/courses/coursesForm/coursesCreateEditStudying";
 import coursesCreateEditInterested from "./modules/courses/coursesForm/coursesCreateEditInterested";
 import LessonsContainer from "./modules/lessons/LessonsContainer";
+import AttendanceContainer from "./modules/attendance/AttendanceContainer";
 import MarketingCampaignContainer from "./modules/marketingCampaign/MarketingCampaignContainer";
 import SupplierContainer from "./modules/supplier/SupplierContainer";
 import AddDiscountContainer from "./modules/addDiscount/AddDiscountContainer";
@@ -86,11 +86,16 @@ import InfoCustomerContainer from "./modules/customer/InfoCustomerContainer" ;
 import CreateProductContainer from "./modules/createProduct/CreateProductContainer";
 import ProductSystemContainer from "./modules/createProduct/ProductSystemContainer";
 import ProductWebsiteContainer from "./modules/createProduct/ProductWebsiteContainer";
-import EditProductContainer from "./modules/createProduct/EditProductContainer";
 import SummaryMarketingCampaignContainer from "./modules/summaryMarketingCampaign/SummaryMarketingCampaignContainer";
 import SummarySalesContainer from "./modules/summarySales/SummarySalesContainer";
 import OverviewSales from "./modules/summarySales/OverviewSales";
 import StatisticSales from "./modules/summarySales/StatisticSales";
+import BarcodesContainer from "./modules/book/barcode/BarcodesContainer";
+import AttendanceStaffsContainer from "./modules/attendanceStaffs/AttendanceStaffsContainer";
+import ListLessonContainer from "./modules/attendance/ListLessonContainer";
+import RoomsContainer from "./modules/rooms/RoomsContainer";
+import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
+import ManageDepartmentContainer from "./modules/manageDepartment/ManageDepartmentContainer";
 import GroupCustomerContainer from "./modules/groupCustomer/GroupCustomerContainer";
 
 
@@ -114,6 +119,7 @@ export default (
 
             {/*Begin base route*/}
             <Route path="/manage/bases" component={BasesContainer}/>
+            <Route path="/manage/rooms" component={RoomsContainer}/>
             <Route path="base/create" component={CreateBaseContainer} type="create"/>
             <Route path="base/:baseId/edit" component={CreateBaseContainer} type="edit"/>
             {/*End Base route*/}
@@ -144,6 +150,7 @@ export default (
 
             {/*Begin register student routes*/}
             <Route path="/manage/registerlist(/:salerId)" component={RegisterListContainer}/>
+            <Route path="/manage/waitlist" component={RegisterListContainer}/>
             <Route path="/registerlist/:campaignId/:genId" component={RegisterListContainer}/>
             {/*End register student routes*/}
 
@@ -198,6 +205,9 @@ export default (
             <Route path="/tasklist-template/:id" component={TaskListTemplateContainer}/>
 
 
+            <Route path="/barcodes" component={BarcodesContainer}/>
+
+
             <Route path="/:type/manufacture" component={BookBoardListContainer}/>
             <Route path="/good/:type/all" component={GoodListContainer}/>
             <Route path="/good/:goodId/edit" component={CreateGoodContainer} type="edit"/>
@@ -245,16 +255,21 @@ export default (
             </Route>
             <Route path="/manage/courses/create" component={CreateEditCoursesContainer} type="create">
                 <IndexRoute component={coursesCreateEditGeneral}/>
-                <Route path="curriculum" component={coursesCreateEditCurriculum}/>
-                <Route path="documents" component={coursesCreateEditDocuments}/>
-                <Route path="studying" component={coursesCreateEditStudying}/>
-                <Route path="interested" component={coursesCreateEditInterested}/>
+                <Route path="curriculum" component={coursesCreateEditGeneral}/>
+                <Route path="documents" component={coursesCreateEditGeneral}/>
+                <Route path="studying" component={coursesCreateEditGeneral}/>
+                <Route path="interested" component={coursesCreateEditGeneral}/>
             </Route>
             {/*End course routes */}
 
             {/*End lessons routes */}
             <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
             <Route path="/manage/courses/lessons/create/:courseId" component={LessonsContainer}/>
+            {/*End lessons routes */}
+
+            {/*Begin lessons routes */}
+            <Route path="/manage/attendance" component={AttendanceContainer}/>
+            <Route path="/manage/attendance/:classId" component={ListLessonContainer}/>
             {/*End lessons routes */}
 
             l
@@ -301,6 +316,7 @@ export default (
             {/*End marketing campaigns routes*/}
 
 
+
             {/*Begin supplier routes */}
             <Route path="/goods/supplier" component={SupplierContainer}/>
             {/*End supplier routes*/}
@@ -327,11 +343,24 @@ export default (
             {/*End create-product routes*/}
 
             {/*Begin edit-product routes */}
-            <Route path="/product/:productId/edit" component={EditProductContainer} type="edit">
+            <Route path="/product/:productId/edit" component={CreateProductContainer} type="edit">
                 <IndexRoute component={ProductSystemContainer}/>
                 <Route path="website-display" component={ProductWebsiteContainer}/>
             </Route>
             {/*End edit-product routes*/}
+
+            {/*Begin edit-product routes */}
+            <Route path="/staff/attendances" component={AttendanceStaffsContainer}/>
+            {/*End edit-product routes*/}
+
+            {/*Begin edit-product routes */}
+            <Route path="/excel/teachers/:genId" component={TeachersExcelContainer}/>
+            {/*End edit-product routes*/}
+
+
+            {/*Begin Role route*/}
+                <Route path="manage-department" component={ManageDepartmentContainer}/>
+            {/*End Role route*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

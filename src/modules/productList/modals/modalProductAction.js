@@ -41,12 +41,16 @@ export function showWareHouseModal() {
 }
 
 export function showAvatarModal() {
-    return function (dispatch) {
-        dispatch({
-            type: types.TOGGLE_AVATAR_MODAL
-        });
+    return ({
+        type: types.TOGGLE_AVATAR_MODAL
+    });
+}
 
-    };
+export function showSameProductModal(index) {
+    return ({
+        type: types.TOGGLE_SAME_PRODUCT_MODAL,
+        index
+    });
 }
 
 export function openWareHouseTab() {

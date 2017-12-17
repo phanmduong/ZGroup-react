@@ -43,12 +43,19 @@ import inventoryGoodReducer from "../modules/inventoryGood/inventoryGoodReducer"
 import createProductReducer from "../modules/createProduct/createProductReducer";
 import globalLoadingReducer from "../modules/globalLoading/globalLoadingReducer";
 import lessonsReducer from "../modules/lessons/lessonsReducer";
+import attendanceReducer from "../modules/attendance/attendanceReducer";
 import marketingCampaignsReducer from "../modules/marketingCampaign/marketingCampaignsReducer";
 import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
 import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import discountReducer from "../modules/discount/discountReducer";
+
+import attendancesStaffsReducer from "../modules/attendanceStaffs/attendancesStaffsReducer";
+import roomsReducer from "../modules/rooms/roomsReducer";
+import excelReducer from "../modules/excel/excelReducer";
+import departmentReducer from "../modules/manageDepartment/departmentReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
+
 
 
 const appReducer = combineReducers({
@@ -87,6 +94,7 @@ const appReducer = combineReducers({
     courses: courseReducer,
     coursesCreateEdit: courseReducer,
     lessons: lessonsReducer,
+    attendance: attendanceReducer,
     goodOrders: goodOrdersReducer,
     productList: productListReducer,
     importGoods: importGoodsReducer,
@@ -95,13 +103,18 @@ const appReducer = combineReducers({
     inventoryGood: inventoryGoodReducer,
     categories: categoriesReducer,
     marketingCampaigns: marketingCampaignsReducer,
-    suppliers :supplierReducer,
-    addDiscount : addDiscountReducer,
+    suppliers: supplierReducer,
+    addDiscount: addDiscountReducer,
     createProduct: createProductReducer,
     summaryMarketingCampaign: summaryMarketingCampaignReducer,
     summarySales: summarySalesReducer,
-    discounts : discountReducer,
-    groupCustomers : groupCustomerReducer,
+    discounts: discountReducer,
+    attendancesStaffs: attendancesStaffsReducer,
+    rooms: roomsReducer,
+    excel : excelReducer,
+    department : departmentReducer,
+    groupCustomers : groupCustomerReducer
+
 });
 
 const rootReducer = (state, action) => {

@@ -13,13 +13,24 @@ export default {
             sale_status: 0,
             highlight_status: 0,
             display_status: 0,
+            goods_count: 0,
             manufacture_id: '',
             good_category_id: '',
             images_url: [],
+            property_list: [
+                {
+                    name: 'coool',
+                    property_item_id: 3,
+                    value: []
+                }
+            ],
+            children: []
         },
+        goods_count_check: true,
         isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
+        properties_list: [],
         images: []
     },
 
@@ -31,6 +42,7 @@ export default {
         isLoading: false,
         isLoadingMore: false,
         isLoadingHistoryModal: false,
+        isLoadingHistoryList: false,
         inventories: [],
         categories: [],
         manufactures: [],
@@ -55,14 +67,7 @@ export default {
     productList: {
         products: [],
         productsTotal: 0,
-        productsBusiness: 0,
-        productsNotBusiness: 0,
-        productsDisplay: 0,
-        productsNotDisplay: 0,
-        productsDeleted: 0,
         productsQuantity: 0,
-        productsHighlight: 0,
-        productsNotHighlight: 0,
         totalPages: 1,
         currentPage: 1,
         limit: 20,
@@ -73,10 +78,12 @@ export default {
             priceModal: false,
             wareHouseModal: false,
             avatarModal: false,
+            sameProductModal: false,
             isModalUpdating: false,
             modalUpdated: false
         },
         productEditing: {
+            index: null,
             productPresent: {
                 id: '',
                 name: '',
@@ -84,6 +91,7 @@ export default {
                 avatar_url: '',
                 price: '',
                 quantity: '',
+                children: [],
                 warehouses: [],
                 category: {
                     id: '',
@@ -105,6 +113,19 @@ export default {
     },
 
     good: {
+        barcode: {
+            barcodeList: {
+                barcodes: [],
+                isLoading: false,
+                currentPage: 1,
+                totalPages: 0,
+            },
+            createBarcode: {
+                showModal: false,
+                barcode: {},
+                isSaving: false
+            }
+        },
         attachPropertyItem: {
             showModal: false,
             isLoading: false,
@@ -540,6 +561,7 @@ export default {
         currentPage: 1,
         totalPages: 1,
         gens: [],
+        currentGen: {},
         isLoadingGens: false,
         errorGens: false,
         historyCall: [],
@@ -553,9 +575,18 @@ export default {
         isLoadingClasses: false,
         errorClasses: false,
         classes: [],
+        isLoadingRegisters: false,
         isLoadingRegistersByStudent: false,
         errorRegistersByStudent: false,
-        registersByStudent: []
+        registersByStudent: [],
+        classFilter: [],
+        salerFilter: [],
+        campaignFilter: [],
+        isLoadingClassFilter: false,
+        isLoadingSalerFilter: false,
+        isLoadingCampaignFilter: false,
+        excel: {},
+        isLoadingExcel: false
     },
 
     profile: {
@@ -693,10 +724,14 @@ export default {
         error: false
     },
     classes: {
+        excel: [],
+        isLoadingExcel: false,
         currentPage: 1,
         totalPages: 1,
         classes: [],
+        gens: [],
         isLoading: false,
+        isLoadingGens: false,
         error: false,
         isLoadingInfoCreateClass: true,
         errorInfoCreateClass: false,
@@ -808,29 +843,33 @@ export default {
 
     goodOrders: {
 
-        isShowModal: false,
-        orderShip: {
+        isUpdate: false,
+        orderId: 0,
+        shipGoodModal: false,
+        isSendingShipOrder: false,
+        shippedGoodResponse: {},
+        shippingGood: {
             products: [],
             order: {
-                id: "a4",
+                id: "",
                 pick_name: "Graphics",
-                pick_address: "175, Chùa Láng, Đống Đa, Hà Nội",
+                pick_address: "175 Chùa Láng",
                 pick_province: "Hà Nội",
-                pick_district: "Đống Đa",
-                pick_tel: "0911222333",
-                tel: '',
+                pick_district: "Quận Đống Đa",
+                pick_tel: "0903400807",
+                tel: "",
                 name: "",
                 address: "",
                 province: "",
                 district: "",
-                is_freeship: "",
-                pick_date: "",
-                pick_money: 0,
-                note: "",
-                value: 0,
-            },
-        },
 
+                is_freeship: "1",
+                pick_date: "",
+                pick_money: "",
+                note: "",
+                value: ""
+            }
+        },
 
         isLoading: false,
         error: false,
@@ -851,6 +890,7 @@ export default {
             goodOrders: []
         },
         staffs: [],
+        allStaffs: [],
         isLoadingStaffs: false,
         errorStaffs: false,
     },
@@ -928,6 +968,7 @@ export default {
         isLoadingInOverlay: false,
         totalOrderPages: 10,
         totalGroupCustomerPages: 10,
+
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
@@ -941,6 +982,7 @@ export default {
                 address: '',
                 gender: '',
                 dob: '',
+
                 stringId: '',
                 groups: [],
             }
@@ -986,7 +1028,7 @@ export default {
             good: {},
             category: {},
             customer: {},
-            customer_group: {},
+            customer_group: {}
         },
 
     },
@@ -1099,6 +1141,8 @@ export default {
         courses: [],
         isLoadingCourses: false,
         errorCourses: false,
+        isStoringCampaign: false,
+        errorStoreCampaign: false,
     },
 
     summaryMarketingCampaign: {
@@ -1131,6 +1175,62 @@ export default {
         totalPages: 10,
         totalCount: 10,
     },
+
+    attendance: {
+        isLoading: false,
+        isLoadingGens: false,
+        isLoadingBases: false,
+        isTakingAttendance: false,
+        isLoadingLessonClassModal: false,
+        isLoadingLessonDetailModal: false,
+        status: 1,
+        currentGen: {
+            id: "",
+        },
+        data: {
+            classes: [],
+
+        },
+        class: [],
+        lesson: [],
+        bases: [],
+        gens: [],
+        selectedClass: {
+            name: '',
+            teacher: {},
+            teacher_assistant: {},
+        },
+    },
+    attendanceStaffs: {
+        gens: [],
+        isLoadingGens: true,
+        errorGens: false,
+        currentGen: {},
+        bases: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isLoading: false,
+        error: false,
+        teachers: [],
+        salesMarketings: [],
+    },
+    rooms: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        rooms: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isStoringRoom: false,
+        errorStoreRoom: false,
+        bases: [],
+    },
+    excel: {
+        isLoading: false,
+        data: [],
+    },
+
     groupCustomers: {
         isSaving: false,
         isLoading: false,
@@ -1152,5 +1252,15 @@ export default {
             color: '',
         },
         groupCustomersList: [],
+
     },
+    department: {
+        isLoading: false,
+        data: {
+            paginator: {
+                page: 1,
+                total_pages: 1,
+            },
+        },
+    }
 };

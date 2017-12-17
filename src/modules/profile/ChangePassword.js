@@ -23,6 +23,10 @@ class ChangePassword extends React.Component {
         this.changePassword = this.changePassword.bind(this);
     }
 
+    componentDidMount() {
+        helper.setFormValidation('#form-change-password-staff');
+    }
+
     updateFormData(event) {
         const field = event.target.name;
         let changePassword = {...this.state.changePassword};
@@ -43,10 +47,6 @@ class ChangePassword extends React.Component {
                 this.props.closeModal
             );
         }
-    }
-
-    componentDidMount() {
-        helper.setFormValidation('#form-change-password-staff');
     }
 
     render() {

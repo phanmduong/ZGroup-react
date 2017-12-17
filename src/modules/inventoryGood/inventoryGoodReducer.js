@@ -51,7 +51,7 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
                     currentPage: action.currentPage
                 },
                 isLoadingHistoryModal: false,
-                isLoadingMore: false
+                isLoadingHistoryList: false
             };
         case types.SAVE_WAREHOUSE_INVENTORY_GOOD:
             return {
@@ -69,6 +69,7 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
         case types.GET_INFO_INVENTORY_GOOD:
             return {
                 ...state,
+                isLoading: false,
                 count: action.count,
                 totalImportMoney: action.totalImportMoney,
                 totalMoney: action.totalMoney
@@ -87,6 +88,11 @@ export default function inventoryGoodReducer(state = initialState.inventoryGood,
             return {
                 ...state,
                 warehousesList: action.warehousesList
+            };
+        case types.BEGIN_LOAD_FILTER_HISTORY_INVENTORY_GOOD:
+            return {
+                ...state,
+                isLoadingHistoryList: true
             };
         default:
             return state;

@@ -7,19 +7,12 @@ export function getProducts(page, search, start_time, end_time, manufacture_id, 
         dispatch({
             type: types.BEGIN_LOAD_PRODUCTS
         });
-        productListApi.getInformationProductsApi()
+        productListApi.getInformationProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status)
             .then(function (response) {
                 dispatch({
                     type: types.DISPLAY_INFORMATION_PRODUCTS_LIST,
-                    productsTotal: response.data.data.total,
-                    productsBusiness: response.data.data.for_sale,
-                    productsNotBusiness: response.data.data.not_for_sale,
-                    productsDisplay: response.data.data.display_on,
-                    productsNotDisplay: response.data.data.display_off,
-                    productsDeleted: response.data.data.deleted,
-                    productsQuantity: response.data.data.total_quantity,
-                    productsHighlight: response.data.data.highlight_on,
-                    productsNotHighlight: response.data.data.highlight_off
+                    productsTotal: response.data.data.count,
+                    productsQuantity: response.data.data.total_quantity
                 });
             });
         productListApi.getProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status)
@@ -159,6 +152,44 @@ export function getCategoriesProductsList() {
         productListApi.getCategoriesApi()
             .then(function (response) {
                 dispatch(saveCategoriesProductsList(helper.superSortCategories(response.data.data[0].good_categories)));
+            });
+    };
+}
+
+export function deleteProduct(product, isChild, indexForChilds) {
+    return function (dispatch) {
+        dispatch({
+            type: types.DISPLAY_GLOBAL_LOADING
+        });
+        productListApi.deleteProductApi(product)
+            .then(function (res) {
+                if (isChild) {
+                    //trường hợp xóa con, cần index của cha
+                    if (res.data.status) {
+                        helper.showNotification("Xóa sản phẩm thành công");
+                        dispatch({
+                            type: types.DELETE_CHILDREN_PRODUCT_LIST,
+                            product,
+                            index: indexForChilds
+                        });
+                    } else {
+                        helper.showErrorNotification("Không thể xóa sản phẩm này");
+                    }
+                } else {
+                    //khi xóa cha thì load lại trang
+                    if (res.data.status) {
+                        helper.showNotification("Xóa sản phẩm thành công");
+                        dispatch({
+                            type: types.UPDATED_PRODUCT_LIST_MODAL,
+                            modalUpdated: true
+                        });
+                    } else {
+                        helper.showErrorNotification("Không thể xóa sản phẩm này");
+                    }
+                }
+                dispatch({
+                    type: types.HIDE_GLOBAL_LOADING
+                });
             });
     };
 }

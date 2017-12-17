@@ -52,7 +52,7 @@ class BookCreateCardModalContainer extends React.Component {
             }
 
 
-            this.props.taskActions.createCard({
+            this.props.taskActions.createCardGood({
                 ...this.props.card,
                 board_id: this.props.board.id,
                 task_list_id: this.state.taskListTemplate.id,
@@ -93,7 +93,7 @@ class BookCreateCardModalContainer extends React.Component {
                         this.props.isLoadingTaskListTemplate ? <Loading/> : (
                             <div>
                                 <Select
-                                    defaultMessage="Chọn quy trình"
+                                    defaultMessagecử="Chọn quy trình"
                                     options={this.props.taskListTemplates}
                                     disableRound
                                     value={this.state.taskListTemplate}
@@ -110,6 +110,12 @@ class BookCreateCardModalContainer extends React.Component {
                                                             name="title"
                                                             updateFormData={this.updateFormData}
                                                             value={this.props.card.title}/>
+                                                        <FormInputText
+                                                            placeholder="Nhập nhãn sách"
+                                                            label="Nhãn sách"
+                                                            name="label"
+                                                            updateFormData={this.updateFormData}
+                                                            value={this.props.card.label}/>
 
                                                         <InputGoodProperties
                                                             goodPropertiesOutput={this.state.goodPropertiesOutput}
@@ -128,7 +134,7 @@ class BookCreateCardModalContainer extends React.Component {
                                                                 ) :
                                                                 (
                                                                     <button
-                                                                        disabled={isEmptyInput(this.props.card.title)}
+                                                                        disabled={isEmptyInput(this.props.card.title) || isEmptyInput(this.props.card.label)}
                                                                         type="button"
                                                                         className="btn btn-rose"
                                                                         onClick={this.submit}>

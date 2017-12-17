@@ -3,18 +3,26 @@ import PropTypes from "prop-types";
 import WareHouseModalContainer from "./modals/WareHouseModalContainer";
 import AvatarModalContainer from "./modals/AvatarModalContainer";
 import PriceModalContainer from "./modals/PriceModalContainer";
-import {dotNumber} from "../../helpers/helper";
+import SameProductModalContainer from "./modals/SameProductModalContainer";
 import {Link} from "react-router";
+import * as helper from '../../helpers/helper';
 
 class ProductListComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.deleteProduct = this.deleteProduct.bind(this);
+    }
+
+    deleteProduct(product, isChild, index) {
+        helper.confirm("error", "Xóa sản phẩm", "Bạn có chắc muốn xóa sản phẩm này", () => {
+            this.props.deleteProduct(product, isChild, index);
+        });
     }
 
     render() {
         return (
             <div className="table-responsive">
-                <table className="table">
+                <table className="table table-hover">
                     <thead className="text-rose">
                     <tr className="text-rose">
                         <th/>
@@ -22,6 +30,7 @@ class ProductListComponent extends React.Component {
                         <th>Tên sản phẩm</th>
                         <th>SL</th>
                         <th>Giá bán</th>
+                        <th>Giá vốn</th>
                         <th>Nhóm hàng</th>
                         <th>Nhà sản xuất</th>
                         <th>Kho</th>
@@ -30,9 +39,9 @@ class ProductListComponent extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.products && this.props.products.map((product) => {
+                        this.props.products && this.props.products.map((product, index) => {
                             return (
-                                <tr key={product.id}>
+                                <tr key={index}>
                                     <td>
                                         <img style={{
                                             width: "30px",
@@ -53,12 +62,25 @@ class ProductListComponent extends React.Component {
                                            data-original-title="Remove item"
                                            onClick={() => this.props.showAvatarModal(product)}>{product.code}</a>
                                     </td>
-                                    <td style={{width: "200px"}}>{product.name}</td>
+                                    <td style={{width: "200px"}}>
+                                        {product.name}<br/>
+                                        {
+                                            product.children ? (
+                                                <a onClick={() => this.props.showSameProductModal(index)}>
+                                                    <i className="material-icons">search</i>
+                                                    {product.children.length} sản phẩm cùng loại
+                                                </a>
+                                            ) : (<div/>)
+                                        }
+                                    </td>
                                     <td style={{width: "50px"}}>{product.quantity}</td>
                                     <td>
                                         <a onClick={() => this.props.showPriceModal(product)}>
-                                            {dotNumber(product.price)}đ
+                                            {helper.dotNumber(product.price)}đ
                                         </a>
+                                    </td>
+                                    <td>
+                                        {helper.dotNumber(product.import_price)}
                                     </td>
                                     <td style={{width: "115px"}}>
                                         {
@@ -75,18 +97,26 @@ class ProductListComponent extends React.Component {
                                         }
                                     </td>
                                     <td>
-                                        <a className="text-name-student-register"
-                                           rel="tooltip" title=""
-                                           data-original-title="Remove item"
-                                           onClick={() => this.props.showWareHouseModal(product)}>
-                                            {
-                                                product.warehouses_count !== 0 ? (
-                                                    <p>{product.warehouses_count} kho</p>
-                                                ) : (
-                                                    <p>Chưa có</p>
-                                                )
-                                            }
-                                        </a>
+                                        {
+                                            product.children ? (
+                                                <a onClick={() => this.props.showSameProductModal(index)}>
+                                                    <i className="material-icons">search</i>
+                                                </a>
+                                            ) : (
+                                                <a className="text-name-student-register"
+                                                   rel="tooltip" title=""
+                                                   data-original-title="Remove item"
+                                                   onClick={() => this.props.showWareHouseModal(product)}>
+                                                    {
+                                                        product.warehouses_count !== 0 ? (
+                                                            <p>{product.warehouses_count} kho</p>
+                                                        ) : (
+                                                            <p>Chưa có</p>
+                                                        )
+                                                    }
+                                                </a>
+                                            )
+                                        }
                                     </td>
                                     <td>
                                         <div className="btn-group-action">
@@ -95,17 +125,27 @@ class ProductListComponent extends React.Component {
                                                   data-toggle="tooltip" title=""
                                                   type="button" rel="tooltip"
                                                   data-original-title="Sửa"><i
-                                                className="material-icons">edit</i></Link>
-                                            <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Xoá"><i
-                                                className="material-icons">delete</i></a>
-                                            <a style={{color: "#878787"}}
-                                               data-toggle="tooltip" title=""
-                                               type="button" rel="tooltip"
-                                               data-original-title="Ngừng kinh doanh">
-                                                <i className="material-icons">pause</i></a>
+                                                className="material-icons">edit</i>
+                                            </Link>
+                                            {
+                                                product.children && product.children.length > 1 ? (
+                                                    <a style={{color: "#878787"}}
+                                                       data-toggle="tooltip" title=""
+                                                       type="button" rel="tooltip"
+                                                       data-original-title="Xoá"
+                                                       onClick={() => this.props.showSameProductModal(index)}>
+                                                        <i className="material-icons">delete</i>
+                                                    </a>
+                                                ) : (
+                                                    <a style={{color: "#878787"}}
+                                                       data-toggle="tooltip" title=""
+                                                       type="button" rel="tooltip"
+                                                       data-original-title="Xoá"
+                                                       onClick={() => this.deleteProduct(product, false, index)}>
+                                                        <i className="material-icons">delete</i>
+                                                    </a>
+                                                )
+                                            }
                                         </div>
                                     </td>
                                 </tr>
@@ -120,6 +160,10 @@ class ProductListComponent extends React.Component {
                     showWareHouseModal={this.props.showWareHouseModal}/>
                 <AvatarModalContainer
                     showAvatarModal={this.props.showAvatarModal}/>
+                <SameProductModalContainer
+                    showSameProductModal={this.props.showSameProductModal}
+                    showWareHouseModal={this.props.showWareHouseModal}
+                    deleteProduct={this.deleteProduct}/>
             </div>
         );
     }
@@ -130,9 +174,11 @@ ProductListComponent.propTypes = {
     showPriceModal: PropTypes.func.isRequired,
     showWareHouseModal: PropTypes.func.isRequired,
     showAvatarModal: PropTypes.func.isRequired,
+    showSameProductModal: PropTypes.func.isRequired,
     setTable: PropTypes.func.isRequired,
     manufactures: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    deleteProduct: PropTypes.func.isRequired
 };
 
 export default ProductListComponent;

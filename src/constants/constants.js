@@ -76,16 +76,16 @@ export const DAY_OF_WEEK = [
 
 export const GENDER = [
     {
-        name : '',
-        id : '',
+        name: '',
+        id: '',
     },
     {
-        name : 'Nam',
-        id : '1',
+        name: 'Nam',
+        id: '1',
     },
     {
-        name : 'Nữ',
-        id : '2',
+        name: 'Nữ',
+        id: '2',
     }
 ];
 
@@ -93,19 +93,18 @@ export const GENDER = [
 export const CUSTOMTYPE = [
 
     {
-        label : 'Tất cả',
-        value : 2,
+        label: 'Tất cả',
+        value: 2,
     },
     {
-        label : 'Khách hàng còn nợ',
-        value : '0',
+        label: 'Khách hàng còn nợ',
+        value: '0',
     },
     {
-        label : 'Khách hàng đã mua',
-        value : 1,
+        label: 'Khách hàng đã mua',
+        value: 1,
     }
 ];
-
 
 
 export const PAYMENT = [
@@ -124,6 +123,59 @@ export const PAYMENT = [
 ];
 
 
+export const ORDER_STATUS = [
+    {
+        order: 0,
+        label: "Đặt hàng",
+        value: "place_order"
+    },
+    {
+        order: 1,
+        label: "Chưa gọi",
+        value: "not_reach"
+    },
+    {
+        order: 2,
+        label: "Xác nhận",
+        value: "confirm_order"
+    },
+    {
+        order: 3,
+        label: "Giao hàng",
+        value: "ship_order"
+    },
+    {
+        order: 4,
+        label: "Hoàn thành",
+        value: "completed_order"
+    },
+    {
+        order: 5,
+        label: "Hủy",
+        value: "cancel"
+    }
+];
+
+export const TYPE_CLASSES = [
+    {
+        label: "Hoạt động",
+        value: "active"
+    },
+    {
+        label: "Chờ",
+        value: "waiting"
+    }
+];
+
+export const ORDER_STATUS_COLORS = {
+    place_order: "#f9f9f9",
+    confirm_order: "#b5d0fc",
+    ship_order: "#b8ffad",
+    completed_order: "#e2e2e2",
+    cancel: "#fcb7ab"
+};
+
+
 export const MAX_TIME_SHIFT_REIGSTER = '15:00:00';
 export const DATE = 60 * 60 * 24;
 const LINK_UPLOAD_IMAGE_EDITOR = env.MANAGE_API_URL + '/upload-image-editor';
@@ -133,6 +185,7 @@ export function linkUploadImageEditor() {
     return LINK_UPLOAD_IMAGE_EDITOR + '?token=' + token;
 }
 
+export const DATETIME_FILE_NAME_FORMAT = "DD_MM_YYYY";
 export const DATETIME_FORMAT = "HH:mm DD-MM-YYYY";
 export const DATETIME_FORMAT_SQL = "YYYY-MM-DD HH:mm:ss";
 export const FULLTIME_FORMAT = "HH:mm:ss";

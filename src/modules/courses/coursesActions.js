@@ -1,9 +1,9 @@
 import * as types       from '../../constants/actionTypes';
 import * as courseApi   from './courseApi';
 import * as helper      from '../../helpers/helper';
-import {browserHistory}                 from 'react-router';
+import {browserHistory} from 'react-router';
 
-export function createLink(link) {
+export function createLink(link, func) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_LINK});
         courseApi.createLink(link)
@@ -13,7 +13,7 @@ export function createLink(link) {
                     type: types.CREATE_LINK_SUCCESS,
                     link : res.data.data.link
                 });
-
+                func();
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");
@@ -22,7 +22,7 @@ export function createLink(link) {
     };
 }
 
-export function commitEditLink(link) {
+export function commitEditLink(link,func) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_LINK});
         courseApi.editLink(link)
@@ -31,7 +31,7 @@ export function commitEditLink(link) {
                 dispatch({
                     type: types.EDIT_LINK_SUCCESS
                 });
-
+                func();
             })
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! " );
@@ -63,11 +63,12 @@ export function deleteLesson(id) {
     return function (dispatch) {
         dispatch  ({type: types.BEGIN_DELETE_LESSON});
         helper.showWarningNotification("Đang xoá buổi học!");
-        courseApi.deleteLink(id)
+        courseApi.deleteLesson(id)
             .then(() => {
                 helper.sweetAlertSuccess("Xoá Thành Công!");
                 dispatch({
-                    type: types.DELETE_LESSON_SUCCESS
+                    type: types.DELETE_LESSON_SUCCESS,
+                    lessonId: id,
                 });
 
             })
@@ -185,7 +186,7 @@ export function loadCourses(page = 1, query='') {
     };
 }
 
-export function deleteCourse(id) {
+export function deleteCourse(id, success) {
     return function (dispatch) {
         helper.showWarningNotification('Đang xoá môn học');
         dispatch({
@@ -193,18 +194,19 @@ export function deleteCourse(id) {
 
         });
         courseApi.deleteCourse(id)
-            .then(() => {
+            .then((res) => {
+                if(res.data.status === 1){
                 helper.showNotification('Xóa môn học thành công');
+                success();
                 dispatch({
                     type: types.DELETE_COURSES_SUCCESS,
                     courseId: id
-                });
-            })
-            .catch(() => {
-                helper.showErrorNotification('Xóa môn học thất bại');
-                dispatch({
-                    type: types.DELETE_COURSES_ERROR,
-                });
+                });}else {
+                    helper.showNotification('Xóa môn học thất bại!');
+                    dispatch({
+                        type: types.DELETE_COURSES_ERROR
+                    });
+                }
             });
     };
 }

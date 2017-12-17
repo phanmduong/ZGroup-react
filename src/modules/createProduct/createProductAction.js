@@ -24,6 +24,18 @@ export function getCategoriesCreateProduct() {
     };
 }
 
+export function getPropertiesCreateProduct() {
+    return function (dispatch) {
+        createProductApi.getPropertiesApi()
+            .then(function (response) {
+                dispatch({
+                    type: types.GET_PROPERTIES_CREATE_PRODUCT,
+                    properties_list: response.data.good_property_items
+                });
+            });
+    };
+}
+
 export function saveCategoriesCreateProduct(categories) {
     return ({
         type: types.GET_CATEGORIES_CREATE_PRODUCT,
@@ -102,6 +114,33 @@ export function handleProductCreate(product) {
     });
 }
 
+export function addPropertiesCreate(property) {
+    return ({
+        type: types.ADD_PROPERTIES_CREATE,
+        property
+    });
+}
+
+export function handlePropertiesCreate(property_list) {
+    return ({
+        type: types.HANDLE_PROPERTIES_CREATE,
+        property_list
+    });
+}
+
+export function handleChildrenCreateProduct(children) {
+    return {
+        type: types.HANDLE_CHILDREN_CREATE_PRODUCT,
+        children
+    };
+}
+
+export function selectGoodCountCheck() {
+    return ({
+        type: types.SELECT_GOOD_COUNT_CHECK
+    });
+}
+
 export function saveProductCreate(product) {
     return function (dispatch) {
         dispatch({
@@ -146,6 +185,26 @@ export function loadProduct(productId) {
                     type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
                     product: res.data.data.good
                 });
+                if (res.data.data.good.property_list) {
+                    dispatch(handlePropertiesCreate(res.data.data.good.property_list.map(property => {
+                        return {
+                            ...property,
+                            value: property.value.map(e => {
+                                return {
+                                    old: true,
+                                    value: e,
+                                    label: e
+                                };
+                            })
+                        };
+                    })));
+                } else dispatch(handlePropertiesCreate([
+                    {
+                        name: 'coool',
+                        property_item_id: 3,
+                        value: []
+                    }
+                ]));
             });
     };
 }
@@ -156,3 +215,12 @@ export function deleteImage(image) {
         image
     };
 }
+
+export function handleGoodCountCreate(count) {
+    return {
+        type: types.HANDLE_GOOD_COUNT_CREATE,
+        count
+    };
+}
+
+

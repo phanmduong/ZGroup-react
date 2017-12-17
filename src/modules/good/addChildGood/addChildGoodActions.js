@@ -1,6 +1,7 @@
 import * as types from '../../../constants/actionTypes';
 import * as goodApi from '../goodApi';
-import {showErrorNotification} from "../../../helpers/helper";
+import {showErrorMessage, showErrorNotification, showNotification} from "../../../helpers/helper";
+import * as taskApi from "../../tasks/taskApi";
 
 export function updateChildGoodForm(good) {
     return function (dispatch) {
@@ -37,30 +38,45 @@ export function saveChildGood(good) {
         dispatch({
             type: types.BEGIN_SAVE_CHILD_GOOD
         });
-        goodApi.saveChildGood(good)
+        taskApi.barcodeNotEmpty()
             .then((res) => {
-                if (res.data.status === 1) {
-                    dispatch({
-                        type: types.CREATE_CARD_SUCCESS,
-                        card: res.data.data.card
-                    });
+                const {count} = res.data.data;
+                if (Number(count) > 0) {
+                    goodApi.saveChildGood(good)
+                        .then((res) => {
+                            if (res.data.status === 1) {
+                                showNotification("Thêm sản phẩm con thành công");
+                                dispatch({
+                                    type: types.CREATE_CARD_SUCCESS,
+                                    card: res.data.data.card
+                                });
+                                dispatch({
+                                    type: types.SAVE_CHILD_GOOD_SUCCESS
+                                });
+
+                                dispatch({
+                                    type: types.OPEN_CLOSE_CARD_DETAIL_MODAL,
+                                    showModal: false,
+                                    card: {}
+                                });
+
+                            } else {
+                                dispatch({
+                                    type: types.SAVE_CHILD_GOOD_FAIL
+                                });
+
+                                showErrorNotification(res.data.message);
+                            }
+                        });
+                } else {
+
                     dispatch({
                         type: types.SAVE_CHILD_GOOD_SUCCESS
                     });
 
-                    dispatch({
-                        type: types.OPEN_CLOSE_CARD_DETAIL_MODAL,
-                        showModal: false,
-                        card: {}
-                    });
-
-                } else {
-                    dispatch({
-                        type: types.SAVE_CHILD_GOOD_FAIL
-                    });
-
-                    showErrorNotification(res.data.message);
+                    showErrorMessage("Không tạo được sản phẩm", "Không còn barcode khả dụng");
                 }
             });
+
     };
 }

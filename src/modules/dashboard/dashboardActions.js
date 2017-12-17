@@ -43,12 +43,12 @@ export function loadBasesData() {
     };
 }
 
-export function loadDashboardData(genId, baseId) {
+export function loadDashboardData(genId, baseId, startTime, endTime) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_DASHBOARD_DATA
         });
-        dashboardApi.loadDashboard(genId, baseId)
+        dashboardApi.loadDashboard(genId, baseId, startTime, endTime)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_DASHBOARD_DATA_SUCCESS,

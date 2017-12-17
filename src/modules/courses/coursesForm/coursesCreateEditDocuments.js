@@ -10,6 +10,14 @@ import FormInputText                    from '../../../components/common/FormInp
 import {NO_IMAGE}                       from '../../../constants/env';
 import * as helper                      from '../../../helpers/helper';
 
+function validateLink(link){
+    if(helper.isEmptyInput(link)) return NO_IMAGE;
+    if(link.substring(0,4) === 'http'){
+        return link;
+    }
+    return 'http://' + link;
+}
+
 
 class coursesCreateEditDocuments extends React.Component {
     constructor(props, context) {
@@ -43,10 +51,11 @@ class coursesCreateEditDocuments extends React.Component {
     }
 
     componentWillReceiveProps(){
-        //console.log('coursesCreateEditDocuments', nextProps);
-
+        helper.setFormValidation('#form-edit-link');
     }
-
+    componentDidUpdate(){
+        helper.setFormValidation('#form-edit-link');
+    }
     openModal(){
         this.isCreate = true;
         this.setState({openModal: true});
@@ -60,12 +69,13 @@ class coursesCreateEditDocuments extends React.Component {
     }
     closeModal(){
         this.setState({openModal: false});
-        this.props.coursesActions.loadOneCourse(this.props.data.id);
+        //this.props.coursesActions.loadOneCourse(this.props.data.id);
     }
 
     uploadLinkIcon(event){
         let file = event.target.files[0];
-        this.props.coursesActions.uploadLinkIcon(this.props.link, file);
+        if(helper.checkFileSize(file, 2))
+            this.props.coursesActions.uploadLinkIcon(this.props.link, file);
     }
 
     openModalEditLink(link){
@@ -94,9 +104,15 @@ class coursesCreateEditDocuments extends React.Component {
         if(this.checkValidate())
         if(this.isCreate)
         {
-            this.props.coursesActions.createLink(this.props.link);
+            this.props.coursesActions.createLink(this.props.link, ()=>{
+                this.setState({openModal: false});
+                this.props.coursesActions.loadOneCourse(this.props.data.id);
+            });
         }else {
-            this.props.coursesActions.commitEditLink(this.props.link);
+            this.props.coursesActions.commitEditLink(this.props.link, ()=>{
+                this.setState({openModal: false});
+                this.props.coursesActions.loadOneCourse(this.props.data.id);
+            });
         }
 
 
@@ -114,6 +130,7 @@ class coursesCreateEditDocuments extends React.Component {
         }
         return false;
     }
+
     render(){
 
         return (
@@ -151,12 +168,12 @@ class coursesCreateEditDocuments extends React.Component {
                                                     rel         ="tooltip"
                                                     data-placement      ="right"
                                                     data-original-title ={link.link_name}>
-                                                <img src={link.link_icon_url} alt=""/>
+                                                <img src={validateLink(link.link_icon_url)} alt=""/>
                                             </button>
                                         </td>
                                         <td >{link.link_name}</td>
                                         <td>
-                                                <a href={link.link_url} target="_blank">
+                                                <a href={validateLink(link.link_url)} target="_blank">
                                                     <p style={{
                                                         maxWidth: "100px",
                                                         wordWrap: 'break-word',
@@ -237,6 +254,7 @@ class coursesCreateEditDocuments extends React.Component {
                                         updateFormData={this.updateLinkData}
                                         value={this.props.link.link_name}
                                         type="text"
+                                        disabled={this.props.isUploadingLinkIcon}
                                     />
                                 </div>
                                 <div className="col-md-12">
@@ -247,6 +265,7 @@ class coursesCreateEditDocuments extends React.Component {
                                         updateFormData={this.updateLinkData}
                                         value={this.props.link.link_description}
                                         type="text"
+                                        disabled={this.props.isUploadingLinkIcon}
                                     />
                                 </div>
                                 <div className="col-md-12">
@@ -257,6 +276,7 @@ class coursesCreateEditDocuments extends React.Component {
                                         updateFormData={this.updateLinkData}
                                         value={this.props.link.link_url}
                                         type="text"
+                                        disabled={this.props.isUploadingLinkIcon}
                                     />
                                 </div>
                             </div>
@@ -272,10 +292,12 @@ class coursesCreateEditDocuments extends React.Component {
                                 <div>
                                     <button className="btn btn-rose"
                                             onClick={this.commitLink}
+                                            disabled={this.props.isUploadingLinkIcon}
                                     > Cập nhật
                                     </button>
                                     <button className="btn btn-rose"
                                             onClick={this.closeModal}
+                                            disabled={this.props.isUploadingLinkIcon}
                                     > Huỷ
                                     </button>
                                 </div>
@@ -296,7 +318,11 @@ coursesCreateEditDocuments.propTypes = {
     isUploadingLink     : PropTypes.bool.isRequired,
     data                : PropTypes.object,
     link                : PropTypes.object,
-    coursesActions      : PropTypes.object.isRequired
+    coursesActions      : PropTypes.object.isRequired,
+    loadOneCourse      : PropTypes.func,
+    createLink      : PropTypes.func,
+    commitEditLink      : PropTypes.func,
+    editLink      : PropTypes.func,
 };
 
 function mapStateToProps(state) {

@@ -53,6 +53,15 @@ class ListGood extends React.Component {
                 [-1, 10, 25, 50],
                 ["Tất cả", 10, 25, 50]
             ],
+            columns: [
+                {"name": "STT", "orderable": true},
+                {"name": "Mã sản phẩm", "orderable": true},
+                {"name": "Tên sản phẩm", "orderable": true},
+                {"name": "Số lượng", "orderable": true},
+                {"name": "Giá vốn", "orderable": false},
+                {"name": "Thành tiên", "orderable": false},
+                {"name": "Giá bán", "orderable": false}
+            ],
             iDisplayLength: 10,
             responsive: true,
             "language": generateDatatableLanguage("hóa đơn"),
@@ -139,6 +148,7 @@ ListGood.propTypes = {
     deleteGood: PropTypes.func.isRequired,
     openModalEditGood: PropTypes.func.isRequired,
     importGoods: PropTypes.array.isRequired,
+    type: PropTypes.string.isRequired,
 };
 
 export default ListGood;

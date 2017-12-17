@@ -24,14 +24,24 @@ class AskGoodPropertiesModalContainer extends React.Component {
     }
 
     submitGoodProperties() {
-        this.props.taskActions.showGlobalLoading();
+        if (!this.props.task.isEditProcess)
+            this.props.taskActions.showGlobalLoading();
+
         this.props.taskActions.submitGoodProperties()
-            .then(() => {
-                if (!this.props.task.isEditProcess) {
-                    moveAndCreateCard(this, this.props.task)
-                        .then(() => {
-                            this.props.taskActions.hideGlobalLoading();
-                        });
+            .then((noError) => {
+                if (noError) {
+                    if (!this.props.task.isEditProcess) {
+                        moveAndCreateCard(this, this.props.task, this.props.projectId, this.props.card.id)
+                            .then(() => {
+                                this.props.taskActions.hideGlobalLoading();
+                                this.props.taskActions.closeCardDetailModal();
+
+                            });
+                    }
+                } else {
+                    this.props.taskActions.hideGlobalLoading();
+
+
                 }
             });
     }
@@ -88,7 +98,8 @@ AskGoodPropertiesModalContainer.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     goodPropertiesOutput: PropTypes.object.isRequired,
-    showModal: PropTypes.bool.isRequired
+    showModal: PropTypes.bool.isRequired,
+    projectId: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
@@ -99,7 +110,8 @@ function mapStateToProps(state) {
         goodPropertiesOutput: state.task.askGoodProperties.goodPropertiesOutput,
         goodProperties: state.task.askGoodProperties.goodProperties,
         card: state.task.cardDetail.card,
-        task: state.task.askGoodProperties.task
+        task: state.task.askGoodProperties.task,
+        projectId: state.task.boardList.projectId
     };
 }
 

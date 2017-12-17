@@ -4,6 +4,7 @@ import * as env from '../constants/env';
 import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
+import * as FILE_SAVER from 'file-saver';
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -12,6 +13,15 @@ export function shortenStr(str, length) {
     } else {
         return str;
     }
+}
+
+export function checkFileSize(file, sizeMB) {
+    let sizeBytes = sizeMB * 1024 * 1024;
+    if (file.size > sizeBytes) {
+        showWarningNotification("Vui lòng chọn file có kích thước nhỏ hơn " + sizeMB + " MB.");
+        return false;
+    }
+    return true;
 }
 
 export function numberWithCommas(x) {
@@ -212,8 +222,8 @@ export function round2(first, second) {
     return Math.round(first * 100 / second) / 100;
 }
 
-export function isClassWait(className) {
-    return className.indexOf('.') > -1;
+export function isClassWait(type) {
+    return type == 'waiting';
 }
 
 export function sweetAlertSuccess(message) {
@@ -766,7 +776,11 @@ export function convertSecondToTime(timeSecond) {
 
     let hours = addZeroTime(timeSecond % 24);
 
-    return '' + hours + ':' + minutes + ':' + second;
+    if (hours != 0) {
+        return '' + hours + ':' + minutes + ':' + second;
+    } else {
+        return minutes + ':' + second;
+    }
 }
 
 function addZeroTime(time) {
@@ -856,6 +870,62 @@ export function splitComma(value) {
 }
 
 
+function sheetToArrayBit(s) {
+    if (typeof ArrayBuffer !== 'undefined') {
+        let buf = new ArrayBuffer(s.length);
+        let view = new Uint8Array(buf);
+        for (let i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    } else {
+        let buf = new Array(s.length);
+        for (let i = 0; i != s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+        return buf;
+    }
+}
+
+function exportTable(tableid, type) {
+    let wb = XLSX.utils.table_to_book(document.getElementById(tableid), {sheet: "Sheet JS"});
+    let wbout = XLSX.write(wb, {bookType: type, bookSST: true, type: 'binary'});
+    let fname = 'test.' + type;
+    try {
+        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)], {type: "application/octet-stream"}), fname);
+    } catch (e) {
+        if (typeof console != 'undefined') console.log(e, wbout);
+    }
+    return wbout;
+}
+
+export function exportTableToExcel(tableid, type) {
+    return exportTable(tableid, type || 'xlsx');
+}
+
+
+export function newWorkBook() {
+    return XLSX.utils.book_new();
+}
+
+export function appendJsonToWorkBook(json, wb, sheetname, cols, cmts, merges) {
+    let sheet = XLSX.utils.json_to_sheet(json);
+    if(cols) sheet['!cols'] = cols;
+    if(cmts){
+        cmts.forEach((item)=>{ XLSX.utils.cell_add_comment(sheet[item.cell], item.note, ''); });
+    }
+    if (merges) sheet['!merges'] = merges;
+    XLSX.utils.book_append_sheet(wb, sheet, sheetname);
+    return wb;
+}
+
+export function saveWorkBookToExcel(wb, filename) {
+    let wbout = XLSX.write(wb, {bookType: 'xlsx', bookSST: true, type: 'binary'});
+    let fname = (filename ? filename : 'datasheet') + '.xlsx';
+    try {
+        FILE_SAVER.saveAs(new Blob([sheetToArrayBit(wbout)], {type: "application/octet-stream"}), fname);
+    } catch (e) {
+        if (typeof console != 'undefined') console.log(e, wbout);
+    }
+}
+
+
 export function superSortCategories(categories) {
     categories.reverse();
     let result = [];
@@ -890,4 +960,186 @@ export function superFilter(id, inter, gen) {
     });
     return newArr;
 }
+
+export function childrenBeginAddChild(properties) {
+    let children = [];
+    let product = properties.reduce((res, pro) => res * pro.value.length, 1);
+    for (let i = 0; i < product; i++) {
+        children.push({
+            id: null,
+            check: true,
+            price: 0,
+            barcode: '',
+            properties: []
+        });
+    }
+    properties.forEach(pro => {
+        let product_other = product / pro.value.length;
+        let begin = 0;
+        pro.value.forEach(value => {
+            for (let i = begin; i < begin + product_other; i++) {
+                children[i].properties.push({
+                    property_item_id: pro.property_item_id,
+                    value: value.value
+                });
+            }
+            begin += product_other;
+        });
+    });
+    return children;
+}
+
+export function isNull(data) {
+    return data === null || data === undefined;
+}
+
+export function convertDataGeneral(data) {
+    return data && data.length > 0 ? data.map((item, index) => {
+        let staff = item.attendances[0].user;
+        return {
+            'STT': index + 1,
+            'Họ và tên': staff.name,
+            'Đi làm': item.total_attendance,
+            'Đúng luật': item.total_lawful,
+            'Bỏ làm': item.total_not_work,
+            'Checkin muộn': item.total_checkin_late,
+            'Checkout sớm': item.total_checkout_early,
+            'Không checkin': item.total_not_checkin,
+            'Không checkout': item.total_not_checkout,
+        };
+    }) : [{
+        'STT': '',
+        'Họ và tên': '',
+        'Đi làm': '',
+        'Đúng luật': '',
+        'Bỏ làm': '',
+        'Checkin muộn': '',
+        'Checkout sớm': '',
+        'Không checkin': '',
+        'Không checkout': '',
+    }];
+}
+
+export function convertDataDetailTeacher(data, filter) {
+    let result = [];
+    let merges = [];
+    let index = 0;
+    let i = 1;
+    let j = 1;
+    let jj = 1;
+    data.map((item) => {
+        let attendances = filter ? item.attendances.filter(itemFilter => itemFilter[filter]) : item.attendances;
+        if (attendances && attendances.length > 0) {
+            index++;
+            let attendanceBefore = attendances[0];
+            attendances.map(function (attendance) {
+                i++;
+                if (attendance.class_name !== attendanceBefore.class_name) {
+                    merges.push(
+                        {s: {r: jj, c: 3}, e: {r: i - 2, c: 3}}
+                    );
+                    jj = i - 1;
+                    attendanceBefore = attendance;
+                }
+                result.push({
+                    'STT': index,
+                    'Họ và tên': attendance.user.name,
+                    'Ngày': attendance.time,
+                    'Lớp': attendance.class_name,
+                    'Thời gian': attendance.start_time + " - " + attendance.end_time,
+                    'Checkin lúc': attendance.check_in ? attendance.check_in.created_at : '',
+                    'Checkout lúc': attendance.check_out ? attendance.check_out.created_at : "",
+                    'Lỗi vi phạm': attendance.message,
+                });
+            });
+            merges.push(
+                {s: {r: j, c: 1}, e: {r: i - 1, c: 1}}
+            );
+            merges.push(
+                {s: {r: jj, c: 3}, e: {r: i - 1, c: 3}}
+            );
+            merges.push(
+                {s: {r: j, c: 0}, e: {r: i - 1, c: 0}}
+            );
+            j = i;
+            jj = i;
+        }
+    });
+    if (result && result.length > 0) {
+        return {
+            data: result,
+            merges: merges
+        };
+    } else {
+        return {
+            data: [{
+                'STT': '',
+                'Họ và tên': '',
+                'Ngày': '',
+                'Lớp': '',
+                'Thời gian': '',
+                'Checkin lúc': '',
+                'Checkout lúc': '',
+                'Lỗi vi phạm': '',
+            }],
+            merges: merges
+        };
+    }
+}
+
+export function convertDataDetailSalesMarketing(data, filter) {
+    let result = [];
+    let merges = [];
+    let index = 0;
+    let i = 1;
+    let j = 1;
+    data.map((item) => {
+        let attendances = filter ? item.attendances.filter(itemFilter => itemFilter[filter]) : item.attendances;
+        if (attendances && attendances.length > 0) {
+            index++;
+            attendances.map(function (attendance) {
+                i++;
+                result.push({
+                    'STT': index,
+                    'Họ và tên': attendance.user.name,
+                    'Ngày': attendance.date,
+                    'Ca': attendance.name + `: ${attendance.start_time} - ${attendance.end_time}`,
+                    'Tuần': attendance.start_time + " - " + attendance.end_time,
+                    'Checkin lúc': attendance.check_in ? attendance.check_in.created_at : '',
+                    'Checkout lúc': attendance.check_out ? attendance.check_out.created_at : "",
+                    'Lỗi vi phạm': attendance.message,
+                });
+            });
+            merges.push(
+                {s: {r: j, c: 1}, e: {r: i - 1, c: 1}}
+            );
+            merges.push(
+                {s: {r: j, c: 0}, e: {r: i - 1, c: 0}}
+            );
+            j = i;
+        }
+    });
+    if (result && result.length > 0) {
+        return {
+            data: result,
+            merges: merges
+        };
+    } else {
+        return {
+            data: [{
+                'STT': '',
+                'Họ và tên': '',
+                'Ngày': '',
+                'Ca': '',
+                'Tuần': '',
+                'Checkin lúc': '',
+                'Checkout lúc': '',
+                'Lỗi vi phạm': '',
+            }],
+            merges: merges
+        };
+    }
+}
+
+
 

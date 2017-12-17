@@ -45,13 +45,16 @@ export function searchGoods(search) {
 }
 
 export function createImportGoods(formImportGood, status, importGoodsId) {
-    let url = env.MANAGE_API_URL + `/order/add-import-order-goods`;
+    let url = env.MANAGE_API_URL + (importGoodsId ? `/order/import-order/edit/${importGoodsId}` :
+        `/order/add-import-order-goods`)
+
+    ;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
 
-    let importGoods = formImportGood.importGoods.map((good) => {
+    let importGoods = formImportGood.imported_goods.map((good) => {
         return {
             good_id: good.id,
             quantity: Number(good.quantity.toString().replace(/\./g, "")),
@@ -62,7 +65,8 @@ export function createImportGoods(formImportGood, status, importGoodsId) {
 
     return axios.post(url, {
         code: formImportGood.code,
-        id: importGoodsId ? importGoodsId : "",
+        id: formImportGood.id ? formImportGood.id : "",
+
         note: formImportGood.note,
         status: status,
         paid_money: Number(formImportGood.paid_money.toString().replace(/\./g, "")),
@@ -173,3 +177,4 @@ export function addPaidMoney(paidMoney, orderId) {
     });
 
 }
+

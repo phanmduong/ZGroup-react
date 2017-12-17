@@ -20,6 +20,13 @@ class ProductSystemContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
     }
 
+    componentWillMount() {
+        this.props.createProductAction.getManufacturesCreateProduct();
+        this.props.createProductAction.getCategoriesCreateProduct();
+        this.props.createProductAction.getPropertiesCreateProduct();
+    }
+
+
     updateFormData(e) {
         const field = e.target.name;
         let productWorking = {...this.props.productWorking};

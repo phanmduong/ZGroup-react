@@ -1,8 +1,8 @@
 import React from 'react';
 import ItemOrder from './ItemOrder';
-import Pagination from '../../components/common/Pagination';
 import Loading from '../../components/common/Loading';
 import PropTypes from 'prop-types';
+import ShipGoodModalContainer from "./ShipGoodModalContainer";
 
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -10,9 +10,6 @@ class ListOrder extends React.Component {
     }
 
     render() {
-
-        let first = (this.props.currentPage - 1) * this.props.limit + 1;
-        let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
         return (
             <div className="table-responsive">
                 {
@@ -29,46 +26,35 @@ class ListOrder extends React.Component {
                                     <th>Trạng thái</th>
                                     <th>Tổng tiền</th>
                                     <th>Nợ</th>
-                                    <th />
-                                    <th />
-
+                                    <th/>
+                                    <th/>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {
                                     this.props.orders.map((order, index) => {
-                                        return <ItemOrder order={order} key={index} openModal = {this.props.toggleShipModal}/>;
+
+                                        return (<ItemOrder order={order} key={index}
+                                                          changeStatusOrder={this.props.changeStatusOrder}
+                                                          showShipGoodModal={this.props.showShipGoodModal}/>);
+
                                     })
                                 }
                                 </tbody>
                             </table>
                         )
                 }
-                <div className="row float-right">
-                    <div className="col-md-12" style={{textAlign: 'right'}}>
-                        <b style={{marginRight: '15px'}}>
-                            Hiển thị kêt quả từ {first} - {end}/{this.props.totalCount}</b><br/>
-                        <Pagination
-                            totalPages={this.props.totalPages}
-                            currentPage={this.props.currentPage}
-                            loadDataPage={this.props.loadOrders}
-                        />
-                    </div>
-                </div>
+                <ShipGoodModalContainer/>
             </div>
         );
     }
 }
 
 ListOrder.propTypes = {
-    toggleShipModal : PropTypes.func,
-    loadOrders: PropTypes.func.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    limit: PropTypes.number.isRequired,
-    totalCount: PropTypes.number.isRequired,
+    changeStatusOrder: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    totalPages: PropTypes.number.isRequired,
     orders: PropTypes.array.isRequired,
+    showShipGoodModal: PropTypes.func.isRequired
 };
 
 

@@ -18,14 +18,12 @@ export default function productListReducer(state = initialState.productList, act
             return {
                 ...state,
                 productsTotal: action.productsTotal,
-                productsBusiness: action.productsBusiness,
-                productsNotBusiness: action.productsNotBusiness,
-                productsDisplay: action.productsDisplay,
-                productsNotDisplay: action.productsNotDisplay,
-                productsDeleted: action.productsDeleted,
                 productsQuantity: action.productsQuantity,
-                productsHighlight: action.productsHighlight,
-                productsNotHighlight: action.productsNotHighlight
+                isLoading: false,
+                modalInProduct: {
+                    ...state.modalInProduct,
+                    sameProductModal: false
+                }
             };
         case types.TOGGLE_PRICE_MODAL:
             return {
@@ -33,6 +31,18 @@ export default function productListReducer(state = initialState.productList, act
                 modalInProduct: {
                     ...state.modalInProduct,
                     priceModal: !state.modalInProduct.priceModal
+                }
+            };
+        case types.TOGGLE_SAME_PRODUCT_MODAL:
+            return {
+                ...state,
+                modalInProduct: {
+                    ...state.modalInProduct,
+                    sameProductModal: !state.modalInProduct.sameProductModal
+                },
+                productEditing: {
+                    ...state.productEditing,
+                    index: action.index
                 }
             };
         case types.BEGIN_LOAD_PRODUCTS:
@@ -152,6 +162,25 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 showWareHouse: false
             };
+        case types.DELETE_CHILDREN_PRODUCT_LIST: {
+            let products = [...state.products];
+            let children = state.productEditing.productPresent.children.filter(child => child.id !== action.product.id);
+            products[action.index] = {
+                ...state.products[action.index],
+                children: children
+            };
+            return {
+                ...state,
+                products: products,
+                productEditing: {
+                    ...state.productEditing,
+                    productPresent: {
+                        ...state.productEditing.productPresent,
+                        children: children
+                    }
+                }
+            };
+        }
         default:
             return state;
     }
