@@ -86,6 +86,7 @@ class InfoCustomerContainer extends React.Component {
             <div>
 
 
+
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">

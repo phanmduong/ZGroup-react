@@ -190,7 +190,6 @@ class GroupCustomerContainer extends React.Component {
                         {/*//      GROUPITEM*/}
 
 
-
                         {this.props.isLoading ? <Loading/> :
                             <div className="row">
                                 {this.props.groupCustomersList.map((groupCustomer) => {
