@@ -117,7 +117,7 @@ class StudentApiController extends ApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
-            $this->emailService->send_mail_confirm_receive_student_money($register, ["colorme.idea@gmail.com"]);
+            $this->emailService->send_mail_confirm_receive_student_money($register);
             send_sms_confirm_money($register);
         }
         $return_data = array(
