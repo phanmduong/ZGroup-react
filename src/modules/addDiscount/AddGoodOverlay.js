@@ -27,7 +27,7 @@ class AddGoodOverlay extends React.Component {
                 <a className="btn btn-simple card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
 
-                    {good.name ?
+                    {good && good.name ?
                         <div style={{display: "flex"}}>
                             <Avatar size={30} url={good.avatar_url}/>
                             {good.name}

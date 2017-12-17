@@ -6,6 +6,7 @@ import FormInputDate from '../../components/common/FormInputDate';
 import AddCustomerOverlay from "./AddCustomerOverlay";
 import AddGoodOverlay from "./AddGoodOverlay";
 import AddCategoryOverlay from "./AddCategoryOverlay";
+import AddGroupCustomerOverlay from "./AddGroupCustomerOverlay";
 // import ReactSelect from 'react-select';
 
 
@@ -15,7 +16,7 @@ class AddDiscountComponent extends React.Component {
         this.state = {
             isShowModal: false,
         };
-        this.toggle = this.toggle.bind(this);
+        this.toggle = this.toggle.bind(this); // Không dùng
     }
 
     toggle() {
@@ -63,6 +64,10 @@ class AddDiscountComponent extends React.Component {
             {
                 name: 'Khách hàng',
                 id: 'customer',
+            },
+            {
+                name: 'Nhóm khách hàng',
+                id: 'customer-group',
             },
         ];
         let DISCOUNTYPE = [
@@ -120,7 +125,6 @@ class AddDiscountComponent extends React.Component {
                                         name="type"
                                         data={TYPE}
                                         value={type}
-                                        required={true}
                                         updateFormData={this.props.updateFormData}
                                     />
                                     <FormInputText
@@ -129,7 +133,6 @@ class AddDiscountComponent extends React.Component {
                                         type="text"
                                         updateFormData={this.props.updateFormData}
                                         value={name}
-                                        required={true}
                                     />
 
 
@@ -151,7 +154,6 @@ class AddDiscountComponent extends React.Component {
                                                 updateFormData={this.props.updateFormData}
                                                 name="discount_type"
                                                 value={discount_type}
-                                                placeholder="Chọn đơn vị"
                                             />
                                         </div>
                                         {discount_type === '' ? null :
@@ -170,7 +172,7 @@ class AddDiscountComponent extends React.Component {
                                                      data-bind="text: $parent.Culture"
                                                      style={{
                                                          width: "12px",
-                                                         marginTop: "50px",
+                                                         marginTop: "49px",
                                                          marginLeft: "-16px",
                                                      }}
                                                 >{discount_type === 'percentage' ? '%' : '₫'}
@@ -196,24 +198,27 @@ class AddDiscountComponent extends React.Component {
                                                 marginTop: "42px"
                                             }}>
                                                 {
-                                                    this.props.discount.used_for === 'good' ?
+                                                    used_for === 'good' ?
 
                                                         <AddGoodOverlay
                                                             good={this.props.discount.good}
                                                         />
                                                         :
-                                                        this.props.discount.used_for === 'category' ?
-
-
+                                                        used_for === 'category' ?
                                                             <AddCategoryOverlay category={this.props.discount.category} />
 
                                                             :
-                                                            this.props.discount.used_for === 'customer' ?
+                                                            used_for === 'customer' ?
                                                                 <AddCustomerOverlay
                                                                     customer={this.props.discount.customer}
                                                                 />
                                                                 :
-                                                                this.props.discount.used_for === 'order' ?
+                                                                used_for === 'customer-group'?
+                                                                    <AddGroupCustomerOverlay
+                                                                    groupCustomer={this.props.discount.customer_group}
+                                                                    />
+                                                                :
+                                                                used_for === 'order' ?
                                                                     <div>
                                                                         <div className="col-md-10"
                                                                              style={{marginTop: -16}}>
@@ -240,13 +245,9 @@ class AddDiscountComponent extends React.Component {
                                                                     :
                                                                     null
                                                 }
-
-
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -296,7 +297,7 @@ class AddDiscountComponent extends React.Component {
 
 AddDiscountComponent.propTypes = {
     discount: PropTypes.object,
-    categories: PropTypes.object,
+    // categories: PropTypes.object,
     updateFormData: PropTypes.func,
 };
 

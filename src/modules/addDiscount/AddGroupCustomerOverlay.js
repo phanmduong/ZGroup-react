@@ -2,11 +2,11 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
-import ListCategories from './ListCategories';
+import ListGroupCustomers from './ListGroupCustomers';
 import propTypes from 'prop-types';
 
 
-class AddCategoryOverlay extends React.Component {
+class AddGroupCustomerOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.toggle = this.toggle.bind(this);
@@ -21,18 +21,18 @@ class AddCategoryOverlay extends React.Component {
 
 
     render() {
-        let category = this.props.category;
+        let groupCustomer = this.props.groupCustomer;
         return (
             <div style={{position: "relative"}}>
                 <a className="btn btn-simple card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
-                    {category && category.name ?
+                    {groupCustomer && groupCustomer.name ?
                         <div style={{display: "flex"}}>
-                            {category.name}
+                            {groupCustomer.name}
                         </div>
                         :
                         <span>
-                        <i className="material-icons">card_giftcard</i> Chọn Danh mục
+                        <i className="material-icons">group</i> Chọn nhóm khách hàng
                         </span>
                     }
                 </a>
@@ -43,7 +43,7 @@ class AddCategoryOverlay extends React.Component {
                     placement="top"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <ListCategories
+                    <ListGroupCustomers
                         toggle={this.toggle}
                     />
                 </Overlay>
@@ -53,7 +53,7 @@ class AddCategoryOverlay extends React.Component {
     }
 }
 
-AddCategoryOverlay.propTypes = {
-    category: propTypes.object,
+AddGroupCustomerOverlay.propTypes = {
+    groupCustomer: propTypes.object,
 };
-export default AddCategoryOverlay;
+export default AddGroupCustomerOverlay;

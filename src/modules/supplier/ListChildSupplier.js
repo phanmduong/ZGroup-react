@@ -35,19 +35,13 @@ class ListChildSupplier extends React.Component {
                                             <td>
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
-                                                        <a data-toggle="tooltip" title type="button"
-                                                           rel="tooltip"
-                                                           data-original-title="Sửa"
-                                                           onClick={() => {
+                                                        <a onClick={() => {
                                                                this.props.openFormDataInEdit(supplier, supplier.id);
                                                            }}
                                                         >
                                                             <i className="material-icons">edit</i>
                                                         </a>
-                                                        <a data-toggle="tooltip" title type="button"
-                                                           rel="tooltip"
-                                                           data-original-title="Xóa"
-                                                           onClick={() => this.props.deleteSupplier(supplier.id, supplier.name)}
+                                                        <a onClick={() => this.props.deleteSupplier(supplier.id, supplier.name)}
                                                         >
                                                             <i className="material-icons">delete</i>
                                                         </a>

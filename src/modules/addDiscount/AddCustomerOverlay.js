@@ -3,7 +3,7 @@ import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
 import ListCustomers from './ListCustomers';
 import Avatar from "../../components/common/Avatar";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 class AddCustomerOverlay extends React.Component {
@@ -26,7 +26,7 @@ class AddCustomerOverlay extends React.Component {
             <div style={{position: "relative"}}>
                 <a className="btn btn-simple card-detail-btn-action"
                    ref="target" onClick={() => this.toggle()}>
-                    {customer.name ?
+                    {customer && customer.name ?
                         <div style={{display: "flex"}}>
                             <Avatar size={30} url={customer.avatar_url}/>
                             {customer.name}
@@ -55,6 +55,6 @@ class AddCustomerOverlay extends React.Component {
 }
 
 AddCustomerOverlay.propTypes = {
-    customer : propTypes.object,
+    customer : PropTypes.object,
 };
 export default AddCustomerOverlay;
