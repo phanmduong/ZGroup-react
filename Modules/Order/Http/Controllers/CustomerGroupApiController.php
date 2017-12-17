@@ -104,4 +104,17 @@ class CustomerGroupApiController extends ManageApiController
         ]);
 
     }
+
+    public function getCustomerOfGroup($groupId, Request $request)
+    {
+        $group = InfoCustomerGroup::find($groupId);
+        if (!$group) return $this->respondErrorWithStatus("Nhóm khách hàng không tồn tại");
+        $limit = $request->limit ? $request->limit : 20;
+        $customers = $group->customers()->paginate($limit);
+        return $this->respondWithPagination($customers, [
+            "customers" => $customers->map(function ($customer) {
+                return $customer->transfromCustomer();
+            }),
+        ]);
+    }
 }
