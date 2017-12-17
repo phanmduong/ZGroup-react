@@ -1447,7 +1447,7 @@ function next_code()
     }
 
     $waiting_code = Register::where('code', 'like', config('app.prefix_code_wait') . '%')
-        ->where('code', 'not like', config('app.prefix_code') . '%')->orderBy('code', 'desc')->first();
+        ->orderBy('code', 'desc')->first();
     if ($waiting_code) {
         $waiting_code = $waiting_code->code;
         $next_waiting_code = explode(config('app.prefix_code_wait'), $waiting_code)[1];
