@@ -1127,6 +1127,8 @@ function first_part_of_code($class_name, $waitingCode, $nextCode)
 
 function send_sms_confirm_money($register)
 {
+
+    if (empty(config('app.sms_key')) || empty(config('app.brand_sms'))) return 0;
     $client = new \GuzzleHttp\Client(['base_uri' => "http://api-02.worldsms.vn"]);
 //    $promise = $client->post("/webapi/sendSMS");
     $headers = [
@@ -1170,6 +1172,7 @@ function send_sms_confirm_money($register)
 
 function send_sms_remind($register)
 {
+    if (empty(config('app.sms_key')) || empty(config('app.brand_sms'))) return 0;
     $client = new \GuzzleHttp\Client(['base_uri' => "http://api-02.worldsms.vn"]);
 //    $promise = $client->post("/webapi/sendSMS");
     $headers = [
@@ -1184,7 +1187,7 @@ function send_sms_remind($register)
     $datestart = date('d/m', strtotime($register->studyClass->datestart));
 //    dd($datestart);
     $course_name = convert_vi_to_en_not_url($register->studyClass->course->name);
-    $text = strtoupper($course_name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)). "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ". Khoa hoc cua ban se bat dau vao ngay mai " . $datestart . " vao luc " . $splitted_time . ". Ban nho den som 15p de cai dat phan mem nhe.";
+    $text = strtoupper($course_name) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . "\nChao " . ucwords(convert_vi_to_en_not_url($register->user->name)) . ". Khoa hoc cua ban se bat dau vao ngay mai " . $datestart . " vao luc " . $splitted_time . ". Ban nho den som 15p de cai dat phan mem nhe.";
     $body = json_encode([
         "from" => config('app.brand_sms'),
         "to" => $register->user->phone,
@@ -1216,6 +1219,7 @@ function send_sms_remind($register)
 
 function send_sms_general($register, $content)
 {
+    if (empty(config('app.sms_key')) || empty(config('app.brand_sms'))) return 0;
     $client = new \GuzzleHttp\Client(['base_uri' => "http://api-02.worldsms.vn"]);
 //    $promise = $client->post("/webapi/sendSMS");
     $headers = [
