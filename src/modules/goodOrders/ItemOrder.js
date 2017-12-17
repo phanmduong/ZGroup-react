@@ -4,10 +4,8 @@ import TooltipButton from '../../components/common/TooltipButton';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
-import ReactSelect from 'react-select';
+import Select from 'react-select';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
-import {showErrorNotification} from "../../helpers/helper";
-import {confirm} from "../../helpers/helper";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
@@ -64,7 +62,7 @@ class ItemOrder extends React.Component {
 
         // Only change status of order to next status
         if (value.order > currentStatusOrder) {
-            confirm(
+            helper.confirm(
                 "warning",
                 "Xác nhận",
                 `Chuyển trạng thái của đơn hàng thành ${value.label}`,
@@ -74,13 +72,13 @@ class ItemOrder extends React.Component {
                 }
             );
         } else {
-            showErrorNotification("Bạn không thể chuyển đơn hàng về các trạng thái trước");
+            helper.showErrorNotification("Bạn không thể chuyển đơn hàng về các trạng thái trước");
         }
 
     }
 
     render() {
-        const {order} = this.props;
+        const order = this.props.order;
         return (
             <tr>
                 <td>
@@ -129,14 +127,8 @@ class ItemOrder extends React.Component {
                             )
                     }
                 </td>
-                <td className="min-width-130-px">
-                    <ReactSelect
-                        name="form-field-name"
-                        options={ORDER_STATUS}
-                        value={order.status}
-                        placeholder="Chọn trạng thái"
-                        onChange={this.changeStatusOrder}
-                    />
+                <td>
+
                 </td>
 
                 <td>{helper.dotNumber(order.total)}đ</td>
