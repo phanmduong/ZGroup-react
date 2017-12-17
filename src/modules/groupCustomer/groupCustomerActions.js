@@ -3,12 +3,12 @@ import * as groupCustomerApis from './groupCustomerApis';
 import * as helper from '../../helpers/helper';
 
 
-export function loadCustomers(page, limit, query, stringId) {
+export function loadCustomersInOverlay(page, limit, query, stringId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CUSTOMER_IN_GROUP_CUSTOMER
         });
-        groupCustomerApis.loadCustomersApi(limit, page, query)
+        groupCustomerApis.loadCustomersInOverlayApi(limit, page, query)
             .then((res) => {
                 dispatch({
                     type: types.LOADED_CUSTOMER_SUCCESS_IN_GROUP_CUSTOMER,
@@ -23,6 +23,30 @@ export function loadCustomers(page, limit, query, stringId) {
             .catch(() => {
                 dispatch({
                     type: types.LOADED_CUSTOMER_ERROR_IN_GROUP_CUSTOMER,
+                });
+            });
+    };
+}
+
+export function loadCustomersInModal(page, limit, query, idModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CUSTOMER_IN_MODAL_IN_GROUP_CUSTOMER
+        });
+        groupCustomerApis.loadCustomersInModal(page, limit, query, idModal)
+            .then((res) => {
+                dispatch({
+                    type: types.LOADED_CUSTOMER_IN_MODAL_SUCCESS_IN_GROUP_CUSTOMER,
+                    customers: res.data.customers,
+                    total_pages: res.data.paginator.total_pages,
+                });
+                // stringId.map((id) => {
+                //     dispatch(assignGroupCustomerFormData(id));
+                // }); // loc luon những người có trong stringId
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOADED_CUSTOMER_IN_MODAL_ERROR_IN_GROUP_CUSTOMER,
                 });
             });
     };
