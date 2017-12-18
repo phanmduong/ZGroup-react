@@ -4,7 +4,7 @@
 $pathToAssets = array("elements/assets", "elements/stylesheets", "elements/fonts", "elements/pix_mail", "elements/js-files");
 $filename = "../landingpage/website.zip"; //use the /tmp folder to circumvent any permission issues on the root folder
 /* END CONFIG */
-$tmpfilename = 'tmp/website.zip';
+$tmpfilename = './tmp/website.zip';
 if (file_exists($tmpfilename)) {
     unlink($tmpfilename);
 }
