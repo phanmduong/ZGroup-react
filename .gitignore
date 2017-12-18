@@ -16,4 +16,5 @@ socketEnv.js
 .pm2/
 .*
 /public/render-landingpage/tmp/*
+/public/landing-page/*
 

@@ -11,7 +11,7 @@ if (file_exists($tmpfilename)) {
 
 $external_css_files = true;
 
-$form_type_export = $_POST['form_type_export'];
+//$form_type_export = $_POST['form_type_export'];
 $imgs = json_decode($_POST['pix_export_imgs_Field']);
 $imgs[] = "images/favicon.ico";
 
@@ -93,20 +93,18 @@ foreach ($_POST['pages'] as $page => $content) {
 //$zip->addFromString("pix_mail/config.php", $pixfort_mail);
 $zip->close();
 
-$yourfile = $filename;
-$file_name = basename($yourfile);
-header("Content-Type: application/zip");
-header("Content-Transfer-Encoding: Binary");
-header("Content-Disposition: attachment; filename=$file_name");
-header("Content-Length: " . filesize($yourfile));
-readfile($yourfile);
-unlink('tmp/website.zip');
+//$yourfile = $filename;
+//$file_name = basename($yourfile);
+//header("Content-Type: application/zip");
+//header("Content-Transfer-Encoding: Binary");
+//header("Content-Disposition: attachment; filename=$file_name");
+//header("Content-Length: " . filesize($yourfile));
+//readfile($yourfile);
+//unlink('tmp/website.zip');
 $zip = new ZipArchive;
-if ($zip->open($yourfile) === TRUE) {
-    $zip->extractTo('../landing-page/1/');
+$folder = $_POST['link-landing-page'];
+if ($zip->open($filename) === TRUE) {
+    $zip->extractTo('../landing-page/' . $folder . '/');
     $zip->close();
-    echo 'ok';
-} else {
-    echo 'failed';
 }
 ?>
