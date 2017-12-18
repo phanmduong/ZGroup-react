@@ -36,7 +36,7 @@ var sendNotification = function (notification) {
     }
 
     var data = {
-        app_id:  env.NOTI_APP_MANAGE_ID,
+        app_ids: [env.NOTI_APP_MANAGE_ID],
         contents: {"en": text, "vi": text},
         filters: filter,
         url: env.PROTOCOL + 'manage.' + env.DOMAIN + notification.link
