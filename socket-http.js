@@ -13,15 +13,15 @@ redis.on('message', function (channel, message) {
     message = JSON.parse(message);
     io.emit(channel + ':' + message.event, message.data);
     if (message.event === 'notification' && message.data && message.data.receiver_id) {
-        sendNotification(message.data, env.NOTI_APP_MANAGE_ID);
-        sendNotification(message.data, env.NOTI_APP_ID);
+        sendNotification(message.data, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
+        sendNotification(message.data, env.NOTI_APP_ID, env.NOTI_APP_KEY);
     }
 });
 http.listen(env.SOCKET_PORT, function () {
     console.log('Listening on Port ' + env.SOCKET_PORT);
 });
 
-var sendNotification = function (notification, appID) {
+var sendNotification = function (notification, appID, appKey) {
     var text = htmlToText.fromString(notification.message, {
         wordwrap: 130
     });
@@ -45,7 +45,7 @@ var sendNotification = function (notification, appID) {
 
     var headers = {
         "Content-Type": "application/json; charset=utf-8",
-        "Authorization": "Basic " + env.NOTI_APP_KEY
+        "Authorization": "Basic " + appKey
     };
 
     var options = {
