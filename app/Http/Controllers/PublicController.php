@@ -182,8 +182,9 @@ class PublicController extends Controller
         return view('public.classes_list', $this->data);
     }
 
-    public function classes1($course_id = null, $saler_id = null, $campaign_id = null){
-        $course = Course::find($course_id);
+    public function classes1($landingId,Request $request){
+        $landing= Landing::find($landingId);
+        $course = Course::find($landing->course_id);
         $courses = Course::all();
         $current_gen = Gen::getCurrentGen();
         $date_start = $course->classes->sortbyDesc('datestart')->first();
@@ -192,13 +193,13 @@ class PublicController extends Controller
         }
         $courses_str=[""];
         $this->data['current_gen_id'] = $current_gen->id;
-        $this->data['course_id'] = $course_id;
+        $this->data['course_id'] = $landing->course_id;
         $this->data['course'] = $course;
         $this->data['bases'] = Base::all();
         $this->data['courses'] = $courses;
-
-        $this->data['saler_id'] = $saler_id;
-        $this->data['campaign_id'] = $campaign_id;
+        $this->data['landing'] = $landing;
+        $this->data['saler_id'] = $request->saler_id;
+        $this->data['campaign_id'] = $request->campaign_id;
 
         return view('public.classes_list_new',$this->data);
     }
