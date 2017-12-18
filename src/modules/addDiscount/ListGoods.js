@@ -25,7 +25,7 @@ class ListGoods extends React.Component {
     }
 
     componentWillMount() {
-        this.loadGoods( 1, this.state.limit );
+        this.loadGoods( 1);
     }
 
     onSearchChange(value) {

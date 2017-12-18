@@ -25,6 +25,16 @@ export function loadClassLessonModal(id) {
     return axios.get(url);
 }
 
+export function loadClassInfo(id) {
+    //http://manageapi.keetool.xyz/class/914?token=
+    let url = env.MANAGE_API_URL + "/class/" + id ;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+
 
 export function loadLessonDetailModal(classid , lessonid) {
     //http://manageapi.keetool.xyz/v2/course/get-attendance-lesson/120/1?token=
@@ -36,15 +46,24 @@ export function loadLessonDetailModal(classid , lessonid) {
     return axios.get(url);
 }
 
-export function takeAttendance(classid , lessonid, studentid) {
-    //manageapi.keetool.xyz/v2/course/change-attendance/931/1?token=
-    let url = env.MANAGE_API_URL + "/v2/course/change-attendance/" + classid + "/" + lessonid;
+export function takeAttendance(data) {
+    //http://manageapi.keetool.xyz/v2/course/change-attendances?token=
+    let res = data.map((obj)=>{
+        return {
+            "attendance_id" : obj.attendance_id,
+            "attendance_lesson_status" : obj.attendance_lesson_status,
+            "attendance_homework_status" : obj.attendance_homework_status,
+            "note" : obj.note ? obj.note : ''
+        };
+    });
+    let url = env.MANAGE_API_URL + "/v2/course/change-attendances";
     let token = localStorage.getItem('token');
 
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url, {student_id : studentid});
+    res = JSON.stringify(res);
+    return axios.post(url, {attendances : res});
 }
 
 

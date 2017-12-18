@@ -14,7 +14,7 @@ class ProductListComponent extends React.Component {
     }
 
     deleteProduct(product, isChild, index) {
-        helper.confirm("error", "Bạn có chắc muốn xóa sản phẩm này", "", () => {
+        helper.confirm("error", "Xóa sản phẩm", "Bạn có chắc muốn xóa sản phẩm này", () => {
             this.props.deleteProduct(product, isChild, index);
         });
     }

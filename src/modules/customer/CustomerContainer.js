@@ -60,7 +60,7 @@ class CustomerContainer extends React.Component {
             birthday: '',
         };
         this.props.customerActions.updateAddCustomerFormData(customer);
-        this.setState({isShowModal: true, isEdit: true});
+        this.setState({isShowModal: true, isEdit: false});
     }
 
 
@@ -174,6 +174,12 @@ class CustomerContainer extends React.Component {
                                                         <div className="ripple-container"/>
                                                     </Link>
                                                 </li>
+                                                <li className="">
+                                                    <Link to="goods/group-customer">
+                                                        Nhóm khách hàng
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -193,7 +199,6 @@ class CustomerContainer extends React.Component {
                                                         onChange={this.customersSearchChange}
                                                         value={this.state.query}
                                                         placeholder="Tìm kiếm khách hàng          "
-                                                        className="col-md-8"
                                                     />
                                                 </div>
                                             </div>
@@ -208,7 +213,7 @@ class CustomerContainer extends React.Component {
 
                                             <div className="row" style={{marginBottom: "30px"}}>
                                                 <div className="col-md-6"/>
-                                                <div className="form-group col-md-4">
+                                                <div className="form-group col-md-4" style={{marginTop : -60}}>
                                                     <label className="label-control">Phân loại: </label>
                                                     <ReactSelect
                                                         name="status"

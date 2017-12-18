@@ -43,6 +43,7 @@ class ListBase extends React.Component {
                                         editUrl={"base/" + base.id + "/edit"}
                                         delete={this.props.deleteBase}
                                         object={base}
+                                        disabledDelete
                                     />
                                 </td>
                             </tr>

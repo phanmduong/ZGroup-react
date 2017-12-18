@@ -24,7 +24,12 @@ class AddChildGoodContainer extends React.Component {
     }
 
     taskChange(taskOption) {
-        this.props.addChildGoodActions.updateTaskId(taskOption.value);
+        let value = 0;
+        if (taskOption) {
+            value = taskOption.value;
+        }
+        this.props.addChildGoodActions.updateTaskId(value);
+
     }
 
     inputChange(event) {
@@ -57,15 +62,25 @@ class AddChildGoodContainer extends React.Component {
                     <FormInputText
                         name="name"
                         label="Tên"
+                        disabled={true}
                         updateFormData={this.inputChange}
                         value={this.props.good.name || ""}
                     />
                     <FormInputText
                         name="code"
+                        disabled={true}
                         updateFormData={this.inputChange}
                         label="Mã sản phẩm"
                         value={this.props.good.code || ""}
                     />
+
+                    <FormInputText
+                        name="version"
+                        label="Phiên bản"
+                        updateFormData={this.inputChange}
+                        value={this.props.good.version || ""}
+                    />
+
                     <div className="form-group">
                         <label>
                             Bảng xuất phát
@@ -87,6 +102,7 @@ class AddChildGoodContainer extends React.Component {
                         this.props.isSaving ? <Loading/> : (
                             <div>
                                 <Button
+                                    disabled={!this.props.good.version || !this.props.taskId}
                                     onClick={this.saveChildGood}
                                     className="btn btn-rose">
                                     Lưu

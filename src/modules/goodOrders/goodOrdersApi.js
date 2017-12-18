@@ -50,7 +50,7 @@ export function getAllStaffs() {
     return axios.get(url);
 }
 
-export function changeStatusOrder(orderId, status) {
+export function changeStatusOrder(orderId, status, labelId = "") {
     let url = env.MANAGE_API_URL + `/order/change-status-order`;
     let token = localStorage.getItem('token');
     if (token) {
@@ -58,6 +58,7 @@ export function changeStatusOrder(orderId, status) {
     }
     return axios.put(url, {
         order_id: orderId,
+        label_id: labelId,
         status: status,
     });
 }

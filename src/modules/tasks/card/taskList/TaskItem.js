@@ -36,13 +36,15 @@ class TaskItem extends React.Component {
                             checked={task.status || false}
                             onChange={() => this.props.toggleTaskStatus(task)}
                             type="checkbox" name="optionsCheckboxes"/>
-                        <div style={{display: "inline-block", position: "relative", top: 4}}>
-                            {
-                                task.member && (
-                                    <Avatar url={task.member.avatar_url} size={20}/>
-                                )
-                            }
-                        </div>
+
+                        {
+                            task.members && task.members.map((member, index) => (
+                                <div key={index} style={{display: "inline-block", position: "relative", top: 4}}>
+                                    <Avatar url={member.avatar_url} size={20}/>
+                                </div>
+                            ))
+                        }
+
                         {task.title}
                         {
                             task.deadline_str && (
@@ -66,10 +68,10 @@ class TaskItem extends React.Component {
 
 
                         {/*<li className="more-dropdown-item">*/}
-                            {/*<a onClick={this.props.openEditPropertiesModal}>*/}
-                                {/*<i className="material-icons">details</i>*/}
-                                {/*Sửa thuộc tính*/}
-                            {/*</a>*/}
+                        {/*<a onClick={this.props.openEditPropertiesModal}>*/}
+                        {/*<i className="material-icons">details</i>*/}
+                        {/*Sửa thuộc tính*/}
+                        {/*</a>*/}
                         {/*</li>*/}
 
                         <li className="more-dropdown-item">

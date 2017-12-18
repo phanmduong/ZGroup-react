@@ -20,11 +20,6 @@ class InfoCustomerComponent extends React.Component {
             <div>
                 <div>
 
-
-
-
-
-
                     <h4><strong>Thông tin khách hàng</strong></h4>
                     {/*<FormInputText label="Mã đơn hàng" name="code"*/}
                     {/*value={this.props.importOrder.code} disabled/>*/}
@@ -67,7 +62,7 @@ class InfoCustomerComponent extends React.Component {
                         label="Giới tính"
                         name="gender"
                         data={GENDER}
-                        value={this.props.customer.gender}
+                        value={this.props.customer.gender || ""}
                         required={true}
                         updateFormData={this.props.updateFormData}
                     />

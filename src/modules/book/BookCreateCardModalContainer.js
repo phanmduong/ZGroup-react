@@ -52,7 +52,7 @@ class BookCreateCardModalContainer extends React.Component {
             }
 
 
-            this.props.taskActions.createCard({
+            this.props.taskActions.createCardGood({
                 ...this.props.card,
                 board_id: this.props.board.id,
                 task_list_id: this.state.taskListTemplate.id,

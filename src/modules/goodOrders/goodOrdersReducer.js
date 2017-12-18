@@ -105,6 +105,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isLoadingStaffs: false,
                 errorStaffs: true,
             };
+
         case types.GET_ALL_STAFFS_COMPLETE_GOOD_ORDER:
             return {
                 ...state,
@@ -123,6 +124,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
         case types.TOGGLE_SHIP_GOOD_MODAL:
             return {
                 ...state,
+                isUpdate: action.isUpdate || false,
                 shipGoodModal: !state.shipGoodModal
             };
         case types.HANDLE_SHIP_ORDER_BEGIN: {
@@ -137,14 +139,15 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 shippingGood: {
                     ...state.shipGoodModal,
-                    product: products,
+                    products,
                     order: {
                         ...state.shippingGood.order,
                         id: action.order.code,
                         tel: action.order.customer.phone,
                         name: action.order.customer.name,
                         address: action.order.customer.address,
-                        value: action.order.total
+                        value: action.order.total,
+                        orderId: action.order.id
                     }
                 }
             };

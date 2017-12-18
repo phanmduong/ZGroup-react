@@ -575,6 +575,7 @@ export default {
         isLoadingClasses: false,
         errorClasses: false,
         classes: [],
+        isLoadingRegisters: false,
         isLoadingRegistersByStudent: false,
         errorRegistersByStudent: false,
         registersByStudent: [],
@@ -584,6 +585,8 @@ export default {
         isLoadingClassFilter: false,
         isLoadingSalerFilter: false,
         isLoadingCampaignFilter: false,
+        excel: {},
+        isLoadingExcel: false
     },
 
     profile: {
@@ -839,6 +842,9 @@ export default {
     },
 
     goodOrders: {
+
+        isUpdate: false,
+        orderId: 0,
         shipGoodModal: false,
         isSendingShipOrder: false,
         shippedGoodResponse: {},
@@ -856,13 +862,15 @@ export default {
                 address: "",
                 province: "",
                 district: "",
+
                 is_freeship: "1",
                 pick_date: "",
-                pick_money: 47000,
-                note: "Khối lượng tính cước tối đa: 1.00 kg",
-                value: 3000000
+                pick_money: "",
+                note: "",
+                value: ""
             }
         },
+
         isLoading: false,
         error: false,
         currentPage: 1,
@@ -953,10 +961,14 @@ export default {
     },
 
     customers: {
+        groupsInOverlay: [],
         customersList: [],
         ordersList: [],
         isLoading: true,
+        isLoadingInOverlay: false,
         totalOrderPages: 10,
+        totalGroupCustomerPages: 10,
+
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
@@ -970,6 +982,9 @@ export default {
                 address: '',
                 gender: '',
                 dob: '',
+
+                stringId: '',
+                groups: [],
             }
         },
     },
@@ -990,13 +1005,16 @@ export default {
     },
 
     addDiscount: {
+        isLoadingOut: false,
         isSaving: false,
         isLoading: false,
         customers: [],
         goods: [],
         categories: [],
-        totalCustomerPages: 10,
-        totalGoodPages: 10,
+        groupCustomers: [],
+        totalCustomerPages: 0,
+        totalGoodPages: 0,
+        totalGroupCustomerPages: 0,
         discount: {
             name: '',
             description: '',
@@ -1010,6 +1028,7 @@ export default {
             good: {},
             category: {},
             customer: {},
+            customer_group: {}
         },
 
     },
@@ -1156,6 +1175,7 @@ export default {
         totalPages: 10,
         totalCount: 10,
     },
+
     attendance: {
         isLoading: false,
         isLoadingGens: false,
@@ -1168,44 +1188,18 @@ export default {
             id: "",
         },
         data: {
-            classes: [
-                {
-
-                    activated: 0,
-                    course: {
-                        id: 2,
-                        name: "Illustrator",
-                        icon_url: "http://d1j8r0kxyu9tj8.cloudfront.net/images/1475072336A5Ks9NSnqnHsXOn.jpg"
-                    },
-                    created_at: "13:50, 14 Tháng Tư, 2017",
-                    datestart: "13 Tháng Mười, 2017",
-                    datestart_en: "2017-10-13",
-                    description: "Học riêng với giảng viên (Học phí: 2.500.000đ)",
-                    gen: {id: 23, name: "30"},
-                    id: 578,
-                    name: "AI 1-1",
-                    regis_target: 1,
-                    room: {
-                        id: 17,
-                        name: "Tầng 3",
-                        base: "Cơ sở 1",
-                        address: " Số 175 phố Chùa Láng - Đống Đa - Hà Nội",
-                        base_id: 3
-                    },
-                    schedule_id: 0,
-                    status: 1,
-                    study_time: "Tuỳ theo sự sắp xếp của trợ giảng và giảng viên",
-                    target: 1,
-                    total_paid: 1,
-                    total_register: 1,
-                }
-            ],
+            classes: [],
 
         },
         class: [],
         lesson: [],
         bases: [],
-        gens: []
+        gens: [],
+        selectedClass: {
+            name: '',
+            teacher: {},
+            teacher_assistant: {},
+        },
     },
     attendanceStaffs: {
         gens: [],
@@ -1220,4 +1214,50 @@ export default {
         teachers: [],
         salesMarketings: [],
     },
+    rooms: {
+        isLoading: false,
+        error: false,
+        currentPage: 1,
+        totalPages: 1,
+        rooms: [],
+        isLoadingBases: false,
+        errorBases: false,
+        isStoringRoom: false,
+        errorStoreRoom: false,
+        bases: [],
+    },
+    excel: {
+        isLoading: false,
+        data: [],
+    },
+
+    groupCustomers: {
+        isSaving: false,
+        isLoading: false,
+        isLoadingOverlay: false,     // load trong overlay
+        customersList: [],         //  +  customers  = full
+        totalCustomerPages: 1,
+        totalCustomerCount: 1,
+        totalGroupCustomerPages: 1,
+        groupCustomerForm: {
+            customerCount: 1,
+            id: 1,
+            name: '',
+            description: '',
+            stringId: [],
+            customers: [],                         // cac customer trong mot group
+            color: '',
+        },
+        groupCustomersList: [],
+
+    },
+    department: {
+        isLoading: false,
+        data: {
+            paginator: {
+                page: 1,
+                total_pages: 1,
+            },
+        },
+    }
 };

@@ -92,6 +92,12 @@ import OverviewSales from "./modules/summarySales/OverviewSales";
 import StatisticSales from "./modules/summarySales/StatisticSales";
 import BarcodesContainer from "./modules/book/barcode/BarcodesContainer";
 import AttendanceStaffsContainer from "./modules/attendanceStaffs/AttendanceStaffsContainer";
+import ListLessonContainer from "./modules/attendance/ListLessonContainer";
+import RoomsContainer from "./modules/rooms/RoomsContainer";
+import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
+import ManageDepartmentContainer from "./modules/manageDepartment/ManageDepartmentContainer";
+import GroupCustomerContainer from "./modules/groupCustomer/GroupCustomerContainer";
+
 
 export default (
     <Route>
@@ -113,6 +119,7 @@ export default (
 
             {/*Begin base route*/}
             <Route path="/manage/bases" component={BasesContainer}/>
+            <Route path="/manage/rooms" component={RoomsContainer}/>
             <Route path="base/create" component={CreateBaseContainer} type="create"/>
             <Route path="base/:baseId/edit" component={CreateBaseContainer} type="edit"/>
             {/*End Base route*/}
@@ -256,12 +263,13 @@ export default (
             {/*End course routes */}
 
             {/*End lessons routes */}
-                <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
-                <Route path="/manage/courses/lessons/create/:courseId" component={LessonsContainer}/>
+            <Route path="/manage/courses/lessons/edit/:lessonId" component={LessonsContainer}/>
+            <Route path="/manage/courses/lessons/create/:courseId" component={LessonsContainer}/>
             {/*End lessons routes */}
 
             {/*Begin lessons routes */}
-                <Route path="/manage/attendance" component={AttendanceContainer}/>
+            <Route path="/manage/attendance" component={AttendanceContainer}/>
+            <Route path="/manage/attendance/:classId" component={ListLessonContainer}/>
             {/*End lessons routes */}
 
             l
@@ -298,6 +306,7 @@ export default (
             {/*Begin customer routes */}
             <Route path="/goods/customer" component={CustomerContainer}/>
             <Route path="/goods/customer/info-customer/:customerId" component={InfoCustomerContainer}/>
+            <Route path="/goods/group-customer" component={GroupCustomerContainer}/>
             {/*End customer routes*/}
 
 
@@ -315,6 +324,7 @@ export default (
             {/*Begin discount routes */}
             <Route path="/discount/add" component={AddDiscountContainer}/>
             <Route path="/discount" component={DiscountContainer}/>
+            <Route path="/discount/edit/:discountId" component={AddDiscountContainer}/>
             {/*End discount routes*/}
 
             {/*Begin sales routes */}
@@ -342,6 +352,15 @@ export default (
             {/*Begin edit-product routes */}
             <Route path="/staff/attendances" component={AttendanceStaffsContainer}/>
             {/*End edit-product routes*/}
+
+            {/*Begin edit-product routes */}
+            <Route path="/excel/teachers/:genId" component={TeachersExcelContainer}/>
+            {/*End edit-product routes*/}
+
+
+            {/*Begin Role route*/}
+                <Route path="manage-department" component={ManageDepartmentContainer}/>
+            {/*End Role route*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

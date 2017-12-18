@@ -48,7 +48,9 @@ class CoursesContainer extends React.Component {
 
     deleteCourse(course) {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa môn học này không?", () => {
-            this.props.coursesActions.deleteCourse(course);
+            this.props.coursesActions.deleteCourse(course, ()=>{
+                return this.props.coursesActions.loadCourses(this.state.page);
+            });
         });
     }
 
