@@ -1725,6 +1725,10 @@
     $(document).ready(function () {
         console.log(window.location.origin);
         $('#domain-landing-page').text(window.location.origin);
+        $('#exportSubmit').click(function () {
+            console.log($('#doctype').val());
+            window.open(window.location.origin + "/landing-page/" + $('#doctype').val(), '_blank');
+        })
     });
 
 </script>
