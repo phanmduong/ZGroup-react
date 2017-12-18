@@ -1316,10 +1316,10 @@
                             class="pi pixicon-cross"></i> Cancel
                     </button>
                     <button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportSave"><i
-                            class="pi pixicon-check"></i> Save
+                            class="pi pixicon-check"></i> Open Link
                     </button>
                     <button type="submit" type="button" class="btn btn-primary btn-embossed" id="exportSubmit"><i
-                            class="pi pixicon-download"></i> Export Now as .zip File
+                            class="pi pixicon-download"></i> Upload
                     </button>
                 </div>
             </div><!-- /.modal-content -->
@@ -1725,7 +1725,7 @@
     $(document).ready(function () {
         console.log(window.location.origin);
         $('#domain-landing-page').text(window.location.origin);
-        $('#exportSubmit').click(function () {
+        $('#exportSave').click(function () {
             console.log($('#doctype').val());
             window.open(window.location.origin + "/landing-page/" + $('#doctype').val(), '_blank');
         })
