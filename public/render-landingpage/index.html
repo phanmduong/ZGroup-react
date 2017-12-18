@@ -11,140 +11,148 @@
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/spectrum.css" rel="stylesheet">
 	<link href="css/chosen.css" rel="stylesheet">
-	<link rel="shortcut icon" href="images/favicon.ico"> 
+	<link rel="shortcut icon" href="images/favicon.ico">
 	<!-- Font Awesome -->
 	<link href="css/font-awesome.css" rel="stylesheet">
 	<link href="js/redactor/redactor.css" rel="stylesheet">
-	<link rel="stylesheet" href="css/pixicon.css"></head>
-	<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
-	<!--[if lt IE 9]>
-	  <script src="js/html5shiv.js"></script>
-	  <script src="js/respond.min.js"></script>
-	  <![endif]-->
-	</head>
-	<body>
+	<link rel="stylesheet" href="css/pixicon.css">
+</head>
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<script src="js/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
 
-		<div class="menu" id="menu">
+<div class="menu" id="menu">
 
-			<div class="main" id="main">
+	<div class="main" id="main">
 
-				<h3 id="pixlogo"><span id="pixversion">VERSION 5.1</span><img src="images/flatpack-logo.png"></h3>
-				
+		<h3 id="pixlogo"><span id="pixversion">VERSION 5.1</span><img src="images/flatpack-logo.png"></h3>
 
-				<ul id="elements">
-					<li><a href="#" id="all"><i class="pixicon-grid"></i>&nbsp;All Blocks</a></li>
-				</ul>
 
-				<a href="#" class="toggle"></a>
+		<ul id="elements">
+			<li><a href="#" id="all"><i class="pixicon-grid"></i>&nbsp;All Blocks</a></li>
+		</ul>
 
-				
+		<a href="#" class="toggle"></a>
 
-				<div class="left_headline"><i class="pi pixicon-paper-stack"></i> Pages</div>
 
-				<ul id="pages">
-					<li style="display: none;" id="newPageLI">
-						<input type="text" value="index" name="page">
-						<span class="pageButtons">
+		<div class="left_headline"><i class="pi pixicon-paper-stack"></i> Pages</div>
+
+		<ul id="pages">
+			<li style="display: none;" id="newPageLI">
+				<input type="text" value="index" name="page">
+				<span class="pageButtons">
 							<a href="" class="fileEdit"><i class="pi pixicon-cog"></i></a>
 							<a href="" class="pix_dupliacte" title="Duplicate Page"><i class="pi pixicon-stack"></i></a>
 							<a href="" class="fileDel"><i class="pi pixicon-trash"></i></a>
-							<a class="btn btn-xs btn-primary btn-embossed fileSave" href="#"><span class="fui-check"></span></a>
+							<a class="btn btn-xs btn-primary btn-embossed fileSave" href="#"><span
+									class="fui-check"></span></a>
 						</span>
-					</li>
-					<li class="active">
-						<a href="#page1">index</a>
-						<span class="pageButtons">
+			</li>
+			<li class="active">
+				<a href="#page1">index</a>
+				<span class="pageButtons">
 							<a href="" class="fileEdit"><i class="pi pixicon-cog"></i></a>
 							<a href="" class="pix_dupliacte" title="Duplicate Page"><i class="pi pixicon-stack"></i></a>
-							<a class="btn btn-xs btn-primary btn-embossed fileSave" href="#"><span class="fui-check"></span></a>
+							<a class="btn btn-xs btn-primary btn-embossed fileSave" href="#"><span
+									class="fui-check"></span></a>
 						</span>
-					</li>
-				</ul>
+			</li>
+		</ul>
 
-				<div class="sideButtons clearfix">
-					<a href="#" class="btn btn-sm btn-embossed" id="addPage"><i class="pi pixicon-circle-plus"></i> Add</a>
-					<a href="#exportModal" data-toggle="modal" class="btn btn-sm btn-embossed disabled actionButtons"><i class="pi pixicon-download"></i> Export</a>
-				</div>
-
-				<div class="left_headline left_shadows"><i class="pi pixicon-file"></i> .PixBuilder Project</div>
-				<div class="pixbuilderdiv">
-				<a href="#projModal" id="projPage" data-toggle="modal" class="btn btn-info btn-embossed pull-a actiosnButtons projexp" style="width:80%;margin:0 10%;"><i class="pi pixicon-open" ></i> Export & Import</a>
-				</div>
-				
-	  <!--   <a href="#" id ="pix_import" data-toggle="modal" class="btn btn-info btn-sm btn-embossed disabled actionButtons"><span class="fui-export"></span> Import Pages</a>
-		<div id="pix_toggle" style="display:none;">
-		<input id="loadpage" type="textarea" />
-		<a href="#" id ="loadbutton" data-toggle="modal" class="btn btn-info btn-sm btn-embossed disabled actionButtons"><span class="fui-export"></span> load Page</a>
+		<div class="sideButtons clearfix">
+			<a href="#" class="btn btn-sm btn-embossed" id="addPage"><i class="pi pixicon-circle-plus"></i> Add</a>
+			<a href="#exportModal" data-toggle="modal" class="btn btn-sm btn-embossed disabled actionButtons"><i
+					class="pi pixicon-download"></i> Export</a>
 		</div>
-	-->
-</div><!-- /.main -->
 
-<div class="second" id="second">
+		<div class="left_headline left_shadows"><i class="pi pixicon-file"></i> .PixBuilder Project</div>
+		<div class="pixbuilderdiv">
+			<a href="#projModal" id="projPage" data-toggle="modal"
+			   class="btn btn-info btn-embossed pull-a actiosnButtons projexp" style="width:80%;margin:0 10%;"><i
+					class="pi pixicon-open"></i> Export & Import</a>
+		</div>
 
-	<!-- <a href="#" class="hideSecond" id="hideSecond"><span class="fui-arrow-left"></span> hide</a> -->
+		<!--   <a href="#" id ="pix_import" data-toggle="modal" class="btn btn-info btn-sm btn-embossed disabled actionButtons"><span class="fui-export"></span> Import Pages</a>
+          <div id="pix_toggle" style="display:none;">
+          <input id="loadpage" type="textarea" />
+          <a href="#" id ="loadbutton" data-toggle="modal" class="btn btn-info btn-sm btn-embossed disabled actionButtons"><span class="fui-export"></span> load Page</a>
+          </div>
+      -->
+	</div><!-- /.main -->
 
-	<ul id="elements">
+	<div class="second" id="second">
 
-	</ul>
+		<!-- <a href="#" class="hideSecond" id="hideSecond"><span class="fui-arrow-left"></span> hide</a> -->
 
-</div><!-- /.secondSide -->
+		<ul id="elements">
+
+		</ul>
+
+	</div><!-- /.secondSide -->
 
 </div><!-- /.menu -->
-	
-	<header class="clearfix" data-spy="affix" data-offset-top="40" data-offset-bottom="180">
-		
-		
+
+<header class="clearfix" data-spy="affix" data-offset-top="40" data-offset-bottom="180">
 
 
-		
-		<div class="modes">
-			<span class="modes_title">BUILDING MODE</span>
-			<label class="radio primary first">
-				<input type="radio" name="mode" id="modeBlock" value="block" data-toggle="radio" disabled="" checked="">
-				<span class="label_text">Elements</span>
-			</label>
-			<label class="radio primary first">
-				<input type="radio" name="mode" id="modeContent" value="content" data-toggle="radio" disabled="">
-				<span class="label_text">Content</span>
-			</label>
-			<label class="radio primary first">
-				<input type="radio" name="mode" id="modeStyle" value="styling" data-toggle="radio" disabled="">
-				<span class="label_text">Details</span>
-			</label>
-			
-		</div>
+	<div class="modes">
+		<span class="modes_title">BUILDING MODE</span>
+		<label class="radio primary first">
+			<input type="radio" name="mode" id="modeBlock" value="block" data-toggle="radio" disabled="" checked="">
+			<span class="label_text">Elements</span>
+		</label>
+		<label class="radio primary first">
+			<input type="radio" name="mode" id="modeContent" value="content" data-toggle="radio" disabled="">
+			<span class="label_text">Content</span>
+		</label>
+		<label class="radio primary first">
+			<input type="radio" name="mode" id="modeStyle" value="styling" data-toggle="radio" disabled="">
+			<span class="label_text">Details</span>
+		</label>
+
+	</div>
 
 
+	<a href="#" id="clearScreen" class="btn btn-danger btn-embossed pull-right disabled actionButtons pixbtn"><i
+			class="pi pixicon-trash"></i> Empty Page</a>
 
-		<a href="#" id="clearScreen" class="btn btn-danger btn-embossed pull-right disabled actionButtons pixbtn"><i class="pi pixicon-trash"></i> Empty Page</a>
-		
-		<a href="#previewModal" id="preview" data-toggle="modal" class="btn btn-inverse btn-embossed pull-right disabled actionButtons pixbtn" style="display: none"><i class="pi pixicon-eye"></i> Preview</a>
-
-
-		<form action="preview.php" target="_blank" id="pix_preview_form" method="post" style="display:none;">
-			<input type="hidden" name="markup" value="" id="markupField">
-			<button type="submit" type="button" class="btn btn-inverse btn-embossed btn-blue actionButtons pixbtn" id="pixshowPreview"><i class="pi pixicon-eye"></i> Preview</button>
-		</form>
+	<a href="#previewModal" id="preview" data-toggle="modal"
+	   class="btn btn-inverse btn-embossed pull-right disabled actionButtons pixbtn" style="display: none"><i
+			class="pi pixicon-eye"></i> Preview</a>
 
 
+	<form action="preview.php" target="_blank" id="pix_preview_form" method="post" style="display:none;">
+		<input type="hidden" name="markup" value="" id="markupField">
+		<button type="submit" type="button" class="btn btn-inverse btn-embossed btn-blue actionButtons pixbtn"
+				id="pixshowPreview"><i class="pi pixicon-eye"></i> Preview
+		</button>
+	</form>
 
 
-		<a href="#seoModal" id="seoButton" data-toggle="modal" class="btn btn-info btn-embossed  pull-right actionButtons seo_btn pixbtn" style=""><i class="pi pixicon-cog"></i> SEO</a>
-		
-		<a href="#exportModal" id="exportPage" data-toggle="modal" class="btn btn-info btn-embossed pull-right disabled actionButtons pixbtn"><i class="pi pixicon-download"></i> Export</a>
+	<a href="#seoModal" id="seoButton" data-toggle="modal"
+	   class="btn btn-info btn-embossed  pull-right actionButtons seo_btn pixbtn" style=""><i
+			class="pi pixicon-cog"></i> SEO</a>
 
-		<a href="#" id="savePage" class="btn btn-primary btn-embossed pull-right disabled actionButtons pixbtn"><i class="pi pixicon-square-check"></i> <span class="bLabel">Nothing new to save</span></a>
-		
-	</header>
+	<a href="#exportModal" id="exportPage" data-toggle="modal"
+	   class="btn btn-info btn-embossed pull-right disabled actionButtons pixbtn"><i class="pi pixicon-download"></i>
+		Export</a>
+
+	<a href="#" id="savePage" class="btn btn-primary btn-embossed pull-right disabled actionButtons pixbtn"><i
+			class="pi pixicon-square-check"></i> <span class="bLabel">Nothing new to save</span></a>
+
+</header>
 
 <div class="container">
 
-	
 
 	<div class="screen" id="screen">
 
 		<div class="toolbar">
-			
+
 			<div class="buttons clearfix">
 				<span class="left red"></span>
 				<span class="left yellow"></span>
@@ -158,7 +166,8 @@
 			<div class="top_right_options">
 				<a href="#cssModal" data-toggle="modal" id="open_page_css"><span><i class="pi pixicon-css3"></i> Custom CSS</span></a>
 				<!-- &nbsp;|&nbsp; -->
-				<a href="#sectionsModal" data-toggle="modal" id="open_page_sections"><span><i class="pi pixicon-menu"></i> Page Sections</span></a>
+				<a href="#sectionsModal" data-toggle="modal" id="open_page_sections"><span><i
+						class="pi pixicon-menu"></i> Page Sections</span></a>
 			</div>
 
 		</div>
@@ -171,13 +180,16 @@
 				<span>Build your page by dragging elements onto the canvas</span>
 			</div>
 		</div>
-		
+
 	</div><!-- /.screen -->
-	<div class="pix_copy_right"><span>All rights reserved Copyright © 2016 <a href="http://themeforest.net/item/flatpack-landing-pages-pack-with-page-builder/10591107" class="pix_copy_right" target="_blanck">FLATPACK</a> by <a href="http://pixfort.com" class="pix_copy_right" target="_blanck">PixFort</a></span></div>      
+	<div class="pix_copy_right"><span>All rights reserved Copyright © 2016 <a
+			href="http://themeforest.net/item/flatpack-landing-pages-pack-with-page-builder/10591107"
+			class="pix_copy_right" target="_blanck">FLATPACK</a> by <a href="http://pixfort.com" class="pix_copy_right"
+																	   target="_blanck">PixFort</a></span></div>
 </div><!-- /.container -->
 
 <div id="styleEditor" class="styleEditor">
-	
+
 	<div class="sidetitle">
 		<a href="#" class="close"><i class="pi pixicon-cross"></i></a>
 
@@ -190,36 +202,43 @@
 
 	<ul class="nav nav-tabs " id="detailTabs">
 		<li class="active"><a href="#tab1"><i class="pi pixicon-drop"></i> Style</a></li>
-		<li style="display: none;"><a href="#link_Tab" id="link_Link"><i class="pi pixicon-paper-clip"></i> Link</a></li>
+		<li style="display: none;"><a href="#link_Tab" id="link_Link"><i class="pi pixicon-paper-clip"></i> Link</a>
+		</li>
 		<li style="display: none;"><a href="#image_Tab" id="img_Link"><i class="pi pixicon-image"></i> Image</a></li>
 		<li style="display: none;"><a href="#icon_Tab" id="icon_Link"><i class="pi pixicon-umbrella"></i> Icons</a></li>
-		<li style="display: none;"><a href="#video_Tab" id="video_Link"><span class="fa fa-youtube-play"></span> Video</a></li>
-		<li style="display: none;"><a href="#input_Tab" id="input_Link"><i class="pi pixicon-stack"></i> Field Builder</a></li>
-		<li style="display: none;"><a href="#checkbox_Tab" id="checkbox_Link"><i class="pi pixicon-stack"></i> Checkbox</a></li>
-		<li style="display: none;"><a href="#form_Tab" id="form_Link"><i class="pi pixicon-stack"></i> Form Builder</a></li>
-		<li style="display: none;"><a href="#paypal_Tab" id="paypal_Link"><i class="pi pixicon-paypal"></i> PayPal Builder</a></li>
-		<li style="display: none;"><a href="#animation_Tab" id="animation_Link"><i class="pi pixicon-loader"></i> Animation</a></li>
+		<li style="display: none;"><a href="#video_Tab" id="video_Link"><span class="fa fa-youtube-play"></span>
+			Video</a></li>
+		<li style="display: none;"><a href="#input_Tab" id="input_Link"><i class="pi pixicon-stack"></i> Field
+			Builder</a></li>
+		<li style="display: none;"><a href="#checkbox_Tab" id="checkbox_Link"><i class="pi pixicon-stack"></i> Checkbox</a>
+		</li>
+		<li style="display: none;"><a href="#form_Tab" id="form_Link"><i class="pi pixicon-stack"></i> Form Builder</a>
+		</li>
+		<li style="display: none;"><a href="#paypal_Tab" id="paypal_Link"><i class="pi pixicon-paypal"></i> PayPal
+			Builder</a></li>
+		<li style="display: none;"><a href="#animation_Tab" id="animation_Link"><i class="pi pixicon-loader"></i>
+			Animation</a></li>
 	</ul><!-- /tabs -->
 
 	<div class="tab-content">
-		
+
 		<div class="tab-pane active" id="tab1">
 
 			<form class="" role="form" id="stylingForm">
-				
+
 				<div id="styleElements">
 
 					<div class="form-group clearfix" style="display: none;" id="styleElTemplate">
 						<label for="" class="control-label"></label>
 						<input type="text" class="form-control input-sm" id="" placeholder="">
 					</div>
-					
+
 				</div>
 
 			</form>
 
 		</div>
-		
+
 		<!-- /tabs -->
 		<div class="tab-pane link_Tab" id="link_Tab">
 
@@ -240,13 +259,13 @@
 				<span>OR</span>
 			</p>
 
-			<input type="text" class="form-control" id="internalLinksCustom" placeholder="http://somewhere.com/somepage" value="">
+			<input type="text" class="form-control" id="internalLinksCustom" placeholder="http://somewhere.com/somepage"
+				   value="">
 
 		</div>
-		
+
 		<!-- /tabs -->
 		<div class="tab-pane imageFileTab" id="image_Tab">
-
 
 
 			<label>Enter image path:</label>
@@ -258,30 +277,30 @@
 			</p>
 
 			<form id="imageUploadForm" action="iupload.php">
-				
+
 				<label>Upload image:</label>
-				
+
 				<div class="form-group">
 
 
-					<div class="fileinput fileinput-new" data-provides="fileinput" style="display:inline-block;width:100% !important;postition:relative;">
+					<div class="fileinput fileinput-new" data-provides="fileinput"
+						 style="display:inline-block;width:100% !important;postition:relative;">
 						<div class="fileinput-preview thumbnail" style="width: 100%; height: 150px;"></div>
 						<div class="buttons">
 							<span class="btn btn-primary btn-sm btn-embossed btn-file">
-								<span class="fileinput-new" data-trigger="fileinput" ><i class="pi pixicon-image"></i>&nbsp;&nbsp;Select image</span>
+								<span class="fileinput-new" data-trigger="fileinput"><i class="pi pixicon-image"></i>&nbsp;&nbsp;Select image</span>
 								<span class="fileinput-exists"><i class="pi pixicon-cog"></i>&nbsp;&nbsp;Change</span>
 								<input type="file" name="imageFileField" id="imageFileField">
 							</span>
-							<a href="#" class="btn btn-sm btn-embossed fileinput-exists" data-dismiss="fileinput"><i class="pi pixicon-trash"></i>&nbsp;&nbsp;Remove</a>
+							<a href="#" class="btn btn-sm btn-embossed fileinput-exists" data-dismiss="fileinput"><i
+									class="pi pixicon-trash"></i>&nbsp;&nbsp;Remove</a>
 						</div>
 					</div>
 				</div>
-				
+
 			</form>
 
 		</div><!-- /.tab-pane -->
-
-
 
 
 		<div class="tab-pane imageFileTab pixformbuilder" id="input_Tab">
@@ -299,7 +318,9 @@
 		<div class="tab-pane imageFileTab pixformbuilder" id="checkbox_Tab">
 			<label>Enter checkbox Name:</label>
 			<input type="text" class="form-control" id="input_checkbox_name" placeholder="Enter Field Name" value="">
-			<div class="pix_note" style="" id="pix_edit_note">*Use the same name for each group of checkboxes in the form.</div>
+			<div class="pix_note" style="" id="pix_edit_note">*Use the same name for each group of checkboxes in the
+				form.
+			</div>
 			<label>Enter Value:</label>
 			<input type="text" class="form-control" id="input_value" placeholder="Enter value" value="">
 		</div><!-- /.tab-pane -->
@@ -323,18 +344,34 @@
 				<option value="sl">Sendloop</option>
 			</select>
 
-			<div class="pix_note" style="display:none;" id="pix_edit_note">* Don't forget to input the email provideder setting before exporting the page (from the export button).</div>
+			<div class="pix_note" style="display:none;" id="pix_edit_note">* Don't forget to input the email provideder
+				setting before exporting the page (from the export button).
+			</div>
 			<br>
 			<br>
 			<label>Add new fields to the form:</label>
-			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_field"><i class="pi pixicon-square-plus"></i> Add new Field</button>
-			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_select"><i class="pi pixicon-add-to-list"></i> Add new Select</button>
-			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_textarea"><i class="pi pixicon-align-left"></i> Add new Text Area</button>
-			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_radio"><i class="pi pixicon-target"></i> Add new radio</button>
-			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_checkboxs"><i class="pi pixicon-list"></i> Add new checkboxs</button>
-			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_date"><i class="pi pixicon-clock"></i> Add new date field</button>
-			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_terms"><i class="pi pixicon-paper"></i> Add new accept terms</button>
-			
+			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_field"><i
+					class="pi pixicon-square-plus"></i> Add new Field
+			</button>
+			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_select"><i
+					class="pi pixicon-add-to-list"></i> Add new Select
+			</button>
+			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_textarea"><i
+					class="pi pixicon-align-left"></i> Add new Text Area
+			</button>
+			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_radio"><i
+					class="pi pixicon-target"></i> Add new radio
+			</button>
+			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_checkboxs"><i
+					class="pi pixicon-list"></i> Add new checkboxs
+			</button>
+			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_date"><i
+					class="pi pixicon-clock"></i> Add new date field
+			</button>
+			<button type="button" class="btn btn-embossed btn-sm btn-block" id="add_terms"><i
+					class="pi pixicon-paper"></i> Add new accept terms
+			</button>
+
 			<br>
 
 		</div><!-- /.tab-pane -->
@@ -348,7 +385,11 @@
 			<div id="paypal_complex" class="">
 				<label>Enter item Price:</label>
 				<input type="text" class="form-control" id="paypal_item_price" placeholder="Enter item price" value="">
-				<div class="pix_note" style="display:none;padding:5px 0;padding-top:8px;" id="paypal_price_note">This form has complex price field, for more information about editing it please check <a href="http://support.pixfort.com/doc/flatpack/#paypal_complex" target="_blanck">the documentation file</a>.</div>
+				<div class="pix_note" style="display:none;padding:5px 0;padding-top:8px;" id="paypal_price_note">This
+					form has complex price field, for more information about editing it please check <a
+							href="http://support.pixfort.com/doc/flatpack/#paypal_complex" target="_blanck">the
+						documentation file</a>.
+				</div>
 			</div>
 
 			<label>Enter successful return URL:</label>
@@ -358,11 +399,11 @@
 			<label>Enter notify URL:</label>
 			<input type="text" class="form-control" id="paypal_notify_url" placeholder="Enter return URL" value="">
 
-			
 
-			<div class="pix_note" id="pix_paypal_note">* For more information about the PayPal integration please check the <a href="http://support.pixfort.com/doc/flatpack/#paypal" target="_blanck">documentation file</a>.</div>
-			
-			
+			<div class="pix_note" id="pix_paypal_note">* For more information about the PayPal integration please check
+				the <a href="http://support.pixfort.com/doc/flatpack/#paypal" target="_blanck">documentation file</a>.
+			</div>
+
 
 			<br>
 
@@ -485,11 +526,12 @@
 				<option value="pulsate">Pulsate</option>
 				<option value="heartbeat">Heartbeat</option>
 				<option value="panic">Panic</option>
-			</select>				
+			</select>
 
 			<label>Animation delay:</label>
-			<input type="text" class="form-control" id="data-anim-delay" placeholder="Enter delay time in milliseconds" value="">
-			
+			<input type="text" class="form-control" id="data-anim-delay" placeholder="Enter delay time in milliseconds"
+				   value="">
+
 			<label>Animation duration:</label>
 			<select id="animationdur">
 				<option value="">Default (1 second)</option>
@@ -498,19 +540,20 @@
 				<option value="ultra-slow-mo">ultra-slow-mo (4 second)</option>
 				<option value="hyper-slow-mo">hyper-slow-mo (5 second)</option>
 			</select>
-			
 
-			<div class="pix_note" style="display:none;" id="pix_edit_note">* Don't forget to input the email provideder setting before exporting the page (from the export button).</div>
+
+			<div class="pix_note" style="display:none;" id="pix_edit_note">* Don't forget to input the email provideder
+				setting before exporting the page (from the export button).
+			</div>
 			<br>
-			
+
 
 		</div><!-- /.tab-pane -->
 
-		
 
 		<!-- /tabs -->
 		<div class="tab-pane iconTab" id="icon_Tab">
-			
+
 			<label>Choose an icon below: </label>
 
 			<select id="icons" data-placeholder="Your Favorite Types of Bear">
@@ -1023,7 +1066,8 @@
 
 			<label>Youtube video ID:</label>
 
-			<input type="text" class="form-control margin-bottom-20" id="youtubeID" placeholder="Enter a Youtube video ID" value="">
+			<input type="text" class="form-control margin-bottom-20" id="youtubeID"
+				   placeholder="Enter a Youtube video ID" value="">
 
 			<p class="text-center or">
 				<span>OR</span>
@@ -1031,10 +1075,11 @@
 
 			<label>Vimeo video ID:</label>
 
-			<input type="text" class="form-control margin-bottom-20" id="vimeoID" placeholder="Enter a Vimeo video ID" value="">
+			<input type="text" class="form-control margin-bottom-20" id="vimeoID" placeholder="Enter a Vimeo video ID"
+				   value="">
 
 		</div><!-- /.tab-pane -->
-		
+
 	</div> <!-- /tab-content -->
 
 	<div class="alert alert-success" style="display: none;" id="detailsAppliedMessage">
@@ -1043,161 +1088,191 @@
 	</div>
 
 	<div class="margin-bottom-5 savebtn_div">
-		<button type="button" class="btn btn-primary btn-embossed btn-sm btn-block" id="saveStyling"><i class="pi pixicon-circle-check"></i> Apply Changes</button>
+		<button type="button" class="btn btn-primary btn-embossed btn-sm btn-block" id="saveStyling"><i
+				class="pi pixicon-circle-check"></i> Apply Changes
+		</button>
 	</div>
 
 	<div class="sideButtons clearfix">
-		<button type="button" class="btn btn-inverse btn-embossed btn-xs" id="cloneElementButton"><i class="pi pixicon-stack"></i> Clone</button>
-		<button type="button" class="btn btn-warning btn-embossed btn-xs" id="resetStyleButton"><i class="pi pixicon-repeat"></i> Reset</button>
-		<button type="button" class="btn btn-danger btn-embossed btn-xs" id="removeElementButton"><i class="pi pixicon-trash"></i> Remove</button>
+		<button type="button" class="btn btn-inverse btn-embossed btn-xs" id="cloneElementButton"><i
+				class="pi pixicon-stack"></i> Clone
+		</button>
+		<button type="button" class="btn btn-warning btn-embossed btn-xs" id="resetStyleButton"><i
+				class="pi pixicon-repeat"></i> Reset
+		</button>
+		<button type="button" class="btn btn-danger btn-embossed btn-xs" id="removeElementButton"><i
+				class="pi pixicon-trash"></i> Remove
+		</button>
 	</div>
 
-		<!--<p class="text-center or">
-			<span>OR</span>
-		</p>
-		
-		<button type="button" class="btn btn-embossed btn-block btn-sm" id="closeStyling"><span class="fui-square-cross-inverted"></span> Close Editor</button>-->
+	<!--<p class="text-center or">
+        <span>OR</span>
+    </p>
 
-	</div><!-- /.styleEditor -->
-	
-	<div id="hidden">
-		<iframe src="elements/skeleton.html" id="skeleton"></iframe>
-	</div>
+    <button type="button" class="btn btn-embossed btn-block btn-sm" id="closeStyling"><span class="fui-square-cross-inverted"></span> Close Editor</button>-->
 
-	<!-- modals -->
-	
+</div><!-- /.styleEditor -->
 
-	<div class="modal fade sectionsModal" id="sectionsModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><i class="pi pixicon-cross"></i><span class="sr-only">Close</span></button>
-					<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-menu"></i> Page Sections</h4>
-				</div>
-				<div class="modal-body">
+<div id="hidden">
+	<iframe src="elements/skeleton.html" id="skeleton"></iframe>
+</div>
 
-					<div class="table-responsive">
-						<table class="table" id="sections_table">
-							<tr>
-								<th>Section Order</th>
-								<th>Section Name</th>
-								<th></th> 
-							</tr>
-							<tr><td class="warning"> </td><td class="warning">Sections was not loaded!</td><td class="warning"> </td></tr>
-						</table>
-					</div>
+<!-- modals -->
 
 
-				</div><!-- /.modal-body -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-embossed" data-dismiss="modal"><span class="fui-cross"></span> Close</button>
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div>
+<div class="modal fade sectionsModal" id="sectionsModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><i class="pi pixicon-cross"></i><span
+						class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-menu"></i> Page Sections</h4>
+			</div>
+			<div class="modal-body">
 
-
-	<div class="modal fade cssModal" id="cssModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><i class="pi pixicon-cross"></i><span class="sr-only">Close</span></button>
-					<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-css3"></i> Page Custom CSS</h4>
-				</div>
-				<div class="modal-body">
-					<label>You can input the custom CSS here (without style tag).</label>
-					<div id="cssToEdit"></div>
-					<!-- <textarea style="width:100%;max-width:100%;min-height:300px;" class="form-control" id="cssToEdit2">body *{background: #000 !important;}</textarea> -->
-					
-					<!-- <button type="button" class="btn btn-embossed" id="firas2"><span class="fui-check"></span> shit</button> -->
-				</div><!-- /.modal-body -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-embossed" data-dismiss="modal"><span class="fui-cross"></span> Close</button>
-					<button type="button" class="btn btn-embossed" data-dismiss="modal" id="css_save"><span class="fui-check"></span> Save</button>
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div>
-
-
-
-	<div class="modal fade seoModal" id="seoModal" tabindex="-1" role="dialog" aria-hidden="true">
-
-		<div class="modal-dialog modal-lg">
-
-			<div class="modal-content">
-
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<i class="pi pixicon-cross"></i>
-						<span class="sr-only">Close</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-cog"></i> SEO Settings for <span id="pix_seo_title" class="text-primary pName">index.html</span></h4>
+				<div class="table-responsive">
+					<table class="table" id="sections_table">
+						<tr>
+							<th>Section Order</th>
+							<th>Section Name</th>
+							<th></th>
+						</tr>
+						<tr>
+							<td class="warning"></td>
+							<td class="warning">Sections was not loaded!</td>
+							<td class="warning"></td>
+						</tr>
+					</table>
 				</div>
 
-				<div class="modal-body">
+
+			</div><!-- /.modal-body -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-embossed" data-dismiss="modal"><span class="fui-cross"></span>
+					Close
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
 
 
-					<div class="modal-alerts"></div>
+<div class="modal fade cssModal" id="cssModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><i class="pi pixicon-cross"></i><span
+						class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-css3"></i> Page Custom CSS</h4>
+			</div>
+			<div class="modal-body">
+				<label>You can input the custom CSS here (without style tag).</label>
+				<div id="cssToEdit"></div>
+				<!-- <textarea style="width:100%;max-width:100%;min-height:300px;" class="form-control" id="cssToEdit2">body *{background: #000 !important;}</textarea> -->
 
-					<form class="form-horizontal" role="form" id="pageSettingsForm" action="">
+				<!-- <button type="button" class="btn btn-embossed" id="firas2"><span class="fui-check"></span> shit</button> -->
+			</div><!-- /.modal-body -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-embossed" data-dismiss="modal"><span class="fui-cross"></span>
+					Close
+				</button>
+				<button type="button" class="btn btn-embossed" data-dismiss="modal" id="css_save"><span
+						class="fui-check"></span> Save
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
 
-						<input type="hidden" name="siteID" id="siteID" value="1">
-						<input type="hidden" name="pageID" id="pageID" value="25">
-						<input type="hidden" name="pageName" id="pageName" value="">
 
-						<div class="optionPane">
-							
-							<div class="form-group">
-								<label for="name" class="col-sm-8 control-label pix_seo_label">Page Title:</label>
-								<div class="col-sm-12">
-									<input type="text" class="form-control" id="pageData_title" name="pageData_title" placeholder="Page title" value="">
-								</div>
+<div class="modal fade seoModal" id="seoModal" tabindex="-1" role="dialog" aria-hidden="true">
+
+	<div class="modal-dialog modal-lg">
+
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<i class="pi pixicon-cross"></i>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-cog"></i> SEO Settings for <span
+						id="pix_seo_title" class="text-primary pName">index.html</span></h4>
+			</div>
+
+			<div class="modal-body">
+
+
+				<div class="modal-alerts"></div>
+
+				<form class="form-horizontal" role="form" id="pageSettingsForm" action="">
+
+					<input type="hidden" name="siteID" id="siteID" value="1">
+					<input type="hidden" name="pageID" id="pageID" value="25">
+					<input type="hidden" name="pageName" id="pageName" value="">
+
+					<div class="optionPane">
+
+						<div class="form-group">
+							<label for="name" class="col-sm-8 control-label pix_seo_label">Page Title:</label>
+							<div class="col-sm-12">
+								<input type="text" class="form-control" id="pageData_title" name="pageData_title"
+									   placeholder="Page title" value="">
 							</div>
+						</div>
 
-							<div class="form-group">
-								<label for="name" class="col-sm-8 control-label pix_seo_label pix_seo_label">Page Meta Description:</label>
-								<div class="col-sm-12">
-									<textarea class="form-control" id="pageData_metaDescription" name="pageData_metaDescription" placeholder="Page meta description"></textarea>
-								</div>
+						<div class="form-group">
+							<label for="name" class="col-sm-8 control-label pix_seo_label pix_seo_label">Page Meta
+								Description:</label>
+							<div class="col-sm-12">
+                                <textarea class="form-control" id="pageData_metaDescription"
+										  name="pageData_metaDescription"
+										  placeholder="Page meta description"></textarea>
 							</div>
+						</div>
 
-							<div class="form-group">
-								<label for="name" class="col-sm-8 control-label pix_seo_label">Page Meta Keywords:</label>
-								<div class="col-sm-12">
-									<textarea class="form-control" id="pageData_metaKeywords" name="pageData_metaKeywords" placeholder="Page meta keywords"></textarea>
-								</div>
+						<div class="form-group">
+							<label for="name" class="col-sm-8 control-label pix_seo_label">Page Meta Keywords:</label>
+							<div class="col-sm-12">
+                                <textarea class="form-control" id="pageData_metaKeywords" name="pageData_metaKeywords"
+										  placeholder="Page meta keywords"></textarea>
 							</div>
+						</div>
 
-							<div class="form-group">
-								<label for="name" class="col-sm-8 control-label pix_seo_label">Header Includes:</label>
-								<div class="col-sm-12">
-									<textarea class="form-control" id="pageData_headerIncludes" name="pageData_headerIncludes" rows="5" placeholder="Additional code you'd like to include in the <head> section"></textarea>
-								</div>
+						<div class="form-group">
+							<label for="name" class="col-sm-8 control-label pix_seo_label">Header Includes:</label>
+							<div class="col-sm-12">
+                                <textarea class="form-control" id="pageData_headerIncludes"
+										  name="pageData_headerIncludes" rows="5"
+										  placeholder="Additional code you'd like to include in the <head> section"></textarea>
 							</div>
+						</div>
 
-						</div><!-- /.optionPane -->
+					</div><!-- /.optionPane -->
 
-					</form>                           
-				</div><!-- /.modal-body -->
+				</form>
+			</div><!-- /.modal-body -->
 
-				<div class="modal-footer">
-					<button type="button" class="btn btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i> Cancel</button>
-					<button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" id="seoSubmittButton"><i class="pi pixicon-check"></i> Save SEO Settings</button>
-
-					
-				</div>
-
-			</div><!-- /.modal-content -->
-
-		</div><!-- /.modal-dialog -->
-
-	</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i>
+					Cancel
+				</button>
+				<button type="button" class="btn btn-primary btn-embossed" data-dismiss="modal" id="seoSubmittButton"><i
+						class="pi pixicon-check"></i> Save SEO Settings
+				</button>
 
 
+			</div>
 
-	<!-- export HTML popup -->
-	<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-hidden="true">
+		</div><!-- /.modal-content -->
+
+	</div><!-- /.modal-dialog -->
+
+</div>
+
+
+<!-- export HTML popup -->
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-hidden="true">
 
 	<div class="modal-dialog modal-lg bigModal">
 		<form action="save.php" target="_blank" id="markupForm" method="post" class="form-horizontal">
@@ -1208,228 +1283,41 @@
 						<i class="pi pixicon-cross"></i>
 						<span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-download"></i> Export Your Markup</h4>
+					<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-download"></i> Export Your Markup
+					</h4>
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label>Enter Form Type:</label>
-							<select name="form_type_export" id="exportformprovider">
-								<option value="ce">Custom Email</option>
-								<option value="mc">Mailchimp</option>
-								<option value="cm">CampaginMonitor</option>
-								<option value="gr">GetResponse</option>
-								<option value="aw">AWeber</option>
-								<option value="ac">ActiveCampaign</option>
-								<option value="ml">MailerLite</option>
-								<option value="fm">FreshMail</option>
-								<option value="sl">Sendloop</option>
-							</select>
-						<div class="clearfix"></div>
-						<br>
-
-						<ul class="nav nav-tabs " id="detailTabs2">
-							<li class="active"><a href="#EMAIL_export">Custom Email</a></li>
-							<li style=""><a href="#MC_export" id="link_Link1">MailChimp</a></li>
-							<li style=""><a href="#CM_export" id="link_Link2">CampaignMonitor</a></li>
-							<li style=""><a href="#GR_export" id="link_Link3">GetResponse</a></li>
-							<li style=""><a href="#AW_export" id="link_Link4">AWeber</a></li>
-							<li style=""><a href="#AC_export" id="link_Link5">ActiveCampaign</a></li>
-							<li style=""><a href="#ML_export" id="link_Link6">MailerLite</a></li>
-							<li style=""><a href="#FM_export" id="link_Link7">FreshMail</a></li>
-							<li style=""><a href="#SL_export" id="link_Link8">Sendloop</a></li>
-						</ul><!-- /tabs -->
-						<div class="tab-content ">
-							<div class="tab-pane active" id="EMAIL_export">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-8 control-label pix_seo_label">Email:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="to_Email" id="to_Email" placeholder="The email which will receive the leads" value="">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-8 control-label pix_seo_label">Subject:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="subject" id="subject" placeholder="The subject of the email" value="">
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane" id="MC_export">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your API key:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="MC_APIKEY" id="MC_APIKEY" placeholder="Mailchimp API Key" value="">
-									</div>
-								</div>
-								<div class="pix_note">Your API key from here - <a href="http://admin.mailchimp.com/account/api" target="_blanck">http://admin.mailchimp.com/account/api</a></div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">List unique id:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="MC_LISTID" id="MC_LISTID" placeholder="List unique id" value="">
-									</div>
-								</div>
-								<div class="pix_note">List unique id from here - <a href="http://admin.mailchimp.com/lists/" target="_blanck">http://admin.mailchimp.com/lists/</a></div>
-							</div>
-							<div class="tab-pane" id="CM_export">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your API key:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="CM_APIKEY" id="CM_APIKEY" placeholder="Campaign Monitor API KEY" value="">
-									</div>
-								</div>
-								<div class="pix_note">APIKEY from here - <a href="https://YOUR-USERNAME.createsend.com/admin/account/" target="_blanck">YOUR-USERNAME.createsend.com/admin/account/</a></div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">List ID:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="CM_LISTID" id="CM_LISTID" placeholder="List ID" value="">
-									</div>
-								</div>
-								<div class="pix_note">List ID from here - <a href="https://www.campaignmonitor.com/api/getting-started/#listid<" target="_blanck">www.campaignmonitor.com/api/getting-started/#listid</a></div>
-							</div>
-							<div class="tab-pane" id="GR_export">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your API key:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="GR_APIKEY" id="GR_APIKEY" placeholder="GetResponse API key" value="">
-									</div>
-								</div>
-								<div class="pix_note">Your API key from here - <a href="https://app.getresponse.com/my_api_key.html" target="_blanck">app.getresponse.com/my_api_key.html</a></div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Campaign name:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="GR_CAMPAIGN" id="GR_CAMPAIGN" placeholder="Campaign name" value="">
-									</div>
-								</div>
-								<div class="pix_note">Campaign name from here - <a href="https://app.getresponse.com/campaign_list.html" target="_blanck">app.getresponse.com/campaign_list.html</a></div>
-							</div>
-							<div class="tab-pane" id="AW_export">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your Authcode:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="AW_AUTHCODE" id="AW_AUTHCODE" placeholder="AWeber Authcode" value="">
-									</div>
-								</div>
-								<div class="pix_note">Your Authcode from here - <a href="https://auth.aweber.com/1.0/oauth/authorize_app/647b2efd" target="_blanck">https://auth.aweber.com/1.0/oauth/authorize_app/647b2efd</a></div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Campaign name:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="AW_LISTNAME" id="AW_LISTNAME" placeholder="List name" value="">
-									</div>
-								</div>
-								<div class="pix_note">List name from here - <a href="https://www.aweber.com/users/autoresponder/manage" target="_blanck">https://www.aweber.com/users/autoresponder/manage</a></div>
-							</div>
-							<div class="tab-pane" id="AC_export">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your API URL:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="AC_ACTIVECAMPAIGN_URL" id="AC_ACTIVECAMPAIGN_URL" placeholder="ACTIVECAMPAIGN URL" value="">
-									</div>
-								</div>
-								<div class="pix_note">To get your API_URL : Go to My Settings -> Developers</div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your API KEY:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="AC_ACTIVECAMPAIGN_API_KEY" id="AC_ACTIVECAMPAIGN_API_KEY" placeholder="ACTIVECAMPAIGN API KEY" value="">
-									</div>
-								</div>
-								<div class="pix_note">To get your API_KEY : Go to My Settings -> Developers</div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your list_id:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="AC_list_id" id="AC_list_id" placeholder="ACTIVECAMPAIGN List ID" value="">
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane" id="ML_export">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your API Key:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="MailerLite_API_KEY" id="MailerLite_API_KEY" placeholder="MailerLite API Key" value="">
-									</div>
-								</div>
-								<div class="pix_note">To get your API Key : Go to <a href="https://app.mailerlite.com/integrations/api/" target="_blanck">https://app.mailerlite.com/integrations/api/</a></div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">LIST ID:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="MailerLite_LIST_ID" id="MailerLite_LIST_ID" placeholder="MailerLite List ID (GroupID)" value="">
-									</div>
-								</div>
-								<div class="pix_note">To get your LIST ID (GroupID) : Go to <a href="https://app.mailerlite.com/integrations/api/" target="_blanck">https://app.mailerlite.com/integrations/api/</a></div>
-
-								
-							</div>
-							<div class="tab-pane" id="FM_export">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your API Key:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="FM_API_KEY" id="FM_API_KEY" placeholder="FreshMail API Key" value="">
-									</div>
-								</div>
-								<div class="pix_note">To get your API Key : Go to <a href="https://app.freshmail.com/en/settings/integration/" target="_blanck">https://app.freshmail.com/en/settings/integration/</a></div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your API Secret:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="FM_API_SECRET" id="FM_API_SECRET" placeholder="FreshMail API Secret" value="">
-									</div>
-								</div>
-								<div class="pix_note">To get your API Secret: Go to <a href="https://app.freshmail.com/en/settings/integration/" target="_blanck">https://app.freshmail.com/en/settings/integration/</a></div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">List ID:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="FM_list_id" id="FM_list_id" placeholder="FreshMail List ID" value="">
-									</div>
-								</div>
-								<div class="pix_note">List's API key: Go to list -> Parameters</div>
-							</div>
-
-							<div class="tab-pane" id="SL_export">
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your API Key:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="Sendloop_API3_KEY" id="Sendloop_API3_KEY" placeholder="Sendloop API Key" value="">
-									</div>
-								</div>
-								<div class="pix_note">To get your API Key : Go to Settings -> API Settings</div>
-
-								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-11 control-label pix_seo_label">Your Subdomain:</label>
-									<div class="col-sm-12">
-										<input type="text" class="form-control" name="Sendloop_SUBDOMAIN" id="Sendloop_SUBDOMAIN" placeholder="Sendloop Subdomain" value="">
-									</div>
-								</div>
-							</div>
-						</div>
-
-
 						<br>
 
 
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-8 control-label pix_seo_label">reCAPTCHA secret key (optional):</label>
+							<label for="link-landing-page" class="col-sm-8 control-label pix_seo_label"
+								   style="display: flex!important;"> Lưu tại địa chỉ: &nbsp;
+								<div id="domain-landing-page"></div>
+								/landing-page/
+							</label>
 							<div class="col-sm-12">
-								<input type="text" class="form-control" name="recaptcha" id="doctype" placeholder="reCAPTCHA secret key" value="">
+								<input type="text" class="form-control" name="link-landing-page" id="doctype"
+									   placeholder="Nhập link (Không dấu, không khoảng trắng và kí tự đặc biệt)" value="">
 							</div>
 
 						</div>
-						<div class="pix_note">Learn how to get reCAPTCHA secret key - <a href="http://support.pixfort.com/doc/flatpack/#reCAPTCHA" target="_blanck">http://support.pixfort.com/doc/flatpack/#reCAPTCHA</a></div>
-
-
 					</div>
-					
+
 				</div><!-- /.modal-body -->
 				<div class="modal-footer">
-					<a href="#exportModal2" id="ftp_export_btn" data-toggle="modal" data-dismiss="modal" class="btn btn-embossed"><i class="pi pixicon-outbox"></i> Publish via FTP</a>
-					<button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportCancel"><i class="pi pixicon-cross"></i> Cancel</button>
-					<button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportSave"><i class="pi pixicon-check"></i> Save</button>
-					<button type="submit" type="button" class="btn btn-primary btn-embossed" id="exportSubmit"><i class="pi pixicon-download"></i> Export Now as .zip File</button>
+					<a href="#exportModal2" id="ftp_export_btn" data-toggle="modal" data-dismiss="modal"
+					   class="btn btn-embossed"><i class="pi pixicon-outbox"></i> Publish via FTP</a>
+					<button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportCancel"><i
+							class="pi pixicon-cross"></i> Cancel
+					</button>
+					<button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportSave"><i
+							class="pi pixicon-check"></i> Save
+					</button>
+					<button type="submit" type="button" class="btn btn-primary btn-embossed" id="exportSubmit"><i
+							class="pi pixicon-download"></i> Export Now as .zip File
+					</button>
 				</div>
 			</div><!-- /.modal-content -->
 
@@ -1440,8 +1328,8 @@
 </div><!-- /.modal -->
 
 
-	<!-- export HTML popup -->
-	<div class="modal fade" id="exportModal2" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- export HTML popup -->
+<div class="modal fade" id="exportModal2" tabindex="-1" role="dialog" aria-hidden="true">
 
 	<div class="modal-dialog modal-lg">
 		<form class="pix_form_export form-horizontal" action="publish.php" target="_blank" method="post" id="ftpform">
@@ -1455,30 +1343,43 @@
 					<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-outbox"></i> Publish via FTP</h4>
 				</div>
 				<div class="modal-body">
-					<div class="form-group"><div class="pix_alert">
-						<strong>Warning: The data on the directory will be overwritten (this operation can't be undone).</strong><br>Publishing the files may take several minutes (please don't close the page until you see the success message).</div></div>
-						<input type="hidden" name="export_markup" value="" id="pix_ftp_export_Field">
-						<input type="hidden" name="export_imgs" value="" id="pix_ftp_export_imgs_Field">
-						<div class="form-group">
-							<label for="name" class="control-label pix_seo_label">FTP Host:</label>
-							<input type="text" class="form-control" id="pageData_title" name="pix_ftp_host" placeholder="Host" value="">
+					<div class="form-group">
+						<div class="pix_alert">
+							<strong>Warning: The data on the directory will be overwritten (this operation can't be
+								undone).</strong><br>Publishing the files may take several minutes (please don't close
+							the page until you see the success message).
 						</div>
-						<div class="form-group">
-							<label for="name" class="control-label pix_seo_label">FTP Username:</label>
-							<input type="text" class="form-control" id="pageData_title" name="pix_ftp_username" placeholder="Username" value="">
-						</div>
-						<div class="form-group">
-							<label for="name" class="control-label pix_seo_label">FTP Password:</label>
-							<input type="text" class="form-control" id="pageData_title" name="pix_ftp_password" placeholder="Password" value="">
-						</div>
-						<div class="form-group">
-							<label for="name" class="control-label pix_seo_label">Directory:</label>
-							<input type="text" class="form-control" id="pageData_title" name="pix_ftp_dir" placeholder="Directory" value="">
-						</div>
+					</div>
+					<input type="hidden" name="export_markup" value="" id="pix_ftp_export_Field">
+					<input type="hidden" name="export_imgs" value="" id="pix_ftp_export_imgs_Field">
+					<div class="form-group">
+						<label for="name" class="control-label pix_seo_label">FTP Host:</label>
+						<input type="text" class="form-control" id="pageData_title" name="pix_ftp_host"
+							   placeholder="Host" value="">
+					</div>
+					<div class="form-group">
+						<label for="name" class="control-label pix_seo_label">FTP Username:</label>
+						<input type="text" class="form-control" id="pageData_title" name="pix_ftp_username"
+							   placeholder="Username" value="">
+					</div>
+					<div class="form-group">
+						<label for="name" class="control-label pix_seo_label">FTP Password:</label>
+						<input type="text" class="form-control" id="pageData_title" name="pix_ftp_password"
+							   placeholder="Password" value="">
+					</div>
+					<div class="form-group">
+						<label for="name" class="control-label pix_seo_label">Directory:</label>
+						<input type="text" class="form-control" id="pageData_title" name="pix_ftp_dir"
+							   placeholder="Directory" value="">
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportCancel"><i class="pi pixicon-cross"></i> Cancel</button>
-					<button type="submit" type="button" class="btn btn-primary btn-embossed" id="pix_ftp_publish"><i class="pi pixicon-outbox"></i> Publish</button>
+					<button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportCancel"><i
+							class="pi pixicon-cross"></i> Cancel
+					</button>
+					<button type="submit" type="button" class="btn btn-primary btn-embossed" id="pix_ftp_publish"><i
+							class="pi pixicon-outbox"></i> Publish
+					</button>
 				</div>
 
 			</div><!-- /.modal-content -->
@@ -1490,106 +1391,109 @@
 <!-- export Project popup -->
 <div class="modal fade" id="projModal" tabindex="-1" role="dialog" aria-hidden="true">
 
-	<!-- 
-	
-	NOTE: 
-	The export PHP files can be hosted on any server supporting PHP, so these files can be hosted on a different location as the BUILDER (this might be easier for your end customers, so they won't have to worry about hosting PHP files)
-	
+	<!--
+
+    NOTE:
+    The export PHP files can be hosted on any server supporting PHP, so these files can be hosted on a different location as the BUILDER (this might be easier for your end customers, so they won't have to worry about hosting PHP files)
+
 -->
 
-<form id="markupForm2" class="form-horizontal">
-	
-	
-	
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">
-					<i class="pi pixicon-cross"></i>
+	<form id="markupForm2" class="form-horizontal">
+
+
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<i class="pi pixicon-cross"></i>
 						<span class="sr-only">Close</span>
-				</button>
-				<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-open"></i> Export/Import PIXBUILDER Project</h4>
-			</div>
-			<div class="modal-body">
-				<div class="row text-center">
-                        <div class="col-sm-6 export_import">
-                        <form action="expImp.php" target="_blank" id="markFormExp" class="form-horizontal" method="post">
-                            <p>Export .pixbuilder Project</p>
-                            <div>
-                                <a href="#" id="saveprojPage" class="btn btn-primary ">
-                                    <span class="fa fa-download"></span>
-                                    <span class="bLabel">&nbsp;Save File</span>
-                                </a>
-                            </div>
-                            <input id="dataProject" type="hidden" name="JSONProject" value="">
-                            <input id="statusExp" type="hidden" name="status" value="exp">
-                        </form>
-                        </div>
-                        <div class="col-sm-6 export_import left_border">
-                        	<form action="expImp.php" id="markFormImp" class="form-horizontal" method="post" enctype="multipart/form-data">
-                        	<p>Import .pixbuilder Project</p>
-                            <div>   
-                                <span class="file-input btn btn-primary btn-file ">
-                                   <span class="fa fa-upload"></span> &nbsp;Browse… <input type="file" id="fileinput" name="projectImp" multiple="">
-                                </span>
-                                <a href="#" id="loadprojPage" class="btn btn-primary"><span class="fa fa-upload"></span>  <span class="bLabel">import file</span></a>
-                            </div>
-                            <input id="statusImp" type="hidden" name="status" value="imp">
-                        </form>
-                        
-                        </div>
-                        </div>
-
-
-
-		<!-- 		<p><strong>Export .pixbuilder Project:</strong></p>
-				<div>
-					<a href="#" id="saveprojPage" class="btn btn-primary "><span class="fa fa-cloud-download"></span>  <span class="bLabel">export file</span></a>
+					</button>
+					<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-open"></i> Export/Import PIXBUILDER
+						Project</h4>
 				</div>
-				<hr>
+				<div class="modal-body">
+					<div class="row text-center">
+						<div class="col-sm-6 export_import">
+							<form action="expImp.php" target="_blank" id="markFormExp" class="form-horizontal"
+								  method="post">
+								<p>Export .pixbuilder Project</p>
+								<div>
+									<a href="#" id="saveprojPage" class="btn btn-primary ">
+										<span class="fa fa-download"></span>
+										<span class="bLabel">&nbsp;Save File</span>
+									</a>
+								</div>
+								<input id="dataProject" type="hidden" name="JSONProject" value="">
+								<input id="statusExp" type="hidden" name="status" value="exp">
+							</form>
+						</div>
+						<div class="col-sm-6 export_import left_border">
+							<form action="expImp.php" id="markFormImp" class="form-horizontal" method="post"
+								  enctype="multipart/form-data">
+								<p>Import .pixbuilder Project</p>
+								<div>
+                                <span class="file-input btn btn-primary btn-file ">
+                                   <span class="fa fa-upload"></span> &nbsp;Browse… <input type="file" id="fileinput"
+																						   name="projectImp"
+																						   multiple="">
+                                </span>
+									<a href="#" id="loadprojPage" class="btn btn-primary"><span
+											class="fa fa-upload"></span> <span class="bLabel">import file</span></a>
+								</div>
+								<input id="statusImp" type="hidden" name="status" value="imp">
+							</form>
 
-				<p><strong>Import .pixbuilder Project:</strong></p>
-				<div class="form-group">
-
-					<label for="inputEmail3" class="col-sm-2 control-label"></label>
-
-
-					<div class="">
-						<input type="file" id="fileinput"/>
-
+						</div>
 					</div>
-					<div class="col-sm-10" style="margin-top:30px;text-align:left;">
-						<a href="#" id="loadprojPage" class="btn btn-primary "><span class="fa fa-upload"></span>  <span class="bLabel">import file</span></a>
-					</div>
 
 
-				</div> -->
-				<hr>
-				<span class="pix_note">*Note: after the import process all the current landing pages will be deleted!</span>
+					<!-- 		<p><strong>Export .pixbuilder Project:</strong></p>
+                            <div>
+                                <a href="#" id="saveprojPage" class="btn btn-primary "><span class="fa fa-cloud-download"></span>  <span class="bLabel">export file</span></a>
+                            </div>
+                            <hr>
 
-			</div><!-- /.modal-body -->
-			<div class="modal-footer">
-				<button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportCancel"><i class="pi pixicon-cross"></i> Cancel</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
+                            <p><strong>Import .pixbuilder Project:</strong></p>
+                            <div class="form-group">
 
-</form>
+                                <label for="inputEmail3" class="col-sm-2 control-label"></label>
+
+
+                                <div class="">
+                                    <input type="file" id="fileinput"/>
+
+                                </div>
+                                <div class="col-sm-10" style="margin-top:30px;text-align:left;">
+                                    <a href="#" id="loadprojPage" class="btn btn-primary "><span class="fa fa-upload"></span>  <span class="bLabel">import file</span></a>
+                                </div>
+
+
+                            </div> -->
+					<hr>
+					<span class="pix_note">*Note: after the import process all the current landing pages will be deleted!</span>
+
+				</div><!-- /.modal-body -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-embossed" data-dismiss="modal" id="exportCancel"><i
+							class="pi pixicon-cross"></i> Cancel
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+
+	</form>
 
 </div><!-- /.modal -->
 
 
-
-
-
 <!-- export HTML popup -->
 <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-hidden="true">
-	
+
 	<form action="preview.php" target="_blank" id="markupPreviewForm" method="post" class="form-horizontal">
-		
+
 		<input type="hidden" name="markup" value="" id="markupField">
-		
-		
+
+
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -1600,21 +1504,27 @@
 					<h4 class="modal-title" id="myModalLabel"><i class="pi pixicon-eye"></i> Preview Page</h4>
 				</div>
 				<div class="modal-body">
-					
+
 					<p>
-						<b class="white_text">Please note:</b> you can only preview a single page; links to other pages won't work. When you make changes to your page, reloading the preview won't work, instead you'll have to use the "Preview" button again.
+						<b class="white_text">Please note:</b> you can only preview a single page; links to other pages
+						won't work. When you make changes to your page, reloading the preview won't work, instead you'll
+						have to use the "Preview" button again.
 					</p>
 					<input type="checkbox" name="fast_preview" value="" id="pixcheck"><span class="preview_remember"> Don't show this again. </span><br>
-					
+
 				</div><!-- /.modal-body -->
 				<div class="modal-footer">
-					<button type="button" class="btn  btn-embossed" data-dismiss="modal" id="previewCancel"><i class="pi pixicon-cross"></i> Cancel</button>
-					<button type="submit" type="button" class="btn btn-embossed btn-blue" id="showPreview"><i class="pi pixicon-eye"></i> Show Preview</button>
+					<button type="button" class="btn  btn-embossed" data-dismiss="modal" id="previewCancel"><i
+							class="pi pixicon-cross"></i> Cancel
+					</button>
+					<button type="submit" type="button" class="btn btn-embossed btn-blue" id="showPreview"><i
+							class="pi pixicon-eye"></i> Show Preview
+					</button>
 
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
-		
+
 	</form>
 
 </div><!-- /.modal -->
@@ -1626,13 +1536,17 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				
+
 				Are you sure you want to delete this block?
 
 			</div><!-- /.modal-body -->
 			<div class="modal-footer">
-				<button type="button" class="btn  btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i> Cancel</button>
-				<button type="button" type="button" class="btn btn-primary btn-embossed" id="deleteBlockConfirm"><i class="pi pixicon-trash"></i> Delete</button>
+				<button type="button" class="btn  btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i>
+					Cancel
+				</button>
+				<button type="button" type="button" class="btn btn-primary btn-embossed" id="deleteBlockConfirm"><i
+						class="pi pixicon-trash"></i> Delete
+				</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -1646,7 +1560,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				
+
 				<p>
 					Are you sure you want to reset this block?
 				</p>
@@ -1656,8 +1570,11 @@
 
 			</div><!-- /.modal-body -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i> Cancel</button>
-				<button type="button" type="button" class="btn btn-primary btn-embossed" id="resetBlockConfirm">Reset</button>
+				<button type="button" class="btn btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i>
+					Cancel
+				</button>
+				<button type="button" type="button" class="btn btn-primary btn-embossed" id="resetBlockConfirm">Reset
+				</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -1671,13 +1588,17 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				
+
 				<span class="pix_warning">Are you sure you want to remove this page?</span>
 
 			</div><!-- /.modal-body -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i> Cancel</button>
-				<button type="button" type="button" class="btn btn-primary btn-embossed" id="deleteAllConfirm"><i class="pi pixicon-trash"></i> Delete</button>
+				<button type="button" class="btn btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i>
+					Cancel
+				</button>
+				<button type="button" type="button" class="btn btn-primary btn-embossed" id="deleteAllConfirm"><i
+						class="pi pixicon-trash"></i> Delete
+				</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -1689,13 +1610,17 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				
+
 				Are you sure you want to delete this entire page?
 
 			</div><!-- /.modal-body -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-embossed" data-dismiss="modal" id="deletePageCancel"><i class="pi pixicon-cross"></i> Cancel</button>
-				<button type="button" type="button" class="btn btn-primary btn-embossed" id="deletePageConfirm"><i class="pi pixicon-trash"></i> Delete</button>
+				<button type="button" class="btn btn-embossed" data-dismiss="modal" id="deletePageCancel"><i
+						class="pi pixicon-cross"></i> Cancel
+				</button>
+				<button type="button" type="button" class="btn btn-primary btn-embossed" id="deletePageConfirm"><i
+						class="pi pixicon-trash"></i> Delete
+				</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -1707,13 +1632,17 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				
+
 				Are you sure you want to delete this element? Once deleted, it can not be restored.
 
 			</div><!-- /.modal-body -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-embossed" data-dismiss="modal" id="deletePageCancel"><i class="pi pixicon-cross"></i> Cancel</button>
-				<button type="button" type="button" class="btn btn-primary btn-embossed" id="deleteElementConfirm">Delete</button>
+				<button type="button" class="btn btn-embossed" data-dismiss="modal" id="deletePageCancel"><i
+						class="pi pixicon-cross"></i> Cancel
+				</button>
+				<button type="button" type="button" class="btn btn-primary btn-embossed" id="deleteElementConfirm">
+					Delete
+				</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -1721,19 +1650,22 @@
 </div><!-- /.modal -->
 
 
-
 <!-- edit content popup -->
 <div class="modal fade" id="editContentModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				
+
 				<textarea id="contentToEdit"></textarea>
-				
+
 			</div><!-- /.modal-body -->
 			<div class="modal-footer">
-				<button type="button" class="btn btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i> Cancel</button>
-				<button type="button" type="button" class="btn btn-primary btn-embossed" id="updateContentInFrameSubmit">Save Content</button>
+				<button type="button" class="btn btn-embossed" data-dismiss="modal"><i class="pi pixicon-cross"></i>
+					Cancel
+				</button>
+				<button type="button" type="button" class="btn btn-primary btn-embossed"
+						id="updateContentInFrameSubmit">Save Content
+				</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -1748,7 +1680,6 @@
 		<div class="double-bounce2"></div>
 	</div>
 </div>
-
 
 
 <div class="sandboxes" id="sandboxes" style="display: none"></div>
@@ -1777,15 +1708,20 @@
 <script src="js/builder.js"></script>
 
 <script>
-$(function(){
-	var ua = window.navigator.userAgent;
-	var msie = ua.indexOf("MSIE ");    	
-		/*if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-			$('.modes #modeContent').parent().hide();
-		} else {
-			$('.modes #modeContent').parent().show();
-		}*/
-	})    
+    $(function () {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+        /*if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+            $('.modes #modeContent').parent().hide();
+        } else {
+            $('.modes #modeContent').parent().show();
+        }*/
+    })
+
+    $(document).ready(function () {
+        console.log(window.location.origin);
+        $('#domain-landing-page').text(window.location.origin);
+    });
 
 </script>
 </body>
