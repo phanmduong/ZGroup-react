@@ -49,6 +49,8 @@ var sendNotification = function (notification) {
         "Authorization": "Basic " + env.NOTI_APP_KEY
     };
 
+    fdafdsafd
+
     var options = {
         host: "onesignal.com",
         port: 443,
