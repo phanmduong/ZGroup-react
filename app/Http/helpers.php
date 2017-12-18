@@ -1433,7 +1433,8 @@ function abbrev($s)
 
 function next_code()
 {
-    $code = Register::where('code', 'like', config('app.prefix_code') . '%')->orderBy('code', 'desc')->first();
+    $code = Register::where('code', 'like', config('app.prefix_code') . '%')
+        ->where('code', 'not like', config('app.prefix_code_wait') . '%')->orderBy('code', 'desc')->first();
 
     $data = [];
     if ($code) {
@@ -1445,7 +1446,8 @@ function next_code()
         $data["next_code"] = config('app.prefix_code') . '1';
     }
 
-    $waiting_code = Register::where('code', 'like', config('app.prefix_code_wait') . '%')->orderBy('code', 'desc')->first();
+    $waiting_code = Register::where('code', 'like', config('app.prefix_code_wait') . '%')
+        ->orderBy('code', 'desc')->first();
     if ($waiting_code) {
         $waiting_code = $waiting_code->code;
         $next_waiting_code = explode(config('app.prefix_code_wait'), $waiting_code)[1];

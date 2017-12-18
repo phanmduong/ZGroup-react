@@ -210,10 +210,7 @@ class CustomerController extends ManageApiController
             $user->infoCustomerGroups()->detach();
             $id_lists = explode(';', $request->stringId);
             foreach ($id_lists as $id_list) {
-                $cusomer_group = new CustomerGroup;
-                $cusomer_group->customer_group_id = $id_list;
-                $cusomer_group->customer_id = $user->id;
-                $cusomer_group->save();
+                $user->infoCustomerGroups()->attach($id_list);
             }
 
         } else if ($request->stringId == "" && $user->infoCustomerGroups) $user->infoCustomerGroups()->detach();

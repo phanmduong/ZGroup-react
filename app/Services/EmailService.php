@@ -138,7 +138,7 @@ class EmailService
         $this->send_mail_queue_cc($user, $data, $subject);
     }
 
-    public function send_mail_confirm_receive_student_money($register, $emailcc)
+    public function send_mail_confirm_receive_student_money($register)
     {
 
         $user = $register->user;
