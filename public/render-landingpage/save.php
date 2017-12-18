@@ -2,9 +2,9 @@
 /* CONFIG */
 //$pathToAssets = array("elements/assets", "elements/stylesheets", "elements/fonts", "elements/images/main", "elements/images/icons", "elements/js-files", "elements/pix_mail", "elements/images/social_icons", "elements/images/switch", "elements/images/testimonials", "elements/images/uploads");
 $pathToAssets = array("elements/assets", "elements/stylesheets", "elements/fonts", "elements/pix_mail", "elements/js-files");
-$filename = "../landingpage/website.zip"; //use the /tmp folder to circumvent any permission issues on the root folder
+$filename = "../landing-page/website.zip"; //use the /tmp folder to circumvent any permission issues on the root folder
 /* END CONFIG */
-$tmpfilename = './tmp/website.zip';
+$tmpfilename = 'tmp/website.zip';
 if (file_exists($tmpfilename)) {
     unlink($tmpfilename);
 }
@@ -100,7 +100,7 @@ header("Content-Transfer-Encoding: Binary");
 header("Content-Disposition: attachment; filename=$file_name");
 header("Content-Length: " . filesize($yourfile));
 readfile($yourfile);
-//unlink('tmp/website.zip');
+unlink('tmp/website.zip');
 $zip = new ZipArchive;
 if ($zip->open($yourfile) === TRUE) {
     $zip->extractTo('../landing-page/1/');
