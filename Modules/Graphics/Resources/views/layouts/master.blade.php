@@ -182,7 +182,8 @@
 
                     <div class="row">
                         <p>Lưu ý: chi phí ship được tính như sau: </p>
-                        <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
+                        <div>Ship Sài Gòn: 30k</div>
+                        <div>Ship nội thành Hà Nội: 20k</div>
                         <div>Ship đến tỉnh thành khác: 30k</div>
                     </div>
 

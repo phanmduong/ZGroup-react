@@ -81,8 +81,7 @@ class RegisterController extends Controller
         $register->gen_id = Gen::getCurrentGen()->id;
         $register->class_id = $request->class_id;
         $register->status = 0;
-        $register->saler_id = $request->saler_id;
-        $register->campaign_id = $request->campaign_id;
+        $register->campaign_id = 8;
         $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
         $register->save();
 

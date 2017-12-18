@@ -243,6 +243,17 @@ class GoodController extends ManageApiController
         if ($request->children) {
             //Sua san pham nhieu thuoc tinh
             $children = json_decode($request->children);
+            $goods = Good::where('code', $request->code)->get();
+            foreach($goods as $good) {
+                $deletable = true;
+                foreach ($children as $child) {
+                    if($child->id)
+                        if($child->id === $good->id)
+                            $deletable = false;
+                }
+                if($deletable === true)
+                    $good->delete();
+            }
             foreach ($children as $child) {
                 $good = $child->id ? Good::find($child->id) : new Good;
                 $this->assignInfoToGood($good, $request);
@@ -334,7 +345,7 @@ class GoodController extends ManageApiController
     public function good($goodId)
     {
         $good = Good::find($goodId);
-        if ($goodId == null)
+        if ($good == null)
             return $this->respondErrorWithStatus([
                 'message' => 'khong ton tai san pham'
             ]);
@@ -351,8 +362,10 @@ class GoodController extends ManageApiController
             $data['property_list'] = $this->propertyList($childrenIds);
             unset($data['properties']);
             $data['children'] = $children->map(function ($child) {
+                $deletable = $child->history()->count() > 0;
                 return [
                     'id' => $child->id,
+                    'deletable' => !$deletable,
                     'barcode' => $child->barcode,
                     'price' => $child->price,
                     'check' => true,
