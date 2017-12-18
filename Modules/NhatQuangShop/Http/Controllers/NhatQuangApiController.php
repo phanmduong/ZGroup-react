@@ -112,12 +112,14 @@ class NhatQuangApiController extends PublicApiController
         $email = $request->email;
         $name = $request->name;
         $phone = $request->phone;
+        $province = Province::find($request->provinceid)->name;
+        $district = District::find($request->districtid)->name;
         $address = $request->address;
         $payment = $request->payment;
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
         if (count($goods_arr) > 0) {
-            $this->bookRepository->saveOrder($email, $phone, $name, $address, $payment, $goods_arr);
+            $this->bookRepository->saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr);
             $request->session()->flush();
             return [
                 "status" => 1
@@ -133,25 +135,24 @@ class NhatQuangApiController extends PublicApiController
     public function provinces($subfix)
     {
         $provinces = Province::get();
-        return $this->respondSuccessWithStatus([
+        return [
             'provinces' => $provinces,
-        ]);
+        ];
     }
 
     public function districts($subfix, $provinceId)
     {
         $province = Province::find($provinceId);
-        dd($province->districts());
-        return $this->respondSuccessWithStatus([
+        return [
             'districts' => $province->districts,
-        ]);
+        ];
     }
 
     public function wards($subfix, $districtId)
     {
         $district = District::find($districtId);
-        return $this->respondSuccessWithStatus([
+        return [
             'wards' => $district->wards,
-        ]);
+        ];
     }
 }
