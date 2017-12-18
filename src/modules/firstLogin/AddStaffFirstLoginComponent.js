@@ -48,7 +48,7 @@ class AddStaffFirstLoginComponent extends React.Component {
                                             </div>
                                             <div className="card-content">
                                                 <h4 className="card-title">
-                                                    {this.props.type === 'edit' ? 'Thay đổi thông tin nhân viên' : 'Thêm nhân viên'}
+                                                    { 'Thêm thông tin nhân viên'}
                                                 </h4>
 
                                                 <FormInputText

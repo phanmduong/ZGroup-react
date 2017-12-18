@@ -32,6 +32,7 @@ class ListDepartments extends React.Component {
                                                 <thead className="text-rose">
                                                 <tr>
                                                     <th>Bộ phận</th>
+                                                    <th>Số nhân viên</th>
                                                     <th style={{textAlign:"right"}}>Sửa</th>
                                                 </tr>
                                                 </thead>
@@ -52,6 +53,7 @@ class ListDepartments extends React.Component {
                                                                                 </button>
                                                                             </TooltipButton>
                                                                         </td>
+                                                                        <td>{obj.employees ? obj.employees.length : 0}</td>
                                                                         <td>
                                                                         <div style={{float:"right"}}>
                                                                                 <ButtonGroupAction
