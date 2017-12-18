@@ -116,9 +116,23 @@ var modalPurchase = new Vue({
         phone: '',
         email: '',
         address: '',
-        payment: ''
+        payment: '',
+        provinces: [],
+        districts: [],
+        wards: [],
     },
     methods: {
+        getDistricts: function () {
+            axios.get(window.url + '/load-books-from-session/v2')
+                .then(function (response) {
+                    this.goods = response.data.goods;
+                    this.total_price = response.data.total_price;
+                    this.isLoading = false;
+                }.bind(this))
+                .catch(function (error) {
+
+                });
+        },
         submitOrder: function () {
             $("#purchase-error").css("display", "none");
             $("#btn-purchase-group").css("display", "none");

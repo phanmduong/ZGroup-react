@@ -3,8 +3,10 @@
 namespace Modules\NhatQuangShop\Http\Controllers;
 
 
+use App\District;
 use App\Good;
 use App\Http\Controllers\PublicApiController;
+use App\Province;
 use Illuminate\Http\Request;
 use Modules\Good\Entities\GoodProperty;
 use Modules\Graphics\Repositories\BookRepository;
@@ -89,7 +91,7 @@ class NhatQuangApiController extends PublicApiController
 
         foreach ($goods as &$good) {
             if ($good->id == $goodId) {
-                $good->number -=1 ;
+                $good->number -= 1;
             }
             if ($good->number > 0) {
                 $temp = new \stdClass();
@@ -126,5 +128,30 @@ class NhatQuangApiController extends PublicApiController
                 "message" => "Bạn chưa đặt cuốn sách nào"
             ];
         }
+    }
+
+    public function provinces($subfix)
+    {
+        $provinces = Province::get();
+        return $this->respondSuccessWithStatus([
+            'provinces' => $provinces,
+        ]);
+    }
+
+    public function districts($subfix, $provinceId)
+    {
+        $province = Province::find($provinceId);
+        dd($province->districts());
+        return $this->respondSuccessWithStatus([
+            'districts' => $province->districts,
+        ]);
+    }
+
+    public function wards($subfix, $districtId)
+    {
+        $district = District::find($districtId);
+        return $this->respondSuccessWithStatus([
+            'wards' => $district->wards,
+        ]);
     }
 }
