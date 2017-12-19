@@ -25,8 +25,18 @@ var sendNotification = function (notification) {
         wordwrap: 130
     });
 
+    var filter = [
+        {"field": "tag", "key": "user_id", "relation": "=", "value": notification.receiver_id}
+    ]
+
+    if (notification.device_type) {
+        filter.push(
+            {"field": "tag", "key": "device_type", "relation": "=", "value": notification.device_type}
+        );
+    }
+
     var data = {
-        app_id: env.NOTI_APP_ID,
+        app_ids: [env.NOTI_APP_ID, env.NOTI_APP_MANAGE_ID],
         contents: {"en": text, "vi": text},
         filters: [
             {"field": "tag", "key": "user_id", "relation": "=", "value": notification.receiver_id}
