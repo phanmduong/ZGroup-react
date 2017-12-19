@@ -13,54 +13,66 @@ import TaskListTemplateContainer from "../modules/good/TaskListTemplateContainer
  */
 export default [
     {
-        path: "/:type/manufacture",
+        // path: "/:type/manufacture",
+        path: "/manufacture/:type/manufacture",
         component: BookBoardListContainer
     },
     {
-        path: "/good/:type/all",
+        path: "/manufacture/good/:type/all",
+        // path: "/good/:type/all",
         component: GoodListContainer
     },
     {
-        path: "/good/:goodId/edit",
+        // path: "/good/:goodId/edit",
+        path: "/manufacture/good/:goodId/edit",
         component: CreateGoodContainer,
         type: "edit"
     },
     {
-        path: "good/:type/create",
+        // path: "good/:type/create",
+        path: "/manufacture/good/:type/create",
         component: CreateGoodContainer,
         type: "create"
     },
     {
-        path: "good/create",
+        // path: "good/create",
+        path: "/manufacture/good/create",
         component: CreateGoodContainer,
         type: "create"
     },
     {
-        path: "/barcodes",
+        // path: "/barcodes",
+        path: "/manufacture/barcodes",
         component: BarcodesContainer
     },
     {
-        path: "/good/:type/process",
+        // path: "/good/:type/process",
+        path: "/manufacture/good/:type/process",
         component: ProcessListContainer
     },
     {
-        path: "/good/:goodId/detail",
+        // path: "/good/:goodId/detail",
+        path: "/manufacture/good/:goodId/detail",
         component: GoodDetailContainer
     },
     {
-        path: "/good/:type/properties",
+        // path: "/good/:type/properties",
+        path: "/manufacture/good/:type/properties",
         component: PropertiesListContainer
     },
     {
-        path: "/good/:type/property/create",
+        // path: "/good/:type/property/create",
+        path: "/manufacture/good/:type/property/create",
         component: CreateGoodPropertyContainer
     },
     {
-        path: "/property-item/:id/edit",
+        // path: "/property-item/:id/edit",
+        path: "/manufacture/property-item/:id/edit",
         component: CreateGoodPropertyContainer
     },
     {
-        path: "/tasklist-template/:id",
+        // path: "/tasklist-template/:id",
+        path: "/manufacture/tasklist-template/:id",
         component: TaskListTemplateContainer
     }
 ];
