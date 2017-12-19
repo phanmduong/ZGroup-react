@@ -1,261 +1,82 @@
-@extends('layouts.public')
-
-@section('title','Đăng kí học')
-@section('header','Đăng kí học')
+@extends('layouts.new_public')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m5">
-                <div class="card">
-                    <div class="card-content">
-                        {{--<p class="card-title">{{$course->name}}</p>--}}
-                        <p>{!!  $course->detail!!}</p>
-                    </div>
-                    <div class="card-action">
-                        <p class="card-title">Lớp {{$class->name}}</p>
-                        <p>
-                            <i class="tiny material-icons">schedule</i> {{$class->study_time}}
-                        </p>
-                        <p>
-                            <i class="tiny material-icons">description</i> {{$class->description}}
-                        </p>
-                        {{--<p>--}}
-                        {{--<i class="tiny material-icons">perm_identity</i> Giảng viên <strong>{{$class->teach['name']}}</strong>--}}
-                        {{--</p>--}}
-                        {{--<p>--}}
-                        {{--<i class="tiny material-icons">supervisor_account</i> Trợ giảng <strong>{{$class->assist['name']}}</strong>--}}
-                        {{--</p>--}}
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m7">
+    <div id="page" class="page">
+        <div class="pixfort_gym_13 construction " id="section_gym_5">
+            <div class="join_us_section pix_builder_bg"
+                 style="background-image: url(http://d1j8r0kxyu9tj8.cloudfront.net/files/15136564431SU4N9w6HTNSkub.jpg); background-color: rgb(51, 51, 51); padding-top: 100px; padding-bottom: 200px; box-shadow: none; border-color: rgb(68, 68, 68); background-size: cover; background-attachment: scroll; background-repeat: repeat; outline-offset: -3px;"
+                 src="images/uploads/logo1.jpg">
+                <div class="container">
+                    <div class="sixteen columns">
+                        <div class="ten columns alpha area_1">
+							<span class="const_title"><span class="editContent" style=""><span class="pix_text">Đăng kí lớp<br> {{$class->name}}
+                                        <br>
+</span></span></span>
+                            <p><span class="editContent" style="">Vui lòng điền chính xác thông tin của bạn, colorME sẽ liên hệ lại bạn trong vòng 24h tới. Cảm ơn bạn đã tin tưởng và lựa chọn colorME.</span>
+                            </p>
+                        </div>
 
-                <div class="card">
-
-                    <form method="POST" action="{{url('classes/register_store')}}">
-                        <input type="hidden" name="class_id" value="{{$class->id}}"/>
-                        @if($saler_id)
-                            <input type="hidden" name="saler_id" value="{{$saler_id}}"/>
-                        @endif
-
-                        @if($campaign_id)
-                            <input type="hidden" name="campaign_id" value="{{$campaign_id}}"/>
-                        @endif
-
-                        {!! csrf_field() !!}
-                        <div class="card-content">
-                            @if($errors->count()>0)
-                                <div class="row">
-                                    <div style="padding:7px" class=" col s12 red darken-2-2 white-text center">
-                                        Bạn vui lòng điền đủ những thông tin bắt buộc
+                        <div class="six columns omega" id="submitForm">
+                            <div class="pix_form_area">
+                                <div class="substyle pix_builder_bg">
+                                    <div class="title-style"><span class="editContent" style=""><span class="pix_text"
+                                                                                                      rel="">ĐĂNG KÍ</span></span>
                                     </div>
-                                </div>
-                            @endif
-                            <div class="row">
-                                <div class="input-field col s12 ">
-                                    <input id="name" name="name" type="text"
-                                           class="validate {{$errors->has('name')?'invalid':''}}"
-                                           value="{{old('name')}}">
-                                    <label for="name">Họ tên</label>
-                                    @if ($errors->has('name'))
-                                        <strong class="red-text">Xin bạn vui lòng điền họ và tên</strong>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input id="phone" name="phone" type="text"
-                                           class="validate {{$errors->has('phone')?'invalid':''}}"
-                                           value="{{old('phone')}}">
-                                    <label for="phone">Số điện thoại</label>
-                                    @if ($errors->has('phone'))
-                                        <strong class="red-text">Xin bạn vui lòng điền số điện thoại</strong>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input id="email" name="email" type="email"
-                                           class="validate {{$errors->has('email')?'invalid':''}}"
-                                           value="{{old('email')}}">
-                                    <label for="email">Email</label>
-                                    @if ($errors->has('email'))
-                                        @if(empty(old('email')))
-                                            <strong class="red-text">Xin bạn vui lòng điền email</strong>
-                                        @else
-                                            <strong class="red-text">{{$errors->first('email')}}</strong>
-                                        @endif
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <label>Giới tính</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 ">
-
-                                    <div>
-                                        <input class="with-gap" name="gender" type="radio" id="gender1"
-                                               value="1" {{(old('gender')==1)?"checked":""}}/>
-                                        <label for="gender1">Nam</label>
+                                    <br>
+                                    <div class="text-style">
+										<span class="editContent" style=""><span class="pix_text"
+                                                                                 style="color: rgb(68, 68, 68); font-size: 14px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"
+                                                                                 rel=""
+                                                                                 src="images/uploads/111.jpg">Lớp {{$class->name}}
+                                                - Khai giảng ngày {{date("d/m/Y", strtotime($class->datestart))}}<br>
+Địa chỉ học: 175 Chùa Láng, Đống Đa, Hà Nội
+<br>
+</span></span>
                                     </div>
-                                    <div>
-                                        <input class="with-gap" name="gender" type="radio" id="gender2"
-                                               value="2" {{(old('gender')==2)?"checked":""}}/>
-                                        <label for="gender2">Nữ</label>
-                                    </div>
-                                    <div>
-                                        <input class="with-gap" name="gender" type="radio" value="3"
-                                               id="gender3"{{(old('gender')==3)?"checked":""}}/>
-                                        <label for="gender3">Khác</label>
-                                    </div>
-
+                                    <br>
+                                    <div class="clearfix"></div>
+                                    <form id="contact_form" pix-confirm="hidden_pix_13">
+                                        <div id="result"></div>
+                                        <input type="text" v-model="name" id="name" placeholder="Họ và tên"
+                                               class="pix_text"
+                                               required="" src="images/uploads/111.jpg"
+                                               style="color: rgb(0, 0, 0); font-size: 15px; background-color: rgb(255, 255, 255); font-family: &quot;Open Sans&quot;, sans-serif;">
+                                        <input type="email" v-model="email" id="email" placeholder="Email"
+                                               class="pix_text"
+                                               required="" src="images/uploads/111.jpg"
+                                               style="color: rgb(0, 0, 0); font-size: 15px; background-color: rgb(255, 255, 255); font-family: &quot;Open Sans&quot;, sans-serif;">
+                                        <input type="text" v-model="phone" id="number" placeholder="Số điện thoại"
+                                               class="pix_text" required="" src="images/uploads/111.jpg"
+                                               style="color: rgb(0, 0, 0); font-size: 15px; background-color: rgb(255, 255, 255); font-family: &quot;Open Sans&quot;, sans-serif;">
+                                        <span class="send_btn">
+											<button v-if="register" id="submit_btn_13"
+                                                    v-on:click="submitOnclick(event)"
+                                                    class="slow_fade pix_text"
+                                                    src="images/uploads/111.jpg"
+                                                    style="color: rgb(255, 255, 255); font-size: 16px; background-color: rgb(204, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;">
+												<span class="editContent" style="">Đăng kí</span>
+											</button>
+										</span>
+                                    </form>
+                                    <div class="clearfix"></div>
                                 </div>
-                            </div>
-                            @if ($errors->has('gender'))
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <strong class="red-text">Xin bạn vui lòng chọn giới tính</strong>
-                                    </div>
+                                <div id="message-box" class="note_contact pix_builder_bg"><span class="editContent">
+                                        <span class="pix_text" rel="">
+                                            <div v-if="isLoading" class="pix_builder_bg"
+                                                 style="text-align: center;width: 100%;;padding: 15px;">
+                                                    Đang tải...<br>
+                                            </div>
+                                            @{{ message }}</span></span>
                                 </div>
-
-                            @endif
-
-                            <div class="row">
-                                <div class="input-field col s12 ">
-                                    <input type="text" name="dob" id="dob"
-                                           value="{{old('dob')}}"
-                                           class="datepicker validate {{$errors->has('dob')?'invalid':''}}">
-
-                                    <label for="dob">Ngày sinh</label>
-                                    @if ($errors->has('dob'))
-                                        <strong class="red-text">Xin bạn vui lòng chọn ngày sinh</strong>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 ">
-                                    <input id="university" name="university" type="text"
-                                           class="validate {{$errors->has('university')?'invalid':''}}"
-                                           value="{{old('university')}}">
-                                    <label for="university">Trường học</label>
-                                    @if ($errors->has('university'))
-                                        <strong class="red-text">Xin bạn vui lòng nhập trường học</strong>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input id="work" name="work" type="text"
-                                           class="validate {{$errors->has('work')?'invalid':''}}"
-                                           value="{{old('work')}}">
-                                    <label for="work">Nơi làm việc (Không bắt buộc)</label>
-                                    @if ($errors->has('work'))
-                                        <strong class="red-text">Xin bạn vui lòng điền Nơi làm việc</strong>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input id="address" name="address" type="text"
-                                           class="validate {{$errors->has('address')?'invalid':''}}"
-                                           value="{{old('address')}}">
-                                    <label for="address">Địa chỉ</label>
-                                    @if ($errors->has('address'))
-                                        <strong class="red-text">Xin bạn vui lòng điền Địa chỉ</strong>
-                                    @endif
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <select name="how_know">
-                                        <option value="" disabled
-                                                {{empty(old('how_know'))?'selected':''}}>Vui lòng chọn 1 lý do
-                                        </option>
-                                        <option value="1" {{old('how_know')==1?'selected':''}}>Facebook</option>
-                                        <option value="6"{{old('how_know')==6?'selected':''}}>Instagram</option>
-                                        <option value="2"{{old('how_know')==2?'selected':''}}>Người quen</option>
-                                        <option value="3"{{old('how_know')==3?'selected':''}}>Google</option>
-                                        <option value="5"{{old('how_know')==5?'selected':''}}>Lý do khác</option>
-                                    </select>
-                                    <label>Lý do bạn biết đến colorME</label>
-                                    @if ($errors->has('how_know'))
-                                        <strong class="red-text">Xin bạn vui lòng chọn lý do bạn biết đến
-                                            colorME</strong>
-                                    @endif
-                                </div>
-                                <div class="input-field col s12" id="other" style="display:none">
-                                    <input id="other_reason" name="other_reason" type="text"
-                                           class="validate {{$errors->has('other_reason')?'invalid':''}}">
-                                    <label for="other_reason">Lý do khác</label>
-
-                                </div>
-
-
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 ">
-                                    <input placeholder="Ví dụ: facebook.com/hung7495" id="facebook" name="facebook"
-                                           type="text" class="validate {{$errors->has('facebook')?'invalid':''}}"
-                                           value="{{old('facebook')}}">
-                                    <label for="facebook">Link facebook</label>
-                                    @if ($errors->has('facebook'))
-                                        <strong class="red-text">Xin bạn vui lòng điền facebook của mình vào</strong>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 ">
-                                    <input placeholder="Không bắt buộc" id="leader_phone" name="leader_phone"
-                                           type="text" class="validate"
-                                           value="{{old('leader_phone')}}">
-                                    <label for="leader_phone">Số điện thoại nhóm trưởng</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12 ">
-                                    <input placeholder="Không bắt buộc" id="coupon" name="coupon" type="text"
-                                           class="validate"
-                                           value="{{old('coupon')}}">
-                                    <label for="coupon">Mã giảm giá </label>
-                                </div>
-                            </div>
-                            <div id="btn-submit-container">
-                                <button type="submit" name="submit" class="waves-effect waves-light btn red darken-4"><i
-                                            class="material-icons left">done</i>Submit
-                                </button>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script>
-        $(document).ready(function () {
-            $("form").submit(function () {
-                $('#btn-submit-container').html("<strong class='green-text'>Bạn vui lòng chờ 1 chút, đơn đăng kí đang được gửi</strong>");
-            });
-            $('.datepicker').datepicker();
-            $('select').material_select();
-            $('select').on('change', function (e) {
-
-                var optionSelected = $("option:selected", this);
-                var valueSelected = this.value;
-                console.log(valueSelected);
-                if (valueSelected == 5) {
-                    $('#other').fadeIn();
-                } else {
-                    $('#other').fadeOut();
-                }
-            });
-        });
-    </script>
+        <script>
+            var classId = {{$class->id ? $class->id : 0}};
+            var salerId = {{$saler_id ? $saler_id : 0}};
+            var campaignId = {{$campaign_id ? $campaign_id : 0}};
+        </script>
 @endsection

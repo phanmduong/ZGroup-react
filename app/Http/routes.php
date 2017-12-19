@@ -536,6 +536,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('classes/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@classes');
 
     Route::post('classes/register_store', 'PublicController@register_store');
+    Route::post('classes/new_register_store', 'PublicController@new_register_store');
     Route::get('register_success', 'PublicController@register_success_confirm');
     Route::get('mail', 'PublicController@test_mail');
     Route::get('editmail', 'PublicController@edit_mail');

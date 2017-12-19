@@ -1,0 +1,2 @@
+[19-Dec-2017 03:44:03 UTC] PHP Deprecated:  Methods with the same name as their class will not be constructors in a future version of PHP; CMBase has a deprecated constructor in /var/www/client/public/render-landingpage/elements/pix_mail/api_campaign/CMBase.php on line 63
+[19-Dec-2017 03:44:03 UTC] PHP Deprecated:  Methods with the same name as their class will not be constructors in a future version of PHP; CampaignMonitor has a deprecated constructor in /var/www/client/public/render-landingpage/elements/pix_mail/api_campaign/CMBase.php on line 543
