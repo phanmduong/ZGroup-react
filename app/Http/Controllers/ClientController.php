@@ -20,4 +20,9 @@ class ClientController extends Controller
         return view("client.manufacture");
     }
 
+    public function teaching()
+    {
+        return view("client.teaching");
+    }
+
 }
