@@ -89,25 +89,26 @@ export default [
         // path: "/manage/courses/edit/:courseId",
         component: CreateEditCoursesContainer,
         type: "edit",
+        // path children ko có / phía trước nhé ( "/documents" thế này là sai) đúng là "documents"
         children: [
             {
                 path: "/",
                 component: coursesCreateEditGeneral
             },
             {
-                path: "/documents",
+                path: "documents",
                 component: coursesCreateEditDocuments
             },
             {
-                path: "/studying",
+                path: "studying",
                 component: coursesCreateEditStudying
             },
             {
-                path: "/curriculum",
+                path: "curriculum",
                 component: coursesCreateEditCurriculum
             },
             {
-                path: "/interested",
+                path: "interested",
                 component: coursesCreateEditInterested
             }
         ]
@@ -117,25 +118,26 @@ export default [
         // path: "/manage/courses/create",
         component: CreateEditCoursesContainer,
         type: "create",
+        // path children ko có / phía trước nhé ( "/documents" thế này là sai) đúng là "documents"
         children: [
             {
                 path: "/",
                 component: coursesCreateEditGeneral
             },
             {
-                path: "/documents",
+                path: "documents",
                 component: coursesCreateEditGeneral
             },
             {
-                path: "/studying",
+                path: "studying",
                 component: coursesCreateEditGeneral
             },
             {
-                path: "/curriculum",
+                path: "curriculum",
                 component: coursesCreateEditGeneral
             },
             {
-                path: "/interested",
+                path: "interested",
                 component: coursesCreateEditGeneral
             }
         ]

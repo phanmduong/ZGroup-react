@@ -19,7 +19,7 @@ class TabStudy extends React.Component {
                 </Link>
               </li>
               <li className={this.props.url === 'manage/studysession' ? 'active' : ''}>
-                <Link to="/manage/studysession">
+                <Link to="/teaching/studysession">
                   Ca học
                   <div className="ripple-container"/>
                 </Link>
