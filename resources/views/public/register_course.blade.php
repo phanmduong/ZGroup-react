@@ -29,7 +29,7 @@
                                                                                  rel=""
                                                                                  src="images/uploads/111.jpg">Lớp {{$class->name}}
                                                 - Khai giảng ngày {{date("d/m/Y", strtotime($class->datestart))}}<br>
-Địa chỉ học: {{$class->base->name}}
+Địa chỉ học: {{$class->base->address}}
                                                 <br>
 </span></span>
                                     </div>
