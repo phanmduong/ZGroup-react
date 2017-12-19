@@ -11,6 +11,7 @@
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
     <meta name="viewport" content="width=device-width"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="/fontawesome/css/font-awesome.min.css" rel="stylesheet"/>
 
@@ -68,7 +69,8 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" v-on:click="openModalBuyWithoutAdd" data-scroll="true" href="javascript:void(0)">
+                    <a class="nav-link" v-on:click="openModalBuyWithoutAdd" data-scroll="true"
+                       href="javascript:void(0)">
                         <i class="fa fa-shopping-cart"></i>
                         Giỏ hàng
                         <p id="cart-num-items"
@@ -85,7 +87,7 @@
 
 @yield('content')
 
-<div id="modalPurchase"  class="modal fade" style="overflow-y: scroll">
+<div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
 
         <div class="modal-content">
@@ -102,8 +104,36 @@
                     <h6>Email</h6>
                     <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
+                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>
+                    </div>
+                    <select v-if="showProvince"
+                            v-model="provinceid"
+                            v-on:change="changeProvince"
+                            class="form-control" placeholder="Tỉnh/Thành phố">
+                        <option value="">Tỉnh, Thành phố</option>
+                        <option v-for="province in provinces" v-bind:value="province.provinceid">
+                            @{{province.name}}
+                        </option>
+                    </select>
+                    <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>
+                    </div>
+                    <select v-if="showDistrict"
+                            v-model="districtid"
+                            class="form-control"
+                            style="margin-top: 5px"
+                            id="">
+                        <option value="">Quận, Huyện</option>
+                        <option v-for="district in districts" v-bind:value="district.districtid">
+                            @{{district.name}}
+                        </option>
+                    </select>
+
+
                     <input v-model="address" type="text" class="form-control"
-                           placeholder="Địa chỉ nhận sách"><br>
+                           placeholder="Đường, số nhà"
+                           style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
                     <select v-model="payment" class="form-control" id="sel1">
                         <option value="Chuyển khoản">Chuyển khoản</option>
@@ -112,7 +142,7 @@
                         </option>
                     </select>
                 </form>
-                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error" >
+                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
                     Bạn vui lòng nhập đầy đủ thông tin
                 </div>
             </div>
@@ -146,7 +176,9 @@
             </div>
             <div class="modal-body" id="modal-buy-body">
                 <br>
-                <div v-if="isLoading" style="text-align: center;width: 100%;;padding: 15px;"><i class='fa fa-spin fa-spinner'></i>Đang tải...</div>
+                <div v-if="isLoading" style="text-align: center;width: 100%;;padding: 15px;"><i
+                            class='fa fa-spin fa-spinner'></i>Đang tải...
+                </div>
                 <div v-for="good in goods">
                     <div class="row" style="margin-bottom:20px;">
                         <div class="col-md-1 h-center">
@@ -158,10 +190,12 @@
                             <p>Connect the dots</p>
                         </div>
                         <div class="col-md-3 h-center">
-                            <button v-on:click="minusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-minus"></i>
+                            <button v-on:click="minusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm">
+                                <i class="fa fa-minus"></i>
                             </button>
                             &nbsp
-                            <button v-on:click="plusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-plus"></i>
+                            <button v-on:click="plusGood(event, good.id)" class="btn btn-success btn-just-icon btn-sm">
+                                <i class="fa fa-plus"></i>
                             </button>
                             &nbsp
                             <b style="font-weight:600;"> @{{ good.number }} </b>
@@ -170,7 +204,8 @@
                             <p>@{{ good.price * (1 - good.coupon_value)}}</p>
                         </div>
                         <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) * good.number}}</b></p>
+                            <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) * good.number}}</b>
+                            </p>
                         </div>
                     </div>
                 </div>

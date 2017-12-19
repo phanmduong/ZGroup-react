@@ -23,7 +23,8 @@
     "tymon/jwt-auth": "0.5.*",
     "jaybizzle/laravel-crawler-detect": "1.*",
     "nwidart/laravel-modules": "^1.27",
-    "google/recaptcha": "~1.1"
+    "google/recaptcha": "~1.1",
+    "picqer/php-barcode-generator": "^0.2.2"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

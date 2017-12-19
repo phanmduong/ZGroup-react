@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "ghtk_api" => env("GHTK_API", ""),
     "domain" => env('DOMAIN', ''),
     "channel" => env("CHANNEL", ""),
     "social_channel" => env("SOCIAL_CHANNEL", ""),
@@ -20,6 +21,9 @@ return [
     'email_company_name' => env('EMAIL_COMPANY_NAME', ''),
     'email_company_from' => env('EMAIL_COMPANY_FROM', ''),
     'email_company_to' => env('EMAIL_COMPANY_TO', ''),
+    'prefix_code' => env('PREFIX_CODE', ''),
+    'prefix_code_wait' => env('PREFIX_CODE_WAIT', ''),
+    'brand_sms' => env('BRAND_SMS', ''),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

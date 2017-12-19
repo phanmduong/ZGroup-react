@@ -4,16 +4,23 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/all-orders', 'OrderController@allOrders');
     Route::put('/{order_id}/edit', 'OrderController@editOrder');
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
+    Route::put('/change-status-order', 'OrderController@changeStatus');
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
     Route::post('/pay-import-order/{orderId}', 'OrderController@payImportOrder');
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
 
-    Route::get('/all-customers','CustomerController@allCustomers');
-    Route::get('/total-and-debt-money','CustomerController@countMoney');
-    Route::post('/add-customer','CustomerController@addCustomer');
-    Route::put('/edit-customer/{customerId}','CustomerController@editCustomer');
-    Route::get('/info-customer/{customerId}','CustomerController@getInfoCustomer');
+    Route::get('/all-customers', 'CustomerController@allCustomers');
+    Route::get('/total-and-debt-money', 'CustomerController@countMoney');
+    Route::post('/add-customer', 'CustomerController@addCustomer');
+    Route::put('/edit-customer/{customerId}', 'CustomerController@editCustomer');
+    Route::get('/info-customer/{customerId}', 'CustomerController@getInfoCustomer');
+
+    Route::post('/customer-group/add', 'CustomerGroupApiController@createGroup');
+    Route::put('/customer-group/{groupId}', 'CustomerGroupApiController@changeGroup');
+    Route::get('/customer-groups', 'CustomerGroupApiController@getAllGroup');
+    Route::delete('/customer-group/{groupId}', 'CustomerGroupApiController@deleteGroup');
+    Route::get('customer-group/{groupId}/customers','CustomerGroupApiController@getCustomerOfGroup');
 
     Route::get('/category/all', 'CategoryApiController@allCategory');
     Route::post('/category/add', 'CategoryApiController@addCategory');
@@ -24,7 +31,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/detailed-import-order/{importOrderId}', 'ImportApiController@detailedImportOrder');
     Route::post('/add-import-order-goods', 'ImportApiController@addImportOrderGoods');
     Route::delete('/import-order/delete/{importOrderId}', 'ImportApiController@deleteImportOrder');
-    Route::put('/import_order/edit/{importOrderId}', 'ImportApiController@editImportOrder');
+    Route::post('/import-order/edit/{importOrderId}', 'ImportApiController@editImportOrder');
 
     Route::post('/add-supplier', 'WarehouseApiController@addSupplier');
     Route::put('/supplier/{supplier_id}/edit', 'WarehouseApiController@editSupplier');
@@ -39,6 +46,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/warehouse/goods/{warehouseId}', 'WarehouseApiController@warehouseGoods');
 
     Route::get('/staffs', 'StaffController@getStaffs');
-
+    Route::get('/salers', 'StaffController@allSalers');
 });
 

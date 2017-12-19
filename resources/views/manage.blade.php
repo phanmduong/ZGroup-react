@@ -23,7 +23,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"/>
 
-    <link href="manage/main.68c20f5f66145839a892784ed13270c6.css" rel="stylesheet">
+    <link href="manage/main.165dbfa35077cde2d51d090c2245ac3b.css" rel="stylesheet">
 
     <link href="{{url('config.css')}}" rel="stylesheet">
 </head>
@@ -72,9 +72,9 @@
 <!--  Full Calendar Plugin    -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/fullcalendar.min.js"></script>
 
-<script src="{{url('config.js')}}"></script>
+<script src="{{url('config.js')}}?2222"></script>
 
-<script type="text/javascript" src="manage/main.ae773091d878d640f354.js"></script>
+<script type="text/javascript" src="manage/main.3ba295a071f3bf4c3ac2.js"></script>
 
 <!-- Material Dashboard javascript methods -->
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/material-dashboard.js"></script>

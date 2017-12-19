@@ -23,5 +23,7 @@ Route::group(['middleware' => 'web', 'domain' => "nhatquangshop.{subfix}", 'name
     Route::get('/add-book/{goodId}/v2', 'NhatQuangApiController@addGoodToCart');
     Route::get('/remove-book/{goodId}/v2', 'NhatQuangApiController@removeBookFromCart');
     Route::post('/save-order/v2', 'NhatQuangApiController@saveOrder');
-
+    Route::get('/province', 'NhatQuangApiController@provinces');
+    Route::get('/district/{provinceId}', 'NhatQuangApiController@districts');
+    Route::get('/ward/{districtId}', 'NhatQuangApiController@wards');
 });

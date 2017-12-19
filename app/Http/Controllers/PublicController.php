@@ -789,7 +789,7 @@ class PublicController extends Controller
                 'thumb_url' => $video_url
             ]
         );
-        Redis::publish('colorme-channel', json_encode($publish_data));
+        Redis::publish(config('app.channel'), json_encode($publish_data));
 
         $tmp_file_name = "/" . $message->input->key;
         $s3 = \Illuminate\Support\Facades\Storage::disk('s3');
@@ -907,6 +907,11 @@ class PublicController extends Controller
     public function redirectManage()
     {
         return redirect(config('app.protocol') . 'manage.' . config('app.domain'));
+    }
+
+    public function redirectKeetool()
+    {
+        return redirect('https://keetool.com');
     }
 
     public function render_email_form($email_form_id, $email_template_id)

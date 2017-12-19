@@ -27,7 +27,7 @@
                                 </a>
                             </div>
                             <div class="card-body">
-                                <a href="http://www.creative-tim.com/product/paper-kit" target="_blank"><h4
+                                <a href="/register/{{$course['id']}}" target="_blank"><h4
                                             class="card-title">{{$course['name']}}</h4></a>
                                 <h6 class="card-category text-muted">{{$course['duration']}} buổi</h6>
                                 <p class="card-description">

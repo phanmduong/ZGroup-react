@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Redis;
+use Modules\Book\Entities\Barcode;
 use Modules\Good\Repositories\GoodRepository;
 use Modules\Task\Entities\CardLabel;
 use Modules\Task\Entities\ProjectUser;
@@ -312,7 +313,7 @@ class TaskController extends ManageApiController
 
         $card->title = trim($request->title);
         $card->description = trim($request->description);
-        $card->order = 0;
+//        $card->order = 0;
         $card->board_id = $request->board_id;
         $card->editor_id = $this->user->id;
         $card->creator_id = $this->user->id;
@@ -328,6 +329,12 @@ class TaskController extends ManageApiController
 
         if ($board) {
             $project = $board->project;
+//            $order = 0;
+//            if ($project->status == "book" || $project->status == "fashion") {
+//                $order = DB::table('goods')->max('order');
+//                $order += 1;
+//            }
+
             switch ($project->status) {
                 case "book":
                     if ($request->good_id) {
@@ -336,6 +343,9 @@ class TaskController extends ManageApiController
                         $good = new Good();
                         $good->type = "book";
                         $good->name = $card->title;
+//                        $good->order = $order;
+
+                        $good->label = $request->label;
                         $good->save();
                         $card->good_id = $good->id;
                     }
@@ -349,6 +359,8 @@ class TaskController extends ManageApiController
                         $good = new Good();
                         $good->type = "fashion";
                         $good->name = $card->title;
+//                        $good->order = $order;
+                        $good->label = $request->label;
                         $good->save();
                         $card->good_id = $good->id;
                     }
@@ -363,9 +375,40 @@ class TaskController extends ManageApiController
             $goodProperties = collect(json_decode($request->good_properties));
             $this->goodRepository->saveGoodProperties($goodProperties, $good->id);
         }
-        $this->taskRepository->createTaskListFromTemplate($request->task_list_id, $card->id, $this->user);
+
+        if ($request->task_list_id) {
+            $this->taskRepository->createTaskListFromTemplate($request->task_list_id, $card->id, $this->user);
+        }
+
+        if ($good != null) {
+            $title = "";
+            $taskList = $card->taskLists()->first();
+            if ($taskList) {
+                $title = $taskList->title;
+            }
+            $code = $good->id . '-' . strtoupper($good->label) . '-' . abbrev($title);
+            $good->code = $code;
+
+            $barcode = Barcode::where("good_id", 0)->orderBy("created_at")->first();
+            $good->barcode = $barcode->value;
+            $good->save();
+
+            $barcode->good_id = $good->id;
+            $barcode->save();
+        }
+
 
         return $this->respond(["card" => $card->transform()]);
+    }
+
+    public function deleteCard($cardId)
+    {
+        $card = Card::find($cardId);
+        if ($card == null) {
+            return $this->respondErrorWithStatus("Card ko tồn tại");
+        }
+        $card->delete();
+        return $this->respondSuccessWithStatus(["message" => "success"]);
     }
 
 

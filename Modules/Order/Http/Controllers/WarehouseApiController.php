@@ -256,5 +256,4 @@ class WarehouseApiController extends ManageApiController
             })
         ]);
     }
-
 }

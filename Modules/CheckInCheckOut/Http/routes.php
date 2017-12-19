@@ -6,4 +6,5 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'chec
     Route::post('/check-out', 'CheckInCheckOutController@checkOut');
     Route::post('/check-device', 'CheckInCheckOutController@checkDevice');
     Route::get('/history', 'CheckInCheckOutController@history');
+    Route::get('/statistic', 'CheckInCheckOutController@statisticAttendanceStaffs');
 });

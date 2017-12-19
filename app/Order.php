@@ -53,14 +53,26 @@ class Order extends Model
 
     public function transform()
     {
+        $goodOrders = $this->goodOrders->map(function ($goodOrder) {
+            $goodOrderData = [
+                'id' => $goodOrder->id,
+                'price' => $goodOrder->price,
+                'quantity' => $goodOrder->quantity,
+                'name' => $goodOrder->good->name,
+                'code' => $goodOrder->good->code,
+            ];
+            if ($goodOrder->discount_money)
+                $goodOrderData['discount_money'] = $goodOrder->discount_money;
+            if ($goodOrder->discount_percent)
+                $goodOrderData['discount_percent'] = $goodOrder->discount_percent;
+            return $goodOrderData;
+        });
         $data = [
             'id' => $this->id,
+            'label_id' => $this->label_id,
             'code' => $this->code,
+            'payment' => $this->payment,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
-            'user' => [
-                'name' => $this->name,
-                'address' => $this->address,
-            ],
             'status' => $this->status,
             'total' => $this->goodOrders->reduce(function ($total, $goodOrder) {
                 return $total + $goodOrder->price * $goodOrder->quantity;
@@ -74,6 +86,8 @@ class Order extends Model
                     return $paid + $orderPaidMoney->money;
                 }, 0),
         ];
+        if($goodOrders)
+            $data['good_orders'] = $goodOrders;
         if ($this->staff)
             $data['staff'] = [
                 'id' => $this->staff->id,
@@ -85,11 +99,21 @@ class Order extends Model
                     'name' => $this->warehouse->base->name,
                     'address' => $this->warehouse->base->address,
                 ];
-        if($this->user)
+        if ($this->user) {
             $data['customer'] = [
                 'name' => $this->user->name,
                 'address' => $this->user->address,
+                'phone' => $this->user->phone,
+                'email' => $this->user->email,
             ];
+        } else {
+            $data['customer'] = [
+                'name' => $this->name,
+                'address' => $this->address,
+                'phone' => $this->phone,
+                'email' => $this->email,
+            ];
+        }
         return $data;
     }
 
@@ -126,6 +150,8 @@ class Order extends Model
                 'code' => $this->code,
                 'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
                 'note' => $this->staff_note,
+                'payment' => $this->payment,
+                'status' => $this->status,
             ],
             'good_orders' => $goodOrders,
         ];
@@ -140,6 +166,7 @@ class Order extends Model
                 'name' => $this->user->name,
                 'email' => $this->user->email,
                 'phone' => $this->user->phone,
+                'address' => $this->user->address,
             ];
         return $data;
     }
