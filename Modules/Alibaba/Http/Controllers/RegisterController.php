@@ -25,6 +25,7 @@ class RegisterController extends Controller
     public function __construct(
         EmailService $emailService
     )
+
     {
         $this->emailService = $emailService;
     }
@@ -46,7 +47,12 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => "required",
             'email' => "required|email",
-            'phone' => "required",
+            'phone' => "required|min:6|numeric",
+            'phone_confirmation' => 'required_with:phone|same:phone|min:6|numeric',
+            'university' => "required",
+            'facebook' => "required",
+            'dob' => "required",
+
         ]);
 
         if ($validator->fails()) {
@@ -59,31 +65,27 @@ class RegisterController extends Controller
         $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
         if ($user == null) {
             $user = new User;
-            $user->name = $request->name;
-            $user->phone = $phone;
-            $user->email = $request->email;
             $user->username = $request->email;
-            $user->password = bcrypt($user->phone);
-            $user->save();
-
-        } else {
-            $user->phone = $phone;
+            $user->email = $request->email;
         }
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->how_know = $request->how_know;
+        $user->password = bcrypt($user->phone);
+        $user->university = $request->university;
+        $user->dob = $request->dob;
+        $user->facebook = $request->facebook;
         $user->save();
-
         $register = new Register;
         $register->user_id = $user->id;
         $register->gen_id = Gen::getCurrentGen()->id;
         $register->class_id = $request->class_id;
         $register->status = 0;
-        $register->saler_id = $request->saler_id;
-        $register->campaign_id = $request->campaign_id;
+        $register->campaign_id = 8;
         $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
-
         $register->save();
 
-        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
-
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id);
         $class = $register->studyClass;
         if (strpos($class->name, '.') !== false) {
             if ($class->registers()->count() >= $class->target) {

@@ -391,4 +391,13 @@ class CheckInCheckOutRepository
         return $checkInCheckOut;
     }
 
+    public function getCheckInCheckOut($checkInCheckOut)
+    {
+        return [
+            'id' => $checkInCheckOut->id,
+            'message' => $checkInCheckOut->message,
+            'created_at' => format_vn_short_datetime(strtotime($checkInCheckOut->created_at)),
+        ];
+    }
+
 }

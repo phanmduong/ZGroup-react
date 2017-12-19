@@ -2,10 +2,14 @@
 
 namespace Modules\Course\Http\Controllers;
 
+use App\Attendance;
+use App\ClassLesson;
 use App\Course;
+use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Lesson;
 use App\Link;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -34,12 +38,14 @@ class CourseController extends ManageApiController
     {
         if ($request->id)
             $course = Course::find($request->id);
-        else
+        else {
             $course = new Course;
+            $course->duration = 0;
+        }
         if ($request->name == null)
             return $this->respondErrorWithStatus(["message" => "Thiếu name"]);
         $course->name = $request->name;
-        $course->duration = $request->duration;
+
         $course->price = $request->price;
         $course->description = $request->description;
         $course->linkmac = $request->linkmac;
@@ -130,13 +136,49 @@ class CourseController extends ManageApiController
             $link->link_icon = $link_icon;
             $link->link_icon_url = $this->s3_url . $link_icon;
         } else {
+
+            if ($link->link_icon_url === null) {
+                $link->link_icon_url = 'https://placehold.it/800x600';
+            }
+
             $link->link_icon_url = trim($request->link_icon_url) ? trim($request->link_icon_url) : 'https://placehold.it/800x600';
+
         }
         $link->save();
         return $this->respondSuccessWithStatus([
             'link' => $link
         ]);
     }
+
+//    public function editLink($linkId, Request $request)
+//    {
+//        $link = Link::find($linkId);
+//        if (!$link) return $this->respondErrorWithStatus("không tồn tại link");
+//        if ($request->link_url == null || $request->link_name == null || $request->course_id == null)
+//            return $this->respondErrorWithStatus(["message" => "Thiếu course_id or link_url or link_name"]);
+//        $link->link_name = $request->link_name;
+//        $link->link_url = $request->link_url;
+//        $link->link_description = $request->link_description;
+//        $link->course_id = $request->course_id;
+//        if ($request->link_icon != null) {
+//
+//            $link_icon = uploadFileToS3($request, 'link_icon', 200, $link->link_icon);
+//            $link->link_icon = $link_icon;
+//            $link->link_icon_url = $this->s3_url . $link_icon;
+//        } else {
+//
+//            if ($link->link_icon_url === null) {
+//                $link->link_icon_url = 'https://placehold.it/800x600';
+//            }
+//
+//            $link->link_icon_url = trim($request->link_icon_url) ? trim($request->link_icon_url) : 'https://placehold.it/800x600';
+//
+//        }
+//        $link->save();
+//        return $this->respondSuccessWithStatus([
+//            'link' => $link
+//        ]);
+//    }
 
     public function editLink($linkId, Request $request)
     {
@@ -233,4 +275,55 @@ class CourseController extends ManageApiController
             ]
         ]);
     }
+
+    public function getAttendance($classId, $lessonId, Request $request)
+    {
+        $classLesson = ClassLesson::query();
+        $classLesson = $classLesson->where('class_id', $classId)->where('lesson_id', $lessonId)->first();
+        if (!$classLesson) return $this->respondErrorWithStatus("Khong ton tai buoi hoc");
+        $attendance_list = $classLesson->attendances;
+        $data['attendances'] = $attendance_list->map(function ($attendance) {
+            return [
+                'student_id' => $attendance->register->user->id,
+                'name' => $attendance->register->user->name,
+                'email' => $attendance->register->user->email,
+                'attendance_id' => $attendance->id,
+                'study_class' => $attendance->register->studyClass->name,
+                'device' => $attendance->device,
+                'note' => $attendance->note,
+                'attendance_lesson_status' => $attendance->status,
+                'attendance_homework_status' => $attendance->hw_status
+
+            ];
+        });
+        $data['classLesson'] = [
+            'name' => $classLesson->studyClass->name,
+            'attendance_count' => $classLesson->attendances->count(),
+        ];
+
+        return $this->respondSuccessWithStatus([
+            "data" => $data
+        ]);
+
+    }
+
+    public function changeAttendance(Request $request)
+    {
+
+        $attendances = json_decode($request->attendances);
+
+        foreach ($attendances as $attendance) {
+            $get_attendance = Attendance::find($attendance->attendance_id);
+            if (!$get_attendance) return $this->respondErrorWithStatus("Khong ton tai ID");
+            $get_attendance->status = $attendance->attendance_lesson_status;
+            $get_attendance->hw_status = $attendance->attendance_homework_status;
+            $get_attendance->note = $attendance->note;
+            $get_attendance->save();
+        }
+        return $this->respondSuccessWithStatus([
+            "message" => "Diem danh thanh cong"
+        ]);
+
+    }
+
 }

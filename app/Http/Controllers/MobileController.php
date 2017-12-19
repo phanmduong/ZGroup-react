@@ -169,37 +169,31 @@ class MobileController extends ApiController
                 'error' => "Attendance không tồn tại",
             ], 404);
         }
-        if ($request->status != null && $request->hw_status != null) {
-            if (($request->status != 1 && $request->status != 0) ||
-                (($request->hw_status != 1 && $request->hw_status != 0))
-            ) {
-                return response()->json([
-                    'error' => "status và hw_status phải bằng 0 hoặc 1",
-                ], 400);
-            }
-            $attendance->status = ($request->status == 0) ? 0 : 1;
-            $attendance->hw_status = ($request->status == 0) ? 0 : 1;
-            $user = JWTAuth::parseToken()->authenticate();
-            $attendance->checker_id = $user->id;
-            $attendance->register->received_id_card = 1;
-            $attendance->register->save();
-            $attendance->device = "Điện thoại";
-            $attendance->save();
-
-            $this->notificationRepository->sendConfirmStudentAttendanceNotification($this->user, $attendance);
-
+        if (($request->status != 1 && $request->status != 0) ||
+            (($request->hw_status != 1 && $request->hw_status != 0))
+        ) {
             return response()->json([
-                'message' => 'success',
-                'attendance' => $attendance->transform(),
-            ]);
-        } else {
-            return response()->json([
-                'error' => "dữ liệu truyền lên cần có status và hw_status",
+                'error' => "status và hw_status phải bằng 0 hoặc 1",
             ], 400);
         }
+        $attendance->status = ($request->status == 0) ? 0 : 1;
+        $attendance->hw_status = ($request->hw_status == 0) ? 0 : 1;
+        $user = JWTAuth::parseToken()->authenticate();
+        $attendance->checker_id = $user->id;
+        $attendance->register->received_id_card = 1;
+        $attendance->register->save();
+        $attendance->device = "Điện thoại";
+        $attendance->save();
+
+        $this->notificationRepository->sendConfirmStudentAttendanceNotification($this->user, $attendance);
+
+        return response()->json([
+            'message' => 'success',
+            'attendance' => $attendance->transform(),
+        ]);
     }
 
-    public function dashboardv2($gen_id, $base_id = null)
+    public function dashboardv2($gen_id, Request $request, $base_id = null)
     {
         $data = [];
 //        $data['user'] = $this->user;
@@ -210,6 +204,12 @@ class MobileController extends ApiController
         $campaign_registers = null;
         $campaign_paids = null;
 
+        $start_time = $request->start_time ? $request->start_time : $current_gen->start_time;
+        $end_time = $request->end_time ? $request->end_time : $current_gen->end_time;
+        $end_time_plus_1 = date("Y-m-d", strtotime("+1 day", strtotime($end_time)));
+
+        $date_array = createDateRangeArray(strtotime($start_time), strtotime($end_time));
+
         $data['current_gen'] = [
             'name' => $current_gen->name,
             'id' => $current_gen->id,
@@ -219,7 +219,7 @@ class MobileController extends ApiController
         if ($base_id == null) {
 
             $zero_paid_num = Register::where('gen_id', $current_gen->id)->where('status', '=', 1)->where('money', '=', 0)->count();
-            $total_money = Register::where('gen_id', $current_gen->id)->sum('money');
+//            $total_money = Register::where('gen_id', $current_gen->id)->sum('money');
             $num = Register::where('gen_id', $current_gen->id)->count();
             $paid_number = Register::where('gen_id', $current_gen->id)->where('money', ">", 0)->count();
             $uncalled_number = Register::where('gen_id', $current_gen->id)->where('call_status', 0)->groupBy('user_id')->count();
@@ -241,13 +241,13 @@ class MobileController extends ApiController
                 })
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_personal_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
-                ->where('gen_id', $current_gen->id)
+            $paid_by_date_personal_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->where('saler_id', $this->user->id)
                 ->where('money', '>', 0)
-                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
+                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
 
-            $date_array = createDateRangeArray(strtotime($current_gen->start_time), strtotime($current_gen->end_time));
+//            $date_array = createDateRangeArray(strtotime($current_gen->start_time), strtotime($current_gen->end_time));
 
             // ca colorme
             $registers_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
@@ -258,10 +258,10 @@ class MobileController extends ApiController
                 })
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
-                ->where('gen_id', $current_gen->id)
+            $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->where('money', '>', 0)
-                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
+                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
 
             if (count($registers_by_date_temp) > 0) {
 
@@ -307,8 +307,15 @@ class MobileController extends ApiController
 
             $registers_by_date = array();
             $paid_by_date = array();
+            $money_by_date = array();
 
             $di = 0;
+
+            $total_money = 0;
+
+            $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
+                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money', ' date');
 
             foreach ($date_array as $date) {
 //                dd(isset($registers_by_date_personal_temp["2016-10-09"]));
@@ -334,11 +341,18 @@ class MobileController extends ApiController
                 } else {
                     $paid_by_date[$di] = 0;
                 }
+
+                if (isset($money_by_date_temp[$date])) {
+                    $money_by_date[$di] = $money_by_date_temp[$date];
+                    $total_money += $money_by_date[$di];
+                } else {
+                    $money_by_date[$di] = 0;
+                }
+
                 $di += 1;
             }
 
 
-            $money_by_date = Register::select(DB::raw('sum(money) as money'))->where('gen_id', $current_gen->id)->groupBy(DB::raw('DATE(paid_time)'))->pluck('money')->toArray();
             $registers_by_hour = Register::select(DB::raw('HOUR(created_at) as \'hour\', count(1) as num'))->where('gen_id', $current_gen->id)->groupBy(DB::raw('HOUR(created_at)'))->get();
 
             $orders_by_hour = Order::select(DB::raw('DATE(created_at) as date,count(1) as num'))->groupBy(DB::raw('DATE(created_at)'))->get();
@@ -416,7 +430,7 @@ class MobileController extends ApiController
 
             $registers = Register::where('gen_id', $current_gen->id)->where('gen_id', $current_gen->id)->whereIn('class_id', $classes->pluck('id'));
             $zero_paid_num = Register::where('status', '=', 1)->where('money', '=', 0)->whereIn('class_id', $classes->pluck('id'))->count();
-            $total_money = $registers->sum('money');
+//            $total_money = $registers->sum('money');
             $num = $registers->count();
             $paid_number = $registers->where('gen_id', $current_gen->id)->where('money', ">", 0)->count();
             $uncalled_number = $registers->where('call_status', 0)->groupBy('user_id')->count();
@@ -425,13 +439,16 @@ class MobileController extends ApiController
             $remain_days = (strtotime($current_gen->end_time) - time());
             $classes_id = $classes->pluck("id");
             $registers_by_date = Register::select(DB::raw('count(1) as num'))->whereIn("class_id", $classes_id)->where('gen_id', $current_gen->id)->groupBy(DB::raw('DATE(created_at)'))->pluck('num')->toArray();
-
+            $classes_id2 = $base->classes()->pluck('id');
 
 //            $total_paid_personal = $this->user->sale_registers()->where('gen_id', $current_gen->id)->where('money', '>', '0')->count();
 //            $bonus = compute_sale_bonus($total_paid_personal);
 //            $data['bonus'] = currency_vnd_format($bonus);
+            $money_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date, sum(money) as money'))
+                ->whereIn("class_id", $classes_id2)
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
+                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('money', ' date');
 
-            $money_by_date = Register::select(DB::raw('sum(money) as money'))->whereIn("class_id", $classes_id)->where('gen_id', $current_gen->id)->groupBy(DB::raw('DATE(paid_time)'))->pluck('money')->toArray();
 //            $registers_by_date_personal_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
 //                ->where('gen_id', $current_gen->id)
 //                ->where('saler_id', $this->user->id)
@@ -446,24 +463,24 @@ class MobileController extends ApiController
 //            $total_paid_personal = $this->user->sale_registers()->whereIn("class_id", $classes_id)->where('gen_id', $current_gen->id)->where('money', '>', '0')->count();
 //            $bonus = compute_sale_bonus($total_paid_personal);
 
-            $date_array = createDateRangeArray(strtotime($current_gen->start_time), strtotime($current_gen->end_time));
+//            $date_array = createDateRangeArray(strtotime($current_gen->start_time), strtotime($current_gen->end_time));
 
             $registers_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
                 ->where('gen_id', $current_gen->id)
                 ->whereIn("class_id", $classes_id)
                 ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
 
-            $paid_by_date_temp = Register::select(DB::raw('DATE(created_at) as date,count(1) as num'))
-                ->where('gen_id', $current_gen->id)
+            $paid_by_date_temp = Register::select(DB::raw('DATE(paid_time) as date,count(1) as num'))
+                ->whereBetween('paid_time', array($start_time, $end_time_plus_1))
                 ->where('money', '>', 0)
                 ->whereIn("class_id", $classes_id)
-                ->groupBy(DB::raw('DATE(created_at)'))->pluck('num', 'date');
+                ->groupBy(DB::raw('DATE(paid_time)'))->pluck('num', 'date');
 
 //            $registers_by_date_personal = array();
 //            $paid_by_date_personal = array();
 
             $money_today = DB::select(DB::raw(' select sum(money) as money from `registers` 
-                                                  where date(created_at)=curdate() 
+                                                  where date(paid_time)=curdate() 
                                                   and class_id in 
                                                   (select id from classes where base_id = ' . $base_id . ')'));
             $count_registers_today = DB::select(DB::raw(' select count(*) as num from `registers` 
@@ -477,6 +494,8 @@ class MobileController extends ApiController
             $data['campaign_registers'] = $campaign_registers;
 
             $di = 0;
+
+            $total_money = 0;
 //            dd($registers_by_date_personal_temp);
             foreach ($date_array as $date) {
 //                dd(isset($registers_by_date_personal_temp["2016-10-09"]));
@@ -502,6 +521,14 @@ class MobileController extends ApiController
                 } else {
                     $paid_by_date[$di] = 0;
                 }
+
+                if (isset($money_by_date_temp[$date])) {
+                    $money_by_date[$di] = $money_by_date_temp[$date];
+                    $total_money += $money_by_date[$di];
+                } else {
+                    $money_by_date[$di] = 0;
+                }
+
                 $di += 1;
             }
 

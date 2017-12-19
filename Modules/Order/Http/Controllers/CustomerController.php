@@ -9,6 +9,7 @@
 namespace Modules\Order\Http\Controllers;
 
 
+use App\CustomerGroup;
 use App\Http\Controllers\ManageApiController;
 use App\Order;
 use App\User;
@@ -27,6 +28,7 @@ class CustomerController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $keyword = $request->search;
         $status = $request->status;
+
         if ($status == "1" || $status == "0") {
             $customerIds = Order::where('status_paid', $status)->select('user_id')->get();
             $users = User::where('type', 'customer')->whereIn('id', $customerIds)->where(function ($query) use ($keyword) {
@@ -62,7 +64,8 @@ class CustomerController extends ManageApiController
                             $totalPaidMoney += $orderPaidMoney->money;
                         }
                     }
-
+                    $groups = $user->infoCustomerGroups;
+                    $count_groups = $user->infoCustomerGroups()->count();
                     return [
                         'id' => $user->id,
                         'name' => $user->name,
@@ -76,7 +79,16 @@ class CustomerController extends ManageApiController
                         'total_money' => $totalMoney,
                         'total_paid_money' => $totalPaidMoney,
                         'debt' => $totalMoney - $totalPaidMoney,
-                        'can_delete' => $canDelete
+                        'can_delete' => $canDelete,
+                        'count_groups' => $count_groups,
+                        'groups' => $groups->map(function ($group) {
+                            return [
+                                "id" => $group->id,
+                                "name" => $group->name,
+                                "description" => $group->descripton,
+                                "color" => $group->color,
+                            ];
+                        }),
                     ];
 
                 }),
@@ -84,8 +96,7 @@ class CustomerController extends ManageApiController
         );
     }
 
-    public
-    function countMoney()
+    public function countMoney()
     {
         $users = User::where("type", "customer")->get();
         $TM = 0; // Tong tien
@@ -169,34 +180,40 @@ class CustomerController extends ManageApiController
         $data["total_paid_money"] = $totalPaidMoney;
         $data["debt"] = $totalMoney - $totalPaidMoney;
         $data["can_delete"] = $canDelete;
-
-
         return $this->respondSuccessWithStatus([
             "message" => "Thêm thành công",
             "user" => $data
         ]);
     }
 
-    public function editCustomer($customerId,Request $request)
+    public function editCustomer($customerId, Request $request)
     {
-        if($request->name ===null || $request->phone ===null ||
-            $request->address === null || $request->email ===null || $request->gender === null || $request->dob === null)
-         return $this->respondErrorWithStatus("Thiếu trường");
+        if ($request->name === null || $request->phone === null ||
+            $request->address === null || $request->email === null || $request->gender === null || $request->dob === null)
+            return $this->respondErrorWithStatus("Thiếu trường");
 
         $user = User::find($customerId);
         if (!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
 
-        $userr = User::where("email",$request->email)->first();
-        if(count($userr)>0 && $userr->id != $customerId) return $this->respondErrorWithStatus("Đã tồn tại email");
+        $userr = User::where("email", $request->email)->first();
+        if (count($userr) > 0 && $userr->id != $customerId) return $this->respondErrorWithStatus("Đã tồn tại email");
 
-        $user->name=$request->name;
-        $user->phone=$request->phone;
-        $user->address=$request->address;
-        $user->email=$request->email;
-        $user->gender=$request->gender;
-        $user->dob=$request->dob;
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->email = $request->email;
+        $user->gender = $request->gender;
+        $user->dob = $request->dob;
         $user->save();
 
+        if ($request->stringId != null) {
+            $user->infoCustomerGroups()->detach();
+            $id_lists = explode(';', $request->stringId);
+            foreach ($id_lists as $id_list) {
+                $user->infoCustomerGroups()->attach($id_list);
+            }
+
+        } else if ($request->stringId == "" && $user->infoCustomerGroups) $user->infoCustomerGroups()->detach();
         $orders = Order::where("user_id", $user->id)->get();
         if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
         $totalMoney = 0;
@@ -227,7 +244,17 @@ class CustomerController extends ManageApiController
         $data["total_paid_money"] = $totalPaidMoney;
         $data["debt"] = $totalMoney - $totalPaidMoney;
         $data["can_delete"] = $canDelete;
-
+        $groups = $user->infoCustomerGroups;
+        $count_groups = $user->infoCustomerGroups()->count();
+        $data["count_groups"] = $count_groups;
+        $data["groups"] = $groups->map(function ($group) {
+            return [
+                "id" => $group->id,
+                "name" => $group->name,
+                "description" => $group->descripton,
+                "color" => $group->color,
+            ];
+        });
 
         return $this->respondSuccessWithStatus([
             "message" => "Sửa thành công",
@@ -235,11 +262,12 @@ class CustomerController extends ManageApiController
         ]);
 
 
-
     }
-    public function getInfoCustomer($customerId,Request $request){
-        $user=User::find($customerId);
-        if(!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
+
+    public function getInfoCustomer($customerId, Request $request)
+    {
+        $user = User::find($customerId);
+        if (!$user) return $this->respondErrorWithStatus("Không tồn tại khách hàng");
         $orders = Order::where("user_id", $user->id)->get();
         if (count($orders) > 0) $canDelete = "false"; else $canDelete = "true";
         $totalMoney = 0;
@@ -270,8 +298,19 @@ class CustomerController extends ManageApiController
         $data["total_paid_money"] = $totalPaidMoney;
         $data["debt"] = $totalMoney - $totalPaidMoney;
         $data["can_delete"] = $canDelete;
+        $groups = $user->infoCustomerGroups;
+        $count_groups = $user->infoCustomerGroups()->count();
+        $data["count_groups"] = $count_groups;
+        $data["groups"] = $groups->map(function ($group) {
+            return [
+                "id" => $group->id,
+                "name" => $group->name,
+                "description" => $group->descripton,
+                "color" => $group->color,
+            ];
+        });
         return $this->respondSuccessWithStatus([
-            'user' =>$data
+            'user' => $data
         ]);
     }
 

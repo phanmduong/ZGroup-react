@@ -154,7 +154,7 @@ class StudentController extends StudentAccessController
                     "event" => "notification",
                     "data" => $data
                 );
-                Redis::publish('colorme-channel', json_encode($publish_data));
+                Redis::publish(config('app.channel'), json_encode($publish_data));
             }
             $product->rating += 5;
             $like = new Like;
@@ -296,7 +296,7 @@ class StudentController extends StudentAccessController
                 "event" => "notification",
                 "data" => $data
             );
-            Redis::publish('colorme-channel', json_encode($publish_data));
+            Redis::publish(config('app.channel'), json_encode($publish_data));
         }
 
 
@@ -327,7 +327,7 @@ class StudentController extends StudentAccessController
                     "event" => "notification",
                     "data" => $data
                 );
-                Redis::publish('colorme-channel', json_encode($publish_data));
+                Redis::publish(config('app.channel'), json_encode($publish_data));
                 $already_sent_noti[] = $commenter_id;
             }
         }
@@ -346,7 +346,7 @@ class StudentController extends StudentAccessController
             "data" => $contents
         );
 
-        Redis::publish('colorme-channel', json_encode($publish_data));
+        Redis::publish(config('app.channel'), json_encode($publish_data));
 
         return time_elapsed_string(strtotime($comment->created_at));
     }

@@ -20,13 +20,15 @@ class OrderController extends ManageApiController
 
     public function allOrders(Request $request)
     {
-        $limit = 3;
+        $limit = 20;
         $user_id = $request->user_id;
         $staff_id = $request->staff_id;
+        $warehouse_id = $request->warehouse_id;
         $startTime = $request->start_time;
         $endTime = $request->end_time;
         $status = $request->status;
         $keyWord = $request->search;
+
         $totalOrders = Order::where('type', 'order')->get()->count();
         $totalMoney = 0;
         $totalPaidMoney = 0;
@@ -46,10 +48,12 @@ class OrderController extends ManageApiController
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
             $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
+        if ($status)
+            $orders = $orders->where('status', $status);
         if ($startTime)
             $orders = $orders->whereBetween('created_at', array($startTime, $endTime));
-//        if ($status)
-//            $orders = $orders->where('status', $status);
+        if ($warehouse_id)
+            $orders = $orders->where('warehouse_id', $warehouse_id);
         if ($user_id)
             $orders = $orders->where('user_id', $user_id);
         if ($staff_id)
@@ -74,6 +78,26 @@ class OrderController extends ManageApiController
         return $this->respondSuccessWithStatus(
             $order->detailedTransform()
         );
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $order = Order::find($request->order_id);
+
+        if ($order == null) {
+            return $this->respondErrorWithStatus("Đơn hàng không tồn tại");
+        }
+
+        $order->status = $request->status;
+        if ($request->label_id) {
+            $order->label_id = $request->label_id;
+        }
+
+        $order->save();
+
+        return $this->respondSuccessWithStatus([
+            'order' => $order->transform()
+        ]);
     }
 
     public function editOrder($order_id, Request $request)

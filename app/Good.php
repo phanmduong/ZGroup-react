@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Book\Entities\Barcode;
 use Modules\Good\Entities\GoodProperty;
 
 class Good extends Model
@@ -28,9 +29,19 @@ class Good extends Model
         return $this->hasMany('App\ImportedGoods', 'good_id');
     }
 
+    public function history()
+    {
+        return $this->hasMany(HistoryGood::class, 'good_id');
+    }
+
     public function goodWarehouse()
     {
         return $this->hasMany('App\GoodWarehouse', 'good_id');
+    }
+
+    public function barcode()
+    {
+        return $this->hasOne(Barcode::class, "good_id");
     }
 
     public function warehouses()
@@ -40,7 +51,7 @@ class Good extends Model
 
     public function properties()
     {
-        return $this->hasMany(GoodProperty::class, 'good_id');
+        return $this->hasMany(GoodProperty::class, 'good_id')->where('name', '<>', 'images_url');
     }
 
     public function files()
@@ -98,12 +109,12 @@ class Good extends Model
             'code' => $this->code,
         ];
 
-        if($this->goodCategory)
+        if ($this->goodCategory)
             $data['category'] = [
                 'id' => $this->goodCategory->id,
                 'name' => $this->goodCategory->name,
             ];
-        if($this->manufacture)
+        if ($this->manufacture)
             $data['manufacture'] = [
                 'id' => $this->manufacture->id,
                 'name' => $this->manufacture->name,

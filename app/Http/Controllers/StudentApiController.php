@@ -7,6 +7,7 @@ use App\Colorme\Transformers\StudentTransformer;
 use App\Gen;
 use App\Register;
 use App\Services\EmailService;
+use App\StudyClass;
 use App\TeleCall;
 use App\Transaction;
 use App\User;
@@ -116,7 +117,7 @@ class StudentApiController extends ApiController
             $current_money = $this->user->money;
             $this->user->money = $current_money + $money;
             $this->user->save();
-            $this->emailService->send_mail_confirm_receive_student_money($register, ["colorme.idea@gmail.com"]);
+            $this->emailService->send_mail_confirm_receive_student_money($register);
             send_sms_confirm_money($register);
         }
         $return_data = array(
@@ -131,15 +132,10 @@ class StudentApiController extends ApiController
             'message' => "success"
         );
 
+        $code = next_code();
 
-        $code = Register::orderBy('code', 'desc')->first()->code;
-
-        $nextNumber = explode("M", $code)[1] + 1;
-        $return_data["next_code"] = 'CM' . $nextNumber;
-
-        $waiting_code = Register::where('code', 'like', 'CCM%')->orderBy('code', 'desc')->first()->code;
-        $waiting_code = explode("M", $waiting_code)[1] + 1;
-        $return_data["next_waiting_code"] = 'CCM' . $waiting_code;
+        $return_data["next_code"] = $code['next_code'];
+        $return_data["next_waiting_code"] = $code['next_waiting_code'];
 
 
         return $this->respond($return_data);
@@ -175,18 +171,40 @@ class StudentApiController extends ApiController
             $registers = $registers->where('class_id', $request->class_id);
         }
 
-        if ($request->saler_id != null) {
-            $registers = $registers->where('saler_id', $request->saler_id);
+        if ($request->type != null) {
+            $classes = StudyClass::where('type', $request->type)->get()->pluck('id')->toArray();
+            $registers = $registers->whereIn('class_id', $classes);
         }
-
-        if ($request->campaign_id != null) {
-            $registers = $registers->where('campaign_id', $request->campaign_id);
-        }
-
         if ($request->status != null) {
             $registers = $registers->where('status', $request->status);
         }
-        $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
+        if ($request->saler_id != null) {
+            if ($request->saler_id == -1) {
+                $registers = $registers->whereNull('saler_id')->orWhere('saler_id', 0);
+            } else {
+                $registers = $registers->where('saler_id', $request->saler_id);
+            }
+
+        }
+
+        if ($request->campaign_id != null) {
+            if ($request->campaign_id == -1) {
+                $registers = $registers->whereNull('campaign_id')->orWhere('campaign_id', 0);
+            } else {
+                $registers = $registers->where('campaign_id', $request->campaign_id);
+            }
+
+        }
+
+
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+        if ($request->start_time != null) {
+            $registers = $registers->whereBetween('created_at', array($request->start_time, $endTime));
+        }
+        if ($limit == -1)
+            $registers = $registers->orderBy('created_at', 'desc')->get();
+        else
+            $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
 
         $registers->map(function ($register) {
 
@@ -212,7 +230,14 @@ class StudentApiController extends ApiController
             }
             $register->is_delete = is_delete_register($this->user, $register);
         }
-
+        if ($limit == -1) {
+            return $this->respondSuccessWithStatus([
+                'registers' => $this->registerTransformer->transformCollection($registers),
+                'gen' => [
+                    'id' => $gen->id
+                ]
+            ]);
+        }
         return $this->respondWithPagination($registers, [
             'registers' => $this->registerTransformer->transformCollection($registers),
             'gen' => [

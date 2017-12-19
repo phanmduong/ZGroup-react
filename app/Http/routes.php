@@ -31,6 +31,7 @@
 |
 */
 
+
 Route::post('uploadfile', 'PublicController@upload_file');
 Route::get('manage/email/open', 'PublicController@open_email');
 Route::post('manage/receive_notifications', 'PublicController@receive_notifications');
@@ -42,6 +43,8 @@ Route::get('send_noti_test', 'PublicController@send_noti_test');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
+//    Route::get('/email/{path}', 'ClientController@email')
+//        ->where('path', '.*');
     Route::get('{path}', 'PublicController@manage')
         ->where('path', '.*');
 });
@@ -58,15 +61,21 @@ Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 //
 //});
 
-Route::group(['domain' => "www.".config('app.domain')], function () {
+Route::group(['domain' => "www." . config('app.domain')], function () {
 //    Route::get('/', 'PublicController@redirectManage');
     Route::get('/', 'PublicController@redirect');
+});
+
+Route::group(['domain' => 'keetool2.xyz'], function () {
+//    Route::get('/', 'PublicController@redirectManage');
+    Route::get('/', 'PublicController@redirectKeetool');
 });
 
 Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
 
     // Begin tab api
     Route::get('/tabs', 'ManageTabApiController@get_tabs');
+    Route::post('/login', 'AuthenticateController@login');
     Route::get('/all-tabs', "ManageTabApiController@get_all");
     // End tab api
 
@@ -97,6 +106,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain')], function () {
     Route::get('/base/center/all', "ManageBaseApiController@get_base_center_all");
     Route::post('/set-default-base/{baseId}', "ManageBaseApiController@setDefaultBase");
     Route::post('/base/create', "ManageBaseApiController@createBase");
+    Route::get('/base/rooms', "ManageBaseApiController@getRooms");
+    Route::post('/base/room', "ManageBaseApiController@storeRoom");
     Route::post('/base/delete/{baseId}', "ManageBaseApiController@deleteBase");
     Route::get('/base/{baseId}', "ManageBaseApiController@base");
     // End Base api
@@ -247,6 +258,8 @@ Route::group(['domain' => 'api.' . config('app.domain')], function () {
     Route::get('/products/{username}', 'UserPublicApiController@user_products');
     Route::post('/products/{username}', 'UserApiController@store_avatar');
     Route::post('/change-avatar', 'UserApiController@change_avatar');
+
+    Route::get('all-saler', 'UserApiController@getAllSaler');
 
     Route::post('/upload-image', 'UserApiController@upload_image');
     Route::post('/upload-image-froala', 'PublicApiController@upload_image_froala');
@@ -450,7 +463,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('manage/expenseincome/{year?}', 'MoneyController@expense_income');
 
     //quan ly lich truc
-    Route::get('manage/shift', 'ManageShiftController@index');
+//    Route::get('manage/shift', 'ManageShiftController@index');
 //    Route::get('manage/regis-shifts', 'ManageShiftController@regis_shifts');
 
     Route::get('/manage/downloadsurveyclass', 'SurveyController@download_survey_class');
@@ -534,6 +547,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('courses/{user_id}/{campaign_id}', 'PublicController@courses');
     Route::get('classes/register/{class_id?}/{user_id?}/{campaign_id?}', 'PublicController@register_class');
     Route::get('classes/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@classes');
+    Route::get('classes1/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@classes1');
 
     Route::post('classes/register_store', 'PublicController@register_store');
     Route::post('classes/new_register_store', 'PublicController@new_register_store');
@@ -580,10 +594,10 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('manage/get_telecalls_list', 'HomeController@telecalls_list');
 
 //    Route::get('manage/gens/{page?}', 'HomeController@manage_gens');
-    Route::get('manage/courses/{page?}', 'HomeController@courses');
+//    Route::get('manage/courses/{page?}', 'HomeController@courses');
 //    Route::get('manage/classes/{page?}', 'HomeController@classes');
 //    Route::get('manage/registerlist', 'HomeController@registerList');
-    Route::get('manage/waitlist', 'HomeController@waitList');
+//    Route::get('manage/waitlist', 'HomeController@waitList');
     Route::get('manage/study-history/{student_id}', 'HomeController@study_history');
     Route::get('manage/studentsneedcall/{page?}', 'HomeController@student_needs_call');
     Route::get('manage/keepmoney/{page?}', 'HomeController@keep_money')->middleware(['is_admin']);
@@ -692,7 +706,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('manage/autostudent', 'HomeController@auto_student');
     Route::get('manage/deleteclass/{class_id?}', 'HomeController@delete_class');
     Route::get('manage/deleteregister/{register_id?}', 'HomeController@delete_register');
-    Route::get('manage/attendance', 'HomeController@attendance');
+//    Route::get('manage/attendance', 'HomeController@attendance');
     Route::get('manage/attendancelist/{class_lesson_id}', 'HomeController@attendance_list');
     Route::get('manage/paidlist/{page?}', 'HomeController@paid_list');
 

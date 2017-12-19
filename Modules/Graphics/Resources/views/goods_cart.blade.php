@@ -44,5 +44,14 @@
         <h4 class="text-right"><b>{{currency_vnd_format($total_price)}}</b></h4>
     </div>
 </div>
+<div class="row" style="padding-top:20px;">
+    <div class="col-md-12" >
+        <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:</div>
+        <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
+        <div>Ship vào Sài Gòn: 30k</div>
+        <div>Ship đến tỉnh thành khác: 30k</div>
+    </div>
+</div>
+
 
 </div>

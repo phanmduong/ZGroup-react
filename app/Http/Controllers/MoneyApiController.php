@@ -107,7 +107,7 @@ class MoneyApiController extends ApiController
             "data" => $data
         );
 
-        Redis::publish('colorme-channel', json_encode($publish_data));
+        Redis::publish(config('app.channel'), json_encode($publish_data));
 
         $publish_data = array(
             "event" => "notification",
@@ -115,7 +115,7 @@ class MoneyApiController extends ApiController
                 "notification" => $this->notificationTransformer->transform($notification),
             ]
         );
-        Redis::publish('colorme-channel', json_encode($publish_data));
+        Redis::publish(config('app.channel'), json_encode($publish_data));
 
         $return_data = [
             'transaction' => [
@@ -194,7 +194,7 @@ class MoneyApiController extends ApiController
             );
 
 
-            Redis::publish('colorme-channel', json_encode($publish_data));
+            Redis::publish(config('app.channel'), json_encode($publish_data));
 
             $publish_data = array(
                 "event" => "notification",
@@ -202,7 +202,7 @@ class MoneyApiController extends ApiController
                     "notification" => $this->notificationTransformer->transform($notification),
                 ]
             );
-            Redis::publish('colorme-channel', json_encode($publish_data));
+            Redis::publish(config('app.channel'), json_encode($publish_data));
 
             return $this->respond([
                 'transaction' => [

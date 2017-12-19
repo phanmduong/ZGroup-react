@@ -45,11 +45,13 @@ class ClassRepository
             'description' => $class->description,
             'status' => $class->status,
             'activated' => $class->activated,
+            'link_drive' => $class->link_drive,
             'schedule_id' => $class->schedule_id,
             'total_paid' => $class->registers()->where('status', 1)->count(),
             'target' => $class->target,
             'total_register' => $class->registers()->count(),
             'regis_target' => $class->regis_target,
+            'type' => $class->type,
             'created_at' => format_full_time_date($class->created_at)
         ];
 

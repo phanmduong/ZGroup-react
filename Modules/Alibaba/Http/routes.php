@@ -12,3 +12,7 @@ Route::group(['middleware' => 'web', 'domain' => "alibabaenglish.edu.{subfix}", 
     Route::get('/code-form', 'AlibabaController@codeForm');
     Route::post('/check', 'AlibabaController@check');
 });
+
+Route::group(['domain' => "manageapi." . config('app.domain'), 'namespace' => 'Modules\Alibaba\Http\Controllers'], function () {
+    Route::post('/alibaba-change-call-status-student', 'AlibabaManageApiController@change_call_status');
+});

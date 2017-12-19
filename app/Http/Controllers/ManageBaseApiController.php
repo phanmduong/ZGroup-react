@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Base;
+use App\Room;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -77,6 +78,7 @@ class ManageBaseApiController extends ManageApiController
                 return [
                     'id' => $base->id,
                     'name' => $base->name,
+                    'address' => $base->address,
                 ];
             }),
         ];
@@ -132,5 +134,79 @@ class ManageBaseApiController extends ManageApiController
         $base->save();
 
         return $this->respondSuccessWithStatus(["message" => $message]);
+    }
+
+    public function getRooms(Request $request)
+    {
+        $query = trim($request->search);
+
+        $limit = 6;
+
+        if ($request->base_id && $request->base_id != 0) {
+            $rooms = Room::where('rooms.base_id', '=', $request->base_id);
+        } else {
+            $rooms = Room::query();
+        }
+
+        if ($query) {
+            $rooms = $rooms->join('bases', 'bases.id', '=', 'rooms.base_id')->where(function ($q) use ($query) {
+                $q->where("rooms.name", "like", "%$query%")
+                    ->orWhere("bases.name", "like", "%$query%")
+                    ->orWhere("bases.address", "like", "%$query%");
+            })->select("bases.*", "rooms.*", "bases.name as base_name", "rooms.name as room_name", "rooms.id as room_id")
+                ->orderBy('rooms.created_at')->paginate($limit);
+        } else {
+            $rooms = $rooms->join('bases', 'bases.id', '=', 'rooms.base_id')
+                ->select("rooms.*", "bases.*", "bases.name as base_name", "rooms.name as room_name", "rooms.id as room_id")
+                ->orderBy('rooms.created_at')->paginate($limit);
+        }
+
+
+        $data = [
+            'rooms' => $rooms->map(function ($room) {
+                return [
+                    'id' => $room->room_id,
+                    'name' => $room->room_name,
+                    'base_id' => $room->base_id,
+                    'base_name' => $room->base_name,
+                    'address' => $room->address,
+                ];
+            })
+        ];
+
+        return $this->respondWithPagination($rooms, $data);
+    }
+
+    public function storeRoom(Request $request)
+    {
+
+        if ($request->name == null) {
+            return $this->responseBadRequest("Thiếu tên phòng");
+        }
+
+        if ($request->base_id == null) {
+            return $this->responseBadRequest("Thiếu cơ sở");
+        }
+
+        if ($request->id) {
+            $room = Room::find($request->id);
+        } else {
+            $room = new Room();
+        }
+
+        $room->name = $request->name;
+        $room->base_id = $request->base_id;
+        $room->save();
+
+        $data = [
+            'id' => $room->id,
+            'name' => $room->name,
+            'base_name' => $room->base->name,
+            'address' => $room->base->address,
+        ];
+
+        return $this->respondSuccessWithStatus([
+            'room' => $data
+        ]);
     }
 }

@@ -5,6 +5,7 @@ namespace Modules\Course\Http\Controllers;
 use App\Gen;
 use App\Http\Controllers\ApiController;
 use App\StudyClass;
+use App\User;
 use Illuminate\Http\Request;
 
 class ClassApiController extends ApiController
@@ -28,6 +29,7 @@ class ClassApiController extends ApiController
                     'name' => $class->name,
                     'activated' => $class->activated,
                     'study_time' => $class->study_time,
+                    'type' => $class->type,
                 ];
                 if ($class->course)
                     $data['course'] = [
@@ -71,6 +73,56 @@ class ClassApiController extends ApiController
                     'attended_students' => $attended_students,
                 ];
             })
+        ]);
+    }
+
+    public function getAllTeacher(Request $request)
+    {
+        if ($request->gen_id) {
+            $gen = Gen::find($request->gen_id);
+        } else {
+            $gen = Gen::getCurrentGen();
+        }
+
+        $teacher_ids = $gen->studyclasses()->groupBy('teacher_id')->pluck('teacher_id')->toArray();
+        $teachers = User::whereIn('id', $teacher_ids)->orderBy('name', 'asc')->get();
+        $data["gen"] = [
+            "id" => $gen->id,
+            "name" => $gen->name,
+            "description" => $gen->description,
+            "start_time" => $gen->start_time,
+            "end_time" => $gen->end_time,
+        ];
+        $data['teachers'] = $teachers->map(function ($teacher) {
+            $classes = $teacher->teach()->orderBy('name', 'asc')->get();
+            return [
+                "teacher" => [
+                    "id" => $teacher->id,
+                    "name" => $teacher->name,
+                    "email" => $teacher->email,
+                ],
+                "classes" => $classes->map(function ($class) {
+                    $classLessons = $class->classLessons()->orderBy('created_at', 'desc')->get();
+                    return [
+                        "id" => $class->id,
+                        "name" => $class->name,
+                        "description" => $class->description,
+                        "lesson" => $classLessons->map(function($classLesson){
+                            $attended_students = $classLesson->attendances()->where('status', 1)->count();
+                            $total_students = $classLesson->attendances()->count();
+                            return [
+                                "id" => $classLesson->id,
+                                "attended_student" => $attended_students,
+                                "total_students" => $total_students,
+                            ];
+                        }),
+                    ];
+                }),
+            ];
+        });
+
+        return $this->respondSuccessWithStatus([
+            "data" => $data,
         ]);
     }
 

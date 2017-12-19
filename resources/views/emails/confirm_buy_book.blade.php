@@ -235,16 +235,20 @@
                                         <tbody>
                                         <tr>
                                             <td style="padding: 20px; color: #4D5766; font-weight: 200; text-decoration:none; font-size:16px; font-family: 'nokia-pure-text-light', 'Roboto Light', Roboto, Helvetica Neue, Helvetica, sans-serif; line-height:28px;">
-                                                <p>Chào {{$order->name}},</p>
+                                                <p>Chào {{$user->name}},</p>
                                                 <p>Chúng tôi đã nhận được đơn đặt hàng của bạn, vui lòng kiểm tra thông
                                                     tin bên dưới. Nếu có sai sót, vui lòng liên hệ lại với chúng tôi qua
                                                     <a href="emailto:graphics@colorme.vn">graphics@colorme.vn</a></p>
                                                 <p>
-                                                    Tên: <b>{{$order->name}}</b><br/>
-                                                    Email: <b>{{$order->email}}</b><br/>
-                                                    Số điện thoại: <b>{{$order->phone}}</b><br/>
-                                                    Địa chỉ: <b>{{$order->address}}</b><br/>
+                                                    Tên: <b>{{$user->name}}</b><br/>
+                                                    Email: <b>{{$user->email}}</b><br/>
+                                                    Số điện thoại: <b>{{$user->phone}}</b><br/>
+                                                    Địa chỉ: <b>{{$user->address}}</b><br/>
                                                     Phương thức thanh toán: <b>{{$order->payment}}</b><br/>
+                                                <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:
+                                                </div>
+                                                <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
+                                                <div>Ship đến tỉnh thành khác: 30k</div>
                                                 </p>
                                                 <p>
                                                 <table id="goods-table" style="width: 100%">
@@ -276,6 +280,16 @@
                                                     </tr>
                                                 </table>
 
+                                                </p>
+                                                <p style="font-weight: 600">
+                                                    <br>
+                                                    Trong trường hợp bạn lựa chọn hình thức thanh toán <b>chuyển
+                                                        khoản</b> dưới đây là thông tin chuyển
+                                                    khoản:</p>
+                                                <p>
+                                                    Tên tài khoản: VU CHI CONG<br/>
+                                                    Số tài khoản: 04 51 00 04 27 664 <br/>
+                                                    Ngân hàng: Vietcombank Thành Công.
                                                 </p>
                                                 <p>
                                                     Rất cám ơn sự ủng hộ của bạn đối với Graphics. Chúc bạn một ngày tốt
