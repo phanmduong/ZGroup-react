@@ -3,8 +3,8 @@ import {Route} from 'react-router';
 // import LoginContainer from './modules/login/LoginContainer';
 import NotFoundPage from './components/NotFoundPage';
 
-// import Routes from "./routes/EmailRoute";
-import Routes from "./routes/ManufactureRoute";
+import Routes from "./routes/EmailRoute";
+// import Routes from "./routes/ManufactureRoute";
 import AppContainer from "./containers/AppContainer";
 // import DashboardContainer from "./modules/dashboard/DashboardContainer";
 
