@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<!--[if lt IE 7 ]>
-<html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]>
-<html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]>
-<html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html lang="en"> <!--<![endif]-->
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
 <head>
     <!-- Basic Page Needs
     ================================================== -->
@@ -39,8 +35,8 @@
     <link rel="stylesheet" href="/colorme-assets/stylesheets/landings_layouts.css">
     <link rel="stylesheet" href="/colorme-assets/stylesheets/box.css">
     <link rel="stylesheet" href="/colorme-assets/stylesheets/pixicon.css">
-    <link href="/colorme-assets/assets/css/animations.min.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/colorme-assets/assets/css/animations.min.css" rel="stylesheet" type="text/css" media="all" />
+
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
