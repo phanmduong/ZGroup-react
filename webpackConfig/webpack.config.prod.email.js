@@ -12,15 +12,17 @@ const GLOBALS = {
     __DEV__: false
 };
 
+const moduleName = "email";
+
 export default {
     resolve: {
         extensions: ['*', '.js', '.jsx', '.json']
     },
     devtool: 'source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
-    entry: path.resolve(__dirname, 'src/index'),
+    entry: path.resolve(__dirname, 'src/entries', moduleName),
     target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist', 'manage', moduleName),
         publicPath: '/',
         filename: '[name].[chunkhash].js'
     },
@@ -60,7 +62,6 @@ export default {
         new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
 
         new webpack.optimize.AggressiveMergingPlugin(),
-
 
 
         new webpack.LoaderOptionsPlugin({
