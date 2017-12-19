@@ -13,14 +13,15 @@ redis.on('message', function (channel, message) {
     message = JSON.parse(message);
     io.emit(channel + ':' + message.event, message.data);
     if (message.event === 'notification' && message.data && message.data.receiver_id) {
-        sendNotification(message.data);
+        sendNotification(message.data, env.NOTI_APP_MANAGE_ID, env.NOTI_APP_MANAGE_KEY);
+        sendNotification(message.data, env.NOTI_APP_ID, env.NOTI_APP_KEY);
     }
 });
 http.listen(env.SOCKET_PORT, function () {
     console.log('Listening on Port ' + env.SOCKET_PORT);
 });
 
-var sendNotification = function (notification) {
+var sendNotification = function (notification, appID, appKey) {
     var text = htmlToText.fromString(notification.message, {
         wordwrap: 130
     });
@@ -36,17 +37,15 @@ var sendNotification = function (notification) {
     }
 
     var data = {
-        app_ids: [env.NOTI_APP_ID, env.NOTI_APP_MANAGE_ID],
+        app_id: appID,
         contents: {"en": text, "vi": text},
-        filters: [
-            {"field": "tag", "key": "user_id", "relation": "=", "value": notification.receiver_id}
-        ],
+        filters: filter,
         url: env.PROTOCOL + 'manage.' + env.DOMAIN + notification.link
     };
 
     var headers = {
         "Content-Type": "application/json; charset=utf-8",
-        "Authorization": "Basic " + env.NOTI_APP_KEY
+        "Authorization": "Basic " + appKey
     };
 
     var options = {
@@ -61,7 +60,7 @@ var sendNotification = function (notification) {
     var req = https.request(options, function (res) {
         res.on('data', function (data) {
             console.log("Response:");
-            console.log(JSON.parse(data));
+            console.log(data);
         });
     });
 
