@@ -12,8 +12,8 @@ class TabStudy extends React.Component {
         <div className="nav-tabs-navigation">
           <div className="nav-tabs-wrapper">
             <ul className="nav nav-tabs" data-tabs="tabs">
-              <li className={this.props.url === 'manage/scheduleclass' ? 'active' : ''}>
-                <Link to="/manage/scheduleclass">
+              <li className={this.props.url === 'teaching/scheduleclass' ? 'active' : ''}>
+                <Link to="/teaching/scheduleclass">
                   Lịch học
                   <div className="ripple-container"/>
                 </Link>

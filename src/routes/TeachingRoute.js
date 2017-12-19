@@ -15,59 +15,72 @@ import ClassesContainer from "../modules/classes/ClassesContainer";
 import TeachersExcelContainer from "../modules/excel/TeachersExcelContainer";
 
 /**
- * Tab Blog
+ * Tab Teaching
  */
 export default [
     {
-        path: "/manage/scheduleclass",
+        path: "/teaching/scheduleclass",
+        // path: "/manage/scheduleclass",
         component: ScheduleClassContainer
     },
     {
-        path: "/manage/gens",
+        path: "/teaching/gens",
+        // path: "/manage/gens",
         component: GensContainer
     },
     {
-        path: "/manage/registerlist(/:salerId)",
+        path: "/teaching/registerlist(/:salerId)",
+        // path: "/manage/registerlist(/:salerId)",
         component: RegisterListContainer
     },
     {
-        path: "/manage/waitlist",
+        path: "/teaching/waitlist",
+        // path: "/manage/waitlist",
         component: RegisterListContainer
     },
     {
-        path: "/registerlist/:campaignId/:genId",
+        path: "/teaching/registerlist/:campaignId/:genId",
+        // path: "/registerlist/:campaignId/:genId",
         component: RegisterListContainer
     },
     {
-        path: "/manage/courses",
+        path: "/teaching/courses",
+        // path: "/manage/courses",
         component: CoursesContainer
     },
     {
-        path: "/manage/courses/lessons/edit/:lessonId",
+        path: "/teaching/courses/lessons/edit/:lessonId",
+        // path: "/manage/courses/lessons/edit/:lessonId",
         component: LessonsContainer
     },
     {
-        path: "/manage/courses/lessons/create/:courseId",
+        path: "/teaching/courses/lessons/create/:courseId",
+        // path: "/manage/courses/lessons/create/:courseId",
         component: LessonsContainer
     },
     {
-        path: "/manage/attendance",
+        path: "/teaching/attendance",
+        // path: "/manage/attendance",
         component: AttendanceContainer
     },
     {
-        path: "/manage/attendance/:classId",
+        path: "/teaching/attendance/:classId",
+        // path: "/manage/attendance/:classId",
         component: ListLessonContainer
     },
     {
-        path: "/excel/teachers/:genId",
+        path: "/teaching/excel/teachers/:genId",
+        // path: "/excel/teachers/:genId",
         component: TeachersExcelContainer
     },
     {
-        path: "/manage/classes(/:teacherId)",
+        path: "/teaching/classes(/:teacherId)",
+        // path: "/manage/classes(/:teacherId)",
         component: ClassesContainer
     },
     {
-        path: "/manage/courses/edit/:courseId",
+        path: "/teaching/courses/edit/:courseId",
+        // path: "/manage/courses/edit/:courseId",
         component: CreateEditCoursesContainer,
         type: "edit",
         children: [
@@ -94,7 +107,8 @@ export default [
         ]
     },
     {
-        path: "/manage/courses/create",
+        path: "/teaching/courses/create",
+        // path: "/manage/courses/create",
         component: CreateEditCoursesContainer,
         type: "create",
         children: [

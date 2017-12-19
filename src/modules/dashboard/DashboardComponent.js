@@ -151,7 +151,7 @@ class DashboardComponent extends React.Component {
                                             </TooltipButton>
                                         }
                                         {user.is_saler &&
-                                        <Link to={"/manage/registerlist/" + user.id} className="btn btn-rose btn-round">Danh
+                                        <Link to={"/teaching/registerlist/" + user.id} className="btn btn-rose btn-round">Danh
                                             sách đăng kí</Link>
                                         }
 

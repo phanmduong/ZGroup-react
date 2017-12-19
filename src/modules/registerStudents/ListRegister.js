@@ -99,7 +99,7 @@ class  ListRegister extends React.Component {
                                             (
                                                 <Link className="btn btn-xs btn-main"
                                                       style={{backgroundColor: '#' + register.saler.color}}
-                                                      to={`/manage/registerlist/${register.saler.id}`}
+                                                      to={`/teaching/registerlist/${register.saler.id}`}
                                                 >
                                                     {helper.getShortName(register.saler.name)}
                                                     <div className="ripple-container"/>
@@ -108,7 +108,7 @@ class  ListRegister extends React.Component {
                                             :
                                             (
                                                    <Link className="btn btn-xs btn-main no-data"
-                                                    to={`/manage/registerlist/-1`}
+                                                    to={`/teaching/registerlist/-1`}
                                                     >
                                                         Không có
                                                     <div className="ripple-container"/>

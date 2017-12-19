@@ -64,7 +64,7 @@ class ListClass extends React.Component {
                                                 (
                                                     <Link className="btn btn-xs btn-main"
                                                           style={{backgroundColor: '#' + classItem.teacher.color}}
-                                                          to={"/manage/classes/" + classItem.teacher.id}
+                                                          to={"/teaching/classes/" + classItem.teacher.id}
                                                     >
                                                         {helper.getShortName(classItem.teacher.name)}
                                                         <div className="ripple-container"/>
@@ -86,7 +86,7 @@ class ListClass extends React.Component {
                                                 (
                                                     <Link className="btn btn-xs btn-main"
                                                           style={{backgroundColor: '#' + classItem.teacher_assistant.color}}
-                                                          to={"/manage/classes/" + classItem.teacher_assistant.id}
+                                                          to={"/teaching/classes/" + classItem.teacher_assistant.id}
                                                     >
                                                         {helper.getShortName(classItem.teacher_assistant.name)}
                                                         <div className="ripple-container"/>
