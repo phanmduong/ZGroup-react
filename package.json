@@ -18,8 +18,11 @@
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "rimraf ./dist",
     "prebuild": "npm run clean-dist && npm run lint && npm run test",
+
     "build": "babel-node tools/build.js && npm run open:dist",
     "build:email": "babel-node tools/build/email.js",
+    "build:manufacture": "babel-node tools/build/manufacture.js",
+
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",
     "test:cover": "npm run test -- --coverage ",
@@ -115,7 +118,8 @@
     "webpack-bundle-analyzer": "2.8.2",
     "webpack-dev-middleware": "1.11.0",
     "webpack-hot-middleware": "2.18.2",
-    "webpack-md5-hash": "0.0.5"
+    "webpack-md5-hash": "0.0.5",
+    "webpack-merge": "^4.1.1"
   },
   "keywords": [],
   "repository": {
