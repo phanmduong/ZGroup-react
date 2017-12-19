@@ -45,6 +45,8 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
     Route::get('/email/{path}', 'ClientController@email')
         ->where('path', '.*');
+    Route::get('/manufacture/{path}', 'ClientController@manufacture')
+        ->where('path', '.*');
     Route::get('{path}', 'PublicController@manage')
         ->where('path', '.*');
 });
