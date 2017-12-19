@@ -154,7 +154,7 @@ export default (
         {/*End register student routes*/}
 
         {/*Begin study session routes*/}
-        <Route path="/manage/studysession" component={StudySessionContainer}/>
+        {/*<Route path="/manage/studysession" component={StudySessionContainer}/>*/}
         {/*End study session routes*/}
 
         {/*Begin study session routes*/}

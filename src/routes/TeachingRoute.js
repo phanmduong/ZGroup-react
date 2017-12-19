@@ -13,6 +13,7 @@ import AttendanceContainer from "../modules/attendance/AttendanceContainer";
 import ListLessonContainer from "../modules/attendance/ListLessonContainer";
 import ClassesContainer from "../modules/classes/ClassesContainer";
 import TeachersExcelContainer from "../modules/excel/TeachersExcelContainer";
+import StudySessionContainer from "../modules/studySession/StudySessionContainer";
 
 /**
  * Tab Teaching
@@ -22,6 +23,11 @@ export default [
         path: "/teaching/scheduleclass",
         // path: "/manage/scheduleclass",
         component: ScheduleClassContainer
+    },
+    {
+        path: "/teaching/studysession",
+        // path: "/manage/studysession",
+        component: StudySessionContainer
     },
     {
         path: "/teaching/gens",
