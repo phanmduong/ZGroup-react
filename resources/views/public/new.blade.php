@@ -54,70 +54,179 @@
 </head>
 <body>
 
-@yield('content')
+<div id="page" class="page">
 
-<div class="pixfort_text_4 dark pix_builder_bg" id="section_footer_3_dark" style="outline-offset: -3px;">
-    <div class="footer3">
-        <div class="container ">
-            <div class="five columns alpha pix_text">
-                <div class="content_div area_1">
-                    <img src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1513657350X8wypgWgbJFb0eV.jpg"
-                         class="pix_footer_logo" alt=""
-                         style="border-radius: 0px; border-color: rgb(255, 255, 255); border-style: none; border-width: 1px; width: 50px; height: 50px;">
-                    <p class="small_text editContent">COLORME<strong><br>
-                            GRAPHICS DESIGN SCHOOL
-                        </strong></p>
-                    {{--<ul class="bottom-icons">--}}
-                    {{--<li><a class="pi pixicon-facebook2" href="https://facebook.com/colorme.hanoi" src="images/uploads/logo1.jpg" style="color: rgb(238, 238, 238); font-size: 18px; background-color: rgba(0, 0, 0, 0);"></a></li>--}}
 
-                    {{--<li><a class="pi pixicon-instagram" href="https://instagram.com/colorme.hanoi" src="images/uploads/logo1.jpg" style="color: rgb(238, 238, 238); font-size: 18px; background-color: rgba(0, 0, 0, 0);"></a></li>--}}
-                    {{--</ul>--}}
-                </div>
-            </div>
-            <div class="three columns">
-                <div class="content_div area_2">
-                    <span class="pix_text"><span class="editContent footer3_title" style="">Điều hướng</span></span>
-                    <ul class="footer3_menu">
-                        <li><a href="http://colorme.vn" class="pix_text"
-                               style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span
-                                        class="editContent" style="">Trang chủ</span></a></li>
-                        <li><a href="http://colorme.vn/courses" class="pix_text"
-                               style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span
-                                        class="editContent" style="">Các khoá học</span></a></li>
-                        <li><a href="http://graphics.vn" class="pix_text"
-                               style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span
-                                        class="editContent" style="">Mua sách</span></a></li>
-                        <li><a href="http://facebook.com/colorme.hanoi" class="pix_text"
-                               style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span
-                                        class="editContent" style="">Fanpage</span></a></li>
-                        <li><a href="http://facebook.com/colorme.hanoi" class="pix_text"
-                               style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span
-                                        class="editContent" style="">Hỗ trợ</span></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="four columns">
-                <div class="content_div area_3">
-                    <span class="pix_text"><span class="editContent big_number" style="">17 345</span></span>
-                    <span class="pix_text"><span class="editContent small_bold light_color" style="">HỌC VIÊN TỪNG THEO HỌC</span></span>
-                    <h4 class="editContent med_title">KEE EDUCATION</h4>
-                    <p class="editContent small_bold">175 Chùa Láng, Đống Đa, Hà Nội, Việt Nam</p>
-                </div>
-            </div>
-            <div class="four columns omega">
-                <div class="content_div">
-                    <span class="pix_text"><span class="editContent footer3_title" style="">CÁC CƠ SỞ</span></span>
-                    <p class="editContent ">CS1: 175 Chùa Láng, Đống Đa, HN<br>
-                        CS2: 162 Phương Liệt, HBT, HN<br>
-                        CS3: 14/835 Trần Hưng Đạo, Phương 1, Quận 5, HCM<br>
-                        CS4: Ngõ 2 Thọ Tháp (Toà nhà Phương Nga), Cầu Giấy, Hà Nội<br>
-                        <br></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="pixfort_gym_13 " id="section_gym_2">
+        <div class="page_style pix_builder_bg" style="background-image: url(&quot;images/uploads/111.jpg&quot;); background-color: rgb(31, 51, 74); padding-top: 0px; padding-bottom: 0px; box-shadow: none; border-color: rgb(68, 68, 68); background-size: cover; background-attachment: fixed; background-repeat: no-repeat; outline-offset: -3px;">
+            <div class="container">
+                <div class="sixteen columns">
+                    <div class="text_page">
+                        <h1 class="title"><span class="editContent" style=""><span class="pix_text" rel="">KHOÁ HỌC PHOTOSHOP</span></span></h1>
+                        <h3 class="subtitle"><span class="editContent" style=""><span class="pix_text" rel="">Chọn lớp học phù hợp với thời gian và vị trí của bạn</span></span></h3>
+                    </div>
+                    <div class="one_link">
+		                <span class="start_btn ">
+		                        <a class="slow_fade pix_text" href="#section_text_2" src="images/13_gym/arrow.png" style="color: rgb(255, 255, 255); font-size: 18px; background-color: rgb(204, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span class="editContent" style="">CHỌN LỚP HỌC</span></a>
+		                </span>
+                    </div>
+
+                    <div class="arrow_st"><a href="#" id="a_press"><img src="images/13_gym/arrow.png" alt=""></a></div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-</div>
+    </div><div class="light_gray_bg big_padding pix_builder_bg " id="section_text_2" style="outline-offset: -3px;">
+        <div class="container">
+            <div class="fourteen columns offset-by-one">
+                <div class="event_box row pix_builder_bg">
+                    <div class="event_box_1 ">
+                        <div class="event_box_img ">
+                            <img src="images/uploads/1475072407tOyRFhAeFPjsbfu.jpg" alt="" style="border-radius: 100%; border-color: rgb(68, 68, 68); border-style: none; border-width: 1px; width: 113px; height: 113px;">
+                        </div>
+                    </div>
+                    <div class="event_box_2">
+                        <div class="padding_15 hor_padding">
+                            <h4>
+                                <strong>Start a New Conversation</strong>
+                            </h4>
+                            <p class="editContent small_text light_gray">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="event_box_3">
+                        <div class="hor_padding">
+                            <h4>
+                                <strong>Between 12:00 - 13:15</strong>
+                            </h4>
+                            <p class="editContent small_text orange">
+                                Mark Smith, Developer at Themeforest
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event_box row pix_builder_bg">
+                    <div class="event_box_1 ">
+                        <div class="event_box_img ">
+                            <img src="images/main/placeholder150.png" alt="">
+                        </div>
+                    </div>
+                    <div class="event_box_2">
+                        <div class="padding_15 hor_padding">
+                            <h4>
+                                <strong>Start a New Conversation</strong>
+                            </h4>
+                            <p class="editContent small_text light_gray">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="event_box_3">
+                        <div class="hor_padding">
+                            <h4>
+                                <strong>Between 12:00 - 13:15</strong>
+                            </h4>
+                            <p class="editContent small_text orange">
+                                Mark Smith, Developer at Themeforest
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event_box row pix_builder_bg">
+                    <div class="event_box_1 ">
+                        <div class="event_box_img ">
+                            <img src="images/main/placeholder150.png" alt="">
+                        </div>
+                    </div>
+                    <div class="event_box_2">
+                        <div class="padding_15 hor_padding">
+                            <h4>
+                                <strong>Start a New Conversation</strong>
+                            </h4>
+                            <p class="editContent small_text light_gray">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="event_box_3">
+                        <div class="hor_padding">
+                            <h4>
+                                <strong>Between 12:00 - 13:15</strong>
+                            </h4>
+                            <p class="editContent small_text orange">
+                                Mark Smith, Developer at Themeforest
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><div class="pixfort_text_4 dark pix_builder_bg" id="section_footer_3_dark" style="outline-offset: -3px;">
+        <div class="footer3">
+            <div class="container ">
+                <div class="five columns alpha pix_text">
+                    <div class="content_div area_1">
+                        <img src="images/uploads/logo1.jpg" class="pix_footer_logo" alt="" style="border-radius: 0px; border-color: rgb(255, 255, 255); border-style: none; border-width: 1px; width: 50px; height: 50px;">
+                        <p class="small_text editContent">COLORME<strong><br>
+                                GRAPHICS DESIGN SCHOOL
+                            </strong></p>
+                        <ul class="bottom-icons">
+                            <li><a class="pi pixicon-facebook2" href="https://facebook.com/colorme.hanoi" src="images/uploads/logo1.jpg" style="color: rgb(238, 238, 238); font-size: 18px; background-color: rgba(0, 0, 0, 0);"></a></li>
+
+                            <li><a class="pi pixicon-instagram" href="https://instagram.com/colorme.hanoi" src="images/uploads/logo1.jpg" style="color: rgb(238, 238, 238); font-size: 18px; background-color: rgba(0, 0, 0, 0);"></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="three columns">
+                    <div class="content_div area_2">
+                        <span class="pix_text"><span class="editContent footer3_title" style="">Điều hướng</span></span>
+                        <ul class="footer3_menu">
+                            <li><a href="http://colorme.vn" class="pix_text" style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span class="editContent" style="">Trang chủ</span></a></li>
+                            <li><a href="http://colorme.vn/courses" class="pix_text" style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span class="editContent" style="">Các khoá học</span></a></li>
+                            <li><a href="http://graphics.vn" class="pix_text" style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span class="editContent" style="">Mua sách</span></a></li>
+                            <li><a href="http://facebook.com/colorme.hanoi" class="pix_text" style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span class="editContent" style="">Fanpage</span></a></li>
+                            <li><a href="http://facebook.com/colorme.hanoi" class="pix_text" style="color: rgb(153, 153, 153); font-size: 16px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Open Sans&quot;, sans-serif;"><span class="editContent" style="">Hỗ trợ</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="four columns">
+                    <div class="content_div area_3">
+                        <span class="pix_text"><span class="editContent big_number" style="">17 345</span></span>
+                        <span class="pix_text"><span class="editContent small_bold light_color" style="">HỌC VIÊN TỪNG THEO HỌC</span></span>
+                        <h4 class="editContent med_title">KEE EDUCATION</h4>
+                        <p class="editContent small_bold">175 Chùa Láng, Đống Đa, Hà Nội, Việt Nam</p>
+                    </div>
+                </div>
+                <div class="four columns omega">
+                    <div class="content_div">
+                        <span class="pix_text"><span class="editContent footer3_title" style="">CÁC CƠ SỞ</span></span>
+                        <p class="editContent ">CS1: 175 Chùa Láng, Đống Đa, HN<br>
+                            CS2: 162 Phương Liệt, HBT, HN<br>
+                            CS3: 14/835 Trần Hưng Đạo, Phương 1, Quận 5, HCM<br>
+                            CS4: Ngõ 2 Thọ Tháp (Toà nhà Phương Nga), Cầu Giấy, Hà Nội<br>
+                            <br></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div></div>
 
 <!-- JavaScript
 ================================================== -->
@@ -136,8 +245,6 @@
 
 <script src="/colorme-assets/assets/js/appear.min.js" type="text/javascript"></script>
 <script src="/colorme-assets/assets/js/animations.js" type="text/javascript"></script>
-
-
 <style>.fb-livechat, .fb-widget {
         display: none
     }
@@ -303,8 +410,5 @@
             })
         }
     });</script>
-<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="/js/register-cm.js?6868"></script>
 </body>
 </html>
