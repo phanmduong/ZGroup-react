@@ -86,7 +86,6 @@ class InfoCustomerContainer extends React.Component {
             <div>
 
 
-
                 <div className="row">
                     <div className="col-md-8">
                         <div className="card">
@@ -100,21 +99,21 @@ class InfoCustomerContainer extends React.Component {
                                     </div>
                                     <div className="col-md-2" style={{marginLeft: 20}}>
 
-                                            <AddOverlay
-                                                items={this.props.groupsInOverlay}
-                                                name="Nhóm khách hàng"
-                                                isSearch={true}
-                                                isPagination={true}
-                                                isLoadingInOverlay={this.props.isLoadingInOverlay}
-                                                icon="people"
-                                                loadFunction={this.loadGroupCustomer}
-                                                totalPages={this.props.totalGroupCustomerPages}
-                                                formData={this.props.customer}
-                                                fieldName="stringId"
-                                                fieldName2="groups"
-                                                updateFormData={this.props.customerActions.updateAddCustomerFormData}
-                                                assignGroupCustomer={this.assignGroupCustomer}
-                                            />
+                                        <AddOverlay
+                                            items={this.props.groupsInOverlay}
+                                            name="Nhóm khách hàng"
+                                            isSearch={true}
+                                            isPagination={true}
+                                            isLoadingInOverlay={this.props.isLoadingInOverlay}
+                                            icon="people"
+                                            loadFunction={this.loadGroupCustomer}
+                                            totalPages={this.props.totalGroupCustomerPages}
+                                            formData={this.props.customer}
+                                            fieldName="stringId"
+                                            fieldName2="groups"
+                                            updateFormData={this.props.customerActions.updateAddCustomerFormData}
+                                            assignGroupCustomer={this.assignGroupCustomer}
+                                        />
                                     </div>
                                 </div>
                                 {this.props.isLoading ? <Loading/> :
@@ -145,13 +144,14 @@ class InfoCustomerContainer extends React.Component {
                                     <h4 className="card-title">Thông tin</h4>
 
 
-
-
                                     <h4><strong>Nhóm khách hàng</strong></h4>
                                     <div className="bootstrap-tagsinput">
                                         {this.props.customer.groups.map((group) => {
                                             return (
-                                                <span className="tag btn" key={group.id} style={{backgroundColor : group.color, fontSize : 12}} >{group.name+ '  '}
+                                                <span className="tag btn" key={group.id} style={{
+                                                    backgroundColor: group.color,
+                                                    fontSize: 12
+                                                }}>{group.name + '  '}
                                                     <a onClick={() => {
                                                         this.removeGroupCustomer(group);
                                                     }}>
@@ -161,9 +161,6 @@ class InfoCustomerContainer extends React.Component {
                                             );
                                         })}
                                     </div>
-
-
-
 
 
                                     {this.props.isLoading ? <Loading/> :
@@ -176,8 +173,6 @@ class InfoCustomerContainer extends React.Component {
                                         </div>
                                     }
                                 </div>
-
-
 
 
                                 <div className="card-footer">

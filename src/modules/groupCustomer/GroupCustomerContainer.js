@@ -66,6 +66,7 @@ class GroupCustomerContainer extends React.Component {
             description: '',
             stringId: [],
             customers: [],
+            customersShowInModal : [],
         };
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
         this.setState({isShowModal: true , isEdit: false});
@@ -87,7 +88,7 @@ class GroupCustomerContainer extends React.Component {
             }
             else {
                 if (this.state.isEdit) {
-                    this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm, this.state.page);
+                    this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm, this.state.page,this.closeModal);
                 }
                 else {
                     this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page);

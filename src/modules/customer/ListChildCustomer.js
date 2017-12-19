@@ -1,18 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PopoverOverlay from "./PopoverOverlay";
+import {Modal} from 'react-bootstrap';
 
 
 class ListChildCustomer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            show : false,
+            show: false,
+            isShowModal: false,
+            customerGroups: [],
         };
-        this.toggle =this.toggle.bind(this);
+        this.toggle = this.toggle.bind(this);
+        this.openModalGroupCustomer = this.openModalGroupCustomer.bind(this);
+        this.closeModalGroupCustomer = this.closeModalGroupCustomer.bind(this);
     }
+
     toggle() {
-        this.setState({ show: !this.state.show });
+        this.setState({show: !this.state.show});
+    }
+
+    openModalGroupCustomer(groups) {
+        this.setState({isShowModal: true, customerGroups: groups});
+    }
+
+    closeModalGroupCustomer() {
+        this.setState({isShowModal: false});
     }
 
     render() {
@@ -51,10 +65,15 @@ class ListChildCustomer extends React.Component {
                                             <td>{customer.total_money}</td>
                                             <td>{customer.total_paid_money}</td>
                                             <td>{customer.debt}</td>
+                                            {/*<td>*/}
+                                            {/*<PopoverOverlay*/}
+                                            {/*customer={customer}*/}
+                                            {/*/>*/}
+                                            {/*</td>*/}
                                             <td>
-                                               <PopoverOverlay
-                                               customer={customer}
-                                               />
+                                                <a onClick={() => {
+                                                    this.openModalGroupCustomer(customer.groups);
+                                                }}>{customer.count_groups + " Nhóm"}</a>
                                             </td>
                                             <td>
                                                 <div className="btn-group-action">
@@ -77,6 +96,49 @@ class ListChildCustomer extends React.Component {
                         </table>
                     </div>
                 </div>
+                <Modal show={this.state.isShowModal} bsSize="large" bsStyle="primary"
+                       onHide={this.closeModalGroupCustomer}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <div className="modal-header">
+                                <h4 id="contained-modal-title" className="modal-title">Danh sách nhóm khách hàng</h4></div>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="card">
+                            <table id="property-table" className="table table-hover" role="grid"
+                                   aria-describedby="property-table_info">
+                                <thead>
+                                <tr className="text-rose" role="row">
+                                    <th>Tên nhóm khách hàng</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {this.state.customerGroups && this.state.customerGroups.map(
+                                    (group) => {
+                                        return (
+                                            <tr role="row" className="even" key={group.id}>
+                                                <td>
+                                                    <div className="bootstrap-tagsinput">
+                                                        <span className="tag btn" style={{
+                                                            backgroundColor: group.color,
+                                                            fontSize: 12
+                                                        }}>{group.name + '  '}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td>{group.description}</td>
+                                            </tr>
+
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }

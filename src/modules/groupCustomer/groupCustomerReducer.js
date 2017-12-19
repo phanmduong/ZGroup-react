@@ -66,7 +66,6 @@ export default function customerReducer(state = initialState.groupCustomers, act
             return {
                 ...state,
                 isSaving: false,
-                // groupCustomersList: [action.groupCustomer, ...state.groupCustomersList]
             };
         case types.ADD_GROUP_CUSTOMER_ERROR :
             return {
@@ -135,7 +134,6 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 isLoading: false,
 
             };
-
 
         //          update form
 

@@ -1242,7 +1242,6 @@ export default {
         totalCustomerCount: 1,
         totalGroupCustomerPages: 1,
         groupCustomerForm: {
-            customerCount: 1,
             id: 1,
             name: '',
             description: '',

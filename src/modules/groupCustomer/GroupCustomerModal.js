@@ -23,7 +23,6 @@ class GroupCustomerModal extends React.Component {
             page: 1,
             limit: 6,
             query: '',
-            idModal : props.idModal,
         };
         this.loadCustomersInOverlay = this.loadCustomersInOverlay.bind(this);
         this.loadCustomersInModal = this.loadCustomersInModal.bind(this);
@@ -37,7 +36,8 @@ class GroupCustomerModal extends React.Component {
 
 
     componentWillMount() {
-        this.loadCustomersInModal(1);
+        if(this.props.isEdit){
+        this.loadCustomersInModal(1);}
     }
 
     loadCustomersInOverlay(page, limit, query) {
@@ -45,7 +45,7 @@ class GroupCustomerModal extends React.Component {
     }
 
     loadCustomersInModal(page) {
-        this.props.groupCustomerActions.loadCustomersInModal(page, this.state.limit, this.state.query ,this.state.idModal);
+        this.props.groupCustomerActions.loadCustomersInModal(page, this.state.limit, this.state.query ,this.props.idModal);
     }
 
     onSearchChange(value) {
@@ -57,7 +57,7 @@ class GroupCustomerModal extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.groupCustomerActions.loadCustomersInModal(this.state.page, this.state.limit, this.state.query);
+            this.props.groupCustomerActions.loadCustomersInModal(this.state.page, this.state.limit, this.state.query,this.props.idModal);
         }.bind(this), 500);
     }
 
@@ -117,16 +117,18 @@ class GroupCustomerModal extends React.Component {
                                 value={description}
                             />
 
-                            <Search
+                            {        this.props.isEdit ?  <Search
                                 onChange={this.onSearchChange}
                                 value={this.state.query}
-                                placeholder="Tìm kiếm ..."/>
+                                placeholder="Tìm kiếm ..."/> : null}
+
+
 
 
                             {this.props.isLoadingModal ? <Loading/> :
                                 <table id="property-table" className="table table-hover" role="grid"
                                        aria-describedby="property-table_info">
-                                    {this.props.groupCustomerForm.customers.length !== 0 ?
+                                    {customersShowInModal && customersShowInModal.length !== 0 ?
                                         <thead>
 
                                         <tr className="text-rose" role="row">
@@ -172,11 +174,16 @@ class GroupCustomerModal extends React.Component {
                                 </table>
                             }
 
+                            {this.props.isEdit?
+                                <Pagination
+                                    totalPages={this.props.totalCustomerInModalPages}
+                                    currentPage={currentPage}
+                                    loadDataPage={this.loadCustomersInModal}/>
+                                :
+                                null
+                            }
 
-                            <Pagination
-                                totalPages={this.props.totalCustomerInModalPages}
-                                currentPage={currentPage}
-                                loadDataPage={this.loadCustomersInModal}/>
+
 
 
                         </div>
