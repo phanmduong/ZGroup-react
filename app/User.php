@@ -88,6 +88,9 @@ class User extends Authenticatable
         return $this->belongsToMany(InfoCustomerGroup::class, 'customer_groups', 'customer_id', 'customer_group_id');
     }
 
+    public function department(){
+        return $this->belongsTo("App\Department","department_id");
+    }
 
     /**
      * Check if the permission matches with any permission user has

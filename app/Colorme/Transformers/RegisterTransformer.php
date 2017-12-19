@@ -26,6 +26,7 @@ class RegisterTransformer extends Transformer
             "code" => $register->code,
             "name" => $register->user->name,
             "student_id" => $register->user->id,
+            "how_know" => $register->user->how_know,
             "email" => $register->user->email,
             "university" => $register->user->university,
             "avatar_url" => $register->user->avatar_url ?

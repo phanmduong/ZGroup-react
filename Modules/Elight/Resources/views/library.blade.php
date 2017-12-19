@@ -42,7 +42,7 @@
                             </div>
                             <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
                                 <div style="text-align: right;">
-                                    <a class="btn btn-google" href="/book/{{$book->id}}"
+                                    <a class="btn btn-google" href="/sach/{{$book->id}}"
                                        style="padding: 3px; margin: 3px; font-size: 10px;">
                                         Tải sách <i class="fa fa-download"></i></a>
                                 </div>
@@ -53,14 +53,6 @@
             </div>
 
             <hr>
-            {{--<div class="row">--}}
-            {{--<div class="col-md-2 offset-md-10">--}}
-            {{--<div class="pull-right">--}}
-            {{--<button class="btn btn-link btn-default btn-move-right">Bài viết cũ hơn<i class="fa fa-angle-right"></i></button>--}}
-            {{--<a class="btn btn-link btn-default btn-move-right" href="{{'/blog?page='.$page_id}}" style="{{$display}}">  Bài viết cũ hơn  </a>--}}
-            {{--</div>--}}
-            {{--</div>--}}
-            {{--</div>--}}
             <br>
             <br>
         </div>
