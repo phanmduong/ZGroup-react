@@ -35,7 +35,7 @@ export function loadImportGoodsOrder(orderId) {
 }
 
 export function searchGoods(search) {
-    let url = env.MANAGE_API_URL + `/good/all?limit=-1&search=${search}`;
+    let url = env.MANAGE_API_URL + `/good/import?limit=-1&search=${search}`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
