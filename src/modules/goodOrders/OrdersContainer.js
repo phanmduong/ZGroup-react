@@ -139,6 +139,8 @@ class OrdersContainer extends React.Component {
 
 
     changeStatusOrder(status, orderId) {
+        console.log("status,",status);
+        console.log("orderId", orderId);
         this.props.goodOrderActions.changeStatusOrder(status, orderId);
     }
 

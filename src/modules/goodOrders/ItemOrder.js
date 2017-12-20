@@ -4,8 +4,8 @@ import TooltipButton from '../../components/common/TooltipButton';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
+import StatusSelect from "./status/StatusSelect";
 
 class ItemOrder extends React.Component {
     constructor(props, context) {
@@ -56,25 +56,21 @@ class ItemOrder extends React.Component {
     }
 
     changeStatusOrder(value) {
+        console.log("value", value);
+        console.log("ORDER_STATUS",ORDER_STATUS);
         const currentStatusOrder = ORDER_STATUS.filter((o) => {
             return o.value === this.props.order.status;
         })[0].order;
-
+        const nextStatusOrder = ORDER_STATUS.filter((o) => {
+            return o.value === value;
+        })[0].order;
+        console.log("current, next", currentStatusOrder, nextStatusOrder);
         // Only change status of order to next status
-        if (value.order > currentStatusOrder) {
-            helper.confirm(
-                "warning",
-                "Xác nhận",
-                `Chuyển trạng thái của đơn hàng thành ${value.label}`,
-                () => {
-                    const statusOrder = value && value.value ? value.value : '';
-                    this.props.changeStatusOrder(statusOrder, this.props.order.id);
-                }
-            );
+        if (nextStatusOrder > currentStatusOrder) {
+            this.props.changeStatusOrder(value, nextStatusOrder);
         } else {
             helper.showErrorNotification("Bạn không thể chuyển đơn hàng về các trạng thái trước");
         }
-
     }
 
     render() {
@@ -128,9 +124,10 @@ class ItemOrder extends React.Component {
                     }
                 </td>
                 <td>
-
+                    <StatusSelect options={ORDER_STATUS}
+                                  onChange={this.changeStatusOrder}
+                                  value={order.status}/>
                 </td>
-
                 <td>{helper.dotNumber(order.total)}đ</td>
                 <td>{helper.dotNumber(order.debt)}đ</td>
                 <td>
