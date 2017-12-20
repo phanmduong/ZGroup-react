@@ -13,7 +13,11 @@ export default (Routes) => (
         {/*<IndexRoute component={DashboardContainer}/>*/}
         {/*<Route path="/manage/dashboard" component={DashboardContainer}/>*/}
         {
-            Routes && Routes.map((route) => <Route {...route}/>)
+            Routes && Routes.map((route) => <Route {...route}>
+                {
+                    route.children && route.children.map((routeChild) => <Route {...routeChild}/>)
+                }
+            </Route>)
         }
         {/*<Route path="login" component={LoginContainer}/>*/}
         <Route path="*" component={NotFoundPage}/>

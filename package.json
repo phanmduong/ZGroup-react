@@ -20,8 +20,8 @@
     "prebuild": "npm run clean-dist && npm run lint && npm run test",
 
     "build": "babel-node tools/build.js && npm run open:dist",
-    "build:email": "babel-node tools/build/email.js",
-    "build:manufacture": "babel-node tools/build/manufacture.js",
+    "build:email": "rimraf ./dist/email && MODULE=email babel-node tools/build/module.js",
+    "build:manufacture": "npm run clean-dist && MODULE=manufacture babel-node tools/build/module.js",
 
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",

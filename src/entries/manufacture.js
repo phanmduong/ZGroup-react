@@ -1,6 +1,6 @@
 import React from "react";
 import renderRoutes from '../routes/RoutesRenderer';
-import routes from '../routes/ManufactureRoute';
+import ManufactureRoute from '../routes/ManufactureRoute';
 
 import '../../node_modules/toastr/build/toastr.min.css';
 import '../styles/react-bootstrap-switch.min.css';
@@ -21,6 +21,6 @@ const store = configureStore();
 
 render(
     <Provider store={store}>
-        <Router history={browserHistory} routes={renderRoutes(routes)}/>
+        <Router history={browserHistory} routes={renderRoutes(ManufactureRoute)}/>
     </Provider>, document.getElementById('app')
 );
