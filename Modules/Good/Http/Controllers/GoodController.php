@@ -481,6 +481,57 @@ class GoodController extends ManageApiController
         );
     }
 
+    public function getAllGoodsForImport(Request $request) {
+        $limit = $request->limit && $request->limit != -1 ? $request->limit : 20;
+        $keyword = $request->search;
+        $type = $request->type;
+        $manufacture_id = $request->manufacture_id;
+        $good_category_id = $request->good_category_id;
+        $startTime = $request->start_time;
+        $endTime = $request->end_time;
+        $sale_status = $request->sale_status;
+        $display_status = $request->display_status;
+        $highlight_status = $request->highlight_status;
+        $goods = Good::query();
+        $goods = $goods->where(function ($query) use ($keyword) {
+            $query->where("name", "like", "%" . $keyword . "%")->orWhere("code", "like", "%" . $keyword . "%");
+        });
+        if ($sale_status != null)
+            $goods = $goods->where('sale_status', $sale_status);
+        if ($display_status != null)
+            $goods = $goods->where('display_status', $display_status);
+        if ($highlight_status != null)
+            $goods = $goods->where('highlight_status', $highlight_status);
+        if ($type)
+            $goods = $goods->where("type", $type);
+        if ($manufacture_id)
+            $goods = $goods->where('manufacture_id', $manufacture_id);
+        if ($good_category_id)
+            $goods = $goods->where('good_category_id', $good_category_id);
+        if ($startTime)
+            $goods = $goods->whereBetween('created_at', array($startTime, $endTime));
+
+        $goods = $goods->orderBy("created_at", "desc")->paginate($limit);
+        return $this->respondWithPagination(
+            $goods,
+            [
+                "goods" => $goods->map(function ($good) {
+                    $goods_count = Good::where('code', $good->code)->count();
+                    $data = $good->transform();
+                    $import_price = ImportedGoods::where('good_id', $good->id)->orderBy('created_at', 'desc')->first();
+                    $import_price = $import_price ? $import_price->import_price : 0;
+
+                    $warehouses_count = ImportedGoods::where('good_id', $good->id)
+                        ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
+                    $data['warehouses_count'] = $warehouses_count->count;
+                    $data['goods_count'] = $goods_count;
+                    $data['import_price'] = $import_price;
+                    return $data;
+                })
+            ]
+        );
+    }
+
     public function goodInformation(Request $request)
     {
         $keyword = $request->search;
