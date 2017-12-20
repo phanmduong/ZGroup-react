@@ -81,47 +81,27 @@ export function getAllStaffs() {
 }
 
 export function changeStatusOrder(status, orderId) {
-    return function (dispatch, getState) {
-        const {orders} = getState().goodOrders;
-        const order = orders.filter((o) => {
-            return orderId === o.id;
-        })[0];
-        switch (status) {
-            case "ship_order": {
-                dispatch({
-                    type: types.TOGGLE_SHIP_GOOD_MODAL,
-                });
-                dispatch({
-                    type: types.HANDLE_SHIP_ORDER_BEGIN,
-                    order: {
-                        ...order,
-                        orderId
-                    }
-                });
-                break;
-            }
-            default:
-                helper.showTypeNotification("Đang thay đổi trạng thái", "info");
-                dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
-                goodOrdersApi.changeStatusOrder(orderId, status)
-                    .then((res) => {
-                        if (res.data.status === 0) {
-                            showErrorNotification(res.data.message);
-                        } else {
-                            dispatch({
-                                type: types.CHANGE_STATUS_ORDER_SUCCESS,
-                                order_id: orderId,
-                                status
-                            });
-                            helper.showNotification("Thay đổi trạng thái thành công");
-                        }
-                    }).catch(() => {
-                    helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+    return function (dispatch) {
+        helper.showTypeNotification("Đang thay đổi trạng thái", "info");
+        dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
+        goodOrdersApi.changeStatusOrder(orderId, status)
+            .then((res) => {
+                if (res.data.status === 0) {
+                    showErrorNotification(res.data.message);
+                } else {
                     dispatch({
-                        type: types.CHANGE_STATUS_ORDER_ERROR
+                        type: types.CHANGE_STATUS_ORDER_SUCCESS,
+                        order_id: orderId,
+                        status
                     });
-                });
-        }
+                    helper.showNotification("Thay đổi trạng thái thành công");
+                }
+            }).catch(() => {
+            helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+            dispatch({
+                type: types.CHANGE_STATUS_ORDER_ERROR
+            });
+        });
     };
 }
 
