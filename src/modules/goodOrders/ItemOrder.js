@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
 import StatusSelect from "./status/StatusSelect";
 
+
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -23,6 +24,7 @@ class ItemOrder extends React.Component {
         }
         return true;
     }
+
 
     statusOrder(status) {
         switch (status) {
@@ -142,14 +144,18 @@ class ItemOrder extends React.Component {
                     </button>
                 </td>
             </tr>
+
+
         );
     }
 }
 
 ItemOrder.propTypes = {
+
     order: PropTypes.object.isRequired,
     changeStatusOrder: PropTypes.func.isRequired,
     showShipGoodModal: PropTypes.func.isRequired
+
 };
 
 

@@ -585,6 +585,8 @@ export default {
         isLoadingClassFilter: false,
         isLoadingSalerFilter: false,
         isLoadingCampaignFilter: false,
+        excel: {},
+        isLoadingExcel: false
     },
 
     profile: {
@@ -840,6 +842,7 @@ export default {
     },
 
     goodOrders: {
+
         isUpdate: false,
         orderId: 0,
         shipGoodModal: false,
@@ -859,6 +862,7 @@ export default {
                 address: "",
                 province: "",
                 district: "",
+
                 is_freeship: "1",
                 pick_date: "",
                 pick_money: "",
@@ -866,6 +870,7 @@ export default {
                 value: ""
             }
         },
+
         isLoading: false,
         error: false,
         currentPage: 1,
@@ -956,10 +961,14 @@ export default {
     },
 
     customers: {
+        groupsInOverlay: [],
         customersList: [],
         ordersList: [],
         isLoading: true,
+        isLoadingInOverlay: false,
         totalOrderPages: 10,
+        totalGroupCustomerPages: 10,
+
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
@@ -973,6 +982,9 @@ export default {
                 address: '',
                 gender: '',
                 dob: '',
+
+                stringId: '',
+                groups: [],
             }
         },
     },
@@ -993,13 +1005,16 @@ export default {
     },
 
     addDiscount: {
+        isLoadingOut: false,
         isSaving: false,
         isLoading: false,
         customers: [],
         goods: [],
         categories: [],
-        totalCustomerPages: 10,
-        totalGoodPages: 10,
+        groupCustomers: [],
+        totalCustomerPages: 0,
+        totalGoodPages: 0,
+        totalGroupCustomerPages: 0,
         discount: {
             name: '',
             description: '',
@@ -1013,6 +1028,7 @@ export default {
             good: {},
             category: {},
             customer: {},
+            customer_group: {}
         },
 
     },
@@ -1159,6 +1175,7 @@ export default {
         totalPages: 10,
         totalCount: 10,
     },
+
     attendance: {
         isLoading: false,
         isLoadingGens: false,
@@ -1213,12 +1230,35 @@ export default {
         isLoading: false,
         data: [],
     },
-    department:{
+
+    groupCustomers: {
+        isSaving: false,
+        isLoading: false,
+        isLoadingModal: false,
+        isLoadingOverlay: false,     // load trong overlay
+        customersList: [],         //  +  customersShowInModal  = full = customers
+        totalCustomerInOverlayPages: 1,
+        totalCustomerInModalPages: 1,
+        totalCustomerCount: 1,
+        totalGroupCustomerPages: 1,
+        groupCustomerForm: {
+            id: 1,
+            name: '',
+            description: '',
+            stringId: [],
+            customers: [],                         // tat ca cac customer trong mot group
+            customersShowInModal : [],              // cac customer show ra bang trong mot group
+            color: '',
+        },
+        groupCustomersList: [],
+
+    },
+    department: {
         isLoading: false,
         data: {
             paginator: {
                 page: 1,
-                total_pages : 1,
+                total_pages: 1,
             },
         },
     }

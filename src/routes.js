@@ -96,6 +96,8 @@ import ListLessonContainer from "./modules/attendance/ListLessonContainer";
 import RoomsContainer from "./modules/rooms/RoomsContainer";
 import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
 import ManageDepartmentContainer from "./modules/manageDepartment/ManageDepartmentContainer";
+import GroupCustomerContainer from "./modules/groupCustomer/GroupCustomerContainer";
+
 
 export default (
     <Route>
@@ -304,6 +306,7 @@ export default (
             {/*Begin customer routes */}
             <Route path="/goods/customer" component={CustomerContainer}/>
             <Route path="/goods/customer/info-customer/:customerId" component={InfoCustomerContainer}/>
+            <Route path="/goods/group-customer" component={GroupCustomerContainer}/>
             {/*End customer routes*/}
 
 
@@ -321,6 +324,7 @@ export default (
             {/*Begin discount routes */}
             <Route path="/discount/add" component={AddDiscountContainer}/>
             <Route path="/discount" component={DiscountContainer}/>
+            <Route path="/discount/edit/:discountId" component={AddDiscountContainer}/>
             {/*End discount routes*/}
 
             {/*Begin sales routes */}

@@ -186,7 +186,7 @@ export function loadCourses(page = 1, query='') {
     };
 }
 
-export function deleteCourse(id) {
+export function deleteCourse(id, success) {
     return function (dispatch) {
         helper.showWarningNotification('Đang xoá môn học');
         dispatch({
@@ -194,18 +194,19 @@ export function deleteCourse(id) {
 
         });
         courseApi.deleteCourse(id)
-            .then(() => {
+            .then((res) => {
+                if(res.data.status === 1){
                 helper.showNotification('Xóa môn học thành công');
+                success();
                 dispatch({
                     type: types.DELETE_COURSES_SUCCESS,
                     courseId: id
-                });
-            })
-            .catch(() => {
-                helper.showErrorNotification('Xóa môn học thất bại');
-                dispatch({
-                    type: types.DELETE_COURSES_ERROR,
-                });
+                });}else {
+                    helper.showNotification('Xóa môn học thất bại!');
+                    dispatch({
+                        type: types.DELETE_COURSES_ERROR
+                    });
+                }
             });
     };
 }

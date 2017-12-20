@@ -4,6 +4,7 @@ import * as helper from '../helpers/helper';
 let URL = env.DOMAIN;
 let MANAGE_URL;
 export const PROTOCOL = env.PROTOCOL;
+export const TYPE_API = env.TYPE_API;
 
 export const API_URL = PROTOCOL + "api." + URL;
 export const MANAGE_API_URL = PROTOCOL + "manageapi." + URL;

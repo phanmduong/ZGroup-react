@@ -8,6 +8,28 @@ let registers;
 export default function registerReducer(state = initialState.registerStudents, action) {
     //console.log(action.type);
     switch (action.type) {
+        case types.BEGIN_LOAD_DATA_EXCEL_REGISTER_LIST:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: true,
+                }
+            };
+        case types.LOAD_DATA_EXCEL_REGISTER_LIST_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                    excel: action.excel
+                }
+            };
+        case types.LOAD_DATA_EXCEL_REGISTER_LIST_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingExcel: false,
+                }
+            };
         case types.BEGIN_LOAD_CLASS_FILTER:
             return {
                 ...state,
@@ -165,7 +187,7 @@ export default function registerReducer(state = initialState.registerStudents, a
                 }
             };
         case types.CHANGE_CALL_STATUS_STUDENT_SUCCESS:
-            registers = changeCallStatusStudent(action.studentId, state.registers, action.callStatus);
+            registers = changeCallStatusStudent(action.studentId, state.registers, action.callStatus, action.saler);
             return {
                 ...state,
                 ...{
@@ -302,14 +324,22 @@ function changeClassRegister(registerId, classData, registers) {
     return registers;
 }
 
-function changeCallStatusStudent(studentId, registers, callStatus) {
+function changeCallStatusStudent(studentId, registers, callStatus, saler) {
     if (registers) {
         registers = registers.map(register => {
                 if (register.student_id === studentId) {
-                    return {
-                        ...register,
-                        call_status: callStatus
-                    };
+                    if (saler) {
+                        return {
+                            ...register,
+                            call_status: callStatus,
+                            saler: saler
+                        };
+                    } else {
+                        return {
+                            ...register,
+                            call_status: callStatus,
+                        };
+                    }
                 }
                 return register;
             }

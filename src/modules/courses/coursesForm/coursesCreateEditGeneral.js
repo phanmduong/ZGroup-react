@@ -75,16 +75,16 @@ class coursesCreateEditGeneral extends React.Component {
                                     value={this.props.data.name}
                                 /></div>
 
-                            <div className="col-md-6">
-                                <FormInputText
-                                    label="Thời lượng"
-                                    required
-                                    type="number"
-                                    name="duration"
-                                    updateFormData={this.updateFormData}
-                                    value={this.props.data.duration}
-                                /></div>
-                            <div className="col-md-6">
+                            {/*<div className="col-md-6">*/}
+                                {/*<FormInputText*/}
+                                    {/*label="Thời lượng"*/}
+                                    {/*required*/}
+                                    {/*type="number"*/}
+                                    {/*name="duration"*/}
+                                    {/*updateFormData={this.updateFormData}*/}
+                                    {/*value={this.props.data.duration}*/}
+                                {/*/></div>*/}
+                            <div className="col-md-12">
                                 <FormInputText
                                     label="Giá"
                                     required

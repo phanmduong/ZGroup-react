@@ -181,7 +181,6 @@ export function loadProduct(productId) {
         });
         createProductApi.loadProductApi(productId)
             .then((res) => {
-            console.log("res",res);
                 dispatch({
                     type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
                     product: res.data.data.good
@@ -192,6 +191,7 @@ export function loadProduct(productId) {
                             ...property,
                             value: property.value.map(e => {
                                 return {
+                                    old: true,
                                     value: e,
                                     label: e
                                 };

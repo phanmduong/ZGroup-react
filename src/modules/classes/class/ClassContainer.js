@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import ItemReactSelect from '../../../components/common/ItemReactSelect';
 import * as helper from '../../../helpers/helper';
 import moment from "moment";
-import {DATETIME_FORMAT,DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
+import {DATETIME_FORMAT, DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -43,7 +43,8 @@ class ClassContainer extends React.Component {
                 id: '',
                 note: ''
             },
-            staffs: []
+            staffs: [],
+            linkDriver: "",
         };
         this.closeModalClassLesson = this.closeModalClassLesson.bind(this);
         this.openModalClassLesson = this.openModalClassLesson.bind(this);
@@ -56,6 +57,8 @@ class ClassContainer extends React.Component {
         this.changeTeacher = this.changeTeacher.bind(this);
         this.exportExcel = this.exportExcel.bind(this);
         this.exportAttendanceExcel = this.exportAttendanceExcel.bind(this);
+        this.changeLinkDriver = this.changeLinkDriver.bind(this);
+        this.submitLinkDriver = this.submitLinkDriver.bind(this);
     }
 
     componentWillMount() {
@@ -64,6 +67,9 @@ class ClassContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (this.props.isLoadingClass && !nextProps.isLoadingClass) {
+            this.setState({linkDriver: nextProps.class.link_drive});
+        }
         if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
             let dataStaffs = [];
             nextProps.staffs.forEach(staff => {
@@ -78,96 +84,96 @@ class ClassContainer extends React.Component {
         }
     }
 
-    exportExcel(){
+    exportExcel() {
 
         let data = this.props.class.registers;
-        let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 10 },{ "wch": 10 },{ "wch": 20 },{ "wch": 12 },{ "wch": 30 },{ "wch": 16 },{ "wch": 30 },{ "wch": 25 },];
-        data = data.map((item, index)=>{
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 10}, {"wch": 10}, {"wch": 20}, {"wch": 12}, {"wch": 30}, {"wch": 16}, {"wch": 30}, {"wch": 25},];
+        data = data.map((item, index) => {
             let dob = item.student.dob;
-            let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
-            if(isValidDate)
-                dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+            let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+            if (isValidDate)
+                dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
             else dob = '';
-            let res={
+            let res = {
                 'STT': index + 1,
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
                 'Ngày sinh': dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
-                'Email' : item.student.email,
-                'Phone' : item.student.phone,
+                'Email': item.student.email,
+                'Phone': item.student.phone,
                 'Facebook': item.student.facebook,
                 'Trường ĐH': item.student.university,
             };
             return res;
         });
 
-        let  wb = helper.newWorkBook();
-        helper.appendJsonToWorkBook(data, wb, 'Danh sách học viên',cols);
-        helper.saveWorkBookToExcel(wb, 'Danh sách học viên lớp '+ this.props.class.name);
+        let wb = helper.newWorkBook();
+        helper.appendJsonToWorkBook(data, wb, 'Danh sách học viên', cols);
+        helper.saveWorkBookToExcel(wb, 'Danh sách học viên lớp ' + this.props.class.name);
     }
 
-    exportAttendanceExcel(){
-        let  wb = helper.newWorkBook();
+    exportAttendanceExcel() {
+        let wb = helper.newWorkBook();
         let data = this.props.class.registers;
-        let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 10 },{ "wch": 10 },{ "wch": 20 },{ "wch": 12 },{ "wch": 30 },{ "wch": 16 },{ "wch": 30 },{ "wch": 25 },];//độ rộng cột
-        let colname = ['K','L','M','N','O','P','Q','R'];//danh sách cột cmt
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 10}, {"wch": 10}, {"wch": 20}, {"wch": 12}, {"wch": 30}, {"wch": 16}, {"wch": 30}, {"wch": 25},];//độ rộng cột
+        let colname = ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'];//danh sách cột cmt
         let cmts = [];// danh sách cmts
         //begin điểm danh
-        data = this.props.class.registers.filter(item=>(item.paid_status)).map((item, index)=>{
+        data = this.props.class.registers.filter(item => (item.paid_status)).map((item, index) => {
             let dob = item.student.dob;
-            let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
-            if(isValidDate)
-                dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+            let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+            if (isValidDate)
+                dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
             else dob = '';
-            let res={
+            let res = {
                 'STT': index + 1,
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
                 'Ngày sinh': dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
-                'Email' : item.student.email,
-                'Phone' : item.student.phone,
+                'Email': item.student.email,
+                'Phone': item.student.phone,
                 'Facebook': item.student.facebook,
                 'Trường ĐH': item.student.university,
             };
-            item.attendances.forEach((obj, index2)=>{
-                res = {...res, [`Buổi ${index2+1}`] : ((obj.status == 1) ? 'X' : '')};
-                if(!helper.isEmptyInput(obj.note))
+            item.attendances.forEach((obj, index2) => {
+                res = {...res, [`Buổi ${index2 + 1}`]: ((obj.status == 1) ? 'X' : '')};
+                if (!helper.isEmptyInput(obj.note))
                     cmts = [...cmts, {cell: colname[index2] + (index + 2), note: obj.note}];
             });
             return res;
         });
-        helper.appendJsonToWorkBook(data, wb, 'Điểm danh',cols, cmts);
+        helper.appendJsonToWorkBook(data, wb, 'Điểm danh', cols, cmts);
         //end điểm danh
 
         //begin bài tập
-        data = this.props.class.registers.filter(item=>(item.paid_status)).map((item, index)=>{
+        data = this.props.class.registers.filter(item => (item.paid_status)).map((item, index) => {
             let dob = item.student.dob;
-            let isValidDate = moment( dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
-            if(isValidDate)
-                dob =  moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+            let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+            if (isValidDate)
+                dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
             else dob = '';
-            let res={
+            let res = {
                 'STT': index + 1,
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
                 'Ngày sinh': dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
-                'Email' : item.student.email,
-                'Phone' : item.student.phone,
+                'Email': item.student.email,
+                'Phone': item.student.phone,
                 'Facebook': item.student.facebook,
                 'Trường ĐH': item.student.university,
             };
-            item.attendances.forEach((obj, index2)=>{
-                res = {...res, [`Buổi ${index2+1}`] : ((obj.homework_status == 1) ? 'X' : '')};
+            item.attendances.forEach((obj, index2) => {
+                res = {...res, [`Buổi ${index2 + 1}`]: ((obj.homework_status == 1) ? 'X' : '')};
             });
             return res;
         });
-        helper.appendJsonToWorkBook(data, wb, 'Bài tập',cols, cmts);
+        helper.appendJsonToWorkBook(data, wb, 'Bài tập', cols, cmts);
         //end bài tập
 
         //xuất file
@@ -247,6 +253,18 @@ class ClassContainer extends React.Component {
         }, this.closeModalTeachAssis);
     }
 
+    changeLinkDriver(e) {
+        const value = e.target.value;
+        this.setState({linkDriver: value});
+    }
+
+    submitLinkDriver() {
+        helper.showNotification("Đang lưu...");
+        if (!this.props.isLoading)
+            this.props.classActions.changeLinkDriver(this.classId, this.state.linkDriver);
+    }
+
+
     render() {
         this.path = this.props.location.pathname;
         let classData = this.props.class;
@@ -310,31 +328,51 @@ class ClassContainer extends React.Component {
                                     <div className="card-content"><h4 className="card-title">Thông tin về điểm danh</h4>
                                         <div className="col-md-12">
                                             <div>
-                                                <button className="btn btn-default width-100">
+                                                {/*<button className="btn btn-default width-100" disabled>
                                                     <i className="material-icons">timer</i>
                                                     Xem group lớp
                                                 </button>
-                                                <button className="btn btn-default width-100">
+                                                <button className="btn btn-default width-100" disabled>
                                                     <i className="material-icons">timer</i>
                                                     Xếp bằng
                                                 </button>
-                                                <button className="btn btn-default width-100">
+                                                <button className="btn btn-default width-100" disabled>
                                                     <i className="material-icons">timer</i>
                                                     In bằng
-                                                </button>
+                                                </button>*/}
                                                 <button className="btn btn-default width-100"
-                                                    onClick={this.exportExcel}
-                                                    disabled={this.props.isLoadingClass}
+                                                        onClick={this.exportExcel}
+                                                        disabled={this.props.isLoadingClass}
                                                 >
                                                     <i className="material-icons">file_download</i>
                                                     Xuất danh sách
                                                 </button>
                                                 <button className="btn btn-default width-100"
-                                                    onClick={this.exportAttendanceExcel}
-                                                    disabled={this.props.isLoadingClass}
+                                                        onClick={this.exportAttendanceExcel}
+                                                        disabled={this.props.isLoadingClass}
                                                 >
                                                     <i className="material-icons">file_download</i>
                                                     Xuất danh sách điểm danh
+                                                </button>
+                                                <FormInputText
+                                                    name="link-driver"
+                                                    label="Link Driver"
+                                                    updateFormData={this.changeLinkDriver}
+                                                    value={this.state.linkDriver}
+                                                    type="text"
+                                                    disabled={this.props.isLoadingClass || this.props.isLoading}
+                                                />
+                                                <a className="btn btn-rose btn-sm"
+                                                   href={this.state.linkDriver}
+                                                   target="_blank"
+                                                >
+                                                    Mở link
+                                                </a>
+                                                <button className="btn btn-rose btn-sm"
+                                                        onClick={this.submitLinkDriver}
+                                                        disabled={this.props.isLoadingClass || this.props.isLoading}
+                                                >
+                                                    Lưu
                                                 </button>
                                             </div>
                                             {this.props.isLoadingClass ? <Loading/> :
@@ -560,12 +598,12 @@ class ClassContainer extends React.Component {
                                     name="form-field-name"
                                     value={this.state.changeTeacher.id}
                                     options={this.state.staffs}
-                                    optionRenderer={(option)=>{
+                                    optionRenderer={(option) => {
                                         return (
                                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                         );
                                     }}
-                                    valueRenderer={(option)=>{
+                                    valueRenderer={(option) => {
                                         return (
                                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                         );
@@ -635,12 +673,12 @@ class ClassContainer extends React.Component {
                                     name="form-field-name"
                                     value={this.state.changeTeachAssis.id}
                                     options={this.state.staffs}
-                                    optionRenderer={(option)=>{
+                                    optionRenderer={(option) => {
                                         return (
                                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                         );
                                     }}
-                                    valueRenderer={(option)=>{
+                                    valueRenderer={(option) => {
                                         return (
                                             <ItemReactSelect label={option.label} url={option.avatar_url}/>
                                         );
@@ -703,6 +741,7 @@ ClassContainer.propTypes = {
     class: PropTypes.object.isRequired,
     classActions: PropTypes.object.isRequired,
     isLoadingClass: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     isChangingClassLesson: PropTypes.bool.isRequired,
     isChangingTeachingAssis: PropTypes.bool.isRequired,
     isChangingTeacher: PropTypes.bool.isRequired,
@@ -717,6 +756,7 @@ ClassContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         class: state.classes.class,
+        isLoading: state.classes.isLoading,
         isLoadingClass: state.classes.isLoadingClass,
         isChangingClassLesson: state.classes.isChangingClassLesson,
         isChangingTeachingAssis: state.classes.isChangingTeachingAssis,

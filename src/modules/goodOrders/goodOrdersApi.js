@@ -68,4 +68,3 @@ export function sendShipOrder(shippingGood) {
     let url = env.MANAGE_API_URL + "/ghtk/services/shipment/order?token=" + token;
     return axios.post(url, {data: JSON.stringify(shippingGood)});
 }
-

@@ -1,13 +1,15 @@
 import * as types from '../../constants/actionTypes';
 import * as customerApis from './customerApis';
 import * as helper from '../../helpers/helper';
+import {Link , browserHistory} from 'react-router';
+
 
 export function loadCustomers( page , limit, query,status) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CUSTOMER
         });
-        customerApis.loadCustomersApi(limit, page ,query , status)
+        customerApis.loadCustomersApi(page , limit, query , status)
             .then( (res) =>  {
                 dispatch({
                     type : types.LOADED_CUSTOMER_SUCCESS,
@@ -123,7 +125,7 @@ export function addCustomer(customer ,  closeAddModal  ) {
     };
 }
 
-export function editCustomer(customer , closeAddModal) {
+export function editCustomer(customer ) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_CUSTOMER});
         customerApis.editCustomerApi(customer)
@@ -134,7 +136,7 @@ export function editCustomer(customer , closeAddModal) {
                         type: types.EDIT_CUSTOMER_SUCCESS,
                         customer: res.data.data.user,
                     });
-                    closeAddModal();
+                    browserHistory.push('/goods/customer');
                 }
                 else {
                     helper.sweetAlertError(res.data.message);
@@ -152,4 +154,47 @@ export function editCustomer(customer , closeAddModal) {
             );
     };
 }
+
+export function loadGroupCustomer(page, limit, query, stringId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_GROUP_CUSTOMER_IN_CUSTOMER
+        });
+        customerApis.loadGroupCustomerApi(page, limit, query)
+            .then((res) => {
+                dispatch({
+                    type: types.LOADED_GROUP_CUSTOMER_SUCCESS_IN_CUSTOMER,
+                    groupsInOverlay: res.data.customer_groups,
+                    totalGroupCustomerPages: res.data.paginator.total_pages,
+                });
+                stringId.map((id) => {
+                    dispatch(assignCustomerFormData(id));
+                });
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOADED_GROUP_CUSTOMER_ERROR_IN_CUSTOMER,
+                });
+            });
+    };
+}
+
+export function assignCustomerFormData(id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.ASSIGN_CUSTOMER_FORM_DATA,
+            id: id,
+        });
+    };
+}
+
+export function removeCustomerFormData(group) {
+    return function (dispatch) {
+        dispatch({
+            type: types.REMOVE_CUSTOMER_FORM_DATA,
+            group: group,
+        });
+    };
+}
+
 

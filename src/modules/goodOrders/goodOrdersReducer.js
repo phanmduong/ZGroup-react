@@ -105,6 +105,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isLoadingStaffs: false,
                 errorStaffs: true,
             };
+
         case types.GET_ALL_STAFFS_COMPLETE_GOOD_ORDER:
             return {
                 ...state,

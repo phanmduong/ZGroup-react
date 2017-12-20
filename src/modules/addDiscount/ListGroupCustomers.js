@@ -4,30 +4,34 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import Loading from "../../components/common/Loading";
-import Avatar from "../../components/common/Avatar";
+// import Avatar from "../../components/common/Avatar";
 import * as addDiscountActions from './addDiscountActions';
 import Search from '../../components/common/Search';
 import Pagination from '../../components/common/Pagination';
 
 
-class ListGoods extends React.Component {
+class ListGroupCustomers extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.onSearchChange = this.onSearchChange.bind(this);
         this.state = {
             page: 1,
             query: "",
             limit: 6,
         };
         // this.toggleAssign = this.toggleAssign.bind(this);
-        this.loadGoods = this.loadGoods.bind(this);
+        this.loadGroupCustomers = this.loadGroupCustomers.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
+        this.onSearchChange = this.onSearchChange.bind(this);
+
     }
 
     componentWillMount() {
-        this.loadGoods( 1);
+        this.loadGroupCustomers( 1 );
     }
-
+    loadGroupCustomers(page) {
+        this.setState({page: page});
+        this.props.addDiscountActions.loadGroupCustomers(page, this.state.limit, this.state.query);
+    }
     onSearchChange(value) {
         this.setState({
             page: 1,
@@ -37,23 +41,21 @@ class ListGoods extends React.Component {
             clearTimeout(this.timeOut);
         }
         this.timeOut = setTimeout(function () {
-            this.props.addDiscountActions.loadGoods(this.state.page, this.state.limit, this.state.query);
+            this.props.addDiscountActions.loadGroupCustomers(this.state.page, this.state.limit, this.state.query);
         }.bind(this), 500);
     }
 
-    updateFormData(good) {
-        const field = 'good';
+
+    updateFormData(groupCustomer) {
+        const field = 'customer_group';
         let discount = {...this.props.discount};
-        discount[field] = good;
+        discount[field] = groupCustomer;
         this.props.addDiscountActions.updateDiscountFormData(discount);
     }
     // toggleAssign(member) {
     //     this.props.addDiscountActions.assignMember(this.props.card, member);
     // }  Hàm dùng để chọn nhiều người
-    loadGoods(page) {
-        this.setState({page: page});
-        this.props.addDiscountActions.loadGoods(page, this.state.limit, this.state.query);
-    }
+
 
     render() {
         let currentPage = this.state.page;
@@ -69,23 +71,23 @@ class ListGoods extends React.Component {
                     <span aria-hidden="true">×</span>
                     <span className="sr-only">Close</span>
                 </button>
-                <h5>Hàng hóa</h5>
+                <h5>Nhóm khách hàng</h5>
                 <Search
                     onChange={this.onSearchChange}
                     value={this.state.query}
-                    placeholder="Tìm kiếm khách hàng"
+                    placeholder="Tìm kiếm nhóm khách hàng"
                 />
 
                 {
                     this.props.isLoading ?
                         <Loading/> : (
                             <ListGroup>
-                                {this.props.goods.map((good) =>
+                                {this.props.groupCustomers.map((groupCustomer) =>
                                     (
                                         <ListGroupItem
-                                            key={good.id}
+                                            key={groupCustomer.id}
                                             onClick={(e) => {
-                                                this.updateFormData(good);
+                                                this.updateFormData(groupCustomer);
                                                 this.props.toggle();
                                                 e.preventDefault();
                                             }}>
@@ -95,21 +97,22 @@ class ListGoods extends React.Component {
                                                 lineHeight: "30px"
                                             }}>
                                                 <div style={{display: "flex"}}>
-                                                    <Avatar size={30} url={good.avatar_url}/>
-                                                    {good.name}
+                                                    {/*<Avatar size={30} url={m.avatar_url}/>*/}
+                                                    {groupCustomer.name}
                                                 </div>
                                                 {/*{*/}
-                                                {/*good.added && <i className="material-icons">done</i>*/}
+                                                {/*category.added && <i className="material-icons">done</i>*/}
                                                 {/*}*/}
                                             </div>
                                         </ListGroupItem>
                                     )
                                 )}
                                 <Pagination
-                                    totalPages={this.props.totalGoodPages}
+                                    totalPages={this.props.totalGroupCustomerPages}
                                     currentPage={currentPage}
-                                    loadDataPage={this.loadGoods}
+                                    loadDataPage={this.loadGroupCustomers}
                                 />
+
                             </ListGroup>
                         )
                 }
@@ -119,21 +122,21 @@ class ListGoods extends React.Component {
     }
 }
 
-ListGoods.propTypes = {
+ListGroupCustomers.propTypes = {
     discount : PropTypes.object,
-    goods: PropTypes.array,
+    groupCustomers: PropTypes.array,
     isLoading: PropTypes.bool,
     addDiscountActions: PropTypes.object.isRequired,
-    totalGoodPages : PropTypes.number,
+    totalGroupCustomerPages : PropTypes.number,
     toggle : PropTypes.func,
 };
 
 function mapStateToProps(state) {
     return {
         discount: state.addDiscount.discount,
-        goods: state.addDiscount.goods,
+        groupCustomers: state.addDiscount.groupCustomers,
         isLoading: state.addDiscount.isLoading,
-        totalGoodPages: state.addDiscount.totalGoodPages,
+        totalGroupCustomerPages: state.addDiscount.totalGroupCustomerPages,
     };
 }
 
@@ -143,4 +146,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListGoods);
+export default connect(mapStateToProps, mapDispatchToProps)(ListGroupCustomers);
