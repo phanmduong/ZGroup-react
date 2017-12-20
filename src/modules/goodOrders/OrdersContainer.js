@@ -339,59 +339,6 @@ class OrdersContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-                {/*//              MODAL*/}
-
-
-                <Modal show={this.props.isShowModal} bsSize="large" bsStyle="primary" onHide={this.toggleShipModal}>
-
-
-                    <Modal.Body>
-                        <div className="card">
-                            <form id="form-add-group-customer">
-                                {/*<GroupCustomerModal*/}
-                                {/*isEdit={this.state.isEdit}*/}
-                                {/*/>*/}
-                                <OrderModal
-                                    orders={this.props.orders}
-                                />
-
-
-                                <div className="row">
-                                    <div className="col-md-9"/>
-                                    <div className="col-md-3">
-                                        {/*{this.props.isSaving ?*/}
-                                        {/*(*/}
-                                        {/*<button*/}
-                                        {/*className="btn btn-sm btn-success disabled"*/}
-                                        {/*>*/}
-                                        {/*<i className="fa fa-spinner fa-spin"/>*/}
-                                        {/*Đang cập nhật*/}
-                                        {/*</button>*/}
-                                        {/*)*/}
-                                        {/*:*/}
-                                        {/*(*/}
-                                            <button className="btn btn-success btn-sm">
-                                            <i className="material-icons">save</i> Lưu
-                                            </button>
-                                        {/* )*/}
-                                        {/* }*/}
-                                        <button className="btn btn-sm btn-danger">
-                                            <i className="material-icons">cancel</i> Huỷ
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </Modal.Body>
-
-
-                </Modal>
             </div>
         );
     }
