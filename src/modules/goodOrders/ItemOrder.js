@@ -56,15 +56,6 @@ class ItemOrder extends React.Component {
     }
 
     changeStatusOrder(value) {
-        console.log("value", value);
-        console.log("ORDER_STATUS", ORDER_STATUS);
-        const currentStatusOrder = ORDER_STATUS.filter((o) => {
-            return o.value === this.props.order.status;
-        })[0].order;
-        const nextStatusOrder = ORDER_STATUS.filter((o) => {
-            return o.value === value;
-        })[0].order;
-        console.log("current, next", currentStatusOrder, nextStatusOrder);
         this.props.changeStatusOrder(value, this.props.order.id);
     }
 
