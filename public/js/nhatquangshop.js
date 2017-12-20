@@ -172,7 +172,6 @@ var modalPurchase = new Vue({
                 $("#btn-purchase-group").css("display", "block");
                 return;
             }
-            console.log(window.token);
             axios.post(window.url + '/save-order/v2', {
                 name: this.name,
                 phone: this.phone,

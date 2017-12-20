@@ -19,6 +19,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'good
     Route::get('/{goodId}/task/{taskId}/good-properties', 'GoodPropertyApiController@loadGoodTaskProperties');
 
     Route::get('/all', 'GoodController@getAllGoods');
+    Route::get('/import', 'GoodController@getAllGoodsForImport');
     Route::get('/get-by-status', 'GoodController@goodsByStatus');
     Route::get('/all/no-paging', 'GoodController@getGoodsWithoutPagination');
     Route::get('/task-setting/{taskId}', 'GoodController@getPropertyItems');
