@@ -87,11 +87,7 @@ export function changeStatusOrder(status, orderId) {
             return orderId === o.id;
         })[0];
         switch (status) {
-            case "not_reach":
-            case "confirm_order":
-
-                break;
-            case "ship_order":{
+            case "ship_order": {
                 dispatch({
                     type: types.TOGGLE_SHIP_GOOD_MODAL,
                 });
@@ -101,7 +97,6 @@ export function changeStatusOrder(status, orderId) {
                         ...order,
                         orderId
                     }
-
                 });
                 break;
             }
@@ -110,18 +105,16 @@ export function changeStatusOrder(status, orderId) {
                 dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
                 goodOrdersApi.changeStatusOrder(orderId, status)
                     .then((res) => {
-                        helper.showNotification("Thay đổi trạng thái thành công");
                         if (res.data.status === 0) {
                             showErrorNotification(res.data.message);
                         } else {
-
                             dispatch({
                                 type: types.CHANGE_STATUS_ORDER_SUCCESS,
                                 order_id: orderId,
                                 status
                             });
+                            helper.showNotification("Thay đổi trạng thái thành công");
                         }
-
                     }).catch(() => {
                     helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
                     dispatch({
@@ -129,7 +122,6 @@ export function changeStatusOrder(status, orderId) {
                     });
                 });
         }
-
     };
 }
 

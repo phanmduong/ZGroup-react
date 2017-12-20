@@ -20,11 +20,9 @@ class ItemOrder extends React.Component {
             return o.value === status;
         })[0];
         if (statusOrder) {
-            return statusOrder.order < 2;
-        }
-        return true;
+            return statusOrder.order !== 3;
+        } else return status !== "ship_order";
     }
-
 
     statusOrder(status) {
         switch (status) {
@@ -59,7 +57,7 @@ class ItemOrder extends React.Component {
 
     changeStatusOrder(value) {
         console.log("value", value);
-        console.log("ORDER_STATUS",ORDER_STATUS);
+        console.log("ORDER_STATUS", ORDER_STATUS);
         const currentStatusOrder = ORDER_STATUS.filter((o) => {
             return o.value === this.props.order.status;
         })[0].order;
@@ -67,12 +65,7 @@ class ItemOrder extends React.Component {
             return o.value === value;
         })[0].order;
         console.log("current, next", currentStatusOrder, nextStatusOrder);
-        // Only change status of order to next status
-        if (nextStatusOrder > currentStatusOrder) {
-            this.props.changeStatusOrder(value, nextStatusOrder);
-        } else {
-            helper.showErrorNotification("Bạn không thể chuyển đơn hàng về các trạng thái trước");
-        }
+        this.props.changeStatusOrder(value, this.props.order.id);
     }
 
     render() {
@@ -151,12 +144,9 @@ class ItemOrder extends React.Component {
 }
 
 ItemOrder.propTypes = {
-
     order: PropTypes.object.isRequired,
     changeStatusOrder: PropTypes.func.isRequired,
     showShipGoodModal: PropTypes.func.isRequired
-
 };
-
 
 export default ItemOrder;

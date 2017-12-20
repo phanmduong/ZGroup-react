@@ -10,6 +10,7 @@ class ListOrder extends React.Component {
     }
 
     render() {
+        console.log("orders", this.props.orders);
         return (
             <div className="table-responsive">
                 {
