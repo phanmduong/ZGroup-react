@@ -85,7 +85,7 @@ class CustomerController extends ManageApiController
                             return [
                                 "id" => $group->id,
                                 "name" => $group->name,
-                                "description" => $group->descripton,
+                                "description" => $group->description,
                                 "color" => $group->color,
                             ];
                         }),
@@ -251,7 +251,7 @@ class CustomerController extends ManageApiController
             return [
                 "id" => $group->id,
                 "name" => $group->name,
-                "description" => $group->descripton,
+                "description" => $group->description,
                 "color" => $group->color,
             ];
         });
@@ -305,7 +305,7 @@ class CustomerController extends ManageApiController
             return [
                 "id" => $group->id,
                 "name" => $group->name,
-                "description" => $group->descripton,
+                "description" => $group->description,
                 "color" => $group->color,
             ];
         });
