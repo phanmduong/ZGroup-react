@@ -961,30 +961,39 @@ export function superFilter(id, inter, gen) {
     return newArr;
 }
 
-export function childrenBeginAddChild(properties) {
-    let children = [];
-    let product = properties.reduce((res, pro) => res * pro.value.length, 1);
-    for (let i = 0; i < product; i++) {
-        children.push({
-            id: null,
-            check: true,
-            price: 0,
-            barcode: '',
-            properties: []
-        });
-    }
-    properties.forEach(pro => {
-        let product_other = product / pro.value.length;
-        let begin = 0;
-        pro.value.forEach(value => {
-            for (let i = begin; i < begin + product_other; i++) {
-                children[i].properties.push({
-                    property_item_id: pro.property_item_id,
-                    value: value.value
+export function childrenBeginAddChild(properties, price) {
+    const combineTwoArr = (children_support, value, id) => {
+        let children = [];
+        children_support.forEach(child => {
+            value.forEach(val => {
+                children.push({
+                    id: null,
+                    check: false,
+                    price: price,
+                    barcode: '',
+                    properties: [
+                        ...child.properties,
+                        {
+                            property_item_id: id,
+                            value: val.value
+                        }
+                    ]
                 });
-            }
-            begin += product_other;
+            });
         });
+        return children;
+    };
+    let children = [];
+    let children_support = [{
+        id: null,
+        check: false,
+        price: price,
+        barcode: '',
+        properties: []
+    }];
+    properties.forEach(pro => {
+        children = combineTwoArr(children_support, pro.value, pro.property_item_id);
+        children_support = children;
     });
     return children;
 }
@@ -993,31 +1002,39 @@ export function isNull(data) {
     return data === null || data === undefined;
 }
 
-export function convertDataGeneral(data) {
-    return data && data.length > 0 ? data.map((item, index) => {
-        let staff = item.attendances[0].user;
-        return {
-            'STT': index + 1,
-            'Họ và tên': staff.name,
-            'Đi làm': item.total_attendance,
-            'Đúng luật': item.total_lawful,
-            'Bỏ làm': item.total_not_work,
-            'Checkin muộn': item.total_checkin_late,
-            'Checkout sớm': item.total_checkout_early,
-            'Không checkin': item.total_not_checkin,
-            'Không checkout': item.total_not_checkout,
-        };
-    }) : [{
-        'STT': '',
-        'Họ và tên': '',
-        'Đi làm': '',
-        'Đúng luật': '',
-        'Bỏ làm': '',
-        'Checkin muộn': '',
-        'Checkout sớm': '',
-        'Không checkin': '',
-        'Không checkout': '',
-    }];
+export function compareTwoChildren(child1, child2) {
+    const propertyNotIn = (property) => {
+        let check = true;
+        child2.properties.forEach(pro => {
+            if (property.property_item_id === pro.property_item_id && property.value === pro.value) {
+                check = false;
+            }
+        });
+        return check;
+    };
+    let same = true;
+    if (child1.properties.length === child2.properties.length) {
+        child1.properties.forEach(property => {
+            if (propertyNotIn(property)) same = false;
+        });
+    } else {
+        same = false;
+    }
+    return same;
+}
+
+export function childNotLoaded(child, children_loaded) {
+    let check = true;
+    children_loaded.forEach(child_loaded => {
+        if (compareTwoChildren(child_loaded, child)) check = false;
+    });
+    return check;
+}
+
+export function childrenLoadedEditSuccess(property_list, children_loaded) {
+    let children_from_property_list = childrenBeginAddChild(property_list);
+    let children_not_loaded = children_from_property_list.filter(child => childNotLoaded(child, children_loaded));
+    return [...children_loaded, ...children_not_loaded];
 }
 
 export function convertDataDetailTeacher(data, filter) {
