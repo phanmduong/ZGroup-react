@@ -15,4 +15,14 @@ class ClientController extends Controller
         return view("client.email");
     }
 
+    public function manufacture()
+    {
+        return view("client.manufacture");
+    }
+
+    public function teaching()
+    {
+        return view("client.teaching");
+    }
+
 }
