@@ -3,6 +3,8 @@ export default {
         categories: [],
         manufactures: [],
         isUploadingAvatar: false,
+        childImagesModal: false,
+        child_index: 0,
         percent: 0,
         productWorking: {
             name: '',
@@ -1247,7 +1249,7 @@ export default {
             description: '',
             stringId: [],
             customers: [],                         // tat ca cac customer trong mot group
-            customersShowInModal : [],              // cac customer show ra bang trong mot group
+            customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
         },
         groupCustomersList: [],

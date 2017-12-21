@@ -101,6 +101,37 @@ export function changeImage(file, length, first_length) {
     };
 }
 
+export function changeChildImageModal(file, length, first_length, index) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_UPLOAD_IMAGE_CREATE_PRODUCT
+        });
+        const error = () => {
+            helper.showErrorNotification("Có lỗi xảy ra");
+        };
+        const completeHandler = (event) => {
+            const data = JSON.parse(event.currentTarget.responseText);
+            helper.showNotification("Tải lên ảnh thành công");
+            dispatch({
+                type: types.UPLOAD_CHILD_IMAGE_COMPLETE_MODAL,
+                image: data.url,
+                length,
+                first_length,
+                index
+            });
+        };
+        const progressHandler = (event) => {
+            const percentComplete = Math.round((100 * event.loaded) / event.total);
+            dispatch({
+                type: types.UPDATE_AVATAR_PROGRESS_CREATE_PRODUCT,
+                percent: percentComplete
+            });
+        };
+        createProductApi.changeAvatarApi(file,
+            completeHandler, progressHandler, error);
+    };
+}
+
 export function endUpload() {
     return ({
         type: types.END_UPLOAD_IMAGE_CREATE_PRODUCT
@@ -230,6 +261,13 @@ export function handleGoodCountCreate(count) {
     return {
         type: types.HANDLE_GOOD_COUNT_CREATE,
         count
+    };
+}
+
+export function showAddChildImagesModal(index) {
+    return {
+        type: types.TOGGLE_ADD_CHILD_IMAGES_MODAL,
+        index
     };
 }
 

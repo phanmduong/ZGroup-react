@@ -970,6 +970,7 @@ export function childrenBeginAddChild(properties, price) {
             value.forEach(val => {
                 children.push({
                     id: null,
+                    child_images_url: [],
                     check: false,
                     price: price,
                     barcode: '',
@@ -988,6 +989,7 @@ export function childrenBeginAddChild(properties, price) {
     let children = [];
     let children_support = [{
         id: null,
+        child_images_url: '',
         check: false,
         price: price,
         barcode: '',

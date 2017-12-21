@@ -11,6 +11,7 @@ import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
 import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
 import PropertyReactSelectValue from "./PropertyReactSelectValue";
+import AddChildImagesModal from "./AddChildImagesModal";
 
 class CreateProductContainer extends React.Component {
     constructor(props, context) {
@@ -369,9 +370,10 @@ class CreateProductContainer extends React.Component {
                                                                     <thead>
                                                                     <tr>
                                                                         <th/>
-                                                                        <th className="col-md-8">Tên</th>
+                                                                        <th className="col-md-6">Tên</th>
                                                                         <th className="col-md-2">Mã</th>
                                                                         <th className="col-md-2">Giá bán</th>
+                                                                        <th className="col-md-2"/>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -415,6 +417,14 @@ class CreateProductContainer extends React.Component {
                                                                                                value={child.price}
                                                                                                onChange={this.updateFormData(index)}/>
                                                                                     </td>
+                                                                                    <td>
+                                                                                        <Button style={{width: "100%"}}
+                                                                                                className="btn btn-simple btn-rose"
+                                                                                                onClick={() => this.props.createProductAction.showAddChildImagesModal(index)}>
+                                                                                            <i className="material-icons">cloud_upload</i>
+                                                                                            Thêm ảnh
+                                                                                        </Button>
+                                                                                    </td>
                                                                                 </tr>
                                                                             );
                                                                         })
@@ -444,6 +454,7 @@ class CreateProductContainer extends React.Component {
                     )
                 }
                 <GlobalLoadingContainer/>
+                <AddChildImagesModal/>
             </div>
         );
     }
