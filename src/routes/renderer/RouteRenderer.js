@@ -2,9 +2,7 @@ import React from 'react';
 import AppContainer from "../../containers/AppContainer";
 import NotFoundPage from "../../components/NotFoundPage";
 import {Route} from "react-router";
-// import Routes from "./routes/ManufactureRoute";
-// import DashboardContainer from "./modules/dashboard/DashboardContainer";
-
+import LoginContainer from "../../modules/login/LoginContainer";
 
 export default (InputRoutes) => (
     <Route path="/" component={AppContainer}>
@@ -17,7 +15,7 @@ export default (InputRoutes) => (
                 }
             </Route>)
         }
-        {/*<Route path="login" component={LoginContainer}/>*/}
+        <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>
     </Route>
 );

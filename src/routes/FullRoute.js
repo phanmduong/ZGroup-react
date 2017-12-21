@@ -66,7 +66,7 @@ import InventoryGoodContainer from "../modules/inventoryGood/InventoryGoodContai
 import DiscountContainer from "../modules/discount/DiscountContainer";
 // import CreateEmailFormContainer from "../modules/emailForms/CreateEmailFormContainer";
 import StatisticSales from "../modules/summarySales/StatisticSales";
-import StudySessionContainer from "../modules/studySession/StudySessionContainer";
+// import StudySessionContainer from "../modules/studySession/StudySessionContainer";
 // import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCreateEditContainer";
 import RegistersContainer from "../modules/infoStudent/registers/RegistersContainer";
 // import coursesCreateEditCurriculum from "../modules/courses/coursesForm/coursesCreateEditCurriculum";

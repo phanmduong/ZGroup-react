@@ -4,8 +4,9 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, browserHistory} from 'react-router';
-import routes from '../routes/renderer/TeachingRoutesRenderer';
+import renderRoutes from '../routes/RoutesRenderer';
 import configureStore from '../store/configureStore';
+import TeachingRoute from '../routes/TeachingRoute';
 
 import '../../node_modules/toastr/build/toastr.min.css';
 import '../styles/react-bootstrap-switch.min.css';
@@ -23,6 +24,6 @@ const store = configureStore();
 
 render(
     <Provider store={store}>
-        <Router history={browserHistory} routes={routes}/>
+        <Router history={browserHistory} routes={renderRoutes(TeachingRoute)}/>
     </Provider>, document.getElementById('app')
 );
