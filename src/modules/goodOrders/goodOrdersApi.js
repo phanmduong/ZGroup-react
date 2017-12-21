@@ -70,12 +70,12 @@ export function sendShipOrder(shippingGood) {
 }
 
 export function editOrderApi(order, orderId) {
-    let url = env.MANAGE_API_URL + '/order/' + orderId + '/info';
+    let url = env.MANAGE_API_URL + '/order/' + orderId + '/edit';
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    return axios.put(url, {
+    let data =  {
         info_order: {
             code: order.infoOrder.code,
             created_at: order.infoOrder.created_at,
@@ -92,5 +92,6 @@ export function editOrderApi(order, orderId) {
             name: order.infoUser.name,
             email: order.infoUser.email,
         }
-    });
+    }
+    return axios.put(url,JSON.stringify(data));
 }

@@ -249,15 +249,15 @@ export function editOrder(order, orderId) {
                     // browserHistory.push('/goods/customer');
                 }
                 else {
-                    helper.sweetAlertError(res.data.message);
+                    showErrorNotification(res.data.message.message);
                     dispatch({
                         type: types.EDIT_ORDER_ERROR,
-                        message: res.data.message,
                     });
                 }
             })
             .catch(() => {
-                    dispatch({
+                showErrorNotification("Lỗi");
+                dispatch({
                         type: types.EDIT_ORDER_ERROR
                     });
                 }
