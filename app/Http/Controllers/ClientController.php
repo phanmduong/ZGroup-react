@@ -35,4 +35,9 @@ class ClientController extends Controller
         return view("client.work");
     }
 
+    public function blog()
+    {
+        return view("client.work");
+    }
+
 }
