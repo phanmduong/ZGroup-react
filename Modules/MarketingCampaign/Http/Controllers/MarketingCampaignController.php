@@ -65,13 +65,22 @@ class MarketingCampaignController extends ManageApiController
 
     public function summaryMarketingCampaign(Request $request)
     {
+
+        $startTime = $request->start_time;
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+
         $summary = Register::select(DB::raw('count(*) as total_registers, campaign_id, saler_id'))
             ->whereNotNull('campaign_id')->whereNotNull('saler_id')->where('status', 1)->where('money', '>', 0)->where('saler_id', '>', 0)->where('campaign_id', '>', 0)
             ->groupBy('campaign_id', 'saler_id');
 
-        if ($request->gen_id && $request->gen_id != 0) {
-            $summary->where('gen_id', $request->gen_id);
+        if ($startTime && $endTime) {
+            $summary->whereBetween('created_at', array($startTime, $endTime));
+        } else {
+            if ($request->gen_id && $request->gen_id != 0) {
+                $summary->where('gen_id', $request->gen_id);
+            }
         }
+
 
         if ($request->base_id && $request->base_id != 0) {
             $class_ids = StudyClass::where('base_id', $request->base_id)->pluck('id')->toArray();
