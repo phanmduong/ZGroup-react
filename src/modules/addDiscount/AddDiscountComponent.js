@@ -40,7 +40,7 @@ class AddDiscountComponent extends React.Component {
                 id: 'program',
             },
         ];
-        let USEDFOR = [
+        let USEDFORCODE = [
             {
                 name: '',
                 id: '',
@@ -68,6 +68,20 @@ class AddDiscountComponent extends React.Component {
             {
                 name: 'Nhóm khách hàng',
                 id: 'customer-group',
+            },
+        ];
+        let USEDFORPROGRAM = [
+            {
+                name: '',
+                id: '',
+            },
+            {
+                name: 'Hàng hóa',
+                id: 'good',
+            },
+            {
+                name: 'Danh mục',
+                id: 'category',
             },
         ];
         let DISCOUNTYPE = [
@@ -183,14 +197,26 @@ class AddDiscountComponent extends React.Component {
                                     <div className="row">
                                         <div className="col-md-3">
 
-                                            <FormInputSelect
-                                                label="Sử dụng cho"
-                                                data={USEDFOR}
-                                                required={true}
-                                                updateFormData={this.props.updateFormData}
-                                                name="used_for"
-                                                value={used_for}
-                                            />
+                                            {type === "code"?
+                                                <FormInputSelect
+                                                    label="Sử dụng cho"
+                                                    data={USEDFORCODE}
+                                                    required={true}
+                                                    updateFormData={this.props.updateFormData}
+                                                    name="used_for"
+                                                    value={used_for}
+                                                />
+                                                :
+                                                <FormInputSelect
+                                                    label="Sử dụng cho"
+                                                    data={USEDFORPROGRAM}
+                                                    required={true}
+                                                    updateFormData={this.props.updateFormData}
+                                                    name="used_for"
+                                                    value={used_for}
+                                                />
+                                            }
+
                                         </div>
                                         <div className="col-md-9">
                                             <div style={{

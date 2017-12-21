@@ -9,6 +9,7 @@ import * as summaryMarketingCampaignActions from './summaryMarketingCampaignActi
 import PropTypes from 'prop-types';
 import Loading from "../../components/common/Loading";
 import Chart from "./SummaryMaketingCampaignComponent";
+import * as helper from '../../helpers/helper';
 
 class SummaryMarketingCampaignContainer extends React.Component {
     constructor(props, context) {
@@ -22,6 +23,7 @@ class SummaryMarketingCampaignContainer extends React.Component {
         this.onChangeGen = this.onChangeGen.bind(this);
         this.onChangeBase = this.onChangeBase.bind(this);
         this.loadSummary = this.loadSummary.bind(this);
+        this.exportExcel = this.exportExcel.bind(this);
     }
 
     componentWillMount() {
@@ -80,6 +82,37 @@ class SummaryMarketingCampaignContainer extends React.Component {
         this.props.summaryMarketingCampaignActions.loadSummaryMarketingCampaignData(this.state.selectGenId, this.state.selectBaseId);
     }
 
+    exportExcel(){
+        //console.log(this.props);
+        let wb = helper.newWorkBook();
+        let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 10 },];//độ rộng cột
+        let summary = helper.groupBy(this.props.summary, item => item.campaign.id, ["campaign_id", "registers"]);
+        summary.forEach((obj)=>{
+            let sum = 0;
+            let json = obj.registers.map((item,index)=>{
+                sum +=  item.total_registers;
+                let res = {
+                    "STT" : index + 1,
+                    "Saler" : item.saler.name,
+                    "Số lượng" : item.total_registers,
+                };
+                return res;
+            });
+            json = [...json, {
+                "STT" : obj.registers.length + 1,
+                "Saler" : "Tổng",
+                "Số lượng" : sum,
+            }];
+            helper.appendJsonToWorkBook(json,wb,obj.registers[0].campaign.name,cols,[]);
+        });
+        let basename = this.state.bases.filter(obj => (obj.key == this.state.selectBaseId));
+        let genname = this.state.gens.filter(obj => (obj.key == this.state.selectGenId));
+        helper.saveWorkBookToExcel(wb, "Tổng kết chiến dịch "
+            + (genname[0] ? (" - " + genname[0].value) : "")
+            + (basename[0] ? (" - " + basename[0].value) : "")
+        );
+    }
+
     render() {
         return (
             <div>
@@ -104,6 +137,14 @@ class SummaryMarketingCampaignContainer extends React.Component {
                                         value={this.state.selectBaseId}
                                         onChange={this.onChangeBase}
                                     />
+                                </div>
+                                <div className="col-sm-3 col-xs-5">
+                                    <button className="btn btn-fill btn-rose"
+                                            onClick={this.exportExcel}
+                                    >
+                                        Xuất ra Excel
+                                        <div className="ripple-container"/>
+                                    </button>
                                 </div>
                             </div>
                             <Chart

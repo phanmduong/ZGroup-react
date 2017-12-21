@@ -1234,18 +1234,20 @@ export default {
     groupCustomers: {
         isSaving: false,
         isLoading: false,
+        isLoadingModal: false,
         isLoadingOverlay: false,     // load trong overlay
-        customersList: [],         //  +  customers  = full
-        totalCustomerPages: 1,
+        customersList: [],         //  +  customersShowInModal  = full = customers
+        totalCustomerInOverlayPages: 1,
+        totalCustomerInModalPages: 1,
         totalCustomerCount: 1,
         totalGroupCustomerPages: 1,
         groupCustomerForm: {
-            customerCount: 1,
             id: 1,
             name: '',
             description: '',
             stringId: [],
-            customers: [],                         // cac customer trong mot group
+            customers: [],                         // tat ca cac customer trong mot group
+            customersShowInModal : [],              // cac customer show ra bang trong mot group
             color: '',
         },
         groupCustomersList: [],
