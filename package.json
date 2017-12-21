@@ -26,11 +26,14 @@
     "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
     "build:email": "rimraf ./dist/manage/email && mkdir dist/manage/email && MODULE=email babel-node tools/build/module.js",
 
-    "start:teaching": "MODULE=email npm-run-all --parallel open:src lint:watch",
+    "start:teaching": "MODULE=teaching npm-run-all --parallel open:src lint:watch",
     "build:teaching": "rimraf ./dist/manage/teaching && mkdir dist/manage/teaching && MODULE=teaching babel-node tools/build/module.js",
 
     "start:manufacture": "MODULE=manufacture npm-run-all --parallel open:src lint:watch",
     "build:manufacture": "rimraf ./dist/manufacture && mkdir dist/manufacture && MODULE=manufacture babel-node tools/build/module.js",
+
+    "start:base": "MODULE=base npm-run-all --parallel open:src lint:watch",
+    "build:base": "rimraf ./dist/base && mkdir dist/base && MODULE=base babel-node tools/build/module.js",
 
     "build": "babel-node tools/build.js && npm run open:dist",
 

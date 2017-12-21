@@ -7,11 +7,13 @@ import CreateBaseContainer from "../modules/bases/CreateBaseContainer";
  */
 export default [
     {
-        path: "/manage/bases",
+        // path: "/manage/bases",
+        path: "/base/bases",
         component: BasesContainer
     },
     {
-        path: "/manage/rooms",
+        // path: "/manage/rooms",
+        path: "/base/rooms",
         component: RoomsContainer
     },
     {
