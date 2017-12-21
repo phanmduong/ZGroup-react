@@ -10,7 +10,7 @@
     "remove-demo": "babel-node tools/removeDemo.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message",
-    "start": "npm-run-all --parallel open:src lint:watch",
+
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "esw webpack.config.* src tools --color",
@@ -18,6 +18,12 @@
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "rimraf ./dist",
     "prebuild": "npm run clean-dist && npm run lint && npm run test",
+
+
+
+    "start": "npm-run-all --parallel open:src lint:watch",
+    "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
+    "start:manufacture": "MODULE=manufacture npm-run-all --parallel open:src lint:watch",
 
     "build": "babel-node tools/build.js && npm run open:dist",
     "build:email": "rimraf ./dist/manage/email && mkdir dist/manage/email && MODULE=email babel-node tools/build/module.js",
