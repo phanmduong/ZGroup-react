@@ -180,14 +180,20 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isSendingShipOrder: false,
                 shipGoodModal: false
             };
+
+
+
+
+
         case types.UPDATE_ORDER_FORM_DATA:
             return {
                 ...state,
-                modal: {
-                    ...state.modal,
-                    customer: action.customer,
+                order: {
+                    ...state.order,
+                    infoOrder: action.infoOrder,
                 }
             };
+
 
 
 
@@ -219,4 +225,3 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             return state;
     }
 }
-

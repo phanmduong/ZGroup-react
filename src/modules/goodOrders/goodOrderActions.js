@@ -35,27 +35,18 @@ export function loadDetailOrder(orderId) {
         dispatch({type: types.BEGIN_LOAD_DETAIL_ORDER});
         goodOrdersApi.loadDetailOrder(orderId)
             .then((res) => {
-                    if (res.data.status) {
-                        dispatch({
-                            type: types.LOAD_DETAIL_ORDER_SUCCESS,
-                            infoOrder: res.data.data.info_order,
-                            infoUser: res.data.data.info_user,
-                            infoShip: res.data.data.info_ship,
-                            goodOrders: res.data.data.good_orders,
-                        });
-                    }
-                    else {
-                        dispatch({
-                            type: types.LOAD_DETAIL_ORDER_ERROR,
-                        });
-                    }
-                }
-            )
-            .catch(() => {
                 dispatch({
-                    type: types.LOAD_DETAIL_ORDER_ERROR
+                    type: types.LOAD_DETAIL_ORDER_SUCCESS,
+                    infoOrder: res.data.data.info_order,
+                    infoUser: res.data.data.info_user,
+                    infoShip: res.data.data.info_ship,
+                    goodOrders: res.data.data.good_orders,
                 });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_DETAIL_ORDER_ERROR
             });
+        });
     };
 }
 
@@ -100,7 +91,7 @@ export function changeStatusOrder(status, orderId) {
             case "confirm_order":
 
                 break;
-            case "ship_order": {
+            case "ship_order":{
                 dispatch({
                     type: types.TOGGLE_SHIP_GOOD_MODAL,
                 });
@@ -110,6 +101,7 @@ export function changeStatusOrder(status, orderId) {
                         ...order,
                         orderId
                     }
+
                 });
                 break;
             }
@@ -122,19 +114,20 @@ export function changeStatusOrder(status, orderId) {
                         if (res.data.status === 0) {
                             showErrorNotification(res.data.message);
                         } else {
+
                             dispatch({
                                 type: types.CHANGE_STATUS_ORDER_SUCCESS,
                                 order_id: orderId,
                                 status
                             });
                         }
-                    })
-                    .catch(() => {
-                        helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
-                        dispatch({
-                            type: types.CHANGE_STATUS_ORDER_ERROR
-                        });
+
+                    }).catch(() => {
+                    helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+                    dispatch({
+                        type: types.CHANGE_STATUS_ORDER_ERROR
                     });
+                });
         }
 
     };
@@ -230,6 +223,7 @@ export function sendShipOrder(shippingGood) {
 
     };
 }
+
 
 
 export function updateOrderFormData(infoOrder) {

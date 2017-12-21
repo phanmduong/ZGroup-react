@@ -22,16 +22,15 @@ class OrderContainer extends React.Component {
         };
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
         this.updateOrderFormData = this.updateOrderFormData.bind(this);
-        this.loadDetailOrder = this.loadDetailOrder.bind(this);
-        // this.editOrder = this.editOrder.bind(this);
+        // this.loadDetailOrder = this.loadDetailOrder.bind(this);
+        this.editOrder = this.editOrder.bind(this);
+
     }
 
     componentWillMount() {
-        this.loadDetailOrder();
-        console.log(this.props.order,'OREDERCONTAINER');
+        this.props.goodOrderActions.loadDetailOrder(this.props.params.orderId);
         // this.props.goodOrderActions.loadStaffs();
     }
-
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
@@ -49,9 +48,7 @@ class OrderContainer extends React.Component {
             });
         }
     }
-    loadDetailOrder(){
-        this.props.goodOrderActions.loadDetailOrder(this.props.params.orderId);
-    }
+
     updateOrderFormData(event) {
         const field = event.target.name;
         let infoOrder = {...this.props.infoOrder};
@@ -61,12 +58,12 @@ class OrderContainer extends React.Component {
 
     changeStatusOrder(value) {
         let statusOrder = value && value.value ? value.value : '';
-        this.props.goodOrderActions.changeStatusOrder( statusOrder, this.props.params.orderId,);
+        this.props.goodOrderActions.changeStatusOrder(statusOrder,this.props.params.orderId);
     }
-    // editOrder(e){
-    //     this.props.goodOrderActions.editOrder(this.props.order,this.props.params.orderId);
-    //     e.preventDefault();
-    // }
+    editOrder(e){
+        this.props.goodOrderActions.editOrder(this.props.order,this.props.params.orderId);
+        e.preventDefault();
+    }
 
     render() {
         return (
@@ -104,9 +101,7 @@ class OrderContainer extends React.Component {
                                         </button>
                                     </div>
                                     <div>
-                                        <button className="btn btn-success btn-sm"
-
-                                        >
+                                        <button className="btn btn-success btn-sm">
                                             <i className="material-icons">save</i> Lưu
                                         </button>
                                         <button className="btn btn-danger btn-sm">
@@ -155,12 +150,10 @@ class OrderContainer extends React.Component {
                                                 value={this.props.infoOrder.status}
                                                 placeholder="Chọn trạng thái"
                                                 onChange={this.changeStatusOrder}
-                                                updateFormData={this.updateOrderFormData}
                                             />
-                                            <FormInputText
-                                                label="Ghi chú" name="note"
-                                                value={this.props.infoOrder.note}
-                                                updateFormData={this.updateOrderFormData}
+                                            <FormInputText label="Ghi chú" name="note"
+                                                           value={this.props.infoOrder.note}
+                                                           updateFormData={this.updateOrderFormData}
                                             />
                                         </div>
                                         <div>
@@ -219,12 +212,11 @@ class OrderContainer extends React.Component {
                                         :
 
                                         <button className="btn btn-sm btn-success"
-                                                // onClick={(e)=>{this.editOrder(e);}}
+                                            onClick={(e)=>{this.editOrder(e);}}
                                         >
                                             <i className="material-icons">save</i> Lưu
                                         </button>
                                     }
-
                                     <button className="btn btn-sm btn-danger">
                                         <i className="material-icons">cancel</i> Huỷ
                                     </button>
@@ -249,19 +241,19 @@ OrderContainer.propTypes = {
     goodOrders: PropTypes.array.isRequired,
     params: PropTypes.object.isRequired,
     order: PropTypes.object,
-    isSaving: PropTypes.bool,
-};
+    isSaving: PropTypes.bool,};
 
 function mapStateToProps(state) {
     return {
         isLoading: state.goodOrders.order.isLoading,
         isLoadingStaffs: state.goodOrders.isLoadingStaffs,
         staffs: state.goodOrders.staffs,
-        order: state.goodOrders.order,
         infoOrder: state.goodOrders.order.infoOrder,
         infoUser: state.goodOrders.order.infoUser,
         goodOrders: state.goodOrders.order.goodOrders,
+        order: state.goodOrders.order,
         isSaving: state.goodOrders.order.isSaving,
+
 
     };
 }

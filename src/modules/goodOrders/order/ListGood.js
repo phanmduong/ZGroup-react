@@ -1,5 +1,5 @@
 import React from 'react';
-// import ButtonGroupAction from '../../../components/common/ButtonGroupAction';
+import ButtonGroupAction from '../../../components/common/ButtonGroupAction';
 import TooltipButton from '../../../components/common/TooltipButton';
 import Search from '../../../components/common/Search';
 import * as helper from '../../../helpers/helper';
@@ -18,7 +18,6 @@ class ListGood extends React.Component {
                 $(this).html('<input class="form-control width-100" type="text" placeholder="Tìm ' + title.toLowerCase() + '" />');
             }
         });
-
 
         this.table = $('#datatables-goodorders').DataTable({
             dom: '<l<t>ip>',
@@ -89,7 +88,7 @@ class ListGood extends React.Component {
                             <th>Giá bán</th>
                             <th>Chiết khấu</th>
                             <th>Thành tiền</th>
-                            {/*<th className="disabled-sorting"/>*/}
+                            <th className="disabled-sorting"/>
                         </tr>
                         </thead>
                         <tfoot id="footer-search" className="text-rose">
@@ -101,7 +100,7 @@ class ListGood extends React.Component {
                             <th>Giá bán</th>
                             <th>Chiết khấu</th>
                             <th>Thành tiền</th>
-                            {/*<th className="disabled-sorting"/>*/}
+                            <th className="disabled-sorting"/>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -130,9 +129,9 @@ class ListGood extends React.Component {
                                         <td>{goodOrder.name}</td>
                                         <td>
                                             {goodOrder.quantity}
-                                                    <a data-toggle="tooltip" title type="button">
-                                                        <i className="material-icons">edit</i>
-                                                    </a>
+                                            <a data-toggle="tooltip" title type="button">
+                                                <i className="material-icons">edit</i>
+                                            </a>
                                         </td>
                                         <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                         <td>
@@ -151,9 +150,9 @@ class ListGood extends React.Component {
 
                                         </td>
                                         <td className="text-align-right">{helper.dotNumber(Math.round(totalMoney))}đ</td>
-                                        {/*<td>*/}
-                                            {/*<ButtonGroupAction/>*/}
-                                        {/*</td>*/}
+                                        <td>
+                                            <ButtonGroupAction/>
+                                        </td>
                                     </tr>
                                 );
                             })
