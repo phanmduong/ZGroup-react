@@ -27,9 +27,9 @@ class AddStaffFirstLoginContainer extends React.Component {
         this.props.staffActions.loadDataBase();
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log(nextProps);
-    }
+    // componentWillReceiveProps(nextProps){
+    //     console.log(nextProps);
+    // }
 
     componentDidUpdate() {
         this.initForm();
@@ -124,6 +124,7 @@ AddStaffFirstLoginContainer.propTypes = {
     location: PropTypes.object,
     route: PropTypes.object,
     params: PropTypes.object,
+    user: PropTypes.object,
 };
 
 AddStaffFirstLoginContainer.contextTypes = {
@@ -141,6 +142,7 @@ function mapStateToProps(state) {
         error: state.staffs.addStaff.error,
         roles: state.roles.roleListData,
         bases: state.staffs.bases.basesData,
+        user: state.login.user,
     };
 }
 

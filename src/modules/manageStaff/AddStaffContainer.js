@@ -25,10 +25,15 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.initForm();
         this.props.roleActions.loadRolesData();
         this.props.staffActions.loadDataBase();
+        this.props.staffActions.loadDepartments();
         if (this.props.route.type === 'edit') {
             this.props.staffActions.loadStaffData(this.props.params.staffId);
             this.usernameEmpty = false;
         }
+    }
+
+    componentWillReceiveProps(nextProps){
+        console.log('AddStaffContainer',nextProps);
     }
 
     componentDidUpdate() {
@@ -96,6 +101,7 @@ class AddStaffContainer extends React.Component {
     render() {
         let roles = (this.props.roles !== undefined) ? this.props.roles : [];
         let bases = (this.props.bases !== undefined) ? this.props.bases : [];
+        let departs = (this.props.departments !== undefined) ? this.props.departments : [];
         return (
             <AddStaffComponent
                 {...this.props}
@@ -107,6 +113,7 @@ class AddStaffContainer extends React.Component {
                 handleFileUpload={this.handleFileUpload}
                 roles={[{id: 0, role_title: ''}, ...roles]}
                 bases={[{id: 0, name: '', address: ''}, ...bases]}
+                departments={[{id: 0, name: ''}, ...departs]}
             />
         );
     }
@@ -126,6 +133,7 @@ AddStaffContainer.propTypes = {
     location: PropTypes.object.isRequired,
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    departments: PropTypes.array.isRequired,
 };
 
 AddStaffContainer.contextTypes = {
@@ -143,6 +151,8 @@ function mapStateToProps(state) {
         error: state.staffs.addStaff.error,
         roles: state.roles.roleListData,
         bases: state.staffs.bases.basesData,
+        departments: state.staffs.departments,
+        role: state.login.user.role,
     };
 }
 

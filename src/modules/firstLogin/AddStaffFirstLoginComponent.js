@@ -1,7 +1,6 @@
 import React from 'react';
 import FormInputText from '../../components/common/FormInputText';
 import FormInputSelect from '../../components/common/FormInputSelect';
-import FormInputDate from '../../components/common/FormInputDate';
 import Loading from '../../components/common/Loading';
 import {MARITAL, LITERACY} from '../../constants/constants';
 import PropTypes from 'prop-types';
@@ -20,7 +19,7 @@ class AddStaffFirstLoginComponent extends React.Component {
     }
 
     render() {
-        let {name, email, age, address, homeland, phone, marital, literacy, role_id, start_company, username,  base_id} = this.props.staffForm;
+        let {name, email, age, address, homeland, phone, marital, literacy, role_id, username,  base_id} = this.props.staffForm;
         let roleSelect = this.props.roles.filter(function (roleData) {
             return role_id == roleData.id;
         })[0];
@@ -33,8 +32,7 @@ class AddStaffFirstLoginComponent extends React.Component {
             <div>
                 <Modal
                     bsSize="large"
-                    show={false}
-                    onHide={()=>{}}
+                    show={true}
                 >
 
 
@@ -157,13 +155,6 @@ class AddStaffFirstLoginComponent extends React.Component {
                                                         })}
                                                     </select>
                                                 </div>
-                                                <FormInputDate
-                                                    label="Hoạt đông trong công ty từ"
-                                                    name="start_company"
-                                                    updateFormData={this.props.updateFormData}
-                                                    value={start_company.slice(0, 10)}
-                                                    id="form-date-start-company"
-                                                />
 
                                                 {this.props.isLoadingAddStaff ?
                                                     (
