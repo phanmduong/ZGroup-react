@@ -116,7 +116,9 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 orders: changeStatusOrder(state.orders, action.order_id, action.status),
                 order: {
+                    ...state.order,
                     infoOrder: {
+                        ...state.order.infoOrder,
                         status: action.status
                     }
                 }
@@ -178,7 +180,43 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isSendingShipOrder: false,
                 shipGoodModal: false
             };
+        case types.UPDATE_ORDER_FORM_DATA:
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    customer: action.customer,
+                }
+            };
+
+
+
+        case types.BEGIN_EDIT_ORDER:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isSaving : true,
+                }
+            };
+        case types.EDIT_ORDER_ERROR:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isSaving : false,
+                }
+            };
+        case types.EDIT_ORDER_SUCCESS:
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    isSaving : false,
+                }
+            };
         default:
             return state;
     }
 }
+

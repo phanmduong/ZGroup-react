@@ -50,7 +50,7 @@ export function getAllStaffs() {
     return axios.get(url);
 }
 
-export function changeStatusOrder(orderId, status, labelId = "") {
+export function changeStatusOrder(status, orderId, labelId = "") {
     let url = env.MANAGE_API_URL + `/order/change-status-order`;
     let token = localStorage.getItem('token');
     if (token) {
@@ -60,6 +60,32 @@ export function changeStatusOrder(orderId, status, labelId = "") {
         order_id: orderId,
         label_id: labelId,
         status: status,
+    });
+}
+
+export function editOrderApi(order, orderId) {
+    let url = env.MANAGE_API_URL + '/order/' + orderId + '/info';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        info_order: {
+            code: order.infoOrder.code,
+            created_at: order.infoOrder.created_at,
+            // staff:
+            //     {
+            //         id: 1
+            //         name: haha
+            //     },
+            note: order.infoOrder.note,
+        }
+        ,
+        info_user: {
+            id: order.infoUser.id,
+            name: order.infoUser.name,
+            email: order.infoUser.email,
+        }
     });
 }
 

@@ -31,8 +31,6 @@ class AddDiscountContainer extends React.Component {
 
         } else {
             this.loadDiscount();
-
-
         }
         // Nếu muốn add phải xóa hết thông tin đã edit của lần trước
     }

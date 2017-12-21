@@ -35,18 +35,27 @@ export function loadDetailOrder(orderId) {
         dispatch({type: types.BEGIN_LOAD_DETAIL_ORDER});
         goodOrdersApi.loadDetailOrder(orderId)
             .then((res) => {
+                    if (res.data.status) {
+                        dispatch({
+                            type: types.LOAD_DETAIL_ORDER_SUCCESS,
+                            infoOrder: res.data.data.info_order,
+                            infoUser: res.data.data.info_user,
+                            infoShip: res.data.data.info_ship,
+                            goodOrders: res.data.data.good_orders,
+                        });
+                    }
+                    else {
+                        dispatch({
+                            type: types.LOAD_DETAIL_ORDER_ERROR,
+                        });
+                    }
+                }
+            )
+            .catch(() => {
                 dispatch({
-                    type: types.LOAD_DETAIL_ORDER_SUCCESS,
-                    infoOrder: res.data.data.info_order,
-                    infoUser: res.data.data.info_user,
-                    infoShip: res.data.data.info_ship,
-                    goodOrders: res.data.data.good_orders,
+                    type: types.LOAD_DETAIL_ORDER_ERROR
                 });
-            }).catch(() => {
-            dispatch({
-                type: types.LOAD_DETAIL_ORDER_ERROR
             });
-        });
     };
 }
 
@@ -91,7 +100,7 @@ export function changeStatusOrder(status, orderId) {
             case "confirm_order":
 
                 break;
-            case "ship_order":{
+            case "ship_order": {
                 dispatch({
                     type: types.TOGGLE_SHIP_GOOD_MODAL,
                 });
@@ -101,33 +110,31 @@ export function changeStatusOrder(status, orderId) {
                         ...order,
                         orderId
                     }
-
                 });
                 break;
             }
             default:
                 helper.showTypeNotification("Đang thay đổi trạng thái", "info");
                 dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
-                goodOrdersApi.changeStatusOrder(orderId, status)
+                goodOrdersApi.changeStatusOrder(status, orderId)
                     .then((res) => {
                         helper.showNotification("Thay đổi trạng thái thành công");
                         if (res.data.status === 0) {
                             showErrorNotification(res.data.message);
                         } else {
-
                             dispatch({
                                 type: types.CHANGE_STATUS_ORDER_SUCCESS,
                                 order_id: orderId,
                                 status
                             });
                         }
-
-                    }).catch(() => {
-                    helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
-                    dispatch({
-                        type: types.CHANGE_STATUS_ORDER_ERROR
+                    })
+                    .catch(() => {
+                        helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+                        dispatch({
+                            type: types.CHANGE_STATUS_ORDER_ERROR
+                        });
                     });
-                });
         }
 
     };
@@ -221,5 +228,45 @@ export function sendShipOrder(shippingGood) {
             });
 
 
+    };
+}
+
+
+export function updateOrderFormData(infoOrder) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_ORDER_FORM_DATA,
+            infoOrder: infoOrder,
+        });
+    };
+}
+
+export function editOrder(order, orderId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_ORDER});
+        goodOrdersApi.editOrderApi(order, orderId)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showTypeNotification('Đã chỉnh sửa thành công', 'success');
+                    dispatch({
+                        type: types.EDIT_ORDER_SUCCESS,
+                        // customer: res.data.data.user,
+                    });
+                    // browserHistory.push('/goods/customer');
+                }
+                else {
+                    helper.sweetAlertError(res.data.message);
+                    dispatch({
+                        type: types.EDIT_ORDER_ERROR,
+                        message: res.data.message,
+                    });
+                }
+            })
+            .catch(() => {
+                    dispatch({
+                        type: types.EDIT_ORDER_ERROR
+                    });
+                }
+            );
     };
 }

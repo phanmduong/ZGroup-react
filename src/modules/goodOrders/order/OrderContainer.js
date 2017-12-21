@@ -21,13 +21,17 @@ class OrderContainer extends React.Component {
             optionsSelectStaff: []
         };
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
-
+        this.updateOrderFormData = this.updateOrderFormData.bind(this);
+        this.loadDetailOrder = this.loadDetailOrder.bind(this);
+        // this.editOrder = this.editOrder.bind(this);
     }
 
     componentWillMount() {
-        this.props.goodOrderActions.loadDetailOrder(this.props.params.orderId);
+        this.loadDetailOrder();
+        console.log(this.props.order,'OREDERCONTAINER');
         // this.props.goodOrderActions.loadStaffs();
     }
+
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoadingStaffs !== this.props.isLoadingStaffs && !nextProps.isLoadingStaffs) {
@@ -45,11 +49,24 @@ class OrderContainer extends React.Component {
             });
         }
     }
+    loadDetailOrder(){
+        this.props.goodOrderActions.loadDetailOrder(this.props.params.orderId);
+    }
+    updateOrderFormData(event) {
+        const field = event.target.name;
+        let infoOrder = {...this.props.infoOrder};
+        infoOrder[field] = event.target.value;
+        this.props.goodOrderActions.updateOrderFormData(infoOrder);
+    }
 
     changeStatusOrder(value) {
         let statusOrder = value && value.value ? value.value : '';
-        this.props.goodOrderActions.changeStatusOrder(this.props.params.orderId,statusOrder);
+        this.props.goodOrderActions.changeStatusOrder( statusOrder, this.props.params.orderId,);
     }
+    // editOrder(e){
+    //     this.props.goodOrderActions.editOrder(this.props.order,this.props.params.orderId);
+    //     e.preventDefault();
+    // }
 
     render() {
         return (
@@ -87,7 +104,9 @@ class OrderContainer extends React.Component {
                                         </button>
                                     </div>
                                     <div>
-                                        <button className="btn btn-success btn-sm">
+                                        <button className="btn btn-success btn-sm"
+
+                                        >
                                             <i className="material-icons">save</i> Lưu
                                         </button>
                                         <button className="btn btn-danger btn-sm">
@@ -136,9 +155,13 @@ class OrderContainer extends React.Component {
                                                 value={this.props.infoOrder.status}
                                                 placeholder="Chọn trạng thái"
                                                 onChange={this.changeStatusOrder}
+                                                updateFormData={this.updateOrderFormData}
                                             />
-                                            <FormInputText label="Ghi chú" name="note"
-                                                           value={this.props.infoOrder.note}/>
+                                            <FormInputText
+                                                label="Ghi chú" name="note"
+                                                value={this.props.infoOrder.note}
+                                                updateFormData={this.updateOrderFormData}
+                                            />
                                         </div>
                                         <div>
                                             <h4><strong>Thông tin khách hàng </strong>
@@ -185,9 +208,23 @@ class OrderContainer extends React.Component {
                             {!this.props.isLoading &&
                             <div className="card-footer">
                                 <div className="float-right" style={{marginBottom: '20px'}}>
-                                    <button className="btn btn-sm btn-success">
-                                        <i className="material-icons">save</i> Lưu
-                                    </button>
+                                    {this.props.isSaving ?
+
+                                        <button
+                                            className="btn btn-sm btn-success disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/>
+                                            Đang cập nhật
+                                        </button>
+                                        :
+
+                                        <button className="btn btn-sm btn-success"
+                                                // onClick={(e)=>{this.editOrder(e);}}
+                                        >
+                                            <i className="material-icons">save</i> Lưu
+                                        </button>
+                                    }
+
                                     <button className="btn btn-sm btn-danger">
                                         <i className="material-icons">cancel</i> Huỷ
                                     </button>
@@ -211,6 +248,8 @@ OrderContainer.propTypes = {
     goodOrderActions: PropTypes.object.isRequired,
     goodOrders: PropTypes.array.isRequired,
     params: PropTypes.object.isRequired,
+    order: PropTypes.object,
+    isSaving: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -218,9 +257,11 @@ function mapStateToProps(state) {
         isLoading: state.goodOrders.order.isLoading,
         isLoadingStaffs: state.goodOrders.isLoadingStaffs,
         staffs: state.goodOrders.staffs,
+        order: state.goodOrders.order,
         infoOrder: state.goodOrders.order.infoOrder,
         infoUser: state.goodOrders.order.infoUser,
         goodOrders: state.goodOrders.order.goodOrders,
+        isSaving: state.goodOrders.order.isSaving,
 
     };
 }

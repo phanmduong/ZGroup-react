@@ -882,6 +882,7 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isSaving : false,
             isLoading: false,
             error: false,
             infoOrder: {},
