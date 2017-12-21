@@ -525,10 +525,11 @@ class GoodController extends ManageApiController
                     $data['warehouses_count'] = $warehouses_count->count;
                     $data['goods_count'] = $goods_count;
                     $data['import_price'] = $import_price;
-                    if($goods_count>1) {
-                        $good->properties->map(function ($property) use($good) {
-                            $good['name'] = $good['name'] . " " . $property->name . " " . $property->value ;
-                        });
+                    if($goods_count>1){
+                        $data['name'] .= ' ';
+                        foreach ($good->properties as $property) {
+                            $data['name'] = $data['name'] . "- " . $property->name . " " . $property->value ;
+                        };
                     }
                     return $data;
                 })

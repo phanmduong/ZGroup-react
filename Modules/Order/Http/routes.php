@@ -6,9 +6,11 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/{order_id}/info', 'OrderController@detailedOrder');
     Route::put('/change-status-order', 'OrderController@changeStatus');
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
-    Route::post('/pay-import-order/{orderId}', 'OrderController@payImportOrder');
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
+    Route::put('/{order_id}/good/export/{warehouseId}', 'OrderController@exportOrder');
+    Route::put('/{order_id}/good/import/{warehouseId}', 'OrderController@importOrder');
+
 
     Route::get('/all-customers', 'CustomerController@allCustomers');
     Route::get('/total-and-debt-money', 'CustomerController@countMoney');
@@ -32,6 +34,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::post('/add-import-order-goods', 'ImportApiController@addImportOrderGoods');
     Route::delete('/import-order/delete/{importOrderId}', 'ImportApiController@deleteImportOrder');
     Route::post('/import-order/edit/{importOrderId}', 'ImportApiController@editImportOrder');
+    Route::post('/pay-import-order/{orderId}', 'ImportApiController@payImportOrder');
 
     Route::post('/add-supplier', 'WarehouseApiController@addSupplier');
     Route::put('/supplier/{supplier_id}/edit', 'WarehouseApiController@editSupplier');
@@ -47,5 +50,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
 
     Route::get('/staffs', 'StaffController@getStaffs');
     Route::get('/salers', 'StaffController@allSalers');
+
+    Route::get('/test', 'OrderController@test');
 });
 
