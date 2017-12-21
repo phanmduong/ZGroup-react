@@ -51,6 +51,8 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
         ->where('path', '.*');
     Route::get('/base/{path}', 'ClientController@base')
         ->where('path', '.*');
+    Route::get('/project/{path}', 'ClientController@work')
+        ->where('path', '.*');
     Route::get('{path}', 'PublicController@manage')
         ->where('path', '.*');
 });
