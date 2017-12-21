@@ -526,8 +526,9 @@ class GoodController extends ManageApiController
                     $data['goods_count'] = $goods_count;
                     $data['import_price'] = $import_price;
                     if($goods_count>1){
+                        $data['name'] .= ' ';
                         foreach ($good->properties as $property) {
-                            $data['name'] = $data['name'] . "-" . $property->name . " " . $property->value ;
+                            $data['name'] = $data['name'] . "- " . $property->name . " " . $property->value ;
                         };
                     }
                     return $data;
