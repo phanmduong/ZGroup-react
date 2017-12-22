@@ -6,23 +6,29 @@ import LoginContainer from "../../modules/login/LoginContainer";
 
 export default (InputRoutes) => (
     <Route>
+        <Route path="/login" component={LoginContainer}/>
         <Route path="/" component={AppContainer}>
             {
-                InputRoutes && InputRoutes.map((route) => <Route {...route}>
-                    {
-                        route.children && route.children.map((routeChild) => {
-                            if (routeChild.path === "/")
-                                return <IndexRoute component={routeChild.component}/>;
-                            return (
-                                <Route {...routeChild}/>
-                            );
-                        })
+                InputRoutes && InputRoutes.map((route, index) => {
+                        if (route.path === "/") {
+                            return <IndexRoute key={index} component={route.component}/>;
+                        } else {
+                            return <Route {...route} key={index}>
+                                {
+                                    route.children && route.children.map((routeChild, index1) => {
+                                        if (routeChild.path === "/")
+                                            return <IndexRoute key={index1} component={routeChild.component}/>;
+                                        return (
+                                            <Route key={index1} {...routeChild}/>
+                                        );
+                                    })
+                                }
+                            </Route>;
+                        }
                     }
-                </Route>)
+                )
             }
-
+            <Route path="*" component={NotFoundPage}/>
         </Route>
-        <Route path="/login" component={LoginContainer}/>
-        <Route path="*" component={NotFoundPage}/>
     </Route>
 );

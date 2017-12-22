@@ -88,7 +88,7 @@ class ManageDepartmentContainer extends React.Component {
                             <div className="nav-tabs-wrapper">
                                 <ul className="nav nav-tabs" data-tabs="tabs">
                                     <li className="">
-                                        <Link to="manage/quan-li-nhan-su">
+                                        <Link to="hr/manage/quan-li-nhan-su">
                                             Nhân viên
                                             <div className="ripple-container"/>
                                         </Link>

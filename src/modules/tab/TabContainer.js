@@ -130,7 +130,7 @@ class TabContainer extends React.Component {
         } else {
             return (
                 <ul className="nav">
-                    {this.state.tabs.children.map((tab, index) => {
+                    {this.state.tabs && this.state.tabs.children && this.state.tabs.children.map((tab, index) => {
                         if (tab.children.length <= 0) {
                             return (
                                 <li key={"keytabpar" + index}

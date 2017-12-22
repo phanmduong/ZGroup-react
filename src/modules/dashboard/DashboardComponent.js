@@ -2,7 +2,6 @@ import React from 'react';
 import Loading from '../../components/common/Loading';
 import * as helper from '../../helpers/helper';
 import TooltipButton from '../../components/common/TooltipButton';
-import {Link} from 'react-router';
 import {NO_AVATAR} from '../../constants/env';
 import Barchart from './Barchart';
 import ListClass from './ListClass';
@@ -151,11 +150,11 @@ class DashboardComponent extends React.Component {
                                             </TooltipButton>
                                         }
                                         {user.is_saler &&
-                                        <Link to={"/teaching/registerlist/" + user.id} className="btn btn-rose btn-round">Danh
-                                            sách đăng kí</Link>
+                                        <a href={"/teaching/registerlist/" + user.id} className="btn btn-rose btn-round">Danh
+                                            sách đăng kí</a>
                                         }
 
-                                        <Link to="/profile/my-profile" className="btn btn-rose btn-round">Trang cá nhân</Link>
+                                        <a href="/profile/my-profile" className="btn btn-rose btn-round">Trang cá nhân</a>
                                     </div>
                                 </div>
                             </div>
