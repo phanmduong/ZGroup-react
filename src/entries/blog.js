@@ -4,7 +4,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, browserHistory} from 'react-router';
-import renderRoutes from '../routes/RoutesRenderer';
+import renderRoutes from '../routes/renderer/RouteRenderer';
 import configureStore from '../store/configureStore';
 import BlogRoute from '../routes/BlogRoute';
 
