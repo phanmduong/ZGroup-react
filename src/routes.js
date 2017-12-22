@@ -97,6 +97,7 @@ import RoomsContainer from "./modules/rooms/RoomsContainer";
 import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
 import ManageDepartmentContainer from "./modules/manageDepartment/ManageDepartmentContainer";
 import InfoStaffContainer from "./modules/manageStaff/InfoStaffContainer";
+import JobAssignmentContainer from "./modules/jobAssignment/JobAssignmentContainer";
 
 export default (
     <Route>
@@ -363,6 +364,10 @@ export default (
             {/*Begin Profile route*/}
                 <Route path="manage-profile" component={ProfileContainer}/>
             {/*End Profile route*/}
+
+            {/*Begin JobAssignment route*/}
+                <Route path="job-assignment" component={JobAssignmentContainer}/>
+            {/*End JobAssignment route*/}
 
         </Route>
         <Route path="login" component={LoginContainer}/>

@@ -1221,5 +1221,8 @@ export default {
                 total_pages : 1,
             },
         },
-    }
+    },
+    jobAssignment:{
+      isLoading: false
+    },
 };
