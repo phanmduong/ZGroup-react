@@ -27,7 +27,7 @@ export default [
         component: BoardListContainer
     },
     {
-        path: "/calendar",
+        path: "/project/calendar",
         component: CalendarContainer
     }, {
         path: "/project/list",

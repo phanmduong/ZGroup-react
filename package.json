@@ -23,11 +23,28 @@
     "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
     "build:email": "npm run lint && rimraf ./dist/manage/email && mkdir dist/manage/email && MODULE=email babel-node tools/build/module.js",
 
+
     "start:teaching": "MODULE=email npm-run-all --parallel open:src lint:watch",
     "build:teaching": "npm run lint && rimraf ./dist/manage/teaching && mkdir dist/manage/teaching && MODULE=teaching babel-node tools/build/module.js",
 
     "start:manufacture": "MODULE=email npm-run-all --parallel open:src lint:watch",
     "build:manufacture": "npm run lint && rimraf ./dist/manage/manufacture && mkdir dist/manage/manufacture && MODULE=manufacture babel-node tools/build/module.js",
+
+    "start:base": "MODULE=base npm-run-all --parallel open:src lint:watch",
+    "build:base": "rimraf ./dist/manage/base && mkdir dist/manage/base && MODULE=base babel-node tools/build/module.js",
+
+    "start:work": "MODULE=work npm-run-all --parallel open:src lint:watch",
+    "build:work": "rimraf ./dist/manage/work && mkdir dist/manage/work && MODULE=work babel-node tools/build/module.js",
+
+    "start:blog": "MODULE=blog npm-run-all --parallel open:src lint:watch",
+    "build:blog": "rimraf ./dist/manage/blog && mkdir dist/manage/blog && MODULE=blog babel-node tools/build/module.js",
+
+    "start:marketing": "MODULE=marketing npm-run-all --parallel open:src lint:watch",
+    "build:marketing": "rimraf ./dist/manage/marketing && mkdir dist/manage/marketing && MODULE=marketing babel-node tools/build/module.js",
+
+    "start:finance": "MODULE=finance npm-run-all --parallel open:src lint:watch",
+    "build:finance": "rimraf ./dist/manage/finance && mkdir dist/manage/finance && MODULE=finance babel-node tools/build/module.js",
+
 
     "start:hr": "MODULE=email npm-run-all --parallel open:src lint:watch",
     "build:hr": "npm run lint && rimraf ./dist/manage/hr && mkdir dist/manage/hr && MODULE=hr babel-node tools/build/module.js",
