@@ -5,5 +5,5 @@
 @endsection
 
 @section("js")
-    <script type="text/javascript" src="manage/email/main.d92f5d88eb071fc6246c.js"></script>
+    <script type="text/javascript" src="manage/email/main.95e480efb86b2de27c65.js"></script>
 @endsection

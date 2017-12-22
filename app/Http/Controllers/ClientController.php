@@ -15,6 +15,11 @@ class ClientController extends Controller
         return view("client.email");
     }
 
+    public function dashboard()
+    {
+        return view("client.dashboard");
+    }
+
     public function manufacture()
     {
         return view("client.manufacture");
@@ -58,6 +63,16 @@ class ClientController extends Controller
     public function finance()
     {
         return view("client.finance");
+    }
+
+    public function profile()
+    {
+        return view("client.profile");
+    }
+
+    public function shift()
+    {
+        return view("client.shift");
     }
 
 }
