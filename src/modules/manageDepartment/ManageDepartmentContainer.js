@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as departmentActions from './departmentActions';
-import {Link} from 'react-router';
+import HRTab  from './HRTab';
+
 import Search from '../../components/common/Search';
 //import Loading from '../../components/common/Loading';
 import ListDepartments from '../../modules/manageDepartment/ListDepartments';
@@ -81,32 +82,7 @@ class ManageDepartmentContainer extends React.Component {
         return (
             <div className="col-lg-12">
                 <div className="card">
-                    <div className="card-header card-header-tabs" data-background-color="rose">
-                        <div className="nav-tabs-navigation">
-                            <div className="nav-tabs-wrapper">
-                                <ul className="nav nav-tabs" data-tabs="tabs">
-                                    <li className="">
-                                        <Link to="manage/quan-li-nhan-su">
-                                            Nhân viên
-                                            <div className="ripple-container"/>
-                                        </Link>
-                                    </li>
-                                    <li className="">
-                                        <Link to="manage-role">
-                                            Chức vụ
-                                            <div className="ripple-container"/>
-                                        </Link>
-                                    </li>
-                                    <li className="active">
-                                        <Link to="manage-department">
-                                            Bộ phận
-                                            <div className="ripple-container"/>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <HRTab path="manage-department"/>
                     <div className="card-content">
                         <div className="tab-content">
                             <div className="row">

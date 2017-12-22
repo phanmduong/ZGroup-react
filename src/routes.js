@@ -358,6 +358,10 @@ export default (
                 <Route path="manage-department" component={ManageDepartmentContainer}/>
             {/*End Role route*/}
 
+            {/*Begin Profile route*/}
+                <Route path="manage-profile" component={ProfileContainer}/>
+            {/*End Profile route*/}
+
         </Route>
         <Route path="login" component={LoginContainer}/>
         <Route path="*" component={NotFoundPage}/>

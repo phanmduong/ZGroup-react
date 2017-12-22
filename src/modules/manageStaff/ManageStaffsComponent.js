@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {Modal} from 'react-bootstrap';
 import AddUserToStaff from './AddUserToStaff';
-
+import HRTab from "../manageDepartment/HRTab";
 class ManageStaffsComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -31,32 +31,7 @@ class ManageStaffsComponent extends React.Component {
             <div>
                 <div className="col-lg-12">
                     <div className="card">
-                        <div className="card-header card-header-tabs" data-background-color="rose">
-                            <div className="nav-tabs-navigation">
-                                <div className="nav-tabs-wrapper">
-                                    <ul className="nav nav-tabs" data-tabs="tabs">
-                                        <li className="active">
-                                            <Link to="manage/quan-li-nhan-su">
-                                                Nhân viên
-                                                <div className="ripple-container"/>
-                                            </Link>
-                                        </li>
-                                        <li className="">
-                                            <Link to="manage-role">
-                                                 Chức vụ
-                                                <div className="ripple-container"/>
-                                            </Link>
-                                        </li>
-                                        <li className="">
-                                            <Link to="manage-department">
-                                                Bộ phận
-                                                <div className="ripple-container"/>
-                                            </Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <HRTab path="manage/quan-li-nhan-su"/>
                         <div className="card-content">
                             <div className="tab-content">
                                 <div className="row">
