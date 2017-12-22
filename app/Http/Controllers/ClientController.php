@@ -10,7 +10,7 @@ class ClientController extends Controller
     {
     }
 
-    public function email($path)
+    public function email()
     {
         return view("client.email");
     }
