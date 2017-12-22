@@ -40,4 +40,9 @@ class ClientController extends Controller
         return view("client.blog");
     }
 
+    public function marketing()
+    {
+        return view("client.marketing");
+    }
+
 }
