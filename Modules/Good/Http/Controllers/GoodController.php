@@ -172,7 +172,7 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
         if ($request->children) {
-            //Tao san pham nhieu thuoc tinh
+            //Tao san pham cung loai
             $children = json_decode($request->children);
             foreach ($children as $child) {
                 $good = new Good;
@@ -193,6 +193,9 @@ class GoodController extends ManageApiController
                 $property = new GoodProperty;
                 $this->assignPropertyInfor($property, 'images_url', $images_url, $good->id);
                 $property->save();
+
+                $child_images_url = new GoodProperty;
+                $this->assignPropertyInfor($child_images_url, 'child_images_url', $child->child_images_url, $good->id);
             }
             return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
         }
@@ -230,7 +233,7 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
         if ($request->children) {
-            //Sua san pham nhieu thuoc tinh
+            //Sua san pham cung loai
             $children = json_decode($request->children);
             $goods = Good::where('code', $request->code)->get();
             foreach ($goods as $good) {
@@ -263,6 +266,9 @@ class GoodController extends ManageApiController
                 $property = new GoodProperty;
                 $this->assignPropertyInfor($property, 'images_url', $images_url, $good->id);
                 $property->save();
+
+                $child_images_url = new GoodProperty;
+                $this->assignPropertyInfor($child_images_url, 'child_images_url', $child->child_images_url, $good->id);
             }
             return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
         }
@@ -279,7 +285,8 @@ class GoodController extends ManageApiController
 
         $properties = json_decode($request->properties);
 
-        DB::table('good_properties')->where('name', '<>', 'images_url')->where('good_id', '=', $good->id)->delete();
+        DB::table('good_properties')->where('name', '<>', 'images_url')->where('name', '<>', 'child_images_url')
+            ->where('good_id', '=', $good->id)->delete();
 
         foreach ($properties as $p) {
             $property = new GoodProperty();
@@ -299,10 +306,12 @@ class GoodController extends ManageApiController
     public function propertyList($goodIds)
     {
         //get property list from good siblings
-        $propertyItemIds = GoodProperty::where('name', '<>', 'images_url')->whereIn('good_id', $goodIds)->groupBy('property_item_id')->pluck('property_item_id')->toArray();
+        $propertyItemIds = GoodProperty::where('name', '<>', 'images_url')->where('name', '<>', 'child_images_url')
+            ->whereIn('good_id', $goodIds)->groupBy('property_item_id')->pluck('property_item_id')->toArray();
         $data = [];
         foreach ($propertyItemIds as $propertyItemId) {
-            $propertiesValue = GoodProperty::where('name', '<>', 'images_url')->whereIn('good_id', $goodIds)->where('property_item_id', $propertyItemId)
+            $propertiesValue = GoodProperty::where('name', '<>', 'images_url')->where('name', '<>', 'child_images_url')
+                ->whereIn('good_id', $goodIds)->where('property_item_id', $propertyItemId)
                 ->groupBy('value')->pluck('value')->toArray();
             array_push($data, [
                 'property_item_id' => $propertyItemId,
