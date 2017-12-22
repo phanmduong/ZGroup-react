@@ -1,6 +1,6 @@
 import React from "react";
 import renderRoutes from '../routes/renderer/RouteRenderer';
-import EmailRoute from '../routes/EmailRoute';
+import DashboardRoute from '../routes/DashboardRoute';
 
 import '../../node_modules/toastr/build/toastr.min.css';
 import '../styles/react-bootstrap-switch.min.css';
@@ -21,6 +21,6 @@ const store = configureStore();
 
 render(
     <Provider store={store}>
-        <Router history={browserHistory} routes={renderRoutes(EmailRoute)}/>
+        <Router history={browserHistory} routes={renderRoutes(DashboardRoute)}/>
     </Provider>, document.getElementById('app')
 );
