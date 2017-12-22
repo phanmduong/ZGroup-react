@@ -133,7 +133,7 @@ class SupplierContainer extends React.Component {
                                                     </Link>
                                                 </li>
                                                 <li className="active">
-                                                    <Link to="goods/supplier">
+                                                    <Link to="/good/goods/supplier">
                                                         Nhà cung cấp
                                                         <div className="ripple-container"/>
                                                     </Link>

@@ -311,7 +311,7 @@ export default (
 
 
         {/*Begin supplier routes */}
-        <Route path="/goods/supplier" component={SupplierContainer}/>
+        {/*<Route path="/goods/supplier" component={SupplierContainer}/>*/}
         {/*End supplier routes*/}
 
         {/*Begin discount routes */}

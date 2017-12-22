@@ -52,6 +52,9 @@
     "start:good": "MODULE=good npm-run-all --parallel open:src lint:watch",
     "build:good": "npm run lint && rimraf ./dist/manage/good && mkdir dist/manage/good && MODULE=good babel-node tools/build/module.js",
 
+    "start:shift": "MODULE=shift npm-run-all --parallel open:src lint:watch",
+    "build:shift": "npm run lint && rimraf ./dist/manage/shift && mkdir dist/manage/shift && MODULE=shift babel-node tools/build/module.js",
+
 
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",

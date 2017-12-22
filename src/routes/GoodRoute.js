@@ -15,6 +15,7 @@ import ProductListContainer from "../modules/productList/ProductListContainer";
 import OrdersContainer from "../modules/goodOrders/OrdersContainer";
 import OrderContainer from "../modules/goodOrders/order/OrderContainer";
 import CategoriesContainer from "../modules/categories/CategoriesContainer";
+import SupplierContainer from "../modules/supplier/SupplierContainer";
 
 /**
  * Tab Nhân sự
@@ -119,5 +120,9 @@ export default [
     {
         path: "/good/goods/categories",
         component: CategoriesContainer
+    },
+    {
+        path: "/good/goods/supplier",
+        component: SupplierContainer
     }
 ];
