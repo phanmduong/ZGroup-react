@@ -1,22 +1,24 @@
-/**
- * Created by nangbandem.
- */
 import React from 'react';
 import FormInputText from '../../components/common/FormInputText';
 import Loading from '../../components/common/Loading';
 import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
 import {NO_AVATAR} from '../../constants/env';
+import TooltipButton from '../../components/common/TooltipButton';
 
-
-class InfoStaffComponent extends React.Component {
+class AddStaffComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
 
+    checkValidate() {
+        if ($('#form-add-staff').valid()) {
+            this.props.addStaff();
+        }
+    }
 
     render() {
-        let {name, email, role_id, base_id, department_id} = this.props.staffForm;
+        let {name, email, role_id, color, base_id, department_id} = this.props.staffForm;
         let roleSelect = this.props.roles.filter(function (roleData) {
             return role_id == roleData.id;
         })[0];
@@ -28,40 +30,33 @@ class InfoStaffComponent extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-8">
                         <div className="card">
                             {(this.props.isLoadingStaff ) ? <Loading/> :
                                 <form id="form-add-staff" onSubmit={(e) => {
                                     e.preventDefault();
                                 }}>
-                                    <div className="card card-profile">
-                                        <div className="card-avatar">
-                                            <a className="content-avatar">
-                                                <div className="img"
-                                                     style={{
-                                                         background: 'url(' + avatar + ') center center / cover',
-                                                         width: '130px',
-                                                         height: '130px'
-                                                     }}
-                                                />
-                                            </a>
-                                        </div>
-                                        <div className="card-content"><h3>Thông tin nhân viên: {name}</h3></div>
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">contacts</i>
                                     </div>
                                     <div className="card-content">
+                                        <h4 className="card-title">
+                                            Thông tin nhân viên
+                                        </h4>
                                         <FormInputText
                                             label="Email"
                                             name="email"
-                                            updateFormData={()=>{}}
+                                            //updateFormData={this.props.updateFormData}
                                             value={email}
-                                            disabled
+                                            //required={true}
                                             type="email"
+                                            disabled
                                         />
                                         <div className="form-group">
                                             <label>Cơ sở</label>
                                             <select className="form-control"
                                                     value={base_id}
-                                                    onChange={()=>{}}
+                                                    onChange={this.props.updateFormData}
                                                     name="base_id"
                                                     disabled
                                             >
@@ -83,7 +78,7 @@ class InfoStaffComponent extends React.Component {
                                             <select
                                                 className="form-control"
                                                 value={role_id}
-                                                onChange={()=>{}}
+                                                onChange={this.props.updateFormData}
                                                 name="role_id"
                                                 disabled
                                             >
@@ -104,7 +99,7 @@ class InfoStaffComponent extends React.Component {
                                             <select
                                                 className="form-control"
                                                 value={department_id}
-                                                onChange={()=>{}}
+                                                onChange={this.props.updateFormData}
                                                 name="department_id"
                                                 disabled
                                             >
@@ -128,34 +123,87 @@ class InfoStaffComponent extends React.Component {
                                                         label="Lương cơ bản"
                                                         name="salary"
                                                         value={0}
-                                                        disabled
+                                                        //required={true}
                                                         type="text"
-                                                        //updateFormData={()=>{}}
+                                                        //updateFormData={this.props.updateFormData}
+                                                        disabled
                                                     />
                                                     < FormInputText
                                                         label="Lương doanh thu"
                                                         name="salary_revenue"
                                                         value={0}
-                                                        disabled
+                                                        //required={true}
                                                         type="text"
-                                                        //updateFormData={()=>{}}
+                                                        //updateFormData={this.props.updateFormData}
+                                                        disabled
                                                     />
                                                     <FormInputText
                                                         label="Lương phụ cấp"
                                                         name="salary_allowance"
                                                         value={0}
-                                                        disabled
+                                                        //required={true}
                                                         type="text"
-                                                        //updateFormData={()=>{}}
+                                                        //updateFormData={this.props.updateFormData}
+                                                        disabled
                                                     />
                                                 </div>
                                                 :
                                                 <div></div>
                                         }
-
                                     </div>
                                 </form>
                             }
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="card card-profile">
+                                    <div className="card-avatar">
+                                        <a className="content-avatar">
+                                            <div className="img"
+                                                 style={{
+                                                     background: 'url(' + avatar + ') center center / cover',
+                                                     width: '130px',
+                                                     height: '130px'
+                                                 }}
+                                            />
+                                        </a>
+                                    </div>
+                                    <div className="card-content">
+                                        <h6 className="category text-gray">
+                                            {helper.isEmptyInput(roleSelect.role_title) ? 'Đây là chức vụ' : roleSelect.role_title}
+                                        </h6>
+                                        <h4 className="card-title">
+                                            {helper.isEmptyInput(name) ? 'Đây là tên' : name}</h4>
+                                        <p className="description"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div className="card-header card-header-icon" data-background-color="rose">
+                                        <i className="material-icons">contacts</i>
+                                    </div>
+                                    <div className="card-content">
+                                        <h4 className="card-title">Màu</h4>
+
+                                        <TooltipButton text="Màu"
+                                                       placement="top"
+                                        >
+                                            <button className="btn btn-sm"
+                                                    style={{
+                                                        backgroundColor: '#' + color,
+                                                        inlineSize: "-webkit-fill-available",
+                                                        height: "20px"
+                                                    }}>
+                                                <div className="ripple-container"/>
+                                            </button>
+                                        </TooltipButton>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -164,7 +212,7 @@ class InfoStaffComponent extends React.Component {
     }
 }
 
-InfoStaffComponent.propTypes = {
+AddStaffComponent.propTypes = {
     staffForm: PropTypes.object.isRequired,
     updateFormData: PropTypes.func.isRequired,
     changeColor: PropTypes.func.isRequired,
@@ -182,4 +230,4 @@ InfoStaffComponent.propTypes = {
     type: PropTypes.string.isRequired,
 };
 
-export default InfoStaffComponent;
+export default AddStaffComponent;
