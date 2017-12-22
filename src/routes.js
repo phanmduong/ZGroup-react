@@ -96,6 +96,7 @@ import ListLessonContainer from "./modules/attendance/ListLessonContainer";
 import RoomsContainer from "./modules/rooms/RoomsContainer";
 import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
 import ManageDepartmentContainer from "./modules/manageDepartment/ManageDepartmentContainer";
+import InfoStaffContainer from "./modules/manageStaff/InfoStaffContainer";
 
 export default (
     <Route>
@@ -108,6 +109,7 @@ export default (
             <Route path="manage/quan-li-nhan-su" component={ManageStaffsContainer}/>
             <Route path="add-staff" component={AddStaffContainer} type="create"/>
             <Route path="staff/:staffId/edit" component={AddStaffContainer} type="edit"/>
+            <Route path="staff/:staffId/info" component={InfoStaffContainer}/>
 
             {/*Begin Role route*/}
             <Route path="manage-role" component={ManageRoleContainer}/>

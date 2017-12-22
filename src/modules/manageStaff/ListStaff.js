@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import {NO_AVATAR} from '../../constants/env';
+import {Link} from 'react-router';
 
 let self;
 
@@ -51,7 +52,7 @@ class ListStaff extends React.Component {
                                                      }}
                                                 />
                                             </td>
-                                            <td>{staff.name}</td>
+                                            <td><Link to={`staff/${staff.id}/info`}>{staff.name}</Link></td>
                                             <td>{staff.email}</td>
                                             <td>{staff.phone}</td>
                                             <td>
