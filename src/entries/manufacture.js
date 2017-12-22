@@ -1,5 +1,5 @@
 import React from "react";
-import renderRoutes from '../routes/RoutesRenderer';
+import renderRoutes from '../routes/renderer/RouteRenderer';
 import ManufactureRoute from '../routes/ManufactureRoute';
 
 import '../../node_modules/toastr/build/toastr.min.css';

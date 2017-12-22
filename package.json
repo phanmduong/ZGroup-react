@@ -10,7 +10,6 @@
     "remove-demo": "babel-node tools/removeDemo.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message",
-
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "esw webpack.config.* src tools --color",
@@ -19,21 +18,25 @@
     "remove-dist": "rimraf ./dist",
     "prebuild": "npm run clean-dist && npm run lint && npm run test",
 
-
-
     "start": "npm-run-all --parallel open:src lint:watch",
 
     "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
-    "build:email": "rimraf ./dist/manage/email && mkdir dist/manage/email && MODULE=email babel-node tools/build/module.js",
+    "build:email": "npm run lint && rimraf ./dist/manage/email && mkdir dist/manage/email && MODULE=email babel-node tools/build/module.js",
 
     "start:teaching": "MODULE=email npm-run-all --parallel open:src lint:watch",
-    "build:teaching": "rimraf ./dist/manage/teaching && mkdir dist/manage/teaching && MODULE=teaching babel-node tools/build/module.js",
+    "build:teaching": "npm run lint && rimraf ./dist/manage/teaching && mkdir dist/manage/teaching && MODULE=teaching babel-node tools/build/module.js",
 
-    "start:manufacture": "MODULE=manufacture npm-run-all --parallel open:src lint:watch",
-    "build:manufacture": "rimraf ./dist/manufacture && mkdir dist/manufacture && MODULE=manufacture babel-node tools/build/module.js",
+    "start:manufacture": "MODULE=email npm-run-all --parallel open:src lint:watch",
+    "build:manufacture": "npm run lint && rimraf ./dist/manage/manufacture && mkdir dist/manage/manufacture && MODULE=manufacture babel-node tools/build/module.js",
+
+    "start:hr": "MODULE=email npm-run-all --parallel open:src lint:watch",
+    "build:hr": "npm run lint && rimraf ./dist/manage/hr && mkdir dist/manage/hr && MODULE=hr babel-node tools/build/module.js",
+
+    "start:good": "MODULE=good npm-run-all --parallel open:src lint:watch",
+    "build:good": "npm run lint && rimraf ./dist/manage/good && mkdir dist/manage/good && MODULE=good babel-node tools/build/module.js",
+
 
     "build": "babel-node tools/build.js && npm run open:dist",
-
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",
     "test:cover": "npm run test -- --coverage ",
@@ -91,6 +94,7 @@
     "babel-preset-env": "1.6.0",
     "babel-preset-react": "6.24.1",
     "babel-preset-react-hmre": "1.1.1",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-1": "6.24.1",
     "browser-sync": "2.18.12",
     "chalk": "2.0.1",

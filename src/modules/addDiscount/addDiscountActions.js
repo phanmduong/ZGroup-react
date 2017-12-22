@@ -24,7 +24,7 @@ export function addDiscount(discount) {
                     dispatch({
                         type: types.ADD_DISCOUNT_SUCCESS,
                     });
-                    browserHistory.push('/discount');
+                    browserHistory.push('/good/discount');
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);
@@ -155,7 +155,7 @@ export function editDiscount(discount ) {
                         type: types.EDIT_DISCOUNT_SUCCESS,
                         discount: res.data.data.coupon,
                     });
-                    browserHistory.push('/discount');
+                    browserHistory.push('/good/discount');
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);

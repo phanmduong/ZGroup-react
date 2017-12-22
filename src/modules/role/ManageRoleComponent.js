@@ -10,7 +10,7 @@ class ManageRoleComponent extends React.Component {
     }
 
     redirectCreateRole() {
-        browserHistory.push('create-role');
+        browserHistory.push('/hr/create-role');
     }
 
     render() {
@@ -29,13 +29,13 @@ class ManageRoleComponent extends React.Component {
                                             </Link>
                                         </li>
                                         <li className="active">
-                                            <Link to="manage-role">
+                                            <Link to="/hr/manage-role">
                                                 Chức vụ
                                                 <div className="ripple-container"/>
                                             </Link>
                                         </li>
                                         <li className="">
-                                            <Link to="manage-department">
+                                            <Link to="/hr/manage-department">
                                                 Bộ phận
                                                 <div className="ripple-container"/>
                                             </Link>

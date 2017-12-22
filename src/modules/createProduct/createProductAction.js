@@ -148,7 +148,7 @@ export function saveProductCreate(product) {
         });
         createProductApi.saveProductApi(product)
             .then(function () {
-                browserHistory.push("/goods/products");
+                browserHistory.push("/good/goods/products");
                 helper.showNotification("Thêm sản phẩm thành công");
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING
@@ -164,7 +164,7 @@ export function saveProductEdit(product) {
         });
         createProductApi.editProductApi(product)
             .then(function () {
-                browserHistory.push("/goods/products");
+                browserHistory.push("/good/goods/products");
                 helper.showNotification("Thêm sản phẩm thành công");
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING

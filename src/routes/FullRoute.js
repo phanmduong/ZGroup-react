@@ -2,7 +2,7 @@ import React from 'react';
 // import coursesCreateEditInterested from "../modules/courses/coursesForm/coursesCreateEditInterested";
 // import ArchiveProjectListContainer from "../modules/tasks/project/ArchiveProjectListContainer";
 // import ScheduleClassContainer from "../modules/scheduleClass/ScheduleClassContainer";
-import CategoriesContainer from "../modules/categories/CategoriesContainer";
+// import CategoriesContainer from "../modules/categories/CategoriesContainer";
 // import EmailSubscribersListContainer from "../modules/emailSubscribersList/EmailSubscribersListContainer";
 // import CoursesContainer from "../modules/courses/CoursesContainer";
 // import ProjectListContainer from "../modules/tasks/project/ProjectListContainer";
@@ -11,7 +11,7 @@ import MarketingCampaignContainer from "../modules/marketingCampaign/MarketingCa
 import RegistersClassContainer from "../modules/classes/class/registers/RegistersContainer";
 import ProfileContainer from "../modules/profile/ProfileContainer";
 // import ProcessListContainer from "../modules/book/ProcessListContainer";
-import InfoCustomerContainer from "../modules/customer/InfoCustomerContainer";
+// import InfoCustomerContainer from "../modules/customer/InfoCustomerContainer";
 // import CalendarContainer from "../modules/tasks/calendar/CalendarContainer";
 // import BasesContainer from "../modules/bases/BasesContainer";
 // import ListLessonContainer from "../modules/attendance/ListLessonContainer";
@@ -23,14 +23,14 @@ import InfoStudentContainer from "../modules/infoStudent/InfoStudentContainer";
 // import coursesCreateEditStudying from "../modules/courses/coursesForm/coursesCreateEditStudying";
 // import ManageStaffsContainer from "../modules/manageStaff/ManageStaffsContainer";
 // import CreateRoleContainer from "../modules/role/CreateRoleContainer";
-import WareHouseContainer from "../modules/wareHouse/WareHouseContainer";
+// import WareHouseContainer from "../modules/wareHouse/WareHouseContainer";
 // import EmailFormsContainer from "../modules/emailForms/EmailFormsContainer";
 // import coursesCreateEditDocuments from "../modules/courses/coursesForm/coursesCreateEditDocuments";
 import SupplierContainer from "../modules/supplier/SupplierContainer";
 // import RoomsContainer from "../modules/rooms/RoomsContainer";
 // import TeachersExcelContainer from "../modules/excel/TeachersExcelContainer";
-import OrderContainer from "../modules/goodOrders/order/OrderContainer";
-import AddDiscountContainer from "../modules/addDiscount/AddDiscountContainer";
+// import OrderContainer from "../modules/goodOrders/order/OrderContainer";
+// import AddDiscountContainer from "../modules/addDiscount/AddDiscountContainer";
 import SummaryMarketingCampaignContainer from "../modules/summaryMarketingCampaign/SummaryMarketingCampaignContainer";
 // import EmailCampaignsContainer from "../modules/emailCampaigns/EmailCampaignsContainer";
 // import GoodDetailContainer from "../modules/good/GoodDetailContainer";
@@ -41,7 +41,7 @@ import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCal
 // import CreateProjectContainer from "../modules/tasks/project/CreateProjectContainer";
 // import RegisterListContainer from "../modules/registerStudents/RegisterListContainer";
 // import coursesCreateEditGeneral from "../modules/courses/coursesForm/coursesCreateEditGeneral";
-import CustomerContainer from "../modules/customer/CustomerContainer";
+// import CustomerContainer from "../modules/customer/CustomerContainer";
 import HistoryCollectMoneyContainer from "../modules/historyCollectMoney/HistoryCollectMoneyContainer";
 // import CreateBaseContainer from "../modules/bases/CreateBaseContainer";
 import HistoryTeachingContainer from "../modules/classes/class/historyTeaching/HistoryTeachingContainer";
@@ -51,33 +51,33 @@ import AppContainer from "../containers/AppContainer";
 // import EmailTemplatesContainer from "../modules/emailTemplates/EmailTemplatesContainer";
 import EditProfileContainer from "../modules/profile/EditProfileContainer";
 // import BarcodesContainer from "../modules/book/barcode/BarcodesContainer";
-import ProductListContainer from "../modules/productList/ProductListContainer";
-import GroupCustomerContainer from "../modules/groupCustomer/GroupCustomerContainer";
+// import ProductListContainer from "../modules/productList/ProductListContainer";
+// import GroupCustomerContainer from "../modules/groupCustomer/GroupCustomerContainer";
 import SummarySalesContainer from "../modules/summarySales/SummarySalesContainer";
-import CreateProductContainer from "../modules/createProduct/CreateProductContainer";
-import ProductSystemContainer from "../modules/createProduct/ProductSystemContainer";
+// import CreateProductContainer from "../modules/createProduct/CreateProductContainer";
+// import ProductSystemContainer from "../modules/createProduct/ProductSystemContainer";
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
 // import BookBoardListContainer from "../modules/book/BookBoardListContainer";
 import ShiftRegistersContainer from "../modules/shiftRegisters/ShiftRegistersContainer";
 // import CreateGoodContainer from "../modules/good/CreateGoodContainer";
 import InfoClassContainer from "../modules/classes/class/info/InfoClassContainer";
 // import PostsContainer from "../modules/blog/PostsContainer";
-import InventoryGoodContainer from "../modules/inventoryGood/InventoryGoodContainer";
-import DiscountContainer from "../modules/discount/DiscountContainer";
+// import InventoryGoodContainer from "../modules/inventoryGood/InventoryGoodContainer";
+// import DiscountContainer from "../modules/discount/DiscountContainer";
 // import CreateEmailFormContainer from "../modules/emailForms/CreateEmailFormContainer";
 import StatisticSales from "../modules/summarySales/StatisticSales";
 // import StudySessionContainer from "../modules/studySession/StudySessionContainer";
 // import CreateEditCoursesContainer from "../modules/courses/coursesForm/CoursesCreateEditContainer";
 import RegistersContainer from "../modules/infoStudent/registers/RegistersContainer";
 // import coursesCreateEditCurriculum from "../modules/courses/coursesForm/coursesCreateEditCurriculum";
-import StoreImportContainer from "../modules/importGoods/importGood/StoreImportContainer";
+// import StoreImportContainer from "../modules/importGoods/importGood/StoreImportContainer";
 // import EditRoleContainer from "../modules/role/EditRoleContainer";
 // import TaskListTemplateContainer from "../modules/good/TaskListTemplateContainer";
-import ImportGoodsContainer from "../modules/importGoods/ImportGoodsContainer";
+// import ImportGoodsContainer from "../modules/importGoods/ImportGoodsContainer";
 // import BoardListContainer from "../modules/tasks/board/BoardListContainer";
 import CareContainer from "../modules/infoStudent/care/CareContainer";
-import ImportContainer from "../modules/importGoods/importGood/ImportContainer";
-import ProductWebsiteContainer from "../modules/createProduct/ProductWebsiteContainer";
+// import ImportContainer from "../modules/importGoods/importGood/ImportContainer";
+// import ProductWebsiteContainer from "../modules/createProduct/ProductWebsiteContainer";
 // import CreateEmailTemplateContainer from "../modules/emailTemplates/CreateEmailTemplateContainer";
 // import AttendanceContainer from "../modules/attendance/AttendanceContainer";
 // import AddStaffContainer from "../modules/manageStaff/AddStaffContainer";
@@ -91,7 +91,7 @@ import CareClassContainer from "../modules/classes/class/care/CareContainer";
 // import GoodListContainer from "../modules/good/GoodListContainer";
 import ClassContainer from "../modules/classes/class/ClassContainer";
 // import LessonsContainer from "../modules/lessons/LessonsContainer";
-import OrdersContainer from "../modules/goodOrders/OrdersContainer";
+// import OrdersContainer from "../modules/goodOrders/OrdersContainer";
 import {IndexRoute, Route} from "react-router";
 
 export default (
@@ -269,38 +269,38 @@ export default (
         l
 
         {/*Begin categories routes */}
-        <Route path="/goods/categories" component={CategoriesContainer}/>
+        {/*<Route path="/goods/categories" component={CategoriesContainer}/>*/}
         {/*End categories routes */}
 
 
         {/*Begin good order routes */}
-        <Route path="/goods/orders" component={OrdersContainer}/>
-        <Route path="/goods/order/:orderId" component={OrderContainer}/>
+        {/*<Route path="/goods/orders" component={OrdersContainer}/>*/}
+        {/*<Route path="/goods/order/:orderId" component={OrderContainer}/>*/}
         {/*End good order routes */}
 
         {/*Begin product-list routes */}
-        <Route path="/goods/products" component={ProductListContainer}/>
+        {/*<Route path="/goods/products" component={ProductListContainer}/>*/}
         {/*End product-list routes*/}
 
         {/*Begin inventory-good routes*/}
-        <Route path="/goods/inventories" components={InventoryGoodContainer}/>
+        {/*<Route path="/goods/inventories" components={InventoryGoodContainer}/>*/}
         {/*End inventory-good routes*/}
 
         {/*Begin import goods routes */}
-        <Route path="/import-goods" component={ImportGoodsContainer}/>
-        <Route path="/import-good/create" component={StoreImportContainer} type="create"/>
-        <Route path="/import-good/:importGoodId/edit" component={StoreImportContainer} type="edit"/>
-        <Route path="/import-good/:importGoodId" component={ImportContainer}/>
+        {/*<Route path="/import-goods" component={ImportGoodsContainer}/>*/}
+        {/*<Route path="/import-good/create" component={StoreImportContainer} type="create"/>*/}
+        {/*<Route path="/import-good/:importGoodId/edit" component={StoreImportContainer} type="edit"/>*/}
+        {/*<Route path="/import-good/:importGoodId" component={ImportContainer}/>*/}
         {/*End import goods routes*/}
 
         {/*Begin warehouse routes */}
-        <Route path="/goods/warehouses" component={WareHouseContainer}/>
+        {/*<Route path="/goods/warehouses" component={WareHouseContainer}/>*/}
         {/*End warehouse routes*/}
 
         {/*Begin customer routes */}
-        <Route path="/goods/customer" component={CustomerContainer}/>
-        <Route path="/goods/customer/info-customer/:customerId" component={InfoCustomerContainer}/>
-        <Route path="/goods/group-customer" component={GroupCustomerContainer}/>
+        {/*<Route path="/goods/customer" component={CustomerContainer}/>*/}
+        {/*<Route path="/goods/customer/info-customer/:customerId" component={InfoCustomerContainer}/>*/}
+        {/*<Route path="/goods/group-customer" component={GroupCustomerContainer}/>*/}
         {/*End customer routes*/}
 
 
@@ -315,9 +315,9 @@ export default (
         {/*End supplier routes*/}
 
         {/*Begin discount routes */}
-        <Route path="/discount/add" component={AddDiscountContainer}/>
-        <Route path="/discount" component={DiscountContainer}/>
-        <Route path="/discount/edit/:discountId" component={AddDiscountContainer}/>
+        {/*<Route path="/discount/add" component={AddDiscountContainer}/>*/}
+        {/*<Route path="/discount" component={DiscountContainer}/>*/}
+        {/*<Route path="/discount/edit/:discountId" component={AddDiscountContainer}/>*/}
         {/*End discount routes*/}
 
         {/*Begin sales routes */}
@@ -329,17 +329,17 @@ export default (
 
 
         {/*Begin create-product routes */}
-        <Route path="/create-product" component={CreateProductContainer} type="create">
-            <IndexRoute component={ProductSystemContainer}/>
-            <Route path="website-display" component={ProductWebsiteContainer}/>
-        </Route>
+        {/*<Route path="/create-product" component={CreateProductContainer} type="create">*/}
+            {/*<IndexRoute component={ProductSystemContainer}/>*/}
+            {/*<Route path="website-display" component={ProductWebsiteContainer}/>*/}
+        {/*</Route>*/}
         {/*End create-product routes*/}
 
         {/*Begin edit-product routes */}
-        <Route path="/product/:productId/edit" component={CreateProductContainer} type="edit">
-            <IndexRoute component={ProductSystemContainer}/>
-            <Route path="website-display" component={ProductWebsiteContainer}/>
-        </Route>
+        {/*<Route path="/product/:productId/edit" component={CreateProductContainer} type="edit">*/}
+            {/*<IndexRoute component={ProductSystemContainer}/>*/}
+            {/*<Route path="website-display" component={ProductWebsiteContainer}/>*/}
+        {/*</Route>*/}
         {/*End edit-product routes*/}
 
         {/*Begin edit-product routes */}

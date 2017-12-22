@@ -127,7 +127,7 @@ class SupplierContainer extends React.Component {
                                         <div className="nav-tabs-wrapper">
                                             <ul className="nav nav-tabs" data-tabs="tabs">
                                                 <li className="">
-                                                    <Link to="goods/customer">
+                                                    <Link to="/good/goods/customer">
                                                         Khách hàng
                                                         <div className="ripple-container"/>
                                                     </Link>
@@ -139,7 +139,7 @@ class SupplierContainer extends React.Component {
                                                     </Link>
                                                 </li>
                                                 <li className="">
-                                                    <Link to="goods/group-customer">
+                                                    <Link to="/good/goods/group-customer">
                                                         Nhóm khách hàng
                                                         <div className="ripple-container"/>
                                                     </Link>
