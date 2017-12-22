@@ -9,7 +9,7 @@ import React from 'react';
 // import MarketingCampaignContainer from "../modules/marketingCampaign/MarketingCampaignContainer";
 // import ClassesContainer from "../modules/classes/ClassesContainer";
 import RegistersClassContainer from "../modules/classes/class/registers/RegistersContainer";
-import ProfileContainer from "../modules/profile/ProfileContainer";
+// import ProfileContainer from "../modules/profile/ProfileContainer";
 // import ProcessListContainer from "../modules/book/ProcessListContainer";
 // import InfoCustomerContainer from "../modules/customer/InfoCustomerContainer";
 // import CalendarContainer from "../modules/tasks/calendar/CalendarContainer";
@@ -49,7 +49,7 @@ import HistoryTeachingContainer from "../modules/classes/class/historyTeaching/H
 import ProgressClassContainer from "../modules/classes/class/progress/ProgressContainer";
 import AppContainer from "../containers/AppContainer";
 // import EmailTemplatesContainer from "../modules/emailTemplates/EmailTemplatesContainer";
-import EditProfileContainer from "../modules/profile/EditProfileContainer";
+// import EditProfileContainer from "../modules/profile/EditProfileContainer";
 // import BarcodesContainer from "../modules/book/barcode/BarcodesContainer";
 // import ProductListContainer from "../modules/productList/ProductListContainer";
 // import GroupCustomerContainer from "../modules/groupCustomer/GroupCustomerContainer";
@@ -148,9 +148,9 @@ export default (
         {/*<Route path="/registerlist/:campaignId/:genId" component={RegisterListContainer}/>*/}
         {/*End register student routes*/}
 
-        {/*Begin register student routes*/}
-        <Route path="/my-profile" component={ProfileContainer}/>
-        <Route path="/edit-profile" component={EditProfileContainer}/>
+        {/*/!*Begin register student routes*!/*/}
+        {/*<Route path="/my-profile" component={ProfileContainer}/>*/}
+        {/*<Route path="/edit-profile" component={EditProfileContainer}/>*/}
         {/*End register student routes*/}
 
         {/*Begin study session routes*/}

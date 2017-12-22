@@ -53,6 +53,10 @@
     "build:good": "npm run lint && rimraf ./dist/manage/good && mkdir dist/manage/good && MODULE=good babel-node tools/build/module.js",
 
 
+    "start:profile": "MODULE=profile npm-run-all --parallel open:src lint:watch",
+    "build:profile": "npm run lint && rimraf ./dist/manage/profile && mkdir dist/manage/profile && MODULE=profile babel-node tools/build/module.js",
+
+
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",
