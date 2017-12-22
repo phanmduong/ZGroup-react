@@ -30,4 +30,14 @@ class ClientController extends Controller
         return view("client.base");
     }
 
+    public function hr()
+    {
+        return view("client.hr");
+    }
+
+    public function good()
+    {
+        return view("client.good");
+    }
+
 }
