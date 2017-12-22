@@ -2,7 +2,7 @@
 
 Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'order', 'namespace' => 'Modules\Order\Http\Controllers'], function () {
     Route::get('/all-orders', 'OrderController@allOrders');
-    Route::put('/{order_id}/edit', 'OrderController@editOrder');
+    Route::put('/{order_id}', 'OrderController@editOrder');
     Route::get('/{order_id}', 'OrderController@detailedOrder');
     Route::put('/change-status-order', 'OrderController@changeStatus');
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
