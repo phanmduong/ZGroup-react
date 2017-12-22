@@ -32,7 +32,7 @@ class AddStaffFirstLoginComponent extends React.Component {
             <div>
                 <Modal
                     bsSize="large"
-                    show={true}
+                    show={false}
                 >
 
 
