@@ -2,7 +2,6 @@
 
 namespace Modules\Good\Entities;
 
-use App\Good;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
