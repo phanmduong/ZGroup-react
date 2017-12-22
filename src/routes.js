@@ -98,6 +98,7 @@ import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
 import ManageDepartmentContainer from "./modules/manageDepartment/ManageDepartmentContainer";
 import InfoStaffContainer from "./modules/manageStaff/InfoStaffContainer";
 import JobAssignmentContainer from "./modules/jobAssignment/JobAssignmentContainer";
+import CreateJobAssignmentContainer from "./modules/jobAssignment/CreateJobAssignmentContainer";
 
 export default (
     <Route>
@@ -367,6 +368,7 @@ export default (
 
             {/*Begin JobAssignment route*/}
                 <Route path="job-assignment" component={JobAssignmentContainer}/>
+                <Route path="job-assignment/create" component={CreateJobAssignmentContainer} type="create"/>
             {/*End JobAssignment route*/}
 
         </Route>
