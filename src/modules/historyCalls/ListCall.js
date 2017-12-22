@@ -31,7 +31,7 @@ class ListCall extends React.Component {
                                 <td>
                                     <Link className="btn btn-xs btn-main"
                                           style={{backgroundColor: '#' + call.caller.color}}
-                                          to={"/manage/telesalehistory/" + call.caller.id}
+                                          to={"/marketing/telesalehistory/" + call.caller.id}
                                     >
                                         {helper.getShortName(call.caller.name)}
                                         <div className="ripple-container"/>
