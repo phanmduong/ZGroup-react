@@ -37,7 +37,7 @@ class ClientController extends Controller
 
     public function blog()
     {
-        return view("client.work");
+        return view("client.blog");
     }
 
 }
