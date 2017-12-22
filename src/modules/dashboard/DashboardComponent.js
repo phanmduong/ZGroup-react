@@ -155,7 +155,7 @@ class DashboardComponent extends React.Component {
                                             sách đăng kí</Link>
                                         }
 
-                                        <Link to="/my-profile" className="btn btn-rose btn-round">Trang cá nhân</Link>
+                                        <Link to="/profile/my-profile" className="btn btn-rose btn-round">Trang cá nhân</Link>
                                     </div>
                                 </div>
                             </div>
