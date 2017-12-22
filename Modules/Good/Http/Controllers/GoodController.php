@@ -447,14 +447,17 @@ class GoodController extends ManageApiController
                 "goods" => $goods->map(function ($good) {
                     $goods_count = Good::where('code', $good->code)->count();
                     $data = $good->transform();
+                    $price = [PHP_INT_MAX, -1];
                     if ($goods_count > 1) {
                         $children = Good::where('code', $good->code)->get();
                         unset($data['properties']);
-                        $data['children'] = $children->map(function ($child) {
+                        $data['children'] = $children->map(function ($child) use(&$price)  {
                             $warehouses_count = ImportedGoods::where('good_id', $child->id)
                                 ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
                             $import_price = ImportedGoods::where('good_id', $child->id)->orderBy('created_at', 'desc')->first();
                             $import_price = $import_price ? $import_price->import_price : 0;
+                            $price[0] = min($price[0], $child->price);
+                            $price[1] = max($price[1], $child->price);
                             return [
                                 'id' => $child->id,
                                 'barcode' => $child->barcode,
@@ -466,6 +469,7 @@ class GoodController extends ManageApiController
                                 }),
                             ];
                         });
+                        $data['price'] = $price;
                     }
                     $import_price = ImportedGoods::where('good_id', $good->id)->orderBy('created_at', 'desc')->first();
                     $import_price = $import_price ? $import_price->import_price : 0;

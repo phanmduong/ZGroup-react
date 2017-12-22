@@ -8,8 +8,8 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::post('/pay-order/{orderId}', 'OrderController@payOrder');
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
-    Route::put('/{order_id}/good/export/{warehouseId}', 'OrderController@exportOrder');
-    Route::put('/{order_id}/good/import/{warehouseId}', 'OrderController@importOrder');
+    Route::put('/{orderId}/good/export/{warehouseId}', 'OrderController@exportOrder');
+    Route::put('/{orderId}/good/import/{warehouseId}', 'OrderController@importOrder');
 
 
     Route::get('/all-customers', 'CustomerController@allCustomers');
