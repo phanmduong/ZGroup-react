@@ -970,7 +970,7 @@ export function childrenBeginAddChild(properties, price) {
             value.forEach(val => {
                 children.push({
                     id: null,
-                    child_images_url: [],
+                    child_images_url: '[]',
                     check: false,
                     price: price,
                     barcode: '',

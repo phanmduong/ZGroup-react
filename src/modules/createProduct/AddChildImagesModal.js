@@ -17,23 +17,23 @@ class AddChildImagesModal extends React.Component {
     handleImages(e) {
         const fileList = e.target.files;
         const files = Array.from(fileList);
-        const first_length = this.props.children[this.props.child_index].child_images_url.length;
+        const first_length = JSON.parse(this.props.children[this.props.child_index].child_images_url).length;
         files.map((file) => this.props.createProductAction.changeChildImageModal(file, files.length, first_length, this.props.child_index));
     }
 
     deleteImage(image) {
         let children = [...this.props.children];
         let child = {...children[this.props.child_index]};
-        let child_images_url = child.child_images_url.filter(img => img !== image);
+        let child_images_url = JSON.parse(child.child_images_url).filter(img => img !== image);
         children[this.props.child_index] = {
             ...children[this.props.child_index],
-            child_images_url: child_images_url
+            child_images_url: JSON.stringify(child_images_url)
         };
         this.props.createProductAction.handleChildrenCreateProduct(children);
     }
 
     render() {
-        const child = this.props.children[this.props.child_index];
+        const child = this.props.children && this.props.children[this.props.child_index];
         return (
             <Modal show={this.props.childImagesModal}
                    onHide={() => this.props.createProductAction.showAddChildImagesModal(0)}>
@@ -45,7 +45,7 @@ class AddChildImagesModal extends React.Component {
                 <Modal.Body>
                     <div className="card-content">
                         {
-                            (!child || !child.child_images_url || child.child_images_url.length === 0) && !this.props.isUploadingImage ? (
+                            (!child || !child.child_images_url || JSON.parse(child.child_images_url).length === 0) && !this.props.isUploadingImage ? (
                                 <div style={{
                                     maxWidth: "250px",
                                     lineHeight: "250px",
@@ -74,7 +74,7 @@ class AddChildImagesModal extends React.Component {
                             ) : (
                                 <div className="row">
                                     {
-                                        child.child_images_url && child.child_images_url.map((image, index) => {
+                                        child && child.child_images_url && JSON.parse(child.child_images_url).map((image, index) => {
                                             return (
                                                 <div key={index} className="col-md-2">
                                                     <div className="container-for-images">
@@ -128,7 +128,6 @@ class AddChildImagesModal extends React.Component {
                                 <Loading/>
                             ) : (
                                 <UploadButton
-
                                     className="btn btn-rose btn-xs btn-round text-center"
                                     onChange={this.handleImages}>
                                     Thêm ảnh mô tả

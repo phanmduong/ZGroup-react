@@ -5,13 +5,9 @@ import {Link, IndexLink} from 'react-router';
 import {bindActionCreators} from 'redux';
 import * as createProductAction from './createProductAction';
 import GlobalLoadingContainer from "../globalLoading/GlobalLoadingContainer";
-import Select from 'react-select';
-import {Button} from "react-bootstrap";
 import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
-import CheckBoxMaterial from "../../components/common/CheckBoxMaterial";
-import PropertyReactSelectValue from "./PropertyReactSelectValue";
-import AddChildImagesModal from "./AddChildImagesModal";
+import ChildrenProperties from "./ChildrenProperties";
 
 class CreateProductContainer extends React.Component {
     constructor(props, context) {
@@ -31,6 +27,7 @@ class CreateProductContainer extends React.Component {
         this.checkElementNotInArray = this.checkElementNotInArray.bind(this);
         this.deleteProperties = this.deleteProperties.bind(this);
         this.checkChildProduct = this.checkChildProduct.bind(this);
+        this.updateFormData = this.updateFormData.bind(this);
     }
 
     componentWillMount() {
@@ -270,172 +267,21 @@ class CreateProductContainer extends React.Component {
                                         this.props.isLoading ? (
                                             <Loading/>
                                         ) : (
-                                            <div>
-                                                <div className="card-header card-header-icon"
-                                                     data-background-color="rose"
-                                                     style={{zIndex: 0}}>
-                                                    <i className="material-icons">assignment</i>
-                                                </div>
-                                                <div className="card-content"><h4 className="card-title">Danh sách thuộc
-                                                    tính</h4>
-                                                    <table className="table">
-                                                        <thead>
-                                                        <tr>
-                                                            <th className="col-md-3 label-control">Thuộc tính</th>
-                                                            <th className="col-md-9 label-control">Giá trị</th>
-                                                            <th className="label-control"/>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        {
-                                                            product.property_list && product.property_list.map((property, index) => {
-                                                                return (
-                                                                    <tr key={index}>
-                                                                        <td>
-                                                                            <Select
-                                                                                value={property.property_item_id}
-                                                                                placeholder="Chọn tên thuộc tính"
-                                                                                options={
-                                                                                    this.props.properties_list.map((property) => {
-                                                                                        if (this.checkElementNotInArray(property)) {
-                                                                                            return {
-                                                                                                ...property,
-                                                                                                value: property.id,
-                                                                                                label: property.name
-                                                                                            };
-                                                                                        } else return {
-                                                                                            ...property,
-                                                                                            value: property.id,
-                                                                                            label: property.name,
-                                                                                            disabled: true
-                                                                                        };
-                                                                                    })
-                                                                                }
-                                                                                onChange={this.changePropertySelect(index)}
-                                                                            />
-                                                                        </td>
-                                                                        <td>
-                                                                            <Select.Creatable
-                                                                                multi={true}
-                                                                                placeholder="Nhập giá trị thuộc tính"
-                                                                                options={[]}
-                                                                                onChange={this.valueSelectChange(index)}
-                                                                                value={property.value}
-                                                                                valueComponent={PropertyReactSelectValue}
-                                                                            />
-                                                                        </td>
-                                                                        <td>
-                                                                            {
-                                                                                (product.property_list && product.property_list.length > 1) && this.state.type === "create" ? (
-                                                                                    <a style={{color: "#878787"}}
-                                                                                       data-toggle="tooltip" title=""
-                                                                                       type="button" rel="tooltip"
-                                                                                       data-original-title="Xoá"
-                                                                                       onClick={() => this.deleteProperties(property.property_item_id, index)}><i
-                                                                                        className="material-icons">delete</i></a>
-                                                                                ) : (<div/>)
-                                                                            }
-                                                                        </td>
-                                                                    </tr>
-                                                                );
-                                                            })
-                                                        }
-                                                        </tbody>
-                                                    </table>
-                                                    <div>
-                                                        {
-                                                            ((product.property_list && product.property_list.length < this.props.properties_list.length)
-                                                                || !product.property_list ) && this.state.type === "create" ? (
-                                                                <Button onClick={() => this.addProperties()}
-                                                                        style={{width: "100%"}}
-                                                                        className="btn btn-simple btn-rose">
-                                                                    <i className="material-icons">add</i> Thêm thuộc
-                                                                    tính
-                                                                </Button>
-                                                            ) : (<div/>)
-                                                        }
-                                                    </div>
-                                                    <div className="col-md-12"
-                                                         style={{zIndex: 0}}>
-                                                        <CheckBoxMaterial
-                                                            name="sale_status"
-                                                            checked={this.props.goods_count_check}
-                                                            onChange={this.props.createProductAction.selectGoodCountCheck}
-                                                            label={"Có " + this.props.goods_count + " hàng hóa cùng loại"}/>
-                                                    </div>
-                                                    {
-                                                        (this.props.goods_count_check && this.props.goods_count > 0) ? (
-                                                            <div className="">
-                                                                <table className="table table-hover">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th/>
-                                                                        <th className="col-md-6">Tên</th>
-                                                                        <th className="col-md-2">Mã</th>
-                                                                        <th className="col-md-2">Giá bán</th>
-                                                                        <th className="col-md-2"/>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    {
-                                                                        product.children && product.children.map((child, index) => {
-                                                                            return (
-                                                                                <tr key={index}>
-                                                                                    <td data-original-title="Remove item"
-                                                                                        data-toggle="tooltip"
-                                                                                        rel="tooltip">
-                                                                                        <CheckBoxMaterial
-                                                                                            name="sale_status"
-                                                                                            disabled={child.deletable === false ? (true) : (false)}
-                                                                                            checked={child.check}
-                                                                                            onChange={() => this.checkChildProduct(index)}
-                                                                                            label=""/>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        {
-                                                                                            child.properties.map((pro, index) => {
-                                                                                                return (
-                                                                                                    <a key={index}>
-                                                                                                        {`${pro.value} `}
-                                                                                                    </a>
-                                                                                                );
-                                                                                            })
-                                                                                        }
-                                                                                    </td>
-                                                                                    <td className="form-group">
-                                                                                        <input type="text"
-                                                                                               name="barcode"
-                                                                                               className="form-control"
-                                                                                               value={child.barcode}
-                                                                                               onChange={this.updateFormData(index)}/>
-                                                                                    </td>
-                                                                                    <td className="form-group">
-                                                                                        <input type="text"
-                                                                                               name="price"
-                                                                                               className="form-control"
-                                                                                               placeholder="0"
-                                                                                               value={child.price}
-                                                                                               onChange={this.updateFormData(index)}/>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <Button style={{width: "100%"}}
-                                                                                                className="btn btn-simple btn-rose"
-                                                                                                onClick={() => this.props.createProductAction.showAddChildImagesModal(index)}>
-                                                                                            <i className="material-icons">cloud_upload</i>
-                                                                                            Thêm ảnh
-                                                                                        </Button>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            );
-                                                                        })
-                                                                    }
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        ) : (<div/>)
-                                                    }
-                                                </div>
-                                            </div>
+                                            <ChildrenProperties
+                                                product={product}
+                                                properties_list={this.props.properties_list}
+                                                goods_count_check={this.props.goods_count_check}
+                                                goods_count={this.props.goods_count}
+                                                changePropertySelect={this.changePropertySelect}
+                                                checkElementNotInArray={this.checkElementNotInArray}
+                                                valueSelectChange={this.valueSelectChange}
+                                                deleteProperties={this.deleteProperties}
+                                                addProperties={this.addProperties}
+                                                selectGoodCountCheck={this.props.createProductAction.selectGoodCountCheck}
+                                                checkChildProduct={this.checkChildProduct}
+                                                updateFormData={this.updateFormData}
+                                                showAddChildImagesModal={this.props.createProductAction.showAddChildImagesModal}
+                                                type={this.props.route.type}/>
                                         )
                                     }
                                 </div>
@@ -454,7 +300,6 @@ class CreateProductContainer extends React.Component {
                     )
                 }
                 <GlobalLoadingContainer/>
-                <AddChildImagesModal/>
             </div>
         );
     }

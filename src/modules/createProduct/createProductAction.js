@@ -212,10 +212,7 @@ export function loadProduct(productId) {
         });
         createProductApi.loadProductApi(productId)
             .then((res) => {
-                dispatch({
-                    type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
-                    product: res.data.data.good
-                });
+                let product = {...res.data.data.good};
                 if (res.data.data.good.property_list && res.data.data.good.children) {
                     let property_list = res.data.data.good.property_list.map(property => {
                         return {
@@ -230,21 +227,31 @@ export function loadProduct(productId) {
                         };
                     });
                     let goods_count = res.data.data.good.property_list.reduce((result, property) => property.value.length * result, 1);
-                    dispatch(handlePropertiesCreate(property_list));
-                    dispatch(handleGoodCountCreate(goods_count));
-                    dispatch(handleChildrenCreateProduct(
-                        helper.childrenLoadedEditSuccess(property_list, res.data.data.good.children)
-                    ));
+                    product = {
+                        ...product,
+                        property_list: property_list,
+                        goods_count: goods_count,
+                        children: helper.childrenLoadedEditSuccess(property_list, res.data.data.good.children)
+                    };
+                    dispatch({
+                        type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
+                        product: product
+                    });
                 } else {
-                    dispatch(handlePropertiesCreate([
-                        {
+                    product = {
+                        ...product,
+                        property_list: [{
                             name: 'coool',
                             property_item_id: 3,
                             value: []
-                        }
-                    ]));
-                    dispatch(handleGoodCountCreate(0));
-                    dispatch(handleChildrenCreateProduct([]));
+                        }],
+                        goods_count: 0,
+                        children: []
+                    };
+                    dispatch({
+                        type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
+                        product: product
+                    });
                 }
             });
     };

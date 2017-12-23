@@ -66,12 +66,12 @@ export default function createProductReducer(state = initialState.createProduct,
         }
         case types.UPLOAD_CHILD_IMAGE_COMPLETE_MODAL: {
             let children = [...state.productWorking.children];
-            let child_images_url = [...children[action.index].child_images_url, action.image];
+            let child_images_url = [...JSON.parse(children[action.index].child_images_url), action.image];
             children[action.index] = {
                 ...children[action.index],
-                child_images_url: child_images_url
+                child_images_url: JSON.stringify(child_images_url)
             };
-            if (action.length + action.first_length === state.productWorking.children[action.index].child_images_url.length + 1) {
+            if (action.length + action.first_length === JSON.parse(state.productWorking.children[action.index].child_images_url).length + 1) {
                 return {
                     ...state,
                     isUploadingImage: false,
