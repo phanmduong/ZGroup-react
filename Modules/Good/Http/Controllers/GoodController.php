@@ -343,12 +343,14 @@ class GoodController extends ManageApiController
             unset($data['properties']);
             $data['children'] = $children->map(function ($child) {
                 $deletable = $child->history()->count() > 0;
+                $childImagesUrl = GoodProperty::where('good_id', $child->id)->where('name', 'child_images_url')->first();
                 return [
                     'id' => $child->id,
                     'deletable' => !$deletable,
                     'barcode' => $child->barcode,
                     'price' => $child->price,
                     'check' => true,
+                    'child_images_url' => $childImagesUrl ? $childImagesUrl->value : null,
                     'properties' => $child->properties->map(function ($property) {
                         return $property->transform();
                     }),
