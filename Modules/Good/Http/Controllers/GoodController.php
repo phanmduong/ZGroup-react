@@ -36,6 +36,7 @@ class GoodController extends ManageApiController
         $property->good_id = $goodId;
         $property->editor_id = $this->user->id;
         $property->good_id = $goodId;
+        $property->save();
     }
 
     public function assignGoodInfor(&$good, $request)
@@ -120,7 +121,6 @@ class GoodController extends ManageApiController
         foreach ($properties as $p) {
             $property = new GoodProperty();
             $this->assignPropertyInfor($property, $p->name, $p->value, $good->id);
-            $property->save();
         }
 
         $files = json_decode($request->files_str);
@@ -187,15 +187,14 @@ class GoodController extends ManageApiController
                     $this->assignPropertyInfor($property,
                         $p->property_item_id ? GoodPropertyItem::find($p->property_item_id)->name : $p->name,
                         $p->value, $good->id);
-                    $property->save();
                 }
 
                 $property = new GoodProperty;
                 $this->assignPropertyInfor($property, 'images_url', $images_url, $good->id);
-                $property->save();
 
                 $child_images_url = new GoodProperty;
                 $this->assignPropertyInfor($child_images_url, 'child_images_url', $child->child_images_url, $good->id);
+
             }
             return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
         }
@@ -215,12 +214,10 @@ class GoodController extends ManageApiController
                 $this->assignPropertyInfor($property,
                     $p->property_item_id ? GoodPropertyItem::find($p->property_item_id)->name : $p->name,
                     $p->value, $good->id);
-                $property->save();
             }
 
         $property = new GoodProperty;
         $this->assignPropertyInfor($property, 'images_url', $images_url, $good->id);
-        $property->save();
         return $this->respondSuccessWithStatus(["message" => "SUCCESS"]);
     }
 
@@ -260,12 +257,10 @@ class GoodController extends ManageApiController
                     $this->assignPropertyInfor($property,
                         $p->property_item_id ? GoodPropertyItem::find($p->property_item_id)->name : $p->name,
                         $p->value, $good->id);
-                    $property->save();
                 }
 
                 $property = new GoodProperty;
                 $this->assignPropertyInfor($property, 'images_url', $images_url, $good->id);
-                $property->save();
 
                 $child_images_url = new GoodProperty;
                 $this->assignPropertyInfor($child_images_url, 'child_images_url', $child->child_images_url, $good->id);
@@ -294,7 +289,6 @@ class GoodController extends ManageApiController
             $this->assignPropertyInfor($property,
                 $p->property_item_id ? GoodPropertyItem::find($p->property_item_id)->name : $p->name,
                 $p->value, $good->id);
-            $property->save();
         }
         $property = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
         if ($property == null)
