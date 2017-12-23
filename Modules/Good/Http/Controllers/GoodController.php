@@ -370,13 +370,10 @@ class GoodController extends ManageApiController
         if ($task == null) {
             return $this->respondErrorWithStatus("Công việc không tồn tại");
         }
-
         $type = $request->type;
         $propertyItems = $this->goodRepository->getPropertyItems($type, $task);
         $boards = $this->goodRepository->getProjectBoards($type, $task);
         $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
-
-
         return $this->respondSuccessWithStatus([
             "good_property_items" => $propertyItems,
             "boards" => $boards,
@@ -731,7 +728,6 @@ class GoodController extends ManageApiController
             "card" => $card->transform()
         ]);
     }
-
 }
 
 
