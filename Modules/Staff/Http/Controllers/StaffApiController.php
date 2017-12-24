@@ -3,10 +3,12 @@
 namespace Modules\Staff\Http\Controllers;
 
 use App\Http\Controllers\ManageApiController;
+use Illuminate\Http\Request;
 use App\User;
-use Faker\Provider\DateTime;
+use DateTime;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Modules\Staff\Entities\Salary;
 
 class StaffApiController extends ManageApiController
 {
@@ -14,9 +16,13 @@ class StaffApiController extends ManageApiController
      * POST /staff
      * @return Response
      */
-    public function createStaff(Response $request)
+    public function createStaff(Request $request)
     {
+
         $errors = [];
+        if (!$request->name || !$request->email || !$request->phone || !$request->username) {
+            return $this->respondErrorWithStatus("Thiếu thông tin");
+        }
         $user = User::where('email', '=', trim($request->email))->first();
         if ($user) {
             $errors['email'] = "Email đã có người sử dụng";
@@ -42,6 +48,7 @@ class StaffApiController extends ManageApiController
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $username;
+        $user->phone = $request->phone;
         $user->department_id = $request->department_id;
         $user->role = 1;
         $user->role_id = $request->role_id;
@@ -52,6 +59,12 @@ class StaffApiController extends ManageApiController
         }
         $user->password = Hash::make('123456');
         $user->save();
+        $salary = new Salary;
+        $salary->user_id = $user->id;
+        $salary->base = $request->base ? $request->base : 0;
+        $salary->revenue = $request->revenue ? $request->revenue : 0;
+        $salary->allowance = $request->allowance ? $request->allowance : 0;
+        $salary->save();
         return $this->respondSuccessWithStatus([
             "user" => $user
         ]);
