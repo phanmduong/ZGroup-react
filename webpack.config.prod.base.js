@@ -21,7 +21,7 @@ export default (moduleName) => {
         entry: path.resolve(__dirname, 'src/entries', moduleName),
         target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
         output: {
-            path: path.resolve(__dirname, 'dist', 'manage', moduleName),
+            path: path.resolve(__dirname, 'dist', moduleName),
             publicPath: '/',
             filename: '[name].[chunkhash].js'
         },
