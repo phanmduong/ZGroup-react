@@ -91,7 +91,7 @@ export function changeStatusOrder(status, orderId) {
             case "confirm_order":
 
                 break;
-            case "ship_order":
+            case "ship_order":{
                 dispatch({
                     type: types.TOGGLE_SHIP_GOOD_MODAL,
                 });
@@ -104,6 +104,7 @@ export function changeStatusOrder(status, orderId) {
 
                 });
                 break;
+            }
             default:
                 helper.showTypeNotification("Đang thay đổi trạng thái", "info");
                 dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});

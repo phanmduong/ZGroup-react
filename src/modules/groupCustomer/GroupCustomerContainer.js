@@ -21,6 +21,7 @@ class GroupCustomerContainer extends React.Component {
             limit: 6,
             query: '',
             isShowModal: false,
+            idModal : 1,
         };
 
         this.openEditModal = this.openEditModal.bind(this);
@@ -65,6 +66,7 @@ class GroupCustomerContainer extends React.Component {
             description: '',
             stringId: [],
             customers: [],
+            customersShowInModal : [],
         };
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
         this.setState({isShowModal: true , isEdit: false});
@@ -72,7 +74,7 @@ class GroupCustomerContainer extends React.Component {
 
     openEditModal(groupCustomerForm) {
         this.props.groupCustomerActions.updateGroupCustomerFormData(groupCustomerForm);
-        this.setState({isShowModal: true , isEdit: true});
+        this.setState({isShowModal: true , isEdit: true, idModal : groupCustomerForm.id});
     }
 
     closeModal() {
@@ -86,7 +88,7 @@ class GroupCustomerContainer extends React.Component {
             }
             else {
                 if (this.state.isEdit) {
-                    this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm, this.state.page);
+                    this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm, this.state.page,this.closeModal);
                 }
                 else {
                     this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page);
@@ -190,7 +192,6 @@ class GroupCustomerContainer extends React.Component {
                         {/*//      GROUPITEM*/}
 
 
-
                         {this.props.isLoading ? <Loading/> :
                             <div className="row">
                                 {this.props.groupCustomersList.map((groupCustomer) => {
@@ -240,6 +241,7 @@ class GroupCustomerContainer extends React.Component {
                             <form id="form-add-group-customer">
                                 <GroupCustomerModal
                                     isEdit={this.state.isEdit}
+                                    idModal={this.state.idModal}
                                 />
 
 

@@ -3,12 +3,12 @@ import * as groupCustomerApis from './groupCustomerApis';
 import * as helper from '../../helpers/helper';
 
 
-export function loadCustomers(page, limit, query, stringId) {
+export function loadCustomersInOverlay(page, limit, query, stringId) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CUSTOMER_IN_GROUP_CUSTOMER
         });
-        groupCustomerApis.loadCustomersApi(limit, page, query)
+        groupCustomerApis.loadCustomersInOverlayApi(limit, page, query)
             .then((res) => {
                 dispatch({
                     type: types.LOADED_CUSTOMER_SUCCESS_IN_GROUP_CUSTOMER,
@@ -23,6 +23,30 @@ export function loadCustomers(page, limit, query, stringId) {
             .catch(() => {
                 dispatch({
                     type: types.LOADED_CUSTOMER_ERROR_IN_GROUP_CUSTOMER,
+                });
+            });
+    };
+}
+
+export function loadCustomersInModal(page, limit, query, idModal) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_CUSTOMER_IN_MODAL_IN_GROUP_CUSTOMER
+        });
+        groupCustomerApis.loadCustomersInModal(page, limit, query, idModal)
+            .then((res) => {
+                dispatch({
+                    type: types.LOADED_CUSTOMER_IN_MODAL_SUCCESS_IN_GROUP_CUSTOMER,
+                    customers: res.data.customers,
+                    total_pages: res.data.paginator.total_pages,
+                });
+                // stringId.map((id) => {
+                //     dispatch(assignGroupCustomerFormData(id));
+                // }); // loc luon những người có trong stringId
+            })
+            .catch(() => {
+                dispatch({
+                    type: types.LOADED_CUSTOMER_IN_MODAL_ERROR_IN_GROUP_CUSTOMER,
                 });
             });
     };
@@ -69,7 +93,6 @@ export function addGroupCustomer(groupCustomerForm,page) {
                 if (res.data.status) {
                     dispatch({
                         type: types.ADD_GROUP_CUSTOMER_SUCCESS,
-                       // groupCustomer : res.data.data.customer_group, // nên lấy từ api
                     });
                     dispatch(loadGroupCustomer(page,6));
                     helper.showTypeNotification('Đã thêm nhóm ' + groupCustomerForm.name, 'success');
@@ -80,10 +103,13 @@ export function addGroupCustomer(groupCustomerForm,page) {
                     });
                     helper.sweetAlertError(res.data.data.message);
                 }
+            })
+            .catch(() => {
+                helper.sweetAlertError("Thất bại");
             });
     };
 }
-export function editGroupCustomer(groupCustomerForm,page) {
+export function editGroupCustomer(groupCustomerForm,page,closeModal) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_GROUP_CUSTOMER,});
         groupCustomerApis.editGroupCustomerApi(groupCustomerForm)
@@ -95,11 +121,15 @@ export function editGroupCustomer(groupCustomerForm,page) {
                     });
                     helper.showTypeNotification('Đã chỉnh sửa nhóm ' + groupCustomerForm.name, 'success');
                     dispatch(loadGroupCustomer(page,6));
+                    closeModal();
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);
                     dispatch({type: types.EDIT_GROUP_CUSTOMER_ERROR,});
                 }
+            })
+            .catch(() => {
+                helper.sweetAlertError("Thất bại");
             });
     };
 }

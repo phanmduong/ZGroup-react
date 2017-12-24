@@ -1,6 +1,8 @@
 import * as types from '../../constants/actionTypes';
 import * as customerApis from './customerApis';
 import * as helper from '../../helpers/helper';
+import {Link , browserHistory} from 'react-router';
+
 
 export function loadCustomers( page , limit, query,status) {
     return function (dispatch) {
@@ -134,6 +136,7 @@ export function editCustomer(customer ) {
                         type: types.EDIT_CUSTOMER_SUCCESS,
                         customer: res.data.data.user,
                     });
+                    browserHistory.push('/goods/customer');
                 }
                 else {
                     helper.sweetAlertError(res.data.message);
