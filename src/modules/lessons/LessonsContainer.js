@@ -182,7 +182,7 @@ class LessonsContainer extends React.Component {
                                         onClick={this.commitData}
                                         disabled={this.props.isLoading}
                                         > Lưu </button>
-                                        <Link className="btn btn-rose" to={`/manage/courses/edit/${this.props.data.course_id}/curriculum`}
+                                        <Link className="btn btn-rose" to={`/teaching/courses/edit/${this.props.data.course_id}/curriculum`}
                                               disabled={this.props.isLoading}>
                                         Huỷ
                                         </Link>

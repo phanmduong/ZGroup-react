@@ -84,7 +84,7 @@ class DiscountContainer extends React.Component {
                                                 <div>
                                                     <button type="button" className="btn btn-rose"
                                                             onClick={() => {
-                                                                browserHistory.push('/discount/add');
+                                                                browserHistory.push('/good/discount/add');
                                                             }}>
                                                         Thêm khuyến mãi
                                                     </button>

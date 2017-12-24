@@ -47,7 +47,7 @@ class ListForm extends React.Component {
 
                                     </div>
                                 </td>
-                                <td><Link to={"/email-form/" + form.id + "/edit"}>{form.name}</Link></td>
+                                <td><Link to={"/email/email-form/" + form.id + "/edit"}>{form.name}</Link></td>
                                 <td>{form.title}</td>
                                 <td>{form.creator.name}</td>
                                 <td>
@@ -59,7 +59,7 @@ class ListForm extends React.Component {
                                 </td>
                                 <td>
                                     <ButtonGroupAction
-                                        editUrl={"/email-form/" + form.id + "/edit"}
+                                        editUrl={"/email/email-form/" + form.id + "/edit"}
                                         delete={this.props.deleteEmailForm}
                                         object={form}
                                         disabledDelete={!form.can_delete}

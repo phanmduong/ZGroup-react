@@ -29,7 +29,7 @@ class coursesCreateEditCurriculum extends React.Component {
         return (
             <div className="card-content">
 
-                    <Link className="btn btn-rose" to={`/manage/courses/lessons/create/` + id}>
+                    <Link className="btn btn-rose" to={`/teaching/courses/lessons/create/` + id}>
                         Thêm Buổi Học
                     </Link>
 
@@ -54,7 +54,7 @@ class coursesCreateEditCurriculum extends React.Component {
                                               <td>{lesson.description}</td>
                                               <td>{lesson['updated_at']}</td>
                                               <td><ButtonGroupAction
-                                                  editUrl={"/manage/courses/lessons/edit/" + lesson.id}
+                                                  editUrl={"/teaching/courses/lessons/edit/" + lesson.id}
                                                   delete={()=>{return this.deleteLesson(lesson.id);}}
                                                   object={lesson}
                                               />
