@@ -37,10 +37,10 @@ export function loadDetailOrder(orderId) {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_DETAIL_ORDER_SUCCESS,
-                    infoOrder: res.data.data.info_order,
-                    infoUser: res.data.data.info_user,
-                    infoShip: res.data.data.info_ship,
-                    goodOrders: res.data.data.good_orders,
+                    total: res.data.data.total,
+                    paid: res.data.data.paid,
+                    debt: res.data.data.debt,
+                    order: res.data.data.order,
                 });
             }).catch(() => {
             dispatch({
@@ -89,7 +89,6 @@ export function changeStatusOrder(status, orderId) {
         switch (status) {
             case "not_reach":
             case "confirm_order":
-
                 break;
             case "ship_order":{
                 dispatch({
@@ -112,7 +111,7 @@ export function changeStatusOrder(status, orderId) {
                     .then((res) => {
                         helper.showNotification("Thay đổi trạng thái thành công");
                         if (res.data.status === 0) {
-                            showErrorNotification(res.data.message);
+                            showErrorNotification(res.data.message.message);
                         } else {
 
                             dispatch({
@@ -226,11 +225,11 @@ export function sendShipOrder(shippingGood) {
 
 
 
-export function updateOrderFormData(infoOrder) {
+export function updateOrderFormData(order) {
     return function (dispatch) {
         dispatch({
             type: types.UPDATE_ORDER_FORM_DATA,
-            infoOrder: infoOrder,
+            order: order,
         });
     };
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {browserHistory} from 'react-router';
+
 
 class GroupCustomerItem extends React.Component {
     constructor(props, context) {
@@ -18,10 +20,13 @@ class GroupCustomerItem extends React.Component {
                        color: 'rgb(69, 90, 100)',
                        textAlign: 'left'
                    }}
-                   onClick={(e) => {
-                       this.props.openEditModal(groupCustomerForm);
-                       e.stopPropagation();
-                   }}
+                 onClick={(e) => {
+                        this.props.openEditModal(groupCustomerForm);
+                        e.stopPropagation();
+                    }}
+                   // onClick={() => {
+                   //     browserHistory.push('/discount/add');
+                   // }}
                 >
 
 

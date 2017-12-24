@@ -882,13 +882,26 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
-            isSaving : false,
+            isSaving: false,
             isLoading: false,
             error: false,
-            infoOrder: {},
-            infoUser: {},
-            infoShip: {},
-            goodOrders: []
+            total: 1130000,
+            paid: 0,
+            debt: 1130000,
+            order: {
+                code: "ORDER20171203164031",
+                created_at: "16:40 03-12-2017",
+                note: "",
+                payment: "Chuyển khoản",
+                status: "place_order",
+                good_orders: [],
+                customer: {
+                    name: "test",
+                    address: "HN",
+                    phone: "test",
+                    email: "po01636863831@gmail.com"
+                },
+            },
         },
         staffs: [],
         allStaffs: [],
@@ -1248,7 +1261,7 @@ export default {
             description: '',
             stringId: [],
             customers: [],                         // tat ca cac customer trong mot group
-            customersShowInModal : [],              // cac customer show ra bang trong mot group
+            customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
         },
         groupCustomersList: [],

@@ -37,7 +37,6 @@ export function loadStaffs() {
     if (token) {
         url += "?token=" + token;
     }
-
     return axios.get(url);
 }
 
@@ -70,28 +69,17 @@ export function sendShipOrder(shippingGood) {
 }
 
 export function editOrderApi(order, orderId) {
-    let url = env.MANAGE_API_URL + '/order/' + orderId + '/edit';
+    let url = env.MANAGE_API_URL + '/order/' + orderId ;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    let data =  {
-        info_order: {
-            code: order.infoOrder.code,
-            created_at: order.infoOrder.created_at,
-            // staff:
-            //     {
-            //         id: 1
-            //         name: haha
-            //     },
-            note: order.infoOrder.note,
+    console.log(order.order.code, order.order.note,'API');
+    return axios.put(url,
+        {
+            'note' : order.order.note,
+            'code' : order.order.code,
+            'status' : order.order.status,
         }
-        ,
-        info_user: {
-            id: order.infoUser.id,
-            name: order.infoUser.name,
-            email: order.infoUser.email,
-        }
-    }
-    return axios.put(url,JSON.stringify(data));
+        );
 }

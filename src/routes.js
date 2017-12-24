@@ -97,6 +97,7 @@ import RoomsContainer from "./modules/rooms/RoomsContainer";
 import TeachersExcelContainer from "./modules/excel/TeachersExcelContainer";
 import ManageDepartmentContainer from "./modules/manageDepartment/ManageDepartmentContainer";
 import GroupCustomerContainer from "./modules/groupCustomer/GroupCustomerContainer";
+import DetailGroupCustomerContainer from "./modules/groupCustomer/DetailGroupCustomerContainer";
 
 
 export default (
@@ -307,6 +308,7 @@ export default (
             <Route path="/goods/customer" component={CustomerContainer}/>
             <Route path="/goods/customer/info-customer/:customerId" component={InfoCustomerContainer}/>
             <Route path="/goods/group-customer" component={GroupCustomerContainer}/>
+            <Route path="/goods/group-customer/:groupId" component={DetailGroupCustomerContainer}/>
             {/*End customer routes*/}
 
 

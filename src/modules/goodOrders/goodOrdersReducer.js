@@ -69,10 +69,10 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     ...state.order,
                     isLoading: false,
                     error: false,
-                    infoOrder: action.infoOrder,
-                    infoUser: action.infoUser,
-                    infoShip: action.infoShip,
-                    goodOrders: action.goodOrders,
+                    total: action.total,
+                    paid: action.paid,
+                    debt: action.debt,
+                    order: action.order,
                 }
             };
         case types.LOAD_DETAIL_ORDER_ERROR:
@@ -117,8 +117,8 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 orders: changeStatusOrder(state.orders, action.order_id, action.status),
                 order: {
                     ...state.order,
-                    infoOrder: {
-                        ...state.order.infoOrder,
+                    order: {
+                        ...state.order.order,
                         status: action.status
                     }
                 }
@@ -190,7 +190,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 order: {
                     ...state.order,
-                    infoOrder: action.infoOrder,
+                    order: action.order,
                 }
             };
 

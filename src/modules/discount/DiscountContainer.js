@@ -34,7 +34,7 @@ class DiscountContainer extends React.Component {
 
     loadDiscounts(page) {
         this.setState({page: page});
-        this.props.discountActions.loadDiscounts(this.state.page, this.state.limit, this.state.query);
+        this.props.discountActions.loadDiscounts(page, this.state.limit, this.state.query);
     }
 
     discountsSearchChange(value) {
