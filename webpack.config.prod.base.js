@@ -58,7 +58,7 @@ export default (moduleName) => {
             // }),
 
             // Minify JS
-            new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
+            new webpack.optimize.UglifyJsPlugin({sourceMap: false}),
 
             new webpack.optimize.AggressiveMergingPlugin(),
 
