@@ -186,20 +186,20 @@ class ChildrenProperties extends React.Component {
 }
 
 ChildrenProperties.propTypes = {
-    product:PropTypes.object.isRequired,
-    properties_list:PropTypes.array.isRequired,
+    product: PropTypes.object.isRequired,
+    properties_list: PropTypes.array.isRequired,
     goods_count_check: PropTypes.bool.isRequired,
     goods_count: PropTypes.number.isRequired,
-    changePropertySelect:PropTypes.func.isRequired,
-    checkElementNotInArray:PropTypes.func.isRequired,
-    valueSelectChange:PropTypes.func.isRequired,
-    deleteProperties:PropTypes.func.isRequired,
-    addProperties:PropTypes.func.isRequired,
-    selectGoodCountCheck:PropTypes.func.isRequired,
-    checkChildProduct:PropTypes.func.isRequired,
-    updateFormData:PropTypes.func.isRequired,
-    showAddChildImagesModal:PropTypes.func.isRequired,
-    type:PropTypes.string.isRequired
+    changePropertySelect: PropTypes.func.isRequired,
+    checkElementNotInArray: PropTypes.func.isRequired,
+    valueSelectChange: PropTypes.func.isRequired,
+    deleteProperties: PropTypes.func.isRequired,
+    addProperties: PropTypes.func.isRequired,
+    selectGoodCountCheck: PropTypes.func.isRequired,
+    checkChildProduct: PropTypes.func.isRequired,
+    updateFormData: PropTypes.func.isRequired,
+    showAddChildImagesModal: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
 };
 
 export default ChildrenProperties;
