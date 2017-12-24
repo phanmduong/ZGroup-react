@@ -23,7 +23,6 @@
     "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
     "build:email": "npm run lint && rimraf ./dist/email && mkdir dist/email && MODULE=email babel-node tools/build/module.js",
 
-
     "start:teaching": "MODULE=email npm-run-all --parallel open:src lint:watch",
     "build:teaching": "npm run lint && rimraf ./dist/teaching && mkdir dist/teaching && MODULE=teaching babel-node tools/build/module.js",
 
@@ -61,7 +60,6 @@
 
     "start:dashboard": "MODULE=dashboard npm-run-all --parallel open:src lint:watch",
     "build:dashboard": "npm run lint && rimraf ./dist/dashboard && mkdir dist/dashboard && MODULE=dashboard babel-node tools/build/module.js",
-
 
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",
