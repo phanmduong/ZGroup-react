@@ -109,6 +109,7 @@ export default (
             {/*End dashboard routes*/}
 
             <Route path="manage/quan-li-nhan-su" component={ManageStaffsContainer}/>
+            <Route path="hr/manage/quan-li-nhan-su" component={ManageStaffsContainer}/>
             <Route path="add-staff" component={AddStaffContainer} type="create"/>
             <Route path="staff/:staffId/edit" component={AddStaffContainer} type="edit"/>
             <Route path="staff/:staffId/info" component={InfoStaffContainer}/>
@@ -351,6 +352,7 @@ export default (
 
             {/*Begin edit-product routes */}
             <Route path="/staff/attendances" component={AttendanceStaffsContainer}/>
+            <Route path="hr/staff/attendances" component={AttendanceStaffsContainer}/>
             {/*End edit-product routes*/}
 
             {/*Begin edit-product routes */}
