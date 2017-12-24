@@ -51,7 +51,26 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
         ->where('path', '.*');
     Route::get('/base/{path}', 'ClientController@base')
         ->where('path', '.*');
-    Route::get('{path}', 'PublicController@manage')
+
+    Route::get('/hr/{path}', 'ClientController@hr')
+        ->where('path', '.*');
+
+    Route::get('/good/{path}', 'ClientController@good')
+        ->where('path', '.*');
+
+    Route::get('/project/{path}', 'ClientController@work')
+        ->where('path', '.*');
+    Route::get('/blog/{path}', 'ClientController@blog')
+        ->where('path', '.*');
+    Route::get('/marketing/{path}', 'ClientController@marketing')
+        ->where('path', '.*');
+    Route::get('/finance/{path}', 'ClientController@finance')
+        ->where('path', '.*');
+    Route::get('/profile/{path}', 'ClientController@profile')
+        ->where('path', '.*');
+    Route::get('/shift/{path}', 'ClientController@shift')
+        ->where('path', '.*');
+    Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
 });
 
@@ -66,6 +85,7 @@ Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 //    // Route handle tang thu 4
 //
 //});
+
 
 Route::group(['domain' => "www." . config('app.domain')], function () {
 //    Route::get('/', 'PublicController@redirectManage');

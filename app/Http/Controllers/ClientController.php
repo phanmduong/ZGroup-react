@@ -10,9 +10,14 @@ class ClientController extends Controller
     {
     }
 
-    public function email($path)
+    public function email()
     {
         return view("client.email");
+    }
+
+    public function dashboard()
+    {
+        return view("client.dashboard");
     }
 
     public function manufacture()
@@ -28,6 +33,46 @@ class ClientController extends Controller
     public function base()
     {
         return view("client.base");
+    }
+
+
+    public function hr()
+    {
+        return view("client.hr");
+    }
+
+    public function good()
+    {
+        return view("client.good");
+    }
+    public function work()
+    {
+        return view("client.work");
+    }
+
+    public function blog()
+    {
+        return view("client.blog");
+    }
+
+    public function marketing()
+    {
+        return view("client.marketing");
+    }
+
+    public function finance()
+    {
+        return view("client.finance");
+    }
+
+    public function profile()
+    {
+        return view("client.profile");
+    }
+
+    public function shift()
+    {
+        return view("client.shift");
     }
 
 }
