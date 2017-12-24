@@ -53,7 +53,7 @@ class ListCampaign extends React.Component {
                                     <td>
                                         <Link className="btn btn-xs btn-main"
                                               style={{backgroundColor: '#' + campaign.owner.color}}
-                                              to={"/manage/campaigns/" + campaign.owner.id}
+                                              to={"/email/campaigns/" + campaign.owner.id}
                                         >
                                             {helper.getShortName(campaign.owner.name)}
                                             <div className="ripple-container"/>

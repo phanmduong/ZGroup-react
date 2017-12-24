@@ -56,8 +56,6 @@ export default {
             trackJSToken: ''
         }),
 
-        new webpack.optimize.DedupePlugin(),
-
         // Minify JS
         new webpack.optimize.UglifyJsPlugin({sourceMap: true}),
 

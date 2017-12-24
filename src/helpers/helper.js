@@ -1158,5 +1158,30 @@ export function convertDataDetailSalesMarketing(data, filter) {
     }
 }
 
-
+export function convertDataGeneral(data) {
+    return data && data.length > 0 ? data.map((item, index) => {
+        let staff = item.attendances[0].user;
+        return {
+            "STT": index + 1,
+            "Họ và tên": staff.name,
+            "Đi làm": item.total_attendance,
+            "Đúng luật": item.total_lawful,
+            "Bỏ làm": item.total_not_work,
+            "Checkin muộn": item.total_checkin_late,
+            "Checkout sớm": item.total_checkout_early,
+            "Không checkin": item.total_not_checkin,
+            "Không checkout": item.total_not_checkout,
+        };
+    }) : [{
+        "STT": "",
+        "Họ và tên": "",
+        "Đi làm": "",
+        "Đúng luật": "",
+        "Bỏ làm": "",
+        "Checkin muộn": "",
+        "Checkout sớm": "",
+        "Không checkin": "",
+        "Không checkout": "",
+    }];
+}
 

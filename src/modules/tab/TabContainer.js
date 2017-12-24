@@ -17,8 +17,8 @@ class TabContainer extends React.Component {
             tabs: []
         };
 
-        this.currentTab = [];
-
+        this.currentTab = {};
+        this.parentCurrentTab = {};
     }
 
     componentWillMount() {
@@ -30,8 +30,30 @@ class TabContainer extends React.Component {
 
             // tạo cây
             let tabs = helper.transformToTree(nextProps.tabsListData, "id", "parent_id");
-            this.setState({tabs: tabs});
+
+            // console.log(this.convertDataTabs({children: tabs}, nextProps.pathname));
+            // console.log(this.currentTab);
+            // console.log(this.parentCurrentTab);
+            this.setState({tabs: this.convertDataTabs({children: tabs}, nextProps.pathname)});
         }
+    }
+
+    convertDataTabs(tabs, pathname) {
+        tabs.parent = tabs.parent ? tabs.parent : [];
+
+        tabs.children = tabs.children.map((tab) => {
+            tab.parent = [...tabs.parent, tabs];
+            if (pathname === tab.url) {
+                this.currentTab = tab;
+                this.parentCurrentTab = this.currentTab.parent[1];
+            }
+            if (tab.children.length > 0) {
+                return this.convertDataTabs(tab, pathname);
+            }
+            return tab;
+        });
+
+        return tabs;
     }
 
     componentDidUpdate() {
@@ -46,27 +68,35 @@ class TabContainer extends React.Component {
     }
 
     renderTabChildren(tabChildren) {
-        tabChildren.parent = tabChildren.parent ? tabChildren.parent : [];
 
         return (
             <ul className="nav">
                 {
                     tabChildren.children.map((tab, index) => {
-                        tab.parent = [...tabChildren.parent, tabChildren];
                         if (tab.children.length <= 0) {
-                            if (this.props.pathname === tab.url) {
-                                this.currentTab = tab;
-                            }
                             return (
                                 <li key={"keytabpar" + index}
                                     className={this.props.pathname === tab.url ? "active" : ""}>
-                                    <Link to={tab.url} activeClassName="active"
-                                          onClick={() => {
-                                              helper.closeSidebar();
-                                          }}
-                                    >
-                                        <p style={{paddingLeft: '10px'}}>{tab.name}</p>
-                                    </Link>
+                                    {this.parentCurrentTab && tab.parent[1] && this.parentCurrentTab.id == tab.parent[1].id ?
+                                        (
+                                            <Link to={tab.url} activeClassName="active"
+                                                  onClick={() => {
+                                                      helper.closeSidebar();
+                                                  }}
+                                            >
+                                                <p style={{paddingLeft: '10px'}}>{tab.name}</p>
+                                            </Link>
+                                        ) :
+                                        (
+                                            <a href={tab.url} activeClassName="active"
+                                               onClick={() => {
+                                                   helper.closeSidebar();
+                                               }}
+                                            >
+                                                <p style={{paddingLeft: '10px'}}>{tab.name}</p>
+                                            </a>
+                                        )
+                                    }
                                 </li>
                             );
                         } else {
@@ -100,20 +130,21 @@ class TabContainer extends React.Component {
         } else {
             return (
                 <ul className="nav">
-                    {this.state.tabs.map((tab, index) => {
+                    {this.state.tabs && this.state.tabs.children && this.state.tabs.children.map((tab, index) => {
                         if (tab.children.length <= 0) {
                             return (
                                 <li key={"keytabpar" + index}
                                     className={this.props.pathname === tab.url ? "active" : ""}>
-                                    <Link to={tab.url} activeClassName="active"
-                                          onClick={() => {
-                                              helper.closeSidebar();
-                                          }}
+                                    <a href={tab.url} activeClassName="active"
+                                       onClick={() => {
+                                           helper.closeSidebar();
+                                       }}
                                     >
                                         {//eslint-disable-next-line
-                                        }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                        }
+                                        <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                         <p>{tab.name}</p>
-                                    </Link>
+                                    </a>
                                 </li>
                             );
                         } else {
@@ -122,7 +153,8 @@ class TabContainer extends React.Component {
                                     <a data-toggle="collapse"
                                        href={'#tab' + tab.id}>
                                         {//eslint-disable-next-line
-                                        }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                        }
+                                        <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                         <p>{tab.name}
                                             <b className="caret"/>
                                         </p>

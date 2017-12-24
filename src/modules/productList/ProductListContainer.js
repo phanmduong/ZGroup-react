@@ -343,7 +343,7 @@ class ProductListContainer extends React.Component {
                                         }}>
                                             <div>
                                                 <Link
-                                                    to="/create-product"
+                                                    to="/good/create-product"
                                                     rel="tooltip" data-placement="top" title=""
                                                     data-original-title="Thêm sản phẩm" type="button"
                                                     className="btn btn-rose">

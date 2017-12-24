@@ -36,19 +36,19 @@ class ManageStaffsComponent extends React.Component {
                                 <div className="nav-tabs-wrapper">
                                     <ul className="nav nav-tabs" data-tabs="tabs">
                                         <li className="active">
-                                            <Link to="manage/quan-li-nhan-su">
+                                            <Link to="hr/manage/quan-li-nhan-su">
                                                 Nhân viên
                                                 <div className="ripple-container"/>
                                             </Link>
                                         </li>
                                         <li className="">
-                                            <Link to="manage-role">
+                                            <Link to="/hr/manage-role">
                                                  Chức vụ
                                                 <div className="ripple-container"/>
                                             </Link>
                                         </li>
                                         <li className="">
-                                            <Link to="manage-department">
+                                            <Link to="/hr/manage-department">
                                                 Bộ phận
                                                 <div className="ripple-container"/>
                                             </Link>
@@ -63,7 +63,7 @@ class ManageStaffsComponent extends React.Component {
                                     <div className="col-md-12">
                                             <Link
                                                 className="btn btn-rose"
-                                                to="add-staff"
+                                                to="/hr/add-staff"
                                             >
                                                 Tạo nhân viên
                                             </Link>

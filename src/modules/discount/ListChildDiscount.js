@@ -98,7 +98,7 @@ class ListChildDiscount extends React.Component {
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
                                                         <a onClick={() => {
-                                                            browserHistory.push('/discount/edit/' + discount.id);
+                                                            browserHistory.push('/good/discount/edit/' + discount.id);
                                                         }}>
                                                             <i className="material-icons">edit</i>
                                                         </a></div>

@@ -69,7 +69,7 @@ export function createRoleData(tabs, role) {
 
 export function createRoleDataSucessful(res) {
     toastr.success(res.data.data.message);
-    browserHistory.push('manage-role');
+    browserHistory.push('/hr/manage-role');
     return (
         {
             type: types.CREATE_ROLE_DATA_SUCCESSFUL,
@@ -217,7 +217,7 @@ export function editRoleData(tabs, role) {
 
 export function editRoleDataSucessful() {
     toastr.success("Sửa chức vụ thành công");
-    browserHistory.push('manage-role');
+    browserHistory.push('/hr/manage-role');
     return (
         {
             type: types.EDIT_ROLE_DATA_SUCCESSFUL,

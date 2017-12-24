@@ -64,7 +64,7 @@ export function createLesson(data, courseid) {
                     type: types.CREATE_LESSON_SUCCESS,
                     data: res
                 });
-                browserHistory.push("/manage/courses/edit/" + courseid + "/curriculum");
+                browserHistory.push("/teaching/courses/edit/" + courseid + "/curriculum");
             })
             .catch(() => {
                 helper.sweetAlertError("Có lỗi xảy ra! ");
@@ -83,7 +83,7 @@ export function editLesson(data) {
                     type: types.EDIT_LESSON_SUCCESS,
                     data: res
                 });
-                browserHistory.push("/manage/courses/edit/" + data.course_id + "/curriculum");
+                browserHistory.push("/teaching/courses/edit/" + data.course_id + "/curriculum");
             })
             .catch((err) => {
                 helper.sweetAlertError("Có lỗi xảy ra! " + err);

@@ -60,7 +60,7 @@ class ClassContainer extends React.Component {
                                                 }}
                                                 />
                                             </td>
-                                            <td><Link to={`/info-student/${register.student.id}`}
+                                            <td><Link to={`/teaching/info-student/${register.student.id}`}
                                                       className="text-name-student-register">
                                                 {register.student.name}
                                             </Link></td>
