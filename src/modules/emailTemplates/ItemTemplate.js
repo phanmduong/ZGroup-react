@@ -26,7 +26,7 @@ const ItemTemplate = ({template, deleteEmailTemplate}) => {
                         <h4 className="card-title">{template.name}</h4>
                         <ButtonGroupAction
                             delete={deleteEmailTemplate}
-                            editUrl={"/email-template/" + template.id + "/edit"}
+                            editUrl={"/email/email-template/" + template.id + "/edit"}
                             object={template}
                         />
                     </div>

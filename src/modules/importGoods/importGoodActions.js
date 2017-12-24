@@ -65,7 +65,7 @@ export function storeImportGood(formImportGood, status, importGoodsId) {
             .then((res) => {
                 if (res.data.status === 1) {
                     helper.showNotification("Lưu thành công.");
-                    browserHistory.push('/import-goods');
+                    browserHistory.push('/good/import-goods');
                     dispatch({
                         type: types.STORE_IMPORT_GOOD_SUCCESS
                     });

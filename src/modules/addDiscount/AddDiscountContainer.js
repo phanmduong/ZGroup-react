@@ -25,7 +25,7 @@ class AddDiscountContainer extends React.Component {
 
     componentWillMount() {
         let route = document.location.pathname;
-        if (route === '/discount/add') {
+        if (route === '/good/discount/add') {
 
                 // this.resetDiscount();
 
@@ -38,7 +38,7 @@ class AddDiscountContainer extends React.Component {
     }
 
     componentDidMount(){
-        if (document.location.pathname === '/discount/add' ) {
+        if (document.location.pathname === '/good/discount/add' ) {
             this.resetDiscount();
         }
     }

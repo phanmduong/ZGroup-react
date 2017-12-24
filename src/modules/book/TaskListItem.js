@@ -13,7 +13,7 @@ class TaskListItem extends React.Component {
         event.stopPropagation();
         event.preventDefault();
         // this.props.openTaskListTemplateDetailModal(this.props.taskList);
-        browserHistory.push("/tasklist-template/" + this.props.taskList.id);
+        browserHistory.push("/manufacture/tasklist-template/" + this.props.taskList.id);
     }
 
     delete(event) {

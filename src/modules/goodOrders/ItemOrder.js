@@ -85,7 +85,7 @@ class ItemOrder extends React.Component {
                             backgroundColor: ORDER_STATUS_COLORS[order.status]
                         }}
                         className="btn text-name-student-register"
-                        to={`/goods/order/${order.id}`}>
+                        to={`/good/goods/order/${order.id}`}>
                         {order.code ? order.code : 'Không có mã'}
                     </Link>
                 </td>

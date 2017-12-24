@@ -10,7 +10,6 @@
     "remove-demo": "babel-node tools/removeDemo.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message",
-    "start": "npm-run-all --parallel open:src",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "esw webpack.config.* src tools --color",
@@ -18,6 +17,50 @@
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "rimraf ./dist",
     "prebuild": "npm run clean-dist && npm run lint && npm run test",
+
+    "start": "npm-run-all --parallel open:src lint:watch",
+
+    "start:email": "MODULE=email npm-run-all --parallel open:src lint:watch",
+    "build:email": "npm run lint && rimraf ./dist/email && mkdir dist/email && MODULE=email babel-node tools/build/module.js",
+
+    "start:teaching": "MODULE=email npm-run-all --parallel open:src lint:watch",
+    "build:teaching": "npm run lint && rimraf ./dist/teaching && mkdir dist/teaching && MODULE=teaching babel-node tools/build/module.js",
+
+    "start:manufacture": "MODULE=email npm-run-all --parallel open:src lint:watch",
+    "build:manufacture": "npm run lint && rimraf ./dist/manufacture && mkdir dist/manufacture && MODULE=manufacture babel-node tools/build/module.js",
+
+    "start:base": "MODULE=base npm-run-all --parallel open:src lint:watch",
+    "build:base": "npm run lint && rimraf ./dist/base && mkdir dist/base && MODULE=base babel-node tools/build/module.js",
+
+    "start:work": "MODULE=work npm-run-all --parallel open:src lint:watch",
+    "build:work": "npm run lint && rimraf ./dist/work && mkdir dist/work && MODULE=work babel-node tools/build/module.js",
+
+    "start:blog": "MODULE=blog npm-run-all --parallel open:src lint:watch",
+    "build:blog": "npm run lint && rimraf ./dist/blog && mkdir dist/blog && MODULE=blog babel-node tools/build/module.js",
+
+    "start:marketing": "MODULE=marketing npm-run-all --parallel open:src lint:watch",
+    "build:marketing": "npm run lint && rimraf ./dist/marketing && mkdir dist/marketing && MODULE=marketing babel-node tools/build/module.js",
+
+    "start:finance": "MODULE=finance npm-run-all --parallel open:src lint:watch",
+    "build:finance": "npm run lint && rimraf ./dist/finance && mkdir dist/finance && MODULE=finance babel-node tools/build/module.js",
+
+
+    "start:hr": "MODULE=email npm-run-all --parallel open:src lint:watch",
+    "build:hr": "npm run lint && rimraf ./dist/hr && mkdir dist/hr && MODULE=hr babel-node tools/build/module.js",
+
+    "start:good": "MODULE=good npm-run-all --parallel open:src lint:watch",
+    "build:good": "npm run lint && rimraf ./dist/good && mkdir dist/good && MODULE=good babel-node tools/build/module.js",
+
+    "start:shift": "MODULE=shift npm-run-all --parallel open:src lint:watch",
+    "build:shift": "npm run lint && rimraf ./dist/shift && mkdir dist/shift && MODULE=shift babel-node tools/build/module.js",
+
+
+    "start:profile": "MODULE=profile npm-run-all --parallel open:src lint:watch",
+    "build:profile": "npm run lint && rimraf ./dist/profile && mkdir dist/profile && MODULE=profile babel-node tools/build/module.js",
+
+    "start:dashboard": "MODULE=dashboard npm-run-all --parallel open:src lint:watch",
+    "build:dashboard": "npm run lint && rimraf ./dist/dashboard && mkdir dist/dashboard && MODULE=dashboard babel-node tools/build/module.js",
+
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",
@@ -76,6 +119,7 @@
     "babel-preset-env": "1.6.0",
     "babel-preset-react": "6.24.1",
     "babel-preset-react-hmre": "1.1.1",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-1": "6.24.1",
     "browser-sync": "2.18.12",
     "chalk": "2.0.1",
@@ -114,7 +158,8 @@
     "webpack-bundle-analyzer": "2.8.2",
     "webpack-dev-middleware": "1.11.0",
     "webpack-hot-middleware": "2.18.2",
-    "webpack-md5-hash": "0.0.5"
+    "webpack-md5-hash": "0.0.5",
+    "webpack-merge": "^4.1.1"
   },
   "keywords": [],
   "repository": {

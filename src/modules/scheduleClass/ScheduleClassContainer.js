@@ -153,7 +153,7 @@ class ScheduleClassContainer extends React.Component {
                 <div className="col-lg-12">
                     <div className="card">
                         <div className="card-header card-header-tabs" data-background-color="rose">
-                            <TabStudy url="manage/scheduleclass"/>
+                            <TabStudy url="teaching/scheduleclass"/>
                         </div>
                         <div className="card-content">
                             <div className="tab-content">
