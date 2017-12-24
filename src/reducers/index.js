@@ -54,6 +54,7 @@ import roomsReducer from "../modules/rooms/roomsReducer";
 import excelReducer from "../modules/excel/excelReducer";
 import departmentReducer from "../modules/manageDepartment/departmentReducer";
 import jobAssignmentReducer from "../modules/jobAssignment/jobAssignmentReducer";
+import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
 
 
 
@@ -112,6 +113,7 @@ const appReducer = combineReducers({
     rooms: roomsReducer,
     excel : excelReducer,
     department : departmentReducer,
+    groupCustomers : groupCustomerReducer,
     jobAssignment : jobAssignmentReducer,
 });
 

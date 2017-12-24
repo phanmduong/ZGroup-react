@@ -105,6 +105,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isLoadingStaffs: false,
                 errorStaffs: true,
             };
+
         case types.GET_ALL_STAFFS_COMPLETE_GOOD_ORDER:
             return {
                 ...state,
@@ -127,7 +128,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 shipGoodModal: !state.shipGoodModal
             };
         case types.HANDLE_SHIP_ORDER_BEGIN: {
-            let products = {...state.shippingGood.product};
+            let products = {...state.shippingGood.products};
             action.order.good_orders.forEach(product => {
                 products = [...product, {
                     name: product.name,

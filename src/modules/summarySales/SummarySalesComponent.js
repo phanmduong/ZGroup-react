@@ -24,13 +24,13 @@ class SummarySalesComponent extends React.Component {
                     <div className="row" style={{marginTop: '10px', marginBottom: '10px'}}>
                         <div className="col-md-12">
                             <ul className="nav nav-pills nav-pills-rose">
-                                <li className={this.path === `/manage/sales` ? 'active' : ''}>
-                                    <IndexLink to={`/manage/sales`}>
+                                <li className={this.path === `/marketing/sales` ? 'active' : ''}>
+                                    <IndexLink to={`/marketing/sales`}>
                                         Tổng quan
                                     </IndexLink>
                                 </li>
-                                <li className={this.path === `/manage/sales/statistic` ? 'active' : ''}>
-                                    <Link to={`/manage/sales/statistic`}>
+                                <li className={this.path === `/marketing/sales/statistic` ? 'active' : ''}>
+                                    <Link to={`/marketing/sales/statistic`}>
                                         Thống kê
                                     </Link>
                                 </li>

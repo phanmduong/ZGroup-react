@@ -42,12 +42,12 @@ export function loadBasesData() {
     };
 }
 
-export function loadSummaryMarketingCampaignData(genId, baseId) {
+export function loadSummaryMarketingCampaignData(genId, baseId, startTime,endTime) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_SUMMARY_MARKETING_CAMPAIGN
         });
-        summaryMarketingCampaignApi.loadSummaryMarketingCampaign(genId, baseId)
+        summaryMarketingCampaignApi.loadSummaryMarketingCampaign(genId, baseId,startTime,endTime)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_SUMMARY_MARKETING_CAMPAIGN_SUCCESS,

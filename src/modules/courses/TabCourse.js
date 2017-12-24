@@ -15,33 +15,33 @@ class TabCourse extends React.Component {
                         <ul className="nav nav-tabs" data-tabs="tabs">
                             <TabCourseElement
                                 inputUrl={this.props.url}
-                                url     ="/manage/courses/create/general"
+                                url     ="/teaching/courses/create/general"
                                 icon    ="account_circle"
                                 text    ="TỔNG QUAN"
                             />
                             <TabCourseElement
                                 inputUrl={this.props.url}
-                                url="/manage/courses/create/curriculum"
+                                url="/teaching/courses/create/curriculum"
                                 icon="smartphone"
                                 text="GIÁO TRÌNH"
                             />
                             <TabCourseElement
                                 inputUrl={this.props.url}
-                                url     ="/manage/courses/create/documents"
+                                url     ="/teaching/courses/create/documents"
                                 icon    ="add_box"
                                 text    ="TÀI LIỆU NGOÀI"
                             />
 
                             <TabCourseElement
                                 inputUrl={this.props.url}
-                                url     ="/manage/courses/create/studying"
+                                url     ="/teaching/courses/create/studying"
                                 icon    ="create"
                                 text    ="HỌC TẬP"
                             />
 
                             <TabCourseElement
                                 inputUrl    ={this.props.url}
-                                url         ="/manage/courses/create/interested"
+                                url         ="/teaching/courses/create/interested"
                                 icon        ="flag"
                                 text        ="QUAN TÂM"
                             />

@@ -55,6 +55,7 @@ class DiscountContainer extends React.Component {
     //     browserHistory.push('/goods/customer/info-customer/'+customer.id);
     // }
 
+
     deleteDiscount(id, name) {
         helper.confirm("error", "Xoá", "Bạn có chắc chắn muốn xóa " + name,
             function () {
@@ -83,7 +84,7 @@ class DiscountContainer extends React.Component {
                                                 <div>
                                                     <button type="button" className="btn btn-rose"
                                                             onClick={() => {
-                                                                browserHistory.push('/discount/add');
+                                                                browserHistory.push('/good/discount/add');
                                                             }}>
                                                         Thêm khuyến mãi
                                                     </button>

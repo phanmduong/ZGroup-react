@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadCustomersApi(limit , page , query ,status) {
+export function loadCustomersApi(page , limit, query,status) {
     let url = env.MANAGE_API_URL + "/order/all-customers?";
     let token = localStorage.getItem('token');
     if (limit){
@@ -79,6 +79,7 @@ export function editCustomerApi(customer ) {
     if (token) {
         url += "?token=" + token;
     }
+    console.log(customer.stringId.join(';'));
     return axios.put(url, {
         'name': customer.name,
         'email': customer.email,
@@ -86,9 +87,28 @@ export function editCustomerApi(customer ) {
         'address': customer.address,
         'gender' : customer.gender,
         'dob' : customer.birthday,
+        'stringId' : customer.stringId.join(";"),
     });
 }
 
+
+export function loadGroupCustomerApi(page , limit , query ) {
+    let url = env.MANAGE_API_URL + "/order/customer-groups?";
+    let token = localStorage.getItem('token');
+    if (limit){
+        url += "&limit=" + limit;
+    }
+    if (page) {
+        url += "&page=" + page;
+    }
+    if (query) {
+        url += "&search=" + query;
+    }
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
 
 
 

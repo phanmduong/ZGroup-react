@@ -31,14 +31,14 @@ class ListCall extends React.Component {
                                 <td>
                                     <Link className="btn btn-xs btn-main"
                                           style={{backgroundColor: '#' + call.caller.color}}
-                                          to={"/manage/telesalehistory/" + call.caller.id}
+                                          to={"/marketing/telesalehistory/" + call.caller.id}
                                     >
                                         {helper.getShortName(call.caller.name)}
                                         <div className="ripple-container"/>
                                     </Link>
                                 </td>
                                 <td>
-                                    <Link to={`/info-student/${call.student.id}`}
+                                    <Link to={`/teaching/info-student/${call.student.id}`}
                                           className="text-name-student-register">
                                         {call.student.name}
                                     </Link>

@@ -46,9 +46,10 @@ export function showAvatarModal() {
     });
 }
 
-export function showSameProductModal() {
+export function showSameProductModal(index) {
     return ({
-        type: types.TOGGLE_SAME_PRODUCT_MODAL
+        type: types.TOGGLE_SAME_PRODUCT_MODAL,
+        index
     });
 }
 

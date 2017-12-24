@@ -58,7 +58,7 @@ class SummaryMaketingCampaignComponent extends React.Component {
 
 SummaryMaketingCampaignComponent.propTypes = {
     summary: PropTypes.array.isRequired,
-    genId: PropTypes.number.isRequired,
+    genId: PropTypes.string.isRequired,
     isLoading: PropTypes.bool.isRequired,
     loadSummary: PropTypes.func.isRequired,
 };

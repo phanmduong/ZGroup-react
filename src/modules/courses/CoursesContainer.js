@@ -48,7 +48,9 @@ class CoursesContainer extends React.Component {
 
     deleteCourse(course) {
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa môn học này không?", () => {
-            this.props.coursesActions.deleteCourse(course);
+            this.props.coursesActions.deleteCourse(course, ()=>{
+                return this.props.coursesActions.loadCourses(this.state.page);
+            });
         });
     }
 
@@ -84,7 +86,7 @@ class CoursesContainer extends React.Component {
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="col-md-3">
-                                                <Link className="btn btn-rose" to="/manage/courses/create">
+                                                <Link className="btn btn-rose" to="/teaching/courses/create">
                                                     Thêm Môn Học
                                                 </Link>
                                             </div>

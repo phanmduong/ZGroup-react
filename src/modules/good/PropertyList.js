@@ -89,7 +89,7 @@ class PropertyList extends React.Component {
                                     <td>{item.creator.name}</td>
                                     <td>
                                         <ButtonGroupAction
-                                            editUrl={"/property-item/" + item.id + "/edit"}
+                                            editUrl={"/manufacture/property-item/" + item.id + "/edit"}
                                             delete={() => {
                                                 if (confirm("warning", "Xác nhận xoá", "Bạn có chắc chắc muốn xoá thuộc tính này?",
                                                         () => {

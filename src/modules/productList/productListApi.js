@@ -118,4 +118,9 @@ export function getManufacturesApi() {
     return axios.get(url);
 }
 
+export function deleteProductApi(product) {
+    let url = env.MANAGE_API_URL + "/good/" + product.id + "/delete?token=" + token;
+    return axios.delete(url);
+}
+
 

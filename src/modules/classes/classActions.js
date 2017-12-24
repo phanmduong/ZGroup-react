@@ -6,6 +6,22 @@ import * as helper from '../../helpers/helper';
 
 
 
+export function changeLinkDriver(classId,link) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CHANGE_LINK_DRIVER_CLASS});
+        classApi.changeLinkDriver(classId,link)
+            .then(() => {
+                dispatch({
+                    type: types.CHANGE_LINK_DRIVER_CLASS_SUCCESS,
+                });
+                helper.showNotification("Lưu thành công!");
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra!");
+                dispatch({type: types.CHANGE_LINK_DRIVER_CLASS_ERROR});
+            });
+    };
+}
 export function loadExcelData(genid) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_CLASSES_EXCEL});

@@ -177,7 +177,7 @@ class ProfileContainer extends React.Component {
                                                                 </div>
                                                                 <div className="row">
                                                                     <div className="col-md-12">
-                                                                        <Link to="/edit-profile"
+                                                                        <Link to="/profile/edit-profile"
                                                                               className="btn btn-rose">Chỉnh sửa
                                                                         </Link>
                                                                         <button

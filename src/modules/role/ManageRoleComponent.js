@@ -10,7 +10,7 @@ class ManageRoleComponent extends React.Component {
     }
 
     redirectCreateRole() {
-        browserHistory.push('create-role');
+        browserHistory.push('/hr/create-role');
     }
 
     render() {

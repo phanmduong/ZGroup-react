@@ -2,6 +2,13 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 
 
+export function changeLinkDriver(classId, link) {
+    //manageapi.keetool.xyz/class/1076/link-drive?token=
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/class/" + classId + "/link-drive?token=" + token;
+    return axios.put(url, {link_drive: link});
+}
+
 export function loadExcelData(genid) {
     //http://api.keetool.xyz/apiv2/gens/10/classes?token=
     let token = localStorage.getItem('token');

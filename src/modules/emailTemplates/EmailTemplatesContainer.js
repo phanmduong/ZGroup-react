@@ -72,7 +72,7 @@ class EmailTemplatesContainer extends React.Component {
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="col-md-3">
-                                        <Link to="/email-template/create" className="btn btn-rose">
+                                        <Link to="/email/email-template/create" className="btn btn-rose">
                                             Thêm template
                                         </Link>
                                     </div>

@@ -54,7 +54,7 @@ class ListClass extends React.Component {
                                             <img src={classItem.course ? classItem.course.icon_url : ''} alt=""/>
                                         </button>
                                     </td>
-                                    <td><Link to={`/class/${classItem.id}`}>{classItem.name}</Link></td>
+                                    <td><Link to={`/teaching/class/${classItem.id}`}>{classItem.name}</Link></td>
                                     <td>{classItem.datestart}</td>
                                     <td>{classItem.study_time}</td>
                                     <td className="text-center">{classItem.gen ? classItem.gen.name : ''}</td>
@@ -64,7 +64,7 @@ class ListClass extends React.Component {
                                                 (
                                                     <Link className="btn btn-xs btn-main"
                                                           style={{backgroundColor: '#' + classItem.teacher.color}}
-                                                          to={"/manage/classes/" + classItem.teacher.id}
+                                                          to={"/teaching/classes/" + classItem.teacher.id}
                                                     >
                                                         {helper.getShortName(classItem.teacher.name)}
                                                         <div className="ripple-container"/>
@@ -86,7 +86,7 @@ class ListClass extends React.Component {
                                                 (
                                                     <Link className="btn btn-xs btn-main"
                                                           style={{backgroundColor: '#' + classItem.teacher_assistant.color}}
-                                                          to={"/manage/classes/" + classItem.teacher_assistant.id}
+                                                          to={"/teaching/classes/" + classItem.teacher_assistant.id}
                                                     >
                                                         {helper.getShortName(classItem.teacher_assistant.name)}
                                                         <div className="ripple-container"/>
