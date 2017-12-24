@@ -6,6 +6,7 @@ use App\Http\Controllers\ManageApiController;
 use App\User;
 use Faker\Provider\DateTime;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class StaffApiController extends ManageApiController
 {
@@ -44,13 +45,12 @@ class StaffApiController extends ManageApiController
         $user->department_id = $request->department_id;
         $user->role = 1;
         $user->role_id = $request->role_id;
-        $user->homeland = $request->homeland;
         $user->start_company = new DateTime();
         $user->avatar_url = trim_url($request->avatar_url);
         if ($request->color) {
             $user->color = trim_color($request->color);
         }
-        $user->password = bcrypt('123456');
+        $user->password = Hash::make('123456');
         $user->save();
         return $this->respondSuccessWithStatus([
             "user" => $user
