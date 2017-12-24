@@ -73,11 +73,11 @@ class CustomerContainer extends React.Component {
 
 
 
-    // openInfoCustomer để route đến /goods/customer/info-customer/ khi click vào tên customer
+    // openInfoCustomer để route đến /good/goods/customer/info-customer/ khi click vào tên customer
     // Có thể thay thế cho willMount trong InfoCustomerContainer
     openInfoCustomer(customer){
         this.props.customerActions.updateAddCustomerFormData(customer);     //      Gán customer vào để show ra trong InfoCustomerContainer
-        browserHistory.push('/goods/customer/info-customer/'+customer.id);
+        browserHistory.push('/good/goods/customer/info-customer/'+customer.id);
     }
 
     closeAddModal() {
@@ -163,19 +163,19 @@ class CustomerContainer extends React.Component {
                                         <div className="nav-tabs-wrapper">
                                             <ul className="nav nav-tabs" data-tabs="tabs">
                                                 <li className="active">
-                                                    <Link to="goods/customer">
+                                                    <Link to="/good/goods/customer">
                                                         Khách hàng
                                                         <div className="ripple-container"/>
                                                     </Link>
                                                 </li>
                                                 <li className="">
-                                                    <Link to="goods/supplier">
+                                                    <Link to="/good/goods/supplier">
                                                         Nhà cung cấp
                                                         <div className="ripple-container"/>
                                                     </Link>
                                                 </li>
                                                 <li className="">
-                                                    <Link to="goods/group-customer">
+                                                    <Link to="/good/goods/group-customer">
                                                         Nhóm khách hàng
                                                         <div className="ripple-container"/>
                                                     </Link>

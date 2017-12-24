@@ -277,33 +277,33 @@ class ClassContainer extends React.Component {
                                 <div className="nav-tabs-navigation">
                                     <div className="nav-tabs-wrapper">
                                         <ul className="nav nav-tabs" data-tabs="tabs">
-                                            <li className={this.path === `/class/${this.classId}` ? 'active' : ''}>
-                                                <IndexLink to={`/class/${this.classId}`}>
+                                            <li className={this.path === `/teaching/class/${this.classId}` ? 'active' : ''}>
+                                                <IndexLink to={`/teaching/class/${this.classId}`}>
                                                     <i className="material-icons">account_circle</i> Tổng quan
 
                                                     <div className="ripple-container"/>
                                                 </IndexLink>
                                             </li>
-                                            <li className={this.path === `/class/${this.classId}/history-teaching` ? 'active' : ''}>
-                                                <Link to={`/class/${this.classId}/history-teaching`}>
+                                            <li className={this.path === `/teaching/class/${this.classId}/history-teaching` ? 'active' : ''}>
+                                                <Link to={`/teaching/class/${this.classId}/history-teaching`}>
                                                     <i className="material-icons">smartphone</i> Lịch sử giảng dạy
                                                     <div className="ripple-container"/>
                                                 </Link>
                                             </li>
-                                            <li className={this.path === `/class/${this.classId}/registers` ? 'active' : ''}>
-                                                <Link to={`/class/${this.classId}/registers`}>
+                                            <li className={this.path === `/teaching/class/${this.classId}/registers` ? 'active' : ''}>
+                                                <Link to={`/teaching/class/${this.classId}/registers`}>
                                                     <i className="material-icons">create</i> Đăng kí
                                                     <div className="ripple-container"/>
                                                 </Link>
                                             </li>
-                                            <li className={this.path === `/class/${this.classId}/progress` ? 'active' : ''}>
-                                                <Link to={`/class/${this.classId}/progress`}>
+                                            <li className={this.path === `/teaching/class/${this.classId}/progress` ? 'active' : ''}>
+                                                <Link to={`/teaching/class/${this.classId}/progress`}>
                                                     <i className="material-icons">create</i> Học tập
                                                     <div className="ripple-container"/>
                                                 </Link>
                                             </li>
-                                            <li className={this.path === `/class/${this.classId}/care` ? 'active' : ''}>
-                                                <Link to={`/class/${this.classId}/care`}>
+                                            <li className={this.path === `/teaching/class/${this.classId}/care` ? 'active' : ''}>
+                                                <Link to={`/teaching/class/${this.classId}/care`}>
                                                     <i className="material-icons">flag</i> Quan tâm
                                                     <div className="ripple-container"/>
                                                 </Link>

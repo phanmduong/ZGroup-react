@@ -223,7 +223,7 @@ export function commitCourseData(data) {
                     type: types.CREATE_EDIT_COURSES_SUCCESS,
                     data: res
                 });
-                browserHistory.push("/manage/courses");
+                browserHistory.push("/teaching/courses");
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra! ");

@@ -21,7 +21,7 @@ class CreateProductContainer extends React.Component {
             property: {},
             showAddGoodPropertyModal: false,
             type: "create",
-            link: `/create-product`
+            link: `/good/create-product`
         };
         this.saveProductCreate = this.saveProductCreate.bind(this);
         this.addProperties = this.addProperties.bind(this);
@@ -37,7 +37,7 @@ class CreateProductContainer extends React.Component {
             this.props.createProductAction.loadProduct(this.props.params.productId);
             this.setState({
                 type: this.props.params.type,
-                link: `/product/${this.productId}/edit`
+                link: `/good/product/${this.productId}/edit`
             });
         } else {
             this.props.createProductAction.handleProductCreate({

@@ -98,7 +98,7 @@ class ListStaff extends React.Component {
                                                 <td>
                                                     <ButtonGroupAction
                                                         delete={self.props.deleteStaff}
-                                                        editUrl={`staff/${staff.id}/edit`}
+                                                        editUrl={`/hr/staff/${staff.id}/edit`}
                                                         object={staff}
                                                     />
                                                 </td>

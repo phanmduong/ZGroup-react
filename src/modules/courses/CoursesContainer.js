@@ -86,7 +86,7 @@ class CoursesContainer extends React.Component {
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="col-md-3">
-                                                <Link className="btn btn-rose" to="/manage/courses/create">
+                                                <Link className="btn btn-rose" to="/teaching/courses/create">
                                                     Thêm Môn Học
                                                 </Link>
                                             </div>
