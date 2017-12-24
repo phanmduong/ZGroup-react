@@ -300,9 +300,9 @@ class ProductListContainer extends React.Component {
         this.props.modalProductAction.handleProduct(product);
     }
 
-    showSameProductModal(product) {
-        this.props.modalProductAction.showSameProductModal();
-        this.props.modalProductAction.handleProduct(product);
+    showSameProductModal(index) {
+        this.props.modalProductAction.showSameProductModal(index);
+        this.props.modalProductAction.handleProduct(this.props.products[index]);
     }
 
     showWareHouseModal(product) {
@@ -343,7 +343,7 @@ class ProductListContainer extends React.Component {
                                         }}>
                                             <div>
                                                 <Link
-                                                    to="/create-product"
+                                                    to="/good/create-product"
                                                     rel="tooltip" data-placement="top" title=""
                                                     data-original-title="Thêm sản phẩm" type="button"
                                                     className="btn btn-rose">
@@ -556,7 +556,8 @@ class ProductListContainer extends React.Component {
                                                             showPriceModal={this.showPriceModal}
                                                             showWareHouseModal={this.showWareHouseModal}
                                                             showAvatarModal={this.showAvatarModal}
-                                                            showSameProductModal={this.showSameProductModal}/>
+                                                            showSameProductModal={this.showSameProductModal}
+                                                            deleteProduct={this.props.productListAction.deleteProduct}/>
                                                     )
                                                 }
                                             </div>

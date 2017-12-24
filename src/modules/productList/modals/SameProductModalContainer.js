@@ -2,6 +2,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import {bindActionCreators} from 'redux';
+import * as productListAction from './../productListAction';
 
 class SameProductModalContainer extends React.Component {
     constructor(props, context) {
@@ -9,11 +11,12 @@ class SameProductModalContainer extends React.Component {
     }
 
     render() {
-        let product = this.props.productEditing.productPresent;
+        const product = this.props.productEditing.productPresent;
+        const indexForChilds = this.props.productEditing.index;
         return (
             <Modal show={this.props.sameProductModal}
-                   onHide={() => this.props.showSameProductModal(product)}>
-                <a onClick={() => this.props.showSameProductModal(product)}
+                   onHide={() => this.props.showSameProductModal(indexForChilds)}>
+                <a onClick={() => this.props.showSameProductModal(indexForChilds)}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title">Sản phẩm cùng loại</Modal.Title>
@@ -26,6 +29,8 @@ class SameProductModalContainer extends React.Component {
                                 <th>Sản phẩm</th>
                                 <th>Mã</th>
                                 <th>Giá</th>
+                                <th>Kho</th>
+                                <th/>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,6 +54,49 @@ class SameProductModalContainer extends React.Component {
                                             </td>
                                             <td>{child.barcode}</td>
                                             <td>{child.price}</td>
+                                            <td>
+                                                <a className="text-name-student-register"
+                                                   rel="tooltip" title=""
+                                                   data-original-title="Remove item"
+                                                   onClick={() => this.props.showWareHouseModal(child)}>
+                                                    {
+                                                        product.warehouses_count !== 0 ? (
+                                                            <p>{product.warehouses_count} kho</p>
+                                                        ) : (
+                                                            <p>Chưa có</p>
+                                                        )
+                                                    }
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {
+                                                    product.children && product.children.length > 1?(
+                                                        <div className="btn-group-action">
+                                                            <a style={{color: "#878787"}}
+                                                               data-toggle="tooltip" title=""
+                                                               type="button" rel="tooltip"
+                                                               data-original-title="Xoá"
+                                                               onClick={() => {
+                                                                   this.props.deleteProduct(child, true, indexForChilds);
+                                                               }}>
+                                                                <i className="material-icons">delete</i>
+                                                            </a>
+                                                        </div>
+                                                    ):(
+                                                        <div className="btn-group-action">
+                                                            <a style={{color: "#878787"}}
+                                                               data-toggle="tooltip" title=""
+                                                               type="button" rel="tooltip"
+                                                               data-original-title="Xoá"
+                                                               onClick={() => {
+                                                                   this.props.deleteProduct(child, false, indexForChilds);
+                                                               }}>
+                                                                <i className="material-icons">delete</i>
+                                                            </a>
+                                                        </div>
+                                                    )
+                                                }
+                                            </td>
                                         </tr>
                                     );
                                 })
@@ -65,7 +113,10 @@ class SameProductModalContainer extends React.Component {
 SameProductModalContainer.propTypes = {
     sameProductModal: PropTypes.bool,
     productEditing: PropTypes.object.isRequired,
-    showSameProductModal: PropTypes.func.isRequired
+    showWareHouseModal: PropTypes.func.isRequired,
+    showSameProductModal: PropTypes.func.isRequired,
+    productListAction: PropTypes.object.isRequired,
+    deleteProduct: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -75,8 +126,10 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps() {
-    return {};
+function mapDispatchToProps(dispatch) {
+    return {
+        productListAction: bindActionCreators(productListAction, dispatch)
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SameProductModalContainer);

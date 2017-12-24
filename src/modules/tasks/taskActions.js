@@ -1121,31 +1121,25 @@ export function loadAvailableMembers(task) {
     };
 }
 
-export function saveMemberTask(task, user, card) {
-    return function (dispatch) {
+export function saveMemberTask(task, members) {
+    return (dispatch) => {
         dispatch({type: types.BEGIN_SAVE_MEMBER_TASK});
-        let userId = 0;
-        if (user) {
-            userId = user.id;
-        }
-        taskApi.saveMemberTask(userId, task.id)
+        const newMembers = members.map((member) => {
+            return {
+                ...member,
+                added: true
+            };
+        });
+        const membersStr = JSON.stringify(newMembers);
+        taskApi.saveMemberTask(membersStr, task.id)
             .then(() => {
                 showNotification("Phân công việc thành công");
                 dispatch({
                     type: types.SAVE_MEMBER_TASK_SUCCESS,
-                    user,
+                    members: newMembers,
                     task
                 });
-                if (user) {
-                    const isAdded = card.members.filter(m => m.id === user.id).length > 0;
-                    if (!isAdded) {
-                        dispatch({
-                            type: types.ASSIGN_MEMBER_SUCCESS,
-                            card,
-                            member: user
-                        });
-                    }
-                }
+
 
             });
     };

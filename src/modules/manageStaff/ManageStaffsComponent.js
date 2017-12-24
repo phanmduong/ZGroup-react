@@ -38,7 +38,7 @@ class ManageStaffsComponent extends React.Component {
                                     <div className="col-md-12">
                                             <Link
                                                 className="btn btn-rose"
-                                                to="add-staff"
+                                                to="/hr/add-staff"
                                             >
                                                 Tạo nhân viên
                                             </Link>

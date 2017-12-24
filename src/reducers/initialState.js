@@ -8,7 +8,7 @@ export default {
             name: '',
             code: '',
             description: '',
-            price: '',
+            price: 0,
             avatar_url: '',
             sale_status: 0,
             highlight_status: 0,
@@ -26,7 +26,7 @@ export default {
             ],
             children: []
         },
-        goods_count_check: false,
+        goods_count_check: true,
         isUploadingImage: false,
         isLoading: false,
         avatar_url: '',
@@ -83,6 +83,7 @@ export default {
             modalUpdated: false
         },
         productEditing: {
+            index: null,
             productPresent: {
                 id: '',
                 name: '',
@@ -585,6 +586,8 @@ export default {
         isLoadingClassFilter: false,
         isLoadingSalerFilter: false,
         isLoadingCampaignFilter: false,
+        excel: {},
+        isLoadingExcel: false
     },
 
     profile: {
@@ -840,6 +843,7 @@ export default {
     },
 
     goodOrders: {
+
         isUpdate: false,
         orderId: 0,
         shipGoodModal: false,
@@ -859,6 +863,7 @@ export default {
                 address: "",
                 province: "",
                 district: "",
+
                 is_freeship: "1",
                 pick_date: "",
                 pick_money: "",
@@ -866,6 +871,7 @@ export default {
                 value: ""
             }
         },
+
         isLoading: false,
         error: false,
         currentPage: 1,
@@ -956,10 +962,14 @@ export default {
     },
 
     customers: {
+        groupsInOverlay: [],
         customersList: [],
         ordersList: [],
         isLoading: true,
+        isLoadingInOverlay: false,
         totalOrderPages: 10,
+        totalGroupCustomerPages: 10,
+
         totalPages: 10,
         totalMoneys: 10,
         totalDebtMoneys: 10,
@@ -973,6 +983,9 @@ export default {
                 address: '',
                 gender: '',
                 dob: '',
+
+                stringId: '',
+                groups: [],
             }
         },
     },
@@ -993,13 +1006,16 @@ export default {
     },
 
     addDiscount: {
+        isLoadingOut: false,
         isSaving: false,
         isLoading: false,
         customers: [],
         goods: [],
         categories: [],
-        totalCustomerPages: 10,
-        totalGoodPages: 10,
+        groupCustomers: [],
+        totalCustomerPages: 0,
+        totalGoodPages: 0,
+        totalGroupCustomerPages: 0,
         discount: {
             name: '',
             description: '',
@@ -1013,6 +1029,7 @@ export default {
             good: {},
             category: {},
             customer: {},
+            customer_group: {}
         },
 
     },
@@ -1159,6 +1176,7 @@ export default {
         totalPages: 10,
         totalCount: 10,
     },
+
     attendance: {
         isLoading: false,
         isLoadingGens: false,
@@ -1240,4 +1258,28 @@ export default {
             {value: "value3", label:"label3", avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"},
         ],
     },
+
+
+    groupCustomers: {
+        isSaving: false,
+        isLoading: false,
+        isLoadingModal: false,
+        isLoadingOverlay: false,     // load trong overlay
+        customersList: [],         //  +  customersShowInModal  = full = customers
+        totalCustomerInOverlayPages: 1,
+        totalCustomerInModalPages: 1,
+        totalCustomerCount: 1,
+        totalGroupCustomerPages: 1,
+        groupCustomerForm: {
+            id: 1,
+            name: '',
+            description: '',
+            stringId: [],
+            customers: [],                         // tat ca cac customer trong mot group
+            customersShowInModal : [],              // cac customer show ra bang trong mot group
+            color: '',
+        },
+        groupCustomersList: [],
+
+    }
 };

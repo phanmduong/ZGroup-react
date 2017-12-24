@@ -8,7 +8,7 @@ export function loadDiscounts( page , limit, query) {
         dispatch({
             type: types.BEGIN_LOAD_DISCOUNT
         });
-        discountApis.loadDiscountsApi(limit, page ,query )
+        discountApis.loadDiscountsApi(page, limit ,query )
             .then( (res) =>  {
                 dispatch({
                     type : types.LOADED_DISCOUNT_SUCCESS,

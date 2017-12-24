@@ -12,8 +12,10 @@ import * as goodOrderActions from './goodOrderActions';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+
 import Pagination from "../../components/common/Pagination";
 import {ORDER_STATUS} from "../../constants/constants";
+
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -29,20 +31,29 @@ class OrdersContainer extends React.Component {
             staff: null,
             base: null,
             status: null
+
         };
         this.timeOut = null;
         this.ordersSearchChange = this.ordersSearchChange.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
+
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
         this.showShipGoodModal = this.showShipGoodModal.bind(this);
+
     }
 
     componentWillMount() {
         this.loadOrders();
         this.props.goodOrderActions.getAllStaffs();
+    }
+    toggleShipModal(order) {
+        this.props.goodOrderActions.openShipModal(order);
+    }
+    closeModal() {
+        this.setState({isShowModal: false});
     }
 
     updateFormDate(event) {
@@ -139,6 +150,8 @@ class OrdersContainer extends React.Component {
 
 
     changeStatusOrder(status, orderId) {
+        console.log("status,",status);
+        console.log("orderId", orderId);
         this.props.goodOrderActions.changeStatusOrder(status, orderId);
     }
 
@@ -288,6 +301,7 @@ class OrdersContainer extends React.Component {
                                     orders={this.props.orders}
                                     isLoading={this.props.isLoading}
                                     showShipGoodModal={this.showShipGoodModal}
+
                                 />
                             </div>
                             <div className="row float-right">
@@ -342,6 +356,7 @@ OrdersContainer.propTypes = {
     goodOrderActions: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
     allStaffs: PropTypes.array.isRequired
+
 };
 
 function mapStateToProps(state) {
@@ -356,6 +371,7 @@ function mapStateToProps(state) {
         totalCount: state.goodOrders.totalCount,
         allStaffs: state.goodOrders.allStaffs,
         currentPage: state.goodOrders.currentPage
+
     };
 }
 

@@ -121,10 +121,10 @@ export function addPropertiesCreate(property) {
     });
 }
 
-export function handlePropertiesCreate(properties) {
+export function handlePropertiesCreate(property_list) {
     return ({
         type: types.HANDLE_PROPERTIES_CREATE,
-        properties
+        property_list
     });
 }
 
@@ -148,7 +148,7 @@ export function saveProductCreate(product) {
         });
         createProductApi.saveProductApi(product)
             .then(function () {
-                browserHistory.push("/goods/products");
+                browserHistory.push("/good/goods/products");
                 helper.showNotification("Thêm sản phẩm thành công");
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING
@@ -164,7 +164,7 @@ export function saveProductEdit(product) {
         });
         createProductApi.editProductApi(product)
             .then(function () {
-                browserHistory.push("/goods/products");
+                browserHistory.push("/good/goods/products");
                 helper.showNotification("Thêm sản phẩm thành công");
                 dispatch({
                     type: types.HIDE_GLOBAL_LOADING
@@ -185,6 +185,36 @@ export function loadProduct(productId) {
                     type: types.LOAD_PRODUCT_DETAIL_SUCCESS,
                     product: res.data.data.good
                 });
+                if (res.data.data.good.property_list && res.data.data.good.children) {
+                    let property_list = res.data.data.good.property_list.map(property => {
+                        return {
+                            ...property,
+                            value: property.value.map(e => {
+                                return {
+                                    old: true,
+                                    value: e,
+                                    label: e
+                                };
+                            })
+                        };
+                    });
+                    let goods_count = res.data.data.good.property_list.reduce((result, property) => property.value.length * result, 1);
+                    dispatch(handlePropertiesCreate(property_list));
+                    dispatch(handleGoodCountCreate(goods_count));
+                    dispatch(handleChildrenCreateProduct(
+                        helper.childrenLoadedEditSuccess(property_list, res.data.data.good.children)
+                    ));
+                } else {
+                    dispatch(handlePropertiesCreate([
+                        {
+                            name: 'coool',
+                            property_item_id: 3,
+                            value: []
+                        }
+                    ]));
+                    dispatch(handleGoodCountCreate(0));
+                    dispatch(handleChildrenCreateProduct([]));
+                }
             });
     };
 }

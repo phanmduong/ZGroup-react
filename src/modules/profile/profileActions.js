@@ -62,7 +62,7 @@ export function editProfile(profile) {
                     helper.showNotification("Cập nhật thành công");
                     localStorage.setItem('user', JSON.stringify(res.data.data.user));
                     dispatch(getUserLocal());
-                    browserHistory.push('/my-profile');
+                    browserHistory.push('/profile/my-profile');
                     dispatch({type: types.UPDATE_PROFILE_SUCCESS});
 
                 } else {

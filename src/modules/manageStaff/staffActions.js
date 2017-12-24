@@ -144,7 +144,7 @@ export function addStaffData(staff) {
 export function addStaffDataSucessful(res) {
     if (res.data.status === 1) {
         toastr.success("Thêm nhân viên thành công");
-        browserHistory.push('manage/quan-li-nhan-su');
+        browserHistory.push('hr/manage/quan-li-nhan-su');
         return ({
             type: types.ADD_STAFF_DATA_SUCCESSFUL,
             isLoading: false,
@@ -286,7 +286,7 @@ export function editStaffData(staff) {
 export function editStaffDataSucessful(res) {
     if (res.data.status === 1) {
         helper.showNotification("Cập nhật nhân viên thành công");
-        browserHistory.push('manage/quan-li-nhan-su');
+        browserHistory.push('hr/manage/quan-li-nhan-su');
         return ({
             type: types.EDIT_STAFF_DATA_SUCCESSFUL,
             isLoading: false,

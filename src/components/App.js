@@ -47,7 +47,7 @@ class App extends React.Component {
                                 <div className="collapse" id="collapseExample">
                                     <ul className="nav">
                                         <li>
-                                            <Link to="/my-profile">Trang cá nhân</Link>
+                                            <a href="/profile/my-profile">Trang cá nhân</a>
                                         </li>
                                     </ul>
                                     <ul className="nav">

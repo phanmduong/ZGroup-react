@@ -39,8 +39,9 @@ class ManageDepartmentContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
+        console.log('nextProps',nextProps);
         if(this.props.isLoading && !nextProps.isLoading){
-            this.setState({departments: nextProps.data.departments})
+            this.setState({departments: nextProps.data.departments});
         }
     }
     //add

@@ -140,7 +140,7 @@ class ImportGoodsContainer extends React.Component {
                     <div className="col-md-12">
                         <Link
                             className="btn btn-rose"
-                            to="import-good/create"
+                            to="/good/import-good/create"
                         >
                             Tạo phiếu nhập
                         </Link>
