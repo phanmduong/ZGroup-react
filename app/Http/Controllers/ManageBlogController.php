@@ -99,7 +99,7 @@ class ManageBlogController extends ManageApiController
                     'status' => $post->status,
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
-                if (isset($post->category)) {
+                if ($post->category) {
                     $post['category'] = [
                         'id' => $post->category->id,
                         'name' => $post->category->name,
