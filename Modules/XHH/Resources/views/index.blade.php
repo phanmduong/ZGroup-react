@@ -82,7 +82,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315148lid7m57PXMpi8ig.png');background-size: cover;">
+                        <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15142204970iLllvgwe7qsX7G.png');background-size: cover;">
                             <div>
                                 <div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">
                                     <h3 style="margin:0;padding:0;color:white; font-weight: 400">HOẠT ĐỘNG ĐOÀN THỂ
@@ -97,6 +97,7 @@
                     </div>
                 </div>
             </div>
+            <br>
             <br>
             <div class="container">
                 <div class="row">
@@ -158,6 +159,8 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
             <div class="container">
                 <div class="row">
                     @foreach($blogSection2 as $blog)
@@ -208,6 +211,8 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
             <div class="container">
                 <div id="vuejs1" class="row">
                     @foreach($books as $book)
