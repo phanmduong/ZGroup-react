@@ -12,6 +12,7 @@ use App\StudyClass;
 use App\TeleCall;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 
 class AlibabaManageApiController extends ManageApiController
 {
@@ -192,6 +193,7 @@ class AlibabaManageApiController extends ManageApiController
             $registers = $registers->map(function ($register){
                 $data = $register;
                 $data['editable'] = true;
+                return $data;
             });
             return $this->respondSuccessWithStatus([
                 'registers' => $registers,
@@ -204,6 +206,7 @@ class AlibabaManageApiController extends ManageApiController
         $registers = $registers->map(function ($register){
             $data = $register;
             $data['editable'] = true;
+            return $data;
         });
         return $this->respondWithPagination($registers, [
             'registers' => $registers,
