@@ -599,7 +599,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
     $this->post('password/reset', 'Auth\PasswordController@reset');
 
-    Route::get('manage/dashboard', 'HomeController@index');
+    Route::get('dashboard', 'HomeController@index');
     Route::get('manage/getdashboarddata/{base_id?}/{gen_id?}', 'HomeController@get_dashboard_data');
 
     Route::get('manage/categories', 'ManageProductController@index');
@@ -781,7 +781,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::post('manage/move-warehouse', 'OrderController@move_warehouse');
     Route::get('manage/delivered-orders', 'OrderController@delivered_orders');
 
-    Route::get('manage/marketing-campaign', 'ManageMarketingController@marketing_campaign_list');
+    Route::get('marketing/marketing-campaign', 'ManageMarketingController@marketing_campaign_list');
     Route::get('manage/create-marketing-campaign', 'ManageMarketingController@create_marketing_campaign');
     Route::post('manage/store-marketing-campaign', 'ManageMarketingController@store_marketing_campaign');
     Route::get('manage/delete-marketing-campaign/{campaign_id}', 'ManageMarketingController@delete_marketing_campaign');
