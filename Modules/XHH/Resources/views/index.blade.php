@@ -22,6 +22,8 @@
         </div>
         <div class="row">
             <div class="col-md-12">
+                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
+                </div>
                 <h3 style="color:black;font-size:30px; font-weight:600">
                     <b>BÀI VIẾT MỚI NHẤT</b>
                 </h3>
@@ -80,6 +82,8 @@
                 @endforeach
             </div>
             <div class="col-md-12">
+                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
+                </div>
                 <h3 style="color:black;font-size:30px; font-weight:600">
                     <b>HOẠT ĐỘNG ĐOÀN THỂ</b>
                 </h3>
@@ -129,6 +133,8 @@
 
             </div>
             <div class="col-md-12">
+                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
+                </div>
                 <h3 style="color:black;font-size:30px; font-weight:600">
                     <b>NGHIÊN CỨU KHOA HỌC</b>
                 </h3>
@@ -168,6 +174,8 @@
             </div>
             <br>
             <div class="col-md-12">
+                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
+                </div>
                 <h3 style="color:black;font-size:30px; font-weight:600">
                     <b>THƯ VIỆN ĐIỆN TỬ</b>
                 </h3>
