@@ -88,9 +88,8 @@ class AlibabaManageApiController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Trung code'
             ]);
-        dd($register->code);
         $register = Register::find($register_id);
-        if($request->money === null || $register->code === null)
+        if($request->money === null || $request->code === null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thieu money hoac code'
             ]);
