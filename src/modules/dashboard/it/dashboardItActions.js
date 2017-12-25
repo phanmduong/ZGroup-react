@@ -4,22 +4,19 @@ import * as dashboardItApi from './dashboardItApi';
 
 /*eslint no-console: 0 */
 
-export function loadGensData() {
+export function loadCountCardsByStaffDuration(staffId, from, to) {
     return function (dispatch) {
         dispatch({
-            type: types.BEGIN_LOAD_GENS_DATA_DASHBOARD
+            type: types.BEGIN_LOAD_CARDS_STAFF_DURATION,
+
         });
-        dashboardItApi.loadGens()
+        dashboardItApi.loadCards(staffId,from, to)
             .then((res) => {
                 dispatch({
-                    type: types.LOAD_GENS_DASHBOARD_SUCCESS,
-                    gens: res.data.data.gens,
-                    currentGen: res.data.data.current_gen
+                    type: types.LOAD_CARDS_STAFF_DURATION_SUCCESS,
+                    days: res.data.data.days,
+                    num_cards: res.data.data.num_cards
                 });
-            }).catch(() => {
-            dispatch({
-                type: types.LOAD_GENS_DASHBOARD_ERROR
             });
-        });
     };
 }
