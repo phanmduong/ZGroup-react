@@ -83,6 +83,11 @@ class AlibabaManageApiController extends ManageApiController
     }
 
     public function editRegister($register_id, Register $request) {
+        $register = Register::where('code', $request->code)->first();
+        if($register !== null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Trung code'
+            ]);
         $register = Register::find($register_id);
         if($request->money == null || $register->code == null)
             return $this->respondErrorWithStatus([
