@@ -111,7 +111,6 @@ class AlibabaManageApiController extends ManageApiController
         } else {
             $limit = 20;
         }
-        dd($limit);
 
         $search = $request->search;
 
