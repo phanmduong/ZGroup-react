@@ -8,6 +8,7 @@ use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Register;
 use App\Repositories\UserRepository;
+use App\StudyClass;
 use App\TeleCall;
 use App\User;
 use Illuminate\Http\Request;
