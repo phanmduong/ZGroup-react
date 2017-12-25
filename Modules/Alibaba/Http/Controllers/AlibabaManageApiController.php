@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: phanmduong
- * Date: 12/16/17
- * Time: 10:34
- */
 
 namespace Modules\Alibaba\Http\Controllers;
 
@@ -84,7 +78,7 @@ class AlibabaManageApiController extends ManageApiController
         }
     }
 
-    public function editRegister($register_id, Register $request)
+    public function editRegister($register_id, Request $request)
     {
         $register = Register::where('code', $request->code)->first();
         if ($register !== null)
@@ -117,7 +111,7 @@ class AlibabaManageApiController extends ManageApiController
         } else {
             $limit = 20;
         }
-
+        dd($limit);
 
         $search = $request->search;
 
@@ -194,10 +188,10 @@ class AlibabaManageApiController extends ManageApiController
             $register->is_delete = is_delete_register($this->user, $register);
         }
         if ($limit == -1) {
-            $registers = $this->registerTransformer->transformCollection($registers)->map(function ($register) {
+            $registers = $this->registerTransformer->transformCollection($registers);
+            $registers = $registers->map(function ($register){
                 $data = $register;
                 $data['editable'] = true;
-                return $data;
             });
             return $this->respondSuccessWithStatus([
                 'registers' => $registers,
@@ -206,14 +200,13 @@ class AlibabaManageApiController extends ManageApiController
                 ]
             ]);
         }
-
-        $registers = $this->registerTransformer->transformCollection($registers)->map(function ($register) {
+        $registers = $this->registerTransformer->transformCollection($registers);
+        $registers = $registers->map(function ($register){
             $data = $register;
             $data['editable'] = true;
-            return $data;
         });
         return $this->respondWithPagination($registers, [
-            'registers' =>$registers,
+            'registers' => $registers,
             'gen' => [
                 'id' => $gen->id
             ]
