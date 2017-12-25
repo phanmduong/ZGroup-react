@@ -13,8 +13,8 @@ Route::group(['middleware' => 'web', 'domain' => "alibabaenglish.edu.{subfix}", 
     Route::post('/check', 'AlibabaController@check');
 });
 
-Route::group(['domain' => "manageapi." . config('app.domain'), 'namespace' => 'Modules\Alibaba\Http\Controllers'], function () {
+Route::group(['domain' => "manageapi." . "keetool3.{subfix}", 'namespace' => 'Modules\Alibaba\Http\Controllers'], function () {
+    Route::get('/alibaba/register-list', 'AlibabaManageApiController@registerList');
     Route::post('/alibaba-change-call-status-student', 'AlibabaManageApiController@change_call_status');
     Route::put('/alibaba/register/{registerId}', 'AlibabaManageApiController@editRegister');
-    Route::get('/alibaba/register-list', 'AlibabaManageApiController@registerList');
 });

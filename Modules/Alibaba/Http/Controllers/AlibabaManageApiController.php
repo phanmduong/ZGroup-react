@@ -23,7 +23,7 @@ class AlibabaManageApiController extends ManageApiController
         $this->userRepository = $userRepository;
     }
 
-    public function change_call_status(Request $request)
+    public function change_call_status($subfix, Request $request)
     {
         $student_id = $request->student_id;
 
@@ -78,7 +78,7 @@ class AlibabaManageApiController extends ManageApiController
         }
     }
 
-    public function editRegister($register_id, Request $request)
+    public function editRegister($subfix, $register_id, Request $request)
     {
         $register = Register::where('code', $request->code)->first();
         if ($register !== null)
@@ -98,7 +98,7 @@ class AlibabaManageApiController extends ManageApiController
         ]);
     }
 
-    public function registerList(Request $request)
+    public function registerList($subfix, Request $request)
     {
         if ($request->gen_id) {
             $gen = Gen::find($request->gen_id);
