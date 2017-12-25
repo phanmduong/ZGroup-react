@@ -100,6 +100,7 @@ class AlibabaManageApiController extends ManageApiController
 
     public function registerlist(Request $request)
     {
+        dd('whathtehefuck');
         if ($request->gen_id) {
             $gen = Gen::find($request->gen_id);
         } else {
