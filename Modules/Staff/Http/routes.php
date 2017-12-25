@@ -3,4 +3,6 @@
 Route::group([ 'domain' => 'manageapi.' . config('app.domain'),'prefix' => 'staff', 'namespace' => 'Modules\Staff\Http\Controllers'], function()
 {
     Route::post('/', 'StaffApiController@createStaff');
+
+    Route::get("/{staffId}/chart/card","StaffChartApiController@countStaffCards");
 });

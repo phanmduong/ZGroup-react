@@ -75,6 +75,10 @@ class OrderController extends ManageApiController
     public function detailedOrder($order_id)
     {
         $order = Order::find($order_id);
+        if($order == null)
+            return $this->respondSuccessWithStatus([
+                'message' => 'Khong ton tai order'
+            ]);
         return $this->respondSuccessWithStatus(
             $order->detailedTransform()
         );

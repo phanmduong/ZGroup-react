@@ -230,7 +230,7 @@ class GraphicsController extends Controller
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
         if (count($goods_arr) > 0) {
-            $this->bookRepository->saveOrder($email, $phone, $name, $address, $payment, $goods_arr);
+            $this->bookRepository->saveOrder($email, $phone, $name, "", "", $address, $payment, $goods_arr);
             $request->session()->flush();
             return [
                 "status" => 1

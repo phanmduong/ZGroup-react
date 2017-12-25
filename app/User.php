@@ -91,6 +91,9 @@ class User extends Authenticatable
     public function department(){
         return $this->belongsTo("App\Department","department_id");
     }
+    public function works(){
+        return $this->belongsToMany(Work::class,'work_staff','staff_id','work_id');
+    }
 
     /**
      * Check if the permission matches with any permission user has

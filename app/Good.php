@@ -51,7 +51,9 @@ class Good extends Model
 
     public function properties()
     {
-        return $this->hasMany(GoodProperty::class, 'good_id')->where('name', '<>', 'images_url');
+        return $this->hasMany(GoodProperty::class, 'good_id')
+            ->where('name', '<>', 'images_url')
+            ->where('name', '<>', 'child_images_url');
     }
 
     public function files()
