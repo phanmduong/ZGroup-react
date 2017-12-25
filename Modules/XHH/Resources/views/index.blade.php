@@ -133,6 +133,7 @@
 
             </div>
             <div class="col-md-12">
+                <br>
                 <div style="width:10%;border-top: 2px solid black; margin-top:20px">
                 </div>
                 <h3 style="color:black;font-size:30px; font-weight:600">
