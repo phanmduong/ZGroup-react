@@ -11,6 +11,7 @@ namespace Modules\Alibaba\Http\Controllers;
 
 use App\Gen;
 use App\Http\Controllers\ManageApiController;
+use App\Register;
 use App\Repositories\UserRepository;
 use App\TeleCall;
 use App\User;
@@ -45,13 +46,6 @@ class AlibabaManageApiController extends ManageApiController
             $saler_id = $this->user->id;
         }
 
-//        $registers = $gen->registers()->where('user_id', $student_id)->get();
-//        foreach ($registers as $register) {
-//
-//            $register->call_status = $status;
-//            $register->time_to_reach = ceil(diffDate($register->created_at, date('Y-m-d H:i:s')));
-//            $register->save();
-//        }
         foreach ($student->registers as $register) {
             $register->call_status = $status;
             $register->time_to_reach = ceil(diffDate($register->created_at, date('Y-m-d H:i:s')));
@@ -88,4 +82,17 @@ class AlibabaManageApiController extends ManageApiController
         }
     }
 
+    public function editRegister($register_id, Register $request) {
+        $register = Register::find($register_id);
+        if($request->money == null || $register->code == null)
+            return $this->respondErrorWithStatus([
+                'message' => 'Thieu money hoac code'
+            ]);
+        $register->code = $request->code;
+        $register->money = $request->money;
+        $register->save();
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
 }
