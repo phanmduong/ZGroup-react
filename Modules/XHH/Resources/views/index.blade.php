@@ -80,6 +80,9 @@
                 @endforeach
             </div>
             <div class="container">
+                <br>
+                <br>
+                <br>
                 <div class="row">
                     <div class="col-md-12">
                         <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/15142204970iLllvgwe7qsX7G.png');background-size: cover;">
@@ -96,9 +99,9 @@
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
-            <br>
-            <br>
+
             <div class="container">
                 <div class="row">
                     @foreach($blogSection1 as $blog)
@@ -142,6 +145,9 @@
 
             </div>
             <div class="container">
+                <br>
+                <br>
+                <br>
                 <div class="row">
                     <div class="col-md-12">
                         <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514220442ucii3A56PcQBHwD.png');background-size: cover;">
@@ -158,9 +164,8 @@
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
-            <br>
-            <br>
             <div class="container">
                 <div class="row">
                     @foreach($blogSection2 as $blog)
@@ -194,6 +199,9 @@
             </div>
             <br>
             <div class="container">
+                <br>
+                <br>
+                <br>
                 <div class="row">
                     <div class="col-md-12">
                         <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1514219780iirp6n0v41zVbay.png');background-size: cover;">
@@ -210,9 +218,8 @@
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
-            <br>
-            <br>
             <div class="container">
                 <div id="vuejs1" class="row">
                     @foreach($books as $book)
