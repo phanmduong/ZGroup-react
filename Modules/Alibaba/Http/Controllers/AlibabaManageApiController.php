@@ -84,12 +84,12 @@ class AlibabaManageApiController extends ManageApiController
 
     public function editRegister($register_id, Register $request) {
         $register = Register::find($register_id);
-        if($request->money == null || $register->code == null)
+        if($request->course_money == null || $register->code == null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thieu money hoac code'
             ]);
         $register->code = $request->code;
-        $register->money = $request->money;
+        $register->money = $request->course_money;
         $register->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
