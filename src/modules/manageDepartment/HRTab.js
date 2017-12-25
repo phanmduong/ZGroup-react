@@ -15,26 +15,26 @@ class HRTab extends React.Component {
                 <div className="nav-tabs-navigation">
                     <div className="nav-tabs-wrapper">
                         <ul className="nav nav-tabs" data-tabs="tabs">
-                            <li className={this.props.path == "manage/quan-li-nhan-su" ? "active" : ""}>
-                                <Link to="manage/quan-li-nhan-su">
+                            <li className={this.props.path == "hr/manage/quan-li-nhan-su" ? "active" : ""}>
+                                <Link to="hr/manage/quan-li-nhan-su">
                                     Nhân viên
                                     <div className="ripple-container"/>
                                 </Link>
                             </li>
-                            <li className={this.props.path == "manage-role" ? "active" : ""}>
-                                <Link to="manage-role">
+                            <li className={this.props.path == "hr/manage-role" ? "active" : ""}>
+                                <Link to="hr/manage-role">
                                     Chức vụ
                                     <div className="ripple-container"/>
                                 </Link>
                             </li>
-                            <li className={this.props.path == "manage-department" ? "active" : ""}>
-                                <Link to="manage-department">
+                            <li className={this.props.path == "hr/manage-department" ? "active" : ""}>
+                                <Link to="hr/manage-department">
                                     Bộ phận
                                     <div className="ripple-container"/>
                                 </Link>
                             </li>
-                            <li className={this.props.path == "manage-profile" ? "active" : ""}>
-                                <Link to="manage-profile">
+                            <li className={this.props.path == "hr/manage-profile" ? "active" : ""}>
+                                <Link to="hr/manage-profile">
                                     Thông tin cá nhân
                                     <div className="ripple-container"/>
                                 </Link>

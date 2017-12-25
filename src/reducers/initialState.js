@@ -587,7 +587,8 @@ export default {
         isLoadingSalerFilter: false,
         isLoadingCampaignFilter: false,
         excel: {},
-        isLoadingExcel: false
+        isLoadingExcel: false,
+        isCommittingInfoStudent: false,
     },
 
     profile: {
