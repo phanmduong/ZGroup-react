@@ -17,6 +17,7 @@ class CreateWorkShiftSessions extends Migration
             $table->string('name');
             $table->time('start_time');
             $table->time('end_time');
+            $table->integer('active');
             $table->timestamps();
             $table->softDeletes();
         });
