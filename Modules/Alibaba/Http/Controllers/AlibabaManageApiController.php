@@ -84,14 +84,15 @@ class AlibabaManageApiController extends ManageApiController
         }
     }
 
-    public function editRegister($register_id, Register $request) {
+    public function editRegister($register_id, Register $request)
+    {
         $register = Register::where('code', $request->code)->first();
-        if($register !== null)
+        if ($register !== null)
             return $this->respondErrorWithStatus([
                 'message' => 'Trung code'
             ]);
         $register = Register::find($register_id);
-        if($request->money === null || $request->code === null)
+        if ($request->money === null || $request->code === null)
             return $this->respondErrorWithStatus([
                 'message' => 'Thieu money hoac code'
             ]);
@@ -193,23 +194,26 @@ class AlibabaManageApiController extends ManageApiController
             $register->is_delete = is_delete_register($this->user, $register);
         }
         if ($limit == -1) {
-            $data = $this->registerTransformer->map(function($register){
-                $register['editable'] = true;
-                return $register;
-            })->transformCollection($registers);
+            $registers = $this->registerTransformer->transformCollection($registers)->map(function ($register) {
+                $data = $register;
+                $data['editable'] = true;
+                return $data;
+            });
             return $this->respondSuccessWithStatus([
-                'registers' => $data,
+                'registers' => $registers,
                 'gen' => [
                     'id' => $gen->id
                 ]
             ]);
         }
-        $data = $this->registerTransformer->map(function($register){
-            $register['editable'] = true;
-            return $register;
-        })->transformCollection($registers);
+
+        $registers = $this->registerTransformer->transformCollection($registers)->map(function ($register) {
+            $data = $register;
+            $data['editable'] = true;
+            return $data;
+        });
         return $this->respondWithPagination($registers, [
-            'registers' => $data,
+            'registers' =>$registers,
             'gen' => [
                 'id' => $gen->id
             ]
