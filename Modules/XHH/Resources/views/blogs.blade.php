@@ -46,11 +46,11 @@
                                     ></div>
                                 </a>
                             </div>
-                            @if($blog->category)
-                                <span class="label label-danger">{{$blog->category->name}}</span>
-                            @endif
 
                             <div class="card-block">
+                                @if($blog->category)
+                                    <span class="label label-danger">{{$blog->category->name}}</span>
+                                @endif
                                 <h3 class="card-title">
                                     <a href="{{'/blog/post/'.$blog->id}}">{{$blog->title}}</a>
                                 </h3>
