@@ -20,7 +20,7 @@ class WorkShiftSessionTransformer extends Transformer
     {
         return [
             'id' => $work_shift_session->id,
-            'name' => $work_shift_session->id,
+            'name' => $work_shift_session->name,
             'start_time' => $work_shift_session->start_time,
             'end_time' => $work_shift_session->end_time,
             'active' => $work_shift_session->active,

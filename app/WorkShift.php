@@ -25,6 +25,6 @@ class WorkShift extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class)->using(WorkShiftUser::class);
+        return $this->belongsToMany(User::class, 'work_shift_user', 'work_shift_id', 'user_id');
     }
 }

@@ -50,7 +50,8 @@ class ManageApiController extends Controller
     public function respondSuccess($message)
     {
         return $this->respond([
-            'message' => $message
+            'message' => $message,
+            'status' => 1
         ]);
     }
 
