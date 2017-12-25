@@ -82,7 +82,7 @@ class AlibabaManageApiController extends ManageApiController
 
     public function editRegister($register_id, Request $request)
     {
-        $register = Register::where('code', $request->code)->first();
+        $register = Register::where('id', '<>', $register_id)->where('code', $request->code)->first();
         if ($register !== null)
             return $this->respondErrorWithStatus([
                 'message' => 'Trung code'
@@ -93,7 +93,10 @@ class AlibabaManageApiController extends ManageApiController
                 'message' => 'Thieu money hoac code'
             ]);
         $register->code = $request->code;
-        $register->status === 0 ? $register->money = 0 : $register->money = $request->money;
+        if($register->status == 0)
+            $register->money = 0;
+        else
+            $register->money = $request->money;
         $register->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
