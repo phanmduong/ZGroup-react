@@ -94,7 +94,7 @@ class AlibabaManageApiController extends ManageApiController
                 'message' => 'Thieu money hoac code'
             ]);
         $register->code = $request->code;
-        $register->money = $request->money;
+        $register->status === 0 ? $register->money = 0 : $register->money = $request->money;
         $register->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
