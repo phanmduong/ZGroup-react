@@ -18,13 +18,14 @@ class StaffChartApiController extends ManageApiController
     {
         $from = $request->from;
         $to = $request->to;
+        dd(from);
         if ($request->to === null) {
             $request->to = date();
         }
-//        if ($request->from === null){
-//            $to->modify('-7 days');
-//            $request->from =  ;
-//        }
+        if ($request->from === null){
+            $to->modify('-7 days');
+            $request->from =  $to;
+        }
         return $this->respondSuccessWithStatus([
 //            "user" => $user
         ]);

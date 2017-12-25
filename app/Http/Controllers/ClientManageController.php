@@ -36,7 +36,7 @@ class ClientManageController extends Controller
     {
         $newTabs = collect(json_decode($request->tabs));
         $newTabIds = $newTabs->pluck("id");
-
+        dd($newTabIds);
         // delete redundant tabs
         DB::table('tabs')->whereNotIn('id', $newTabIds)->delete();
 
