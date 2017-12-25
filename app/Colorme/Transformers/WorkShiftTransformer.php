@@ -9,11 +9,23 @@
 namespace App\Colorme\Transformers;
 
 
+use App\Repositories\UserRepository;
+
 class WorkShiftTransformer extends Transformer
 {
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
 
     public function transform($shift)
     {
+
+        $users = $shift->users->map(function ($user) {
+            return $this->userRepository->staff($user);
+        });
 
         $shift_session = $shift->work_shift_session()->withTrashed()->first();
         return [
@@ -21,6 +33,7 @@ class WorkShiftTransformer extends Transformer
             "name" => $shift_session->name,
             'date' => date_shift(strtotime($shift->date)),
             'week' => $shift->week,
+            'users' => $users,
             'order' => $shift->order,
             'gen' => ['name' => $shift->gen->name],
             'base' => ['name' => $shift->base->name, 'address' => $shift->base->address],

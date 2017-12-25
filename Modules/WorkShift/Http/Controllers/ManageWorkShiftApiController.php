@@ -7,6 +7,7 @@ use App\Colorme\Transformers\WorkShiftSessionTransformer;
 use App\Colorme\Transformers\WorkShiftTransformer;
 use App\Gen;
 use App\Http\Controllers\ManageApiController;
+use App\Repositories\UserRepository;
 use App\WorkShift;
 use App\WorkShiftSession;
 use Illuminate\Http\Request;
@@ -17,12 +18,15 @@ class ManageWorkShiftApiController extends ManageApiController
 {
     protected $workShiftSessionTransformer;
     protected $workShiftTransformer;
+    protected $userRepository;
 
-    public function __construct(WorkShiftSessionTransformer $workShiftSessionTransformer, WorkShiftTransformer $workShiftTransformer)
+    public function __construct(WorkShiftSessionTransformer $workShiftSessionTransformer, WorkShiftTransformer $workShiftTransformer,
+                                UserRepository $userRepository)
     {
         parent::__construct();
         $this->workShiftSessionTransformer = $workShiftSessionTransformer;
         $this->workShiftTransformer = $workShiftTransformer;
+        $this->userRepository = $userRepository;
     }
 
     public function createWorkSession(Request $request)
@@ -144,6 +148,7 @@ class ManageWorkShiftApiController extends ManageApiController
             $shifts = $current_gen->work_shifts()->get();
         }
 
+
         $weeks = $shifts->pluck('week')->unique()->sortByDesc(function ($week, $key) {
             return $week;
         });
@@ -178,7 +183,6 @@ class ManageWorkShiftApiController extends ManageApiController
     public function registerShift($workShiftId)
     {
         $shift = WorkShift::find($workShiftId);
-//        dd($shift->users->pluck('id')->toArray());
 
         if (in_array($this->user->id, $shift->users()->pluck('id')->toArray())) {
             return $this->respondSuccess("Bạn đã đăng kí ca làm việc này");
@@ -186,6 +190,23 @@ class ManageWorkShiftApiController extends ManageApiController
 
         $shift->users()->attach($this->user->id);
 
-        return $this->respondSuccess("Đăng kí ca làm việc thành công");
+        return $this->respondSuccessWithStatus([
+            'user' => $this->userRepository->staff($this->user)
+        ]);
+    }
+
+    public function removeRegisterShift($workShiftId)
+    {
+        $shift = WorkShift::find($workShiftId);
+
+        if (!in_array($this->user->id, $shift->users()->pluck('id')->toArray())) {
+            return $this->respondSuccess("Bạn chưa đăng kí ca làm việc này");
+        }
+
+        $shift->users()->detach($this->user->id);
+
+        return $this->respondSuccessWithStatus([
+            'user' => $this->userRepository->staff($this->user)
+        ]);
     }
 }
