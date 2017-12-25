@@ -31,10 +31,10 @@
             <div class="container">
                 <div class="fourteen columns offset-by-one">
                     @foreach($bases as $base)
-                        {{$base->classes()->where('course_id',$course_id)->where('')->count() == 0}}
+                        {{$base->classes()->where('course_id',$course_id)->where('status', 1)->orderBy('gen_id', 'desc')->orderBy('name','desc')->count() == 0}}
                         <h3>{{$base->name}} : {{$base->address}}</h3><br>
                         <div class="row">
-                            @foreach($base->classes()->where('course_id',$course_id)->where('status', 1)->orderBy('gen_id', 'desc')->get() as $class)
+                            @foreach($base->classes()->where('course_id',$course_id)->where('status', 1)->orderBy('gen_id', 'desc')->orderBy('name','desc')->get() as $class)
                                 <div class="event_box row pix_builder_bg">
                                     <div class="event_box_1 ">
                                         <div class="event_box_img ">
