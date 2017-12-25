@@ -9,6 +9,7 @@
 namespace Modules\Alibaba\Http\Controllers;
 
 
+use App\Colorme\Transformers\RegisterTransformer;
 use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Register;
@@ -19,11 +20,12 @@ use Illuminate\Http\Request;
 
 class AlibabaManageApiController extends ManageApiController
 {
-    protected $userRepository;
+    protected $userRepository, $registerTransformer;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, RegisterTransformer $registerTransformer)
     {
         parent::__construct();
+        $this->registerTransformer = $registerTransformer;
         $this->userRepository = $userRepository;
     }
 
@@ -98,6 +100,119 @@ class AlibabaManageApiController extends ManageApiController
         $register->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function registerlist(Request $request)
+    {
+        if ($request->gen_id) {
+            $gen = Gen::find($request->gen_id);
+        } else {
+            $gen = Gen::getCurrentGen();
+        }
+
+        if ($request->limit) {
+            $limit = $request->limit;
+        } else {
+            $limit = 20;
+        }
+
+
+        $search = $request->search;
+
+        if ($search) {
+            $users_id = User::where('email', 'like', '%' . $search . '%')
+                ->orWhere('phone', 'like', '%' . $search . '%')
+                ->orWhere('name', 'like', '%' . $search . '%')->get()->pluck('id')->toArray();
+            $registers = $gen->registers()->whereIn('user_id', $users_id);
+        } else {
+            $registers = $gen->registers();
+        }
+
+        if ($request->class_id != null) {
+            $registers = $registers->where('class_id', $request->class_id);
+        }
+
+        if ($request->type != null) {
+            $classes = StudyClass::where('type', $request->type)->get()->pluck('id')->toArray();
+            $registers = $registers->whereIn('class_id', $classes);
+        }
+        if ($request->status != null) {
+            $registers = $registers->where('status', $request->status);
+        }
+        if ($request->saler_id != null) {
+            if ($request->saler_id == -1) {
+                $registers = $registers->whereNull('saler_id')->orWhere('saler_id', 0);
+            } else {
+                $registers = $registers->where('saler_id', $request->saler_id);
+            }
+
+        }
+
+        if ($request->campaign_id != null) {
+            if ($request->campaign_id == -1) {
+                $registers = $registers->whereNull('campaign_id')->orWhere('campaign_id', 0);
+            } else {
+                $registers = $registers->where('campaign_id', $request->campaign_id);
+            }
+
+        }
+
+
+        $endTime = date("Y-m-d", strtotime("+1 day", strtotime($request->end_time)));
+        if ($request->start_time != null) {
+            $registers = $registers->whereBetween('created_at', array($request->start_time, $endTime));
+        }
+        if ($limit == -1)
+            $registers = $registers->orderBy('created_at', 'desc')->get();
+        else
+            $registers = $registers->orderBy('created_at', 'desc')->paginate($limit);
+
+        $registers->map(function ($register) {
+
+        });
+        foreach ($registers as &$register) {
+            $register->study_time = 1;
+            $user = $register->user;
+            foreach ($user->registers()->where('id', '!=', $register->id)->get() as $r) {
+                if ($r->studyClass->course_id == $register->studyClass->course_id) {
+                    $register->study_time += 1;
+                }
+            }
+            if ($register->call_status == 0) {
+                if ($register->time_to_reach == 0) {
+                    $register->call_status = 4;
+                    $register->time_to_reach = $register->time_to_call != '0000-00-00 00:00:00' ?
+                        ceil(diffDate(date('Y-m-d H:i:s'), $register->time_to_call)) : 0;
+                }
+            } else {
+                if ($register->call_status == 2) {
+                    $register->time_to_reach = null;
+                }
+            }
+            $register->is_delete = is_delete_register($this->user, $register);
+        }
+        if ($limit == -1) {
+            $data = $this->registerTransformer->map(function($register){
+                $register['editable'] = true;
+                return $register;
+            })->transformCollection($registers);
+            return $this->respondSuccessWithStatus([
+                'registers' => $data,
+                'gen' => [
+                    'id' => $gen->id
+                ]
+            ]);
+        }
+        $data = $this->registerTransformer->map(function($register){
+            $register['editable'] = true;
+            return $register;
+        })->transformCollection($registers);
+        return $this->respondWithPagination($registers, [
+            'registers' => $data,
+            'gen' => [
+                'id' => $gen->id
+            ]
         ]);
     }
 }

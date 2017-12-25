@@ -16,4 +16,5 @@ Route::group(['middleware' => 'web', 'domain' => "alibabaenglish.edu.{subfix}", 
 Route::group(['domain' => "manageapi." . config('app.domain'), 'namespace' => 'Modules\Alibaba\Http\Controllers'], function () {
     Route::post('/alibaba-change-call-status-student', 'AlibabaManageApiController@change_call_status');
     Route::put('/alibaba/register/{registerId}', 'AlibabaManageApiController@editRegister');
+    Route::get('/alibaba/register-list', 'AlibabaManageApiController@registerList');
 });
