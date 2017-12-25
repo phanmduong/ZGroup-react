@@ -1247,7 +1247,7 @@ export default {
             description: '',
             stringId: [],
             customers: [],                         // tat ca cac customer trong mot group
-            customersShowInModal : [],              // cac customer show ra bang trong mot group
+            customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
         },
         groupCustomersList: [],
@@ -1261,5 +1261,22 @@ export default {
                 total_pages: 1,
             },
         },
-    }
+    },
+    workShiftSessions: {
+        isStoring: false,
+        errorStore: false,
+        workShiftSessions: [],
+        isLoading: false,
+        error: false
+    },
+    workShiftRegisters: {
+        isLoadingGensBases: false,
+        errorGensBases: false,
+        bases: [],
+        gens: [],
+        currentGen: {},
+        isLoading: false,
+        error: false,
+        shiftRegisters: []
+    },
 };

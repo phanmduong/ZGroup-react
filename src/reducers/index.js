@@ -49,13 +49,13 @@ import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
 import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import discountReducer from "../modules/discount/discountReducer";
-
 import attendancesStaffsReducer from "../modules/attendanceStaffs/attendancesStaffsReducer";
 import roomsReducer from "../modules/rooms/roomsReducer";
 import excelReducer from "../modules/excel/excelReducer";
 import departmentReducer from "../modules/manageDepartment/departmentReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
-
+import workShiftSessionsReducer from "../modules/workShiftSessions/workShiftSessionsReducer";
+import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRegistersReducer";
 
 
 const appReducer = combineReducers({
@@ -111,9 +111,11 @@ const appReducer = combineReducers({
     discounts: discountReducer,
     attendancesStaffs: attendancesStaffsReducer,
     rooms: roomsReducer,
-    excel : excelReducer,
-    department : departmentReducer,
-    groupCustomers : groupCustomerReducer
+    excel: excelReducer,
+    department: departmentReducer,
+    groupCustomers: groupCustomerReducer,
+    workShiftSessions: workShiftSessionsReducer,
+    workShiftRegisters: workShiftRegistersReducer,
 
 });
 
