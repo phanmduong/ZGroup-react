@@ -21,7 +21,8 @@
                                             class="editContent" style="">CHỌN LỚP HỌC</span></a>
 		                </span>
                         </div>
-                        <div class="arrow_st"><a href="#" id="a_press"><img src="images/13_gym/arrow.png" alt=""></a></div>
+                        <div class="arrow_st"><a href="#" id="a_press"><img src="images/13_gym/arrow.png" alt=""></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -33,7 +34,7 @@
                         {{$base->classes()->where('course_id',$course_id)->where('')->count() == 0}}
                         <h3>{{$base->name}} : {{$base->address}}</h3><br>
                         <div class="row">
-                            @foreach($base->classes()->where('course_id',$course_id)->where('status', 1)->orderBy('gen_id', 'desc')->orderBy('name','desc')->get() as $class)
+                            @foreach($base->classes()->where('course_id',$course_id)->where('status', 1)->orderBy('gen_id', 'desc')->get() as $class)
                                 <div class="event_box row pix_builder_bg">
                                     <div class="event_box_1 ">
                                         <div class="event_box_img ">
@@ -58,7 +59,9 @@
                                             <h4>
                                                 <strong>{{$class->study_time}}</strong>
                                             </h4>
-                                            <span class="link_3_btn editContent"><a class="slow_fade pix_text" style="color: #c50000;" href="{{url('/classes/register/'.$class->id."/".$saler_id."/".$campaign_id)}}">Đăng ký ngay</a></span>
+                                            <span class="link_3_btn editContent"><a class="slow_fade pix_text"
+                                                                                    style="color: #c50000;"
+                                                                                    href="{{url('/classes/register/'.$class->id."/".$saler_id."/".$campaign_id)}}">Đăng ký ngay</a></span>
                                         </div>
                                     </div>
                                 </div>
