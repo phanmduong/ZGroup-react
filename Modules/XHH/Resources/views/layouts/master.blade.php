@@ -22,7 +22,7 @@
 
 </head>
 <body class="profile" style="background: #f2f2f2;">
-<nav class="navbar navbar-toggleable-md fixed-top" style="margin-top:35px">
+<nav class="navbar navbar-toggleable-md fixed-top">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false"
