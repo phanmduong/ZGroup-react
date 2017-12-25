@@ -98,9 +98,8 @@ class AlibabaManageApiController extends ManageApiController
         ]);
     }
 
-    public function registerlist(Request $request)
+    public function registerList(Request $request)
     {
-        dd('whathtehefuck');
         if ($request->gen_id) {
             $gen = Gen::find($request->gen_id);
         } else {
