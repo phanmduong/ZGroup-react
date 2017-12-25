@@ -29,7 +29,7 @@ class StaffChartApiController extends ManageApiController
         }
 
         $staff = User::find($staffId);
-        $cards = $staff->cards()->whereBetween("updated_at", [$from, $to])->groupBy(DB::raw("date(updated_at)"))
+        $cards = $staff->cards()->where("status", "close")->whereBetween("updated_at", [$from, $to])->groupBy(DB::raw("date(updated_at)"))
             ->select(DB::raw('count(1) as num_cards, date(updated_at) as day'))
             ->orderBy("day")->get();
 
