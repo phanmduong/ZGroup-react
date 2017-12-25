@@ -190,7 +190,7 @@ class AlibabaManageApiController extends ManageApiController
         }
         if ($limit == -1) {
             $registers = $this->registerTransformer->transformCollection($registers);
-            $registers = $registers->map(function ($register){
+            $registers = $registers->map(function ($register) {
                 $data = $register;
                 $data['editable'] = true;
                 return $data;
@@ -202,14 +202,12 @@ class AlibabaManageApiController extends ManageApiController
                 ]
             ]);
         }
-        $registers = $this->registerTransformer->transformCollection($registers);
-        $registers = $registers->map(function ($register){
-            $data = $register;
-            $data['editable'] = true;
-            return $data;
-        });
         return $this->respondWithPagination($registers, [
-            'registers' => $registers,
+            'registers' => $this->registerTransformer->transformCollection($registers)->map(function ($register) {
+                $data = $register;
+                $data['editable'] = true;
+                return $data;
+                }),
             'gen' => [
                 'id' => $gen->id
             ]
