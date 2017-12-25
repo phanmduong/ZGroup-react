@@ -6,7 +6,6 @@ import initialState from '../../reducers/initialState';
 
 let registers;
 export default function registerReducer(state = initialState.registerStudents, action) {
-    console.log(action.type);
     switch (action.type) {
 
         case types.BEGIN_CHANGE_INFO_STUDENT:

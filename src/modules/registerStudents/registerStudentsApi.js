@@ -161,5 +161,5 @@ export function changeInfoStudent(info) {
         url += "?token=" + token;
     }
 
-    return axios.put(url, {money: info.course_money, code: info.code});
+    return axios.put(url, {money: info.money, code: info.code});
 }
