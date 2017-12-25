@@ -29,7 +29,17 @@ class GoodController extends ManageApiController
         parent::__construct();
     }
 
-    public function assignInfoToGood(&$good, $request)
+    public function assignPropertyInfor(&$property, $name, $value, $goodId)
+    {
+        $property->name = $name;
+        $property->value = $value;
+        $property->good_id = $goodId;
+        $property->editor_id = $this->user->id;
+        $property->good_id = $goodId;
+        $property->save();
+    }
+
+    public function assignGoodInfor(&$good, $request)
     {
         //gan thong tin cho san pham
         //cho ra rieng do dai -.-
@@ -110,12 +120,7 @@ class GoodController extends ManageApiController
 
         foreach ($properties as $p) {
             $property = new GoodProperty();
-            $property->name = $p->name;
-            $property->value = $p->value;
-            $property->creator_id = $this->user->id;
-            $property->editor_id = $this->user->id;
-            $property->good_id = $good->id;
-            $property->save();
+            $this->assignPropertyInfor($property, $p->name, $p->value, $good->id);
         }
 
         $files = json_decode($request->files_str);
@@ -167,11 +172,11 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
         if ($request->children) {
-            //Tao san pham nhieu thuoc tinh
+            //Tao san pham cung loai
             $children = json_decode($request->children);
             foreach ($children as $child) {
                 $good = new Good;
-                $this->assignInfoToGood($good, $request);
+                $this->assignGoodInfor($good, $request);
                 $good->barcode = $child->barcode;
                 $good->price = $child->price ? $child->price : $request->price;
                 $good->save();
@@ -179,56 +184,40 @@ class GoodController extends ManageApiController
                 foreach ($child->properties as $p) {
                     $property = new GoodProperty();
                     $property->property_item_id = $p->property_item_id;
-                    if ($p->property_item_id)
-                        $property->name = GoodPropertyItem::find($p->property_item_id)->name;
-                    else $property->name = $p->name;
-                    $property->value = $p->value;
-                    $property->creator_id = $this->user->id;
-                    $property->editor_id = $this->user->id;
-                    $property->good_id = $good->id;
-                    $property->save();
+                    $this->assignPropertyInfor($property,
+                        $p->property_item_id ? GoodPropertyItem::find($p->property_item_id)->name : $p->name,
+                        $p->value, $good->id);
                 }
 
                 $property = new GoodProperty;
-                $property->name = 'images_url';
-                $property->value = $images_url;
-                $property->creator_id = $this->user->id;
-                $property->editor_id = $this->user->id;
-                $property->good_id = $good->id;
-                $property->save();
+                $this->assignPropertyInfor($property, 'images_url', $images_url, $good->id);
+
+                $child_images_url = new GoodProperty;
+                $this->assignPropertyInfor($child_images_url, 'child_images_url', $child->child_images_url, $good->id);
+
             }
             return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
         }
 
         $good = new Good;
-        $this->assignInfoToGood($good, $request);
+        $this->assignGoodInfor($good, $request);
         $good->price = $request->price;
         $good->barcode = $request->barcode;
         $good->save();
 
         $properties = json_decode($request->properties);
 
-        if($properties)
-            foreach($properties as $p) {
+        if ($properties)
+            foreach ($properties as $p) {
                 $property = new GoodProperty();
                 $property->property_item_id = $p->property_item_id;
-                if ($p->property_item_id)
-                    $property->name = GoodPropertyItem::find($p->property_item_id)->name;
-                else $property->name = $p->name;
-                $property->value = $p->value;
-                $property->creator_id = $this->user->id;
-                $property->editor_id = $this->user->id;
-                $property->good_id = $good->id;
-                $property->save();
+                $this->assignPropertyInfor($property,
+                    $p->property_item_id ? GoodPropertyItem::find($p->property_item_id)->name : $p->name,
+                    $p->value, $good->id);
             }
 
         $property = new GoodProperty;
-        $property->name = 'images_url';
-        $property->value = $images_url;
-        $property->creator_id = $this->user->id;
-        $property->editor_id = $this->user->id;
-        $property->good_id = $good->id;
-        $property->save();
+        $this->assignPropertyInfor($property, 'images_url', $images_url, $good->id);
         return $this->respondSuccessWithStatus(["message" => "SUCCESS"]);
     }
 
@@ -241,22 +230,22 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus("Sản phẩm cần có: name, code");
         }
         if ($request->children) {
-            //Sua san pham nhieu thuoc tinh
+            //Sua san pham cung loai
             $children = json_decode($request->children);
             $goods = Good::where('code', $request->code)->get();
-            foreach($goods as $good) {
+            foreach ($goods as $good) {
                 $deletable = true;
                 foreach ($children as $child) {
-                    if($child->id)
-                        if($child->id === $good->id)
+                    if ($child->id)
+                        if ($child->id === $good->id)
                             $deletable = false;
                 }
-                if($deletable === true)
+                if ($deletable === true)
                     $good->delete();
             }
             foreach ($children as $child) {
                 $good = $child->id ? Good::find($child->id) : new Good;
-                $this->assignInfoToGood($good, $request);
+                $this->assignGoodInfor($good, $request);
                 $good->barcode = $child->barcode;
                 $good->price = $child->price ? $child->price : $request->price;
                 $good->save();
@@ -265,23 +254,16 @@ class GoodController extends ManageApiController
                 foreach ($child->properties as $p) {
                     $property = new GoodProperty();
                     $property->property_item_id = $p->property_item_id;
-                    if ($p->property_item_id)
-                        $property->name = GoodPropertyItem::find($p->property_item_id)->name;
-                    else $property->name = $p->name;
-                    $property->value = $p->value;
-                    $property->creator_id = $this->user->id;
-                    $property->editor_id = $this->user->id;
-                    $property->good_id = $good->id;
-                    $property->save();
+                    $this->assignPropertyInfor($property,
+                        $p->property_item_id ? GoodPropertyItem::find($p->property_item_id)->name : $p->name,
+                        $p->value, $good->id);
                 }
 
                 $property = new GoodProperty;
-                $property->name = 'images_url';
-                $property->value = $images_url;
-                $property->creator_id = $this->user->id;
-                $property->editor_id = $this->user->id;
-                $property->good_id = $good->id;
-                $property->save();
+                $this->assignPropertyInfor($property, 'images_url', $images_url, $good->id);
+
+                $child_images_url = new GoodProperty;
+                $this->assignPropertyInfor($child_images_url, 'child_images_url', $child->child_images_url, $good->id);
             }
             return $this->respondSuccessWithStatus(['message' => 'SUCCESS']);
         }
@@ -291,47 +273,39 @@ class GoodController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'messgae' => 'non-existing good'
             ]);
-        $this->assignInfoToGood($good, $request);
+        $this->assignGoodInfor($good, $request);
         $good->price = $request->price;
         $good->barcode = $request->barcode;
         $good->save();
 
         $properties = json_decode($request->properties);
 
-        DB::table('good_properties')->where('name', '<>', 'images_url')->where('good_id', '=', $good->id)->delete();
+        DB::table('good_properties')->where('name', '<>', 'images_url')->where('name', '<>', 'child_images_url')
+            ->where('good_id', '=', $good->id)->delete();
 
         foreach ($properties as $p) {
             $property = new GoodProperty();
             $property->property_item_id = $p->property_item_id;
-            if ($p->property_item_id)
-                $property->name = GoodPropertyItem::find($p->property_item_id)->name;
-            else $property->name = $p->name;
-            $property->value = $p->value;
-            $property->creator_id = $this->user->id;
-            $property->editor_id = $this->user->id;
-            $property->good_id = $good->id;
-            $property->save();
+            $this->assignPropertyInfor($property,
+                $p->property_item_id ? GoodPropertyItem::find($p->property_item_id)->name : $p->name,
+                $p->value, $good->id);
         }
         $property = GoodProperty::where('good_id', $goodId)->where('name', 'images_url')->first();
-        if ($property == null) {
+        if ($property == null)
             $property = new GoodProperty;
-            $property->name = 'images_url';
-        }
-        $property->value = $images_url;
-        $property->creator_id = $this->user->id;
-        $property->editor_id = $this->user->id;
-        $property->good_id = $good->id;
-        $property->save();
+        $this->assignPropertyInfor($property, 'images_url', $images_url, $good->id);
         return $this->respondSuccessWithStatus(["message" => "SUCCESS"]);
     }
 
     public function propertyList($goodIds)
     {
         //get property list from good siblings
-        $propertyItemIds = GoodProperty::where('name', '<>', 'images_url')->whereIn('good_id', $goodIds)->groupBy('property_item_id')->pluck('property_item_id')->toArray();
+        $propertyItemIds = GoodProperty::where('name', '<>', 'images_url')->where('name', '<>', 'child_images_url')
+            ->whereIn('good_id', $goodIds)->groupBy('property_item_id')->pluck('property_item_id')->toArray();
         $data = [];
         foreach ($propertyItemIds as $propertyItemId) {
-            $propertiesValue = GoodProperty::where('name', '<>', 'images_url')->whereIn('good_id', $goodIds)->where('property_item_id', $propertyItemId)
+            $propertiesValue = GoodProperty::where('name', '<>', 'images_url')->where('name', '<>', 'child_images_url')
+                ->whereIn('good_id', $goodIds)->where('property_item_id', $propertyItemId)
                 ->groupBy('value')->pluck('value')->toArray();
             array_push($data, [
                 'property_item_id' => $propertyItemId,
@@ -363,12 +337,14 @@ class GoodController extends ManageApiController
             unset($data['properties']);
             $data['children'] = $children->map(function ($child) {
                 $deletable = $child->history()->count() > 0;
+                $childImagesUrl = GoodProperty::where('good_id', $child->id)->where('name', 'child_images_url')->first();
                 return [
                     'id' => $child->id,
                     'deletable' => !$deletable,
                     'barcode' => $child->barcode,
                     'price' => $child->price,
                     'check' => true,
+                    'child_images_url' => $childImagesUrl ? $childImagesUrl->value : null,
                     'properties' => $child->properties->map(function ($property) {
                         return $property->transform();
                     }),
@@ -388,13 +364,10 @@ class GoodController extends ManageApiController
         if ($task == null) {
             return $this->respondErrorWithStatus("Công việc không tồn tại");
         }
-
         $type = $request->type;
         $propertyItems = $this->goodRepository->getPropertyItems($type, $task);
         $boards = $this->goodRepository->getProjectBoards($type, $task);
         $optionalBoards = BoardTaskTaskList::where("task_id", $taskId)->get();
-
-
         return $this->respondSuccessWithStatus([
             "good_property_items" => $propertyItems,
             "boards" => $boards,
@@ -447,14 +420,17 @@ class GoodController extends ManageApiController
                 "goods" => $goods->map(function ($good) {
                     $goods_count = Good::where('code', $good->code)->count();
                     $data = $good->transform();
+                    $price = [PHP_INT_MAX, -1];
                     if ($goods_count > 1) {
                         $children = Good::where('code', $good->code)->get();
                         unset($data['properties']);
-                        $data['children'] = $children->map(function ($child) {
+                        $data['children'] = $children->map(function ($child) use (&$price) {
                             $warehouses_count = ImportedGoods::where('good_id', $child->id)
                                 ->where('quantity', '>', 0)->select(DB::raw('count(DISTINCT warehouse_id) as count'))->first();
                             $import_price = ImportedGoods::where('good_id', $child->id)->orderBy('created_at', 'desc')->first();
                             $import_price = $import_price ? $import_price->import_price : 0;
+                            $price[0] = min($price[0], $child->price);
+                            $price[1] = max($price[1], $child->price);
                             return [
                                 'id' => $child->id,
                                 'barcode' => $child->barcode,
@@ -466,6 +442,7 @@ class GoodController extends ManageApiController
                                 }),
                             ];
                         });
+                        $data['price'] = $price;
                     }
                     $import_price = ImportedGoods::where('good_id', $good->id)->orderBy('created_at', 'desc')->first();
                     $import_price = $import_price ? $import_price->import_price : 0;
@@ -481,7 +458,8 @@ class GoodController extends ManageApiController
         );
     }
 
-    public function getAllGoodsForImport(Request $request) {
+    public function getAllGoodsForImport(Request $request)
+    {
         $limit = $request->limit && $request->limit != -1 ? $request->limit : 20;
         $keyword = $request->search;
         $type = $request->type;
@@ -525,10 +503,10 @@ class GoodController extends ManageApiController
                     $data['warehouses_count'] = $warehouses_count->count;
                     $data['goods_count'] = $goods_count;
                     $data['import_price'] = $import_price;
-                    if($goods_count>1){
+                    if ($goods_count > 1) {
                         $data['name'] .= ' ';
                         foreach ($good->properties as $property) {
-                            $data['name'] = $data['name'] . "- " . $property->name . " " . $property->value ;
+                            $data['name'] = $data['name'] . "- " . $property->name . " " . $property->value;
                         };
                     }
                     return $data;
@@ -616,7 +594,7 @@ class GoodController extends ManageApiController
                 'message' => 'Sản phẩm còn trong kho không được xóa'
             ]);
 
-        if($historyCount > 0)
+        if ($historyCount > 0)
             return $this->respondErrorWithStatus([
                 'message' => 'Sản phẩm đã từng bán không được xóa'
             ]);
@@ -744,7 +722,6 @@ class GoodController extends ManageApiController
             "card" => $card->transform()
         ]);
     }
-
 }
 
 
