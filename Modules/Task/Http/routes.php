@@ -34,6 +34,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::get('/boards/{projectId}/archive', "BoardController@getArchiveBoards");
 
     // card api
+    Route::get("/card/chart", "CardController@countStaffCards");
     Route::put('/card/{cardId}/toggle-archive', "TaskController@archiveCard");
     Route::post('/card/create', "TaskController@createCard");
     Route::delete('/card/{cardId}/delete', "TaskController@deleteCard");
@@ -49,7 +50,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'namespace' => 'M
     Route::delete('/card-comment/{id}', "TaskController@deleteCardComment");
     Route::post('/card/{cardId}/comment', "CardController@commentCard");
     Route::post('/card/{cardId}/properties-filled', "CardController@getGoodPropertiesFilled");
-
 
     // tasklist api
     Route::post('/tasklist/create', "TaskController@createTaskList");

@@ -4,5 +4,5 @@ Route::group([ 'domain' => 'manageapi.' . config('app.domain'),'prefix' => 'staf
 {
     Route::post('/', 'StaffApiController@createStaff');
 
-    Route::get("/{staffId}/chart/card","StaffChartApiController@countStaffCards");
+
 });
