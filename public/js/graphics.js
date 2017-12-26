@@ -173,7 +173,6 @@ var modalPurchase = new Vue({
         changeProvince: function () {
             this.loadingDistrict = true;
             this.getDistricts();
-            console.log(this.provinceid);
         },
         submitOrder: function () {
             $("#purchase-error").css("display", "none");
