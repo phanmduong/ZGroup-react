@@ -1,6 +1,5 @@
 <?php
 
-//Route::group(['middleware' => 'web', 'domain' => config("app.domain_commerce"), 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
 Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
     Route::get('/', 'GraphicsController@index');
     Route::get('/contact-us', 'GraphicsController@contact_us');
@@ -21,7 +20,7 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
     Route::get('/api/blog/{id}', 'BlogApiController@getDetailBlog');
 });
 
-Route::group(['domain' => "api.graphics.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
+Route::group(['domain' => "api.keetool3.{subfix}", 'namespace' => 'Modules\Graphics\Http\Controllers'], function () {
     Route::get('/books', 'GraphicsAppController@index');
     Route::get('/detail-book/{book_id}', 'GraphicsAppController@detailedBook');
     Route::post('/save-order', 'GraphicsAppController@saveOrder');

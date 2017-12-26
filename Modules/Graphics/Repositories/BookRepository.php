@@ -61,7 +61,7 @@ class BookRepository
         return $bookData;
     }
 
-    public function saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr)
+    public function saveOrder($email, $phone, $name, $address, $payment, $goods_arr)
     {
         $user = User::where(function ($query) use ($email, $phone) {
             $query->where("email", $email)->orWhere("phone", $email);
@@ -82,8 +82,6 @@ class BookRepository
         $order->email = $user->email;
         $order->payment = $payment;
         $order->status = "place_order";
-        $order->province = $province;
-        $order->district = $district;
         $order->address = $address;
         $order->status_paid = 0;
         $order->type = "order";
@@ -111,10 +109,10 @@ class BookRepository
         }
         $subject = "Xác nhận đặt hàng thành công";
         $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
-        $emailcc = ["graphics@colorme.vn"];
-        Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
-            $m->from('no-reply@colorme.vn', 'Graphics');
-            $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
-        });
+//        $emailcc = ["graphics@colorme.vn"];
+//        Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
+//            $m->from('no-reply@colorme.vn', 'Graphics');
+//            $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
+//        });
     }
 }

@@ -154,26 +154,19 @@ class PublicController extends Controller
 
     public function classes($course_id = null, $saler_id = null, $campaign_id = null)
     {
-//        $course = Course::find($course_id);
-//        $lesson = $course->lessons()->orderBy('order')->first();
-//        return redirect('/resource/photoshop/lesson/' . $lesson->id);
-
         $course = Course::find($course_id);
-//        dd($course_id);
         $courses = Course::all();
         $current_gen = Gen::getCurrentGen();
-
-//        $classes = StudyClass::getClassesByCourseAndGen($current_gen->id, $course_id);
-
         $date_start = $course->classes->sortbyDesc('datestart')->first();
         if ($date_start) {
-            $this->data['date_start'] = $date_start->datestart;
+            $this->data['date_start'] = date("d/m/Y", strtotime($date_start->datestart));
         }
-
         $this->data['current_gen_id'] = $current_gen->id;
         $this->data['course_id'] = $course_id;
         $this->data['course'] = $course;
-        $this->data['bases'] = Base::all();
+        $this->data['bases'] = Base::all()->filter(function ($base) use ($course_id, $current_gen) {
+            return $base->classes()->where('course_id', $course_id)->where('gen_id', $current_gen->id)->count() > 0;
+        });
         $this->data['courses'] = $courses;
 
         $this->data['saler_id'] = $saler_id;
@@ -182,33 +175,11 @@ class PublicController extends Controller
         return view('public.classes_list', $this->data);
     }
 
-    public function classes1($course_id = null, $saler_id = null, $campaign_id = null){
-        $course = Course::find($course_id);
-        $courses = Course::all();
-        $current_gen = Gen::getCurrentGen();
-        $date_start = $course->classes->sortbyDesc('datestart')->first();
-        if ($date_start) {
-            $this->data['date_start'] = $date_start->datestart;
-        }
-        $courses_str=[""];
-        $this->data['current_gen_id'] = $current_gen->id;
-        $this->data['course_id'] = $course_id;
-        $this->data['course'] = $course;
-        $this->data['bases'] = Base::all();
-        $this->data['courses'] = $courses;
-
-        $this->data['saler_id'] = $saler_id;
-        $this->data['campaign_id'] = $campaign_id;
-
-        return view('public.classes_list_new',$this->data);
-    }
-
     public function register_class($class_id = null, $saler_id = null, $campaign_id = null)
     {
 
         $this->data['saler_id'] = $saler_id;
         $this->data['campaign_id'] = $campaign_id;
-
         $class = StudyClass::find($class_id);
         $course = Course::find($class->course_id);
 
@@ -285,6 +256,43 @@ class PublicController extends Controller
         }
 
         return redirect('register_success');
+    }
+
+    public function new_register_store(Request $request)
+    {
+        //send mail here
+        $user = User::where('email', '=', $request->email)->first();
+        $phone = preg_replace('/[^0-9.]+/', '', $request->phone);
+        if ($user == null)
+            $user = new User;
+
+        $user->name = $request->name;
+        $user->phone = $phone;
+        $user->email = $request->email;
+        $user->save();
+
+        $register = new Register;
+        $register->user_id = $user->id;
+        $register->gen_id = Gen::getCurrentGen()->id;
+        $register->class_id = $request->class_id;
+        $register->status = 0;
+        $register->saler_id = $request->saler_id;
+        $register->campaign_id = $request->campaign_id;
+        $register->time_to_call = addTimeToDate($register->created_at, "+24 hours");
+
+        $register->save();
+
+        $this->emailService->send_mail_confirm_registration($user, $request->class_id, [AppServiceProvider::$config['email']]);
+
+        $class = $register->studyClass;
+        if (strpos($class->name, '.') !== false) {
+            if ($class->registers()->count() >= $class->target) {
+                $class->status = 0;
+                $class->save();
+            }
+        }
+
+        return ['message' => 'SUCCESS'];
     }
 
     public function send_mail()

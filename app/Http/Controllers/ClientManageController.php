@@ -36,7 +36,6 @@ class ClientManageController extends Controller
     {
         $newTabs = collect(json_decode($request->tabs));
         $newTabIds = $newTabs->pluck("id");
-
         // delete redundant tabs
         DB::table('tabs')->whereNotIn('id', $newTabIds)->delete();
 
@@ -45,13 +44,13 @@ class ClientManageController extends Controller
             if ($t == null) {
                 $t = new Tab();
                 $t->id = $tab->id;
-                $t->name = $tab->name;
-                $t->url = $tab->url;
-                $t->parent_id = $tab->parent_id;
-                $t->order = $tab->order;
-                $t->icon = $tab->icon;
-                $t->save();
             }
+            $t->name = $tab->name;
+            $t->url = $tab->url;
+            $t->parent_id = $tab->parent_id;
+            $t->order = $tab->order;
+            $t->icon = $tab->icon;
+            $t->save();
         }
         return $this->respond(['status' => 1, 'message' => "Thay đổi tính năng thành công"]);
     }

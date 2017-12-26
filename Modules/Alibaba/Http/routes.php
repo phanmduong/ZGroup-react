@@ -6,7 +6,7 @@ Route::group(['middleware' => 'web', 'domain' => "alibabaenglish.edu.{subfix}", 
     Route::get('/about-us', 'AlibabaController@aboutUs');
     Route::get('/courses', 'AlibabaController@courses');
     Route::get('/blog/post/{post_id}', 'AlibabaController@post');
-    Route::get('/register/{courseId}/{salerId?}/{campaignId?}', 'AlibabaController@register');
+    Route::get('/classes/{courseId}/{salerId?}/{campaignId?}', 'AlibabaController@register');
     Route::post('/store-register', 'RegisterController@storeRegisterClass');
     Route::get('/register-class/{classId}/{salerId?}/{campaignId?}', 'RegisterController@getRegisterClass');
     Route::get('/code-form', 'AlibabaController@codeForm');
@@ -14,5 +14,9 @@ Route::group(['middleware' => 'web', 'domain' => "alibabaenglish.edu.{subfix}", 
 });
 
 Route::group(['domain' => "manageapi." . config('app.domain'), 'namespace' => 'Modules\Alibaba\Http\Controllers'], function () {
+    Route::get('/alibaba/register-list', 'AlibabaManageApiController@registerList');
     Route::post('/alibaba-change-call-status-student', 'AlibabaManageApiController@change_call_status');
+    Route::put('/alibaba/register/{registerId}', 'AlibabaManageApiController@editRegister');
+    Route::get('/alibaba/class/all', 'AlibabaManageApiController@get_classes');
+    Route::post('/alibaba/class/delete', 'AlibabaManageApiController@delete_class');
 });

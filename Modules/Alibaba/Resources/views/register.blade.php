@@ -93,38 +93,6 @@
                 @endforeach
             </div>
         @endforeach
-
-        {{--@foreach($classes as $class)--}}
-        {{--<div class="col-md-9" style="background:white; margin-bottom:20px; border-radius:20px; padding:3%">--}}
-        {{--<div>--}}
-        {{--<div style="display:flex;flex-direction:row">--}}
-        {{--<div style="margin-right:20px; border-radius:25px">--}}
-        {{--<img src="{{$class['icon_url']}}"--}}
-        {{--style="border-radius:50%; height:100px;width:100px"/>--}}
-        {{--</div>--}}
-        {{--<div>--}}
-        {{--<h4 style="font-weight:600; margin-top:10px">{{$class['name']}}</h4>--}}
-        {{--<br><br>--}}
-        {{--<p>--}}
-        {{--<i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> {{$class['datestart']}}--}}
-
-        {{--<br>--}}
-
-        {{--<i class="fa fa-calendar"></i> <b>Lịch học:</b> {{$class['study_time']}}--}}
-
-        {{--<br>--}}
-
-        {{--<i class="fa fa-map-marker"></i> <b>Địa điểm:</b> {{$class['address']}}--}}
-        {{--<br><br>--}}
-        {{--</p>--}}
-        {{--<a class="btn btn-round btn-danger" style="background-color:#FF6D00;border-color:#FF6D00"--}}
-        {{--href="/register-class/{{$class['id']}}"><i class="fa fa-plus"></i> Đăng ký </a>--}}
-        {{--</div>--}}
-        {{--</div>--}}
-
-        {{--</div>--}}
-        {{--</div>--}}
-        {{--@endforeach--}}
     </div>
     </div>
 @endsection

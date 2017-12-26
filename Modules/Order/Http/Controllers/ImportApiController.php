@@ -19,6 +19,36 @@ class ImportApiController extends ManageApiController
         parent::__construct();
     }
 
+    public function payImportOrder($orderId, Request $request)
+    {
+        if (Order::find($orderId)->get() == null)
+            return $this->respondErrorWithStatus("Order không tồn tại");
+        if ($request->money == null)
+            return $this->respondErrorWithStatus("Thiếu tiền thanh toán");
+        $debt = Order::find($orderId)->importedGoods->reduce(function ($total, $importedGood) {
+                return $total + $importedGood->quantity * $importedGood->import_price;
+            }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+                return $paid + $orderPaidMoney->money;
+            }, 0);
+
+        if ($request->money > $debt)
+            return $this->respondErrorWithStatus("Thanh toán quá số tiền còn nợ " . $debt);
+        if ($debt == 0) {
+            $order = Order::find($orderId)->get();
+            $order->status_paid = 1;
+        }
+        $orderPaidMoney = new OrderPaidMoney;
+        $orderPaidMoney->order_id = $orderId;
+        $orderPaidMoney->money = $request->money;
+        $orderPaidMoney->note = $request->note;
+        $orderPaidMoney->payment = $request->payment;
+        $orderPaidMoney->staff_id = $this->user->id;
+        $orderPaidMoney->save();
+        return $this->respondSuccessWithStatus([
+            'order_paid_money' => $orderPaidMoney
+        ]);
+    }
+
     public function allImportOrders(Request $request)
     {
         $limit = $request->limit ? $request->limit : 20;
@@ -201,7 +231,7 @@ class ImportApiController extends ManageApiController
             if ($request->status == 'completed') {
                 $history = new HistoryGood;
                 $lastest_good_history = HistoryGood::where('good_id', $imported_good['good_id'])->orderBy('created_at', 'desc')->first();
-                $remain = $lastest_good_history ? $lastest_good_history->remain : null;
+                $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
                 $history->good_id = $imported_good["good_id"];
                 $history->quantity = $imported_good['quantity'];
                 $history->remain = $remain + $imported_good['quantity'];

@@ -46,7 +46,7 @@ class OrderController extends ManageApiController
             }
         }
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
-            $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+            $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
         if ($status)
             $orders = $orders->where('status', $status);
@@ -75,6 +75,10 @@ class OrderController extends ManageApiController
     public function detailedOrder($order_id)
     {
         $order = Order::find($order_id);
+        if($order == null)
+            return $this->respondSuccessWithStatus([
+                'message' => 'Khong ton tai order'
+            ]);
         return $this->respondSuccessWithStatus(
             $order->detailedTransform()
         );
@@ -135,8 +139,6 @@ class OrderController extends ManageApiController
                 $history->save();
             }
         }
-        //thieu confirm order thi them history_goods && tru quantity imported_goods
-        //trang
         return $this->respondSuccessWithStatus([
             'message' => 'ok'
         ]);
@@ -173,37 +175,6 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function payImportOrder($orderId, Request $request)
-    {
-        if (Order::find($orderId)->get() == null)
-            return $this->respondErrorWithStatus("Order không tồn tại");
-        if ($request->money == null)
-            return $this->respondErrorWithStatus("Thiếu tiền thanh toán");
-        $debt = Order::find($orderId)->importedGoods->reduce(function ($total, $importedGood) {
-                return $total + $importedGood->quantity * $importedGood->import_price;
-            }, 0) - Order::find($orderId)->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
-                return $paid + $orderPaidMoney->money;
-            }, 0);
-
-        if ($request->money > $debt)
-            return $this->respondErrorWithStatus("Thanh toán quá số tiền còn nợ " . $debt);
-        if ($debt == 0) {
-            $order = Order::find($orderId)->get();
-            $order->status_paid = 1;
-        }
-        $orderPaidMoney = new OrderPaidMoney;
-        $orderPaidMoney->order_id = $orderId;
-        $orderPaidMoney->money = $request->money;
-        $orderPaidMoney->note = $request->note;
-        $orderPaidMoney->payment = $request->payment;
-        $orderPaidMoney->staff_id = $this->user->id;
-        $orderPaidMoney->save();
-        return $this->respondSuccessWithStatus([
-            'order_paid_money' => $orderPaidMoney
-        ]);
-    }
-
-
     public function getOrderPaidMoney(Request $request)
     {
         $orderPMs = OrderPaidMoney::query();
@@ -232,7 +203,6 @@ class OrderController extends ManageApiController
                 'price' => $good->price,
             ];
         });
-
         $not_goods = array();
 
         foreach ($good_arr as $good) {
@@ -244,5 +214,75 @@ class OrderController extends ManageApiController
             'exists' => $goods,
             'not_exists' => $not_goods
         ]);
+    }
+
+    public function importedGoodsCancelExportProcess($goodOrder, $warehouseId){
+
+    }
+
+//    public function cancelExportOrder($orderId, $warehouseId, Request $request)
+//    {
+//        $order = Order::find($orderId);
+//        if ($order->exported == false)
+//            return $this->respondErrorWithStatus([
+//                'message' => 'Chưa xuất hàng'
+//            ]);
+//        $order->exported = true;
+//        $order->save();
+//    }
+
+    public function importedGoodsExportProcess($goodOrder, $warehouseId)
+    {
+        $quantity = $goodOrder->quantity;
+        while ($quantity > 0) {
+            $importedGood = ImportedGoods::where('quantity', '>', 0)
+                ->where('warehouse_id', $warehouseId)
+                ->where('good_id', $goodOrder->good_id)
+                ->orderBy('created_at', 'asc')->first();
+
+            $history = new HistoryGood;
+            $lastest_good_history = HistoryGood::where('good_id', $importedGood['good_id'])
+                ->orderBy('created_at', 'desc')->first();
+            $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
+            $history->good_id = $goodOrder->good_id;
+            $history->quantity = min($goodOrder->quantity, $importedGood->quantity);
+            $history->remain = $remain - min($goodOrder->quantity, $importedGood->quantity);
+            $history->warehouse_id = $warehouseId;
+            $history->type = 'order';
+            $history->order_id = $goodOrder->order_id;
+            $history->imported_good_id = $importedGood->id;
+            $history->save();
+            $quantity -= min($goodOrder->quantity, $importedGood->quantity);
+        }
+    }
+
+    public function exportOrder($orderId, $warehouseId, Request $request)
+    {
+        $order = Order::find($orderId);
+        if ($order->exported == true)
+            return $this->respondErrorWithStatus([
+                'message' => 'Đã xuất hàng'
+            ]);
+        $order->exported = false;
+        $order->save();
+        foreach ($order->goodOrders as $goodOrder) {
+            $quantity = ImportedGoods::where('good_id', $goodOrder->good_id)
+                ->where('warehouse_id', $warehouseId)
+                ->sum('quantity');
+            if ($goodOrder->quantity > $quantity)
+                return $this->respondSuccessWithStatus([
+                    'message' => 'Thiếu hàng:' . $goodOrder->good->name,
+                ]);
+        }
+        foreach ($order->goodOrders as $goodOrder)
+            $this->importedGoodsExportProcess($goodOrder, $warehouseId);
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function test()
+    {
+        dd(min(8,6));
     }
 }

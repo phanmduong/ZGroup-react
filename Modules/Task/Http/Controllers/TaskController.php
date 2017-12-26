@@ -246,35 +246,51 @@ class TaskController extends ManageApiController
 
         $limit = 20;
 
-        if ($this->user->role === 2) {
-            $projects = Project::where('status', $status);
-            if ($query) {
-                $projects = $projects->where(function ($q) use ($query) {
-                    $q->where("title", "like", "%$query%")
-                        ->orWhere("description", "like", "%$query%");
-                })->orderBy('created_at', "desc")->paginate($limit);
-            } else {
-                $projects = $projects->orderBy('created_at', "desc")->paginate($limit);
-            }
-        } else {
-            $projects = $this->user->projects()->where('status', $status);
-            if ($query) {
-                $projects = $projects->where(function ($q) use ($query) {
-                    $q->where("title", "like", "%$query%")
-                        ->orWhere("description", "like", "%$query%");
-                })->orderBy('created_at', "desc")->paginate($limit);
-            } else {
-                $projects = $projects->orderBy('created_at', "desc")->paginate($limit);
-            }
+        if ($request->limit) {
+            $limit = $request->limit;
         }
 
-        $data = [
-            "projects" => $projects->map(function ($project) {
-                return $project->transform();
-            }),
+        $projects = Project::where('status', $status);
 
-        ];
-        return $this->respondWithPagination($projects, $data);
+        if ($this->user->role === 2) {
+            if ($query) {
+                $projects = $projects->where(function ($q) use ($query) {
+                    $q->where("title", "like", "%$query%")
+                        ->orWhere("description", "like", "%$query%");
+                });
+            }
+        } else {
+            $projects = $projects
+                ->join('project_user', 'projects.id', '=', 'project_user.project_id')
+                ->where('project_user.user_id', $this->user->id);
+            if ($query) {
+                $projects = $projects->where(function ($q) use ($query) {
+                    $q->where("title", "like", "%$query%")
+                        ->orWhere("description", "like", "%$query%");
+                });
+            }
+        }
+        $projects = $projects->orderBy('projects.created_at', "desc");
+        if ($limit != -1) {
+            $projects = $projects->paginate($limit);
+            $data = [
+                "projects" => $projects->map(function ($project) {
+                    return $project->transform();
+                }),
+
+            ];
+            return $this->respondWithPagination($projects, $data);
+        } else {
+            $projects = $projects->get();
+            return [
+                "status" => 1,
+                "projects" => $projects->map(function ($project) {
+                    return $project->transform();
+                })
+            ];
+        }
+
+
     }
 
     public function archiveProjects(Request $request)
@@ -776,10 +792,10 @@ class TaskController extends ManageApiController
         }
         $card = $task->taskList->card;
         if ($card) {
-            $project = $card->board->project;
+//            $project = $card->board->project;
             $this->memberTransformer->setCard($card);
             $this->memberTransformer->setProject(null);
-            $members = $this->memberTransformer->transformCollection($project->members);
+            $members = $this->memberTransformer->transformCollection($card->assignees);
         } else {
             $this->memberTransformer->setCard(null);
             $this->memberTransformer->setProject(null);

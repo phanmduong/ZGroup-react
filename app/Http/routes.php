@@ -43,9 +43,38 @@ Route::get('send_noti_test', 'PublicController@send_noti_test');
 //Route::group(['domain' => 'manage.zgroup.{ga}'], function () {
 Route::group(['domain' => 'manage.' . config('app.domain')], function () {
     Route::get('/email-form-view/{email_form_id}/{email_template_id}', 'PublicController@render_email_form');
-//    Route::get('/email/{path}', 'ClientController@email')
-//        ->where('path', '.*');
-    Route::get('{path}', 'PublicController@manage')
+    Route::get('/email/{path}', 'ClientController@email')
+        ->where('path', '.*');
+    Route::get('/manufacture/{path}', 'ClientController@manufacture')
+        ->where('path', '.*');
+    Route::get('/teaching/{path}', 'ClientController@teaching')
+        ->where('path', '.*');
+    Route::get('/base/{path}', 'ClientController@base')
+        ->where('path', '.*');
+
+    Route::get('/book/{path}', 'ClientController@book')
+        ->where('path', '.*');
+
+
+    Route::get('/hr/{path}', 'ClientController@hr')
+        ->where('path', '.*');
+
+    Route::get('/good/{path}', 'ClientController@good')
+        ->where('path', '.*');
+
+    Route::get('/project/{path}', 'ClientController@work')
+        ->where('path', '.*');
+    Route::get('/blog/{path}', 'ClientController@blog')
+        ->where('path', '.*');
+    Route::get('/marketing/{path}', 'ClientController@marketing')
+        ->where('path', '.*');
+    Route::get('/finance/{path}', 'ClientController@finance')
+        ->where('path', '.*');
+    Route::get('/profile/{path}', 'ClientController@profile')
+        ->where('path', '.*');
+    Route::get('/shift/{path}', 'ClientController@shift')
+        ->where('path', '.*');
+    Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
 });
 
@@ -60,6 +89,7 @@ Route::post('/write-env-client', 'ClientManageController@writeEnvClient');
 //    // Route handle tang thu 4
 //
 //});
+
 
 Route::group(['domain' => "www." . config('app.domain')], function () {
 //    Route::get('/', 'PublicController@redirectManage');
@@ -550,6 +580,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::get('classes1/{course_id?}/{user_id?}/{campaign_id?}', 'PublicController@classes1');
 
     Route::post('classes/register_store', 'PublicController@register_store');
+    Route::post('classes/new_register_store', 'PublicController@new_register_store');
     Route::get('register_success', 'PublicController@register_success_confirm');
     Route::get('mail', 'PublicController@test_mail');
     Route::get('editmail', 'PublicController@edit_mail');
@@ -572,7 +603,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
     $this->post('password/reset', 'Auth\PasswordController@reset');
 
-    Route::get('manage/dashboard', 'HomeController@index');
+    Route::get('dashboard', 'HomeController@index');
     Route::get('manage/getdashboarddata/{base_id?}/{gen_id?}', 'HomeController@get_dashboard_data');
 
     Route::get('manage/categories', 'ManageProductController@index');
@@ -754,7 +785,7 @@ Route::group(['middleware' => 'web', 'domain' => config('app.domain_social')], f
     Route::post('manage/move-warehouse', 'OrderController@move_warehouse');
     Route::get('manage/delivered-orders', 'OrderController@delivered_orders');
 
-    Route::get('manage/marketing-campaign', 'ManageMarketingController@marketing_campaign_list');
+    Route::get('marketing/marketing-campaign', 'ManageMarketingController@marketing_campaign_list');
     Route::get('manage/create-marketing-campaign', 'ManageMarketingController@create_marketing_campaign');
     Route::post('manage/store-marketing-campaign', 'ManageMarketingController@store_marketing_campaign');
     Route::get('manage/delete-marketing-campaign/{campaign_id}', 'ManageMarketingController@delete_marketing_campaign');

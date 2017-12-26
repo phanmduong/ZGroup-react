@@ -35,6 +35,9 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
+                    <a class="nav-link" style="color:white"  href="http://elightbook.com/" data-scroll="true">Sách tiếng anh cơ bản</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" style="color:white" href="/about-us" data-scroll="true">Giới thiệu</a>
                 </li>
                 <li class="nav-item">
