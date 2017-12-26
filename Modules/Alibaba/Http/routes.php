@@ -17,6 +17,6 @@ Route::group(['domain' => "manageapi." . config('app.domain'), 'namespace' => 'M
     Route::get('/alibaba/register-list', 'AlibabaManageApiController@registerList');
     Route::post('/alibaba-change-call-status-student', 'AlibabaManageApiController@change_call_status');
     Route::put('/alibaba/register/{registerId}', 'AlibabaManageApiController@editRegister');
-    Route::put('/alibaba/class/all', 'AlibabaManageApiController@get_classes');
+    Route::get('/alibaba/class/all', 'AlibabaManageApiController@get_classes');
     Route::post('/alibaba/class/delete', 'AlibabaManageApiController@delete_class');
 });
