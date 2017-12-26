@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
         Commands\CreateShifts::class,
         Commands\SendEmailsMarketing::class,
         Commands\SendRemindSms::class,
+        Commands\WorkShifts::class,
         RemindCalendarEvent::class,
         SendCheckInCheckOutNotification::class,
         CheckInCheckOutSMNotification::class
@@ -48,6 +49,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('mail:startlesson')->dailyAt('12:00');
         $schedule->command('survey:send')->dailyAt('01:00');
         $schedule->command('shift:create')->weekly()->fridays()->at('23:00');
+        $schedule->command('create:workShifts')->weekly()->sundays()->at('21:00');
         $schedule->command('calendarEvent:remind')->everyMinute();
 
     }

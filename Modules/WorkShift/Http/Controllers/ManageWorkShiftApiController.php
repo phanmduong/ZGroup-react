@@ -183,6 +183,7 @@ class ManageWorkShiftApiController extends ManageApiController
 
     public function registerShift($workShiftId)
     {
+
         $shift = WorkShift::find($workShiftId);
 
         if (in_array($this->user->id, $shift->users()->pluck('user_id')->toArray())) {
