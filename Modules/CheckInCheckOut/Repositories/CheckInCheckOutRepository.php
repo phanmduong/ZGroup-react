@@ -305,6 +305,97 @@ class CheckInCheckOutRepository
                 }
             }
         }
+
+        // work shifts
+        $shifts = Shift::where("date", $today)
+            ->where("user_id", $checkInCheckOut->user_id)->get();
+        foreach ($shifts as $shift) {
+            $shiftSession = $shift->shift_session;
+
+            if ($shiftSession) {
+                $start_time = $today . " " . $shiftSession->start_time;
+                $end_time = $today . " " . $shiftSession->end_time;
+
+
+                if ($checkInCheckOut->kind == 1) {
+                    $minutesInterval = $this->timeIntervalInMinutes($start_time, date("H:i:s"));
+                    if ($minutesInterval < $timespan) {
+                        $timespan = $minutesInterval;
+                        $checkInCheckOut->teacher_teaching_lesson_id = 0;
+                        $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+                        $checkInCheckOut->shift_id = $shift->id;
+                        if ($shift->checkin_id == 0 || $shift->checkin_id == null) {
+                            $shift->checkin_id = $checkInCheckOut->id;
+                            $shift->save();
+                            $checkInCheckOut->message = "Bạn vừa check in thành công " . $shiftSession->name . " (" . $shiftSession->start_time . " - " . $shiftSession->end_time . ")";
+                        } else {
+                            $checkInCheckOut->message = "Bạn đã check in ca trực " . $shiftSession->name . " (" . $shiftSession->start_time . " - " . $shiftSession->end_time . ") trước đó rồi";
+                        }
+                    }
+
+                } else if ($checkInCheckOut->kind == 2) {
+                    $minutesInterval = $this->timeIntervalInMinutes($end_time, date("H:i:s"));
+                    if ($minutesInterval < $timespan) {
+                        $timespan = $minutesInterval;
+                        $checkInCheckOut->teacher_teaching_lesson_id = 0;
+                        $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
+                        $checkInCheckOut->shift_id = $shift->id;
+                        $checkInCheckOut->message = "Bạn vừa check out thành công " . $shiftSession->name . " (" . $shiftSession->start_time . " - " . $shiftSession->end_time . ")";
+                        $shift->checkout_id = $checkInCheckOut->id;
+                        $shift->save();
+                        if ($shift->checkin_id == null || $shift->checkin_id == 0) {
+                            $shiftArr = [$shift];
+                            $isCheckin = true;
+                            $sampleShift = $shift;
+                            while ($sampleShift != null) {
+                                $start_time = $sampleShift->shift_session->start_time;
+                                $shiftSession = ShiftSession::where("end_time", $start_time)->first();
+                                if (is_null($shiftSession)) break;
+                                $todayShift = $shiftSession->shifts()->where("user_id", $checkInCheckOut->user_id)->where("date", date("Y-m-d "))->first();
+                                if ($todayShift == null) {
+                                    $isCheckin = false;
+                                }
+                                $shiftArr[] = $todayShift;
+                                $sampleShift = $todayShift;
+                                if ($todayShift->checkin_id != null || $todayShift->checkin_id != 0) {
+                                    $sampleShift = null;
+                                }
+                            }
+                            if ($isCheckin) {
+                                foreach ($shiftArr as $s) {
+                                    if ($s->checkin_id == null || $s->checkin_id == 0) {
+                                        $checkIn = $checkInCheckOut->replicate();
+                                        $checkIn->kind = 1;
+                                        $checkIn->status = 6;
+                                        $checkIn->shift_id = $s->id;
+                                        $checkIn->message = "Bạn vừa check in thành công " . $s->shift_session->name . " (" . $s->shift_session->start_time . " - " . $s->shift_session->end_time . ")";
+                                        $checkIn->created_at = format_time_to_mysql(strtotime($s->shift_session->start_time));
+                                        $checkIn->save();
+
+                                        $s->checkin_id = $checkIn->id;
+                                        $s->save();
+                                    }
+                                    if ($s->checkout_id == null || $s->checkout_id == 0) {
+                                        $checkOut = $checkInCheckOut->replicate();
+                                        $checkOut->kind = 2;
+                                        $checkOut->status = 6;
+                                        $checkOut->shift_id = $s->id;
+                                        $checkOut->created_at = format_time_to_mysql(strtotime($s->shift_session->end_time));
+                                        $checkOut->message = "Bạn vừa check out thành công " . $s->shift_session->name . " (" . $s->shift_session->start_time . " - " . $s->shift_session->end_time . ")";
+                                        $checkOut->save();
+
+                                        $s->checkout_id = $checkOut->id;
+                                        $s->save();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         if ($checkInCheckOut->teacher_teaching_lesson_id == 0
             && $checkInCheckOut->teaching_assistant_teaching_lesson_id == 0
             && $checkInCheckOut->shift_id == 0) {
