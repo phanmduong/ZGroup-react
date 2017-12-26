@@ -35,6 +35,10 @@ class ClientController extends Controller
         return view("client.base");
     }
 
+    public function book()
+    {
+        return view("client.book");
+    }
 
     public function hr()
     {
@@ -45,6 +49,7 @@ class ClientController extends Controller
     {
         return view("client.good");
     }
+
     public function work()
     {
         return view("client.work");
