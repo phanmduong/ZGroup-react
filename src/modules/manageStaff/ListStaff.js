@@ -52,7 +52,7 @@ class ListStaff extends React.Component {
                                                      }}
                                                 />
                                             </td>
-                                            <td><Link to={`staff/${staff.id}/info`}>{staff.name}</Link></td>
+                                            <td><Link to={`hr/staff/${staff.id}/info`}>{staff.name}</Link></td>
                                             <td>{staff.email}</td>
                                             <td>{staff.phone}</td>
                                             <td>

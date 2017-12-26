@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 import * as helper from '../../helpers/helper';
+import * as types from "../../constants/actionTypes";
 
 export function getAllRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
     let token = localStorage.getItem('token');
@@ -22,15 +23,17 @@ export function getAllRegisterStudent(page = 1, genId, search = '', salerId = ''
 }
 
 export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
-    let urlType = env.TYPE_API;
+    let urlType = env.API_URL;
+    switch (env.TYPE_API){
+        case "alibaba":
+            urlType = (env.MANAGE_API_URL + "/alibaba");
+            break;
+        default:
+            urlType= env.API_URL;
+    }
     let token = localStorage.getItem('token');
     let url =
-        (urlType == "alibaba"
-            ?
-                (env.MANAGE_API_URL + "/alibaba")
-                :
-                env.API_URL
-        )+
+        urlType+
         "/register-list?" +
         "page=" + page +
         "&gen_id=" + genId +
@@ -152,10 +155,15 @@ export function loadRegisterByStudent(studentId) {
 
 export function changeInfoStudent(info) {
     //manageapi.domain/alibaba/register/{register_id}?token=
-    let urlType = env.TYPE_API;
-    let url = env.MANAGE_API_URL +
-        (urlType == "alibaba" ? "/alibaba" : "") +
-        "/register/" + info.id ;
+    let urlType = "";
+    switch (env.TYPE_API){
+        case "alibaba":
+                urlType = "/alibaba";
+                break;
+        default:
+            urlType= "";
+    }
+    let url = env.MANAGE_API_URL + urlType  +"/register/" + info.id ;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
