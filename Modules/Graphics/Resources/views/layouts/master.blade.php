@@ -378,8 +378,8 @@
 <script src="/graphics-assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="/js/graphics.js?6868"></script>
 <script>
-    function myFunction(book.id, book.price) {
-        openModalBuy(book.id, book.price);
+    function myFunction(id, price) {
+        openModalBuy(id, price);
         fbq('track', 'AddToCart');
     }
 </script>
