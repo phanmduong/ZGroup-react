@@ -45,7 +45,7 @@ class CustomerGroupApiController extends ManageApiController
             }
         }
         return $this->respondSuccessWithStatus([
-            "customer_group" => $group->transform(),
+            "customer_group" => $this->groupTransformer->transform($group),
         ]);
 
     }
