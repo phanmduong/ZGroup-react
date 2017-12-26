@@ -27,6 +27,10 @@ class WorkShiftTransformer extends Transformer
             return $this->userRepository->staff($user);
         });
 
+        $date = new \DateTime();
+        $date->modify('-12 hours');
+        $datetime = strtotime($date->format('Y-m-d'));
+
         $shift_session = $shift->work_shift_session()->withTrashed()->first();
         return [
             'id' => $shift->id,
@@ -35,6 +39,7 @@ class WorkShiftTransformer extends Transformer
             'week' => $shift->week,
             'users' => $users,
             'order' => $shift->order,
+            'disable' => strtotime($shift->created_at) < $datetime,
             'gen' => ['name' => $shift->gen->name],
             'base' => ['name' => $shift->base->name, 'address' => $shift->base->address],
             'start_time' => format_time_shift(strtotime($shift_session->start_time)),
