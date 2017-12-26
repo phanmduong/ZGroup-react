@@ -35,7 +35,7 @@ class AuthenticateController extends Controller
         }
 
         if ($user->phone != null && $user->phone != "" && $user->homeland != null && $user->homeland != "" &&
-            $user->age != null && $user->age != "" && $user->dob != null && $user->dob != "" &&
+            $user->age != null && $user->age != "" &&
             $user->address != null && $user->address != "" && $user->university != null && $user->university != "" &&
             $user->start_company != null && $user->start_company != "") $user->first_login = 1;
         // all good so return the token
