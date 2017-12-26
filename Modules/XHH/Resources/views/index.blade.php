@@ -22,8 +22,10 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h3>
-                    <b>Bài viết mới nhất</b>
+                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
+                </div>
+                <h3 style="color:black;font-size:30px; font-weight:600">
+                    <b>BÀI VIẾT MỚI NHẤT</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
@@ -79,37 +81,17 @@
                     </div>
                 @endforeach
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315148lid7m57PXMpi8ig.png');background-size: cover;">
-                            <div style="padding-top:15%">
-                                <div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">
-                                    <h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>
-                                        đến với khoa Xã Hội Học<br>
-                                        Trường Đại Học Khoa Học Huế!
-                                    </h3>
-
-                                    <p style="color:white">
-                                        Cùng chúng tôi cập nhật các thông tin mới nhất từ khoa
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-md-12">
+                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
                 </div>
+                <h3 style="color:black;font-size:30px; font-weight:600">
+                    <b>HOẠT ĐỘNG ĐOÀN THỂ</b>
+                </h3>
+                <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <br><br>
             </div>
-            <br>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3>
-                            <b>Hoạt động đoàn thể</b>
-                        </h3>
-                        <a href="/blog/post/14676" style="color:#c50000!important"><b>Xem thêm</b></a>
-
-                        <br><br>
-                    </div>
                     @foreach($blogSection1 as $blog)
                         <div class="col-md-12">
                             <div class="card card-plain card-blog">
@@ -150,16 +132,18 @@
             <div style="height:1px; margin-bottom:9px; background:#c2c2c2">
 
             </div>
+            <div class="col-md-12">
+                <br>
+                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
+                </div>
+                <h3 style="color:black;font-size:30px; font-weight:600">
+                    <b>NGHIÊN CỨU KHOA HỌC</b>
+                </h3>
+                <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <br><br>
+            </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h3>
-                            <b>Nghiên cứu khoa học</b>
-                        </h3>
-                        <a href="/blog/post/14676" style="color:#c50000!important"><b>Xem thêm</b></a>
-
-                        <br><br>
-                    </div>
                     @foreach($blogSection2 as $blog)
                         <div class="col-md-4">
                             <div class="card card-plain card-blog text-center">
@@ -190,25 +174,14 @@
                 </div>
             </div>
             <br>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div style="background-image: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1513315147hlROAAiDKpgLRmg.png');background-size: cover;">
-                            <div style="padding-top:15%">
-                                <div style="background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.7) 100%); padding:2%; padding-top:30px">
-                                    <h3 style="margin:0;padding:0;color:white; font-weight: 400">Chào mừng bạn<br>
-                                        đến với khoa Xã Hội Học<br>
-                                        Trường Đại Học Khoa Học Huế!
-                                    </h3>
-
-                                    <p style="color:white">
-                                        Cùng chúng tôi cập nhật các thông tin mới nhất từ khoa
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-md-12">
+                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
                 </div>
+                <h3 style="color:black;font-size:30px; font-weight:600">
+                    <b>THƯ VIỆN ĐIỆN TỬ</b>
+                </h3>
+                <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <br><br>
             </div>
             <div class="container">
                 <div id="vuejs1" class="row">

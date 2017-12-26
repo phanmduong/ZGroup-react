@@ -130,8 +130,9 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => env('APP_LOG', 'daily'),
 
+    'log_max_files' => 30,
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
