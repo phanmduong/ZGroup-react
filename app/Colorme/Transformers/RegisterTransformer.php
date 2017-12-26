@@ -20,6 +20,7 @@ class RegisterTransformer extends Transformer
 
     public function transform($register)
     {
+        $class = $register->studyClass()->withTrashed()->first();
         $data = [
             "id" => $register->id,
             "gen_id" => $register->gen_id,
@@ -40,11 +41,11 @@ class RegisterTransformer extends Transformer
             'study_time' => $register->study_time,
             'note' => $register->note,
             "class" => [
-                "name" => $register->studyClass->name,
-                "id" => $register->studyClass->id,
-                "study_time" => $register->studyClass->study_time,
-                "description" => $register->studyClass->description,
-                "type" => $register->studyClass->type,
+                "name" => $class->name,
+                "id" => $class->id,
+                "study_time" => $class->study_time,
+                "description" => $class->description,
+                "type" => $class->type,
             ],
             "created_at" => format_time_to_mysql(strtotime($register->created_at)),
             "is_delete" => $register->is_delete
