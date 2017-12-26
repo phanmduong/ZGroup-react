@@ -15,14 +15,24 @@ export function loadExcelData(genid) {
     let url = env.API_URL + "/apiv2/gens/" + genid + "/classes?token=" + token;
     return axios.get(url);
 }
+
 export function loadGens() {
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/gens?token=" + token;
     return axios.get(url);
 }
 
-export function loadClasses(search, page = 1, teacherId = '', genId='') {
-    let url = env.MANAGE_API_URL + "/class/all?search=" + search + "&teacher_id=" + teacherId + "&page=" + page + "&gen_id=" + (genId == 11 ? '' : genId);
+export function loadClasses(search, page = 1, teacherId = '', genId = '') {
+    let url = env.MANAGE_API_URL;
+    switch (env.TYPE_API) {
+        case 'alibaba':
+            url += '/alibaba/class/all';
+            break;
+        default:
+            url += "/class/all";
+            break;
+    }
+    url += "?search=" + search + "&teacher_id=" + teacherId + "&page=" + page + "&gen_id=" + (genId === 11 ? '' : genId);
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
@@ -31,7 +41,15 @@ export function loadClasses(search, page = 1, teacherId = '', genId='') {
 }
 
 export function deleteClass(classId) {
-    let url = env.MANAGE_API_URL + "/class/delete";
+    let url = env.MANAGE_API_URL;
+    switch (env.TYPE_API) {
+        case 'alibaba':
+            url += '/alibaba/class/delete';
+            break;
+        default:
+            url += "/class/delete";
+            break;
+    }
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
