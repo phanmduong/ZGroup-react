@@ -677,6 +677,12 @@ export default {
     },
 
     dashboard: {
+        it: {
+            dateArray: [],
+            pointByDate: [],
+            cardsByDate: [],
+            isLoading: false
+        },
         gens: [],
         isLoadingGens: true,
         errorGens: false,
