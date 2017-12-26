@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class WorkShiftUser extends Pivot
+class WorkShiftUser extends Model
 {
     protected $table = 'work_shift_user';
 }
