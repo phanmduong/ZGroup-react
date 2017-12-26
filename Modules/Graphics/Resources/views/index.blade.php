@@ -80,7 +80,7 @@
                                     <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">
                                         Xem thêm
                                     </a>
-                                    <button onclick="openModalBuy({{$book["id"]}},{{$book["price"]}})"
+                                    <button onclick="myFunction({{$book["id"]}},{{$book["price"]}})"
                                             class="btn btn-sm btn-success">
                                         Đặt mua ngay <i class="fa fa-angle-right"></i>
                                     </button>
@@ -199,7 +199,7 @@
                                     <a href="http://graphics.vn/book/{{$book['id']}}" class="btn btn-link btn-success">
                                         Xem thêm</a>
                                     {{--<button data-toggle="modal" data-target="#modalBuy" class="btn btn-sm btn-success">Đặt mua ngay <i class="fa fa-angle-right"></i></button>--}}
-                                    <button onclick="myFunction()"
+                                    <button onclick="myFunction({{$book["id"]}}, {{$book["price"]}})"
                                             class="btn btn-sm btn-success">
                                         Đặt mua ngay <i class="fa fa-angle-right"></i></button>
 
