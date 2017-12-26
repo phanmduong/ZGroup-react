@@ -364,7 +364,7 @@ class CheckInCheckOutRepository
                             while ($sampleShift != null) {
                                 $workShiftUserSessionStart = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=", "work_shift_sessions.id")
                                     ->where("work_shifts.id", $workShiftUser->work_shift_id)->select("work_shift_sessions.*")->first();
-                                
+                                dd($workShiftUserSessionStart);
                                 if (is_null($workShiftUserSessionStart)) break;
                                 $start_time = $workShiftUserSessionStart->start_time;
 
