@@ -7,12 +7,29 @@ import * as helper from '../../../helpers/helper';
 import {NO_AVATAR} from '../../../constants/env';
 import PropTypes from 'prop-types';
 import TooltipButton from "../../../components/common/TooltipButton";
+import {Modal} from "react-bootstrap";
+import {MAX_USER_SHOW_WORK_SHIFT} from "../../../constants/constants";
 
 class Shift extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            showModalUser: false
+        };
         this.onRegister = this.onRegister.bind(this);
         this.onRemoveRegister = this.onRemoveRegister.bind(this);
+        this.closeModalUser = this.closeModalUser.bind(this);
+        this.openModalUser = this.openModalUser.bind(this);
+
+
+    }
+
+    closeModalUser() {
+        this.setState({showModalUser: false});
+    }
+
+    openModalUser() {
+        this.setState({showModalUser: true});
     }
 
     onRegister() {
@@ -24,9 +41,15 @@ class Shift extends React.Component {
     }
 
     renderUsers(users) {
+        let maxUser = Math.min(MAX_USER_SHOW_WORK_SHIFT, users.length);
         return (
-            <div>
-                {users && users.map((user) => {
+            <div className="cursor-pointer flex-row flex-justify-content-center" onClick={() => this.openModalUser()}>
+                {
+                    users.length - MAX_USER_SHOW_WORK_SHIFT > 0 &&
+                    <div className="avatar-work-shift text-center" style={{lineHeight: '15px', fontWeight: '400'}}>
+                        +{users.length - MAX_USER_SHOW_WORK_SHIFT}</div>
+                }
+                {users && users.slice(0, maxUser).map((user) => {
                     let avatar = helper.avatarEmpty(user.avatar_url) ?
                         NO_AVATAR : user.avatar_url;
                     return (
@@ -37,9 +60,45 @@ class Shift extends React.Component {
                                  }}
                             />
                         </TooltipButton>
-
                     )
                 })}
+                <Modal show={this.state.showModalUser} onHide={this.closeModalUser}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Nhân viên đang kí trực</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead className="text-rose">
+                                <tr>
+                                    <th/>
+                                    <th>Họ và tên</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {users && users.map((user, index) => {
+                                    let avatar = helper.avatarEmpty(user.avatar_url) ?
+                                        NO_AVATAR : user.avatar_url;
+                                    return (
+                                        <tr key={index}>
+                                            <td>
+                                                <div className="avatar-list-staff"
+                                                     style={{
+                                                         background: 'url(' + avatar + ') center center / cover',
+                                                         display: 'inline-block'
+                                                     }}
+                                                />
+                                            </td>
+                                            <td>{user ? user.name : ''}</td>
+                                        </tr>
+
+                                    );
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </Modal.Body>
+                </Modal>
             </div>
         )
     }

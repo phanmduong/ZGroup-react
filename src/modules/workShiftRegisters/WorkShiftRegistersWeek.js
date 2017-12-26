@@ -1,11 +1,12 @@
 import React from 'react';
 import ShiftDates from './shift/ShiftDates';
-import {MAX_TIME_SHIFT_REIGSTER} from '../../constants/constants';
+import {MAX_TIME_WORK_SHIFT_REIGSTER} from '../../constants/constants';
 import * as helper from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import _ from 'lodash';
 import StatisticShift from './shift/StatisticShift';
 import PropTypes from 'prop-types';
+import {convertTimeToSecond} from "../../helpers/helper";
 
 class ShiftRegistersWeek extends React.Component {
     constructor(props, context) {
@@ -35,26 +36,29 @@ class ShiftRegistersWeek extends React.Component {
 
 
         if (shiftRegisters[currentWeek]) {
-            let sumTimeShiftOfWeek = helper.sumTimeShiftOfWeek(shiftRegisters[currentWeek], this.props.userId);
+            let sumTimeShiftOfWeek = helper.sumTimeWorkShiftOfWeek(shiftRegisters[currentWeek], this.props.userId);
 
             let statisticShift = [];
 
             shiftRegisters[currentWeek].dates.map(function (date) {
                 date.shifts.map(function (shift) {
-                    let users = statisticShift.filter(function (user) {
-                        return shift.user && user.id === shift.user.id;
-                    });
-                    if (users[0]) {
-                        users[0].total_shift += 1;
-                    } else {
-                        if (shift.user) {
-                            statisticShift = [{...shift.user, total_shift: 1}, ...statisticShift];
+                    let totalTime = convertTimeToSecond(shift.end_time) - convertTimeToSecond(shift.start_time);
+                    shift.users.map(function (userData) {
+
+                        let users = statisticShift.filter(function (user) {
+                            return user.id === userData.id;
+                        });
+                        if (users[0]) {
+                            users[0].total_shift += 1;
+                            users[0].total_time += totalTime;
+                        } else {
+                            statisticShift = [{...userData, total_shift: 1, total_time: totalTime}, ...statisticShift];
                         }
-                    }
+                    });
                 });
             });
 
-            statisticShift = _.reverse(_.sortBy(statisticShift, (user) => user.total_shift));
+            statisticShift = _.sortBy(statisticShift, (user) => user.total_time);
             return (
                 <div className="row">
                     <div className="col-md-12">
@@ -78,10 +82,10 @@ class ShiftRegistersWeek extends React.Component {
                                 </button>
                             </h2>
                             <h6><strong>Tổng thời gian làm việc: {helper.getHoursTime(sumTimeShiftOfWeek)}h/
-                                {helper.getHoursTime(MAX_TIME_SHIFT_REIGSTER)}h</strong></h6>
+                                {helper.getHoursTime(MAX_TIME_WORK_SHIFT_REIGSTER)}h</strong></h6>
                             <div className="progress progress-line-warning">
                                 <div className="progress-bar progress-bar-success"
-                                     style={{width: helper.convertTimeToSecond(sumTimeShiftOfWeek) * 100 / helper.convertTimeToSecond(MAX_TIME_SHIFT_REIGSTER) + '%'}}
+                                     style={{width: helper.convertTimeToSecond(sumTimeShiftOfWeek) * 100 / helper.convertTimeToSecond(MAX_TIME_WORK_SHIFT_REIGSTER) + '%'}}
                                 />
                             </div>
                             <button className="btn btn-rose" onClick={() => this.openModal()}>Thống kê</button>
@@ -102,7 +106,8 @@ class ShiftRegistersWeek extends React.Component {
                         <Modal.Body>
                             <StatisticShift
                                 statisticShift={statisticShift}
-                                maxTotalShift={statisticShift[0] ? statisticShift[0].total_shift : 0}
+                                maxTotalShift={statisticShift[statisticShift.length - 1] ? statisticShift[statisticShift.length - 1].total_shift : 0}
+                                maxTotalTime={statisticShift[statisticShift.length - 1] ? statisticShift[statisticShift.length - 1].total_time : 0}
                             />
                         </Modal.Body>
                     </Modal>

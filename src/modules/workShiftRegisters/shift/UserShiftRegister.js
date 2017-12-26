@@ -4,7 +4,6 @@ import * as helper from '../../../helpers/helper';
 import PropTypes from 'prop-types';
 
 
-const styles = {}
 
 class UserShiftRegister extends React.Component {
     constructor(props, context) {

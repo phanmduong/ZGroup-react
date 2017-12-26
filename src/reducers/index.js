@@ -56,6 +56,7 @@ import departmentReducer from "../modules/manageDepartment/departmentReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
 import workShiftSessionsReducer from "../modules/workShiftSessions/workShiftSessionsReducer";
 import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRegistersReducer";
+import historyWorkShiftRegistersReducer from "../modules/historyWorkShiftRegisters/historyWorkShiftRegistersReducer";
 
 
 const appReducer = combineReducers({
@@ -116,6 +117,7 @@ const appReducer = combineReducers({
     groupCustomers: groupCustomerReducer,
     workShiftSessions: workShiftSessionsReducer,
     workShiftRegisters: workShiftRegistersReducer,
+    historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
 
 });
 

@@ -1279,4 +1279,11 @@ export default {
         error: false,
         shiftRegisters: []
     },
+    historyWorkShiftRegisters: {
+        currentPage: 1,
+        totalPages: 1,
+        shiftPicks: [],
+        isLoading: false,
+        error: false
+    },
 };
