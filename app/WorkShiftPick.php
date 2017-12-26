@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkShiftPick extends Model
 {
-    protected $table = 'shift_picks';
+    protected $table = 'work_shift_picks';
 
     public function user()
     {

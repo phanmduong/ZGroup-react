@@ -40,7 +40,7 @@ class CreateWorkShiftSessions extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('work_shift_id')->unsigned();
             $table->foreign('work_shift_id')->references('id')->on('work_shifts');
-            $table->integer('active');
+            $table->integer('status');
             $table->timestamps();
         });
         Schema::create('work_shift_user', function (Blueprint $table) {

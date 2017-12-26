@@ -9,6 +9,7 @@ use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Repositories\UserRepository;
 use App\WorkShift;
+use App\WorkShiftPick;
 use App\WorkShiftSession;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -97,7 +98,7 @@ class ManageWorkShiftApiController extends ManageApiController
     public function createWorkShift()
     {
         $date = new \DateTime();
-        $date->modify('+1 days');
+        $date->modify('-1 days');
         $formatted_date_from = $date->format('Y-m-d');
         $date->modify('+6 days');
         $formatted_date_to = $date->format('Y-m-d');
@@ -189,6 +190,11 @@ class ManageWorkShiftApiController extends ManageApiController
         }
 
         $shift->users()->attach($this->user->id);
+        $shift_pick = new WorkShiftPick();
+        $shift_pick->user_id = $this->user->id;
+        $shift_pick->work_shift_id = $shift->id;
+        $shift_pick->status = 1;
+        $shift_pick->save();
 
         return $this->respondSuccessWithStatus([
             'user' => $this->userRepository->staff($this->user)
@@ -205,8 +211,51 @@ class ManageWorkShiftApiController extends ManageApiController
 
         $shift->users()->detach($this->user->id);
 
+        $shift_pick = new WorkShiftPick();
+        $shift_pick->user_id = $this->user->id;
+        $shift_pick->work_shift_id = $shift->id;
+        $shift_pick->status = 0;
+        $shift_pick->save();
+
         return $this->respondSuccessWithStatus([
             'user' => $this->userRepository->staff($this->user)
         ]);
+    }
+
+    public function get_history_shift_register()
+    {
+
+        $limit = 40;
+
+        $shift_picks = WorkShiftPick::orderBy('created_at', 'desc')->paginate($limit);
+
+        $data = [
+            "shift_picks" => $shift_picks->map(function ($shiftPick) {
+                $shift_session = $shiftPick->work_shift->work_shift_session()->withTrashed()->first();
+
+                $shiftPickDate = [
+                    'shift_pick' => [
+                        'id' => $shiftPick->work_shift->id,
+                        'week' => $shiftPick->work_shift->week,
+                        'status' => $shiftPick->status,
+                        'created_at' => format_full_time_date($shiftPick->created_at),
+                        'name' => $shift_session->name,
+                        'start_time' => $shift_session->start_time,
+                        'end_time' => $shift_session->end_time,
+                    ]
+                ];
+
+                if ($shiftPick->user) {
+                    $shiftPickDate['user'] = [
+                        'id' => $shiftPick->user->id,
+                        'name' => $shiftPick->user->name,
+                        'avatar_url' => generate_protocol_url($shiftPick->user->avatar_url),
+                    ];
+                }
+
+                return $shiftPickDate;
+            })
+        ];
+        return $this->respondWithPagination($shift_picks, $data);
     }
 }
