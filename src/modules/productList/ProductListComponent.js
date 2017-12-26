@@ -75,23 +75,23 @@ class ProductListComponent extends React.Component {
                                     </td>
                                     <td style={{width: "50px"}}>{product.quantity}</td>
                                     <td>
-                                        <a onClick={() => this.props.showPriceModal(product)}>
-                                            {
-                                                product.price.length ? (
-                                                    <span>
-                                                        {
-                                                            product.price[0] === product.price[1] ? (
-                                                                <p>{helper.dotNumber(product.price[0])}đ</p>
-                                                            ) : (
-                                                                <p>{helper.dotNumber(product.price[0])}-{helper.dotNumber(product.price[1])}đ</p>
-                                                            )
-                                                        }
-                                                        </span>
-                                                ) : (
-                                                    <span>{helper.dotNumber(product.price)}đ</span>
-                                                )
-                                            }
-                                        </a>
+                                        {
+                                            product.children ? (
+                                                <a onClick={() => this.props.showSameProductModal(index)}>
+                                                    {
+                                                        product.price[0] === product.price[1] ? (
+                                                            <p>{helper.dotNumber(product.price[0])}đ</p>
+                                                        ) : (
+                                                            <p>{helper.dotNumber(product.price[0])}-{helper.dotNumber(product.price[1])}đ</p>
+                                                        )
+                                                    }
+                                                </a>
+                                            ) : (
+                                                <a onClick={() => this.props.showPriceModal(product)}>
+                                                    {helper.dotNumber(product.price)}đ
+                                                </a>
+                                            )
+                                        }
                                     </td>
                                     <td>
                                         {helper.dotNumber(product.import_price)}
@@ -177,6 +177,7 @@ class ProductListComponent extends React.Component {
                 <SameProductModalContainer
                     showSameProductModal={this.props.showSameProductModal}
                     showWareHouseModal={this.props.showWareHouseModal}
+                    showPriceModal={this.props.showPriceModal}
                     deleteProduct={this.deleteProduct}/>
             </div>
         );

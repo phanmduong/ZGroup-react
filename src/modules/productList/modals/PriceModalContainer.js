@@ -26,10 +26,12 @@ class PriceModalContainer extends React.Component {
     }
 
     render() {
+        const indexForChilds = this.props.productEditing.index;
+        const product = indexForChilds ? this.props.products[indexForChilds] : this.props.productEditing.productPresent;
         return (
             <Modal show={this.props.priceModal}
-                   onHide={() => this.props.showPriceModal(this.props.productEditing.productPresent)}>
-                <a onClick={() => this.props.showPriceModal(this.props.productEditing.productPresent)}
+                   onHide={() => this.props.showPriceModal(product)}>
+                <a onClick={() => this.props.showPriceModal(product)}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title">Giá bán</Modal.Title>
@@ -39,7 +41,7 @@ class PriceModalContainer extends React.Component {
                         <label className="label-control">Nhập giá</label>
                         <input type="text"
                                name="price"
-                               className="form-control datepicker"
+                               className="form-control date-picker"
                                value={this.props.productEditing.productPresent.price}
                                onChange={this.handleProduct}/>
                         <span className="material-input"/>
@@ -63,9 +65,8 @@ class PriceModalContainer extends React.Component {
                                 <button rel="tooltip" data-placement="top" title=""
                                         data-original-title="Remove item" type="button"
                                         className="btn btn-danger btn-round" data-dismiss="modal"
-                                        onClick={() => this.props.showPriceModal(this.props.productEditing.productPresent)}>
-                                    <i
-                                        className="material-icons">close</i> Huỷ
+                                        onClick={() => this.props.showPriceModal(product)}>
+                                    <i className="material-icons">close</i> Huỷ
                                 </button>
                             </div>
                         )
@@ -82,14 +83,16 @@ PriceModalContainer.propTypes = {
     priceModal: PropTypes.bool,
     productEditing: PropTypes.object.isRequired,
     isModalUpdating: PropTypes.bool,
-    showPriceModal: PropTypes.func.isRequired
+    showPriceModal: PropTypes.func.isRequired,
+    products: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         priceModal: state.productList.modalInProduct.priceModal,
         productEditing: state.productList.productEditing,
-        isModalUpdating: state.productList.modalInProduct.isModalUpdating
+        isModalUpdating: state.productList.modalInProduct.isModalUpdating,
+        products: state.productList.products
     };
 }
 

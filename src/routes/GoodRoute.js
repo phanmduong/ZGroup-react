@@ -18,7 +18,7 @@ import CategoriesContainer from "../modules/categories/CategoriesContainer";
 import SupplierContainer from "../modules/supplier/SupplierContainer";
 
 /**
- * Tab Nhân sự
+ * Tab Hang hoa
  */
 export default [
     {
