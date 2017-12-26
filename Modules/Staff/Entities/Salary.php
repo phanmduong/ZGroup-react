@@ -6,7 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Salary extends Model
 {
-    protected $fillable = ['salaries'];
-
-
+    protected $table = 'salaries';
 }
