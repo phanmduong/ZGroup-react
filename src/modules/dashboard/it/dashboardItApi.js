@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../../constants/env';
 
-export function loadCards(from, to, projectId = null, staffId = null) {
+export function loadCards(from, to, projectId = "", staffId = "") {
     let url = env.MANAGE_API_URL + `/card/chart?from=${from}&to=${to}&project_id=${projectId}&staff_id=${staffId}`;
     let token = localStorage.getItem('token');
     if (token) {

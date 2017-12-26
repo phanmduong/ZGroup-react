@@ -3,7 +3,7 @@ import * as dashboardItApi from './dashboardItApi';
 
 /*eslint no-console: 0 */
 
-export function loadCountCardsByStaffDuration(from, to, projectId = null, staffId = null) {
+export function loadCountCardsByStaffDuration(from, to, projectId = "", staffId = "") {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CARDS_STAFF_DURATION,
