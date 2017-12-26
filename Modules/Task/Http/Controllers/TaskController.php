@@ -250,7 +250,7 @@ class TaskController extends ManageApiController
             $limit = $request->limit;
         }
 
-        $projects = Project::where('status', $status);
+        $projects = Project::where('status', $status)->select("projects.*");
 
         if ($this->user->role === 2) {
             if ($query) {
