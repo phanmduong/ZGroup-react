@@ -11,8 +11,8 @@ class XHHController extends Controller
 {
     public function index()
     {
-        $newestBlog = Product::where('type', 2)->where('category_id', 1)->orderBy('created_at', 'desc')->first();
-        $newestTop3 = Product::where('type', 2)->where('category_id', 1)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
+        $newestBlog = Product::where('type', 2)->orderBy('created_at', 'desc')->first();
+        $newestTop3 = Product::where('type', 2)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
         $blogSection2 = Product::where('type', 2)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
         $books = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
@@ -67,7 +67,8 @@ class XHHController extends Controller
         );
     }
 
-    public function book($subfix, $book_id) {
+    public function book($subfix, $book_id)
+    {
         $book = Good::find($book_id);
         $newestBooks = Good::where('type', 'book')->where('id', '<>', $book_id)->limit(4)->get();
         return view('xhh::book', [
@@ -76,18 +77,21 @@ class XHHController extends Controller
         ]);
     }
 
-    public function allBooks($subfix) {
+    public function allBooks($subfix)
+    {
         $books = Good::where('type', 'book')->get();
-        return view('xhh::library',[
+        return view('xhh::library', [
             'books' => $books,
         ]);
     }
 
-    public function aboutUs($subfix) {
+    public function aboutUs($subfix)
+    {
         return view('xhh::about-us');
     }
 
-    public function contactUs($subfix) {
+    public function contactUs($subfix)
+    {
         return view('xhh::contact-us');
     }
 }

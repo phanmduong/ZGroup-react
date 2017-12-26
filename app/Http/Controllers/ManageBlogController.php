@@ -93,20 +93,20 @@ class ManageBlogController extends ManageApiController
 
         $data = [
             "posts" => $posts->map(function ($post) {
-                $post = [
+                $data = [
                     'id' => $post->id,
                     'title' => $post->title,
                     'status' => $post->status,
                     'created_at' => format_vn_short_datetime(strtotime($post->created_at)),
                 ];
-                if (isset($post->category)) {
-                    $post['category'] = [
+                if ($post->category) {
+                    $data['category'] = [
                         'id' => $post->category->id,
                         'name' => $post->category->name,
                     ];
                 }
 
-                return $post;
+                return $data;
             })
         ];
         return $this->respondWithPagination($posts, $data);
