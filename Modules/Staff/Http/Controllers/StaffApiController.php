@@ -20,7 +20,7 @@ class StaffApiController extends ManageApiController
     {
 
         $errors = [];
-        if (!$request->name || !$request->email || !$request->phone || !$request->username) {
+        if (!$request->email || !$request->username) {
             return $this->respondErrorWithStatus("Thiếu thông tin");
         }
         $user = User::where('email', '=', trim($request->email))->first();
