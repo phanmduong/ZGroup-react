@@ -205,7 +205,7 @@ class ManageWorkShiftApiController extends ManageApiController
     {
         $shift = WorkShift::find($workShiftId);
 
-        if (!in_array($this->user->id, $shift->users()->pluck('id')->toArray())) {
+        if (!in_array($this->user->id, $shift->users()->pluck('user_id')->toArray())) {
             return $this->respondSuccess("Bạn chưa đăng kí ca làm việc này");
         }
 
