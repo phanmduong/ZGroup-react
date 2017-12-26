@@ -58,8 +58,8 @@ class ClassesContainer extends React.Component {
             }]);
             gens = _.reverse(gens);
             this.setState({
-                gens: [...gens],
-                selectGenId: 11,
+                gens: [{id: 0, name: 'Tất cả'},...gens],
+                selectGenId: 0,
             });
         }
         /*if (!nextProps.isLoadingExcel && this.props.isLoadingExcel)
@@ -195,7 +195,7 @@ class ClassesContainer extends React.Component {
                                         <div>
                                             <div className="row">
                                                 {
-                                                    (this.state.selectGenId && this.state.selectGenId > 0) &&
+                                                    (this.state.selectGenId >= 0 && this.state.gens.length > 0) ?
 
                                                     <div className="col-md-12">
                                                         <Select
@@ -206,6 +206,8 @@ class ClassesContainer extends React.Component {
                                                             name="gens"
                                                         />
                                                     </div>
+                                                        :
+                                                        <div/>
 
                                                 }
 
@@ -239,7 +241,7 @@ class ClassesContainer extends React.Component {
                                         <div>
                                             <div className="row">
                                                 {
-                                                    (this.state.selectGenId && this.state.selectGenId > 0) &&
+                                                    (this.state.selectGenId >= 0 && this.state.gens.length > 0) &&
 
                                                     <div className="col-md-12">
                                                         <Select

@@ -163,7 +163,8 @@ class  ListRegister extends React.Component {
                                 </td>
                                 <td>
                                     <ButtonGroupAction
-                                        editUrl=""
+                                        disabledEdit={!(register.editable && register.paid_status)}
+                                        edit={(obj)=>{return this.props.openModalChangeInfoStudent(obj); }}
                                         delete={this.props.deleteRegister}
                                         object={register}
                                         disabledDelete={!register.is_delete}>
@@ -192,7 +193,7 @@ ListRegister.propTypes = {
     deleteRegister: PropTypes.func.isRequired,
     loadRegisterStudentByCampaign: PropTypes.func.isRequired,
     loadRegisterStudentBySaler: PropTypes.func,
-
+    openModalChangeInfoStudent: PropTypes.func,
 };
 
 export default ListRegister;

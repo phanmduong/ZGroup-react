@@ -3,9 +3,8 @@ import FormInputText from '../../components/common/FormInputText';
 import Loading from '../../components/common/Loading';
 import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
-import {CirclePicker} from 'react-color';
 import {NO_AVATAR} from '../../constants/env';
-
+import TooltipButton from '../../components/common/TooltipButton';
 
 class AddStaffComponent extends React.Component {
     constructor(props, context) {
@@ -19,7 +18,7 @@ class AddStaffComponent extends React.Component {
     }
 
     render() {
-        let {name, email, role_id, username, color, base_id, department_id} = this.props.staffForm;
+        let {name, email, role_id, color, base_id, department_id} = this.props.staffForm;
         let roleSelect = this.props.roles.filter(function (roleData) {
             return role_id == roleData.id;
         })[0];
@@ -42,23 +41,16 @@ class AddStaffComponent extends React.Component {
                                     </div>
                                     <div className="card-content">
                                         <h4 className="card-title">
-                                            {this.props.type === 'edit' ? 'Thay đổi thông tin nhân viên' : 'Thêm nhân viên'}
+                                            Thông tin nhân viên
                                         </h4>
                                         <FormInputText
                                             label="Email"
                                             name="email"
-                                            updateFormData={this.props.updateFormData}
+                                            //updateFormData={this.props.updateFormData}
                                             value={email}
-                                            required={true}
+                                            //required={true}
                                             type="email"
-                                        />
-                                        <FormInputText
-                                            label="Tên đăng nhập"
-                                            name="username"
-                                            value={username}
-                                            required={true}
-                                            type="text"
-                                            updateFormData={this.props.updateFormData}
+                                            disabled
                                         />
                                         <div className="form-group">
                                             <label>Cơ sở</label>
@@ -66,6 +58,7 @@ class AddStaffComponent extends React.Component {
                                                     value={base_id}
                                                     onChange={this.props.updateFormData}
                                                     name="base_id"
+                                                    disabled
                                             >
                                                 {this.props.bases !== null && this.props.bases !== undefined &&
                                                 this.props.bases.map((base, key) => {
@@ -87,6 +80,7 @@ class AddStaffComponent extends React.Component {
                                                 value={role_id}
                                                 onChange={this.props.updateFormData}
                                                 name="role_id"
+                                                disabled
                                             >
                                                 {this.props.roles !== null && this.props.roles !== undefined &&
                                                 this.props.roles.map((item, key) => {
@@ -107,6 +101,7 @@ class AddStaffComponent extends React.Component {
                                                 value={department_id}
                                                 onChange={this.props.updateFormData}
                                                 name="department_id"
+                                                disabled
                                             >
                                                 {this.props.departments !== null && this.props.departments !== undefined &&
                                                 this.props.departments.map((item, key) => {
@@ -121,7 +116,7 @@ class AddStaffComponent extends React.Component {
                                             </select>
                                         </div>
                                         {
-                                            this.props.roles && (this.props.role == 1) ?
+                                            this.props.roles && (this.props.role == 2) ?
 
                                                 <div>
                                                     <FormInputText
@@ -131,6 +126,7 @@ class AddStaffComponent extends React.Component {
                                                         //required={true}
                                                         type="text"
                                                         //updateFormData={this.props.updateFormData}
+                                                        disabled
                                                     />
                                                     < FormInputText
                                                         label="Lương doanh thu"
@@ -139,6 +135,7 @@ class AddStaffComponent extends React.Component {
                                                         //required={true}
                                                         type="text"
                                                         //updateFormData={this.props.updateFormData}
+                                                        disabled
                                                     />
                                                     <FormInputText
                                                         label="Lương phụ cấp"
@@ -147,30 +144,11 @@ class AddStaffComponent extends React.Component {
                                                         //required={true}
                                                         type="text"
                                                         //updateFormData={this.props.updateFormData}
+                                                        disabled
                                                     />
                                                 </div>
                                                 :
                                                 <div></div>
-                                        }
-
-                                        {this.props.isLoadingAddStaff ?
-                                            (
-                                                <button
-                                                    className="btn btn-fill btn-rose disabled"
-                                                >
-                                                    <i className="fa fa-spinner fa-spin"/>
-                                                    {this.props.type === 'edit' ? ' Đang cập nhật' : ' Đang thêm'}
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button
-                                                    className="btn btn-fill btn-rose"
-                                                    onClick={() => this.checkValidate()}
-                                                >
-                                                    {this.props.type === 'edit' ? 'Cập nhật' : 'Thêm'}
-                                                </button>
-                                            )
                                         }
                                     </div>
                                 </form>
@@ -198,38 +176,7 @@ class AddStaffComponent extends React.Component {
                                         </h6>
                                         <h4 className="card-title">
                                             {helper.isEmptyInput(name) ? 'Đây là tên' : name}</h4>
-                                        <p className="description">
-                                            Bấm nút phía dưới để chọn ảnh đại diện
-                                        </p>
-                                        {(this.props.isChangingAvatar) ?
-                                            (
-                                                <button className="btn btn-rose btn-round disabled">
-                                                    Đang tải lên
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button className="btn btn-rose btn-round">
-                                                    Chọn ảnh
-                                                    <input type="file"
-                                                           accept=".jpg,.png,.gif"
-                                                           onChange={this.props.handleFileUpload}
-                                                           style={{
-                                                               cursor: 'pointer',
-                                                               opacity: "0.0",
-                                                               position: "absolute",
-                                                               top: 0,
-                                                               left: 0,
-                                                               bottom: 0,
-                                                               right: 0,
-                                                               width: "100%",
-                                                               height: "100%"
-                                                           }}
-                                                    />
-                                                </button>
-                                            )
-                                        }
-
+                                        <p className="description"/>
                                     </div>
                                 </div>
                             </div>
@@ -239,37 +186,20 @@ class AddStaffComponent extends React.Component {
                                         <i className="material-icons">contacts</i>
                                     </div>
                                     <div className="card-content">
-                                        <h4 className="card-title">Chọn màu</h4>
-                                        <CirclePicker width="100%"
-                                                      color={color}
-                                                      onChangeComplete={this.props.changeColor}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-12">
-                                <div className="card">
-                                    <div className="card-header card-header-icon" data-background-color="rose">
-                                        <i className="material-icons">contacts</i>
-                                    </div>
-                                    <div className="card-content">
-                                        <h4 className="card-title">Thay đổi mật khẩu</h4>
-                                        {this.props.isResettingPassword ?
-                                            (
-                                                <button className="btn btn-rose btn-main disabled">
-                                                    <i className="fa fa-spinner fa-spin"/> Đang khôi phục mật khẩu
-                                                </button>
-                                            )
-                                            :
-                                            (
-                                                <button className="btn btn-rose btn-main"
-                                                        onClick={this.props.resetPassword}
-                                                >
-                                                    Khôi phục mật khẩu
-                                                </button>
-                                            )
-                                        }
+                                        <h4 className="card-title">Màu</h4>
 
+                                        <TooltipButton text="Màu"
+                                                       placement="top"
+                                        >
+                                            <button className="btn btn-sm"
+                                                    style={{
+                                                        backgroundColor: '#' + color,
+                                                        inlineSize: "-webkit-fill-available",
+                                                        height: "20px"
+                                                    }}>
+                                                <div className="ripple-container"/>
+                                            </button>
+                                        </TooltipButton>
                                     </div>
                                 </div>
                             </div>

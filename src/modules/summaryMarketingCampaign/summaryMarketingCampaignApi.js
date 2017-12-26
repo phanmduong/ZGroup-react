@@ -1,14 +1,14 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadSummaryMarketingCampaign(genId = '', baseId = '') {
+export function loadSummaryMarketingCampaign(genId = '', baseId = '', startTime = '',endTime = '') {
     let url = env.MANAGE_API_URL + "/marketing-campaign/summary";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
 
-    url += `&gen_id=${genId}&base_id=${baseId}`;
+    url += `&gen_id=${genId}&base_id=${baseId}&start_time=${startTime}&end_time=${endTime}`;
 
     return axios.get(url);
 }

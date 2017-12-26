@@ -5,6 +5,9 @@ import CreateRoleContainer from "../modules/role/CreateRoleContainer";
 import EditRoleContainer from "../modules/role/EditRoleContainer";
 import ManageDepartmentContainer from "../modules/manageDepartment/ManageDepartmentContainer";
 import AttendanceStaffsContainer from "../modules/attendanceStaffs/AttendanceStaffsContainer";
+import JobAssignmentContainer from "../modules/jobAssignment/JobAssignmentContainer";
+import CreateJobAssignmentContainer from "../modules/jobAssignment/CreateJobAssignmentContainer";
+import InfoStaffContainer from "../modules/manageStaff/InfoStaffContainer";
 
 /**
  * Tab Nhân sự
@@ -51,5 +54,20 @@ export default [
         // path: "manage-department",
         path: "/hr/manage-department",
         component: ManageDepartmentContainer
-    }
+    },
+    {
+        // path: "manage-department",
+        path: "/hr/job-assignment",
+        component: JobAssignmentContainer
+    },
+    {
+        // path: "manage-department",
+        path: "/hr/job-assignment/create",
+        component: CreateJobAssignmentContainer
+    },
+    {
+        // path: "/staff/:staffId/edit",
+        path: "/hr/staff/:staffId/info",
+        component: InfoStaffContainer,
+    },
 ];
