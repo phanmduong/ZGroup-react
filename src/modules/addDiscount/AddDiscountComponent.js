@@ -26,7 +26,7 @@ class AddDiscountComponent extends React.Component {
 
 
     render() {
-        let {discount_value, discount_type, type, used_for, description, name, start_time, end_time, order_value, code} = this.props.discount;
+        let {discount_value, discount_type, type, used_for, description, name, start_time, end_time, order_value} = this.props.discount;
         let TYPE = [
             {
                 name: '',
