@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from "react-router";
+import {Link , browserHistory} from "react-router";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import GroupCustomerItem from './GroupCustomerItem';
@@ -198,7 +198,7 @@ class GroupCustomerContainer extends React.Component {
                                     return (
                                         <GroupCustomerItem
                                             openEditModal={this.openEditModal}
-                                            groupCustomerForm={groupCustomer}
+                                            groupCustomerItem={groupCustomer}
                                             deleteGroupCustomer = {this.deleteGroupCustomer}
                                         />
                                     );

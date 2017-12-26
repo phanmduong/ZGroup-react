@@ -16,6 +16,7 @@ import OrdersContainer from "../modules/goodOrders/OrdersContainer";
 import OrderContainer from "../modules/goodOrders/order/OrderContainer";
 import CategoriesContainer from "../modules/categories/CategoriesContainer";
 import SupplierContainer from "../modules/supplier/SupplierContainer";
+import DetailGroupCustomerContainer from "../modules/groupCustomer/DetailGroupCustomerContainer";
 
 /**
  * Tab Nhân sự
@@ -74,6 +75,11 @@ export default [
     {
         path: "/good/goods/group-customer",
         component: GroupCustomerContainer
+    },
+
+    {
+        path: "/good/goods/group-customer/:groupId",
+        component: DetailGroupCustomerContainer
     },
     {
         path: "/good/goods/warehouses",

@@ -1256,7 +1256,7 @@ export default {
         isLoading: false,
         isLoadingModal: false,
         isLoadingOverlay: false,     // load trong overlay
-        customersList: [],         //  +  customersShowInModal  = full = customers
+        customersList: [],         // (chứa trong overlay)    +  customersShowInModal  = full = customers
         totalCustomerInOverlayPages: 1,
         totalCustomerInModalPages: 1,
         totalCustomerCount: 1,

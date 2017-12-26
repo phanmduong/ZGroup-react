@@ -68,7 +68,9 @@ class ListChildDiscount extends React.Component {
                                                                                         className="btn btn-xs btn-main btn-primary">
                                                                                         Đơn hàng
                                                                                     </button> :
-                                                                                    <button className="btn btn-xs btn-main btn-default">Tất cả
+                                                                                    <button
+                                                                                        className="btn btn-xs btn-main btn-default">
+                                                                                        Tất cả
                                                                                     </button>
                                                                             )
                                                                     )
@@ -78,18 +80,23 @@ class ListChildDiscount extends React.Component {
                                             </td>
                                             <td>
                                                 {discount.used_for === 'good' ?
-                                                    'Mặt hàng: ' + discount.good.name : (
+                                                    discount.good.name ? 'Mặt hàng:' + discount.good.name : 'Chưa có' :
+                                                    (
+
                                                         discount.used_for === 'category' ?
-                                                            'Danh mục: ' + discount.category.name : (
-                                                            discount.used_for === 'customer' ?
-                                                                'Khách hàng: ' + discount.customer.name : (
-                                                                discount.used_for === 'customer-group' ?
-                                                                    'Nhóm khách hàng :' + discount.customer_group.name : (
-                                                                    discount.used_for === 'order' ?
-                                                                        'Giá trị đơn hàng từ ' + discount.order_value : "Tất cả các đơn hàng"
-                                                                )
+                                                            discount.category.name ? 'Danh mục: ' + discount.category.name : 'Chưa có' :
+                                                            (
+                                                                discount.used_for === 'customer' ?
+                                                                    discount.customer.name ? 'Khách hàng: ' + discount.customer.name : 'Chưa có' :
+                                                                    (
+                                                                        discount.used_for === 'customer-group' ?
+                                                                            discount.customer_group.name ? 'Nhóm khách hàng :' + discount.customer_group.name : 'Chưa có' : (
+                                                                                discount.used_for === 'order' ?
+                                                                                    discount.order_value ? 'Giá trị đơn hàng từ ' + discount.order_value : 'Chưa có' :
+                                                                                    "Tất cả các đơn hàng"
+                                                                            )
+                                                                    )
                                                             )
-                                                        )
                                                     )
                                                 }
                                             </td>
