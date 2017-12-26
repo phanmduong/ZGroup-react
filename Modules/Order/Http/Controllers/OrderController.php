@@ -46,7 +46,7 @@ class OrderController extends ManageApiController
             }
         }
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
-            $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+            $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
         if ($status)
             $orders = $orders->where('status', $status);

@@ -106,13 +106,6 @@ class Order extends Model
                 'phone' => $this->user->phone,
                 'email' => $this->user->email,
             ];
-        } else {
-            $data['customer'] = [
-                'name' => $this->name,
-                'address' => $this->address,
-                'phone' => $this->phone,
-                'email' => $this->email,
-            ];
         }
         return $data;
     }
