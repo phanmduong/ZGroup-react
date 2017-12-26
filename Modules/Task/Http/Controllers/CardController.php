@@ -7,7 +7,9 @@ use App\Card;
 use App\Http\Controllers\ManageApiController;
 use App\Notification;
 use App\Project;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Modules\Task\Repositories\CardRepository;
 use Modules\Task\Repositories\ProjectRepository;
@@ -224,4 +226,57 @@ class CardController extends ManageApiController
         ]);
     }
 
+
+    public function countStaffCards(Request $request)
+    {
+        if ($request->to === null || $request->from === null) {
+            return $this->respondErrorWithStatus("Bạn cần truyền lên người bắt đầu và ngày kết thúc ");
+        }
+
+        $to = date_create_from_format("d/m/Y H:i:s", $request->to);
+        $from = date_create_from_format("d/m/Y H:i:s", $request->from);
+
+        if ($to < $from) {
+            return $this->respondErrorWithStatus("Thời gian bắt đầu không được lớn hơn thời gian kết thúc");
+        }
+        $cards = Card::query();
+
+        if ($request->staff_id) {
+            $cards = $cards
+                ->join('card_user', 'cards.id', '=', 'card_user.card_id')
+                ->where("card_user.user_id", $request->staff_id);
+        }
+
+        if ($request->project_id) {
+            $cards = $cards
+                ->join('boards', 'boards.id', '=', 'cards.board_id')
+                ->where("boards.project_id", $request->project_id);
+        }
+
+        $cards = $cards->where("cards.status", "close")
+            ->whereBetween("cards.updated_at", [$from, $to])->groupBy(DB::raw("date(cards.updated_at)"))
+            ->select(DB::raw('count(1) as num_cards, date(cards.updated_at) as day'))
+            ->orderBy("day")->get();
+
+        $dateArray = createDateRangeArray($from->getTimestamp(), $to->getTimestamp());
+
+        $cardsMap = [];
+        foreach ($cards as $card) {
+            $cardsMap[$card->day] = $card->num_cards;
+        }
+
+        $returnCards = [];
+        foreach ($dateArray as $date) {
+            if (array_key_exists($date, $cardsMap)) {
+                $returnCards[$date] = $cardsMap[$date];
+            } else {
+                $returnCards[$date] = 0;
+            }
+        }
+
+        return $this->respondSuccessWithStatus([
+            "days" => $dateArray,
+            "num_cards" => array_values($returnCards)
+        ]);
+    }
 }
