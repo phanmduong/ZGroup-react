@@ -61,7 +61,7 @@ class BookRepository
         return $bookData;
     }
 
-    public function saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr)
+    public function saveOrder($email, $phone, $name, $address, $payment, $goods_arr)
     {
         $user = User::where(function ($query) use ($email, $phone) {
             $query->where("email", $email)->orWhere("phone", $email);
@@ -82,8 +82,6 @@ class BookRepository
         $order->email = $user->email;
         $order->payment = $payment;
         $order->status = "place_order";
-        $order->province = $province;
-        $order->district = $district;
         $order->address = $address;
         $order->status_paid = 0;
         $order->type = "order";
