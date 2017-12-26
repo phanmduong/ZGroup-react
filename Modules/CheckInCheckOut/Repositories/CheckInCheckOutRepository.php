@@ -353,16 +353,18 @@ class CheckInCheckOutRepository
                         $checkInCheckOut->work_shift_user_id = $workShiftUser->id;
                         $checkInCheckOut->shift_id = 0;
                         $checkInCheckOut->message = "Bạn vừa check out thành công " . $workShiftUserSession->name . " (" . $workShiftUserSession->start_time . " - " . $workShiftUserSession->end_time . ")";
+
                         $workShiftUser->checkout_id = $checkInCheckOut->id;
                         $workShiftUser->save();
                         if ($workShiftUser->checkin_id == null || $workShiftUser->checkin_id == 0) {
                             $workShiftUserArr = [$workShiftUser];
                             $isCheckin = true;
                             $sampleShift = $workShiftUser;
+
                             while ($sampleShift != null) {
                                 $workShiftUserSessionStart = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=", "work_shift_sessions.id")
                                     ->where("work_shifts.id", $workShiftUser->work_shift_id)->first();
-
+                                dd($workShiftUserSessionStart);
                                 if (is_null($workShiftUserSessionStart)) break;
                                 $start_time = $workShiftUserSessionStart->start_time;
 
