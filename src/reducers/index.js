@@ -55,6 +55,7 @@ import excelReducer from "../modules/excel/excelReducer";
 import departmentReducer from "../modules/manageDepartment/departmentReducer";
 import jobAssignmentReducer from "../modules/jobAssignment/jobAssignmentReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
+import firstLoginReducer from "../modules/firstLogin/firstLoginReducer";
 
 
 
@@ -115,6 +116,7 @@ const appReducer = combineReducers({
     department : departmentReducer,
     groupCustomers : groupCustomerReducer,
     jobAssignment : jobAssignmentReducer,
+    firstLogin : firstLoginReducer,
 });
 
 const rootReducer = (state, action) => {
