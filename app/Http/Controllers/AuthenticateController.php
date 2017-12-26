@@ -34,7 +34,12 @@ class AuthenticateController extends Controller
             add_browser_notification($user->id, $request->token_browser);
         }
 
+        if ($user->phone != null && $user->phone != "" && $user->homeland != null && $user->homeland != "" &&
+            $user->age != null && $user->age != "" && $user->dob != null && $user->dob != "" &&
+            $user->address != null && $user->address != "" && $user->university != null && $user->university != "" &&
+            $user->start_company != null && $user->start_company != "") $user->first_login = 1;
         // all good so return the token
+
         return response()->json([
             'token' => compact('token')['token'],
             'user' => $user
