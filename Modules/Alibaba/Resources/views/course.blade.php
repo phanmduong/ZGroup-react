@@ -22,12 +22,12 @@
                     <div class="col-md-4">
                         <div class="card card-plain">
                             <div class="card-img-top">
-                                <a href="/register/{{$course['id']}}">
+                                <a href="/classes/{{$course['id']}}">
                                     <img class="img" src="{{$course['image_url']}}">
                                 </a>
                             </div>
                             <div class="card-body">
-                                <a href="/register/{{$course['id']}}" target="_blank"><h4
+                                <a href="/classes/{{$course['id']}}" target="_blank"><h4
                                             class="card-title">{{$course['name']}}</h4></a>
                                 <h6 class="card-category text-muted">{{$course['duration']}} buổi</h6>
                                 <p class="card-description">
@@ -36,7 +36,7 @@
                                 <br>
                                 <a class="btn btn-round btn-danger"
                                    style="background-color:#FF6D00;border-color:#FF6D00"
-                                   href="/register/{{$course['id']}}"><i class="fa fa-plus"></i> Đăng ký ngay </a>
+                                   href="/classes/{{$course['id']}}"><i class="fa fa-plus"></i> Đăng ký ngay </a>
                             </div>
                         </div>
                     </div>
