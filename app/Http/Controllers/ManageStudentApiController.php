@@ -39,7 +39,7 @@ class ManageStudentApiController extends ManageApiController
 
         $registers = $registers->map(function ($register) {
             $data = [];
-            $class = $register->studyClass()->first();
+            $class = $register->studyClass()->withTrashed()->first();
             $data = [
                 'paid_status' => $register->status == 1,
                 'money' => $register->money,
@@ -142,7 +142,7 @@ class ManageStudentApiController extends ManageApiController
     public function edit_student(Request $request)
     {
 
-        if (User::where('id','<>',$request->id)->where('email','=',$request->email)->first()){
+        if (User::where('id', '<>', $request->id)->where('email', '=', $request->email)->first()) {
             return $this->respondErrorWithStatus("Email đã tồn tại");
         }
         $student = User::find($request->id);
