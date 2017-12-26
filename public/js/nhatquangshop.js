@@ -86,7 +86,6 @@ var openModalBuy1 = new Vue({
     methods: {
         openModalBuy: function (goodId) {
             $('#modalBuy').modal('show');
-            fbq('track', 'AddToCart');
             modalBuy.addGoodToCart(goodId);
         },
     }

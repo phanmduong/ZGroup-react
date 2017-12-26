@@ -377,4 +377,10 @@
 <script src="/graphics-assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/graphics-assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="/js/graphics.js?6868"></script>
+<script>
+    function myFunction() {
+        openModalBuy({{$book["id"]}},{{$book['price']}});
+        fbq('track', 'AddToCart');
+    }
+</script>
 </html>
