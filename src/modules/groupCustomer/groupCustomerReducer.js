@@ -44,13 +44,19 @@ export default function customerReducer(state = initialState.groupCustomers, act
                 }
             };
         case types.LOADED_CUSTOMER_IN_MODAL_SUCCESS_IN_GROUP_CUSTOMER:
+            stringId = addStringIdInModal(action.groupCustomerForm.customers);
             return {
                 ...state,
                 totalCustomerInModalPages: action.total_pages,
                 isLoadingModal: false,
                 groupCustomerForm : {
                     ...state.groupCustomerForm,
-                    customersShowInModal : action.customers,
+                    customersShowInModal : action.groupCustomerForm.customers,
+                    name : action.groupCustomerForm.name,
+                    description : action.groupCustomerForm.description,
+                    color : action.groupCustomerForm.color,
+                    id : action.groupCustomerForm.id,
+                    stringId : stringId,
                 },
             };
         case types.LOADED_CUSTOMER_IN_MODAL_ERROR_IN_GROUP_CUSTOMER:
@@ -82,17 +88,17 @@ export default function customerReducer(state = initialState.groupCustomers, act
 
 
         //     EDIT
-        case types.BEGIN_EDIT_SUPPLIER:
+        case types.BEGIN_EDIT_GROUP_CUSTOMER:
             return {
                 ...state,
                 isSaving: true,
             };
-        case types.EDIT_SUPPLIER_ERROR:
+        case types.EDIT_GROUP_CUSTOMER_ERROR:
             return {
                 ...state,
                 isSaving: false,
             };
-        case types.EDIT_SUPPLIER_SUCCESS:
+        case types.EDIT_GROUP_CUSTOMER_SUCCESS:
             return {
                 ...state,
                 isSaving: false,
@@ -202,6 +208,20 @@ function addStringId(groupCustomersList) {
         return {...groupCustomer, stringId: stringId};
     });
     return groupCustomersList;
+}
+function addStringIdInModal(customers) {
+        // stringId = groupCustomer.customers.reduce(function(stringId , customer){return [customer.id,...stringId];});
+        // groupCustomer.stringId = [5552,5553];
+        // stringId = [];
+        // for (let i =0; i < groupCustomer.customers.length; i++){
+        //     stringId = [customers[i].id, ...stringId] ;
+        // }
+        stringId = [];
+        stringId = customers.map((customer) => {
+            // return [...stringId , customer.id]; // tai sao khong dung duoc
+            return customer.id;
+        });
+    return stringId;
 }
 
 

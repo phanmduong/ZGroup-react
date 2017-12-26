@@ -19,15 +19,15 @@ class GroupCustomerItem extends React.Component {
                        color: 'rgb(69, 90, 100)',
                        textAlign: 'left'
                    }}
-                  onClick={(e) => {
-                         this.props.openEditModal(groupCustomerItem);
-                      e.stopPropagation();
-                     }}
+                 // onClick={(e) => {
+                 //        this.props.openEditModal(groupCustomerItem);
+                 //        e.stopPropagation();
+                 //    }}
 
-                    // onClick={(e) => {
-                    //     browserHistory.push('/good/goods/group-customer/' + groupCustomerItem.id);
-                    //     e.stopPropagation();
-                    // }}
+                    onClick={(e) => {
+                        browserHistory.push('/good/goods/group-customer/' + groupCustomerItem.id);
+                        e.stopPropagation();
+                    }}
                 >
 
 

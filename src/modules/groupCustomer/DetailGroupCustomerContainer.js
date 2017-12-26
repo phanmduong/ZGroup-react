@@ -41,8 +41,8 @@ class DetailGroupCustomerContainer extends React.Component {
         this.loadCustomersInModal(1);
     }
 
-    loadCustomersInOverlay(page, limit, query) {
-        this.props.groupCustomerActions.loadCustomersInOverlay(page, limit, query, this.props.groupCustomerForm.stringId);
+    loadCustomersInOverlay(page, limit, query, stringId) {
+        this.props.groupCustomerActions.loadCustomersInOverlay(page, limit, query, stringId);
     }
 
     loadCustomersInModal(page) {
@@ -93,7 +93,7 @@ class DetailGroupCustomerContainer extends React.Component {
             if (this.props.groupCustomerForm.name === null || this.props.groupCustomerForm.name === undefined || this.props.groupCustomerForm.name === '') {
                 helper.showTypeNotification("Vui lòng chọn tên nhóm khách hàng", 'warning');
             }
-            this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm, this.state.page, this.closeModal);
+            this.props.groupCustomerActions.editGroupCustomer(this.props.groupCustomerForm, this.props.params.groupId);
         }
         e.preventDefault();
     }
