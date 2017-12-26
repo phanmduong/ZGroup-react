@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import PopoverOverlay from "./PopoverOverlay";
 import {Modal} from 'react-bootstrap';
 
 
