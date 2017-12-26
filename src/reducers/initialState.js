@@ -677,6 +677,12 @@ export default {
     },
 
     dashboard: {
+        it: {
+            dateArray: [],
+            pointByDate: [],
+            cardsByDate: [],
+            isLoading: false
+        },
         gens: [],
         isLoadingGens: true,
         errorGens: false,
@@ -1247,7 +1253,7 @@ export default {
             description: '',
             stringId: [],
             customers: [],                         // tat ca cac customer trong mot group
-            customersShowInModal : [],              // cac customer show ra bang trong mot group
+            customersShowInModal: [],              // cac customer show ra bang trong mot group
             color: '',
         },
         groupCustomersList: [],
