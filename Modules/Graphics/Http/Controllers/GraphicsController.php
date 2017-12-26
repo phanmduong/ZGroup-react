@@ -128,7 +128,7 @@ class GraphicsController extends Controller
         }
         $data = [
             "goods" => $goods,
-            "total_price" => currency_vnd_format($totalPrice)
+            "total_price" => $totalPrice
         ];
         return $data;
     }

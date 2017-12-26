@@ -275,7 +275,7 @@
                             <h4 class="text-left"><b>Tổng</b></h4>
                         </div>
                         <div class="col-md-8">
-                            <h4 class="text-right"><b>@{{ total_price }}</b></h4>
+                            <h4 class="text-right"><b>@{{ total_price.toLocaleString('it-IT', {style : 'currency', currency : 'VND'}); }}</b></h4>
                         </div>
                     </div>
                     <div class="row" style="padding-top:20px;">
