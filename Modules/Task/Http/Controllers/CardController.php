@@ -226,7 +226,14 @@ class CardController extends ManageApiController
         ]);
     }
 
-
+    /**
+     * @param Request $request
+     * staff_id
+     * project_id
+     * to
+     * from
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function countStaffCards(Request $request)
     {
         if ($request->to === null || $request->from === null) {

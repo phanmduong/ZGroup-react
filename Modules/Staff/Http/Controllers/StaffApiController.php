@@ -67,10 +67,11 @@ class StaffApiController extends ManageApiController
     {
         $limit = 20;
         if ($request->limit) {
-            $limit = $request->limit;
+            $limit = (int)$request->limit;
         }
         $staffs = User::where("role", ">", 0)->orderBy("name");
         if ($limit === -1) {
+
             $staffs = $staffs->get();
             return $this->respond([
                 "status" => 1,
