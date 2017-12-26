@@ -112,6 +112,9 @@ class CustomerGroupApiController extends ManageApiController
         $limit = $request->limit ? $request->limit : 20;
         $customers = $group->customers()->paginate($limit);
         return $this->respondWithPagination($customers, [
+            'name' => $group->name,
+            'description' => $group->description,
+            'color' => $group->color,
             "customers" => $customers->map(function ($customer) {
                 return $customer->transfromCustomer();
             }),
