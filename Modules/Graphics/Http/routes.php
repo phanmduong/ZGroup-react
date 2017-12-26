@@ -17,7 +17,7 @@ Route::group(['middleware' => 'web', 'domain' => "graphics.{subfix}", 'namespace
     Route::get('/remove-book/{goodId}', 'GraphicsController@removeBookFromCart');
     Route::post('/save-order', "GraphicsController@saveOrder");
     Route::get('/count-books-from-session', 'GraphicsController@countGoodsFromSession');
-
+    Route::get('/flush', 'GraphicsController@flush');
     Route::get('/province', 'GraphicsController@provinces');
     Route::get('/district/{provinceId}', 'GraphicsController@districts');
 });

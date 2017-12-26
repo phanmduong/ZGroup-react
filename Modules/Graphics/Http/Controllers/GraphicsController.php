@@ -252,4 +252,9 @@ class GraphicsController extends Controller
         ];
     }
 
+    public function flush($subfix, Request $request)
+    {
+        $request->session()->flush();
+    }
+
 }

@@ -98,7 +98,6 @@
                                         {{$properties['title2']}}
                                     </h1>
                                     <br><h5>{{$properties['subtitle2']}}</h5><br>
-
                                     <p>{{$properties['content2']}}</p>
                                     <br>
                                     <button
