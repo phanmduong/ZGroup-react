@@ -7,6 +7,7 @@ use App\Colorme\Transformers\RegisterTransformer;
 use App\Gen;
 use App\Http\Controllers\ManageApiController;
 use App\Register;
+use App\Repositories\ClassRepository;
 use App\Repositories\UserRepository;
 use App\StudyClass;
 use App\TeleCall;
@@ -17,12 +18,14 @@ use Illuminate\Database\Eloquent\Collection;
 class AlibabaManageApiController extends ManageApiController
 {
     protected $userRepository, $registerTransformer;
+    protected $classRepository;
 
-    public function __construct(UserRepository $userRepository, RegisterTransformer $registerTransformer)
+    public function __construct(ClassRepository $classRepository, UserRepository $userRepository, RegisterTransformer $registerTransformer)
     {
         parent::__construct();
         $this->registerTransformer = $registerTransformer;
         $this->userRepository = $userRepository;
+        $this->classRepository = $classRepository;
     }
 
     public function change_call_status(Request $request)
@@ -219,5 +222,61 @@ class AlibabaManageApiController extends ManageApiController
                 'id' => $gen->id
             ]
         ]);
+    }
+
+    public function get_classes(Request $request)
+    {
+
+        $search = $request->search;
+        $limit = $request->limit ? $request->limit : 20;
+        if ($request->limit)
+            $limit = $request->limit;
+        $classes = StudyClass::query();
+        if ($search)
+            $classes = $classes->where('name', 'like', '%' . $search . '%');
+        if ($request->gen_id)
+            $classes = $classes->where('gen_id', $request->gen_id);
+        if ($request->base_id)
+            $classes = $classes->where('base_id', $request->base_id);
+        if ($request->teacher_id)
+            $classes = $classes->where(function ($query) use ($request) {
+                $query->where('teacher_id', $request->teacher_id)
+                    ->orWhere('teaching_assistant_id', $request->teacher_id);
+            });
+
+        $classes = $classes->orderBy('gen_id', 'desc')->paginate($limit);
+
+        $data = [
+            "classes" => $classes->map(function ($class) {
+                $data = $this->classRepository->get_class($class);
+                $data['edit_status'] = true;
+                $data['is_delete_class'] = true;
+                $data['is_duplicate'] = true;
+                return $data;
+            }),
+            'is_create_class' => true
+        ];
+
+        return $this->respondWithPagination($classes, $data);
+    }
+
+    public function delete_class(Request $request)
+    {
+
+        $class = StudyClass::find($request->class_id);
+
+        if ($class) {
+            $class->delete();
+            $group = $class->group;
+            if ($group) {
+                $group->delete();
+            }
+
+            return $this->respondSuccessWithStatus([
+                'message' => "Xóa lớp thành công"
+            ]);
+        }
+
+        return $this->responseWithError("Lớp không tồn tại");
     }
 }
