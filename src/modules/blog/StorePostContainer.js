@@ -24,6 +24,7 @@ class StorePostContainer extends React.Component {
     }
 
     componentWillMount() {
+        this.props.blogActions.updateFormPost(initialState.blog.post);
         if (this.props.route.type == 'edit') {
             this.props.blogActions.getPost(this.props.params.postId);
         }
