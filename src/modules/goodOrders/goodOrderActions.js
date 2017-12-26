@@ -37,10 +37,10 @@ export function loadDetailOrder(orderId) {
             .then((res) => {
                 dispatch({
                     type: types.LOAD_DETAIL_ORDER_SUCCESS,
-                    infoOrder: res.data.data.info_order,
-                    infoUser: res.data.data.info_user,
-                    infoShip: res.data.data.info_ship,
-                    goodOrders: res.data.data.good_orders,
+                    total: res.data.data.total,
+                    paid: res.data.data.paid,
+                    debt: res.data.data.debt,
+                    order: res.data.data.order,
                 });
             }).catch(() => {
             dispatch({
@@ -89,7 +89,6 @@ export function changeStatusOrder(status, orderId) {
         switch (status) {
             case "not_reach":
             case "confirm_order":
-
                 break;
             case "ship_order":{
                 dispatch({
@@ -108,11 +107,11 @@ export function changeStatusOrder(status, orderId) {
             default:
                 helper.showTypeNotification("Đang thay đổi trạng thái", "info");
                 dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
-                goodOrdersApi.changeStatusOrder(orderId, status)
+                goodOrdersApi.changeStatusOrder(status, orderId)
                     .then((res) => {
                         helper.showNotification("Thay đổi trạng thái thành công");
                         if (res.data.status === 0) {
-                            showErrorNotification(res.data.message);
+                            showErrorNotification(res.data.message.message);
                         } else {
 
                             dispatch({
@@ -221,5 +220,46 @@ export function sendShipOrder(shippingGood) {
             });
 
 
+    };
+}
+
+
+
+export function updateOrderFormData(order) {
+    return function (dispatch) {
+        dispatch({
+            type: types.UPDATE_ORDER_FORM_DATA,
+            order: order,
+        });
+    };
+}
+
+export function editOrder(order, orderId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_ORDER});
+        goodOrdersApi.editOrderApi(order, orderId)
+            .then((res) => {
+                if (res.data.status) {
+                    helper.showTypeNotification('Đã chỉnh sửa thành công', 'success');
+                    dispatch({
+                        type: types.EDIT_ORDER_SUCCESS,
+                        // customer: res.data.data.user,
+                    });
+                    // browserHistory.push('/goods/customer');
+                }
+                else {
+                    showErrorNotification(res.data.message.message);
+                    dispatch({
+                        type: types.EDIT_ORDER_ERROR,
+                    });
+                }
+            })
+            .catch(() => {
+                showErrorNotification("Lỗi");
+                dispatch({
+                        type: types.EDIT_ORDER_ERROR
+                    });
+                }
+            );
     };
 }
