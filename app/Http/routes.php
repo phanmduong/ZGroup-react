@@ -74,6 +74,8 @@ Route::group(['domain' => 'manage.' . config('app.domain')], function () {
         ->where('path', '.*');
     Route::get('/shift/{path}', 'ClientController@shift')
         ->where('path', '.*');
+    Route::get('/work-shift/{path}', 'ClientController@workShift')
+        ->where('path', '.*');
     Route::get('{path}', 'ClientController@dashboard')
         ->where('path', '.*');
 });
