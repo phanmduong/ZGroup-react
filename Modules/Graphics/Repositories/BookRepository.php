@@ -11,6 +11,7 @@ namespace Modules\Graphics\Repositories;
 
 use App\Good;
 use App\Order;
+use App\ShipInfor;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -61,7 +62,7 @@ class BookRepository
         return $bookData;
     }
 
-    public function saveOrder($email, $phone, $name, $address, $payment, $goods_arr)
+    public function saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr)
     {
         $user = User::where(function ($query) use ($email, $phone) {
             $query->where("email", $email)->orWhere("phone", $email);
@@ -77,12 +78,21 @@ class BookRepository
         $user->type = "customer";
         $user->save();
 
+        $ship_infor = new ShipInfor;
+        $ship_infor->name = $name;
+        $ship_infor->phone = $phone;
+        $ship_infor->province = $province;
+        $ship_infor->district = $district;
+        $ship_infor->address = $address;
+        $ship_infor->save();
+
         $order = new Order();
         $order->user_id = $user->id;
         $order->email = $user->email;
         $order->payment = $payment;
         $order->status = "place_order";
         $order->address = $address;
+        $order->ship_infor_id = $ship_infor->id;
         $order->status_paid = 0;
         $order->type = "order";
         $order->code = "ORDER" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
@@ -96,7 +106,6 @@ class BookRepository
                     "quantity" => $item->number,
                     "price" => $good->price,
                 ]);
-
             }
         }
 
@@ -109,10 +118,10 @@ class BookRepository
         }
         $subject = "Xác nhận đặt hàng thành công";
         $data = ["order" => $order, "total_price" => $total_price, "goods" => $goods, "user" => $user];
-//        $emailcc = ["graphics@colorme.vn"];
-//        Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
-//            $m->from('no-reply@colorme.vn', 'Graphics');
-//            $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
-//        });
+        $emailcc = ["graphics@colorme.vn"];
+        Mail::send('emails.confirm_buy_book', $data, function ($m) use ($order, $subject, $emailcc) {
+            $m->from('no-reply@colorme.vn', 'Graphics');
+            $m->to($order->email, $order->name)->bcc($emailcc)->subject($subject);
+        });
     }
 }

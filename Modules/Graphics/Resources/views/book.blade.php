@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <div class="wrapper">
+    <div class="wrapper" id="vuejs3">
         <div class="page-header page-header-small" style="background-image: url('{{$properties['cover']}}');">
             <div class="filter"></div>
             <div class="content-center">
@@ -13,7 +13,7 @@
                         </br>
                     </h1>
                     <h5>{{$properties['short_description']}}</h5><br>
-                    <button onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                    <button v-on:click="openModalBuy({{$book_id}})"
                             type="button"
                             class="btn btn-outline-neutral btn-round">
                         <i class="fa fa-shopping-cart"></i>
@@ -58,7 +58,7 @@
 
                             <br>
                             <button type="button"
-                                    onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                                    v-on:click="openModalBuy({{$book_id}})"
                                     class="btn btn-outline-default btn-round">
                                 <i class="fa fa-shopping-cart"></i>
                                 Đặt mua ngay
@@ -102,7 +102,7 @@
                                     <p>{{$properties['content2']}}</p>
                                     <br>
                                     <button
-                                            onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                                            v-on:click="openModalBuy({{$book_id}})"
                                             type="button" class="btn btn-outline-neutral btn-round">
                                         <i class="fa fa-shopping-cart"></i>
                                         Đặt mua ngay
@@ -143,7 +143,7 @@
 
                             <p>{{$properties['counter3_content']}}</p>
                             <br>
-                            <button onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                            <button v-on:click="openModalBuy({{$book_id}})"
                                     type="button"
                                     class="btn btn-outline-default btn-round">
                                 <i class="fa fa-shopping-cart"></i>
@@ -257,7 +257,7 @@
 
                             <p>{{$properties['content4']}}</p>
                             <br>
-                            <button onclick="openModalBuy({{$properties["id"]}},{{$properties["price"]}})"
+                            <button v-on:click="openModalBuy({{$book_id}})"
                                     type="button"
                                     class="btn btn-outline-default btn-round">
                                 <i class="fa fa-shopping-cart"></i>

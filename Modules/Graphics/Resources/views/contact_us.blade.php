@@ -70,13 +70,6 @@
 
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    {{--<div class="checkbox">--}}
-                                                        {{--<input id="checkbox1" type="checkbox">--}}
-                                                        {{--<label for="checkbox1">--}}
-                                                            {{--Tôi không phải là robot!--}}
-                                                        {{--</label>--}}
-                                                    {{--</div>--}}
-
                                                 </div>
                                                 <div class="col-md-6">
                                                     <button type="submit" class="btn btn-primary pull-right" id="submit-1">Gửi tin nhắn
