@@ -5,12 +5,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import AddStaffComponent from './AddStaffComponent';
-import * as staffActions from './staffActions';
+import AddStaffFirstLoginComponent from './AddStaffFirstLoginComponent';
+import * as staffActions from '../manageStaff/staffActions';
 import * as roleActions from '../role/roleActions';
 import * as helper from '../../helpers/helper';
 
-class AddStaffContainer extends React.Component {
+class AddStaffFirstLoginContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.updateFormData = this.updateFormData.bind(this);
@@ -25,12 +25,11 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.initForm();
         this.props.roleActions.loadRolesData();
         this.props.staffActions.loadDataBase();
-        this.props.staffActions.loadDepartments();
-        if (this.props.route.type === 'edit') {
-            this.props.staffActions.loadStaffData(this.props.params.staffId);
-            this.usernameEmpty = false;
-        }
     }
+
+    // componentWillReceiveProps(nextProps){
+    //     console.log(nextProps);
+    // }
 
     componentDidUpdate() {
         this.initForm();
@@ -40,14 +39,14 @@ class AddStaffContainer extends React.Component {
         const field = event.target.name;
         let staffForm = {...this.props.staffForm};
         if (staffForm[field] != event.target.value) {
-            if (field === 'email'){
-                if (helper.isEmptyInput(staffForm['username']) || this.usernameEmpty){
+            if (field === 'email') {
+                if (helper.isEmptyInput(staffForm['username']) || this.usernameEmpty) {
                     this.usernameEmpty = true;
                     staffForm['username'] = event.target.value;
                 }
             }
 
-            if (field === 'username'){
+            if (field === 'username') {
                 this.usernameEmpty = false;
             }
 
@@ -58,11 +57,8 @@ class AddStaffContainer extends React.Component {
 
     handleFileUpload(event) {
         let file = event.target.files[0];
-        if (this.props.route.type === 'edit') {
-            this.props.staffActions.changeAvatar(file, this.props.params.staffId);
-        } else {
-            this.props.staffActions.createAvatar(file);
-        }
+        this.props.staffActions.createAvatar(file);
+
     }
 
     addStaff() {
@@ -70,11 +66,8 @@ class AddStaffContainer extends React.Component {
             helper.showTypeNotification("Vui lòng chọn chức vụ", 'warning');
             return;
         }
-        if (this.props.route.type === 'edit') {
-            this.props.staffActions.editStaffData(this.props.staffForm);
-        } else {
-            this.props.staffActions.addStaffData(this.props.staffForm);
-        }
+        this.props.staffActions.addStaffData(this.props.staffForm);
+
     }
 
     initForm() {
@@ -90,32 +83,34 @@ class AddStaffContainer extends React.Component {
         this.props.staffActions.updateAddStaffFormData(staffForm);
     }
 
-    resetPassword(){
-        this.props.staffActions.resetPassword(this.props.params.staffId);
+    resetPassword() {
+
     }
 
     render() {
         let roles = (this.props.roles !== undefined) ? this.props.roles : [];
         let bases = (this.props.bases !== undefined) ? this.props.bases : [];
-        let departs = (this.props.departments !== undefined) ? this.props.departments : [];
         return (
-            <AddStaffComponent
-                {...this.props}
-                updateFormData={this.updateFormData}
-                changeColor={this.changeColor}
-                addStaff={this.addStaff}
-                resetPassword={this.resetPassword}
-                type={this.props.route.type}
-                handleFileUpload={this.handleFileUpload}
-                roles={[{id: 0, role_title: ''}, ...roles]}
-                bases={[{id: 0, name: '', address: ''}, ...bases]}
-                departments={[{id: 0, name: ''}, ...departs]}
-            />
+
+
+                                <AddStaffFirstLoginComponent
+                                    {...this.props}
+                                    updateFormData={this.updateFormData}
+                                    changeColor={this.changeColor}
+                                    addStaff={this.addStaff}
+                                    resetPassword={this.resetPassword}
+                                    type={"create"}
+                                    handleFileUpload={this.handleFileUpload}
+                                    roles={[{id: 0, role_title: ''}, ...roles]}
+                                    bases={[{id: 0, name: '', address: ''}, ...bases]}
+                                />
+
+
         );
     }
 }
 
-AddStaffContainer.propTypes = {
+AddStaffFirstLoginContainer.propTypes = {
     staffForm: PropTypes.object.isRequired,
     staffActions: PropTypes.object.isRequired,
     roleActions: PropTypes.object.isRequired,
@@ -126,13 +121,13 @@ AddStaffContainer.propTypes = {
     error: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
     bases: PropTypes.array.isRequired,
-    location: PropTypes.object.isRequired,
-    route: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired,
-    departments: PropTypes.array.isRequired,
+    location: PropTypes.object,
+    route: PropTypes.object,
+    params: PropTypes.object,
+    user: PropTypes.object,
 };
 
-AddStaffContainer.contextTypes = {
+AddStaffFirstLoginContainer.contextTypes = {
     router: PropTypes.object
 };
 
@@ -147,8 +142,7 @@ function mapStateToProps(state) {
         error: state.staffs.addStaff.error,
         roles: state.roles.roleListData,
         bases: state.staffs.bases.basesData,
-        departments: state.staffs.departments,
-        role: state.login.user.role,
+        user: state.login.user,
     };
 }
 
@@ -159,4 +153,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddStaffContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AddStaffFirstLoginContainer);

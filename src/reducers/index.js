@@ -49,11 +49,11 @@ import addDiscountReducer from "../modules/addDiscount/addDiscountReducer";
 import summaryMarketingCampaignReducer from "../modules/summaryMarketingCampaign/summaryMarketingCampaignReducer";
 import summarySalesReducer from "../modules/summarySales/summarySalesReducer";
 import discountReducer from "../modules/discount/discountReducer";
-
 import attendancesStaffsReducer from "../modules/attendanceStaffs/attendancesStaffsReducer";
 import roomsReducer from "../modules/rooms/roomsReducer";
 import excelReducer from "../modules/excel/excelReducer";
 import departmentReducer from "../modules/manageDepartment/departmentReducer";
+import jobAssignmentReducer from "../modules/jobAssignment/jobAssignmentReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
 
 
@@ -113,8 +113,8 @@ const appReducer = combineReducers({
     rooms: roomsReducer,
     excel : excelReducer,
     department : departmentReducer,
-    groupCustomers : groupCustomerReducer
-
+    groupCustomers : groupCustomerReducer,
+    jobAssignment : jobAssignmentReducer,
 });
 
 const rootReducer = (state, action) => {

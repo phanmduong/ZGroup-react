@@ -242,7 +242,8 @@ export default {
             error: false,
             currentPage: 1,
             totalPages: 1
-        }
+        },
+        departments:[],
     },
     roles: {
         roleListData: [],
@@ -586,7 +587,8 @@ export default {
         isLoadingSalerFilter: false,
         isLoadingCampaignFilter: false,
         excel: {},
-        isLoadingExcel: false
+        isLoadingExcel: false,
+        isCommittingInfoStudent: false,
     },
 
     profile: {
@@ -1250,6 +1252,34 @@ export default {
         isLoading: false,
         data: [],
     },
+    department:{
+        isLoading: false,
+        data: {
+            paginator: {
+                page: 1,
+                total_pages : 1,
+            },
+        },
+    },
+    jobAssignment: {
+        isLoading: false,
+        data: {
+            name: "",
+            type: "personal",
+            cost: 0,
+            deadline: "",
+            bonus_value: 0,
+            bonus_type: "coin",
+            staffs:  [
+            ],
+        },
+        staffs: [
+            {value: "value1", label:"label1", avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"},
+            {value: "value2", label:"label2", avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"},
+            {value: "value3", label:"label3", avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"},
+        ],
+    },
+
 
     groupCustomers: {
         isSaving: false,
@@ -1272,14 +1302,5 @@ export default {
         },
         groupCustomersList: [],
 
-    },
-    department: {
-        isLoading: false,
-        data: {
-            paginator: {
-                page: 1,
-                total_pages: 1,
-            },
-        },
     }
 };

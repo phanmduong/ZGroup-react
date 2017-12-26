@@ -1,16 +1,16 @@
 /**
- * Created by phanmduong on 8/4/17.
+ * Created by nangbandem.
  */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import AddStaffComponent from './AddStaffComponent';
+import InfoStaffComponent from './InfoStaffComponent';
 import * as staffActions from './staffActions';
 import * as roleActions from '../role/roleActions';
 import * as helper from '../../helpers/helper';
 
-class AddStaffContainer extends React.Component {
+class InfoStaffContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.updateFormData = this.updateFormData.bind(this);
@@ -26,10 +26,9 @@ class AddStaffContainer extends React.Component {
         this.props.roleActions.loadRolesData();
         this.props.staffActions.loadDataBase();
         this.props.staffActions.loadDepartments();
-        if (this.props.route.type === 'edit') {
-            this.props.staffActions.loadStaffData(this.props.params.staffId);
-            this.usernameEmpty = false;
-        }
+        this.props.staffActions.loadStaffData(this.props.params.staffId);
+        this.usernameEmpty = false;
+
     }
 
     componentDidUpdate() {
@@ -99,7 +98,7 @@ class AddStaffContainer extends React.Component {
         let bases = (this.props.bases !== undefined) ? this.props.bases : [];
         let departs = (this.props.departments !== undefined) ? this.props.departments : [];
         return (
-            <AddStaffComponent
+            <InfoStaffComponent
                 {...this.props}
                 updateFormData={this.updateFormData}
                 changeColor={this.changeColor}
@@ -110,12 +109,13 @@ class AddStaffContainer extends React.Component {
                 roles={[{id: 0, role_title: ''}, ...roles]}
                 bases={[{id: 0, name: '', address: ''}, ...bases]}
                 departments={[{id: 0, name: ''}, ...departs]}
+                role={this.props.role}
             />
         );
     }
 }
 
-AddStaffContainer.propTypes = {
+InfoStaffContainer.propTypes = {
     staffForm: PropTypes.object.isRequired,
     staffActions: PropTypes.object.isRequired,
     roleActions: PropTypes.object.isRequired,
@@ -130,9 +130,10 @@ AddStaffContainer.propTypes = {
     route: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     departments: PropTypes.array.isRequired,
+    role: PropTypes.number,
 };
 
-AddStaffContainer.contextTypes = {
+InfoStaffContainer.contextTypes = {
     router: PropTypes.object
 };
 
@@ -159,4 +160,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddStaffContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(InfoStaffContainer);

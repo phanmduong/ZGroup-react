@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as departmentActions from './departmentActions';
-import {Link} from 'react-router';
+import HRTab  from './HRTab';
+
 import Search from '../../components/common/Search';
 //import Loading from '../../components/common/Loading';
 import ListDepartments from '../../modules/manageDepartment/ListDepartments';
@@ -71,9 +72,8 @@ class ManageDepartmentContainer extends React.Component {
             this.props.departmentActions.loadDepartment();
         });
     }
-
+    //delete
     deleteDepartment(obj){
-        console.log(obj);
         helper.confirm('error', 'Xóa', "Bạn có muốn xóa bộ phận này không?", () => {
             this.props.departmentActions.deleteDepartment(obj,this.props.departmentActions.loadDepartment);
         });
@@ -83,51 +83,26 @@ class ManageDepartmentContainer extends React.Component {
         return (
             <div className="col-lg-12">
                 <div className="card">
-                    <div className="card-header card-header-tabs" data-background-color="rose">
-                        <div className="nav-tabs-navigation">
-                            <div className="nav-tabs-wrapper">
-                                <ul className="nav nav-tabs" data-tabs="tabs">
-                                    <li className="">
-                                        <Link to="hr/manage/quan-li-nhan-su">
-                                            Nhân viên
-                                            <div className="ripple-container"/>
-                                        </Link>
-                                    </li>
-                                    <li className="">
-                                        <Link to="/hr/manage-role">
-                                            Chức vụ
-                                            <div className="ripple-container"/>
-                                        </Link>
-                                    </li>
-                                    <li className="active">
-                                        <Link to="/hr/manage-department">
-                                            Bộ phận
-                                            <div className="ripple-container"/>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <HRTab path="manage-department"/>
                     <div className="card-content">
                         <div className="tab-content">
                             <div className="row">
                                 <div className="col-md-12">
+                                    <button className="col-md-3 btn-rose btn"
+                                            onClick={this.openModalAddDepartment}
+                                    >Thêm bộ phận</button>
                                     <Search
                                         onChange={()=>{}}
                                         value={''}
                                         placeholder="Tìm kiếm bộ phận"
                                         className="col-md-8"
                                     />
-                                    <button className="col-md-3 btn-rose btn"
-                                        onClick={this.openModalAddDepartment}
-                                    >Thêm bộ phận</button>
                                 </div>
                             </div>
                             <div className="row">
                                 <ListDepartments
                                     isLoading={this.props.isLoading}
-                                    data={this.props.data.departments}
+                                    departments={this.props.data.departments}
                                     edit={this.openModalEditDepartment}
                                     delete={this.deleteDepartment}
                                 />

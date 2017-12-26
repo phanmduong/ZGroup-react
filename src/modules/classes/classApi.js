@@ -32,7 +32,7 @@ export function loadClasses(search, page = 1, teacherId = '', genId = '') {
             url += "/class/all";
             break;
     }
-    url += "?search=" + search + "&teacher_id=" + teacherId + "&page=" + page + "&gen_id=" + (genId === 11 ? '' : genId);
+    url += "?search=" + search + "&teacher_id=" + teacherId + "&page=" + page + "&gen_id=" + (genId === 0 ? '' : genId);
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

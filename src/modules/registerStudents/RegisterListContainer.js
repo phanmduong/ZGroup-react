@@ -15,6 +15,7 @@ import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
 import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL} from '../../constants/constants';
+import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -26,6 +27,7 @@ class RegisterListContainer extends React.Component {
             selectGenId: '',
             showModal: false,
             showModalChangeClass: false,
+            showChangeInfoStudent: false,
             register: {},
             note: '',
             campaignId: '',
@@ -54,6 +56,7 @@ class RegisterListContainer extends React.Component {
                 endTime: '',
             },
             allClassFilter:[],
+            selectedStudent: {},
         };
 
         this.isWaitListPage=false;
@@ -79,6 +82,10 @@ class RegisterListContainer extends React.Component {
         this.changeClassStatusFilter = this.changeClassStatusFilter.bind(this);
         this.showLoadingModal = this.showLoadingModal.bind(this);
         this.closeLoadingModal = this.closeLoadingModal.bind(this);
+        this.openModalChangeInfoStudent = this.openModalChangeInfoStudent.bind(this);
+        this.updateModalChangeInfoStudent = this.updateModalChangeInfoStudent.bind(this);
+        this.commitModalChangeInfoStudent = this.commitModalChangeInfoStudent.bind(this);
+        this.closeModalChangeInfoStudent = this.closeModalChangeInfoStudent.bind(this);
     }
 
     componentWillMount() {
@@ -559,6 +566,7 @@ class RegisterListContainer extends React.Component {
             this.closeLoadingModal
         );
     }
+
     closeLoadingModal(){
         let json = this.props.excel;
         let cols = [{ "wch": 5 },{ "wch": 22 },{ "wch": 22 },{ "wch": 22 },{ "wch": 25 },{ "wch": 12 },{ "wch": 8 },{ "wch": 22},{ "wch": 22 },{ "wch": 15 },{ "wch": 22 },];//độ rộng cột
@@ -604,16 +612,43 @@ class RegisterListContainer extends React.Component {
         );
     }
 
+    openModalChangeInfoStudent(obj){
+        this.setState({showChangeInfoStudent: true, selectedStudent: obj});
+    }
+
+    updateModalChangeInfoStudent(e){
+        let feild = e.target.name;
+        let value = e.target.value;
+        if(feild=="paid_status"){
+            value = !this.state.selectedStudent.paid_status;
+        }
+        this.setState({selectedStudent: {...this.state.selectedStudent, [feild]: value}});
+    }
+
+    commitModalChangeInfoStudent(obj){
+        this.props.registerActions.changeInfoStudent(obj, this.closeModalChangeInfoStudent);
+    }
+
+    closeModalChangeInfoStudent(){
+        this.setState({showChangeInfoStudent: false});
+        this.props.registerActions.loadRegisterStudent(
+            this.state.page,//page
+            this.state.selectGenId,
+            this.state.query,
+            this.state.selectedSalerId,
+            this.state.campaignId,
+            this.state.selectedClassId,
+            this.state.selectedMoneyFilter,
+            this.state.selectedClassStatus,
+            this.state.time.startTime,
+            this.state.time.endTime,
+        );
+
+    }
+
     render() {
         return (
             <div id="page-wrapper">
-                <Modal
-                    show={this.props.isLoadingExcel}
-                    onHide={() => {}}
-                >
-                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
-                    <Modal.Body><Loading/></Modal.Body>
-                </Modal>
                 <div className="container-fluid">
                     <button
                         onClick={this.showLoadingModal}
@@ -782,7 +817,7 @@ class RegisterListContainer extends React.Component {
                                                 loadRegisterStudentBySaler={this.loadRegisterStudentBySaler}
                                                 loadRegisterStudentByCampaign={this.loadRegisterStudentByCampaign}
                                                 openModalChangeClass={this.openModalChangeClass}
-
+                                                openModalChangeInfoStudent={this.openModalChangeInfoStudent}
                                             />
                                     }
                                     <ul className="pagination pagination-primary">
@@ -1078,6 +1113,21 @@ class RegisterListContainer extends React.Component {
                         }
                     </Modal.Body>
                 </Modal>
+                <Modal
+                    show={this.props.isLoadingExcel}
+                    onHide={() => {}}
+                >
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                    <Modal.Body><Loading/></Modal.Body>
+                </Modal>
+                <ChangeInfoStudentModal
+                    showChangeInfoStudent={this.state.showChangeInfoStudent}
+                    onHide={()=>{return this.setState({showChangeInfoStudent: false});}}
+                    updateData={this.updateModalChangeInfoStudent}
+                    commitData={this.commitModalChangeInfoStudent}
+                    info={this.state.selectedStudent}
+                    isCommitting={this.props.isCommittingInfoStudent}
+                />
             </div>
         );
     }
@@ -1116,6 +1166,7 @@ RegisterListContainer.propTypes = {
     currentGen: PropTypes.object,
     excel: PropTypes.object,
     isLoadingExcel: PropTypes.bool,
+    isCommittingInfoStudent: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
@@ -1146,6 +1197,7 @@ function mapStateToProps(state) {
         currentGen: state.registerStudents.currentGen,
         excel: state.registerStudents.excel,
         isLoadingExcel: state.registerStudents.isLoadingExcel,
+        isCommittingInfoStudent: state.registerStudents.isCommittingInfoStudent,
     };
 }
 
