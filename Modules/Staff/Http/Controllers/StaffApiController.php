@@ -20,7 +20,7 @@ class StaffApiController extends ManageApiController
     {
 
         $errors = [];
-        if (!$request->email || !$request->username) {
+        if (!$request->email || !$request->username || trim($request->username) == "" || trim($request->email) == "") {
             return $this->respondErrorWithStatus("Thiếu thông tin");
         }
         $user = User::where('email', '=', trim($request->email))->first();
@@ -31,13 +31,6 @@ class StaffApiController extends ManageApiController
         $user = User::where('username', '=', $username)->first();
         if ($user) {
             $errors['username'] = "Username đã có người sử dụng";
-        }
-
-        $phone = trim($request->phone);
-        $user = User::where("phone", $phone)->first();
-
-        if ($user) {
-            $errors['phone'] = "Số điện thoại đã có người sử dụng";
         }
 
         if (!empty($errors)) {
