@@ -30,10 +30,7 @@
 </head>
 <body>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async='async'></script>
-<script
-        src="https://code.jquery.com/jquery-1.12.4.min.js"
-        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-        crossorigin="anonymous"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/jquery-1.12.4.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/jquery.validate.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/moment.min.js"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/material/assets/js/bootstrap-datetimepicker.js"></script>
