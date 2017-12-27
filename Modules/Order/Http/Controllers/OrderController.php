@@ -39,6 +39,9 @@ class OrderController extends ManageApiController
             case 'cancel':
                 return 5;
                 break;
+            default:
+                return 0;
+                break;
         }
     }
 
@@ -155,7 +158,7 @@ class OrderController extends ManageApiController
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
-        if ($order->status == 'place_order' && $order->type == 'order') {
+        if ($this->statusToNum($order->status) <= 1 && $order->type == 'order') {
             $good_orders = json_decode($request->good_orders);
             $order->goodOrders()->delete();
             foreach ($good_orders as $good_order) {
