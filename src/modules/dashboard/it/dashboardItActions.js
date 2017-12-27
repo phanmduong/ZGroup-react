@@ -7,7 +7,6 @@ export function loadCountCardsByStaffDuration(from, to, projectId = "", staffId 
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CARDS_STAFF_DURATION,
-
         });
         dashboardItApi.loadCards(from, to, projectId, staffId)
             .then((res) => {

@@ -54,45 +54,52 @@ class DashboardItContainer extends React.Component {
 
         Promise.all([loadProjectsPromise, loadStaffsPromise])
             .then(() => {
-                this.loadData(this.defaultFrom, this.defaultTo);
+                this.loadData(this.state);
                 this.setState({
                     isLoading: false
                 });
             });
     }
 
-    loadData() {
-        const {from, to, selectedStaff, selectedProject} = this.state;
+    loadData(state) {
+        const {from, to, selectedStaff, selectedProject} = state;
         this.props.dashboardItActions
-            .loadCountCardsByStaffDuration(from, to, selectedProject.id, selectedStaff.id);
+            .loadCountCardsByStaffDuration(
+                from, to,
+                selectedProject ? selectedProject.value : "",
+                selectedStaff ? selectedStaff.value : "");
     }
 
     projectSelectChange(option) {
-        this.setState({
+        const state = {
+            ...this.state,
             selectedProject: option
-        });
-        this.loadData();
+        };
+        this.setState(state);
+        this.loadData(state);
     }
 
     staffSelectChange(option) {
-        this.setState({
+        const state = {
+            ...this.state,
             selectedStaff: option
-        });
-        this.loadData();
+        };
+        this.setState(state);
+        this.loadData(state);
     }
 
     onFromDateInputChange(event) {
         this.setState({
             from: event.target.value
         });
-        this.loadData();
+        this.loadData(this.state);
     }
 
     onToDateInputChange(event) {
         this.setState({
             to: event.target.value
         });
-        this.loadData();
+        this.loadData(this.state);
     }
 
     render() {
