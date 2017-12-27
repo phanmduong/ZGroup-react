@@ -10,6 +10,8 @@ import {DATETIME_VN_FORMAT} from "../../../constants/constants";
 import moment from "moment";
 import {loadProjects, loadStaffs} from './dashboardItApi';
 import Select from 'react-select';
+import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectOption";
+import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
 
 // Import actions here!!
 
@@ -146,10 +148,13 @@ class DashboardItContainer extends React.Component {
                                                 style={{width: "100%"}}
                                                 value={this.state.selectedStaff}
                                                 name="staff"
+                                                valueComponent={MemberReactSelectValue}
+                                                optionComponent={MemberReactSelectOption}
                                                 options={this.state.staffs.map((s) => {
                                                     return {
                                                         value: s.id,
-                                                        label: s.name
+                                                        label: s.name,
+                                                        avatar_url: s.avatar_url
                                                     };
                                                 })}
                                                 onChange={this.staffSelectChange}
@@ -166,7 +171,7 @@ class DashboardItContainer extends React.Component {
                                                 options={this.state.projects.map((p) => {
                                                     return {
                                                         value: p.id,
-                                                        label: p.title
+                                                        label: p.title,
                                                     };
                                                 })}
                                                 onChange={this.projectSelectChange}
