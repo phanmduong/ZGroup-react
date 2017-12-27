@@ -18,6 +18,11 @@ class OrderController extends ManageApiController
         parent::__construct();
     }
 
+    public function statusToNum($status)
+    {
+
+    }
+
     public function allOrders(Request $request)
     {
         $limit = 20;
@@ -75,7 +80,7 @@ class OrderController extends ManageApiController
     public function detailedOrder($order_id)
     {
         $order = Order::find($order_id);
-        if($order == null)
+        if ($order == null)
             return $this->respondSuccessWithStatus([
                 'message' => 'Khong ton tai order'
             ]);
@@ -121,6 +126,19 @@ class OrderController extends ManageApiController
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
+
+        if($order->status == 'xd' && $order->type == 'order') {
+            $good_orders = json_decode($request->good_orders);
+            $order->goodOrders()->delete();
+            foreach ($good_orders as $good_order) {
+                $good = Good::find($good_order->id);
+                $order->goods()->attach($good_order->id, [
+                    "quantity" => $good_order->quantity,
+                    "price" => $good->price,
+                ]);
+            }
+        }
+
         if ($order->type == 'import' && $request->status == 'completed') {
             $importedGoods = $order->importedGoods;
             foreach ($importedGoods as $importedGood) {
@@ -275,12 +293,12 @@ class OrderController extends ManageApiController
 //        $returnOrder->status = $request->status;
 //        $good_orders = json_decode($request->good_orders);
 //        foreach ($good_orders as $good_order) {
-//
+//            $good_order
 //        }
 //    }
 
     public function test()
     {
-        dd(min(8,6));
+        dd(min(8, 6));
     }
 }
