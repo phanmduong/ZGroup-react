@@ -850,7 +850,6 @@ export default {
     },
 
     goodOrders: {
-
         isUpdate: false,
         orderId: 0,
         shipGoodModal: false,
@@ -878,7 +877,6 @@ export default {
                 value: ""
             }
         },
-
         isLoading: false,
         error: false,
         currentPage: 1,

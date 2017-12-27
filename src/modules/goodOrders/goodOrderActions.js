@@ -82,6 +82,7 @@ export function getAllStaffs() {
 
 export function changeStatusOrder(status, orderId) {
     return function (dispatch, getState) {
+        console.log("batman");
         const {orders} = getState().goodOrders;
         const order = orders.filter((o) => {
             return orderId === o.id;
@@ -113,14 +114,12 @@ export function changeStatusOrder(status, orderId) {
                         if (res.data.status === 0) {
                             showErrorNotification(res.data.message.message);
                         } else {
-
                             dispatch({
                                 type: types.CHANGE_STATUS_ORDER_SUCCESS,
                                 order_id: orderId,
                                 status
                             });
                         }
-
                     }).catch(() => {
                     helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
                     dispatch({
