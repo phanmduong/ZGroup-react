@@ -46,7 +46,7 @@ class OrderController extends ManageApiController
             }
         }
         $orders = Order::where('type', 'order')->where(function ($query) use ($keyWord) {
-            $query->where("name", "like", "%$keyWord%")->orWhere("code", "like", "%$keyWord%")->orWhere("phone", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
+            $query->where("code", "like", "%$keyWord%")->orWhere("email", "like", "%$keyWord%");
         });
         if ($status)
             $orders = $orders->where('status', $status);
@@ -158,7 +158,7 @@ class OrderController extends ManageApiController
             }, 0);
 
         if ($request->money > $debt)
-            return $this->respondErrorWithStatus("Thanh toán thừa số tiền" . $debt);
+            return $this->respondErrorWithStatus("Thanh toán thừa số tiền :" . $debt);
         if ($debt == 0) {
             $order = Order::find($orderId)->get();
             $order->status_paid = 1;
@@ -216,21 +216,6 @@ class OrderController extends ManageApiController
         ]);
     }
 
-    public function importedGoodsCancelExportProcess($goodOrder, $warehouseId){
-
-    }
-
-//    public function cancelExportOrder($orderId, $warehouseId, Request $request)
-//    {
-//        $order = Order::find($orderId);
-//        if ($order->exported == false)
-//            return $this->respondErrorWithStatus([
-//                'message' => 'Chưa xuất hàng'
-//            ]);
-//        $order->exported = true;
-//        $order->save();
-//    }
-
     public function importedGoodsExportProcess($goodOrder, $warehouseId)
     {
         $quantity = $goodOrder->quantity;
@@ -280,6 +265,19 @@ class OrderController extends ManageApiController
             'message' => 'SUCCESS'
         ]);
     }
+
+//    public function returnOrder($orderId, $warehouseId, Request $request) {
+//        $returnOrder = new Order;
+//        $order = Order::find($orderId);
+//        $returnOrder->note = $request->note;
+//        $returnOrder->code = $request->code ? $request->code : 'RETURN' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+//        $returnOrder->staff_id = $this->user->id;
+//        $returnOrder->status = $request->status;
+//        $good_orders = json_decode($request->good_orders);
+//        foreach ($good_orders as $good_order) {
+//
+//        }
+//    }
 
     public function test()
     {

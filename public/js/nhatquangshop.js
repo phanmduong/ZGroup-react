@@ -108,6 +108,10 @@ var openWithoutAdd = new Vue({
     methods: {
         openModalBuyWithoutAdd: function () {
             $('#modalBuy').modal('show');
+            modalBuy.goods = [];
+            modalBuy.isLoading = true;
+            console.log(modalBuy.isLoading);
+            modalBuy.getGoodsFromSesson();
         },
     }
 });

@@ -91,15 +91,19 @@ class AlibabaManageApiController extends ManageApiController
                 'message' => 'Trung code'
             ]);
         $register = Register::find($register_id);
+
         if ($request->money === null || $request->code === null)
+
             return $this->respondErrorWithStatus([
                 'message' => 'Thieu money hoac code'
             ]);
         $register->code = $request->code;
+
         if ($register->status == 0)
             $register->money = 0;
         else
             $register->money = $request->money;
+
         $register->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'

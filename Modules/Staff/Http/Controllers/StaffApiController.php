@@ -63,4 +63,43 @@ class StaffApiController extends ManageApiController
         ]);
     }
 
+    public function getStaffs(Request $request)
+    {
+        $limit = 20;
+        if ($request->limit) {
+            $limit = (int)$request->limit;
+        }
+        $staffs = User::where("role", ">", 0)->orderBy("name");
+        if ($limit === -1) {
+
+            $staffs = $staffs->get();
+            return $this->respond([
+                "status" => 1,
+                "staffs" => $staffs->map(function ($staff) {
+                    return [
+                        "id" => $staff->id,
+                        "name" => $staff->name,
+                        "avatar_url" => $staff->avatar_url ? $staff->avatar_url : defaultAvatarUrl()
+                    ];
+                })
+            ]);
+        } else {
+            $staffs = $staffs->paginate($limit);
+            return $this->respondWithPagination(
+                $staffs,
+                [
+                    "staffs" => $staffs->map(function ($staff) {
+                        return [
+                            "id" => $staff->id,
+                            "name" => $staff->name,
+                            "avatar_url" => $staff->avatar_url ? $staff->avatar_url : defaultAvatarUrl()
+                        ];
+                    })
+                ]
+            );
+        }
+
+
+    }
+
 }

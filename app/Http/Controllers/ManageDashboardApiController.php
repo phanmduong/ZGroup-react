@@ -202,6 +202,7 @@ class ManageDashboardApiController extends ManageApiController
             $target_revenue += $class->target * $class->course->price * 0.55;
         }
 
+        $target_revenue = round($target_revenue);
         $courses = $classes->select('course_id', DB::raw('count(*) as total_classes'))->groupBy('course_id')->get();
 
         $courses = $courses->map(function ($c) {

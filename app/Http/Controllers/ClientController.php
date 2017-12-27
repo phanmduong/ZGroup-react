@@ -80,4 +80,9 @@ class ClientController extends Controller
         return view("client.shift");
     }
 
+    public function workShift()
+    {
+        return view("client.workshift");
+    }
+
 }

@@ -14,7 +14,9 @@ class CouponController extends ManageApiController
         $discount_type = $request->discount_type; //percentage, fix
         $discount_value = $request->discount_value;
         $type = $request->type; //code, program
-        $quantity = $request->quantity; //dùng column rate trong bảng để chứa quantity vì lúc migrate éo đc -.-
+        $quantity = $request->quantity;
+        //quantity = -1 -> infinity
+        //dùng column rate trong bảng để chứa quantity vì lúc migrate éo đc -.-
         $used_for = trim($request->used_for); //all, order, good, category, customer, customer-group
         $order_value = $request->order_value;
         $good_id = $request->good_id;

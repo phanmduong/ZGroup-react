@@ -51,6 +51,11 @@ class Order extends Model
             "good_id")->withPivot("quantity", "price");
     }
 
+    public function ship_infor()
+    {
+        return $this->belongsTo(ShipInfor::class, 'ship_infor_id');
+    }
+
     public function transform()
     {
         $goodOrders = $this->goodOrders->map(function ($goodOrder) {
@@ -86,7 +91,7 @@ class Order extends Model
                     return $paid + $orderPaidMoney->money;
                 }, 0),
         ];
-        if($goodOrders)
+        if ($goodOrders)
             $data['good_orders'] = $goodOrders;
         if ($this->staff)
             $data['staff'] = [
@@ -106,12 +111,14 @@ class Order extends Model
                 'phone' => $this->user->phone,
                 'email' => $this->user->email,
             ];
-        } else {
-            $data['customer'] = [
-                'name' => $this->name,
-                'address' => $this->address,
-                'phone' => $this->phone,
-                'email' => $this->email,
+        }
+        if ($this->ship_infor) {
+            $data['ship_infor'] = [
+                'name' => $this->ship_infor->name,
+                'phone' => $this->ship_infor->phone,
+                'province' => $this->ship_infor->province,
+                'district' => $this->ship_infor->district,
+                'address' => $this->ship_infor->address,
             ];
         }
         return $data;

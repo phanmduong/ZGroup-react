@@ -189,10 +189,7 @@ class ImportApiController extends ManageApiController
                 ]);
         }
         $importOrder = new Order;
-        if ($request->code == null)
-            $importOrder->code = rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
-        else
-            $importOrder->code = $request->code;
+        $importOrder->code =$request->code ? $request->code : 'IMPORT' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
@@ -281,7 +278,7 @@ class ImportApiController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Cant edit completed import order'
             ]);
-        $importOrder->code = $request->code ? $request->code : rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $importOrder->code = $request->code ? $request->code : "IMPORT" . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
