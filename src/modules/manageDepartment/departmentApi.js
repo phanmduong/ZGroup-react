@@ -38,7 +38,6 @@ export function deleteDepartment(data) {
         url += "?token=" + token;
     }
     let res = {id: data.id};
-    console.log(res);
     return axios.delete(url, res);
 }
 

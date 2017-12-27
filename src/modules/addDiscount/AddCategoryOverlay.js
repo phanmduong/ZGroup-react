@@ -24,10 +24,11 @@ class AddCategoryOverlay extends React.Component {
         let category = this.props.category;
         return (
             <div style={{position: "relative"}}>
-                <a className="btn btn-simple card-detail-btn-action"
-                   ref="target" onClick={() => this.toggle()}>
+
+                    <a onClick={() => this.toggle()}
+                        className="btn btn-xs btn-main btn-info">
                     {category && category.name ?
-                        <div style={{display: "flex"}}>
+                        <div style={{  alignItems : "center"}}>
                             {category.name}
                         </div>
                         :
@@ -35,7 +36,7 @@ class AddCategoryOverlay extends React.Component {
                         <i className="material-icons">card_giftcard</i> Chọn Danh mục
                         </span>
                     }
-                </a>
+                    </a>
                 <Overlay
                     rootClose={true}
                     show={this.state.isShowModal}

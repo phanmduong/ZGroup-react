@@ -24,10 +24,14 @@ class AddCustomerOverlay extends React.Component {
         let customer = this.props.customer;
         return (
             <div style={{position: "relative"}}>
-                <a className="btn btn-simple card-detail-btn-action"
-                   ref="target" onClick={() => this.toggle()}>
+
+
+
+
+                    <a onClick={() => this.toggle()}
+                        className="btn btn-xs btn-main btn-warning">
                     {customer && customer.name ?
-                        <div style={{display: "flex"}}>
+                        <div  style={{display: "flex",  alignItems : "center"}}>
                             <Avatar size={30} url={customer.avatar_url}/>
                             {customer.name}
                         </div>
@@ -36,7 +40,7 @@ class AddCustomerOverlay extends React.Component {
                         <i className="material-icons">people</i> Chọn Khách hàng
                         </span>
                     }
-                </a>
+                    </a>
                 <Overlay
                     rootClose={true}
                     show={this.state.isShowModal}

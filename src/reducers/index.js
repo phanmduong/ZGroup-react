@@ -53,6 +53,7 @@ import attendancesStaffsReducer from "../modules/attendanceStaffs/attendancesSta
 import roomsReducer from "../modules/rooms/roomsReducer";
 import excelReducer from "../modules/excel/excelReducer";
 import departmentReducer from "../modules/manageDepartment/departmentReducer";
+import jobAssignmentReducer from "../modules/jobAssignment/jobAssignmentReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
 import workShiftSessionsReducer from "../modules/workShiftSessions/workShiftSessionsReducer";
 import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRegistersReducer";
@@ -118,7 +119,7 @@ const appReducer = combineReducers({
     workShiftSessions: workShiftSessionsReducer,
     workShiftRegisters: workShiftRegistersReducer,
     historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
-
+    jobAssignment : jobAssignmentReducer,
 });
 
 const rootReducer = (state, action) => {

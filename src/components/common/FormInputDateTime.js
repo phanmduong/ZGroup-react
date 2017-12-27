@@ -9,6 +9,7 @@ class FormInputDateTime extends React.Component {
     }
 
     componentDidMount() {
+        const format = this.props.format || DATETIME_FORMAT;
         $('#' + this.props.id).on('dp.change', this.props.updateFormData);
         $('#' + this.props.id).datetimepicker({
             icons: {
@@ -22,9 +23,9 @@ class FormInputDateTime extends React.Component {
                 clear: 'fa fa-trash',
                 close: 'fa fa-remove'
             },
-            defaultDate: this.props.value ? moment(this.props.value, DATETIME_FORMAT) :
+            defaultDate: this.props.value ? moment(this.props.value, format) :
                 this.props.defaultDate ? this.props.defaultDate : moment(),
-            format: DATETIME_FORMAT
+            format
         });
     }
 

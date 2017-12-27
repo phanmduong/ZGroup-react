@@ -21,6 +21,9 @@ class OrderContainer extends React.Component {
             optionsSelectStaff: []
         };
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
+        this.updateOrderFormData = this.updateOrderFormData.bind(this);
+        // this.loadDetailOrder = this.loadDetailOrder.bind(this);
+        this.editOrder = this.editOrder.bind(this);
 
     }
 
@@ -46,9 +49,20 @@ class OrderContainer extends React.Component {
         }
     }
 
+    updateOrderFormData(event) {
+        const field = event.target.name;
+        let order = {...this.props.order.order};
+        order[field] = event.target.value;
+        this.props.goodOrderActions.updateOrderFormData(order);
+    }
+
     changeStatusOrder(value) {
         let statusOrder = value && value.value ? value.value : '';
-        this.props.goodOrderActions.changeStatusOrder(this.props.params.orderId,statusOrder);
+        this.props.goodOrderActions.changeStatusOrder(statusOrder,this.props.params.orderId);
+    }
+    editOrder(e){
+        this.props.goodOrderActions.editOrder(this.props.order,this.props.params.orderId);
+        e.preventDefault();
     }
 
     render() {
@@ -66,7 +80,7 @@ class OrderContainer extends React.Component {
                                     <div>
                                         <h4><strong>Chọn sản phẩm</strong></h4>
                                         <ListGood
-                                            goodOrders={this.props.goodOrders}
+                                            goodOrders={this.props.order.order.good_orders}
                                         />
                                     </div>
                                 }
@@ -111,34 +125,36 @@ class OrderContainer extends React.Component {
                                         <div>
                                             <h4><strong>Thông tin đơn hàng</strong></h4>
                                             <FormInputText label="Mã đơn hàng" name="code"
-                                                           value={this.props.infoOrder.code} disabled/>
+                                                           value={this.props.order.order.code} disabled/>
                                             <FormInputText
                                                 label="Ngày tạo"
                                                 name="created_at"
-                                                value={this.props.infoOrder.created_at}
+                                                value={this.props.order.order.created_at}
                                                 disabled
                                             />
                                             <FormInputText
                                                 label="Người bán"
                                                 name="staff"
-                                                value={this.props.infoOrder.staff ? this.props.infoOrder.staff.name : 'Không có'}
+                                                value={this.props.order.order.staff ? this.props.order.order.staff.name : 'Không có'}
                                                 disabled
                                             />
                                             <FormInputText
                                                 label="Phương thức"
                                                 name="payment"
-                                                value={this.props.infoOrder.payment ? this.props.infoOrder.payment : ''}
+                                                value={this.props.order.order.payment ? this.props.order.order.payment : ''}
                                                 disabled
                                             />
                                             <ReactSelect
                                                 name="form-field-name"
                                                 options={ORDER_STATUS}
-                                                value={this.props.infoOrder.status}
+                                                value={this.props.order.order.status}
                                                 placeholder="Chọn trạng thái"
                                                 onChange={this.changeStatusOrder}
                                             />
                                             <FormInputText label="Ghi chú" name="note"
-                                                           value={this.props.infoOrder.note}/>
+                                                           value={this.props.order.order.note}
+                                                           updateFormData={this.updateOrderFormData}
+                                            />
                                         </div>
                                         <div>
                                             <h4><strong>Thông tin khách hàng </strong>
@@ -152,31 +168,31 @@ class OrderContainer extends React.Component {
                                             <FormInputText
                                                 label="Tên khách hàng"
                                                 name="name"
-                                                value={this.props.infoUser ? this.props.infoUser.name : ''}
+                                                value={this.props.order.order.customer ? this.props.order.order.customer.name : ''}
                                                 disabled
                                             />
                                             <FormInputText
                                                 label="Email"
                                                 name="email"
-                                                value={this.props.infoUser ? this.props.infoUser.email : ''}
+                                                value={this.props.order.order.customer ? this.props.order.order.customer.email : ''}
                                                 disabled
                                             />
                                             <FormInputText
                                                 label="Số điện thoại"
                                                 name="phone"
-                                                value={this.props.infoUser ? this.props.infoUser.phone : ''}
+                                                value={this.props.order.order.customer ? this.props.order.order.customer.phone : ''}
                                                 disabled
                                             />
                                             <FormInputText
                                                 label="Địa chỉ"
                                                 name="address"
-                                                value={this.props.infoUser ? this.props.infoUser.address : ''}
+                                                value={this.props.order.order.customer ? this.props.order.order.customer.address : ''}
                                                 disabled
                                             />
                                         </div>
                                         <div>
                                             <h4><strong>Thông tin giao hàng</strong></h4>
-                                            <FormInputText label="Ngày giao" name="ae3qsd" f/>
+                                            <FormInputText label="Ngày giao" name="ae3qsd" />
                                             <FormInputText label="Người giao" name="dsadasd"/>
                                         </div>
                                     </div>
@@ -185,9 +201,21 @@ class OrderContainer extends React.Component {
                             {!this.props.isLoading &&
                             <div className="card-footer">
                                 <div className="float-right" style={{marginBottom: '20px'}}>
-                                    <button className="btn btn-sm btn-success">
-                                        <i className="material-icons">save</i> Lưu
-                                    </button>
+                                    {this.props.isSaving ?
+                                        <button
+                                            className="btn btn-sm btn-success disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/>
+                                            Đang cập nhật
+                                        </button>
+                                        :
+
+                                        <button className="btn btn-sm btn-success"
+                                            onClick={(e)=>{this.editOrder(e);}}
+                                        >
+                                            <i className="material-icons">save</i> Lưu
+                                        </button>
+                                    }
                                     <button className="btn btn-sm btn-danger">
                                         <i className="material-icons">cancel</i> Huỷ
                                     </button>
@@ -206,22 +234,18 @@ OrderContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isLoadingStaffs: PropTypes.bool.isRequired,
     staffs: PropTypes.array.isRequired,
-    infoOrder: PropTypes.object.isRequired,
-    infoUser: PropTypes.object.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
-    goodOrders: PropTypes.array.isRequired,
     params: PropTypes.object.isRequired,
-};
+    order: PropTypes.object,
+    isSaving: PropTypes.bool,};
 
 function mapStateToProps(state) {
     return {
         isLoading: state.goodOrders.order.isLoading,
+        isSaving: state.goodOrders.order.isSaving,
         isLoadingStaffs: state.goodOrders.isLoadingStaffs,
         staffs: state.goodOrders.staffs,
-        infoOrder: state.goodOrders.order.infoOrder,
-        infoUser: state.goodOrders.order.infoUser,
-        goodOrders: state.goodOrders.order.goodOrders,
-
+        order: state.goodOrders.order,
     };
 }
 
