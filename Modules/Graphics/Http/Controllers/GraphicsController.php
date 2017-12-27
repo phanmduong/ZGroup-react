@@ -130,6 +130,7 @@ class GraphicsController extends Controller
             "goods" => $goods,
             "total_price" => $totalPrice
         ];
+
         return $data;
     }
 

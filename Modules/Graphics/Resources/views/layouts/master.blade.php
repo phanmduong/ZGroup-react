@@ -450,10 +450,10 @@
 <!-- Core JS Files -->
 <script src="/graphics-assets/js/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="/graphics-assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
-<script src="/graphics-assets/js/tether.min.js" type="text/javascript"></script>
-<script src="/graphics-assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="/graphics-assets/js/paper-kit.js?v=2.0.0"></script>
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/graphics.js?6868"></script>
+<script src="/graphics-assets/js/tether.min.js" type="text/javascript"></script>
+<script src="/graphics-assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/graphics-assets/js/paper-kit.js?v=2.0.0"></script>
 </html>
