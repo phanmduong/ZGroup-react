@@ -226,7 +226,14 @@ class CardController extends ManageApiController
         ]);
     }
 
-
+    /**
+     * @param Request $request
+     * staff_id
+     * project_id
+     * to
+     * from
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function countStaffCards(Request $request)
     {
         if ($request->to === null || $request->from === null) {
@@ -244,13 +251,13 @@ class CardController extends ManageApiController
         if ($request->staff_id) {
             $cards = $cards
                 ->join('card_user', 'cards.id', '=', 'card_user.card_id')
-                ->where("card_user.user_id", $request->staff_id);
+                ->where("card_user.user_id", (int)$request->staff_id);
         }
 
         if ($request->project_id) {
             $cards = $cards
                 ->join('boards', 'boards.id', '=', 'cards.board_id')
-                ->where("boards.project_id", $request->project_id);
+                ->where("boards.project_id", (int)$request->project_id);
         }
 
         $cards = $cards->where("cards.status", "close")
