@@ -15,6 +15,9 @@ use App\Shift;
 use App\ShiftSession;
 use App\StudyClass;
 use App\TeachingLesson;
+use App\WorkShift;
+use App\WorkShiftSession;
+use App\WorkShiftUser;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Modules\CheckInCheckOut\Entities\AppSession;
@@ -306,82 +309,108 @@ class CheckInCheckOutRepository
             }
         }
 
+
         // work shifts
-        $shifts = Shift::where("date", $today)
-            ->where("user_id", $checkInCheckOut->user_id)->get();
-        foreach ($shifts as $shift) {
-            $shiftSession = $shift->shift_session;
+        $workShiftUsers = WorkShiftUser::join("work_shifts", "work_shift_user.work_shift_id", "=", "work_shifts.id")
+            ->where("date", $today)
+            ->where("work_shift_user.user_id", $checkInCheckOut->user_id)->select("work_shift_user.*")->get();
 
-            if ($shiftSession) {
-                $start_time = $today . " " . $shiftSession->start_time;
-                $end_time = $today . " " . $shiftSession->end_time;
+        $workTimeSpan = 28;
+        foreach ($workShiftUsers as $workShiftUser) {
+            $workShiftUserSession = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=", "work_shift_sessions.id")
+                ->where("work_shifts.id", $workShiftUser->work_shift_id)->first();
 
+            if ($workShiftUserSession) {
+                // lay ra start_time va end_time cua ca trực đó
+                $start_time = $today . " " . $workShiftUserSession->start_time;
+                $end_time = $today . " " . $workShiftUserSession->end_time;
 
+                // kind=1 check in
                 if ($checkInCheckOut->kind == 1) {
+
                     $minutesInterval = $this->timeIntervalInMinutes($start_time, date("H:i:s"));
-                    if ($minutesInterval < $timespan) {
-                        $timespan = $minutesInterval;
+                    if ($minutesInterval < $workTimeSpan) {
+                        $workTimeSpan = $minutesInterval;
                         $checkInCheckOut->teacher_teaching_lesson_id = 0;
                         $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
-                        $checkInCheckOut->shift_id = $shift->id;
-                        if ($shift->checkin_id == 0 || $shift->checkin_id == null) {
-                            $shift->checkin_id = $checkInCheckOut->id;
-                            $shift->save();
-                            $checkInCheckOut->message = "Bạn vừa check in thành công " . $shiftSession->name . " (" . $shiftSession->start_time . " - " . $shiftSession->end_time . ")";
+                        $checkInCheckOut->shift_id = 0;
+                        $checkInCheckOut->work_shift_user_id = $workShiftUser->id;
+                        if ($workShiftUser->checkin_id == 0 || $workShiftUser->checkin_id == null) {
+                            $workShiftUser->checkin_id = $checkInCheckOut->id;
+                            $workShiftUser->save();
+                            $checkInCheckOut->message = "Bạn vừa check in thành công " . $workShiftUserSession->name . " (" . $workShiftUserSession->start_time . " - " . $workShiftUserSession->end_time . ")";
                         } else {
-                            $checkInCheckOut->message = "Bạn đã check in ca trực " . $shiftSession->name . " (" . $shiftSession->start_time . " - " . $shiftSession->end_time . ") trước đó rồi";
+                            $checkInCheckOut->message = "Bạn đã check in ca làm việc " . $workShiftUserSession->name . " (" . $workShiftUserSession->start_time . " - " . $workShiftUserSession->end_time . ") trước đó rồi";
                         }
                     }
 
                 } else if ($checkInCheckOut->kind == 2) {
                     $minutesInterval = $this->timeIntervalInMinutes($end_time, date("H:i:s"));
-                    if ($minutesInterval < $timespan) {
-                        $timespan = $minutesInterval;
+                    if ($minutesInterval < $workTimeSpan) {
+                        $workTimeSpan = $minutesInterval;
                         $checkInCheckOut->teacher_teaching_lesson_id = 0;
                         $checkInCheckOut->teaching_assistant_teaching_lesson_id = 0;
-                        $checkInCheckOut->shift_id = $shift->id;
-                        $checkInCheckOut->message = "Bạn vừa check out thành công " . $shiftSession->name . " (" . $shiftSession->start_time . " - " . $shiftSession->end_time . ")";
-                        $shift->checkout_id = $checkInCheckOut->id;
-                        $shift->save();
-                        if ($shift->checkin_id == null || $shift->checkin_id == 0) {
-                            $shiftArr = [$shift];
+                        $checkInCheckOut->work_shift_user_id = $workShiftUser->id;
+                        $checkInCheckOut->shift_id = 0;
+                        $checkInCheckOut->message = "Bạn vừa check out thành công " . $workShiftUserSession->name . " (" . $workShiftUserSession->start_time . " - " . $workShiftUserSession->end_time . ")";
+
+                        $workShiftUser->checkout_id = $checkInCheckOut->id;
+                        $workShiftUser->save();
+                        if ($workShiftUser->checkin_id == null || $workShiftUser->checkin_id == 0) {
+                            $workShiftUserArr = [$workShiftUser];
                             $isCheckin = true;
-                            $sampleShift = $shift;
+                            $sampleShift = $workShiftUser;
+
                             while ($sampleShift != null) {
-                                $start_time = $sampleShift->shift_session->start_time;
-                                $shiftSession = ShiftSession::where("end_time", $start_time)->first();
-                                if (is_null($shiftSession)) break;
-                                $todayShift = $shiftSession->shifts()->where("user_id", $checkInCheckOut->user_id)->where("date", date("Y-m-d "))->first();
+                                $workShiftUserSessionStart = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=", "work_shift_sessions.id")
+                                    ->where("work_shifts.id", $sampleShift->work_shift_id)
+                                    ->select("work_shift_sessions.*")->first();
+
+                                if (is_null($workShiftUserSessionStart)) break;
+                                $start_time = $workShiftUserSessionStart->start_time;
+
+                                $workShiftUserSession = WorkShiftSession::where("end_time", $start_time)->first();
+                                if (is_null($workShiftUserSession)) break;
+
+                                $todayShift = WorkShiftUser::join("work_shifts", "work_shift_user.work_shift_id", "=", "work_shifts.id")
+                                    ->join("work_shift_sessions", "work_shift_sessions.id", "=", "work_shifts.work_shift_session_id")
+                                    ->where("work_shift_user.user_id", $checkInCheckOut->user_id)
+                                    ->where("work_shifts.date", date("Y-m-d "))->select("work_shift_user.*")->first();
+
                                 if ($todayShift == null) {
                                     $isCheckin = false;
                                 }
-                                $shiftArr[] = $todayShift;
+                                $workShiftUserArr[] = $todayShift;
                                 $sampleShift = $todayShift;
                                 if ($todayShift->checkin_id != null || $todayShift->checkin_id != 0) {
                                     $sampleShift = null;
                                 }
                             }
                             if ($isCheckin) {
-                                foreach ($shiftArr as $s) {
+                                foreach ($workShiftUserArr as $s) {
                                     if ($s->checkin_id == null || $s->checkin_id == 0) {
+                                        $workShiftSession = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=", "work_shift_sessions.id")
+                                            ->where("work_shifts.id", $s->work_shift_id)->first();
                                         $checkIn = $checkInCheckOut->replicate();
                                         $checkIn->kind = 1;
                                         $checkIn->status = 6;
                                         $checkIn->shift_id = $s->id;
-                                        $checkIn->message = "Bạn vừa check in thành công " . $s->shift_session->name . " (" . $s->shift_session->start_time . " - " . $s->shift_session->end_time . ")";
-                                        $checkIn->created_at = format_time_to_mysql(strtotime($s->shift_session->start_time));
+                                        $checkIn->message = "Bạn vừa check in thành công " . $workShiftSession->name . " (" . $workShiftSession->start_time . " - " . $workShiftSession->end_time . ")";
+                                        $checkIn->created_at = format_time_to_mysql(strtotime($workShiftSession->start_time));
                                         $checkIn->save();
 
                                         $s->checkin_id = $checkIn->id;
                                         $s->save();
                                     }
                                     if ($s->checkout_id == null || $s->checkout_id == 0) {
+                                        $workShiftSession = WorkShiftSession::join("work_shifts", "work_shifts.work_shift_session_id", "=", "work_shift_sessions.id")
+                                            ->where("work_shifts.id", $s->work_shift_id)->first();
                                         $checkOut = $checkInCheckOut->replicate();
                                         $checkOut->kind = 2;
                                         $checkOut->status = 6;
                                         $checkOut->shift_id = $s->id;
-                                        $checkOut->created_at = format_time_to_mysql(strtotime($s->shift_session->end_time));
-                                        $checkOut->message = "Bạn vừa check out thành công " . $s->shift_session->name . " (" . $s->shift_session->start_time . " - " . $s->shift_session->end_time . ")";
+                                        $checkOut->created_at = format_time_to_mysql(strtotime($workShiftSession->end_time));
+                                        $checkOut->message = "Bạn vừa check out thành công " . $workShiftSession->name . " (" . $workShiftSession->start_time . " - " . $workShiftSession->end_time . ")";
                                         $checkOut->save();
 
                                         $s->checkout_id = $checkOut->id;
@@ -398,13 +427,16 @@ class CheckInCheckOutRepository
 
         if ($checkInCheckOut->teacher_teaching_lesson_id == 0
             && $checkInCheckOut->teaching_assistant_teaching_lesson_id == 0
-            && $checkInCheckOut->shift_id == 0) {
+            && $checkInCheckOut->shift_id == 0
+            && $checkInCheckOut->work_shift_user_id == 0) {
+
             $date = new DateTime;
             $date->modify('-30 minutes');
             $formatted_date = $date->format('Y-m-d H:i:s');
             $count = CheckInCheckOut::where("user_id", $checkInCheckOut->user_id)
                 ->where("created_at", ">=", $formatted_date)->count();
-            if ($count >= 5) {
+
+            if ($count >= 500) {
                 $checkInCheckOut->message = "Chức năng check in/ check out hiện tại đang bị tạm khoá vì phát hiện nghi vấn. Vui lòng chờ 30 phút để có thể check in/ check out trở lại.";
                 $checkInCheckOut->status = 4;
                 return $checkInCheckOut;
