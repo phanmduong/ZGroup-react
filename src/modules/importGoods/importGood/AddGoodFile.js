@@ -177,7 +177,7 @@ class AddGoodFile extends React.Component {
                                    padding: '1',
                                    margin: '5px'
                                }}
-                               href="/good/create"
+                               href="/manufacture/good/create"
                                target="_blank"
                             >
                                 <i className="material-icons">add</i>

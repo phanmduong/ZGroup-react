@@ -9,7 +9,7 @@ import * as helper from '../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import RuleContainer from '../modules/rule/RuleContainer';
 import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
-
+import AddStaffFirstLoginContainer from '../modules/firstLogin/AddStaffFirstLoginContainer'
 let self;
 
 class AppContainer extends React.Component {
@@ -85,6 +85,7 @@ class AppContainer extends React.Component {
         return (
             <div>
                 <GlobalLoadingContainer/>
+                <AddStaffFirstLoginContainer/>
                 <App
                     pathname={this.props.location.pathname}
                     {...this.props}

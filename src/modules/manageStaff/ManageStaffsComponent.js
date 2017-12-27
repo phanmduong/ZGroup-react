@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {Modal} from 'react-bootstrap';
 import AddUserToStaff from './AddUserToStaff';
-
+import HRTab from "../manageDepartment/HRTab";
 class ManageStaffsComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -31,39 +31,14 @@ class ManageStaffsComponent extends React.Component {
             <div>
                 <div className="col-lg-12">
                     <div className="card">
-                        <div className="card-header card-header-tabs" data-background-color="rose">
-                            <div className="nav-tabs-navigation">
-                                <div className="nav-tabs-wrapper">
-                                    <ul className="nav nav-tabs" data-tabs="tabs">
-                                        <li className="active">
-                                            <Link to="manage/quan-li-nhan-su">
-                                                Nhân viên
-                                                <div className="ripple-container"/>
-                                            </Link>
-                                        </li>
-                                        <li className="">
-                                            <Link to="manage-role">
-                                                 Chức vụ
-                                                <div className="ripple-container"/>
-                                            </Link>
-                                        </li>
-                                        <li className="">
-                                            <Link to="manage-department">
-                                                Bộ phận
-                                                <div className="ripple-container"/>
-                                            </Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <HRTab path="manage/quan-li-nhan-su"/>
                         <div className="card-content">
                             <div className="tab-content">
                                 <div className="row">
                                     <div className="col-md-12">
                                             <Link
                                                 className="btn btn-rose"
-                                                to="add-staff"
+                                                to="/hr/add-staff"
                                             >
                                                 Tạo nhân viên
                                             </Link>
@@ -93,8 +68,10 @@ class ManageStaffsComponent extends React.Component {
                                             staffs={this.props.staffListData}
                                             roles={this.props.roleListData}
                                             bases={this.props.baseListData}
+                                            departments={this.props.departments}
                                             changeRoleStaff={this.props.changeRoleStaff}
                                             changeBaseStaff={this.props.changeBaseStaff}
+                                            changeDepartmentStaff={this.props.changeDepartmentStaff}
                                             deleteStaff={this.props.deleteStaff}
                                             disableActions={false}
                                             titleList="Danh sách nhân viên"
@@ -143,9 +120,11 @@ ManageStaffsComponent.propTypes = {
     isLoadingStaffs: PropTypes.bool.isRequired,
     baseListData: PropTypes.array.isRequired,
     roleListData: PropTypes.array.isRequired,
+    departments: PropTypes.array.isRequired,
     staffListData: PropTypes.array.isRequired,
     changeRoleStaff: PropTypes.func.isRequired,
     changeBaseStaff: PropTypes.func.isRequired,
+    changeDepartmentStaff: PropTypes.func.isRequired,
     staffsSearchChange: PropTypes.func.isRequired,
     loadStaffs: PropTypes.func.isRequired,
     deleteStaff: PropTypes.func.isRequired,

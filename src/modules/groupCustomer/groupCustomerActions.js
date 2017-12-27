@@ -120,8 +120,8 @@ export function editGroupCustomer(groupCustomerForm,page,closeModal) {
                        // groupCustomer : res.data.data.customer_group, // nên lấy từ api
                     });
                     helper.showTypeNotification('Đã chỉnh sửa nhóm ' + groupCustomerForm.name, 'success');
-                    dispatch(loadGroupCustomer(page,6));
-                    closeModal();
+                    dispatch(loadGroupCustomer(page,6)); // *** Sửa laị thành browseHistory
+                    closeModal();   // *** Loại đi
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);

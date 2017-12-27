@@ -24,7 +24,7 @@ export function addDiscount(discount) {
                     dispatch({
                         type: types.ADD_DISCOUNT_SUCCESS,
                     });
-                    browserHistory.push('/discount');
+                    browserHistory.push('/good/discount');
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);
@@ -140,6 +140,17 @@ export function loadDiscount(id) {
 
     };
 }
+export function generateCode() {
+    let str = "abcdefghijklmnopqrstuvwxyz";
+    const s = str.split("").sort(function () {
+        return (0.5 - Math.random());
+    });
+    const randomCode= [];
+    for (let i =0 ; i< 8; i++){randomCode[i] = s[i];}
+    return function (dispatch) {
+        dispatch({type: types.GENERATE_RANDOM_CODE, randomCode : randomCode.join("").toUpperCase()});
+    };
+}
 
 export function editDiscount(discount ) {
     return function (dispatch) {
@@ -155,7 +166,7 @@ export function editDiscount(discount ) {
                         type: types.EDIT_DISCOUNT_SUCCESS,
                         discount: res.data.data.coupon,
                     });
-                    browserHistory.push('/discount');
+                    browserHistory.push('/good/discount');
                 }
                 else {
                     helper.sweetAlertError(res.data.data.message);

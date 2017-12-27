@@ -78,7 +78,7 @@ class ListCourse extends React.Component {
                                 </td>
                                 <td>
                                     <ButtonGroupAction
-                                        editUrl={"/manage/courses/edit/" + course.id + ""}
+                                        editUrl={"/teaching/courses/edit/" + course.id + ""}
                                         delete={this.deleteCourse}
                                         object={course}
                                     />

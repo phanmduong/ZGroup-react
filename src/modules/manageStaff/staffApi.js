@@ -14,6 +14,7 @@ export function addStaff(staff) {
         marital: staff.marital,
         role_id: staff.role_id,
         base_id: staff.base_id,
+        department_id: staff.department_id,
         homeland: staff.homeland,
         literacy: staff.literacy,
         start_company: staff.start_company,
@@ -100,6 +101,7 @@ export function editStaff(staff) {
         marital: staff.marital,
         role_id: staff.role_id,
         base_id: staff.base_id,
+        department_id: staff.department_id,
         homeland: staff.homeland,
         literacy: staff.literacy,
         start_company: staff.start_company,
@@ -183,3 +185,22 @@ export function resetPassword(staffId) {
     });
 }
 
+export function  loadDepartments(){
+    //http://manageapi.keetool.xyz/department/get-all-departments?token=
+    let url = env.MANAGE_API_URL + "/department/get-all-departments";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
+}
+export function  changeDepartmentStaff(staffId, departId){
+    //http://manageapi.keetool.xyz/department/add-employees/8?token=
+    let url = env.MANAGE_API_URL + "/department/add-employees/" + departId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    let data = JSON.stringify([{"id":staffId}]);
+    return axios.post(url, {employees: data} );
+}

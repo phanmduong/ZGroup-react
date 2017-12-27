@@ -1,7 +1,7 @@
 import * as types from '../../constants/actionTypes';
 import * as customerApis from './customerApis';
 import * as helper from '../../helpers/helper';
-import {Link , browserHistory} from 'react-router';
+import {browserHistory} from 'react-router';
 
 
 export function loadCustomers( page , limit, query,status) {

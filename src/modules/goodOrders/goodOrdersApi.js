@@ -37,7 +37,6 @@ export function loadStaffs() {
     if (token) {
         url += "?token=" + token;
     }
-
     return axios.get(url);
 }
 
@@ -50,7 +49,7 @@ export function getAllStaffs() {
     return axios.get(url);
 }
 
-export function changeStatusOrder(orderId, status, labelId = "") {
+export function changeStatusOrder(status,orderId, labelId = "") {
     let url = env.MANAGE_API_URL + `/order/change-status-order`;
     let token = localStorage.getItem('token');
     if (token) {
@@ -67,4 +66,20 @@ export function sendShipOrder(shippingGood) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + "/ghtk/services/shipment/order?token=" + token;
     return axios.post(url, {data: JSON.stringify(shippingGood)});
+}
+
+export function editOrderApi(order, orderId) {
+    let url = env.MANAGE_API_URL + '/order/' + orderId ;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    console.log(order.order.code, order.order.note,'API');
+    return axios.put(url,
+        {
+            'note' : order.order.note,
+            'code' : order.order.code,
+            'status' : order.order.status,
+        }
+        );
 }

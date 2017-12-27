@@ -12,7 +12,7 @@ class ListRole extends React.Component {
     }
 
     editRole(roleId) {
-        browserHistory.push(`role/${roleId}/edit`);
+        browserHistory.push(`/hr/role/${roleId}/edit`);
     }
 
     render() {
@@ -44,7 +44,7 @@ class ListRole extends React.Component {
                                                 <td>
                                                     <ButtonGroupAction
                                                         delete={self.props.deleteRole}
-                                                        editUrl={`role/${role.id}/edit`}
+                                                        editUrl={`/hr/role/${role.id}/edit`}
                                                         object={role.id}
                                                     />
                                                 </td>

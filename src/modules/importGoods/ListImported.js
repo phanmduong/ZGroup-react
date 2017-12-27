@@ -32,7 +32,7 @@ class ListImported extends React.Component {
                             let isCompleted = importOrder.status.trim().toLowerCase() === 'completed';
                             return (
                                 <tr key={index}>
-                                    <td><Link to={`/import-good/${importOrder.id}`}>{importOrder.code}</Link></td>
+                                    <td><Link to={`/good/import-good/${importOrder.id}`}>{importOrder.code}</Link></td>
                                     <td>{
                                         isCompleted ?
                                             <button className="btn btn-xs btn-main btn-success">
@@ -56,7 +56,7 @@ class ListImported extends React.Component {
                                         disabledEdit={isCompleted}
                                         delete={this.props.deleteImportOrder}
                                         object={importOrder}
-                                        editUrl={`/import-good/${importOrder.id}/edit`}
+                                        editUrl={`/good/import-good/${importOrder.id}/edit`}
                                     /></td>
                                 </tr>
                             );

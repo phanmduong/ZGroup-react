@@ -98,7 +98,7 @@ class ListClassComponent extends React.Component {
                                                         <td>
                                                             <Link className="btn btn-fill btn-rose"
                                                                   type="button"
-                                                                  to={'/manage/attendance/' + classItem.id}
+                                                                  to={'/teaching/attendance/' + classItem.id}
                                                             >Điểm danh</Link>
                                                         </td>
                                                     </tr>

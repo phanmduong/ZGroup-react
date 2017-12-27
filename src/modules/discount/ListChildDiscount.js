@@ -33,7 +33,8 @@ class ListChildDiscount extends React.Component {
                                 (discount) => {
                                     return (
                                         <tr role="row" className="even" key={discount.id}>
-                                            <td>{discount.name}</td>
+                                            <td><a className="text-name-student-register" rel="tooltip" title
+                                                   data-original-title="Remove item">{discount.name}</a></td>
                                             <td>{discount.type === 'code' ?
                                                 <button className="btn btn-xs btn-main btn-success">Mã khuyến
                                                     mãi</button>
@@ -44,7 +45,36 @@ class ListChildDiscount extends React.Component {
                                             <td>{discount.start_time}</td>
                                             <td>{discount.end_time}</td>
                                             <td>
-                                                <button className="btn btn-xs btn-main btn-success">{discount.used_for}</button>
+                                                {discount.used_for === 'good' ?
+                                                    <button
+                                                        className="btn btn-xs btn-main btn-success">Hàng hóa
+                                                    </button> : (
+                                                        discount.used_for === 'category' ?
+                                                            <button
+                                                                className="btn btn-xs btn-main btn-info">Danh mục
+                                                            </button> : (
+                                                                discount.used_for === 'customer' ?
+                                                                    <button
+                                                                        className="btn btn-xs btn-main btn-warning">Khách
+                                                                        hàng
+                                                                    </button> : (
+                                                                        discount.used_for === 'customer-group' ?
+                                                                            <button
+                                                                                className="btn btn-xs btn-main btn-rose">Nhóm
+                                                                                khách hàng
+                                                                            </button> : (
+                                                                                discount.used_for === 'order' ?
+                                                                                    <button
+                                                                                        className="btn btn-xs btn-main btn-primary">
+                                                                                        Đơn hàng
+                                                                                    </button> :
+                                                                                    <button className="btn btn-xs btn-main btn-default">Tất cả
+                                                                                    </button>
+                                                                            )
+                                                                    )
+                                                            )
+                                                    )
+                                                }
                                             </td>
                                             <td>
                                                 {discount.used_for === 'good' ?
@@ -68,7 +98,7 @@ class ListChildDiscount extends React.Component {
                                                 <div className="btn-group-action">
                                                     <div style={{display: 'inline-block'}}>
                                                         <a onClick={() => {
-                                                            browserHistory.push('/discount/edit/' + discount.id);
+                                                            browserHistory.push('/good/discount/edit/' + discount.id);
                                                         }}>
                                                             <i className="material-icons">edit</i>
                                                         </a></div>

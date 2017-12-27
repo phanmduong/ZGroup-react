@@ -35,7 +35,7 @@ class PropertiesListContainer extends React.Component {
                 <div className="container-fluid">
 
                     <div style={{marginTop: "15px"}}>
-                        <Link to={`/good/${this.props.params.type}/property/create`} className="btn btn-rose">
+                        <Link to={`/manufacture/good/${this.props.params.type}/property/create`} className="btn btn-rose">
                             Thêm thuộc tính
                         </Link>
                     </div>

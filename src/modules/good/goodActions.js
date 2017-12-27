@@ -113,7 +113,7 @@ export function saveGood(good) {
 
         goodApi.saveGood(good)
             .then(() => {
-                browserHistory.push("/goods/products");
+                browserHistory.push("/good/goods/products");
                 showNotification("Thêm sản phẩm thành công");
                 dispatch({
                     type: types.SAVE_GOOD_SUCCESS

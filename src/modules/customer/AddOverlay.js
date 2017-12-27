@@ -22,9 +22,7 @@ class AddOverlay extends React.Component {
         this.onSearchChange = this.onSearchChange.bind(this);
     }
 
-    componentWillMount() {
-        this.loadFunction(1);
-    }
+
 
     loadFunction(page) {
         this.setState({page: page});
@@ -34,6 +32,7 @@ class AddOverlay extends React.Component {
 
     toggle() {
         this.setState({isShowModal: !this.state.isShowModal});
+        this.loadFunction(1);
     }
 
 
