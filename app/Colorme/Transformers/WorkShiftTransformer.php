@@ -41,7 +41,7 @@ class WorkShiftTransformer extends Transformer
             'order' => $shift->order,
             'disable' => strtotime($shift->created_at) < $datetime,
             'created_at' => $shift->created_at,
-            'datetime' => $datetime,
+            'datetime' => $date->format('Y-m-d H:i:s'),
             'gen' => ['name' => $shift->gen->name],
             'base' => ['name' => $shift->base->name, 'address' => $shift->base->address],
             'start_time' => format_time_shift(strtotime($shift_session->start_time)),
