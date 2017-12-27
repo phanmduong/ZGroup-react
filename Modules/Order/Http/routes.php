@@ -9,8 +9,7 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/all-order-paid-money', 'OrderController@getOrderPaidMoney');
     Route::post('/check-goods', 'OrderController@checkGoods');
     Route::put('/{orderId}/good/export/{warehouseId}', 'OrderController@exportOrder');
-    Route::put('/{orderId}/good/import/{warehouseId}', 'OrderController@importOrder');
-
+    Route::post('/{orderId}/return/{warehouseId}', 'OrderController@returnOrder');
 
     Route::get('/all-customers', 'CustomerController@allCustomers');
     Route::get('/total-and-debt-money', 'CustomerController@countMoney');

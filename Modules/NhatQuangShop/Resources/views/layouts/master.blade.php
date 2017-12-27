@@ -167,8 +167,6 @@
 
 <div id="modalBuy" class="modal fade">
     <div class="modal-dialog modal-large">
-
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -230,6 +228,7 @@
         </div>
     </div>
 </div>
+
 
 <div id="modalSuccess" class="modal fade">
     <div class="modal-dialog modal-large">

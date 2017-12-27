@@ -117,11 +117,6 @@ class PublicApiController extends ApiController
         }
 
         $data = ['products' => $this->productTransformer->transformCollection($products)];
-//        if (!$request->page || $request->page == 1) {
-//            $popular_products = Product::where(DB::raw("DATE(created_at)"), "=", DB::raw("CURDATE()"))
-//                ->orderBy('rating', 'desc')->take(8)->get();
-//            $data['popular_products'] = $this->productTransformer->transformCollection($popular_products);
-//        }
         return $this->respondWithPagination($products, $data);
     }
 

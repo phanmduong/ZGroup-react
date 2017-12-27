@@ -2,9 +2,11 @@
 
 namespace Modules\Graphics\Http\Controllers;
 
+use App\District;
 use App\Good;
 use App\Order;
 use App\Product;
+use App\Province;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,42 +37,6 @@ class GraphicsController extends Controller
         return view('graphics::about_us');
     }
 
-    public function addGoodToCart($subfix, $goodId, Request $request)
-    {
-        $goods_str = $request->session()->get('goods');
-        $number = $request->number;
-
-        if ($goods_str) {
-            $goods = json_decode($goods_str);
-        } else {
-            $goods = [];
-        }
-
-        $added = false;
-        foreach ($goods as &$good) {
-            if ($good->id == $goodId) {
-                if ($number) {
-                    $good->number = $number;
-                } else {
-                    $good->number += 1;
-                }
-                $added = true;
-            }
-        }
-
-        if (!$added) {
-            $temp = new \stdClass();
-            $temp->id = $goodId;
-            $temp->number = 1;
-            $goods[] = $temp;
-        }
-
-
-        $goods_str = json_encode($goods);
-        $request->session()->put('goods', $goods_str);
-        return ["status" => 1];
-    }
-
     public function countGoodsFromSession($subfix, Request $request)
     {
         $goods_str = $request->session()->get('goods');
@@ -86,10 +52,36 @@ class GraphicsController extends Controller
         return $count;
     }
 
+    public function addGoodToCart($subfix, $goodId, Request $request)
+    {
+        $goods_str = $request->session()->get('goods');
+
+        if ($goods_str) {
+            $goods = json_decode($goods_str);
+        } else {
+            $goods = [];
+        }
+        $added = false;
+        foreach ($goods as &$good) {
+            if ($good->id == $goodId) {
+                $good->number += 1;
+                $added = true;
+            }
+        }
+        if (!$added) {
+            $temp = new \stdClass();
+            $temp->id = $goodId;
+            $temp->number = 1;
+            $goods[] = $temp;
+        }
+        $goods_str = json_encode($goods);
+        $request->session()->put('goods', $goods_str);
+        return ["status" => 1];
+    }
+
     public function removeBookFromCart($subfix, $goodId, Request $request)
     {
         $goods_str = $request->session()->get('goods');
-        $number = $request->number;
 
         $goods = json_decode($goods_str);
 
@@ -97,7 +89,7 @@ class GraphicsController extends Controller
 
         foreach ($goods as &$good) {
             if ($good->id == $goodId) {
-                $good->number = $number;
+                $good->number -= 1;
             }
             if ($good->number > 0) {
                 $temp = new \stdClass();
@@ -116,9 +108,7 @@ class GraphicsController extends Controller
     {
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
-
         $goods = [];
-
         if ($goods_arr) {
             foreach ($goods_arr as $item) {
                 $good = Good::find($item->id);
@@ -137,10 +127,11 @@ class GraphicsController extends Controller
             $totalPrice += $good->price * (1 - $good["coupon_value"]) * $good->number;
         }
         $data = [
-            "books" => $goods,
+            "goods" => $goods,
             "total_price" => $totalPrice
         ];
-        return view("graphics::goods_cart", $data);
+
+        return $data;
     }
 
     public function book($subfix, $good_id)
@@ -150,6 +141,7 @@ class GraphicsController extends Controller
             return view('graphics::404');
         $data = $this->bookRepository->getBookDetail($good_id);
         return view('graphics::book', [
+            'book_id' => $good_id,
             'properties' => $data,
         ]);
     }
@@ -225,12 +217,14 @@ class GraphicsController extends Controller
         $email = $request->email;
         $name = $request->name;
         $phone = $request->phone;
+        $province = Province::find($request->provinceid)->name;
+        $district = District::find($request->districtid)->name;
         $address = $request->address;
         $payment = $request->payment;
         $goods_str = $request->session()->get('goods');
         $goods_arr = json_decode($goods_str);
         if (count($goods_arr) > 0) {
-            $this->bookRepository->saveOrder($email, $phone, $name, $address, $payment, $goods_arr);
+            $this->bookRepository->saveOrder($email, $phone, $name, $province, $district, $address, $payment, $goods_arr);
             $request->session()->flush();
             return [
                 "status" => 1
@@ -242,4 +236,26 @@ class GraphicsController extends Controller
             ];
         }
     }
+
+    public function provinces($subfix)
+    {
+        $provinces = Province::get();
+        return [
+            'provinces' => $provinces,
+        ];
+    }
+
+    public function districts($subfix, $provinceId)
+    {
+        $province = Province::find($provinceId);
+        return [
+            'districts' => $province->districts,
+        ];
+    }
+
+    public function flush($subfix, Request $request)
+    {
+        $request->session()->flush();
+    }
+
 }

@@ -29,13 +29,23 @@
 
     <!-- Facebook Pixel Code -->
     <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '1794155800656414');
         fbq('track', 'PageView');
@@ -46,7 +56,42 @@
     <!-- End Facebook Pixel Code -->
 </head>
 <body class="profile" style="background:#fafafa">
-<style>.fb-livechat, .fb-widget{display: none}.ctrlq.fb-button, .ctrlq.fb-close{position: fixed; right: 24px; cursor: pointer}.ctrlq.fb-button{z-index: 999; background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEyOCAxMjgiIGhlaWdodD0iMTI4cHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAxMjggMTI4IiB3aWR0aD0iMTI4cHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxyZWN0IGZpbGw9IiMwMDg0RkYiIGhlaWdodD0iMTI4IiB3aWR0aD0iMTI4Ii8+PC9nPjxwYXRoIGQ9Ik02NCwxNy41MzFjLTI1LjQwNSwwLTQ2LDE5LjI1OS00Niw0My4wMTVjMCwxMy41MTUsNi42NjUsMjUuNTc0LDE3LjA4OSwzMy40NnYxNi40NjIgIGwxNS42OTgtOC43MDdjNC4xODYsMS4xNzEsOC42MjEsMS44LDEzLjIxMywxLjhjMjUuNDA1LDAsNDYtMTkuMjU4LDQ2LTQzLjAxNUMxMTAsMzYuNzksODkuNDA1LDE3LjUzMSw2NCwxNy41MzF6IE02OC44NDUsNzUuMjE0ICBMNTYuOTQ3LDYyLjg1NUwzNC4wMzUsNzUuNTI0bDI1LjEyLTI2LjY1N2wxMS44OTgsMTIuMzU5bDIyLjkxLTEyLjY3TDY4Ljg0NSw3NS4yMTR6IiBmaWxsPSIjRkZGRkZGIiBpZD0iQnViYmxlX1NoYXBlIi8+PC9zdmc+) center no-repeat #0084ff; width: 60px; height: 60px; text-align: center; bottom: 50px; border: 0; outline: 0; border-radius: 60px; -webkit-border-radius: 60px; -moz-border-radius: 60px; -ms-border-radius: 60px; -o-border-radius: 60px; box-shadow: 0 1px 6px rgba(0, 0, 0, .06), 0 2px 32px rgba(0, 0, 0, .16); -webkit-transition: box-shadow .2s ease; background-size: 80%; transition: all .2s ease-in-out}.ctrlq.fb-button:focus, .ctrlq.fb-button:hover{transform: scale(1.1); box-shadow: 0 2px 8px rgba(0, 0, 0, .09), 0 4px 40px rgba(0, 0, 0, .24)}.fb-widget{background: #fff; z-index: 1000; position: fixed; width: 360px; height: 435px; overflow: hidden; opacity: 0; bottom: 0; right: 24px; border-radius: 6px; -o-border-radius: 6px; -webkit-border-radius: 6px; box-shadow: 0 5px 40px rgba(0, 0, 0, .16); -webkit-box-shadow: 0 5px 40px rgba(0, 0, 0, .16); -moz-box-shadow: 0 5px 40px rgba(0, 0, 0, .16); -o-box-shadow: 0 5px 40px rgba(0, 0, 0, .16)}.fb-credit{text-align: center; margin-top: 8px}.fb-credit a{transition: none; color: #bec2c9; font-family: Helvetica, Arial, sans-serif; font-size: 12px; text-decoration: none; border: 0; font-weight: 400}.ctrlq.fb-overlay{z-index: 0; position: fixed; height: 100vh; width: 100vw; -webkit-transition: opacity .4s, visibility .4s; transition: opacity .4s, visibility .4s; top: 0; left: 0; background: rgba(0, 0, 0, .05); display: none}.ctrlq.fb-close{z-index: 4; padding: 0 6px; background: #365899; font-weight: 700; font-size: 11px; color: #fff; margin: 8px; border-radius: 3px}.ctrlq.fb-close::after{content: "X"; font-family: sans-serif}.bubble{width: 20px; height: 20px; background: #c00; color: #fff; position: absolute; z-index: 999999999; text-align: center; vertical-align: middle; top: -2px; left: -5px; border-radius: 50%;}.bubble-msg{width: 120px; left: -140px; top: 5px; position: relative; background: rgba(59, 89, 152, .8); color: #fff; padding: 5px 8px; border-radius: 8px; text-align: center; font-size: 13px;}</style><div class="fb-livechat"> <div class="ctrlq fb-overlay"></div><div class="fb-widget"> <div class="ctrlq fb-close"></div><div class="fb-page" data-href="https://www.facebook.com/graphicsvn" data-tabs="messages" data-width="360" data-height="400" data-small-header="true" data-hide-cover="true" data-show-facepile="false"> </div><div class="fb-credit"> <a href="https://chanhtuoi.com" target="_blank">Powered by Chanhtuoi</a> </div><div id="fb-root"></div></div><a href="https://m.me/graphicsvn" title="Gửi tin nhắn cho chúng tôi qua Facebook" class="ctrlq fb-button"> <div class="bubble">1</div><div class="bubble-msg">Bạn cần hỗ trợ?</div></a></div><script src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9"></script><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><script>$(document).ready(function(){function detectmob(){if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i) ){return true;}else{return false;}}var t={delay: 125, overlay: $(".fb-overlay"), widget: $(".fb-widget"), button: $(".fb-button")}; setTimeout(function(){$("div.fb-livechat").fadeIn()}, 8 * t.delay); if(!detectmob()){$(".ctrlq").on("click", function(e){e.preventDefault(), t.overlay.is(":visible") ? (t.overlay.fadeOut(t.delay), t.widget.stop().animate({bottom: 0, opacity: 0}, 2 * t.delay, function(){$(this).hide("slow"), t.button.show()})) : t.button.fadeOut("medium", function(){t.widget.stop().show().animate({bottom: "30px", opacity: 1}, 2 * t.delay), t.overlay.fadeIn(t.delay)})})}});</script>
+<script>
+    window.fbMessengerPlugins = window.fbMessengerPlugins || {
+        init: function () {
+            FB.init({
+                appId: '1678638095724206',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v2.10'
+            });
+        }, callable: []
+    };
+    window.fbAsyncInit = window.fbAsyncInit || function () {
+        window.fbMessengerPlugins.callable.forEach(function (item) {
+            item();
+        });
+        window.fbMessengerPlugins.init();
+    };
+    setTimeout(function () {
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    }, 0);
+</script>
+
+<div
+        class="fb-customerchat"
+        page_id="1809252865962104"
+        ref="">
+</div>
 <nav class="navbar navbar-toggleable-md fixed-top bg-white navbar-light">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
@@ -57,7 +102,7 @@
             <span class="navbar-toggler-bar"></span>
         </button>
         <a class="navbar-brand" href="/">Graphics</a>
-        <div class="collapse navbar-collapse">
+        <div id="openWithoutAdd" class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/" data-scroll="true" href="javascript:void(0)">Mua sách</a>
@@ -72,7 +117,8 @@
                     <a class="nav-link" href="/contact-us" data-scroll="true" href="javascript:void(0)">Liên hệ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" onclick="openModalBuyWithoutAdd()" data-scroll="true" href="javascript:void(0)">
+                    <a class="nav-link" v-on:click="openModalBuyWithoutAdd()" data-scroll="true"
+                       href="javascript:void(0)">
                         <i class="fa fa-shopping-cart"></i>
                         Giỏ hàng
                         <p id="cart-num-items"
@@ -88,10 +134,9 @@
 </nav>
 
 @yield('content')
+
 <div id="modalPurchase" class="modal fade" style="overflow-y: scroll">
     <div class="modal-dialog modal-large">
-
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -100,24 +145,52 @@
             <div class="modal-body">
                 <form class="register-form ">
                     <h6>Họ và tên</h6>
-                    <input id="graphics-name" type="text" class="form-control" placeholder="Họ và tên"><br>
+                    <input v-model="name" type="text" class="form-control" placeholder="Họ và tên"><br>
                     <h6>Số điện thoại</h6>
-                    <input id="graphics-phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <input v-model="phone" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Email</h6>
-                    <input id="graphics-email" type="text" class="form-control" placeholder="Số điện thoại"><br>
+                    <input v-model="email" type="text" class="form-control" placeholder="Số điện thoại"><br>
                     <h6>Địa chỉ nhận sách</h6>
-                    <input id="graphics-address" type="text" class="form-control"
-                           placeholder="Địa chỉ nhận sách"><br>
+                    <div v-if="loadingProvince" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>
+                    </div>
+                    <select v-if="showProvince"
+                            v-model="provinceid"
+                            v-on:change="changeProvince"
+                            class="form-control" placeholder="Tỉnh/Thành phố">
+                        <option value="">Tỉnh, Thành phố</option>
+                        <option v-for="province in provinces" v-bind:value="province.provinceid">
+                            @{{province.name}}
+                        </option>
+                    </select>
+                    <div v-if="loadingDistrict" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>
+                    </div>
+                    <select v-if="showDistrict"
+                            v-model="districtid"
+                            class="form-control"
+                            style="margin-top: 5px"
+                            id="">
+                        <option value="">Quận, Huyện</option>
+                        <option v-for="district in districts" v-bind:value="district.districtid">
+                            @{{district.name}}
+                        </option>
+                    </select>
+
+
+                    <input v-model="address" type="text" class="form-control"
+                           placeholder="Đường, số nhà"
+                           style="margin-top: 5px"><br>
                     <h6>Phương thức thanh toán</h6>
-                    <select id="graphics-payment" class="form-control" id="sel1">
+                    <select v-model="payment" class="form-control" id="sel1">
                         <option value="Chuyển khoản">Chuyển khoản</option>
                         <option value="Thanh toán trực tiếp khi nhận hàng(COD)">
                             Thanh toán trực tiếp khi nhận hàng(COD)
                         </option>
                     </select>
                 </form>
-                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error" }>Bạn vui
-                    lòng nhập đầy đủ thông tin
+                <div style="display:none;color: red; padding: 10px; text-align: center" id="purchase-error">
+                    Bạn vui lòng nhập đầy đủ thông tin
                 </div>
                 <p style="font-weight: 600">
                     <br>
@@ -133,13 +206,12 @@
                 <div id="purchase-loading-text" style="display:none;text-align: center;width: 100%;;padding: 15px;"><i
                             class='fa fa-spin fa-spinner'></i>Đang tải...
                 </div>
-                <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
-
                 <div id="btn-purchase-group" style="text-align: right">
                     <button data-dismiss="modal" class="btn btn-link btn-success" style="width:auto!important">Tiếp
                         tục mua <i class="fa fa-angle-right"></i></button>
                     <button
-                            onclick="submitOrder()"
+                            v-on:click="submitOrder()"
+                            onclick="fbq('track', 'InitiateCheckout')"
                             class="btn btn-sm btn-success"
                             style="margin:10px 10px 10px 0px!important">Thanh toán <i class="fa fa-angle-right"></i>
                     </button>
@@ -152,79 +224,84 @@
 
 <div id="modalBuy" class="modal fade">
     <div class="modal-dialog modal-large">
-
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h2 class="medium-title">Giỏ hàng</h2>
             </div>
+
             <div class="modal-body" id="modal-buy-body">
-                <br>
                 <div>
-                    <div class="row" style="margin-bottom:20px;">
-                        <div class="col-md-1 h-center">
-                            <img class="shadow-image"
-                                 src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1508035612VsAtwZU2JjcAcPV.jpg">
-                        </div>
-                        <div class="col-md-4">
-                            <p><b style="font-weight:600;">GRAPHICS ISSUE #1</b></p>
-                            <p>Connect the dots</p>
-                        </div>
-                        <div class="col-md-3 h-center">
-                            <button class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-minus"></i>
-                            </button>
-                            &nbsp
-                            <button class="btn btn-success btn-just-icon btn-sm"><i class="fa fa-plus"></i>
-                            </button>
-                            &nbsp
-                            <b style="font-weight:600;"> 5 </b>
-                        </div>
-                        <div class="col-md-2 h-center">
-                            <p>200.000đ</p>
-                        </div>
-                        <div class="col-md-2 h-center">
-                            <p><b style="font-weight:600;">1.000.000đ</b></p>
+                    <br>
+                    <div v-if="isLoading" style="text-align: center;width: 100%;;padding: 15px;"><i
+                                class='fa fa-spin fa-spinner'></i>Đang tải...
+                    </div>
+                    <div v-for="good in goods">
+                        <div class="row" style="margin-bottom:20px;">
+                            <div class="col-md-1 h-center">
+                                <img class="shadow-image"
+                                     v-bind:src="good.avatar_url">
+                            </div>
+                            <div class="col-md-4">
+                                <p><b style="font-weight:600;">@{{good.name}}</b></p>
+                                <p>Connect the dots</p>
+                            </div>
+                            <div class="col-md-3 h-center">
+                                <button v-on:click="minusGood(event, good.id)"
+                                        class="btn btn-success btn-just-icon btn-sm">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                &nbsp
+                                <button v-on:click="plusGood(event, good.id)"
+                                        class="btn btn-success btn-just-icon btn-sm">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                                &nbsp
+                                <b style="font-weight:600;"> @{{ good.number }} </b>
+                            </div>
+                            <div class="col-md-2 h-center">
+                                <p>@{{ good.price * (1 - good.coupon_value)}}</p>
+                            </div>
+                            <div class="col-md-2 h-center">
+                                <p><b style="font-weight:600;">@{{good.price * (1 - good.coupon_value) *
+                                        good.number}}</b>
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-4">
                             <h4 class="text-left"><b>Tổng</b></h4>
-
                         </div>
                         <div class="col-md-8">
-                            <h4 class="text-right"><b>2.000.000đ</b></h4>
+                            <h4 class="text-right"><b>@{{ price_vnd }}</b></h4>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <p>Lưu ý: chi phí ship được tính như sau: </p>
-                        <div>Ship Sài Gòn: 30k</div>
-                        <div>Ship nội thành Hà Nội: 20k</div>
-                        <div>Ship đến tỉnh thành khác: 30k</div>
+                    <div class="row" style="padding-top:20px;">
+                        <div class="col-md-12">
+                            <div style="font-weight: 600">Lưu ý: chi phí ship được tính như sau:</div>
+                            <div>Ship nội thành Hà Nội và Sài Gòn: 20k</div>
+                            <div>Ship vào Sài Gòn: 30k</div>
+                            <div>Ship đến tỉnh thành khác: 30k</div>
+                        </div>
                     </div>
-
+                </div>
+                <div class="modal-footer">
+                    <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
+                            style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
+                    <button id="btn-purchase"
+                            v-on:click="openPurchaseModal()"
+                            class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
+                                class="fa fa-angle-right"></i></button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <!--<a href="http://colorme.000webhostapp.com/" class="btn btn-link btn-success">Xem thêm</a>-->
-                <button data-toggle="modal" data-target="#modalBuy" class="btn btn-link btn-success"
-                        style="width:auto!important">Tiếp tục mua <i class="fa fa-angle-right"></i></button>
-                <button id="btn-purchase"
-                        onclick="openPurchaseModal()"
-                        class="btn btn-sm btn-success" style="margin:10px 10px 10px 0px!important">Thanh toán <i
-                            class="fa fa-angle-right"></i></button>
-            </div>
         </div>
-
     </div>
 </div>
 
 <div id="modalSuccess" class="modal fade">
     <div class="modal-dialog modal-large">
-
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -232,7 +309,8 @@
             </div>
             <div class="modal-body">
                 <div style='text-align: center'>
-                    Chúng tôi đã nhận được đơn hàng của bạn, bạn vui lòng kiểm tra email. Chúng tôi sẽ liên hệ lại với
+                    Chúng tôi đã nhận được đơn hàng của bạn, bạn vui lòng kiểm tra email. Chúng tôi sẽ liên hệ lại
+                    với
                     bạn trong thời gian sớm nhất
                 </div>
             </div>
@@ -240,7 +318,7 @@
 
     </div>
 </div>
-
+</div>
 
 <footer class="footer footer-light footer-big">
     <div class="container">
@@ -365,7 +443,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </footer>
 </body>
@@ -376,16 +453,7 @@
 <script src="/graphics-assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/graphics-assets/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/graphics-assets/js/paper-kit.js?v=2.0.0"></script>
+<script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/js/graphics.js?6868"></script>
-<script>
-    function openModal(id, price) {
-        openModalBuy(id, price);
-        fbq('track', 'AddToCart');
-    }
-
-    function submit() {
-        submitOrder();
-        fbq('track', 'InitiateCheckout');
-    }
-</script>
 </html>
