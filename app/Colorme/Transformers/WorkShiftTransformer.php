@@ -29,7 +29,7 @@ class WorkShiftTransformer extends Transformer
 
         $date = new \DateTime();
         $date->modify('-12 hours');
-        $datetime = strtotime($date->format('Y-m-d'));
+        $datetime = strtotime($date);
 
         $shift_session = $shift->work_shift_session()->withTrashed()->first();
         return [
