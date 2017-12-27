@@ -12,10 +12,8 @@ import * as goodOrderActions from './goodOrderActions';
 import * as helper from '../../helpers/helper';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-
 import Pagination from "../../components/common/Pagination";
 import {ORDER_STATUS} from "../../constants/constants";
-
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -37,21 +35,21 @@ class OrdersContainer extends React.Component {
         this.ordersSearchChange = this.ordersSearchChange.bind(this);
         this.updateFormDate = this.updateFormDate.bind(this);
         this.loadOrders = this.loadOrders.bind(this);
-
         this.staffsSearchChange = this.staffsSearchChange.bind(this);
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
         this.showShipGoodModal = this.showShipGoodModal.bind(this);
-
     }
 
     componentWillMount() {
         this.loadOrders();
         this.props.goodOrderActions.getAllStaffs();
     }
+
     toggleShipModal(order) {
         this.props.goodOrderActions.openShipModal(order);
     }
+
     closeModal() {
         this.setState({isShowModal: false});
     }
@@ -60,7 +58,6 @@ class OrdersContainer extends React.Component {
         const field = event.target.name;
         let time = {...this.state.time};
         time[field] = event.target.value;
-
         if (!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) {
             this.props.goodOrderActions.loadAllOrders(1, this.state.query, time.startTime, time.endTime);
             this.setState({time: time, page: 1});
@@ -80,7 +77,6 @@ class OrdersContainer extends React.Component {
         this.timeOut = setTimeout(function () {
             this.props.goodOrderActions.loadAllOrders(1, value, this.state.time.startTime, this.state.time.endTime);
         }.bind(this), 500);
-
     }
 
     loadOrders(page = 1) {
@@ -147,7 +143,6 @@ class OrdersContainer extends React.Component {
             );
         }
     }
-
 
     changeStatusOrder(status, orderId) {
         this.props.goodOrderActions.changeStatusOrder(status, orderId);

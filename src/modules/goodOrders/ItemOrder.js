@@ -7,21 +7,10 @@ import PropTypes from 'prop-types';
 import {ORDER_STATUS, ORDER_STATUS_COLORS} from "../../constants/constants";
 import StatusSelect from "./status/StatusSelect";
 
-
 class ItemOrder extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
-        this.disableShipOrder = this.disableShipOrder.bind(this);
-    }
-
-    disableShipOrder(status) {
-        const statusOrder = ORDER_STATUS.filter((o) => {
-            return o.value === status;
-        })[0];
-        if (statusOrder) {
-            return statusOrder.order !== 3;
-        } else return status !== "ship_order";
     }
 
     statusOrder(status) {
@@ -56,6 +45,7 @@ class ItemOrder extends React.Component {
     }
 
     changeStatusOrder(value) {
+        console.log("value",value);
         this.props.changeStatusOrder(value, this.props.order.id);
     }
 
@@ -121,7 +111,7 @@ class ItemOrder extends React.Component {
                 </td>
                 <td>
                     <button
-                        disabled={this.disableShipOrder(order.status)}
+                        disabled={order.status !== "ship_order"}
                         className="btn btn-social btn-fill btn-twitter"
                         onClick={() => this.props.showShipGoodModal(order)}>
                         <i className="fa fa-twitter"/> Ship hàng

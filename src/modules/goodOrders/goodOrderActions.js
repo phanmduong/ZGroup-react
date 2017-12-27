@@ -167,7 +167,6 @@ function sendShipOrderSuccess(res, dispatch) {
         type: types.SEND_SHIP_ORDER_COMPLETE,
         shippedGoodResponse: data
     });
-
     return data.order.label;
 }
 
@@ -176,7 +175,6 @@ function changeStatusOrderSuccess(res, dispatch, orderId) {
     if (res.data.status === 0) {
         showErrorNotification(res.data.message);
     } else {
-
         dispatch({
             type: types.CHANGE_STATUS_ORDER_SUCCESS,
             order_id: orderId,
@@ -198,30 +196,21 @@ export function sendShipOrder(shippingGood) {
         dispatch({
             type: types.BEGIN_SEND_SHIP_ORDER
         });
-
         dispatch({
             type: types.DISPLAY_GLOBAL_LOADING
         });
-
         const {orderId} = shippingGood.order;
-
-
         goodOrdersApi.sendShipOrder(shippingGood)
             .then((res) => {
-
                 const labelId = sendShipOrderSuccess(res, dispatch);
-
                 goodOrdersApi.changeStatusOrder(orderId, "ship_order", labelId)
                     .then((res) => {
                         changeStatusOrderSuccess(res, dispatch, orderId);
-
                         dispatch({
                             type: types.HIDE_GLOBAL_LOADING
                         });
                     });
             });
-
-
     };
 }
 
