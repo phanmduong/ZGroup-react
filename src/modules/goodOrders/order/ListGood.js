@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import EditButton from "./EditButton";
 
 
+
 class ListGood extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -204,6 +205,21 @@ class ListGood extends React.Component {
                             </th>
                             <th/>
                         </tr>
+
+                        {/*<tr>*/}
+                            {/*<th/>*/}
+                            {/*<th>*/}
+                                {/*<h4><b>Đã trả</b></h4>*/}
+                            {/*</th>*/}
+                            {/*<th className="text-align-right" colSpan="5">*/}
+                                {/*<FormInputText label="Ghi chú" name="paid"*/}
+                                               {/*value={this.props.paid}*/}
+                                               {/*updateFormData={this.updateOrderFormData}*/}
+                                {/*/>*/}
+                                {/*<h4><b>{helper.dotNumber(totalMoneyAll)}đ</b></h4>*/}
+                            {/*</th>*/}
+                            {/*<th/>*/}
+                        {/*</tr>*/}
                         </tfoot>
                     </table>
                 </div>
@@ -216,6 +232,7 @@ class ListGood extends React.Component {
 ListGood.propTypes = {
     goodOrders: PropTypes.array.isRequired,
     updateQuantity: PropTypes.func.isRequired,
+    paid: PropTypes.number.isRequired,
 };
 
 export default ListGood;

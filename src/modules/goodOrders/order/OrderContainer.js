@@ -61,7 +61,7 @@ class OrderContainer extends React.Component {
         const field = event.target.name;
         const good_orders = this.props.order.order.good_orders.map((good_order, index) => {
             if (index === id) {
-                return {...good_order, [field] : event.target.value};
+                return {...good_order, [field]: event.target.value};
             }
             return good_order;
         });
@@ -96,6 +96,7 @@ class OrderContainer extends React.Component {
                                         <ListGood
                                             goodOrders={this.props.order.order.good_orders}
                                             updateQuantity={this.updateQuantity}
+                                            paid={this.props.order.paid}
                                         />
                                     </div>
                                 }
@@ -140,10 +141,16 @@ class OrderContainer extends React.Component {
                                                 placeholder="Chọn trạng thái"
                                                 onChange={this.changeStatusOrder}
                                             />
-                                            <FormInputText label="Ghi chú" name="note"
-                                                           value={this.props.order.order.note}
-                                                           updateFormData={this.updateOrderFormData}
+                                            <div className="form-group">
+                                                <label className="control-label"/>Ghi chú
+                                            <textarea
+                                                className="form-control"
+                                                name='note'
+                                                rows = '5'
+                                                value={this.props.order.order.note}
+                                                onChange={(e) => this.updateOrderFormData(e)}
                                             />
+                                            </div>
                                         </div>
                                         <div>
                                             <h4><strong>Thông tin khách hàng </strong>
