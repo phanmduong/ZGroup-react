@@ -26,6 +26,9 @@ class CreateJobAssignmentContainer extends React.Component {
 
     componentWillMount() {
         helper.setFormValidation('#form-job-assignment');
+        this.props.jobAssignmentAction.loadStaffs();
+        if(this.props.params.workId)
+            this.props.jobAssignmentAction.loadWork(this.props.params.workId);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -63,16 +66,27 @@ class CreateJobAssignmentContainer extends React.Component {
 
     submit(){
         if ($('#form-job-assignment').valid()) {
-            helper.showNotification("OK");
+            helper.showNotification("Đang lưu...");
+            if(!this.props.params.workId)
+                this.props.jobAssignmentAction.createWork(this.props.data);
+            else this.props.jobAssignmentAction.editWork(this.props.data);
         }
     }
 
     render() {
+        console.log("???",(
+            this.props.isLoadingStaffs ||
+            this.props.isLoading
+        ), this.props.isLoadingStaffs, this.props.isLoading);
         return (
             <div className="content">
                 <div className="container-fluid">
                     {
-                        this.props.isLoading ? <Loading/> :
+
+                            this.props.isLoading
+
+                            ?
+                            <Loading/> :
                         <form role="form" id="form-job-assignment" onSubmit={(e) => e.preventDefault()}>
                             <div className="row">
                                 <div className="col-md-8">
@@ -91,7 +105,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                     type="text"
                                                     name="name"
                                                     updateFormData={this.updateFormData}
-                                                    value={this.props.data.name}
+                                                    value={this.props.data.name || ""}
                                                 /></div><div className="col-md-12">
                                                 <label className="">
                                                     Loại
@@ -104,7 +118,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         {value: 'person_project', label: 'Dự án riêng',},
                                                     ]}
                                                     onChange={this.updateFormDataType}
-                                                    value={this.props.data.type}
+                                                    value={this.props.data.type || ""}
                                                     defaultMessage="Tuỳ chọn"
                                                     name="type"
                                                 /></div><div className="col-md-12">
@@ -114,15 +128,15 @@ class CreateJobAssignmentContainer extends React.Component {
                                                     type="number"
                                                     name="cost"
                                                     updateFormData={this.updateFormData}
-                                                    value={this.props.data.cost}
+                                                    value={this.props.data.cost || 0}
                                                 /></div><div className="col-md-12">
                                                 <FormInputDateTime
                                                     label="Deadline"
                                                     name="deadline"
                                                     updateFormData={this.updateFormData}
-                                                    value={this.props.data.deadline}
+                                                    value={this.props.data.deadline || ""}
                                                     id="deadline"
-                                                    maxDate=""
+                                                    minDate={Date.now()}
 
                                                 /></div>
                                                 <div className="col-md-8">
@@ -132,7 +146,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         type="number"
                                                         name="bonus_value"
                                                         updateFormData={this.updateFormData}
-                                                        value={this.props.data.bonus_value}
+                                                        value={this.props.data.bonus_value || 0}
                                                     /></div>
                                                 <div className="col-md-4">
                                                     <ReactSelect
@@ -142,13 +156,19 @@ class CreateJobAssignmentContainer extends React.Component {
                                                         {value: 'coin', label: 'Coin',},
                                                     ]}
                                                     onChange={this.updateFormDataBonusType}
-                                                    value={this.props.data.bonus_type}
+                                                    value={this.props.data.bonus_type || ""}
                                                     defaultMessage="Đơn vị"
                                                     style={{marginTop : "20px", width: "100%"}}
                                                 /></div>
                                                 <div className="col-md-8"/>
                                                 <div className="col-md-4">
-                                                    <button onClick={this.submit} className="btn btn-rose">Lưu</button>
+                                                    {this.props.isSaving ?
+                                                            <button style={{width:"100%"}} disabled className="btn btn-rose  disabled" type="button">
+                                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                                            </button>
+                                                        :
+                                                        < button style={{width:"100%"}} onClick={this.submit} className="btn btn-rose">Lưu</button>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -164,8 +184,8 @@ class CreateJobAssignmentContainer extends React.Component {
                                             <h4 className="card-title">Người thực hiện</h4>
                                             <div className="row">
                                                 <div className="col-sm-12">
-                                                    <div className="form-group">
-                                                        <label className="label-control">Trợ giảng</label>
+                                                    <div className="form-group" hidden={this.props.isLoadingStaffs}>
+                                                        <label className="label-control">Nhập tên để tìm kiếm nhân viên</label>
                                                         <Select
                                                             name="form-field-name"
                                                             value={"Chọn nhân viên"}
@@ -182,6 +202,7 @@ class CreateJobAssignmentContainer extends React.Component {
                                                                 );
                                                             }}
                                                             placeholder="Chọn nhân viên"
+                                                            disabled={this.props.isLoading || this.props.isSaving}
                                                         />
                                                     </div>
                                                 </div>
@@ -205,6 +226,8 @@ class CreateJobAssignmentContainer extends React.Component {
 
 CreateJobAssignmentContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isLoadingStaffs: PropTypes.bool,
+    isSaving: PropTypes.bool.isRequired,
     data: PropTypes.object,
     staffs: PropTypes.array,
 };
@@ -212,6 +235,8 @@ CreateJobAssignmentContainer.propTypes = {
 function mapStateToProps(state) {
     return {
         isLoading : state.jobAssignment.isLoading,
+        isLoadingStaffs : state.jobAssignment.isLoadingStaffs,
+        isSaving : state.jobAssignment.isSaving,
         data : state.jobAssignment.data,
         staffs : state.jobAssignment.staffs,
     };

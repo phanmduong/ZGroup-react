@@ -8,7 +8,7 @@ import AttendanceStaffsContainer from "../modules/attendanceStaffs/AttendanceSta
 import JobAssignmentContainer from "../modules/jobAssignment/JobAssignmentContainer";
 import CreateJobAssignmentContainer from "../modules/jobAssignment/CreateJobAssignmentContainer";
 import InfoStaffContainer from "../modules/manageStaff/InfoStaffContainer";
-
+import ProfileContainer from "../modules/profile/ProfileContainer";
 /**
  * Tab Nhân sự
  */
@@ -69,5 +69,15 @@ export default [
         // path: "/staff/:staffId/edit",
         path: "/hr/staff/:staffId/info",
         component: InfoStaffContainer,
+    },
+    {
+        // path: "/staff/:staffId/edit",
+        path: "/hr/manage-profile",
+        component: ProfileContainer,
+    },
+    {
+        // path: "manage-department edit",
+        path: "/hr/job-assignment/edit/:workId",
+        component: CreateJobAssignmentContainer
     },
 ];

@@ -1,4 +1,7 @@
 import * as types from "../../constants/actionTypes";
+import * as helper from "../../helpers/helper";
+import * as jobAssignmentApi from "../jobAssignment/jobAssignmentApi";
+import {browserHistory} from 'react-router';
 
 export function updateFormData(data) {
     return function (dispatch) {
@@ -26,3 +29,87 @@ export function removeStaff(obj) {
         });
     };
 }
+
+
+export function loadStaffs() {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_STAFFS_JOB_ASSIGNMENT});
+        jobAssignmentApi.loadStaffs()
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_STAFFS_JOB_ASSIGNMENT_SUCCESS,
+                    staffs: res.data.staffs
+                });
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi khi tải danh sách nhân viên.");
+                dispatch({type: types.LOAD_STAFFS_JOB_ASSIGNMENT_ERROR});
+            });
+    };
+}
+export function createWork(data) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_CREATE_WORK});
+        jobAssignmentApi.createWork(data)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    helper.sweetAlertSuccess("Lưu thành công");
+                    browserHistory.push("hr/job-assignment");
+                    dispatch({
+                        type: types.CREATE_WORK_SUCCESS,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.CREATE_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.CREATE_WORK_ERROR});
+            });
+    };
+}
+export function editWork(data) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_EDIT_WORK});
+        jobAssignmentApi.editWork(data)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    helper.sweetAlertSuccess("Sửa thành công");
+                    browserHistory.push("hr/job-assignment");
+                    dispatch({
+                        type: types.EDIT_WORK_SUCCESS,
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.EDIT_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.EDIT_WORK_ERROR});
+            });
+    };
+}
+export function loadWork(id) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_INFO_WORK});
+        jobAssignmentApi.loadWork(id)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    dispatch({
+                        type: types.LOAD_INFO_WORK_SUCCESS,
+                        work: res.data.data
+                    });
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.LOAD_INFO_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.LOAD_INFO_WORK_ERROR});
+            });
+    };
+}
+
