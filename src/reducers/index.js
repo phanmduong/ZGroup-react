@@ -55,7 +55,9 @@ import excelReducer from "../modules/excel/excelReducer";
 import departmentReducer from "../modules/manageDepartment/departmentReducer";
 import jobAssignmentReducer from "../modules/jobAssignment/jobAssignmentReducer";
 import groupCustomerReducer from "../modules/groupCustomer/groupCustomerReducer";
-
+import workShiftSessionsReducer from "../modules/workShiftSessions/workShiftSessionsReducer";
+import workShiftRegistersReducer from "../modules/workShiftRegisters/workShiftRegistersReducer";
+import historyWorkShiftRegistersReducer from "../modules/historyWorkShiftRegisters/historyWorkShiftRegistersReducer";
 
 
 const appReducer = combineReducers({
@@ -111,9 +113,12 @@ const appReducer = combineReducers({
     discounts: discountReducer,
     attendancesStaffs: attendancesStaffsReducer,
     rooms: roomsReducer,
-    excel : excelReducer,
-    department : departmentReducer,
-    groupCustomers : groupCustomerReducer,
+    excel: excelReducer,
+    department: departmentReducer,
+    groupCustomers: groupCustomerReducer,
+    workShiftSessions: workShiftSessionsReducer,
+    workShiftRegisters: workShiftRegistersReducer,
+    historyWorkShiftRegisters: historyWorkShiftRegistersReducer,
     jobAssignment : jobAssignmentReducer,
 });
 
