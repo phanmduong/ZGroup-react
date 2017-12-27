@@ -129,7 +129,7 @@ class Order extends Model
         $data = [
             'code' => $this->code,
             'created_at' => format_vn_short_datetime(strtotime($this->created_at)),
-            'note' => $this->staff_note,
+            'note' => $this->note,
             'payment' => $this->payment,
             'status' => $this->status,
             'good_orders' => $this->goodOrders->map(function ($goodOrder) {
