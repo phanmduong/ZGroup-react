@@ -22,7 +22,7 @@ class firstLoginContainer extends React.Component {
         this.props.firstLoginActions.loadMyProfile();
         this.usernameEmpty = false;
     }
-    //
+
     // componentWillReceiveProps(nextProps){
     //     console.log(nextProps);
     // }

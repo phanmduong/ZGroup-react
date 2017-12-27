@@ -1,7 +1,6 @@
 import React from 'react';
 import FormInputText from '../../components/common/FormInputText';
 import FormInputSelect from '../../components/common/FormInputSelect';
-import FormInputDate from '../../components/common/FormInputDate';
 import Loading from '../../components/common/Loading';
 import {MARITAL, LITERACY} from '../../constants/constants';
 import PropTypes from 'prop-types';
@@ -47,14 +46,14 @@ class FirstLoginComponent extends React.Component {
     }
 
     render() {
-        let {name, email, age, address, homeland, phone, marital, literacy, start_company, username, color, avatar_url, current_role} = this.props.profile;
+        let {name, email, age, address, homeland, phone, marital, literacy, username, color, avatar_url, current_role} = this.props.profile;
         let avatar = helper.avatarEmpty(avatar_url) ?
             NO_AVATAR : avatar_url;
         return (
 
 
                 <Modal
-                    show={this.props.first_login && !this.props.updateSuccess}
+                    show={!this.props.first_login && !this.props.updateSuccess}
                     bsSize="large"
                 >
                     <Modal.Header>
@@ -146,14 +145,6 @@ class FirstLoginComponent extends React.Component {
                                                     name="literacy"
                                                     updateFormData={this.props.updateFormData}
                                                     value={literacy}
-                                                    required={true}
-                                                />
-                                                <FormInputDate
-                                                    label="Hoạt đông trong công ty từ"
-                                                    name="start_company"
-                                                    updateFormData={this.props.updateFormData}
-                                                    value={start_company.slice(0, 10)}
-                                                    id="form-date-start-company"
                                                     required={true}
                                                 />
 

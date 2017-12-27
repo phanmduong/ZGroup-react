@@ -39,10 +39,11 @@ export function changeAvatar(file, staffId) {
 }
 
 export function getUserLocal() {
+    let user = JSON.parse(localStorage.getItem('user'));
     return ({
         type: types.GET_USER_LOCAL,
         token: localStorage.getItem('token'),
-        user: JSON.parse(localStorage.getItem('user'))
+        user: user,
     });
 }
 
@@ -60,9 +61,10 @@ export function editProfile(profile) {
             .then((res) => {
                 if (res.data.status === 1) {
                     helper.showNotification("Cập nhật thành công");
-                    localStorage.setItem('user', JSON.stringify(res.data.data.user));
+                    let user = (res.data.data.user);
+                    user.first_login = 1;
+                    localStorage.setItem('user', JSON.stringify(user));
                     dispatch(getUserLocal());
-                    browserHistory.push('/profile/my-profile');
                     dispatch({type: types.UPDATE_PROFILE_SUCCESS});
 
                 } else {
