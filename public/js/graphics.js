@@ -4,7 +4,8 @@ $(document).ready(function () {
         data: {
             isLoading: false,
             goods: [],
-            total_price: 0
+            total_price: 0,
+            price_vnd: '',
         },
         methods: {
             getGoodsFromSesson: function () {
@@ -12,6 +13,7 @@ $(document).ready(function () {
                     .then(function (response) {
                         this.goods = response.data.goods;
                         this.total_price = response.data.total_price;
+                        this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")+'đ';
                         this.isLoading = false;
                     }.bind(this))
                     .catch(function (error) {
@@ -36,6 +38,7 @@ $(document).ready(function () {
                     if (good.id === goodId) {
                         good.number -= 1;
                         this.total_price -= good.price * (1 - good.coupon_value);
+                        this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + 'đ';
                         if (good.number !== 0)
                             newGoods.push(good);
                     }
@@ -58,6 +61,7 @@ $(document).ready(function () {
                     if (good.id === goodId) {
                         good.number += 1;
                         this.total_price += good.price * (1 - good.coupon_value);
+                        this.price_vnd = this.total_price.toString().replace(/\./g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".")+'đ';
                     }
                     newGoods.push(good);
                 }
@@ -86,8 +90,6 @@ $(document).ready(function () {
         data: {},
         methods: {
             openModalBuy: function (goodId) {
-                console.log('bitchchhhchc');
-                console.log($('#modalBuy'));
                 $('#modalBuy').modal('show');
                 modalBuy.addGoodToCart(goodId);
             },
