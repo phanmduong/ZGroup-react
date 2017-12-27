@@ -335,6 +335,8 @@ class OrderController extends ManageApiController
 
     public function test(Request $request)
     {
+        $what = "[{'id':45,'quantity':'7'}]";
+        dd(json_decode($what));
         return [
             'value' => $this->statusToNum($request->status),
         ];

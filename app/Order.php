@@ -146,6 +146,16 @@ class Order extends Model
                     $goodOrderData['discount_percent'] = $goodOrder->discount_percent;
                 return $goodOrderData;
             }),
+            'paid_history' => $this->orderPaidMoneys->map(function ($orderPaidMoney) {
+                return [
+                    "id" => $orderPaidMoney->id,
+                    "money" => $orderPaidMoney->money,
+                    "note" => $orderPaidMoney->note,
+                    "order_id" => $orderPaidMoney->order_id,
+                    "payment" => $orderPaidMoney->payment,
+                    "created_at" => format_full_time_date($orderPaidMoney->created_at)
+                ];
+            })
         ];
         if ($this->staff)
             $data['staff'] = [
