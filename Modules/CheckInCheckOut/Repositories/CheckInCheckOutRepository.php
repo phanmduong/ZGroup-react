@@ -373,7 +373,7 @@ class CheckInCheckOutRepository
                                 if (is_null($workShiftUserSession)) break;
 
                                 $todayShift = WorkShiftUser::join("work_shifts", "work_shift_user.work_shift_id", "=", "work_shifts.id")
-                                    ->join("work_shift_sessions", "work_shift_sessions.id", "=", "work_shifts.work_shift_session_id")
+                                    ->where("work_shifts.work_shift_session_id", $workShiftUserSession->id)
                                     ->where("work_shift_user.user_id", $checkInCheckOut->user_id)
                                     ->where("work_shifts.date", date("Y-m-d "))->select("work_shift_user.*")->first();
 
