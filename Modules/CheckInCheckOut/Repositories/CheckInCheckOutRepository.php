@@ -520,6 +520,7 @@ class CheckInCheckOutRepository
             'id' => $checkInCheckOut->id,
             'message' => $checkInCheckOut->message,
             'created_at' => format_vn_short_datetime(strtotime($checkInCheckOut->created_at)),
+            'time' => format_time_shift(strtotime($checkInCheckOut->created_at))
         ];
     }
 

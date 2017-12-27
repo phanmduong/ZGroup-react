@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\CheckInCheckOut\Entities\CheckInCheckOut;
 
 class WorkShiftUser extends Model
 {
@@ -17,4 +18,15 @@ class WorkShiftUser extends Model
     {
         return $this->belongsTo(User::class, "user_id");
     }
+
+    public function check_in()
+    {
+        return $this->belongsTo(CheckInCheckOut::class, 'checkin_id');
+    }
+
+    public function check_out()
+    {
+        return $this->belongsTo(CheckInCheckOut::class, 'checkout_id');
+    }
+
 }
