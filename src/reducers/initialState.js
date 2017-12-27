@@ -1302,5 +1302,30 @@ export default {
         },
         groupCustomersList: [],
 
-    }
+    },
+    workShiftSessions: {
+        isStoring: false,
+        errorStore: false,
+        workShiftSessions: [],
+        isLoading: false,
+        error: false
+    },
+    workShiftRegisters: {
+        isLoadingGensBases: false,
+        errorGensBases: false,
+        bases: [],
+        gens: [],
+        currentGen: {},
+        isLoading: false,
+        error: false,
+        shiftRegisters: []
+    },
+    historyWorkShiftRegisters: {
+        currentPage: 1,
+        totalPages: 1,
+        shiftPicks: [],
+        isLoading: false,
+        error: false
+    },
+
 };
