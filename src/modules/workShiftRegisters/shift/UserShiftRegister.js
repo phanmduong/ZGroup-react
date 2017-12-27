@@ -4,18 +4,18 @@ import * as helper from '../../../helpers/helper';
 import PropTypes from 'prop-types';
 
 
-
 class UserShiftRegister extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
 
     render() {
+
         return (
             <div>
 
                 <button
-                    className={"btn btn-main none-padding-horizontal " + this.props.classNameButton}
+                    className={"btn btn-main none-padding-horizontal " + this.props.classNameButton + this.props.disable}
                     onClick={this.props.onClick}
                 >
                     <div className="flex-row-center flex-justify-content-center"
@@ -61,6 +61,7 @@ UserShiftRegister.propTypes = {
     user: PropTypes.object,
     classNameButton: PropTypes.string,
     title: PropTypes.string,
+    disable: PropTypes.string,
     avatarUrl: PropTypes.string,
     onClick: PropTypes.func,
 };

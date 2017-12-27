@@ -101,7 +101,7 @@ class ShiftRegistersWeek extends React.Component {
                     </div>
                     <Modal show={this.state.showModal} onHide={this.closeModal}>
                         <Modal.Header closeButton>
-                            <Modal.Title>Thông kê lịch trực tuần {shiftRegisters[currentWeek].week}</Modal.Title>
+                            <Modal.Title>Thông kê lịch làm việc tuần {shiftRegisters[currentWeek].week}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <StatisticShift

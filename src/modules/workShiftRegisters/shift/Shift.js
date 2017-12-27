@@ -33,10 +33,12 @@ class Shift extends React.Component {
     }
 
     onRegister() {
+        if (this.props.shift.disable) return;
         this.props.shiftRegisterActions.register(this.props.shift.id);
     }
 
     onRemoveRegister() {
+        if (this.props.shift.disable) return;
         this.props.shiftRegisterActions.removeRegister(this.props.shift.id);
     }
 
@@ -64,7 +66,9 @@ class Shift extends React.Component {
                 })}
                 <Modal show={this.state.showModalUser} onHide={this.closeModalUser}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Nhân viên đang kí trực</Modal.Title>
+                        <Modal.Title>Nhân viên đăng kí làm việc
+                            ca {this.props.shift.name + ": " + this.props.shift.start_time + " - " + this.props.shift.end_time}
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div className="table-responsive">
@@ -104,7 +108,8 @@ class Shift extends React.Component {
     }
 
     render() {
-        let {users, name, start_time, end_time} = this.props.shift;
+        let {users, name, start_time, end_time, disable} = this.props.shift;
+        const classDisable = disable ? " disabled" : "";
         let shift = this.props.shift;
         let user = users.filter((user) => user.id === this.props.user.id)[0];
         let avatar = user ? (helper.avatarEmpty(user.avatar_url) ? NO_AVATAR : user.avatar_url) : null;
@@ -140,6 +145,7 @@ class Shift extends React.Component {
                     <div>
                         <UserShiftRegister
                             onClick={this.onRemoveRegister}
+                            disable={classDisable}
                             title={shift.isLoadingRemoveRegisterError ? 'Hủy đăng kí thất bại. Thử lại.' : user.name}
                             avatarUrl={shift.isLoadingRemoveRegisterError ? null : avatar}
                             classNameButton="btn-danger"
@@ -152,6 +158,7 @@ class Shift extends React.Component {
                 return (
                     <div>
                         <UserShiftRegister
+                            disable={classDisable}
                             title={user.name}
                             avatarUrl={avatar}
                             classNameButton="btn-default"
@@ -163,6 +170,7 @@ class Shift extends React.Component {
             return (
                 <div>
                     <UserShiftRegister
+                        disable={classDisable}
                         onClick={this.onRegister}
                         title={shift.isLoadingRegisterError ? "Đăng kí thất bại. Thử lại." : name + ": " + start_time + " - " + end_time}
                         classNameButton="btn-success"
