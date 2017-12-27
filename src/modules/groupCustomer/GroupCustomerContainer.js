@@ -82,7 +82,7 @@ class GroupCustomerContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng chọn tên nhóm khách hàng", 'warning');
             }
 
-            this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page);
+            this.props.groupCustomerActions.addGroupCustomer(this.props.groupCustomerForm, this.state.page, this.closeModal);
         }
         e.preventDefault();
     }
@@ -221,11 +221,7 @@ class GroupCustomerContainer extends React.Component {
                         <div className="card">
                             <form id="form-add-group-customer">
                                 <GroupCustomerModal
-                                    isEdit={this.state.isEdit}
-                                    idModal={this.state.idModal}
                                 />
-
-
                                 <div className="row" style={{marginLeft: 30, marginBottom: 20}}>
                                     <div className="col-md-8"/>
                                     <div className="col-md-4">

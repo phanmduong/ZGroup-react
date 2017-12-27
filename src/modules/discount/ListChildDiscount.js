@@ -12,17 +12,17 @@ class ListChildDiscount extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-sm-12">
-                        <table id="property-table" className="table table-hover table-responsive" role="grid"
-                               aria-describedby="property-table_info">
+                    <div className="table-responsive" >
+                        <table className="table table-hover ">
                             <thead>
-                            <tr className="text-rose" role="row">
+                            <tr className="text-rose">
                                 <th>Tên</th>
                                 <th>Loại</th>
                                 <th>Thời gian bắt đầu</th>
                                 <th>Thời gian kết thúc</th>
                                 <th>Sử dụng cho</th>
                                 <th>Điều kiện khuyến mãi</th>
+                                <th>Số lần</th>
                                 <th>Mô tả</th>
                                 <th/>
                                 <th/>
@@ -34,7 +34,11 @@ class ListChildDiscount extends React.Component {
                                     return (
                                         <tr role="row" className="even" key={discount.id}>
                                             <td><a className="text-name-student-register" rel="tooltip" title
-                                                   data-original-title="Remove item">{discount.name}</a></td>
+                                                   data-original-title="Remove item"
+                                                   onClick={() => {
+                                                       browserHistory.push('/good/discount/edit/' + discount.id);
+                                                   }}
+                                            >{discount.name}</a></td>
                                             <td>{discount.type === 'code' ?
                                                 <button className="btn btn-xs btn-main btn-success">Mã khuyến
                                                     mãi</button>
@@ -100,6 +104,7 @@ class ListChildDiscount extends React.Component {
                                                     )
                                                 }
                                             </td>
+                                            <td>{discount.quantity === -1 ? "Vô số lần" : discount.quantity + " lần"}</td>
                                             <td>{discount.description}</td>
                                             <td>
                                                 <div className="btn-group-action">

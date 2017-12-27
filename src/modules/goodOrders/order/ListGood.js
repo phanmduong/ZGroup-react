@@ -4,10 +4,15 @@ import TooltipButton from '../../../components/common/TooltipButton';
 import Search from '../../../components/common/Search';
 import * as helper from '../../../helpers/helper';
 import PropTypes from 'prop-types';
+import EditButton from "./EditButton";
+
 
 class ListGood extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            isEdit: false,
+        };
         this.searchTable = this.searchTable.bind(this);
     }
 
@@ -64,6 +69,9 @@ class ListGood extends React.Component {
         $.material.init();
     }
 
+
+
+
     searchTable(value) {
         this.table.search(value).draw();
     }
@@ -93,7 +101,7 @@ class ListGood extends React.Component {
                         </thead>
                         <tfoot id="footer-search" className="text-rose">
                         <tr>
-                            <th className="disabled-search" />
+                            <th className="disabled-search"/>
                             <th>Mã hàng</th>
                             <th>Tên hàng</th>
                             <th>Số lượng</th>
@@ -127,12 +135,11 @@ class ListGood extends React.Component {
                                             {goodOrder.code}
                                         </td>
                                         <td>{goodOrder.name}</td>
-                                        <td>
-                                            {goodOrder.quantity}
-                                            <a data-toggle="tooltip" title type="button">
-                                                <i className="material-icons">edit</i>
-                                            </a>
-                                        </td>
+                                        <EditButton
+                                            goodOrder = {goodOrder}
+                                            index={index}
+                                            updateQuantity = {this.props.updateQuantity}
+                                        />
                                         <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                         <td>
                                             <div style={{display: 'inline-block'}}>
@@ -207,7 +214,8 @@ class ListGood extends React.Component {
 }
 
 ListGood.propTypes = {
-    goodOrders: PropTypes.array.isRequired
+    goodOrders: PropTypes.array.isRequired,
+    updateQuantity: PropTypes.func.isRequired,
 };
 
 export default ListGood;

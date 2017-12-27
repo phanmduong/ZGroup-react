@@ -9,18 +9,12 @@ import Search from '../../components/common/Search';
 
 
 
-// import FormInputSelect from '../../components/common/FormInputSelect';
-// import FormInputDate from '../../components/common/FormInputDate';
-// import {GENDER} from '../../constants/constants';
-
-
 class GroupCustomerModal extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.editFormData = this.editFormData.bind(this);
         this.updateFormData = this.updateFormData.bind(this);
-
         this.changeColor = this.changeColor.bind(this);
     }
 
@@ -109,7 +103,6 @@ GroupCustomerModal.propTypes = {
     customersList: PropTypes.array,
     totalCustomerInOverlayPages: PropTypes.number,
     totalCustomerInModalPages: PropTypes.number,
-    idModal: PropTypes.number,
     isEdit: PropTypes.bool,
 };
 

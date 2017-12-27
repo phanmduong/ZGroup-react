@@ -24,6 +24,7 @@ class OrderContainer extends React.Component {
         this.updateOrderFormData = this.updateOrderFormData.bind(this);
         // this.loadDetailOrder = this.loadDetailOrder.bind(this);
         this.editOrder = this.editOrder.bind(this);
+        this.updateQuantity = this.updateQuantity.bind(this);
 
     }
 
@@ -56,12 +57,25 @@ class OrderContainer extends React.Component {
         this.props.goodOrderActions.updateOrderFormData(order);
     }
 
+    updateQuantity(event, id) {
+        const field = event.target.name;
+        const good_orders = this.props.order.order.good_orders.map((good_order, index) => {
+            if (index === id) {
+                return {...good_order, [field] : event.target.value};
+            }
+            return good_order;
+        });
+        const order = {...this.props.order.order, good_orders: good_orders};
+        this.props.goodOrderActions.updateOrderFormData(order);
+    }
+
     changeStatusOrder(value) {
         let statusOrder = value && value.value ? value.value : '';
-        this.props.goodOrderActions.changeStatusOrder(statusOrder,this.props.params.orderId);
+        this.props.goodOrderActions.changeStatusOrder(statusOrder, this.props.params.orderId);
     }
-    editOrder(e){
-        this.props.goodOrderActions.editOrder(this.props.order,this.props.params.orderId);
+
+    editOrder(e) {
+        this.props.goodOrderActions.editOrder(this.props.order, this.props.params.orderId);
         e.preventDefault();
     }
 
@@ -81,37 +95,12 @@ class OrderContainer extends React.Component {
                                         <h4><strong>Chọn sản phẩm</strong></h4>
                                         <ListGood
                                             goodOrders={this.props.order.order.good_orders}
+                                            updateQuantity={this.updateQuantity}
                                         />
                                     </div>
                                 }
 
                             </div>
-                            {!this.props.isLoading &&
-                            <div className="card-footer">
-                                <div className="flex flex-row flex-space-between" style={{marginBottom: '20px'}}>
-                                    <div>
-                                        <button className="btn btn-success btn-sm">
-                                            <i className="material-icons">work</i> Phí vận chuyển
-                                        </button>
-                                        <button className="btn btn-info btn-sm">
-                                            <i className="material-icons">card_giftcard</i> Giảm giá
-                                        </button>
-                                        <button className="btn btn-danger btn-sm">
-                                            <i className="material-icons">attach_money</i> Thanh toán
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <button className="btn btn-success btn-sm">
-                                            <i className="material-icons">save</i> Lưu
-                                        </button>
-                                        <button className="btn btn-danger btn-sm">
-                                            <i className="material-icons">cancel</i> Huỷ
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            }
-
                         </div>
                     </div>
                     <div className="col-md-3">
@@ -192,37 +181,40 @@ class OrderContainer extends React.Component {
                                         </div>
                                         <div>
                                             <h4><strong>Thông tin giao hàng</strong></h4>
-                                            <FormInputText label="Ngày giao" name="ae3qsd" />
+                                            <FormInputText label="Ngày giao" name="ae3qsd"/>
                                             <FormInputText label="Người giao" name="dsadasd"/>
                                         </div>
                                     </div>
                                 }
                             </div>
-                            {!this.props.isLoading &&
-                            <div className="card-footer">
-                                <div className="float-right" style={{marginBottom: '20px'}}>
-                                    {this.props.isSaving ?
-                                        <button
-                                            className="btn btn-sm btn-success disabled"
-                                        >
-                                            <i className="fa fa-spinner fa-spin"/>
-                                            Đang cập nhật
-                                        </button>
-                                        :
-
-                                        <button className="btn btn-sm btn-success"
-                                            onClick={(e)=>{this.editOrder(e);}}
-                                        >
-                                            <i className="material-icons">save</i> Lưu
-                                        </button>
-                                    }
-                                    <button className="btn btn-sm btn-danger">
-                                        <i className="material-icons">cancel</i> Huỷ
-                                    </button>
-                                </div>
-                            </div>
-                            }
                         </div>
+
+                        {!this.props.isLoading &&
+                        <div className="card-footer">
+                            <div className="float-right" style={{marginBottom: '20px'}}>
+                                {this.props.isSaving ?
+                                    <button
+                                        className="btn btn-sm btn-success disabled"
+                                    >
+                                        <i className="fa fa-spinner fa-spin"/>
+                                        Đang cập nhật
+                                    </button>
+                                    :
+
+                                    <button className="btn btn-sm btn-success"
+                                            onClick={(e) => {
+                                                this.editOrder(e);
+                                            }}
+                                    >
+                                        <i className="material-icons">save</i> Lưu
+                                    </button>
+                                }
+                                <button className="btn btn-sm btn-danger">
+                                    <i className="material-icons">cancel</i> Huỷ
+                                </button>
+                            </div>
+                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -237,7 +229,8 @@ OrderContainer.propTypes = {
     goodOrderActions: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     order: PropTypes.object,
-    isSaving: PropTypes.bool,};
+    isSaving: PropTypes.bool,
+};
 
 function mapStateToProps(state) {
     return {

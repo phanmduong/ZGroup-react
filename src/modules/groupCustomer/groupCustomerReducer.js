@@ -210,15 +210,8 @@ function addStringId(groupCustomersList) {
     return groupCustomersList;
 }
 function addStringIdInModal(customers) {
-        // stringId = groupCustomer.customers.reduce(function(stringId , customer){return [customer.id,...stringId];});
-        // groupCustomer.stringId = [5552,5553];
-        // stringId = [];
-        // for (let i =0; i < groupCustomer.customers.length; i++){
-        //     stringId = [customers[i].id, ...stringId] ;
-        // }
         stringId = [];
         stringId = customers.map((customer) => {
-            // return [...stringId , customer.id]; // tai sao khong dung duoc
             return customer.id;
         });
     return stringId;

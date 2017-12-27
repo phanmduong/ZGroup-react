@@ -19,21 +19,11 @@ class GroupCustomerItem extends React.Component {
                        color: 'rgb(69, 90, 100)',
                        textAlign: 'left'
                    }}
-                 // onClick={(e) => {
-                 //        this.props.openEditModal(groupCustomerItem);
-                 //        e.stopPropagation();
-                 //    }}
-
                     onClick={(e) => {
                         browserHistory.push('/good/goods/group-customer/' + groupCustomerItem.id);
                         e.stopPropagation();
                     }}
                 >
-
-
-
-
-
 
                     <div className="dropdown" style={{position: "absolute", top: "10px", right: "10px"}}>
                         <a className="dropdown-toggle btn-more-dropdown" type="button"
@@ -60,18 +50,6 @@ class GroupCustomerItem extends React.Component {
                             </li>
                         </ul>
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
                     <div className="row" style={{fontSize: 16, fontWeight: 600}}>
                         <i className="material-icons">account_balance_wallet</i> {groupCustomerItem.name}
                     </div>
@@ -85,8 +63,6 @@ class GroupCustomerItem extends React.Component {
                         <span>{groupCustomerItem.description}</span>
                         <br/>
                         <br/>
-                        1
-                        thẻ
                         | {groupCustomerItem.customers.length}
                         khách hàng<br/>
                     </div>

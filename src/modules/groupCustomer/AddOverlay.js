@@ -102,7 +102,7 @@ class AddOverlay extends React.Component {
                         <h5>{name}</h5>
 
 
-                        {isSearch ?
+                        {isSearch  ?
                             <Search
                                 onChange={this.onSearchChange}
                                 value={this.state.query}
