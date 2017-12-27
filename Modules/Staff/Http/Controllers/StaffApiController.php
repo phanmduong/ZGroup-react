@@ -67,17 +67,19 @@ class StaffApiController extends ManageApiController
     {
         $limit = 20;
         if ($request->limit) {
-            $limit = $request->limit;
+            $limit = (int)$request->limit;
         }
         $staffs = User::where("role", ">", 0)->orderBy("name");
         if ($limit === -1) {
+
             $staffs = $staffs->get();
             return $this->respond([
                 "status" => 1,
                 "staffs" => $staffs->map(function ($staff) {
                     return [
                         "id" => $staff->id,
-                        "name" => $staff->name
+                        "name" => $staff->name,
+                        "avatar_url" => $staff->avatar_url ? $staff->avatar_url : defaultAvatarUrl()
                     ];
                 })
             ]);
@@ -89,7 +91,8 @@ class StaffApiController extends ManageApiController
                     "staffs" => $staffs->map(function ($staff) {
                         return [
                             "id" => $staff->id,
-                            "name" => $staff->name
+                            "name" => $staff->name,
+                            "avatar_url" => $staff->avatar_url ? $staff->avatar_url : defaultAvatarUrl()
                         ];
                     })
                 ]
