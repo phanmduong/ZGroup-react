@@ -50,6 +50,6 @@ Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'orde
     Route::get('/staffs', 'StaffController@getStaffs');
     Route::get('/salers', 'StaffController@allSalers');
 
-    Route::get('/test', 'OrderController@test');
+    Route::post('/test', 'OrderController@test');
 });
 

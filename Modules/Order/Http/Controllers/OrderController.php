@@ -20,7 +20,26 @@ class OrderController extends ManageApiController
 
     public function statusToNum($status)
     {
-
+        switch ($status) {
+            case 'place_order':
+                return 0;
+                break;
+            case 'not_reach':
+                return 1;
+                break;
+            case 'confirm_order':
+                return 2;
+                break;
+            case 'ship_order':
+                return 3;
+                break;
+            case 'completed_order':
+                return 4;
+                break;
+            case 'cancel':
+                return 5;
+                break;
+        }
     }
 
     public function allOrders(Request $request)
@@ -112,6 +131,11 @@ class OrderController extends ManageApiController
     public function editOrder($order_id, Request $request)
     {
         $order = Order::find($order_id);
+        if ($this->user->role != 2)
+            if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
+                return $this->respondErrorWithStatus([
+                    'message' => 'Bạn không có quyền đổi trạng thái này'
+                ]);
         if ($request->code == null && trim($request->code) == '')
             return $this->respondErrorWithStatus([
                 'message' => 'Thiếu code'
@@ -120,14 +144,17 @@ class OrderController extends ManageApiController
             return $this->respondErrorWithStatus([
                 'message' => 'Cant change completed import order'
             ]);
+        if ($this->statusToNum($order->status) < 2 && $this->statusToNum($request->status) >= 2) {
+            $this->exportOrder($order->id, $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id);
+            $order->warehouse_export_id = $order->warehouse_id ? $order->warehouse_id : $request->warehouse_id;
+        }
         $order->note = $request->note;
         $order->code = $request->code;
         $order->staff_id = $this->user->id;
         $order->user_id = $request->user_id;
         $order->status = $request->status;
         $order->save();
-
-        if($order->status == 'xd' && $order->type == 'order') {
+        if ($order->status == 'place_order' && $order->type == 'order') {
             $good_orders = json_decode($request->good_orders);
             $order->goodOrders()->delete();
             foreach ($good_orders as $good_order) {
@@ -245,6 +272,7 @@ class OrderController extends ManageApiController
 
             $history = new HistoryGood;
             $lastest_good_history = HistoryGood::where('good_id', $importedGood['good_id'])
+                ->where('warehouse_id', $warehouseId)
                 ->orderBy('created_at', 'desc')->first();
             $remain = $lastest_good_history ? $lastest_good_history->remain : 0;
             $history->good_id = $goodOrder->good_id;
@@ -259,7 +287,7 @@ class OrderController extends ManageApiController
         }
     }
 
-    public function exportOrder($orderId, $warehouseId, Request $request)
+    public function exportOrder($orderId, $warehouseId)
     {
         $order = Order::find($orderId);
         if ($order->exported == true)
@@ -284,7 +312,9 @@ class OrderController extends ManageApiController
         ]);
     }
 
-//    public function returnOrder($orderId, $warehouseId, Request $request) {
+    public function returnOrder($orderId, $warehouseId, Request $request)
+    {
+        //chua xong
 //        $returnOrder = new Order;
 //        $order = Order::find($orderId);
 //        $returnOrder->note = $request->note;
@@ -293,12 +323,16 @@ class OrderController extends ManageApiController
 //        $returnOrder->status = $request->status;
 //        $good_orders = json_decode($request->good_orders);
 //        foreach ($good_orders as $good_order) {
-//            $good_order
+//            $history = HistoryGood::where('order_id', $orderId)
+//                ->where('good_id', $good_order->good_id)
+//                ->orderBy('created', 'desc')->first();
 //        }
-//    }
+    }
 
-    public function test()
+    public function test(Request $request)
     {
-        dd(min(8, 6));
+        return [
+            'value' => $this->statusToNum($request->status),
+        ];
     }
 }
