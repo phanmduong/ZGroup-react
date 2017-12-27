@@ -116,6 +116,31 @@ export default function shiftRegistersReducer(state = initialState.workShiftRegi
                 ...state,
                 shiftRegisters: shiftRegisters
             };
+        case types.BEGIN_LOAD_USERS_WORK_SHIFTS:
+            return {
+                ...state,
+                ...{
+                    isLoadingDetailShifts: true,
+                    errorDetailShifts: false
+                }
+            };
+        case types.LOAD_USERS_WORK_SHIFTS_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoadingDetailShifts: false,
+                    errorDetailShifts: false,
+                    detailShifts: action.detailShifts,
+                }
+            };
+        case types.LOAD_USERS_WORK_SHIFTS_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoadingDetailShifts: false,
+                    errorDetailShifts: true
+                }
+            };
         default:
             return state;
     }
