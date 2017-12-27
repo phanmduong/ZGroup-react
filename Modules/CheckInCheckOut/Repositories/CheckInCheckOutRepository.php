@@ -394,7 +394,7 @@ class CheckInCheckOutRepository
                                         $checkIn = $checkInCheckOut->replicate();
                                         $checkIn->kind = 1;
                                         $checkIn->status = 6;
-                                        $checkIn->shift_id = $s->id;
+                                        $checkIn->work_shift_user_id = $s->id;
                                         $checkIn->message = "Bạn vừa check in thành công " . $workShiftSession->name . " (" . $workShiftSession->start_time . " - " . $workShiftSession->end_time . ")";
                                         $checkIn->created_at = format_time_to_mysql(strtotime($workShiftSession->start_time));
                                         $checkIn->save();
@@ -408,7 +408,7 @@ class CheckInCheckOutRepository
                                         $checkOut = $checkInCheckOut->replicate();
                                         $checkOut->kind = 2;
                                         $checkOut->status = 6;
-                                        $checkOut->shift_id = $s->id;
+                                        $checkOut->work_shift_user_id = $s->id;
                                         $checkOut->created_at = format_time_to_mysql(strtotime($workShiftSession->end_time));
                                         $checkOut->message = "Bạn vừa check out thành công " . $workShiftSession->name . " (" . $workShiftSession->start_time . " - " . $workShiftSession->end_time . ")";
                                         $checkOut->save();
