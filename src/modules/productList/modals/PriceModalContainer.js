@@ -15,23 +15,22 @@ class PriceModalContainer extends React.Component {
     }
 
     updatePrice() {
-        this.props.productListAction.updatePrice(this.props.productEditing.productPresent);
+        this.props.productListAction.updatePrice(this.props.productPrice);
     }
 
     handleProduct(e) {
         const field = e.target.name;
-        let productPresent = {...this.props.productEditing.productPresent};
-        productPresent[field] = e.target.value;
-        this.props.modalProductAction.handleProduct(productPresent);
+        let product = {...this.props.productPrice};
+        product[field] = e.target.value;
+        this.props.modalProductAction.handlePriceProduct(product);
     }
 
     render() {
-        const indexForChilds = this.props.productEditing.index;
-        const product = indexForChilds ? this.props.products[indexForChilds] : this.props.productEditing.productPresent;
+        let product = this.props.productPrice;
         return (
             <Modal show={this.props.priceModal}
-                   onHide={() => this.props.showPriceModal(product)}>
-                <a onClick={() => this.props.showPriceModal(product)}
+                   onHide={() => this.props.modalProductAction.showPriceModal()}>
+                <a onClick={() => this.props.modalProductAction.showPriceModal()}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title">Giá bán</Modal.Title>
@@ -42,7 +41,7 @@ class PriceModalContainer extends React.Component {
                         <input type="text"
                                name="price"
                                className="form-control date-picker"
-                               value={this.props.productEditing.productPresent.price}
+                               value={product.price}
                                onChange={this.handleProduct}/>
                         <span className="material-input"/>
                     </div>
@@ -65,7 +64,7 @@ class PriceModalContainer extends React.Component {
                                 <button rel="tooltip" data-placement="top" title=""
                                         data-original-title="Remove item" type="button"
                                         className="btn btn-danger btn-round" data-dismiss="modal"
-                                        onClick={() => this.props.showPriceModal(product)}>
+                                        onClick={() => this.props.modalProductAction.showPriceModal()}>
                                     <i className="material-icons">close</i> Huỷ
                                 </button>
                             </div>
@@ -81,18 +80,18 @@ PriceModalContainer.propTypes = {
     modalProductAction: PropTypes.object.isRequired,
     productListAction: PropTypes.object.isRequired,
     priceModal: PropTypes.bool,
-    productEditing: PropTypes.object.isRequired,
     isModalUpdating: PropTypes.bool,
     showPriceModal: PropTypes.func.isRequired,
-    products: PropTypes.array.isRequired
+    products: PropTypes.array.isRequired,
+    productPrice: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         priceModal: state.productList.modalInProduct.priceModal,
-        productEditing: state.productList.productEditing,
         isModalUpdating: state.productList.modalInProduct.isModalUpdating,
-        products: state.productList.products
+        products: state.productList.products,
+        productPrice: state.productList.productEditing.productPrice
     };
 }
 

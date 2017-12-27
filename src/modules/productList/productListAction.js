@@ -7,29 +7,39 @@ export function getProducts(page, search, start_time, end_time, manufacture_id, 
         dispatch({
             type: types.BEGIN_LOAD_PRODUCTS
         });
-        productListApi.getInformationProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status)
-            .then(function (response) {
-                dispatch({
-                    type: types.DISPLAY_INFORMATION_PRODUCTS_LIST,
-                    productsTotal: response.data.data.count,
-                    productsQuantity: response.data.data.total_quantity
+        const infoPromise = new Promise((resolve) => {
+            productListApi.getInformationProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status)
+                .then(function (response) {
+                    resolve(response);
                 });
+        });
+        const getProductPromise = new Promise((resolve) => {
+            productListApi.getProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status)
+                .then(function (response) {
+                    resolve(response);
+                });
+        });
+        Promise.all([infoPromise, getProductPromise]).then((data) => {
+            const infoRes = data[0];
+            const productsRes = data[1];
+            dispatch({
+                type: types.DISPLAY_INFORMATION_PRODUCTS_LIST,
+                productsTotal: infoRes.data.data.count,
+                productsQuantity: infoRes.data.data.total_quantity
             });
-        productListApi.getProductsApi(page, search, start_time, end_time, manufacture_id, good_category_id, status)
-            .then(function (response) {
-                dispatch({
-                    type: types.LOAD_PRODUCTS_SUCCESS,
-                    products: response.data.goods,
-                    totalPages: response.data.paginator.total_pages,
-                    currentPage: response.data.paginator.current_page,
-                    limit: response.data.paginator.limit,
-                    totalCount: response.data.paginator.total_count
-                });
-                dispatch({
-                    type: types.UPDATED_PRODUCT_LIST_MODAL,
-                    modalUpdated: false
-                });
+            dispatch({
+                type: types.LOAD_PRODUCTS_SUCCESS,
+                products: productsRes.data.goods,
+                totalPages: productsRes.data.paginator.total_pages,
+                currentPage: productsRes.data.paginator.current_page,
+                limit: productsRes.data.paginator.limit,
+                totalCount: productsRes.data.paginator.total_count
             });
+            dispatch({
+                type: types.UPDATED_PRODUCT_LIST_MODAL,
+                modalUpdated: false
+            });
+        });
     };
 }
 
@@ -62,9 +72,14 @@ export function updatePrice(productPresent) {
                     type: types.TOGGLE_PRICE_MODAL
                 });
                 dispatch({
+                    type: types.TOGGLE_SAME_PRODUCT_MODAL,
+                    index: -1
+                });
+                dispatch({
                     type: types.UPDATED_PRODUCT_LIST_MODAL,
                     modalUpdated: true
                 });
+                helper.showNotification("Cập nhật giá sản phẩm thành công");
             });
     };
 }
@@ -193,4 +208,6 @@ export function deleteProduct(product, isChild, indexForChilds) {
             });
     };
 }
+
+
 

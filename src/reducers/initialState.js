@@ -85,28 +85,13 @@ export default {
             modalUpdated: false
         },
         productEditing: {
-            index: null,
-            productPresent: {
-                id: '',
-                name: '',
-                code: '',
-                avatar_url: '',
-                price: '',
-                quantity: '',
-                children: [],
-                warehouses: [],
-                category: {
-                    id: '',
-                    name: ''
-                },
-                manufacture: {
-                    id: '',
-                    name: ''
-                }
-            },
-            good_category_id: '',
-            manufacture_id: '',
-            status: '',
+            index: -1,
+            productAvatar: {},
+            productPrice: {},
+            productPresent: {},
+            good_category_id: -1,
+            manufacture_id: -1,
+            status: null,
             isUploadingAvatar: false,
             percent: 0
         },

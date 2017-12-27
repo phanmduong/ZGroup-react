@@ -2,7 +2,27 @@ import * as types from '../../../constants/actionTypes';
 
 export function showPriceModal() {
     return ({
-        type: types.TOGGLE_PRICE_MODAL,
+        type: types.TOGGLE_PRICE_MODAL
+    });
+}
+
+export function handlePriceProduct(product) {
+    return ({
+        type: types.HANDLE_PRICE_PRODUCT_LIST,
+        product
+    });
+}
+
+export function showAvatarModal() {
+    return ({
+        type: types.TOGGLE_AVATAR_MODAL
+    });
+}
+
+export function handleAvatarProduct(product) {
+    return ({
+        type: types.HANDLE_AVATAR_PRODUCT_LIST,
+        product
     });
 }
 
@@ -37,12 +57,6 @@ export function handleStatus(status) {
 export function showWareHouseModal() {
     return ({
         type: types.TOGGLE_WARE_HOUSE_MODAL
-    });
-}
-
-export function showAvatarModal() {
-    return ({
-        type: types.TOGGLE_AVATAR_MODAL
     });
 }
 

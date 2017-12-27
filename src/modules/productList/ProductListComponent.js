@@ -1,25 +1,15 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import WareHouseModalContainer from "./modals/WareHouseModalContainer";
-import AvatarModalContainer from "./modals/AvatarModalContainer";
-import PriceModalContainer from "./modals/PriceModalContainer";
-import SameProductModalContainer from "./modals/SameProductModalContainer";
 import {Link} from "react-router";
 import * as helper from '../../helpers/helper';
 
 class ProductListComponent extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.deleteProduct = this.deleteProduct.bind(this);
-    }
-
-    deleteProduct(product, isChild, index) {
-        helper.confirm("error", "Xóa sản phẩm", "Bạn có chắc muốn xóa sản phẩm này", () => {
-            this.props.deleteProduct(product, isChild, index);
-        });
     }
 
     render() {
+
         return (
             <div className="table-responsive">
                 <table className="table table-hover">
@@ -57,10 +47,21 @@ class ProductListComponent extends React.Component {
                                              data-original-title=""/>
                                     </td>
                                     <td style={{width: "130px"}}>
-                                        <a className="text-name-student-register"
-                                           rel="tooltip" title=""
-                                           data-original-title="Remove item"
-                                           onClick={() => this.props.showAvatarModal(product)}>{product.code}</a>
+                                        {
+                                            product.children ? (
+                                                <Link to={`/good/product/${product.id}/edit`}
+                                                      className="text-name-student-register"
+                                                      rel="tooltip" title=""
+                                                      data-original-title="Remove item">
+                                                    {product.code}
+                                                </Link>
+                                            ) : (
+                                                <a className="text-name-student-register"
+                                                   rel="tooltip" title=""
+                                                   data-original-title="Remove item"
+                                                   onClick={() => this.props.showAvatarModal(product)}>{product.code}</a>
+                                            )
+                                        }
                                     </td>
                                     <td style={{width: "200px"}}>
                                         {product.name}<br/>
@@ -168,17 +169,7 @@ class ProductListComponent extends React.Component {
                     }
                     </tbody>
                 </table>
-                <PriceModalContainer
-                    showPriceModal={this.props.showPriceModal}/>
-                <WareHouseModalContainer
-                    showWareHouseModal={this.props.showWareHouseModal}/>
-                <AvatarModalContainer
-                    showAvatarModal={this.props.showAvatarModal}/>
-                <SameProductModalContainer
-                    showSameProductModal={this.props.showSameProductModal}
-                    showWareHouseModal={this.props.showWareHouseModal}
-                    showPriceModal={this.props.showPriceModal}
-                    deleteProduct={this.deleteProduct}/>
+
             </div>
         );
     }

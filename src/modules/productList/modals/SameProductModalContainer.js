@@ -12,8 +12,8 @@ class SameProductModalContainer extends React.Component {
     }
 
     render() {
-        const product = this.props.productEditing.productPresent;
-        const indexForChilds = this.props.productEditing.index;
+        const product = this.props.productPresent;
+        const indexForChilds = this.props.index;
         return (
             <Modal show={this.props.sameProductModal}
                    onHide={() => this.props.showSameProductModal(indexForChilds)}>
@@ -117,18 +117,20 @@ class SameProductModalContainer extends React.Component {
 
 SameProductModalContainer.propTypes = {
     sameProductModal: PropTypes.bool,
-    productEditing: PropTypes.object.isRequired,
+    productPresent: PropTypes.object.isRequired,
     showWareHouseModal: PropTypes.func.isRequired,
     showSameProductModal: PropTypes.func.isRequired,
     showPriceModal: PropTypes.func.isRequired,
     productListAction: PropTypes.object.isRequired,
-    deleteProduct: PropTypes.func.isRequired
+    deleteProduct: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         sameProductModal: state.productList.modalInProduct.sameProductModal,
-        productEditing: state.productList.productEditing
+        productPresent: state.productList.productEditing.productPresent,
+        index: state.productList.productEditing.index
     };
 }
 

@@ -2,7 +2,6 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 
 export default function productListReducer(state = initialState.productList, action) {
-
     switch (action.type) {
         case types.LOAD_PRODUCTS_SUCCESS:
             return {
@@ -42,7 +41,7 @@ export default function productListReducer(state = initialState.productList, act
                 },
                 productEditing: {
                     ...state.productEditing,
-                    index: action.index
+                    index: action.index,
                 }
             };
         case types.BEGIN_LOAD_PRODUCTS:
@@ -50,12 +49,28 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 isLoading: true
             };
+        case types.HANDLE_PRICE_PRODUCT_LIST:
+            return {
+                ...state,
+                productEditing: {
+                    ...state.productEditing,
+                    productPrice: action.product
+                }
+            };
         case types.HANDLE_PRODUCT:
             return {
                 ...state,
                 productEditing: {
                     ...state.productEditing,
                     productPresent: action.product
+                }
+            };
+        case types.HANDLE_AVATAR_PRODUCT_LIST:
+            return {
+                ...state,
+                productEditing: {
+                    ...state.productEditing,
+                    productAvatar: action.product
                 }
             };
         case types.UPDATING_PRODUCT_LIST_MODAL:
@@ -95,8 +110,8 @@ export default function productListReducer(state = initialState.productList, act
                 ...state,
                 productEditing: {
                     ...state.productEditing,
-                    productPresent: {
-                        ...state.productEditing.productPresent,
+                    productAvatar: {
+                        ...state.productEditing.productAvatar,
                         avatar_url: action.avatar_url
                     },
                     isUploadingAvatar: false
