@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormInputText from '../../components/common/FormInputText';
-import {LOGO_LOGIN} from '../../constants/env';
-import {browserHistory}from 'react-router';
+import {DOMAIN, LOGO_LOGIN} from '../../constants/env';
 
 class LoginComponent extends React.Component {
     constructor(props, context) {
@@ -18,6 +17,9 @@ class LoginComponent extends React.Component {
 
 
     render() {
+        if ((!this.props.isLoading && this.props.token !== null && this.props.token !== '')) {
+            window.open(DOMAIN, "_self")
+        }
         return (
             <div>
                 <nav className="navbar navbar-primary navbar-transparent navbar-absolute">
@@ -78,8 +80,7 @@ class LoginComponent extends React.Component {
                                                 </div>
                                                 <div className="footer text-center">
                                                     {
-                                                        (!this.props.isLoading && this.props.token !== null && this.props.token !== '') ?
-                                                            browserHistory.push('/') :
+                                                        (!(!this.props.isLoading && this.props.token !== null && this.props.token !== '')) &&
                                                         this.props.isLoading ?
                                                             (
                                                                 <button type="submit"
@@ -90,11 +91,18 @@ class LoginComponent extends React.Component {
                                                             )
                                                             :
                                                             (
-                                                                <button type="submit"
-                                                                        className="btn btn-rose btn-simple btn-wd btn-lg"
-                                                                        onClick={this.props.clickLogin}>
-                                                                    Đăng nhập
-                                                                </button>
+                                                                this.props.token !== null && this.props.token !== '' ?
+                                                                    <button type="submit"
+                                                                            className="btn btn-rose btn-simple btn-wd btn-lg disabled">
+                                                                        Đăng nhập thành công
+                                                                    </button>
+                                                                    :
+                                                                    <button type="submit"
+                                                                            className="btn btn-rose btn-simple btn-wd btn-lg"
+                                                                            onClick={this.props.clickLogin}>
+                                                                        Đăng nhập
+                                                                    </button>
+
                                                             )
                                                     }
                                                 </div>

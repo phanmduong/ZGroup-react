@@ -57,6 +57,7 @@ class ListGood extends React.Component {
                 {"name": "STT", "orderable": true},
                 {"name": "Mã sản phẩm", "orderable": true},
                 {"name": "Tên sản phẩm", "orderable": true},
+                {"name": "Barcode", "orderable": true},
                 {"name": "Số lượng", "orderable": true},
                 {"name": "Giá vốn", "orderable": false},
                 {"name": "Thành tiên", "orderable": false},
@@ -87,6 +88,7 @@ class ListGood extends React.Component {
                         <th>STT</th>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
+                        <th>Barcode</th>
                         <th>Số lượng</th>
                         <th className="disabled-search">Giá vốn</th>
                         <th className="disabled-search">Thành tiên</th>
@@ -99,6 +101,7 @@ class ListGood extends React.Component {
                         <th className="disabled-search"/>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
+                        <th>Barcode</th>
                         <th>Số lượng</th>
                         <th>Giá vốn</th>
                         <th>Thành tiên</th>
@@ -114,6 +117,7 @@ class ListGood extends React.Component {
                                     <td>{index + 1}</td>
                                     <td>{good.code}</td>
                                     <td>{good.name}</td>
+                                    <td>{good.barcode}</td>
                                     <td>{good.quantity}</td>
                                     <td>{dotNumber(good.import_price)}đ</td>
                                     <td>{dotNumber(good.import_price * good.quantity)}đ</td>
@@ -145,10 +149,10 @@ class ListGood extends React.Component {
 
 ListGood.propTypes = {
     setTable: PropTypes.func.isRequired,
-    deleteGood: PropTypes.func.isRequired,
-    openModalEditGood: PropTypes.func.isRequired,
+    deleteGood: PropTypes.func,
+    openModalEditGood: PropTypes.func,
     importGoods: PropTypes.array.isRequired,
-    type: PropTypes.string.isRequired,
+    type: PropTypes.string,
 };
 
 export default ListGood;

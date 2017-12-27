@@ -88,7 +88,7 @@ class TabContainer extends React.Component {
                                             </Link>
                                         ) :
                                         (
-                                            <a href={tab.url} activeClassName="active"
+                                            <a href={tab.url}
                                                onClick={() => {
                                                    helper.closeSidebar();
                                                }}

@@ -47,7 +47,7 @@ class ImportContainer extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-8">
+                    <div className="col-md-12">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose">
                                 <i className="material-icons">assignment</i>
@@ -70,7 +70,7 @@ class ImportContainer extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-12">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">announcement</i></div>
