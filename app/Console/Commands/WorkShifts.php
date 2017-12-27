@@ -47,7 +47,7 @@ class WorkShifts extends Command
         $date->modify('+6 days');
         $formatted_date_to = $date->format('Y-m-d');
         $dates = createDateRangeArray(strtotime($formatted_date_from), strtotime($formatted_date_to));
-        $bases = Base::all();
+        $bases = Base::where('center', 1)->get();
         $current_gen = Gen::getCurrentGen();
         $shiftSessions = WorkShiftSession::where('active', 1)->get();
         $lastShift = WorkShift::where('gen_id', $current_gen->id)->orderBy('week', 'desc')->first();
