@@ -130,6 +130,7 @@ class OrderController extends ManageApiController
 
     public function editOrder($order_id, Request $request)
     {
+        $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
         if ($this->user->role != 2)
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
