@@ -5,5 +5,5 @@
 @endsection
 
 @section("js")
-    <script type="text/javascript" src="manage/workShift/main.936c9b16f19e9cb24d40.js"></script>
+    <script type="text/javascript" src="manage/workShift/main.915e461969fcfbc98a2b.js"></script>
 @endsection

@@ -11,23 +11,27 @@ use App\Repositories\UserRepository;
 use App\WorkShift;
 use App\WorkShiftPick;
 use App\WorkShiftSession;
+use App\WorkShiftUser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Modules\CheckInCheckOut\Repositories\CheckInCheckOutRepository;
 
 class ManageWorkShiftApiController extends ManageApiController
 {
     protected $workShiftSessionTransformer;
     protected $workShiftTransformer;
     protected $userRepository;
+    protected $checkInCheckOutRepository;
 
     public function __construct(WorkShiftSessionTransformer $workShiftSessionTransformer, WorkShiftTransformer $workShiftTransformer,
-                                UserRepository $userRepository)
+                                UserRepository $userRepository, CheckInCheckOutRepository $checkInCheckOutRepository)
     {
         parent::__construct();
         $this->workShiftSessionTransformer = $workShiftSessionTransformer;
         $this->workShiftTransformer = $workShiftTransformer;
         $this->userRepository = $userRepository;
+        $this->checkInCheckOutRepository = $checkInCheckOutRepository;
     }
 
     public function createWorkSession(Request $request)
@@ -258,5 +262,53 @@ class ManageWorkShiftApiController extends ManageApiController
             })
         ];
         return $this->respondWithPagination($shift_picks, $data);
+    }
+
+    public function detailCheckinCheckOutUser($userId, Request $request)
+    {
+        $shifts = WorkShiftUser::join('work_shifts', 'work_shift_user.work_shift_id', '=', 'work_shifts.id')
+            ->join('work_shift_sessions', 'work_shifts.work_shift_session_id', '=', 'work_shift_sessions.id')
+            ->orderBy('work_shifts.id');
+
+        $gen_id = $request->gen_id;
+        $base_id = $request->base_id;
+        $week = $request->week;
+
+        if ($gen_id) {
+            $shifts = $shifts->where('work_shifts.gen_id', $gen_id);
+        }
+        if ($base_id) {
+            $shifts = $shifts->where('work_shifts.base_id', $base_id);
+        }
+
+        if ($week) {
+            $shifts = $shifts->where('work_shifts.week', $week);
+        }
+
+        $shifts = $shifts->where('work_shift_user.user_id', $userId)->get();
+
+        $shifts = $shifts->map(function ($shift) {
+
+            $data = [
+                'date' => date_shift(strtotime($shift->date)),
+                'name' => $shift->name,
+                'start_shift_time' => format_time_shift(strtotime($shift->start_time)),
+                'end_shift_time' => format_time_shift(strtotime($shift->end_time)),
+            ];
+            if ($shift->check_in) {
+                $data['check_in_time'] = format_time_shift(strtotime($shift->check_in->created_at));
+            }
+            if ($shift->check_out) {
+                $data['check_out_time'] = format_time_shift(strtotime($shift->check_out->created_at));
+            }
+
+            return $data;
+        });
+
+        return $this->respondSuccessWithStatus([
+            'detail_shifts' => $shifts
+        ]);
+
+
     }
 }
