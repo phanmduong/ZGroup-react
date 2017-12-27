@@ -19,7 +19,7 @@ class WorkApiController extends ManageApiController
         $work->cost = $request->cost ? $request->cost : 0;
         $work->deadline = $request->deadline;
         $work->bonus_value = $request->bonus_value ? $request->bonus_value : 0;
-        $work->bonus_type = $request->bounus_type;
+        $work->bonus_type = $request->bonus_type;
         $staffs = json_decode($request->staffs);
         $work->save();
         if (count($staffs) > 0) {
@@ -79,7 +79,7 @@ class WorkApiController extends ManageApiController
         $work->cost = $request->cost ? $request->cost : 0;
         $work->deadline = $request->deadline;
         $work->bonus_value = $request->bonus_value ? $request->bonus_value : 0;
-        $work->bonus_type = $request->bounus_type;
+        $work->bonus_type = $request->bonus_type;
         $staffs = json_decode($request->staffs);
         $work->save();
         if (count($staffs) > 0) {
