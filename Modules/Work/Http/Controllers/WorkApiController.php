@@ -13,6 +13,7 @@ class WorkApiController extends ManageApiController
     public function createWork(Request $request)
     {
         if (!$request->name) return $this->respondErrorWithStatus("Thiếu tên");
+        if (!$request->status) return $this->respondErrorWithStatus("Thiếu status");
         $work = new Work;
         $work->name = $request->name;
         $work->type = $request->type;
@@ -20,6 +21,7 @@ class WorkApiController extends ManageApiController
         $work->deadline = $request->deadline;
         $work->bonus_value = $request->bonus_value ? $request->bonus_value : 0;
         $work->bonus_type = $request->bonus_type;
+        $work->status = $request->status;
         $staffs = json_decode($request->staffs);
         $work->save();
         if (count($staffs) > 0) {
@@ -48,24 +50,8 @@ class WorkApiController extends ManageApiController
     {
         $work = Work::find($workId);
         if (!$work) return $this->respondErrorWithStatus("Không tồn tại công việc");
-        $staffs = $work->staffs;
         return $this->respondSuccessWithStatus([
-            "work" => [
-                "id" => $work->id,
-                "name" => $work->name,
-                "type" =>$work->type,
-                "cost" =>$work->cost,
-                "deadline" =>$work->deadline,
-                "bonus_value" =>$work->bonus_value,
-                "bonus_type" => $work->bonus_type
-            ],
-            "staffs" => $staffs->map(function ($staff) {
-                return [
-                    "id" => $staff->id,
-                    "name" => $staff->name,
-                    "avatar_url" => $staff->avatar_url ? $staff->avatar_url : "http://api.colorme.vn/img/user.png",
-                ];
-            })
+            "work" => $work->transform()
         ]);
     }
 
@@ -74,12 +60,14 @@ class WorkApiController extends ManageApiController
         $work = Work::find($workId);
         if (!$work) return $this->respondErrorWithStatus("Không tồn tại công việc");
         if (!$request->name) return $this->respondErrorWithStatus("Thiếu tên");
+        if (!$request->status) return $this->respondErrorWithStatus("Thiếu status");
         $work->name = $request->name;
         $work->type = $request->type;
         $work->cost = $request->cost ? $request->cost : 0;
         $work->deadline = $request->deadline;
         $work->bonus_value = $request->bonus_value ? $request->bonus_value : 0;
         $work->bonus_type = $request->bonus_type;
+        $work->status = $request->status;
         $staffs = json_decode($request->staffs);
         $work->save();
         if (count($staffs) > 0) {
@@ -103,25 +91,7 @@ class WorkApiController extends ManageApiController
 
         return $this->respondWithPagination($works, [
             "works" => $works->map(function ($work) {
-                $staffs = $work->staffs;
-                return [
-                    "work" => [
-                        "id" => $work->id,
-                        "name" => $work->name,
-                        "type" =>$work->type,
-                        "cost" =>$work->cost,
-                        "deadline" =>$work->deadline,
-                        "bonus_value" =>$work->bonus_value,
-                        "bonus_type" => $work->bonus_type
-                    ],
-                    "staffs" => $staffs->map(function ($staff) {
-                        return [
-                            "id" => $staff->id,
-                            "name" => $staff->name,
-                            "avatar_url" => $staff->avatar_url ? $staff->avatar_url : "http://api.colorme.vn/img/user.png",
-                        ];
-                    })
-                ];
+                return $work->transform();
             })
         ]);
 
