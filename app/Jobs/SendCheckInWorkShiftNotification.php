@@ -2,24 +2,24 @@
 
 namespace App\Jobs;
 
-use App\Repositories\NotificationRepository;
+use App\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendCheckOutSMRemindNotification extends Job implements ShouldQueue
+class SendCheckInWorkShiftNotification extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
-    protected $shift;
+    protected $workShiftUser;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($shift)
+    public function __construct($workShiftUser)
     {
-        $this->shift = $shift;
+        $this->workShiftUser = $workShiftUser;
     }
 
     /**
@@ -29,7 +29,6 @@ class SendCheckOutSMRemindNotification extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $notificationRepository = new NotificationRepository();
-        $notificationRepository->sendRemindCheckOutSMNofication($this->shift);
+        //
     }
 }

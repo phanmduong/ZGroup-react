@@ -13,6 +13,7 @@ class WorkShift extends Model
         return $this->belongsTo(WorkShiftSession::class, 'work_shift_session_id');
     }
 
+
     public function base()
     {
         return $this->belongsTo('App\Base', 'base_id');

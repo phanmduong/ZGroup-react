@@ -241,6 +241,20 @@ class NotificationTypeSeeder extends Seeder
                 "type" => "manage",
                 "template" => "Bạn đã check out [[SHIFT]] thành công",
                 "icon" => "<i class=\"material-icons\">radio_button_unchecked</i>"
+            ], [
+                'name' => "check_in_work_shift_success",
+                'color' => "#4CAF50",
+                'id' => 31,
+                "type" => "manage",
+                "template" => "Bạn đã check in ca làm việc [[WORK_SHIFT]] thành công",
+                "icon" => "<i class=\"material-icons\">radio_button_checked</i>"
+            ], [
+                'name' => "check_out_work_shift_success",
+                'color' => "#4CAF50",
+                'id' => 32,
+                "type" => "manage",
+                "template" => "Bạn đã check out ca làm việc [[WORK_SHIFT]] thành công",
+                "icon" => "<i class=\"material-icons\">radio_button_unchecked</i>"
             ]
 
         ]);
