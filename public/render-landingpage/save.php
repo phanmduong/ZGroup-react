@@ -101,10 +101,10 @@ $zip->close();
 //header("Content-Length: " . filesize($yourfile));
 //readfile($yourfile);
 //unlink('tmp/website.zip');
-//$zip = new ZipArchive;
-//$folder = $_POST['link-landing-page'];
-//if ($zip->open($filename) === TRUE) {
-//    $zip->extractTo('../landing-page/' . $folder . '/');
-//    $zip->close();
-//}
+$zip = new ZipArchive;
+$folder = $_POST['link-landing-page'];
+if ($zip->open($filename) === TRUE) {
+    $zip->extractTo('../landing-page/' . $folder . '/');
+    $zip->close();
+}
 ?>
