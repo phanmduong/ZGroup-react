@@ -74,6 +74,7 @@ class Order extends Model
         });
         $data = [
             'id' => $this->id,
+            'note' => $this->note,
             'label_id' => $this->label_id,
             'code' => $this->code,
             'payment' => $this->payment,

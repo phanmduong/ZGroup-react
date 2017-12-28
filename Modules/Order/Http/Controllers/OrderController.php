@@ -135,7 +135,7 @@ class OrderController extends ManageApiController
     {
         $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
-        if(!$order)
+        if (!$order)
             return $this->respondErrorWithStatus([
                 'message' => 'Khong ton tai order'
             ]);
@@ -245,8 +245,8 @@ class OrderController extends ManageApiController
     public function checkGoods(Request $request)
     {
         $good_arr = $request->goods;
-        $good_arr_code = array_pluck($good_arr,'code');
-        $good_arr_barcode = array_pluck($good_arr,'barcode');
+        $good_arr_code = array_pluck($good_arr, 'code');
+        $good_arr_barcode = array_pluck($good_arr, 'barcode');
 
         $goods = Good::whereIn('code', $good_arr_code)->whereIn('barcode', $good_arr_barcode)->get();
 
@@ -318,6 +318,21 @@ class OrderController extends ManageApiController
         }
         foreach ($order->goodOrders as $goodOrder)
             $this->importedGoodsExportProcess($goodOrder, $warehouseId);
+        return $this->respondSuccessWithStatus([
+            'message' => 'SUCCESS'
+        ]);
+    }
+
+    public function editNote($orderId, Request $request)
+    {
+        $order = Order::find($orderId);
+        if (!$order) {
+            return $this->respondErrorWithData([
+                'message' => 'Không tồn tại đơn hàng'
+            ]);
+        }
+        $order->note = $request->note;
+        $order->save();
         return $this->respondSuccessWithStatus([
             'message' => 'SUCCESS'
         ]);
