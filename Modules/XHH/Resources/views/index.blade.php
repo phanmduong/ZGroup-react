@@ -24,7 +24,7 @@
             <div class="col-md-12">
                 <br>
                 <h3 style="color:black;font-size:30px; font-weight:600">
-                    <b>BÀI VIẾT MỚI NHẤT</b>
+                    <b>TIN MỚI</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
@@ -84,7 +84,7 @@
                 <div style="width:10%;border-top: 2px solid black; margin-top:20px">
                 </div>
                 <h3 style="color:black;font-size:30px; font-weight:600">
-                    <b>HOẠT ĐỘNG ĐOÀN THỂ</b>
+                    <b>HOẠT ĐỘNG</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
@@ -136,7 +136,7 @@
                 <div style="width:10%;border-top: 2px solid black; margin-top:20px">
                 </div>
                 <h3 style="color:black;font-size:30px; font-weight:600">
-                    <b>NGHIÊN CỨU KHOA HỌC</b>
+                    <b>NGHIÊN CỨU</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
@@ -238,7 +238,7 @@
                 <div style="width:10%;border-top: 2px solid black; margin-top:20px">
                 </div>
                 <h3 style="color:black;font-size:30px; font-weight:600">
-                    <b>THƯ VIỆN ĐIỆN TỬ</b>
+                    <b>THƯ VIỆN</b>
                 </h3>
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
