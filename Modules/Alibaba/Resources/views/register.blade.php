@@ -63,7 +63,7 @@
                                     <h4 style="font-weight:600; margin-top:10px">Lớp {{$class->name}}</h4>
                                     <br><br>
                                     <p>
-                                        <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> {{$date_start}}
+                                        <i class="fa fa-clock-o"></i> <b>Khai giảng ngày:</b> {{date("d-m-Y", strtotime($class->datestart))}}
 
                                         <br>
 

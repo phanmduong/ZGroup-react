@@ -245,13 +245,16 @@ class OrderController extends ManageApiController
     public function checkGoods(Request $request)
     {
         $good_arr = $request->goods;
+        $good_arr_code = array_pluck($good_arr,'code');
+        $good_arr_barcode = array_pluck($good_arr,'barcode');
 
-        $goods = Good::whereIn('code', $good_arr)->get();
+        $goods = Good::whereIn('code', $good_arr_code)->whereIn('barcode', $good_arr_barcode)->get();
 
         $goods = $goods->map(function ($good) {
             return [
                 'id' => $good->id,
                 'code' => $good->code,
+                'barcode' => $good->barcode,
                 'name' => $good->name,
                 'price' => $good->price,
             ];
@@ -259,7 +262,7 @@ class OrderController extends ManageApiController
         $not_goods = array();
 
         foreach ($good_arr as $good) {
-            if (!in_array(trim($good), array_pluck($goods, 'code'))) {
+            if (!in_array(trim($good['code']), array_pluck($goods, 'code'))) {
                 array_push($not_goods, $good);
             }
         }

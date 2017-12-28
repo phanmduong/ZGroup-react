@@ -151,6 +151,7 @@ class ImportApiController extends ManageApiController
                 'id' => $importedGood->good->id,
                 'name' => $importedGood->good->name,
                 'code' => $importedGood->good->code,
+                'barcode' => $importedGood->good->barcode,
                 'price' => $importedGood->good->price,
                 'quantity' => $importedGood->quantity,
                 'import_price' => $importedGood->import_price,
@@ -163,7 +164,7 @@ class ImportApiController extends ManageApiController
                 'note' => $orderPaidMoney->note,
             ];
         });
-        if($importOrder->warehouse)
+        if ($importOrder->warehouse)
             $data['warehouse'] = $importOrder->warehouse->Transform();
         if (isset($importOrder->user)) {
             $user = [
@@ -183,13 +184,17 @@ class ImportApiController extends ManageApiController
     {
         foreach ($request->imported_goods as $imported_good) {
             $good = Good::find($imported_good['good_id']);
-            if ($good == null)
-                return $this->respondErrorWithStatus([
-                    'message' => 'Không tồn tại sản phẩm'
-                ]);
+            if ($good == null) {
+                $good = new Good();
+                $good->code = $imported_good['code'];
+                $good->barcode = $imported_good['barcode'];
+                $good->name = $imported_good['name'];
+                $good->price = $imported_good['price'];
+                $good->save();
+            }
         }
         $importOrder = new Order;
-        $importOrder->code =$request->code ? $request->code : 'IMPORT' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
+        $importOrder->code = $request->code ? $request->code : 'IMPORT' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $importOrder->note = $request->note;
         $importOrder->warehouse_id = $request->warehouse_id;
         $importOrder->staff_id = $this->user->id;
@@ -264,10 +269,14 @@ class ImportApiController extends ManageApiController
     {
         foreach ($request->imported_goods as $imported_good) {
             $good = Good::find($imported_good['good_id']);
-            if ($good == null)
-                return $this->respondErrorWithStatus([
-                    'message' => 'Không tồn tại sản phẩm'
-                ]);
+            if ($good == null) {
+                $good = new Good();
+                $good->code = $imported_good['code'];
+                $good->barcode = $imported_good['barcode'];
+                $good->name = $imported_good['name'];
+                $good->price = $imported_good['price'];
+                $good->save();
+            }
         }
         $importOrder = Order::find($importOrderId);
         if ($importOrder == null)
