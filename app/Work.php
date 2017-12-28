@@ -23,6 +23,7 @@ class Work extends Model
             "name" => $this->name,
             "type" => $this->type,
             "cost" => $this->cost,
+            "status"=> $this->status,
             "deadline" => $this->deadline,
             "bonus_value" => $this->bonus_value,
             "bonus_type" => $this->bonus_type,
