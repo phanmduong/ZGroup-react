@@ -129,6 +129,16 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 isUpdate: action.isUpdate || false,
                 shipGoodModal: !state.shipGoodModal
             };
+        case types.TOGGLE_ADD_NOTE_MODAL:
+            return {
+                ...state,
+                addNoteModal: !state.addNoteModal
+            };
+        case types.HANDLE_ADD_NOTE_MODAL:
+            return {
+                ...state,
+                orderNote: action.order
+            };
         case types.HANDLE_SHIP_ORDER_BEGIN: {
             let products = {...state.shippingGood.products};
             action.order.good_orders.forEach(product => {

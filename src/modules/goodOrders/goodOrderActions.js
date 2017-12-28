@@ -110,6 +110,19 @@ export function showShipGoodModal(isUpdate = false) {
     });
 }
 
+export function showAddNoteModal() {
+    return ({
+        type: types.TOGGLE_ADD_NOTE_MODAL
+    });
+}
+
+export function handleAddNoteModal(order) {
+    return ({
+        type: types.HANDLE_ADD_NOTE_MODAL,
+        order
+    });
+}
+
 export function handleShipOrderBegin(order) {
     return ({
         type: types.HANDLE_SHIP_ORDER_BEGIN,
@@ -169,7 +182,6 @@ export function sendShipOrder(shippingGood) {
             type: types.DISPLAY_GLOBAL_LOADING
         });
         const {orderId} = shippingGood.order;
-        console.log("orderId", orderId);
         goodOrdersApi.sendShipOrder(shippingGood)
             .then((res) => {
                 const labelId = sendShipOrderSuccess(res, dispatch);
@@ -183,7 +195,6 @@ export function sendShipOrder(shippingGood) {
             });
     };
 }
-
 
 export function updateOrderFormData(order) {
     return function (dispatch) {

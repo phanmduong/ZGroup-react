@@ -3,6 +3,7 @@ import ItemOrder from './ItemOrder';
 import Loading from '../../components/common/Loading';
 import PropTypes from 'prop-types';
 import ShipGoodModalContainer from "./ShipGoodModalContainer";
+import AddNoteModal from "./AddNoteModal";
 
 class ListOrder extends React.Component {
     constructor(props, context) {
@@ -28,14 +29,16 @@ class ListOrder extends React.Component {
                                     <th>Nợ</th>
                                     <th/>
                                     <th/>
+                                    <th>Ghi chú</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {
                                     this.props.orders.map((order, index) => {
                                         return (<ItemOrder order={order} key={index}
-                                                          changeStatusOrder={this.props.changeStatusOrder}
-                                                          showShipGoodModal={this.props.showShipGoodModal}/>);
+                                                           changeStatusOrder={this.props.changeStatusOrder}
+                                                           showShipGoodModal={this.props.showShipGoodModal}
+                                                           showAddNoteModal={this.props.showAddNoteModal}/>);
                                     })
                                 }
                                 </tbody>
@@ -43,6 +46,7 @@ class ListOrder extends React.Component {
                         )
                 }
                 <ShipGoodModalContainer/>
+                <AddNoteModal/>
             </div>
         );
     }
@@ -52,7 +56,8 @@ ListOrder.propTypes = {
     changeStatusOrder: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     orders: PropTypes.array.isRequired,
-    showShipGoodModal: PropTypes.func.isRequired
+    showShipGoodModal: PropTypes.func.isRequired,
+    showAddNoteModal: PropTypes.func.isRequired
 };
 
 

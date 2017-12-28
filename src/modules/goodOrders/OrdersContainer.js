@@ -39,6 +39,7 @@ class OrdersContainer extends React.Component {
         this.statusesSearchChange = this.statusesSearchChange.bind(this);
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
         this.showShipGoodModal = this.showShipGoodModal.bind(this);
+        this.showAddNoteModal = this.showAddNoteModal.bind(this);
     }
 
     componentWillMount() {
@@ -151,6 +152,11 @@ class OrdersContainer extends React.Component {
     showShipGoodModal(order) {
         this.props.goodOrderActions.showShipGoodModal(true);
         this.props.goodOrderActions.handleShipOrderBegin(order);
+    }
+
+    showAddNoteModal(order) {
+        this.props.goodOrderActions.showAddNoteModal();
+        this.props.goodOrderActions.handle.handleAddNoteModal(order);
     }
 
     render() {
@@ -294,7 +300,7 @@ class OrdersContainer extends React.Component {
                                     orders={this.props.orders}
                                     isLoading={this.props.isLoading}
                                     showShipGoodModal={this.showShipGoodModal}
-
+                                    showAddNoteModal={this.showAddNoteModal}
                                 />
                             </div>
                             <div className="row float-right">

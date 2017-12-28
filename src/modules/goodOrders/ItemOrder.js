@@ -124,9 +124,14 @@ class ItemOrder extends React.Component {
                         <i className="fa fa-twitter"/> Ship hàng
                     </button>
                 </td>
+                <td>
+                    <a data-toggle="tooltip" title="Ghi chú" type="button"
+                       rel="tooltip"
+                       onClick={() => this.props.showAddNoteModal(order)}>
+                        <i className="material-icons">edit</i>
+                    </a>
+                </td>
             </tr>
-
-
         );
     }
 }
@@ -134,7 +139,8 @@ class ItemOrder extends React.Component {
 ItemOrder.propTypes = {
     order: PropTypes.object.isRequired,
     changeStatusOrder: PropTypes.func.isRequired,
-    showShipGoodModal: PropTypes.func.isRequired
+    showShipGoodModal: PropTypes.func.isRequired,
+    showAddNoteModal: PropTypes.func.isRequired
 };
 
 export default ItemOrder;
