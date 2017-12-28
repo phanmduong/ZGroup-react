@@ -123,16 +123,40 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
             };
         }
         case types.LOAD_INFO_WORK_SUCCESS: {
-            let newdata = {...action.work.work, staffs: getStaffs(action.work.staffs)};
             return {
                 ...state,
                 ...{
                     isLoading: false,
-                    data : newdata,
+                    data : action.work,
                 }
             };
         }
         case types.LOAD_INFO_WORK_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        }
+        case types.BEGIN_LOAD_WORKS_JOB_ASSIGNMENT: {
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        }
+        case types.LOAD_WORKS_JOB_ASSIGNMENT_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    works: action.works,
+                }
+            };
+        }
+        case types.LOAD_WORKS_JOB_ASSIGNMENT_ERROR: {
             return {
                 ...state,
                 ...{

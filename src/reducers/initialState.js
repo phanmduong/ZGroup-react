@@ -1258,6 +1258,17 @@ export default {
                 avatar_url: ""
             },
         ],
+        works: [
+            {
+                "id":11,
+                "name":"3",
+                "type":"personal",
+                "cost":2,
+                "deadline":"0000-00-00 00:00:00",
+                "bonus_value":3,
+                "bonus_type":null
+            },
+        ],
     },
     groupCustomers: {
         isSaving: false,

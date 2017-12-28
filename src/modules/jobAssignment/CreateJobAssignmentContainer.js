@@ -8,7 +8,6 @@ import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 import FormInputDateTime from "../../components/common/FormInputDateTime";
 import ReactSelect from 'react-select';
-import FormInputSelect from "../../components/common/FormInputSelect";
 import Select from 'react-select';
 import ListStaffs from './ListStaffs';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
@@ -31,9 +30,9 @@ class CreateJobAssignmentContainer extends React.Component {
             this.props.jobAssignmentAction.loadWork(this.props.params.workId);
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log(nextProps);
+    // }
 
     componentDidUpdate(){
         helper.setFormValidation('#form-job-assignment');
@@ -74,10 +73,6 @@ class CreateJobAssignmentContainer extends React.Component {
     }
 
     render() {
-        console.log("???",(
-            this.props.isLoadingStaffs ||
-            this.props.isLoading
-        ), this.props.isLoadingStaffs, this.props.isLoading);
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -160,14 +155,13 @@ class CreateJobAssignmentContainer extends React.Component {
                                                     defaultMessage="Đơn vị"
                                                     style={{marginTop : "20px", width: "100%"}}
                                                 /></div>
-                                                <div className="col-md-8"/>
-                                                <div className="col-md-4">
+                                                <div className="col-md-12" style={{display: "flex", flexFlow: "row-reverse"}}>
                                                     {this.props.isSaving ?
-                                                            <button style={{width:"100%"}} disabled className="btn btn-rose  disabled" type="button">
+                                                            <button  disabled className="btn btn-rose  disabled" type="button">
                                                                 <i className="fa fa-spinner fa-spin"/> Đang tải lên
                                                             </button>
                                                         :
-                                                        < button style={{width:"100%"}} onClick={this.submit} className="btn btn-rose">Lưu</button>
+                                                        < button onClick={this.submit} className="btn btn-rose">Lưu</button>
                                                     }
                                                 </div>
                                             </div>

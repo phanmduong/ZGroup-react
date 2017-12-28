@@ -166,6 +166,24 @@ export const TYPE_CLASSES = [
         value: "waiting"
     }
 ];
+export const STATUS_WORK = [
+    {
+        label: "",
+        value: "pending",
+    },
+    {
+        label: "",
+        value: "doing",
+    },
+    {
+        label: "",
+        value: "cancel",
+    },
+    {
+        label: "",
+        value: "done",
+    },
+];
 
 export const ORDER_STATUS_COLORS = {
     place_order: "#f9f9f9",

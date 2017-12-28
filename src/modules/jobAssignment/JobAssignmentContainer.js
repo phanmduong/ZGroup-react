@@ -13,7 +13,7 @@ class JobAssignmentContainer extends React.Component {
     }
 
     componentWillMount() {
-
+        this.props.jobAssignmentAction.loadWorks();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -190,12 +190,14 @@ class JobAssignmentContainer extends React.Component {
 
 JobAssignmentContainer.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    works: PropTypes.array.isRequired,
 
 };
 
 function mapStateToProps(state) {
    return {
        isLoading : state.jobAssignment.isLoading,
+       works : state.jobAssignment.works,
    };
 }
 
