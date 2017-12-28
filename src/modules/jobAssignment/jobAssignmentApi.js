@@ -1,6 +1,7 @@
 
 import axios    from 'axios';
 import * as env from '../../constants/env';
+import * as conts from '../../constants/constants';
 import moment from "moment/moment";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 
@@ -47,7 +48,7 @@ export function createWork(data) {
         bonus_value: data.bonus_value,
         bonus_type: data.bonus_type,
         staffs: JSON.stringify(data.staffs),
-        status: "pending",
+        status: conts.STATUS_WORK[0].value,
     };
     return axios.post(url, res);
 }
@@ -68,7 +69,7 @@ export function editWork(data) {
         bonus_value: data.bonus_value,
         bonus_type: data.bonus_type,
         staffs: JSON.stringify(data.staffs),
-        status:  data.status || "pending",
+        status:  data.status || conts.STATUS_WORK[0].value,
     };
     return axios.put(url, res);
 }
