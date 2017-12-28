@@ -489,8 +489,8 @@ class NotificationRepository
 
     public function sendConfirmCheckInWorkShiftNotification($workShiftUser)
     {
-        $user = $shift->user;
-        $session = $shift->shift_session;
+        $user = $workShiftUser->user;
+        $session = $workShiftUser->shift_session;
 
         $notification = new Notification();
         $notification->actor_id = 0;
@@ -511,17 +511,17 @@ class NotificationRepository
         $this->sendNotification($notification);
     }
 
-    public function sendConfirmCheckOutWorkShiftNotification($shift)
+    public function sendConfirmCheckOutWorkShiftNotification($workShiftUser)
     {
-        if ($shift->user == null) {
+        if ($workShiftUser->user == null) {
             return;
         }
-        if ($shift->shift_session == null) {
+        if ($workShiftUser->shift_session == null) {
             return;
         }
 
-        $user = $shift->user;
-        $session = $shift->shift_session;
+        $user = $workShiftUser->user;
+        $session = $workShiftUser->shift_session;
 
         $notification = new Notification();
         $notification->actor_id = 0;
