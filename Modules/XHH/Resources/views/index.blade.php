@@ -22,8 +22,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
-                </div>
+                <br>
                 <h3 style="color:black;font-size:30px; font-weight:600">
                     <b>BÀI VIẾT MỚI NHẤT</b>
                 </h3>
@@ -45,7 +44,7 @@
                     <div class="card-block">
                         <p style="margin-top:15px"><b>{{$newestBlog->title}}</b></p>
                         <p class="card-description">
-                            {{$newestBlog->description}}
+                            {{shortString($newestBlog->description,25)}}
                         </p>
                         <a href="/blog/post/{{$newestBlog->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
                     </div>
@@ -71,7 +70,7 @@
                                 <div class="card-body">
                                     <p style="margin-top:15px"><b>{{$blog->title}}</b></p>
                                     <p class="card-description">
-                                        {{$blog->description}}
+                                        {{shortString($blog->description, 15)}}
                                         <a href="/blog/post/{{$blog->id}}" style="color:#c50000!important"><br><b>Xem
                                                 thêm</b></a>
                                     </p>
@@ -115,7 +114,7 @@
                                                 <a href="#pablo">{{$blog->title}}</a>
                                             </h3>
                                             <p class="card-description">
-                                                {{$blog->description}}
+                                                {{shortString($blog->description,40)}}
                                             </p>
                                             <a href="/blog/post/{{$blog->id}}" style="color:#c50000!important"><br><b>Xem
                                                     thêm</b></a>
@@ -163,7 +162,7 @@
                                         <a href="#pablo">{{$blog->title}}</a>
                                     </h3>
                                     <p class="card-description">
-                                        {{$blog->description}}
+                                        {{shortString($blog->description,15)}}
                                     </p>
                                     <br>
                                     <a href="/blog/post/{{$blog->id}}" class="btn btn-google btn-round"> Đọc thêm</a>
@@ -174,6 +173,67 @@
                 </div>
             </div>
             <br>
+            <div class="col-md-12">
+                <br>
+                <div style="width:10%;border-top: 2px solid black; margin-top:20px">
+                </div>
+                <h3 style="color:black;font-size:30px; font-weight:600">
+                    <b>CƠ HỘI</b>
+                </h3>
+                <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
+                <br><br>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-plain card-blog">
+                    <div class="card-image">
+                        <a href="/blog/post/{{$newestBlog2->id}}">
+                            <div style="width: 100%;
+                                    border-radius: 2px;
+                                    background: url({{generate_protocol_url($newestBlog->url)}});
+                                    background-size: cover;
+                                    background-position: center;
+                                    padding-bottom: 70%;"></div>
+                        </a>
+                    </div>
+                    <div class="card-block">
+                        <p style="margin-top:15px"><b>{{$newestBlog2->title}}</b></p>
+                        <p class="card-description">
+                            {{shortString($newestBlog2->description,25)}}
+                        </p>
+                        <a href="/blog/post/{{$newestBlog2->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                @foreach($blogSection4 as $blog)
+                    <div class="card card-plain card-blog" style="margin-bottom: 0px">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card-image">
+                                    <a href="/blog/post/{{$blog->id}}">
+                                        <div style="width: 100%;
+                                                border-radius: 2px;
+                                                background: url({{generate_protocol_url($blog->url)}});
+                                                background-size: cover;
+                                                background-position: center;
+                                                padding-bottom: 70%;"></div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <p style="margin-top:15px"><b>{{$blog->title}}</b></p>
+                                    <p class="card-description">
+                                        {{shortString($blog->description,15)}}
+                                        <a href="/blog/post/{{$blog->id}}" style="color:#c50000!important"><br><b>Xem
+                                                thêm</b></a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
             <div class="col-md-12">
                 <div style="width:10%;border-top: 2px solid black; margin-top:20px">
                 </div>
@@ -194,7 +254,7 @@
                                 <div>
                                     <div class="container text-left" style="min-height: 130px;"><br>
                                         <p style="font-weight: 600;">{{$book->name}}</p>
-                                        <p>{{$book->description}}</p></div>
+                                        <p>{{shortString($book->description,12)}}</p></div>
                                 </div>
                                 <div class="card-footer" style="border-top: 1px solid rgb(220, 219, 219) !important;">
                                     <div style="text-align: right;">
