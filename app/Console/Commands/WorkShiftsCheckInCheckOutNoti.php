@@ -61,8 +61,12 @@ class WorkShiftsCheckInCheckOutNoti extends Command
         $date = new \DateTime();
 //        $date->modify("+1 days");
         $formatted_time = $date->format('Y-m-d');
-        // work shift
-        $workShiftUsers = WorkShiftUser::where("date", $formatted_time)->get();
+
+        // Shift
+        $workShiftUsers = WorkShiftUser::join("work_shifts", "work_shifts.id", "=", "work_shift_user.work_shift_id")
+            ->select("work_shift_user.*")
+            ->where("work_shifts.date", $formatted_time)->get();
+
         foreach ($workShiftUsers as $workShiftUser) {
             $session = $workShiftUser->workShift->work_shift_session;
             if ($session != null) {
