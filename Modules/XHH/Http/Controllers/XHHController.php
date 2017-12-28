@@ -4,6 +4,7 @@ namespace Modules\XHH\Http\Controllers;
 
 use App\Good;
 use App\Product;
+use Faker\Provider\DateTime;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,12 @@ class XHHController extends Controller
 {
     public function index()
     {
+        $date = new \DateTime();
+        $startDate = $date->format("Y-m-d");
+        $date->modify("-30 days");
+        $endDate = $date->format("Y-m-d");
+
+        $countNewBlogs = Product::whereBetween('created_at', array($startDate, $endDate))->count();
         $newestBlog = Product::where('type', 2)->orderBy('created_at', 'desc')->first();
         $newestTop3 = Product::where('type', 2)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
@@ -21,7 +28,8 @@ class XHHController extends Controller
             'newestTop3' => $newestTop3,
             'blogSection1' => $blogSection1,
             'blogSection2' => $blogSection2,
-            'books' => $books
+            'books' => $books,
+            'count_new_blogs' => $countNewBlogs,
         ]);
     }
 
