@@ -17,9 +17,11 @@ class LandingPageController extends Controller
         return view('landingpage::index');
     }
 
-    public function export(Request $request){
-        $pathToAssets = array("elements/assets", "elements/stylesheets", "elements/fonts", "elements/pix_mail", "elements/js-files");
-        $filename = "../landing-page/website.zip"; //use the /tmp folder to circumvent any permission issues on the root folder
+    public function export(Request $request)
+    {
+        $urlLib = public_path() . "/render-landingpage2";
+        $pathToAssets = array($urlLib . "/elements/assets", $urlLib . "/elements/stylesheets", $urlLib . "/elements/fonts", $urlLib . "/elements/pix_mail", $urlLib . "/elements/js-files");
+        $filename = public_path() . "/landing-page/website.zip"; //use the /tmp folder to circumvent any permission issues on the root folder
         /* END CONFIG */
         $tmpfilename = 'tmp/website.zip';
         if (file_exists($tmpfilename)) {
@@ -82,9 +84,9 @@ class LandingPageController extends Controller
             $zip->addFile("elements/" . $img, $img);
         }
 
-        $skeleton1 = file_get_contents('elements/sk1.html');
-        $skeleton2 = file_get_contents('elements/sk2.html');
-        $skeleton3 = file_get_contents('elements/sk3.html');
+        $skeleton1 = file_get_contents($urlLib . 'elements/sk1.html');
+        $skeleton2 = file_get_contents($urlLib . 'elements/sk2.html');
+        $skeleton3 = file_get_contents($urlLib . 'elements/sk3.html');
 
         foreach ($request->pages as $page => $content) {
             $t_seo = json_decode($request->seo[$page]);
@@ -111,8 +113,9 @@ class LandingPageController extends Controller
         $zip = new ZipArchive;
         $folder = $request->link_landing_page;
         if ($zip->open($filename) === TRUE) {
-            $zip->extractTo('../landing-page/' . $folder . '/');
+            $zip->extractTo(public_path() . '/landing-page/' . $folder . '/');
             $zip->close();
         }
+        return "SUCCESS";
     }
 }
