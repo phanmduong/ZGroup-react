@@ -81,55 +81,25 @@ export function getAllStaffs() {
 }
 
 export function changeStatusOrder(status, orderId) {
-    return function (dispatch, getState) {
-        console.log("batman");
-        const {orders} = getState().goodOrders;
-        const order = orders.filter((o) => {
-            return orderId === o.id;
-        })[0];
-        switch (status) {
-            case "not_reach":
-            case "confirm_order":
-                break;
-            case "ship_order": {
-                dispatch({
-                    type: types.TOGGLE_SHIP_GOOD_MODAL,
-                });
-                dispatch({
-                    type: types.HANDLE_SHIP_ORDER_BEGIN,
-                    order: {
-                        ...order,
-                        orderId
-                    }
-
-                });
-                break;
-            }
-            default:
-                helper.showTypeNotification("Đang thay đổi trạng thái", "info");
-                dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
-                goodOrdersApi.changeStatusOrder(status, orderId)
-                    .then((res) => {
-                        helper.showNotification("Thay đổi trạng thái thành công");
-                        if (res.data.status === 0) {
-                            showErrorNotification(res.data.message.message);
-                        } else {
-                            dispatch({
-                                type: types.CHANGE_STATUS_ORDER_SUCCESS,
-                                order_id: orderId,
-                                status
-                            });
-                        }
-                    }).catch(() => {
-                    helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+    return function (dispatch) {
+        helper.showTypeNotification("Đang thay đổi trạng thái", "info");
+        dispatch({type: types.BEGIN_CHANGE_STATUS_ORDER});
+        goodOrdersApi.changeStatusOrder(status, orderId)
+            .then((res) => {
+                if (res.data.status === 0) {
+                    showErrorNotification(res.data.message.message);
+                } else {
+                    helper.showNotification("Thay đổi trạng thái thành công");
                     dispatch({
                         type: types.CHANGE_STATUS_ORDER_SUCCESS,
                         order_id: orderId,
                         status
                     });
-                    helper.showNotification("Thay đổi trạng thái thành công");
-                });
-        }
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Thay đổi trạng thái xảy ra lỗi");
+            });
     };
 }
 
@@ -199,6 +169,7 @@ export function sendShipOrder(shippingGood) {
             type: types.DISPLAY_GLOBAL_LOADING
         });
         const {orderId} = shippingGood.order;
+        console.log("orderId", orderId);
         goodOrdersApi.sendShipOrder(shippingGood)
             .then((res) => {
                 const labelId = sendShipOrderSuccess(res, dispatch);

@@ -145,9 +145,9 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                     order: {
                         ...state.shippingGood.order,
                         id: action.order.code,
-                        tel: action.order.customer.phone,
-                        name: action.order.customer.name,
-                        address: action.order.customer.address,
+                        tel: action.order.customer ? action.order.customer.phone : '',
+                        name: action.order.customer ? action.order.customer.name : '',
+                        address: action.order.customer ? action.order.customer.address : '',
                         value: action.order.total,
                         orderId: action.order.id
                     }
@@ -182,9 +182,6 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             };
 
 
-
-
-
         case types.UPDATE_ORDER_FORM_DATA:
             return {
                 ...state,
@@ -195,14 +192,12 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
             };
 
 
-
-
         case types.BEGIN_EDIT_ORDER:
             return {
                 ...state,
                 order: {
                     ...state.order,
-                    isSaving : true,
+                    isSaving: true,
                 }
             };
         case types.EDIT_ORDER_ERROR:
@@ -210,7 +205,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 order: {
                     ...state.order,
-                    isSaving : false,
+                    isSaving: false,
                 }
             };
         case types.EDIT_ORDER_SUCCESS:
@@ -218,7 +213,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 order: {
                     ...state.order,
-                    isSaving : false,
+                    isSaving: false,
                 }
             };
         default:
