@@ -602,15 +602,18 @@
         </nav>
 
         <div class="container-fluid">
-            <div class="row book-landing-section au-first right-image" style="height: 300px">
+            <div class="row au-first right-image"
+                 style="height: 300px;">
             </div>
             <div class="row" id="bl-routing-wrapper">
                 <div style="width: 100%; text-align: center; background-color: white; height: 50px; margin-bottom: 1px; box-shadow: rgba(0, 0, 0, 0.39) 0px 10px 10px -12px;">
                     <a class="routing-bar-item" href="#first-after-nav"
-                       style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Khoá học</a><span
+                       style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Khoá
+                        học</a><span
                             style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">|</span><a
                             class="routing-bar-item" href="/posts/7"
-                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Học viên</a>
+                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Học
+                        viên</a>
                 </div>
             </div>
             <div id="first-after-nav"></div>
@@ -621,8 +624,8 @@
                             <h3>KHÓA HỌC THIẾT KẾ</h3>
                         </div>
                         @foreach($courses as $course)
-                                <div class="product-wrapper">
-                                    <a href="/course/{{convert_vi_to_en($course->name)}}">
+                            <div class="product-wrapper">
+                                <a href="/course/{{convert_vi_to_en($course->name)}}">
                                     <div class="product-item">
                                         <div class="colorme-img">
                                             <div class="colorme-link"
@@ -633,7 +636,7 @@
                                             <div class="media"
                                                  style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
                                                 <span
-                                                   style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">
+                                                        style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">
                                                     <!-- react-text: 338 -->{{$course->name}}<!-- /react-text -->
                                                     <!-- react-text: 339 --><!-- /react-text --></span>
                                                 <div class="media-body"><span>
@@ -654,8 +657,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    </a>
-                                </div>
+                                </a>
+                            </div>
                         @endforeach
                     </div>
                 </div>
