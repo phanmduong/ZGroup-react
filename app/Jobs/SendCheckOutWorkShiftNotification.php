@@ -30,6 +30,6 @@ class SendCheckOutWorkShiftNotification extends Job implements ShouldQueue
     public function handle()
     {
         $notificationRepository = new NotificationRepository();
-        $notificationRepository->sendRemindCheckOutSMNofication($this->shift);
+        $notificationRepository->sendRemindCheckOutWorkShiftNofication($this->workShiftUser);
     }
 }
