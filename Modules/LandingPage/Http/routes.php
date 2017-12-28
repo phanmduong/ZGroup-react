@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['domain' => 'manageapi.' . config('app.domain'), 'prefix' => 'landing-page', 'namespace' => 'Modules\LandingPage\Http\Controllers'], function()
+Route::group(['domain' => config('app.domain'), 'prefix' => 'landing-page-build', 'namespace' => 'Modules\LandingPage\Http\Controllers'], function()
 {
-    Route::get('/build', 'LandingPageController@index');
+    Route::post('/export', 'LandingPageController@export');
 });
