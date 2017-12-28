@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import TooltipButton from "../../../components/common/TooltipButton";
 import {updateCardTitle} from '../taskApi';
 import Avatar from "../../../components/common/Avatar";
+import {Badge} from "react-bootstrap";
 
 class CardItem extends React.Component {
     constructor(props, context) {
@@ -16,6 +17,23 @@ class CardItem extends React.Component {
         this.updateEditFormData = this.updateEditFormData.bind(this);
         this.archiveCard = this.archiveCard.bind(this);
         this.unarchiveCard = this.unarchiveCard.bind(this);
+        this.hardColor = this.hardColor.bind(this);
+    }
+
+    hardColor(hard) {
+        switch (hard) {
+            case 1:
+                return "#00695C";
+            case 3:
+                return "#8BC34A";
+            case 5:
+                return "#FDD835";
+            case 8:
+                return "#FB8C00";
+            case 13:
+                return "#E65100";
+
+        }
     }
 
     toggleEdit() {
@@ -210,7 +228,8 @@ class CardItem extends React.Component {
                                     }}/>
                                 }
 
-                                {card.title}
+                                {card.title} <Badge
+                                style={{backgroundColor: this.hardColor(card.point)}}>{card.point}</Badge>
                             </div>
                             {
                                 card.deadline_elapse && (
