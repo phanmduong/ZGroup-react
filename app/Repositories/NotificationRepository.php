@@ -487,31 +487,65 @@ class NotificationRepository
         $this->sendNotification($notification);
     }
 
-    public function sendConfirmCheckInWorkShiftNotification($workShiftUser)
-    {
-        $user = $shift->user;
-        $session = $shift->shift_session;
+//    public function sendConfirmCheckInWorkShiftNotification($workShiftUser)
+//    {
+//        $user = $workShiftUser->user;
+//        $session = $workShiftUser->workShift->work_shift_session;
+//
+//        if ($session == null) {
+//            return;
+//        }
+//
+//        $notification = new Notification();
+//        $notification->actor_id = 0;
+//        $notification->receiver_id = $user->id;
+//        $notification->product_id = 'checkin_work_shift';
+//        $notification->type = 31;
+//
+//        $message = $notification->notificationType->template;
+//
+//        $message = str_replace('[[WORK_SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+//
+//        $notification->message = $message;
+//        $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
+//
+//        $notification->url = config("app.protocol") . "manage." . config("app.domain") . "/work-shift/shift-registers";
+//
+//        $notification->save();
+//        $this->sendNotification($notification);
+//    }
+//
+//    public function sendConfirmCheckOutWorkShiftNotification($workShiftUser)
+//    {
+//        $session = $workShiftUser->workShift->work_shift_session;
+//
+//        if ($session == null) {
+//            return;
+//        }
+//
+//        $user = $workShiftUser->user;
+//        $session = $workShiftUser->shift_session;
+//
+//        $notification = new Notification();
+//        $notification->actor_id = 0;
+//        $notification->receiver_id = $user->id;
+//        $notification->product_id = 'checkout_work_shift';
+//        $notification->type = 32;
+//
+//        $message = $notification->notificationType->template;
+//
+//        $message = str_replace('[[WORK_SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+//
+//        $notification->message = $message;
+//        $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
+//
+//        $notification->url = config("app.protocol") . "manage." . config("app.domain") . "/work-shift/shift-registers";
+//
+//        $notification->save();
+//        $this->sendNotification($notification);
+//    }
 
-        $notification = new Notification();
-        $notification->actor_id = 0;
-        $notification->receiver_id = $user->id;
-        $notification->product_id = 'checkin';
-        $notification->type = 31;
-
-        $message = $notification->notificationType->template;
-
-        $message = str_replace('[[WORK_SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
-
-        $notification->message = $message;
-        $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
-
-        $notification->url = "#";
-
-        $notification->save();
-        $this->sendNotification($notification);
-    }
-
-    public function sendConfirmCheckOutWorkShiftNotification($shift)
+    public function sendRemindCheckInWorkShiftNofication($shift)
     {
         if ($shift->user == null) {
             return;
@@ -519,28 +553,60 @@ class NotificationRepository
         if ($shift->shift_session == null) {
             return;
         }
-
         $user = $shift->user;
-        $session = $shift->shift_session;
-
         $notification = new Notification();
         $notification->actor_id = 0;
         $notification->receiver_id = $user->id;
-        $notification->product_id = 'checkout';
-        $notification->type = 30;
+        $notification->product_id = "checkin";
+        $notification->type = 25;
 
         $message = $notification->notificationType->template;
 
+        $session = $shift->shift_session;
+
         $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+        $message = str_replace('[[TIME]]', "<strong>" . $session->start_time . "</strong>", $message);
 
         $notification->message = $message;
         $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
 
-        $notification->url = "#";
+        $notification->url = "/";
 
         $notification->save();
         $this->sendNotification($notification);
     }
+
+    public function sendRemindCheckOutWorkShiftNofication($shift)
+    {
+        if ($shift->user == null) {
+            return;
+        }
+        if ($shift->shift_session == null) {
+            return;
+        }
+        $user = $shift->user;
+        $notification = new Notification();
+        $notification->actor_id = 0;
+        $notification->receiver_id = $user->id;
+        $notification->product_id = "checkout";
+        $notification->type = 26;
+
+        $message = $notification->notificationType->template;
+
+        $session = $shift->shift_session;
+
+        $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+        $message = str_replace('[[TIME]]', "<strong>" . $session->end_time . "</strong>", $message);
+
+        $notification->message = $message;
+        $notification->image_url = $user->avatar_url ? $user->avatar_url : defaultAvatarUrl();
+
+        $notification->url = "/";
+
+        $notification->save();
+        $this->sendNotification($notification);
+    }
+
 
 
 }
