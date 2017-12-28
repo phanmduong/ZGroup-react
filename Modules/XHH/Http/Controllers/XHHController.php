@@ -17,7 +17,7 @@ class XHHController extends Controller
         $date->modify("-30 days");
         $endDate = $date->format("Y-m-d");
 
-        $countNewBlogs = Product::whereBetween('created_at', array($startDate, $endDate))->count();
+        $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $newestBlog = Product::where('type', 2)->orderBy('created_at', 'desc')->first();
         $newestTop3 = Product::where('type', 2)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
         $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
