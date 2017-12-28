@@ -29,6 +29,7 @@
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
             </div>
+            @if($newestBlog)
             <div class="col-md-6">
                 <div class="card card-plain card-blog">
                     <div class="card-image">
@@ -50,6 +51,7 @@
                     </div>
                 </div>
             </div>
+            @endif
             <div class="col-md-6">
                 @foreach($newestTop3 as $blog)
                     <div class="card card-plain card-blog" style="margin-bottom: 0px">
@@ -183,27 +185,30 @@
                 <a href="/blog" style="color:#c50000!important"><b>Xem thêm</b></a>
                 <br><br>
             </div>
-            <div class="col-md-6">
-                <div class="card card-plain card-blog">
-                    <div class="card-image">
-                        <a href="/blog/post/{{$newestBlog2->id}}">
-                            <div style="width: 100%;
-                                    border-radius: 2px;
-                                    background: url({{generate_protocol_url($newestBlog->url)}});
-                                    background-size: cover;
-                                    background-position: center;
-                                    padding-bottom: 70%;"></div>
-                        </a>
-                    </div>
-                    <div class="card-block">
-                        <p style="margin-top:15px"><b>{{$newestBlog2->title}}</b></p>
-                        <p class="card-description">
-                            {{shortString($newestBlog2->description,25)}}
-                        </p>
-                        <a href="/blog/post/{{$newestBlog2->id}}" style="color:#c50000!important"><b>Xem thêm</b></a>
+            @if($newestBlog2)
+                <div class="col-md-6">
+                    <div class="card card-plain card-blog">
+                        <div class="card-image">
+                            <a href="/blog/post/{{$newestBlog2->id}}">
+                                <div style="width: 100%;
+                                        border-radius: 2px;
+                                        background: url({{generate_protocol_url($newestBlog->url)}});
+                                        background-size: cover;
+                                        background-position: center;
+                                        padding-bottom: 70%;"></div>
+                            </a>
+                        </div>
+                        <div class="card-block">
+                            <p style="margin-top:15px"><b>{{$newestBlog2->title}}</b></p>
+                            <p class="card-description">
+                                {{shortString($newestBlog2->description,25)}}
+                            </p>
+                            <a href="/blog/post/{{$newestBlog2->id}}" style="color:#c50000!important"><b>Xem
+                                    thêm</b></a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
             <div class="col-md-6">
                 @foreach($blogSection4 as $blog)
                     <div class="card card-plain card-blog" style="margin-bottom: 0px">
