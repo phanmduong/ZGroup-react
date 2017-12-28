@@ -44,6 +44,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/blog" data-scroll="true">BLOGS</a>
+                    {{$count_new_blogs}}
                 </li>
             </ul>
         </div>

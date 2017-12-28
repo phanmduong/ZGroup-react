@@ -286,4 +286,15 @@ class CardController extends ManageApiController
             "num_cards" => array_values($returnCards)
         ]);
     }
+
+    public function setPointCard($cardId, $point)
+    {
+        $card = Card::find($cardId);
+        $card->point = $point;
+        $card->save();
+
+        return $this->respondSuccessWithStatus([
+            "message" => "success"
+        ]);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Jobs\Job;
+use App\Repositories\NotificationRepository;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -29,6 +30,7 @@ class SendCheckInWorkShiftNotification extends Job implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $notificationRepository = new NotificationRepository();
+        $notificationRepository->sendRemindCheckInWorkShiftNofication($this->workShiftUser);
     }
 }
