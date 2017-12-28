@@ -5,6 +5,11 @@ namespace Modules\LandingPage\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use ZipArchive;
+use DOMDocument;
+use DOMXPath;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 class LandingPageController extends Controller
 {
@@ -21,12 +26,9 @@ class LandingPageController extends Controller
     {
         $urlLib = public_path() . "/render-landingpage2";
         $pathToAssets = array($urlLib . "/elements/assets", $urlLib . "/elements/stylesheets", $urlLib . "/elements/fonts", $urlLib . "/elements/pix_mail", $urlLib . "/elements/js-files");
-        $filename = public_path() . "/landing-page/website.zip"; //use the /tmp folder to circumvent any permission issues on the root folder
+        $filename = public_path() . "/landing-page/" . $request->link_landing_page . ".zip"; //use the /tmp folder to circumvent any permission issues on the root folder
         /* END CONFIG */
-        $tmpfilename = 'tmp/website.zip';
-        if (file_exists($tmpfilename)) {
-            unlink($tmpfilename);
-        }
+
 
         $external_css_files = true;
 
@@ -54,8 +56,8 @@ class LandingPageController extends Controller
             if ($result->length > 0) {
                 foreach ($result as $node) {
                     //array_push($dirs, $node->getAttribute('pix-name'));
-                    if (!in_array('elements/images/' . $node->getAttribute('pix-name'), $dirs, true)) {
-                        array_push($dirs, 'elements/images/' . $node->getAttribute('pix-name'));
+                    if (!in_array($urlLib . '/elements/images/' . $node->getAttribute('pix-name'), $dirs, true)) {
+                        array_push($dirs, $urlLib . '/elements/images/' . $node->getAttribute('pix-name'));
                     }
                 }
                 $pathToAssets = array_merge($pathToAssets, $dirs);
@@ -72,7 +74,7 @@ class LandingPageController extends Controller
                 if ($file->getFilename() != '.' && $file->getFilename() != '..') {
                     // Get real path for current file
                     $filePath = $file->getRealPath();
-                    $temp = explode("/", $name);
+                    $temp = explode("/elements", $name);
                     array_shift($temp);
                     $newName = implode("/", $temp);
                     // Add current file to archive
@@ -84,9 +86,9 @@ class LandingPageController extends Controller
             $zip->addFile("elements/" . $img, $img);
         }
 
-        $skeleton1 = file_get_contents($urlLib . 'elements/sk1.html');
-        $skeleton2 = file_get_contents($urlLib . 'elements/sk2.html');
-        $skeleton3 = file_get_contents($urlLib . 'elements/sk3.html');
+        $skeleton1 = file_get_contents($urlLib . '/elements/sk1.html');
+        $skeleton2 = file_get_contents($urlLib . '/elements/sk2.html');
+        $skeleton3 = file_get_contents($urlLib . '/elements/sk3.html');
 
         foreach ($request->pages as $page => $content) {
             $t_seo = json_decode($request->seo[$page]);
@@ -112,10 +114,11 @@ class LandingPageController extends Controller
 
         $zip = new ZipArchive;
         $folder = $request->link_landing_page;
-        if ($zip->open($filename) === TRUE) {
-            $zip->extractTo(public_path() . '/landing-page/' . $folder . '/');
-            $zip->close();
-        }
+//        if ($zip->open($filename) === TRUE) {
+        $zip->open($filename);
+        $zip->extractTo(public_path() . '/landing-page/' . $folder . '/');
+        $zip->close();
+//        }
         return "SUCCESS";
     }
 }
