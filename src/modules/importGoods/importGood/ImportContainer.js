@@ -47,7 +47,7 @@ class ImportContainer extends React.Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-md-8">
+                    <div className="col-md-12">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose">
                                 <i className="material-icons">assignment</i>
@@ -70,7 +70,7 @@ class ImportContainer extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-12">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">announcement</i></div>
@@ -92,6 +92,12 @@ class ImportContainer extends React.Component {
                                                 label="Người bán"
                                                 name="staff"
                                                 value={this.props.importOrder.user ? this.props.importOrder.user.name : 'Không có'}
+                                                disabled
+                                            />
+                                            <FormInputText
+                                                label="Kho hàng"
+                                                name="warehouse"
+                                                value={this.props.importOrder.warehouse ? this.props.importOrder.warehouse.name : 'Không có'}
                                                 disabled
                                             />
                                             <FormInputText label="Ghi chú" name="note"

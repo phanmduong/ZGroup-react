@@ -173,6 +173,24 @@ export function ShiftRemoveRegisterError(registerId) {
     };
 }
 
+export function loadDetailShiftsUser(baseId, genId, week, userId) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_LOAD_USERS_WORK_SHIFTS
+        });
+        workShiftRegisterApi.loadDetailShiftsUser(baseId, genId, week, userId)
+            .then((res) => {
+                dispatch({
+                    type: types.LOAD_USERS_WORK_SHIFTS_SUCCESS,
+                    detailShifts: res.data.data.detail_shifts,
+                });
+            }).catch(() => {
+            dispatch({
+                type: types.LOAD_USERS_WORK_SHIFTS_ERROR
+            });
+        });
+    };
+}
 
 
 
