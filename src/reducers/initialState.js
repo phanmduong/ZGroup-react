@@ -229,7 +229,8 @@ export default {
             error: false,
             currentPage: 1,
             totalPages: 1
-        }
+        },
+        departments: [],
     },
     roles: {
         roleListData: [],
@@ -573,7 +574,8 @@ export default {
         isLoadingSalerFilter: false,
         isLoadingCampaignFilter: false,
         excel: {},
-        isLoadingExcel: false
+        isLoadingExcel: false,
+        isCommittingInfoStudent: false,
     },
 
     profile: {
@@ -664,6 +666,12 @@ export default {
     },
 
     dashboard: {
+        it: {
+            dateArray: [],
+            pointByDate: [],
+            cardsByDate: [],
+            isLoading: false
+        },
         gens: [],
         isLoadingGens: true,
         errorGens: false,
@@ -869,12 +877,26 @@ export default {
         limit: 1,
         totalCount: 1,
         order: {
+            isSaving: false,
             isLoading: false,
             error: false,
-            infoOrder: {},
-            infoUser: {},
-            infoShip: {},
-            goodOrders: []
+            total: 1130000,
+            paid: 0,
+            debt: 1130000,
+            order: {
+                code: "ORDER20171203164031",
+                created_at: "16:40 03-12-2017",
+                note: "",
+                payment: "Chuyển khoản",
+                status: "place_order",
+                good_orders: [],
+                customer: {
+                    name: "test",
+                    address: "HN",
+                    phone: "test",
+                    email: "po01636863831@gmail.com"
+                },
+            },
         },
         staffs: [],
         allStaffs: [],
@@ -1217,6 +1239,45 @@ export default {
         isLoading: false,
         data: [],
     },
+    department: {
+        isLoading: false,
+        data: {
+            paginator: {
+                page: 1,
+                total_pages: 1,
+            },
+        },
+    },
+    jobAssignment: {
+        isLoading: false,
+        data: {
+            name: "",
+            type: "personal",
+            cost: 0,
+            deadline: "",
+            bonus_value: 0,
+            bonus_type: "coin",
+            staffs: [],
+        },
+        staffs: [
+            {
+                value: "value1",
+                label: "label1",
+                avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"
+            },
+            {
+                value: "value2",
+                label: "label2",
+                avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"
+            },
+            {
+                value: "value3",
+                label: "label3",
+                avatar_url: "https://scontent.fhan2-3.fna.fbcdn.net/v/t1.0-9/20228725_307332333003611_8331484280221214574_n.jpg?_nc_eui2=v1%3AAeEnbuOLqOmgSQJOXaAs0QqOSyDH0fQVhc7SQgRFKS2e35Gmcw6NaW1AeWfpoY0rJtqmA1K_qhWgHN3rXZ-7LZl8tJ_RUcckp1HyzLOVuPgW-g&oh=8a656e2a7e4e259bc70a9554eeee0e6b&oe=5AFB8662"
+            },
+        ],
+    },
+
 
     groupCustomers: {
         isSaving: false,
@@ -1240,13 +1301,32 @@ export default {
         groupCustomersList: [],
 
     },
-    department: {
+    workShiftSessions: {
+        isStoring: false,
+        errorStore: false,
+        workShiftSessions: [],
         isLoading: false,
-        data: {
-            paginator: {
-                page: 1,
-                total_pages: 1,
-            },
-        },
-    }
+        error: false
+    },
+    workShiftRegisters: {
+        isLoadingGensBases: false,
+        errorGensBases: false,
+        bases: [],
+        gens: [],
+        currentGen: {},
+        isLoading: false,
+        error: false,
+        shiftRegisters: [],
+        detailShifts: [],
+        isLoadingDetailShifts: false,
+        errorDetailShifts: false,
+    },
+    historyWorkShiftRegisters: {
+        currentPage: 1,
+        totalPages: 1,
+        shiftPicks: [],
+        isLoading: false,
+        error: false
+    },
+
 };

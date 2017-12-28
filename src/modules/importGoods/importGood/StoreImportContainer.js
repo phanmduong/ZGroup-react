@@ -222,15 +222,34 @@ class StoreImportContainer extends React.Component {
         this.props.importGoodActions.updateFormImportGood(formImportGood);
     }
 
-    storeImportGood(status) {
-        if (this.props.formImportGood.warehouse_id) {
-            this.props.importGoodActions.storeImportGood(this.props.formImportGood, status);
+    storeDataImportGood(status) {
+        if (this.props.params.importGoodId) {
+            this.props.importGoodActions.storeImportGood(this.props.formImportGood, status, this.props.params.importGoodId);
+        } else {
+            if (!helper.isEmptyInput(this.props.formImportGood.paid_money) && this.props.formImportGood.payment != 0 && (this.props.formImportGood.payment === null
+                    || this.props.formImportGood.payment === undefined || this.props.formImportGood.payment === '')) {
+                helper.showWarningNotification("Vui lòng chọn phương thức thanh toán");
+                return;
+            }
             if (this.props.formImportGood.warehouse && this.props.formImportGood.warehouse.id) {
-                this.props.importGoodActions.storeImportGood(this.props.formImportGood, status, this.props.params.importGoodId);
+                this.props.importGoodActions.storeImportGood(this.props.formImportGood, status);
             } else {
                 helper.showWarningNotification("Vui lòng chọn kho hàng");
+                return;
             }
         }
+    }
+
+    storeImportGood(status) {
+        if (this.props.formImportGood.paid_money > this.totalMoney) {
+            helper.confirm("warning", "Thanh toán vượt quá số tiền", "Xác nhận để tiếp tục", () => {
+                this.storeDataImportGood(status);
+            });
+        } else {
+            this.storeDataImportGood(status);
+        }
+
+
     }
 
     selectSupplier(value) {
@@ -269,9 +288,12 @@ class StoreImportContainer extends React.Component {
     render() {
         let totalMoney = 0;
 
+
         this.props.formImportGood.imported_goods.map((good) => {
             totalMoney += good.quantity * good.import_price;
         });
+
+        this.totalMoney = totalMoney;
 
         return (
             <div>
@@ -292,7 +314,7 @@ class StoreImportContainer extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-8">
+                    <div className="col-md-12">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose">
                                 <i className="material-icons">assignment</i>
@@ -320,7 +342,7 @@ class StoreImportContainer extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-12">
                         <div className="card">
                             <div className="card-header card-header-icon" data-background-color="rose"><i
                                 className="material-icons">announcement</i>
@@ -385,7 +407,7 @@ class StoreImportContainer extends React.Component {
                                                 />
                                             </div>
                                             {
-                                                this.props.route.type === 'create' ?
+                                                this.props.route.type ?
                                                     (
                                                         <div>
                                                             <h4>
@@ -426,6 +448,7 @@ class StoreImportContainer extends React.Component {
                                                                             type="number"
                                                                             className="form-control none-padding"
                                                                             name="paid_money"
+                                                                            value={this.props.formImportGood.paid_money}
                                                                             onChange={this.updateFormData}
                                                                         />
                                                                     </div>
@@ -519,39 +542,9 @@ class StoreImportContainer extends React.Component {
                                                         </div>
                                                     )
                                             }
-                                            <div className="row">
-                                                <div className="col-sm-6">
-                                                    Phương thức
-                                                </div>
-                                                <div className="col-sm-6">
-                                                    <ReactSelect
-                                                        name="form-field-name"
-                                                        value={this.props.formImportGood.payment}
-                                                        options={PAYMENT}
-                                                        onChange={this.changePayment}
-                                                        placeholder="Chọn phương thức"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-sm-6">
-                                                    Ghi chú
-                                                </div>
-                                                <div className="col-sm-6">
-                                                    <div className="form-group label-floating none-margin">
-                                                        <input
-                                                            className="form-control none-padding"
-                                                            name="note_paid_money"
-                                                            onChange={this.updateFormData}
-                                                            value={this.props.formImportGood.note_paid_money}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                 }
                             </div>
-                            }
                         </div>
                         {
                             !this.props.isLoading &&
@@ -590,7 +583,7 @@ class StoreImportContainer extends React.Component {
                     </div>
 
                 </div>
-                <Modal show={this.state.showModalStoreGood}>
+                <Modal show={this.state.showModalStoreGood} bsSize="large">
                     <Modal.Header closeButton onHide={this.closeModalStoreGood} closeLabel="Đóng">
                         <Modal.Title>Thêm sản phẩm</Modal.Title>
                     </Modal.Header>
@@ -601,7 +594,7 @@ class StoreImportContainer extends React.Component {
                         />
                     </Modal.Body>
                 </Modal>
-                <Modal show={this.state.showModalEditGood}>
+                <Modal show={this.state.showModalEditGood} bsSize="large">
                     <Modal.Header closeButton onHide={this.closeModalEditGood} closeLabel="Đóng">
                         <Modal.Title>Sửa sản phẩm</Modal.Title>
                     </Modal.Header>

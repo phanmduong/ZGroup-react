@@ -765,6 +765,21 @@ export function sumTimeShiftOfWeek(shiftRegistersWeek, userId) {
     return convertSecondToTime(sum);
 }
 
+export function sumTimeWorkShiftOfWeek(shiftRegistersWeek, userId) {
+    let sum = 0;
+
+    shiftRegistersWeek.dates.map(function (date) {
+        date.shifts.map(function (shift) {
+            let user = shift.users.filter((user) => user.id === userId)[0];
+            if (user) {
+                sum += convertTimeToSecond(shift.end_time) - convertTimeToSecond(shift.start_time);
+            }
+        });
+    });
+
+    return convertSecondToTime(sum);
+}
+
 export function convertSecondToTime(timeSecond) {
     let second = addZeroTime(timeSecond % 60);
 
@@ -774,7 +789,7 @@ export function convertSecondToTime(timeSecond) {
 
     timeSecond /= 60;
 
-    let hours = addZeroTime(timeSecond % 24);
+    let hours = addZeroTime(timeSecond);
 
     if (hours != 0) {
         return '' + hours + ':' + minutes + ':' + second;

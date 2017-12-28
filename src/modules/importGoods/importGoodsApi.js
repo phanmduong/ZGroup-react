@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
+import {isEmptyInput} from "../../helpers/helper";
 
 export function loadImportOrders(page = 1, search = '', startTime = '', endTime = '', status = '', staff = '') {
     let url = env.MANAGE_API_URL + '/order/import-orders';
@@ -56,24 +57,26 @@ export function createImportGoods(formImportGood, status, importGoodsId) {
 
     let importGoods = formImportGood.imported_goods.map((good) => {
         return {
-            good_id: good.id,
+            good_id: good.id ? good.id : 0,
+            barcode: good.barcode,
+            code: good.code,
+            name: good.name,
             quantity: Number(good.quantity.toString().replace(/\./g, "")),
             import_price: Number(good.import_price.toString().replace(/\./g, "")),
-            price: Number(good.price.toString().replace(/\./g, "")),
+            price: !isEmptyInput(good.price) ? Number(good.price.toString().replace(/\./g, "")) : 0,
         };
     });
 
     return axios.post(url, {
         code: formImportGood.code,
         id: formImportGood.id ? formImportGood.id : "",
-
         note: formImportGood.note,
         status: status,
         paid_money: Number(formImportGood.paid_money.toString().replace(/\./g, "")),
         imported_goods: importGoods,
         payment: formImportGood.payment,
         note_paid_money: formImportGood.note_paid_money,
-        warehouse_id: formImportGood.warehouse_id,
+        warehouse_id: formImportGood.warehouse.id,
         user_id: formImportGood.supplier ? formImportGood.supplier.id : ''
     });
 }

@@ -129,6 +129,9 @@ class ListGood extends React.Component {
                                         <td>{goodOrder.name}</td>
                                         <td>
                                             {goodOrder.quantity}
+                                            <a data-toggle="tooltip" title type="button">
+                                                <i className="material-icons">edit</i>
+                                            </a>
                                         </td>
                                         <td>{helper.dotNumber(goodOrder.price)}đ</td>
                                         <td>

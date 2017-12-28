@@ -190,6 +190,19 @@ export default function addDiscountReducer(state = initialState.addDiscount, act
                 isSaving: false,
             };
 
+
+
+
+        case types.GENERATE_RANDOM_CODE :
+            return {
+                ...state,
+                discount: {
+                    ...state.discount,
+                    name : action.randomCode,
+                },
+            };
+
+
         default :
             return state;
     }

@@ -453,9 +453,66 @@ export default function staffsReducer(state = initialState.staffs, action) {
                     }
                 }
             };
+        case types.BEGIN_LOAD_DEPARTMENT_STAFF:
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        case types.LOAD_DEPARTMENT_STAFF_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                    departments: action.data
+                }
+            };
+        case types.LOAD_DEPARTMENT_STAFF_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        case types.BEGIN_CHANGE_DEPARTMENT_STAFF:
+            let newdata = changeDepartStaff(action.staffId,action.departId,state.staffListData);
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                    staffListData: newdata,
+                }
+            };
+        case types.CHANGE_DEPARTMENT_STAFF_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        case types.CHANGE_DEPARTMENT_STAFF_ERROR:
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
         default:
             return state;
     }
+}
+
+function changeDepartStaff(staffId, departId, data) {
+    if (data) {
+        data = data.map(function (staff) {
+            if (staff.id === staffId) {
+                return {...staff, department_id: departId};
+            }
+            else return staff;
+        });
+    }
+    return data;
 }
 
 function changeRoleStaff(staffId, roleId, staffListData) {

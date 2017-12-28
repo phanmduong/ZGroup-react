@@ -20,9 +20,20 @@ export function getAllRegisterStudent(page = 1, genId, search = '', salerId = ''
     url += "&token=" + token;
     return axios.get(url);
 }
+
 export function getRegisterStudent(page = 1, genId, search = '', salerId = '', campaignId = '', classId = '', paid_status = '', class_status = '', startTime = '', endTime = '') {
+    let urlType = env.API_URL;
+    switch (env.TYPE_API){
+        case "alibaba":
+            urlType = (env.MANAGE_API_URL + "/alibaba");
+            break;
+        default:
+            urlType= env.API_URL;
+    }
     let token = localStorage.getItem('token');
-    let url = env.API_URL + "/register-list?" +
+    let url =
+        urlType+
+        "/register-list?" +
         "page=" + page +
         "&gen_id=" + genId +
         "&search=" + search +
@@ -139,4 +150,23 @@ export function loadRegisterByStudent(studentId) {
     }
 
     return axios.get(url);
+}
+
+export function changeInfoStudent(info) {
+    //manageapi.domain/alibaba/register/{register_id}?token=
+    let urlType = "";
+    switch (env.TYPE_API){
+        case "alibaba":
+                urlType = "/alibaba";
+                break;
+        default:
+            urlType= "";
+    }
+    let url = env.MANAGE_API_URL + urlType  +"/register/" + info.id ;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.put(url, {money: info.money, code: info.code});
 }

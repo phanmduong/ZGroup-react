@@ -60,12 +60,12 @@ class LoginContainer extends React.Component {
     }
 
     render() {
-        if (this.state.error && !this.props.isLoading) {
-            toastr.error("Lỗi. Kiểm tra thông tin tài khoản");
-            this.setState({
-                error: false
-            });
-        }
+        // if (this.state.error && !this.props.isLoading) {
+        //     toastr.error("Lỗi. Kiểm tra thông tin tài khoản");
+        //     this.setState({
+        //         error: false
+        //     });
+        // }
         if (this.state.user && this.state.user.role === 0 && !this.props.isLoading) {
             toastr.error("Bạn không phải là nhân viên của " + env.NAME_COMPANY);
             this.setState({

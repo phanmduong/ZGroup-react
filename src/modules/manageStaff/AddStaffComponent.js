@@ -1,9 +1,6 @@
 import React from 'react';
 import FormInputText from '../../components/common/FormInputText';
-import FormInputSelect from '../../components/common/FormInputSelect';
-import FormInputDate from '../../components/common/FormInputDate';
 import Loading from '../../components/common/Loading';
-import {MARITAL, LITERACY} from '../../constants/constants';
 import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
 import {CirclePicker} from 'react-color';
@@ -22,7 +19,7 @@ class AddStaffComponent extends React.Component {
     }
 
     render() {
-        let {name, email, age, address, homeland, phone, marital, literacy, role_id, start_company, username, color, base_id} = this.props.staffForm;
+        let {name, email, role_id, username, color, base_id, department_id} = this.props.staffForm;
         let roleSelect = this.props.roles.filter(function (roleData) {
             return role_id == roleData.id;
         })[0];
@@ -47,15 +44,6 @@ class AddStaffComponent extends React.Component {
                                         <h4 className="card-title">
                                             {this.props.type === 'edit' ? 'Thay đổi thông tin nhân viên' : 'Thêm nhân viên'}
                                         </h4>
-
-                                        <FormInputText
-                                            label="Họ và tên"
-                                            name="name"
-                                            updateFormData={this.props.updateFormData}
-                                            value={name}
-                                            required={true}
-                                            type="text"
-                                        />
                                         <FormInputText
                                             label="Email"
                                             name="email"
@@ -71,48 +59,6 @@ class AddStaffComponent extends React.Component {
                                             required={true}
                                             type="text"
                                             updateFormData={this.props.updateFormData}
-                                        />
-                                        <FormInputText
-                                            label="Tuổi"
-                                            name="age"
-                                            updateFormData={this.props.updateFormData}
-                                            value={age}
-                                            type="number"
-                                        />
-                                        <FormInputText
-                                            label="Địa chỉ"
-                                            name="address"
-                                            updateFormData={this.props.updateFormData}
-                                            value={address}
-                                            type="text"
-                                        />
-                                        <FormInputText
-                                            label="Số điện thoại"
-                                            name="phone"
-                                            updateFormData={this.props.updateFormData}
-                                            value={phone}
-                                            type="tel"
-                                        />
-                                        <FormInputSelect
-                                            data={MARITAL}
-                                            label="Tình trạng hôn nhân"
-                                            updateFormData={this.props.updateFormData}
-                                            name="marital"
-                                            value={marital}
-                                        />
-                                        <FormInputText
-                                            label="Quê quán"
-                                            name="homeland"
-                                            updateFormData={this.props.updateFormData}
-                                            value={homeland}
-                                            type="text"
-                                        />
-                                        <FormInputSelect
-                                            data={LITERACY}
-                                            label="Trình độ học vấn"
-                                            name="literacy"
-                                            updateFormData={this.props.updateFormData}
-                                            value={literacy}
                                         />
                                         <div className="form-group">
                                             <label>Cơ sở</label>
@@ -154,13 +100,58 @@ class AddStaffComponent extends React.Component {
                                                 })}
                                             </select>
                                         </div>
-                                        <FormInputDate
-                                            label="Hoạt đông trong công ty từ"
-                                            name="start_company"
-                                            updateFormData={this.props.updateFormData}
-                                            value={start_company.slice(0, 10)}
-                                            id="form-date-start-company"
-                                        />
+                                        <div className="form-group">
+                                            <label>Bộ phận</label>
+                                            <select
+                                                className="form-control"
+                                                value={department_id}
+                                                onChange={this.props.updateFormData}
+                                                name="department_id"
+                                            >
+                                                {this.props.departments !== null && this.props.departments !== undefined &&
+                                                this.props.departments.map((item, key) => {
+                                                    return (
+                                                        <option
+                                                            key={key}
+                                                            value={item.id}
+                                                        >
+                                                            {item.name}
+                                                        </option>);
+                                                })}
+                                            </select>
+                                        </div>
+                                        {
+                                            this.props.roles && (this.props.role == 1) ?
+
+                                                <div>
+                                                    <FormInputText
+                                                        label="Lương cơ bản"
+                                                        name="salary"
+                                                        value={0}
+                                                        //required={true}
+                                                        type="text"
+                                                        //updateFormData={this.props.updateFormData}
+                                                    />
+                                                    < FormInputText
+                                                        label="Lương doanh thu"
+                                                        name="salary_revenue"
+                                                        value={0}
+                                                        //required={true}
+                                                        type="text"
+                                                        //updateFormData={this.props.updateFormData}
+                                                    />
+                                                    <FormInputText
+                                                        label="Lương phụ cấp"
+                                                        name="salary_allowance"
+                                                        value={0}
+                                                        //required={true}
+                                                        type="text"
+                                                        //updateFormData={this.props.updateFormData}
+                                                    />
+                                                </div>
+                                                :
+                                                <div></div>
+                                        }
 
                                         {this.props.isLoadingAddStaff ?
                                             (
@@ -305,6 +296,7 @@ AddStaffComponent.propTypes = {
     isResettingPassword: PropTypes.bool.isRequired,
     roles: PropTypes.array.isRequired,
     bases: PropTypes.array.isRequired,
+    departments: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
 };
 
