@@ -32,7 +32,7 @@ class StoreGood extends React.Component {
                         ...good,
                         ...{
                             value: good.id,
-                            label: `${good.name} (${good.code})`,
+                            label: `${good.name} (${good.code}, ${good.barcode})`,
                             quantity: 0,
                             import_price: 0
                         }
@@ -82,7 +82,7 @@ class StoreGood extends React.Component {
                 {this.state.selectedGood &&
                 <div>
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <FormInputText
                                 label="Tên sản phẩm"
                                 disabled
@@ -90,12 +90,20 @@ class StoreGood extends React.Component {
                                 name="name"
                             />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                             <FormInputText
                                 label="Mã sản phẩm"
                                 disabled
                                 value={this.state.selectedGood.code}
                                 name="code"
+                            />
+                        </div>
+                        <div className="col-md-4">
+                            <FormInputText
+                                label="Barcode"
+                                disabled
+                                value={this.state.selectedGood.barcode}
+                                name="barcode"
                             />
                         </div>
                     </div>

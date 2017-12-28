@@ -94,6 +94,12 @@ class ImportContainer extends React.Component {
                                                 value={this.props.importOrder.user ? this.props.importOrder.user.name : 'Không có'}
                                                 disabled
                                             />
+                                            <FormInputText
+                                                label="Kho hàng"
+                                                name="warehouse"
+                                                value={this.props.importOrder.warehouse ? this.props.importOrder.warehouse.name : 'Không có'}
+                                                disabled
+                                            />
                                             <FormInputText label="Ghi chú" name="note"
                                                            value={this.props.importOrder.note}
                                                            disabled
