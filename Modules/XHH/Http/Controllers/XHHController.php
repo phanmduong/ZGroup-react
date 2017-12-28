@@ -21,11 +21,19 @@ class XHHController extends Controller
         $countNewBlogs = Product::where('type', 2)->whereBetween('created_at', array($startDate, $endDate))->count();
         $totalBlogs = Product::where('type', 2)->count();
         $newestBlog = Product::where('type', 2)->orderBy('created_at', 'desc')->first();
-        $newestTop3 = Product::where('type', 2)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
+        if ($newestBlog) {
+            $newestTop3 = Product::where('type', 2)->where('id', '<>', $newestBlog->id)->orderBy('created_at', 'desc')->limit(3)->get();
+        } else {
+            $newestTop3 = Product::where('type', 2)->orderBy('created_at', 'desc')->limit(3)->get();
+        }
         $blogSection1 = Product::where('type', 2)->where('category_id', 2)->orderBy('created_at', 'desc')->limit(2)->get();
         $blogSection2 = Product::where('type', 2)->where('category_id', 3)->orderBy('created_at', 'desc')->limit(3)->get();
         $newestBlog2 = Product::where('type', 2)->where('category_id', 7)->orderBy('created_at', 'desc')->first();
-        $blogSection4 = Product::where('type', 2)->where('id', '<>', $newestBlog2->id)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
+        if ($newestBlog2) {
+            $blogSection4 = Product::where('type', 2)->where('id', '<>', $newestBlog2->id)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
+        } else {
+            $blogSection4 = Product::where('type', 2)->where('category_id', 7)->orderBy('created_at', 'desc')->limit(3)->get();
+        }
         $books = Good::where('type', 'book')->orderBy('created_at', 'desc')->limit(8)->get();
         return view('xhh::index', [
             'newestBlog' => $newestBlog,
