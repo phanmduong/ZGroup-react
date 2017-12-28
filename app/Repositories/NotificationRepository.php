@@ -545,26 +545,23 @@ class NotificationRepository
 //        $this->sendNotification($notification);
 //    }
 
-    public function sendRemindCheckInWorkShiftNofication($shift)
+    public function sendRemindCheckInWorkShiftNofication($workShiftUser)
     {
-        if ($shift->user == null) {
+        $session = $workShiftUser->workShift->work_shift_session;
+        if ($session == null) {
             return;
         }
-        if ($shift->shift_session == null) {
-            return;
-        }
-        $user = $shift->user;
+        $user = $workShiftUser->user;
+
         $notification = new Notification();
         $notification->actor_id = 0;
         $notification->receiver_id = $user->id;
         $notification->product_id = "checkin";
-        $notification->type = 25;
+        $notification->type = 33;
 
         $message = $notification->notificationType->template;
 
-        $session = $shift->shift_session;
-
-        $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+        $message = str_replace('[[WORK_SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
         $message = str_replace('[[TIME]]', "<strong>" . $session->start_time . "</strong>", $message);
 
         $notification->message = $message;
@@ -576,26 +573,23 @@ class NotificationRepository
         $this->sendNotification($notification);
     }
 
-    public function sendRemindCheckOutWorkShiftNofication($shift)
+    public function sendRemindCheckOutWorkShiftNofication($workShiftUser)
     {
-        if ($shift->user == null) {
+        $session = $workShiftUser->workShift->work_shift_session;
+        if ($session == null) {
             return;
         }
-        if ($shift->shift_session == null) {
-            return;
-        }
-        $user = $shift->user;
+        $user = $workShiftUser->user;
+
         $notification = new Notification();
         $notification->actor_id = 0;
         $notification->receiver_id = $user->id;
         $notification->product_id = "checkout";
-        $notification->type = 26;
+        $notification->type = 34;
 
         $message = $notification->notificationType->template;
 
-        $session = $shift->shift_session;
-
-        $message = str_replace('[[SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
+        $message = str_replace('[[WORK_SHIFT]]', "<strong>" . $session->name . "(" . $session->start_time . "-" . $session->end_time . ")" . "</strong>", $message);
         $message = str_replace('[[TIME]]', "<strong>" . $session->end_time . "</strong>", $message);
 
         $notification->message = $message;
@@ -606,7 +600,6 @@ class NotificationRepository
         $notification->save();
         $this->sendNotification($notification);
     }
-
 
 
 }

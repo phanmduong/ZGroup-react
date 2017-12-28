@@ -61,7 +61,7 @@ class WorkShiftsCheckInCheckOutNoti extends Command
         $date = new \DateTime();
 //        $date->modify("+1 days");
         $formatted_time = $date->format('Y-m-d');
-        // Sale and Marketing
+        // work shift
         $workShiftUsers = WorkShiftUser::where("date", $formatted_time)->get();
         foreach ($workShiftUsers as $workShiftUser) {
             $session = $workShiftUser->workShift->work_shift_session;

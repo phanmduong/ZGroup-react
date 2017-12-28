@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\CheckInCheckOutSMNotification;
 use App\Console\Commands\RemindCalendarEvent;
 use App\Console\Commands\SendCheckInCheckOutNotification;
+use App\Console\Commands\WorkShiftsCheckInCheckOutNoti;
 use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -27,7 +28,8 @@ class Kernel extends ConsoleKernel
         Commands\WorkShifts::class,
         RemindCalendarEvent::class,
         SendCheckInCheckOutNotification::class,
-        CheckInCheckOutSMNotification::class
+        CheckInCheckOutSMNotification::class,
+        WorkShiftsCheckInCheckOutNoti::class
     ];
 
     /**
@@ -44,6 +46,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('notification:checkincheckout')->dailyAt('00:10');
         $schedule->command('notification:checkincheckoutsm')->dailyAt('01:10');
+        $schedule->command('notification:checkincheckout:workshift')->dailyAt('11:30');
 
         $schedule->command('sms:send')->dailyAt('20:00');
 //        $schedule->command('mail:startlesson')->dailyAt('12:00');
