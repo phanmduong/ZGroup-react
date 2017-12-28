@@ -135,6 +135,10 @@ class OrderController extends ManageApiController
     {
         $request->code = $request->code ? $request->code : 'ORDER' . rebuild_date('YmdHis', strtotime(Carbon::now()->toDateTimeString()));
         $order = Order::find($order_id);
+        if(!$order)
+            return $this->respondErrorWithStatus([
+                'message' => 'Khong ton tai order'
+            ]);
         if ($this->user->role != 2)
             if ($this->statusToNum($order->status) > $this->statusToNum($request->status))
                 return $this->respondErrorWithStatus([
@@ -333,12 +337,12 @@ class OrderController extends ManageApiController
 //        }
     }
 
-    public function test(Request $request)
-    {
-        $what = "[{'id':45,'quantity':'7'}]";
-        dd(json_decode($what));
-        return [
-            'value' => $this->statusToNum($request->status),
-        ];
-    }
+//    public function test(Request $request)
+//    {
+//        $what = "[{'id':45,'quantity':'7'}]";
+//        dd(json_decode($what));
+//        return [
+//            'value' => $this->statusToNum($request->status),
+//        ];
+//    }
 }
