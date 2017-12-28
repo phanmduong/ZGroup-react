@@ -595,8 +595,7 @@
                         <li class=""><a href="/about-us">Về chúng tôi</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class=""><a href="/search"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                        <li><a>Đăng nhập</a></li>
+                        <li><a href="/posts/7">Học viên</a></li>
                     </ul>
                 </div>
             </div>
@@ -608,20 +607,11 @@
             <div class="row" id="bl-routing-wrapper">
                 <div style="width: 100%; text-align: center; background-color: white; height: 50px; margin-bottom: 1px; box-shadow: rgba(0, 0, 0, 0.39) 0px 10px 10px -12px;">
                     <a class="routing-bar-item" href="#first-after-nav"
-                       style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Giới
-                        thiệu</a><span
+                       style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Khoá học</a><span
                             style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">|</span><a
-                            class="routing-bar-item" href="#au-subject"
-                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Môn
-                        học</a><span
-                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">|</span><a
-                            class="routing-bar-item" href="#au-policy"
-                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Chính
-                        sách</a><span
-                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">|</span><a
-                            class="routing-bar-item" href="#au-promo"
-                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Ưu
-                        đãi</a></div>
+                            class="routing-bar-item" href="/posts/7"
+                            style="color: black; height: 100%; line-height: 50px; display: inline-block; margin: 0px 8px; font-weight: 600; opacity: 0.6;">Học viên</a>
+                </div>
             </div>
             <div id="first-after-nav"></div>
             <div class="row">
@@ -631,73 +621,41 @@
                             <h3>KHÓA HỌC THIẾT KẾ</h3>
                         </div>
                         @foreach($courses as $course)
-                            <div class="product-wrapper">
-                                <div class="product-item">
-                                    <div class="colorme-img">
-                                        <div class="colorme-link"
-                                             style="background-image: url(&quot;http://d1j8r0kxyu9tj8.cloudfront.net/images/1513942385fAnBIIBvSrZLmUq.jpg&quot;); background-size: cover; background-position: center center;"></div>
-                                    </div>
-                                    <div class="product-info">
-                                        <div style="font-size: 16px; border-bottom: 1px solid rgb(217, 217, 217); padding: 10px; display: flex; justify-content: space-between;">
-                                            <a href="/post/ai-3--29876"
-                                               style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">
-                                                {{$course->name}}
-                                            </a>
-                                            <div><span data-html="true" data-toggle="tooltip" title=""
-                                                       data-original-title="Được đánh dấu nổi bật bởi<br/>Nguyễn Huỳnh Vĩ Hòa"><span
-                                                            class="glyphicon glyphicon-circle-arrow-up"
-                                                            style="color: rgb(240, 173, 78); margin-right: 2px;"></span></span><a
-                                                        data-toggle="tooltip" title="" href="/group/ai3111saigon"
-                                                        data-original-title="Lớp AI 31.11 (Sài Gòn)"><span
-                                                            class="glyphicon glyphicon-circle-arrow-right"
-                                                            style="color: green;"></span></a>
+                                <div class="product-wrapper">
+                                    <a href="/course/{{convert_vi_to_en($course->name)}}">
+                                    <div class="product-item">
+                                        <div class="colorme-img">
+                                            <div class="colorme-link"
+                                                 style="background-image: url({{$course->image_url}}); background-size: cover; background-position: center center;">
                                             </div>
                                         </div>
-                                        <div class="media"
-                                             style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
-                                            <div class="media-left" style="padding-right: 3px;"><a
-                                                        href="/profile/nhukhue19@gmail.com">
-                                                    <div style="background: url(&quot;http://d1j8r0kxyu9tj8.cloudfront.net/images/1511403039SkeC3zqidw2U8so.jpg&quot;) center center / cover; width: 40px; height: 40px; margin-right: 5px; margin-top: -3px; border-radius: 3px;"></div>
-                                                </a></div>
-                                            <div class="media-body"><a href="/profile/nhukhue19@gmail.com">
-                                                    <div style="font-weight: 600;">Nguyễn Thuỵ Như Khuê</div>
-                                                    <div class="timestamp" style="font-size: 12px;">5 ngày trước</div>
-                                                </a></div>
+                                        <div class="product-info">
+                                            <div class="media"
+                                                 style="font-size: 12px; margin-top: 10px; padding: 5px 10px;">
+                                                <span
+                                                   style="color: rgb(85, 85, 85); font-size: 14px; font-weight: 600;">
+                                                    <!-- react-text: 338 -->{{$course->name}}<!-- /react-text -->
+                                                    <!-- react-text: 339 --><!-- /react-text --></span>
+                                                <div class="media-body"><span>
+                                                        <div class="timestamp"
+                                                             style="font-size: 11px;">{{$course->duration}} buổi
+                                                        </div>
+                                                        <div class="timestamp"
+                                                             style="line-height: 15px;font-size: 11px; color: #111111;">{{$course->description}}</div>
+                                                    </span></div>
+                                            </div>
+                                            <div style="border-bottom: 1px solid rgb(217, 217, 217); position: absolute; bottom: 40px; width: 100%;"></div>
+                                            <div style="position: absolute; bottom: 5px;">
+                                                <div class="product-tool">
+                                                </div>
+                                            </div>
+                                            <div style="color: #76b031; font-size: 13px; position: absolute; bottom: 10px; right: 5px;">
+                                                {{currency_vnd_format($course->price)}}
+                                            </div>
                                         </div>
                                     </div>
+                                    </a>
                                 </div>
-                                <div style="position: absolute; bottom: 5px;">
-                                    <div class="product-tool"><span
-                                                class="glyphicon glyphicon-eye-open"></span><span>132</span><span
-                                                class="glyphicon glyphicon-comment"></span><span>1</span><span
-                                                class="glyphicon glyphicon-heart"></span><span data-html="true"
-                                                                                               data-toggle="tooltip"
-                                                                                               title=""
-                                                                                               style="cursor: pointer;"
-                                                                                               data-original-title="Lê Đình Khang<br/>Vũ Thu Hà<br/>Dương Hạnh Nguyên">3</span><span></span>
-                                    </div>
-                                </div>
-                                <div style="position: absolute; bottom: 10px; right: 5px;">
-                                    <div data-toggle="tooltip" title=""
-                                         style="background-color: rgb(212, 123, 112); cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"
-                                         data-original-title="#d47b70"></div>
-                                    <div data-toggle="tooltip" title=""
-                                         style="background-color: rgb(47, 47, 51); cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"
-                                         data-original-title="#2f2f33"></div>
-                                    <div data-toggle="tooltip" title=""
-                                         style="background-color: rgb(118, 77, 76); cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"
-                                         data-original-title="#764d4c"></div>
-                                    <div data-toggle="tooltip" title=""
-                                         style="background-color: rgb(120, 135, 164); cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"
-                                         data-original-title="#7887a4"></div>
-                                    <div data-toggle="tooltip" title=""
-                                         style="background-color: rgb(112, 174, 182); cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"
-                                         data-original-title="#70aeb6"></div>
-                                    <div data-toggle="tooltip" title=""
-                                         style="background-color: rgb(80, 105, 129); cursor: pointer; width: 11px; height: 11px; border-radius: 10px; margin-right: 3px; display: inline-block;"
-                                         data-original-title="#506981"></div>
-                                </div>
-                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -762,8 +720,6 @@
         js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1787695151450379";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-
-<div id="app"></div>
 
 <script src="http://d1j8r0kxyu9tj8.cloudfront.net/libs/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>

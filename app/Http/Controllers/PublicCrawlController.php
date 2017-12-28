@@ -23,10 +23,9 @@ class PublicCrawlController extends CrawlController
 
     public function home()
     {
-        $courses = Course::orderBy('created_at', 'desc')->get();
-        dd($courses);
-//        $this->data['courses'] = $courses;
-        return view('2018-beta');
+        $courses = Course::orderBy('created_at', 'asc')->get();
+        $this->data['courses'] = $courses;
+        return view('2018-beta', $this->data);
     }
 
     public function graphics_dot()

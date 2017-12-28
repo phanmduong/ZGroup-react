@@ -184,18 +184,18 @@ class Order extends Model
                 'email' => $this->email,
             ];
         }
-        return [
-            'total' => $this->goodOrders->reduce(function ($total, $goodOrder) {
+        $data['total'] = $this->goodOrders->reduce(function ($total, $goodOrder) {
+            return $total + $goodOrder->price * $goodOrder->quantity;
+        }, 0);
+        $data  ['paid'] = $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+            return $paid + $orderPaidMoney->money;
+        }, 0);
+        $data['debt'] = $this->goodOrders->reduce(function ($total, $goodOrder) {
                 return $total + $goodOrder->price * $goodOrder->quantity;
-            }, 0),
-            'paid' => $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
+            }, 0) - $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
                 return $paid + $orderPaidMoney->money;
-            }, 0),
-            'debt' => $this->goodOrders->reduce(function ($total, $goodOrder) {
-                    return $total + $goodOrder->price * $goodOrder->quantity;
-                }, 0) - $this->orderPaidMoneys->reduce(function ($paid, $orderPaidMoney) {
-                    return $paid + $orderPaidMoney->money;
-                }, 0),
+            }, 0);
+        return [
             'order' => $data,
         ];
     }
