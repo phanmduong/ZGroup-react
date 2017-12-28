@@ -9,9 +9,15 @@ class Course extends Model
 {
     use SoftDeletes;
     protected $table = "courses";
+
     public function classes()
     {
         return $this->hasMany('App\StudyClass');
+    }
+
+    public function courseCategories()
+    {
+        return $this->belongsToMany(CourseCategory::class, 'course_course_category', 'couse_id', 'course_category_id');
     }
 
     public function lessons()
@@ -27,14 +33,14 @@ class Course extends Model
     public function detailedTransform()
     {
         return [
-            'id' =>$this->id,
+            'id' => $this->id,
             'name' => $this->name,
             'duration' => $this->duration,
             'price' => $this->price,
             'description' => $this->description,
             'linkmac' => $this->linkmac,
             'linkwindow' => $this->linkwindow,
-            'num_classes' => $this->classes()->where("name","like","%.%")->count(),
+            'num_classes' => $this->classes()->where("name", "like", "%.%")->count(),
             'mac_how_install' => $this->mac_how_install,
             'window_how_install' => $this->window_how_install,
             'cover_url' => generate_protocol_url($this->cover_url),
@@ -47,14 +53,16 @@ class Course extends Model
             'links' => $this->links
         ];
     }
-    public function transform(){
+
+    public function transform()
+    {
         return [
             'id' => $this->id,
-            'name'=> $this->name,
+            'name' => $this->name,
             'icon_url' => $this->icon_url,
-            'num_classes' => $this->classes()->where("name","like","%.%")->count(),
-            'duration'=> $this->duration,
-            'price'=>$this->price,
+            'num_classes' => $this->classes()->where("name", "like", "%.%")->count(),
+            'duration' => $this->duration,
+            'price' => $this->price,
         ];
     }
 }
