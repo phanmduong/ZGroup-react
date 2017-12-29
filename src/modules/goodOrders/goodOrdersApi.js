@@ -68,6 +68,12 @@ export function sendShipOrder(shippingGood) {
     return axios.post(url, {data: JSON.stringify(shippingGood)});
 }
 
+export function cancelShipOrder(shippingGood) {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/ghtk/services/shipment/cancel?token=" + token;
+    return axios.delete(url);
+}
+
 export function editNote(order) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + "/order/" + order.id + "/note?token=" + token;

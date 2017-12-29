@@ -152,6 +152,7 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                         note: action.order.note
                     };
                 }
+                return order;
             });
             return {
                 ...state,

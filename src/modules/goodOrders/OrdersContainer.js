@@ -14,6 +14,8 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
 import {ORDER_STATUS} from "../../constants/constants";
+import Loading from "../../components/common/Loading";
+import {dotNumber} from "../../helpers/helper";
 
 class OrdersContainer extends React.Component {
     constructor(props, context) {
@@ -156,7 +158,7 @@ class OrdersContainer extends React.Component {
 
     showAddNoteModal(order) {
         this.props.goodOrderActions.showAddNoteModal();
-        this.props.goodOrderActions.handle.handleAddNoteModal(order);
+        this.props.goodOrderActions.handleAddNoteModal(order);
     }
 
     render() {
@@ -192,6 +194,66 @@ class OrdersContainer extends React.Component {
                                 </button>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        {
+                            this.props.isLoading ? (
+                                <Loading/>
+                            ) : (
+                                <div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                        <div className="card card-stats">
+                                            <div className="card-header" data-background-color="green">
+                                                <i className="material-icons">store</i>
+                                            </div>
+                                            <div className="card-content">
+                                                <p className="category">Tổng đơn hàng</p>
+                                                <h3 className="card-title">{helper.dotNumber(this.props.totalOrder)}</h3>
+                                            </div>
+                                            <div className="card-footer">
+                                                <div className="stats">
+                                                    <i className="material-icons">date_range</i> Last 24
+                                                    Hours
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                        <div className="card card-stats">
+                                            <div className="card-header" data-background-color="rose">
+                                                <i className="material-icons">equalizer</i>
+                                            </div>
+                                            <div className="card-content">
+                                                <p className="category">Tổng tiền</p>
+                                                <h3 className="card-title">{helper.dotNumber(this.props.totalMoney)}đ</h3>
+                                            </div>
+                                            <div className="card-footer">
+                                                <div className="stats">
+                                                    <i className="material-icons">date_range</i> Last 24
+                                                    Hours
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-4 col-md-4 col-sm-4">
+                                        <div className="card card-stats">
+                                            <div className="card-header" data-background-color="blue">
+                                                <i className="fa fa-twitter"/>
+                                            </div>
+                                            <div className="card-content">
+                                                <p className="category">Tổng nợ</p>
+                                                <h3 className="card-title">{helper.dotNumber(this.props.totalMoney - this.props.totalPaidMoney)}đ</h3>
+                                            </div>
+                                            <div className="card-footer">
+                                                <div className="stats">
+                                                    <i className="material-icons">update</i> Just Updated
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
                     </div>
                     <div className="col-md-12">
                         <div className="card">
@@ -314,27 +376,6 @@ class OrdersContainer extends React.Component {
                                     />
                                 </div>
                             </div>
-                            {
-                                !this.props.isLoading && <div className="card-footer">
-                                    <div className="float-right">
-                                        <TooltipButton text="Tổng đơn hàng" placement="top">
-                                            <div className="btn btn-info btn-simple">
-                                                Tổng đơn hàng: {this.props.totalOrder}
-                                            </div>
-                                        </TooltipButton>
-                                        <TooltipButton text="Tổng đơn hàng" placement="top">
-                                            <div className="btn btn-danger btn-simple">
-                                                Tổng tiền: {this.props.totalMoney}
-                                            </div>
-                                        </TooltipButton>
-                                        <TooltipButton text="Tổng nợ" placement="top">
-                                            <div className="btn btn-success btn-simple">
-                                                Tổng nợ: {this.props.totalMoney - this.props.totalPaidMoney}
-                                            </div>
-                                        </TooltipButton>
-                                    </div>
-                                </div>
-                            }
                         </div>
                     </div>
                 </div>

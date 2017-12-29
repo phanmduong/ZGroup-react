@@ -872,7 +872,6 @@ export default {
                 address: "",
                 province: "",
                 district: "",
-
                 is_freeship: "1",
                 pick_date: "",
                 pick_money: "",

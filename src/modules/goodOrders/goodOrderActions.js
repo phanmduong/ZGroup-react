@@ -2,9 +2,6 @@ import * as types from '../../constants/actionTypes';
 import * as helper from '../../helpers/helper';
 import * as goodOrdersApi from './goodOrdersApi';
 import moment from 'moment';
-import {showErrorMessage} from "../../helpers/helper";
-import {showNotification} from "../../helpers/helper";
-import {showErrorNotification} from "../../helpers/helper";
 
 export function loadAllOrders(page = 1, search, startTime, endTime, staff, status) {
     return function (dispatch) {
@@ -87,7 +84,7 @@ export function changeStatusOrder(status, orderId) {
         goodOrdersApi.changeStatusOrder(status, orderId)
             .then((res) => {
                 if (res.data.status === 0) {
-                    showErrorNotification(res.data.message.message);
+                    helper.showErrorNotification(res.data.message.message);
                 } else {
                     helper.showNotification("Thay đổi trạng thái thành công");
                     dispatch({
@@ -140,10 +137,10 @@ export function handleShipOrder(order) {
 function sendShipOrderSuccess(res, dispatch) {
     const {data} = res;
     if (!data.success) {
-        showErrorMessage("Có lỗi xảy ra", data.message);
+        helper.showErrorMessage("Có lỗi xảy ra", data.message);
     }
     if (data.success) {
-        showNotification("Gửi thành công");
+        helper.showNotification("Gửi thành công");
     }
     dispatch({
         type: types.SEND_SHIP_ORDER_COMPLETE,
@@ -155,7 +152,7 @@ function sendShipOrderSuccess(res, dispatch) {
 function changeStatusOrderSuccess(res, dispatch, orderId) {
     helper.showNotification("Thay đổi trạng thái thành công");
     if (res.data.status === 0) {
-        showErrorNotification(res.data.message);
+        helper.showErrorNotification(res.data.message);
     } else {
         dispatch({
             type: types.CHANGE_STATUS_ORDER_SUCCESS,
@@ -236,14 +233,14 @@ export function editOrder(order, orderId) {
                     // browserHistory.push('/goods/customer');
                 }
                 else {
-                    showErrorNotification(res.data.message.message);
+                    helper.showErrorNotification(res.data.message.message);
                     dispatch({
                         type: types.EDIT_ORDER_ERROR,
                     });
                 }
             })
             .catch(() => {
-                    showErrorNotification("Lỗi");
+                    helper.showErrorNotification("Lỗi");
                     dispatch({
                         type: types.EDIT_ORDER_ERROR
                     });
