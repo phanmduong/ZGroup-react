@@ -1676,6 +1676,11 @@ a.more-products {
     width: 100%
 }
 
+
+
+
+
+
 @media screen and (max-width: 700px) {
     .product-detail-container {
         padding: 50px 12%
@@ -2599,3 +2604,94 @@ ul.dashed > li:before {
 }
 
 /*# sourceMappingURL=styles.css.map*/
+
+/*-------------------------------*/
+/*      Code snippet by          */
+/*      @maridlcrmn              */
+/*-------------------------------*/
+
+
+section {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.quote {
+    color: rgba(0,0,0,.1);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/*-------------------------------*/
+/*    Carousel Fade Transition   */
+/*-------------------------------*/
+
+#fade-quote-carousel.carousel {
+    padding-bottom: 60px;
+}
+#fade-quote-carousel.carousel .carousel-inner .item {
+    opacity: 0;
+    -webkit-transition-property: opacity;
+    -ms-transition-property: opacity;
+    transition-property: opacity;
+}
+#fade-quote-carousel.carousel .carousel-inner .active {
+    opacity: 1;
+    -webkit-transition-property: opacity;
+    -ms-transition-property: opacity;
+    transition-property: opacity;
+}
+#fade-quote-carousel.carousel .carousel-indicators {
+    bottom: 10px;
+}
+#fade-quote-carousel.carousel .carousel-indicators > li {
+    background-color: #e84a64;
+    border: none;
+}
+#fade-quote-carousel blockquote {
+    text-align: center;
+    border: none;
+}
+#fade-quote-carousel .profile-circle {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 100px;
+}
+.landing-title {
+    font-size:25px;
+    font-weight:600;
+}
+
+
+.btn-register {
+    border: none;
+}
+
+.btn-register {
+    padding: 5px 20px !important
+}
+
+.btn-register, .btn-register:active {
+    background-color: #55c500 !important;
+    margin-top: 10px;
+    color: #fff !important;
+    border-radius: 2px;
+}
+
+.btn-register:hover {
+    background-color: #3a8e00 !important
+}
+.register-icon {
+    margin-left:10px;
+}
+
+.mb-3{
+    font-size:18px;
+    font-weight:600;
+    margin-top:30px;
+}
+
+.mb-0{
+    margin-bottom:20px;
+}
