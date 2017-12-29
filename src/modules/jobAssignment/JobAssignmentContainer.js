@@ -3,13 +3,16 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as jobAssignmentAction from '../jobAssignment/jobAssignmentAction';
+import  CardWork from '../jobAssignment/CardWork';
 import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
-
+import * as helper from "../../helpers/helper";
+import * as conts from '../../constants/constants';
 
 class JobAssignmentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.deleteWork =this.deleteWork.bind(this);
     }
 
     componentWillMount() {
@@ -17,9 +20,16 @@ class JobAssignmentContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
+        console.log('l',nextProps);
     }
 
+    deleteWork(id){
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa công việc này không?", () => {
+            this.props.jobAssignmentAction.deleteWork(id, ()=>{
+                return this.props.jobAssignmentAction.loadWorks();
+            });
+        });
+    }
 
     render() {
         return (
@@ -60,7 +70,21 @@ class JobAssignmentContainer extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="board"><Loading/>
+                            <div className="board">
+                                {this.props.isLoading ?
+                                    <Loading/>
+                                    :
+                                    this.props.works.map((work, key)=>{
+                                        if(work.status == conts.STATUS_WORK[0].value)
+                                        return (
+                                            <CardWork
+                                                key={key}
+                                                work={work}
+                                                delete={this.deleteWork}
+                                            />
+                                        );
+                                    })
+                                }
                             </div>
                         </div>
                     {/*1*/}
@@ -99,7 +123,20 @@ class JobAssignmentContainer extends React.Component {
                                 </div>
                             </div>
                             <div className="board">
-                                <Loading/>
+                                {this.props.isLoading ?
+                                    <Loading/>
+                                    :
+                                    this.props.works.map((work, key)=>{
+                                        if(work.status == conts.STATUS_WORK[1].value)
+                                        return (
+                                            <CardWork
+                                                key={key}
+                                                work={work}
+                                                delete={this.deleteWork}
+                                            />
+                                        );
+                                    })
+                                }
                             </div>
                         </div>
                     {/*2*/}
@@ -137,7 +174,21 @@ class JobAssignmentContainer extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="board"><Loading/>
+                            <div className="board">
+                                {this.props.isLoading ?
+                                    <Loading/>
+                                    :
+                                    this.props.works.map((work, key)=>{
+                                        if(work.status == conts.STATUS_WORK[2].value)
+                                        return (
+                                            <CardWork
+                                                key={key}
+                                                work={work}
+                                                delete={this.deleteWork}
+                                            />
+                                        );
+                                    })
+                                }
                             </div>
                         </div>
                     {/*3*/}
@@ -176,7 +227,20 @@ class JobAssignmentContainer extends React.Component {
                                 </div>
                             </div>
                             <div className="board">
-                                <Loading/>
+                                {this.props.isLoading ?
+                                    <Loading/>
+                                    :
+                                    this.props.works.map((work, key)=>{
+                                        if(work.status == conts.STATUS_WORK[3].value)
+                                        return (
+                                            <CardWork
+                                                key={key}
+                                                work={work}
+                                                delete={this.deleteWork}
+                                            />
+                                        );
+                                    })
+                                }
                             </div>
                         </div>
 

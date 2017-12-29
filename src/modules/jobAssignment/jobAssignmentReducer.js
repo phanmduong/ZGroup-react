@@ -90,6 +90,30 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
                 }
             };
         }
+        case types.BEGIN_DELETE_WORK: {
+            return {
+                ...state,
+                ...{
+                    isLoading: true,
+                }
+            };
+        }
+        case types.DELETE_WORK_SUCCESS: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        }
+        case types.DELETE_WORK_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isLoading: false,
+                }
+            };
+        }
         case types.BEGIN_EDIT_WORK: {
             return {
                 ...state,
@@ -123,11 +147,12 @@ export default function jobAssignmentReducer(state = initialState.jobAssignment,
             };
         }
         case types.LOAD_INFO_WORK_SUCCESS: {
+            let newdata = {...action.work, staffs: getStaffs(action.work.staffs)};
             return {
                 ...state,
                 ...{
                     isLoading: false,
-                    data : action.work,
+                    data : newdata,
                 }
             };
         }

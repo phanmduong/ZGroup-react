@@ -5,6 +5,17 @@ import * as conts from '../../constants/constants';
 import moment from "moment/moment";
 import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 
+
+export function deleteWork(id='') {
+    //manageapi.keetool.xyz/work/7?token=
+    let url     = env.MANAGE_API_URL + "/work/" + id ;
+    let token   = localStorage.getItem('token');
+    if (token) {
+        url +=  "?token=" + token;
+    }
+    return axios.delete(url);
+}
+
 export function loadWorks() {
     //manageapi.keetool.xyz/work?limit=&search=&token=
     let url     = env.MANAGE_API_URL + "/work?";

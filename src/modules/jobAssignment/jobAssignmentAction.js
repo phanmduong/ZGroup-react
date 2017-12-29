@@ -133,3 +133,25 @@ export function loadWork(id) {
     };
 }
 
+
+export function deleteWork(id, success) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_DELETE_WORK});
+        jobAssignmentApi.deleteWork(id)
+            .then((res) => {
+                if(res.data.status == 1) {
+                    helper.showNotification("Xóa thành công!");
+                    dispatch({type: types.DELETE_WORK_SUCCESS});
+                    success();
+                }else {
+                    helper.showErrorNotification("Có lỗi xảy ra.");
+                    dispatch({type: types.DELETE_WORK_ERROR});
+                }
+            })
+            .catch(() => {
+                helper.showErrorNotification("Có lỗi xảy ra.");
+                dispatch({type: types.DELETE_WORK_ERROR});
+            });
+    };
+}
+

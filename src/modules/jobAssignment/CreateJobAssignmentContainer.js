@@ -12,6 +12,9 @@ import Select from 'react-select';
 import ListStaffs from './ListStaffs';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
 import * as helper from '../../helpers/helper';
+import moment from "moment/moment";
+import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
+
 
 class CreateJobAssignmentContainer extends React.Component {
     constructor(props, context) {
@@ -20,6 +23,7 @@ class CreateJobAssignmentContainer extends React.Component {
         this.updateFormData = this.updateFormData.bind(this);
         this.updateFormDataType = this.updateFormDataType.bind(this);
         this.updateFormDataBonusType = this.updateFormDataBonusType.bind(this);
+        this.checkValid = this.checkValid.bind(this);
         this.submit = this.submit.bind(this);
     }
 
@@ -30,9 +34,9 @@ class CreateJobAssignmentContainer extends React.Component {
             this.props.jobAssignmentAction.loadWork(this.props.params.workId);
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log(nextProps);
-    // }
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+    }
 
     componentDidUpdate(){
         helper.setFormValidation('#form-job-assignment');
@@ -61,10 +65,24 @@ class CreateJobAssignmentContainer extends React.Component {
         if(!e) return;
     }
 
-
+    checkValid(){
+        let data = this.props.data;
+        if ($('#form-job-assignment').valid()) {
+            if(data.deadline == "0000-00-00 00:00:00"){
+                helper.showErrorNotification("Vui lòng chọn ngày!");
+                return false;
+            }
+            if(data.staffs && data.staffs.length == 0){
+                helper.showErrorNotification("Vui lòng chọn ít nhất một nhân viên!");
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
 
     submit(){
-        if ($('#form-job-assignment').valid()) {
+        if (this.checkValid()) {
             helper.showNotification("Đang lưu...");
             if(!this.props.params.workId)
                 this.props.jobAssignmentAction.createWork(this.props.data);
@@ -73,6 +91,7 @@ class CreateJobAssignmentContainer extends React.Component {
     }
 
     render() {
+        let time = moment(this.props.data.deadline || "" , [DATETIME_FORMAT,  DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT);
         return (
             <div className="content">
                 <div className="container-fluid">
@@ -129,9 +148,9 @@ class CreateJobAssignmentContainer extends React.Component {
                                                     label="Deadline"
                                                     name="deadline"
                                                     updateFormData={this.updateFormData}
-                                                    value={this.props.data.deadline || ""}
+                                                    value={ time.timer}
+                                                    defaultDate={moment().add(1, "hours")}
                                                     id="deadline"
-                                                    minDate={Date.now()}
 
                                                 /></div>
                                                 <div className="col-md-8">
