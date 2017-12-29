@@ -6,6 +6,31 @@ import initialState from '../../reducers/initialState';
 
 export default function taskReducer(state = initialState.task, action) {
     switch (action.type) {
+        case types.UPDATE_CARD_DATA:
+            return {
+                ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: action.card
+                },
+                boardList: {
+                    ...state.boardList,
+                    boards: state.boardList.boards.map((board) => {
+                        if (action.card.board_id === board.id) {
+                            return {
+                                ...board,
+                                cards: board.cards.map((card) => {
+                                    if (card.id === action.card.id) {
+                                        return action.card;
+                                    }
+                                    return card;
+                                })
+                            };
+                        }
+                        return board;
+                    })
+                }
+            };
         case types.UPDATE_CARD_POINT:
             return {
                 ...state,
@@ -1442,7 +1467,10 @@ export default function taskReducer(state = initialState.task, action) {
                             return {
                                 ...board,
                                 cards: [
-                                    action.card,
+                                    {
+                                        ...action.card,
+                                        status: "open"
+                                    },
                                     ...board.cards.map(c => {
                                         return {...c, order: c.order + 1};
                                     })]

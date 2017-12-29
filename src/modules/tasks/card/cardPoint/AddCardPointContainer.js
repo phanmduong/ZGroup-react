@@ -37,7 +37,7 @@ class AddCardPointContainer extends React.Component {
                 {
                     value: 13,
                     label: 13
-                },
+                }
             ]
         };
         this.onChangePoint = this.onChangePoint.bind(this);
@@ -74,7 +74,7 @@ class AddCardPointContainer extends React.Component {
 
 AddCardPointContainer.propTypes = {
     card: PropTypes.object.isRequired,
-    point: PropTypes.number.isRequired,
+    point: PropTypes.number,
     addCardPointActions: PropTypes.object.isRequired
 };
 
