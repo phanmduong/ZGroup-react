@@ -89,13 +89,15 @@ export function createWork(data) {
             });
     };
 }
-export function editWork(data) {
+export function editWork(data, status, success) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_WORK});
-        jobAssignmentApi.editWork(data)
+        jobAssignmentApi.editWork(data,status)
             .then((res) => {
                 if(res.data.status == 1) {
-                    helper.sweetAlertSuccess("Sửa thành công");
+                    if(!status)
+                        helper.sweetAlertSuccess("Sửa thành công");
+                    else success();
                     browserHistory.push("hr/job-assignment");
                     dispatch({
                         type: types.EDIT_WORK_SUCCESS,

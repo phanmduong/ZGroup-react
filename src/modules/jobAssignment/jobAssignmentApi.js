@@ -63,7 +63,7 @@ export function createWork(data) {
     };
     return axios.post(url, res);
 }
-export function editWork(data) {
+export function editWork(data, status) {
     //manageapi.ketool.xyz/work/{workId}?token=
     let url     = env.MANAGE_API_URL + "/work/" + data.id;
     let token   = localStorage.getItem('token');
@@ -80,7 +80,7 @@ export function editWork(data) {
         bonus_value: data.bonus_value,
         bonus_type: data.bonus_type,
         staffs: JSON.stringify(data.staffs),
-        status:  data.status || conts.STATUS_WORK[0].value,
+        status:  status || data.status || conts.STATUS_WORK[0].value,
     };
     return axios.put(url, res);
 }

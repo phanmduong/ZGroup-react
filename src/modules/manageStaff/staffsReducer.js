@@ -480,23 +480,16 @@ export default function staffsReducer(state = initialState.staffs, action) {
             return {
                 ...state,
                 ...{
-                    isLoading: true,
                     staffListData: newdata,
                 }
             };
         case types.CHANGE_DEPARTMENT_STAFF_SUCCESS:
             return {
-                ...state,
-                ...{
-                    isLoading: false,
-                }
+                ...state
             };
         case types.CHANGE_DEPARTMENT_STAFF_ERROR:
             return {
-                ...state,
-                ...{
-                    isLoading: false,
-                }
+                ...state
             };
         default:
             return state;

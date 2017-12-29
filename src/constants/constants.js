@@ -168,20 +168,24 @@ export const TYPE_CLASSES = [
 ];
 export const STATUS_WORK = [
     {
-        label: "",
+        label: "Đợi chấp nhận",
+        action: "Chấp nhận",
         value: "pending",
     },
     {
-        label: "",
+        label: "Đang thực hiện",
+        action: "Xin gia hạn",
         value: "doing",
     },
     {
-        label: "",
-        value: "cancel",
+        label: "Hoàn thành",
+        action: "",
+        value: "done",
     },
     {
-        label: "",
-        value: "done",
+        label: "Hủy",
+        action: "",
+        value: "cancel",
     },
 ];
 

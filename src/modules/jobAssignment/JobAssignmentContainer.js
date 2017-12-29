@@ -8,11 +8,22 @@ import * as PropTypes from "prop-types";
 import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import * as conts from '../../constants/constants';
+import WorkInfoModal from './WorkInfoModal';
+import {Link} from "react-router";
 
 class JobAssignmentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.deleteWork =this.deleteWork.bind(this);
+        this.changeWorkStatus =this.changeWorkStatus.bind(this);
+        this.openInfoModal =this.openInfoModal.bind(this);
+        this.closeInfoModal =this.closeInfoModal.bind(this);
+        this.state = {
+            showInfoModal: false,
+            work: {
+                staffs:[],
+            },
+        }
     }
 
     componentWillMount() {
@@ -31,10 +42,38 @@ class JobAssignmentContainer extends React.Component {
         });
     }
 
+    changeWorkStatus(work, stt){
+        helper.confirm('error', 'Hủy', "Bạn có muốn hủy công việc này không?", () => {
+            this.props.jobAssignmentAction.editWork(work, stt, ()=>{
+                return this.props.jobAssignmentAction.loadWorks();
+            });
+        });
+    }
+
+    openInfoModal(work){
+        this.setState({showInfoModal: true, work:work});
+    }
+
+    closeInfoModal(){
+        this.setState({showInfoModal: false});
+    }
+
     render() {
         return (
             <div>
+                <WorkInfoModal
+                    show={this.state.showInfoModal}
+                    onHide={this.closeInfoModal}
+                    data={this.state.work}
+                />
+                <div style={{display:"flex", flexDirection: "row-reverse",}}>
+                    <Link to="hr/job-assignment/create" className="btn btn-rose">
+                        <i className="material-icons keetool-card">add</i>
+                        Thêm công việc
+                    </Link>
+                </div>
                 <div className="board-canvas">
+
                     <div className="board-container">
                     {/*1*/}
                         <div  data-order="0" className="card card-container keetool-board">
@@ -81,6 +120,9 @@ class JobAssignmentContainer extends React.Component {
                                                 key={key}
                                                 work={work}
                                                 delete={this.deleteWork}
+                                                change={this.changeWorkStatus}
+                                                status="pending"
+                                                openModal={()=>{return this.openInfoModal(work);}}
                                             />
                                         );
                                     })
@@ -89,7 +131,7 @@ class JobAssignmentContainer extends React.Component {
                         </div>
                     {/*1*/}
                     {/*2*/}
-                        <div  data-order="0" className="card card-container keetool-board">
+                        <div  data-order="1" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Đang làm</span>
                                 <div className="board-action">
@@ -133,6 +175,8 @@ class JobAssignmentContainer extends React.Component {
                                                 key={key}
                                                 work={work}
                                                 delete={this.deleteWork}
+                                                status="doing"
+                                                openModal={()=>{return this.openInfoModal(work);}}
                                             />
                                         );
                                     })
@@ -141,7 +185,7 @@ class JobAssignmentContainer extends React.Component {
                         </div>
                     {/*2*/}
                     {/*3*/}
-                        <div  data-order="0" className="card card-container keetool-board">
+                        <div  data-order="2" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hoàn thành</span>
                                 <div className="board-action">
@@ -185,6 +229,8 @@ class JobAssignmentContainer extends React.Component {
                                                 key={key}
                                                 work={work}
                                                 delete={this.deleteWork}
+                                                status="done"
+                                                openModal={()=>{return this.openInfoModal(work);}}
                                             />
                                         );
                                     })
@@ -193,7 +239,7 @@ class JobAssignmentContainer extends React.Component {
                         </div>
                     {/*3*/}
                     {/*4*/}
-                        <div  data-order="0" className="card card-container keetool-board">
+                        <div  data-order="3" className="card card-container keetool-board">
                             <div className="board-title undraggable">
                                 <span style={{fontWeight: 600}}>Hủy</span>
                                 <div className="board-action">
@@ -237,6 +283,8 @@ class JobAssignmentContainer extends React.Component {
                                                 key={key}
                                                 work={work}
                                                 delete={this.deleteWork}
+                                                status="cancel"
+                                                openModal={()=>{return this.openInfoModal(work);}}
                                             />
                                         );
                                     })
