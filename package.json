@@ -64,6 +64,9 @@
     "start:book": "MODULE=book npm-run-all --parallel open:src lint:watch",
     "build:book": "npm run lint && rimraf ./dist/book && mkdir dist/book && MODULE=book babel-node tools/build/module.js",
 
+    "start:workShift": "MODULE=workShift npm-run-all --parallel open:src lint:watch",
+    "build:workShift": "npm run lint && rimraf ./dist/workShift && mkdir dist/workShift && MODULE=workShift babel-node tools/build/module.js",
+
     "build": "babel-node tools/build.js && npm run open:dist",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",

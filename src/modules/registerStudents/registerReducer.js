@@ -6,8 +6,30 @@ import initialState from '../../reducers/initialState';
 
 let registers;
 export default function registerReducer(state = initialState.registerStudents, action) {
-    //console.log(action.type);
     switch (action.type) {
+
+        case types.BEGIN_CHANGE_INFO_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isCommittingInfoStudent: true,
+                }
+            };
+        case types.CHANGE_INFO_STUDENT_SUCCESS:
+            return {
+                ...state,
+                ...{
+                    isCommittingInfoStudent: false,
+                }
+            };
+        case types.CHANGE_INFO_STUDENT_ERROR: {
+            return {
+                ...state,
+                ...{
+                    isCommittingInfoStudent: false,
+                }
+            };
+        }
         case types.BEGIN_LOAD_DATA_EXCEL_REGISTER_LIST:
             return {
                 ...state,

@@ -19,11 +19,12 @@ class WareHouseModalContainer extends React.Component {
     }
 
     render() {
+        const indexForChilds = this.props.productEditing.index;
+        const product = indexForChilds ? this.props.products[indexForChilds] : this.props.productPresent;
         return (
             <Modal show={this.props.wareHouseModal}
-                   bsSize="lg"
-                   onHide={() => this.props.showWareHouseModal(this.props.productEditing.productPresent)}>
-                <a onClick={() => this.props.showWareHouseModal(this.props.productEditing.productPresent)}
+                   onHide={() => this.props.showWareHouseModal(product)}>
+                <a onClick={() => this.props.showWareHouseModal(product)}
                    id="btn-close-modal"/>
                 <Modal.Header closeButton>
                     <Modal.Title className="modal-title">Danh sách kho chứa sản phẩm</Modal.Title>
@@ -89,7 +90,8 @@ WareHouseModalContainer.propTypes = {
     warehousesList: PropTypes.array.isRequired,
     totalPages: PropTypes.number.isRequired,
     currentPage: PropTypes.number.isRequired,
-    isLoadingHistoryList: PropTypes.bool.isRequired
+    isLoadingHistoryList: PropTypes.bool.isRequired,
+    products: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {
@@ -106,7 +108,8 @@ function mapStateToProps(state) {
         warehousesList: state.inventoryGood.warehousesList,
         totalPages: state.inventoryGood.inventoryChecking.totalPages,
         currentPage: state.inventoryGood.inventoryChecking.currentPage,
-        isLoadingHistoryList: state.inventoryGood.isLoadingHistoryList
+        isLoadingHistoryList: state.inventoryGood.isLoadingHistoryList,
+        products: state.productList.products
     };
 }
 

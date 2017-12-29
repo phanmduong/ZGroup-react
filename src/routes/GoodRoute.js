@@ -19,7 +19,7 @@ import SupplierContainer from "../modules/supplier/SupplierContainer";
 import DetailGroupCustomerContainer from "../modules/groupCustomer/DetailGroupCustomerContainer";
 
 /**
- * Tab Nhân sự
+ * Tab Hang hoa
  */
 export default [
     {

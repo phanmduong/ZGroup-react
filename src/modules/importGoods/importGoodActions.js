@@ -60,7 +60,6 @@ export function storeImportGood(formImportGood, status, importGoodsId) {
         dispatch({
             type: types.BEGIN_STORE_IMPORT_GOOD
         });
-        importGoodsApi.createImportGoods(formImportGood, status);
         importGoodsApi.createImportGoods(formImportGood, status, importGoodsId)
             .then((res) => {
                 if (res.data.status === 1) {

@@ -16,6 +16,7 @@ import CommentInputContainer from "./comment/CommentInputContainer";
 import CommentListContainer from "./comment/CommentListContainer";
 import AddChildGoodContainer from "../../good/addChildGood/AddChildGoodContainer";
 import ProcessTaskContainer from "../../book/ProcessTaskContainer";
+import AddCardPointContainer from "./cardPoint/AddCardPointContainer";
 
 
 const CardBody = ({
@@ -122,6 +123,10 @@ const CardBody = ({
             </div>
             <div className="col-sm-5 col-md-4">
                 <h4>
+                    <strong>Điểm</strong>
+                </h4>
+                <AddCardPointContainer point={card.point}/>
+                <h4>
                     <strong>Thêm</strong>
                 </h4>
                 <div className="card-detail-btn-group">
@@ -136,6 +141,8 @@ const CardBody = ({
                             </div>
                         )
                     }
+
+
                     <AddTaskListOverlayContainer
                         isProcess={isProcess}
                         card={card}/>
@@ -147,6 +154,7 @@ const CardBody = ({
                             <i className="material-icons">attachment</i> Đính kèm
                         </button>
                     </UploadAttachmentOverlayContainer>
+
                 </div>
                 <AttachmentWrapper deleteFile={deleteFile} card={card}/>
             </div>

@@ -13,6 +13,10 @@ import * as helper from '../../helpers/helper';
 import Select from 'react-select';
 import Pagination from "../../components/common/Pagination";
 import * as inventoryGoodAction from '../inventoryGood/inventoryGoodAction';
+import WareHouseModalContainer from "./modals/WareHouseModalContainer";
+import AvatarModalContainer from "./modals/AvatarModalContainer";
+import PriceModalContainer from "./modals/PriceModalContainer";
+import SameProductModalContainer from "./modals/SameProductModalContainer";
 
 class ProductListContainer extends React.Component {
     constructor(props, context) {
@@ -47,6 +51,7 @@ class ProductListContainer extends React.Component {
         this.displayStatusChange = this.displayStatusChange.bind(this);
         this.highlightStatusChange = this.highlightStatusChange.bind(this);
         this.showSameProductModal = this.showSameProductModal.bind(this);
+        this.deleteProduct = this.deleteProduct.bind(this);
     }
 
     componentWillMount() {
@@ -54,7 +59,7 @@ class ProductListContainer extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.modalUpdated) {
+        if (!this.props.modalUpdated && nextProps.modalUpdated) {
             this.props.productListAction.getProducts(
                 this.state.page,
                 this.state.query,
@@ -297,7 +302,7 @@ class ProductListContainer extends React.Component {
 
     showPriceModal(product) {
         this.props.modalProductAction.showPriceModal();
-        this.props.modalProductAction.handleProduct(product);
+        this.props.modalProductAction.handlePriceProduct(product);
     }
 
     showSameProductModal(index) {
@@ -314,7 +319,7 @@ class ProductListContainer extends React.Component {
 
     showAvatarModal(product) {
         this.props.modalProductAction.showAvatarModal();
-        this.props.modalProductAction.handleProduct(product);
+        this.props.modalProductAction.handleAvatarProduct(product);
         this.props.modalProductAction.handleManufacture(product.manufacture_id);
         this.props.modalProductAction.handleCategory(product.good_category_id);
         this.props.modalProductAction.handleStatus(product.status);
@@ -324,10 +329,15 @@ class ProductListContainer extends React.Component {
         this.table = table;
     }
 
+    deleteProduct(product, isChild, index) {
+        helper.confirm("error", "Xóa sản phẩm", "Bạn có chắc muốn xóa sản phẩm này", () => {
+            this.props.productListAction.deleteProduct(product, isChild, index);
+        });
+    }
+
     render() {
         let first = (this.props.currentPage - 1) * this.props.limit + 1;
         let end = this.props.currentPage < this.props.totalPages ? this.props.currentPage * this.props.limit : this.props.totalCount;
-
         return (
             <div className="wrapper">
                 <div className="content">
@@ -608,6 +618,17 @@ class ProductListContainer extends React.Component {
                         </nav>
                     </div>
                 </footer>
+                <PriceModalContainer
+                    showPriceModal={this.showPriceModal}/>
+                <WareHouseModalContainer
+                    showWareHouseModal={this.showWareHouseModal}/>
+                <AvatarModalContainer
+                    showAvatarModal={this.showAvatarModal}/>
+                <SameProductModalContainer
+                    showSameProductModal={this.showSameProductModal}
+                    showWareHouseModal={this.showWareHouseModal}
+                    showPriceModal={this.showPriceModal}
+                    deleteProduct={this.deleteProduct}/>
             </div>
         );
     }

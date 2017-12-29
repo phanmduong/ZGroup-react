@@ -9,6 +9,34 @@ import * as helper      from '../../helpers/helper';
 /*eslint no-console: 0 */
 
 
+export function changeInfoStudent(info, success) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_CHANGE_INFO_STUDENT,
+        });
+        registerStudentsApi.changeInfoStudent(info).then((res) => {
+            let status = res.data.status;
+            if(status==1) {
+                helper.showNotification("Lưu thành công!");
+                dispatch({
+                    type: types.CHANGE_INFO_STUDENT_SUCCESS,
+                });
+                success();
+            }else {
+                helper.showErrorNotification(res.data.message.message);
+                dispatch({
+                    type: types.CHANGE_INFO_STUDENT_ERROR
+                });
+            }
+        }).catch(error => {
+            console.log(error);
+            dispatch({
+                type: types.CHANGE_INFO_STUDENT_ERROR
+            });
+        });
+    };
+}
+
 export function loadClassFilter(genid) {
     return function (dispatch) {
         dispatch({

@@ -765,6 +765,21 @@ export function sumTimeShiftOfWeek(shiftRegistersWeek, userId) {
     return convertSecondToTime(sum);
 }
 
+export function sumTimeWorkShiftOfWeek(shiftRegistersWeek, userId) {
+    let sum = 0;
+
+    shiftRegistersWeek.dates.map(function (date) {
+        date.shifts.map(function (shift) {
+            let user = shift.users.filter((user) => user.id === userId)[0];
+            if (user) {
+                sum += convertTimeToSecond(shift.end_time) - convertTimeToSecond(shift.start_time);
+            }
+        });
+    });
+
+    return convertSecondToTime(sum);
+}
+
 export function convertSecondToTime(timeSecond) {
     let second = addZeroTime(timeSecond % 60);
 
@@ -774,7 +789,7 @@ export function convertSecondToTime(timeSecond) {
 
     timeSecond /= 60;
 
-    let hours = addZeroTime(timeSecond % 24);
+    let hours = addZeroTime(timeSecond);
 
     if (hours != 0) {
         return '' + hours + ':' + minutes + ':' + second;
@@ -906,9 +921,11 @@ export function newWorkBook() {
 
 export function appendJsonToWorkBook(json, wb, sheetname, cols, cmts, merges) {
     let sheet = XLSX.utils.json_to_sheet(json);
-    if(cols) sheet['!cols'] = cols;
-    if(cmts){
-        cmts.forEach((item)=>{ XLSX.utils.cell_add_comment(sheet[item.cell], item.note, ''); });
+    if (cols) sheet['!cols'] = cols;
+    if (cmts) {
+        cmts.forEach((item) => {
+            XLSX.utils.cell_add_comment(sheet[item.cell], item.note, '');
+        });
     }
     if (merges) sheet['!merges'] = merges;
     XLSX.utils.book_append_sheet(wb, sheet, sheetname);
@@ -968,6 +985,7 @@ export function childrenBeginAddChild(properties, price) {
             value.forEach(val => {
                 children.push({
                     id: null,
+                    child_images_url: '[]',
                     check: false,
                     price: price,
                     barcode: '',
@@ -986,6 +1004,7 @@ export function childrenBeginAddChild(properties, price) {
     let children = [];
     let children_support = [{
         id: null,
+        child_images_url: '',
         check: false,
         price: price,
         barcode: '',

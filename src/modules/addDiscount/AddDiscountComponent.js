@@ -90,12 +90,12 @@ class AddDiscountComponent extends React.Component {
                 id: '',
             },
             {
-                name: 'Khách hàng',
-                id: 'customer',
+                name: 'Hàng hóa',
+                id: 'good',
             },
             {
-                name: 'Nhóm khách hàng',
-                id: 'customer-group',
+                name: 'Danh mục',
+                id: 'category',
             },
         ];
         let DISCOUNTYPE = [

@@ -25,23 +25,40 @@ class AddGoodFile extends React.Component {
     }
 
     handleFile(event) {
-        this.props.importGoodActions.beginCheckGoods();
-        this.setState({
-            fileName: event.target.files[0].name
-        });
         let goods = [];
+        let fileCorrect = true;
+        let filename = event.target.files[0].name;
         helper.readExcel(event.target.files[0], true).then((data) => {
             data.map((row) => {
-                goods.push({
-                    code: row[0].trim(),
-                    name: row[1].trim(),
-                    quantity: row[2].trim(),
-                    import_price: row[3].trim(),
-                    price: row[4] ? row[4].trim() : undefined,
-                });
+                if (helper.isEmptyInput(row[0]) || helper.isEmptyInput(row[1]) || helper.isEmptyInput(row[2]) || helper.isEmptyInput(row[3])
+                    || helper.isEmptyInput(row[4])) {
+                    fileCorrect = false;
+                }
             });
-            this.setState({goods: goods});
-            this.props.importGoodActions.checkGoods(_.map(goods, 'code'));
+            if (fileCorrect) {
+                this.props.importGoodActions.beginCheckGoods();
+                this.setState({
+                    fileName: filename
+                });
+                data.map((row) => {
+                    goods.push({
+                        code: row[0].trim(),
+                        name: row[1].trim(),
+                        barcode: row[2].trim(),
+                        quantity: row[3].trim(),
+                        import_price: row[4].trim(),
+                        price: row[5] ? row[5].trim() : undefined,
+                    });
+                });
+                this.setState({goods: goods});
+                this.props.importGoodActions.checkGoods(_.map(goods, (good) => {
+                    return {code: good.code, barcode: good.barcode};
+                }));
+            } else {
+                helper.showErrorMessage("Kiểm tra lại file");
+            }
+        }).catch(()=>{
+            helper.showErrorMessage("Kiểm tra lại file");
         });
 
     }
@@ -53,9 +70,9 @@ class AddGoodFile extends React.Component {
 
     storeGood() {
         if (this.notExistsGoods.length > 0) {
-            helper.confirm('warning', "Sản phẩm chưa tồn tại", "Sản phẩm chưa tồn tại sẽ không được thêm vào danh sách. Bạn có muốn tiếp tục ?",
+            helper.confirm('warning', "Sản phẩm chưa tồn tại", "Sản phẩm chưa tồn tại hệ thống sẽ tự động tạo. Bạn có muốn tiếp tục ?",
                 () => {
-                    this.props.storeGoods(this.goods);
+                    this.props.storeGoods([...this.goods, ...this.notExistsGoods]);
                 }
             );
         } else {
@@ -69,7 +86,7 @@ class AddGoodFile extends React.Component {
         if (!this.props.isCheckingGoods && this.props.existsGoods && this.props.existsGoods.length > 0 && this.state.goods.length > 0) {
             this.goods = this.props.existsGoods.map((good) => {
                 let goodDataFile = this.state.goods.filter((data) =>
-                    data.code.trim().toLowerCase() == good.code.trim().toLowerCase())[0];
+                    data.code.trim().toLowerCase() == good.code.trim().toLowerCase() && data.barcode.trim().toLowerCase() == good.barcode.trim().toLowerCase())[0];
                 return {
                     ...goodDataFile,
                     ...good,
@@ -81,7 +98,7 @@ class AddGoodFile extends React.Component {
         if (!this.props.isCheckingGoods && this.props.notExistsGoods && this.props.notExistsGoods.length > 0 && this.state.goods.length > 0) {
             this.notExistsGoods = this.props.notExistsGoods.map((good) => {
                 let goodDataFile = this.state.goods.filter((data) =>
-                    data.code.trim().toLowerCase() == good.trim().toLowerCase())[0];
+                    data.code.trim().toLowerCase() == good.code.trim().toLowerCase() && data.barcode.trim().toLowerCase() == good.barcode.trim().toLowerCase())[0];
                 return goodDataFile;
             });
         }
@@ -89,7 +106,7 @@ class AddGoodFile extends React.Component {
         return (
             <div>
                 <p className="text-muted">
-                    Bạn có thể tải file mẫu <a href="http://d1j8r0kxyu9tj8.cloudfront.net/csv/example_import_good.xlsx">tại
+                    Bạn có thể tải file mẫu <a href="http://d1j8r0kxyu9tj8.cloudfront.net/csv/file/example_import_good.xlsx">tại
                     đây</a>
                 </p>
                 <div className="row">
@@ -139,6 +156,7 @@ class AddGoodFile extends React.Component {
                                 <th>STT</th>
                                 <th>Mã sản phẩm</th>
                                 <th>Tên sản phẩm</th>
+                                <th>Barcode</th>
                                 <th>Số lượng</th>
                                 <th>Giá vốn</th>
                                 <th>Thành giá</th>
@@ -153,6 +171,7 @@ class AddGoodFile extends React.Component {
                                             <td>{index + 1}</td>
                                             <td>{good.code}</td>
                                             <td>{good.name}</td>
+                                            <td>{good.barcode}</td>
                                             <td>{good.quantity}</td>
                                             <td>{helper.dotNumber(good.import_price)}đ</td>
                                             <td>{helper.dotNumber(good.import_price * good.quantity)}đ</td>
@@ -191,9 +210,11 @@ class AddGoodFile extends React.Component {
                                 <th>STT</th>
                                 <th>Mã sản phẩm</th>
                                 <th>Tên sản phẩm</th>
+                                <th>Barcode</th>
                                 <th>Số lượng</th>
                                 <th>Giá vốn</th>
                                 <th>Thành giá</th>
+                                <th>Giá bán</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -204,9 +225,11 @@ class AddGoodFile extends React.Component {
                                             <td>{index + 1}</td>
                                             <td>{good.code}</td>
                                             <td>{good.name}</td>
+                                            <td>{good.barcode}</td>
                                             <td>{good.quantity}</td>
                                             <td>{helper.dotNumber(good.import_price)}đ</td>
                                             <td>{helper.dotNumber(good.import_price * good.quantity)}đ</td>
+                                            <td>{helper.dotNumber(good.price)}đ</td>
                                         </tr>
                                     );
                                 })
@@ -227,11 +250,9 @@ class AddGoodFile extends React.Component {
                             </button>
                         </TooltipButton>
                         }
-                        {this.goods.length > 0 &&
                         <button className="btn btn-success" onClick={this.storeGood}>
                             <i className="material-icons">save</i> Thêm
                         </button>
-                        }
                         <button className="btn btn-danger" onClick={this.props.closeModal}>
                             <i className="material-icons">cancel</i> Huỷ
                         </button>

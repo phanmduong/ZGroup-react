@@ -8,6 +8,10 @@ import Loading from "../../../components/common/Loading";
 import FormInputDateTime from "../../../components/common/FormInputDateTime";
 import {DATETIME_VN_FORMAT} from "../../../constants/constants";
 import moment from "moment";
+import {loadProjects, loadStaffs} from './dashboardItApi';
+import Select from 'react-select';
+import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectOption";
+import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
 
 // Import actions here!!
 
@@ -18,33 +22,86 @@ class DashboardItContainer extends React.Component {
         this.onToDateInputChange = this.onToDateInputChange.bind(this);
         this.state = {
             from: moment().subtract(7, 'days').format(DATETIME_VN_FORMAT),
-            to: moment().format(DATETIME_VN_FORMAT)
+            to: moment().format(DATETIME_VN_FORMAT),
+            projects: [],
+            staffs: [],
+            isLoading: true,
+            selectedProject: {},
+            selectedStaff: {}
         };
         this.loadData = this.loadData.bind(this);
+        this.projectSelectChange = this.projectSelectChange.bind(this);
+        this.staffSelectChange = this.staffSelectChange.bind(this);
     }
 
     componentWillMount() {
-        this.loadData(this.defaultFrom, this.defaultTo);
+        const that = this;
+        const loadProjectsPromise = new Promise((resolve => {
+            loadProjects().then((res) => {
+                that.setState({
+                    projects: res.data.projects
+                });
+                resolve();
+            });
+        }));
+
+        const loadStaffsPromise = new Promise((resolve => {
+            loadStaffs().then((res) => {
+                that.setState({
+                    staffs: res.data.staffs
+                });
+                resolve();
+            });
+        }));
+
+        Promise.all([loadProjectsPromise, loadStaffsPromise])
+            .then(() => {
+                this.loadData(this.state);
+                this.setState({
+                    isLoading: false
+                });
+            });
     }
 
-    loadData() {
-        const {from, to} = this.state;
+    loadData(state) {
+        const {from, to, selectedStaff, selectedProject} = state;
         this.props.dashboardItActions
-            .loadCountCardsByStaffDuration(this.props.user.id, from, to);
+            .loadCountCardsByStaffDuration(
+                from, to,
+                selectedProject ? selectedProject.value : "",
+                selectedStaff ? selectedStaff.value : "");
+    }
+
+    projectSelectChange(option) {
+        const state = {
+            ...this.state,
+            selectedProject: option
+        };
+        this.setState(state);
+        this.loadData(state);
+    }
+
+    staffSelectChange(option) {
+        const state = {
+            ...this.state,
+            selectedStaff: option
+        };
+        this.setState(state);
+        this.loadData(state);
     }
 
     onFromDateInputChange(event) {
         this.setState({
             from: event.target.value
         });
-        this.loadData();
+        this.loadData(this.state);
     }
 
     onToDateInputChange(event) {
         this.setState({
             to: event.target.value
         });
-        this.loadData();
+        this.loadData(this.state);
     }
 
     render() {
@@ -62,35 +119,78 @@ class DashboardItContainer extends React.Component {
                             <h4 className="card-title">
                                 Số lượng điểm và công việc theo ngày
                             </h4>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <FormInputDateTime
-                                        format={DATETIME_VN_FORMAT}
-                                        name="from"
-                                        id="from"
-                                        label="Từ ngày"
-                                        value={from}
-                                        updateFormData={this.onFromDateInputChange}/>
-                                </div>
-                                <div className="col-md-6">
-                                    <FormInputDateTime
-                                        name="to"
-                                        format={DATETIME_VN_FORMAT}
-                                        id="to"
-                                        label="Tới ngày"
-                                        value={to}
-                                        updateFormData={this.onToDateInputChange}/>
-                                </div>
-                            </div>
-
                             {
-                                isLoading ? <Loading/> : (
-                                    <PointTaskBarchart
-                                        label={dateArray}
-                                        data={[pointByDate, cardsByDate]}
-                                        id="barchar_task_and_point_by_date"/>
+                                this.state.isLoading ? <Loading/> : (
+                                    <div className="row">
+                                        <div className="col-md-6 col-lg-4">
+                                            <FormInputDateTime
+                                                format={DATETIME_VN_FORMAT}
+                                                name="from"
+                                                id="from"
+                                                label="Từ ngày"
+                                                value={from}
+                                                updateFormData={this.onFromDateInputChange}/>
+                                        </div>
+                                        <div className="col-md-6 col-lg-4">
+                                            <FormInputDateTime
+                                                name="to"
+                                                format={DATETIME_VN_FORMAT}
+                                                id="to"
+                                                label="Tới ngày"
+                                                value={to}
+                                                updateFormData={this.onToDateInputChange}/>
+                                        </div>
+                                        <div className="col-md-6 col-lg-4"
+                                             style={{height: "91px", marginTop: "20px"}}>
+                                            <label>Nhân viên</label>
+                                            <Select
+                                                placeholder="Tên nhân viên "
+                                                style={{width: "100%"}}
+                                                value={this.state.selectedStaff}
+                                                name="staff"
+                                                valueComponent={MemberReactSelectValue}
+                                                optionComponent={MemberReactSelectOption}
+                                                options={this.state.staffs.map((s) => {
+                                                    return {
+                                                        value: s.id,
+                                                        label: s.name,
+                                                        avatar_url: s.avatar_url
+                                                    };
+                                                })}
+                                                onChange={this.staffSelectChange}
+                                            />
+                                        </div>
+                                        <div className="col-md-6 col-lg-4"
+                                             style={{height: "91px", marginTop: "20px"}}>
+                                            <label>Dự án</label>
+                                            <Select
+                                                placeholder="Tên dự án"
+                                                style={{width: "100%"}}
+                                                value={this.state.selectedProject}
+                                                name="project"
+                                                options={this.state.projects.map((p) => {
+                                                    return {
+                                                        value: p.id,
+                                                        label: p.title,
+                                                    };
+                                                })}
+                                                onChange={this.projectSelectChange}
+                                            />
+                                        </div>
+                                        <div className="col-sm-12">
+                                            {
+                                                isLoading ? <Loading/> : (
+                                                    <PointTaskBarchart
+                                                        label={dateArray}
+                                                        data={[pointByDate, cardsByDate]}
+                                                        id="barchar_task_and_point_by_date"/>
+                                                )
+                                            }
+                                        </div>
+                                    </div>
                                 )
                             }
+
 
                         </div>
                     </div>

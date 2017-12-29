@@ -2,12 +2,14 @@ import React                    from 'react';
 import Loading                  from '../../components/common/Loading';
 import PropTypes                from 'prop-types';
 import ButtonGroupAction        from "../../components/common/ButtonGroupAction";
+import TooltipButton from "../../components/common/TooltipButton";
 
 class ListDepartments extends React.Component {
     constructor(props, context) {
         super(props, context);
-
+        this.state= {};
     }
+
 
     render(){
         return(
@@ -20,36 +22,56 @@ class ListDepartments extends React.Component {
                         <h4 className="card-title">Danh sách bộ phận</h4>
                         <div className="table-responsive">
 
-                            {!this.props.isLoading && this.props.data ?
+                            {!this.props.isLoading && this.props.departments ?
                                 <div>
-                                    { (this.props.data && this.props.data.length === 0) ?
+                                    { (this.props.departments && this.props.departments.length === 0) ?
                                         <h3>Chưa có bộ phận nào</h3>
                                         :
-                                        <table className="table">
-                                            <thead className="text-rose">
-                                            <tr>
-                                                <th>Tên</th>
-                                                <th/>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {this.props.data.map((obj) => {
-                                                return (
-                                                    <tr key={obj.id}>
-                                                        <td>{obj.name}</td>
-                                                        <td style={{width: '5%'}}>
-                                                            <ButtonGroupAction
-                                                                edit={this.props.edit}
-                                                                delete={this.props.delete}
-                                                                object={obj}
-                                                            />
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
 
-                                            </tbody>
-                                        </table>
+                                            <table className="table">
+                                                <thead className="text-rose">
+                                                <tr>
+                                                    <th>Bộ phận</th>
+                                                    <th>Số nhân viên</th>
+                                                    <th style={{textAlign:"right"}}>Sửa</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {this.props.departments.map((obj,index) => {
+                                                        return (
+
+                                                                <tr key={index} >
+                                                                        <td>
+                                                                            <TooltipButton text={obj.name}
+                                                                                           placement="top">
+                                                                                <button className="btn btn-xs btn-main"
+                                                                                        style={{backgroundColor:  obj.color, width: "50%", minWidth: "fit-content"}}
+                                                                                        onClick={()=>{}}
+                                                                                >
+                                                                                    {obj.name}
+                                                                                    <div className="ripple-container"/>
+                                                                                </button>
+                                                                            </TooltipButton>
+                                                                        </td>
+                                                                        <td>{obj.employees ? obj.employees.length : 0}</td>
+                                                                        <td>
+                                                                        <div style={{float:"right"}}>
+                                                                                <ButtonGroupAction
+
+                                                                                    edit={this.props.edit}
+                                                                                    delete={this.props.delete}
+                                                                                    object={obj}
+                                                                                />
+                                                                        </div>
+                                                                        </td>
+
+                                                                </tr>
+
+                                                        );
+                                                    })}
+                                                </tbody>
+                                            </table>
+
                                     }
                                 </div>
                                 :
@@ -68,7 +90,8 @@ class ListDepartments extends React.Component {
 }
 
 ListDepartments.propTypes = {
-    data : PropTypes.array,
+    departments: PropTypes.array,
+    staffs : PropTypes.array,
     isLoading : PropTypes.bool,
     edit : PropTypes.func,
     delete : PropTypes.func,
