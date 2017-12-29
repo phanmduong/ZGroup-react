@@ -53,6 +53,7 @@ foreach ($pathToAssets as $thePath) {
         if ($file->getFilename() != '.' && $file->getFilename() != '..') {
             // Get real path for current file
             $filePath = $file->getRealPath();
+            dd($filePath);
             $temp = explode("/", $name);
             array_shift($temp);
             $newName = implode("/", $temp);
