@@ -311,16 +311,16 @@ class EmailService
     public function send_mail_regis_shift($user, $week, $gen, $emailcc)
     {
 
-//        $data['week'] = $week;
-//        $data['gen'] = $gen;
-//        $data['user'] = $user;
-//
-//        $subject = "Đăng ký trực tuần " . $week . " Khoá " . $gen->name;
-//        $data['subject'] = $subject;
-//
-//        Mail::queue('emails.mail_regis_shift', $data, function ($m) use ($user, $subject, $emailcc) {
-//            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
-//            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
-//        });
+        $data['week'] = $week;
+        $data['gen'] = $gen;
+        $data['user'] = $user;
+
+        $subject = "Đăng ký trực tuần " . $week . " Khoá " . $gen->name;
+        $data['subject'] = $subject;
+
+        Mail::queue('emails.mail_regis_shift', $data, function ($m) use ($user, $subject, $emailcc) {
+            $m->from($this->emailCompanyFrom, $this->emailCompanyName);
+            $m->to($user['email'], $user['name'])->bcc($emailcc)->subject($subject);
+        });
     }
 }
