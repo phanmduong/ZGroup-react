@@ -165,6 +165,23 @@ function changeStatusOrderSuccess(res, dispatch, orderId) {
     }
 }
 
+export function editNote(order) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_EDIT_NOTE_GOOD_ORDER
+        });
+        helper.showTypeNotification("Đang chỉnh sửa ghi chú", "info");
+        goodOrdersApi.editNote(order)
+            .then(() => {
+                dispatch({
+                    type: types.EDIT_NOTE_SUCCESS_GOOD_ORDER,
+                    order
+                });
+                helper.showNotification("Thay đổi ghi chú thành công");
+            });
+    };
+}
+
 export function sendShipOrder(shippingGood) {
     shippingGood = {
         ...shippingGood,

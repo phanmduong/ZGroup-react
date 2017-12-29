@@ -9,11 +9,12 @@ import Loading from "../../components/common/Loading";
 class AddNoteModal extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.handleNote = this.handleNote.bind(this);
     }
 
     handleNote(e) {
         const field = e.target.name;
-        let orderNote={...this.props.orderNote};
+        let orderNote = {...this.props.orderNote};
         orderNote[field] = e.target.value;
         this.props.goodOrderActions.handleAddNoteModal(orderNote);
     }
@@ -38,12 +39,12 @@ class AddNoteModal extends React.Component {
 
                     </div>
                     {
-                        this.props.isModalUpdating ? <Loading/> : (
+                        this.props.isSendingNote ? <Loading/> : (
                             <div>
                                 <button rel="tooltip" data-placement="top" title=""
                                         data-original-title="Remove item" type="button"
                                         className="btn btn-success btn-round" data-dismiss="modal"
-                                        onClick={this.updatePrice}><i
+                                        onClick={() => this.props.goodOrderActions.editNote(this.props.orderNote)}><i
                                     className="material-icons">check</i> Xác nhận
                                 </button>
                                 <button rel="tooltip" data-placement="top" title=""
@@ -64,13 +65,15 @@ class AddNoteModal extends React.Component {
 AddNoteModal.propTypes = {
     goodOrderActions: PropTypes.object.isRequired,
     addNoteModal: PropTypes.bool,
-    orderNote: PropTypes.object.isRequired
+    orderNote: PropTypes.object.isRequired,
+    isSendingNote: PropTypes.bool
 };
 
 function mapStateToProps(state) {
     return {
         addNoteModal: state.goodOrders.addNoteModal,
-        orderNote: state.goodOrders.orderNote
+        orderNote: state.goodOrders.orderNote,
+        isSendingNote: state.goodOrders.isSendingNote
     };
 }
 

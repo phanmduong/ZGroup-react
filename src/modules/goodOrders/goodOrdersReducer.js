@@ -139,6 +139,27 @@ export default function goodOrdersReducer(state = initialState.goodOrders, actio
                 ...state,
                 orderNote: action.order
             };
+        case types.BEGIN_EDIT_NOTE_GOOD_ORDER:
+            return {
+                ...state,
+                isSendingNote: true
+            };
+        case types.EDIT_NOTE_SUCCESS_GOOD_ORDER: {
+            let orders = state.orders.map(order => {
+                if (order.id === action.order.id) {
+                    return {
+                        ...order,
+                        note: action.order.note
+                    };
+                }
+            });
+            return {
+                ...state,
+                isSendingNote: false,
+                addNoteModal: false,
+                orders: orders
+            };
+        }
         case types.HANDLE_SHIP_ORDER_BEGIN: {
             let products = {...state.shippingGood.products};
             action.order.good_orders.forEach(product => {

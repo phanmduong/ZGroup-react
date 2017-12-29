@@ -856,6 +856,7 @@ export default {
         addNoteModal: false,
         orderNote: {},
         isSendingShipOrder: false,
+        isSendingNote: false,
         shippedGoodResponse: {},
         shippingGood: {
             products: [],

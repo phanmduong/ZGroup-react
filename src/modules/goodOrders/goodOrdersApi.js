@@ -68,13 +68,20 @@ export function sendShipOrder(shippingGood) {
     return axios.post(url, {data: JSON.stringify(shippingGood)});
 }
 
+export function editNote(order) {
+    let token = localStorage.getItem('token');
+    let url = env.MANAGE_API_URL + "/order/" + order.id + "/note?token=" + token;
+    return axios.put(url, {
+        note: order.note
+    });
+}
+
 export function editOrderApi(order, orderId) {
     let url = env.MANAGE_API_URL + '/order/' + orderId;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    console.log(order.order.code, order.order.note, 'API');
     return axios.put(url,
         {
             'note': order.order.note,
