@@ -1,5 +1,6 @@
 import {chalkError, chalkSuccess, chalkWarning} from "../chalkConfig";
 
+/*eslint no-console: 0 */
 export const run = (error, stats) => {
     if (error) { // so a fatal error occurred. Stop here.
         console.log(chalkError(error));

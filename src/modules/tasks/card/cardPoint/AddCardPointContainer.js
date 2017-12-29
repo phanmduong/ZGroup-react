@@ -43,18 +43,6 @@ class AddCardPointContainer extends React.Component {
         this.onChangePoint = this.onChangePoint.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-        const {point} = nextProps.card;
-        if (point) {
-            this.setState({
-                option: {
-                    label: point,
-                    value: point
-                }
-            });
-        }
-    }
-
     onChangePoint(option) {
         this.setState({
             point: option
@@ -76,7 +64,7 @@ class AddCardPointContainer extends React.Component {
                     placeholder={'Chọn Điểm'}
                     defaultMessage={'Chọn Điểm'}
                     options={this.state.pointOptions}
-                    value={this.state.point}
+                    value={this.props.point}
                     onChange={this.onChangePoint}
                 />
             </div>
@@ -86,6 +74,7 @@ class AddCardPointContainer extends React.Component {
 
 AddCardPointContainer.propTypes = {
     card: PropTypes.object.isRequired,
+    point: PropTypes.number.isRequired,
     addCardPointActions: PropTypes.object.isRequired
 };
 

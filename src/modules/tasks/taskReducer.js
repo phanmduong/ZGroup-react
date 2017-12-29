@@ -9,6 +9,10 @@ export default function taskReducer(state = initialState.task, action) {
         case types.UPDATE_CARD_POINT:
             return {
                 ...state,
+                cardDetail: {
+                    ...state.cardDetail,
+                    card: action.card
+                },
                 boardList: {
                     ...state.boardList,
                     boards: state.boardList.boards.map((board) => {
@@ -21,7 +25,7 @@ export default function taskReducer(state = initialState.task, action) {
                                     }
                                     return card;
                                 })
-                            }
+                            };
                         }
                         return board;
                     })
