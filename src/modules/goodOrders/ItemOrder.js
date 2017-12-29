@@ -45,13 +45,14 @@ class ItemOrder extends React.Component {
     }
 
     changeStatusOrder(value) {
+        const user = this.props.user;
         let currentStatus = ORDER_STATUS.filter(status => this.props.order.status === status.value)[0];
         let nextStatus = ORDER_STATUS.filter(status => status.value === value)[0];
-        if (nextStatus.order < currentStatus.order) {
+        if (nextStatus.order < currentStatus.order && user.role !== 2) {
             helper.showErrorNotification("Không thể chuyển về trạng thái trước");
         } else {
             helper.confirm("error", "Chuyển trạng thái", "Bạn có chắc muốn chuyển trạng thái", () => {
-                this.props.changeStatusOrder(value, this.props.order.id);
+                this.props.changeStatusOrder(value, this.props.order.id, this.props.order.label_id);
             });
         }
     }
@@ -140,7 +141,8 @@ ItemOrder.propTypes = {
     order: PropTypes.object.isRequired,
     changeStatusOrder: PropTypes.func.isRequired,
     showShipGoodModal: PropTypes.func.isRequired,
-    showAddNoteModal: PropTypes.func.isRequired
+    showAddNoteModal: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 export default ItemOrder;

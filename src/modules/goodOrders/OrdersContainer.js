@@ -363,6 +363,7 @@ class OrdersContainer extends React.Component {
                                     isLoading={this.props.isLoading}
                                     showShipGoodModal={this.showShipGoodModal}
                                     showAddNoteModal={this.showAddNoteModal}
+                                    user={this.props.user}
                                 />
                             </div>
                             <div className="row float-right">
@@ -395,7 +396,8 @@ OrdersContainer.propTypes = {
     orders: PropTypes.array.isRequired,
     goodOrderActions: PropTypes.object.isRequired,
     currentPage: PropTypes.number.isRequired,
-    allStaffs: PropTypes.array.isRequired
+    allStaffs: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired
 
 };
 
@@ -410,8 +412,8 @@ function mapStateToProps(state) {
         limit: state.goodOrders.limit,
         totalCount: state.goodOrders.totalCount,
         allStaffs: state.goodOrders.allStaffs,
-        currentPage: state.goodOrders.currentPage
-
+        currentPage: state.goodOrders.currentPage,
+        user: state.login.user
     };
 }
 

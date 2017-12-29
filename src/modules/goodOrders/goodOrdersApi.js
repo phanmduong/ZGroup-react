@@ -70,7 +70,7 @@ export function sendShipOrder(shippingGood) {
 
 export function cancelShipOrder(shippingGood) {
     let token = localStorage.getItem('token');
-    let url = env.MANAGE_API_URL + "/ghtk/services/shipment/cancel?token=" + token;
+    let url = env.MANAGE_API_URL + "/ghtk/services/shipment/cancel/" + "?token=" + token;
     return axios.delete(url);
 }
 
